@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -125,6 +126,16 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     }
     if (_sealed && widget.firstEver && _nudgeTimer == null && !Motion.reduced(context)) {
       _nudgeTimer = Timer(const Duration(milliseconds: 1200), _nudge);
+    }
+  }
+
+  @override
+  void didUpdateWidget(SheetStage old) {
+    super.didUpdateWidget(old);
+    // The variant can change when the attempt detail lands (lower, held): the calm decision
+    // follows it instead of staying fixed to the first model.
+    if (old.model.variant != widget.model.variant) {
+      _calm = Motion.reduced(context) || !_variant.celebratory || widget.entry == SheetEntry.settled;
     }
   }
 
@@ -305,32 +316,42 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
               builder: (context, c) {
                 final g = SheetGeometry.fit(maxWidth: c.maxWidth - 40, maxHeight: c.maxHeight - 8, questions: m.cells.length);
                 // The sheet rests just above the counts; the space above is where the flap lands.
+                // It has a least height (flap and body); on a short phone, or at a large text
+                // size where the counts below take more room, the whole sheet scales down to the
+                // space instead of painting over the counts and the Open tab.
                 return Align(
                   alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    width: g.width,
-                    height: g.height,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        if (!_opened)
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            height: g.flapHeight - 22,
-                            child: AnimatedBuilder(
-                              animation: _open,
-                              builder: (context, child) => Opacity(opacity: (1 - _open.value * 2.4).clamp(0.0, 1.0), child: child),
-                              child: ExcludeSemantics(child: SealedHeadline(model: m)),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: math.max(0, c.maxHeight - 8)),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: g.width,
+                        height: g.height,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            if (!_opened)
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                height: g.flapHeight - 22,
+                                child: AnimatedBuilder(
+                                  animation: _open,
+                                  builder: (context, child) => Opacity(opacity: (1 - _open.value * 2.4).clamp(0.0, 1.0), child: child),
+                                  child: ExcludeSemantics(child: SealedHeadline(model: m)),
+                                ),
+                              ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: _opened ? null : _openByTap,
+                              child: _crossFading ? _crossFade(g) : _sheet(g, open: _open),
                             ),
-                          ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: _opened ? null : _openByTap,
-                          child: _crossFading ? _crossFade(g) : _sheet(g, open: _open),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 );

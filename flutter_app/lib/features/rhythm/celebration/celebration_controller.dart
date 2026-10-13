@@ -93,8 +93,13 @@ class CelebrationController extends Notifier<CelebrationState> {
     // Mark first (see the header): the id is spent here, before a slot draws it.
     final seen = ref.read(rhythmSeenRepositoryProvider);
     if (!await seen.markCelebrated(event.id)) return null;
+    // The moment's own id is spent, so it must still show: the extra ids are best effort.
     for (final id in event.extraIds) {
-      await seen.markCelebrated(id);
+      try {
+        await seen.markCelebrated(id);
+      } on Object {
+        // The extra id can come round again as a receipt; the moment itself is not lost.
+      }
     }
 
     final mode = ref.read(rhythmPrefsProvider).mode;

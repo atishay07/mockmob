@@ -83,4 +83,29 @@ void main() {
     expect(s.dwellMs, isEmpty);
     expect(s.telemetry, 'inconsistent');
   });
+
+  test('a gap from the app being left mid-question is never counted as time on that question', () {
+    final a = _attempt(chapterOf('Goodwill', right: 1, wrong: 2), recovery: {
+      'telemetry': 'self_reported',
+      'timeline': [
+        {'qid': 'p-q1', 'at': 0, 'seq': 1},
+        {'qid': 'p-q2', 'at': 30000, 'seq': 2},
+        // An hour later: the student left and came back.
+        {'qid': 'p-q3', 'at': 30000 + 3600000, 'seq': 3},
+        {'qid': 'p-q3', 'at': 30000 + 3600000 + 9000, 'seq': 4},
+      ],
+    });
+    final s = SessionAnalysis.of(a);
+    expect(s.dwellMs, isEmpty);
+    expect(s.observations.where((o) => o.kind == ObservationKind.quick), isEmpty);
+  });
+
+  test('gaps up to the cap still count in full', () {
+    final events = [
+      {'qid': 'a', 'at': 0},
+      {'qid': 'b', 'at': maxDwellGapMs},
+      {'qid': 'b', 'at': maxDwellGapMs + 4000},
+    ];
+    expect(dwellByQuestion(events), {'a': maxDwellGapMs, 'b': 4000});
+  });
 }

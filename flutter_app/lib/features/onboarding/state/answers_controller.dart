@@ -115,7 +115,16 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     _set(value ? a.mark(Steps.course) : a);
   }
 
-  void setCategory(String category) => _set(_current.copyWith(category: category));
+  /// The ladder shows only colleges that seated [category], so a pick that did not drops out:
+  /// a pick the student cannot see could neither be unticked nor leave room under the cap.
+  void setCategory(String category) {
+    final a = _current;
+    final course = a.course;
+    final colleges = course == null
+        ? a.colleges
+        : [for (final c in a.colleges) if (course.offeringAt(c)?.scoreFor(category) != null) c];
+    _set(a.copyWith(category: category, colleges: colleges));
+  }
 
   /// Adds or removes a subject. At most [kMaxSubjects]; returns false when the cap stops it.
   bool toggleSubject(SheetSubject s) {
@@ -171,4 +180,15 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
 
   /// Called by the sync once every write for [userId] was acknowledged.
   void markSynced(String userId) => _set(_current.copyWith(syncedFor: userId));
+
+  /// Takes the sheet off the phone when it was written to [userId], so the next account on this
+  /// phone starts its own. Only a sheet the server already has goes; an unsent one, or one that
+  /// cannot be read, stays.
+  Future<void> forgetSyncedFor(String userId) async {
+    if (!_readOk || state.value?.syncedFor != userId) return;
+    state = const AsyncData(OnboardingAnswers.empty);
+    final store = ref.read(answersStoreProvider);
+    _writes = _writes.then((_) => store.clear()).catchError((Object _) {});
+    await _writes;
+  }
 }

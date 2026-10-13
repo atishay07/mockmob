@@ -93,6 +93,7 @@ abstract final class NotificationsCopy {
   static const String permissionOffBody =
       'Turn them on to hear when a result is ready or your study window starts.';
   static const String permissionTurnOn = 'Turn on';
+  static const String permissionReading = 'Checking notifications';
   static const String permissionBlocked =
       'Notifications are blocked in Android settings';
   static const String permissionBlockedBody =

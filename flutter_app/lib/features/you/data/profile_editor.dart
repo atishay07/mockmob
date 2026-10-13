@@ -21,6 +21,8 @@ import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/model/choices.dart' show StudyTime;
 import '../../onboarding/model/deck.dart' show Steps;
 import '../../onboarding/state/answers_controller.dart';
+import 'goal_pause.dart';
+import 'student_target.dart' show daysForCount;
 import 'study_length.dart';
 
 /// The most subjects a profile holds (the server's `profilePatch` cap).
@@ -81,10 +83,14 @@ class ProfileEditor {
     return asString(response.map['name']) ?? trimmed;
   }
 
-  /// Saves the study week: how many days to the goal (keeping any pause), the study window to
-  /// the reminders and the usual minutes to the study preferences, keeping the chosen weekdays
-  /// and minutes on this phone too.
-  Future<void> saveWeek({required Set<int> days, required StudyTime window, required int minutes}) async {
+  /// Saves the study week: how many days to the goal (keeping any pause that is still running),
+  /// the study window to the reminders and the usual minutes to the study preferences, keeping the
+  /// chosen weekdays and minutes on this phone too. Returns the weekdays now kept.
+  ///
+  /// [daysEdited] is false when the student left the day picker alone. The goal then stays as the
+  /// server has it, so a stale phone copy of the days can never lower it, and the phone's weekdays
+  /// are brought to the server's count instead.
+  Future<Set<int>> saveWeek({required Set<int> days, required StudyTime window, required int minutes, bool daysEdited = true}) async {
     final goals = _ref.read(goalRepositoryProvider.notifier);
     var goal = _ref.read(goalRepositoryProvider).value;
     if (goal == null) {
@@ -93,10 +99,11 @@ class ProfileEditor {
     }
     // Saving without the current pause would end it, so never save blind.
     if (goal == null) throw const WeekSaveError(WeekSavePart.goal, ApiError(kind: ApiErrorKind.unavailable, code: 'goal_unknown'));
-    final count = days.length.clamp(1, 7);
+    final count = daysEdited ? days.length.clamp(1, 7) : goal.daysPerWeek.clamp(1, 7);
+    if (!daysEdited) days = daysForCount(days, count);
     if (goal.daysPerWeek != count) {
       try {
-        await goals.save(daysPerWeek: count, pausedUntil: goal.pausedUntil);
+        await goals.save(daysPerWeek: count, pausedUntil: pauseToKeep(goal.pausedUntil, _ref.read(nowProvider)()));
       } on ApiError catch (e) {
         throw WeekSaveError(WeekSavePart.goal, e);
       }
@@ -115,6 +122,7 @@ class ProfileEditor {
     } on ApiError catch (e) {
       throw WeekSaveError(WeekSavePart.length, e);
     }
+    return days;
   }
 
   /// Keeps the phone's sheet in step with the profile, so Today's first move and the sheet card

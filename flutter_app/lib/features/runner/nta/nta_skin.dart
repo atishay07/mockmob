@@ -92,14 +92,17 @@ class NtaSkin {
 }
 
 /// Marks the subtree as the exam look (the NTA style): the paper the student will meet on exam
-/// day, in its own type. Placed by `NtaStyleTheme`; absent in the MockMob style.
+/// day, in its own type. Placed by `NtaStyleTheme` in both styles, with [exam] false in the
+/// MockMob style, so a change of style never changes the tree under it.
 class NtaExamLook extends InheritedWidget {
-  const NtaExamLook({super.key, required super.child});
+  const NtaExamLook({super.key, this.exam = true, required super.child});
 
-  static bool of(BuildContext context) => context.getInheritedWidgetOfExactType<NtaExamLook>() != null;
+  final bool exam;
+
+  static bool of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<NtaExamLook>()?.exam ?? false;
 
   @override
-  bool updateShouldNotify(NtaExamLook oldWidget) => false;
+  bool updateShouldNotify(NtaExamLook oldWidget) => oldWidget.exam != exam;
 }
 
 /// The exam skin's type set (NTA-MODE-SPEC 9.1): Arial, the exam console's face, with the

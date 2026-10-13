@@ -240,6 +240,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
                   },
                   onQuestionPaper: () => unawaited(_openQuestionPaper()),
                   onTextStep: (d) => ref.read(ntaTextStepProvider.notifier).step(d),
+                  onRetrySave: session.onConnectivityRestored,
                 ),
               ),
             ),

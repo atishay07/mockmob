@@ -8,11 +8,14 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 
 class AlsoSlots extends StatelessWidget {
-  const AlsoSlots({super.key, required this.slots, required this.onAction, this.offline = false});
+  const AlsoSlots({super.key, required this.slots, required this.onAction, this.offline = false, this.retrying = false});
 
   final List<AlsoSlot> slots;
   final void Function(TodayAction action) onAction;
   final bool offline;
+
+  /// A Try again read is running: a slot key that retries shows it is working.
+  final bool retrying;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class AlsoSlots extends StatelessWidget {
       children: [
         for (final s in slots) ...[
           const SizedBox(height: MmSpace.s12),
-          _Slot(slot: s, onAction: onAction, offline: offline),
+          _Slot(slot: s, onAction: onAction, offline: offline, retrying: retrying),
         ],
       ],
     );
@@ -29,11 +32,12 @@ class AlsoSlots extends StatelessWidget {
 }
 
 class _Slot extends StatelessWidget {
-  const _Slot({required this.slot, required this.onAction, required this.offline});
+  const _Slot({required this.slot, required this.onAction, required this.offline, required this.retrying});
 
   final AlsoSlot slot;
   final void Function(TodayAction action) onAction;
   final bool offline;
+  final bool retrying;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,8 @@ class _Slot extends StatelessWidget {
             KeyButton.secondary(
               label: slot.action.label,
               expanded: false,
-              minHeight: 44,
+              minHeight: MmTarget.min,
+              loading: retrying && slot.action.target is RetryLoad,
               onPressed: blocked ? null : () => onAction(slot.action),
             ),
           ],

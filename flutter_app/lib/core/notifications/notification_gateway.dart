@@ -54,6 +54,14 @@ class LaunchTapLatch {
   static void reset() => _consumed = false;
 }
 
+/// The Android action for [spec]. Every action opens the app (`showsUserInterface`), so the tap
+/// reaches the main isolate's tap callback, or the launch details on a cold start. Without it the
+/// plugin hands the tap to a background isolate, and this app registers no background handler,
+/// so Start, Not tonight and Mute would be dropped. Opening the app also lets Mute and Not
+/// tonight re-plan the reminders straight away.
+AndroidNotificationAction androidActionFor(NotificationActionSpec spec) =>
+    AndroidNotificationAction(spec.id, spec.label, showsUserInterface: true);
+
 /// The slice of the local notifications plugin the engine uses, so scheduling logic is tested
 /// with a fake and the plugin stays replaceable.
 abstract class LocalNotificationsGateway {
@@ -144,7 +152,7 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
           silent: silent || c.silent,
           ongoing: ongoing,
           autoCancel: !ongoing,
-          actions: [for (final a in actions) AndroidNotificationAction(a.id, a.label)],
+          actions: [for (final a in actions) androidActionFor(a)],
         ),
       );
 

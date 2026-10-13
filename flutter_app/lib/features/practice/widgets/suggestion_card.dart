@@ -38,6 +38,10 @@ class SuggestionCard extends StatelessWidget {
 
   static const double _object = 56;
 
+  /// Mobi's corner figure: 48 wide, 12 from the card edge, and the text column ends 16 from it.
+  /// The text keeps clear of him by this much.
+  static const double _mobiInset = 48 + 12 - MmSpace.s16;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -82,12 +86,19 @@ class SuggestionCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 40),
+                                padding: const EdgeInsets.only(right: _mobiInset),
                                 child: Text(overline, style: type.caption.copyWith(color: colors.ink2)),
                               ),
                               const SizedBox(height: 2),
-                              Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16), maxLines: 2)),
+                              Padding(
+                                padding: const EdgeInsets.only(right: _mobiInset),
+                                child: Semantics(
+                                  header: true,
+                                  child: Text(title, style: type.labelLarge.copyWith(fontSize: 16), maxLines: 2, overflow: TextOverflow.ellipsis),
+                                ),
+                              ),
                               const SizedBox(height: 2),
+                              // Below Mobi's feet (he ends 54 dp down), so the meta line runs full width.
                               Text(meta, style: type.caption.copyWith(color: colors.ink2)),
                             ],
                           ),

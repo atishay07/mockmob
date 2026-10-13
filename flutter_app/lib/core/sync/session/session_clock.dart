@@ -88,7 +88,37 @@ class SessionClock {
     return now < previousAt ? previousAt : now;
   }
 
-  /// Corrects for time the phone spent asleep. Call on resume and about every 60 seconds.
+  int? _pausedWall;
+  int? _pausedMono;
+
+  /// The app went to the background: remember both clocks, so [resumeFromPause] can tell time
+  /// asleep from a wall-clock change.
+  void markPaused() {
+    if (!_anchored) return;
+    _pausedWall = _wall();
+    _pausedMono = _mono();
+  }
+
+  /// Corrects for time the phone spent asleep while paused: the part of the pause the wall
+  /// clock saw and the monotonic clock did not. A wall-clock step while the app was open (an
+  /// old phone correcting itself, the student changing the time) is never applied, so the timer
+  /// does not jump and event times stay on the server's timeline. Only ever moves time forward.
+  /// Returns the milliseconds applied.
+  int resumeFromPause() {
+    final wall = _pausedWall;
+    final mono = _pausedMono;
+    _pausedWall = null;
+    _pausedMono = null;
+    if (!_anchored || wall == null || mono == null) return 0;
+    final gap = (_wall() - wall) - (_mono() - mono);
+    if (gap <= sleepGapThresholdMs) return 0;
+    _startedRefMono -= gap;
+    _endsAtMono -= gap;
+    return gap;
+  }
+
+  /// Corrects for any gap between the wall and monotonic clocks since the anchor. It cannot
+  /// tell sleep from a wall-clock step, so the engine uses [resumeFromPause] instead.
   /// Only ever moves time forward: the student is never given time back.
   void resync() {
     if (!_anchored) return;

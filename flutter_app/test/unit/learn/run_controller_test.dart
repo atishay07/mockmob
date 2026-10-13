@@ -9,6 +9,8 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/core/sync/pending_work.dart';
+import 'package:mockmob/features/learn/data/pending_event.dart';
 import 'package:mockmob/features/learn/data/learn_log.dart';
 import 'package:mockmob/features/learn/data/learn_store.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
@@ -340,6 +342,77 @@ void main() {
     expect(container.read(provider).pending, isNull);
     // The failed attempts and the one that got through all carried the same key.
     expect({for (final r in posts(http)) (r.body! as Map)['requestKey']}, hasLength(1));
+  });
+  test('an answer left on the phone after a failed reload can be sent again and is not stuck', () async {
+    final store = LearnStore(scopeFor(db));
+    await store.putRun('run-1', runJson(item: choiceCard()));
+    await store.putPending('run-1', PendingEvent.create(expectedRevision: 0, itemId: 'card-2', type: 'answer', value: 1));
+    var online = false;
+    final http = FakeHttpAdapter()
+      ..handler = (o) {
+        if (!online) return const FakeReply.network();
+        return o.method == 'GET'
+            ? FakeReply(200, runJson(item: choiceCard()))
+            : FakeReply(200, runJson(revision: 1, revealed: true, item: choiceCard(revealed: true), feedback: {'answer': 0}));
+      };
+    final container = containerFor(http);
+    container.listen(provider, (_, _) {});
+    await until(() => container.read(provider).notice == RunNotice.queuedOffline);
+    var ui = container.read(provider);
+    expect(ui.load, RunLoad.ready);
+    expect(ui.pending, isNotNull);
+    expect(ui.sending, isFalse);
+
+    // The student taps Try again once the connection is back.
+    online = true;
+    await container.read(provider.notifier).flush();
+    ui = container.read(provider);
+    expect(ui.pending, isNull);
+    expect(ui.run!.revealed, isTrue);
+    expect(await store.pending('run-1'), isNull);
+  });
+
+  test('a send that fails on a weak signal is sent again by itself with the same key', () async {
+    final saved = RunController.retryBackoff;
+    RunController.retryBackoff = const [Duration(milliseconds: 20)];
+    addTearDown(() => RunController.retryBackoff = saved);
+    var online = false;
+    final http = FakeHttpAdapter()
+      ..handler = (o) {
+        if (o.method == 'GET') return FakeReply(200, revealed());
+        return online ? FakeReply(200, runJson(cursor: 1, revision: 2, item: revealCard(id: 'card-2'))) : const FakeReply(503, {'error': 'UNAVAILABLE'});
+      };
+    final container = containerFor(http);
+    container.listen(provider, (_, _) {});
+    await until(() => container.read(provider).load == RunLoad.ready);
+    await container.read(provider.notifier).rate(3);
+    expect(container.read(provider).pending, isNotNull);
+    online = true;
+    for (var i = 0; i < 100 && container.read(provider).pending != null; i++) {
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+    }
+    expect(container.read(provider).pending, isNull);
+    expect(container.read(provider).run!.cursor, 1);
+    expect({for (final r in posts(http)) (r.body! as Map)['requestKey']}, hasLength(1));
+  });
+
+  test('connectivity is told about a waiting event until the server acknowledges it', () async {
+    var online = false;
+    final http = FakeHttpAdapter()
+      ..handler = (o) {
+        if (o.method == 'GET') return FakeReply(200, revealed());
+        return online ? FakeReply(200, runJson(cursor: 1, revision: 2, item: revealCard(id: 'card-2'))) : const FakeReply.network();
+      };
+    final container = containerFor(http, network: NetworkStatus.offline);
+    container.listen(provider, (_, _) {});
+    container.listen(pendingWorkRegistryProvider, (_, _) {});
+    await until(() => container.read(provider).load == RunLoad.ready);
+    await container.read(provider.notifier).rate(3);
+    expect(container.read(pendingWorkRegistryProvider), contains('learn:run-1'));
+    online = true;
+    await container.read(provider.notifier).flush();
+    expect(container.read(provider).pending, isNull);
+    expect(container.read(pendingWorkRegistryProvider), isNot(contains('learn:run-1')));
   });
 }
 

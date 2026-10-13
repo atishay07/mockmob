@@ -100,7 +100,8 @@ final Provider<ReminderScheduler> reminderSchedulerProvider = Provider<ReminderS
         if (ref.read(userIdProvider) == null) {
           ref.read(heldReminderTapProvider).hold(tap, ref.read(nowProvider)());
         } else {
-          unawaited(taps.handle(tap));
+          // handle() never throws; the guard keeps a future change from leaking an error.
+          unawaited(taps.handle(tap).catchError((Object _) {}));
         }
       },
     ),
@@ -194,10 +195,10 @@ class NotificationsRuntime {
     _ref.listen<NotificationPrefs?>(
       notificationPrefsRepositoryProvider.select((s) => s.value),
       (_, next) {
-        if (next != null) unawaited(_scheduler.sync());
+        if (next != null) unawaited(_sync());
       },
     );
-    _ref.listen(repairReadyProvider, (_, _) => unawaited(_scheduler.sync()));
+    _ref.listen(repairReadyProvider, (_, _) => unawaited(_sync()));
     _ref.listen<String?>(userIdProvider, (_, id) {
       if (id != null) unawaited(_open());
     });
@@ -213,6 +214,17 @@ class NotificationsRuntime {
       await _scheduler.settle();
       await _scheduler.sync();
       if (_ref.mounted) _ref.invalidate(notificationPermissionProvider);
+    } on Object {
+      // Reminders are a convenience: a failure here must never reach the student.
+    }
+  }
+
+  /// A re-plan started by a settings or repair change. Nothing awaits it, so a failure (a plugin
+  /// or storage error) is caught here instead of becoming an unhandled error. The next change or
+  /// app open plans again.
+  Future<void> _sync() async {
+    try {
+      await _scheduler.sync();
     } on Object {
       // Reminders are a convenience: a failure here must never reach the student.
     }

@@ -93,6 +93,23 @@ class ApiError implements Exception {
         _ => false,
       };
 
+  /// The server answered and refused the call for a reason that sending the same request again
+  /// cannot fix (a 400 or 422, 402, 403, 404, 409 or 413). Only these may discard queued work or
+  /// mark a submitted paper as refused. Everything else, including a 408, a 425, a status the
+  /// app does not know and a failure with no response at all, is worth another try.
+  bool get isDefinitiveRefusal =>
+      status != null &&
+      switch (kind) {
+        ApiErrorKind.validation ||
+        ApiErrorKind.paymentRequired ||
+        ApiErrorKind.forbidden ||
+        ApiErrorKind.notFound ||
+        ApiErrorKind.conflict ||
+        ApiErrorKind.payloadTooLarge =>
+          true,
+        _ => false,
+      };
+
   /// A fixed, plain fallback sentence for places that have nothing more specific to say.
   /// Screens normally map [code] to their own copy.
   String get message => switch (kind) {
@@ -199,8 +216,12 @@ class ApiError implements Exception {
     if (status == 402) return ApiErrorKind.paymentRequired;
     if (status == 403) return ApiErrorKind.forbidden;
     if (status == 404) return ApiErrorKind.notFound;
+    // Request Timeout: a proxy or the server gave up waiting on a slow upload.
+    if (status == 408) return ApiErrorKind.timeout;
     if (status == 409) return ApiErrorKind.conflict;
     if (status == 413) return ApiErrorKind.payloadTooLarge;
+    // Too Early: the server asks for the same request again later.
+    if (status == 425) return ApiErrorKind.unavailable;
     if (status == 429) return ApiErrorKind.rateLimited;
     if (status == 503) return ApiErrorKind.unavailable;
     if (status >= 500) return ApiErrorKind.server;
@@ -214,9 +235,11 @@ class ApiError implements Exception {
         402 => 'payment_required',
         403 => 'forbidden',
         404 => 'not_found',
+        408 => 'timeout',
         409 => 'conflict',
         413 => 'payload_too_large',
         422 => 'invalid_request',
+        425 => 'unavailable',
         429 => 'rate_limited',
         503 => 'unavailable',
         >= 500 => 'server_error',

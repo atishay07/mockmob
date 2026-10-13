@@ -47,6 +47,7 @@ class TodayBody extends StatefulWidget {
     this.insights,
     this.roadFooter,
     this.mobiController,
+    this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
   });
 
@@ -67,6 +68,9 @@ class TodayBody extends StatefulWidget {
 
   /// Drives Mobi when the hero is a human moment (day one, coming back, late at night).
   final MobiController? mobiController;
+
+  /// A Try again read is running: the Try again key shows it is working.
+  final bool retrying;
   final Duration skeletonDelay;
 
   @override
@@ -86,6 +90,7 @@ class _TodayBodyState extends State<TodayBody> {
           key: _moveKey,
           move: hero,
           offline: widget.view.offline,
+          retrying: widget.retrying,
           mobiController: widget.mobiController,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
@@ -100,7 +105,7 @@ class _TodayBodyState extends State<TodayBody> {
           resume: hero,
           onContinue: () => cb.onAction(TodayAction('', GoTo(AppRoutes.run(hero.sessionId)), actionType: 'resume')),
         ),
-      EndedHero() => EndedHeroCard(ended: hero, onAction: cb.onAction),
+      EndedHero() => EndedHeroCard(ended: hero, onAction: cb.onAction, retrying: widget.retrying),
     };
   }
 
@@ -121,7 +126,7 @@ class _TodayBodyState extends State<TodayBody> {
       ),
       const SizedBox(height: MmSpace.s20),
       _hero(),
-      if (view.also.isNotEmpty) AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline),
+      if (view.also.isNotEmpty) AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
       if (insights != null) ...[const SizedBox(height: MmSpace.s16), insights],
       ?widget.weeklyEnding,
       if (view.sheet.isNotEmpty) ...[

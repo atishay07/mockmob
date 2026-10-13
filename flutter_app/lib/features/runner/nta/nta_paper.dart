@@ -7,6 +7,7 @@ import 'nta_chip.dart';
 import 'nta_copy.dart';
 import 'nta_option.dart';
 import 'nta_skin.dart';
+import 'nta_text_size.dart';
 
 /// The exam paper card (section 4): a head with "Question 12" (or "Passage set"), the chapter
 /// and difficulty tags and the A- / A+ text size, then the passage, the state of this question
@@ -40,7 +41,7 @@ class NtaPaper extends StatelessWidget {
   final ValueChanged<bool> onMark;
   final double textScale;
 
-  /// -1 or +1; null at the end of the scale on that side is handled by the caller.
+  /// -1 or +1. At the end of the scale the key on that side is dimmed and does nothing.
   final void Function(int delta)? onTextStep;
   final (int, int)? passageRange;
   final List<Widget> leading;
@@ -74,6 +75,8 @@ class NtaPaper extends StatelessWidget {
               if (question.difficulty case final d? when d.isNotEmpty) NtaCopy.difficulty(d),
             ],
             onTextStep: onTextStep,
+            canShrink: textScale > NtaTextStep.scales.first,
+            canGrow: textScale < NtaTextStep.scales.last,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s20),
@@ -132,11 +135,13 @@ class NtaPaper extends StatelessWidget {
 }
 
 class _Head extends StatelessWidget {
-  const _Head({required this.title, required this.tags, required this.onTextStep});
+  const _Head({required this.title, required this.tags, required this.onTextStep, required this.canShrink, required this.canGrow});
 
   final String title;
   final List<String> tags;
   final void Function(int delta)? onTextStep;
+  final bool canShrink;
+  final bool canGrow;
 
   @override
   Widget build(BuildContext context) {
@@ -161,8 +166,8 @@ class _Head extends StatelessWidget {
                     child: Semantics(header: true, child: Text(title, style: type.cardTitle)),
                   ),
                   if (onTextStep != null) ...[
-                    _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: () => onTextStep!(-1)),
-                    _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: () => onTextStep!(1)),
+                    _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: canShrink ? () => onTextStep!(-1) : null),
+                    _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: canGrow ? () => onTextStep!(1) : null),
                   ],
                 ],
               ),
@@ -196,25 +201,33 @@ class _SizeKey extends StatelessWidget {
 
   final String label;
   final String semantics;
-  final VoidCallback onTap;
+
+  /// Null at the end of the scale: the key dims and TalkBack hears it as unavailable.
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final enabled = onTap != null;
     return Semantics(
       button: true,
+      enabled: enabled,
       label: semantics,
       excludeSemantics: true,
       child: InkResponse(
         onTap: onTap,
-        radius: 22,
+        radius: MmTarget.min / 2,
         child: SizedBox.square(
-          dimension: 44,
+          dimension: MmTarget.min,
           child: Center(
-            child: Text(
-              label,
-              textScaler: TextScaler.noScaling,
-              style: context.mmType.label.copyWith(color: colors.ink2, fontSize: label == 'A+' ? 15 : 13),
+            child: AnimatedOpacity(
+              opacity: enabled ? 1 : 0.38,
+              duration: const Duration(milliseconds: 150),
+              child: Text(
+                label,
+                textScaler: TextScaler.noScaling,
+                style: context.mmType.label.copyWith(color: colors.ink2, fontSize: label == 'A+' ? 15 : 13),
+              ),
             ),
           ),
         ),

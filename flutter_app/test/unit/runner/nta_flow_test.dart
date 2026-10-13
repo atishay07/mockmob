@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
+import 'package:mockmob/features/runner/nta/nta_paper_theme.dart';
 import 'package:mockmob/features/runner/nta/nta_question_paper.dart';
 import 'package:mockmob/features/runner/nta/nta_runner_screen.dart';
 
@@ -189,6 +191,23 @@ void main() {
     _lifecycle(tester, [AppLifecycleState.resumed]);
     await tester.pump(const Duration(seconds: 2));
     expect(find.textContaining('Warning'), findsNothing);
+  });
+
+  testWidgets('switching the exam look keeps the same runner, with no warning', (tester) async {
+    final s = _nta();
+    final h = await pumpRunner(tester, session: s);
+    await _flush(tester);
+    final before = tester.state(find.byType(NtaRunnerView));
+    final container = ProviderScope.containerOf(tester.element(find.byType(NtaRunnerView)));
+    for (final look in [NtaStyle.mockmob, NtaStyle.nta, NtaStyle.mockmob]) {
+      container.read(ntaStyleProvider.notifier).set(look);
+      await _flush(tester);
+      expect(identical(tester.state(find.byType(NtaRunnerView)), before), isTrue, reason: 'a remount opens a new integrity guard');
+    }
+    expect(find.textContaining('Warning'), findsNothing);
+    expect(h.prefs.values['nta.strikes.sess-1'], isNull);
+    expect(h.systemUi.calls, ['enter'], reason: 'immersive mode and the wake lock stay on');
+    expect(s.submits, 0);
   });
 
   testWidgets('back asks first, and leaving counts as a warning', (tester) async {

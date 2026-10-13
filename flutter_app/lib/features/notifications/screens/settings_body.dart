@@ -52,6 +52,7 @@ class SettingsBody extends StatelessWidget {
     super.key,
     required this.prefs,
     required this.permission,
+    this.permissionReading = false,
     required this.reminder,
     required this.cap,
     required this.freshChecksOpen,
@@ -60,7 +61,12 @@ class SettingsBody extends StatelessWidget {
   });
 
   final NotificationPrefs prefs;
-  final NotificationPermission permission;
+
+  /// Null while Android has not answered yet (or the read failed): the panel shows its shape
+  /// while [permissionReading], nothing otherwise, and no channel is dimmed as blocked, since
+  /// nothing is known to be blocked.
+  final NotificationPermission? permission;
+  final bool permissionReading;
 
   /// The reminder state on this phone. Its `mutedUntil` is set only while a mute is running,
   /// in the student's own timezone, and dims every reminder channel with its end date.
@@ -123,7 +129,10 @@ class SettingsBody extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s16),
         ],
-        PermissionPanel(permission: permission, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings),
+        if (permission case final known?)
+          PermissionPanel(permission: known, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings)
+        else if (permissionReading)
+          const PermissionPanelSkeleton(),
         const SectionHeading(NotificationsCopy.dayHeading),
         YouPanel(
           margin: EdgeInsets.zero,

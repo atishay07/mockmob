@@ -62,6 +62,10 @@ class SessionKeeper {
   /// cannot write it back after a sign-out.
   Future<void> clear() => _locked(() => store.delete(SecureKeys.supabaseSession));
 
+  /// Deletes the stored session at once, without waiting for the lock. A sign-out calls this
+  /// first and [clear] after it, which also catches a refresh that was in flight.
+  Future<void> forget() => store.delete(SecureKeys.supabaseSession);
+
   /// The lock is waited for longer than the slowest refresh; if it is still busy (a stuck
   /// holder), the write goes ahead anyway rather than losing a sign-in or a sign-out.
   Future<void> _locked(Future<void> Function() action) async {

@@ -1,4 +1,5 @@
 import 'dart:ui' show Size;
+import 'package:flutter/widgets.dart' show Scrollable;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,9 +39,18 @@ FakeQuoteRepository _quotes() => FakeQuoteRepository((s, m, c, p) {
   return creditsQuote(count: c ?? 10, mode: m);
 });
 
+/// Quotes that cost nothing today: an auto-start link only starts straight away on these.
+FakeQuoteRepository _freeQuotes() => FakeQuoteRepository((s, m, c, p) => dailyFree(count: c ?? 10));
+
 Future<void> _settle(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 100));
   await tester.pump(const Duration(milliseconds: 500));
+}
+
+/// Picking a tile scrolls it into view; the suggestion card sits above it, so scroll back up.
+Future<void> _toTop(WidgetTester tester) async {
+  await tester.drag(find.byType(Scrollable).first, const Offset(0, 2000));
+  await _settle(tester);
 }
 
 Future<void> _rise(WidgetTester tester) async {
@@ -93,6 +103,7 @@ void main() {
       await tester.ensureVisible(find.text('Business Studies').first);
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
+      await _toTop(tester);
       // Its weakest chapter in its own latest paper.
       expect(find.text('Planning'), findsOneWidget);
       expect(find.text('You missed 2 here in your last practice.'), findsOneWidget);
@@ -126,6 +137,7 @@ void main() {
       await tester.ensureVisible(find.text('Business Studies').first);
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
+      await _toTop(tester);
       expect(find.text('Business Studies, quick practice'), findsOneWidget);
       expect(find.text('No Business Studies paper yet. Ten questions shows where you stand.'), findsOneWidget);
 
@@ -198,7 +210,7 @@ void main() {
         tester,
         location: '/practice/start?mode=quick&count=10',
         routes: _routes(),
-        overrides: practiceOverrides(quotes: _quotes(), starter: starter, attempts: const []),
+        overrides: practiceOverrides(quotes: _freeQuotes(), starter: starter, attempts: const []),
       );
       await _settle(tester);
       await _settle(tester);
@@ -220,6 +232,7 @@ void main() {
       await tester.ensureVisible(find.text('Business Studies').first);
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
+      await _toTop(tester);
       expect(find.text('Business Studies, quick practice'), findsOneWidget);
       expect(find.textContaining('paper yet'), findsNothing);
       expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
@@ -232,7 +245,7 @@ void main() {
         tester,
         location: '/practice/start?mode=quick&count=10',
         routes: _routes(),
-        overrides: practiceOverrides(quotes: _quotes(), starter: starter, prefs: prefs, auth: _twoSubjects, attempts: const []),
+        overrides: practiceOverrides(quotes: _freeQuotes(), starter: starter, prefs: prefs, auth: _twoSubjects, attempts: const []),
       );
       await _settle(tester);
       await _settle(tester);
@@ -266,7 +279,7 @@ void main() {
       tester,
       location: '/practice/start?mode=quick&subject=accountancy&count=10',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes(), starter: starter, networkNotifier: net),
+      overrides: practiceOverrides(quotes: _freeQuotes(), starter: starter, networkNotifier: net),
     );
     await _settle(tester);
     expect(find.text(PracticeCopy.offlineAutoStart), findsOneWidget);

@@ -498,11 +498,12 @@ void main() {
       subs.add(auth.oauthReturns.listen(returns.add));
       links.add(Uri.parse('in.mockmob.app://login-callback?code=one-time-code'));
       links.add(Uri.parse('in.mockmob.app://login-callback?code=one-time-code'));
-      await eventually(() => returns.isNotEmpty);
+      await eventually(() => returns.length >= 2);
       await Future<void>.delayed(const Duration(milliseconds: 50));
       expect(exchange, {'auth_code': 'one-time-code', 'code_verifier': verifier});
       expect(server.requests.where((r) => r.url.queryParameters['grant_type'] == 'pkce'), hasLength(1));
-      expect(returns.map((r) => r.kind), [OAuthReturnKind.signedIn]);
+      expect(returns.map((r) => r.kind), [OAuthReturnKind.exchanging, OAuthReturnKind.signedIn],
+          reason: 'the screen hears the link arrived before the exchange, then how it ended');
       expect(auth.session?.accessToken, 'o1');
       expect(store.values.containsKey(verifierKey), isFalse, reason: 'the verifier is single use');
     });

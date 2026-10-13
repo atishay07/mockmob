@@ -73,6 +73,7 @@ RoadModel? buildRoad(TodayInputs i) {
     today: today,
     end: roadEnd,
     phase: phase,
+    daysToWindow: countdown ? days : null,
     daysLeft: phase == RoadPhase.window ? CuetDates.windowEnd.difference(today).inDays + 1 : null,
     stops: [for (final s in roadStops) if (!(s.end ?? s.start).isBefore(today)) s],
     weeksToBoards: toBoards > 0 ? toBoards ~/ 7 : 0,

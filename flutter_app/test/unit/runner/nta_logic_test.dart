@@ -58,13 +58,17 @@ void main() {
     late int terminations;
     var live = true;
 
-    NtaIntegrity guard({String id = 's1'}) => NtaIntegrity(
-      sessionId: id,
-      store: store,
-      onTerminate: () => terminations++,
-      isLive: () => live,
-      inactiveGrace: const Duration(milliseconds: 60),
-    );
+    NtaIntegrity guard({String id = 's1'}) {
+      final g = NtaIntegrity(
+        sessionId: id,
+        store: store,
+        onTerminate: () => terminations++,
+        isLive: () => live,
+        inactiveGrace: const Duration(milliseconds: 60),
+      );
+      addTearDown(g.dispose);
+      return g;
+    }
 
     setUp(() {
       store = MemoryPrefsStore();
@@ -150,6 +154,25 @@ void main() {
       expect(second.lastViolation, NtaViolation.restored);
       second.acknowledge();
       expect(second.locksAnswers, isFalse, reason: 'restored is not an absence that is still going on');
+    });
+
+    test('the same paper rebuilt on screen while its guard is alive is not the restored warning', () async {
+      final first = guard();
+      await first.load();
+      // A remount: the new screen's guard is made before the old screen's is disposed.
+      final second = guard();
+      final loading = second.load();
+      first.dispose();
+      await loading;
+      expect(second.strikes, 0);
+      expect(second.showing, isFalse);
+      expect(store.values['nta.strikes.s1'], isNull);
+    });
+
+    test('dispose twice is harmless', () {
+      guard()
+        ..dispose()
+        ..dispose();
     });
 
     test('a stored third warning submits on open', () async {

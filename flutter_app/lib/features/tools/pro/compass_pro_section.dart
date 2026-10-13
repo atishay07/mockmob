@@ -272,8 +272,32 @@ class RangeBarPainter extends CustomPainter {
   bool shouldRepaint(RangeBarPainter old) => old.colors != colors || old.low != low || old.mid != mid || old.high != high;
 }
 
+/// The row of [seats] a shortlist target means: the same college and programme. A target saved
+/// before the programme was kept (an empty one) reads the college's first row.
+DuSeat? shortlistSeat(List<DuSeat> seats, ShortlistTarget target) {
+  for (final s in seats) {
+    if (s.college == target.college && (target.programme.isEmpty || s.programme == target.programme)) return s;
+  }
+  return null;
+}
+
+/// What the student can add for [group]: one entry per college and programme row (a college can
+/// list one programme under several subject combinations, each with its own cutoffs), by
+/// college and then programme.
+List<ShortlistTarget> shortlistChoices(DuGroup group, List<DuSeat> seats) {
+  final all = <ShortlistTarget>{
+    for (final s in seats) ShortlistTarget(groupId: group.id, college: s.college, programme: s.programme),
+  }.toList();
+  all.sort((a, b) {
+    final c = a.college.compareTo(b.college);
+    return c != 0 ? c : a.programme.compareTo(b.programme);
+  });
+  return all;
+}
+
 /// One shortlist target: the college and programme, the three rounds' cutoffs for the category,
-/// and where the projected range sits against the earliest listed cutoff.
+/// and where the projected range sits against the earliest listed cutoff. Nothing is said about
+/// the cutoffs until the file has loaded: a skeleton while it loads, Try again if it did not.
 class _TargetRow extends ConsumerWidget {
   const _TargetRow({required this.target, required this.state, required this.band});
 
@@ -289,9 +313,73 @@ class _TargetRow extends ConsumerWidget {
     final type = context.mmType;
     final group = state.catalog.group(target.groupId);
     final offerings = ref.watch(duOfferingsProvider(target.groupId));
-    final seat = offerings.value?.seats.where((s) => s.college == target.college).firstOrNull;
-    final cat = state.categoryIndex;
-    final cutoffs = [for (final r in seat?.rounds ?? const <List<double?>?>[null, null, null]) duEffectiveCutoff(r, cat)];
+    final programme = group?.name ?? target.groupId;
+    final seat = switch (offerings) {
+      AsyncData(:final value) => shortlistSeat(value.seats, target),
+      _ => null,
+    };
+    // The row's own programme, when it says more than the group's name does.
+    final seatProgramme = seat != null && seat.programme.isNotEmpty && duNormName(seat.programme) != duNormName(programme) ? seat.programme : null;
+    final Widget body = switch (offerings) {
+      AsyncData() => _Cutoffs(seat: seat, categoryIndex: state.categoryIndex, band: band, rounds: _rounds),
+      AsyncError(:final error) => InlineBanner(
+          tone: error is DuLoadError && error.offline ? BannerTone.offline : BannerTone.error,
+          message: error is DuLoadError && error.offline ? ToolsCopy.cutoffsOffline : ToolsCopy.cutoffsError,
+          actionLabel: ToolsCopy.tryAgain,
+          onAction: () => ref.invalidate(duOfferingsProvider(target.groupId)),
+        ),
+      _ => const SkeletonGroup(
+          label: ToolsCopy.loadingCutoffs,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [Skeleton.line(width: 220), SizedBox(height: MmSpace.s8), Skeleton.line(width: 160)],
+          ),
+        ),
+    };
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.s4, MmSpace.s12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: MergeSemantics(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(target.college, style: type.labelLarge.copyWith(fontSize: 16)),
+                  Text(programme, style: type.caption.copyWith(color: colors.ink2)),
+                  if (seatProgramme != null) Text(seatProgramme, style: type.caption.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s8),
+                  body,
+                ],
+              ),
+            ),
+          ),
+          IconButton(
+            tooltip: ToolsCopy.shortlistRemove(target.college),
+            icon: Icon(LucideIcons.trash2, size: 18, color: colors.ink2),
+            onPressed: () => ref.read(shortlistProvider.notifier).remove(target),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The three rounds and the verdict, once the programme's cutoffs have loaded.
+class _Cutoffs extends StatelessWidget {
+  const _Cutoffs({required this.seat, required this.categoryIndex, required this.band, required this.rounds});
+
+  final DuSeat? seat;
+  final int categoryIndex;
+  final ProTotal? band;
+  final List<String> rounds;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final cutoffs = [for (final r in seat?.rounds ?? const <List<double?>?>[null, null, null]) duEffectiveCutoff(r, categoryIndex)];
     final first = cutoffs.firstWhere((c) => c != null, orElse: () => null);
     final b = band;
     final String verdict;
@@ -306,49 +394,28 @@ class _TargetRow extends ConsumerWidget {
         ProPosition.none => ToolsCopy.proNoCutoff,
       };
     }
-    final programme = group?.name ?? target.groupId;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.s4, MmSpace.s12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: MergeSemantics(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(target.college, style: type.labelLarge.copyWith(fontSize: 16)),
-                  Text(programme, style: type.caption.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s8),
-                  Wrap(
-                    spacing: MmSpace.s16,
-                    runSpacing: MmSpace.s4,
-                    children: [
-                      for (var i = 0; i < 3; i++)
-                        Text.rich(
-                          TextSpan(children: [
-                            TextSpan(text: '${_rounds[i]}  ', style: type.caption.copyWith(color: colors.ink3)),
-                            TextSpan(
-                              text: cutoffs[i] == null ? ToolsCopy.proNotListed : duFormatScore(cutoffs[i]),
-                              style: type.labelLarge.copyWith(fontSize: 14, fontFeatures: const [FontFeature.tabularFigures()]),
-                            ),
-                          ]),
-                        ),
-                    ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: MmSpace.s16,
+          runSpacing: MmSpace.s4,
+          children: [
+            for (var i = 0; i < 3; i++)
+              Text.rich(
+                TextSpan(children: [
+                  TextSpan(text: '${rounds[i]}  ', style: type.caption.copyWith(color: colors.ink3)),
+                  TextSpan(
+                    text: cutoffs[i] == null ? ToolsCopy.proNotListed : duFormatScore(cutoffs[i]),
+                    style: type.labelLarge.copyWith(fontSize: 14, fontFeatures: const [FontFeature.tabularFigures()]),
                   ),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(verdict, style: type.caption.copyWith(color: colors.ink2)),
-                ],
+                ]),
               ),
-            ),
-          ),
-          IconButton(
-            tooltip: ToolsCopy.shortlistRemove(target.college),
-            icon: Icon(LucideIcons.trash2, size: 18, color: colors.ink2),
-            onPressed: () => ref.read(shortlistProvider.notifier).remove(target),
-          ),
-        ],
-      ),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s8),
+        Text(verdict, style: type.caption.copyWith(color: colors.ink2)),
+      ],
     );
   }
 }
@@ -370,6 +437,8 @@ class _AddTarget extends ConsumerStatefulWidget {
 }
 
 class _AddTargetState extends ConsumerState<_AddTarget> {
+  static bool _showsProgramme(ShortlistTarget t, DuGroup group) => t.programme.isNotEmpty && duNormName(t.programme) != duNormName(group.name);
+
   DuGroup? _group;
   final _search = TextEditingController();
   String _query = '';
@@ -387,7 +456,7 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
     final group = _group;
     if (group == null) return _programmes(context, colors, type);
     final offerings = ref.watch(duOfferingsProvider(group.id));
-    final taken = {for (final t in ref.watch(shortlistProvider).value ?? const <ShortlistTarget>[]) if (t.groupId == group.id) t.college};
+    final taken = {for (final t in ref.watch(shortlistProvider).value ?? const <ShortlistTarget>[]) if (t.groupId == group.id) t};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -401,16 +470,29 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
           AsyncData(:final value) => Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                for (final college in ({for (final s in value.seats) s.college}.toList()..sort()))
-                  if (!taken.contains(college))
+                for (final target in shortlistChoices(group, value.seats))
+                  if (!taken.contains(target))
                     RowFrame(
                       padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-                      semanticsLabel: college,
+                      semanticsLabel: _showsProgramme(target, group) ? '${target.college}. ${target.programme}' : target.college,
                       onTap: () {
-                        unawaited(ref.read(shortlistProvider.notifier).add(ShortlistTarget(groupId: group.id, college: college)));
+                        unawaited(ref.read(shortlistProvider.notifier).add(target));
                         Navigator.of(context).maybePop();
                       },
-                      child: Row(children: [Expanded(child: Text(college, style: type.labelLarge)), Icon(LucideIcons.plus, size: 16, color: colors.ink3)]),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(target.college, style: type.labelLarge),
+                                if (_showsProgramme(target, group)) Text(target.programme, style: type.caption.copyWith(color: colors.ink2)),
+                              ],
+                            ),
+                          ),
+                          Icon(LucideIcons.plus, size: 16, color: colors.ink3),
+                        ],
+                      ),
                     ),
               ],
             ),

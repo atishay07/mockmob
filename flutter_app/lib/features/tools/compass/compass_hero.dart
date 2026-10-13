@@ -102,6 +102,12 @@ class CompassHero extends ConsumerWidget {
                 ),
             ],
           ),
+          if (s.previewing) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(ToolsCopy.fromCombo, style: type.caption.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s4),
+            KeyButton.quiet(label: ToolsCopy.keepCombo, onPressed: controller.keepCombination),
+          ],
           if (s.seededFromSheet) ...[
             const SizedBox(height: MmSpace.s8),
             Text(ToolsCopy.fromSheet, style: type.caption.copyWith(color: colors.ink2)),

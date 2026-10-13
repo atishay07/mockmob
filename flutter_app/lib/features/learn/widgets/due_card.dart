@@ -113,18 +113,32 @@ class _DueCardState extends State<DueCard> {
               header: true,
               label: headline,
               excludeSemantics: true,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  MonumentalNumber(value: '$due', style: type.figureHero),
-                  const SizedBox(width: MmSpace.s12),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: MmSpace.s12),
-                    child: Text(due == 1 ? 'card due' : 'cards due', style: type.title.copyWith(color: colors.ink2)),
-                  ),
-                  const Spacer(),
-                  CardStackMark(count: due),
-                ],
+              // The number may take up to half the row and shrinks beyond that (three digits, large
+              // text); the words wrap; the card stack goes first when text is large.
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  final showStack = MediaQuery.textScalerOf(context).scale(10) <= 11.5;
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: box.maxWidth * 0.5),
+                        child: MonumentalNumber(value: '$due', style: type.figureHero),
+                      ),
+                      const SizedBox(width: MmSpace.s12),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                          child: Text(due == 1 ? 'card due' : 'cards due', style: type.title.copyWith(color: colors.ink2)),
+                        ),
+                      ),
+                      if (showStack) ...[
+                        const SizedBox(width: MmSpace.s8),
+                        CardStackMark(count: due),
+                      ],
+                    ],
+                  );
+                },
               ),
             )
           else

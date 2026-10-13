@@ -24,6 +24,19 @@ class StudentWeek {
   final int minutes;
 }
 
+/// [days] made to hold exactly [count] weekdays (1 to 7), for a week whose phone copy and server
+/// goal disagree. The server only knows how many days, so the weekdays the student already
+/// picked stay: extra ones are dropped from the end of the week, missing ones are added from
+/// Monday on.
+Set<int> daysForCount(Set<int> days, int count) {
+  final want = count.clamp(1, 7);
+  final kept = ([...days]..sort()).take(want).toSet();
+  for (var d = 0; d < 7 && kept.length < want; d++) {
+    kept.add(d);
+  }
+  return kept;
+}
+
 class StudentTarget {
   const StudentTarget({
     this.course,

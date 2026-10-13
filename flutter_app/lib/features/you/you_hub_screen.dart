@@ -43,6 +43,19 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
   bool _started = false;
   bool _openFailed = false;
 
+  /// One staggered curve per block, made once: a curve attaches a listener to [_enter], so making
+  /// them in build would add five on every rebuild.
+  static const int _blocks = 5;
+  static const double _totalMs = 620;
+  late final List<CurvedAnimation> _rises = [
+    for (var i = 0; i < _blocks; i++)
+      () {
+        final start = (i * 60 / _totalMs).clamp(0.0, 0.6);
+        final end = (start + 300 / _totalMs).clamp(0.0, 1.0);
+        return CurvedAnimation(parent: _enter, curve: Interval(start, end, curve: Motion.glide));
+      }(),
+  ];
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -57,6 +70,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
 
   @override
   void dispose() {
+    for (final rise in _rises) {
+      rise.dispose();
+    }
     _enter.dispose();
     super.dispose();
   }
@@ -71,10 +87,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
   /// One block glides up 10 dp and fades in over 300 ms, each 60 ms after the one before. It
   /// plays once when You opens and never again.
   Widget _rise(int index, Widget child) {
-    const total = 620.0;
-    final start = (index * 60 / total).clamp(0.0, 0.6);
-    final end = (start + 300 / total).clamp(0.0, 1.0);
-    final curve = CurvedAnimation(parent: _enter, curve: Interval(start, end, curve: Motion.glide));
+    final curve = _rises[index];
     return FadeTransition(
       opacity: curve,
       child: AnimatedBuilder(

@@ -161,6 +161,9 @@ class SignInController extends Notifier<SignInState> {
       (result) async {
         if (!ref.mounted) return;
         switch (result.kind) {
+          case OAuthReturnKind.exchanging:
+            // Google answered; signedIn or failed follows.
+            break;
           case OAuthReturnKind.signedIn:
             state = state.copyWith(googleInBrowser: false);
             if (offer) {

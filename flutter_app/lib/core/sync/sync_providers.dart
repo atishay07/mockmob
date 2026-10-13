@@ -41,13 +41,50 @@ class SyncCoordinator {
   /// Returns the stored item whether or not the send succeeded.
   Future<OutboxItem> enqueue({required String kind, required String method, required String path, Json? body, String? idempotencyKey}) async {
     final item = await repository.enqueue(kind: kind, method: method, path: path, body: body, idempotencyKey: idempotencyKey);
-    unawaited(flushNow());
+    unawaited(flushQuietly());
     return item;
   }
 
+  Future<List<OutboxResult>>? _running;
+  bool _again = false;
+
   /// Sends due items now when online. If any must wait, a WorkManager job is registered to run
-  /// when the network is available.
-  Future<List<OutboxResult>> flushNow() async {
+  /// when the network is available. One flush runs at a time: a call made while one is running
+  /// joins it, and the running flush goes round once more so items added meanwhile are sent.
+  /// No item is ever sent twice at once from this isolate.
+  Future<List<OutboxResult>> flushNow() {
+    final running = _running;
+    if (running != null) {
+      _again = true;
+      return running;
+    }
+    return _running = _drain();
+  }
+
+  /// [flushNow] for fire-and-forget callers: a failure (signed out mid-flush, a database
+  /// error) is left for the next flush instead of becoming an unhandled error.
+  Future<void> flushQuietly() async {
+    try {
+      await flushNow();
+    } on Object {
+      // The items stay in the outbox; the next enqueue, reconnect or backup job sends them.
+    }
+  }
+
+  Future<List<OutboxResult>> _drain() async {
+    final all = <OutboxResult>[];
+    try {
+      do {
+        _again = false;
+        all.addAll(await _flushOnce());
+      } while (_again);
+    } finally {
+      _running = null;
+    }
+    return all;
+  }
+
+  Future<List<OutboxResult>> _flushOnce() async {
     final id = userId();
     if (id == null) return const [];
     var results = const <OutboxResult>[];
@@ -74,7 +111,7 @@ final syncCoordinatorProvider = Provider<SyncCoordinator>((ref) {
     isOnline: () => monitor.status.value != NetworkStatus.offline,
   );
   // Back online: send what is waiting.
-  final sub = monitor.restored.listen((_) => unawaited(coordinator.flushNow()));
+  final sub = monitor.restored.listen((_) => unawaited(coordinator.flushQuietly()));
   ref.onDispose(sub.cancel);
   return coordinator;
 });

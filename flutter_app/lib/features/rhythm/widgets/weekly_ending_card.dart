@@ -145,7 +145,8 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
       goal: data.goal,
       firstEver: rhythm != null && isFirstWeekMet(rhythm, data.weekId),
     );
-    ref.read(celebrationControllerProvider.notifier).celebrate(event);
+    // A local write failure (the database) means no ring this time; it never reaches the student.
+    unawaited(ref.read(celebrationControllerProvider.notifier).celebrate(event).then<void>((_) {}, onError: (Object _) {}));
   }
 
   Future<void> _onKey(WeeklyEndingData data, EndingKey key) async {
@@ -180,8 +181,8 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
     }
     // The change is saved: say so now, whatever happens to the local dismissal.
     if (mounted) setState(() => _confirmation = confirmation);
-    // Remembering that the card was seen is local and best effort. If it fails the card stays,
-    // with the saved line under it, and the next visit can close it.
+    // Remembering that the card was seen is local. The card closes for this run either way; if
+    // the write fails it can come back on the next app start, never stuck on screen now.
     try {
       await actions.dismissWeeklyEnding(data);
     } on Object {

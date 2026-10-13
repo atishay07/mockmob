@@ -6,6 +6,7 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/repositories/goal_repository.dart';
+import '../../../core/repositories/local_scope.dart' show userIdProvider;
 import '../../../core/repositories/notification_prefs_repository.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/repositories/rhythm_repository.dart';
@@ -82,6 +83,21 @@ final rhythmSnapshotProvider = Provider<RhythmSnapshot>((ref) {
 /// The local celebration ids and the last seen week. Invalidate it after a write.
 final rhythmSeenProvider = FutureProvider<RhythmSeenState>((ref) => ref.watch(rhythmSeenRepositoryProvider).read());
 
+/// Weekly ending cards the student closed on this run of the app. Closing works even when the
+/// local record of it cannot be written, so a card never stays stuck on Today.
+class ClosedWeeklyEndings extends Notifier<Set<String>> {
+  @override
+  Set<String> build() {
+    // Per account: a new sign-in starts empty.
+    ref.watch(userIdProvider);
+    return const {};
+  }
+
+  void close(String dismissId) => state = {...state, dismissId};
+}
+
+final closedWeeklyEndingsProvider = NotifierProvider<ClosedWeeklyEndings, Set<String>>(ClosedWeeklyEndings.new);
+
 /// The weekly ending card to show on Today now, or null. Hidden while rhythm is off or the
 /// local records are still loading, so a dismissed card never flashes.
 final weeklyEndingProvider = Provider<WeeklyEndingData?>((ref) {
@@ -89,7 +105,9 @@ final weeklyEndingProvider = Provider<WeeklyEndingData?>((ref) {
   final rhythm = ref.watch(rhythmRepositoryProvider).value;
   final seen = ref.watch(rhythmSeenProvider).value;
   if (rhythm == null || seen == null) return null;
-  return weeklyEndingFor(rhythm, dismissed: seen.celebratedIds);
+  final data = weeklyEndingFor(rhythm, dismissed: seen.celebratedIds);
+  if (data != null && ref.watch(closedWeeklyEndingsProvider).contains(data.dismissId)) return null;
+  return data;
 });
 
 /// The writes of this feature. Each one returns only after the server acknowledged it, and
@@ -102,7 +120,14 @@ class RhythmActions {
   String get _zone => _ref.read(studentTimezoneProvider);
   DateTime get _today => studentDate(_ref.read(nowProvider)(), _zone);
 
-  Future<void> _refreshRhythm() => _ref.read(rhythmRepositoryProvider.notifier).refresh(force: true);
+  /// Reads the week again after a write. A read that was already running started before the
+  /// write and can bring back the old week (overlapping refreshes share one request, so a forced
+  /// refresh alone would just join it): wait for it, then read again.
+  Future<void> _refreshRhythm() async {
+    final repo = _ref.read(rhythmRepositoryProvider.notifier);
+    if (_ref.read(rhythmRepositoryProvider).loading) await repo.refresh();
+    await repo.refresh(force: true);
+  }
 
   Future<int> _goalDays() async {
     final goal = _ref.read(goalRepositoryProvider).value;
@@ -110,11 +135,24 @@ class RhythmActions {
     return _ref.read(rhythmRepositoryProvider).value?.daysGoal ?? 4;
   }
 
-  String? get _pausedUntil => _ref.read(goalRepositoryProvider).value?.pausedUntil;
+  /// The pause the server holds now. The goal PUT replaces `pausedUntil`, so a goal change must
+  /// send the current one back. While the goal has not loaded the pause is unknown: it is read
+  /// once more, and if it still cannot be read the write is refused rather than sending null,
+  /// which would quietly end a pause.
+  Future<String?> _currentPause() async {
+    var goal = _ref.read(goalRepositoryProvider).value;
+    if (goal == null) {
+      await _ref.read(goalRepositoryProvider.notifier).refresh(force: true);
+      goal = _ref.read(goalRepositoryProvider).value;
+    }
+    if (goal == null) throw const ApiError(kind: ApiErrorKind.unavailable, code: 'goal_not_loaded');
+    return goal.pausedUntil;
+  }
 
   /// Saves the weekly goal and keeps an existing pause (the PUT would clear it otherwise).
   Future<void> saveGoal(int days) async {
-    await _ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: days.clamp(1, 7), pausedUntil: _pausedUntil);
+    final pausedUntil = await _currentPause();
+    await _ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: days.clamp(1, 7), pausedUntil: pausedUntil);
     await _refreshRhythm();
   }
 
@@ -155,16 +193,20 @@ class RhythmActions {
   /// "Take a rest week" on the weekly ending card: pause until [isoDate].
   Future<void> pauseUntil(String isoDate) => _pause(isoDate);
 
+  /// From the student's own today, not the cached week: a week cached before a Sunday midnight
+  /// would give a Sunday that has already passed.
   String _sundayOfThisWeek() {
-    final start = parseIsoDate(_ref.read(rhythmRepositoryProvider).value?.weekStart);
-    final monday = start ?? _today.subtract(Duration(days: _today.weekday - 1));
+    final today = _today;
+    final monday = today.subtract(Duration(days: today.weekday - 1));
     return formatIsoDate(monday.add(const Duration(days: 6)));
   }
 
   Future<void> setRhythmHidden(bool hidden) => _ref.read(rhythmPrefsProvider.notifier).setHidden(hidden);
 
-  /// Remembers that the weekly ending card was seen, so it shows once.
+  /// Remembers that the weekly ending card was seen, so it shows once. The card closes for this
+  /// run first; a failed local write is still thrown, so the caller knows it may come back.
   Future<void> dismissWeeklyEnding(WeeklyEndingData data) async {
+    _ref.read(closedWeeklyEndingsProvider.notifier).close(data.dismissId);
     await _ref.read(rhythmSeenRepositoryProvider).markCelebrated(data.dismissId);
     _ref.invalidate(rhythmSeenProvider);
   }

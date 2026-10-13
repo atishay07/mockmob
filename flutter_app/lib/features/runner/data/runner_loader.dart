@@ -54,6 +54,9 @@ typedef RunnerOpener = Future<RunnerLoad> Function(String sessionId);
 final runnerOpenerProvider = Provider<RunnerOpener>((ref) {
   return (sessionId) async {
     try {
+      // Left and opened again at once: the old engine finishes closing (and writes its draft)
+      // before this one reads the draft.
+      await EngineRunnerSession.closed(sessionId);
       final draft = await ref.read(sessionDraftRepositoryProvider).bySessionId(sessionId);
       if (draft == null) return const RunnerMissing();
       // NTA mode is exactly 50 questions. A short or long paper is refused before anything

@@ -32,7 +32,13 @@ class NtaIntegrity extends ChangeNotifier {
     required this.onTerminate,
     required this.isLive,
     this.inactiveGrace = defaultInactiveGrace,
-  });
+  }) {
+    _live[sessionId] = (_live[sessionId] ?? 0) + 1;
+  }
+
+  /// Guards alive per session in this process. A second guard while the first is still alive is
+  /// the same paper rebuilt on screen, not a paper opened again.
+  static final Map<String, int> _live = {};
 
   /// How long another window may cover the exam before it counts as a warning.
   static const Duration defaultInactiveGrace = Duration(seconds: 3);
@@ -74,6 +80,7 @@ class NtaIntegrity extends ChangeNotifier {
   /// Reads the stored count. A paper opened before, with no absence on record, was closed some
   /// other way (the leave key, a crash): that is the website's "restored" warning.
   Future<void> load() async {
+    final remount = (_live[sessionId] ?? 0) > 1;
     try {
       _strikes = await store.getInt(_strikesKey) ?? 0;
       final wasAway = await store.getBool(_awayKey) ?? false;
@@ -86,7 +93,7 @@ class NtaIntegrity extends ChangeNotifier {
         // The absence that was already counted ends now.
         await store.setBool(_awayKey, false);
         _showing = _strikes > 0;
-      } else if (opened) {
+      } else if (opened && !remount) {
         _violate(NtaViolation.restored, returned: true);
       }
     } on Object {
@@ -173,6 +180,13 @@ class NtaIntegrity extends ChangeNotifier {
 
   @override
   void dispose() {
+    if (_disposed) return;
+    final left = (_live[sessionId] ?? 1) - 1;
+    if (left > 0) {
+      _live[sessionId] = left;
+    } else {
+      _live.remove(sessionId);
+    }
     _disposed = true;
     _inactive?.cancel();
     super.dispose();

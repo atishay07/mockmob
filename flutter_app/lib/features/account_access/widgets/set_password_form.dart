@@ -68,44 +68,56 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
       return;
     }
     FocusScope.of(context).unfocus();
+    // Everything this needs from the tree is read now: once the password is saved, the rest
+    // (above all signing out the other devices after a reset) must run even if the student has
+    // left the screen by then.
+    final gateway = ref.read(accountAccessGatewayProvider);
+    final hints = ref.read(passwordHintsProvider);
+    final endOtherSessions = widget.endOtherSessions;
     setState(() {
       _working = true;
       _problem = null;
     });
     try {
-      final gateway = ref.read(accountAccessGatewayProvider);
       await gateway.setPassword(_password.text);
-      await ref.read(passwordHintsProvider).markPasswordSet();
-      TextInput.finishAutofillContext();
-      bool? othersSignedOut;
-      if (widget.endOtherSessions) {
-        try {
-          await gateway.signOutOtherDevices();
-          othersSignedOut = true;
-        } on Object {
-          // The password is saved either way; the done screen says what is left to do.
-          othersSignedOut = false;
-        }
-      }
-      if (!mounted) return;
-      setState(() {
-        _working = false;
-        _saved = true;
-        _othersSignedOut = othersSignedOut;
-      });
     } on AccessException catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _working = false;
-        _problem = AccessCopy.problem(e.failure);
-      });
+      _failed(AccessCopy.problem(e.failure));
+      return;
     } on Object {
-      if (!mounted) return;
-      setState(() {
-        _working = false;
-        _problem = AccessCopy.problem(AccessFailure.unknown);
-      });
+      _failed(AccessCopy.problem(AccessFailure.unknown));
+      return;
     }
+    // Saved on the server. Nothing below may stop the other devices being signed out.
+    try {
+      await hints.markPasswordSet();
+    } on Object {
+      // Only the nudge's memory; it may show once more.
+    }
+    if (mounted) TextInput.finishAutofillContext();
+    bool? othersSignedOut;
+    if (endOtherSessions) {
+      try {
+        await gateway.signOutOtherDevices();
+        othersSignedOut = true;
+      } on Object {
+        // The password is saved either way; the done screen says what is left to do.
+        othersSignedOut = false;
+      }
+    }
+    if (!mounted) return;
+    setState(() {
+      _working = false;
+      _saved = true;
+      _othersSignedOut = othersSignedOut;
+    });
+  }
+
+  void _failed(String problem) {
+    if (!mounted) return;
+    setState(() {
+      _working = false;
+      _problem = problem;
+    });
   }
 
   @override
@@ -133,51 +145,54 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
     }
 
     final ruleMet = _longEnough;
-    return AutofillGroup(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AccessField(
-            kind: AccessFieldKind.newPassword,
-            label: AccessCopy.newPasswordLabel,
-            controller: _password,
-            autofocus: widget.autofocus,
-            enabled: !_working,
-            hasError: _problem != null,
-            onSubmitted: _save,
-            onChanged: (_) => setState(() {
-              if (_problem != null && _longEnough) _problem = null;
-            }),
-          ),
-          const SizedBox(height: MmSpace.s8),
-          Row(
-            children: [
-              ExcludeSemantics(
-                child: Icon(
-                  ruleMet ? LucideIcons.circleCheck : LucideIcons.circle,
-                  size: 14,
-                  color: ruleMet ? colors.goodText : (_tried ? colors.badText : colors.ink3),
-                ),
-              ),
-              const SizedBox(width: MmSpace.s8),
-              Text(AccessCopy.passwordRule, style: type.small.copyWith(color: colors.ink2)),
-            ],
-          ),
-          if (_problem != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            AccessProblemLine(message: _problem!),
-          ],
-          const SizedBox(height: MmSpace.s20),
-          KeyButton(
-            label: _working ? AccessCopy.savingPassword : AccessCopy.savePassword,
-            loading: _working,
-            onPressed: _working ? null : _save,
-          ),
-          if (widget.onSkip != null) ...[
+    // Back waits while the password is being saved, so a reset is never left half done.
+    return PopScope(
+      canPop: !_working,
+      child: AutofillGroup(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AccessField(
+              kind: AccessFieldKind.newPassword,
+              label: AccessCopy.newPasswordLabel,
+              controller: _password,
+              autofocus: widget.autofocus,
+              enabled: !_working,
+              hasError: _problem != null,
+              onSubmitted: _save,
+              onChanged: (_) => setState(() {
+                if (_problem != null && _longEnough) _problem = null;
+              }),
+            ),
             const SizedBox(height: MmSpace.s8),
-            Align(child: KeyButton.quiet(label: AccessCopy.notNow, onPressed: _working ? null : widget.onSkip)),
+            Row(
+              children: [
+                ExcludeSemantics(
+                  child: Icon(
+                    ruleMet ? LucideIcons.circleCheck : LucideIcons.circle,
+                    size: 14,
+                    color: ruleMet ? colors.goodText : (_tried ? colors.badText : colors.ink3),
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                Text(AccessCopy.passwordRule, style: type.small.copyWith(color: colors.ink2)),
+              ],
+            ),
+            if (_problem != null) ...[const SizedBox(height: MmSpace.s12), AccessProblemLine(message: _problem!)],
+            const SizedBox(height: MmSpace.s20),
+            KeyButton(
+              label: _working ? AccessCopy.savingPassword : AccessCopy.savePassword,
+              loading: _working,
+              onPressed: _working ? null : _save,
+            ),
+            if (widget.onSkip != null) ...[
+              const SizedBox(height: MmSpace.s8),
+              Align(
+                child: KeyButton.quiet(label: AccessCopy.notNow, onPressed: _working ? null : widget.onSkip),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

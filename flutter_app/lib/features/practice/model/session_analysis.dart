@@ -108,8 +108,15 @@ class Observation {
   final List<int> questions;
 }
 
+/// The longest gap between two events that still counts as time on a question. A longer gap
+/// means the app was left, paused or killed mid-question, and nobody can say how long the
+/// student actually spent.
+const int maxDwellGapMs = 5 * 60 * 1000;
+
 /// Seconds on each question from the device's visit and answer events: the interval to the next
-/// event is credited to the question the event named. Null with fewer than two events.
+/// event is credited to the question the event named. Null with fewer than two events. When any
+/// gap is longer than [maxDwellGapMs] the result is empty: the timing is not known, so no pace
+/// is claimed (the app being away is never counted as time on a question).
 Map<String, int>? dwellByQuestion(List<Json> timeline) {
   final events = [
     for (final e in timeline)
@@ -122,6 +129,7 @@ Map<String, int>? dwellByQuestion(List<Json> timeline) {
   final dwell = <String, int>{};
   for (var i = 0; i < events.length - 1; i++) {
     final gap = asInt(events[i + 1]['at'])! - asInt(events[i]['at'])!;
+    if (gap > maxDwellGapMs) return <String, int>{};
     if (gap > 0) dwell.update(asString(events[i]['qid'])!, (v) => v + gap, ifAbsent: () => gap);
   }
   return dwell;

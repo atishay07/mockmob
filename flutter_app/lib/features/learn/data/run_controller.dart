@@ -6,6 +6,7 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/models/study.dart';
+import '../../../core/sync/pending_work.dart';
 import '../models/run_item.dart';
 import 'learn_log.dart';
 import 'learn_store.dart';
@@ -94,20 +95,68 @@ class RunController extends Notifier<RunUiState> {
   final String runId;
   bool _busy = false;
   bool _conflictRetried = false;
+  Timer? _retryTimer;
+  int _retryAttempts = 0;
+
+  /// Waits between automatic sends of a stuck event: a weak signal never reports offline, so
+  /// nothing else would send it again.
+  static List<Duration> retryBackoff = [Duration(seconds: 4), Duration(seconds: 10), Duration(seconds: 30), Duration(seconds: 60)];
 
   // Read once so a send that outlives the screen can still finish and clear its pending event.
   late StudyApi _api;
   late LearnStore _store;
+  late PendingWorkRegistry _registry;
+
+  String get _registryKey => 'learn:$runId';
 
   @override
   RunUiState build() {
     _api = ref.read(studyApiProvider);
     _store = ref.read(learnStoreProvider);
+    _registry = ref.read(pendingWorkRegistryProvider.notifier);
+    ref.onDispose(() {
+      _retryTimer?.cancel();
+      // The registry may be going away with the container: nothing to tell it then.
+      final registry = _registry;
+      final key = _registryKey;
+      scheduleMicrotask(() {
+        try {
+          registry.set(key, pending: false);
+        } on Object {
+          // The container is already disposed.
+        }
+      });
+    });
     ref.listen(networkRestoredProvider, (previous, next) {
       if (next is AsyncData) unawaited(flush());
     });
+    listenSelf(_onStateChanged);
     scheduleMicrotask(load);
     return const RunUiState();
+  }
+
+  /// Keeps connectivity and the retry timer in step with the one event waiting on this phone.
+  void _onStateChanged(RunUiState? previous, RunUiState next) {
+    _registry.set(_registryKey, pending: next.pending != null);
+    if (next.pending == null) {
+      _stopRetry();
+      return;
+    }
+    final stuck = !next.sending && (next.notice == RunNotice.queuedOffline || next.notice == RunNotice.sendFailed);
+    if (stuck && !(_retryTimer?.isActive ?? false)) _scheduleRetry();
+  }
+
+  void _scheduleRetry() {
+    final wait = retryBackoff[_retryAttempts.clamp(0, retryBackoff.length - 1)];
+    _retryAttempts++;
+    _retryTimer = Timer(wait, () {
+      if (ref.mounted) unawaited(flush());
+    });
+  }
+
+  void _stopRetry() {
+    _retryTimer?.cancel();
+    _retryAttempts = 0;
   }
 
   Future<void> load() async {

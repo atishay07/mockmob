@@ -101,6 +101,8 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
     final type = context.mmType;
     final clock = ref.watch(reviewClockProvider);
     ref.watch(reviewIndexProvider);
+    // A repair answered after the ending came up is added to the run: the count follows it.
+    ref.watch(repairRunProvider(widget.attemptId));
     final model = _model();
     final index = ref.read(reviewIndexProvider);
     final attempt = index?.attempt(widget.attemptId);

@@ -75,14 +75,23 @@ abstract final class NtaPaper {
 
 /// The exam paper's theme in the NTA style, the app's own theme in the MockMob style. Follows a
 /// change of style live, so a drawer or page pushed over the runner switches with it.
+///
+/// The same widgets wrap [child] in both styles, so switching the look only rebuilds it. A
+/// different tree would remount the runner under it mid-exam: a new integrity guard (and a false
+/// "opened again" warning), immersive mode dropped, and the open drawer tied to a dead screen.
 class NtaStyleTheme extends ConsumerWidget {
   const NtaStyleTheme({super.key, required this.child});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) =>
-      ref.watch(ntaStyleProvider) == NtaStyle.nta ? Theme(data: NtaPaper.theme, child: NtaExamLook(child: child)) : child;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final exam = ref.watch(ntaStyleProvider) == NtaStyle.nta;
+    return Theme(
+      data: exam ? NtaPaper.theme : Theme.of(context),
+      child: NtaExamLook(exam: exam, child: child),
+    );
+  }
 }
 
 /// Puts an NTA screen on the exam paper (or leaves it in the app theme in the MockMob style),

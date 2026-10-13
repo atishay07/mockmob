@@ -16,6 +16,7 @@ import '../copy.dart';
 import 'move_builder.dart';
 import 'road_builder.dart';
 import 'subjects.dart';
+import 'today_clock.dart' show endedNoticeWindow;
 import 'today_inputs.dart';
 import 'today_model.dart';
 
@@ -139,6 +140,10 @@ TodayHero? _resumeOrEnded(TodayInputs i) {
     );
   }
   if (!ended || !d.isMock) return null;
+  // The notice is for the evening it happened. Once a day has passed it stops being the hero
+  // (the paper is in the sheet, or the window is long closed), so Today moves on to tonight's
+  // move. The draft and its answers stay where they are.
+  if (i.now.difference(d.endsAt) >= endedNoticeWindow) return null;
   final outcome = endedMockOutcome(
     attemptExistsOnServer: d.attemptExists,
     endsAtMs: d.endsAt.millisecondsSinceEpoch,

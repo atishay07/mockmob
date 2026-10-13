@@ -80,8 +80,8 @@ abstract final class ReminderActions {
 String _dayKey(tz.TZDateTime t) =>
     '${t.year}-${t.month.toString().padLeft(2, '0')}-${t.day.toString().padLeft(2, '0')}';
 
-/// The reminders that should be scheduled now, in the order the caps should be spent on them
-/// (soonest first). Pure: the scheduler cancels what it scheduled before and schedules these.
+/// The reminders that should be scheduled now, in the order the caps should be spent on them:
+/// the weekly plan first, then the rest soonest first. Pure: the scheduler cancels what it scheduled before and schedules these.
 ///
 /// - Study window: one reminder at the start of each of the next [studyWindowHorizonDays]
 ///   days, only while the Study window channel is on, a window is set and the category is not
@@ -234,7 +234,14 @@ List<NotificationRequest> buildReminderPlan({
     }
   }
 
-  out.sort((a, b) => a.at!.compareTo(b.at!));
+  // The weekly plan is spent first: it is one a week and the student turned it on by choice, so
+  // daily study reminders must not use up the weekly cap before Sunday comes round.
+  bool isWeekly(NotificationRequest r) => r.taskId.startsWith(weeklyTaskPrefix);
+  out.sort((a, b) {
+    final wa = isWeekly(a), wb = isWeekly(b);
+    if (wa != wb) return wa ? -1 : 1;
+    return a.at!.compareTo(b.at!);
+  });
   return out;
 }
 

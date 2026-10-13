@@ -34,12 +34,14 @@ class AskMessage {
         sending = false,
         failure = null,
         balance = null,
+        retryText = null,
         requestId = null;
 
   const AskMessage.reply(this.text, {required AskOrigin this.origin, this.actions = const [], this.requestId})
       : fromStudent = false,
         sending = false,
         failure = null,
+        retryText = null,
         balance = null;
 
   const AskMessage.sending()
@@ -50,15 +52,17 @@ class AskMessage {
         sending = true,
         failure = null,
         balance = null,
+        retryText = null,
         requestId = null;
 
-  const AskMessage.failed(AskFailure this.failure, {this.balance})
+  /// [retryText] and [requestId] are the question this failure belongs to, so Send again on any
+  /// failed bubble sends that bubble's own question.
+  const AskMessage.failed(AskFailure this.failure, {this.balance, this.retryText, this.requestId})
       : fromStudent = false,
         text = '',
         origin = null,
         actions = const [],
-        sending = false,
-        requestId = null;
+        sending = false;
 
   final bool fromStudent;
   final String text;
@@ -72,8 +76,12 @@ class AskMessage {
   /// Credits the server said the student has, on [AskFailure.noCredits].
   final int? balance;
 
-  /// The request that produced a server reply, so a report names exactly that reply.
+  /// The request that produced a server reply, so a report names exactly that reply. On a
+  /// failure, the request to send again.
   final String? requestId;
+
+  /// On a failure: the question to send again.
+  final String? retryText;
 
   /// Written by a model: carries the "can be wrong" line and Report this reply.
   bool get isModel => origin == AskOrigin.model;
@@ -85,7 +93,7 @@ class AskState {
   final List<AskMessage> messages;
   final String? sessionId;
 
-  bool get busy => messages.isNotEmpty && messages.last.sending;
+  bool get busy => messages.any((m) => m.sending);
 }
 
 /// The longest message the server accepts.
@@ -95,12 +103,13 @@ const askMaxChars = 1500;
 /// phone from the record (free, works offline). Anything else goes to `POST /api/ai/mentor/chat`,
 /// whose budget guard decides: a free record answer, a paused notice, or a 1-credit reply.
 class AskController extends Notifier<AskState> {
-  String? _pendingText;
-  String? _pendingRequestId;
+  // Bumped when the conversation is cleared (another student), so a late reply cannot land in it.
+  int _epoch = 0;
 
   @override
   AskState build() {
     ref.watch(authSnapshotProvider.select((s) => s.userId));
+    _epoch++;
     return const AskState();
   }
 
@@ -125,28 +134,30 @@ class AskController extends Notifier<AskState> {
       _append([AskMessage.student(text), AskMessage.reply(local.reply, origin: AskOrigin.phone, actions: local.actions)]);
       return;
     }
-    _pendingText = text;
-    _pendingRequestId = const Uuid().v4();
     _append([AskMessage.student(text), const AskMessage.sending()]);
-    await _post();
+    await _post(state.messages.length - 1, text, const Uuid().v4());
   }
 
-  /// Sends the failed message again. After an unknown outcome the same request id goes, so a
-  /// reply that did arrive is never charged twice.
-  Future<void> retry() async {
-    if (_pendingText == null || state.busy) return;
-    _replaceLast(const AskMessage.sending());
-    await _post();
+  /// Sends a failed message again: the one at [index], or the last message. After an unknown
+  /// outcome the same request id goes, so a reply that did arrive is never charged twice. Only
+  /// that bubble changes; later turns stay as they are.
+  Future<void> retry([int? index]) async {
+    final i = index ?? state.messages.length - 1;
+    if (state.busy || i < 0 || i >= state.messages.length) return;
+    final failed = state.messages[i];
+    final text = failed.retryText;
+    if (failed.failure == null || text == null) return;
+    _replaceAt(i, const AskMessage.sending());
+    await _post(i, text, failed.requestId ?? const Uuid().v4());
   }
 
-  Future<void> _post() async {
-    final text = _pendingText!;
-    final requestId = _pendingRequestId;
+  Future<void> _post(int index, String text, String requestId) async {
+    final epoch = _epoch;
     try {
       final res = await ref.read(apiClientProvider).post('/api/ai/mentor/chat', body: {
         'message': text,
         'mode': 'mentor',
-        'requestId': _pendingRequestId,
+        'requestId': requestId,
         'sessionId': ?state.sessionId,
       });
       final body = res.map;
@@ -159,14 +170,15 @@ class AskController extends Notifier<AskState> {
         for (final a in asJsonList(body['actions']))
           if (asString(a['label']) case final label? when asString(a['route']) != null) (label, asString(a['route'])!),
       ];
-      _pendingText = null;
-      _pendingRequestId = null;
-      state = AskState(
-        messages: [..._withoutLast(), AskMessage.reply(asStringOr(body['reply'], ''), origin: origin, actions: actions, requestId: requestId)],
-        sessionId: asString(body['sessionId']) ?? state.sessionId,
+      if (epoch != _epoch) return;
+      _replaceAt(
+        index,
+        AskMessage.reply(asStringOr(body['reply'], ''), origin: origin, actions: actions, requestId: requestId),
+        sessionId: asString(body['sessionId']),
       );
       if (origin == AskOrigin.model) ref.read(creditsRepositoryProvider.notifier).refresh();
     } on ApiError catch (e) {
+      if (epoch != _epoch) return;
       final failure = switch (e.kind) {
         ApiErrorKind.network || ApiErrorKind.timeout => AskFailure.offline,
         ApiErrorKind.paymentRequired => AskFailure.noCredits,
@@ -177,16 +189,18 @@ class AskController extends Notifier<AskState> {
         _ => AskFailure.unavailable,
       };
       // "Did not go through": a fresh id. Anything uncertain keeps the id for the retry.
-      if (failure == AskFailure.resend) _pendingRequestId = const Uuid().v4();
-      _replaceLast(AskMessage.failed(failure, balance: asInt(e.details['balance'])));
+      final next = failure == AskFailure.resend ? const Uuid().v4() : requestId;
+      _replaceAt(index, AskMessage.failed(failure, balance: asInt(e.details['balance']), retryText: text, requestId: next));
     }
   }
 
-  List<AskMessage> _withoutLast() => state.messages.isEmpty ? const [] : state.messages.sublist(0, state.messages.length - 1);
-
   void _append(List<AskMessage> add) => state = AskState(messages: [...state.messages, ...add], sessionId: state.sessionId);
 
-  void _replaceLast(AskMessage m) => state = AskState(messages: [..._withoutLast(), m], sessionId: state.sessionId);
+  void _replaceAt(int index, AskMessage m, {String? sessionId}) {
+    if (!ref.mounted || index >= state.messages.length) return;
+    final next = [...state.messages]..[index] = m;
+    state = AskState(messages: next, sessionId: sessionId ?? state.sessionId);
+  }
 }
 
 final askControllerProvider = NotifierProvider<AskController, AskState>(AskController.new);

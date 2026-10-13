@@ -40,14 +40,20 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   DateTime? _nameSavedAt;
 
   Future<void> _signOut() async {
-    final pending = await pendingWork(ref);
-    if (!mounted) return;
-    final confirmed = await confirmSignOut(context, pending: pending);
-    if (!confirmed || !mounted) return;
+    if (_signingOut) return;
+    // Busy from the first tap, so a second tap cannot open a second sheet while the phone is read.
     setState(() {
       _signingOut = true;
       _failed = false;
     });
+    final pending = await pendingWork(ref);
+    if (!mounted) return;
+    final confirmed = await confirmSignOut(context, pending: pending.count, unknown: pending.unknown);
+    if (!mounted) return;
+    if (!confirmed) {
+      setState(() => _signingOut = false);
+      return;
+    }
     try {
       await performSignOut(ref);
     } on Object {

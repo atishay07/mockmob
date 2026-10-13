@@ -115,9 +115,11 @@ class ApiClient {
   Future<ApiResponse> request(String method, String path, {Object? body, Map<String, Object?>? query, ApiOptions options = const ApiOptions()}) =>
       _send(method.toUpperCase(), path, body: body, query: query, options: options);
 
-  /// Remaining client-side hold for a path after a 429, if any.
-  Duration? heldFor(String path) {
-    final until = _blockedUntil[_bucket(path)];
+  /// Remaining client-side hold for a call after a 429, if any. Reads and writes of a route
+  /// family are held apart: a 429 on the session events PUT must not stop the result from
+  /// opening with a GET.
+  Duration? heldFor(String path, {String method = 'GET'}) {
+    final until = _blockedUntil[_holdKey(method, path)];
     if (until == null) return null;
     final left = until.difference(_now());
     return left > Duration.zero ? left : null;
@@ -131,7 +133,7 @@ class ApiClient {
     required ApiOptions options,
   }) async {
     if (!options.bypassRateGate) {
-      final held = heldFor(path);
+      final held = heldFor(path, method: method);
       if (held != null) {
         throw ApiError(status: 429, kind: ApiErrorKind.rateLimited, code: ApiCodes.rateLimited, retryAfter: held);
       }
@@ -160,13 +162,14 @@ class ApiClient {
       } on DioException catch (e) {
         final error = e.error is ApiError ? e.error! as ApiError : ApiError.fromDio(e);
         if (kDebugMode && error.kind == ApiErrorKind.unknown) debugPrint('API $method $path failed: ${e.type.name} ${e.error}');
-        if (error.isOffline) {
-          observer?.onNetworkError();
-        } else if (error.status != null) {
+        // Any HTTP status (a 408 included) proves the server was reached.
+        if (error.status != null) {
           observer?.onReachedServer();
+        } else if (error.isOffline) {
+          observer?.onNetworkError();
         }
         if (error.isRateLimited) {
-          _blockedUntil[_bucket(path)] = _now().add(error.retryAfter ?? const Duration(seconds: 60));
+          _blockedUntil[_holdKey(method, path)] = _now().add(error.retryAfter ?? const Duration(seconds: 60));
         }
         final transient = error.isOffline || const {502, 503, 504}.contains(error.status);
         if (transient && attempt < maxRetries && error.kind != ApiErrorKind.cancelled) {
@@ -177,6 +180,13 @@ class ApiClient {
         throw error;
       }
     }
+  }
+
+  /// The 429 hold is per route family and per kind of call (read or write).
+  static String _holdKey(String method, String path) {
+    final m = method.toUpperCase();
+    final kind = m == 'GET' || m == 'HEAD' ? 'read' : 'write';
+    return '${_bucket(path)}:$kind';
   }
 
   /// Rate limits are per route family. The learning routes share one bucket and the session

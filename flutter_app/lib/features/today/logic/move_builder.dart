@@ -76,10 +76,17 @@ class MoveFacts {
     return null;
   }
 
-  bool get planReady {
-    final kind = inputs.plan?.primary.kind;
-    return kind == 'repair' || kind == 'investigate';
+  /// Where the server's own repair or investigate action goes, when this app can open it.
+  /// A web-only path, an external link or an action kind this build does not know has no native
+  /// place to go, so it is not a ready action: the card falls back to what the record supports.
+  String? get planLocation {
+    final primary = inputs.plan?.primary;
+    if (primary == null || (primary.kind != 'repair' && primary.kind != 'investigate')) return null;
+    final target = ActionRouter.resolve(primary.href);
+    return target is NativeTarget ? target.location : null;
   }
+
+  bool get planReady => planLocation != null;
 
   int? get basisAgeDays {
     final b = latestMock ?? basis;
@@ -121,6 +128,20 @@ DurationChoice _pick(List<DurationChoice> options, int? selected, {int preferred
     if (o.minutes <= preferred) best = o;
   }
   return best;
+}
+
+/// The repair length Today prefers when the student has not chosen one: 20 minutes on an
+/// ordinary day, 10 when they are returning or it is late.
+int _repairPreferred(TodayMood mood) => mood == TodayMood.normal ? 20 : 10;
+
+/// The length chip tonight's repair uses, or null when it has no chips. The card and the
+/// "Something else instead" sheet both read this, so they always highlight the same length.
+int? repairMinutesSelected(TodayInputs i, MoveFacts f) {
+  final tonight = f.tonight;
+  if (tonight == null || f.dismissed) return null;
+  final options = [for (final o in repairDurationOptions(tonight.items.length)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
+  if (options.isEmpty) return null;
+  return _pick(options, i.selectedMinutes, preferred: _repairPreferred(moodOf(i, f))).minutes;
 }
 
 MoveHero buildMove(TodayInputs i) {
@@ -289,7 +310,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   final options = [for (final o in repairDurationOptions(chapterCount)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
   final choice = options.isEmpty
       ? DurationChoice(minutes: repairMinutes(chapterCount) ?? 5, mistakes: chapterCount)
-      : _pick(options, i.selectedMinutes, preferred: mood == TodayMood.normal ? 20 : 10);
+      : _pick(options, i.selectedMinutes, preferred: _repairPreferred(mood));
   final n = choice.mistakes ?? chapterCount;
   final source = paperLabel(f.attempts, b);
   final date = i.date(b.completedAt);
@@ -339,7 +360,6 @@ MoveHero _planReady(
   String? Function() headlineFor,
 ) {
   final action = i.plan!.primary;
-  final target = ActionRouter.resolve(action.href);
   final subject = f.attempts.isEmpty ? null : f.attempts.first.subject;
   return MoveHero(
     state: NextMoveState.ready,
@@ -353,7 +373,8 @@ MoveHero _planReady(
     summary: action.title,
     primary: TodayAction(
       action.duration == null ? 'Start' : 'Start, ${action.duration}',
-      target is NativeTarget ? GoTo(target.location) : const OpenAlternatives(),
+      // `planReady` held, so the location exists; the practice tab is only a safe default.
+      GoTo(f.planLocation ?? AppRoutes.practice),
       startsSession: true,
       actionType: action.kind,
     ),

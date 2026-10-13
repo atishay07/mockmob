@@ -41,11 +41,26 @@ String marksText(BestMark m) => RhythmCopy.bestMarks(formatSignedNumber(m.marks)
 String bestBody(PersonalBest b) =>
     b.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(b.mode)) : RhythmCopy.bestPair(marksText(b.best), marksText(b.latest));
 
-class YouBestsScreen extends ConsumerWidget {
+class YouBestsScreen extends ConsumerStatefulWidget {
   const YouBestsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<YouBestsScreen> createState() => _YouBestsScreenState();
+}
+
+class _YouBestsScreenState extends ConsumerState<YouBestsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // The bests are read once per session otherwise: a mock finished since then would leave the
+    // old best and latest on screen. The cached marks stay visible while this reads.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) ref.read(bestsRepositoryProvider.notifier).refresh(force: true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(bestsRepositoryProvider);
     final mocks = ref.watch(bestMocksProvider);
     final zone = ref.watch(rhythmSnapshotProvider.select((s) => s.timezone));

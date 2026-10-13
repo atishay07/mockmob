@@ -14,7 +14,7 @@ class ObservationsPanel extends StatelessWidget {
 
   final SessionAnalysis analysis;
 
-  /// Opens the first of these question numbers in the list below.
+  /// Opens every one of these question numbers in the list below and scrolls to the first.
   final ValueChanged<List<int>> onShow;
 
   @override

@@ -171,6 +171,8 @@ abstract final class YouCopy {
   static String signOutUnsent(int count) =>
       '${plural(count, 'answer')} ${count == 1 ? 'is' : 'are'} on this phone and not sent. Sign out anyway?';
   static const signOutUnsentNote = 'Signing out removes them from this phone.';
+  static const signOutUnknown = 'We could not check for answers still on this phone. Sign out anyway?';
+  static const signOutUnknownNote = 'Any that are not sent will be removed from this phone.';
   static String signOutQueued(int count) =>
       '${plural(count, 'study update')} ${count == 1 ? 'is' : 'are'} waiting to send from this phone.';
   static String signOutQueuedAsk(int count) => '${signOutQueued(count)} Sign out anyway?';
@@ -195,6 +197,7 @@ abstract final class YouCopy {
   static String deleteUnsent(int count) =>
       '${plural(count, 'answer')} on this phone ${count == 1 ? 'has' : 'have'} not been sent. '
       '${count == 1 ? 'It' : 'They'} will be removed when you are signed out.';
+  static const deleteUnknown = 'We could not check this phone for answers that are not sent. Any that are will be removed when you are signed out.';
   static const deleteWord = 'DELETE';
   static const deleteTypeLabel = 'Type DELETE to confirm';
   static const deleteTypeNeeded = 'Type DELETE to turn this key on.';

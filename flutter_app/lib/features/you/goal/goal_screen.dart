@@ -9,6 +9,7 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/goal_pause.dart';
 import '../widgets/you_page.dart';
 import 'goal_picker.dart';
 
@@ -117,7 +118,9 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     final type = context.mmType;
     final days = _picked ?? goal.daysPerWeek;
     final changed = days != goal.daysPerWeek;
-    final pause = goal.pausedUntil == null ? null : DateTime.tryParse(goal.pausedUntil!);
+    // A pause that has ended is not shown and is not sent back with a save.
+    final now = ref.watch(nowProvider)();
+    final pause = activePauseEnd(goal.pausedUntil, now);
 
     return YouPage(
       title: YouCopy.goalTitle,
@@ -147,18 +150,30 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 ),
               ],
               const SizedBox(height: MmSpace.s24),
-              GoalPicker(
-                value: days,
-                onChanged: _saving
-                    ? null
-                    : (value) => setState(() {
-                          _picked = value;
-                          _changedElsewhere = false;
-                          _error = null;
-                          _savedAt = null;
-                        }),
-              ),
-              const SizedBox(height: MmSpace.s32),
+            ],
+          ),
+        ),
+        // Seven 48 dp targets need 336 dp, more than the 328 dp inside the gutters of a 360 dp
+        // phone, so the picker takes the full width less 4 dp a side.
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+          child: GoalPicker(
+            value: days,
+            onChanged: _saving
+                ? null
+                : (value) => setState(() {
+                      _picked = value;
+                      _changedElsewhere = false;
+                      _error = null;
+                      _savedAt = null;
+                    }),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
               Semantics(
                 container: true,
                 liveRegion: true,
@@ -197,7 +212,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
               KeyButton(
                 label: YouCopy.goalSave,
                 loading: _saving,
-                onPressed: changed && !_saving ? () => _save(days, goal.pausedUntil) : null,
+                onPressed: changed && !_saving ? () => _save(days, pauseToKeep(goal.pausedUntil, now)) : null,
               ),
               if (_savedAt != null) ...[
                 const SizedBox(height: MmSpace.s16),

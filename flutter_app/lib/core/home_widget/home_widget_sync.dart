@@ -74,15 +74,23 @@ final homeWidgetSyncProvider = Provider<void>((ref) {
   String? written;
   Timer? pending;
 
+  void write(String json) {
+    written = json;
+    unawaited(writer.write(json));
+  }
+
   void schedule(HomeWidgetData? data) {
     if (data == null) return;
     final json = data.encode();
     pending?.cancel();
     if (json == written) return;
-    pending = Timer(settle, () {
-      written = json;
-      unawaited(writer.write(json));
-    });
+    // Signing out is written at once: if the app is closed inside the settle window, the last
+    // student's next move must not stay on the home screen (a shared phone).
+    if (!data.signedIn) {
+      write(json);
+      return;
+    }
+    pending = Timer(settle, () => write(json));
   }
 
   ref.listen<HomeWidgetData?>(homeWidgetDataProvider, (_, next) => schedule(next), fireImmediately: true);

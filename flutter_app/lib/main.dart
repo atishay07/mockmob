@@ -9,6 +9,7 @@ import 'app.dart';
 import 'core/permissions/permission_requester.dart';
 import 'core/repositories/repositories.dart';
 import 'core/router/app_shell.dart';
+import 'core/router/error_fallback.dart';
 import 'core/router/quick_start.dart';
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
@@ -59,8 +60,8 @@ Future<void> _initAfterFirstFrame() async {
   }
 }
 
-/// A student never sees a red error screen in release: a failed widget draws nothing, and the
-/// error is logged. Debug and profile builds keep the framework's loud behaviour.
+/// A student never sees a red error screen in release: a failed widget draws a calm note with a
+/// way back (small spots draw nothing), and the error is logged. Debug and profile builds keep the framework's loud behaviour.
 void _installErrorHandling() {
   final framework = FlutterError.onError;
   FlutterError.onError = (details) {
@@ -75,10 +76,8 @@ void _installErrorHandling() {
     return true;
   };
   if (kReleaseMode) {
-    ErrorWidget.builder = (details) => const SizedBox.shrink();
+    ErrorWidget.builder = buildErrorFallback;
   }
 }
 
-void _report(Object error, StackTrace? stack) {
-  debugPrint('Unhandled error: $error\n${stack ?? ''}');
-}
+void _report(Object error, StackTrace? stack) => ErrorLog.add(error, stack);

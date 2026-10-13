@@ -42,6 +42,10 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
   NtaPrepPhase? _phase;
   String? _error;
 
+  /// The quote whose new, higher cost this page last put in front of the student. The next
+  /// Start is the student's yes to that cost, and to that cost only.
+  PracticeQuote? _costShown;
+
   PracticeSelection get _selection => PracticeSelection(mode: PracticeMode.nta, subjectId: widget.subject);
 
   Future<void> _start() async {
@@ -66,6 +70,11 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
       _fail(_gateText(quote));
       return;
     }
+    // Dearer again than the cost the student said yes to: show it and wait for another Start.
+    if (_costShown case final seen? when costWentUp(seen, quote)) {
+      _costChanged(quote);
+      return;
+    }
     setState(() => _phase = NtaPrepPhase.starting);
     final result = await launchPractice(ref, _selection, quote);
     if (!mounted) return;
@@ -73,11 +82,20 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
       case LaunchStarted(:final sessionId):
         setState(() => _phase = NtaPrepPhase.opening);
         context.go(AppRoutes.run(sessionId));
+      case LaunchNeedsLook(:final quote, costChanged: true):
+        _costChanged(quote);
       case LaunchNeedsLook(:final quote):
         _fail(_gateText(quote));
       case LaunchFailed(:final failure, :final message):
         _fail(StartFailureView(failure, message: message).text);
     }
+  }
+
+  /// The paper is open but costs more than when the page was opened. Nothing was started or
+  /// charged; the new cost is on screen and the next Start takes it.
+  void _costChanged(PracticeQuote quote) {
+    _costShown = quote;
+    _fail(PracticeCopy.costChanged(costLineText(quote)).replaceAll('  ', ' '));
   }
 
   void _fail(String message) {

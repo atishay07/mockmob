@@ -110,7 +110,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     }
   }
 
-  void _jumpTo(ResultQuestion q) {
+  void _jumpTo(ResultQuestion q, {List<ResultQuestion> alsoOpen = const []}) {
+    for (final other in alsoOpen) {
+      _list.reveal(other);
+    }
     _list.reveal(q);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final ctx = _list.keyFor(q.qid).currentContext;
@@ -124,6 +127,19 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final model = _model;
     if (model == null || index >= model.questions.length) return;
     _jumpTo(model.questions[index]);
+  }
+
+  /// "Show me" under an observation: every question it names opens, and the list scrolls to the
+  /// first. Numbers are 1-based; any outside the paper are ignored.
+  void _showQuestions(List<int> numbers) {
+    final model = _model;
+    if (model == null) return;
+    final shown = [
+      for (final n in numbers)
+        if (n >= 1 && n <= model.questions.length) model.questions[n - 1],
+    ];
+    if (shown.isEmpty) return;
+    _jumpTo(shown.first, alsoOpen: shown.skip(1).toList());
   }
 
   String _publicSubject(Attempt attempt) => publicIdOf(attempt.subject, ref.read(practiceSubjectsProvider).value);
@@ -310,7 +326,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                             ],
                             // After the answers: what the set shows as a whole, then the way to prove
                             // a repair held. Each claim opens the questions behind it.
-                            if (model.hasRows) ObservationsPanel(analysis: analysis, onShow: (numbers) => _tapCell(numbers.first - 1)),
+                            if (model.hasRows) ObservationsPanel(analysis: analysis, onShow: _showQuestions),
                             if (model.wrong.isNotEmpty) ProveCard(attemptId: attempt.id, subjectId: _publicSubject(attempt)),
                             if (large) ...[
                               const SizedBox(height: MmSpace.s24),

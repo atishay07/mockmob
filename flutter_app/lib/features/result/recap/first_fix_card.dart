@@ -91,10 +91,12 @@ class FirstFixCard extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s8),
           // Six to a row across the full width, so no number is left alone on a row of its own
-          // unless the count says so.
+          // unless the count says so. Fewer when six would leave a tile under 48 dp wide (a
+          // 360 dp phone), because the tile is the control that opens that exact answer.
           LayoutBuilder(
             builder: (context, constraints) {
-              final width = (constraints.maxWidth - 5 * MmSpace.s8) / 6;
+              final columns = firstFixTileColumns(constraints.maxWidth);
+              final width = (constraints.maxWidth - (columns - 1) * MmSpace.s8) / columns;
               return Wrap(
                 spacing: MmSpace.s8,
                 runSpacing: MmSpace.s8,
@@ -214,6 +216,15 @@ class _Counts extends StatelessWidget {
       ),
     );
   }
+}
+
+/// How many question tiles fit on a row of [maxWidth]: six when each is at least 48 dp wide
+/// (the touch target minimum), otherwise as many as keep that width, never fewer than one.
+int firstFixTileColumns(double maxWidth) {
+  for (var n = 6; n > 1; n--) {
+    if ((maxWidth - (n - 1) * MmSpace.s8) / n >= 48) return n;
+  }
+  return 1;
 }
 
 class _QuestionTile extends StatelessWidget {

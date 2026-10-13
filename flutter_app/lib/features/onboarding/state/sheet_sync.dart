@@ -53,7 +53,18 @@ class SheetSync extends Notifier<SheetSyncState> {
   @override
   SheetSyncState build() {
     ref.listen(authSnapshotProvider, (previous, next) {
-      if (previous?.userId != next.userId) _keptFor = null;
+      final left = previous?.userId;
+      if (left != next.userId) {
+        _keptFor = null;
+        // A result belongs to the account it ran for: the next account starts from idle, so an
+        // earlier account's failure neither shows to it nor stops its own sync.
+        state = const SheetSyncState(SheetSyncPhase.idle);
+        // Signing out on purpose takes the sheet that was written to that account off the
+        // phone, so the next student on this phone never sees it. An expired session keeps it.
+        if (left != null && next.status == AuthStatus.signedOut && !next.sessionExpired) {
+          unawaited(ref.read(onboardingAnswersProvider.notifier).forgetSyncedFor(left));
+        }
+      }
       _maybeRun();
     });
     ref.listen(onboardingAnswersProvider, (_, _) => _maybeRun());
@@ -74,6 +85,12 @@ class SheetSync extends Notifier<SheetSyncState> {
       if (state.phase != SheetSyncPhase.saved) state = const SheetSyncState(SheetSyncPhase.saved);
       return;
     }
+    // Written to another account already: it is never written to this one. It is that
+    // account's sheet, saved there, so it leaves the phone and this account starts its own.
+    if (answers.syncedFor != null) {
+      unawaited(ref.read(onboardingAnswersProvider.notifier).forgetSyncedFor(answers.syncedFor!));
+      return;
+    }
     if (_keptFor == auth.userId) return;
     unawaited(run());
   }
@@ -85,6 +102,7 @@ class SheetSync extends Notifier<SheetSyncState> {
     if (_running) return;
     // Claimed before the first await, so an overlapping call sees it.
     _running = true;
+    String? runFor;
     try {
       final auth = ref.read(authSnapshotProvider);
       final OnboardingAnswers answers;
@@ -96,28 +114,48 @@ class SheetSync extends Notifier<SheetSyncState> {
       }
       final userId = auth.userId;
       if (!ref.mounted || !auth.isSignedIn || userId == null || !answers.sealed) return;
+      // A sheet already written to another account is never written to this one.
+      if (answers.syncedFor != null && answers.syncedFor != userId) return;
+      runFor = userId;
       state = const SheetSyncState(SheetSyncPhase.saving);
       // An account that already has a plan keeps everything it has, its consent included.
       if (auth.subjects.isNotEmpty) {
         _keptFor = userId;
-        state = const SheetSyncState(SheetSyncPhase.kept);
+        _settle(userId, const SheetSyncState(SheetSyncPhase.kept));
         return;
       }
       await _writeAge(answers);
       await _writeProfile(userId, answers);
       if (!ref.mounted) return;
+      // Every write was acknowledged by this account, whoever is signed in now.
       ref.read(onboardingAnswersProvider.notifier).markSynced(userId);
-      state = const SheetSyncState(SheetSyncPhase.saved);
-      unawaited(_reloadProfile());
+      if (_settle(userId, const SheetSyncState(SheetSyncPhase.saved))) {
+        unawaited(_reloadProfile());
+      } else {
+        // Signed out on purpose while the writes were out: the sheet leaves the phone with them.
+        final now = ref.read(authSnapshotProvider);
+        if (now.status == AuthStatus.signedOut && !now.sessionExpired) {
+          unawaited(ref.read(onboardingAnswersProvider.notifier).forgetSyncedFor(userId));
+        }
+      }
     } on ApiError catch (e) {
-      if (ref.mounted) state = SheetSyncState(SheetSyncPhase.failed, offline: e.isOffline);
+      _settle(runFor, SheetSyncState(SheetSyncPhase.failed, offline: e.isOffline));
     } on Object {
       // Anything else (signed out part way, a reply that would not parse): not saved, and
       // "Try again" stays on screen. Only an ApiError can say the connection was lost.
-      if (ref.mounted) state = const SheetSyncState(SheetSyncPhase.failed);
+      _settle(runFor, const SheetSyncState(SheetSyncPhase.failed));
     } finally {
       _running = false;
+      // Another account signed in while this run was out: its own sync starts now.
+      if (runFor != null && ref.mounted && ref.read(authSnapshotProvider).userId != runFor) _maybeRun();
     }
+  }
+
+  /// Shows [next] only while [userId] is still the signed-in account. True when it did.
+  bool _settle(String? userId, SheetSyncState next) {
+    if (!ref.mounted || userId == null || ref.read(authSnapshotProvider).userId != userId) return false;
+    state = next;
+    return true;
   }
 
   Future<void> _writeAge(OnboardingAnswers a) async {

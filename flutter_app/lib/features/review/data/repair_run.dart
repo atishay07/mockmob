@@ -31,14 +31,21 @@ class RepairRun extends Notifier<RepairRunState?> {
   RepairLocalRepository get _repo => ref.read(repairLocalRepositoryProvider);
 
   /// Opens a run that starts at [questionId]: that mistake, then the other open mistakes of
-  /// the same attempt and chapter. A repaired mistake opens alone, as a free reopen. An
-  /// unfinished run that already holds [questionId] is kept, so the student never loses their
-  /// place. Returns false when the mistake is not in Review (anymore).
+  /// the same attempt and chapter. A repaired mistake opens alone, as a free reopen. A run that
+  /// is under way on [questionId] with something already repaired, or with its call still in
+  /// flight, is kept, so the student never loses their place. Any other earlier run (one left at
+  /// its entry, or one backed out of before a single repair) is replaced: it would otherwise
+  /// bring back its old offline panels, a stale wallet limit and its own question list in place
+  /// of the mistake that was tapped.
+  /// Returns false when the mistake is not in Review (anymore).
   /// [count] (from a `?count=` link on Today or the result) keeps the run to that many
   /// mistakes, starting with [questionId].
   bool open(String questionId, {int? count}) {
     final current = state;
-    if (current != null && current.phase != RepairPhase.ending && current.steps.any((s) => s.item.questionId == questionId)) {
+    if (current != null &&
+        current.phase == RepairPhase.working &&
+        (current.repairedCount > 0 || current.current?.outcome is OutcomeLoading) &&
+        current.current?.item.questionId == questionId) {
       return true;
     }
     final index = ref.read(reviewIndexProvider);
@@ -158,6 +165,29 @@ class RepairRun extends Notifier<RepairRunState?> {
     return ref.mounted && s != null && s.phase == RepairPhase.working && s.current?.item.key == step.item.key;
   }
 
+  /// A repair call answered after the run moved on (the student finished or backed out while it
+  /// was in flight). By then [_call] has already stored the acknowledgement and the server has
+  /// charged the credit, so the answer is never thrown away: an acknowledged outcome is kept on
+  /// its step while the ending is up (the count and the receipt then include it), and the wallet
+  /// and the week row, which the ending already refreshed, are read again.
+  void _lateAnswer(RepairStep step, MistakeOutcome? outcome) {
+    if (!ref.mounted) return;
+    final s = state;
+    final counted = outcome is OutcomeExplained && !outcome.reopened;
+    if (s != null && s.phase == RepairPhase.ending && (outcome is OutcomeExplained || outcome is OutcomeSetAside || outcome is OutcomeNotExplained)) {
+      final at = s.steps.indexWhere((x) => x.item.key == step.item.key);
+      if (at >= 0 && s.steps[at].outcome is! OutcomeExplained) {
+        final next = [...s.steps];
+        next[at] = next[at].withOutcome(outcome);
+        state = s.copyWith(steps: next);
+      }
+    }
+    if (counted) {
+      unawaited(ref.read(rhythmRepositoryProvider.notifier).refresh());
+      unawaited(ref.read(creditsRepositoryProvider.notifier).refresh());
+    }
+  }
+
   Future<void> _loadCurrent() async {
     final s = state;
     final step = s?.current;
@@ -173,7 +203,7 @@ class RepairRun extends Notifier<RepairRunState?> {
     } on Object {
       outcome = const OutcomeFailed(RepairFailure.unknown);
     }
-    if (!_isCurrent(step)) return;
+    if (!_isCurrent(step)) return _lateAnswer(step, outcome);
     if (outcome == null) return _dropCurrent();
     if (outcome is OutcomeKeyReview) {
       // The wallet is empty or explanations are paused: the rest of the run reads keys too.

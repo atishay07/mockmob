@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/models/session.dart' show SessionEvent;
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
@@ -15,11 +18,23 @@ import '../core_data/support/fakes.dart';
 import '../core_data/support/fixtures.dart';
 import '../core_data/support/test_db.dart';
 
+/// A server whose events PUT can be held open, like a bad network.
+class _GatedApi extends FakeSessionApi {
+  Completer<void>? gate;
+
+  @override
+  Future<int> putEvents({required String sessionId, required List<SessionEvent> events}) async {
+    final held = gate;
+    if (held != null) await held.future;
+    return super.putEvents(sessionId: sessionId, events: events);
+  }
+}
+
 /// The runner on the real core engine: the opener restores from the draft and journal on this
 /// phone, and closing never discards, so a killed process comes back to the same place.
 void main() {
   late AppDatabase db;
-  late FakeSessionApi api;
+  late _GatedApi api;
   late SessionDraftRepository drafts;
   late SessionEngineServices services;
   late int mono;
@@ -27,7 +42,7 @@ void main() {
 
   setUp(() {
     db = newTestDb();
-    api = FakeSessionApi();
+    api = _GatedApi();
     mono = 0;
     wall = 1000000;
     DateTime now() => DateTime.fromMillisecondsSinceEpoch(wall);
@@ -158,5 +173,36 @@ void main() {
     // Closed: the engine stopped taking answers, and the answer was flushed first.
     expect(session.canAnswer, isFalse);
     expect(api.puts.last.where((e) => e.isAnswer).map((e) => e.qid), contains('q1'));
+  });
+
+  test('a session opened again while the old one is still closing keeps the new place', () async {
+    await startLikePractice();
+    final c = container();
+    final first = ((await c.read(runnerOpenerProvider)('sess-1')) as RunnerReady).session;
+    await first.goTo(1);
+    await first.selectAnswer('q2', 1);
+
+    // Leaving on a bad network: the PUT hangs, so the close waits on it.
+    api.gate = Completer<void>();
+    final closing = first.close();
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+
+    // Continue straight away: the new engine opens after the old one has finished closing.
+    final second = ((await c.read(runnerOpenerProvider)('sess-1')) as RunnerReady).session as EngineRunnerSession;
+    expect(second.currentIndex, 1);
+    expect(second.answerFor('q2'), 1);
+    await second.goTo(2);
+    second.setMarked('q3', true);
+    await second.engine.flushDraft();
+
+    // The old PUT comes back late. Nothing of the old engine may land on the draft now.
+    api.gate!.complete();
+    api.gate = null;
+    await closing;
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+    final draft = await drafts.bySessionId('sess-1');
+    expect(draft!.currentIndex, 2, reason: 'the old engine wrote its stale place over the new one');
+    expect(draft.marked, contains('q3'));
+    await second.close();
   });
 }

@@ -292,6 +292,25 @@ void main() {
       expect(goalRepo.saved, [5]);
       expect(find.text('Goal is now 5 days a week.'), findsOneWidget);
       expect(find.text('We could not save that. Try again.'), findsNothing);
+      // The card still closes for this run.
+      expect(find.byType(WeeklyEndingCard), findsNothing);
+    });
+
+    testWidgets('Keep closes the card even when remembering it fails', (tester) async {
+      await pumpMockmob(
+        tester,
+        const SingleChildScrollView(child: WeeklyEndingSection()),
+        overrides: [
+          ...rhythmOverrides(rhythm: loaded(closedMet), goalRepo: goalRepo, store: store),
+          rhythmSeenRepositoryProvider.overrideWithValue(_DismissFailsSeenRepo(LocalScope(db, () => 'u1', () => kNow))),
+        ],
+      );
+      await settle(tester);
+      expect(find.byType(WeeklyEndingCard), findsOneWidget);
+      await tester.tap(find.text('Keep 4'));
+      await settle(tester);
+      expect(goalRepo.saved, isEmpty);
+      expect(find.byType(WeeklyEndingCard), findsNothing);
     });
   });
 

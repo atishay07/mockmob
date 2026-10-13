@@ -97,6 +97,26 @@ void main() {
       expect(rig.gateway.scheduled.single.body, 'Your week is ready to look at.');
     });
 
+    test('with a study window on, the weekly plan still gets a slot under the weekly cap', () async {
+      final rig = Rig(prefs: prefsWith());
+      await rig.scheduler.setWeeklyPlan(true);
+      // Cap 3 in the Monday to Sunday week: the Sunday plan plus the next two study reminders.
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 18, 18)), isTrue);
+      expect(rig.gateway.scheduled.length, 3);
+      // A second pass keeps the same three.
+      await rig.scheduler.sync();
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 18, 18)), isTrue);
+      expect(rig.gateway.scheduled.length, 3);
+    });
+
+    test('one failed request does not stop the rest of the plan', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      rig.gateway.failOnce = true;
+      await expectLater(rig.scheduler.sync(), throwsA(isA<StateError>()));
+      // The first request failed, the next ones were still scheduled.
+      expect(rig.gateway.scheduled.length, 3);
+    });
+
     test('reminders only use inexact scheduling through the engine (no exact alarm API in the plan)', () async {
       final rig = Rig(prefs: prefsWith(weeklyOn: false));
       await rig.scheduler.sync();
@@ -184,6 +204,19 @@ void main() {
       await taps.handle(const NotificationTap(payload: '/not/a/route/at/all/x'));
       await taps.handle(const NotificationTap(payload: null));
       expect(opened, isEmpty);
+    });
+
+    test('a failed record write still opens the route and does not throw', () async {
+      final failing = ReminderTapHandler(
+        opened: (_) async => throw StateError('disk'),
+        declined: (_) async => throw StateError('disk'),
+        mute: () async => throw StateError('disk'),
+        open: opened.add,
+      );
+      await failing.handle(NotificationTap(payload: firstPayload()));
+      expect(opened, ['/today']);
+      await failing.handle(NotificationTap(payload: firstPayload(), actionId: ReminderActions.notTonight));
+      await failing.handle(NotificationTap(payload: firstPayload(), actionId: ReminderActions.mute));
     });
 
     test('the result-ready payload from the session engine still opens', () async {

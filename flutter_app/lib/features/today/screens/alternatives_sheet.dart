@@ -56,10 +56,10 @@ class AlternativesSheet extends ConsumerWidget {
       plan: [for (final a in plan?.alternatives ?? const []) (title: a.title, note: a.duration, href: a.href)],
     );
     final durations = facts.tonight == null || facts.dismissed ? const <int>[] : [for (final o in repairDurationOptions(facts.tonight!.items.length)) o.minutes];
-    final chosen = ref.watch(todayMinutesProvider);
     return AlternativesSheetBody(
       durations: durations,
-      minutes: durations.contains(chosen) ? chosen : (durations.isEmpty ? null : durations.last),
+      // The same pick the Today card makes, so the sheet never highlights another length.
+      minutes: repairMinutesSelected(inputs, facts),
       onMinutes: (m) => ref.read(todayMinutesProvider.notifier).choose(m),
       rows: rows,
       onRow: (row) {

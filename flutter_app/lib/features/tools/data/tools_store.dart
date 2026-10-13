@@ -26,18 +26,23 @@ class SavedCombo {
   final int maxPapers;
 }
 
-/// One DU programme at one college that the student is aiming for.
+/// One DU programme at one college that the student is aiming for. A college can list the same
+/// programme several times, once per subject combination, each with its own cutoffs, so the row
+/// is named by [programme] too. It is empty on a target saved before that was kept: such a
+/// target reads the college's first row.
 class ShortlistTarget {
-  const ShortlistTarget({required this.groupId, required this.college});
+  const ShortlistTarget({required this.groupId, required this.college, this.programme = ''});
 
   final String groupId;
   final String college;
+  final String programme;
 
   @override
-  bool operator ==(Object other) => other is ShortlistTarget && other.groupId == groupId && other.college == college;
+  bool operator ==(Object other) =>
+      other is ShortlistTarget && other.groupId == groupId && other.college == college && other.programme == programme;
 
   @override
-  int get hashCode => Object.hash(groupId, college);
+  int get hashCode => Object.hash(groupId, college, programme);
 }
 
 class ToolsStore {
@@ -106,7 +111,7 @@ class ToolsStore {
       if (v is! List) return const [];
       return [
         for (final e in v)
-          if (e is Map && e['g'] is String && e['c'] is String) ShortlistTarget(groupId: e['g'] as String, college: e['c'] as String),
+          if (e is Map && e['g'] is String && e['c'] is String) ShortlistTarget(groupId: e['g'] as String, college: e['c'] as String, programme: e['p'] is String ? e['p'] as String : ''),
       ];
     } on Object {
       return const [];
@@ -115,7 +120,7 @@ class ToolsStore {
 
   Future<void> saveShortlist(String userId, List<ShortlistTarget> list) async {
     try {
-      await _prefs.setString(_shortlistKey(userId), jsonEncode([for (final t in list) {'g': t.groupId, 'c': t.college}]));
+      await _prefs.setString(_shortlistKey(userId), jsonEncode([for (final t in list) {'g': t.groupId, 'c': t.college, if (t.programme.isNotEmpty) 'p': t.programme}]));
     } on Object {
       // Storage refused: the list lasts this visit.
     }

@@ -100,11 +100,18 @@ class StreamController extends Notifier<StreamState> {
 
   static const _maxEmptyPagesInARow = 3;
 
-  @override
-  StreamState build() => const StreamState();
+  // Read once so a request that outlives the screen never touches `ref` afterwards.
+  late FeedApi _api;
+  late DateTime Function() _clock;
 
-  FeedApi get _api => ref.read(feedApiProvider);
-  DateTime _now() => ref.read(nowProvider)();
+  @override
+  StreamState build() {
+    _api = ref.read(feedApiProvider);
+    _clock = ref.read(nowProvider);
+    return const StreamState();
+  }
+
+  DateTime _now() => _clock();
   String get _flow => state.saved ? 'review' : 'explore';
 
   /// Opens the open feed with [filters], from the first page.
@@ -144,7 +151,7 @@ class StreamController extends Notifier<StreamState> {
     try {
       while (true) {
         final page = await _api.page(subject: filters.subject, chapter: filters.chapter, difficulty: filters.difficulty, offset: offset);
-        if (gen != _generation) return;
+        if (gen != _generation || !ref.mounted) return;
         final known = {for (final q in state.questions) q.id};
         final fresh = [for (final q in page.questions) if (q.id.isNotEmpty && !known.contains(q.id)) q];
         offset = page.nextOffset;
@@ -166,7 +173,7 @@ class StreamController extends Notifier<StreamState> {
         }
       }
     } on ApiError catch (e) {
-      if (gen != _generation) return;
+      if (gen != _generation || !ref.mounted) return;
       state = state.copyWith(loadingMore: false, error: e, phase: state.current == null ? StreamPhase.failed : null);
     }
   }
@@ -222,6 +229,8 @@ class StreamController extends Notifier<StreamState> {
   Future<bool> vote(String questionId, String? vote) async {
     try {
       final r = await _api.vote(questionId, vote);
+      // The screen was left while the vote was on its way: the server has it, nothing to draw.
+      if (!ref.mounted) return true;
       state = state.copyWith(questions: [
         for (final q in state.questions)
           q.id == questionId ? q.copyWith(upvotes: r.up, downvotes: r.down, userVote: r.vote, clearVote: r.vote == null) : q,

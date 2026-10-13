@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,9 +35,13 @@ class FakeRepairApi implements RepairApi {
   final List<Object> answers = [];
   final List<(String, String)> calls = [];
 
+  /// When set, a call is recorded and then waits here (a slow network).
+  Completer<void>? gate;
+
   @override
   Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
     calls.add((questionId, requestId));
+    await gate?.future;
     final next = answers.isEmpty ? explainedJson() : answers.removeAt(0);
     if (next is ApiError) throw next;
     return RepairResponse.fromJson(next as Map<String, dynamic>);
@@ -215,6 +221,90 @@ void main() {
     expect(state().repairedCount, 2);
     expect(analytics.events.last.$1, AnalyticsEvents.repairCompleted);
     expect(analytics.events.last.$2, {'count': 2});
+  });
+
+  group('a repair answered after the student left the step', () {
+    test('finishing while a call is in flight still counts the acknowledged answer (result-review-03)', () async {
+      run().open('m7-q0');
+      run().begin(limit: 2);
+      await settle();
+      expect(state().repairedCount, 1);
+      final gate = api.gate = Completer<void>();
+      run().next();
+      await settle();
+      expect(state().current!.outcome, isA<OutcomeLoading>());
+      run().finish();
+      expect(state().phase, RepairPhase.ending);
+      expect(state().repairedCount, 1);
+      gate.complete();
+      await settle();
+      // The server charged for it and the record says Repaired: the ending now says so too.
+      expect((await local('m7-q10'))!.status, RepairLocalStatus.explained);
+      expect(state().repairedCount, 2);
+      expect(state().steps[1].outcome, isA<OutcomeExplained>());
+      expect(state().lastAckedAt, lateUtc);
+    });
+
+    test('an answer that comes back after the run was replaced does not touch the new run', () async {
+      final gate = api.gate = Completer<void>();
+      run().open('m7-q0');
+      run().begin();
+      await settle();
+      expect(state().current!.outcome, isA<OutcomeLoading>());
+      run().open('m7-q10');
+      expect(state().phase, RepairPhase.entry);
+      gate.complete();
+      await settle();
+      expect(state().phase, RepairPhase.entry);
+      expect(state().repairedCount, 0);
+      expect((await local('m7-q0'))!.status, RepairLocalStatus.explained);
+    });
+  });
+
+  group('open (result-review-06)', () {
+    test('a run backed out of before any repair is replaced by the tapped mistake and count', () async {
+      api.answers.add(const ApiError(kind: ApiErrorKind.network, code: 'network'));
+      run().open('m7-q10');
+      run().begin();
+      await settle();
+      expect(state().current!.outcome, isA<OutcomeFailed>());
+      expect(run().open('m7-q10', count: 1), isTrue);
+      expect(state().phase, RepairPhase.entry);
+      expect(state().index, 0);
+      expect(state().steps, hasLength(1));
+      expect(state().current!.outcome, isNull);
+      expect(run().open('m7-q0'), isTrue);
+      expect(state().steps.first.item.questionId, 'm7-q0');
+    });
+
+    test('a run left at its entry does not hold on to an old count', () async {
+      run().open('m7-q10', count: 1);
+      expect(state().steps, hasLength(1));
+      run().open('m7-q10');
+      expect(state().steps, hasLength(3));
+    });
+
+    test('a run whose call is still in flight is kept for the same question', () async {
+      api.gate = Completer<void>();
+      run().open('m7-q0');
+      run().begin();
+      await settle();
+      expect(run().open('m7-q0'), isTrue);
+      expect(state().phase, RepairPhase.working);
+      expect(state().current!.outcome, isA<OutcomeLoading>());
+      api.gate!.complete();
+      await settle();
+    });
+
+    test('a run that has repaired something is kept for the same question', () async {
+      run().open('m7-q0');
+      run().begin();
+      await settle();
+      expect(state().repairedCount, 1);
+      expect(run().open('m7-q0'), isTrue);
+      expect(state().phase, RepairPhase.working);
+      expect(state().repairedCount, 1);
+    });
   });
 
   test('a group key counts the steps its run holds, paper by paper', () async {

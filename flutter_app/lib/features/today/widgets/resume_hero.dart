@@ -59,10 +59,13 @@ class ResumeHeroCard extends StatelessWidget {
 }
 
 class EndedHeroCard extends StatelessWidget {
-  const EndedHeroCard({super.key, required this.ended, required this.onAction});
+  const EndedHeroCard({super.key, required this.ended, required this.onAction, this.retrying = false});
 
   final EndedHero ended;
   final void Function(TodayAction action) onAction;
+
+  /// A Try again read is running: a key that retries shows it is working.
+  final bool retrying;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,11 @@ class EndedHeroCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s12),
             Text(ended.line, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s20),
-            KeyButton(label: ended.action.label, onPressed: () => onAction(ended.action)),
+            KeyButton(
+              label: ended.action.label,
+              onPressed: () => onAction(ended.action),
+              loading: retrying && ended.action.target is RetryLoad,
+            ),
           ],
         ),
       ),

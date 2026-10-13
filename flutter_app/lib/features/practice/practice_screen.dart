@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_state.dart';
 import '../../core/connectivity/connectivity.dart';
+import '../../core/models/practice_quote.dart';
 import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
@@ -36,6 +37,13 @@ class PracticeScreen extends ConsumerStatefulWidget {
 
 class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   final ScrollController _scroll = ScrollController();
+
+  // The last quote each row's facts came from. A new subject starts a new, slow quote; until
+  // it answers the rows stay as they were, so nothing under the thumb jumps. A row leaves only
+  // when a quote says the mode is not offered.
+  PracticeQuote? _lastFull;
+  PracticeQuote? _lastSmart;
+  PracticeQuote? _lastNta;
 
   @override
   void dispose() {
@@ -74,12 +82,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
 
     // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
-    final full = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value;
-    final nta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value;
+    final full = _lastFull = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value ?? _lastFull;
+    final nta = _lastNta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value ?? _lastNta;
     final showNta = nta != null && quoteOffersMode(nta);
     final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
     final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
-    final smart = ref.watch(practiceQuoteProvider(smartQuery)).value;
+    final smart = _lastSmart = ref.watch(practiceQuoteProvider(smartQuery)).value ?? _lastSmart;
     final showSmart = smart != null && quoteOffersMode(smart);
     final smartGated = smart != null && costLineFor(smart).kind == CostKind.proGated;
     final stale = ref.watch(staleSubjectsProvider);

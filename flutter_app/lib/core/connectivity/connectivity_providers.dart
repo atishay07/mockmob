@@ -11,14 +11,19 @@ import 'connectivity_monitor.dart';
 
 bool _hasRadio(List<ConnectivityResult> results) => results.any((r) => r != ConnectivityResult.none);
 
-/// The ping is a HEAD on a cached public endpoint. Any HTTP answer proves the network.
-Future<bool> _ping(String url) async {
-  final dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 4), receiveTimeout: const Duration(seconds: 4), validateStatus: (_) => true));
+/// Long enough for a slow 2G or 3G link: the ping must not call a working network offline.
+const pingTimeout = Duration(seconds: 12);
+
+/// The ping is a HEAD on a cached public endpoint. Any HTTP answer proves the network, and so
+/// does a connection that opened but answered slowly. Only failing to connect means offline.
+Future<bool> _ping(String url, {HttpClientAdapter? adapter}) async {
+  final dio = Dio(BaseOptions(connectTimeout: pingTimeout, receiveTimeout: pingTimeout, validateStatus: (_) => true));
+  if (adapter != null) dio.httpClientAdapter = adapter;
   try {
     final response = await dio.head<Object?>(url);
     return response.statusCode != null;
-  } on DioException {
-    return false;
+  } on DioException catch (e) {
+    return e.type == DioExceptionType.receiveTimeout || e.type == DioExceptionType.sendTimeout;
   } finally {
     dio.close();
   }
@@ -63,4 +68,4 @@ class NetworkStatusNotifier extends Notifier<NetworkStatus> {
 final networkRestoredProvider = StreamProvider<void>((ref) => ref.watch(connectivityMonitorProvider).restored);
 
 @visibleForTesting
-Future<bool> pingForTest(String url) => _ping(url);
+Future<bool> pingForTest(String url, {HttpClientAdapter? adapter}) => _ping(url, adapter: adapter);

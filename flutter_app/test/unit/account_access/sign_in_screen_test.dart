@@ -11,7 +11,6 @@ import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/account_access/access_copy.dart';
-import 'package:mockmob/features/account_access/access_gateway.dart';
 import 'package:mockmob/features/account_access/account_access.dart';
 import 'package:mockmob/features/auth/auth_routes.dart';
 import 'package:mockmob/features/auth/copy.dart';

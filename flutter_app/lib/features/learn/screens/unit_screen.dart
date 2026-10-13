@@ -13,6 +13,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../learn_paths.dart';
+import '../models/learn_catalog.dart';
 import '../data/catalog_repository.dart';
 import '../data/lesson_loader.dart';
 import '../data/run_starter.dart';
@@ -35,6 +36,11 @@ class LearnUnitScreen extends ConsumerStatefulWidget {
 class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
   bool _starting = false;
   String? _message;
+
+  /// A run was opened from here: lesson progress now comes from the catalog, never from reading
+  /// the lesson again (every read of a lesson is a study exposure on the server, and offline it
+  /// would replace the lesson with an error page).
+  bool _ranHere = false;
 
   void _leave() {
     if (context.canPop()) {
@@ -70,7 +76,7 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
 
   void _afterRun() {
     if (!mounted) return;
-    ref.invalidate(lessonProvider(widget.unitId));
+    setState(() => _ranHere = true);
     unawaited(ref.read(learnCatalogProvider.notifier).refresh());
   }
 
@@ -131,9 +137,18 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
     final type = context.mmType;
     final unit = StudyUnit.fromJson(load.json);
     final progress = asJson(load.json['progress']);
-    final status = StudyUnitStatus.fromWire(asString(progress['status']));
-    final read = asBool(progress['read']) ?? false;
-    final runId = asString(asJson(progress['inProgress'])['runId']);
+    var status = StudyUnitStatus.fromWire(asString(progress['status']));
+    var read = asBool(progress['read']) ?? false;
+    var runId = asString(asJson(progress['inProgress'])['runId']);
+    if (_ranHere) {
+      final units = ref.watch(learnCatalogProvider).value?.units ?? const <LearnUnit>[];
+      final fresh = units.where((u) => u.id == widget.unitId).firstOrNull;
+      if (fresh != null) {
+        status = fresh.status;
+        runId = fresh.runId;
+        read = read || fresh.status == StudyUnitStatus.lockIn || fresh.status == StudyUnitStatus.due || fresh.status == StudyUnitStatus.learned;
+      }
+    }
     final cards = unit.recallAvailable;
     final blocks = [
       for (final b in asJsonList(load.json['blocks']))

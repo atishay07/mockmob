@@ -39,6 +39,9 @@ class LaunchFailed extends LaunchResult {
   final String? message;
 }
 
+/// True when starting on [quote] would take credits (not free by allowance, not Pro access).
+bool quoteSpendsCredits(PracticeQuote quote) => !quote.freeByAllowance && (quote.creditCost ?? 0) > 0;
+
 /// True when [fresh] asks the student to pay more than [shown] did.
 bool costWentUp(PracticeQuote shown, PracticeQuote fresh) {
   final before = shown.freeByAllowance ? 0 : (shown.creditCost ?? 0);
@@ -51,7 +54,18 @@ bool costWentUp(PracticeQuote shown, PracticeQuote fresh) {
 ///
 /// The Practice screens, the pre-start sheet and the auto-start route all call this, so the
 /// rules live in one place.
+///
+/// It never throws: a revoked session, a database error or any other surprise comes back as
+/// [LaunchFailed], so a Start key or the auto-start screen can always leave its busy state.
 Future<LaunchResult> launchPractice(WidgetRef ref, PracticeSelection selection, PracticeQuote shown) async {
+  try {
+    return await _launchPractice(ref, selection, shown);
+  } on Object {
+    return const LaunchFailed(StartFailure.generic);
+  }
+}
+
+Future<LaunchResult> _launchPractice(WidgetRef ref, PracticeSelection selection, PracticeQuote shown) async {
   var quote = shown;
   if (quote.isExpiredAt(ref.read(nowProvider)())) {
     try {
@@ -97,8 +111,12 @@ void _recheckCredits(WidgetRef ref) {
 /// Starts a "5 fresh questions" check (WEB-PARITY A8). No quote: the server starts it free
 /// and rechecks evidence, freshness and access itself.
 Future<LaunchResult> launchFreshCheck(WidgetRef ref, PracticeSelection selection) async {
-  final outcome = await ref.read(practiceStarterProvider).start(selection);
-  return _resultOf(ref, outcome);
+  try {
+    final outcome = await ref.read(practiceStarterProvider).start(selection);
+    return _resultOf(ref, outcome);
+  } on Object {
+    return const LaunchFailed(StartFailure.generic);
+  }
 }
 
 /// The cost line of a fresh quote, for "The cost changed" copy.

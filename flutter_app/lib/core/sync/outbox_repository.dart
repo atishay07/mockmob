@@ -47,7 +47,8 @@ enum OutboxResultKind {
   /// Accepted by the server; removed.
   sent,
 
-  /// Failed for good (a 4xx the server will never accept); removed.
+  /// Failed for good (a refusal the server will repeat, see [ApiError.isDefinitiveRefusal]) or
+  /// older than [OutboxRepository.maxAge]; removed.
   dropped,
 
   /// Failed for a reason worth retrying later; kept with a back-off.
@@ -201,7 +202,9 @@ class OutboxFlusher {
         if (e.kind == ApiErrorKind.conflict) {
           await repository.markAttempt(item, errorCode: e.code, nextAt: _now().add(OutboxRepository.backoffFor(item.attempts)));
           results.add(OutboxResult(item, OutboxResultKind.conflict, error: e));
-        } else if (e.isRetryable) {
+        } else if (!e.isDefinitiveRefusal) {
+          // Slow, busy, rate limited, or a failure the app cannot name: keep it and try later.
+          // Only a clear refusal from the server may discard a student's write.
           await repository.markAttempt(item, errorCode: e.code, nextAt: _now().add(e.retryAfter ?? OutboxRepository.backoffFor(item.attempts)));
           results.add(OutboxResult(item, OutboxResultKind.retryLater, error: e));
         } else {

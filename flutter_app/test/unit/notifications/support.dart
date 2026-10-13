@@ -46,6 +46,9 @@ class ScheduledRecord {
 
 class FakeGateway implements LocalNotificationsGateway {
   bool enabled = true;
+
+  /// The next schedule call throws once, like a plugin PlatformException.
+  bool failOnce = false;
   final scheduled = <ScheduledRecord>[];
   final cancelled = <int>[];
   final shown = <int>[];
@@ -67,6 +70,10 @@ class FakeGateway implements LocalNotificationsGateway {
     bool silent = false,
     List<NotificationActionSpec> actions = const [],
   }) async {
+    if (failOnce) {
+      failOnce = false;
+      throw StateError('plugin');
+    }
     scheduled.removeWhere((s) => s.id == id);
     scheduled.add(ScheduledRecord(id, at, title, body, payload, actions));
   }

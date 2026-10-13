@@ -5,6 +5,7 @@
 import 'insights_models.dart';
 
 const int _minChapterSample = 4;
+const int _maxRecordQuestionChars = 140;
 
 String _sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s';
 String _sign(int n) => n > 0 ? '+$n' : '$n';
@@ -113,14 +114,27 @@ class RecordAnswer {
 
 /// Deterministic answers to questions about the record. Null when [text] is not about it.
 RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro = true}) {
-  final cleaned = text.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s]'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+  // A record question is short, plain and about the student. A pasted question, a quote or the
+  // "Explain this question" seed belongs to the model, whatever words it happens to contain.
+  final trimmed = text.trim();
+  if (trimmed.length > _maxRecordQuestionChars || RegExp(r'["\u201c\u201d\n]').hasMatch(trimmed)) return null;
+  final cleaned = trimmed.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s]'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+  if (cleaned.startsWith('explain ') || cleaned.startsWith('solve ')) return null;
+  final tokens = cleaned.split(' ');
   final q = ' $cleaned ';
-  bool has(List<String> words) => words.any((w) => q.contains(' $w') || q.contains('$w '));
+  // Whole words only, so "exchange" is not "change" and "benchmarks" is not "marks". A trailing
+  // "*" means any word that starts with it.
+  bool has(List<String> words) => words.any((w) => w.endsWith('*') ? tokens.any((t) => t.startsWith(w.substring(0, w.length - 1))) : q.contains(' $w '));
   const recordWords = [
-    'lose', 'losing', 'lost', 'leak', 'weak', 'chapter', 'slow', 'pace', 'time', 'change', 'changing', 'skip', 'blank', //
-    'week', 'progress', 'accuracy', 'improv', 'marks',
+    'lose', 'losing', 'lost', 'leak', 'leaks', 'weak', 'weakest', 'chapter', 'chapters', 'slow', 'pace', 'time', 'change', 'changing', 'changed', //
+    'skip', 'skipped', 'blank', 'week', 'progress', 'accuracy', 'improv*', 'marks',
   ];
   if (!has(recordWords)) return null;
+  // About me, or just a few words ("which chapter is weak"): not a sentence about something else.
+  // Anything longer that is not about the student goes to the server, which answers from the
+  // record itself when it is one.
+  const self = {'i', 'my', 'me', 'mine', 'myself'};
+  if (tokens.length > 4 && !tokens.any(self.contains)) return null;
   if (!insights.isReady) {
     return const RecordAnswer(
       'There is nothing to analyse yet. Finish one practice session and your record will show where your marks went.',
@@ -136,13 +150,13 @@ RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro =
   }
 
   Finding? hit;
-  if (has(['change', 'changing', 'second guess'])) {
+  if (has(['change', 'changing', 'changed', 'second guess'])) {
     hit = pick('changes');
-  } else if (has(['slow', 'pace', 'time', 'fast'])) {
+  } else if (has(['slow', 'slowest', 'pace', 'time', 'fast'])) {
     hit = pick('pace');
-  } else if (has(['skip', 'blank', 'left'])) {
+  } else if (has(['skip', 'skipped', 'blank', 'left'])) {
     hit = pick('skips');
-  } else if (has(['week', 'progress', 'improv'])) {
+  } else if (has(['week', 'progress', 'improv*'])) {
     final t = insights.thisWeek;
     final l = insights.lastWeek;
     if (t.sessions == 0) return const RecordAnswer('You have not finished a session in the last 7 days.');

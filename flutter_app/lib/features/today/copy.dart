@@ -162,6 +162,7 @@ abstract final class TodayCopy {
 
   // The road.
   static const String roadTitle = 'The road to May';
+  static String daysToWindowLabel(int days) => '${days == 1 ? 'day' : 'days'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
   static const String boardsOn = 'Boards are on. The plan stays light until they end.';

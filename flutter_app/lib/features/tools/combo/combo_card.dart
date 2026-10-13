@@ -121,9 +121,14 @@ class ComboCard extends ConsumerWidget {
             child: KeyButton.quiet(
               label: ToolsCopy.seeInCompass,
               onPressed: () async {
-                final compass = ref.read(compassControllerProvider.notifier);
-                await ref.read(compassControllerProvider.future);
-                compass.setSelection(combo.selection);
+                // Shown, not saved: the student's own Compass subjects stay as they are.
+                ref.read(compassControllerProvider.notifier).showCombination(combo.selection);
+                try {
+                  await ref.read(compassControllerProvider.future);
+                } on Object {
+                  // Compass opens on its own load-failed state with Try again, and shows this
+                  // combination once it loads.
+                }
                 if (context.mounted) await context.push(ToolsPaths.compass);
               },
             ),

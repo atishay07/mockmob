@@ -30,7 +30,8 @@ class SetPasswordScreen extends ConsumerWidget {
     return AccessPage(
       title: reset ? AccessCopy.resetPasswordTitle : AccessCopy.setPasswordTitle,
       lead: reset ? AccessCopy.resetPasswordLead : AccessCopy.setPasswordLead,
-      onBack: context.canPop() ? () => context.pop() : null,
+      // maybePop, like the system back: the form holds Back while the password is saving.
+      onBack: context.canPop() ? () => Navigator.of(context).maybePop() : null,
       child: SetPasswordForm(
         email: email,
         endOtherSessions: reset,

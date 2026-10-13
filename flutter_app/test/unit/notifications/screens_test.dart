@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -241,6 +243,40 @@ void main() {
       await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.notAsked);
       expect(_text('Notifications are off'), findsOneWidget);
       expect(_text('Turn on'), findsOneWidget);
+    });
+
+    Future<void> pumpWithPermission(WidgetTester tester, FakePermissionRequester requester) async {
+      rig = Rig(prefs: prefsWith());
+      repo = FakePrefsRepo(prefsWith());
+      await pumpMockmob(
+        tester,
+        const NotificationSettingsScreen(),
+        size: const Size(360, 2400),
+        wrapInScaffold: false,
+        overrides: featureOverrides(rig: rig, repo: repo, permission: requester),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('while Android has not answered, nothing reads as blocked', (tester) async {
+      final pending = _PendingPermission();
+      await pumpWithPermission(tester, pending);
+      expect(find.bySemanticsLabel('Checking notifications'), findsOneWidget);
+      expect(_text('Notifications are blocked in Android settings'), findsNothing);
+      expect(_text('Saved. Nothing arrives until Android allows it.'), findsNothing);
+      expect(_text('Open Android settings'), findsNothing);
+
+      pending.answer.complete(NotificationPermission.granted);
+      await tester.pumpAndSettle();
+      expect(_text('Notifications are on'), findsOneWidget);
+      expect(find.bySemanticsLabel('Checking notifications'), findsNothing);
+    });
+
+    testWidgets('a failed permission read does not claim notifications are blocked', (tester) async {
+      await pumpWithPermission(tester, _FailingPermission());
+      expect(_text('Notifications are blocked in Android settings'), findsNothing);
+      expect(_text('Saved. Nothing arrives until Android allows it.'), findsNothing);
+      expect(find.bySemanticsLabel('Checking notifications'), findsNothing);
     });
 
     testWidgets('blocked: keeps the choices, says nothing arrives yet, and opens Android settings', (tester) async {
@@ -562,4 +598,20 @@ class _FakeSystemSettings extends SystemSettings {
     opened++;
     return false;
   }
+}
+
+class _PendingPermission extends FakePermissionRequester {
+  _PendingPermission() : super(NotificationPermission.granted);
+
+  final answer = Completer<NotificationPermission>();
+
+  @override
+  Future<NotificationPermission> notificationPermission() => answer.future;
+}
+
+class _FailingPermission extends FakePermissionRequester {
+  _FailingPermission() : super(NotificationPermission.granted);
+
+  @override
+  Future<NotificationPermission> notificationPermission() async => throw StateError('platform');
 }

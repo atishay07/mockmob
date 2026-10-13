@@ -33,6 +33,10 @@ class AuthController extends Notifier<AuthSnapshot> {
   bool _starting = false;
   Future<void>? _profileLoad;
   bool _explicitSignOut = false;
+
+  /// Bumped by every sign-out, so a profile load that started before it cannot sign the
+  /// student back in when it finishes.
+  int _epoch = 0;
   Timer? _startRetry;
   int _startFailures = 0;
 
@@ -153,7 +157,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       // is not handled here: the service raises it whenever it restores or refreshes a session,
       // and _start already handled the launch session.
       case AuthChangeEvent.signedIn:
-        _handleSession(session);
+        unawaited(_handleSession(session));
       case AuthChangeEvent.signedOut:
         if (!_explicitSignOut && state.status == AuthStatus.signedIn) {
           state = AuthSnapshot.signedOut;
@@ -172,25 +176,55 @@ class AuthController extends Notifier<AuthSnapshot> {
       }
       return Future.value();
     }
-    // One profile load at a time: sign-in fires an auth event and the caller also loads.
-    return _profileLoad ??= _loadProfile(session).whenComplete(() => _profileLoad = null);
+    // One profile load at a time: sign-in fires an auth event and the caller also loads. A
+    // sign-out drops the shared load, so the next sign-in never waits on a stale one.
+    final running = _profileLoad;
+    if (running != null) return running;
+    late final Future<void> load;
+    load = _loadProfile(session).whenComplete(() {
+      if (identical(_profileLoad, load)) _profileLoad = null;
+    });
+    return _profileLoad = load;
   }
 
+  /// True when a profile load for [session], started at [epoch], must no longer touch the
+  /// state: the student signed out since, or the session it was for is gone or replaced.
+  bool _stale(int epoch, Session session) {
+    if (!ref.mounted || epoch != _epoch || _explicitSignOut) return true;
+    final running = _running;
+    if (running == null) return false;
+    final current = running.session;
+    return current == null || current.user.id != session.user.id;
+  }
+
+  /// Never throws: any failure (the network, the database on an account switch, a damaged
+  /// cached profile) ends in the cached profile or in the load-failed state with its retry,
+  /// never on the splash with nothing to press.
   Future<void> _loadProfile(Session session) async {
+    final epoch = _epoch;
+    try {
+      await _loadProfileOnce(session, epoch);
+    } on Object {
+      if (_stale(epoch, session)) return;
+      if (state.status != AuthStatus.signedIn) state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+    }
+  }
+
+  Future<void> _loadProfileOnce(Session session, int epoch) async {
     final prefs = ref.read(appPrefsProvider);
     // Local first: at launch a stored session with this account's cached profile opens the app
     // at once, and the network read below then replaces it. A budget phone on a slow
     // connection would otherwise sit on the splash until the server answers.
     if (state.status != AuthStatus.signedIn) {
       final cached = await _cachedProfileFor(session.user.email);
-      if (cached != null && ref.mounted) await _applyProfile(cached, fromCache: true);
+      if (cached != null) await _applyProfile(cached, session: session, epoch: epoch, fromCache: true);
     }
     try {
       final me = await loadAuthMe(ref.read(apiClientProvider));
-      await _applyProfile(me, fromCache: false);
-    } on ApiError catch (e) {
-      if (!ref.mounted) return;
-      if (e.isUnauthorized) {
+      await _applyProfile(me, session: session, epoch: epoch, fromCache: false);
+    } on Object catch (e) {
+      if (_stale(epoch, session)) return;
+      if (e is ApiError && e.isUnauthorized) {
         // Normally the session is gone and the lost-session stream set the state. When Supabase
         // still accepts the session (the MockMob server refused it for another reason), the
         // student stays signed in and this is a load failure like any other.
@@ -198,30 +232,32 @@ class AuthController extends Notifier<AuthSnapshot> {
         if (!ref.mounted || service?.session == null) return;
       }
       final cached = await _cachedProfileFor(session.user.email);
+      if (_stale(epoch, session)) return;
       if (cached != null) {
-        await _applyProfile(cached, fromCache: true);
+        await _applyProfile(cached, session: session, epoch: epoch, fromCache: true);
       } else if (state.status != AuthStatus.signedIn) {
         state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
       }
     }
-    unawaited(prefs.setLastOpenedAt(ref.read(nowProvider)()));
+    unawaited(prefs.setLastOpenedAt(ref.read(nowProvider)()).catchError((Object _) {}));
   }
 
+  /// The cached profile of [email], or null when there is none or it cannot be read.
   Future<AuthMe?> _cachedProfileFor(String? email) async {
-    final raw = await ref.read(appPrefsProvider).cachedMe();
-    if (raw == null || email == null) return null;
     try {
+      final raw = await ref.read(appPrefsProvider).cachedMe();
+      if (raw == null || email == null) return null;
       final me = AuthMe.fromJson(Map<String, dynamic>.from(jsonDecode(raw) as Map));
       final cachedEmail = me.user?.email;
       return cachedEmail != null && cachedEmail.toLowerCase() == email.toLowerCase() ? me : null;
-    } on FormatException {
+    } on Object {
       return null;
     }
   }
 
-  Future<void> _applyProfile(AuthMe me, {required bool fromCache}) async {
+  Future<void> _applyProfile(AuthMe me, {required Session session, required int epoch, required bool fromCache}) async {
     final user = me.user;
-    if (user == null || !ref.mounted) return;
+    if (user == null || _stale(epoch, session)) return;
     final prefs = ref.read(appPrefsProvider);
     final previous = await prefs.lastUserId();
     if (previous != null && previous != user.id) {
@@ -230,6 +266,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       await ref.read(appDatabaseProvider).clearUserData(previous);
       await ref.read(notificationServiceProvider).cancelAll();
     }
+    if (_stale(epoch, session)) return;
     await prefs.setLastUserId(user.id);
     if (!fromCache) {
       await prefs.setCachedMe(jsonEncode({
@@ -245,7 +282,7 @@ class AuthController extends Notifier<AuthSnapshot> {
         'needsOnboarding': me.needsOnboarding,
       }));
     }
-    if (!ref.mounted) return;
+    if (_stale(epoch, session)) return;
     state = AuthSnapshot(
       status: AuthStatus.signedIn,
       userId: user.id,
@@ -386,6 +423,9 @@ class AuthController extends Notifier<AuthSnapshot> {
   Future<void> signOut({bool keepQueuedWork = true}) async {
     final userId = state.userId;
     _explicitSignOut = true;
+    // A profile load still in flight belongs to the session that is ending.
+    _epoch++;
+    _profileLoad = null;
     var tokensCleared = false;
     try {
       await _bestEffort(() => ref.read(analyticsClientProvider).discardAll());

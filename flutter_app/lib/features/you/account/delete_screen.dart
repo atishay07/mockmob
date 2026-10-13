@@ -18,9 +18,14 @@ class DeletionReceipt {
   final DateTime requestedAt;
 
   /// A repeat request: the server returns the earlier pending request, so its `requestedAt` is
-  /// older than the call we just made.
+  /// well before the call we just made.
   final bool alreadyRequested;
 }
+
+/// How much older than the call a `requestedAt` must be to read as an earlier request. The phone
+/// and the server do not share a clock, and a phone running a few minutes fast must not turn a
+/// first request into a repeat, so only a request from a day or more earlier counts.
+const Duration kRepeatRequestGap = Duration(days: 1);
 
 /// Sends `POST /api/me/delete {source:'android'}`. Deletion is only a request: an operator
 /// processes it, so nothing here says "deleted".
@@ -29,7 +34,10 @@ Future<DeletionReceipt> requestAccountDeletion(WidgetRef ref, {DateTime Function
   final response = await ref.read(apiClientProvider).post('/api/me/delete', body: {'source': 'android'});
   final map = response.map;
   final requestedAt = DateTime.tryParse('${map['requestedAt']}')?.toLocal() ?? startedAt;
-  final repeat = requestedAt.isBefore(startedAt.subtract(const Duration(minutes: 2)));
+  // The server's own word wins when it gives one; otherwise the gap, wide enough to ride out
+  // a phone clock that is off by minutes or hours.
+  final flagged = map['alreadyRequested'];
+  final repeat = flagged is bool ? flagged : requestedAt.isBefore(startedAt.subtract(kRepeatRequestGap));
   return DeletionReceipt(requestedAt: requestedAt, alreadyRequested: repeat);
 }
 
@@ -50,6 +58,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
   String? _error;
   DeletionReceipt? _receipt;
   PendingWorkCount _pending = PendingWorkCount.none;
+  bool _pendingUnknown = false;
   final TextEditingController _typed = TextEditingController();
   final MobiController _mobi = MobiController();
   final GlobalKey _cancelKey = GlobalKey();
@@ -61,8 +70,12 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
   @override
   void initState() {
     super.initState();
-    pendingWork(ref).then((n) {
-      if (mounted) setState(() => _pending = n);
+    pendingWork(ref).then((read) {
+      if (!mounted) return;
+      setState(() {
+        _pending = read.count;
+        _pendingUnknown = read.unknown;
+      });
     });
   }
 
@@ -150,6 +163,10 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         Text(YouCopy.deleteConsequences, style: type.lead),
         const SizedBox(height: MmSpace.s12),
         Text(YouCopy.deleteNotInstant, style: type.body.copyWith(color: colors.ink2)),
+        if (_pendingUnknown) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(YouCopy.deleteUnknown, style: type.body.copyWith(color: colors.ink2)),
+        ],
         if (_pending.unsentAnswers > 0) ...[
           const SizedBox(height: MmSpace.s12),
           Text(YouCopy.deleteUnsent(_pending.unsentAnswers), style: type.body.copyWith(color: colors.ink2)),

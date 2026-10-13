@@ -76,6 +76,9 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   String? userId;
   Future<void>? _inFlight;
 
+  /// The account [_inFlight] reads for. A read started for one account never serves another.
+  String? _inFlightFor;
+
   Future<CachedValue<T>?> readCache(String userId);
   Future<Fetched<T>> fetchRemote();
   Future<void> writeCache(String userId, Fetched<T> fetched, DateTime at);
@@ -90,6 +93,11 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   @override
   RemoteState<T> build() {
     userId = ref.watch(authSnapshotProvider.select((s) => s.userId));
+    // A read still running for the previous account must not be joined by this one.
+    if (_inFlightFor != userId) {
+      _inFlight = null;
+      _inFlightFor = null;
+    }
     if (userId == null) return RemoteState<T>.idle();
     if (autoLoad) scheduleMicrotask(refresh);
     return RemoteState<T>(loading: autoLoad);
@@ -98,14 +106,35 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   /// Reads the cache (when nothing is showing yet), then the network. Overlapping calls share
   /// one request. A [cacheFirst] resource skips the network when the cache has data, unless
   /// [force] is set (after a submit, or when the student asks to refresh).
-  Future<void> refresh({bool force = false}) => _inFlight ??= _refresh(force).whenComplete(() => _inFlight = null);
-
-  Future<void> _refresh(bool force) async {
+  Future<void> refresh({bool force = false}) {
     final id = userId;
-    if (id == null || !ref.mounted) return;
+    final running = _inFlight;
+    if (running != null && _inFlightFor == id) return running;
+    late final Future<void> started;
+    started = _refresh(id, force).whenComplete(() {
+      if (identical(_inFlight, started)) {
+        _inFlight = null;
+        _inFlightFor = null;
+      }
+    });
+    _inFlight = started;
+    _inFlightFor = id;
+    return started;
+  }
+
+  /// Still the same signed-in account the read started for, and the notifier is alive.
+  bool _current(String id) => ref.mounted && userId == id;
+
+  Future<void> _refresh(String? id, bool force) async {
+    if (id == null || !_current(id)) return;
     if (state.value == null) {
-      final cached = await readCache(id);
-      if (!ref.mounted) return;
+      CachedValue<T>? cached;
+      try {
+        cached = await readCache(id);
+      } on Object {
+        cached = null; // An unreadable cache is no cache: the network read below decides.
+      }
+      if (!_current(id)) return;
       if (cached != null) {
         final settled = cacheFirst && !force;
         state = RemoteState(value: cached.value, fetchedAt: cached.fetchedAt, fromCache: true, loading: !settled);
@@ -115,11 +144,19 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
     state = state.copyWith(loading: true, clearError: true);
     try {
       final fetched = await fetchRemote();
+      if (!_current(id)) return;
       final at = ref.read(nowProvider)();
-      await writeCache(id, fetched, at);
-      if (ref.mounted) state = RemoteState(value: fetched.value, fetchedAt: at);
+      try {
+        await writeCache(id, fetched, at);
+      } on Object {
+        // The fresh value still shows; only the offline copy is older.
+      }
+      if (_current(id)) state = RemoteState(value: fetched.value, fetchedAt: at);
     } on ApiError catch (e) {
-      if (ref.mounted) state = state.copyWith(loading: false, error: e);
+      if (_current(id)) state = state.copyWith(loading: false, error: e);
+    } on Object {
+      // Never leave the screen on a spinner: an unexpected failure is a failed read.
+      if (_current(id)) state = state.copyWith(loading: false, error: const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
     }
   }
 

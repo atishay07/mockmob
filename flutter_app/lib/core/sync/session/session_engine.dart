@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
 import '../../api/api_error.dart';
 import '../../domain/session_rules.dart';
+import '../../models/json_helpers.dart';
 import '../../models/question.dart';
 import '../../models/session.dart';
 import '../../models/session_draft.dart';
@@ -53,6 +55,7 @@ class SessionEngineServices {
     this.timerFactory,
     this.syncDebounce = const Duration(milliseconds: 400),
     this.onPendingWork,
+    this.earlierDraftWait = const Duration(seconds: 3),
     this._now,
   });
 
@@ -72,6 +75,10 @@ class SessionEngineServices {
   /// Told whether this session has work the network must carry (unacknowledged answers or an
   /// unsent submit), so connectivity only pings while something is waiting.
   final void Function(String key, bool pending)? onPendingWork;
+
+  /// How long a start waits for an earlier unsent paper of the same selection to be sent before
+  /// opening the new one anyway (the earlier submit then finishes in the background).
+  final Duration earlierDraftWait;
   final DateTime Function()? _now;
 
   DateTime now() => (_now ?? DateTime.now)();
@@ -211,50 +218,61 @@ class SessionEngine extends ChangeNotifier {
   /// The draft table holds one row per selection, so saving a new session would overwrite an
   /// earlier one whose answers were never acknowledged. Try to send those first.
   ///
-  /// Nothing here blocks the new session: an offline phone, a retryable failure, a local write
-  /// or an unexpected response say nothing about it. What could not be settled is archived under
-  /// its own session id, never overwritten: a rejected or still-owed draft keeps its answers, and
-  /// a still-owed one keeps `pendingSubmission` so the backup job (which finds drafts by session
-  /// id) still sends it while the server's window is open.
+  /// Nothing here blocks the new session: the new paper's clock is already running on the
+  /// server, so the earlier submit gets at most [SessionEngineServices.earlierDraftWait] and then
+  /// carries on in the background. An offline phone, a retryable failure, a local write or an
+  /// unexpected response say nothing about the new session. The earlier draft is moved to its
+  /// own archive row before anything is sent, so nothing the submit writes later can touch the
+  /// new session's row: a rejected or still-owed draft keeps its answers, and a still-owed one
+  /// keeps `pendingSubmission` so the backup job (which finds drafts by session id) still sends
+  /// it while the server's window is open.
   static Future<void> _settleEarlierDraft(SessionEngineServices services, String draftKey, {required String newSessionId}) async {
-    final earlier = await services.drafts.byKey(draftKey);
-    if (earlier == null || earlier.sessionId == newSessionId) return;
-    if (earlier.pendingSubmission && !earlier.windowClosed && !earlier.rejected) {
-      try {
-        final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: earlier.sessionId, now: services.now);
-        final clock = services.clockFactory?.call() ?? SessionClock();
-        clock.restore(startedRefWallMs: earlier.startedRefWallMs, endsAtWallMs: earlier.endsAtWallMs);
-        // SubmitPending (offline, or a failure worth retrying) is archived below like any other
-        // unsettled draft; the student's new session starts either way.
-        await services.submitter.submit(draft: earlier, journal: journal, durationMs: clock.durationMs);
-      } on Object {
-        // Not settled, and not a reason to refuse: archived below.
-      }
-    }
-    // Whatever is still owed or was refused stays on the phone under its own session id.
-    SessionDraft? owed;
+    final SessionDraft? earlier;
     try {
-      final left = await services.drafts.byKey(draftKey);
-      if (left != null && left.sessionId != newSessionId && (left.rejected || (left.pendingSubmission && !left.windowClosed))) {
-        await services.drafts.archive(left);
-        if (left.pendingSubmission && !left.rejected) owed = left;
-      }
+      earlier = await services.drafts.byKey(draftKey);
     } on Object {
-      // Best effort; the journal rows are kept either way.
+      return;
     }
-    if (owed == null) return;
-    // The earlier engine queued the backup job when its submit ended pending; queue it again
-    // under the archive key so a lost or finished job cannot leave the answers unsent. It waits
-    // for a network and replaces any job already queued for that session.
+    if (earlier == null || earlier.sessionId == newSessionId) return;
+    final owed = earlier.pendingSubmission && !earlier.windowClosed && !earlier.rejected;
+    if (!owed && !earlier.rejected) return;
+    final archiveKey = SessionDraftRepository.archiveKeyOf(earlier.sessionId);
     try {
-      await services.scheduler.scheduleSubmit(
-        userId: services.userId,
-        sessionId: owed.sessionId,
-        draftKey: SessionDraftRepository.archiveKeyOf(owed.sessionId),
-        runAt: services.now(),
-      );
+      await services.drafts.archive(earlier);
+    } on Object {
+      // Best effort; the journal rows are kept either way, and the submit below writes the
+      // draft under its archive key.
+    }
+    if (!owed) return;
+    final archived = SessionDraft.fromJson(asJson(jsonDecode(jsonEncode({...earlier.toJson(), 'draftKey': archiveKey}))));
+    final sending = _submitEarlier(services, archived);
+    SubmitOutcome? outcome;
+    try {
+      outcome = await sending.timeout(services.earlierDraftWait);
+    } on TimeoutException {
+      outcome = null; // Still in flight: it finishes in the background.
+    }
+    if (outcome is SubmitReceived || outcome is SubmitRejected || outcome is SubmitWindowClosed) return;
+    // Still owed (offline, slow, or not finished yet). The earlier engine queued the backup job
+    // when its submit ended pending; queue it again under the archive key so a lost or finished
+    // job cannot leave the answers unsent. It waits for a network and replaces any job already
+    // queued for that session.
+    try {
+      await services.scheduler.scheduleSubmit(userId: services.userId, sessionId: archived.sessionId, draftKey: archiveKey, runAt: services.now());
     } on Object {
       // The answers stay archived on the phone, flag and journal intact.
+    }
+  }
+
+  /// Sends an archived earlier draft. Never throws: a failure leaves it archived and owed.
+  static Future<SubmitOutcome?> _submitEarlier(SessionEngineServices services, SessionDraft archived) async {
+    try {
+      final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: archived.sessionId, now: services.now);
+      final clock = services.clockFactory?.call() ?? SessionClock();
+      clock.restore(startedRefWallMs: archived.startedRefWallMs, endsAtWallMs: archived.endsAtWallMs);
+      return await services.submitter.submit(draft: archived, journal: journal, durationMs: clock.durationMs);
+    } on Object {
+      return null;
     }
   }
 
@@ -274,6 +292,9 @@ class SessionEngine extends ChangeNotifier {
       engine._visited.add(qid);
     }
     engine._begin();
+    // Answers written before the kill (or while away from the runner) have no PUT queued: no
+    // tap, resume or reconnect event comes on a fresh open, so send them now.
+    if (engine._syncer.hasUnacknowledged) engine._syncer.retryNow();
     unawaited(engine._reanchorFromServer());
     return engine;
   }
@@ -448,6 +469,7 @@ class SessionEngine extends ChangeNotifier {
   /// and make sure the backup job is registered.
   Future<void> onPaused() async {
     _pausedAt = _s.now();
+    _clock.markPaused();
     // Answers first: the draft then records the acknowledgement that came back.
     await _journal.idle();
     await _syncer.flushNow();
@@ -463,7 +485,9 @@ class SessionEngine extends ChangeNotifier {
   /// The app came back: correct the clock for time asleep, hide the status, retry anything
   /// pending and tell the student how long they were away.
   Future<void> onResumed() async {
-    _clock.resync();
+    // Only time asleep while paused moves the timer; a wall-clock step while answering does not.
+    // The server re-anchor below then corrects anything the phone's clocks got wrong.
+    _clock.resumeFromPause();
     await _s.status.clear();
     if (_disposed) return;
     final paused = _pausedAt;
@@ -593,7 +617,6 @@ class SessionEngine extends ChangeNotifier {
   void _tick() {
     if (_disposed) return;
     _tickCount++;
-    if (_tickCount % 60 == 0) _clock.resync();
     if (!_submitStarted && _tickCount % SessionHeartbeat.interval.inSeconds == 1) unawaited(_heartbeat.beat(_draft.sessionId));
     final next = _displayRemaining();
     if (remaining.value != next) remaining.value = next;

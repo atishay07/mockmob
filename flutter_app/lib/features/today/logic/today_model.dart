@@ -288,6 +288,7 @@ class RoadModel {
     required this.today,
     required this.end,
     this.phase = RoadPhase.countdown,
+    this.daysToWindow,
     this.daysLeft,
     this.stops = const [],
     this.ladder = const [],
@@ -305,6 +306,10 @@ class RoadModel {
   /// The right edge of the road: the month after the last stop.
   final DateTime end;
   final RoadPhase phase;
+
+  /// Whole days to the start of the expected window (countdown only). The card counts days
+  /// instead of weeks once fewer than seven remain, so it never says "0 weeks".
+  final int? daysToWindow;
 
   /// Days left in the expected window (window phase only).
   final int? daysLeft;

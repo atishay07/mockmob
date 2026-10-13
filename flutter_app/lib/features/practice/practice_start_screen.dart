@@ -86,7 +86,17 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     return asked != null && mode.usesCount && asked != selection.count;
   }
 
+  /// Any failure outside the launch's own answers (a revoked session, a storage error) still
+  /// ends in a designed stop with a way out, never a spinner that does not end.
   Future<void> _run() async {
+    try {
+      await _start();
+    } on Object {
+      if (mounted) _stop(PracticeCopy.startFailed, StateViewKind.error);
+    }
+  }
+
+  Future<void> _start() async {
     final mode = widget.mode;
     final fallback = mode == null || widget.link.subject != null ? null : await _fallbackSubject();
     if (!mounted) return;
@@ -120,6 +130,12 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
         return;
       }
       if (!mounted) return;
+      // Credits are only ever spent on a confirmed cost. A quote that is not free (and not Pro
+      // access) goes to setup, where the confirm step states the cost before Start.
+      if (quote.launchable && quoteSpendsCredits(quote)) {
+        context.pushReplacement(_setupLocation);
+        return;
+      }
       // The questions are on their way: Mobi looks up from the sheet and points the way in.
       if (quote.launchable) _mobi.play(MobiAct.point);
       result = await launchPractice(ref, selection, quote);

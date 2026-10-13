@@ -50,6 +50,13 @@ class _SealedResultScreenState extends ConsumerState<SealedResultScreen> {
       _redirect();
       return RecapRoom(subjectId: model.subjectId, child: const SizedBox.expand());
     }
+    // The reveal rolls the figure, announces the marks and may spend the first-mock token, and the
+    // server's tone and held questions come only with the detail read. Until that read has a
+    // value or has failed, the sheet stays a skeleton so the reveal never celebrates a result
+    // that then turns out lower or held.
+    if (data.detailPending) {
+      return RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
+    }
     return RecapFlow(model: model, entry: ritual.decayed ? SheetEntry.sealedDecayed : SheetEntry.sealed, ritual: ritual);
   }
 }
@@ -67,6 +74,9 @@ class RecapScreen extends ConsumerWidget {
     final data = ref.watch(recapDataProvider(attemptId));
     final model = data.model;
     if (model == null) {
+      return RecapPlaceholder(data: data, attemptId: attemptId, onRetry: () => retryRecapData(ref, attemptId));
+    }
+    if (data.detailPending) {
       return RecapPlaceholder(data: data, attemptId: attemptId, onRetry: () => retryRecapData(ref, attemptId));
     }
     return RecapFlow(model: model, entry: SheetEntry.open, initialCard: card);

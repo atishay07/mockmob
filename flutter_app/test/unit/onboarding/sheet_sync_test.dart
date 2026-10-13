@@ -38,6 +38,8 @@ class _FakeAuth extends AuthController {
 
   @override
   Future<void> reload() async => reloads++;
+
+  void become(AuthSnapshot next) => state = next;
 }
 
 const _newAccount = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com');
@@ -82,6 +84,7 @@ void main() {
             '/api/me/goal' => const FakeReply(200, _goal),
             '/api/me/notification-prefs' => const FakeReply(200, _prefs),
             '/api/users/u1' => const FakeReply(200, {'id': 'u1'}),
+            '/api/users/u2' => const FakeReply(200, {'id': 'u2'}),
             _ => const FakeReply(200, {}),
           };
     sheetPrefs = MemoryPrefsStore()..values[AnswersStore.key] = jsonEncode((answers ?? _sealed).toJson());
@@ -200,4 +203,67 @@ void main() {
       expect(sent.where((s) => s == w).length, 1, reason: '$w once: $sent');
     }
   });
+
+  group('another account on the same phone', () {
+    const other = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com');
+    _FakeAuth auth(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
+
+    test('signing out on purpose takes the saved sheet off the phone', () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse);
+      expect(sheetPrefs.values.containsKey(AnswersStore.key), isFalse);
+    });
+
+    test('an expired session keeps the sheet on the phone', () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      auth(c).become(const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true));
+      await settle();
+      expect(c.read(onboardingAnswersProvider).value!.syncedFor, 'u1');
+    });
+
+    test('a sheet saved to one account is never written to the next', () async {
+      // Student A's sheet is still on the phone (for example, signed out before this fix).
+      final c = start(auth: other, answers: _sealed.copyWith(syncedFor: 'u1'));
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(writes(), isEmpty, reason: 'nothing of A goes to B, the age band included');
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse, reason: 'B starts a sheet of their own');
+    });
+
+    test("one account's failure neither shows to the next nor stops its sync", () async {
+      final c = start(auth: AuthSnapshot.signedOut);
+      final ok = http.handler!;
+      http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      auth(c).become(other.copyWithId('u1'));
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+
+      http.handler = ok;
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
+      auth(c).become(other);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      expect(c.read(onboardingAnswersProvider).value!.syncedFor, 'u2');
+    });
+  });
+}
+
+extension on AuthSnapshot {
+  AuthSnapshot copyWithId(String id) => AuthSnapshot(status: status, userId: id, email: email);
 }

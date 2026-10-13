@@ -23,6 +23,7 @@ class MoveHeroCard extends StatelessWidget {
     this.onMinutes,
     this.onShowMe,
     this.offline = false,
+    this.retrying = false,
     this.mobiController,
   });
 
@@ -31,6 +32,9 @@ class MoveHeroCard extends StatelessWidget {
   final ValueChanged<int>? onMinutes;
   final VoidCallback? onShowMe;
   final bool offline;
+
+  /// A Try again read is running: a key that retries shows it is working.
+  final bool retrying;
 
   /// Lets the screen make Mobi react later (a tap on a chip, coming back to the tab).
   final MobiController? mobiController;
@@ -126,6 +130,7 @@ class MoveHeroCard extends StatelessWidget {
           KeyButton(
             label: m.primary.label,
             onPressed: blocked ? null : () => onAction(m.primary),
+            loading: retrying && m.primary.target is RetryLoad,
             disabledReason: blocked ? TodayCopy.connectToStart : null,
           ),
           if (m.secondary != null)

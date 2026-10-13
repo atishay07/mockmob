@@ -15,6 +15,7 @@ import '../../../core/repositories/repositories.dart';
 import '../../rhythm/rhythm.dart';
 import '../logic/move_builder.dart';
 import '../logic/today_builder.dart';
+import '../logic/today_clock.dart';
 import '../logic/today_inputs.dart';
 import '../logic/today_model.dart';
 import 'today_profile.dart';
@@ -33,32 +34,82 @@ class TodayMinutes extends Notifier<int?> {
 
 final todayMinutesProvider = NotifierProvider<TodayMinutes, int?>(TodayMinutes.new);
 
-/// Active "Not today" dismissals, kept live.
+/// Today's clock. The inputs sample "now" once per build, so this ticks to make them sample it
+/// again: every hour on the student's wall clock, at the open session's deadline, and whenever
+/// the screen comes back to the front ([refresh]). Without it a phone left open overnight keeps
+/// yesterday's greeting, mood and date.
+class TodayClock extends Notifier<int> {
+  Timer? _timer;
+  int? _sessionEndsAtMs;
+  int _ticks = 0;
+
+  @override
+  int build() {
+    ref.onDispose(() => _timer?.cancel());
+    _sessionEndsAtMs = ref.watch(latestSessionDraftProvider).value?.endsAtWallMs;
+    _arm();
+    return _ticks;
+  }
+
+  void _arm() {
+    _timer?.cancel();
+    _timer = Timer(
+      untilNextTodayTick(now: ref.read(nowProvider)(), timezone: ref.read(studentTimezoneProvider), sessionEndsAtMs: _sessionEndsAtMs),
+      refresh,
+    );
+  }
+
+  /// Re-samples the clock now (app resumed, or a boundary passed) and arms the next tick.
+  void refresh() {
+    state = ++_ticks;
+    _arm();
+  }
+}
+
+final todayClockProvider = NotifierProvider<TodayClock, int>(TodayClock.new);
+
+/// Active "Not today" dismissals, kept live. The repository filters expired rows against the
+/// time the stream was opened, so each clock tick opens it again: a dismissal made at 11 PM
+/// stops hiding the repair once 4:00 AM has passed.
 final todayDismissalsProvider = StreamProvider<Set<DismissalKey>>((ref) {
   ref.watch(userIdProvider);
+  ref.watch(todayClockProvider);
   return ref.watch(dismissalRepositoryProvider).watchActive();
 });
 
 /// After a mock's deadline: does the attempt exist on the server? True on 200, false on 404,
 /// null when the read failed (offline): Today then says it is still checking.
+///
+/// A read that failed is asked again when the network comes back, so "Checking what reached the
+/// server" does not outlive the outage that caused it.
 final endedAttemptExistsProvider = FutureProvider.family<bool?, String>((ref, attemptId) async {
+  var failed = false;
+  ref.listen(networkStatusProvider, (previous, next) {
+    if (failed && next == NetworkStatus.online && previous != NetworkStatus.online) ref.invalidateSelf();
+  });
   try {
     await ref.read(apiClientProvider).get('/api/attempts/${Uri.encodeComponent(attemptId)}');
     return true;
   } on ApiError catch (e) {
-    return e.kind == ApiErrorKind.notFound ? false : null;
+    failed = e.kind != ApiErrorKind.notFound;
+    return failed ? null : false;
   }
 });
 
 /// The latest local session, with its answer counts from the journal.
 final todayDraftProvider = FutureProvider<TodayDraft?>((ref) async {
   final draft = ref.watch(latestSessionDraftProvider).value;
+  // The clock ticks on the hour, at the deadline and on resume, so "ended" and "resumable" are
+  // judged against the time now, not the time Today was first opened.
+  ref.watch(todayClockProvider);
   if (draft == null || draft.rejected) return null;
   final now = ref.read(nowProvider)();
   final summary = await ref.read(sessionDraftRepositoryProvider).summaryOf(draft);
   final ended = draft.endsAtWallMs <= now.millisecondsSinceEpoch;
   bool? exists;
-  if (ended && draft.isMock) {
+  // Past its notice window an ended mock is not shown, so the server is not asked about it.
+  final noticeOver = now.millisecondsSinceEpoch - draft.endsAtWallMs >= endedNoticeWindow.inMilliseconds;
+  if (ended && draft.isMock && !noticeOver) {
     exists = await ref.watch(endedAttemptExistsProvider(draft.sessionId).future);
   }
   return TodayDraft(
@@ -83,6 +134,8 @@ String? firstNameOf(String? name) {
 }
 
 final todayInputsProvider = Provider<TodayInputs>((ref) {
+  // Re-sampled on every clock tick (see [TodayClock]).
+  ref.watch(todayClockProvider);
   final auth = ref.watch(authSnapshotProvider);
   final attempts = ref.watch(attemptsRepositoryProvider);
   final plan = ref.watch(planRepositoryProvider(todayPlanMinutes));
@@ -144,12 +197,14 @@ class TodayActions {
 
   /// Pull to refresh and Try again: the record, the plan and the week, read again.
   Future<void> refresh() async {
+    // Ask the server about an ended mock first, in parallel with the record reads, so a slow
+    // attempts read does not hold back "Checking what reached the server".
+    _ref.invalidate(endedAttemptExistsProvider);
     await Future.wait([
       _ref.read(attemptsRepositoryProvider.notifier).refresh(force: true),
       _ref.read(planRepositoryProvider(todayPlanMinutes).notifier).refresh(force: true),
       _ref.read(rhythmRepositoryProvider.notifier).refresh(force: true),
     ]);
-    _ref.invalidate(endedAttemptExistsProvider);
   }
 
   /// "Not today": hides the client-built repair until 4:00 AM or the next submitted attempt.

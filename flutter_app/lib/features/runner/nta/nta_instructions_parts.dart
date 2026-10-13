@@ -76,7 +76,8 @@ class NtaFactTile extends StatelessWidget {
   }
 }
 
-/// The marking as three short lines: "+5 right", "−1 wrong", "0 blank".
+/// The marking as three short lines: "+5 right", "−1 wrong", "0 blank". Each line stays whole:
+/// with large text it scales down to the tile's width rather than losing its words.
 class NtaMarkingTile extends StatelessWidget {
   const NtaMarkingTile({super.key});
 
@@ -99,17 +100,22 @@ class NtaMarkingTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (final (v, w) in NtaStartCopy.markingLines)
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(text: v, style: figure),
-                    TextSpan(
-                      text: ' $w',
-                      style: figure.copyWith(fontWeight: FontWeight.w400, color: colors.ink2),
-                    ),
-                  ],
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: v, style: figure),
+                      TextSpan(
+                        text: ' $w',
+                        style: figure.copyWith(fontWeight: FontWeight.w400, color: colors.ink2),
+                      ),
+                    ],
+                  ),
+                  maxLines: 1,
+                  softWrap: false,
                 ),
-                maxLines: 1,
               ),
           ],
         ),

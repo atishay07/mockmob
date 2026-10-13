@@ -116,6 +116,9 @@ class FakeGoal extends GoalRepository {
   @override
   RemoteState<Goal> build() => initial;
 
+  /// The server's answer changes under the screen (another phone, a refresh).
+  void push(RemoteState<Goal> next) => state = next;
+
   @override
   Future<void> refresh({bool force = false}) async => refreshes++;
 

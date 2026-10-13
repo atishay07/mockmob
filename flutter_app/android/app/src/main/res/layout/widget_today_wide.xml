@@ -80,7 +80,9 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <!-- Shrinks (Android 12 and later) when the widget is too short for 52 dp. -->
                 <FrameLayout
+                    android:id="@+id/widget_ring_frame"
                     android:layout_width="52dp"
                     android:layout_height="52dp">
 
@@ -161,12 +163,13 @@
                     android:importantForAccessibility="no"
                     android:tint="@color/widget_ink" />
 
+                <!-- One line, or two when it would squeeze against the key (set when drawn). -->
                 <TextView
                     android:id="@+id/widget_cuet_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="@color/widget_ink_support"
                     android:textSize="12sp" />
             </LinearLayout>

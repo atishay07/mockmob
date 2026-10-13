@@ -21,8 +21,11 @@ typedef TimerFactory = Timer Function(Duration delay, void Function() callback);
 /// - with a radio the state stays optimistic ("online") until a real request fails with no
 ///   response; only then, and only while work is pending, a light ping decides,
 /// - while offline with work pending, the ping repeats with back-off until it succeeds,
-/// - any request that reaches the server proves the network and marks it online.
-/// The ping never runs when nothing is waiting to be sent.
+/// - any request that reaches the server proves the network and marks it online,
+/// - once a ping has said offline with the radio still present, a slow recovery ping keeps
+///   checking even after the pending work is gone, so the status cannot stay offline on a
+///   working network.
+/// The ping never runs while the app is online with nothing waiting to be sent.
 class ConnectivityMonitor implements ApiNetworkObserver {
   ConnectivityMonitor({
     required Stream<bool> radioPresent,
@@ -46,6 +49,9 @@ class ConnectivityMonitor implements ApiNetworkObserver {
   bool _radio = true;
   bool _pinging = false;
   int _pingFailures = 0;
+
+  /// The scheduled ping only checks a past offline verdict; nothing is waiting.
+  bool _recoveryOnly = false;
 
   /// Emits each time the network comes back after being offline. Pending work (the outbox, an
   /// unsent submit, unacknowledged answers) retries on this.
@@ -86,9 +92,11 @@ class ConnectivityMonitor implements ApiNetworkObserver {
     _set(NetworkStatus.online);
   }
 
-  /// Registers new pending work while offline so the ping loop starts.
+  /// Registers new pending work while offline so the ping loop starts (or speeds up from the
+  /// slow recovery ping).
   void pendingWorkChanged() {
-    if (status.value == NetworkStatus.offline && _hasPendingWork() && _pingTimer == null && !_pinging) {
+    if (status.value == NetworkStatus.offline && _hasPendingWork() && (_pingTimer == null || _recoveryOnly) && !_pinging) {
+      if (_recoveryOnly) _pingFailures = 0;
       _schedulePing();
     }
   }
@@ -100,6 +108,8 @@ class ConnectivityMonitor implements ApiNetworkObserver {
       final ok = await _ping();
       if (ok) {
         _pingFailures = 0;
+        _pingTimer?.cancel();
+        _pingTimer = null;
         _set(NetworkStatus.online);
       } else {
         _set(NetworkStatus.offline);
@@ -112,11 +122,13 @@ class ConnectivityMonitor implements ApiNetworkObserver {
 
   void _schedulePing() {
     _pingTimer?.cancel();
-    if (!_hasPendingWork() || !_radio) {
-      _pingTimer = null;
-      return;
-    }
-    final delay = pingBackoff[_pingFailures.clamp(0, pingBackoff.length - 1)];
+    _pingTimer = null;
+    if (!_radio || status.value != NetworkStatus.offline) return;
+    // With nothing waiting the check only exists to clear a wrong offline verdict: use the
+    // slowest step of the back-off.
+    _recoveryOnly = !_hasPendingWork();
+    final step = _recoveryOnly ? pingBackoff.length - 1 : _pingFailures.clamp(0, pingBackoff.length - 1);
+    final delay = pingBackoff[step];
     _pingFailures++;
     _pingTimer = _timer(delay, () {
       _pingTimer = null;

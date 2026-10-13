@@ -28,14 +28,33 @@ final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
   final refresh = _AuthRefresh();
-  ref.listen<AuthSnapshot>(authSnapshotProvider, (_, _) => refresh.notify());
+  // Who was signed in last, and whether the student just chose to sign out: the redirect that
+  // follows must not remember the screen they left (see resolveRedirect).
+  final startAuth = ref.read(authSnapshotProvider);
+  String? lastUserId = startAuth.status == AuthStatus.signedIn ? startAuth.userId : null;
+  var explicitSignOut = false;
+  ref.listen<AuthSnapshot>(authSnapshotProvider, (previous, next) {
+    if (next.status == AuthStatus.signedIn) {
+      lastUserId = next.userId;
+      explicitSignOut = false;
+    } else if (previous?.status == AuthStatus.signedIn && next.status == AuthStatus.signedOut && !next.sessionExpired) {
+      explicitSignOut = true;
+    }
+    refresh.notify();
+  });
 
   final router = GoRouter(
     navigatorKey: rootKey,
     initialLocation: AppRoutes.splash,
     refreshListenable: refresh,
-    redirect: (context, state) =>
-        resolveRedirect(auth: ref.read(authSnapshotProvider), uri: state.uri, intended: intended),
+    redirect: (context, state) {
+      final auth = ref.read(authSnapshotProvider);
+      final leaving = explicitSignOut;
+      // Only the redirect that follows the sign-out forgets; a link opened afterwards is a new
+      // intention and is remembered as usual.
+      explicitSignOut = false;
+      return resolveRedirect(auth: auth, uri: state.uri, intended: intended, explicitSignOut: leaving, leavingUserId: lastUserId);
+    },
     onException: (context, state, router) => _handleUnknown(ref, state.uri, router),
     routes: _routes(rootKey),
   );

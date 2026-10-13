@@ -142,22 +142,49 @@ class EngineRunnerSession implements RunnerSession {
   @override
   void onConnectivityRestored() => engine.onConnectivityRestored();
 
+  /// Closes still under way, by session id. Opening the same session again waits for its close
+  /// ([closed]), so an old engine never writes its stale draft over a new one's, nor clears the
+  /// heartbeat the new one owns.
+  static final Map<String, _Closing> _closing = {};
+
+  /// Waits until any close of [sessionId] has finished, cutting its wait for the server short:
+  /// what is not acknowledged stays in the journal, and the reopened engine sends it.
+  static Future<void> closed(String sessionId) async {
+    final closing = _closing[sessionId];
+    if (closing == null) return;
+    if (!closing.hurry.isCompleted) closing.hurry.complete();
+    await closing.done.future;
+  }
+
   @override
   Future<void> close() async {
     if (_closed) return;
     _closed = true;
+    final id = sessionId;
+    final closing = _Closing();
+    _closing[id] = closing;
     try {
-      // Bounded: leaving must never hang on a slow network. Whatever is not acknowledged stays
-      // in the journal and goes with the next sync or the backup submit job.
-      await engine.flushAnswers().timeout(const Duration(seconds: 6));
-    } on Object {
-      // Offline or slow; the answers are on this phone.
+      try {
+        // Bounded: leaving must never hang on a slow network. Whatever is not acknowledged stays
+        // in the journal and goes with the next sync or the backup submit job.
+        await Future.any<void>([engine.flushAnswers().timeout(const Duration(seconds: 6)), closing.hurry.future]);
+      } on Object {
+        // Offline or slow; the answers are on this phone.
+      }
+      try {
+        await engine.flushDraft();
+      } on Object {
+        // The draft was written on every change already.
+      }
+      engine.dispose();
+    } finally {
+      if (identical(_closing[id], closing)) _closing.remove(id);
+      closing.done.complete();
     }
-    try {
-      await engine.flushDraft();
-    } on Object {
-      // The draft was written on every change already.
-    }
-    engine.dispose();
   }
+}
+
+class _Closing {
+  final Completer<void> hurry = Completer<void>();
+  final Completer<void> done = Completer<void>();
 }

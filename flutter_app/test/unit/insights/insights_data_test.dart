@@ -86,6 +86,29 @@ void main() {
       expect(a.reply, contains('The week before: 2 sessions, 84 net marks.'));
     });
 
+    test('only whole words about the record count, never pieces of other words', () {
+      for (final q in [
+        'What is the time period of a pendulum in this sample space question',
+        'How does the exchange rate change the benchmarks for overtime pay',
+        'What makes a weak acid different from a strong one in this chapterwise test',
+      ]) {
+        expect(answerFromInsights(q, rich()), isNull, reason: q);
+      }
+    });
+
+    test('the Ask why seed and pasted question text always go to the model', () {
+      const seed = 'Explain this question step by step: "Which of these is the time period of a swing?" The answer is B.';
+      expect(answerFromInsights(seed, rich()), isNull);
+      expect(answerFromInsights('Explain this question: where am I losing marks in time', rich()), isNull);
+      expect(answerFromInsights('I lost marks on "Find the time taken by the train" why', rich()), isNull);
+    });
+
+    test('short plain questions about the student still answer on the phone', () {
+      for (final q in ['Where am I losing marks?', 'Which chapter is weak?', 'Why am I losing marks in chapters', 'How is my progress']) {
+        expect(answerFromInsights(q, rich()), isNotNull, reason: q);
+      }
+    });
+
     test('an empty record points at the first session', () {
       final a = answerFromInsights('Which chapter is weak?', empty())!;
       expect(a.reply, contains('nothing to analyse yet'));

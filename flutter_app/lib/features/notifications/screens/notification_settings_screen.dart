@@ -9,7 +9,6 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/models/notification_prefs.dart';
 import '../../../core/notifications/timezones.dart';
-import '../../../core/permissions/permission_requester.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
@@ -265,9 +264,9 @@ class _NotificationSettingsScreenState
     final colors = context.mmColors;
     final prefsState = ref.watch(notificationPrefsRepositoryProvider);
     final prefs = prefsState.value;
-    final permission =
-        ref.watch(notificationPermissionProvider).value ??
-        NotificationPermission.unavailable;
+    // Unknown until Android answers: never shown as blocked while it is still being read.
+    final permissionState = ref.watch(notificationPermissionProvider);
+    final permission = permissionState.value;
     final now = ref.read(nowProvider)();
     var reminder =
         ref.watch(reminderStateProvider).value ?? const ReminderState();
@@ -282,6 +281,7 @@ class _NotificationSettingsScreenState
       content = SettingsBody(
         prefs: prefs,
         permission: permission,
+        permissionReading: permission == null && permissionState.isLoading,
         reminder: reminder,
         cap: cap,
         freshChecksOpen: freshOpen,

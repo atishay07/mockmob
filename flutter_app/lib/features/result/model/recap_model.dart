@@ -145,6 +145,9 @@ class RecapModel {
 /// Builds the [RecapModel]. [attempts] is the cached list (may not hold this attempt yet);
 /// [attemptsLoaded] is false while that list has not loaded, so the mock number and the
 /// first-mock token stay unknown rather than guessed from an empty list; [repairedIds] are questions repaired on this phone; [milestones] are the server's.
+/// [toLocal] turns an instant into the student's own day (their saved time zone, the one Review
+/// reads); the phone's zone is only the fallback, so a wrong phone clock never moves a mock into
+/// another month or another hour.
 RecapModel buildRecapModel({
   required Attempt attempt,
   AttemptDetail? detail,
@@ -154,7 +157,9 @@ RecapModel buildRecapModel({
   DateTime? receivedAt,
   List<RhythmMilestone> milestones = const [],
   bool attemptsLoaded = true,
+  DateTime Function(DateTime)? toLocal,
 }) {
+  final local = toLocal ?? _deviceLocal;
   final ordinal = mockOrdinal(attempts, attempt, listLoaded: attemptsLoaded);
   final held = detail?.heldQuestionIds.toSet() ?? const <String>{};
   final variant = resolveRecapVariant(hasHeld: held.isNotEmpty, ordinal: ordinal, tone: detail?.recap?.tone);
@@ -173,7 +178,6 @@ RecapModel buildRecapModel({
     }
   }
 
-  final local = attempt.completedAt.toLocal();
   return RecapModel(
     attemptId: attempt.id,
     subjectId: attempt.subject,
@@ -181,8 +185,8 @@ RecapModel buildRecapModel({
     ordinal: ordinal,
     questionCount: attempt.total,
     durationMinutes: attempt.selectionMeta.durationMinutes,
-    submittedAt: local,
-    receivedAt: receivedAt?.toLocal(),
+    submittedAt: local(attempt.completedAt),
+    receivedAt: receivedAt == null ? null : local(receivedAt),
     breakdown: markBreakdownOf(attempt),
     cells: cells,
     variant: variant,
@@ -191,10 +195,10 @@ RecapModel buildRecapModel({
     chapters: observedChapterBreakdown(attempt, excludeQuestionIds: held),
     candidates: repairCandidates(attempt, reviews: detail?.answerReviews ?? const {}, repairedIds: repairedIds),
     blankCount: attempt.unattempted,
-    monthMockCount: monthMockCount(attempts, attempt),
+    monthMockCount: monthMockCount(attempts, attempt, toLocal: local),
     previous: _previous(detail, attempts),
     creditBalance: creditBalance,
-    firstMockTokenAt: attemptsLoaded ? _firstMockToken(attempts, attempt, milestones) : null,
+    firstMockTokenAt: attemptsLoaded ? _firstMockToken(attempts, attempt, milestones, local) : null,
     detailLoaded: detail != null,
     mode: attempt.mode ?? 'full',
     blanksInReview: _blanksInReview(attempts, attempt),
@@ -222,15 +226,18 @@ PreviousMock? _previous(AttemptDetail? detail, List<Attempt> attempts) {
   return PreviousMock(label: label, marks: recap.previousMarks!, max: recap.previousMax!);
 }
 
-/// Full and NTA-style mocks, any subject, finished in the same local calendar month as
-/// [attempt] and not after it, counting [attempt] itself once.
-int monthMockCount(Iterable<Attempt> attempts, Attempt attempt) {
+DateTime _deviceLocal(DateTime t) => t.toLocal();
+
+/// Full and NTA-style mocks, any subject, finished in the same calendar month as [attempt] and
+/// not after it, counting [attempt] itself once. The month is the student's ([toLocal]).
+int monthMockCount(Iterable<Attempt> attempts, Attempt attempt, {DateTime Function(DateTime)? toLocal}) {
   if (!attempt.isMock) return 0;
-  final at = attempt.completedAt.toLocal();
+  final local = toLocal ?? _deviceLocal;
+  final at = local(attempt.completedAt);
   var n = 1;
   for (final a in attempts) {
     if (a.id == attempt.id || !a.isMock) continue;
-    final t = a.completedAt.toLocal();
+    final t = local(a.completedAt);
     if (t.year == at.year && t.month == at.month && !a.completedAt.isAfter(attempt.completedAt)) n++;
   }
   return n;
@@ -238,7 +245,7 @@ int monthMockCount(Iterable<Attempt> attempts, Attempt attempt) {
 
 /// The brass first-mock token shows only when the server recorded `first_full_mock` and this
 /// attempt is the student's only full or NTA-style mock up to now (any subject).
-DateTime? _firstMockToken(List<Attempt> attempts, Attempt attempt, List<RhythmMilestone> milestones) {
+DateTime? _firstMockToken(List<Attempt> attempts, Attempt attempt, List<RhythmMilestone> milestones, DateTime Function(DateTime) local) {
   if (!attempt.isMock) return null;
   RhythmMilestone? m;
   for (final x in milestones) {
@@ -246,5 +253,5 @@ DateTime? _firstMockToken(List<Attempt> attempts, Attempt attempt, List<RhythmMi
   }
   if (m == null) return null;
   final earlier = attempts.where((a) => a.id != attempt.id && a.isMock && !a.completedAt.isAfter(attempt.completedAt));
-  return earlier.isEmpty ? m.achievedAt!.toLocal() : null;
+  return earlier.isEmpty ? local(m.achievedAt!) : null;
 }

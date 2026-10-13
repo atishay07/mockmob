@@ -50,9 +50,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 
   Future<void> _send([String? text]) async {
     final message = (text ?? _text.text).trim();
-    if (message.isEmpty) return;
+    // A reply is still on its way: keep the draft where it is, nothing is sent.
+    if (message.isEmpty || ref.read(askControllerProvider).busy) return;
     if (!await _disclosed(message)) return;
-    if (!mounted) return;
+    if (!mounted || ref.read(askControllerProvider).busy) return;
     if (text == null) _text.clear();
     final sending = ref.read(askControllerProvider.notifier).send(message);
     _toEnd();
@@ -175,13 +176,13 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                       ],
                     ),
                   ],
-                  for (final m in state.messages) ...[
+                  for (final (i, m) in state.messages.indexed) ...[
                     const SizedBox(height: MmSpace.s16),
                     AskMessageView(
                       message: m,
                       onReport: m.isModel ? () => _report(m) : null,
                       onRetry: () {
-                        ref.read(askControllerProvider.notifier).retry();
+                        ref.read(askControllerProvider.notifier).retry(i);
                         _toEnd();
                       },
                     ),
@@ -235,7 +236,7 @@ class _Composer extends StatelessWidget {
                     maxLength: askMaxChars,
                     textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.send,
-                    onSubmitted: (_) => onSend(),
+                    onSubmitted: (_) => busy ? null : onSend(),
                     style: type.body,
                     decoration: const InputDecoration(hintText: InsightsCopy.askHint, counterText: ''),
                   ),

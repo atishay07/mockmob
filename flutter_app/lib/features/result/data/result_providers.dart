@@ -12,12 +12,22 @@ import '../../notifications/notifications.dart'
     show PrePromptMoment, prePromptDueAtProvider, prePromptDueProvider, reminderSchedulerProvider, reminderStateProvider;
 import '../../rhythm/rhythm.dart'
     show CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
+import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../model/recap_model.dart';
 
 /// What the result screens render: the model when the attempt is known (from the detail read or
 /// the cached list), plus the detail itself for keys and explanations.
 class RecapData {
-  const RecapData({this.model, this.attempt, this.detail, this.error, this.loading = false, this.fetchedAt, this.stale = false});
+  const RecapData({
+    this.model,
+    this.attempt,
+    this.detail,
+    this.error,
+    this.loading = false,
+    this.fetchedAt,
+    this.stale = false,
+    this.detailPending = false,
+  });
 
   final RecapModel? model;
   final Attempt? attempt;
@@ -28,6 +38,11 @@ class RecapData {
 
   /// A cached copy is showing because the read failed: label it with [fetchedAt].
   final bool stale;
+
+  /// The model was built from the cached list alone and the attempt detail has neither arrived
+  /// nor failed. The server's tone and the held questions live only on the detail, so the
+  /// variant of such a model can still change: the sealed reveal waits for it.
+  final bool detailPending;
 }
 
 /// When this phone received the acknowledgment for the attempt ("Saved on the server at ...").
@@ -83,6 +98,8 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
     creditBalance: ref.watch(creditsRepositoryProvider.select((s) => s.value?.explanationBalance)),
     receivedAt: pending?.receivedAt,
     milestones: ref.watch(rhythmRepositoryProvider.select((s) => s.value?.milestones)) ?? const [],
+    // The student's saved time zone, the one Review and the rhythm receipts read.
+    toLocal: ref.watch(reviewClockProvider).local,
   );
   return RecapData(
     model: model,
@@ -92,6 +109,7 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
     loading: detailState.loading,
     fetchedAt: detailState.fetchedAt,
     stale: detailState.isStale,
+    detailPending: detail == null && detailState.error == null,
   );
 });
 

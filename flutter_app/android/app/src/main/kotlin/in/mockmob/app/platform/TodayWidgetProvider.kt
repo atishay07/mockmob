@@ -2,11 +2,14 @@ package `in`.mockmob.app.platform
 
 import `in`.mockmob.app.MainActivity
 import `in`.mockmob.app.R
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -40,38 +43,104 @@ import org.json.JSONObject
  * when it draws: the countdown and the "Updated" day stay true on days the app is not opened, a
  * week that has ended is hidden, and a session that has closed is no longer offered. Signed out,
  * or before the app has written anything, it is a plain "Open MockMob".
+ *
+ * Those dates only change on screen when the widget draws, so every draw books the next one for
+ * the moment something it shows goes out of date: the end of an offered session, or the
+ * student's next midnight. The alarm is inexact (no exact-alarm permission) and never early.
  */
 class TodayWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val model = WidgetModel.read(context)
         for (id in ids) draw(context, manager, id, model)
+        scheduleRedraw(context, model.nextChangeAt)
     }
 
     override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, options: Bundle) {
-        draw(context, manager, id, WidgetModel.read(context))
+        val model = WidgetModel.read(context)
+        draw(context, manager, id, model)
+        scheduleRedraw(context, model.nextChangeAt)
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        when (intent.action) {
+            ACTION_REDRAW, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_DATE_CHANGED -> {
+                val manager = AppWidgetManager.getInstance(context)
+                val ids = manager.getAppWidgetIds(ComponentName(context, TodayWidgetProvider::class.java))
+                if (ids.isNotEmpty()) onUpdate(context, manager, ids)
+            }
+        }
+    }
+
+    override fun onDisabled(context: Context) {
+        super.onDisabled(context)
+        // The last widget was removed: nothing is left to redraw.
+        alarmManager(context)?.cancel(redrawIntent(context))
+    }
+
+    private fun alarmManager(context: Context) = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+
+    private fun redrawIntent(context: Context): PendingIntent = PendingIntent.getBroadcast(
+        context,
+        0,
+        Intent(context, TodayWidgetProvider::class.java).setAction(ACTION_REDRAW),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+    )
+
+    /** Books one redraw at [at] (epoch millis), replacing the one booked before. */
+    private fun scheduleRedraw(context: Context, at: Long?) {
+        val alarms = alarmManager(context) ?: return
+        val intent = redrawIntent(context)
+        if (at == null) {
+            alarms.cancel(intent)
+            return
+        }
+        try {
+            alarms.setAndAllowWhileIdle(AlarmManager.RTC, at, intent)
+        } catch (e: Exception) {
+            // Too many alarms, or a restricted app: the 3-hour update still redraws the widget.
+        }
     }
 
     private fun draw(context: Context, manager: AppWidgetManager, id: Int, model: WidgetModel) {
         val tap = tapIntent(context, id, model.href)
+        val options = manager.getAppWidgetOptions(id)
         val views = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // The launcher picks the layout that fits the widget's current size.
-            RemoteViews(
-                mapOf(
-                    SizeF(110f, 110f) to build(context, model, wide = false, tap),
-                    SizeF(250f, 130f) to build(context, model, wide = true, tap),
-                )
-            )
+            // One layout for each size the launcher reports (portrait and landscape differ), each
+            // fitted to that size. The two buckets cover a launcher that reports none.
+            @Suppress("DEPRECATION")
+            val reported = options.getParcelableArrayList<SizeF>(AppWidgetManager.OPTION_APPWIDGET_SIZES)
+            val sizes = reported?.filterNotNull()?.distinct()?.takeIf { it.isNotEmpty() }
+                ?: listOf(SizeF(110f, 110f), SizeF(250f, 130f))
+            RemoteViews(sizes.associateWith { build(context, model, it.width, it.height, tap) })
         } else {
-            val width = manager.getAppWidgetOptions(id).getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 250)
-            build(context, model, wide = width >= 230, tap)
+            val landscape = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+            val width = options.getInt(
+                if (landscape) AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH else AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH,
+                250,
+            )
+            val height = options.getInt(
+                if (landscape) AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT else AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT,
+                130,
+            )
+            build(context, model, width.toFloat(), height.toFloat(), tap)
         }
         manager.updateAppWidget(id, views)
     }
 
-    private fun build(context: Context, m: WidgetModel, wide: Boolean, tap: PendingIntent): RemoteViews {
+    /**
+     * Builds the widget for a size of [widthDp] by [heightDp]. Widget text follows the phone's
+     * font size, so what fits is measured, not assumed: the move's title always keeps a line,
+     * then the "Updated" stamp (whole, or not at all, never cut to "Updated 9:..."), then the
+     * title's further lines. On the wide widget the week ring shrinks and its label goes before
+     * anything is cut off at the bottom.
+     */
+    private fun build(context: Context, m: WidgetModel, widthDp: Float, heightDp: Float, tap: PendingIntent): RemoteViews {
+        val wide = widthDp >= 230f && heightDp >= 120f
         val v = RemoteViews(context.packageName, if (wide) R.layout.widget_today_wide else R.layout.widget_today_small)
         val res = context.resources
+        val density = res.displayMetrics.density
         val move = m.move
 
         v.setTextViewText(R.id.widget_title, move?.title ?: res.getString(R.string.widget_open))
@@ -84,13 +153,95 @@ class TodayWidgetProvider : AppWidgetProvider() {
             v.setViewVisibility(R.id.widget_action, visibleIf(move != null))
             v.setTextViewText(R.id.widget_action, move?.action ?: "")
         }
-        v.setViewVisibility(R.id.widget_updated, visibleIf(m.updated != null))
         v.setTextViewText(R.id.widget_updated, m.updated ?: "")
 
+        // The days to CUET first: its height and width count in the fit below.
+        var cuetNumberDp = 0f
+        var cuetNumberWidthDp = 0f
+        var cuetLabel: String? = null
+        val cuet = m.cuetDays
+        v.setViewVisibility(R.id.widget_cuet, visibleIf(cuet != null || m.cuetOpen))
+        if (cuet != null) {
+            val label = res.getQuantityString(R.plurals.widget_cuet_days, cuet)
+            val number = textMask(context, cuet.toString(), if (wide) 17f else 24f, maxWidthDp = 80f)
+            cuetNumberDp = number.height / density
+            cuetNumberWidthDp = number.width / density
+            cuetLabel = label
+            v.setViewVisibility(R.id.widget_cuet_number, View.VISIBLE)
+            v.setImageViewBitmap(R.id.widget_cuet_number, number)
+            v.setTextViewText(R.id.widget_cuet_label, label)
+            v.setContentDescription(R.id.widget_cuet, res.getString(R.string.widget_cuet_spoken, cuet, label))
+        } else if (m.cuetOpen) {
+            val open = res.getString(R.string.widget_cuet_open)
+            cuetLabel = open
+            v.setViewVisibility(R.id.widget_cuet_number, View.GONE)
+            v.setTextViewText(R.id.widget_cuet_label, open)
+        }
+
         val week = m.week
+        val updated = m.updated
+        val titleLine: Float
+        var middleDp: Float
+        var ringDp = if (wide) 52f else 44f
+        var showWeekLabel = wide
+        if (wide) {
+            val innerWidth = widthDp - 2 * WIDE_PADDING_DP
+            val top = maxOf(
+                if (move == null) 24f else lineDp(context, 12f),
+                if (updated != null) lineDp(context, 11f) else 0f,
+            )
+            // The bottom row: the key and the countdown share one line while they fit side by
+            // side; otherwise the countdown's words wrap to a second line rather than squeeze.
+            val pill = if (move != null) {
+                minOf(180f, textWidthDp(context, move.action, 13f, bold = true) + 28f) + 12f
+            } else {
+                0f
+            }
+            val countdownWidth = (if (cuetNumberWidthDp > 0f) cuetNumberWidthDp + 5f else 0f) +
+                (cuetLabel?.let { textWidthDp(context, it, 12f) } ?: 0f)
+            val labelLines = if (cuetLabel != null && pill + countdownWidth > innerWidth) 2 else 1
+            v.setInt(R.id.widget_cuet_label, "setMaxLines", labelLines)
+            val countdownHeight = if (cuetLabel == null) 0f else maxOf(cuetNumberDp, labelLines * lineDp(context, 12f))
+            val pillHeight = if (move != null) lineDp(context, 13f) + 14f else 0f
+            val bottom = if (pillHeight > 0f || countdownHeight > 0f) 8f + maxOf(pillHeight, countdownHeight) else 0f
+            middleDp = heightDp - 2 * WIDE_PADDING_DP - top - 6f - bottom
+            titleLine = lineDp(context, 16f, 1.1f)
+            if (week != null) {
+                val full = 52f + 4f + lineDp(context, 11f)
+                if (middleDp < full) {
+                    showWeekLabel = false
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        ringDp = middleDp.coerceIn(MIN_RING_DP, 52f)
+                        v.setViewLayoutWidth(R.id.widget_ring_frame, ringDp, TypedValue.COMPLEX_UNIT_DIP)
+                        v.setViewLayoutHeight(R.id.widget_ring_frame, ringDp, TypedValue.COMPLEX_UNIT_DIP)
+                    }
+                }
+            }
+            v.setViewVisibility(R.id.widget_updated, visibleIf(updated != null))
+        } else {
+            val tight = heightDp < 150f
+            val labelLines = if (tight) 1 else 2
+            v.setInt(R.id.widget_cuet_label, "setMaxLines", labelLines)
+            val countdown = if (cuetLabel == null) 0f else cuetNumberDp + 3f + labelLines * lineDp(context, 11f)
+            val top = maxOf(if (week != null) 44f else 32f, countdown)
+            middleDp = heightDp - 2 * SMALL_PADDING_DP - top
+            titleLine = lineDp(context, 14f, 1.05f)
+            var showUpdated = false
+            if (updated != null) {
+                val lines = if (textWidthDp(context, updated, 11f) <= widthDp - 2 * SMALL_PADDING_DP) 1 else 2
+                val needed = 2f + lines * lineDp(context, 11f)
+                if (middleDp - needed >= titleLine) {
+                    showUpdated = true
+                    middleDp -= needed
+                    v.setInt(R.id.widget_updated, "setMaxLines", lines)
+                }
+            }
+            v.setViewVisibility(R.id.widget_updated, visibleIf(showUpdated))
+        }
+        v.setInt(R.id.widget_title, "setMaxLines", (middleDp / titleLine).toInt().coerceIn(1, 3))
+
         v.setViewVisibility(R.id.widget_week, visibleIf(week != null))
         if (week != null) {
-            val ringDp = if (wide) 52f else 44f
             val fraction = if (week.paused) 0f else min(week.done, week.goal).toFloat() / week.goal
             v.setImageViewBitmap(R.id.widget_ring_arc, arcMask(context, ringDp, fraction))
             if (week.paused) {
@@ -104,20 +255,10 @@ class TodayWidgetProvider : AppWidgetProvider() {
                 )
                 v.setContentDescription(R.id.widget_week, res.getString(R.string.widget_week_spoken, week.done, week.goal))
             }
-            if (wide) v.setTextViewText(R.id.widget_week_label, week.label)
-        }
-
-        val cuet = m.cuetDays
-        v.setViewVisibility(R.id.widget_cuet, visibleIf(cuet != null || m.cuetOpen))
-        if (cuet != null) {
-            val label = res.getQuantityString(R.plurals.widget_cuet_days, cuet)
-            v.setViewVisibility(R.id.widget_cuet_number, View.VISIBLE)
-            v.setImageViewBitmap(R.id.widget_cuet_number, textMask(context, cuet.toString(), if (wide) 17f else 24f, maxWidthDp = 80f))
-            v.setTextViewText(R.id.widget_cuet_label, label)
-            v.setContentDescription(R.id.widget_cuet, res.getString(R.string.widget_cuet_spoken, cuet, label))
-        } else if (m.cuetOpen) {
-            v.setViewVisibility(R.id.widget_cuet_number, View.GONE)
-            v.setTextViewText(R.id.widget_cuet_label, res.getString(R.string.widget_cuet_open))
+            if (wide) {
+                v.setTextViewText(R.id.widget_week_label, week.label)
+                v.setViewVisibility(R.id.widget_week_label, visibleIf(showWeekLabel))
+            }
         }
 
         v.setOnClickPendingIntent(android.R.id.background, tap)
@@ -143,8 +284,35 @@ class TodayWidgetProvider : AppWidgetProvider() {
     }
 
     private companion object {
+        /** The widget's own redraw alarm (see scheduleRedraw). */
+        const val ACTION_REDRAW = "in.mockmob.app.widget.REDRAW"
+
         /** The week ring's stroke, the same as widget_ring_track.xml. */
         const val RING_STROKE_DP = 4f
+
+        /** The smallest the wide widget's week ring gets before it is cut off instead. */
+        const val MIN_RING_DP = 36f
+
+        /** The layouts' padding: widget_today_small.xml and widget_padding. */
+        const val SMALL_PADDING_DP = 12f
+        const val WIDE_PADDING_DP = 14f
+
+        /** One line of [sizeSp] text, in dp, at the phone's font size. */
+        fun lineDp(context: Context, sizeSp: Float, spacing: Float = 1f): Float {
+            val metrics = context.resources.displayMetrics
+            val paint = Paint().apply { textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sizeSp, metrics) }
+            return paint.fontSpacing * spacing / metrics.density
+        }
+
+        /** The width of [text] at [sizeSp], in dp, at the phone's font size. */
+        fun textWidthDp(context: Context, text: String, sizeSp: Float, bold: Boolean = false): Float {
+            val metrics = context.resources.displayMetrics
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sizeSp, metrics)
+                if (bold) typeface = Typeface.DEFAULT_BOLD
+            }
+            return paint.measureText(text) / metrics.density
+        }
 
         /** The app's display face for numbers (Bricolage Grotesque condensed), from Flutter's assets. */
         const val BRAND_NUMBERS = "flutter_assets/assets/fonts/BricolageCondensed-Bold.ttf"
@@ -217,6 +385,8 @@ private class WidgetModel(
     val updated: String?,
     val cuetDays: Int?,
     val cuetOpen: Boolean,
+    /** When what is drawn goes out of date (epoch millis): the move's end, or the next midnight. */
+    val nextChangeAt: Long?,
 ) {
     class Move(val overline: String, val title: String, val action: String, val href: String)
 
@@ -231,6 +401,7 @@ private class WidgetModel(
         private const val VERSION = 1
         private const val SITE = "https://www.mockmob.in/"
         private const val DEFAULT_ZONE = "Asia/Kolkata"
+        private const val MIDNIGHT_SLACK_MS = 60_000L
 
         /**
          * The CUET window the countdown uses when the app has never written. The source of truth
@@ -261,11 +432,15 @@ private class WidgetModel(
             val daysToCuet = ChronoUnit.DAYS.between(today, start)
             val cuetDays = if (daysToCuet > 0) daysToCuet.toInt() else null
             val cuetOpen = cuetDays == null && !today.isAfter(end)
+            // The countdown, the week and the "Updated" day change at the student's midnight; a
+            // little after it, so a clock that runs slightly early never draws the old day again.
+            val midnight = today.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli() + MIDNIGHT_SLACK_MS
 
             if (json == null || !json.optBoolean("signedIn", false)) {
-                return WidgetModel(null, null, null, cuetDays, cuetOpen)
+                return WidgetModel(null, null, null, cuetDays, cuetOpen, midnight)
             }
 
+            var moveEnds: Long? = null
             val move = json.optJSONObject("move")?.let { o ->
                 val href = o.optString("href")
                 val until = if (o.has("until")) o.optLong("until") else null
@@ -273,7 +448,10 @@ private class WidgetModel(
                 when {
                     !href.startsWith(SITE) || title.isEmpty() -> null
                     until != null && now >= until -> null
-                    else -> Move(o.optString("overline"), title, o.optString("action"), href)
+                    else -> {
+                        moveEnds = until
+                        Move(o.optString("overline"), title, o.optString("action"), href)
+                    }
                 }
             }
 
@@ -295,7 +473,9 @@ private class WidgetModel(
                 }.ifEmpty { null }
             }
 
-            return WidgetModel(move, week, updated, cuetDays, cuetOpen)
+            val ends = moveEnds
+            val next = if (ends != null && ends < midnight) ends else midnight
+            return WidgetModel(move, week, updated, cuetDays, cuetOpen, next)
         }
 
         private fun date(value: String?): LocalDate? =

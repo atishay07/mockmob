@@ -43,7 +43,14 @@ enum GoogleOutcome {
 }
 
 /// How a browser sign-in ended, delivered when the app is opened again by the callback link.
-enum OAuthReturnKind { signedIn, cancelled, failed }
+enum OAuthReturnKind {
+  /// The callback link arrived and its code is being exchanged for a session (a network call).
+  /// [signedIn] or [failed] follows.
+  exchanging,
+  signedIn,
+  cancelled,
+  failed,
+}
 
 class OAuthReturn {
   const OAuthReturn(this.kind, [this.failure]);
@@ -98,6 +105,7 @@ class AuthService implements ApiTokenProvider {
     this._links,
     ExternalUrlOpener? openExternal,
     DateTime Function()? now,
+    this._serverSignOutWait = const Duration(seconds: 4),
   })  : _config = config,
         _tokens = tokens ?? SupabaseTokenClient(config: config),
         _google = google ?? CredentialManagerGoogle(),
@@ -114,6 +122,9 @@ class AuthService implements ApiTokenProvider {
   final ExternalUrlOpener _openExternal;
   final DateTime Function() _now;
   late final SessionKeeper _keeper;
+
+  /// How long a sign-out waits for Supabase to end the session on the server.
+  final Duration _serverSignOutWait;
 
   /// Longer than the slowest refresh (two tries of 18 s) and shorter than the lock's stale window.
   static const _lockWait = Duration(seconds: 100);
@@ -437,6 +448,10 @@ class AuthService implements ApiTokenProvider {
         _oauth.add(cancelled ? const OAuthReturn(OAuthReturnKind.cancelled) : const OAuthReturn(OAuthReturnKind.failed, AccessFailure.googleUnavailable));
       case AuthCallbackCode(:final code):
         if (!_handledCodes.add(code)) return;
+        // Said before the exchange, which can take a while on a slow network, so the screen
+        // keeps waiting for it instead of offering a second sign-in that would replace the
+        // verifier this exchange needs.
+        _oauth.add(const OAuthReturn(OAuthReturnKind.exchanging));
         try {
           final response = await _client.exchangeCodeForSession(code);
           await _arrived(response.session);
@@ -499,21 +514,33 @@ class AuthService implements ApiTokenProvider {
   // Signing out.
 
   /// Clears the stored tokens on this phone. Does not touch local answers.
+  ///
+  /// The stored tokens go first, before any network call: a student who closes the app while a
+  /// slow or captive network holds the server logout is still signed out on the next launch.
+  /// The server logout is best effort and waits at most [_serverSignOutWait].
   Future<void> signOutLocal() async {
     _epoch++;
-    try {
-      await _client.signOut(scope: SignOutScope.local);
-    } on Object {
-      // The tokens are removed locally even when the server call fails.
-    }
-    try {
-      await _keeper.clear();
-    } on Object {
-      // Keystore refused; the next launch finds a session Supabase no longer accepts.
-    }
     _knownToken = null;
     _freshUntil = null;
-    await _google.signOut();
+    try {
+      await _keeper.forget();
+    } on Object {
+      // Keystore refused; the locked clear below tries again.
+    }
+    await Future.wait([
+      _quietly(() => _client.signOut(scope: SignOutScope.local).timeout(_serverSignOutWait)),
+      // Under the lock, so a background refresh already in flight cannot write the session back.
+      _quietly(_keeper.clear),
+    ]);
+    await _quietly(_google.signOut);
+  }
+
+  static Future<void> _quietly(Future<void> Function() step) async {
+    try {
+      await step();
+    } on Object {
+      // The tokens are removed locally even when this step fails.
+    }
   }
 
   Future<void> dispose() async {

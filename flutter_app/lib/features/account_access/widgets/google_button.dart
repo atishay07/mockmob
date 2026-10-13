@@ -56,6 +56,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
   /// the sign-in did not finish. The link normally lands before the app is even visible.
   static const _returnGrace = Duration(seconds: 3);
 
+  /// How long to wait for the session once the callback link arrived. The exchange is a network
+  /// call; past this the key works again rather than spinning with nothing to press.
+  static const _exchangeWait = Duration(seconds: 45);
+
   AccountAccessGateway get _gateway => ref.read(accountAccessGatewayProvider);
 
   @override
@@ -98,6 +102,12 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
   void _onReturn(OAuthReturn result) {
     _noReturn?.cancel();
     switch (result.kind) {
+      case OAuthReturnKind.exchanging:
+        // The link is here: no "did not finish" while the session is being set up.
+        _set(GooglePhase.signingIn);
+        _noReturn = Timer(_exchangeWait, () {
+          if (_phase == GooglePhase.signingIn) _set(GooglePhase.idle, note: AccessCopy.browserNotFinished);
+        });
       case OAuthReturnKind.signedIn:
         _set(GooglePhase.signingIn);
         widget.onSignedIn?.call();

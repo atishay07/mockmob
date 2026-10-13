@@ -8,6 +8,9 @@ import '../logic/reminder_plan.dart';
 /// - Not tonight is a clear answer and changes nothing else.
 /// - Mute for 7 days pauses reminders on this phone.
 /// A payload is only ever an in-app route: anything else is ignored.
+///
+/// [handle] never throws: the route opens first and does not depend on the record write, and a
+/// failed write (local storage trouble) is dropped, since the record is only bookkeeping.
 class ReminderTapHandler {
   ReminderTapHandler({
     required this.opened,
@@ -32,14 +35,28 @@ class ReminderTapHandler {
 
     switch (tap.actionId) {
       case ReminderActions.notTonight:
-        if (taskId != null) await declined(taskId);
+        if (taskId != null) await _quietly(() => declined(taskId));
         return;
       case ReminderActions.mute:
-        await mute();
+        await _quietly(mute);
         return;
     }
 
-    if (taskId != null) await opened(taskId);
-    if (AppRoutes.isNativePath(decoded.route)) open(decoded.route);
+    if (AppRoutes.isNativePath(decoded.route)) {
+      try {
+        open(decoded.route);
+      } on Object {
+        // The router is not ready: the record below still counts the tap.
+      }
+    }
+    if (taskId != null) await _quietly(() => opened(taskId));
+  }
+
+  static Future<void> _quietly(Future<void> Function() write) async {
+    try {
+      await write();
+    } on Object {
+      // Bookkeeping only: the student's tap has already done what they asked for.
+    }
   }
 }

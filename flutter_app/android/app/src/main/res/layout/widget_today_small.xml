@@ -101,12 +101,14 @@
             android:textColor="@color/widget_ink"
             android:textSize="14sp" />
 
+        <!-- maxLines is set when drawn: one or two lines, whichever keeps the time whole. -->
         <TextView
             android:id="@+id/widget_updated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:singleLine="true"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/widget_ink_support"
             android:textSize="11sp"
             android:visibility="gone" />

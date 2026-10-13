@@ -97,21 +97,31 @@ class ReminderScheduler {
       state: state,
       repair: _repair(),
     );
+    // The reminders still ahead are cancelled by now, so one failed request must not stop the
+    // rest of the plan from being scheduled. The first failure is reported once all were tried.
+    Object? failure;
+    StackTrace? failureStack;
     for (final request in plan) {
-      final outcome = await _service.schedule(request);
-      final at = outcome.deliverAt;
-      if (outcome.scheduled && at != null) {
-        state = await _store.update(
-          (s) => recordScheduled(
-            s,
-            taskId: request.taskId,
-            prefKey: prefKeyForTask(request.taskId),
-            at: at,
-          ),
-        );
+      try {
+        final outcome = await _service.schedule(request);
+        final at = outcome.deliverAt;
+        if (outcome.scheduled && at != null) {
+          state = await _store.update(
+            (s) => recordScheduled(
+              s,
+              taskId: request.taskId,
+              prefKey: prefKeyForTask(request.taskId),
+              at: at,
+            ),
+          );
+        }
+      } on Object catch (error, stack) {
+        failure ??= error;
+        failureStack ??= stack;
       }
     }
     _onStateChanged?.call();
+    if (failure != null) Error.throwWithStackTrace(failure, failureStack!);
   }
 
   /// Settles reminders that came due since the app was last open: responded or unopened. Call

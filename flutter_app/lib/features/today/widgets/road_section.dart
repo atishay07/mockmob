@@ -39,6 +39,9 @@ class RoadSection extends StatelessWidget {
                 const SizedBox(height: MmSpace.s12),
                 // One hero figure; the road itself is the picture.
                 switch (road.phase) {
+                  // Under a week out the card counts days; "0 weeks" would read as the window being here.
+                  RoadPhase.countdown when road.weeks < 1 && (road.daysToWindow ?? 0) > 0 =>
+                    _Stat(value: '${road.daysToWindow}', unit: TodayCopy.daysToWindowLabel(road.daysToWindow!)),
                   RoadPhase.countdown => _Stat(value: '${road.weeks}', unit: TodayCopy.weeksLabel(road.weeks)),
                   RoadPhase.window => _Stat(
                       value: '${road.daysLeft ?? 0}',

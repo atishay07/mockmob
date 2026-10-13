@@ -121,7 +121,10 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
     final s = widget.state;
     final score = s.score;
     final cat = s.categoryIndex;
-    final sort = _sort ?? (score != null ? SeatSort.fit : SeatSort.high);
+    // Best fit needs a score. Without one (never given, or cleared since) the choice falls back
+    // to the high-cutoff order, which is what the list shows and what the sort sheet marks.
+    final chosen = _sort == SeatSort.fit && score == null ? null : _sort;
+    final sort = chosen ?? (score != null ? SeatSort.fit : SeatSort.high);
     final rows = _ordered(seats, cat, score, sort);
     final clearing = score == null ? null : seats.where((r) => duSeatStatus(score, r, cat).clears).length;
     final options = [if (score != null) SeatSort.fit, SeatSort.high, SeatSort.low, SeatSort.name];

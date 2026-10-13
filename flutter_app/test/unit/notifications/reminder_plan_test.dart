@@ -156,11 +156,11 @@ void main() {
     });
   });
 
-  test('the plan is in time order', () {
+  test('the weekly plan comes first, then the rest in time order', () {
     final plan = buildReminderPlan(now: now, prefs: prefsWith(), state: const ReminderState(weeklyPlanOn: true));
-    final times = [for (final r in plan) r.at!];
+    expect(plan.first.taskId, 'weekly_plan:2026-10-12');
+    final times = [for (final r in plan.skip(1)) r.at!];
     expect([...times]..sort(), times);
-    expect(plan.map((r) => r.taskId), contains('weekly_plan:2026-10-12'));
   });
 
   group('payload', () {

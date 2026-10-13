@@ -110,15 +110,27 @@ class SessionSyncer {
     _schedule(Duration.zero);
   }
 
-  /// Sends immediately and waits (app paused, submit about to start). Returns when the call
-  /// finished, whether it succeeded or not.
+  /// Sends immediately and waits (app paused, submit about to start). A PUT already in flight
+  /// may not carry the newest events, so this keeps sending until the server has everything in
+  /// the journal or a call fails. Returns when the calls finished, whether they succeeded or not.
   Future<void> flushNow() async {
     if (!enabled || _disposed) return;
     _clearRetryableStop();
     if (_stopped) return;
-    _pending?.cancel();
-    _pending = null;
-    await (_inFlight ?? _send());
+    final running = _inFlight;
+    if (running != null) await running;
+    while (!_disposed && !_stopped && journal.lastSeq > _sentThroughSeq) {
+      final before = _sentThroughSeq;
+      _pending?.cancel();
+      _pending = null;
+      await _send();
+      // A failed call made no progress: its back-off retry stays scheduled.
+      if (_sentThroughSeq == before) break;
+    }
+    if (!_disposed && journal.lastSeq <= _sentThroughSeq) {
+      _pending?.cancel();
+      _pending = null;
+    }
   }
 
   /// A "not saved yet" stop ends on an explicit retry; a fatal one never does.

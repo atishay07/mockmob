@@ -4,7 +4,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/models/attempt.dart';
 import '../../../core/models/json_helpers.dart';
+import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
 
@@ -62,7 +64,29 @@ class PersonalBest {
   }
 }
 
+/// Which scored attempts are on the phone: their number and the newest id. It changes when a
+/// session is submitted or a list read brings a new attempt, and then the bests are read again.
+(int, String?)? _attemptsSignature(RemoteState<List<Attempt>> s) {
+  final list = s.value;
+  if (list == null) return null;
+  return (list.length, list.isEmpty ? null : list.first.id);
+}
+
 class BestsRepository extends JsonRemoteNotifier<List<PersonalBest>> {
+  @override
+  RemoteState<List<PersonalBest>> build() {
+    final initial = super.build();
+    // A new scored attempt can change a best or the latest marks, or add a format. The attempts
+    // list is kept by Today for the whole session; it is followed only once it exists, so
+    // reading the bests never starts an attempts read of its own.
+    if (userId != null && ref.exists(attemptsRepositoryProvider)) {
+      ref.listen<(int, String?)?>(attemptsRepositoryProvider.select(_attemptsSignature), (prev, next) {
+        if (prev != null && next != null && next != prev) refresh(force: true);
+      });
+    }
+    return initial;
+  }
+
   @override
   String get cacheKey => 'bests';
 

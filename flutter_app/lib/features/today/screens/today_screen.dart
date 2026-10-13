@@ -34,10 +34,17 @@ class TodayScreen extends ConsumerStatefulWidget {
 class _TodayScreenState extends ConsumerState<TodayScreen> {
   final ScrollController _scroll = ScrollController();
   final MobiController _mobi = MobiController();
+  late final AppLifecycleListener _lifecycle;
+
+  /// A Try again read is running: the key shows it instead of looking dead.
+  bool _retrying = false;
 
   @override
   void initState() {
     super.initState();
+    // Back from the background (maybe the next morning): Today's clock, the dismissals and the
+    // ended-mock check are read again, so nothing says yesterday's greeting or hidden-until-4 AM.
+    _lifecycle = AppLifecycleListener(onResume: () => ref.read(todayClockProvider.notifier).refresh());
     // A result submitted in the background is in the cache but not in a live list: read the
     // attempts again when one is waiting to be opened.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -49,6 +56,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
 
   @override
   void dispose() {
+    _lifecycle.dispose();
     _scroll.dispose();
     _mobi.dispose();
     super.dispose();
@@ -67,9 +75,19 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       case GoTo(:final location):
         _go(location);
       case RetryLoad():
-        unawaited(ref.read(todayActionsProvider).refresh());
+        unawaited(_retry());
       case OpenAlternatives():
         unawaited(context.push(AppRoutes.todayAlternatives));
+    }
+  }
+
+  Future<void> _retry() async {
+    if (_retrying) return;
+    setState(() => _retrying = true);
+    try {
+      await ref.read(todayActionsProvider).refresh();
+    } finally {
+      if (mounted) setState(() => _retrying = false);
     }
   }
 
@@ -94,6 +112,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     final hasEnding = ref.watch(weeklyEndingProvider) != null;
     return TodayBody(
       view: view,
+      retrying: _retrying,
       controller: _scroll,
       mobiController: _mobi,
       insights: widget.insights,

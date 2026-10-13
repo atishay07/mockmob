@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -185,6 +186,37 @@ void main() {
     });
   });
 
+  group('StreamController after the screen is left', () {
+    test('a page that arrives late is dropped without an error', () async {
+      c = make();
+      final keep = c.listen(streamControllerProvider, (_, _) {});
+      final gate = Completer<void>();
+      http.hold = gate;
+      http.handler = (o) => FakeReply(200, {'questions': [questionJson('q1')], 'nextOffset': 12, 'hasMore': false});
+      final opening = c.read(streamControllerProvider.notifier).open(const StreamFilters(subject: 'accountancy'));
+      await settle();
+      keep.close();
+      await settle();
+      gate.complete();
+      await opening;
+    });
+
+    test('a vote that is answered late is dropped without an error', () async {
+      c = make();
+      final keep = c.listen(streamControllerProvider, (_, _) {});
+      final ctl = c.read(streamControllerProvider.notifier)..openSaved([question('q1')]);
+      final gate = Completer<void>();
+      http.hold = gate;
+      http.handler = (o) => const FakeReply(200, {'upvotes': 15, 'downvotes': 1, 'userVote': 'up'});
+      final voting = ctl.vote('q1', 'up');
+      await settle();
+      keep.close();
+      await settle();
+      gate.complete();
+      expect(await voting, isTrue);
+    });
+  });
+
   group('SaveController', () {
     test('saved only after the acknowledgement; the free limit is its own outcome', () async {
       c = make();
@@ -253,6 +285,48 @@ void main() {
       final last = c.read(askControllerProvider).messages.last;
       expect(last.failure, AskFailure.noCredits);
       expect(last.balance, 0);
+    });
+
+    test('Send again on an old failed bubble sends its own question and leaves later turns alone', () async {
+      c = make(insights: rich());
+      http.handler = (o) => const FakeReply.network();
+      final ctl = c.read(askControllerProvider.notifier);
+      await ctl.send('Explain accrual');
+      await ctl.send('Explain goodwill');
+      var m = c.read(askControllerProvider).messages;
+      expect(m.map((x) => x.failure), [null, AskFailure.offline, null, AskFailure.offline]);
+      await ctl.send('Where am I losing marks?');
+      expect(c.read(askControllerProvider).messages, hasLength(6));
+
+      http.handler = (o) => const FakeReply(200, {'reply': 'Accrual is income earned, not yet received.', 'origin': 'model', 'actions': []});
+      await ctl.retry(1);
+      m = c.read(askControllerProvider).messages;
+      expect(_body(http.requests.last)['message'], 'Explain accrual');
+      expect(m[1].text, contains('Accrual is income'));
+      expect(m[3].failure, AskFailure.offline);
+      expect(m[5].origin, AskOrigin.phone);
+      expect(m[5].text, contains('Partnership: admission of a partner'));
+      expect(m, hasLength(6));
+
+      await ctl.retry(3);
+      expect(_body(http.requests.last)['message'], 'Explain goodwill');
+      expect(c.read(askControllerProvider).messages[3].origin, AskOrigin.model);
+    });
+
+    test('a new question waits while a reply is still on its way', () async {
+      c = make(insights: rich());
+      final gate = Completer<void>();
+      http.hold = gate;
+      http.handler = (o) => const FakeReply(200, {'reply': 'Ok.', 'origin': 'model', 'actions': []});
+      final ctl = c.read(askControllerProvider.notifier);
+      final first = ctl.send('Explain accrual');
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(askControllerProvider).busy, isTrue);
+      await ctl.send('Where am I losing marks?');
+      expect(c.read(askControllerProvider).messages, hasLength(2));
+      gate.complete();
+      await first;
+      expect(c.read(askControllerProvider).busy, isFalse);
     });
 
     test('a paused service answers for free and says so', () async {

@@ -94,17 +94,23 @@ class DuRepository {
         if (_now().difference(cached.savedAt) > refreshAfter) _refreshInBackground(file);
         return offerings;
       } on Object {
-        // Fall through to the server.
+        // A damaged copy: fall through to the bundled one or the server.
       }
     }
-    try {
-      return _decoder.offerings(await _fetchAndKeep(file));
-    } on DuLoadError {
-      // No connection on a first run: the copy shipped with the app.
-      final bundled = await _source.readBundled(file);
-      if (bundled == null) rethrow;
-      return _decoder.offerings(bundled);
+    // No copy on the phone yet: the one shipped with the app answers at once and the server
+    // refreshes it for next time, as the catalogue does. Waiting on the network first would
+    // leave a slow connection on a skeleton for the length of its retries.
+    final bundled = await _source.readBundled(file);
+    if (bundled != null) {
+      try {
+        final offerings = await _decoder.offerings(bundled);
+        _refreshInBackground(file);
+        return offerings;
+      } on Object {
+        // A damaged bundled copy: the server is the only source left.
+      }
     }
+    return _decoder.offerings(await _fetchAndKeep(file));
   }
 
   Future<String> _fetchAndKeep(String file) async {

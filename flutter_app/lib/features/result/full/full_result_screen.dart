@@ -10,6 +10,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot, celebrationControllerProvider;
+import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
@@ -106,7 +107,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (data.stale && data.fetchedAt != null) ...[
-              InlineBanner(message: ResultCopy.lastLoaded(data.fetchedAt!.toLocal()), tone: BannerTone.offline, compact: true),
+              InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
               const SizedBox(height: MmSpace.s12),
             ],
             if (progress != null) ...[

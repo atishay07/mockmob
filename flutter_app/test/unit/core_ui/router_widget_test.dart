@@ -125,6 +125,13 @@ String _sample(String template) => template.replaceAllMapped(RegExp(r':(\w+)'), 
   };
 });
 
+/// Today keeps long timers in its providers; a test that ends on Today disposes the container
+/// before the framework checks for pending timers.
+Future<void> _unmountAndDispose(WidgetTester tester, ProviderContainer container) async {
+  await tester.pumpWidget(const SizedBox());
+  container.dispose();
+}
+
 /// Runs [body], then unmounts the app and lets the real screens' timers run out.
 void _test(String name, Future<void> Function(WidgetTester tester) body) {
   testWidgets(name, (tester) async {
@@ -291,6 +298,50 @@ void main() {
     await _settle(tester);
     expect(_location(container), '/sign-in');
 
+    container.read(_testAuth.notifier).set(_signedIn);
+    await _settle(tester);
+    expect(_location(container), '/result/att9');
+  });
+
+  _test('signing out does not hand the screen you left to the next student who signs in', (tester) async {
+    final container = await _pump(tester);
+    _router(container).go('/you/account');
+    await _settle(tester);
+    expect(_location(container), '/you/account');
+
+    container.read(_testAuth.notifier).set(AuthSnapshot.signedOut);
+    await _settle(tester);
+    expect(_location(container), '/sign-in');
+    expect(container.read(intendedRouteProvider).location, isNull);
+
+    container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2'));
+    await _settle(tester);
+    expect(_location(container), '/today');
+    await _unmountAndDispose(tester, container);
+  });
+
+  _test('an expired session continues for the same student only', (tester) async {
+    final container = await _pump(tester);
+    _router(container).go('/result/att9');
+    await _settle(tester);
+
+    container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true));
+    await _settle(tester);
+    expect(_location(container), '/sign-in');
+
+    container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2'));
+    await _settle(tester);
+    expect(_location(container), '/today', reason: 'a different student never lands on the last result');
+    await _unmountAndDispose(tester, container);
+  });
+
+  _test('an expired session returns the same student to where they were', (tester) async {
+    final container = await _pump(tester);
+    _router(container).go('/result/att9');
+    await _settle(tester);
+
+    container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true));
+    await _settle(tester);
     container.read(_testAuth.notifier).set(_signedIn);
     await _settle(tester);
     expect(_location(container), '/result/att9');

@@ -63,7 +63,12 @@ class _RunStepState extends ConsumerState<RunStep> {
   }
 
   RunUiState get _ui => widget.ui;
-  bool get _sending => _ui.pending != null;
+
+  /// An event is on its way (or the run is still loading beside it). A stored event that is
+  /// waiting on a failed send is not "sending": it gets a Try again key instead of a spinner.
+  bool get _sending => _ui.sending || (_ui.pending != null && !_stuck);
+
+  bool get _stuck => _ui.pending != null && !_ui.sending && (_ui.notice == RunNotice.queuedOffline || _ui.notice == RunNotice.sendFailed);
 
   void _submitText([String? _]) {
     final value = _text.text.trim();
@@ -200,18 +205,15 @@ class _RunStepState extends ConsumerState<RunStep> {
     final a = widget.actions;
     final pending = _ui.pending;
 
-    // Waiting on the phone: say so plainly instead of offering the keys again.
-    if (pending != null && !_ui.sending && pending.canWaitOffline) {
-      final failed = _ui.notice == RunNotice.sendFailed;
+    // Waiting on the phone: say so plainly and always offer the send again.
+    if (pending != null && _stuck) {
+      final failed = _ui.notice == RunNotice.sendFailed || !pending.canWaitOffline;
+      // The failed line can be long: it wraps as the message, not inside the pill.
       return PinnedActions(
+        message: failed ? LearnCopy.sendFailed : null,
         children: [
-          Align(
-            child: SavePill(
-              state: SaveState.onThisPhone,
-              label: failed ? LearnCopy.sendFailed : LearnCopy.reviewedOffline,
-            ),
-          ),
-          if (failed) KeyButton.secondary(label: LearnCopy.tryAgain, onPressed: a.retry),
+          if (!failed) const Align(child: SavePill(state: SaveState.onThisPhone, label: LearnCopy.reviewedOffline)),
+          KeyButton.secondary(label: LearnCopy.tryAgain, onPressed: a.retry),
         ],
       );
     }

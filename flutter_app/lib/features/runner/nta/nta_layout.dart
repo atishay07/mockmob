@@ -29,6 +29,7 @@ class NtaActions {
     required this.onSubmit,
     required this.onQuestionPaper,
     required this.onTextStep,
+    this.onRetrySave,
   });
 
   final VoidCallback onPalette;
@@ -42,6 +43,9 @@ class NtaActions {
   final VoidCallback onSubmit;
   final VoidCallback onQuestionPaper;
   final void Function(int delta) onTextStep;
+
+  /// A tap on "Not saved yet. Tap to retry": asks the server again.
+  final VoidCallback? onRetrySave;
 }
 
 /// The exam screen (NTA-MODE-SPEC section 9.2): the blue bar with the clock and the progress, the
@@ -99,7 +103,14 @@ class NtaLayout extends StatelessWidget {
           ],
           bottom: NtaProgressRow(current: index + 1, total: s.questions.length, answered: s.answeredCount),
         ),
-        NtaStatusStrip(subject: subject, strikes: strikes, save: s.saveState, showSave: s.answeredCount > 0, warning: warning),
+        NtaStatusStrip(
+          subject: subject,
+          strikes: strikes,
+          save: s.saveState,
+          showSave: s.answeredCount > 0,
+          warning: warning,
+          onRetrySave: actions.onRetrySave,
+        ),
         Expanded(
           child: ColoredBox(
             color: colors.ground,

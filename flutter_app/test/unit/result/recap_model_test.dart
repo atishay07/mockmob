@@ -165,6 +165,32 @@ void main() {
     });
   });
 
+  group("the student's own day, not the phone's (result-review-07)", () {
+    // 18:00 UTC on 31 October is 11:30 PM in India (UTC+5:30) and already 1 November at UTC+6.
+    DateTime ist(DateTime t) => t.toUtc().add(const Duration(hours: 5, minutes: 30));
+    DateTime plusSix(DateTime t) => t.toUtc().add(const Duration(hours: 6));
+    final earlier = attempt(id: 'b', completedAt: DateTime.utc(2026, 10, 30, 10));
+    final late = attempt(id: 'a', completedAt: DateTime.utc(2026, 10, 31, 18));
+
+    test('the month a mock belongs to follows the zone it is read in', () {
+      expect(monthMockCount([earlier, late], late, toLocal: ist), 2);
+      expect(monthMockCount([earlier, late], late, toLocal: plusSix), 1);
+    });
+
+    test('submitted and received times are converted with the same zone', () {
+      final m = buildRecapModel(
+        attempt: late,
+        attempts: [earlier, late],
+        receivedAt: DateTime.utc(2026, 10, 31, 18, 2),
+        toLocal: ist,
+      );
+      expect(m.submittedAt.hour, 23);
+      expect(m.submittedAt.minute, 30);
+      expect(m.receivedAt!.minute, 32);
+      expect(m.monthMockCount, 2);
+    });
+  });
+
   test('quick practice takes no number and no effort count', () {
     final a = attempt(mode: 'quick');
     final m = buildRecapModel(attempt: a, attempts: [a]);

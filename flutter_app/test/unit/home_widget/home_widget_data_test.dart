@@ -300,6 +300,29 @@ void main() {
       expect(writer.writes, [signedOut.encode(), signedIn.encode()]);
     });
 
+    test('signing out is written at once, with no settle delay', () async {
+      final slow = ProviderContainer(overrides: [
+        homeWidgetWriterProvider.overrideWithValue(writer),
+        homeWidgetSettleProvider.overrideWithValue(const Duration(hours: 1)),
+        homeWidgetDataProvider.overrideWith((ref) => ref.watch(_data)),
+      ]);
+      addTearDown(slow.dispose);
+      slow.listen(homeWidgetSyncProvider, (_, _) {});
+
+      final signedIn = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!;
+      slow.read(_data.notifier).set(signedIn);
+      await settle();
+      expect(writer.writes, isEmpty, reason: 'signed-in changes still wait to settle');
+
+      const signedOut = HomeWidgetData.signedOut(timezone: 'Asia/Kolkata');
+      slow.read(_data.notifier).set(signedOut);
+      // Written as soon as the change reaches the sync, not after the hour-long settle.
+      await pumpEventQueue();
+      expect(writer.writes, [signedOut.encode()]);
+      await settle();
+      expect(writer.writes, [signedOut.encode()], reason: 'the pending signed-in write was dropped');
+    });
+
     test('a burst of changes is one write of the last one', () async {
       final first = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!;
       final last = homeWidgetFromToday(view: _view(_move(label: 'Start practice')), inputs: _inputs(attemptsAt: _fetched))!;

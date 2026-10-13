@@ -9,6 +9,41 @@ import '../copy.dart';
 import 'select_chip.dart';
 import 'settings_rows.dart';
 
+/// The permission panel while Android is still being asked: the panel's shape only, so a
+/// student whose notifications are on never sees a blocked panel flash first.
+class PermissionPanelSkeleton extends StatelessWidget {
+  const PermissionPanelSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SkeletonGroup(
+      label: NotificationsCopy.permissionReading,
+      child: FakeGlass(
+        child: Padding(
+          padding: EdgeInsets.all(MmSpace.cardPadding),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Skeleton.circle(size: 36),
+              SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Skeleton.line(width: 180, height: 16),
+                    SizedBox(height: MmSpace.s8),
+                    Skeleton.line(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// The system permission, as one honest panel: on, off with a way to turn it on, or blocked
 /// with how to change it in Android settings.
 class PermissionPanel extends StatelessWidget {

@@ -91,34 +91,42 @@ class _QuestionActionsState extends ConsumerState<QuestionActions> {
     final marks = ref.watch(saveControllerProvider);
     final saved = marks.savedOf(q);
     final saving = marks.pending.contains(q.id);
+    // The keys wrap onto a second line instead of overflowing at large text; Ask why and flag
+    // stay together on the right.
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _ActionKey(
-          icon: saved ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
-          label: saving ? InsightsCopy.saving : (saved ? InsightsCopy.saved : InsightsCopy.save),
-          semantics: saved ? InsightsCopy.unsave : InsightsCopy.save,
-          active: saved,
-          busy: saving,
-          onTap: saving ? null : () => _save(saved),
+        Expanded(
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _ActionKey(
+                icon: saved ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
+                label: saving ? InsightsCopy.saving : (saved ? InsightsCopy.saved : InsightsCopy.save),
+                semantics: saved ? InsightsCopy.unsave : InsightsCopy.save,
+                active: saved,
+                busy: saving,
+                onTap: saving ? null : () => _save(saved),
+              ),
+              _ActionKey(
+                icon: LucideIcons.thumbsUp,
+                label: '${q.upvotes}',
+                semantics: '${InsightsCopy.voteUp}, ${q.upvotes}',
+                active: q.userVote == 'up',
+                busy: _voting == 'up',
+                onTap: () => _vote('up'),
+              ),
+              _ActionKey(
+                icon: LucideIcons.thumbsDown,
+                label: '${q.downvotes}',
+                semantics: '${InsightsCopy.voteDown}, ${q.downvotes}',
+                active: q.userVote == 'down',
+                busy: _voting == 'down',
+                onTap: () => _vote('down'),
+              ),
+            ],
+          ),
         ),
-        const SizedBox(width: MmSpace.s4),
-        _ActionKey(
-          icon: LucideIcons.thumbsUp,
-          label: '${q.upvotes}',
-          semantics: '${InsightsCopy.voteUp}, ${q.upvotes}',
-          active: q.userVote == 'up',
-          busy: _voting == 'up',
-          onTap: () => _vote('up'),
-        ),
-        _ActionKey(
-          icon: LucideIcons.thumbsDown,
-          label: '${q.downvotes}',
-          semantics: '${InsightsCopy.voteDown}, ${q.downvotes}',
-          active: q.userVote == 'down',
-          busy: _voting == 'down',
-          onTap: () => _vote('down'),
-        ),
-        const Spacer(),
         if (widget.revealed)
           _ActionKey(
             icon: LucideIcons.messageCircleQuestion,

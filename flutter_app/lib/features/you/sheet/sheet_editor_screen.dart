@@ -6,6 +6,8 @@ import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../onboarding/model/answers.dart' show OnboardingAnswers;
+import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../account/name_sheet.dart';
 import '../copy.dart';
 import '../data/sheet_editor.dart' show CourseSnapshot, sheetEditorProvider;
@@ -29,6 +31,10 @@ class SheetEditorScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<SheetEditorScreen> createState() => _SheetEditorScreenState();
 }
+
+/// The parts of the sheet that Undo would overwrite, as one comparable value.
+(String?, bool, String, bool)? _courseKey(OnboardingAnswers? a) =>
+    a == null ? null : (a.courseId, a.courseUndecided, a.colleges.join('|'), a.openToAny);
 
 class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
   DateTime? _nameSavedAt;
@@ -63,6 +69,12 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Undo puts the old course and colleges back, so it only stands while those are as the change
+    // left them. A later pick of colleges or course drops it, rather than being overwritten.
+    ref.listen(onboardingAnswersProvider.select((a) => _courseKey(a.value)), (before, now) {
+      if (before == now || _courseUndo == null) return;
+      setState(() => _courseUndo = null);
+    });
     final colors = context.mmColors;
     final type = context.mmType;
     final auth = ref.watch(authSnapshotProvider);
@@ -174,7 +186,7 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
           ],
         ),
         const GroupHeading(EditCopy.groupWeek, top: MmSpace.s24),
-        const Padding(padding: youGutter, child: WeekEditor()),
+        const WeekEditor(),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s32, MmSpace.gutter, 0),
           child: Text(EditCopy.phoneOnly, style: type.caption.copyWith(color: colors.ink3)),
