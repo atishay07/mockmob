@@ -12,6 +12,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
 
@@ -671,7 +672,7 @@ function TestRunner() {
               disabled={pendingSubmission || timeLeft <= 0 || submitting}
             >
               <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
-              <span className="nta-option-text">{optionLabel(opt)}</span>
+              <span className="nta-option-text">{plainOptionTexts(question.options)[optionIndex] ?? optionLabel(opt)}</span>
             </button>
           );
         })}

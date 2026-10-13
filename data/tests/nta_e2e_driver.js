@@ -230,7 +230,10 @@
     for (const [qid, c] of Object.entries(finalByUi)) {
       if (sentAnswers[qid] !== c.index) problems.push(`sent ${sentAnswers[qid]} for ${qid}, clicked ${c.index}`);
       const q = questions.find((x) => x.id === qid);
-      if (q && q.options[c.index]?.text !== c.text) problems.push(`option text mismatch on ${qid}: shown ${c.text} vs session ${q.options[c.index]?.text}`);
+      // The runner drops a letter that the stored text carries in front of every option ("A  7/2"), and the page collapses spaces.
+      const flat = (v) => String(v ?? '').replace(/\s+/g, ' ').trim();
+      const stored = flat(q?.options[c.index]?.text);
+      if (q && !(flat(c.text) === stored || stored.endsWith(` ${flat(c.text)}`) && /^[A-E][.):]?\s/.test(stored))) problems.push(`option text mismatch on ${qid}: shown ${c.text} vs session ${q.options[c.index]?.text}`);
     }
     for (const qid of Object.keys(sentAnswers)) if (!finalByUi[qid]) problems.push(`sent an answer for ${qid} the student did not leave`);
     let correct = 0; let wrong = 0;

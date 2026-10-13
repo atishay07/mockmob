@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import * as h from './nta_e2e_harness.mjs';
+import { plainOptionTexts } from '../option_text.js';
 
 const SKIP = !h.fixturesAvailable() ? 'fixtures missing: run node --use-system-ca scripts/nta-fixture-export.mjs' : false;
 const PROD_KEY = h.productionSigningKey();
@@ -142,6 +143,18 @@ for (const mode of ['asis', 'promoted']) {
           assert.equal(new Set(q.options.map((o) => o.text.trim().toLowerCase())).size, 4, `repeated option text in ${q.id}`);
           assert.ok(String(q.question || q.body || '').trim().length > 10, `empty stem in ${q.id}`);
           assert.ok(q.chapter, `no chapter on ${q.id}`);
+        }
+      });
+      await step('paper: what the runner shows for each option is never blank, and a letter stored in front of every option is not shown twice', () => {
+        for (const q of questions) {
+          const shown = plainOptionTexts(q.options);
+          assert.equal(shown.length, 4);
+          assert.ok(shown.every((text) => text.trim().length > 0), `blank displayed option in ${q.id}`);
+          assert.equal(new Set(shown.map((text) => text.trim().toLowerCase())).size, 4, `displayed options collide in ${q.id}`);
+          const stored = q.options.map((o) => o.text);
+          const prefixed = stored.every((text, i) => new RegExp(String.raw`^\s*${'ABCD'[i]}(?:\s*[.):]\s*|\s{2,})\S`).test(text));
+          if (prefixed) assert.ok(shown.every((text, i) => text.length < stored[i].length), `letter still shown in ${q.id}`);
+          else assert.deepEqual(shown, stored, `display changed a plain option in ${q.id}`);
         }
       });
       await step('paper: the answer key, explanation and evidence never reach the browser', () => {

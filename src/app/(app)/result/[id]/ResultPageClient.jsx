@@ -15,6 +15,7 @@ import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
 import '@/components/recovery/result.css';
+import { plainOptionTexts } from '@/../data/option_text';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -237,7 +238,7 @@ export default function ResultPageClient({ previewId = null }) {
                         return (
                           <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined}>
                             <span className="rp-options__letter">{LETTERS[j]}</span>
-                            <span className="rp-options__text">{displayValue(opt, 'Option')}</span>
+                            <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
                             {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
                           </li>
                         );

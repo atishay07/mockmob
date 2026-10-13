@@ -25,7 +25,7 @@
 .nta-runner[data-interface='nta'] .nta-palette-chip.is-current { outline-color: #306a92; }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .legend.answered) { background: #309816; border-color: #27820f; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .legend.visited) { background: #d84500; border-color: #c33d00; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .legend.marked, .legend.marked-answered) { background: radial-gradient(circle at 35% 25%, #b797de, #512593 70%); color: white; border-color: #7445a8; border-radius: 50%; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .legend.marked, .legend.marked-answered) { background: radial-gradient(circle at 35% 25%, #8a5bc4, #512593 70%); color: white; border-color: #7445a8; border-radius: 50%; }
 .nta-runner[data-interface='nta'] .legend { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
 .nta-runner .legend.marked-answered { position: relative; background: #72529b; }
 .nta-runner .legend.marked-answered::after { content: ''; position: absolute; right: 0; bottom: 0; width: 7px; height: 7px; border-radius: 50%; background: #65d833; }
@@ -77,7 +77,7 @@
   .nta-runner[data-interface='nta'] .nta-mobile-actions button { font-size: 12px; }
 }
 /* Header sits on the NTA blue in every theme. */
-.nta-runner[data-interface='nta'] .nta-timer { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .5); }
+.nta-runner[data-interface='nta'] .nta-timer { background: rgba(0, 0, 0, .16); border-color: rgba(255, 255, 255, .5); }
 .nta-runner[data-interface='nta'] .nta-timer.is-low { background: #b42318; border-color: #fff; }
 .nta-runner[data-interface='nta'] .nta-test-header .bar { background: rgba(255, 255, 255, .25); }
 .nta-runner[data-interface='nta'] .nta-test-header .bar > .fill { background: #fff; box-shadow: none; }
