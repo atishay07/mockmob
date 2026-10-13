@@ -9,6 +9,7 @@ import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract
 import { episodeCheckQuestion, respondEpisode } from './learning';
 import { replayExposures } from '@/../data/mistake_replay';
 import { studyExposures } from './studyExposure';
+import { assertNtaPaperServable } from './ntaPaper';
 
 export function publicSession(row) {
   return publicSessionView(row);
@@ -66,13 +67,15 @@ export async function startSession(userId, input) {
     chapter: typeof input.chapter === 'string' ? input.chapter : undefined,
     chapters: typeof input.chapters === 'string' ? input.chapters.split(',').slice(0,12) : undefined,
     generationKey: input.generationKey,
+    ntaVariant: mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : undefined,
   });
   if (input.recoveryFrom) {
     const previous = await Database.getAttemptById(input.recoveryFrom);
     if (!previous || previous.userId !== userId) throw new Error('SESSION_NOT_FOUND');
     result.meta = { ...result.meta, recoveryFrom: previous.id, freshQuestionFamilies: true };
   }
-  if (result.questions.length < count) throw new Error('INSUFFICIENT_VERIFIED_CONTENT');
+  if (mode.id === 'nta') assertNtaPaperServable(result.questions, result.meta, 'INSUFFICIENT_VERIFIED_CONTENT');
+  else if (result.questions.length < count) throw new Error('INSUFFICIENT_VERIFIED_CONTENT');
   const id = randomUUID();
   const created = new Date();
   const row = { id, user_id: userId, request_key: input.generationKey, subject: selection.internalSubject,

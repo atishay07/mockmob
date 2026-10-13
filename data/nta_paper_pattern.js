@@ -1,3 +1,5 @@
+// Superseded for NTA mode start by data/nta_engine.js (blueprints in data/nta_blueprints). Kept only
+// for the older selectNtaQuestionSet, which scripts/nta-*.mjs and its own tests still call.
 // NTA mode paper patterns: how a 50-question CUET UG paper is laid out per subject.
 //
 // CUET UG (2025 onward): every subject paper has 50 compulsory questions in 60 minutes.

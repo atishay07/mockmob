@@ -6,7 +6,7 @@
       "label": "Single-correct MCQ",
       "nta": "One stem, four options (1)-(4), one correct. Includes 'Which of the following is NOT ...' and one-statement 'identify the correct statement' items whose options are full sentences.",
       "patterns": [],
-      "dbTypes": ["direct_mcq", "conceptual_mcq", "direct_concept", "application_based", "numerical", "case_application", "comparison_based", "code_output", "sql_query"]
+      "dbTypes": ["direct_mcq", "conceptual_mcq", "direct_concept", "application_based", "numerical", "case_application", "comparison_based", "code_output", "sql_query", "numerical_calculation"]
     },
     "match_the_following": {
       "label": "Match List-I with List-II",
@@ -31,7 +31,7 @@
       "label": "Multi-statement selection",
       "nta": "Statements (A)-(D) followed by 'Choose the correct answer from the options given below'; options are combinations like '(A), (B) and (C) only'.",
       "patterns": ["\\(a\\)[\\s\\S]*\\(b\\)[\\s\\S]*\\(c\\)[\\s\\S]*(only|choose the correct answer)", "statements?\\s+(i|1)\\b[\\s\\S]*statements?\\s+(ii|2)\\b"],
-      "dbTypes": ["statement_based", "statement_selection"]
+      "dbTypes": ["statement_based", "statement_selection", "multi_statement"]
     },
     "assertion_reason": {
       "label": "Assertion (A) and Reason (R)",
@@ -39,10 +39,10 @@
       "patterns": ["assertion\\s*(\\(a\\))?\\s*:", "\\breason\\s*(\\(r\\))?\\s*:"],
       "dbTypes": ["assertion_reason", "assertion-reason"]
     },
-    "synonym": { "label": "English: word similar in meaning", "nta": "'Select the word similar in meaning to the given word: Munificent'.", "patterns": ["similar\\s+in\\s+meaning", "\\bsynonym"], "dbTypes": ["synonym"], "subjects": ["english"] },
+    "synonym": { "label": "English: word similar in meaning", "nta": "'Select the word similar in meaning to the given word: Munificent'.", "patterns": ["similar\\s+in\\s+meaning", "closest\\s+in\\s+meaning", "\\bsynonym"], "dbTypes": ["synonym", "contextual_vocabulary", "vocabulary_in_context", "meaning_in_context"], "subjects": ["english"] },
     "antonym": { "label": "English: word opposite in meaning", "nta": "'Select the word opposite in meaning to the given word: Sagacious'.", "patterns": ["opposite\\s+in\\s+meaning", "\\bantonym"], "dbTypes": ["antonym"], "subjects": ["english"] },
     "idiom_phrase": { "label": "English: idiom or phrase meaning", "nta": "Standalone idiom/phrase meaning items (idioms also appear inside Match the Following).", "patterns": ["\\bidiom", "\\bphrase\\b[\\s\\S]*\\bmean"], "dbTypes": ["idiom"], "subjects": ["english"] },
-    "one_word_substitution": { "label": "English: one-word substitution", "nta": "Reported on 2026 shifts (1-4 per paper).", "patterns": ["one[-\\s]word\\s+substitut", "one\\s+word\\s+for"], "dbTypes": ["one_word_substitution"], "subjects": ["english"] },
+    "one_word_substitution": { "label": "English: one-word substitution", "nta": "Reported on 2026 shifts (1-4 per paper).", "patterns": ["one[-\\s]word\\s+substitut", "one\\s+word\\s+for"], "dbTypes": ["one_word_substitution", "vocabulary_meaning"], "subjects": ["english"] },
     "error_detection": { "label": "English: error detection or correction", "nta": "Reported on 2026 shifts (0-2 per paper).", "patterns": ["\\berror\\b", "grammatically\\s+(in)?correct"], "dbTypes": ["error_detection", "sentence_correction"], "subjects": ["english"] },
     "fill_in_blank": { "label": "English: choose the correct word or phrase for the blank", "nta": "'Choose the correct option to fill in the blank in the given sentence'. Tests word choice, tense, prepositions, phrasal verbs. Counted under Correct Word Usage.", "patterns": ["fill\\s+in\\s+the\\s+blank", "_{3,}", "complete\\s+the\\s+(given\\s+)?sentence"], "dbTypes": ["correct_word_usage", "fill_in_blank"], "subjects": ["english"] },
     "passage_set_item": {

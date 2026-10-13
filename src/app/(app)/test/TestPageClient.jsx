@@ -254,7 +254,7 @@ function TestRunner() {
         if (generationKey) qs.set('generationKey', generationKey);
         qs.set('experience', searchParams.get('recoveryFrom') ? 'recovery' : 'practice');
         if (searchParams.get('recoveryFrom')) qs.set('recoveryFrom', searchParams.get('recoveryFrom'));
-        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes']) if (searchParams.get(name)) qs.set(name, searchParams.get(name));
+        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant']) if (searchParams.get(name)) qs.set(name, searchParams.get(name));
         const payload = await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
@@ -266,7 +266,8 @@ function TestRunner() {
           return;
         }
 
-        if (isNtaMode && loadedQuestions.length !== 50) {
+        // A 'closest' NTA paper may be a little short; the server has already said why.
+        if (isNtaMode && loadedQuestions.length !== 50 && meta?.ntaPaper?.status !== 'closest') {
           setError(meta?.message || `The database returned ${loadedQuestions.length} usable NTA questions for this subject; 50 are required.`);
           setLoading(false);
           return;
@@ -303,6 +304,12 @@ function TestRunner() {
           setError('Insufficient credits. Upgrade to Premium for unlimited mocks.');
           setLoading(false);
           router.replace('/pricing?reason=insufficient_credits');
+          return;
+        }
+        if (isNtaMode && e?.body?.message) {
+          // The NTA engine explains a refusal in the student's terms; show it as it is.
+          setError([e.body.message, ...(e.body.detail?.items || []).slice(0, 2)].join(' '));
+          setLoading(false);
           return;
         }
         setError(e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
@@ -762,6 +769,16 @@ function TestRunner() {
           </div>
         )}
 
+        {isNtaMode && selectionMeta?.ntaPaper?.status === 'closest' && selectionMeta.ntaPaper.items?.length > 0 && (
+          <details className="nta-alert nta-paper-notice" open>
+            <summary>
+              <Icon name="alert" />
+              <span>How this paper differs from the real CUET paper ({selectionMeta.ntaPaper.items.length})</span>
+            </summary>
+            <ul>{selectionMeta.ntaPaper.items.map((item) => <li key={item}>{item}</li>)}</ul>
+          </details>
+        )}
+
         <div className="nta-grid">
           <div className="nta-paper" ref={paperRef}>
             <div className="nta-paper-head">
@@ -1007,6 +1024,18 @@ function TestRunner() {
           font-size: 13px;
           line-height: 1.5;
         }
+        .nta-paper-notice { display: block; }
+        .nta-paper-notice summary {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-height: 44px;
+          cursor: pointer;
+          font-weight: 600;
+        }
+        .nta-paper-notice summary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+        .nta-paper-notice ul { margin: 6px 0 2px; padding-left: 30px; list-style: disc; }
+        .nta-paper-notice li + li { margin-top: 4px; }
         .nta-grid {
           display: grid;
           grid-template-columns: minmax(0, 1fr) 292px;

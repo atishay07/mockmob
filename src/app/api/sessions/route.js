@@ -24,7 +24,9 @@ async function handle(request, operation) {
   } catch (error) {
     const message = error.message || 'SESSION_REQUEST_FAILED';
     const status = /NOT_FOUND/.test(message) ? 404 : /MIGRATION|FAILED/.test(message) ? 503 : /CREDITS|PREMIUM/.test(message) ? 402 : 422;
-    return Response.json({ error: message }, { status, headers });
+    // NTA refusals carry a sentence for the student and what the bank was short of.
+    const extra = error.publicMessage ? { message: error.publicMessage, detail: error.publicDetail } : {};
+    return Response.json({ error: message, ...extra }, { status, headers });
   }
 }
 export const POST = request => handle(request, (userId, body) => body.sessionId ? startPractice(userId, body) : body.episodeId ? startSession(userId, body) : body.experience === 'practice' && !body.recoveryFrom ? startPractice(userId, body) : startSession(userId, body));

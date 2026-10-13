@@ -10,6 +10,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { durableLearningEnabled, episodeCheckQuestion } from './learning';
 import { allowancePeriod } from '@/../data/learning_engine';
 import { tonightMetadata } from '@/../data/study_progress';
+import { assertNtaPaperServable } from './ntaPaper';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -43,15 +44,18 @@ export async function startPractice(userId, input) {
       return { ...publicSessionView(existing), events: existing.events };
     }
   }
-  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty]);
+  // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it.
+  const ntaVariant = mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : '';
+  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : [])]);
   const previous = await Database.getAttemptById(id);
   if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
   const { questions, meta } = await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, count, requestedCount: count, returnMeta: true,
     chapters: chapters.length ? chapters : undefined, difficulty: difficulty || undefined,
-    generationKey: input.generationKey, requireEvidence: false,
+    generationKey: input.generationKey, requireEvidence: false, ntaVariant: ntaVariant || undefined,
   });
-  if (questions.length < count) throw new Error('INSUFFICIENT_PRACTICE_CONTENT');
+  if (mode.id === 'nta') assertNtaPaperServable(questions, meta);
+  else if (questions.length < count) throw new Error('INSUFFICIENT_PRACTICE_CONTENT');
   scoreSession(questions); // A malformed key cannot become a scored session.
   const created = Date.now();
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,

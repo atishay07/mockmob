@@ -12,6 +12,9 @@ export function publicSessionView(row) {
       learningPurpose:row.selection_meta?.learningPurpose || 'ordinary_practice',
       contentEvidence:row.selection_meta?.contentEvidence || 'unclassified',
       ...(row.selection_meta?.episodeId ? {episodeId:row.selection_meta.episodeId} : {}),
+      // NTA papers say whether they match the CUET pattern and, if not, exactly what differs.
+      ...(row.selection_meta?.ntaPaper ? {ntaPaper:{status:row.selection_meta.ntaPaper.status,summary:row.selection_meta.ntaPaper.notice?.summary || '',
+        items:row.selection_meta.ntaPaper.notice?.items || [],seenUsed:row.selection_meta.ntaPaper.structure?.seenUsed || 0,variant:row.selection_meta.ntaPaper.variant}} : {}),
       ...(row.selection_meta?.recoveryFrom ? {recoveryFrom:row.selection_meta.recoveryFrom,freshQuestionFamilies:row.selection_meta.freshQuestionFamilies===true} : {})} };
 }
 export function createRecoveryApi({baseUrl='',getToken=async()=>null,fetcher=globalThis.fetch}) {

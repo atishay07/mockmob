@@ -19,8 +19,10 @@ import { publicationEligibility } from './evidence_registry';
 import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
-import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta, excludeRepeatedFamilies } from './mock_question_selector';
-import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSetWithAnswerVerification } from './nta_question_selector';
+import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
+import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion } from './nta_question_selector';
+import { NTA_MIN_SCORE } from './nta_engine';
+import { buildNtaPaper, recordNtaShortfall } from './nta_pool';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -1084,10 +1086,10 @@ export const Database = {
   // =====================================================================
   async getQuestions(subjectId, count, opts = {}) {
     const mode = getMode(opts.mode || 'quick');
+    // NTA mode has its own engine: score threshold, blueprint assembly, one pool read.
+    if (mode.id === 'nta') return this.getNtaPaper(subjectId, opts);
     const originalRequestedCount = Math.max(1, Math.min(100, Number(opts.requestedCount || count || mode.fixedCount || mode.defaultCount || 10)));
-    const targetCount = mode.id === 'nta'
-      ? NTA_QUESTION_COUNT
-      : Math.max(1, Math.min(100, count || mode.fixedCount || mode.defaultCount || 10));
+    const targetCount = Math.max(1, Math.min(100, count || mode.fixedCount || mode.defaultCount || 10));
     const returnMeta = opts.returnMeta === true;
 
     const formatResult = async (rows, meta = {}) => {
@@ -1104,52 +1106,15 @@ export const Database = {
         meta: {
           mode: mode.id,
           requestedCount: originalRequestedCount,
-          finalCount: mode.id === 'nta' && questions.length === targetCount ? NTA_QUESTION_COUNT : questions.length,
+          finalCount: questions.length,
           selectedCount: questions.length,
-          durationMinutes: mode.id === 'nta' ? NTA_DURATION_MINUTES : undefined,
           ...meta,
         },
       };
     };
 
     // Pull a generous candidate pool — enough to survive recency + concept caps.
-    const poolSize = mode.id === 'nta' ? 5000 : Math.max(60, targetCount * 6);
-
-    const fetchNtaPool = async () => {
-      const pageSize = 1000;
-      const rows = [];
-      let useDeletedFilter = true;
-
-      for (let offset = 0; offset < poolSize; offset += pageSize) {
-        const end = Math.min(offset + pageSize - 1, poolSize - 1);
-        let query = supabaseAdmin()
-          .from('questions')
-          .select('*')
-          .eq('subject', subjectId)
-          .order('created_at', { ascending: false })
-          .range(offset, end);
-
-        if (useDeletedFilter) query = query.eq('is_deleted', false);
-
-        let { data, error } = await query;
-        if (error && useDeletedFilter && error.code === '42703') {
-          useDeletedFilter = false;
-          ({ data, error } = await supabaseAdmin()
-            .from('questions')
-            .select('*')
-            .eq('subject', subjectId)
-            .order('created_at', { ascending: false })
-            .range(offset, end));
-        }
-        if (error) throw error;
-
-        const page = Array.isArray(data) ? data : [];
-        rows.push(...page);
-        if (page.length < pageSize) break;
-      }
-
-      return rows;
-    };
+    const poolSize = Math.max(60, targetCount * 6);
 
     const buildQuery = (withScore, offset = null) => {
       let query = supabaseAdmin()
@@ -1171,24 +1136,20 @@ export const Database = {
     };
 
     let pool = [];
-    if (mode.id === 'nta') {
-      pool = await fetchNtaPool();
-    } else {
-      // Evidence precedence and freshness need the whole filtered subject pool;
-      // a recent sample can hide older, fully verified inventory.
-      for (let offset = 0; ; offset += 1000) {
-        let { data, error } = await buildQuery(true, offset);
-        if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(false, offset));
-        if (error) throw error;
-        pool.push(...(data || []));
-        if (!data || data.length < 1000) break;
-      }
+    // Evidence precedence and freshness need the whole filtered subject pool;
+    // a recent sample can hide older, fully verified inventory.
+    for (let offset = 0; ; offset += 1000) {
+      let { data, error } = await buildQuery(true, offset);
+      if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(false, offset));
+      if (error) throw error;
+      pool.push(...(data || []));
+      if (!data || data.length < 1000) break;
     }
     if (mode.id === 'quick') {
       pool = pool.filter((row) => !isPassageLinkedQuestion(row));
     }
     pool = await this._attachPassageMetadata(pool);
-    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: mode.id === 'nta' || opts.requireEvidence === true });
+    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: opts.requireEvidence === true });
     // Freshness is a hard constraint before ranking/selection, never a post-filter.
     if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
       const ids = new Set(opts.excludeQuestionIds || []), families = new Set(opts.excludeFamilyIds || []);
@@ -1202,7 +1163,7 @@ export const Database = {
       if (recentIds.size) {
         const trimmed = pool.filter((row) => row.selection_evidence_tier >= 2 || !recentIds.has(row.id));
         // Only honour recency if we still have a viable pool afterwards.
-        const minimumAfterRecency = mode.id === 'nta' ? targetCount : Math.ceil(targetCount * 0.7);
+        const minimumAfterRecency = Math.ceil(targetCount * 0.7);
         if (trimmed.length >= minimumAfterRecency) {
           recencyFilteredCount = pool.length - trimmed.length;
           pool = trimmed;
@@ -1215,9 +1176,6 @@ export const Database = {
         totalCandidates: 0,
         acceptedCandidates: 0,
         rejectedByReason: {},
-        message: mode.id === 'nta'
-          ? 'The database has fewer than 50 usable NTA questions for this subject.'
-          : undefined,
       });
     }
 
@@ -1230,21 +1188,6 @@ export const Database = {
       : new Set();
 
     const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
-    if (mode.id === 'nta') {
-      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(excludeRepeatedFamilies(ranked), targetCount, {
-        subjectId,
-        seed: opts.generationKey || opts.seed || '',
-      });
-
-      if (process.env.NODE_ENV !== 'production') {
-        console.info('[nta-selector]', diagnostics);
-      }
-
-      return formatResult(selectedRows, {
-        ...diagnostics,
-      });
-    }
-
     const selected = pickWithConstraints(ranked, targetCount, mode);
     const selectionUsage = buildSelectionUsageMeta({
       selectedRows: selected,
@@ -1264,6 +1207,46 @@ export const Database = {
       validation,
       selectionUsage,
     });
+  },
+
+  /**
+   * One NTA paper for a subject (data/nta_engine.js): questions with a score of NTA_MIN_SCORE or more
+   * out of 10 that pass the key, publication and family-hold gates, assembled to the subject's CUET
+   * blueprint. A paper the bank cannot fully supply comes back as status 'closest' with the
+   * differences in plain words, or 'refused' with a reason; both are recorded for the content team.
+   */
+  async getNtaPaper(subjectId, opts = {}) {
+    const db = supabaseAdmin();
+    const result = await buildNtaPaper(db, subjectId, {
+      userId: opts.userId,
+      variant: opts.ntaVariant,
+      seed: opts.generationKey || opts.seed || '',
+    });
+    console.info('[nta-engine]', JSON.stringify({ subject: subjectId, status: result.status, built: result.paper.length, eligible: result.pool.eligible, timings: result.timings }));
+    if (result.shortfall) await recordNtaShortfall(db, result);
+    const questions = result.rows.map(questionOut);
+    const meta = {
+      mode: 'nta',
+      requestedCount: NTA_QUESTION_COUNT,
+      finalCount: questions.length,
+      selectedCount: questions.length,
+      durationMinutes: NTA_DURATION_MINUTES,
+      selectionStrategy: 'nta_blueprint_engine',
+      message: result.status === 'refused' ? result.notice.summary : undefined,
+      ntaPaper: {
+        status: result.status,
+        engineVersion: result.engineVersion,
+        blueprintVersion: result.blueprintVersion,
+        variant: result.structure.variant,
+        minScore: NTA_MIN_SCORE,
+        notice: result.notice,
+        refusal: result.refusal,
+        structure: result.structure,
+        pool: { loaded: result.pool.loaded, eligible: result.pool.eligible, completeSets: result.pool.completeSets },
+        timings: result.timings,
+      },
+    };
+    return opts.returnMeta === true ? { questions, meta } : questions;
   },
 
   async _attachPassageMetadata(rows) {
