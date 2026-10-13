@@ -6,7 +6,9 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/insights_models.dart';
 import '../data/subject_names.dart';
+import '../../../core/models/attempt.dart';
 import '../data/trend.dart';
+import 'evidence.dart';
 import 'insights_bits.dart';
 
 const _tabular = [FontFeature.tabularFigures()];
@@ -143,9 +145,12 @@ Widget _pair(Widget a, Widget b) => Row(
 String _sec(int? s) => s == null ? '-' : (s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s');
 
 class ChangesSection extends StatelessWidget {
-  const ChangesSection({super.key, required this.changes});
+  const ChangesSection({super.key, required this.changes, this.evidence = const []});
 
   final ChangesSummary changes;
+
+  /// Sessions with changed answers, newest first.
+  final List<Attempt> evidence;
 
   @override
   Widget build(BuildContext context) {
@@ -161,15 +166,19 @@ class ChangesSection extends StatelessWidget {
         const SizedBox(height: MmSpace.s12),
         Text('${InsightsCopy.changesLine(c.count, c.gains, c.losses)}. Net $net marks.', style: type.small.copyWith(color: colors.ink)),
         Text(InsightsCopy.changesNote, style: type.caption.copyWith(color: colors.ink3)),
+        EvidencePill(attempts: evidence, what: InsightsCopy.behindChanges),
       ],
     );
   }
 }
 
 class PaceSection extends StatelessWidget {
-  const PaceSection({super.key, required this.pace});
+  const PaceSection({super.key, required this.pace, this.evidence = const []});
 
   final Pace pace;
+
+  /// Sessions with timed answers, newest first.
+  final List<Attempt> evidence;
 
   @override
   Widget build(BuildContext context) {
@@ -189,17 +198,21 @@ class PaceSection extends StatelessWidget {
         const SizedBox(height: MmSpace.s12),
         if (p.shareOnWrong != null) Text(InsightsCopy.paceShare(p.shareOnWrong!), style: type.small.copyWith(color: colors.ink)),
         Text(InsightsCopy.paceBasis(p.questionsTimed), style: type.caption.copyWith(color: colors.ink3)),
+        EvidencePill(attempts: evidence, what: InsightsCopy.behindPace),
       ],
     );
   }
 }
 
 class WeekSection extends StatelessWidget {
-  const WeekSection({super.key, required this.thisWeek, required this.lastWeek, required this.activeDays});
+  const WeekSection({super.key, required this.thisWeek, required this.lastWeek, required this.activeDays, this.evidence = const []});
 
   final WeekSummary thisWeek;
   final WeekSummary lastWeek;
   final int activeDays;
+
+  /// Sessions in the last 14 days, newest first.
+  final List<Attempt> evidence;
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +239,7 @@ class WeekSection extends StatelessWidget {
         const SizedBox(height: MmSpace.s12),
         Text(InsightsCopy.activeDays(activeDays), style: type.small.copyWith(color: colors.ink)),
         Text(InsightsCopy.weekNote, style: type.caption.copyWith(color: colors.ink3)),
+        EvidencePill(attempts: evidence, what: InsightsCopy.behindWeek),
       ],
     );
   }
@@ -248,7 +262,7 @@ class SubjectsSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
             child: Row(
               children: [
-                SubjectThumb(subject: lines[i].subject),
+                SubjectThumb(subject: lines[i].subject, size: 56),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(

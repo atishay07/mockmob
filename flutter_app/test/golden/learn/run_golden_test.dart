@@ -52,6 +52,15 @@ void main() {
       await _show(tester, b, _ready(r, pending: pending, notice: RunNotice.queuedOffline), 'run_card_offline_$n');
     });
 
+    testWidgets('a step answered on another device, $n', (tester) async {
+      await _show(tester, b, _ready(run(cursor: 4, revision: 9), notice: RunNotice.supersededElsewhere), 'run_superseded_$n');
+    });
+
+    testWidgets('a step type this build cannot open, $n', (tester) async {
+      final r = run(cursor: 2, revision: 4, item: {'id': 'card-x', 'type': 'drag_match', 'prompt': 'Match each partner to their share.'});
+      await _show(tester, b, _ready(r), 'run_unknown_step_$n');
+    });
+
     testWidgets('recall card, no network to reveal, $n', (tester) async {
       await _show(tester, b, _ready(run(cursor: 1, revision: 2), notice: RunNotice.connectToReveal), 'run_card_connect_$n');
     });

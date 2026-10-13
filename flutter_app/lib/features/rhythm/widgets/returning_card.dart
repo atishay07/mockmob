@@ -15,8 +15,11 @@ import '../logic/week_view.dart';
 /// A student is "returning" after 3 or more days away (the server's `returning`).
 bool showReturning(Rhythm rhythm) => rhythm.returning;
 
-/// Mobi greets once after 10 days or more away (spec 6.3).
-bool returningGreetsWithMobi(Rhythm rhythm) => (rhythm.daysSinceLastActivity ?? 0) >= 10;
+/// Mobi greets on every return the server flags (3 or more days away), the same rule as the
+/// Today hero, so the two never disagree on one screen. BUILD-BRIEF section 12 and spec 6.7
+/// ("after 3 or more days: Mobi greets once") replace the older 10-day row of the spec 6.3
+/// matrix.
+bool returningGreetsWithMobi(Rhythm rhythm) => showReturning(rhythm);
 
 /// At most this many closed weeks show on the card, newest first, with real counts.
 const int returningWeeksShown = 3;

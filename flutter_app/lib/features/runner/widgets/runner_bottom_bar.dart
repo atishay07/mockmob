@@ -5,7 +5,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
 /// The bottom bar, 72 dp above the gesture inset (spec 5.5): Previous as a glass pill and the
-/// one volt key, Save and next, which becomes Review and submit on the last question. No haptic
+/// one volt key, Next, which becomes Review and submit on the last question. No haptic
 /// on these: inside a timed paper only the option tick speaks.
 class RunnerBottomBar extends StatelessWidget {
   const RunnerBottomBar({super.key, required this.isFirst, required this.isLast, required this.onPrevious, required this.onNext});
@@ -32,19 +32,10 @@ class RunnerBottomBar extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 56),
             child: Row(
               children: [
-                KeyButton.secondary(
-                  label: RunnerCopy.previous,
-                  onPressed: isFirst ? null : onPrevious,
-                  expanded: false,
-                  hapticOnCommit: false,
-                ),
+                KeyButton.secondary(label: RunnerCopy.previous, onPressed: isFirst ? null : onPrevious, expanded: false, hapticOnCommit: false),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
-                  child: KeyButton(
-                    label: isLast ? RunnerCopy.reviewAndSubmit : RunnerCopy.saveAndNext,
-                    onPressed: onNext,
-                    hapticOnCommit: false,
-                  ),
+                  child: KeyButton(label: isLast ? RunnerCopy.reviewAndSubmit : RunnerCopy.next, onPressed: onNext, hapticOnCommit: false),
                 ),
               ],
             ),

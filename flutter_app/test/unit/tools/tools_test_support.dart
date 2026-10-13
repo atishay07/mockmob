@@ -7,7 +7,10 @@ import 'dart:io';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import 'package:mockmob/core/connectivity/connectivity_providers.dart';
 import 'package:mockmob/core/models/subject.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/tools/combo/combo_controller.dart';
@@ -16,6 +19,8 @@ import 'package:mockmob/features/tools/data/du_source.dart';
 import 'package:mockmob/features/tools/data/tools_store.dart';
 import 'package:mockmob/features/tools/domain/du_combos.dart';
 import 'package:mockmob/features/tools/domain/du_models.dart';
+import 'package:mockmob/features/tools/pro/compass_pro_models.dart';
+import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
 
 class FakeSource implements DuSource {
   FakeSource({this.cache = const {}, this.bundled, this.server = const {}, this.offline = false});
@@ -63,6 +68,16 @@ class _NeverRepository extends DuRepository {
   Future<DuCatalog> catalog() => Completer<DuCatalog>().future;
 }
 
+/// A phone whose network state the test sets.
+class FakeToolsNetwork extends NetworkStatusNotifier {
+  FakeToolsNetwork(this.status);
+
+  final NetworkStatus status;
+
+  @override
+  NetworkStatus build() => status;
+}
+
 const commerceSubjects = ['english', 'accountancy', 'business_studies', 'economics'];
 
 final _practiceSubjects = [
@@ -77,6 +92,10 @@ List<Override> toolsOverrides({
   PrefsStore? prefs,
   List<String> sheet = commerceSubjects,
   DateTime? now,
+  NetworkStatus network = NetworkStatus.online,
+  Stream<void>? restored,
+  bool pro = false,
+  ComboRunner? comboRunner,
 }) =>
     [
       duRepositoryProvider.overrideWithValue(
@@ -84,12 +103,14 @@ List<Override> toolsOverrides({
       ),
       toolsPrefsProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
       authSnapshotProvider.overrideWithBuild(
-        (ref, n) => AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya', subjects: sheet),
+        (ref, n) => AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya', subjects: sheet, isPro: pro),
       ),
       practiceSubjectsProvider.overrideWith((ref) async => _practiceSubjects),
       comboRunnerProvider.overrideWithValue(
-        (groups, pool, targets, maxPapers) async => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers),
+        comboRunner ?? (groups, pool, targets, maxPapers) async => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers),
       ),
+      networkStatusProvider.overrideWith(() => FakeToolsNetwork(network)),
+      networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
       if (now != null) nowProvider.overrideWithValue(() => now),
     ];
 
@@ -101,3 +122,54 @@ MemoryPrefsStore savedCompass(String subjects, {String category = 'UR', String s
 MemoryPrefsStore savedCombo(List<String> targets, List<String> pool, {int maxPapers = 5}) => MemoryPrefsStore()
   ..values['mm.tools.combo.v1'] =
       '{"targets":[${targets.map((t) => '"$t"').join(',')}],"pool":[${pool.map((t) => '"$t"').join(',')}],"maxPapers":$maxPapers}';
+
+/// Compass Pro's server read, answered from [body] (or failing offline) without a database.
+class FakeCompassPro extends CompassProRepository {
+  FakeCompassPro(this.body, {this.fail = false});
+
+  final Object? body;
+  final bool fail;
+  int fetches = 0;
+
+  @override
+  Future<CachedValue<CompassPro>?> readCache(String userId) async => null;
+
+  @override
+  Future<void> writeCache(String userId, Fetched<CompassPro> fetched, DateTime at) async {}
+
+  @override
+  Future<Object?> fetchJson() async {
+    fetches++;
+    if (fail) throw const ApiError(kind: ApiErrorKind.network, code: 'network');
+    return body;
+  }
+}
+
+
+/// A projection as `GET /api/compass/pro` returns it: two papers ready, one that needs more practice.
+const compassProReady = {
+  'ok': true,
+  'locked': false,
+  'sessions': 9,
+  'projection': {
+    'papers': [
+      {
+        'subject': 'accountancy', 'name': 'Accountancy', 'n': 120, 'right': 70, 'wrong': 30, 'skip': 20, 'language': false,
+        'status': 'ready', 'attemptShare': 83, 'accuracy': {'pct': 70, 'low': 60, 'high': 78}, 'mid': 150, 'low': 110, 'high': 185, 'open': 100,
+      },
+      {
+        'subject': 'english', 'name': 'English', 'n': 40, 'right': 25, 'wrong': 10, 'skip': 5, 'language': true,
+        'status': 'ready', 'attemptShare': 88, 'accuracy': {'pct': 71, 'low': 55, 'high': 83}, 'mid': 150, 'low': 100, 'high': 190, 'open': 100,
+      },
+      {'subject': 'economics', 'name': 'Economics', 'n': 12, 'right': 6, 'wrong': 4, 'skip': 2, 'language': false, 'status': 'thin', 'needed': 18},
+    ],
+    'total': {'papers': ['english', 'accountancy'], 'count': 2, 'complete': false, 'max': 500, 'mid': 300, 'low': 210, 'high': 375},
+    'next': {
+      'subject': 'accountancy', 'name': 'Accountancy', 'open': 100, 'mid': 150,
+      'chapter': {'name': 'Admission of a partner', 'wrong': 6, 'skip': 2, 'n': 20},
+    },
+    'minSample': 30,
+    'paperMax': 250,
+  },
+};
+

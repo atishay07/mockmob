@@ -5,9 +5,11 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/models/json_helpers.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/attempts_repository.dart';
+import '../../../core/storage/prefs_store.dart';
 import '../../onboarding/data/subjects.dart' show Confidence, SheetSubject;
 import '../../onboarding/state/student_sheet.dart' show studentSheetProvider;
 import 'default_subject.dart';
+import 'practice_prefs.dart';
 
 export 'default_subject.dart' show defaultPracticeSubject;
 
@@ -237,11 +239,73 @@ List<SubjectChoice> otherSubjects({required List<SubjectChoice> shown, List<Subj
 /// a credit balance refresh after a start rebuilds the auth snapshot, and before this split it
 /// also rebuilt the default and threw the pick away (the owner's "Business Studies goes back to
 /// Accountancy" bug, 13 October).
+///
+/// The pick is kept on the phone per account (owner, 13 October: Business Studies must still be
+/// the subject after a restart). It is read back once per account and trusted only when the
+/// catalogue offers it (or, with no catalogue, when it is a subject the app knows); anything else
+/// is dropped and the default applies.
 class PickedPracticeSubject extends Notifier<String?> {
-  @override
-  String? build() => null;
+  int _generation = 0;
+  Future<void> _restoring = Future.value();
 
-  void set(String id) => state = id;
+  /// Completes once the stored pick for this account has been read (or found missing or
+  /// invalid). A link that names no subject waits on this, so it starts in the pick.
+  Future<void> get restored => _restoring;
+
+  @override
+  String? build() {
+    final user = ref.watch(authSnapshotProvider.select((a) => a.userId));
+    final generation = ++_generation;
+    _restoring = user == null ? Future.value() : _restore(user, generation);
+    return null;
+  }
+
+  Future<void> _restore(String user, int generation) async {
+    final PrefsStore store;
+    final String? stored;
+    try {
+      store = ref.read(practicePrefsStoreProvider);
+      stored = await store.getString(pickedSubjectKey(user));
+    } on Object {
+      return;
+    }
+    if (stored == null) return;
+    final valid = await _offered(stored);
+    if (!ref.mounted || generation != _generation) return;
+    if (!valid) {
+      try {
+        await store.remove(pickedSubjectKey(user));
+      } on Object {
+        // A stale key is ignored on every read anyway.
+      }
+      return;
+    }
+    // A pick made while the store was being read is newer: it wins.
+    if (state == null) state = stored;
+  }
+
+  /// True when practice can start in [id]: the catalogue offers it, or, before the catalogue can
+  /// be read, it is one of the subjects the app knows by name.
+  Future<bool> _offered(String id) async {
+    if (!storedSubjectId.hasMatch(id)) return false;
+    try {
+      final catalog = await ref.read(practiceSubjectsProvider.future);
+      return catalog.any((s) => s.id == id);
+    } on Object {
+      return fallbackSubjectNames.containsKey(id);
+    }
+  }
+
+  void set(String id) {
+    state = id;
+    final user = ref.read(authSnapshotProvider).userId;
+    if (user == null) return;
+    try {
+      ref.read(practicePrefsStoreProvider).setString(pickedSubjectKey(user), id).catchError((Object _) {});
+    } on Object {
+      // The pick still holds for this run; it is only not remembered across a restart.
+    }
+  }
 }
 
 final pickedPracticeSubjectProvider = NotifierProvider<PickedPracticeSubject, String?>(PickedPracticeSubject.new);

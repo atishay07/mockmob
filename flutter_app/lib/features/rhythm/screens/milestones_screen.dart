@@ -66,7 +66,7 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
     final now = ref.watch(nowProvider)();
 
     if (snapshot.isInitialLoading) {
-      return const RhythmPage(title: RhythmCopy.milestonesTitle, child: SkeletonGroup(label: 'Loading your milestones', child: _MilestoneSkeleton()));
+      return const RhythmPage(title: RhythmCopy.milestonesTitle, child: SkeletonGroup(label: RhythmCopy.loadingMilestones, child: _MilestoneSkeleton()));
     }
     if (!snapshot.hasData) {
       return RhythmPage(
@@ -125,6 +125,10 @@ class MilestoneTimeline extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final tracks = milestoneTracks(milestones);
+    // Mobi speaks at the two ends of the paths only: before the first step, and once all landed.
+    final none = tracks.every((t) => t.earned.isEmpty);
+    final all = tracks.every((t) => t.complete);
+    final mobiLine = none ? RhythmCopy.milestonesMobiEmpty : (all ? RhythmCopy.milestonesMobiComplete : null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -135,6 +139,19 @@ class MilestoneTimeline extends StatelessWidget {
             style: type.caption.copyWith(color: colors.ink3),
           ),
         ),
+        if (mobiLine != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s16),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Mobi(
+                pose: all ? MobiPose.celebrating : MobiPose.pointing,
+                size: 64,
+                motion: all ? MobiMotion.hop : MobiMotion.settle,
+                say: mobiLine,
+              ),
+            ),
+          ),
         for (var k = 0; k < tracks.length; k++) ...[
           if (k > 0) const SizedBox(height: MmSpace.s16),
           MilestoneTrackCard(

@@ -23,6 +23,7 @@ import 'nta_instructions_parts.dart';
 import 'nta_palette.dart';
 import 'nta_paper_theme.dart';
 import 'nta_runner_screen.dart' show ntaCandidateNameProvider;
+import 'nta_skin.dart';
 
 /// The exam's instructions page (NTA-MODE-SPEC 9.6, an app addition): read before the clock
 /// exists. Start checks the quote, then calls `POST /api/sessions` through the shared launch,
@@ -91,8 +92,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
     });
   }
 
-  static String _gateText(PracticeQuote q) =>
-      q.isAccessRequired ? PracticeCopy.ntaGatedLine : (q.reason ?? PracticeCopy.unavailableFallback);
+  static String _gateText(PracticeQuote q) => q.isAccessRequired ? PracticeCopy.ntaGatedLine : (q.reason ?? PracticeCopy.unavailableFallback);
 
   void _back() => context.go(AppRoutes.practice);
 
@@ -192,13 +192,34 @@ class _Instructions extends StatelessWidget {
       children: [
         NtaCandidateCard(name: candidate, subject: subject),
         const SizedBox(height: MmSpace.s24),
-        Semantics(header: true, child: Text(NtaStartCopy.heading, style: type.headline)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(header: true, child: Text(NtaStartCopy.heading, style: NtaSkin.of(context).type.headline)),
+                  const SizedBox(height: MmSpace.s6),
+                  Text(NtaStartCopy.intro, style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            // Mobi waves from the page, and stays out of the paper once the clock runs.
+            const ExcludeSemantics(child: MobiCharacter(size: 88, entrance: MobiAct.hello, seed: 9)),
+          ],
+        ),
         const SizedBox(height: MmSpace.s16),
         Row(
           children: [
-            Expanded(child: NtaFactTile(value: '$count', unit: NtaStartCopy.questionsUnit)),
+            Expanded(
+              child: NtaFactTile(value: '$count', unit: NtaStartCopy.questionsUnit),
+            ),
             const SizedBox(width: MmSpace.s8),
-            Expanded(child: NtaFactTile(value: '$minutes', unit: NtaStartCopy.minutesUnit)),
+            Expanded(
+              child: NtaFactTile(value: '$minutes', unit: NtaStartCopy.minutesUnit),
+            ),
             const SizedBox(width: MmSpace.s8),
             const Expanded(child: NtaMarkingTile()),
           ],
@@ -223,22 +244,21 @@ class _Instructions extends StatelessWidget {
         NtaInstructionBlock(
           title: NtaStartCopy.keysTitle,
           children: [
-            for (final (label, meaning) in NtaStartCopy.keys)
-              NtaKeyRow(label: label, meaning: meaning),
+            for (final (label, meaning) in NtaStartCopy.keys) NtaKeyRow(label: label, meaning: meaning),
           ],
         ),
         NtaInstructionBlock(
           title: NtaStartCopy.screenTitle,
           children: [
             for (final rule in NtaCopy.rules)
-              NtaInstructionRow(leading: Icon(LucideIcons.shieldAlert, size: 18, color: colors.ink3), title: rule, leadingWidth: 22),
-            const SizedBox(height: MmSpace.s4),
-            Text(NtaCopy.finePrint, style: type.caption.copyWith(color: colors.ink3)),
+              NtaInstructionRow(
+                leading: Icon(LucideIcons.shieldAlert, size: 18, color: colors.ink3),
+                title: rule,
+                leadingWidth: 22,
+              ),
           ],
         ),
         const SizedBox(height: MmSpace.s24),
-        Text(NtaStartCopy.disclaimer, style: type.caption.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s12),
         Divider(height: 1, thickness: 1, color: colors.line),
         NtaDeclaration(value: declared, onChanged: onDeclared),
       ],

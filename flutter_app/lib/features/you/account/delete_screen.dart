@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/sync/pending_work.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -48,17 +49,33 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
   _Step _step = _Step.ask;
   String? _error;
   DeletionReceipt? _receipt;
-  int _unsent = 0;
+  PendingWorkCount _pending = PendingWorkCount.none;
+  final TextEditingController _typed = TextEditingController();
+  final MobiController _mobi = MobiController();
+  final GlobalKey _cancelKey = GlobalKey();
+
+  /// The page tells the student to type DELETE; a phone keyboard may capitalise it for them or
+  /// not, so the case does not matter.
+  bool get _confirmed => _typed.text.trim().toUpperCase() == YouCopy.deleteWord;
 
   @override
   void initState() {
     super.initState();
-    unsentAnswers(ref).then((n) {
-      if (mounted) setState(() => _unsent = n);
+    pendingWork(ref).then((n) {
+      if (mounted) setState(() => _pending = n);
     });
   }
 
+  @override
+  void dispose() {
+    _typed.dispose();
+    _mobi.dispose();
+    super.dispose();
+  }
+
   Future<void> _request() async {
+    if (!_confirmed) return;
+    FocusScope.of(context).unfocus();
     ref.read(hapticsProvider).warn();
     setState(() {
       _step = _Step.sending;
@@ -70,6 +87,10 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
       setState(() {
         _receipt = receipt;
         _step = _Step.recorded;
+      });
+      // Mobi points at how to cancel once the page has laid it out.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mobi.pointAtWidget(_cancelKey);
       });
     } on ApiError catch (e) {
       if (!mounted) return;
@@ -86,7 +107,8 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
       _error = null;
     });
     try {
-      await performSignOut(ref);
+      // The account is going, so what was queued for it goes too.
+      await performSignOut(ref, keepQueuedWork: false);
     } on Object {
       if (mounted) {
         setState(() {
@@ -121,16 +143,45 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         Text(YouCopy.deleteConsequences, style: type.lead),
         const SizedBox(height: MmSpace.s12),
         Text(YouCopy.deleteNotInstant, style: type.body.copyWith(color: colors.ink2)),
-        if (_unsent > 0) ...[
+        if (_pending.unsentAnswers > 0) ...[
           const SizedBox(height: MmSpace.s12),
-          Text(YouCopy.deleteUnsent(_unsent), style: type.body.copyWith(color: colors.ink2)),
+          Text(YouCopy.deleteUnsent(_pending.unsentAnswers), style: type.body.copyWith(color: colors.ink2)),
+        ],
+        if (_pending.queuedWrites > 0) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(YouCopy.deleteQueued(_pending.queuedWrites), style: type.body.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.group),
+        Semantics(
+          label: YouCopy.deleteTypeLabel,
+          child: Text(YouCopy.deleteTypeLabel, style: type.labelLarge),
+        ),
+        const SizedBox(height: MmSpace.s8),
+        TextField(
+          controller: _typed,
+          enabled: !sending,
+          autocorrect: false,
+          enableSuggestions: false,
+          textCapitalization: TextCapitalization.characters,
+          textInputAction: TextInputAction.done,
+          style: type.lead,
+          onChanged: (_) => setState(() => _error = null),
+          onSubmitted: (_) => _confirmed ? _request() : null,
+          decoration: const InputDecoration(hintText: YouCopy.deleteWord, counterText: ''),
+        ),
+        const SizedBox(height: MmSpace.group),
         if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
-        // The safe choice is the dominant key. The destructive key sits flat beside it in weight.
+        // The safe choice is the dominant key. The destructive key sits flat beside it in weight,
+        // stays off until DELETE is typed, and never carries Mobi.
         KeyButton(label: YouCopy.deleteKeep, onPressed: sending ? null : () => Navigator.of(context).maybePop()),
         const SizedBox(height: MmSpace.s12),
-        KeyButton.secondary(label: YouCopy.deleteRequest, loading: sending, hapticOnCommit: false, onPressed: sending ? null : _request),
+        KeyButton.secondary(
+          label: YouCopy.deleteRequest,
+          loading: sending,
+          hapticOnCommit: false,
+          onPressed: sending || !_confirmed ? null : _request,
+          disabledReason: sending || _confirmed ? null : YouCopy.deleteTypeNeeded,
+        ),
       ],
     );
   }
@@ -143,6 +194,12 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Mobi points at the way to cancel, which is the one thing left to do besides signing out.
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Mobi(pose: MobiPose.point, size: 64, controller: _mobi),
+        ),
+        const SizedBox(height: MmSpace.s8),
         Semantics(
           liveRegion: true,
           child: Text(receipt.alreadyRequested ? YouCopy.deleteAlready : YouCopy.deleteConsequences, style: type.lead),
@@ -151,6 +208,8 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         ReceiptLine(
           text: receipt.alreadyRequested ? YouCopy.deleteRequestedOn(receipt.requestedAt) : YouCopy.deleteRecordedAt(receipt.requestedAt),
         ),
+        const SizedBox(height: MmSpace.s12),
+        Text(YouCopy.deleteCancelNote, key: _cancelKey, style: type.body.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
         Text(YouCopy.deleteSignOutNote, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.group),

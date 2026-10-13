@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
@@ -16,6 +17,7 @@ import '../widgets/chapter_group_card.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
+import '../widgets/review_status.dart';
 import '../widgets/tonight_card.dart';
 
 /// How many chapter cards the tab shows before "See all": a list of what is due, never a pile.
@@ -145,6 +147,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       for (final (id, label) in unopened.take(1))
         gutter(UnopenedResultRow(label: label, onOpen: () => context.push(AppRoutes.resultSealed(id))), top: 0),
       if (unopened.isNotEmpty) const SizedBox(height: MmSpace.s16),
+      if (index.foundCount > 0) gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount), top: 0),
+      if (index.foundCount > 0) const SizedBox(height: MmSpace.s12),
       if (tonight != null)
         gutter(
           TonightCard(
@@ -155,8 +159,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             onShowMe: () => _showEvidence(context, index, tonight),
           ),
         )
+      else if (groups.isNotEmpty)
+        gutter(_noTonight(index, groups, inputs))
       else if (index.hasAnyMistake || index.attempts.isNotEmpty)
-        gutter(const _AllClear()),
+        // Only when nothing is open: a set-aside question is not a repaired one.
+        gutter(_AllClear(setAside: index.setAsideCount)),
       if (groups.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mistakesSummaryOf(index)), top: MmSpace.group),
         for (final g in groups.take(tabChapterLimit)) ...[
@@ -206,6 +213,35 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     ];
   }
 
+  /// Open mistakes with no tonight pick: the reasons are in the data, so the card names them.
+  Widget _noTonight(ReviewIndex index, List<ChapterGroup> groups, ReviewInputs inputs) {
+    final unopenedIds = {for (final u in inputs.unopened) u.attemptId};
+    var inShort = false;
+    var inUnopened = false;
+    PaperOpen? offer;
+    for (final g in groups) {
+      for (final paper in g.openByPaper) {
+        final attempt = index.attempt(paper.attemptId);
+        if (attempt == null) continue;
+        final unopened = unopenedIds.contains(paper.attemptId);
+        if (!isRepairBasis(attempt)) {
+          inShort = true;
+        } else if (unopened) {
+          inUnopened = true;
+        }
+        // The repair runs from any opened paper, so the key offers the first one found.
+        if (!unopened) offer ??= paper;
+      }
+    }
+    final chosen = offer;
+    return NoTonightCard(
+      inShortPractice: inShort,
+      inUnopenedResult: inUnopened,
+      offer: chosen,
+      onRepair: chosen == null ? null : () => _openRepair(chosen.items.first),
+    );
+  }
+
   void _showEvidence(BuildContext context, ReviewIndex index, TonightPick pick) {
     String text(MistakeItem item) {
       final a = index.attempt(item.attemptId);
@@ -233,7 +269,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
 /// No open mistakes: Mobi reading, and the truth about what comes next.
 class _AllClear extends StatelessWidget {
-  const _AllClear();
+  const _AllClear({this.setAside = 0});
+
+  /// Questions waiting on an answer-key check: they are not repaired, so the card says so.
+  final int setAside;
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +291,7 @@ class _AllClear extends StatelessWidget {
                 children: [
                   Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.cardTitle)),
                   const SizedBox(height: MmSpace.s4),
-                  Text(ReviewCopy.allClearMessage, style: type.small.copyWith(color: colors.ink2)),
+                  Text(setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage, style: type.small.copyWith(color: colors.ink2)),
                 ],
               ),
             ),

@@ -10,20 +10,25 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/catalog_repository.dart';
+import '../data/learn_prefs.dart';
 import '../data/learn_store.dart';
 import '../data/lesson_loader.dart';
 import '../data/run_starter.dart';
+import '../learn_paths.dart';
 import '../models/learn_catalog.dart';
 import '../widgets/due_card.dart';
+import '../widgets/how_concepts.dart';
 import '../widgets/lesson_list.dart';
 import '../widgets/offline_packs.dart';
 import '../widgets/screen_bits.dart';
+import '../widgets/untaught_chapters.dart';
 
 /// Runs that have an event on this phone the server has not acknowledged.
 final pendingRunIdsProvider = FutureProvider.autoDispose<List<String>>((ref) => ref.read(learnStoreProvider).pendingRunIds());
 
-/// The Learn tab (spec 5.9): the due summary, the run to pick up, the lessons with their
-/// status words, and the offline switches.
+/// The Concepts screen (spec 5.9), opened from the Practice shelf: how Concepts work, the due
+/// summary, the lesson to pick up, each subject's lessons with their status words and chapter
+/// summaries, the chapters without a lesson yet, and the offline switches.
 class LearnScreen extends ConsumerStatefulWidget {
   const LearnScreen({super.key});
 
@@ -35,6 +40,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   final _scroll = ScrollController();
   bool _starting = false;
   String? _startMessage;
+  bool _howMarked = false;
 
   @override
   void dispose() {
@@ -144,6 +150,12 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     final pending = ref.watch(pendingRunIdsProvider).value ?? const <String>[];
     final offline = ref.watch(offlineLearnProvider).value ?? const OfflineLearnState();
     final subjects = catalog.subjectsWithLessons;
+    final shown = catalog.subjectsToShow;
+    final firstVisit = !(ref.watch(conceptsHowSeenProvider).value ?? true);
+    if (firstVisit && !_howMarked) {
+      _howMarked = true;
+      unawaited(markConceptsHowSeen(ref.read(learnPrefsStoreProvider)));
+    }
     final active = catalog.active;
     final hasResume = active != null && active.id.isNotEmpty;
 
@@ -166,6 +178,10 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                     padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
                     child: Text(LearnCopy.subtitle, style: type.body.copyWith(color: colors.ink2)),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
+                    child: HowConcepts(withMobi: firstVisit || _howMarked),
+                  ),
                   if (hasResume) ...[
                     ResumeCard(
                       run: LearnActiveRun(
@@ -185,6 +201,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                     starting: _starting,
                     message: _startMessage,
                     onStart: _startRecall,
+                    showMobi: !(firstVisit || _howMarked) && catalog.units.isNotEmpty,
                   ),
                   if (!hasResume && catalog.next != null && catalog.next!.id.isNotEmpty) ...[
                     const SizedBox(height: MmSpace.s16),
@@ -196,6 +213,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                       padding: const EdgeInsets.symmetric(vertical: MmSpace.s24),
                       child: Column(
                         children: [
+                          const Mobi(pose: MobiPose.read, size: 112, say: LearnCopy.noLessonsMobi),
+                          const SizedBox(height: MmSpace.s16),
                           Text(LearnCopy.noLessonsTitle, style: type.title, textAlign: TextAlign.center),
                           const SizedBox(height: MmSpace.s8),
                           Text(
@@ -205,16 +224,24 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                           ),
                         ],
                       ),
-                    )
-                  else ...[
-                    for (final subject in subjects) ...[
+                    ),
+                  for (final subject in shown) ...[
+                    if (catalog.unitsOf(subject.id).isNotEmpty)
                       SubjectLessons(
-                        title: subject.title,
+                        subject: subject,
                         units: catalog.unitsOf(subject.id),
                         onOpen: (unit) => _open(AppRoutes.learnUnit(unit.id)),
-                      ),
-                      const SizedBox(height: MmSpace.s24),
-                    ],
+                        onReadChapter: (chapter) => unawaited(_open(LearnPaths.summary(subject.id, chapter))),
+                      )
+                    else
+                      SubjectHeader(subject: subject),
+                    UntaughtChapters(
+                      chapters: catalog.untaughtOf(subject.id),
+                      onPractise: (chapter) => unawaited(context.push<void>(LearnPaths.practiseChapter(subject.id, chapter))),
+                    ),
+                    const SizedBox(height: MmSpace.s24),
+                  ],
+                  if (catalog.units.isNotEmpty) ...[
                     const SizedBox(height: MmSpace.s8),
                     OfflinePacks(
                       subjects: subjects,

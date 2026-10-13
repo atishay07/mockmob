@@ -139,20 +139,85 @@ Map<String, dynamic> emptyInsightsJson() => {
       'findings': [],
     };
 
+/// One session with every question left blank: the share right is not known yet.
+Map<String, dynamic> sparseInsightsJson() => {
+      'ok': true,
+      'insights': {
+        'state': 'ready',
+        'sessions': 1,
+        'questions': 5,
+        'window': {'first': 1791800000000, 'last': 1791800000000},
+        'ledger': {'gained': 0, 'penalty': 0, 'net': 0, 'openWrong': 0, 'openSkipped': 25, 'open': 25},
+        'accuracy': {'pct': null, 'n': 0},
+        'attemptRate': 0,
+        'chapters': {'ranked': [], 'thin': []},
+        'difficulty': [],
+        'pace': {'usable': false, 'questionsTimed': 0, 'sessionsTimed': 0, 'slowest': []},
+        'changes': {'sessionsWithTelemetry': 0, 'count': 0, 'gains': 0, 'losses': 0, 'marksGained': 0, 'marksLost': 0, 'net': 0},
+        'week': {
+          'thisWeek': {'sessions': 1, 'questions': 5, 'right': 0, 'wrong': 0, 'skip': 5, 'net': 0, 'accuracy': {'pct': null, 'n': 0}},
+          'lastWeek': {'sessions': 0, 'questions': 0, 'right': 0, 'wrong': 0, 'skip': 0, 'net': 0, 'accuracy': {'pct': null, 'n': 0}},
+          'activeDaysLast14': 1,
+        },
+      },
+      'findings': [],
+    };
+
+PrepInsights sparse() => PrepInsights.fromJson(sparseInsightsJson());
+
 PrepInsights rich() => PrepInsights.fromJson(richInsightsJson());
 PrepInsights thin() => PrepInsights.fromJson(thinInsightsJson());
 PrepInsights empty() => PrepInsights.fromJson(emptyInsightsJson());
 
 const _day = 86400000;
-const _t0 = 1759300000000;
 
-/// Four Quick 10s in Accountancy and one full Economics mock.
+/// 3 October 2026, 12:00 UTC: ten days before the goldens' evening, so every session is inside
+/// the record's last 14 days.
+const _t0 = 1791028800000;
+
+/// An attempt with answer changes and timed answers from device events.
+Attempt _observed(String id, {required int completedAt, required List<(String, V)> questions, bool changed = false}) {
+  final json = attemptJson(
+    id: id,
+    mode: 'quick',
+    completedAt: completedAt,
+    questions: questions,
+    extraMeta: changed
+        ? {
+            'recovery': {
+              'telemetry': 'self_reported',
+              'observed': {
+                'answerChanges': [
+                  {'qid': '$id-q6'},
+                ],
+              },
+            },
+          }
+        : null,
+  );
+  for (final d in (json['details'] as List).cast<Map<String, dynamic>>()) {
+    d['timeMs'] = 41000;
+  }
+  return attemptOfJson(json);
+}
+
+/// Four Quick 10s in Accountancy and one full Economics mock, in the record's chapters.
 List<Attempt> trendAttempts() => [
-      attemptOf(id: 'a1', mode: 'quick', completedAt: _t0, questions: chapterOf('Partnership', right: 5, wrong: 3, blank: 2)),
-      attemptOf(id: 'a2', mode: 'quick', completedAt: _t0 + 2 * _day, questions: chapterOf('Partnership', right: 6, wrong: 2, blank: 2)),
-      attemptOf(id: 'e1', subject: 'economics', mode: 'full', completedAt: _t0 + 3 * _day, questions: chapterOf('Money', right: 31, wrong: 9, blank: 10)),
-      attemptOf(id: 'a3', mode: 'quick', completedAt: _t0 + 5 * _day, questions: chapterOf('Cash flow', right: 5, wrong: 4, blank: 1)),
-      attemptOf(id: 'a4', mode: 'quick', completedAt: _t0 + 8 * _day, questions: chapterOf('Cash flow', right: 8, wrong: 1, blank: 1)),
+      _observed('a1', completedAt: _t0, questions: chapterOf('Partnership: admission of a partner', right: 5, wrong: 3, blank: 2), changed: true),
+      _observed('a2', completedAt: _t0 + 2 * _day, questions: chapterOf('Partnership: admission of a partner', right: 6, wrong: 2, blank: 2), changed: true),
+      attemptOf(id: 'e1', subject: 'economics', mode: 'full', completedAt: _t0 + 3 * _day, questions: chapterOf('Money and banking', right: 31, wrong: 9, blank: 10)),
+      _observed('a3', completedAt: _t0 + 5 * _day, questions: chapterOf('Cash flow statement', right: 5, wrong: 4, blank: 1)),
+      attemptOf(id: 'a4', mode: 'quick', completedAt: _t0 + 8 * _day, questions: chapterOf('Cash flow statement', right: 8, wrong: 1, blank: 1)),
+    ];
+
+/// The one all-blank session behind the sparse record.
+List<Attempt> sparseAttempts() => [
+      attemptOf(id: 's1', mode: 'quick', completedAt: _t0 + 9 * _day, questions: chapterOf('Partnership: fundamentals', blank: 5)),
+    ];
+
+/// The one session behind the thin record.
+List<Attempt> thinAttempts() => [
+      attemptOf(id: 't1', mode: 'quick', completedAt: _t0 + 9 * _day, questions: chapterOf('Partnership: fundamentals', right: 7, wrong: 2, blank: 1)),
     ];
 
 Map<String, dynamic> questionJson(

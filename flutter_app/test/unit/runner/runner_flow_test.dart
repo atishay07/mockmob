@@ -77,7 +77,7 @@ void main() {
       final s = FakeRunnerSession();
       await pumpRunner(tester, session: s);
       expect(find.bySemanticsLabel('Question 1 of 50'), findsOneWidget);
-      await tester.tap(find.text('Save and next'));
+      await tester.tap(find.text('Next'));
       await tester.pump();
       expect(s.currentIndex, 1);
       expect(find.bySemanticsLabel('Question 2 of 50'), findsOneWidget);
@@ -198,7 +198,7 @@ void main() {
       await tester.tap(find.text('Keep working'));
       await settle(tester);
       expect(h.location, '/run/sess-1');
-      expect(find.text('Save and next'), findsNothing);
+      expect(find.text('Next'), findsNothing);
       expect(find.text('Review and submit'), findsOneWidget);
       expect(s.submits, 0);
     });

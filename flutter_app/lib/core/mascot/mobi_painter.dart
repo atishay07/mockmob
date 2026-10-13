@@ -112,11 +112,55 @@ class _BodyXf {
   }
 }
 
-Paint _limb(Color color, double width) => Paint()
-  ..style = PaintingStyle.stroke
-  ..strokeWidth = width
-  ..strokeCap = StrokeCap.round
-  ..color = color;
+/// Per-frame paint objects Mobi reuses instead of allocating each frame: the limb strokes (per
+/// palette colour and width) and the contact-shadow shader (per quantised alpha). Output is the
+/// same as building them fresh; [enabled] turns the cache off for that comparison in tests.
+abstract final class MobiPaintCache {
+  /// Off only in tests that compare cached and fresh painting.
+  static bool enabled = true;
+
+  static final Map<(Color, double), Paint> _limbs = {};
+  static final Map<(Color, int), Shader> _shadows = {};
+
+  /// Alphas are quantised to 1/255, the precision of an 8-bit channel.
+  static int quantise(double alpha) => (alpha.clamp(0.0, 1.0) * 255).round();
+
+  static Paint limb(Color color, double width) {
+    if (!enabled) return _newLimb(color, width);
+    return _limbs.putIfAbsent((color, width), () => _newLimb(color, width));
+  }
+
+  static Paint _newLimb(Color color, double width) => Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = width
+    ..strokeCap = StrokeCap.round
+    ..color = color;
+
+  /// The contact shadow's radial shader on a unit circle, for a palette shadow colour.
+  static Shader shadow(Color color, double alpha) {
+    final q = quantise(alpha);
+    if (_shadows.length > 256) _shadows.clear();
+    return _shadows.putIfAbsent((color, q), () => _newShadow(color, q));
+  }
+
+  static Shader _newShadow(Color color, int q) {
+    final a = q / 255;
+    return RadialGradient(colors: [
+      color.withValues(alpha: a),
+      color.withValues(alpha: a * 0.45),
+      color.withValues(alpha: 0),
+    ], stops: const [0, 0.5, 1])
+        .createShader(Rect.fromCircle(center: Offset.zero, radius: 1));
+  }
+
+  /// Forgets everything (tests).
+  static void clear() {
+    _limbs.clear();
+    _shadows.clear();
+  }
+}
+
+Paint _limb(Color color, double width) => MobiPaintCache.limb(color, width);
 
 /// A rubber hose with a lamp-lit edge: a lighter copy under the dark stroke, offset toward the
 /// light, reads as a rounded tube without gradients along the curve.
@@ -179,19 +223,29 @@ void _contactShadow(Canvas c, MobiRig r, double lift, MobiPalette p) {
   final center = Offset(71 + r.x * 0.6, MobiGeo.ground + 0.5);
   final rect = Rect.fromCenter(center: center, width: 104 * k, height: 12 * k);
   final alpha = (p.night ? 0.62 : 0.26) * k;
+  if (!MobiPaintCache.enabled) {
+    // The reference: a fresh shader every frame (what the cache must match).
+    c.save();
+    c.translate(center.dx, center.dy);
+    c.scale(1, rect.height / rect.width);
+    c.drawCircle(
+      Offset.zero,
+      rect.width / 2,
+      Paint()
+        ..shader = RadialGradient(colors: [
+          p.shadow.withValues(alpha: alpha),
+          p.shadow.withValues(alpha: alpha * 0.45),
+          p.shadow.withValues(alpha: 0),
+        ], stops: const [0, 0.5, 1])
+            .createShader(Rect.fromCircle(center: Offset.zero, radius: rect.width / 2)),
+    );
+    c.restore();
+    return;
+  }
+  // A unit circle scaled to the ellipse, so the shader depends only on the alpha.
   c.save();
   c.translate(center.dx, center.dy);
-  c.scale(1, rect.height / rect.width);
-  c.drawCircle(
-    Offset.zero,
-    rect.width / 2,
-    Paint()
-      ..shader = RadialGradient(colors: [
-        p.shadow.withValues(alpha: alpha),
-        p.shadow.withValues(alpha: alpha * 0.45),
-        p.shadow.withValues(alpha: 0),
-      ], stops: const [0, 0.5, 1])
-          .createShader(Rect.fromCircle(center: Offset.zero, radius: rect.width / 2)),
-  );
+  c.scale(rect.width / 2, rect.height / 2);
+  c.drawCircle(Offset.zero, 1, Paint()..shader = MobiPaintCache.shadow(p.shadow, alpha));
   c.restore();
 }

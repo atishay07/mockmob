@@ -74,7 +74,7 @@ class TokenShelf extends StatelessWidget {
         ),
       ],
     );
-    if (loading) return SkeletonGroup(label: 'Loading your milestones', child: shelf);
+    if (loading) return SkeletonGroup(label: RhythmCopy.loadingMilestones, child: shelf);
     return shelf;
   }
 }

@@ -13,6 +13,10 @@ import 'bubble_painter.dart';
 /// inked fills from its centre. [current] rings one question (the runner's palette).
 ///
 /// The grid stretches its gaps to the width it is given, between [minGap] and [maxGap].
+///
+/// The numbers follow the student's text size up to [maxNumberScale] and the rows grow to fit
+/// them; above it the numbers would run into their neighbours, so they are left out and the
+/// sheet keeps its TalkBack summary.
 class BubbleGrid extends StatelessWidget {
   const BubbleGrid({
     super.key,
@@ -44,10 +48,14 @@ class BubbleGrid extends StatelessWidget {
   final String? semanticsLabel;
 
   static const double _numberHeight = 13;
+  static const double _numberSize = 9.5;
+
+  /// Above this text scale the numbers are hidden (TalkBack still reads the summary).
+  static const double maxNumberScale = 1.3;
 
   int get _rows => (states.length / columns).ceil();
 
-  double _rowHeight() => bubbleSize + (numbers ? _numberHeight + 3 : 0);
+  double _rowHeight(double numberHeight) => bubbleSize + (numberHeight > 0 ? numberHeight + 3 : 0);
 
   String _describe() {
     if (sealed) return 'Sealed answer sheet, ${states.length} questions';
@@ -63,7 +71,11 @@ class BubbleGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final numberStyle = context.mmType.caption.copyWith(fontSize: 9.5, height: 1, color: colors.ink3, fontWeight: FontWeight.w600);
+    final numberStyle = context.mmType.caption.copyWith(fontSize: _numberSize, height: 1, color: colors.ink3, fontWeight: FontWeight.w600);
+    final scale = MediaQuery.textScalerOf(context).scale(_numberSize) / _numberSize;
+    final showNumbers = numbers && scale <= maxNumberScale;
+    final numberScale = scale < 1 ? 1.0 : scale;
+    final numberHeight = showNumbers ? (_numberHeight * numberScale).ceilToDouble() : 0.0;
     return Semantics(
       container: true,
       label: semanticsLabel ?? _describe(),
@@ -74,7 +86,7 @@ class BubbleGrid extends StatelessWidget {
           final natural = cols * bubbleSize + (cols - 1) * maxGap;
           final width = constraints.hasBoundedWidth ? math.min(constraints.maxWidth, natural) : natural;
           final gap = cols == 1 ? 0.0 : ((width - cols * bubbleSize) / (cols - 1)).clamp(minGap, maxGap);
-          final height = _rows * _rowHeight() + math.max(0, _rows - 1) * rowGap;
+          final height = _rows * _rowHeight(numberHeight) + math.max(0, _rows - 1) * rowGap;
           return RepaintBoundary(
             child: CustomPaint(
               size: Size(cols * bubbleSize + (cols - 1) * gap, height),
@@ -84,7 +96,9 @@ class BubbleGrid extends StatelessWidget {
                 bubbleSize: bubbleSize,
                 gap: gap,
                 rowGap: rowGap,
-                numberStyle: numbers ? numberStyle : null,
+                numberStyle: showNumbers ? numberStyle : null,
+                numberHeight: numberHeight,
+                textScaler: TextScaler.linear(numberScale),
                 sealed: sealed,
                 reveal: reveal,
                 current: current,
@@ -110,6 +124,8 @@ class BubbleGridPainter extends CustomPainter {
     required this.colors,
     this.reveal,
     this.current,
+    this.numberHeight = BubbleGrid._numberHeight,
+    this.textScaler = TextScaler.noScaling,
   }) : super(repaint: reveal);
 
   final List<BubbleState> states;
@@ -123,6 +139,12 @@ class BubbleGridPainter extends CustomPainter {
   final Animation<double>? reveal;
   final int? current;
 
+  /// The height of the number line above each row of bubbles (already scaled).
+  final double numberHeight;
+
+  /// Scales the numbers with the student's text size.
+  final TextScaler textScaler;
+
   final Map<int, TextPainter> _numbers = {};
 
   TextPainter _number(int n) => _numbers.putIfAbsent(
@@ -130,7 +152,7 @@ class BubbleGridPainter extends CustomPainter {
         () => TextPainter(
           text: TextSpan(text: '$n', style: numberStyle),
           textDirection: TextDirection.ltr,
-          textScaler: TextScaler.noScaling,
+          textScaler: textScaler,
         )..layout(),
       );
 
@@ -138,7 +160,7 @@ class BubbleGridPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final bubbles = BubblePaint(colors);
     final r = bubbleSize / 2;
-    final numberSpace = numberStyle == null ? 0.0 : BubbleGrid._numberHeight + 3;
+    final numberSpace = numberStyle == null ? 0.0 : numberHeight + 3;
     final progress = reveal?.value;
     final exact = progress == null ? double.infinity : progress * states.length;
 
@@ -179,6 +201,8 @@ class BubbleGridPainter extends CustomPainter {
       old.current != current ||
       old.reveal != reveal ||
       old.numberStyle != numberStyle ||
+      old.numberHeight != numberHeight ||
+      old.textScaler != textScaler ||
       !_same(old.states);
 
   bool _same(List<BubbleState> other) {

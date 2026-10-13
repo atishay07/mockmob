@@ -10,6 +10,7 @@ import '../../../core/models/study.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/notification_prefs_repository.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -19,9 +20,14 @@ import '../models/run_item.dart';
 import '../widgets/run_pips.dart';
 import '../widgets/screen_bits.dart';
 
-/// The ending of a run (spec 5.9, `/learn/run/:runId/done`). It says "Recorded" only for a run
-/// the server returned as complete, so it only ever follows an acknowledged event. No Mobi, no
-/// celebration and no streak: one plain line, what is still due, and the way back.
+/// The ending of a lesson or a review (spec 5.9, `/learn/run/:runId/done`). It only follows a run
+/// the server returned as complete, and says "Recorded" only from the server's own time.
+///
+/// A finished run gets a proportional moment: the pips ink in order (one per card or step put
+/// away), then Mobi appears at 112 dp, cheering, or pointing at the cards to see again when most
+/// came back Forgot, and the receipt line follows. The runner itself stays Mobi-free. Endings that
+/// did not finish (set aside, changed, still on this phone) stay calm with no pose. Under reduced
+/// motion everything is simply there and Mobi holds still. No streak and no score.
 class LearnRunDoneScreen extends ConsumerStatefulWidget {
   const LearnRunDoneScreen({super.key, required this.runId});
 
@@ -34,6 +40,24 @@ class LearnRunDoneScreen extends ConsumerStatefulWidget {
 class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// True once a catalog read made after this run finished has come back.
   bool _dueFresh = false;
+
+  /// True once the pips have inked: Mobi and the receipt follow.
+  bool _settled = false;
+
+  final _mobi = MobiController();
+  final _firstAgain = GlobalKey();
+  bool _pointed = false;
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  void _onSettled() {
+    if (!mounted || _settled) return;
+    setState(() => _settled = true);
+  }
 
   @override
   void initState() {
@@ -136,7 +160,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// The run is not finished (a deep link, or an event is still on this phone).
   Widget _stillActive(StudyRun run, RunUiState ui) {
     return _ended(
-      line: ui.pending != null ? Receipts.notRecordedYet : LearnCopy.runUnavailableMessage,
+      line: ui.pending != null ? Receipts.notRecordedYet : LearnCopy.stillActive,
       pending: ui.pending != null,
       keys: [
         if (ui.pending != null)
@@ -153,9 +177,15 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     final type = context.mmType;
     final colors = context.mmColors;
     final at = _recordedAt(run, ui);
-    final line = run.isLearn ? LearnCopy.lessonFinished(at) : LearnCopy.recallFinished(run.total, at);
+    final line = run.isLearn
+        ? LearnCopy.lessonFinished(run.lessonTitles.isEmpty ? run.title : run.lessonTitles.first)
+        : LearnCopy.recallFinished(run.total, lessons: run.lessonTitles);
     final due = ref.watch(learnCatalogProvider).value?.queue.dueCount ?? 0;
-    final again = run.cardsToSeeAgain;
+    final again = run.againCards;
+    final pointAtList = again.isNotEmpty && run.mostlyForgot;
+    final reduced = Motion.reduced(context);
+    final settled = _settled || run.total <= 0;
+    final fade = Motion.of(context, Motion.result);
     return _frame(
       keys: [
         KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn),
@@ -164,9 +194,27 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         ),
       ],
       children: [
-        if (run.total > 0) SettlingPips(total: run.total),
+        // Space is kept for Mobi so nothing below moves when it arrives.
+        SizedBox(
+          height: _mobiSize,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: settled || reduced ? _mobiFor(pointAtList) : const SizedBox.shrink(),
+          ),
+        ),
+        const SizedBox(height: MmSpace.s16),
+        if (run.total > 0) SettlingPips(total: run.total, onSettled: _onSettled),
         const SizedBox(height: MmSpace.s24),
         Semantics(header: true, liveRegion: true, child: Text(line, style: type.title)),
+        if (at != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          AnimatedOpacity(
+            opacity: settled ? 1 : 0,
+            duration: fade,
+            curve: Motion.out,
+            child: ReceiptLine(text: LearnCopy.recordedAt(at)),
+          ),
+        ],
         if (_dueFresh && due > 0) ...[
           const SizedBox(height: MmSpace.s12),
           Text(LearnCopy.stillDue(due), style: type.body.copyWith(color: colors.ink2)),
@@ -176,6 +224,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
           Semantics(header: true, child: Text(LearnCopy.doneAgainHeading, style: type.subhead)),
           const SizedBox(height: MmSpace.s8),
           DecoratedBox(
+            key: _firstAgain,
             decoration: BoxDecoration(
               color: colors.raised,
               borderRadius: MmRadius.panelAll,
@@ -186,16 +235,60 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  for (var i = 0; i < again.length && i < 5; i++) ...[
+                  for (var i = 0; i < again.length && i < _againShown; i++) ...[
                     if (i > 0) Divider(height: MmSpace.s24, thickness: 1, color: colors.line),
-                    Text(again[i], style: type.body),
+                    Text(again[i].title!, style: type.body),
                   ],
                 ],
               ),
             ),
           ),
+          if (again.length > _againShown) _moreAgain(again),
         ],
       ],
+    );
+  }
+
+  static const double _mobiSize = 112;
+  static const int _againShown = 5;
+
+  /// Mobi for a finished run: a cheer, or pointing at the list when most cards came back Forgot.
+  Widget _mobiFor(bool pointAtList) {
+    if (!pointAtList) {
+      return const Mobi(pose: MobiPose.cheer, size: _mobiSize, motion: MobiMotion.hop);
+    }
+    if (!_pointed) {
+      _pointed = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mobi.pointAtWidget(_firstAgain);
+      });
+    }
+    return Mobi(pose: MobiPose.point, size: _mobiSize, controller: _mobi, say: LearnCopy.doneMostlyForgot);
+  }
+
+  /// "and 3 more to see again", opening the lesson the first hidden card came from.
+  Widget _moreAgain(List<ReviewedCard> again) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    final hidden = again.length - _againShown;
+    final unitId = again.skip(_againShown).map((c) => c.unitId).firstWhere((id) => id != null && id.isNotEmpty, orElse: () => null);
+    final text = LearnCopy.againMore(hidden);
+    return MmPressable(
+      semanticsLabel: '$text. ${unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson}',
+      focusRadius: MmRadius.panelAll,
+      onTap: () => context.go(unitId == null ? AppRoutes.learn : AppRoutes.learnUnit(unitId)),
+      builder: (context, pressed, _) => SizedBox(
+        height: MmTarget.min,
+        child: Row(
+          children: [
+            Expanded(child: Text(text, style: type.body.copyWith(color: colors.ink2))),
+            Text(
+              unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson,
+              style: type.label.copyWith(color: colors.ink, decoration: TextDecoration.underline, decorationColor: colors.lineStrong),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

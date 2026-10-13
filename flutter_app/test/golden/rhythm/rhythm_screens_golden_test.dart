@@ -138,6 +138,33 @@ void main() {
       await shoot(tester, 'milestones_empty', brightness, const YouMilestonesScreen(), rhythm: loaded(rhythmFixture()));
     });
 
+    testWidgets('milestones, every path landed, $b', (tester) async {
+      await shoot(
+        tester,
+        'milestones_complete',
+        brightness,
+        const YouMilestonesScreen(),
+        rhythm: loaded(
+          rhythmFixture(
+            milestones: [
+              for (final (i, id) in const [
+                'first_scored_session',
+                'first_full_mock',
+                'sessions_10',
+                'first_repair',
+                'repairs_5',
+                'repairs_10',
+                'repairs_25',
+                'first_week_met',
+                'weeks_met_4',
+              ].indexed)
+                RhythmMilestone(id: id, achievedAt: DateTime.utc(2026, 9, 1 + i * 3, 10)),
+            ],
+          ),
+        ),
+      );
+    });
+
     testWidgets('bests list, $b', (tester) async {
       await shoot(tester, 'bests_list', brightness, const YouBestsScreen(), rhythm: loaded(_rhythm), bests: const RemoteState(value: _bests));
     });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
+import 'package:mockmob/features/onboarding/data/subjects.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
@@ -106,6 +107,20 @@ void main() {
     _flow,
     overrides: () => onboardingOverrides(
       answers: studentUpTo(Steps.plan, step: Steps.firstMove).copyWith(age: AgeAnswer.minor, notNow: true),
+    ),
+  );
+
+  // None of the subjects has a starting-point check: the first move is plain practice, said so.
+  onboardingGolden(
+    'first_move_practice',
+    _flow,
+    overrides: () => onboardingOverrides(
+      answers: studentUpTo(Steps.plan, step: Steps.firstMove).copyWith(
+        age: AgeAnswer.minor,
+        notNow: true,
+        subjects: const [SheetSubject.physics, SheetSubject.chemistry, SheetSubject.mathematics],
+        confidence: const {SheetSubject.physics: Confidence.shaky},
+      ),
     ),
   );
 

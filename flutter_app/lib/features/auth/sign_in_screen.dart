@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/config/app_config.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../account_access/widgets/sign_in_methods.dart';
 import 'auth_page.dart';
 import 'copy.dart';
 import 'email_field.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
-/// Sign-in (spec 5.2): the email, one key to send a code, and Google when it is configured.
+/// Sign-in (spec 5.2): every way in on one screen. Google when the build has it, then the email
+/// code (the email and one key to send a code) or a password, and the phone when that is on. The
+/// methods come from [SignInMethods]; this screen owns the email-code block and its code screen.
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key, this.autofocus = true});
 
@@ -26,6 +28,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   late final TextEditingController _email = TextEditingController(
     text: ref.read(signInControllerProvider).email,
   );
+
+  /// Google or the password form is working, so the email key waits.
+  bool _otherBusy = false;
 
   @override
   void initState() {
@@ -71,17 +76,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final type = context.mmType;
     final state = ref.watch(signInControllerProvider);
     final notifier = ref.read(signInControllerProvider.notifier);
-    final googleOn = ref.watch(
-      appConfigProvider.select((c) => c.googleSignInEnabled),
-    );
 
     final problem = state.problemFor(SignInStep.email);
     final problemText = problem == null
         ? null
         : AuthCopy.problem(problem, SignInStep.email);
     final sending = state.busy == SignInBusy.sending;
-    final googleBusy = state.busy == SignInBusy.google;
     final typed = _email.text.trim().toLowerCase();
+    final held = state.isBusy || _otherBusy;
 
     return AuthPage(
       step: SignInStep.email,
@@ -99,46 +101,56 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             style: type.lead.copyWith(color: colors.ink2),
           ),
           const SizedBox(height: MmSpace.group),
-          EmailField(
-            controller: _email,
-            autofocus: widget.autofocus,
-            enabled: !state.isBusy,
-            hasError: problem == SignInProblem.invalidEmail,
-            onChanged: (value) {
-              notifier.setEmail(value);
-              setState(() {});
-            },
-            onSubmitted: _send,
-          ),
-          if (problemText != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            ProblemLine(message: problemText),
-          ],
-          const SizedBox(height: MmSpace.s20),
-          KeyButton(
-            label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
-            loading: sending,
-            onPressed: state.isBusy ? null : _send,
-          ),
-          if (googleOn) ...[
-            const SizedBox(height: MmSpace.s12),
-            KeyButton.secondary(
-              label: googleBusy
-                  ? AuthCopy.googleBusy
-                  : AuthCopy.continueWithGoogle,
-              loading: googleBusy,
-              onPressed: state.isBusy ? null : notifier.signInWithGoogle,
+          SignInMethods(
+            initialEmail: state.email,
+            busy: state.isBusy,
+            onBusyChanged: (busy) => setState(() => _otherBusy = busy),
+            onSignedIn: notifier.googleSignedIn,
+            emailCode: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                EmailField(
+                  controller: _email,
+                  autofocus: widget.autofocus,
+                  enabled: !held,
+                  hasError: problem == SignInProblem.invalidEmail,
+                  onChanged: (value) {
+                    notifier.setEmail(value);
+                    setState(() {});
+                  },
+                  onSubmitted: _send,
+                ),
+                if (problemText != null) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  ProblemLine(message: problemText),
+                ],
+                const SizedBox(height: MmSpace.s20),
+                KeyButton(
+                  label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
+                  loading: sending,
+                  onPressed: held ? null : _send,
+                ),
+                if (state.hasCodeFor(typed) && !held) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      AuthCopy.codeSentTo(typed),
+                      style: type.small.copyWith(color: colors.ink2),
+                    ),
+                  ),
+                  const SizedBox(height: MmSpace.s4),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: KeyButton.quiet(
+                      label: AuthCopy.alreadyHaveCode,
+                      onPressed: _haveCode,
+                    ),
+                  ),
+                ],
+              ],
             ),
-          ],
-          if (state.hasCodeFor(typed) && !state.isBusy) ...[
-            const SizedBox(height: MmSpace.s8),
-            Align(
-              child: KeyButton.quiet(
-                label: AuthCopy.alreadyHaveCode,
-                onPressed: _haveCode,
-              ),
-            ),
-          ],
+          ),
           const SizedBox(height: MmSpace.s24),
           Text(
             AuthCopy.newHere,

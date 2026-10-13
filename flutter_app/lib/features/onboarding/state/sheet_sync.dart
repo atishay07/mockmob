@@ -65,7 +65,11 @@ class SheetSync extends Notifier<SheetSyncState> {
     if (!ref.mounted || _running || state.phase == SheetSyncPhase.failed) return;
     final auth = ref.read(authSnapshotProvider);
     final answers = ref.read(onboardingAnswersProvider).value;
-    if (!auth.isSignedIn || answers == null || !answers.sealed) return;
+    if (!auth.isSignedIn || answers == null || !answers.sealed) {
+      // A run that ended without settling (signed out part way) does not leave "Saving" up.
+      if (state.phase == SheetSyncPhase.saving) state = const SheetSyncState(SheetSyncPhase.idle);
+      return;
+    }
     if (answers.syncedFor == auth.userId) {
       if (state.phase != SheetSyncPhase.saved) state = const SheetSyncState(SheetSyncPhase.saved);
       return;
@@ -74,20 +78,29 @@ class SheetSync extends Notifier<SheetSyncState> {
     unawaited(run());
   }
 
-  /// Writes the sheet. Also the "Try again" action.
+  /// Writes the sheet. Also the "Try again" action. Only one run is out at a time: a call while
+  /// one is running returns at once, so the listener, the first microtask and a tap on "Try
+  /// again" never send the writes twice.
   Future<void> run() async {
     if (_running) return;
-    final auth = ref.read(authSnapshotProvider);
-    final answers = await ref.read(onboardingAnswersProvider.future);
-    final userId = auth.userId;
-    if (!auth.isSignedIn || userId == null || !answers.sealed) return;
+    // Claimed before the first await, so an overlapping call sees it.
     _running = true;
-    state = const SheetSyncState(SheetSyncPhase.saving);
     try {
+      final auth = ref.read(authSnapshotProvider);
+      final OnboardingAnswers answers;
+      try {
+        answers = await ref.read(onboardingAnswersProvider.future);
+      } on Object {
+        // The sheet on the phone could not be read; there is nothing to write yet.
+        return;
+      }
+      final userId = auth.userId;
+      if (!ref.mounted || !auth.isSignedIn || userId == null || !answers.sealed) return;
+      state = const SheetSyncState(SheetSyncPhase.saving);
       // An account that already has a plan keeps everything it has, its consent included.
       if (auth.subjects.isNotEmpty) {
         _keptFor = userId;
-        if (ref.mounted) state = const SheetSyncState(SheetSyncPhase.kept);
+        state = const SheetSyncState(SheetSyncPhase.kept);
         return;
       }
       await _writeAge(answers);
@@ -98,6 +111,10 @@ class SheetSync extends Notifier<SheetSyncState> {
       unawaited(_reloadProfile());
     } on ApiError catch (e) {
       if (ref.mounted) state = SheetSyncState(SheetSyncPhase.failed, offline: e.isOffline);
+    } on Object {
+      // Anything else (signed out part way, a reply that would not parse): not saved, and
+      // "Try again" stays on screen. Only an ApiError can say the connection was lost.
+      if (ref.mounted) state = const SheetSyncState(SheetSyncPhase.failed);
     } finally {
       _running = false;
     }

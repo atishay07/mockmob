@@ -1,8 +1,8 @@
 // "The road to May" (brief 11, 12; owner feedback 13 Oct "the road ... can be improved"): what
 // the calendar really holds between now and the CSAS rounds, made useful. The weeks to the
-// expected window, the weeks before boards take the evenings, the study days the student's own
-// goal gives them, what this week still asks for, the road drawn to scale with its stops in
-// words, and the dream ladder with the real CSAS 2026 Round 1 closing score of each pick.
+// expected window (or, after 1 May 2027, the window being open and CSAS to come), the road drawn
+// to scale with every stop listed under it with its dates, the study days the student's own goal
+// gives them, and the dream ladder with the real CSAS 2026 Round 1 closing score of each pick.
 // Calendar arithmetic and the student's choices only: nothing here predicts marks or chances.
 import 'package:flutter/material.dart';
 
@@ -13,13 +13,10 @@ import '../logic/today_model.dart';
 import 'road_timeline.dart';
 
 class RoadSection extends StatelessWidget {
-  const RoadSection({super.key, required this.road, this.onChooseColleges, this.onWeek});
+  const RoadSection({super.key, required this.road, this.onChooseColleges});
 
   final RoadModel road;
   final VoidCallback? onChooseColleges;
-
-  /// Kept for callers; the week lives in the strip at the top of Today.
-  final VoidCallback? onWeek;
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +32,30 @@ class RoadSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title)),
+                Semantics(
+                  header: true,
+                  child: Text(road.phase == RoadPhase.csas ? TodayCopy.roadTitleCsas : TodayCopy.roadTitle, style: type.title),
+                ),
                 const SizedBox(height: MmSpace.s12),
-                // One hero number; the road itself is the picture.
-                _Stat(value: '${road.weeks}', unit: TodayCopy.weeksLabel(road.weeks)),
+                // One hero figure; the road itself is the picture.
+                switch (road.phase) {
+                  RoadPhase.countdown => _Stat(value: '${road.weeks}', unit: TodayCopy.weeksLabel(road.weeks)),
+                  RoadPhase.window => _Stat(
+                      value: '${road.daysLeft ?? 0}',
+                      unit: TodayCopy.windowDaysLeft(road.daysLeft ?? 0),
+                      headline: TodayCopy.windowOpen,
+                    ),
+                  RoadPhase.csas => _Headline(headline: TodayCopy.csasHeadline, line: TodayCopy.csasLine),
+                },
                 const SizedBox(height: MmSpace.s16),
-                RoadTimeline(today: road.today, stops: road.stops),
-                const SizedBox(height: MmSpace.s8),
-                RoadLegend(stops: road.stops),
-                if (road.studyDays case final n? when road.goal != null) ...[
+                RoadTimeline(today: road.today, stops: road.stops, end: road.end),
+                if (road.stops.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  RoadStops(stops: road.stops),
+                ],
+                if (road.phase != RoadPhase.countdown)
+                  const SizedBox.shrink()
+                else if (road.studyDays case final n? when road.goal != null) ...[
                   const SizedBox(height: MmSpace.s16),
                   Text(TodayCopy.sessionsLine(n, road.goal!), style: type.body.copyWith(color: colors.ink2)),
                 ] else if (road.weeksToBoards == 0) ...[
@@ -69,10 +81,13 @@ class RoadSection extends StatelessWidget {
 
 /// The hero figure with its two-line meaning beside it.
 class _Stat extends StatelessWidget {
-  const _Stat({required this.value, required this.unit});
+  const _Stat({required this.value, required this.unit, this.headline});
 
   final String value;
   final String unit;
+
+  /// A line above the figure ("Exam window open").
+  final String? headline;
 
   @override
   Widget build(BuildContext context) {
@@ -80,21 +95,52 @@ class _Stat extends StatelessWidget {
     final type = context.mmType;
     return Semantics(
       container: true,
-      label: '$value ${unit.replaceAll('\n', ' ')}',
+      label: '${headline == null ? '' : '$headline. '}$value ${unit.replaceAll('\n', ' ')}',
       excludeSemantics: true,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MonumentalNumber(value: value, style: type.figure, roll: false),
-          const SizedBox(width: MmSpace.s12),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text(unit, style: type.labelLarge.copyWith(color: colors.ink)),
-            ),
+          if (headline != null) ...[
+            Text(headline!, style: type.labelLarge.copyWith(color: colors.isNight ? colors.volt : colors.accentText)),
+            const SizedBox(height: MmSpace.s4),
+          ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              MonumentalNumber(value: value, style: type.figure, roll: false),
+              const SizedBox(width: MmSpace.s12),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Text(unit, style: type.labelLarge.copyWith(color: colors.ink)),
+                ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+/// After the window: no figure to count down, so the state is said in words.
+class _Headline extends StatelessWidget {
+  const _Headline({required this.headline, required this.line});
+
+  final String headline;
+  final String line;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Semantics(header: true, child: Text(headline, style: type.title.copyWith(fontSize: 22, height: 28 / 22, color: colors.isNight ? colors.volt : colors.accentText))),
+        const SizedBox(height: MmSpace.s4),
+        Text(line, style: type.body.copyWith(color: colors.ink2)),
+      ],
     );
   }
 }
@@ -153,8 +199,8 @@ class _Ladder extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: Text(
-                              TodayCopy.dreamTag.toUpperCase(),
-                              style: type.caption.copyWith(fontSize: 11, height: 14 / 11, letterSpacing: 0.8, fontWeight: FontWeight.w700, color: colors.accentText),
+                              TodayCopy.dreamTag,
+                              style: type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w700, color: colors.accentText),
                             ),
                           ),
                         Text(r.college, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),

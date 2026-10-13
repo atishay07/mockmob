@@ -1,18 +1,31 @@
 // Goldens for the CUET tools at 384 by 853 logical px, DPR 2, Night and Daylight. Long screens
 // also get a tall frame so everything below the fold is looked at.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
+import 'package:mockmob/features/tools/domain/du_combos.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/programme_screen.dart';
 import 'package:mockmob/features/tools/guide/guide_2027_screen.dart';
 import 'package:mockmob/features/tools/hub/tools_hub_screen.dart';
+import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
 
 import '../../unit/tools/tools_test_support.dart';
 import '../you/you_golden_kit.dart';
 
 const Size _tall = Size(384, 2400);
+
+/// A Pro account's Compass: a projection with a full four-paper total and two shortlist targets.
+final Map<String, Object?> _proComplete = {
+  ...compassProReady,
+  'projection': {
+    ...(compassProReady['projection']! as Map).cast<String, Object?>(),
+    'total': {'papers': ['english', 'accountancy', 'economics', 'business_studies'], 'count': 4, 'complete': true, 'max': 1000, 'mid': 640, 'low': 560, 'high': 720},
+  },
+};
 
 void main() {
   setUpGoldenFonts();
@@ -37,6 +50,21 @@ void main() {
     size: _tall,
     overrides: () => toolsOverrides(prefs: savedCompass('english,business_studies,economics')),
   );
+  sheetGolden(
+    'compass_pro',
+    () => const CompassScreen(),
+    size: const Size(384, 3600),
+    overrides: () => [
+      ...toolsOverrides(
+        prefs: savedCompass('english,business_studies,economics')
+          ..values['mm.tools.compass.shortlist.v1.u1'] =
+              '[{"g":"b-com-hons","c":"Aryabhatta College"},{"g":"b-com-hons","c":"Acharya Narendra Dev College"}]',
+        pro: true,
+      ),
+      compassProRepositoryProvider.overrideWith(() => FakeCompassPro(_proComplete)),
+    ],
+  );
+  sheetGolden('compass_error', () => const CompassScreen(), overrides: () => toolsOverrides(source: FakeSource()));
   sheetGolden('compass_loading', () => const CompassScreen(), settle: false, overrides: () => toolsOverrides(neverLoads: true));
   sheetGolden('compass_offline', () => const CompassScreen(), overrides: () => toolsOverrides(source: FakeSource(offline: true)));
   sheetGolden(
@@ -93,6 +121,19 @@ void main() {
         ['b-com-hons', 'b-a-hons-economics'],
         ['language:english', 'domain:accountancy', 'domain:business_studies', 'domain:economics', 'domain:mathematics', 'gat:gat'],
       ),
+    ),
+  );
+
+  sheetGolden(
+    'combo_checking',
+    () => const ComboScreen(),
+    size: _tall,
+    overrides: () => toolsOverrides(
+      prefs: savedCombo(
+        ['b-com-hons', 'b-a-hons-economics'],
+        ['language:english', 'domain:accountancy', 'domain:business_studies', 'domain:economics', 'domain:mathematics', 'gat:gat'],
+      ),
+      comboRunner: (groups, pool, targets, maxPapers) => Completer<DuComboPlan>().future,
     ),
   );
 

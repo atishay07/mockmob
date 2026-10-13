@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
@@ -7,7 +8,9 @@ import '../materials/glass_surface.dart';
 /// A container transform from a small glass shape (the Start circle) into a glass sheet at the
 /// bottom of the screen (brief section 6): the glass grows out of [origin] along the emphasized
 /// curve in 420 ms while the sheet's content glides in once the glass has mostly opened. Back,
-/// the scrim and a drag down close it the same way. Under reduced motion it is a 200 ms fade.
+/// the scrim and a drag down close it the same way: the sheet follows the finger, closes past
+/// [closeFraction] of its height or on a flick faster than [closeVelocity], and springs back
+/// otherwise. TalkBack gets a "Close" action. Under reduced motion it is a 200 ms fade.
 class MorphSheetRoute<T> extends PopupRoute<T> {
   MorphSheetRoute({
     required this.origin,
@@ -26,6 +29,12 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   final String? semanticsLabel;
 
   static const double margin = 10;
+
+  /// A drag past this share of the sheet's height closes it.
+  static const double closeFraction = 0.3;
+
+  /// A release faster than this (logical px per second, downward) closes it.
+  static const double closeVelocity = 300;
 
   @override
   Color? get barrierColor => scrim;
@@ -46,11 +55,14 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final media = MediaQuery.of(context);
     final bottom = media.viewPadding.bottom + margin;
+    void close() => Navigator.of(context).maybePop();
     final content = Semantics(
       scopesRoute: true,
       namesRoute: true,
       explicitChildNodes: true,
       label: semanticsLabel,
+      onDismiss: close,
+      customSemanticsActions: {const CustomSemanticsAction(label: 'Close'): close},
       // Text and ink need a Material ancestor; the glass is the surface, so it is transparent.
       child: Material(type: MaterialType.transparency, child: builder(context)),
     );
@@ -61,10 +73,9 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
         padding: EdgeInsets.fromLTRB(margin, 0, margin, bottom),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-          child: GestureDetector(
-            onVerticalDragEnd: (d) {
-              if ((d.primaryVelocity ?? 0) > 300) Navigator.of(context).maybePop();
-            },
+          child: _DragToClose(
+            reduced: reduced,
+            onClose: close,
             child: AnimatedBuilder(
               animation: animation,
               builder: (context, child) {
@@ -88,6 +99,68 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Lets the sheet follow a downward drag, then closes it or springs it back.
+class _DragToClose extends StatefulWidget {
+  const _DragToClose({required this.reduced, required this.onClose, required this.child});
+
+  final bool reduced;
+  final VoidCallback onClose;
+  final Widget child;
+
+  @override
+  State<_DragToClose> createState() => _DragToCloseState();
+}
+
+class _DragToCloseState extends State<_DragToClose> with SingleTickerProviderStateMixin {
+  late final AnimationController _offset = AnimationController.unbounded(vsync: this);
+  bool _closing = false;
+
+  @override
+  void dispose() {
+    _offset.dispose();
+    super.dispose();
+  }
+
+  double get _height => context.size?.height ?? 1;
+
+  void _update(DragUpdateDetails d) {
+    if (_closing) return;
+    _offset.stop();
+    // Down follows the finger; up barely gives, the sheet already sits on the floor.
+    final next = _offset.value + d.delta.dy;
+    _offset.value = next < -6 ? -6 : next;
+  }
+
+  void _end(DragEndDetails d) {
+    if (_closing) return;
+    final velocity = d.primaryVelocity ?? 0;
+    if (_offset.value > _height * MorphSheetRoute.closeFraction || velocity > MorphSheetRoute.closeVelocity) {
+      _closing = true;
+      widget.onClose();
+      return;
+    }
+    if (widget.reduced) {
+      _offset.value = 0;
+    } else {
+      _offset.animateWith(Motion.spring(Springs.smooth, _offset.value, 0, velocity: velocity));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onVerticalDragUpdate: _update,
+      onVerticalDragEnd: _end,
+      onVerticalDragCancel: () => _end(DragEndDetails(primaryVelocity: 0)),
+      child: AnimatedBuilder(
+        animation: _offset,
+        builder: (context, child) => Transform.translate(offset: Offset(0, _offset.value), child: child),
+        child: widget.child,
       ),
     );
   }

@@ -120,7 +120,8 @@ class SubmitUiState {
 /// The runner's data and timing service (design spec 5.5). The UI consumes it; it owns:
 ///
 /// - the monotonic clock anchored from the server's numbers,
-/// - the event journal, written before the UI shows an answer selected,
+/// - the event journal, written right after the UI shows an answer selected (the screen never
+///   waits for the disk; a failed write is rolled back and shown as "On this phone"),
 /// - the debounced cumulative `PUT /api/sessions` sync and `acknowledgedSequence`,
 /// - the three save states,
 /// - the submit with `pendingSubmission` retry until `endsAt + 120 s`,
@@ -135,10 +136,10 @@ class SessionEngine extends ChangeNotifier {
     required SessionDraft draft,
     required SessionClock clock,
     required SessionJournal journal,
-  })  : _s = services,
-        _draft = draft,
-        _clock = clock,
-        _journal = journal {
+  }) : _s = services,
+       _draft = draft,
+       _clock = clock,
+       _journal = journal {
     _syncer = SessionSyncer(
       api: services.api,
       journal: journal,
@@ -183,7 +184,14 @@ class SessionEngine extends ChangeNotifier {
       startedAtMs: view.startedAt.millisecondsSinceEpoch,
       expiresAtMs: view.expiresAt.millisecondsSinceEpoch,
     );
-    final draftKey = SessionDraft.keyFor(userId: services.userId, subject: subject, chapter: chapter, count: count, difficulty: difficulty, mode: mode);
+    final draftKey = SessionDraft.keyFor(
+      userId: services.userId,
+      subject: subject,
+      chapter: chapter,
+      count: count,
+      difficulty: difficulty,
+      mode: mode,
+    );
     await _settleEarlierDraft(services, draftKey, newSessionId: view.meta.sessionId.isNotEmpty ? view.meta.sessionId : view.id);
     final draft = SessionDraft(
       draftKey: draftKey,
@@ -213,14 +221,35 @@ class SessionEngine extends ChangeNotifier {
 
   /// The draft table holds one row per selection, so saving a new session would overwrite an
   /// earlier one whose answers were never acknowledged. Send those first, or refuse to start.
+  ///
+  /// Settling can fail in ways that say nothing about the new session (a local write, an
+  /// unexpected response), and must never block it. What could not be settled is archived under
+  /// its own session id, never overwritten: a rejected or still-owed draft keeps its answers.
   static Future<void> _settleEarlierDraft(SessionEngineServices services, String draftKey, {required String newSessionId}) async {
     final earlier = await services.drafts.byKey(draftKey);
-    if (earlier == null || earlier.sessionId == newSessionId || !earlier.pendingSubmission || earlier.windowClosed || earlier.rejected) return;
-    final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: earlier.sessionId, now: services.now);
-    final clock = services.clockFactory?.call() ?? SessionClock();
-    clock.restore(startedRefWallMs: earlier.startedRefWallMs, endsAtWallMs: earlier.endsAtWallMs);
-    final outcome = await services.submitter.submit(draft: earlier, journal: journal, durationMs: clock.durationMs);
-    if (outcome is SubmitPending) throw PendingSubmitBlocksStart(earlier);
+    if (earlier == null || earlier.sessionId == newSessionId) return;
+    if (earlier.pendingSubmission && !earlier.windowClosed && !earlier.rejected) {
+      try {
+        final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: earlier.sessionId, now: services.now);
+        final clock = services.clockFactory?.call() ?? SessionClock();
+        clock.restore(startedRefWallMs: earlier.startedRefWallMs, endsAtWallMs: earlier.endsAtWallMs);
+        final outcome = await services.submitter.submit(draft: earlier, journal: journal, durationMs: clock.durationMs);
+        if (outcome is SubmitPending) throw PendingSubmitBlocksStart(earlier);
+      } on PendingSubmitBlocksStart {
+        rethrow;
+      } on Object {
+        // Not settled, and not a reason to refuse: archived below.
+      }
+    }
+    // Whatever is still owed or was refused stays on the phone under its own session id.
+    try {
+      final left = await services.drafts.byKey(draftKey);
+      if (left != null && left.sessionId != newSessionId && (left.rejected || (left.pendingSubmission && !left.windowClosed))) {
+        await services.drafts.archive(left);
+      }
+    } on Object {
+      // Best effort; the journal rows are kept either way.
+    }
   }
 
   /// Brings a session back after a process kill or from Today's Continue key. Returns null when
@@ -249,6 +278,14 @@ class SessionEngine extends ChangeNotifier {
   late final SessionSyncer _syncer;
   late final SessionHeartbeat _heartbeat = SessionHeartbeat(_s.db, userId: _s.userId, now: _s.now);
   SessionDraft _draft;
+
+  /// Answers the student has tapped whose journal write has not finished: the screen shows them
+  /// at once, and each is removed when its write lands or is rolled back when it fails.
+  final Map<String, _OptimisticAnswer> _optimistic = {};
+  int _optimisticToken = 0;
+
+  /// The last answer write failed: the pill reads "On this phone" until a write lands again.
+  bool _writeFailed = false;
 
   late int _index;
   late Set<String> _visited;
@@ -289,17 +326,26 @@ class SessionEngine extends ChangeNotifier {
   SessionQuestion get currentQuestion => questions[_index];
   bool get isTicketMode => _draft.isTicketMode;
 
-  /// The latest answer per question (option index). A cleared answer is absent.
-  Map<String, int> get answers => _journal.answers;
-  int? answerFor(String qid) => _journal.answers[qid];
-  int get answeredCount => _journal.answers.length;
+  /// The latest answer per question (option index), including taps still being written. A
+  /// cleared answer is absent.
+  Map<String, int> get answers {
+    final out = Map<String, int>.of(_journal.answers);
+    for (final e in _optimistic.entries) {
+      final option = e.value.option;
+      option == null ? out.remove(e.key) : out[e.key] = option;
+    }
+    return out;
+  }
+
+  int? answerFor(String qid) => _optimistic.containsKey(qid) ? _optimistic[qid]!.option : _journal.answers[qid];
+  int get answeredCount => answers.length;
   int get notAnsweredCount => questions.length - answeredCount;
   Set<String> get marked => Set.unmodifiable(_marked);
   Set<String> get visited => Set.unmodifiable(_visited);
   int get markedCount => _marked.length;
 
   /// Questions with an answer the server has not acknowledged (hollow dot on the palette).
-  Set<String> get unsyncedQuestionIds => _journal.unsyncedQuestionIds(_syncer.acknowledgedSequence);
+  Set<String> get unsyncedQuestionIds => {..._journal.unsyncedQuestionIds(_syncer.acknowledgedSequence), ..._optimistic.keys};
 
   /// Highest event the server confirmed.
   int get acknowledgedSequence => _syncer.acknowledgedSequence;
@@ -321,13 +367,31 @@ class SessionEngine extends ChangeNotifier {
 
   // Actions.
 
-  /// Selects [option] for [qid], or clears the answer when null. The event is written to the
-  /// database first and the engine notifies listeners afterwards, so the UI shows an answer as
-  /// selected only once it is on the phone. Returns false when answering is not allowed.
+  /// Selects [option] for [qid], or clears the answer when null. The screen is told in the same
+  /// frame: the answer is held in memory, listeners are notified, and only then is the event
+  /// written to the journal. If the write fails the answer is rolled back and the pill reads
+  /// "On this phone". Returns false when answering is not allowed or the write failed.
   Future<bool> selectAnswer(String qid, int? option) async {
     if (!canAnswer) return false;
-    final event = await _journal.recordAnswer(qid, option, _clock);
-    if (event == null) return false;
+    final token = ++_optimisticToken;
+    _optimistic[qid] = _OptimisticAnswer(option, token);
+    _notify();
+    _updateSaveState();
+    SessionEvent? event;
+    try {
+      event = await _journal.recordAnswer(qid, option, _clock);
+    } on Object {
+      event = null;
+    }
+    // A later tap on the same question owns the entry now; only the newest clears it.
+    if (_optimistic[qid]?.token == token) _optimistic.remove(qid);
+    if (event == null) {
+      _writeFailed = true;
+      _updateSaveState();
+      _notify();
+      return false;
+    }
+    _writeFailed = false;
     _notify();
     _syncer.notifyChanged();
     _updateSaveState();
@@ -335,18 +399,22 @@ class SessionEngine extends ChangeNotifier {
     return true;
   }
 
-  /// Moves to question [index] and records a visit for it only.
+  /// Moves to question [index] and records a visit for it only. The question changes first;
+  /// the visit is written after, and a failed write loses only the visit event.
   Future<void> goTo(int index) async {
     if (index < 0 || index >= questions.length || _disposed) return;
     _index = index;
     final qid = questions[index].id;
     _visited.add(qid);
-    if (canAnswer) {
-      await _journal.recordVisit(qid, _clock);
-      _syncer.notifyChanged();
-    }
     _notify();
     _scheduleDraftSave();
+    if (!canAnswer) return;
+    try {
+      await _journal.recordVisit(qid, _clock);
+      _syncer.notifyChanged();
+    } on Object {
+      // The visit event is only a trace of where the student looked.
+    }
   }
 
   void setMarked(String qid, bool value) {
@@ -364,6 +432,7 @@ class SessionEngine extends ChangeNotifier {
   /// runner). Does nothing in ticket mode or after dispose.
   Future<void> flushAnswers() async {
     if (_disposed) return;
+    await _journal.idle();
     await _syncer.flushNow();
   }
 
@@ -374,6 +443,7 @@ class SessionEngine extends ChangeNotifier {
   Future<void> onPaused() async {
     _pausedAt = _s.now();
     // Answers first: the draft then records the acknowledgement that came back.
+    await _journal.idle();
     await _syncer.flushNow();
     await flushDraft();
     if (_submitStarted && submitState.value.stage != SubmitStage.received) {
@@ -438,23 +508,40 @@ class SessionEngine extends ChangeNotifier {
     unawaited(_heartbeat.clear(_draft.sessionId)); // The backup job may take over from here.
     _setSubmit(const SubmitUiState(SubmitStage.sending));
     _notify();
-    await _syncer.flushNow();
-    _draft = _draft.copyWith(pendingSubmission: true);
-    final outcome = await _s.submitter.submit(draft: _draft, journal: _journal, durationMs: _clock.durationMs);
+    // Whatever happens below, the stage leaves `sending`: an unexpected failure is a pending
+    // submit (the answers are on the phone and the submit is owed), never a screen with no exit.
+    SubmitOutcome outcome;
+    try {
+      // A tap still being written is part of the paper.
+      await _journal.idle();
+      try {
+        await _syncer.flushNow();
+      } on Object {
+        // The submit carries the whole log; the events PUT is only a head start.
+      }
+      _draft = _draft.copyWith(pendingSubmission: true);
+      outcome = await _s.submitter.submit(draft: _draft, journal: _journal, durationMs: _clock.durationMs);
+    } on Object {
+      outcome = const SubmitPending(ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
+    }
     switch (outcome) {
       case SubmitReceived():
         _setSubmit(SubmitUiState(SubmitStage.received, outcome: outcome));
-        await _s.scheduler.cancelSubmit(_draft.sessionId);
-        await _s.status.clear();
+        await _afterOutcome(() async {
+          await _s.scheduler.cancelSubmit(_draft.sessionId);
+          await _s.status.clear();
+        });
       case SubmitPending():
         _setSubmit(SubmitUiState(SubmitStage.pending, outcome: outcome));
         _draft = _draft.copyWith(pendingSubmission: true);
-        await _scheduleBackgroundSubmit(runAt: _s.now());
+        await _afterOutcome(() => _scheduleBackgroundSubmit(runAt: _s.now()));
       case SubmitWindowClosed():
         _draft = _draft.copyWith(pendingSubmission: false, windowClosed: true);
         _setSubmit(SubmitUiState(SubmitStage.windowClosed, outcome: outcome));
-        await _s.scheduler.cancelSubmit(_draft.sessionId);
-        await _s.status.clear();
+        await _afterOutcome(() async {
+          await _s.scheduler.cancelSubmit(_draft.sessionId);
+          await _s.status.clear();
+        });
       case SubmitRejected():
         _draft = _draft.copyWith(pendingSubmission: false, rejected: true);
         _updateSaveState();
@@ -462,6 +549,16 @@ class SessionEngine extends ChangeNotifier {
     }
     _notify();
     return outcome;
+  }
+
+  /// Housekeeping after the stage is already shown (the scheduler, the status notification): a
+  /// failure here never changes what the student sees.
+  Future<void> _afterOutcome(Future<void> Function() work) async {
+    try {
+      await work();
+    } on Object {
+      // The backup job and the next start tidy up.
+    }
   }
 
   // Internals.
@@ -531,12 +628,12 @@ class SessionEngine extends ChangeNotifier {
 
   void _updateSaveState() {
     if (_disposed) return;
-    final next = deriveSaveState(
-      ticketMode: isTicketMode,
-      unsyncedAnswers: unsyncedQuestionIds.length,
-      syncStatus: _syncer.status.value,
-      lastAckAt: _lastAckAt,
-    );
+    final unsynced = unsyncedQuestionIds.length;
+    final derived = deriveSaveState(ticketMode: isTicketMode, unsyncedAnswers: unsynced, syncStatus: _syncer.status.value, lastAckAt: _lastAckAt);
+    // The last write to the journal failed: say so, with the phone glyph.
+    final next = _writeFailed && !isTicketMode
+        ? SaveSnapshot(state: SaveState.onThisPhone, unsyncedAnswers: unsynced, lastAckAt: _lastAckAt)
+        : derived;
     if (saveState.value != next) saveState.value = next;
     _s.onPendingWork?.call('session:${_draft.sessionId}', next.unsyncedAnswers > 0 || _draft.pendingSubmission);
   }
@@ -643,4 +740,13 @@ class SessionEngine extends ChangeNotifier {
     away.dispose();
     super.dispose();
   }
+}
+
+/// A tapped answer waiting for its journal write ([option] null is a cleared answer). The token
+/// tells the newest tap on a question from an older one still being written.
+class _OptimisticAnswer {
+  const _OptimisticAnswer(this.option, this.token);
+
+  final int? option;
+  final int token;
 }

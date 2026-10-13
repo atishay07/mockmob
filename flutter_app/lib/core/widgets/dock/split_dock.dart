@@ -99,7 +99,13 @@ class _CompactDrift extends StatefulWidget {
 }
 
 class _CompactDriftState extends State<_CompactDrift> with SingleTickerProviderStateMixin {
-  late final AnimationController _t = AnimationController(vsync: this, duration: Motion.glideDuration, reverseDuration: Motion.glideDuration);
+  // Starts at the value the dock mounts with, so a dock built while compact is already compact.
+  late final AnimationController _t = AnimationController(
+    vsync: this,
+    duration: Motion.glideDuration,
+    reverseDuration: Motion.glideDuration,
+    value: widget.compact.value ? 1 : 0,
+  );
 
   @override
   void initState() {
@@ -108,20 +114,30 @@ class _CompactDriftState extends State<_CompactDrift> with SingleTickerProviderS
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reduced motion shows the final state at once (brief section 7).
+    if (Motion.reduced(context)) _t.value = widget.compact.value ? 1 : 0;
+  }
+
+  @override
   void didUpdateWidget(_CompactDrift oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.compact != widget.compact) {
       oldWidget.compact.removeListener(_changed);
       widget.compact.addListener(_changed);
+      _changed();
     }
   }
 
+  /// Compact gives 8 dp lower and 0.94 scale; reduced motion jumps straight there.
   void _changed() {
+    final compact = widget.compact.value;
     if (Motion.reduced(context)) {
-      _t.value = 0;
+      _t.value = compact ? 1 : 0;
       return;
     }
-    widget.compact.value ? _t.forward() : _t.reverse();
+    compact ? _t.forward() : _t.reverse();
   }
 
   @override

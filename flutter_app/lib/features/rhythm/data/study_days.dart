@@ -50,6 +50,33 @@ Set<int> decodeDays(List<String> raw) => {
 
 final plannedDaysProvider = NotifierProvider<PlannedDays, Set<int>?>(PlannedDays.new);
 
+/// Where the chosen weekdays would be kept on the account (WEB-PARITY B4).
+///
+/// No endpoint holds them yet: `PUT /api/me/goal` keeps only the number of days (and the pause),
+/// and `PUT /api/study/preferences` keeps the website's Pro `weeklyPlan` (seven
+/// `{subject, minutes}` entries for the lesson subjects, with no rest days), which is a different
+/// thing. So the default keeps the days on this phone and says so in the receipt. When the
+/// server gains a weekday field, override [studyDaysRemoteProvider] with an implementation whose
+/// [storesOnAccount] is true and whose [save] returns only after the server acknowledged.
+abstract class StudyDaysRemote {
+  bool get storesOnAccount;
+
+  /// Saves the weekdays (0 = Monday). Throws when the server refused.
+  Future<void> save(Set<int> days);
+}
+
+class PhoneOnlyStudyDays implements StudyDaysRemote {
+  const PhoneOnlyStudyDays();
+
+  @override
+  bool get storesOnAccount => false;
+
+  @override
+  Future<void> save(Set<int> days) async {}
+}
+
+final studyDaysRemoteProvider = Provider<StudyDaysRemote>((ref) => const PhoneOnlyStudyDays());
+
 /// The study days to draw: the editor's choice, else the onboarding's, and only while their count
 /// matches the goal on the server (a goal changed elsewhere makes an old plan wrong, so then no
 /// day is drawn as rest). Null when there is no plan to show.

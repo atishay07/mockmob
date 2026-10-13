@@ -20,8 +20,14 @@ enum SyncStatus {
   /// The server holds a different log: the engine must resume from the server and rebuild.
   conflict,
 
-  /// The server will not take events any more (`SESSION_EXPIRED`, session gone, invalid log).
+  /// The server will not take events any more (`SESSION_EXPIRED`, session gone).
   stopped,
+
+  /// The server refused the log with a 400 or 422 that is not a conflict. Retrying by itself
+  /// would repeat the same refusal, so sending pauses until the student taps to retry (or the
+  /// app pauses and a flush tries once). The answers stay on the phone; the pill says
+  /// "Not saved yet" instead of blaming the network.
+  notSaved,
 }
 
 /// Retry delays while the runner is open: 1, 2, 4, 8, 16, then 30 seconds.
@@ -52,9 +58,9 @@ class SessionSyncer {
     this.debounce = const Duration(milliseconds: 400),
     TimerFactory? timerFactory,
     DateTime Function()? now,
-  })  : _acknowledged = acknowledgedSequence,
-        _timer = timerFactory ?? Timer.new,
-        _now = now ?? DateTime.now;
+  }) : _acknowledged = acknowledgedSequence,
+       _timer = timerFactory ?? Timer.new,
+       _now = now ?? DateTime.now;
 
   final SessionApi api;
   final SessionJournal journal;
@@ -77,6 +83,9 @@ class SessionSyncer {
   Timer? _pending;
   Future<void>? _inFlight;
   bool _stopped = false;
+
+  /// The stop is a validation refusal that a manual retry may clear (see [SyncStatus.notSaved]).
+  bool _retryableStop = false;
   bool _disposed = false;
 
   /// Highest event `seq` the server confirmed.
@@ -94,7 +103,9 @@ class SessionSyncer {
 
   /// The network is back: try again at once and forget the back-off.
   void retryNow() {
-    if (!enabled || _stopped) return;
+    if (!enabled || _disposed) return;
+    _clearRetryableStop();
+    if (_stopped) return;
     _failures = 0;
     _schedule(Duration.zero);
   }
@@ -102,10 +113,20 @@ class SessionSyncer {
   /// Sends immediately and waits (app paused, submit about to start). Returns when the call
   /// finished, whether it succeeded or not.
   Future<void> flushNow() async {
-    if (!enabled || _stopped) return;
+    if (!enabled || _disposed) return;
+    _clearRetryableStop();
+    if (_stopped) return;
     _pending?.cancel();
     _pending = null;
     await (_inFlight ?? _send());
+  }
+
+  /// A "not saved yet" stop ends on an explicit retry; a fatal one never does.
+  void _clearRetryableStop() {
+    if (!_stopped || !_retryableStop) return;
+    _stopped = false;
+    _retryableStop = false;
+    _set(SyncStatus.idle);
   }
 
   void _schedule(Duration delay) {
@@ -151,13 +172,20 @@ class SessionSyncer {
       onConflict?.call();
       return;
     }
-    final fatal = e.hasCode(ApiCodes.sessionExpired) ||
-        e.hasCode(ApiCodes.sessionNotFound) ||
-        e.kind == ApiErrorKind.notFound ||
-        e.kind == ApiErrorKind.validation;
+    final fatal = e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionNotFound) || e.kind == ApiErrorKind.notFound;
     if (fatal) {
       _stopped = true;
+      _retryableStop = false;
       _set(SyncStatus.stopped);
+      onStopped?.call(e);
+      return;
+    }
+    if (e.kind == ApiErrorKind.validation) {
+      // A refusal the server will repeat: stop the automatic loop, keep the answers, and let
+      // the student (or a pause or submit flush) try again.
+      _stopped = true;
+      _retryableStop = true;
+      _set(SyncStatus.notSaved);
       onStopped?.call(e);
       return;
     }
@@ -176,6 +204,7 @@ class SessionSyncer {
     _acknowledged = acknowledgedSequence;
     _sentThroughSeq = acknowledgedSequence;
     _stopped = false;
+    _retryableStop = false;
     _set(SyncStatus.idle);
     notifyChanged();
   }

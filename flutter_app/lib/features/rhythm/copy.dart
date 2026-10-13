@@ -16,6 +16,23 @@ abstract final class RhythmCopy {
 
   static String asOf(DateTime fetchedAt) => 'As of ${formatTime12(fetchedAt)}';
 
+  // Screen-reader labels of the loading states and the ring.
+  static const String loadingWeek = 'Loading this week';
+  static const String loadingRhythm = 'Loading your rhythm';
+  static const String loadingMilestones = 'Loading your milestones';
+  static const String loadingMarks = 'Loading your marks';
+
+  /// Read for the ring of a met week only.
+  static const String weekDoneLabel = 'Week done';
+
+  // The key under the week strip: one word per mark that is on the strip.
+  static const String keyCounted = 'Counted';
+  static const String keyPlanned = 'Planned';
+  static const String keyRest = 'Rest';
+  static const String keyOpen = 'Not counted';
+  static const String setStudyDays = 'Set your study days';
+  static const String noPlanYet = 'No study days chosen yet. Every day you study still counts.';
+
   static String stripOpen(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 
   static String stripMet(int days, int goal) => '$days of ${plural(goal, 'study day')}. This week is done.';
@@ -70,9 +87,12 @@ abstract final class RhythmCopy {
   static const String pauseTitle = 'Pause rhythm';
   static const String pauseThisWeek = 'This week';
   static const String pauseTwoWeeks = '2 weeks';
-  static const String pauseUntilOn = 'Until I turn it on';
+  /// The longest pause the server accepts is 100 days, so the row says so plainly.
+  static const String pauseUntilOn = 'Pause for about 3 months';
   static const String resume = 'Resume rhythm';
   static const String pauseFailed = 'We could not change the pause. Try again.';
+  static String pausedUntilKept(String? untilDate) =>
+      untilDate == null ? 'Paused. Your run is kept.' : 'Paused until $untilDate. Your run is kept.';
 
   // Turn off.
   static const String turnOff = 'Turn off rhythm';
@@ -223,6 +243,13 @@ abstract final class RhythmCopy {
   static const String saveDays = 'Save study days';
   static String daysSaved(int n) => 'Saved: ${plural(n, 'study day')} a week.';
 
+  /// The receipt after the server acknowledged the goal. The days themselves stay on this phone
+  /// until the account can hold them.
+  static String studyDaysSaved(int n) => 'Goal saved: ${plural(n, 'study day')} a week. Your days are kept on this phone.';
+  static String studyDaysRow(List<String> weekdays) =>
+      weekdays.length == 7 ? 'Study days: every day' : 'Study days: ${joinWithAnd(weekdays)}';
+  static const String editStudyDays = 'Edit days';
+
   // Milestone tracks.
   static const String trackPapers = 'Papers';
   static const String trackRepairs = 'Repairs';
@@ -256,4 +283,35 @@ abstract final class RhythmCopy {
   static String stepNext(String name, String condition) => 'Next: $name. $condition';
   static String stepLater(String name) => '$name, after that';
   static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
+
+  // Mobi on the milestones screen.
+  static const String milestonesMobiEmpty = 'Your first one lands with your first scored set of 5 or more answers.';
+  static const String milestonesMobiComplete = 'Every path has landed. They stay dated here for good.';
+  static String stepJustLanded(String name) => '$name just landed.';
+
+  // The receipt for milestones that landed while the app was away (more than 48 hours ago).
+  static const String seeMilestones = 'See your milestones';
+
+  static String? _landedName(String id) => switch (id) {
+    'first_scored_session' => 'Your first scored set',
+    'first_full_mock' => 'Your first full mock',
+    'sessions_10' => 'Your 10th scored set',
+    'first_repair' => 'Your first repair',
+    'repairs_5' => 'Your 5th finished repair',
+    'repairs_10' => 'Your 10th finished repair',
+    'repairs_25' => 'Your 25th finished repair',
+    'first_week_met' => 'Your first week at your goal',
+    'weeks_met_4' => 'Your fourth week at your goal',
+    _ => null,
+  };
+
+  /// True for a milestone id this app version has words for.
+  static bool knowsMilestone(String id) => _landedName(id) != null;
+
+  /// "Your first repair landed on 11 October." and, when others landed too, how many.
+  static String milestoneReceipt(String id, String date, {int others = 0}) {
+    final head = '${_landedName(id) ?? 'A milestone'} landed on $date.';
+    if (others <= 0) return head;
+    return '$head ${others == 1 ? '1 more milestone' : '$others more milestones'} landed while you were away.';
+  }
 }

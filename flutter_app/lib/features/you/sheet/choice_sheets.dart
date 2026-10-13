@@ -1,7 +1,11 @@
 // The choice sheets of the sheet editor. Each writes straight to the phone's sheet through
 // [SheetEditor]; none of these has an endpoint, so each says "Kept on this phone."
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/copy/copy.dart' show joinWithAnd;
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -27,12 +31,13 @@ Widget _note(BuildContext context, String text) => Padding(
     );
 
 /// One answer per sheet, written like the onboarding's answer rows: tap to choose and close.
+/// [onPick] may ask first; false keeps the sheet open (the student chose to stay).
 Future<void> _pickOne<T>(
   BuildContext context, {
   required String title,
   required List<(T, String, String?)> options,
   required T? current,
-  required ValueChanged<T> onPick,
+  required FutureOr<bool> Function(BuildContext sheet, T value) onPick,
   String? note,
 }) {
   return showMmSheet<void>(
@@ -49,9 +54,9 @@ Future<void> _pickOne<T>(
             title: options[i].$2,
             note: options[i].$3,
             selected: options[i].$1 == current,
-            onTap: () {
-              onPick(options[i].$1);
-              Navigator.of(sheet).maybePop();
+            onTap: () async {
+              final done = await onPick(sheet, options[i].$1);
+              if (done && sheet.mounted) Navigator.of(sheet).maybePop();
             },
           ),
         ],
@@ -66,13 +71,21 @@ Future<void> showStageSheet(BuildContext context, WidgetRef ref) => _pickOne<Sta
       title: EditCopy.stageSheet,
       options: [for (final s in Stage.values) (s, s.option, null)],
       current: ref.read(studentTargetProvider).stage,
-      onPick: ref.read(sheetEditorProvider).setStage,
+      onPick: (_, stage) {
+        ref.read(sheetEditorProvider).setStage(stage);
+        return true;
+      },
     );
 
-/// The course, or "Not sure yet" (null).
-Future<void> showCourseSheet(BuildContext context, WidgetRef ref) {
+/// The course, or "Not sure yet" (null). A different course removes the saved colleges, so with
+/// colleges set the choice is confirmed first ("Keep course" or "Change course"). Returns what the
+/// sheet looked like before a change that removed colleges, for the undo receipt; null when
+/// nothing was removed.
+Future<CourseSnapshot?> showCourseSheet(BuildContext context, WidgetRef ref) async {
+  final editor = ref.read(sheetEditorProvider);
   final current = ref.read(studentTargetProvider).courseId;
-  return _pickOne<String?>(
+  CourseSnapshot? removed;
+  await _pickOne<String?>(
     context,
     title: EditCopy.courseSheet,
     note: EditCopy.courseNote,
@@ -81,8 +94,51 @@ Future<void> showCourseSheet(BuildContext context, WidgetRef ref) {
       (null, EditCopy.courseNotSure, null),
     ],
     current: current,
-    onPick: ref.read(sheetEditorProvider).setCourse,
+    onPick: (sheet, courseId) async {
+      final lost = editor.collegesLostBy(courseId);
+      if (lost.isEmpty) {
+        editor.setCourse(courseId);
+        return true;
+      }
+      final target = courseId == null ? EditCopy.courseNotSure : (DuCatalog.course(courseId)?.short ?? courseId);
+      final confirmed = await showMmSheet<bool>(
+        context: sheet,
+        title: EditCopy.courseConfirmTitle(lost.length),
+        builder: (confirm) => _CourseConfirm(courseName: target, colleges: lost),
+      );
+      if (confirmed != true) return false;
+      removed = editor.courseSnapshot();
+      editor.setCourse(courseId);
+      return true;
+    },
   );
+  return removed;
+}
+
+/// "Remove your 3 colleges?": the consequence in words, Keep course as the dominant key.
+class _CourseConfirm extends StatelessWidget {
+  const _CourseConfirm({required this.courseName, required this.colleges});
+
+  final String courseName;
+  final List<String> colleges;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(EditCopy.courseConfirmBody(courseName, joinWithAnd(colleges)), style: type.body),
+        const SizedBox(height: MmSpace.s8),
+        Text(EditCopy.courseConfirmUndo, style: type.small.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s24),
+        KeyButton(label: EditCopy.courseKeep, onPressed: () => Navigator.of(context).pop(false)),
+        const SizedBox(height: MmSpace.s12),
+        KeyButton.secondary(label: EditCopy.courseChange, onPressed: () => Navigator.of(context).pop(true)),
+      ],
+    );
+  }
 }
 
 Future<void> showWorrySheet(BuildContext context, WidgetRef ref) => _pickOne<Worry>(
@@ -90,7 +146,10 @@ Future<void> showWorrySheet(BuildContext context, WidgetRef ref) => _pickOne<Wor
       title: EditCopy.worrySheet,
       options: [for (final w in Worry.values) (w, w.option, null)],
       current: ref.read(studentTargetProvider).worry,
-      onPick: ref.read(sheetEditorProvider).setWorry,
+      onPick: (_, worry) {
+        ref.read(sheetEditorProvider).setWorry(worry);
+        return true;
+      },
     );
 
 Future<void> showCategorySheet(BuildContext context, WidgetRef ref) => _pickOne<String>(
@@ -99,7 +158,10 @@ Future<void> showCategorySheet(BuildContext context, WidgetRef ref) => _pickOne<
       note: EditCopy.categoryNote,
       options: [for (final c in DuCatalog.categories) (c, c, null)],
       current: ref.read(sheetEditorProvider).current.category,
-      onPick: ref.read(sheetEditorProvider).setCategory,
+      onPick: (_, category) {
+        ref.read(sheetEditorProvider).setCategory(category);
+        return true;
+      },
     );
 
 /// Up to three colleges of the chosen course, highest Round 1 figure first for the category.

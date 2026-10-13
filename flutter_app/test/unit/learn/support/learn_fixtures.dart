@@ -13,12 +13,13 @@ J unitJson(
   int due = 0,
   J? inProgress,
   String version = '2',
+  String chapter = 'Change in Profit Sharing Ratio',
 }) =>
     {
       'id': id,
       'version': version,
       'subject': subject,
-      'chapter': 'Change in Profit Sharing Ratio',
+      'chapter': chapter,
       'title': title,
       'summary': 'Work out who gave up profit share and who gained it.',
       'estimatedMinutes': minutes,
@@ -42,8 +43,30 @@ J catalogJson({
     {
       'state': state,
       'subjects': [
-        {'subject': 'accountancy', 'title': 'Accountancy'},
-        {'subject': 'english', 'title': 'English'},
+        {
+          'subject': 'accountancy',
+          'title': 'Accountancy',
+          'chapters': [
+            {'id': 'accountancy:Change in Profit Sharing Ratio', 'title': 'Change in Profit Sharing Ratio'},
+            {'id': 'accountancy:Admission of a Partner', 'title': 'Admission of a Partner'},
+            {'id': 'accountancy:Retirement of a Partner', 'title': 'Retirement of a Partner'},
+          ],
+        },
+        {
+          'subject': 'english',
+          'title': 'English',
+          'chapters': [
+            {'id': 'english:Vocabulary', 'title': 'Vocabulary'},
+            {'id': 'english:Factual Passage', 'title': 'Factual Passage'},
+          ],
+        },
+        {
+          'subject': 'economics',
+          'title': 'Economics',
+          'chapters': [
+            {'id': 'economics:National Income', 'title': 'National Income'},
+          ],
+        },
       ],
       'units': state == 'disabled'
           ? []
@@ -51,8 +74,8 @@ J catalogJson({
               unitJson('acc-sacrifice', 'Sacrificing and gaining ratios', 'new', order: 1),
               unitJson('acc-goodwill', 'Goodwill on admission', 'in_progress', order: 2, minutes: 9, inProgress: {'runId': 'run-9', 'step': 3, 'total': 9}),
               unitJson('acc-reval', 'Revaluation account', 'lock_in', order: 3, minutes: 8),
-              unitJson('eng-vocab', 'Vocabulary set 1', 'due', subject: 'english', order: 4, due: 4),
-              unitJson('eng-passage', 'Reading a factual passage', 'learned', subject: 'english', order: 5, minutes: 10),
+              unitJson('eng-vocab', 'Vocabulary set 1', 'due', subject: 'english', order: 4, due: 4, chapter: 'Vocabulary'),
+              unitJson('eng-passage', 'Reading a factual passage', 'learned', subject: 'english', order: 5, minutes: 10, chapter: 'Factual Passage'),
             ],
       'queue': {
         'dueCount': due,

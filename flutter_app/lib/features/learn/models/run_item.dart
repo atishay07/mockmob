@@ -135,13 +135,41 @@ extension StudyRunView on StudyRun {
   /// When the server last changed this run (an acknowledged time), if it said.
   DateTime? get serverUpdatedAt => asDate(raw['updatedAt']);
 
-  /// Cards the student rated Forgot or Hard, from the run record (`reviewed`).
-  List<String> get cardsToSeeAgain {
+  /// Every card rated in this run, from the run record (`reviewed`), in the order rated.
+  List<ReviewedCard> get reviewedCards {
     final reviewed = raw['reviewed'];
     if (reviewed is! List) return const [];
     return [
       for (final r in reviewed)
-        if (r is Map && (asInt(r['rating']) ?? 3) <= 2 && asString(r['title']) != null) asString(r['title'])!,
+        if (r is Map && asInt(r['rating']) != null)
+          ReviewedCard(title: asString(r['title']), rating: asInt(r['rating'])!, unitId: asString(r['unitId'])),
     ];
   }
+
+  /// Cards the student rated Forgot or Hard, with their titles.
+  List<ReviewedCard> get againCards => [for (final c in reviewedCards) if (c.seeAgain && c.title != null) c];
+
+  /// Titles of the cards rated Forgot or Hard.
+  List<String> get cardsToSeeAgain => [for (final c in againCards) c.title!];
+
+  /// True when more than half of the rated cards came back Forgot.
+  bool get mostlyForgot {
+    final cards = reviewedCards;
+    if (cards.isEmpty) return false;
+    return cards.where((c) => c.rating == 1).length * 2 > cards.length;
+  }
+
+  /// Titles of the lessons this run drew from (`units`), for the ending line.
+  List<String> get lessonTitles => [for (final u in units) if (u.title.trim().isNotEmpty) u.title.trim()];
+}
+
+/// One rated card of a run: Forgot is 1, Hard 2, Got it 3, Easy 4.
+class ReviewedCard {
+  const ReviewedCard({required this.title, required this.rating, this.unitId});
+
+  final String? title;
+  final int rating;
+  final String? unitId;
+
+  bool get seeAgain => rating <= 2;
 }

@@ -8,6 +8,11 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../account_access/access_gateway.dart' show accessMethodsProvider;
+import '../../account_access/access_routes.dart' show AccountAccessRoutes;
+import '../../account_access/state/password_hints.dart' show passwordNudgeProvider;
+import '../../account_access/widgets/set_password_nudge.dart';
+import '../../account_access/widgets/sign_out_other_devices.dart';
 import '../copy.dart';
 import '../data/student_target.dart';
 import '../edit_copy.dart';
@@ -19,7 +24,8 @@ import 'plan_card.dart';
 import 'sign_out_flow.dart';
 
 /// Account (spec 5.12.4, WEB-PARITY F2 and F3): the plan card, the name (edited in a sheet and
-/// saved to the profile), the subjects, the email, sign out and the way to ask for deletion.
+/// saved to the profile), the subjects, the email, security (password, a phone when the build has
+/// phone sign-in, ending other devices' sessions), sign out and the way to ask for deletion.
 /// Plan and credits come from `/api/auth/me` through the auth snapshot. No price, no purchase.
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
@@ -34,9 +40,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   DateTime? _nameSavedAt;
 
   Future<void> _signOut() async {
-    final unsent = await unsentAnswers(ref);
+    final pending = await pendingWork(ref);
     if (!mounted) return;
-    final confirmed = await confirmSignOut(context, unsent: unsent);
+    final confirmed = await confirmSignOut(context, pending: pending);
     if (!confirmed || !mounted) return;
     setState(() {
       _signingOut = true;
@@ -66,6 +72,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     final name = auth.name?.trim();
     final hasName = name != null && name.isNotEmpty;
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
+    final nudge = ref.watch(passwordNudgeProvider).value ?? false;
+    final phoneOn = ref.watch(accessMethodsProvider.select((m) => m.phone));
     const inset = MmSpace.gutter + 36 + MmSpace.s12;
 
     return YouPage(
@@ -98,6 +106,36 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
             child: ReceiptLine(text: EditCopy.nameSaved(_nameSavedAt!)),
           ),
+        const GroupHeading(YouCopy.accountSecurity),
+        if (nudge)
+          Padding(
+            padding: youGutter,
+            child: SetPasswordNudge(onSetPassword: () => context.push(AccountAccessRoutes.setPassword)),
+          ),
+        if (!nudge || phoneOn) ...[
+          if (nudge) const SizedBox(height: MmSpace.s12),
+          YouPanel(
+            inset: inset,
+            children: [
+              if (!nudge)
+                YouRow(
+                  icon: LucideIcons.keyRound,
+                  title: YouCopy.accountPassword,
+                  note: YouCopy.accountPasswordNote,
+                  onTap: () => context.push(AccountAccessRoutes.setPassword),
+                ),
+              if (phoneOn)
+                YouRow(
+                  icon: LucideIcons.smartphone,
+                  title: YouCopy.accountAddPhone,
+                  note: YouCopy.accountAddPhoneNote,
+                  onTap: () => context.push(AccountAccessRoutes.addPhone),
+                ),
+            ],
+          ),
+        ],
+        const SizedBox(height: MmSpace.s12),
+        const Padding(padding: youGutter, child: SignOutOtherDevicesCard()),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
           child: Column(

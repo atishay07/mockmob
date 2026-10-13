@@ -25,13 +25,13 @@ String humanizeSlug(String slug) {
 
 String modeLabel(String mode) => switch (mode) {
       'full' => 'Full mock',
-      'nta' => 'NTA-style mock',
+      'nta' => 'NTA mode',
       _ => humanizeSlug(mode),
     };
 
 String modeNoun(String mode) => switch (mode) {
       'full' => 'full mock',
-      'nta' => 'NTA-style mock',
+      'nta' => 'NTA mode mock',
       _ => 'attempt',
     };
 
@@ -68,7 +68,7 @@ Widget buildBestsPage({
   if (state.isInitialLoading) {
     return const RhythmPage(
       title: RhythmCopy.bestsTitle,
-      child: SkeletonGroup(label: 'Loading your marks', child: _BestsSkeleton()),
+      child: SkeletonGroup(label: RhythmCopy.loadingMarks, child: _BestsSkeleton()),
     );
   }
   if (state.isFailedEmpty) {

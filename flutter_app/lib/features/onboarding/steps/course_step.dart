@@ -131,7 +131,7 @@ class _CourseStepState extends ConsumerState<CourseStep> {
       bottom: KeyButton(
         label: OnboardingCopy.next,
         onPressed: a.colleges.isNotEmpty || a.openToAny ? widget.onNext : null,
-        disabledReason: null,
+        disabledReason: a.colleges.isNotEmpty || a.openToAny ? null : OnboardingCopy.pickCollege,
       ),
     );
   }

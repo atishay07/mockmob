@@ -24,7 +24,10 @@ class AnswerOption extends StatefulWidget {
 }
 
 class _AnswerOptionState extends State<AnswerOption> {
-  static const double _bubble = 30;
+  static const double _minBubble = 30;
+
+  /// The letter is 13.5 sp and grows with the system text size; the bubble grows with it.
+  static const double _letterSize = 13.5;
 
   final GlobalKey _bubbleKey = GlobalKey();
   bool _pressed = false;
@@ -55,22 +58,23 @@ class _AnswerOptionState extends State<AnswerOption> {
     final type = context.mmType;
     final enabled = widget.onSelect != null;
     final selected = widget.selected;
+    final letterHeight = MediaQuery.textScalerOf(context).scale(_letterSize);
+    final bubbleSize = letterHeight + 10 > _minBubble ? letterHeight + 10 : _minBubble;
 
     final fill = selected || _pressed ? colors.raised2 : colors.raised;
     final border = selected ? colors.ink : colors.line;
 
     final bubble = SizedBox.square(
       key: _bubbleKey,
-      dimension: _bubble,
+      dimension: bubbleSize,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: _bubble, inkOrigin: _inkOrigin),
+          Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: bubbleSize, inkOrigin: _inkOrigin),
           Text(
             widget.letter,
-            textScaler: TextScaler.noScaling,
             style: type.label.copyWith(
-              fontSize: 13.5,
+              fontSize: _letterSize,
               height: 1,
               color: selected ? colors.voltInk : (enabled ? colors.ink2 : colors.ink3),
               fontWeight: FontWeight.w700,
@@ -99,10 +103,7 @@ class _AnswerOptionState extends State<AnswerOption> {
               Expanded(
                 child: Text(
                   widget.text,
-                  style: type.body.copyWith(
-                    color: enabled ? colors.ink : colors.ink3,
-                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                  ),
+                  style: type.body.copyWith(color: enabled ? colors.ink : colors.ink3, fontWeight: selected ? FontWeight.w600 : FontWeight.w500),
                 ),
               ),
             ],

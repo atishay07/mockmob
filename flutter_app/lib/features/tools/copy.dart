@@ -1,5 +1,7 @@
 // Every string the CUET tools show. Labels that come from the website's DU tools are verbatim.
 
+import '../../core/domain/cuet_dates.dart';
+
 abstract final class ToolsCopy {
   // Hub.
   static const hubTitle = 'CUET tools';
@@ -16,6 +18,7 @@ abstract final class ToolsCopy {
   static const pyqNote = 'How to practise with past papers, on the website';
   static const sourcesTitle = 'Official DU documents';
   static const sourcesNote = 'The Bulletin and the three round lists';
+  /// The one source line the tools keep: where every rule and cutoff comes from.
   static const dataLine = 'DU data: CSAS 2026, Rounds I to III, and the UG Bulletin 2026-27.';
 
   static String hubOpens(int subjects) =>
@@ -33,7 +36,7 @@ abstract final class ToolsCopy {
   static const emptyHeroBody =
       'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test.';
   static const fromSheet = 'Ticked from your sheet. Change them freely here.';
-  static String overLimit(int n) => 'That is $n papers. CUET UG 2026 allowed at most 5; the 2027 limit is not out yet.';
+  static String overLimit(int n) => 'You have picked $n papers. CUET UG 2026 let a student take up to 5.';
 
   static const categoryHeading = 'Category and score';
   static String categorySummary(String category, String? score) =>
@@ -60,11 +63,15 @@ abstract final class ToolsCopy {
   static const onlyClearing = 'Only where my score clears a cutoff';
   static const nothingMatches = 'Nothing matches these filters.';
   static const noneOpenTitle = 'No programme is open to these subjects yet.';
-  static String noneOpenBody(int langs, int domains, bool gat) =>
-      'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test. '
-      'You have $langs ${langs == 1 ? 'language' : 'languages'}, $domains domain ${domains == 1 ? 'subject' : 'subjects'}${gat ? ' and the General Aptitude Test' : ''} so far.';
+  static const noneOpenLine = 'One more subject can change that. Tap one below.';
+  static const noneOpenFar = 'Try a different mix with Edit subjects.';
   static String notEligibleHeading(int n) => 'Not eligible yet ($n)';
   static const notEligibleNote = 'See what each one needs';
+  static const nearHide = 'Hide';
+  static const nearShow = 'Show';
+  static String nearShowAll(int n) => 'Show all $n';
+  static const nearShowFewer = 'Show fewer';
+  static String nearNearest(int n) => 'The $n nearest to opening';
 
   static String colleges(int n) => n == 1 ? '1 college' : '$n colleges';
   static const noCutoffList = 'No CUET cutoff list published';
@@ -75,14 +82,12 @@ abstract final class ToolsCopy {
   static const secondaryNote = 'Considered only if seats remain after Combinations I and II';
   static const performanceNote = 'Merit also uses a separate performance or practical test';
 
-  static const honesty = 'Cutoffs are last year’s. They are not a prediction and not an admission chance.';
-  static const provisional = '2027 rules stay provisional until DU publishes its next Bulletin.';
   static const practiseHeading = 'Practise these subjects';
   static const loadingTitle = 'Loading DU programmes';
   static const errorTitle = 'We could not load the DU data';
   static const errorBody = 'Check your connection and try again.';
   static const offlineTitle = 'You are offline';
-  static const offlineBody = 'Compass needs one load with a connection. After that it works offline.';
+  static const offlineBody = 'Your answers and drafts are saved on this phone.';
   static const tryAgain = 'Try again';
 
   // Programme.
@@ -124,10 +129,10 @@ abstract final class ToolsCopy {
   static String poolHint(int max, int n, int papers) =>
       'Tick every subject you studied or could prepare, up to $max. $n ticked. We find the best $papers for your goals.';
   static const papersHeading = 'Papers on your form';
-  static const papersNote = 'CUET UG 2026 allowed up to 5. 2027 rules are provisional.';
   static const resultsHeading = 'Your best combinations';
   static const resultsEmpty = 'Tick a few subjects, or use a quick start, to see combinations.';
   static const checking = 'Checking every combination';
+  static const comboError = 'The combinations could not be checked.';
   static String keep(String names, int n) =>
       'Do not drop: $names. Every combination that reaches all your targets uses ${n == 1 ? 'it' : 'them'}.';
   static const bestFit = 'Best fit';
@@ -138,9 +143,8 @@ abstract final class ToolsCopy {
   static String ofN(int a, int b) => '$a of $b';
   static String needs(String name, String gaps) => '$name needs: $gaps';
   static const meetsEvery = 'Meets every target’s subject rules.';
+  static const missesATarget = 'Misses at least one target';
   static const seeInCompass = 'See the programmes and cutoffs';
-  static const comboFine =
-      'Checked against the University of Delhi UG Bulletin 2026-27 subject rules. Subject eligibility is not admission: your score, category and seats decide that. Confirm the 2027 Bulletin before you register.';
   static const targetFull = 'Six targets chosen. Remove one to add another.';
   static const poolFull = 'Twelve subjects ticked. Remove one to add another.';
   static const remove = 'Remove';
@@ -158,6 +162,46 @@ abstract final class ToolsCopy {
   static String noSubjectMatch(String q) => 'No CUET subject matches “$q”. Try the name on your Class 12 marksheet.';
   static String selectedCount(int n) => '$n selected';
   static const done = 'Done';
+
+  // Compass Pro (shown only to an account the server lets read it).
+  static const proHeading = 'Practice projection';
+  static const proLead = 'What each paper would be worth if exam day went like your practice so far.';
+  static String proRange(int low, int high) => 'Range $low to $high';
+  static const proTotalComplete = 'Your strongest language and three domain papers';
+  static String proTotalPartial(int n) => 'From $n of 4 papers. Practise more subjects for a full total.';
+  static String proNoneReady(int min) => 'Practise at least $min questions in a subject to project its paper.';
+  static String proPaperMeta(int n, int accuracy, int attempted) => '$n questions, $accuracy% accuracy, $attempted% attempted';
+  static String proThin(int needed) => 'Practise $needed more ${needed == 1 ? 'question' : 'questions'} to project this paper';
+  static const proNextHeading = 'Next move';
+  static String proNextLead(String name, int open, int max) => '$name has the most room: $open of $max marks are still open in your practice.';
+  static String proNextChapter(String chapter, int wrong, int blank, int n) => 'Start with $chapter: $wrong wrong and $blank blank in $n questions.';
+  static String proPractise(String name) => 'Practise $name';
+  static const proUnavailable = 'Compass Pro could not read your record just now.';
+  static const proReading = 'Reading your practice record';
+  static const proNotListed = 'Not listed';
+  static const proNeedsFull = 'A full four-paper projection is needed to compare.';
+  static const proWithin = 'The earliest listed cutoff sits inside your range.';
+  static const proNoCutoff = 'DU listed no cutoff for this category.';
+  static String proAbove(String by) => 'Your range clears the earliest listed cutoff by $by or more.';
+  static String proBelow(String by) => 'Your range is $by or more below the earliest listed cutoff.';
+  static const shortlistHeading = 'Your DU shortlist';
+  static const shortlistNote = 'Up to 8 programmes and colleges. They stay on this phone.';
+  static const shortlistAdd = 'Add a target';
+  static const shortlistEmpty = 'Add the colleges you are aiming for to set them against your projection.';
+  static const shortlistFull = 'Your shortlist is full. Remove a target to add another.';
+  static const shortlistChooseProgramme = 'Choose a programme';
+  static const shortlistChooseCollege = 'Choose a college';
+  static const shortlistNoEligible = 'Tick your subjects first. The programmes they open are the ones you can add.';
+  static String shortlistRemove(String college) => 'Remove $college from your shortlist';
+
+  // CUET 2027 guide.
+  static const guidePageTitle = 'CUET 2027';
+  static const guideCommonQuestions = 'Common questions';
+  static const guideDatesNote = 'Expected ${CuetDates.windowMonth} window until NTA publishes dates';
+  static const guidePassed = 'Passed';
+  static const guideNow = 'Now';
+  static const guideExpected = 'Expected';
+  static const guideComingUp = 'Coming up';
 
   // Sources.
   static const sourcesLead = 'Every eligibility rule and cutoff in Compass comes from these University of Delhi documents.';

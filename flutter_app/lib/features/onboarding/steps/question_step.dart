@@ -13,7 +13,8 @@ import '../state/answers_controller.dart';
 import '../widgets/step_layout.dart';
 import '../widgets/warmup_option.dart';
 
-/// The warm-up question for [answers]: the weakest chosen subject that has one.
+/// The warm-up question for [answers]: the weakest chosen subject that has one, picked by the
+/// student's seed. Once answered, the same question again.
 WarmupQuestion warmupQuestionFor(OnboardingAnswers answers) {
   final previous = answers.warmup?.questionId;
   if (previous != null) {
@@ -22,7 +23,7 @@ WarmupQuestion warmupQuestionFor(OnboardingAnswers answers) {
     }
   }
   final subject = answers.ranked.firstWhere(warmupSubjects.contains, orElse: () => SheetSubject.accountancy);
-  return warmupFor(subject)!;
+  return warmupFor(subject, seed: answers.seed ?? 0)!;
 }
 
 /// Step 7: one real question in the weakest subject, on a calm solid surface. A right answer
@@ -74,9 +75,11 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
         children: [
           Text(_q.stem, style: type.question),
           const SizedBox(height: MmSpace.s20),
-          for (var i = 0; i < _q.options.length; i++) ...[
+          // Shown in the question's stable shuffled order; the choice is stored as the index
+          // into the authored options.
+          for (final (shown, i) in _q.order.indexed) ...[
             WarmupOption(
-              letter: letters[i],
+              letter: letters[shown],
               text: _q.options[i],
               state: result == null
                   ? WarmupOptionState.open

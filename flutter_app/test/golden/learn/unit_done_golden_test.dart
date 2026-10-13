@@ -3,7 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/learn/data/lesson_loader.dart';
 import 'package:mockmob/features/learn/data/pending_event.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
+import 'package:mockmob/features/learn/data/summary_loader.dart';
+import 'package:mockmob/features/learn/models/chapter_summary.dart';
 import 'package:mockmob/features/learn/screens/run_done_screen.dart';
+import 'package:mockmob/features/learn/screens/summary_screen.dart';
 import 'package:mockmob/features/learn/screens/unit_screen.dart';
 
 import '../../helpers/fonts.dart';
@@ -117,6 +120,63 @@ void main() {
         ],
       );
       await _done(tester, b, RunUiState(load: RunLoad.ready, run: r), 'done_recall_$n');
+    });
+
+    testWidgets('review ending, most cards forgot, Mobi points at the list, $n', (tester) async {
+      final r = run(
+        state: 'complete',
+        cursor: 8,
+        revision: 16,
+        item: null,
+        updatedAt: '2026-10-12T12:42:00.000Z',
+        reviewed: [
+          for (var i = 1; i <= 7; i++) {'title': 'Card $i of the ratio rules', 'rating': i <= 5 ? 1 : 2, 'unitId': 'acc-sacrifice'},
+          {'title': 'Gain formula', 'rating': 3},
+        ],
+      );
+      await pumpScreen(
+        tester,
+        const LearnRunDoneScreen(runId: 'run-1'),
+        brightness: b,
+        size: const Size(360, 1100),
+        overrides: learnOverrides(catalog: catalog(due: 4), runs: {'run-1': RunUiState(load: RunLoad.ready, run: r)}),
+      );
+      await settleImages(tester);
+      await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/done_forgot_$n.png'));
+    });
+
+    testWidgets('chapter summary reader, $n', (tester) async {
+      await pumpScreen(
+        tester,
+        const LearnSummaryScreen(subject: 'accountancy', chapter: 'Change in Profit Sharing Ratio'),
+        brightness: b,
+        size: const Size(360, 1300),
+        overrides: [
+          ...learnOverrides(),
+          chapterSummaryProvider(('accountancy', 'Change in Profit Sharing Ratio')).overrideWith(
+            (ref) => ChapterSummary.fromJson(
+              {
+                'subject': 'accountancy',
+                'chapter': 'Change in Profit Sharing Ratio',
+                'units': [
+                  {'id': 'acc-sacrifice', 'title': 'Sacrificing and gaining ratios', 'objectives': (_lesson()['objectives'] as List), 'blocks': [readingBlock()]},
+                  {
+                    'id': 'acc-gain',
+                    'title': 'Gaining ratio on retirement',
+                    'objectives': ['Work out what each remaining partner gains'],
+                    'blocks': [
+                      {'id': 'g1', 'type': 'reading', 'kind': 'mistake', 'title': 'Do not reuse the old ratio', 'body': 'On retirement the gaining ratio is new share minus old share for each remaining partner.'},
+                    ],
+                  },
+                ],
+              },
+              subject: 'accountancy',
+              chapter: 'Change in Profit Sharing Ratio',
+            ),
+          ),
+        ],
+      );
+      await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/summary_reader_$n.png'));
     });
 
     testWidgets('run ending for a lesson, nothing marked, $n', (tester) async {

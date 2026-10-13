@@ -77,6 +77,7 @@ class ReminderState {
   const ReminderState({
     this.mutedUntil,
     this.weeklyPlanOn = false,
+    this.repairReadyOn = true,
     this.categories = const {},
     this.delivered = const [],
     this.prePromptNotNowCount = 0,
@@ -90,6 +91,7 @@ class ReminderState {
       return ReminderState(
         mutedUntil: _date(j['m']),
         weeklyPlanOn: (j['w'] as bool?) ?? false,
+        repairReadyOn: (j['r'] as bool?) ?? true,
         categories: {
           for (final e in cats.entries)
             e.key: CategoryStatus.fromJson(
@@ -116,6 +118,10 @@ class ReminderState {
 
   /// The student turned the weekly plan on. It is off until they do (spec 8).
   final bool weeklyPlanOn;
+
+  /// The repair-ready reminder is on. On until the student turns it off; kept on this phone
+  /// because the server has no key for it.
+  final bool repairReadyOn;
   final Map<String, CategoryStatus> categories;
 
   /// Reminders scheduled earlier whose outcome is still unknown.
@@ -133,12 +139,14 @@ class ReminderState {
     DateTime? mutedUntil,
     bool clearMute = false,
     bool? weeklyPlanOn,
+    bool? repairReadyOn,
     Map<String, CategoryStatus>? categories,
     List<DeliveredReminder>? delivered,
     int? prePromptNotNowCount,
   }) => ReminderState(
     mutedUntil: clearMute ? null : (mutedUntil ?? this.mutedUntil),
     weeklyPlanOn: weeklyPlanOn ?? this.weeklyPlanOn,
+    repairReadyOn: repairReadyOn ?? this.repairReadyOn,
     categories: categories ?? this.categories,
     delivered: delivered ?? this.delivered,
     prePromptNotNowCount: prePromptNotNowCount ?? this.prePromptNotNowCount,
@@ -150,6 +158,7 @@ class ReminderState {
   String toJsonString() => jsonEncode({
     if (mutedUntil != null) 'm': mutedUntil!.millisecondsSinceEpoch,
     'w': weeklyPlanOn,
+    'r': repairReadyOn,
     'c': {for (final e in categories.entries) e.key: e.value.toJson()},
     'd': [for (final d in delivered) d.toJson()],
     'n': prePromptNotNowCount,

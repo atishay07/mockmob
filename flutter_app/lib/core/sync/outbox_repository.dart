@@ -9,6 +9,7 @@ import '../api/api_error.dart';
 import '../models/json_helpers.dart';
 import '../repositories/local_scope.dart';
 import '../storage/app_database.dart';
+import 'pending_work.dart' show ExpiredWorkNotice;
 
 /// A write waiting for the network.
 class OutboxItem {
@@ -159,20 +160,26 @@ class OutboxRepository {
 /// Sends the due items of the signed-in user. Run by WorkManager on reconnect and by the app
 /// when it comes back online.
 class OutboxFlusher {
-  OutboxFlusher({required this.repository, required this.api, DateTime Function()? now}) : _now = now ?? DateTime.now;
+  OutboxFlusher({required this.repository, required this.api, DateTime Function()? now, this.onExpired}) : _now = now ?? DateTime.now;
 
   final OutboxRepository repository;
   final ApiClient api;
   final DateTime Function() _now;
 
+  /// Told how many items were dropped for age in one flush, so the student can be told. Defaults
+  /// to the notice You shows ([ExpiredWorkNotice]).
+  final Future<void> Function(int dropped)? onExpired;
+
   /// Sends every due item in order. Stops at the first sign-out (401) or when the server
   /// cannot be reached, leaving the rest for the next flush.
   Future<List<OutboxResult>> flush() async {
     final results = <OutboxResult>[];
+    var expired = 0;
     for (final item in await repository.due()) {
       if (_now().difference(item.createdAt) > OutboxRepository.maxAge) {
         await repository.remove(item.id);
         results.add(OutboxResult(item, OutboxResultKind.dropped));
+        expired++;
         continue;
       }
       try {
@@ -203,7 +210,18 @@ class OutboxFlusher {
         }
       }
     }
+    if (expired > 0) await _reportExpired(expired);
     return results;
+  }
+
+  /// Items older than a week were removed without sending. The student is told on You, so the
+  /// gap in their record is not a silent one. Never allowed to fail the flush.
+  Future<void> _reportExpired(int count) async {
+    try {
+      await (onExpired ?? ExpiredWorkNotice.shared().add)(count);
+    } on Object {
+      // The notice is a courtesy; the flush result stands without it.
+    }
   }
 }
 

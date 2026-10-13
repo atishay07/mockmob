@@ -68,6 +68,44 @@ class ChapterGroup {
   int get repairedCount => items.where((i) => i.stage == MistakeStage.repaired).length;
   int get setAsideCount => items.where((i) => i.stage == MistakeStage.setAside).length;
   DateTime get latestFoundAt => items.map((i) => i.foundAt).reduce((a, b) => a.isAfter(b) ? a : b);
+
+  /// The open mistakes split by paper, newest paper first, each by question number. A repair run
+  /// covers one chapter of one paper (`RepairRun.open`), so this is the unit the group's key
+  /// repairs: its count is the run's step count.
+  List<PaperOpen> get openByPaper {
+    final byPaper = <String, List<MistakeItem>>{};
+    for (final i in open) {
+      byPaper.putIfAbsent(i.attemptId, () => []).add(i);
+    }
+    final out = [
+      for (final items in byPaper.values)
+        PaperOpen(
+          attemptId: items.first.attemptId,
+          source: items.first.source,
+          foundAt: items.first.foundAt,
+          items: [...items]..sort((a, b) => a.number.compareTo(b.number)),
+        ),
+    ]..sort((a, b) => b.foundAt.compareTo(a.foundAt));
+    return out;
+  }
+
+  /// This chapter with only the items of [stage] (a group split by outcome keeps its identity).
+  ChapterGroup? onlyStage(MistakeStage stage) {
+    final kept = [for (final i in items) if (i.stage == stage) i];
+    return kept.isEmpty ? null : ChapterGroup(chapter: chapter, subjectId: subjectId, items: kept);
+  }
+}
+
+/// The open mistakes of one chapter in one paper: what one repair run holds.
+class PaperOpen {
+  const PaperOpen({required this.attemptId, required this.source, required this.foundAt, required this.items});
+
+  final String attemptId;
+
+  /// "Mock 7" or "Quick practice".
+  final String source;
+  final DateTime foundAt;
+  final List<MistakeItem> items;
 }
 
 /// A skipped question. Never a repair candidate.
@@ -136,6 +174,11 @@ class ReviewIndex {
   ];
   int get openCount => groups.fold(0, (n, g) => n + g.openCount);
   bool get hasAnyMistake => groups.isNotEmpty;
+
+  /// Every wrong answer on record that is still counted (not-a-mistake answers are left out).
+  int get foundCount => groups.fold(0, (n, g) => n + g.items.length);
+  int get repairedCount => groups.fold(0, (n, g) => n + g.repairedCount);
+  int get setAsideCount => groups.fold(0, (n, g) => n + g.setAsideCount);
 
   /// Full and NTA-style mocks, newest first.
   List<Attempt> get mocks => [

@@ -51,7 +51,7 @@ class SavePill extends StatelessWidget {
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: ShapeDecoration(
-          color: colors.isNight ? colors.raised : colors.raised,
+          color: colors.raised,
           shape: StadiumBorder(side: BorderSide(color: colors.line)),
         ),
         child: Padding(

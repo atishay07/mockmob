@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/repositories/repositories.dart';
 import '../data/result_providers.dart';
 import '../result_nav.dart';
 import 'recap_flow.dart';
@@ -44,7 +43,7 @@ class _SealedResultScreenState extends ConsumerState<SealedResultScreen> {
     final ritual = _ritual;
     final model = data.model;
     if (model == null) {
-      return RecapPlaceholder(data: data, attemptId: id, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true));
+      return RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
     }
     if (ritual == null || _redirected) return RecapRoom(subjectId: model.subjectId, child: const SizedBox.expand());
     if (ritual.alreadyOpened || ritual.openDirectly || model.ordinal == null) {
@@ -68,11 +67,7 @@ class RecapScreen extends ConsumerWidget {
     final data = ref.watch(recapDataProvider(attemptId));
     final model = data.model;
     if (model == null) {
-      return RecapPlaceholder(
-        data: data,
-        attemptId: attemptId,
-        onRetry: () => ref.read(attemptDetailProvider(attemptId).notifier).refresh(force: true),
-      );
+      return RecapPlaceholder(data: data, attemptId: attemptId, onRetry: () => retryRecapData(ref, attemptId));
     }
     return RecapFlow(model: model, entry: SheetEntry.open, initialCard: card);
   }

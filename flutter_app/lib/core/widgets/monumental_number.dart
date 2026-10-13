@@ -144,7 +144,9 @@ class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerPr
     return Semantics(
       label: widget.semanticsLabel ?? (unit == null ? widget.value : '${widget.value} $unit'),
       excludeSemantics: true,
-      child: RepaintBoundary(child: content),
+      // At large text sizes "183 of 250" is wider than a phone: shrink to the width given
+      // instead of clipping, so no caller needs its own FittedBox.
+      child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: RepaintBoundary(child: content)),
     );
   }
 

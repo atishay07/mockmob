@@ -5,7 +5,7 @@ import '../../core/copy/copy.dart';
 import '../../core/models/study.dart';
 
 abstract final class LearnCopy {
-  // Tab.
+  // Screen.
   static const String title = 'Concepts';
   static const String subtitle = 'Short lessons and recall cards, from the chapters you practise.';
   static const String back = 'Back';
@@ -28,6 +28,24 @@ abstract final class LearnCopy {
   static const String closeRun = 'Close';
   static const String noLessonsTitle = 'No lessons yet';
   static const String noLessonsMessage = 'New lessons will appear here when they are published.';
+  static const String noLessonsMobi = 'Lessons for your subjects are on the way.';
+  static const String nothingDueMobi = 'A lesson is ready to read.';
+  static const String howTitle = 'How Concepts work';
+  static const String howLine = 'Learn a short lesson, lock it in with recall cards, then apply it in practice.';
+  static const String untaughtHeading = 'Untaught chapters';
+  static const String untaughtNote = 'No lesson yet. Practise the questions while the lesson is written.';
+  static const String practiseKey = 'Practise';
+  static const String readSummary = 'Read the chapter summary';
+
+  // Chapter reader.
+  static const String summaryLabel = 'Chapter summary';
+  static const String shareAsText = 'Share as text';
+  static String summaryCount(int n) => n == 1 ? 'From 1 published lesson.' : 'From $n published lessons.';
+  static const String summaryEmptyTitle = 'No lessons in this chapter yet';
+  static const String summaryEmptyMessage = 'Its lessons show here once they are published.';
+  static const String summaryOfflineTitle = 'This summary is not on this phone';
+  static const String summaryOfflineMessage = 'Connect to read it. Lessons you open can be kept for offline use.';
+  static const String summaryFailedTitle = 'We could not open this summary';
 
   static String dueSummary(int n) => '${plural(n, 'card')} due.';
 
@@ -48,6 +66,13 @@ abstract final class LearnCopy {
   };
 
   static String minutes(int m) => 'about ${plural(m, 'minute')}';
+
+  static String lessonCount(int n) => n == 1 ? '1 lesson' : '$n lessons';
+
+  static String untaughtCount(int n) => n == 1 ? '1 chapter without a lesson yet' : '$n chapters without a lesson yet';
+
+  static const String showChapters = 'Show chapters';
+  static const String hideChapters = 'Hide chapters';
 
   // Offline.
   static const String offlineHeading = 'On this phone';
@@ -96,23 +121,28 @@ abstract final class LearnCopy {
   static const String theAnswer = 'Answer';
   static const String nextCard = 'Next card';
   static const String continueKey = 'Continue';
-  static const String finishRun = 'Finish run';
+  static const String finishRun = 'Finish review';
   static const String finishLesson = 'Finish lesson';
   static const String reviewedOffline = 'Reviewed offline, sending when online';
   static const String connectToReveal = 'Connect to see the answer.';
   static const String connectToCheck = 'Connect to check your answer.';
   static const String sendFailed = 'We could not send that just now. It is on this phone.';
   static const String sending = 'Sending';
-  static const String leaveRun = 'Leave run. Your place is kept.';
-  static const String runUnavailableTitle = 'We could not open this run';
+  static const String leaveRun = 'Leave for now. Your place is kept.';
+  static const String runUnavailableTitle = 'We could not open this review';
   static const String runUnavailableMessage = 'It may have finished or been removed.';
-  static const String runOfflineTitle = 'This run is not on this phone';
+  static const String runOfflineTitle = 'This review is not on this phone';
   static const String runOfflineMessage = 'Connect to continue. Your place is kept.';
   static const String hintLabel = 'Hint';
   static const String memoryCue = 'Memory cue';
   static const String similarWord = 'Similar';
   static const String oppositeWord = 'Opposite';
   static const String objectiveLabel = 'Idea';
+  static String objectiveNumber(int n) => 'Idea $n';
+  static const String supersededElsewhere = 'That step was already answered on another device. Here is where you are now.';
+  static const String unknownStep = 'This step needs a newer version of MockMob to open.';
+  static const String skipStep = 'Skip this step';
+  static const String stillActive = 'You are part way through. Your place is kept.';
 
   static String position(String? mode, int number, int total) => mode == 'learn' ? stepOf(number, total) : 'Card $number of $total';
 
@@ -139,10 +169,33 @@ abstract final class LearnCopy {
   // The space inside the time is a no-break space so "6:12 PM" never splits across lines.
   static String _time(DateTime at) => formatTime12(at).replaceAll(' ', ' ');
 
-  static String recallFinished(int cards, DateTime? at) =>
-      'Run finished. ${plural(cards, 'card')} reviewed.${at == null ? '' : ' Recorded at ${_time(at)}.'}';
+  /// The title of a finished review, naming the lessons the cards came from when the run says.
+  /// "Review finished. 8 cards from Goodwill on admission."
+  static String recallFinished(int cards, {List<String> lessons = const []}) {
+    final n = plural(cards, 'card');
+    final named = lessons.where((l) => l.trim().isNotEmpty).toList();
+    return switch (named.length) {
+      0 => 'Review finished. $n reviewed.',
+      1 => 'Review finished. $n from ${named[0]}.',
+      2 => 'Review finished. $n from ${named[0]} and ${named[1]}.',
+      _ => 'Review finished. $n from ${named.length} lessons.',
+    };
+  }
 
-  static String lessonFinished(DateTime? at) => 'Lesson finished.${at == null ? '' : ' Recorded at ${_time(at)}.'}';
+  /// "Lesson finished: Sacrificing and gaining ratios."
+  static String lessonFinished(String? lesson) =>
+      lesson == null || lesson.trim().isEmpty ? 'Lesson finished.' : 'Lesson finished: ${lesson.trim()}.';
+
+  /// The receipt under a finished run, only from the server's own time: "Recorded at 6:12 PM."
+  static String recordedAt(DateTime at) => 'Recorded at ${_time(at)}.';
+
+  /// Mobi's line when most cards came back Forgot: it points at the list.
+  static const String doneMostlyForgot = 'These are the ones to see again.';
+
+  /// Under the first five Forgot or Hard cards: "and 3 more to see again".
+  static String againMore(int n) => 'and $n more to see again';
+
+  static const String openLesson = 'Open the lesson';
 
   static String stillDue(int n) => n == 1 ? '1 card is still due.' : '$n cards are still due.';
 

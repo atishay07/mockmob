@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Resources named only from Dart (by string), which resource shrinking cannot see:
+     the notification small icon (lib/core/notifications/notification_gateway.dart). -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_stat_mockmob" />

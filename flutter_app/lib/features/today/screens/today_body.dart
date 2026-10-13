@@ -36,7 +36,7 @@ class TodayCallbacks {
   final Future<void> Function()? onRefresh;
 }
 
-class TodayBody extends StatelessWidget {
+class TodayBody extends StatefulWidget {
   const TodayBody({
     super.key,
     required this.view,
@@ -69,16 +69,24 @@ class TodayBody extends StatelessWidget {
   final MobiController? mobiController;
   final Duration skeletonDelay;
 
+  @override
+  State<TodayBody> createState() => _TodayBodyState();
+}
+
+class _TodayBodyState extends State<TodayBody> {
+  /// The move card: the header Mobi points at it.
+  final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
+
   Widget _hero() {
-    final hero = view.hero;
-    final cb = callbacks;
+    final hero = widget.view.hero;
+    final cb = widget.callbacks;
     return switch (hero) {
-      null => TodaySkeleton(delay: skeletonDelay),
+      null => TodaySkeleton(delay: widget.skeletonDelay),
       MoveHero() => MoveHeroCard(
-          key: const ValueKey('today-move'),
+          key: _moveKey,
           move: hero,
-          offline: view.offline,
-          mobiController: mobiController,
+          offline: widget.view.offline,
+          mobiController: widget.mobiController,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
@@ -100,26 +108,35 @@ class TodayBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final padding = MediaQuery.paddingOf(context);
+    final view = widget.view;
+    final callbacks = widget.callbacks;
+    final insights = widget.insights;
+    final roadFooter = widget.roadFooter;
     final children = <Widget>[
-      TodayHeader(header: view.header, onWeek: callbacks.onWeek, avatar: avatar),
+      TodayHeader(
+        header: view.header,
+        onWeek: callbacks.onWeek,
+        avatar: widget.avatar,
+        aim: view.hero is MoveHero ? _moveKey : null,
+      ),
       const SizedBox(height: MmSpace.s20),
       _hero(),
       if (view.also.isNotEmpty) AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline),
-      if (insights != null) ...[const SizedBox(height: MmSpace.s16), insights!],
-      ?weeklyEnding,
+      if (insights != null) ...[const SizedBox(height: MmSpace.s16), insights],
+      ?widget.weeklyEnding,
       if (view.sheet.isNotEmpty) ...[
         const SizedBox(height: MmSpace.group),
         SheetSection(rows: view.sheet, onOpen: callbacks.onTarget),
       ],
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),
-        RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges, onWeek: callbacks.onWeek),
-        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s8), roadFooter!],
+        RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
+        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s8), roadFooter],
       ],
     ];
 
     final scroll = CustomScrollView(
-      controller: controller,
+      controller: widget.controller,
       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       slivers: [
         SliverPadding(

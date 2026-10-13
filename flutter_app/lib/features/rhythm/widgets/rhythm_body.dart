@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/formatters.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -33,6 +34,7 @@ class RhythmBody extends StatelessWidget {
     required this.onTurnOn,
     required this.onMode,
     this.errorText,
+    this.savedText,
     this.plan,
   });
 
@@ -43,6 +45,9 @@ class RhythmBody extends StatelessWidget {
   /// A write is in flight: the keys wait.
   final bool busy;
   final String? errorText;
+
+  /// A receipt for a save the server acknowledged (the study days).
+  final String? savedText;
   final VoidCallback onEditGoal;
   final VoidCallback onPauseThisWeek;
   final VoidCallback onPauseTwoWeeks;
@@ -78,7 +83,11 @@ class RhythmBody extends StatelessWidget {
           InlineBanner(message: errorText!, tone: BannerTone.error),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan),
+        if (savedText != null) ...[
+          Padding(padding: const EdgeInsets.only(left: 4), child: ReceiptLine(text: savedText!)),
+          const SizedBox(height: MmSpace.s12),
+        ],
+        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan, onSetDays: busy ? null : onEditGoal),
         const SizedBox(height: MmSpace.s24),
         YouPanel(
           margin: EdgeInsets.zero,
@@ -90,12 +99,18 @@ class RhythmBody extends StatelessWidget {
               text: RhythmCopy.goalRow(goal),
               trailing: KeyButton.quiet(label: RhythmCopy.editGoal, onPressed: busy ? null : onEditGoal),
             ),
+            if (plan != null)
+              _Line(
+                text: RhythmCopy.studyDaysRow([for (final d in plan!.toList()..sort()) weekdayNames[d]]),
+                trailing: KeyButton.quiet(label: RhythmCopy.editStudyDays, onPressed: busy ? null : onEditGoal),
+              ),
           ],
         ),
         if (!rhythmOff) ...[
           const SizedBox(height: MmSpace.s32),
           _PauseGroup(
             paused: week.status == WeekStatus.paused,
+            pausedUntil: week.pausedUntil,
             busy: busy,
             onThisWeek: onPauseThisWeek,
             onTwoWeeks: onPauseTwoWeeks,
@@ -126,10 +141,13 @@ class RhythmBody extends StatelessWidget {
 /// This week, lit: the count as a monumental number, the planned week (the same strip as Today
 /// and the week sheet: counted, planned, rest, not yet), and one plain line.
 class WeekHero extends StatelessWidget {
-  const WeekHero({super.key, required this.week, this.plan});
+  const WeekHero({super.key, required this.week, this.plan, this.onSetDays});
 
   final WeekView week;
   final Set<int>? plan;
+
+  /// Opens the study days editor; offered under the strip while there is no plan.
+  final VoidCallback? onSetDays;
 
   @override
   Widget build(BuildContext context) {
@@ -163,21 +181,28 @@ class WeekHero extends StatelessWidget {
               Builder(
                 builder: (context) {
                   final todayIndex = week.days.indexWhere((d) => d.isToday);
-                  final strip = PlanWeekStrip(
-                    days: planWeek(
-                      studied: [for (final d in week.days) d.studyDay],
-                      todayIndex: todayIndex < 0 ? null : todayIndex,
-                      planned: plan,
-                      dates: [for (final d in week.days) d.date?.day],
-                    ),
-                    bubble: 28,
-                    showDates: true,
+                  final days = planWeek(
+                    studied: [for (final d in week.days) d.studyDay],
+                    todayIndex: todayIndex < 0 ? null : todayIndex,
+                    planned: plan,
+                    dates: [for (final d in week.days) d.date?.day],
                   );
-                  return Semantics(label: strip.describe(), child: strip);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      PlanWeekStrip(days: days, bubble: 28, showDates: true, daySemantics: true),
+                      const SizedBox(height: MmSpace.s4),
+                      PlanWeekKey(days: days),
+                    ],
+                  );
                 },
               ),
               const SizedBox(height: MmSpace.s12),
               Text(status, style: type.small.copyWith(color: colors.ink2)),
+              if (plan == null && onSetDays != null) ...[
+                const SizedBox(height: MmSpace.s4),
+                FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onSetDays),
+              ],
             ],
           ),
         ),
@@ -279,6 +304,7 @@ class _ClosedWeek extends StatelessWidget {
 class _PauseGroup extends StatelessWidget {
   const _PauseGroup({
     required this.paused,
+    this.pausedUntil,
     required this.busy,
     required this.onThisWeek,
     required this.onTwoWeeks,
@@ -287,6 +313,9 @@ class _PauseGroup extends StatelessWidget {
   });
 
   final bool paused;
+
+  /// "26 October", when the server has a pause date.
+  final String? pausedUntil;
   final bool busy;
   final VoidCallback onThisWeek;
   final VoidCallback onTwoWeeks;
@@ -301,13 +330,18 @@ class _PauseGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const GroupHeading(RhythmCopy.pauseTitle),
-        Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
-          child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
-        ),
-        if (paused)
-          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume)
-        else
+        if (!paused)
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
+            child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
+          ),
+        if (paused) ...[
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
+            child: Text(RhythmCopy.pausedUntilKept(pausedUntil), style: type.body),
+          ),
+          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume),
+        ] else
           YouPanel(
             margin: EdgeInsets.zero,
             inset: MmSpace.gutter + 36 + MmSpace.s12,

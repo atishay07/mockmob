@@ -15,6 +15,7 @@ import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
 import '../data/today_providers.dart';
 import '../logic/today_model.dart';
+import '../widgets/today_celebration.dart';
 import 'today_body.dart';
 
 class TodayScreen extends ConsumerStatefulWidget {
@@ -97,7 +98,15 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       mobiController: _mobi,
       insights: widget.insights,
       roadFooter: widget.roadFooter,
-      weeklyEnding: hasEnding ? const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()) : null,
+      weeklyEnding: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
+          // The first repair and the first met week land here, directly under the ending card.
+          const TodayCelebration(),
+        ],
+      ),
       callbacks: TodayCallbacks(
         onAction: _action,
         onTarget: _target,

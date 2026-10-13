@@ -70,12 +70,26 @@ Future<RunnerHarness> pumpRunner(
   Brightness brightness = Brightness.dark,
   Size size = kRunnerSize,
   double textScale = 1,
+  bool disableAnimations = false,
+
+  /// System bars, in logical px, as a phone reports them (the status bar and the gesture area).
+  EdgeInsets systemInsets = EdgeInsets.zero,
   List<Override> overrides = const [],
   MemoryPrefsStore? prefs,
   String? candidate = 'Asha Verma',
 }) async {
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
+  if (systemInsets != EdgeInsets.zero) {
+    final inset = FakeViewPadding(
+      left: systemInsets.left * 2,
+      top: systemInsets.top * 2,
+      right: systemInsets.right * 2,
+      bottom: systemInsets.bottom * 2,
+    );
+    tester.view.padding = inset;
+    tester.view.viewPadding = inset;
+  }
   addTearDown(tester.view.reset);
 
   final opened = load ?? RunnerReady(session!);
@@ -121,7 +135,7 @@ Future<RunnerHarness> pumpRunner(
           themeMode: brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
           routerConfig: router,
           builder: (context, app) => MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(textScale)),
+            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(textScale), disableAnimations: disableAnimations),
             child: app!,
           ),
         ),

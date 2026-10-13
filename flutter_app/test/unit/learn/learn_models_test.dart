@@ -104,9 +104,15 @@ void main() {
     test('the run ending lines are exact and use 12-hour times', () {
       final at = DateTime(2026, 10, 12, 18, 12);
       String plain(String t) => t.replaceAll(' ', ' ');
-      expect(plain(LearnCopy.recallFinished(8, at)), 'Run finished. 8 cards reviewed. Recorded at 6:12 PM.');
-      expect(plain(LearnCopy.recallFinished(1, at)), 'Run finished. 1 card reviewed. Recorded at 6:12 PM.');
-      expect(plain(LearnCopy.lessonFinished(at)), 'Lesson finished. Recorded at 6:12 PM.');
+      expect(LearnCopy.recallFinished(8), 'Review finished. 8 cards reviewed.');
+      expect(LearnCopy.recallFinished(1), 'Review finished. 1 card reviewed.');
+      expect(LearnCopy.recallFinished(8, lessons: ['Goodwill on admission']), 'Review finished. 8 cards from Goodwill on admission.');
+      expect(LearnCopy.recallFinished(8, lessons: ['Goodwill', 'Revaluation']), 'Review finished. 8 cards from Goodwill and Revaluation.');
+      expect(LearnCopy.recallFinished(8, lessons: ['A', 'B', 'C']), 'Review finished. 8 cards from 3 lessons.');
+      expect(LearnCopy.lessonFinished('Sacrificing and gaining ratios'), 'Lesson finished: Sacrificing and gaining ratios.');
+      expect(LearnCopy.lessonFinished(null), 'Lesson finished.');
+      expect(plain(LearnCopy.recordedAt(at)), 'Recorded at 6:12 PM.');
+      expect(LearnCopy.againMore(3), 'and 3 more to see again');
       expect(LearnCopy.stillDue(4), '4 cards are still due.');
       expect(LearnCopy.stillDue(1), '1 card is still due.');
     });
@@ -138,7 +144,8 @@ void main() {
         LearnCopy.startFailed, LearnCopy.contentChangedOpening, LearnCopy.unitMissingMessage, LearnCopy.unitOfflineMessage,
         LearnCopy.tapToReveal, LearnCopy.howWell, LearnCopy.correct, LearnCopy.notQuite, LearnCopy.reviewedOffline,
         LearnCopy.connectToReveal, LearnCopy.connectToCheck, LearnCopy.sendFailed, LearnCopy.leaveRun,
-        LearnCopy.doneSetAside, LearnCopy.doneInvalidated, LearnCopy.recallFinished(8, DateTime(2026, 10, 12, 18, 12)),
+        LearnCopy.doneSetAside, LearnCopy.doneInvalidated, LearnCopy.recallFinished(8), LearnCopy.recordedAt(DateTime(2026, 10, 12, 18, 12)),
+        LearnCopy.supersededElsewhere, LearnCopy.unknownStep, LearnCopy.stillActive, LearnCopy.howLine, LearnCopy.untaughtNote,
         LearnCopy.pendingOnPhone(2), LearnCopy.newReady(3), LearnCopy.keepSize('4.2 MB'),
       ];
       for (final s in strings) {
@@ -146,6 +153,7 @@ void main() {
         expect(s, isNot(contains('!')), reason: s);
         expect(s, isNot(matches(RegExp(r'[←-⇿☀-➿\u{1F300}-\u{1FAFF}]', unicode: true))), reason: s);
         expect(s.toLowerCase(), isNot(contains('mastered')), reason: s);
+        expect(s, isNot(matches(RegExp(r'[Rr]un'))), reason: s);
       }
     });
   });

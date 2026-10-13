@@ -45,4 +45,14 @@ Widget _numbers() {
 
 void main() {
   nightGolden('number', _numbers);
+  // The hero at the app's largest text size on a 360 dp phone: it shrinks to fit, never clips.
+  nightGolden(
+    'number_text200',
+    () => const Padding(
+      padding: EdgeInsets.all(16),
+      child: Align(alignment: Alignment.topLeft, child: MonumentalNumber(value: '183', unit: 'of 250')),
+    ),
+    size: const Size(360, 400),
+    textScale: 2,
+  );
 }

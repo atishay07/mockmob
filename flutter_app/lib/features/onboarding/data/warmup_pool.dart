@@ -28,12 +28,49 @@ class WarmupQuestion {
 
   /// The ten-second fix, shown after a wrong answer.
   final String fix;
+
+  /// The order the options are shown in: `order[i]` is the index in [options] shown at
+  /// position i (A, B, C, D). A stable shuffle seeded by [id], so the right answer is not
+  /// always where the author wrote it, and a question looks the same on every return.
+  /// [answer] and a stored choice stay indexes into [options].
+  List<int> get order => stableOrder(options.length, stableSeed(id));
+
+  /// Where [answer] is shown (0 is A).
+  int get shownAnswer => order.indexOf(answer);
+}
+
+/// A 31-bit FNV-1a hash of [text]: the same on every phone and every run (String.hashCode is not
+/// promised to be).
+int stableSeed(String text) {
+  var h = 0x811c9dc5;
+  for (final unit in text.codeUnits) {
+    h = ((h ^ unit) * 0x01000193) & 0xffffffff;
+  }
+  return h & 0x7fffffff;
+}
+
+/// 0 to n - 1, shuffled by a small fixed generator seeded with [seed] (Fisher-Yates).
+List<int> stableOrder(int n, int seed) {
+  final out = [for (var i = 0; i < n; i++) i];
+  var x = seed == 0 ? 0x2545f491 : seed;
+  for (var i = n - 1; i > 0; i--) {
+    // xorshift32
+    x ^= (x << 13) & 0xffffffff;
+    x ^= x >> 17;
+    x ^= (x << 5) & 0xffffffff;
+    x &= 0xffffffff;
+    final j = x % (i + 1);
+    final t = out[i];
+    out[i] = out[j];
+    out[j] = t;
+  }
+  return out;
 }
 
 /// Bump when a question changes, so a stored answer is not shown against a different question.
 const int kWarmupPoolVersion = 1;
 
-/// Two questions per subject. The onboarding picks the first one the student has not seen.
+/// Two questions per subject. The onboarding picks one by the student's seed (see [warmupFor]).
 const List<WarmupQuestion> kWarmupPool = [
   WarmupQuestion(
     id: 'acc-1',
@@ -141,11 +178,15 @@ const List<WarmupQuestion> kWarmupPool = [
   ),
 ];
 
-/// The first question for [subject] whose id is not in [seen], or the first one again.
-WarmupQuestion? warmupFor(SheetSubject subject, {Set<String> seen = const {}}) {
+/// A question for [subject] whose id is not in [seen] (all of them once every one was seen),
+/// picked by [seed]: the student's own seed gives every student the same question on every
+/// return, while different students see different ones.
+WarmupQuestion? warmupFor(SheetSubject subject, {Set<String> seen = const {}, int seed = 0}) {
   final pool = [for (final q in kWarmupPool) if (q.subject == subject) q];
   if (pool.isEmpty) return null;
-  return pool.firstWhere((q) => !seen.contains(q.id), orElse: () => pool.first);
+  final fresh = [for (final q in pool) if (!seen.contains(q.id)) q];
+  final from = fresh.isEmpty ? pool : fresh;
+  return from[seed.abs() % from.length];
 }
 
 /// Subjects with at least one warm-up question.

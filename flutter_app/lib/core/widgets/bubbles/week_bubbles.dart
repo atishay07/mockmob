@@ -24,7 +24,8 @@ class WeekBubbleDay {
 }
 
 /// The week as seven bubbles, Monday first, with weekday initials beneath (brief section 12).
-/// Today is ringed; done days are inked; rest days have their own dashed shape with a bar.
+/// Today is ringed; done days are inked; rest days have their own dashed shape with a bar. The
+/// initials follow the student's text size (up to 2x) and the row grows to fit them.
 class WeekBubbles extends StatelessWidget {
   const WeekBubbles({
     super.key,
@@ -43,6 +44,8 @@ class WeekBubbles extends StatelessWidget {
 
   double get width => bubbleSize * 7 + gap * 6 + 10;
 
+  static const double _initialSize = 11;
+
   String describe() {
     final done = [for (var i = 0; i < 7; i++) if (days[i].mark == WeekDayMark.done) weekdayNames[i]];
     final rest = [for (var i = 0; i < 7; i++) if (days[i].mark == WeekDayMark.rest) weekdayNames[i]];
@@ -57,8 +60,9 @@ class WeekBubbles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final style = context.mmType.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w600);
-    final height = bubbleSize + 10 + (initials ? 16 : 0);
+    final style = context.mmType.caption.copyWith(fontSize: _initialSize, height: 1, fontWeight: FontWeight.w600);
+    final scale = (MediaQuery.textScalerOf(context).scale(_initialSize) / _initialSize).clamp(1.0, 2.0);
+    final height = bubbleSize + 10 + (initials ? 5 + (_initialSize * scale).ceilToDouble() : 0);
     return Semantics(
       container: true,
       label: semanticsLabel ?? describe(),
@@ -66,7 +70,14 @@ class WeekBubbles extends StatelessWidget {
       child: RepaintBoundary(
         child: CustomPaint(
           size: Size(width, height),
-          painter: _WeekPainter(days: days, size: bubbleSize, gap: gap, colors: colors, style: initials ? style : null),
+          painter: _WeekPainter(
+            days: days,
+            size: bubbleSize,
+            gap: gap,
+            colors: colors,
+            style: initials ? style : null,
+            textScaler: TextScaler.linear(scale),
+          ),
         ),
       ),
     );
@@ -74,13 +85,14 @@ class WeekBubbles extends StatelessWidget {
 }
 
 class _WeekPainter extends CustomPainter {
-  _WeekPainter({required this.days, required this.size, required this.gap, required this.colors, this.style});
+  _WeekPainter({required this.days, required this.size, required this.gap, required this.colors, this.style, required this.textScaler});
 
   final List<WeekBubbleDay> days;
   final double size;
   final double gap;
   final MmColors colors;
   final TextStyle? style;
+  final TextScaler textScaler;
 
   @override
   void paint(Canvas canvas, Size canvasSize) {
@@ -103,7 +115,7 @@ class _WeekPainter extends CustomPainter {
             style: style!.copyWith(color: day.isToday ? colors.ink : colors.ink3),
           ),
           textDirection: TextDirection.ltr,
-          textScaler: TextScaler.noScaling,
+          textScaler: textScaler,
         )..layout();
         tp.paint(canvas, Offset(c.dx - tp.width / 2, pad + size + 8));
         tp.dispose();
@@ -113,7 +125,7 @@ class _WeekPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_WeekPainter old) {
-    if (old.colors != colors || old.size != size || old.gap != gap || old.style != style) return true;
+    if (old.colors != colors || old.size != size || old.gap != gap || old.style != style || old.textScaler != textScaler) return true;
     for (var i = 0; i < 7; i++) {
       if (old.days[i].mark != days[i].mark || old.days[i].isToday != days[i].isToday) return true;
     }

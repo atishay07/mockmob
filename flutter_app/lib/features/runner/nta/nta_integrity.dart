@@ -22,8 +22,8 @@ enum NtaViolation {
 
 /// The website's exam-integrity guard (three warnings, the third submits) translated to a
 /// phone. A warning counts once per absence: when the app is hidden or paused, when another
-/// window covers it for longer than [inactiveGrace] (a quick look at notifications is shorter and
-/// free), or when the paper is opened again after it was closed without a recorded absence.
+/// window covers it for longer than [inactiveGrace] (1.5 s, WEB-PARITY decision 4: a quick look at
+/// notifications or a call banner is shorter and free, a split screen is not), or when the paper is opened again after it was closed without a recorded absence.
 /// The count survives a restart. Warnings never reach the server and never change the score.
 class NtaIntegrity extends ChangeNotifier {
   NtaIntegrity({
@@ -31,8 +31,11 @@ class NtaIntegrity extends ChangeNotifier {
     required this.store,
     required this.onTerminate,
     required this.isLive,
-    this.inactiveGrace = const Duration(seconds: 8),
+    this.inactiveGrace = defaultInactiveGrace,
   });
+
+  /// How long another window may cover the exam before it counts as a warning.
+  static const Duration defaultInactiveGrace = Duration(milliseconds: 1500);
 
   final String sessionId;
   final PrefsStore store;

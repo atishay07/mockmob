@@ -5,15 +5,100 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
+import android.view.View
 import android.view.WindowManager
+import android.view.animation.LinearInterpolator
+import android.window.SplashScreenView
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
+    private val main = Handler(Looper.getMainLooper())
+
+    /** The Android 12+ system splash (a SplashScreenView), held over the Flutter view until the
+     *  brand opening asks. Typed as a View so older Androids never resolve the class. */
+    private var splashView: View? = null
+    private var splashGone = false
+    private var releaseAsked = false
+    private var pendingRelease: MethodChannel.Result? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // The Flutter brand opening's first frame is the splash's "mo", so the splash is held
+            // until Dart says that frame has been drawn under it, then faded off it in 150 ms (a
+            // soft hand-over, so a pixel of difference in where a phone puts its splash cannot
+            // show as a jump). The system's default exit (the icon fading to the ground, then the
+            // app sliding up as it fades in) dipped to black and jumped 6 dp.
+            splashScreen.setOnExitAnimationListener { view ->
+                splashView = view
+                if (releaseAsked) {
+                    releaseSplash()
+                } else {
+                    // Never hold it for good if Dart does not ask.
+                    main.postDelayed({ releaseSplash() }, SPLASH_HOLD_MAX_MS)
+                }
+            }
+        } else {
+            splashGone = true
+        }
+        super.onCreate(savedInstanceState)
+    }
+
+    /** Fades the held splash off the Flutter "mo", then answers Dart once that frame is drawn. */
+    private fun releaseSplash() {
+        val view = splashView
+        if (view == null) {
+            if (releaseAsked) answerRelease()
+            return
+        }
+        splashView = null
+        view.animate()
+            .alpha(0f)
+            .setDuration(SPLASH_FADE_MS)
+            .setInterpolator(LinearInterpolator())
+            .withEndAction {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) (view as SplashScreenView).remove()
+                splashGone = true
+                window.decorView.postOnAnimation { answerRelease() }
+            }
+            .start()
+    }
+
+    private fun answerRelease() {
+        pendingRelease?.success(true)
+        pendingRelease = null
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        // The brand opening asks for the system splash to be lifted once its first "mo" is drawn
+        // under it, and starts its clock when this answers (see OpeningGlass in Dart).
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "in.mockmob.app/splash")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "release" -> {
+                        if (splashGone) {
+                            result.success(true)
+                        } else {
+                            pendingRelease?.success(false)
+                            pendingRelease = result
+                            releaseAsked = true
+                            if (splashView != null) {
+                                releaseSplash()
+                            } else {
+                                // A start without a system splash (some launches have none): go.
+                                main.postDelayed({ if (pendingRelease === result) answerRelease() }, SPLASH_WAIT_MS)
+                            }
+                        }
+                    }
+                    else -> result.notImplemented()
+                }
+            }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "in.mockmob.app/system_settings")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
@@ -82,5 +167,16 @@ class MainActivity : FlutterActivity() {
                 false
             }
         }
+    }
+
+    private companion object {
+        /** The splash's fade off the matching Flutter "mo". */
+        const val SPLASH_FADE_MS = 150L
+
+        /** How long Dart's ask waits for a system splash that may never come. */
+        const val SPLASH_WAIT_MS = 600L
+
+        /** The longest the splash is held if Dart never asks. */
+        const val SPLASH_HOLD_MAX_MS = 3000L
     }
 }

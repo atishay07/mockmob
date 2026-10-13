@@ -29,10 +29,18 @@ class AuthController extends Notifier<AuthSnapshot> {
   _ResumeObserver? _observer;
   Future<void>? _profileLoad;
   bool _explicitSignOut = false;
+  Timer? _startRetry;
+  int _startFailures = 0;
+
+  /// How long to wait before starting the auth service again after it failed to start (secure
+  /// storage or the session lock was not ready). After the last one the student retries by hand.
+  @visibleForTesting
+  static List<Duration> startRetryDelays = const [Duration(seconds: 2), Duration(seconds: 6), Duration(seconds: 15)];
 
   @override
   AuthSnapshot build() {
     ref.onDispose(() {
+      _startRetry?.cancel();
       _changes?.cancel();
       _lost?.cancel();
       final observer = _observer;
@@ -49,13 +57,21 @@ class AuthController extends Notifier<AuthSnapshot> {
     try {
       service = await _service();
     } on Object {
-      service = null;
+      if (!ref.mounted) return;
+      // The service failed to start, which is not the same as "no session": the stored session
+      // is untouched and may be fine. Say so (the profile-load-failed state, with a retry)
+      // instead of sending the student to sign in.
+      state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+      _scheduleStartRetry();
+      return;
     }
     if (!ref.mounted) return;
     if (service == null) {
+      // Not configured in this build: there is nothing to sign in to.
       state = AuthSnapshot.signedOut;
       return;
     }
+    _startFailures = 0;
     _changes = service.changes.listen((event) => _onAuthEvent(service!, event.event, event.session));
     _lost = service.sessionLost.listen((_) {
       if (!_explicitSignOut) state = const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true);
@@ -63,6 +79,25 @@ class AuthController extends Notifier<AuthSnapshot> {
     _observer = _ResumeObserver(() => service!.syncFromStorage());
     WidgetsBinding.instance.addObserver(_observer!);
     await _handleSession(service.session);
+  }
+
+  void _scheduleStartRetry() {
+    _startRetry?.cancel();
+    if (_startFailures >= startRetryDelays.length) return;
+    final delay = startRetryDelays[_startFailures++];
+    _startRetry = Timer(delay, () {
+      if (ref.mounted) unawaited(retryStart());
+    });
+  }
+
+  /// Starts the auth service again after it failed to start. Safe to call at any time; it does
+  /// nothing once the service is running.
+  Future<void> retryStart() async {
+    if (_changes != null || !ref.mounted) return;
+    _startRetry?.cancel();
+    state = AuthSnapshot.unknown;
+    ref.invalidate(authServiceProvider);
+    await _start();
   }
 
   void _onAuthEvent(AuthService service, AuthChangeEvent event, Session? session) {
@@ -184,6 +219,11 @@ class AuthController extends Notifier<AuthSnapshot> {
 
   /// Reloads the profile (after onboarding or any change that affects subjects or Pro status).
   Future<void> reload() async {
+    if (_changes == null && state.loadFailed) {
+      // The service never started: starting it again also loads the profile.
+      await retryStart();
+      return;
+    }
     final session = (await _service())?.session;
     if (session == null) return;
     await _handleSession(session);
@@ -215,12 +255,14 @@ class AuthController extends Notifier<AuthSnapshot> {
     await _handleSession(service.session);
   }
 
-  /// Google sign-in for the email-code screens. True when signed in on the spot; false when the
-  /// student cancelled or the browser opened (the session then arrives through the callback
-  /// link and the router moves on by itself). Throws [SignInException].
-  Future<bool> signInWithGoogle() async {
+  /// Google sign-in for the email-code screens. [GoogleOutcome.signedIn] when signed in on the
+  /// spot, [GoogleOutcome.cancelled] when the student closed the sheet, and
+  /// [GoogleOutcome.browserOpened] when the browser took over (the session then arrives through
+  /// the callback link and the router moves on by itself; [oauthReturns] reports a cancel or a
+  /// failure). Throws [SignInException].
+  Future<GoogleOutcome> signInWithGoogle() async {
     try {
-      return await continueWithGoogle() == GoogleOutcome.signedIn;
+      return await continueWithGoogle();
     } on AccessException catch (e) {
       throw SignInException(switch (e.failure) {
         AccessFailure.offline => AuthFailure.offline,
@@ -287,27 +329,46 @@ class AuthController extends Notifier<AuthSnapshot> {
     return service;
   }
 
-  /// Signs out on purpose: clears the tokens, this account's drafts and usage-data queue,
-  /// and scheduled reminders. The screen warns about unsent answers first (spec 5.12.4).
-  Future<void> signOut() async {
+  /// Signs out on purpose: clears the tokens, this account's drafts and usage-data queue, and
+  /// scheduled reminders. The queued study writes stay ([keepQueuedWork], the default): they are
+  /// scoped to this account and send when it signs in again; signing in as a different account
+  /// removes them (see [_applyProfile]). Account deletion passes false. The screen warns about
+  /// unsent answers and queued writes first (spec 5.12.4).
+  ///
+  /// Once the tokens are gone the student is signed out, whatever local cleanup does after.
+  Future<void> signOut({bool keepQueuedWork = true}) async {
     final userId = state.userId;
     _explicitSignOut = true;
+    var tokensCleared = false;
     try {
-      await ref.read(analyticsClientProvider).discardAll();
+      await _bestEffort(() => ref.read(analyticsClientProvider).discardAll());
       await SignOutHooks.runAll();
-      try {
-        await ref.read(notificationServiceProvider).cancelAll();
-      } on Object {
-        // Notifications may not be initialised yet.
-      }
+      // Notifications may not be initialised yet.
+      await _bestEffort(() => ref.read(notificationServiceProvider).cancelAll());
       await (await _service())?.signOutLocal();
-      if (userId != null) await ref.read(appDatabaseProvider).clearUserData(userId);
+      tokensCleared = true;
+      // A failure here is picked up by the next sign-in: the remembered user id still points at
+      // this account, so a different account clears what is left.
+      var cleaned = true;
+      if (userId != null) {
+        cleaned = await _bestEffort(() => ref.read(appDatabaseProvider).clearUserData(userId, keepOutbox: keepQueuedWork));
+      }
       final prefs = ref.read(appPrefsProvider);
-      await prefs.setLastUserId(null);
-      await prefs.setCachedMe(null);
-      if (ref.mounted) state = AuthSnapshot.signedOut;
+      if (cleaned && !keepQueuedWork) await _bestEffort(() => prefs.setLastUserId(null));
+      await _bestEffort(() => prefs.setCachedMe(null));
     } finally {
       _explicitSignOut = false;
+      if (tokensCleared && ref.mounted) state = AuthSnapshot.signedOut;
+    }
+  }
+
+  /// Runs a cleanup step that must never stop the sign-out. False when it failed.
+  Future<bool> _bestEffort(Future<void> Function() step) async {
+    try {
+      await step();
+      return true;
+    } on Object {
+      return false;
     }
   }
 }

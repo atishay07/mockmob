@@ -8,18 +8,71 @@ import '../model/choices.dart';
 import '../model/deck.dart';
 import 'answers_store.dart';
 
-/// The student's sheet, saved to the phone on every change.
-final onboardingAnswersProvider = AsyncNotifierProvider<AnswersController, OnboardingAnswers>(AnswersController.new);
+/// The student's sheet, saved to the phone on every change. A stored sheet that cannot be read
+/// leaves this in an error ([SheetReadError]) and blocks every write until a read succeeds, so
+/// it is never overwritten by an empty one. No automatic retry: [AnswersController.retry] reads
+/// again when the student asks.
+final onboardingAnswersProvider = AsyncNotifierProvider<AnswersController, OnboardingAnswers>(
+  AnswersController.new,
+  retry: (count, error) => null,
+);
 
 class AnswersController extends AsyncNotifier<OnboardingAnswers> {
+  /// True once the stored sheet was read (or found missing) in this build of the provider, or
+  /// the student chose to start fresh over a backed-up one. Writes wait for it.
+  bool _readOk = false;
+
   @override
-  Future<OnboardingAnswers> build() => ref.read(answersStoreProvider).load();
+  Future<OnboardingAnswers> build() async {
+    _readOk = false;
+    final answers = await ref.read(answersStoreProvider).load();
+    _readOk = true;
+    return answers;
+  }
 
   OnboardingAnswers get _current => state.value ?? OnboardingAnswers.empty;
 
   Future<void> _writes = Future.value();
 
+  /// The read error, while the stored sheet could not be read.
+  SheetReadError? get readError => _readOk ? null : switch (state.error) { final SheetReadError e => e, _ => null };
+
+  Future<OnboardingAnswers>? _retrying;
+
+  /// Reads the stored sheet again after a failed read. Completes with the sheet, or throws the
+  /// read error (the state stays an error and writes stay blocked).
+  Future<OnboardingAnswers> retry() => _retrying ??= _reread().whenComplete(() => _retrying = null);
+
+  Future<OnboardingAnswers> _reread() async {
+    if (_readOk && state.hasValue) return state.requireValue;
+    state = const AsyncLoading<OnboardingAnswers>();
+    try {
+      final answers = await ref.read(answersStoreProvider).load();
+      _readOk = true;
+      if (ref.mounted) state = AsyncData(answers);
+      return answers;
+    } on Object catch (e, st) {
+      if (ref.mounted) state = AsyncError(e, st);
+      rethrow;
+    }
+  }
+
+  /// Starts an empty sheet over one this build cannot read, once that one is safe in
+  /// [AnswersStore.backupKey]. False (and nothing changes) when it is not backed up.
+  bool startFresh() {
+    final error = readError;
+    if (error == null) return _readOk;
+    if (!error.backedUp) return false;
+    _readOk = true;
+    state = const AsyncData(OnboardingAnswers.empty);
+    return true;
+  }
+
   void _set(OnboardingAnswers next) {
+    // Until the stored sheet is read, a write would replace it with what is on screen.
+    if (!_readOk) return;
+    // The per-student seed is picked once, with the first answer.
+    if (next.seed == null) next = next.copyWith(seed: ref.read(nowProvider)().millisecondsSinceEpoch & 0x7fffffff);
     state = AsyncData(next);
     // Saved on the phone in order, in the background; a failed write is retried by the next one.
     final store = ref.read(answersStoreProvider);

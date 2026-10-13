@@ -49,14 +49,15 @@ class StartFace extends StatelessWidget {
           role: GlassRole.dock,
           borderRadius: MmRadius.pillAll,
           pressed: pressed,
+          // The press scale is MmPressable's alone (0.96 on the shared spring); pressed only
+          // deepens the ink, like the volt key.
           child: Center(
-            child: AnimatedScale(
-              scale: pressed ? 0.94 : 1,
-              duration: Motion.press,
-              curve: Motion.glide,
-              child: CustomPaint(
-                size: const Size.square(disc),
-                painter: _StartDisc(fill: colors.volt, glyph: colors.voltInk, rim: colors.voltEdge),
+            child: CustomPaint(
+              size: const Size.square(disc),
+              painter: _StartDisc(
+                fill: pressed ? Color.lerp(colors.volt, colors.voltEdge, 0.16)! : colors.volt,
+                glyph: colors.voltInk,
+                rim: colors.voltEdge,
               ),
             ),
           ),

@@ -25,7 +25,8 @@ abstract final class ResultCopy {
   // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
 
   static const sheetBack = 'Your sheet is back.';
-  static const openWhenReady = 'Marked on the server.';
+  static const markedOnServer = 'Marked on the server.';
+  static const openWhenReady = markedOnServer;
   static const openTab = 'Open your result';
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';
@@ -66,6 +67,13 @@ abstract final class ResultCopy {
 
   static String cardOf(int card, int count) => 'Card $card of $count';
   static const skip = 'Skip to full result';
+  static const previousCard = 'Previous card';
+
+  // ---- Evidence behind a claim ("Show me") --------------------------------------------------------
+
+  static const showMeWrong = 'Show me, the wrong answers behind this';
+  static const showMeBlank = 'Show me, the questions you left blank';
+  static const showMeQuestions = 'Show me, the questions behind this';
 
   // ---- Card 1, the marks ------------------------------------------------------------------
 
@@ -142,6 +150,10 @@ abstract final class ResultCopy {
 
   static String inRecord(String mock) => '$mock is in your record.';
   static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+
+  /// The receipt line on card 4: a time only when the server's acknowledgment was received on
+  /// this phone, otherwise the plain fact.
+  static String receiptLine(DateTime? acknowledgedAt) => acknowledgedAt == null ? markedOnServer : savedAt(acknowledgedAt);
   static String readyToRepair(int n, int? minutes) => minutes == null
       ? '${plural(n, 'wrong answer')} ready to repair.'
       : '${plural(n, 'wrong answer')} ready to repair, about $minutes minutes.';
@@ -150,8 +162,9 @@ abstract final class ResultCopy {
   static String startWithChapter(String chapter, int n) =>
       n == 1 ? 'The repair starts with the one in $chapter.' : 'The repair starts with the $n in $chapter.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
-  static String walletShort(int needed, int balance) =>
-      'This repair needs $needed explanation credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
+  static String walletShort(int needed, int balance) => balance <= 0
+      ? 'This repair needs $needed explanation credits. You have none. Read the key explanations in Review.'
+      : 'This repair needs $needed explanation credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
   static const tryAgain = 'Try again';
   static String chip(int minutes) => '$minutes min';
   static String chipLabel(int minutes, int mistakes) => '$minutes minutes, ${plural(mistakes, 'mistake')}';

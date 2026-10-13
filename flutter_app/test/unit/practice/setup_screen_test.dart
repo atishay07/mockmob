@@ -241,7 +241,10 @@ void main() {
     await tester.tap(text('Start practice'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(text('We could not start the session. Try again. If you were charged, trying again will not charge you twice.'), findsOneWidget);
+    // No definite answer from the server: the copy promises nothing about charges, it says the
+    // balance is being read again and where it shows.
+    expect(text('We could not start the session. We are checking whether this was charged. Your credits show in You.'), findsOneWidget);
+    expect(text('Nothing was charged.'), findsNothing);
   });
 
   testWidgets('a mock opens one pre-start sheet with the numbered title, then starts', (tester) async {

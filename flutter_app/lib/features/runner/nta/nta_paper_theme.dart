@@ -82,7 +82,7 @@ class NtaStyleTheme extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) =>
-      ref.watch(ntaStyleProvider) == NtaStyle.nta ? Theme(data: NtaPaper.theme, child: child) : child;
+      ref.watch(ntaStyleProvider) == NtaStyle.nta ? Theme(data: NtaPaper.theme, child: NtaExamLook(child: child)) : child;
 }
 
 /// Puts an NTA screen on the exam paper (or leaves it in the app theme in the MockMob style),

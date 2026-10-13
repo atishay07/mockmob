@@ -21,8 +21,12 @@ import 'compass_controller.dart';
 import 'compass_hero.dart';
 import 'compass_practise.dart';
 import 'programme_rows.dart';
+import '../pro/compass_pro_section.dart';
 
 enum CompassSort { colleges, cutoff, name }
+
+/// How many "not eligible yet" rows show before "Show all".
+const int _nearFirst = 5;
 
 /// Admission Compass (`/tools/compass`): the student's CUET subjects against DU's 2026-27
 /// Bulletin rules, then last year's cutoffs by category and round. The website's
@@ -40,7 +44,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   String _query = '';
   CompassSort _sort = CompassSort.colleges;
   bool _onlyClearing = false;
-  bool _nearOpen = false;
+
+  /// The student's own choice for the "Not eligible yet" list. Null until they choose: the
+  /// list then opens by itself only when nothing is open (the nearest few are what they need).
+  bool? _nearOpen;
+  bool _nearAll = false;
 
   @override
   void dispose() {
@@ -87,6 +95,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       });
     final streams = duStreamOrder.where((st) => s.catalog.groups.any((g) => g.stream == st)).toList();
     void open(String id) => context.push(ToolsPaths.programme(id));
+    final noneOpen = !s.selection.isEmpty && s.eligible.isEmpty;
+    final nearOpen = _nearOpen ?? noneOpen;
+    final nearShown = _nearAll ? near : near.take(_nearFirst).toList();
 
     return [
       SliverToBoxAdapter(child: CompassHero(state: s)),
@@ -105,19 +116,19 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ),
         ),
       ),
+      if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty)),
       if (s.unlocks.isNotEmpty) ...[
         const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading)),
         SliverToBoxAdapter(child: _Unlocks(state: s)),
       ],
       if (!s.selection.isEmpty) ...[
-        SliverToBoxAdapter(
-          child: ToolsHeading(
-            s.eligible.isEmpty ? ToolsCopy.noneOpenTitle : '${s.eligible.length} open to you',
-            note: s.eligible.isEmpty
-                ? ToolsCopy.noneOpenBody(s.selection.languages.length, s.selection.domains.length, s.selection.gat)
-                : '${ToolsCopy.categoryNow(s.category)}${score != null ? ', score ${duFormatScore(score)}' : ''}. Updates as you change subjects.',
+        if (!noneOpen)
+          SliverToBoxAdapter(
+            child: ToolsHeading(
+              '${s.eligible.length} open to you',
+              note: '${ToolsCopy.categoryNow(s.category)}${score != null ? ', score ${duFormatScore(score)}' : ''}. Updates as you change subjects.',
+            ),
           ),
-        ),
         if (s.eligible.isNotEmpty)
           SliverToBoxAdapter(
             child: _Filters(
@@ -151,19 +162,34 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           SliverToBoxAdapter(
             child: ToolsHeading(
               ToolsCopy.notEligibleHeading(near.length),
-              note: ToolsCopy.notEligibleNote,
+              note: nearOpen && !_nearAll && near.length > _nearFirst ? ToolsCopy.nearNearest(_nearFirst) : ToolsCopy.notEligibleNote,
               trailing: KeyButton.quiet(
-                label: _nearOpen || s.eligible.isEmpty ? 'Hide' : 'Show',
-                onPressed: () => setState(() => _nearOpen = !(_nearOpen || s.eligible.isEmpty)),
+                label: nearOpen ? ToolsCopy.nearHide : ToolsCopy.nearShow,
+                onPressed: () => setState(() => _nearOpen = !nearOpen),
               ),
             ),
           ),
-          if (_nearOpen || s.eligible.isEmpty)
+          if (nearOpen) ...[
             SliverToBoxAdapter(
-              child: YouPanel(children: [for (final r in near) NearRow(verdict: r, catalog: s.catalog, onTap: () => open(r.group.id))]),
+              child: YouPanel(children: [for (final r in nearShown) NearRow(verdict: r, catalog: s.catalog, onTap: () => open(r.group.id))]),
             ),
+            if (near.length > _nearFirst)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s4, MmSpace.s8, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: KeyButton.quiet(
+                      label: _nearAll ? ToolsCopy.nearShowFewer : ToolsCopy.nearShowAll(near.length),
+                      onPressed: () => setState(() => _nearAll = !_nearAll),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ],
       ],
+      SliverToBoxAdapter(child: CompassProSection(state: s)),
       SliverToBoxAdapter(child: CompassPractise(state: s)),
       SliverToBoxAdapter(
         child: Padding(
@@ -181,9 +207,43 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ),
         ),
       ),
-      SliverToBoxAdapter(child: ToolsNote(ToolsCopy.honesty, top: MmSpace.s20, icon: LucideIcons.info)),
-      SliverToBoxAdapter(child: ToolsNote(ToolsCopy.provisional, top: MmSpace.s8)),
+      const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmSpace.s20)),
     ];
+  }
+}
+
+/// The zero state: Mobi thinking and one line of action, not a paragraph. The subjects that
+/// would open something follow directly below, each with the number of programmes it opens.
+class _NoneOpen extends StatelessWidget {
+  const _NoneOpen({required this.hasUnlocks});
+
+  final bool hasUnlocks;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s24, MmSpace.gutter + 4, 0),
+      child: Row(
+        children: [
+          const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
+          const SizedBox(width: MmSpace.s12),
+          Expanded(
+            child: MergeSemantics(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(header: true, child: Text(ToolsCopy.noneOpenTitle, style: type.title.copyWith(fontSize: 18, height: 24 / 18))),
+                  const SizedBox(height: MmSpace.s4),
+                  Text(hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar, style: type.caption.copyWith(color: colors.ink2)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

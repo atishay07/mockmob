@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/result_providers.dart';
+import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot;
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../result_nav.dart';
@@ -61,6 +64,16 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return ResultCopy.effort(m.monthMockCount, firstEver: m.variant == RecapVariant.firstMock);
   }
 
+  MobiPose get _mobiPose => switch (m.variant) {
+    RecapVariant.firstMock => MobiPose.greet,
+    RecapVariant.higher => MobiPose.cheer,
+    RecapVariant.standard => MobiPose.rest,
+    RecapVariant.lower || RecapVariant.held => MobiPose.point,
+  };
+
+  /// Settle for every pose; the cheer for a higher result adds its one hop.
+  MobiMotion get _mobiMotion => m.variant == RecapVariant.higher ? MobiMotion.hop : MobiMotion.settle;
+
   int get _mistakes {
     for (final o in repairDurationOptions(m.tonightCount)) {
       if (o.minutes == _minutes) return o.mistakes;
@@ -106,18 +119,17 @@ class _RecordCardState extends ConsumerState<RecordCard> {
         const SizedBox(height: MmSpace.s16),
         Semantics(header: true, child: Text(ResultCopy.inRecord(m.mockLabel), style: type.moment)),
         const SizedBox(height: MmSpace.s12),
-        ReceiptLine(text: ResultCopy.savedAt(m.receivedAt)),
+        ReceiptLine(text: ResultCopy.receiptLine(m.receivedAt)),
+        // Any moment the rhythm module fires for this result lands here, on the ground. It takes
+        // no space when nothing fired.
+        CelebrationSlot(scope: CelebrationScope.result(m.attemptId)),
         if (token != null) ...[const SizedBox(height: MmSpace.s20), TokenRow(at: token)],
         const SizedBox(height: MmSpace.s20),
-        // The recap's one Mobi, left-aligned above the repair panel, with one line.
+        // The recap's one Mobi (card 1 has none), left-aligned above the repair panel, with one
+        // line: greets the first mock, cheers once for a higher result, stays calm otherwise.
         Align(
           alignment: Alignment.centerLeft,
-          child: Mobi(
-            pose: m.variant.allowsTokens ? MobiPose.cheer : MobiPose.point,
-            size: 112,
-            motion: m.variant.allowsTokens ? MobiMotion.hop : MobiMotion.settle,
-            say: _mobiLine,
-          ),
+          child: Mobi(pose: _mobiPose, size: 112, motion: _mobiMotion, say: _mobiLine),
         ),
         const SizedBox(height: MmSpace.s16),
         RepairPanel(
@@ -134,7 +146,10 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           const SizedBox(height: MmSpace.s20),
           ReminderRow(
             onSet: () => context.push(AppRoutes.permissionsNotifications),
-            onNotNow: () => setState(() => _reminderDismissed = true),
+            onNotNow: () {
+              setState(() => _reminderDismissed = true);
+              unawaited(ref.read(resultActionsProvider).declineReminder());
+            },
           ),
         ],
         if (widget.showSkipHint) ...[

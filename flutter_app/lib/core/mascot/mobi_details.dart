@@ -22,6 +22,26 @@ abstract final class MobiDetails {
 
   // ---- Eyes --------------------------------------------------------------------------------
 
+  /// Eye shaders by the eye's rect and quantised alpha; an idle Mobi (eyes still between blinks
+  /// and glances) reuses the same two every frame.
+  static final Map<(Rect, int), Shader> _eyeShaders = {};
+
+  /// Off only in tests that compare cached and fresh painting.
+  static bool cacheShaders = true;
+
+  static Shader _eyeShader(Rect rect, double alpha) {
+    final q = (alpha.clamp(0.0, 1.0) * 255).round();
+    if (_eyeShaders.length > 64) _eyeShaders.clear();
+    return _eyeShaders.putIfAbsent((rect, q), () {
+      final a = q / 255;
+      return Gradient.linear(rect.topCenter, rect.bottomCenter, [
+        MobiPalette.eye.withValues(alpha: a),
+        MobiPalette.eye.withValues(alpha: a),
+        MobiPalette.eyeShade.withValues(alpha: a),
+      ], const [0, 0.55, 1]);
+    });
+  }
+
   static void eyes(Canvas c, MobiRig rig) {
     c.save();
     c.clipRRect(MobiGeo.visorRect.deflate(1.2));
@@ -54,11 +74,14 @@ abstract final class MobiDetails {
       c.drawRRect(
         RRect.fromRectXY(rect, w / 2, math.min(h / 2, fullH / 2)),
         Paint()
-          ..shader = Gradient.linear(rect.topCenter, rect.bottomCenter, [
-            MobiPalette.eye.withValues(alpha: alpha),
-            MobiPalette.eye.withValues(alpha: alpha),
-            MobiPalette.eyeShade.withValues(alpha: alpha),
-          ], const [0, 0.55, 1]),
+          ..shader = cacheShaders
+              ? _eyeShader(rect, alpha)
+              // The reference: a fresh shader every frame (what the cache must match).
+              : Gradient.linear(rect.topCenter, rect.bottomCenter, [
+                  MobiPalette.eye.withValues(alpha: alpha),
+                  MobiPalette.eye.withValues(alpha: alpha),
+                  MobiPalette.eyeShade.withValues(alpha: alpha),
+                ], const [0, 0.55, 1]),
       );
       if (h > 6 && e.lid < 0.4) {
         c.drawOval(

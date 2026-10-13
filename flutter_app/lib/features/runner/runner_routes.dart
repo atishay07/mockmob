@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/mascot/mascot.dart' show MobiAct;
 import '../../core/router/routes.dart';
 import 'copy.dart';
 import 'data/runner_loader.dart';
@@ -18,8 +19,7 @@ import 'widgets/runner_message.dart';
 
 Widget runScreen(BuildContext context, GoRouterState state) => RunnerRoute(sessionId: state.pathParameters['sessionId'] ?? '');
 
-Widget runSubmitScreen(BuildContext context, GoRouterState state) =>
-    RunnerRoute(sessionId: state.pathParameters['sessionId'] ?? '', submit: true);
+Widget runSubmitScreen(BuildContext context, GoRouterState state) => RunnerRoute(sessionId: state.pathParameters['sessionId'] ?? '', submit: true);
 
 /// NTA mode's instructions page, before any session exists. Registered in router.dart outside
 /// the shell (no dock, like `/run`); the Practice NTA row and the Start sheet's NTA row open
@@ -69,6 +69,13 @@ class RunnerRoute extends ConsumerWidget {
         body: RunnerCopy.missingBody,
         actionLabel: RunnerCopy.goToPractice,
         onAction: () => context.go(AppRoutes.practice),
+      ),
+      AsyncData(value: RunnerBadPaper(:final count)) => RunnerMessage(
+        title: RunnerCopy.badPaperTitle,
+        body: RunnerCopy.badPaperBody(count),
+        actionLabel: RunnerCopy.goToPractice,
+        onAction: () => context.go(AppRoutes.practice),
+        mobi: MobiAct.oops,
       ),
       AsyncData(value: RunnerFailed()) || AsyncError() => RunnerMessage(
         title: RunnerCopy.failedTitle,

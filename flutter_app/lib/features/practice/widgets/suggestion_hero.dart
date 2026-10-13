@@ -29,7 +29,8 @@ bool canContinue(SessionDraft? draft, DateTime now) =>
 String evidenceLocation(Attempt attempt) =>
     attempt.isMock ? AppRoutes.result(attempt.id) : AppRoutes.practiceResult(attempt.id);
 
-/// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card.
+/// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card. It follows
+/// the subject picked on the tiles, and its Start opens the confirm sheet in that same subject.
 class SuggestionHero extends ConsumerWidget {
   const SuggestionHero({super.key});
 
@@ -101,7 +102,9 @@ class SuggestionHero extends ConsumerWidget {
           unit: PracticeCopy.questionsUnit,
           title: s.firstEver ? PracticeCopy.startingTitle : PracticeCopy.subjectTitle(subject),
           kicker: s.firstEver ? PracticeCopy.startingKicker(subject) : PracticeCopy.subjectKicker,
-          reason: s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject),
+          reason: s.picked
+              ? PracticeCopy.pickedStartReason(subject)
+              : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
         );

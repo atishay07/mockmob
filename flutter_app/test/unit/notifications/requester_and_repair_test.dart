@@ -36,16 +36,18 @@ void main() {
       prefs = AppPrefs(memory);
     });
 
+    AndroidPermissionRequester requesterWith(_Driver driver) => AndroidPermissionRequester(driver: driver, prefs: prefs, store: memory);
+
     test('never asks just to read the state', () async {
       final driver = _Driver();
-      final requester = AndroidPermissionRequester(driver: driver, prefs: prefs);
+      final requester = requesterWith(driver);
       expect(await requester.notificationPermission(), NotificationPermission.notAsked);
       expect(driver.requests, 0);
     });
 
     test('already allowed is granted without a dialog', () async {
       final driver = _Driver(enabled: true);
-      final requester = AndroidPermissionRequester(driver: driver, prefs: prefs);
+      final requester = requesterWith(driver);
       expect(await requester.notificationPermission(), NotificationPermission.granted);
       expect(await requester.requestNotificationPermission(), NotificationPermission.granted);
       expect(driver.requests, 0);
@@ -53,23 +55,34 @@ void main() {
 
     test('allowing in the system dialog is granted', () async {
       final driver = _Driver(allowOnRequest: true);
-      final requester = AndroidPermissionRequester(driver: driver, prefs: prefs);
+      final requester = requesterWith(driver);
       expect(await requester.requestNotificationPermission(), NotificationPermission.granted);
       expect(await requester.notificationPermission(), NotificationPermission.granted);
       expect(await prefs.notificationPermissionAsked(), isTrue);
     });
 
-    test('refusing is denied and remembered, so it is never asked again by us', () async {
+    test('one refusal can still be asked again; the second is blocked in Android settings', () async {
       final driver = _Driver();
-      final requester = AndroidPermissionRequester(driver: driver, prefs: prefs);
+      final requester = requesterWith(driver);
+      expect(await requester.requestNotificationPermission(), NotificationPermission.denied);
+      expect(await prefs.notificationPermissionAsked(), isTrue);
+      expect(await requester.notificationPermission(), NotificationPermission.notAsked, reason: 'Android still shows its dialog');
       expect(await requester.requestNotificationPermission(), NotificationPermission.denied);
       expect(await requester.notificationPermission(), NotificationPermission.denied);
-      expect(await prefs.notificationPermissionAsked(), isTrue);
+      expect(driver.requests, 2);
+    });
+
+    test('a phone asked before the count existed may be asked once more', () async {
+      await prefs.setNotificationPermissionAsked(true);
+      final requester = requesterWith(_Driver());
+      expect(await requester.notificationPermission(), NotificationPermission.notAsked);
+      await requester.requestNotificationPermission();
+      expect(await requester.notificationPermission(), NotificationPermission.denied);
     });
 
     test('turned on later in Android settings reads as granted', () async {
       final driver = _Driver();
-      final requester = AndroidPermissionRequester(driver: driver, prefs: prefs);
+      final requester = requesterWith(driver);
       await requester.requestNotificationPermission();
       driver.enabled = true;
       expect(await requester.notificationPermission(), NotificationPermission.granted);

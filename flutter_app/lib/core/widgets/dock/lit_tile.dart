@@ -12,7 +12,7 @@ class LitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final fill = colors.isNight ? const Color(0x1FFFF6E4) : colors.ink.withValues(alpha: 0.07);
+    final fill = colors.isNight ? MmDock.litTileNight : colors.ink.withValues(alpha: 0.07);
     return DecoratedBox(
       decoration: ShapeDecoration(color: fill, shape: const StadiumBorder()),
       child: CustomPaint(

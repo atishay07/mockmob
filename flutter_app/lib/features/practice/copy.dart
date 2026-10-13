@@ -1,4 +1,5 @@
 import '../../core/copy/copy.dart';
+import '../runner/nta/nta_copy.dart' show NtaRules;
 import 'model/finish_reaction.dart';
 
 /// Every user-facing string of the practice feature. Voice: a sharp senior who has been through
@@ -46,6 +47,7 @@ abstract final class PracticeCopy {
   static String startingKicker(String subject) => '$subject, mixed chapters';
   static String startingReason(String subject) => '$subject is first on your list. Ten questions shows where you stand.';
   static String firstOnListReason(String subject) => '$subject is first on your list.';
+  static String pickedStartReason(String subject) => 'No $subject paper yet. Ten questions shows where you stand.';
 
   static String heroSemantics(String title, String reason) => '$title. $reason';
 
@@ -61,9 +63,11 @@ abstract final class PracticeCopy {
   static String fullMockLine({required int questions, int? minutes}) =>
       minutes == null ? '$questions questions, timed like the exam.' : '$questions questions, $minutes minutes, timed like the exam.';
   static const String ntaTitle = 'NTA mode';
-  static String ntaLine({required int questions}) => 'The exam-day screen, as you will meet it on the day.';
+  static const String ntaLine = 'The exam-day screen, as you will meet it on the day.';
   static const String ntaGatedLine = 'Comes with Pro. A Full mock is open to you now.';
-  static const List<String> ntaChips = ['50 questions', '60 minutes', 'Question palette', 'Mark for review'];
+
+  /// The paper's size and clock come from [NtaRules], the same source as the NTA instructions.
+  static const List<String> ntaChips = ['${NtaRules.questions} questions', '${NtaRules.minutes} minutes', 'Question palette', 'Mark for review'];
   static const String proTag = 'Pro';
 
   // Confirm sheet and setup page.
@@ -134,6 +138,14 @@ abstract final class PracticeCopy {
   static const String retry = 'Try again';
   static const String notNow = 'Not now';
 
+  /// A link asked for a length this mode does not offer; said before Start, never silently.
+  static String lengthAdjusted(String mode, List<int> counts, int asked) {
+    if (asked < counts.first) return '$mode starts at ${counts.first}. You asked for $asked.';
+    if (asked > counts.last) return '$mode goes up to ${counts.last}. You asked for $asked.';
+    final options = '${counts.sublist(0, counts.length - 1).join(', ')} or ${counts.last}';
+    return '$mode comes in $options questions. You asked for $asked.';
+  }
+
   // Costs and free paths (the numbers always come from the quote).
   static const String freeToday = 'Free today';
   static String freeFirstIn(String subject) => 'Free, your first one in $subject';
@@ -156,6 +168,8 @@ abstract final class PracticeCopy {
   static const String freeLearn = 'Concepts';
   static const String freeReview = 'Your answers and keys, explanations included';
   static const String offlineStart = 'Connect to start. Your downloaded reviews still work.';
+  static const String offlineAutoStart =
+      'You are offline. Your answers and drafts are safe on this phone. This starts by itself when you are back online.';
   static const String quoteFailed = 'We could not check what this takes. Nothing was charged. Try again.';
   static String costChanged(String line) => 'This changed while you were here. $line Check it and start again.';
 
@@ -167,8 +181,11 @@ abstract final class PracticeCopy {
   static const String takeQuickInstead = 'Take Quick practice instead';
 
   // Start failures.
+  /// A failure with no definite answer from the server (a timeout, an unknown error): the client
+  /// cannot know whether credits moved, so it says it is checking (the balance is read again) and
+  /// where to see it. "Nothing was charged" is only for the server's own refusals below.
   static const String startFailed =
-      'We could not start the session. Try again. If you were charged, trying again will not charge you twice.';
+      'We could not start the session. We are checking whether this was charged. Your credits show in You.';
   static const String notEnoughQuestions = 'We do not have enough questions for this yet. Nothing was charged.';
   static const String notEnoughCredits = 'You do not have enough credits for this. Nothing was charged.';
   static const String notIncluded = 'This comes with Pro. Nothing was charged.';
@@ -202,17 +219,24 @@ abstract final class PracticeCopy {
     return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
   }
 
-  /// Mobi's line after the reaction. About the sheet, never about the person.
+  /// Mobi's line after the reaction. About the sheet, never about the person. Wrong answers and
+  /// blanks are named apart, so the line never sums them beside "Repair these 3" (wrong only).
   static String finishLine(FinishTone tone, FinishMarks m) {
-    final toLook = m.wrong + m.blank;
+    final toLook = _toLook(m.wrong, m.blank);
     return switch (tone) {
-      FinishTone.great || FinishTone.good when toLook == 0 => 'Every one right. Nothing to fix from this set.',
-      FinishTone.great => 'Excellent set. ${plural(toLook, 'question')} to look at below.',
-      FinishTone.good => 'Strong run. ${plural(toLook, 'question')} to look at below.',
-      FinishTone.mixed => 'Let’s look at the $toLook that slipped. The reasons are below.',
+      FinishTone.great || FinishTone.good when toLook == null => 'Every one right. Nothing to fix from this set.',
+      FinishTone.great => 'Excellent set. $toLook to look at below.',
+      FinishTone.good => 'Strong run. $toLook to look at below.',
+      FinishTone.mixed => 'Let’s look at the $toLook. The reasons are below.',
       FinishTone.blank => 'A lot left blank. Try them below, no clock running.',
       FinishTone.low => 'Start with the first one below. The reason is right there.',
     };
+  }
+
+  /// "3 wrong answers and 1 blank", "1 wrong answer", "2 blanks"; null when there is nothing.
+  static String? _toLook(int wrong, int blank) {
+    final parts = [if (wrong > 0) plural(wrong, 'wrong answer'), if (blank > 0) plural(blank, 'blank')];
+    return parts.isEmpty ? null : parts.join(' and ');
   }
 
   /// The website's arithmetic: right +5, wrong -1; each wrong answer costs 6 of the marks missed.
@@ -236,7 +260,7 @@ abstract final class PracticeCopy {
   static String chapterResultLine(String name) => 'Chapter: ${name.endsWith('.') ? name.substring(0, name.length - 1) : name}.';
   static String recorded(DateTime at) => 'Practice finished. Recorded at ${formatTime12(at)}.';
   static String reviewWrong(int n) => n == 1 ? 'Review 1 wrong answer' : 'Review $n wrong answers';
-  static const String practiseAnotherChapter = 'Practise another chapter';
+  static const String practiceAnotherChapter = 'Practice another chapter';
   static const String tryTheBlanks = 'Try the blanks';
   static const String finishForNow = 'Finish for now';
   static String finished(DateTime at) => 'Practice recorded at ${formatTime12(at)}.';
@@ -261,6 +285,8 @@ abstract final class PracticeCopy {
   static const String tryWrong = 'That is not the right answer.';
   static const String tryNoKey = 'There is no answer to check this against yet.';
   static const String loadingAnswers = 'Loading your answers';
+  static const String readingSheet = 'Reading your sheet';
+  static const String readingSheetNote = 'Your marks and every answer open here in a moment.';
   static const String resultLoadFailed = 'We could not load the answers. Your practice was recorded. Try again.';
   static const String resultLoadFailedUnknown = 'We could not load this result. Try again.';
   static const String otherAccount = 'We could not find this result. It may belong to another account.';

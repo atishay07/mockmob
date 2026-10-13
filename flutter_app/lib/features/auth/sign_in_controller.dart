@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/api/api.dart' show nowProvider;
-import '../../core/auth/auth.dart' show AuthFailure, SignInException;
+import '../../core/auth/auth.dart' show AuthFailure, GoogleOutcome, OAuthReturn, OAuthReturnKind, SignInException;
 import '../../core/router/router.dart' show intendedRouteProvider;
 import '../../core/storage/prefs_store.dart';
 import 'after_sign_in.dart';
@@ -27,8 +29,13 @@ bool isValidEmail(String raw) => _emailPattern.hasMatch(normalizeEmail(raw));
 /// Drives both sign-in screens. It outlives them, so the typed email, the cooldown and the
 /// "code sent" memory survive going back and forth, and nothing typed is ever lost to an error.
 class SignInController extends Notifier<SignInState> {
+  StreamSubscription<OAuthReturn>? _returns;
+
   @override
-  SignInState build() => const SignInState();
+  SignInState build() {
+    ref.onDispose(() => _returns?.cancel());
+    return const SignInState();
+  }
 
   DateTime _now() => ref.read(nowProvider)();
 
@@ -93,6 +100,7 @@ class SignInController extends Notifier<SignInState> {
       codeResentNotice: false,
     );
     final offer = await _shouldOfferSheet();
+    if (!ref.mounted) return;
     try {
       await ref.read(signInGatewayProvider).verifyCode(email, code);
       await _finish(offer);
@@ -103,23 +111,71 @@ class SignInController extends Notifier<SignInState> {
     }
   }
 
-  /// Native Google sign-in. A cancel returns quietly to the screen.
+  /// Google sign-in for screens that run it through this controller (onboarding's save step; the
+  /// sign-in screen uses the Google button of the account-access feature). A cancel returns
+  /// quietly. When the browser took over ([SignInState.googleInBrowser]) that is not a cancel:
+  /// the controller waits for the callback link and reports a cancel or a failure from there.
   Future<void> signInWithGoogle() async {
     if (state.isBusy) return;
-    state = state.copyWith(busy: SignInBusy.google, clearProblem: true);
+    state = state.copyWith(busy: SignInBusy.google, clearProblem: true, googleInBrowser: false);
     final offer = await _shouldOfferSheet();
+    if (!ref.mounted) return;
     try {
-      final signedIn = await ref.read(signInGatewayProvider).signInWithGoogle();
-      if (!signedIn) {
-        if (ref.mounted) state = state.copyWith(busy: SignInBusy.none);
-        return;
+      final outcome = await ref.read(signInGatewayProvider).signInWithGoogle();
+      switch (outcome) {
+        case GoogleOutcome.signedIn:
+          await _finish(offer);
+        case GoogleOutcome.cancelled:
+          if (ref.mounted) state = state.copyWith(busy: SignInBusy.none);
+        case GoogleOutcome.browserOpened:
+          if (!ref.mounted) return;
+          state = state.copyWith(busy: SignInBusy.none, googleInBrowser: true);
+          _watchBrowserReturn(offer);
       }
-      await _finish(offer);
     } on SignInException catch (e) {
       _failFrom(e.failure, SignInStep.email);
     } on Object {
       _fail(SignInProblem.unknown, SignInStep.email);
     }
+  }
+
+  /// The student closed the "finish in your browser" wait.
+  void cancelGoogleBrowser() {
+    _returns?.cancel();
+    if (state.googleInBrowser) state = state.copyWith(googleInBrowser: false);
+  }
+
+  /// The sign-in screen's Google button signed the student in (on the spot or through the
+  /// browser): the first sign-in on this phone still gets its one sheet. The router moves on by
+  /// itself.
+  Future<void> googleSignedIn() async {
+    final offer = await _shouldOfferSheet();
+    if (!ref.mounted || !offer) return;
+    ref.read(afterSignInSheetLauncherProvider)();
+    await _markOffered();
+  }
+
+  void _watchBrowserReturn(bool offer) {
+    _returns?.cancel();
+    _returns = ref.read(signInGatewayProvider).oauthReturns().listen(
+      (result) async {
+        if (!ref.mounted) return;
+        switch (result.kind) {
+          case OAuthReturnKind.signedIn:
+            state = state.copyWith(googleInBrowser: false);
+            if (offer) {
+              ref.read(afterSignInSheetLauncherProvider)();
+              await _markOffered();
+            }
+          case OAuthReturnKind.cancelled:
+            state = state.copyWith(googleInBrowser: false);
+          case OAuthReturnKind.failed:
+            state = state.copyWith(googleInBrowser: false);
+            _fail(SignInProblem.googleUnavailable, SignInStep.email);
+        }
+      },
+      onError: (Object _) {},
+    );
   }
 
   Future<void> _finish(bool offer) async {
@@ -141,14 +197,24 @@ class SignInController extends Notifier<SignInState> {
   /// student's sheet and the usage-data choice; spec 5.2, 5.1.6). A deep link the student was
   /// heading to wins, and so does a phone that has already shown it. The router itself goes to
   /// the remembered route or Today; the sheet opens on top once Today is there.
+  ///
+  /// A preferences failure is never allowed to hold sign-in: it answers "no sheet".
   Future<bool> _shouldOfferSheet() async {
-    if (ref.read(intendedRouteProvider).location != null) return false;
-    return !(await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false);
+    try {
+      if (ref.read(intendedRouteProvider).location != null) return false;
+      return !(await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false);
+    } on Object {
+      return false;
+    }
   }
 
-  Future<void> _markOffered() => ref
-      .read(signInPrefsStoreProvider)
-      .setBool(_beforeYouStartOfferedKey, true);
+  Future<void> _markOffered() async {
+    try {
+      await ref.read(signInPrefsStoreProvider).setBool(_beforeYouStartOfferedKey, true);
+    } on Object {
+      // Offered again next time at worst.
+    }
+  }
 
   void _failFrom(
     AuthFailure failure,

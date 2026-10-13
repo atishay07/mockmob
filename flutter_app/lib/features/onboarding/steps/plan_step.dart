@@ -22,7 +22,8 @@ import '../widgets/plan_sheet.dart';
 /// Step 9, the climax: the sheet flips over (600 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
-/// (1.2 s, a firm tap when it lands); with TalkBack a double tap seals at once.
+/// (1.2 s, a firm tap when it lands); "Seal it" beside the hold seals at once, and so does
+/// TalkBack's double tap on the hold.
 class PlanStep extends ConsumerStatefulWidget {
   const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false});
 
@@ -177,17 +178,31 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    HoldToSeal(
-                      progress: _hold,
-                      onHoldStart: () => _hold.forward(),
-                      onHoldEnd: () {
-                        if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
-                        _halfTicked = false;
-                      },
-                      onSeal: _seal,
+                    // Two ways in one row: hold the pill (the ceremony), or tap Seal it for
+                    // anyone who cannot hold steadily. TalkBack's double tap on the pill seals too.
+                    Row(
+                      children: [
+                        Expanded(
+                          child: HoldToSeal(
+                            progress: _hold,
+                            onHoldStart: () => _hold.forward(),
+                            onHoldEnd: () {
+                              if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
+                              _halfTicked = false;
+                            },
+                            onSeal: _seal,
+                          ),
+                        ),
+                        const SizedBox(width: MmSpace.s8),
+                        KeyButton.secondary(
+                          label: OnboardingCopy.sealIt,
+                          onPressed: _seal,
+                          expanded: false,
+                          minHeight: MmTarget.primaryKey,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: MmSpace.s6),
-                    // One control: the hint says how; TalkBack's double tap on the key seals at once.
                     Text(
                       OnboardingCopy.holdHint,
                       textAlign: TextAlign.center,

@@ -17,6 +17,9 @@ import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
+import 'package:mockmob/core/sync/outbox_repository.dart';
+import 'package:mockmob/core/sync/pending_work.dart';
+import 'package:mockmob/features/account_access/state/password_hints.dart';
 import 'package:mockmob/core/router/external_link_opener.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -81,6 +84,9 @@ class FakeAuth extends AuthController {
   final AuthSnapshot initial;
   final Object? signOutError;
   int signOutCalls = 0;
+
+  /// What the last sign-out was told to do with queued study writes.
+  bool? lastKeepQueuedWork;
   int reloads = 0;
 
   @override
@@ -91,8 +97,9 @@ class FakeAuth extends AuthController {
   Future<void> reload() async => reloads++;
 
   @override
-  Future<void> signOut() async {
+  Future<void> signOut({bool keepQueuedWork = true}) async {
     signOutCalls++;
+    lastKeepQueuedWork = keepQueuedWork;
     if (signOutError != null) throw signOutError!;
     state = AuthSnapshot.signedOut;
   }
@@ -217,6 +224,29 @@ MockAnalytics quietAnalytics() {
 
 class MockDrafts extends Mock implements SessionDraftRepository {}
 
+class MockOutbox extends Mock implements OutboxRepository {}
+
+/// An outbox holding [queued] writes.
+MockOutbox outboxWith(int queued) {
+  final outbox = MockOutbox();
+  when(outbox.pending).thenAnswer(
+    (_) async => [
+      for (var i = 0; i < queued; i++)
+        OutboxItem(
+          id: i,
+          kind: 'study_event',
+          idempotencyKey: 'k$i',
+          method: 'POST',
+          path: '/api/x',
+          createdAt: DateTime(2026, 10, 12),
+          attempts: 0,
+          nextAttemptAt: DateTime(2026, 10, 12),
+        ),
+    ],
+  );
+  return outbox;
+}
+
 class RecordingOpener implements ExternalLinkOpener {
   RecordingOpener({this.result = true});
 
@@ -255,6 +285,8 @@ List<Override> youOverrides({
   FakeConsent? consent,
   FakeRhythm? rhythm,
   MockDrafts? drafts,
+  int queued = 0,
+  ExpiredWorkNotice? expired,
   MockApi? api,
   MockAnalytics? analytics,
   ExternalLinkOpener? opener,
@@ -272,6 +304,9 @@ List<Override> youOverrides({
     consentRepositoryProvider.overrideWith(() => consent ?? FakeConsent(consentState(AgeBand.adult))),
     rhythmRepositoryProvider.overrideWith(() => rhythm ?? FakeRhythm(rhythmState())),
     if (drafts != null) sessionDraftRepositoryProvider.overrideWithValue(drafts),
+    outboxRepositoryProvider.overrideWithValue(outboxWith(queued)),
+    expiredWorkNoticeProvider.overrideWithValue(expired ?? ExpiredWorkNotice(MemoryPrefsStore())),
+    accessPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     if (api != null) apiClientProvider.overrideWithValue(api),
     if (opener != null) externalLinkOpenerProvider.overrideWithValue(opener),
     analyticsClientProvider.overrideWithValue(analytics ?? quietAnalytics()),

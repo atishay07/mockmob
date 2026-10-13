@@ -51,16 +51,24 @@ enum TodayMood { normal, dayOne, returning, lateNight }
 
 /// One duration chip. [mistakes] is set for a repair (the task shrinks with the time).
 class DurationChoice {
-  const DurationChoice({required this.minutes, this.mistakes});
+  const DurationChoice({required this.minutes, this.mistakes, this.questions});
 
   final int minutes;
   final int? mistakes;
 
-  @override
-  bool operator ==(Object other) => other is DurationChoice && other.minutes == minutes && other.mistakes == mistakes;
+  /// Set for practice: the chip is a question count (practice runs a question a minute).
+  final int? questions;
+
+  /// What the chip says: "5 min" for a repair, the bare count for practice (the row above it
+  /// asks "How many questions?").
+  String get label => questions == null ? '$minutes min' : '$questions';
 
   @override
-  int get hashCode => Object.hash(minutes, mistakes);
+  bool operator ==(Object other) =>
+      other is DurationChoice && other.minutes == minutes && other.mistakes == mistakes && other.questions == questions;
+
+  @override
+  int get hashCode => Object.hash(minutes, mistakes, questions);
 }
 
 /// What sits in the hero's art corner.
@@ -271,10 +279,16 @@ class RoadStop {
 
 enum RoadStopKind { registration, boards, exam, counselling }
 
+/// Where the calendar is: counting down to the window, inside it, or past it with CSAS ahead.
+enum RoadPhase { countdown, window, csas }
+
 class RoadModel {
   const RoadModel({
     required this.weeks,
     required this.today,
+    required this.end,
+    this.phase = RoadPhase.countdown,
+    this.daysLeft,
     this.stops = const [],
     this.ladder = const [],
     this.category,
@@ -284,9 +298,16 @@ class RoadModel {
     this.weekNeeds,
   });
 
-  /// Whole weeks to the start of the expected window.
+  /// Whole weeks to the start of the expected window (countdown only; 0 after it).
   final int weeks;
   final DateTime today;
+
+  /// The right edge of the road: the month after the last stop.
+  final DateTime end;
+  final RoadPhase phase;
+
+  /// Days left in the expected window (window phase only).
+  final int? daysLeft;
   final List<RoadStop> stops;
   final List<LadderRung> ladder;
 

@@ -150,6 +150,12 @@ class ReminderScheduler {
     await sync();
   }
 
+  /// The repair-ready switch, kept on this phone.
+  Future<void> setRepairReady(bool on) async {
+    await _store.update((s) => s.copyWith(repairReadyOn: on));
+    await sync();
+  }
+
   /// The student turned a stopped category back on: it starts counting from zero again.
   Future<void> resumeCategory(String prefKey) async {
     await _store.update((s) => s.withCategory(prefKey, const CategoryStatus()));

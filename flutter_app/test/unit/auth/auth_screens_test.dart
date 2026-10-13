@@ -9,11 +9,13 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/account_access/access_gateway.dart' show accountAccessGatewayProvider;
 import 'package:mockmob/features/auth/auth_routes.dart';
 import 'package:mockmob/features/auth/code_slots.dart';
 import 'package:mockmob/features/auth/copy.dart';
 
 import '../../helpers/fonts.dart';
+import '../account_access/support.dart' show FakeAccessGateway;
 import 'fakes.dart';
 
 Future<GoRouter> _pump(
@@ -23,6 +25,7 @@ Future<GoRouter> _pump(
   NetworkStatus network = NetworkStatus.online,
   AuthSnapshot auth = AuthSnapshot.signedOut,
   bool google = false,
+  FakeAccessGateway? access,
   String initial = AppRoutes.signIn,
 }) async {
   tester.view.physicalSize = const Size(720, 1560);
@@ -44,6 +47,7 @@ Future<GoRouter> _pump(
   final List<Override> overrides = [
     ...authOverrides(gateway: gateway, clock: clock, network: network),
     authSnapshotProvider.overrideWithBuild((ref, notifier) => auth),
+    if (access != null) accountAccessGatewayProvider.overrideWithValue(access),
     if (google)
       appConfigProvider.overrideWithValue(
         const AppConfig(
@@ -292,15 +296,16 @@ void main() {
     expect(find.text(AuthCopy.continueWithGoogle), findsNothing);
   });
 
-  testWidgets('Google key runs the Google sign-in when configured', (
+  testWidgets('Google key runs the Google sign-in when configured, once on screen', (
     tester,
   ) async {
-    final gateway = FakeGateway();
-    await _pump(tester, gateway: gateway, google: true);
+    final access = FakeAccessGateway();
+    await _pump(tester, gateway: FakeGateway(), google: true, access: access);
     expect(find.text(AuthCopy.continueWithGoogle), findsOneWidget);
     await tester.tap(find.text(AuthCopy.continueWithGoogle));
-    await tester.pumpAndSettle();
-    expect(gateway.googleCalls, 1);
+    await tester.pump();
+    await tester.pump();
+    expect(access.calls, ['google']);
   });
 
   testWidgets('a code screen opened without an address goes back to sign-in', (

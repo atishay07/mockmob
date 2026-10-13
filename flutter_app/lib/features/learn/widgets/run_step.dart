@@ -5,6 +5,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/learn_log.dart';
 import '../data/run_controller.dart';
 import '../models/run_item.dart';
 import 'answer_inputs.dart';
@@ -47,6 +48,15 @@ class _RunStepState extends ConsumerState<RunStep> {
   bool _hintShown = false;
 
   @override
+  void initState() {
+    super.initState();
+    final item = widget.ui.run?.currentItem;
+    if (item != null && item.type == RunItemType.unknown) {
+      LearnLog.unknownStep(wireType: '${item.raw['type']}', itemId: item.id);
+    }
+  }
+
+  @override
   void dispose() {
     _text.dispose();
     super.dispose();
@@ -68,6 +78,7 @@ class _RunStepState extends ConsumerState<RunStep> {
     final feedback = run.currentFeedback;
     final revealed = run.revealed;
 
+    final superseded = _ui.notice == RunNotice.supersededElsewhere;
     return Column(
       children: [
         Expanded(
@@ -79,7 +90,10 @@ class _RunStepState extends ConsumerState<RunStep> {
                   constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: _content(item, feedback, revealed),
+                    children: [
+                      if (superseded) ...[const _SupersededLine(), const SizedBox(height: MmSpace.s12)],
+                      ..._content(item, feedback, revealed),
+                    ],
                   ),
                 ),
               ),
@@ -96,6 +110,15 @@ class _RunStepState extends ConsumerState<RunStep> {
     final type = context.mmType;
     if (item.isReading) {
       return [LessonBlock(block: item.raw)];
+    }
+    if (item.type == RunItemType.unknown) {
+      return [
+        if ((item.prompt ?? item.title) != null) ...[
+          PromptCard(prompt: item.prompt, objective: item.title),
+          const SizedBox(height: MmSpace.s16),
+        ],
+        Semantics(liveRegion: true, child: Text(LearnCopy.unknownStep, style: type.body.copyWith(color: colors.ink2))),
+      ];
     }
     final notice = switch (_ui.notice) {
       RunNotice.connectToReveal => LearnCopy.connectToReveal,
@@ -193,6 +216,13 @@ class _RunStepState extends ConsumerState<RunStep> {
       );
     }
 
+    if (item.type == RunItemType.unknown) {
+      return PinnedActions(
+        message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
+        children: [KeyButton(label: LearnCopy.skipStep, onPressed: _sending ? null : a.advance, loading: _sending)],
+      );
+    }
+
     if (item.isReading) {
       return PinnedActions(
         message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
@@ -256,5 +286,21 @@ class _RunStepState extends ConsumerState<RunStep> {
     final run = _ui.run!;
     if (!widget.isLast) return run.isLearn ? LearnCopy.continueKey : LearnCopy.nextCard;
     return run.isLearn ? LearnCopy.finishLesson : LearnCopy.finishRun;
+  }
+}
+
+/// One plain line when the step the student answered had already been answered on another
+/// device: their tap was not recorded, and the step on screen is the current one.
+class _SupersededLine extends StatelessWidget {
+  const _SupersededLine();
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    return Semantics(
+      liveRegion: true,
+      child: Text(LearnCopy.supersededElsewhere, style: type.body.copyWith(color: colors.ink2)),
+    );
   }
 }

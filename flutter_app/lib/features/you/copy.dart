@@ -25,6 +25,10 @@ abstract final class YouCopy {
   static const rhythmOffLine = 'Rhythm is off. Your record stays.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
 
+  static const showMeWeek = 'Show me, the study days behind this week';
+  static const showMeMilestones = 'Show me, the milestones you earned';
+  static String hubGreeting(String firstName) => 'Hi, $firstName.';
+
   // The token shelf.
   static const shelfTitle = 'Milestones';
   static const shelfSeeAll = 'See all';
@@ -72,7 +76,8 @@ abstract final class YouCopy {
       '${days == 1 ? '1 day' : '$days days'} a week${selected ? ', selected' : ''}';
   static String goalPaused(String date) => 'Rhythm is paused until $date. Changing the goal keeps the pause.';
   static const goalSave = 'Save goal';
-  static String goalSaved(DateTime at) => 'Goal saved on the server at ${formatTime12(at)}.';
+  static const goalChangedElsewhere = 'Your goal was changed on another device. This is the current one.';
+  static String goalSaved(DateTime at) => 'Goal saved at ${formatTime12(at)}.';
   static const goalOffline = 'You are offline. Your goal was not changed. Try again when you are connected.';
   static const goalRejected = 'That goal was not accepted. Pick a number from 1 to 7.';
   static const goalFailed = 'We could not save your goal. Nothing was changed. Try again.';
@@ -153,6 +158,11 @@ abstract final class YouCopy {
   static const accountEmail = 'Email';
   static const accountPlan = 'Plan';
   static const accountProfile = 'Profile';
+  static const accountSecurity = 'Security';
+  static const accountPassword = 'Password';
+  static const accountPasswordNote = 'Set or change the password you can sign in with';
+  static const accountAddPhone = 'Add a phone number';
+  static const accountAddPhoneNote = 'Sign in with a code sent to your phone';
   static const accountEmailNote = 'You sign in with this address. It cannot be changed here.';
   static String accountCredits(int n) => n == 1 ? '1 credit' : '$n credits';
   static const signOut = 'Sign out';
@@ -161,6 +171,14 @@ abstract final class YouCopy {
   static String signOutUnsent(int count) =>
       '${plural(count, 'answer')} ${count == 1 ? 'is' : 'are'} on this phone and not sent. Sign out anyway?';
   static const signOutUnsentNote = 'Signing out removes them from this phone.';
+  static String signOutQueued(int count) =>
+      '${plural(count, 'study update')} ${count == 1 ? 'is' : 'are'} waiting to send from this phone.';
+  static String signOutQueuedAsk(int count) => '${signOutQueued(count)} Sign out anyway?';
+  static const signOutQueuedNote =
+      'They send when you sign in again with this account. Signing in with a different account removes them.';
+  static String expiredWork(int count) =>
+      '${plural(count, 'study update')} could not be sent within 7 days, so ${count == 1 ? 'it was' : 'they were'} removed from this phone.';
+  static const expiredWorkDismiss = 'Got it';
   static const signOutStay = 'Stay signed in';
   static const signOutAnyway = 'Sign out anyway';
   static const signOutFailed = 'We could not sign you out. Try again.';
@@ -177,13 +195,20 @@ abstract final class YouCopy {
   static String deleteUnsent(int count) =>
       '${plural(count, 'answer')} on this phone ${count == 1 ? 'has' : 'have'} not been sent. '
       '${count == 1 ? 'It' : 'They'} will be removed when you are signed out.';
+  static const deleteWord = 'DELETE';
+  static const deleteTypeLabel = 'Type DELETE to confirm';
+  static const deleteTypeNeeded = 'Type DELETE to turn this key on.';
+  static String deleteQueued(int count) =>
+      '${plural(count, 'study update')} waiting to send will be removed too.';
+  static const deleteCancelNote =
+      'To cancel, email support@mockmob.in from your account address before we finish.';
   static const deleteRequest = 'Request deletion';
   static const deleteKeep = 'Keep my account';
   static const deleteOffline = 'You are offline. Nothing was requested. Try again when you are connected.';
   static const deleteFailed = 'We could not send your request. Nothing was requested. Try again.';
   static const deleteReceivedTitle = 'Your request is with us';
   static const deleteAlready = 'Your request is already with us.';
-  static String deleteRecordedAt(DateTime at) => 'Request recorded on the server at ${formatTime12(at)}.';
+  static String deleteRecordedAt(DateTime at) => 'Request recorded at ${formatTime12(at)}.';
   static String deleteRequestedOn(DateTime at) => 'Requested on ${formatDayMonth(at)}.';
   static const deleteSignOutNote = 'Signing out ends your session on this phone.';
   static const deleteSignOutFailed = 'Your request is recorded, but we could not sign you out. Try again.';
@@ -192,7 +217,7 @@ abstract final class YouCopy {
   static const helpTitle = 'Help and about';
   static const supportEmail = 'support@mockmob.in';
   static const helpContact = 'Write to us';
-  static const helpContactNote = 'A result that looks wrong, a question that confused you, or anything else. A person reads every mail.';
+  static const helpContactNote = 'A result that looks wrong, a question that confused you, or anything else.';
   static const helpEmail = 'Email support';
   static const helpCopy = 'Copy address';
   static const helpCopied = 'Address copied.';

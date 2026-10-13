@@ -124,7 +124,8 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
       final sync = ref.watch(sheetSyncProvider);
       final move = FirstMove.of(answers);
       return SheetSavedView(
-        startLabel: OnboardingCopy.startNow,
+        startTitle: move.title,
+        startLabel: move.startLabel,
         laterLabel: move.laterLabel(ref.watch(nowProvider)()),
         onStart: () => _leaveTo(move.route),
         onLater: () {
@@ -191,6 +192,7 @@ class SheetSavedView extends StatelessWidget {
     this.usageBusy = false,
     this.eventsOpen = false,
     this.error,
+    this.startTitle = OnboardingCopy.firstMoveTitle,
     this.startLabel,
     this.laterLabel,
     this.onStart,
@@ -203,6 +205,9 @@ class SheetSavedView extends StatelessWidget {
   /// sheet ends on Done.
   final String? startLabel;
   final String? laterLabel;
+
+  /// The heading over the first move: "Your starting point", or "Your first move" for practice.
+  final String startTitle;
   final VoidCallback? onStart;
   final VoidCallback? onLater;
   final bool offline;
@@ -236,7 +241,7 @@ class SheetSavedView extends StatelessWidget {
         ],
         const SizedBox(height: MmSpace.s20),
         if (startLabel != null && onStart != null) ...[
-          Text(OnboardingCopy.firstMoveTitle, style: type.cardTitle),
+          Text(startTitle, style: type.cardTitle),
           const SizedBox(height: MmSpace.s12),
           KeyButton(label: startLabel!, onPressed: usageBusy ? null : onStart),
           const SizedBox(height: MmSpace.s8),

@@ -10,86 +10,120 @@ import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/first_move_hero.dart';
 
-/// Step 11 for a student who chose "Not now": the first move, ready. The check is marked on the
-/// server, so "Start now" asks for the account first; "Tonight" keeps it waiting here. Mobi
-/// stands above the card, says his line and points down at Start.
+/// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
+/// server, so the start key asks for the account first; "Tonight" keeps it waiting here. Mobi
+/// stands above the card, says his line and points down at the start key.
 class FirstMoveStep extends ConsumerStatefulWidget {
-  const FirstMoveStep({super.key, required this.answers, required this.onStart});
+  const FirstMoveStep({super.key, required this.answers, required this.onStart, this.mobi});
 
   final OnboardingAnswers answers;
 
   /// Goes to the save step, with the reason.
   final VoidCallback onStart;
 
+  /// Drives the step's Mobi; the step makes its own when null (tests pass one to watch it).
+  final MobiController? mobi;
+
   @override
   ConsumerState<FirstMoveStep> createState() => _FirstMoveStepState();
 }
 
 class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
-  final MobiController _mobi = MobiController();
-  final GlobalKey _hero = GlobalKey();
+  late final MobiController _mobi = widget.mobi ?? MobiController();
+  final GlobalKey _figure = GlobalKey();
+  final GlobalKey _start = GlobalKey();
+
+  /// The start key's centre relative to Mobi when he last pointed. Mobi keeps the angle, so
+  /// he only points again when the two move apart (a resize, the card changing height).
+  Offset? _aimed;
+  bool _queued = false;
 
   @override
   void initState() {
     super.initState();
     _mobi.say(OnboardingCopy.mobiFirstMove);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final box = _hero.currentContext?.findRenderObject();
-      // Start sits about two thirds of the way down the card.
-      if (mounted && box is RenderBox && box.hasSize) _mobi.pointAt(box.localToGlobal(Offset(box.size.width * 0.45, box.size.height * 0.62)));
-    });
   }
 
   @override
   void dispose() {
-    _mobi.dispose();
+    if (widget.mobi == null) _mobi.dispose();
     super.dispose();
+  }
+
+  /// Points at the start key after this frame is laid out, if it moved relative to Mobi.
+  void _queuePoint() {
+    if (_queued) return;
+    _queued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _queued = false;
+      if (!mounted) return;
+      final figure = _figure.currentContext?.findRenderObject();
+      final start = _start.currentContext?.findRenderObject();
+      if (figure is! RenderBox || start is! RenderBox || !figure.hasSize || !start.hasSize) return;
+      // Both measured in the same frame, so a scroll or a slide moves them together.
+      final rel = start.localToGlobal(start.size.center(Offset.zero)) - figure.localToGlobal(Offset.zero);
+      if (_aimed != null && (rel - _aimed!).distance < 1) return;
+      _aimed = rel;
+      _mobi.pointAtWidget(_start);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
+    final move = FirstMove.of(widget.answers);
+    _queuePoint();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+          child: NotificationListener<Notification>(
+            // A scroll or a change in the card's size: check the aim once things settle.
+            onNotification: (n) {
+              if (n is ScrollEndNotification || n is SizeChangedLayoutNotification) _queuePoint();
+              return false;
+            },
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s16),
+              child: SizeChangedLayoutNotifier(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    MobiCharacter(controller: _mobi, size: 120, entrance: MobiAct.hello, interactive: true, seed: 5),
-                    const SizedBox(width: MmSpace.s4),
-                    Expanded(
-                      child: ValueListenableBuilder<MobiSpeech?>(
-                        valueListenable: _mobi.speech,
-                        builder: (context, speech, _) => speech == null
-                            ? const SizedBox.shrink()
-                            : Align(
-                                alignment: Alignment.centerLeft,
-                                child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 220),
-                              ),
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        KeyedSubtree(
+                          key: _figure,
+                          child: MobiCharacter(controller: _mobi, size: 120, entrance: MobiAct.hello, interactive: true, seed: 5),
+                        ),
+                        const SizedBox(width: MmSpace.s4),
+                        Expanded(
+                          child: ValueListenableBuilder<MobiSpeech?>(
+                            valueListenable: _mobi.speech,
+                            builder: (context, speech, _) => speech == null
+                                ? const SizedBox.shrink()
+                                : Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 220),
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s8, bottom: MmSpace.s16),
+                      child: Semantics(header: true, child: Text(move.title, style: type.headline)),
+                    ),
+                    FirstMoveHeroFor(
+                      answers: widget.answers,
+                      now: ref.watch(nowProvider)(),
+                      onStart: widget.onStart,
+                      onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
+                      startKey: _start,
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s8, bottom: MmSpace.s16),
-                  child: Semantics(header: true, child: Text(OnboardingCopy.firstMoveTitle, style: type.headline)),
-                ),
-                KeyedSubtree(
-                  key: _hero,
-                  child: FirstMoveHeroFor(
-                    answers: widget.answers,
-                    now: ref.watch(nowProvider)(),
-                    onStart: widget.onStart,
-                    onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -100,12 +134,20 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
 
 /// [FirstMoveHero] built from the answers.
 class FirstMoveHeroFor extends StatelessWidget {
-  const FirstMoveHeroFor({super.key, required this.answers, required this.now, required this.onStart, required this.onLater});
+  const FirstMoveHeroFor({
+    super.key,
+    required this.answers,
+    required this.now,
+    required this.onStart,
+    required this.onLater,
+    this.startKey,
+  });
 
   final OnboardingAnswers answers;
   final DateTime now;
   final VoidCallback onStart;
   final VoidCallback onLater;
+  final GlobalKey? startKey;
 
   @override
   Widget build(BuildContext context) => FirstMoveHero(
@@ -114,5 +156,6 @@ class FirstMoveHeroFor extends StatelessWidget {
         onStart: onStart,
         onLater: onLater,
         laterChosen: answers.tonight,
+        startKey: startKey,
       );
 }

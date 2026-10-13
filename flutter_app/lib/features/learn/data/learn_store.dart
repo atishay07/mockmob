@@ -66,19 +66,37 @@ class LearnStore {
 
   // Lessons.
 
-  Future<CachedLesson?> lesson(String id) async {
-    final rows = await (_db.select(_db.learnCache)
-          ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%:$id')))
-        .get();
-    if (rows.isEmpty) return null;
-    final row = rows.first;
+  /// The kept lesson rows. Keys are matched in Dart, never with a LIKE built from an id, so
+  /// `_` and `%` in an id or subject are plain characters.
+  Future<List<LearnCacheRow>> _lessonRows() => (_db.select(_db.learnCache)
+        ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%')))
+      .get();
+
+  /// The subject and id inside a lesson key (`unit:<subject>:<id>`), or null for another key.
+  static (String, String)? _parts(String key) {
+    if (!key.startsWith('unit:')) return null;
+    final rest = key.substring('unit:'.length);
+    final colon = rest.indexOf(':');
+    if (colon < 0) return null;
+    return (rest.substring(0, colon), rest.substring(colon + 1));
+  }
+
+  /// The kept copy of lesson [id]. Pass [subject] when it is known to read the exact key.
+  Future<CachedLesson?> lesson(String id, {String? subject}) async {
+    final LearnCacheRow? row;
+    if (subject != null) {
+      row = await _row(_unitKey(subject, id));
+    } else {
+      row = (await _lessonRows()).where((r) => _parts(r.cacheKey)?.$2 == id).firstOrNull;
+    }
+    if (row == null) return null;
     final json = _decode(row);
     if (json == null) return null;
     return CachedLesson(
       json: json,
       version: row.version.isEmpty ? null : row.version,
       contentHash: row.contentHash.isEmpty ? null : row.contentHash,
-      subject: row.cacheKey.split(':')[1],
+      subject: _parts(row.cacheKey)?.$1 ?? '',
       sizeBytes: row.sizeBytes,
     );
   }
@@ -94,22 +112,26 @@ class LearnStore {
     );
   }
 
-  Future<void> dropLesson(String id) => (_db.delete(_db.learnCache)
-        ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%:$id')))
-      .go();
+  Future<void> _deleteKeys(Iterable<String> keys) async {
+    final list = keys.toList();
+    if (list.isEmpty) return;
+    await (_db.delete(_db.learnCache)..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.isIn(list))).go();
+  }
 
-  Future<void> dropSubject(String subject) => (_db.delete(_db.learnCache)
-        ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:$subject:%')))
-      .go();
+  /// Drops the kept copy of lesson [id] (exact id, under any subject).
+  Future<void> dropLesson(String id) async =>
+      _deleteKeys([for (final r in await _lessonRows()) if (_parts(r.cacheKey)?.$2 == id) r.cacheKey]);
+
+  /// Drops every lesson kept for [subject] (exact subject).
+  Future<void> dropSubject(String subject) async =>
+      _deleteKeys([for (final r in await _lessonRows()) if (_parts(r.cacheKey)?.$1 == subject) r.cacheKey]);
 
   /// Bytes kept per subject.
   Future<Map<String, int>> sizeBySubject() async {
-    final rows = await (_db.select(_db.learnCache)
-          ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%')))
-        .get();
     final sizes = <String, int>{};
-    for (final row in rows) {
-      final subject = row.cacheKey.split(':')[1];
+    for (final row in await _lessonRows()) {
+      final subject = _parts(row.cacheKey)?.$1;
+      if (subject == null) continue;
       sizes[subject] = (sizes[subject] ?? 0) + row.sizeBytes;
     }
     return sizes;
@@ -117,11 +139,9 @@ class LearnStore {
 
   /// Drops every kept lesson whose version no longer matches the catalog's (the lesson changed).
   Future<void> dropChanged(Map<String, String?> currentVersions) async {
-    final rows = await (_db.select(_db.learnCache)
-          ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%')))
-        .get();
-    for (final row in rows) {
-      final id = row.cacheKey.split(':').last;
+    for (final row in await _lessonRows()) {
+      final id = _parts(row.cacheKey)?.$2;
+      if (id == null) continue;
       final current = currentVersions[id];
       if (currentVersions.containsKey(id) && current != null && current != row.version) await _delete(row.cacheKey);
     }

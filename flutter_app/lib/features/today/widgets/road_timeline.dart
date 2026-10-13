@@ -1,7 +1,8 @@
-// The road to May drawn to scale: one line from this month to the end of June 2027, a month
-// initial under each month, "Now" where the student stands, the registration window and the
-// boards as bands above the line, the expected CUET window as the one volt block and CSAS as an
-// open ring after it. Under it, each stop in words with its real dates. Every mark is a date.
+// The road to May drawn to scale: one line from this month to the month after the last stop, a
+// month initial under each month, "Now" where the student stands, the registration window and
+// the boards as bands above the line, the expected CUET window as the one volt block and CSAS as
+// an open ring after it. Under it, each stop in words with its real dates, which also serves as
+// the key to the marks. Every mark is a date.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -9,20 +10,20 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 
 class RoadTimeline extends StatelessWidget {
-  const RoadTimeline({super.key, required this.today, required this.stops});
+  const RoadTimeline({super.key, required this.today, required this.stops, required this.end});
 
   final DateTime today;
   final List<RoadStop> stops;
 
-  /// The line ends with June 2027, after the first CSAS rounds.
-  static final DateTime end = DateTime.utc(2027, 7, 1);
+  /// The right edge, derived from the last stop (the road model's `end`).
+  final DateTime end;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     return Semantics(
-      label: 'Timeline from ${TodayCopy.nowLabel.toLowerCase()} to June 2027',
+      label: 'Timeline from ${TodayCopy.nowLabel.toLowerCase()} to ${_monthName(end.subtract(const Duration(days: 1)))}',
       excludeSemantics: true,
       child: RepaintBoundary(
         child: CustomPaint(
@@ -30,6 +31,7 @@ class RoadTimeline extends StatelessWidget {
           painter: _RoadPainter(
             today: today,
             stops: stops,
+            end: end,
             colors: colors,
             label: type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w600, color: colors.ink3),
             now: type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w700, color: colors.ink),
@@ -40,6 +42,12 @@ class RoadTimeline extends StatelessWidget {
   }
 }
 
+const List<String> _monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+String _monthName(DateTime d) => '${_monthNames[d.month - 1]} ${d.year}';
+
 /// The colour a stop is drawn in, shared by the line and the list so they read as one key.
 Color roadStopColor(RoadStopKind kind, MmColors c) => switch (kind) {
       RoadStopKind.registration => c.ink3,
@@ -49,10 +57,11 @@ Color roadStopColor(RoadStopKind kind, MmColors c) => switch (kind) {
     };
 
 class _RoadPainter extends CustomPainter {
-  _RoadPainter({required this.today, required this.stops, required this.colors, required this.label, required this.now});
+  _RoadPainter({required this.today, required this.stops, required this.end, required this.colors, required this.label, required this.now});
 
   final DateTime today;
   final List<RoadStop> stops;
+  final DateTime end;
   final MmColors colors;
   final TextStyle label;
   final TextStyle now;
@@ -60,7 +69,7 @@ class _RoadPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final start = DateTime.utc(today.year, today.month);
-    final span = RoadTimeline.end.difference(start).inDays.toDouble();
+    final span = end.difference(start).inDays.toDouble();
     const inset = 6.0;
     final w = size.width - inset * 2;
     double x(DateTime d) => inset + w * (d.difference(start).inDays / span).clamp(0.0, 1.0);
@@ -68,7 +77,7 @@ class _RoadPainter extends CustomPainter {
 
     // The months: a tick and an initial for each.
     final tick = Paint()..color = colors.line;
-    for (var m = start; m.isBefore(RoadTimeline.end); m = DateTime.utc(m.year, m.month + 1)) {
+    for (var m = start; m.isBefore(end); m = DateTime.utc(m.year, m.month + 1)) {
       final next = DateTime.utc(m.year, m.month + 1);
       canvas.drawRect(Rect.fromLTWH(x(m), axis - 3, 1, 6), tick);
       _text(canvas, _monthInitial(m.month), label, Offset((x(m) + x(next)) / 2, axis + 16));
@@ -124,55 +133,11 @@ class _RoadPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RoadPainter old) => old.today != today || old.colors != colors || old.stops != stops;
+  bool shouldRepaint(_RoadPainter old) => old.today != today || old.end != end || old.colors != colors || old.stops != stops;
 }
 
-/// The key under the line: each stop's mark and short name in pairs, then one note for the dates
-/// nobody has published yet. The line above already places every stop in its months.
-class RoadLegend extends StatelessWidget {
-  const RoadLegend({super.key, required this.stops});
-
-  final List<RoadStop> stops;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final label = type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w500, color: colors.ink2);
-    final expected = stops.any((s) => s.expected);
-    return Semantics(
-      container: true,
-      label: [for (final s in stops) '${s.title}, ${s.when}'].join('. '),
-      excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Wrap(
-            spacing: MmSpace.s16,
-            runSpacing: MmSpace.s8,
-            children: [
-              for (final s in stops)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _Key(kind: s.kind),
-                    const SizedBox(width: MmSpace.s6),
-                    Text(s.title, style: label),
-                  ],
-                ),
-            ],
-          ),
-          if (expected) ...[
-            const SizedBox(height: MmSpace.s8),
-            Text(TodayCopy.datesExpected, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink3)),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-/// The stops in words: the key mark, the name, the dates and "Expected" while unannounced.
+/// The stops in words: the key mark, the name, the dates (each says "Expected" while NTA or CBSE
+/// has not published them) and a note where one helps. The mark is the key to the line above.
 class RoadStops extends StatelessWidget {
   const RoadStops({super.key, required this.stops});
 

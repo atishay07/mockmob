@@ -9,7 +9,7 @@ import 'package:mockmob/core/analytics/analytics.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
-import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier;
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkRestoredProvider;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftSummaryProvider;
@@ -27,6 +27,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/you/you_providers.dart' show PrefToggle, lateNightLinesProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
+import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
@@ -190,6 +191,9 @@ class FakeNetwork extends NetworkStatusNotifier {
 
   @override
   NetworkStatus build() => status;
+
+  /// The network changes (offline, then back).
+  void change(NetworkStatus next) => state = next;
 }
 
 class FakeStarter implements PracticeStarting {
@@ -259,6 +263,9 @@ class FakeDetail extends AttemptDetailRepository {
 
   @override
   Future<void> refresh({bool force = false}) async {}
+
+  /// The result read arrives.
+  void deliver(AttemptDetail value) => state = RemoteState(value: value, fetchedAt: testNow);
 }
 
 /// The providers every practice screen needs, all in memory.
@@ -269,6 +276,7 @@ List<Override> practiceOverrides({
   AuthSnapshot? auth,
   FakeAuth? authNotifier,
   NetworkStatus network = NetworkStatus.online,
+  FakeNetwork? networkNotifier,
   FakeAnalytics? analytics,
   FakePendingResults? pending,
   SessionDraft? draft,
@@ -276,15 +284,19 @@ List<Override> practiceOverrides({
   List<Attempt>? attempts,
   LearnCatalog? learn,
   DateTime? now,
+  MemoryPrefsStore? prefs,
+  Stream<void>? restored,
   List<Override> extra = const [],
 }) => [
+  practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
+  networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
   attemptsRepositoryProvider.overrideWith(() => FakeAttempts(attempts)),
   learnCatalogProvider.overrideWithBuild((ref, notifier) => learn == null ? const RemoteState.idle() : RemoteState(value: learn, fetchedAt: testNow)),
   quoteRepositoryProvider.overrideWithValue(quotes ?? FakeQuoteRepository((s, m, c, p) => creditsQuote())),
   practiceCatalogApiProvider.overrideWithValue(catalog ?? FakeCatalog()),
   practiceStarterProvider.overrideWithValue(starter ?? FakeStarter()),
   authSnapshotProvider.overrideWith(() => authNotifier ?? FakeAuth(auth ?? signedIn())),
-  networkStatusProvider.overrideWith(() => FakeNetwork(network)),
+  networkStatusProvider.overrideWith(() => networkNotifier ?? FakeNetwork(network)),
   latestSessionDraftProvider.overrideWith((ref) => Stream.value(draft)),
   if (draft != null)
     draftSummaryProvider(draft.sessionId).overrideWith(

@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api.dart';
 import '../../../core/models/models.dart';
-import '../../../core/permissions/permission_requester.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/storage/prefs_store.dart';
 import '../../../core/storage/storage.dart';
-import '../../rhythm/celebration/celebration_controller.dart';
-import '../../rhythm/celebration/celebration_event.dart';
+import '../../notifications/notifications.dart' show prePromptDueProvider, reminderSchedulerProvider;
+import '../../rhythm/rhythm.dart'
+    show CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 import '../model/recap_model.dart';
 
 /// What the result screens render: the model when the attempt is known (from the detail read or
@@ -50,7 +50,8 @@ final _repairedIdsProvider = Provider.autoDispose.family<Set<String>, String>((r
 /// The one composed read behind the sealed sheet, the recap cards and the full result.
 final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, attemptId) {
   final detailState = ref.watch(attemptDetailProvider(attemptId));
-  final cachedList = ref.watch(attemptsRepositoryProvider).value ?? const <Attempt>[];
+  final listState = ref.watch(attemptsRepositoryProvider);
+  final cachedList = listState.value ?? const <Attempt>[];
   final detail = detailState.value;
   Attempt? attempt = detail?.attempt;
   if (attempt == null) {
@@ -60,6 +61,17 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
   }
   if (attempt == null) {
     return RecapData(error: detailState.error, loading: detailState.loading || !detailState.hasValue && detailState.error == null);
+  }
+  // The mock number, the first-mock variant and the first-mock token all count the student's
+  // earlier papers. Until the attempts list has a value that count is unknown, so no model is
+  // built (a later mock must never be shown as Mock 1) and the placeholder stays up.
+  if (!listState.hasValue) {
+    return RecapData(
+      attempt: attempt,
+      detail: detail,
+      error: listState.error ?? detailState.error,
+      loading: listState.error == null,
+    );
   }
   final pending = ref.watch(resultReceivedProvider(attemptId)).value;
   final model = buildRecapModel(
@@ -81,6 +93,12 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
     stale: detailState.isStale,
   );
 });
+
+/// "Try again" on the result placeholder: reads the result and the list that numbers it again.
+void retryRecapData(WidgetRef ref, String attemptId) {
+  ref.read(attemptDetailProvider(attemptId).notifier).refresh(force: true);
+  ref.read(attemptsRepositoryProvider.notifier).refresh(force: true);
+}
 
 /// The ritual settings of 5.6.1, read once per sealed sheet.
 class RecapRitual {
@@ -189,11 +207,26 @@ class ResultActions {
   /// the rhythm module so it is a dated row, fired once, and never celebrated twice.
   Future<void> acknowledgeFirstMock(String attemptId, DateTime achievedAt) async {
     try {
+      // Rhythm turned off means hidden everywhere: do not spend the moment unseen.
+      await _ref.read(rhythmPrefsProvider.notifier).ensureLoaded();
+      if (!_ref.read(rhythmVisibleProvider)) return;
       await _ref
           .read(celebrationControllerProvider.notifier)
           .celebrate(CelebrationEvent.milestone(RhythmMilestone(id: 'first_full_mock', achievedAt: achievedAt), scope: CelebrationScope.result(attemptId)));
     } on Object {
       // The row still shows; it may simply fade in again on the milestone screen.
+    }
+  }
+
+  /// "Not now" on the recap's reminder row: counted exactly like the sheet's Not now (the time
+  /// first, then the count), so the 14 day and two-strike rule holds from either entry point.
+  Future<void> declineReminder() async {
+    try {
+      await _ref.read(appPrefsProvider).setLastPrePromptAt(_ref.read(nowProvider)());
+      await _ref.read(reminderSchedulerProvider).prePromptDismissed();
+      _ref.invalidate(prePromptDueProvider);
+    } on Object {
+      // The row is already hidden for this visit; the rule simply counts one decline less.
     }
   }
 
@@ -216,11 +249,12 @@ class ResultActions {
 
 final resultActionsProvider = Provider<ResultActions>(ResultActions.new);
 
-/// The first-result reminder row (spec 5.6.3) is offered only while the system question has not
-/// been asked. The notifications module's sheet then decides, and counts "Not now" itself.
+/// The first-result reminder row (spec 5.6.3) follows the same policy as the notifications
+/// module's sheet: [prePromptDueProvider] applies `shouldOfferPrePrompt` (never asked, not put
+/// off twice, not put off in the last 14 days). One policy governs both entry points.
 final reminderOfferProvider = FutureProvider.autoDispose<bool>((ref) async {
   try {
-    return await ref.watch(permissionRequesterProvider).notificationPermission() == NotificationPermission.notAsked;
+    return await ref.watch(prePromptDueProvider.future);
   } on Object {
     return false;
   }

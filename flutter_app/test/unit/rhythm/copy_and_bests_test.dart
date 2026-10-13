@@ -47,6 +47,17 @@ void main() {
       RhythmCopy.weekReceipt(4, 4),
       for (final id in ['first_scored_session', 'first_full_mock', 'first_repair', 'repairs_5', 'repairs_10', 'repairs_25', 'sessions_10', 'first_week_met', 'weeks_met_4'])
         RhythmCopy.milestoneRow(id, '9 October')!,
+      for (final id in ['first_scored_session', 'first_full_mock', 'first_repair', 'repairs_5', 'repairs_10', 'repairs_25', 'sessions_10', 'first_week_met', 'weeks_met_4'])
+        RhythmCopy.milestoneReceipt(id, '11 October', others: 2),
+      RhythmCopy.pauseUntilOn,
+      RhythmCopy.pausedUntilKept('21 January'),
+      RhythmCopy.pausedUntilKept(null),
+      RhythmCopy.noPlanYet,
+      RhythmCopy.studyDaysSaved(4),
+      RhythmCopy.studyDaysRow(['Monday', 'Wednesday']),
+      RhythmCopy.milestonesMobiEmpty,
+      RhythmCopy.milestonesMobiComplete,
+      RhythmCopy.stepJustLanded('First repair'),
     ];
 
     test('no middle dots, emoji, arrows, exclamation marks, prices or "mastered"', () {
@@ -75,6 +86,21 @@ void main() {
 
     test('an unknown milestone id prints nothing rather than a raw id', () {
       expect(RhythmCopy.milestoneRow('fresh_check_done', '9 October'), isNull);
+      expect(RhythmCopy.knowsMilestone('fresh_check_done'), isFalse);
+      expect(RhythmCopy.milestoneReceipt('fresh_check_done', '9 October'), isNot(contains('fresh_check')));
+    });
+
+    test('the away receipt names the newest milestone and counts the others', () {
+      expect(RhythmCopy.milestoneReceipt('first_repair', '11 October'), 'Your first repair landed on 11 October.');
+      expect(
+        RhythmCopy.milestoneReceipt('first_repair', '11 October', others: 1),
+        'Your first repair landed on 11 October. 1 more milestone landed while you were away.',
+      );
+    });
+
+    test('the long pause says how long it is, and the paused panel keeps the run', () {
+      expect(RhythmCopy.pauseUntilOn, 'Pause for about 3 months');
+      expect(RhythmCopy.pausedUntilKept('21 January'), 'Paused until 21 January. Your run is kept.');
     });
   });
 
@@ -145,7 +171,8 @@ void main() {
 
     test('subject slugs read as words', () {
       expect(humanizeSlug('general_test'), 'General test');
-      expect(modeLabel('nta'), 'NTA-style mock');
+      expect(modeLabel('nta'), 'NTA mode');
+      expect(modeNoun('nta'), 'NTA mode mock');
     });
   });
 }

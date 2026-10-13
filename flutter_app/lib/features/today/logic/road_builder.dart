@@ -1,8 +1,8 @@
-// "The road to May" as plain values: the weeks to the expected CUET window, the published stops
-// on the way (brief section 8: registration January to March, boards mid-February to early
-// April, the exam in May, CSAS after the results), what this week still asks for, and the
-// student's dream ladder with real CSAS 2026 Round 1 closing scores. Calendar arithmetic and the
-// student's own choices only: no projections of marks or chances.
+// "The road to May" as plain values: the weeks to the expected CUET window, the stops on the way
+// (registration, boards, the exam window, CSAS after the results: every date comes from
+// CuetDates), and the student's dream ladder with real CSAS 2026 Round 1 closing scores. After
+// 1 May 2027 the road stays: first the window is open, then CSAS follows the results. Calendar
+// arithmetic and the student's own choices only: no projections of marks or chances.
 import '../../../core/domain/cuet_dates.dart';
 import '../../onboarding/data/calendar.dart';
 import '../copy.dart';
@@ -52,23 +52,38 @@ final List<RoadStop> roadStops = [
   ),
 ];
 
+/// The right edge of the road: the first of the month after the last stop.
+DateTime roadEndFor(List<RoadStop> stops) {
+  final last = stops.map((s) => s.end ?? s.start).reduce((a, b) => a.isAfter(b) ? a : b);
+  return DateTime.utc(last.year, last.month + 1);
+}
+
+final DateTime roadEnd = roadEndFor(roadStops);
+
 RoadModel? buildRoad(TodayInputs i) {
   final today = i.date();
+  if (!today.isBefore(roadEnd)) return null;
   final days = expectedWindowStart.difference(today).inDays;
-  if (days <= 0) return null;
-  final weeks = days ~/ 7;
+  final phase = days > 0
+      ? RoadPhase.countdown
+      : (today.isAfter(CuetDates.windowEnd) ? RoadPhase.csas : RoadPhase.window);
+  final countdown = phase == RoadPhase.countdown;
+  final weeks = countdown ? days ~/ 7 : 0;
   final profile = i.profile;
   final picks = profile?.ladder.take(3).toList() ?? const [];
   final toBoards = boardsStart.difference(today).inDays;
   final goal = i.week?.goal;
   // The same count onboarding gave: board weeks count two sessions at most.
-  final sessions = goal == null || weeks < 2
+  final sessions = goal == null || !countdown || weeks < 2
       ? null
       : CuetCalendar.sessionsBefore(expectedWindowStart.year, today.toLocal(), daysPerWeek: goal, boards: true);
   return RoadModel(
     weeks: weeks,
     today: today,
-    stops: [for (final s in roadStops) if ((s.end ?? s.start).isAfter(today)) s],
+    end: roadEnd,
+    phase: phase,
+    daysLeft: phase == RoadPhase.window ? CuetDates.windowEnd.difference(today).inDays + 1 : null,
+    stops: [for (final s in roadStops) if (!(s.end ?? s.start).isBefore(today)) s],
     weeksToBoards: toBoards > 0 ? toBoards ~/ 7 : 0,
     studyDays: sessions,
     goal: goal,

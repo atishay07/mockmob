@@ -17,6 +17,9 @@ class WelcomeView extends StatelessWidget {
     this.filled = 0,
     this.lateNight = false,
     this.animate = true,
+    this.pending = false,
+    this.notice,
+    this.retry = false,
   });
 
   /// After 11 PM: a sleepy Mobi and one honest line about the hour.
@@ -31,6 +34,15 @@ class WelcomeView extends StatelessWidget {
   /// How many of its bubbles are filled, for the return line.
   final int filled;
   final bool animate;
+
+  /// The key was tapped while the stored sheet is still being read: it waits, then opens.
+  final bool pending;
+
+  /// One line about a stored sheet that could not be read, above the key.
+  final String? notice;
+
+  /// The key reads the stored sheet again ("Try again") instead of starting.
+  final bool retry;
 
   /// Where the desk's back edge sits in the scene.
   static const double deskAt = 0.82;
@@ -104,7 +116,15 @@ class WelcomeView extends StatelessWidget {
             ),
             const SizedBox(height: MmSpace.s16),
           ],
-          KeyButton(label: returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan, onPressed: onStart),
+          if (notice != null) ...[
+            Semantics(liveRegion: true, child: Text(notice!, style: type.small.copyWith(color: colors.ink2))),
+            const SizedBox(height: MmSpace.s12),
+          ],
+          KeyButton(
+            label: retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
+            onPressed: onStart,
+            loading: pending,
+          ),
           const SizedBox(height: MmSpace.s4),
           Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: onHaveAccount)),
         ],

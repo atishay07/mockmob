@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
@@ -54,7 +55,24 @@ void main() {
     'record_thin',
     () => const InsightsScreen(),
     size: const Size(384, 1900),
-    overrides: () => insightsOverrides(insights: RemoteState(value: thin()), attempts: [trendAttempts().first]),
+    overrides: () => insightsOverrides(insights: RemoteState(value: thin()), attempts: thinAttempts()),
+  );
+  insightsGolden(
+    'record_attempts_loading',
+    () => const InsightsScreen(),
+    size: const Size(384, 1500),
+    overrides: () => insightsOverrides(attemptsState: const RemoteState<List<Attempt>>(loading: true)),
+  );
+  insightsGolden(
+    'record_attempts_failed',
+    () => const InsightsScreen(),
+    size: const Size(384, 1500),
+    overrides: () => insightsOverrides(attemptsState: const RemoteState<List<Attempt>>(error: ApiError(kind: ApiErrorKind.server, code: 'x', status: 503))),
+  );
+  insightsGolden(
+    'record_sparse',
+    () => const InsightsScreen(),
+    overrides: () => insightsOverrides(insights: RemoteState(value: sparse()), attempts: sparseAttempts()),
   );
   insightsGolden('record_empty', () => const InsightsScreen(), overrides: () => insightsOverrides(insights: RemoteState(value: empty()), attempts: const []));
   insightsGolden(

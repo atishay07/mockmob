@@ -86,8 +86,8 @@ Future<void> _shot(WidgetTester tester, String name, Brightness b) async {
   });
 }
 
-Future<void> _pump(WidgetTester tester, String location, Brightness b, List<Override> overrides, {Size size = _size}) =>
-    pumpRouted(tester, location: location, routes: _routes(), brightness: b, size: size, overrides: overrides);
+Future<void> _pump(WidgetTester tester, String location, Brightness b, List<Override> overrides, {Size size = _size, double textScale = 1}) =>
+    pumpRouted(tester, location: location, routes: _routes(), brightness: b, size: size, overrides: overrides, textScale: textScale);
 
 /// Opens a sheet from the tab and lets it rise and its quote arrive.
 Future<void> _open(WidgetTester tester, String label) async {
@@ -141,6 +141,20 @@ void main() {
         await _settle(tester);
         await _open(tester, 'Quick practice');
         await _shot(tester, 'confirm_quick_free', b);
+      });
+
+      testWidgets('confirm on a 360 by 640 phone at 1.3x text: Start and Not now pinned in the footer', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening), size: const Size(360, 640), textScale: 1.3);
+        await _settle(tester);
+        await _open(tester, 'Quick practice');
+        await _shot(tester, 'confirm_quick_small_large_text', b);
+      });
+
+      testWidgets('confirm, a link asked for a length the mode does not offer', (tester) async {
+        final quotes = FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 10, balance: 90, count: c ?? 10, mode: m));
+        await _pump(tester, '/practice/setup/smart?subject=accountancy&count=5', b, practiceOverrides(quotes: quotes));
+        await _settle(tester);
+        await _shot(tester, 'setup_length_changed', b);
       });
 
       testWidgets('confirm, chapter practice with credits', (tester) async {
@@ -243,6 +257,12 @@ void main() {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', loading: true));
         await _settle(tester, ms: 300);
         await _shot(tester, 'result_loading', b);
+      });
+
+      testWidgets('getting the questions ready, offline: starts by itself when back', (tester) async {
+        await _pump(tester, '/practice/start?mode=quick&subject=accountancy&count=10', b, practiceOverrides(network: NetworkStatus.offline));
+        await _settle(tester, ms: 700);
+        await _shot(tester, 'start_offline', b);
       });
 
       testWidgets('result, offline with nothing cached', (tester) async {

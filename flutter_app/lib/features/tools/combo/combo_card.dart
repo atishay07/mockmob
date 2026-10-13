@@ -17,12 +17,15 @@ import '../widgets/tools_card.dart';
 /// targets and of all DU programmes it opens, what each missed target still needs, and the way
 /// into Compass with exactly these subjects.
 class ComboCard extends ConsumerWidget {
-  const ComboCard({super.key, required this.combo, required this.rank, required this.catalog, required this.targetCount});
+  const ComboCard({super.key, required this.combo, required this.rank, required this.catalog, required this.targetCount, this.inked = true});
 
   final DuCombo combo;
   final int rank;
   final DuCatalog catalog;
   final int targetCount;
+
+  /// False draws the card's answer bubble hollow, so it can ink in as the card lands.
+  final bool inked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,6 +39,15 @@ class ComboCard extends ConsumerWidget {
         children: [
           Row(
             children: [
+              // The bubble is a state: inked when this combination reaches every target.
+              if (targetCount > 0) ...[
+                Bubble(
+                  state: inked && combo.missed.isEmpty ? BubbleState.filled : BubbleState.hollow,
+                  size: 14,
+                  semanticsLabel: combo.missed.isEmpty ? ToolsCopy.meetsEvery : ToolsCopy.missesATarget,
+                ),
+                const SizedBox(width: MmSpace.s8),
+              ],
               Expanded(
                 child: Text(
                   best ? ToolsCopy.bestFit : ToolsCopy.option(rank + 1),

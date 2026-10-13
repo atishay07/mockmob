@@ -22,6 +22,7 @@ class ResultLog {
   final List<int> progress = [];
   final List<(String, Map<String, Object?>)> events = [];
   bool hintMarked = false;
+  int reminderDeclined = 0;
 }
 
 /// Records what the screens asked for, without storage.
@@ -49,6 +50,9 @@ class FakeResultActions extends ResultActions {
 
   @override
   Future<void> markSkipHintShown() async => log.hintMarked = true;
+
+  @override
+  Future<void> declineReminder() async => log.reminderDeclined++;
 
   @override
   Future<void> acknowledgeFirstMock(String attemptId, DateTime achievedAt) async => log.events.add(('first_full_mock', {'attempt': attemptId}));

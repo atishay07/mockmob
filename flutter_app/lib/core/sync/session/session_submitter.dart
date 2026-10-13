@@ -51,13 +51,8 @@ class SubmitRejected extends SubmitOutcome {
 /// session length, the pending-submission bookkeeping, and the `SESSION_EXPIRED` check against
 /// `GET /api/attempts/{id}`. Used by the foreground engine and by the WorkManager job.
 class SessionSubmitter {
-  SessionSubmitter({
-    required this.api,
-    required this.drafts,
-    required this.pendingResults,
-    required this.cacheAttempt,
-    DateTime Function()? now,
-  }) : _now = now ?? DateTime.now;
+  SessionSubmitter({required this.api, required this.drafts, required this.pendingResults, required this.cacheAttempt, DateTime Function()? now})
+    : _now = now ?? DateTime.now;
 
   final SessionApi api;
   final SessionDraftRepository drafts;
@@ -71,7 +66,11 @@ class SessionSubmitter {
   Future<SubmitOutcome> submit({required SessionDraft draft, required SessionJournal journal, required int durationMs}) async {
     // Persist the intent first: if the process dies mid-call, Today still knows a submit is owed.
     final current = draft.pendingSubmission ? draft : draft.copyWith(pendingSubmission: true);
-    await drafts.save(current);
+    try {
+      await drafts.save(current);
+    } on Object {
+      // A failed local write must not stop the send: the answers go to the server first.
+    }
 
     try {
       final attempt = await api.submit(
@@ -88,8 +87,21 @@ class SessionSubmitter {
       if (e.isRetryable || e.isUnauthorized) return SubmitPending(e);
       // Retrying cannot help. Clear the pending flag so the draft is not "being sent" forever
       // and the student has a way out.
-      await drafts.save(current.copyWith(pendingSubmission: false, rejected: true));
+      await _tryDraftSave(current.copyWith(pendingSubmission: false, rejected: true));
       return SubmitRejected(e);
+    } on Object {
+      // Not an API failure: a parsing or local error before the server's answer was known. The
+      // submit is still owed, so say pending and keep the draft; the next try (a reconnect, the
+      // backup job, the next start) sends it again. The server's submit is idempotent.
+      return const SubmitPending(ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
+    }
+  }
+
+  Future<void> _tryDraftSave(SessionDraft draft) async {
+    try {
+      await drafts.save(draft);
+    } on Object {
+      // Best effort: the outcome is returned either way.
     }
   }
 
@@ -102,17 +114,35 @@ class SessionSubmitter {
     } on ApiError catch (e) {
       // Could not ask (offline): keep the draft and say it is still being sent.
       return SubmitPending(e);
+    } on Object {
+      return const SubmitPending(ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
     }
-    await drafts.save(draft.copyWith(pendingSubmission: false, windowClosed: true));
+    await _tryDraftSave(draft.copyWith(pendingSubmission: false, windowClosed: true));
     return const SubmitWindowClosed();
   }
 
   Future<SubmitOutcome> _received(String sessionId, Map<String, dynamic> attempt, {required bool finalised}) async {
     final id = (attempt['id'] as String?) ?? sessionId;
-    await cacheAttempt(attempt);
-    await pendingResults.recordReceived(id);
-    // "Clear drafts": the attempt exists, so the draft and its journal are no longer needed.
-    await drafts.deleteSession(sessionId);
+    // The server has accepted and scored the attempt. From here a local failure (the attempts
+    // cache, the pending-result note, clearing the draft) must not turn a recorded submit into
+    // an error: each step is best effort, and a draft that could not be cleared is settled by
+    // the next start or the backup job, since the submit is idempotent.
+    try {
+      await cacheAttempt(attempt);
+    } on Object {
+      // The result opens from the server copy.
+    }
+    try {
+      await pendingResults.recordReceived(id);
+    } on Object {
+      // Only a note for Today; losing it is harmless.
+    }
+    try {
+      // "Clear drafts": the attempt exists, so the draft and its journal are no longer needed.
+      await drafts.deleteSession(sessionId);
+    } on Object {
+      // Left behind, not lost: it is submitted again, and answered by the server as already done.
+    }
     return SubmitReceived(attempt: attempt, receivedAt: _now(), finalisedByServer: finalised);
   }
 }

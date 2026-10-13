@@ -127,7 +127,7 @@ class ToolsPanel extends StatelessWidget {
   }
 }
 
-/// The quiet sign-off at the foot of You: Mobi resting, the wordmark and the version.
+/// The quiet sign-off at the foot of You: Mobi resting and the version.
 class HubFooter extends ConsumerWidget {
   const HubFooter({super.key});
 
@@ -141,10 +141,9 @@ class HubFooter extends ConsumerWidget {
         children: [
           // Mobi sits at the foot of the page; a tap makes him hop.
           const Mobi(pose: MobiPose.rest, size: 64, interactive: true),
-          const SizedBox(height: MmSpace.s12),
-          ExcludeSemantics(child: Wordmark(height: 22, color: colors.ink3)),
+          // No wordmark under him: its o is Mobi too, so the pair read as two Mobis stacked.
           if (version != null) ...[
-            const SizedBox(height: MmSpace.s8),
+            const SizedBox(height: MmSpace.s12),
             Text(YouCopy.helpVersion(version), style: context.mmType.caption.copyWith(color: colors.ink3)),
           ],
         ],

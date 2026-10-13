@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// A plain message where the runner cannot open a session. The work layer keeps its rule: no
-/// art and no Mobi here, just the fact and the way out.
+/// A message where the runner cannot open a session: the fact and the way out. No question is
+/// open here, so Mobi may stand with the message ([mobi]); the paper itself never has him.
+///
 class RunnerMessage extends StatelessWidget {
   const RunnerMessage({
     super.key,
@@ -16,7 +17,11 @@ class RunnerMessage extends StatelessWidget {
     required this.onAction,
     this.secondaryLabel,
     this.onSecondary,
+    this.mobi,
   });
+
+  /// Mobi's act beside the message, or null for none.
+  final MobiAct? mobi;
 
   final String title;
   final String body;
@@ -37,6 +42,13 @@ class RunnerMessage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (mobi != null) ...[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ExcludeSemantics(child: MobiCharacter(size: 112, entrance: mobi!, seed: 29)),
+              ),
+              const SizedBox(height: MmSpace.s16),
+            ],
             Semantics(header: true, child: Text(title, style: type.headline)),
             const SizedBox(height: MmSpace.s12),
             Text(body, style: type.body.copyWith(color: colors.ink2)),

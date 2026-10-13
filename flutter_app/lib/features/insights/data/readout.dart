@@ -152,7 +152,7 @@ RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro =
         : 'There is no earlier week to compare with yet.';
     return RecordAnswer(
       'Last 7 days: ${_plural(t.sessions, 'session')}, ${t.questions} questions, ${t.net} net marks$acc. $before '
-      'Small samples move a lot from week to week, so treat this as a description, not a verdict.',
+      'Two or three more sessions this week will make the comparison steadier.',
     );
   } else {
     hit = pick('chapter') ?? pick('thin') ?? (found.isEmpty ? null : found.first);

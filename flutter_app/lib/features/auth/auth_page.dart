@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/auth/auth.dart';
 import '../../core/connectivity/connectivity.dart';
+import '../../core/motion/motion.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import 'copy.dart';
@@ -12,8 +13,11 @@ import 'sign_in_state.dart';
 
 /// The frame both sign-in screens share, in the Night Sheet room: the desk lamp's warm light
 /// from the upper left over the ground, banners that sit in the layout above a scrolling,
-/// keyboard-safe column of content (at most 600 dp wide), and the MockMob mark at its head.
-class AuthPage extends ConsumerWidget {
+/// keyboard-safe column of content (at most 600 dp wide), and the MockMob mark at its head with
+/// Mobi beside it. Mobi sits in a fixed 56 dp slot, so nothing below it moves: it thinks while a
+/// code is sent or checked, cheers when the code worked and shrugs at a code that did not match.
+/// Under reduced motion it stays still.
+class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({
     super.key,
     required this.step,
@@ -28,7 +32,47 @@ class AuthPage extends ConsumerWidget {
   final VoidCallback? onBack;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AuthPage> createState() => _AuthPageState();
+}
+
+class _AuthPageState extends ConsumerState<AuthPage> {
+  final MobiController _mobi = MobiController();
+
+  SignInStep get step => widget.step;
+  Widget get child => widget.child;
+  VoidCallback? get onBack => widget.onBack;
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  /// Mobi answers what just happened, never anything that is only a state of the form.
+  void _react(SignInState? before, SignInState now) {
+    if (!mounted || Motion.reduced(context)) return;
+    final working = now.busy != SignInBusy.none;
+    final wasWorking = before != null && before.busy != SignInBusy.none;
+    if (working && !wasWorking) {
+      _mobi.play(MobiAct.think);
+    } else if (wasWorking && !working) {
+      if (now.problem == SignInProblem.invalidCode) {
+        _mobi.play(MobiAct.oops);
+      } else if (now.problem != null) {
+        _mobi.play(MobiAct.idle);
+      } else if (before.busy == SignInBusy.verifying || before.busy == SignInBusy.google) {
+        _mobi.play(MobiAct.cheer);
+      } else {
+        _mobi.play(MobiAct.idle);
+      }
+    } else if (!working && before != null && now.problem == SignInProblem.invalidCode && now.problemSerial != before.problemSerial) {
+      _mobi.play(MobiAct.oops);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(signInControllerProvider, _react);
     final colors = context.mmColors;
     final offline =
         ref.watch(networkStatusProvider) == NetworkStatus.offline ||
@@ -85,11 +129,16 @@ class AuthPage extends ConsumerWidget {
                                 ),
                         ),
                         const SizedBox(height: MmSpace.s16),
-                        const Row(
+                        Row(
                           children: [
-                            MmMark(size: 40),
-                            SizedBox(width: MmSpace.s12),
-                            Wordmark(height: 22),
+                            // The wordmark alone: a "mo" tile beside it read as "mo mockmob".
+                            const Wordmark(height: 26),
+                            const Spacer(),
+                            SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Mobi(pose: MobiPose.idle, size: 56, controller: _mobi),
+                            ),
                           ],
                         ),
                         const SizedBox(height: MmSpace.s20),

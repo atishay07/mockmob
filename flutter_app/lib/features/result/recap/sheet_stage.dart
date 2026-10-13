@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
@@ -78,7 +77,6 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   Timer? _nudgeTimer;
   bool _opened = false;
   bool _figureIn = false;
-  bool _mobiIn = false;
   bool _calm = false;
   bool _crossFading = false;
   double _dragStart = 0;
@@ -119,7 +117,6 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     if (widget.entry == SheetEntry.settled && !_opened) {
       _opened = true;
       _figureIn = true;
-      _mobiIn = true;
       _reveal.value = 1;
     }
     if (!_sealed && !_opened) {
@@ -190,7 +187,6 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
       // Lower, held or reduced motion: everything is simply there, with a quiet fade.
       setState(() {
         _figureIn = true;
-        _mobiIn = true;
       });
       _reveal.duration = const Duration(milliseconds: 600);
       if (Motion.reduced(context)) {
@@ -215,7 +211,6 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   void _onReveal() {
     final t = _reveal.value;
     if (!_figureIn && t >= 0.28) setState(() => _figureIn = true);
-    if (!_mobiIn && t >= 0.72) setState(() => _mobiIn = true);
   }
 
   // ---- Dragging ------------------------------------------------------------------------------
@@ -289,20 +284,11 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     );
   }
 
-  Widget? _mobi() {
-    if (!_mobiIn) return null;
-    return switch (_variant) {
-      RecapVariant.firstMock => const Mobi(pose: MobiPose.greet, size: 64, motion: MobiMotion.settle),
-      RecapVariant.higher => const Mobi(pose: MobiPose.cheer, size: 64, motion: MobiMotion.hop),
-      _ => null,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final m = widget.model;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
-    final footer = MarksFooter(model: m, onNext: widget.onNext, onFirstFix: widget.onFirstFix, mobi: _mobi());
+    final footer = MarksFooter(model: m, onNext: widget.onNext, onFirstFix: widget.onFirstFix);
     final controls = SealedControls(
       open: _open,
       onOpen: _opened ? null : _openByTap,

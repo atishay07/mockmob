@@ -18,9 +18,8 @@ class StateAction {
 }
 
 /// An empty, error or offline state: Mobi in a small pool of lamp light, a title, a message and
-/// up to two actions (the volt pill and a quiet one). Empty shows Mobi resting (or the
-/// all-clear vignette), offline shows sleepy Mobi (or the offline vignette), error shows Mobi
-/// thinking. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass the recovery
+/// up to two actions (the volt pill and a quiet one). Empty shows the living Mobi reading,
+/// offline shows Mobi resting, error shows Mobi thinking, in both themes. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass the recovery
 /// action here.
 class StateView extends StatelessWidget {
   const StateView({
@@ -44,12 +43,20 @@ class StateView extends StatelessWidget {
 
   Widget _art(BuildContext context, double size) {
     if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle);
-    // The lamp-lit desk scenes melt into the Night ground; on Daylight paper they would read as
-    // a dark blot, so Daylight uses Mobi's cut-out poses instead.
-    final night = context.mmColors.isNight;
+    // The living Mobi in both themes: reading over an empty sheet, resting while offline,
+    // thinking over an error. The lamp-lit raster vignettes stay only behind the MOBI_RASTER
+    // fallback, and only on Night, where they melt into the ground.
+    if (Mobi.rasterFallback && context.mmColors.isNight) {
+      switch (kind) {
+        case StateViewKind.empty:
+          return _Vignette(art: MmArt.emptyAllClear, height: size * 1.3);
+        case StateViewKind.offline:
+          return _Vignette(art: MmArt.emptyOffline, height: size * 1.3);
+        case StateViewKind.error:
+          break;
+      }
+    }
     return switch (kind) {
-      StateViewKind.empty when night => _Vignette(art: MmArt.emptyAllClear, height: size * 1.3),
-      StateViewKind.offline when night => _Vignette(art: MmArt.emptyOffline, height: size * 1.3),
       StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle),
       StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle),
       StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle),
@@ -134,7 +141,7 @@ class StateView extends StatelessWidget {
   }
 }
 
-/// A landscape vignette with Mobi, settling once like Mobi does.
+/// A landscape vignette with Mobi, settling once like Mobi does. Only for the MOBI_RASTER fallback.
 class _Vignette extends StatefulWidget {
   const _Vignette({required this.art, required this.height});
 

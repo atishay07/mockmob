@@ -31,12 +31,12 @@ ApiResponse _deleteResponse({required DateTime requestedAt, String message = 'We
 
 void main() {
   group('account', () {
-    testWidgets('shows the email, the Free plan and where plans are managed', (tester) async {
+    testWidgets('shows the email, the Free plan and the plan footer', (tester) async {
       await _pumpAccount(tester);
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
       expect(find.text('Credit balance not loaded'), findsOneWidget);
-      expect(find.text('Plans are managed on mockmob.in. Pro bought there works here.'), findsOneWidget);
+      expect(find.text('Your plan and credits as of the last check.'), findsOneWidget);
     });
 
     testWidgets('Pro with a date reads "Pro is active until 31 July 2027."', (tester) async {

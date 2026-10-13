@@ -10,13 +10,15 @@ import 'answers.dart';
 import 'choices.dart';
 import 'deck.dart';
 
-/// The first move the plan ends on: the 10-question starting-point check, in the subject the
-/// answers point to. Today reads it to show "10 questions to your starting point".
+/// The first move the plan ends on, and only what really runs. For a subject with a free
+/// starting-point check (English, Accountancy, Business Studies, Economics) it is that
+/// 10-question check; when none of the student's subjects has one, it is 10 questions of
+/// practice in their weakest subject, through the same Quick 10 path, and says so.
 class FirstMove {
   const FirstMove({required this.subject, required this.chapter, required this.framing, required this.window});
 
-  /// The weakest chosen subject with a free starting-point check, otherwise the weakest chosen
-  /// subject (its confirm sheet shows the cost), Accountancy when nothing was chosen.
+  /// The weakest chosen subject with a starting-point check; otherwise the weakest chosen
+  /// subject (practice); Accountancy when nothing was chosen.
   final SheetSubject subject;
 
   /// The first chapter of [subject] in MockMob's order.
@@ -29,14 +31,31 @@ class FirstMove {
   static const int questions = 10;
   static const int minutes = 10;
 
-  /// "First check: 10 questions in Accountancy" (a one-off check, not one of the sessions).
-  String get line => 'First check: $questions questions in ${subject.label}';
+  /// The free starting-point check runs for [subject]. False means plain practice.
+  bool get isStartingPoint => subject.hasStartingPoint;
 
-  /// Opens Quick 10 setup in [subject] with the free starting-point allowance; the confirm
-  /// sheet there shows the cost, if any.
+  /// "First check: 10 questions in Accountancy", or "First practice: 10 questions in Physics".
+  String get line => isStartingPoint
+      ? 'First check: $questions questions in ${subject.label}'
+      : 'First practice: $questions questions in ${subject.label}';
+
+  /// The heading over the first move.
+  String get title => isStartingPoint ? OnboardingCopy.firstMoveTitle : OnboardingCopy.firstPracticeTitle;
+
+  /// The words beside the big 10.
+  String get unit => isStartingPoint ? OnboardingCopy.firstMoveUnit : OnboardingCopy.practiceUnit(subject.label);
+
+  /// The start key.
+  String get startLabel => isStartingPoint ? OnboardingCopy.startNow : OnboardingCopy.startPractice(subject.label);
+
+  /// Why "Start" asks for an account first.
+  String get needsAccount => isStartingPoint ? OnboardingCopy.checkNeedsAccount : OnboardingCopy.practiceNeedsAccount;
+
+  /// Opens Quick 10 setup in [subject]: with the free starting-point allowance for a
+  /// starting-point subject, as plain practice otherwise. The confirm sheet shows any cost.
   String get route => Uri(
         path: AppRoutes.practiceSetup('quick'),
-        queryParameters: {'subject': subject.id, 'count': '$questions', 'purpose': 'baseline'},
+        queryParameters: {'subject': subject.id, 'count': '$questions', if (isStartingPoint) 'purpose': 'baseline'},
       ).toString();
 
   /// The next time the study window opens: today if it has not started, otherwise tomorrow.

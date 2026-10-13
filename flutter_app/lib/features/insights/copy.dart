@@ -8,8 +8,8 @@ abstract final class InsightsCopy {
       'From your last ${_n(sessions, 'scored session')}, ${_n(questions, 'question')} in all.';
   static const netLabel = 'net marks';
   static const ledgerHeading = 'Where the marks went';
-  static String ledgerRight(int n, int marks) => '$n right, +$marks';
-  static String ledgerWrong(int n) => '$n wrong, -$n';
+  static String ledgerRight(int n, int marks) => marks == 0 ? '$n right, 0' : '$n right, +$marks';
+  static String ledgerWrong(int n) => n == 0 ? '0 wrong, 0' : '$n wrong, -$n';
   static String ledgerBlank(int n) => '$n left blank, 0';
   static const ledgerNote = 'Marking as CUET counts it: +5 right, -1 wrong, 0 blank.';
   static String accuracyLine(int pct, int low, int high, int n) => '$pct% right of $n answered. Likely range $low to $high%.';
@@ -19,6 +19,32 @@ abstract final class InsightsCopy {
   static const notNow = 'Not now';
   static String accuracyHeroLine(int low, int high) => 'of answered right, likely $low to $high%';
   static String netOver(int net, int sessions) => '${net > 0 ? '+' : ''}$net net marks over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
+
+  // The figure when the share answered right is not known yet (sparse record).
+  static const sparseTitle = 'Record your first 10 answered questions to see your share right';
+  static String sparseLine(int answered) => answered == 0
+      ? 'Nothing answered yet. Right and wrong answers both count toward it.'
+      : '$answered answered so far. Right and wrong answers both count toward it.';
+
+  // Show me: the sessions behind a claim.
+  static String showMeSessions(int n) => n == 1 ? 'Show me, the session behind this' : 'Show me, the $n sessions behind this';
+  static String evidenceCount(int n) => n == 1 ? '1 session, opens its result.' : '$n sessions, newest first. Each opens its result.';
+  static String evidenceMore(int n) => '${_n(n, 'older session')} not listed.';
+  static const openSession = 'Opens its result';
+  static const behindLedger = 'The sessions behind these marks';
+  static const behindFinding = 'The sessions behind this';
+  static const behindChanges = 'Sessions with changed answers';
+  static const behindPace = 'Sessions with timed answers';
+  static const behindWeek = 'Sessions in the last 14 days';
+
+  // The attempts list (trend and by subject) while it loads or after it failed.
+  static const attemptsFailed = 'Your sessions did not load, so the trend and subjects are missing.';
+  static const attemptsOffline = 'You are offline. Sessions show here once they have loaded.';
+
+  // The trend's points.
+  static String trendPointLabel(String day, int marks, int max, int total) => '$day. $marks of $max marks, $total questions.';
+  static String trendPointMarks(int marks, int max) => '$marks of $max marks';
+  static String trendPointPaper(int total) => '$total questions';
 
   static const findingsHeading = 'What stands out';
   static String basedOn(int n) => 'Based on ${_n(n, 'question')}';
@@ -39,7 +65,7 @@ abstract final class InsightsCopy {
 
   static const changesHeading = 'Changed answers';
   static String changesLine(int count, int gains, int losses) => '${_n(count, 'change')}: $gains helped, $losses hurt';
-  static const changesNote = 'This shows what happened, not why.';
+  static const changesNote = 'Changes are counted from device events in timed sessions.';
   static const changesNone = 'No changed answers in timed sessions yet.';
 
   static const paceHeading = 'Pace';
@@ -57,7 +83,7 @@ abstract final class InsightsCopy {
   static String weekLine(int sessions, int questions) => '${_n(sessions, 'session')}, ${_n(questions, 'question')}';
   static const weekNone = 'No sessions';
   static String activeDays(int n) => 'Active on $n of the last 14 days.';
-  static const weekNote = 'Small samples move a lot from week to week.';
+  static const weekNote = 'Counted from finished sessions, by the day they ended.';
 
   static const subjectsHeading = 'By subject';
   static String subjectLine(int sessions, int questions) => '${_n(sessions, 'session')}, ${_n(questions, 'question')}';
@@ -175,6 +201,20 @@ abstract final class InsightsCopy {
   static const failTooLong = 'That is too long. Keep it under 1,500 characters.';
   static const failUnavailable = 'MockMob could not answer just now. Nothing was charged.';
   static const sendAgain = 'Send again';
+
+  // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.
+  static const aiCaveat = 'AI wrote this and can be wrong. Check it against your record.';
+  static const reportReply = 'Report this reply';
+  static const reportTitle = 'What is wrong with this reply?';
+  static const reportReasons = ['It is wrong about my record', 'It is wrong about the subject', 'It is unsafe or unkind', 'Something else'];
+  static const reportSent = 'Reported. It goes to a check.';
+  static const reportWaiting = 'Report saved on this phone. It is sent when you are back online.';
+  static const reportFailed = 'The report did not reach us. Try again in a moment.';
+  static const disclosureTitle = 'This question goes to an AI service';
+  static const disclosureBody = 'MockMob answers questions about your record on this phone. Other questions are sent, '
+      'with a short summary of your record, to an AI service that writes the reply. It uses 1 AI credit and can be wrong.';
+  static const disclosureSend = 'Send it';
+  static const disclosureNotNow = 'Not now';
   static String askAboutQuestion(String body, String? key) {
     final trimmed = body.length > 900 ? '${body.substring(0, 900)}...' : body;
     return 'Explain this question step by step: "$trimmed"${key == null ? '' : ' The answer is $key.'}';

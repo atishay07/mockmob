@@ -12,7 +12,9 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
+import '../model/plan.dart';
 import '../state/answers_controller.dart';
+import '../state/answers_store.dart';
 import '../state/mobi_cues.dart';
 import '../steps/course_step.dart';
 import '../steps/first_move_step.dart';
@@ -54,6 +56,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   /// The save step was opened from "Start now", so it says why the account is needed.
   bool _startAsked = false;
+
+  /// The start key was tapped before the stored sheet was read: the deck opens when it is.
+  bool _startWhenLoaded = false;
 
   /// The guide Mobi in the top bar, and the bubble row he points at.
   final MobiController _mobi = MobiController();
@@ -107,8 +112,31 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     setState(() {
       _inDeck = true;
       _forward = true;
+      _startWhenLoaded = false;
     });
     if (a.step == null || kOnboardingDeck.byId(a.step) == null) _c.goTo(_steps(a).first.id);
+  }
+
+  /// The Welcome key. Before the stored sheet is read the tap is kept, not dropped: the deck
+  /// opens the moment the read lands. A sheet that could not be read is read again; one this
+  /// build cannot read, already kept aside in the backup, is replaced by a new sheet.
+  void _onStart(AsyncValue<OnboardingAnswers> sheet) {
+    final loaded = sheet.value;
+    if (loaded != null && !sheet.isLoading) {
+      _start(loaded);
+      return;
+    }
+    final error = _c.readError;
+    if (error != null && error.backedUp) {
+      if (_c.startFresh()) _start(OnboardingAnswers.empty);
+      return;
+    }
+    setState(() => _startWhenLoaded = true);
+    if (error != null) {
+      _c.retry().then<void>((_) {}, onError: (Object _) {
+        if (mounted) setState(() => _startWhenLoaded = false);
+      });
+    }
   }
 
   void _next(OnboardingAnswers a) {
@@ -141,12 +169,21 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final cold = ref.watch(shouldPlayColdOpenProvider).value ?? false;
-    final loaded = ref.watch(onboardingAnswersProvider).value;
+    final sheet = ref.watch(onboardingAnswersProvider);
     // Welcome paints at once; the stored sheet (a few bytes on the phone) fills in when read.
+    // A sheet that could not be read is never shown as empty progress or written over.
+    final loaded = sheet.hasError ? null : sheet.value;
     final answers = loaded ?? OnboardingAnswers.empty;
     ref.listen(onboardingAnswersProvider, (previous, next) {
       final after = next.value;
-      if (after == null) return;
+      if (after == null || next.isLoading) return;
+      if (_startWhenLoaded && !_inDeck) {
+        // Outside the notification, so starting may write the first step.
+        scheduleMicrotask(() {
+          if (mounted && _startWhenLoaded && !_inDeck) _start(after);
+        });
+        return;
+      }
       final cue = mobiCueFor(previous?.value, after);
       if (cue != null) _perform(cue, after);
     });
@@ -161,16 +198,22 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     }
     if (!_inDeck) {
       final filled = kOnboardingDeck.sheetSteps.where((s) => answers.isDone(s.id)).length;
+      final error = sheet.hasError ? _c.readError : null;
       return Scaffold(
         backgroundColor: colors.ground,
         body: WelcomeView(
-          returning: answers.started && answers.step != null,
+          returning: loaded != null && answers.started && answers.step != null,
           filled: filled,
           lateNight: _isLate(ref.watch(nowProvider)()),
-          // Until the stored sheet is read, starting would race it; the read takes milliseconds.
-          onStart: () {
-            if (loaded != null) _start(loaded);
+          pending: _startWhenLoaded,
+          notice: switch (error?.failure) {
+            null => null,
+            SheetReadFailure.unreadable => OnboardingCopy.sheetUnreadable,
+            SheetReadFailure.newer => error!.backedUp ? OnboardingCopy.sheetFromNewer : OnboardingCopy.sheetUnreadable,
+            SheetReadFailure.broken => error!.backedUp ? OnboardingCopy.sheetBroken : OnboardingCopy.sheetUnreadable,
           },
+          retry: error != null && !error.backedUp,
+          onStart: () => _onStart(sheet),
           onHaveAccount: () => context.push(AppRoutes.signIn),
         ),
       );
@@ -279,7 +322,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         ),
       StepKind.account => SaveStep(
           answers: a,
-          note: _startAsked ? OnboardingCopy.checkNeedsAccount : null,
+          note: _startAsked ? FirstMove.of(a).needsAccount : null,
           onNotNow: () {
             setState(() {
               _forward = true;

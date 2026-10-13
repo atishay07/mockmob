@@ -83,7 +83,9 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
         primary: StateAction(ReviewCopy.backToReview, () => context.go(AppRoutes.review)),
       );
     } else if (!active || run.phase == RepairPhase.ending) {
-      body = Center(child: MmSpinner(color: context.mmColors.ink2));
+      body = Center(
+        child: Semantics(label: ReviewCopy.loadingRepair, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
+      );
     } else if (run.phase == RepairPhase.entry) {
       body = _entry(run);
     } else {

@@ -13,6 +13,7 @@ import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
+import '../../practice/model/practice_selection.dart' show practiceCounts;
 import '../copy.dart';
 import 'links.dart';
 import 'subjects.dart';
@@ -22,8 +23,16 @@ import 'today_model.dart';
 /// A ready repair must come from a paper at least this long (a 10-question check counts).
 const int minQuestionsForBasis = minQuestionsForRepairBasis;
 
-/// Chips for practice moves. Practice runs one question a minute, so 30 minutes is not offered.
-const List<int> practiceMinutes = [10, 20];
+/// Chips for practice moves: 5, 10 and 20 questions, the lengths Practice itself offers. Practice
+/// runs a question a minute, so a chip's count is also its minutes.
+final List<int> practiceChoices = [for (final c in const [5, 10, 20]) if (practiceCounts.contains(c)) c];
+
+List<DurationChoice> _practiceOptions() => [for (final c in practiceChoices) DurationChoice(minutes: c, questions: c)];
+
+/// The practice length for a move: the student's chip, else [preferred] (10 unless the mood or
+/// the plan says otherwise).
+int _practiceCount(TodayInputs i, List<DurationChoice> options, {int preferred = 10}) =>
+    _pick(options, i.selectedMinutes, preferred: preferred).minutes;
 
 /// "Mock 7" for a mock, "Quick 10" for practice.
 String paperLabel(List<Attempt> all, Attempt a) {
@@ -178,6 +187,8 @@ MoveHero buildMove(TodayInputs i) {
     case NextMoveState.stale:
       final basis = f.latestMock ?? b!;
       final days = f.basisAgeDays ?? 0;
+      final options = _practiceOptions();
+      final count = _practiceCount(i, options);
       return MoveHero(
         state: state,
         mood: mood,
@@ -189,8 +200,16 @@ MoveHero buildMove(TodayInputs i) {
         number: '$days',
         numberLabel: TodayCopy.staleLabel(days),
         meaning: TodayCopy.staleLine(i.date(basis.completedAt)),
+        durationPrompt: TodayCopy.practiceLength,
+        durations: options,
+        selectedMinutes: count,
         summary: TodayCopy.practiseToRefresh,
-        primary: TodayAction(TodayCopy.practiseToRefresh, GoTo(TodayLinks.quick(subject: basis.subject)), startsSession: true, actionType: 'practice'),
+        primary: TodayAction(
+          TodayCopy.withCount(TodayCopy.practiseToRefresh, count),
+          GoTo(TodayLinks.quick(subject: basis.subject, count: count)),
+          startsSession: true,
+          actionType: 'practice',
+        ),
         secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
       );
 
@@ -198,6 +217,8 @@ MoveHero buildMove(TodayInputs i) {
     case NextMoveState.noEligibleContent:
       final latest = f.attempts.first;
       final answered = f.attempts.fold<int>(0, (n, a) => n + a.total);
+      final options = _practiceOptions();
+      final count = _practiceCount(i, options);
       return MoveHero(
         state: state,
         mood: mood,
@@ -209,8 +230,16 @@ MoveHero buildMove(TodayInputs i) {
         number: '$answered',
         numberLabel: TodayCopy.thinLabel(answered),
         meaning: TodayCopy.thinLine,
+        durationPrompt: TodayCopy.practiceLength,
+        durations: options,
+        selectedMinutes: count,
         summary: TodayCopy.checkThisSkill,
-        primary: TodayAction(TodayCopy.checkThisSkill, GoTo(TodayLinks.quick(subject: latest.subject)), startsSession: true, actionType: 'practice'),
+        primary: TodayAction(
+          TodayCopy.withCount(TodayCopy.checkThisSkill, count),
+          GoTo(TodayLinks.quick(subject: latest.subject, count: count)),
+          startsSession: true,
+          actionType: 'practice',
+        ),
         secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
       );
 
@@ -221,6 +250,8 @@ MoveHero buildMove(TodayInputs i) {
     case NextMoveState.repairedCheckNotDue:
       final basis = b!;
       final source = paperLabel(f.attempts, basis);
+      final options = _practiceOptions();
+      final count = _practiceCount(i, options);
       return MoveHero(
         state: state,
         mood: mood,
@@ -232,8 +263,16 @@ MoveHero buildMove(TodayInputs i) {
         number: '${f.repairedHere.length}',
         numberLabel: TodayCopy.repairedNumberLabel(source),
         meaning: TodayCopy.repairedLine,
+        durationPrompt: TodayCopy.practiceLength,
+        durations: options,
+        selectedMinutes: count,
         summary: TodayCopy.practiseAnother,
-        primary: TodayAction(TodayCopy.practiseAnother, GoTo(TodayLinks.quick(subject: basis.subject)), startsSession: true, actionType: 'practice'),
+        primary: TodayAction(
+          TodayCopy.withCount(TodayCopy.practiseAnother, count),
+          GoTo(TodayLinks.quick(subject: basis.subject, count: count)),
+          startsSession: true,
+          actionType: 'practice',
+        ),
         secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
         dismissedLine: f.dismissed ? TodayCopy.hiddenUntilTomorrow : null,
       );
@@ -273,6 +312,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
     meaning: meaning,
     evidenceId: b.id,
     evidence: List.filled(n.clamp(1, 3), BubbleState.wrong),
+    // The chips say "5 min" themselves, so an ordinary day adds no prompt line above them.
     durationPrompt: mood == TodayMood.returning && options.isNotEmpty ? TodayCopy.howLong(now) : null,
     durations: options,
     selectedMinutes: choice.minutes,
@@ -331,9 +371,9 @@ MoveHero _mixed(
   String? Function() headlineFor,
 ) {
   final subject = f.attempts.isNotEmpty ? f.attempts.first.subject : (i.subjects.isEmpty ? null : i.subjects.first);
-  final options = [for (final m in practiceMinutes) DurationChoice(minutes: m)];
+  final options = _practiceOptions();
   final fallback = mood == TodayMood.normal ? (i.plan?.minutes ?? 10) : 10;
-  final minutes = _pick(options, i.selectedMinutes ?? (practiceMinutes.contains(fallback) ? fallback : 10)).minutes;
+  final minutes = _practiceCount(i, options, preferred: practiceChoices.contains(fallback) ? fallback : 10);
   return MoveHero(
     state: NextMoveState.noStrongWeakness,
     mood: mood,
@@ -343,9 +383,9 @@ MoveHero _mixed(
     art: artFor(subject),
     headline: headlineFor(),
     number: '$minutes',
-    numberLabel: TodayCopy.minutesUnit,
+    numberLabel: TodayCopy.questionsOfMixed,
     meaning: TodayCopy.noStrongWeakness,
-    durationPrompt: mood == TodayMood.returning ? TodayCopy.howLong(i.clock()) : null,
+    durationPrompt: TodayCopy.practiceLength,
     durations: options,
     selectedMinutes: minutes,
     summary: TodayCopy.startMixed(minutes),

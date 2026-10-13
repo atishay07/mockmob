@@ -12,10 +12,13 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../learn_paths.dart';
 import '../data/catalog_repository.dart';
 import '../data/lesson_loader.dart';
 import '../data/run_starter.dart';
+import '../widgets/idea_line.dart';
 import '../widgets/lesson_block.dart';
+import '../widgets/lesson_list.dart';
 import '../widgets/screen_bits.dart';
 
 /// A lesson (spec 5.9): its objectives and teaching blocks, then the way into the guided
@@ -167,7 +170,7 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
                         const SizedBox(height: MmSpace.s24),
                         Semantics(header: true, child: Text(LearnCopy.unitObjectives, style: type.subhead)),
                         const SizedBox(height: MmSpace.s8),
-                        for (final o in unit.objectives) _Objective(text: o),
+                        for (var i = 0; i < unit.objectives.length; i++) IdeaLine(number: i + 1, text: unit.objectives[i]),
                       ],
                       if (blocks.isNotEmpty) ...[
                         const SizedBox(height: MmSpace.group),
@@ -175,6 +178,11 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
                         const SizedBox(height: MmSpace.s16),
                         for (final b in blocks) ...[LessonBlock(block: b), const SizedBox(height: MmSpace.s24)],
                       ],
+                      if (unit.subject != null && unit.chapter != null && unit.chapter!.isNotEmpty)
+                        ChapterSummaryRow(
+                          chapter: unit.chapter!,
+                          onTap: () => unawaited(context.push<void>(LearnPaths.summary(unit.subject!, unit.chapter!))),
+                        ),
                     ],
                   ),
                 ),
@@ -193,33 +201,6 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _Objective extends StatelessWidget {
-  const _Objective({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: MmSpace.s8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 9, right: MmSpace.s12),
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: colors.ink, shape: BoxShape.circle),
-              child: const SizedBox(width: 6, height: 6),
-            ),
-          ),
-          Expanded(child: Text(text, style: context.mmType.body)),
-        ],
-      ),
     );
   }
 }

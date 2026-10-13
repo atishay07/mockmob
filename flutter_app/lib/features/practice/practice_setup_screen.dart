@@ -65,6 +65,8 @@ class _PracticeSetupScreenState extends ConsumerState<PracticeSetupScreen> {
                       child: PracticeComposer(
                         key: ValueKey(initial.subjectId),
                         initial: initial,
+                        // A link asking for a length this mode does not offer says so here.
+                        askedCount: widget.link.count,
                         showSubjects: true,
                         pinKey: true,
                         exits: ComposerExits(

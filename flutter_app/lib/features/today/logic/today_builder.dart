@@ -56,14 +56,26 @@ TodayView buildToday(TodayInputs i) {
   );
 }
 
-/// Mobi beside the greeting: every day, unless the hero card already has him.
+/// Mobi beside the greeting: every day, unless the hero card already has him. He cheers only for
+/// an opened result that improved or held; every other submission today gets a plain wave.
 HeaderMobiCue? _headerMobi(TodayInputs i, TodayHero hero) {
   if (hero is MoveHero && hero.art.isMobi) return null;
   final clock = i.clock();
   if (isLateNight(clock)) return const HeaderMobiCue(HeaderMobiKind.sleepy, TodayCopy.mobiSleepy);
   final today = i.date();
-  final recordedToday = (i.attempts ?? const <Attempt>[]).any((a) => i.date(a.completedAt) == today);
-  if (recordedToday) return const HeaderMobiCue(HeaderMobiKind.cheer, TodayCopy.mobiCheer);
+  final all = i.attempts ?? const <Attempt>[];
+  final unopened = {for (final u in i.unopened) u.attemptId};
+  final recordedToday = [for (final a in all) if (i.date(a.completedAt) == today) a];
+  if (recordedToday.isNotEmpty) {
+    // A paper from today whose result is still sealed: wave, and say nothing about the marks.
+    if (recordedToday.any((a) => unopened.contains(a.id))) return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiSealed);
+    // Cheer only when the newest opened result improved on, or held against, the paper before
+    // it. A lower result, or a first paper with nothing to compare, gets the neutral wave.
+    final latest = recordedToday.first;
+    final prev = _previousComparable(all, latest, unopened);
+    if (prev != null && latest.marks >= prev.marks) return const HeaderMobiCue(HeaderMobiKind.cheer, TodayCopy.mobiCheer);
+    return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiRecorded);
+  }
   if (hero is MoveHero && hero.number != null) return const HeaderMobiCue(HeaderMobiKind.point, TodayCopy.mobiPoint);
   return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiIdle);
 }

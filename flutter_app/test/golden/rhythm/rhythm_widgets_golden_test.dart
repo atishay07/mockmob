@@ -6,9 +6,12 @@ import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart'
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
+import 'package:mockmob/features/rhythm/logic/dates.dart';
+import 'package:mockmob/features/rhythm/logic/milestone_tracks.dart';
 import 'package:mockmob/features/rhythm/logic/weekly_ending.dart';
 import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
 import 'package:mockmob/features/rhythm/widgets/goal_editor.dart';
+import 'package:mockmob/features/rhythm/widgets/milestone_track_card.dart';
 import 'package:mockmob/features/rhythm/widgets/returning_card.dart';
 import 'package:mockmob/features/rhythm/widgets/week_strip_section.dart';
 import 'package:mockmob/features/rhythm/widgets/weekly_ending_card.dart';
@@ -51,6 +54,8 @@ Celebration _moment(CelebrationEvent e, {bool quiet = false}) => Celebration(
       ring: e.ring && !quiet,
       mobiHop: e.level == CelebrationLevel.l2 && !quiet,
       textOnly: quiet,
+      linkLabel: e.linkLabel,
+      link: e.link,
     );
 
 void main() {
@@ -182,6 +187,76 @@ void main() {
       Sample(
         'Quiet: the same words as text',
         CelebrationMoment(celebration: _moment(CelebrationEvent.weekMet(weekStart: '2026-10-05', studyDays: 4, goal: 4, firstEver: true), quiet: true)),
+      ),
+    ]),
+  );
+
+  golden(
+    'milestone_earned_moment',
+    () => SampleColumn(children: [
+      Sample(
+        'A step just landed: token settled, ring closed, Mobi beside it',
+        MilestoneTrackCard(
+          track: milestoneTracks([
+            RhythmMilestone(id: 'first_repair', achievedAt: DateTime.utc(2026, 10, 13, 15)),
+            RhythmMilestone(id: 'repairs_5', achievedAt: DateTime.utc(2026, 10, 14, 4)),
+          ])[1],
+          dateOf: (d) => formatAchievedDate(d, 'Asia/Kolkata', kNow),
+          progress: const {'repairs_10': 6},
+          freshIds: const {'repairs_5'},
+          onOpen: () {},
+        ),
+      ),
+    ]),
+  );
+
+  golden(
+    'week_sheet_no_plan_key',
+    () => SheetColumn(samples: [
+      (
+        'No study days chosen: the key names the marks, and a link sets the days',
+        SheetFrame(
+          child: WeekSheetBody(snapshot: _snap(loaded(_open)), rhythmOff: false, onRetry: () {}, onTurnOn: () {}, onSeeRhythm: () {}, onChangeDays: () {}),
+        ),
+      ),
+      (
+        'Study days chosen, with the receipt after a save',
+        SheetFrame(
+          child: WeekSheetBody(
+            snapshot: _snap(loaded(_open)),
+            rhythmOff: false,
+            onRetry: () {},
+            onTurnOn: () {},
+            onSeeRhythm: () {},
+            onChangeDays: () {},
+            plan: const {0, 2, 4, 5},
+            savedLine: 'Goal saved: 4 study days a week. Your days are kept on this phone.',
+          ),
+        ),
+      ),
+    ]),
+  );
+
+  golden(
+    'celebration_receipts',
+    () => SampleColumn(gap: 12, children: [
+      Sample(
+        'First repair, with its dated receipt',
+        CelebrationMoment(
+          celebration: _moment(CelebrationEvent.milestone(RhythmMilestone(id: 'first_repair', achievedAt: kNow), date: '14 October')),
+        ),
+      ),
+      Sample(
+        'Landed while away: one quiet receipt and a link',
+        CelebrationMoment(
+          celebration: _moment(
+            CelebrationEvent.milestoneReceipt(
+              newest: RhythmMilestone(id: 'first_repair', achievedAt: kNow),
+              date: '11 October',
+              others: const ['first_scored_session'],
+            ),
+          ),
+        ),
       ),
     ]),
   );

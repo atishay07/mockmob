@@ -163,7 +163,7 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
   }
 }
 
-class _DockTab extends StatelessWidget {
+class _DockTab extends StatefulWidget {
   const _DockTab({
     required this.tab,
     required this.active,
@@ -180,17 +180,51 @@ class _DockTab extends StatelessWidget {
   final String semanticsLabel;
   final VoidCallback onTap;
 
+  /// The answer bubble's diameter.
+  static const double bubble = 24;
+
+  @override
+  State<_DockTab> createState() => _DockTabState();
+}
+
+/// As the lit tile lands, the tab's answer bubble inks: a 24 dp volt circle that grows in from
+/// the side the tile came from ([_DockTab.inkFrom]) and fades as it fills, leaving the filled
+/// icon. Under reduced motion there is no ink, only the icon swap.
+class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin {
+  late final AnimationController _ink = AnimationController(vsync: this, duration: Motion.ui, value: 1);
+
+  @override
+  void didUpdateWidget(_DockTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.active && !oldWidget.active) {
+      if (Motion.reduced(context)) {
+        _ink.value = 1;
+      } else {
+        _ink.forward(from: 0);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _ink.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final reduced = Motion.reduced(context);
+    final tab = widget.tab;
+    final active = widget.active;
+    final ink = colors.isNight ? colors.volt : colors.accentText;
 
     return MmPressable(
-      semanticsLabel: semanticsLabel,
+      semanticsLabel: widget.semanticsLabel,
       selected: active,
       pressedScale: 0.94,
-      onTap: onTap,
+      onTap: widget.onTap,
       builder: (context, pressed, _) => SizedBox.expand(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -202,6 +236,37 @@ class _DockTab extends StatelessWidget {
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: [
+                  // The ink, behind the icon; idle (nothing drawn) once it has filled.
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: AnimatedBuilder(
+                        animation: _ink,
+                        builder: (context, _) {
+                          final t = _ink.value;
+                          if (t >= 1 || reduced) return const SizedBox.shrink();
+                          final grow = Motion.glide.transform(t);
+                          // Inks in over the first third, then fades as the filled icon lands.
+                          final alpha = 0.5 * (t < 0.35 ? t / 0.35 : (1 - t) / 0.65);
+                          return Center(
+                            child: Transform.translate(
+                              offset: Offset(widget.inkFrom.dx * 8 * (1 - grow), 0),
+                              child: Transform.scale(
+                                scale: 0.3 + 0.7 * grow,
+                                alignment: Alignment(widget.inkFrom.dx, 0),
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: ink.withValues(alpha: alpha),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const SizedBox.square(dimension: _DockTab.bubble),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                   AnimatedSwitcher(
                     duration: reduced ? Duration.zero : Motion.ui,
                     switchInCurve: Motion.glide,
@@ -217,7 +282,7 @@ class _DockTab extends StatelessWidget {
                       color: active ? colors.ink : colors.ink2,
                     ),
                   ),
-                  if (showDot)
+                  if (widget.showDot)
                     Positioned(
                       top: -1,
                       right: 0,
@@ -225,7 +290,7 @@ class _DockTab extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: colors.isNight ? colors.volt : colors.accentText,
                           shape: BoxShape.circle,
-                          border: Border.all(color: colors.isNight ? colors.raised : colors.raised, width: 1.5),
+                          border: Border.all(color: colors.raised, width: 1.5),
                         ),
                         child: const SizedBox.square(dimension: 9),
                       ),

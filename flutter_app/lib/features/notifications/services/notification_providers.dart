@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/auth/auth_state.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/models/notification_prefs.dart';
 import '../../../core/notifications/notifications.dart';
@@ -33,23 +34,75 @@ final repairReadyProvider = Provider<RepairReady?>((ref) {
   );
 });
 
+/// Opens a reminder's route. A tap that launched the app arrives while the splash is still
+/// deciding who is signed in: then the route is remembered and the redirect continues there,
+/// the same way a launch link does.
+void openReminderRoute(Ref ref, String route) {
+  if (ref.read(authSnapshotProvider).status == AuthStatus.unknown) {
+    ref.read(intendedRouteProvider).remember(route);
+  } else {
+    ref.read(routerProvider).go(route);
+  }
+}
+
+/// A reminder tap that arrived before anyone was signed in on this run (a tap that launched
+/// the app). It is handled once an account is known, or forgotten after [maxAge].
+class HeldReminderTap {
+  HeldReminderTap({this.maxAge = const Duration(minutes: 10)});
+
+  final Duration maxAge;
+  NotificationTap? _tap;
+  DateTime? _at;
+
+  void hold(NotificationTap tap, DateTime at) {
+    _tap = tap;
+    _at = at;
+  }
+
+  /// The held tap, once, while it is fresh.
+  NotificationTap? take(DateTime now) {
+    final tap = _tap;
+    final at = _at;
+    _tap = null;
+    _at = null;
+    if (tap == null || at == null || now.difference(at) > maxAge) return null;
+    return tap;
+  }
+}
+
+final heldReminderTapProvider = Provider<HeldReminderTap>((ref) => HeldReminderTap());
+
+/// The tap handler the engine uses: it routes, records the response and mutes.
+final reminderTapHandlerProvider = Provider<ReminderTapHandler>((ref) {
+  ReminderScheduler scheduler() => ref.read(reminderSchedulerProvider);
+  return ReminderTapHandler(
+    opened: (id) => scheduler().reminderOpened(id),
+    declined: (id) => scheduler().reminderDeclined(id),
+    mute: () => scheduler().mute(),
+    open: (route) => openReminderRoute(ref, route),
+  );
+});
+
 final Provider<ReminderScheduler> reminderSchedulerProvider = Provider<ReminderScheduler>((ref) {
   final service = ref.watch(notificationServiceProvider);
-  ReminderScheduler self() => ref.read(reminderSchedulerProvider);
-  final taps = ReminderTapHandler(
-    opened: (id) => self().reminderOpened(id),
-    declined: (id) => self().reminderDeclined(id),
-    mute: () => self().mute(),
-    open: (route) => ref.read(routerProvider).go(route),
-  );
+  final taps = ref.read(reminderTapHandlerProvider);
   return ReminderScheduler(
     service: service,
     store: ref.watch(reminderStoreProvider),
     prefs: () => ref.read(notificationPrefsRepositoryProvider).value,
     repair: () => ref.read(repairReadyProvider),
     // The tap callback must be registered the first time the engine starts.
-    ensureReady: () =>
-        service.initialize(onTap: (tap) => unawaited(taps.handle(tap))),
+    ensureReady: () => service.initialize(
+      onTap: (tap) {
+        // A tap that launched the app can arrive before the account is known. Its record
+        // belongs to that account, so it waits and is handled once someone is signed in.
+        if (ref.read(userIdProvider) == null) {
+          ref.read(heldReminderTapProvider).hold(tap, ref.read(nowProvider)());
+        } else {
+          unawaited(taps.handle(tap));
+        }
+      },
+    ),
     now: ref.read(nowProvider),
     onStateChanged: () {
       if (ref.mounted) ref.invalidate(reminderStateProvider);
@@ -65,9 +118,12 @@ final notificationPermissionProvider =
     );
 
 /// True when the "Remind me when it matters" sheet may be shown now: the system question has
-/// not been asked, and the sheet has not been put off twice or put off less than 14 days ago.
+/// never been put on this phone, and the sheet has not been put off twice or put off less than 14 days ago.
 /// The Result module reads this after the first result is opened and closed.
 final prePromptDueProvider = FutureProvider.autoDispose<bool>((ref) async {
+  // The system question was put once already (and refused, or it would read granted): the
+  // student can ask again from Notifications in You, but the sheet does not come back by itself.
+  if (await ref.watch(appPrefsProvider).notificationPermissionAsked()) return false;
   final permission = await ref
       .watch(permissionRequesterProvider)
       .notificationPermission();
@@ -126,12 +182,22 @@ class NotificationsRuntime {
   /// Whenever the app opens: settle what came due, then plan what is ahead.
   Future<void> _open() async {
     try {
+      // A held launch tap counts as opened before settling, or it would read as unopened.
+      await _replayHeldTap();
       await _scheduler.settle();
       await _scheduler.sync();
       if (_ref.mounted) _ref.invalidate(notificationPermissionProvider);
     } on Object {
       // Reminders are a convenience: a failure here must never reach the student.
     }
+  }
+
+  /// A launch tap held until the account was known: handled now, before re-planning, so the
+  /// response counts and the route opens.
+  Future<void> _replayHeldTap() async {
+    if (_ref.read(userIdProvider) == null) return;
+    final tap = _ref.read(heldReminderTapProvider).take(_ref.read(nowProvider)());
+    if (tap != null) await _ref.read(reminderTapHandlerProvider).handle(tap);
   }
 
   void dispose() => _lifecycle?.dispose();

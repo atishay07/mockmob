@@ -252,7 +252,7 @@ void main() {
 
   group('google', () {
     test('a cancel returns quietly with no message', () async {
-      final gateway = FakeGateway()..googleResult = false;
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.cancelled;
       final c = _container(gateway);
       await c.read(signInControllerProvider.notifier).signInWithGoogle();
       final s = c.read(signInControllerProvider);
@@ -277,6 +277,79 @@ void main() {
       await c.read(signInControllerProvider.notifier).signInWithGoogle();
       expect(gateway.sheetLaunches, 1);
       expect(c.read(intendedRouteProvider).location, isNull);
+    });
+
+    test('the browser opening is not a cancel: it waits for the callback link', () async {
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway);
+      c.listen(signInControllerProvider, (_, _) {});
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      var s = c.read(signInControllerProvider);
+      expect(s.googleInBrowser, isTrue, reason: 'finish-in-browser, not a quiet cancel');
+      expect(s.problem, isNull);
+      expect(s.busy, SignInBusy.none);
+
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.cancelled));
+      await Future<void>.delayed(Duration.zero);
+      s = c.read(signInControllerProvider);
+      expect(s.googleInBrowser, isFalse);
+      expect(s.problem, isNull);
+    });
+
+    test('a failed browser return shows the Google line', () async {
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway);
+      c.listen(signInControllerProvider, (_, _) {});
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.failed));
+      await Future<void>.delayed(Duration.zero);
+      final s = c.read(signInControllerProvider);
+      expect(s.googleInBrowser, isFalse);
+      expect(s.problem, SignInProblem.googleUnavailable);
+    });
+
+    test('a browser sign-in that lands offers the sheet on a new phone', () async {
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway);
+      c.listen(signInControllerProvider, (_, _) {});
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.signedIn));
+      await Future<void>.delayed(Duration.zero);
+      expect(gateway.sheetLaunches, 1);
+    });
+
+    test('the Google button on the sign-in screen offers the sheet once', () async {
+      final gateway = FakeGateway();
+      final prefs = MemoryPrefsStore();
+      final c = _container(gateway, prefs: prefs);
+      final notifier = c.read(signInControllerProvider.notifier);
+      await notifier.googleSignedIn();
+      await notifier.googleSignedIn();
+      expect(gateway.sheetLaunches, 1);
+    });
+  });
+
+  group('a broken preferences store never holds sign-in', () {
+    test('verify still signs in and does not stick on the spinner', () async {
+      final gateway = FakeGateway();
+      final c = ProviderContainer(overrides: authOverrides(gateway: gateway, prefs: BrokenPrefs()));
+      addTearDown(c.dispose);
+      final notifier = c.read(signInControllerProvider.notifier)..setEmail('asha@example.com');
+      await notifier.verify('12345678');
+      final s = c.read(signInControllerProvider);
+      expect(gateway.verified, [('asha@example.com', '12345678')]);
+      expect(s.busy, SignInBusy.none);
+      expect(s.problem, isNull);
+      expect(gateway.sheetLaunches, 0, reason: 'an unreadable store answers no sheet');
+    });
+
+    test('Google still signs in', () async {
+      final gateway = FakeGateway();
+      final c = ProviderContainer(overrides: authOverrides(gateway: gateway, prefs: BrokenPrefs()));
+      addTearDown(c.dispose);
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      expect(gateway.googleCalls, 1);
+      expect(c.read(signInControllerProvider).busy, SignInBusy.none);
     });
   });
 }

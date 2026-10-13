@@ -52,13 +52,16 @@ class NtaPaper extends StatelessWidget {
     final type = context.mmType;
     final passage = question.passageText;
     final hasPassage = passage != null && passage.isNotEmpty;
-    final qStyle = type.question.copyWith(fontSize: 18 * textScale, height: 1.55);
-    final oStyle = type.body.copyWith(fontSize: 16 * textScale, height: 1.45);
+    final qStyle = skin.type.question(textScale);
+    final oStyle = skin.type.option(textScale);
 
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.raised,
-        shape: RoundedRectangleBorder(borderRadius: NtaSkin.radiusAll, side: BorderSide(color: colors.line)),
+        shape: RoundedRectangleBorder(
+          borderRadius: NtaSkin.radiusAll,
+          side: BorderSide(color: colors.line),
+        ),
         shadows: colors.cardShadow,
       ),
       child: Column(
@@ -78,7 +81,10 @@ class NtaPaper extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ...leading,
-                if (hasPassage) ...[_Passage(text: passage, range: passageRange, scale: textScale), const SizedBox(height: MmSpace.s16)],
+                if (hasPassage) ...[
+                  _Passage(text: passage, range: passageRange, style: skin.type.passage(textScale)),
+                  const SizedBox(height: MmSpace.s16),
+                ],
                 MediaQuery.withClampedTextScaling(
                   maxScaleFactor: 1.3,
                   child: Row(
@@ -97,7 +103,10 @@ class NtaPaper extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: MmSpace.s12),
-                Semantics(header: true, child: Text(question.question, style: qStyle.copyWith(color: colors.ink))),
+                Semantics(
+                  header: true,
+                  child: Text(question.question, style: qStyle.copyWith(color: colors.ink)),
+                ),
                 if (question.body case final b? when b.isNotEmpty) ...[
                   const SizedBox(height: MmSpace.s8),
                   Text(b, style: oStyle.copyWith(color: colors.ink)),
@@ -136,45 +145,47 @@ class _Head extends StatelessWidget {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.3,
       child: DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.raised2.withValues(alpha: 0.55),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
-        border: Border(bottom: BorderSide(color: colors.line)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s4, MmSpace.s12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(child: Semantics(header: true, child: Text(title, style: type.cardTitle))),
-                if (onTextStep != null) ...[
-                  _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: () => onTextStep!(-1)),
-                  _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: () => onTextStep!(1)),
-                ],
-              ],
-            ),
-            if (tags.isNotEmpty)
-              Wrap(
-                spacing: MmSpace.s6,
-                runSpacing: MmSpace.s6,
+        decoration: BoxDecoration(
+          color: colors.raised2.withValues(alpha: 0.55),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
+          border: Border(bottom: BorderSide(color: colors.line)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s4, MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  for (final t in tags)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: colors.raised,
-                        borderRadius: const BorderRadius.all(Radius.circular(6)),
-                        border: Border.all(color: colors.line),
-                      ),
-                      child: Text(t, style: type.caption.copyWith(color: colors.ink2, fontSize: 12)),
-                    ),
+                  Expanded(
+                    child: Semantics(header: true, child: Text(title, style: type.cardTitle)),
+                  ),
+                  if (onTextStep != null) ...[
+                    _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: () => onTextStep!(-1)),
+                    _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: () => onTextStep!(1)),
+                  ],
                 ],
               ),
-          ],
+              if (tags.isNotEmpty)
+                Wrap(
+                  spacing: MmSpace.s6,
+                  runSpacing: MmSpace.s6,
+                  children: [
+                    for (final t in tags)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: colors.raised,
+                          borderRadius: const BorderRadius.all(Radius.circular(6)),
+                          border: Border.all(color: colors.line),
+                        ),
+                        child: Text(t, style: type.caption.copyWith(color: colors.ink2, fontSize: 12)),
+                      ),
+                  ],
+                ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -253,11 +264,11 @@ class _MarkKey extends StatelessWidget {
 
 /// The passage, once, in a sunken well that scrolls on its own past 40% of the screen.
 class _Passage extends StatelessWidget {
-  const _Passage({required this.text, required this.range, required this.scale});
+  const _Passage({required this.text, required this.range, required this.style});
 
   final String text;
   final (int, int)? range;
-  final double scale;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -296,7 +307,7 @@ class _Passage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: MmSpace.s8),
-                Text(text, style: type.body.copyWith(color: colors.ink, fontSize: 15.5 * scale, height: 1.7)),
+                Text(text, style: style.copyWith(color: colors.ink)),
               ],
             ),
           ),

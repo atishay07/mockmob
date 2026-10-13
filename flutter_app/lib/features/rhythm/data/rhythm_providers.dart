@@ -10,6 +10,7 @@ import '../../../core/repositories/notification_prefs_repository.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/repositories/rhythm_seen_repository.dart';
+import '../copy.dart';
 import '../logic/dates.dart';
 import '../logic/week_view.dart';
 import '../logic/weekly_ending.dart';
@@ -117,12 +118,19 @@ class RhythmActions {
     await _refreshRhythm();
   }
 
-  /// Saves the chosen study days: the goal (their number) on the server first, then which days
-  /// they are on this phone, so the plan never runs ahead of an unsaved goal.
+  /// Saves the chosen study days: the goal (their number) on the server first, then the days on
+  /// the account where an endpoint holds them (see `StudyDaysRemote`), then on this phone, so the
+  /// plan never runs ahead of an unsaved goal.
   Future<void> saveStudyDays(Set<int> days) async {
     await saveGoal(days.length);
+    await _ref.read(studyDaysRemoteProvider).save(days);
     await _ref.read(plannedDaysProvider.notifier).save(days);
   }
+
+  /// The receipt for a study days save that returned: what the server holds, and what stays on
+  /// this phone.
+  String studyDaysReceipt(int days) =>
+      _ref.read(studyDaysRemoteProvider).storesOnAccount ? RhythmCopy.daysSaved(days) : RhythmCopy.studyDaysSaved(days);
 
   Future<void> _pause(String? until) async {
     await _ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: await _goalDays(), pausedUntil: until);
@@ -138,7 +146,8 @@ class RhythmActions {
     return _pause(formatIsoDate((sunday ?? _today).add(const Duration(days: 7))));
   }
 
-  /// "Until I turn it on": the longest pause the server accepts, 100 days ahead.
+  /// "Pause for about 3 months": the longest pause the server accepts is 100 days, so there is
+  /// no open-ended pause; the paused panel shows the date it ends.
   Future<void> pauseUntilTurnedOn() => _pause(formatIsoDate(_today.add(const Duration(days: 100))));
 
   Future<void> resume() => _pause(null);

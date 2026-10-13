@@ -23,7 +23,13 @@ String dayKey(DateTime instant) {
   return '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 }
 
-DateTime _daysBefore(DateTime nowUtc, int days, {int hourUtc = 14}) => DateTime.utc(nowUtc.year, nowUtc.month, nowUtc.day - days, hourUtc, 40);
+/// 8:10 PM on the student's calendar day [days] before today. The day is counted in Kolkata
+/// time (the student's clock), so "two days ago" is two days ago on Today, in the week strip and
+/// on the receipts whatever hour UTC the demo is opened at.
+DateTime _daysBefore(DateTime nowUtc, int days) {
+  final today = istOf(nowUtc);
+  return DateTime.utc(today.year, today.month, today.day - days, 20, 10).subtract(_ist);
+}
 
 class DemoBook extends ChangeNotifier {
   DemoBook(DateTime nowUtc) {

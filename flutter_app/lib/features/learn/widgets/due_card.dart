@@ -38,7 +38,10 @@ class LearnPanel extends StatelessWidget {
 
 /// "12 cards due." with the start key. No streak, no minutes and no due dates: the catalog
 /// gives a count only, so the count is all this claims.
-class DueCard extends StatelessWidget {
+///
+/// With nothing due, Mobi takes the place of the empty card stack: pointing at the key when new
+/// cards from a read lesson are ready, reading quietly when there is nothing to start.
+class DueCard extends StatefulWidget {
   const DueCard({
     super.key,
     required this.queue,
@@ -47,7 +50,11 @@ class DueCard extends StatelessWidget {
     required this.primary,
     this.starting = false,
     this.message,
+    this.showMobi = true,
   });
+
+  /// False when Mobi is already on the screen (the first-visit explainer): one Mobi at a time.
+  final bool showMobi;
 
   final StudyQueueView queue;
   final bool recallEnabled;
@@ -61,12 +68,39 @@ class DueCard extends StatelessWidget {
   final String? message;
 
   @override
+  State<DueCard> createState() => _DueCardState();
+}
+
+class _DueCardState extends State<DueCard> {
+  final _mobi = MobiController();
+  final _key = GlobalKey();
+  bool _pointed = false;
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final queue = widget.queue;
+    final primary = widget.primary;
+    final starting = widget.starting;
+    final onStart = widget.onStart;
+    final message = widget.message;
     final due = queue.due;
     final newReady = queue.newReady;
-    final canStart = recallEnabled && (due > 0 || newReady > 0);
+    final canStart = widget.recallEnabled && (due > 0 || newReady > 0);
+    final pointAtKey = widget.showMobi && due == 0 && canStart;
+    if (pointAtKey && !_pointed) {
+      _pointed = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mobi.pointAtWidget(_key);
+      });
+    }
     final headline = due > 0 ? LearnCopy.dueSummary(due) : LearnCopy.nothingDue;
     final label = due > 0 ? LearnCopy.startReview : LearnCopy.startNewCards;
 
@@ -97,8 +131,10 @@ class DueCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CardStackMark(count: due),
-                const SizedBox(width: MmSpace.s20),
+                if (widget.showMobi) ...[
+                  Mobi(pose: pointAtKey ? MobiPose.point : MobiPose.read, size: 64, controller: _mobi),
+                  const SizedBox(width: MmSpace.s16),
+                ],
                 Expanded(
                   child: Semantics(header: true, child: Text(headline, style: type.title)),
                 ),
@@ -116,17 +152,19 @@ class DueCard extends StatelessWidget {
             ),
           if (canStart) ...[
             const SizedBox(height: MmSpace.s20),
-            if (primary)
-              KeyButton(label: label, onPressed: starting ? null : onStart, loading: starting)
-            else
-              KeyButton.secondary(label: label, onPressed: starting ? null : onStart, loading: starting),
+            KeyedSubtree(
+              key: _key,
+              child: primary
+                  ? KeyButton(label: label, onPressed: starting ? null : onStart, loading: starting)
+                  : KeyButton.secondary(label: label, onPressed: starting ? null : onStart, loading: starting),
+            ),
           ],
           if (message != null)
             Padding(
               padding: const EdgeInsets.only(top: MmSpace.s12),
               child: Semantics(
                 liveRegion: true,
-                child: Text(message!, style: type.body.copyWith(color: colors.ink)),
+                child: Text(message, style: type.body.copyWith(color: colors.ink)),
               ),
             ),
         ],

@@ -12,11 +12,14 @@ import '../logic/today_model.dart';
 import 'header_mobi.dart';
 
 class TodayHeader extends StatelessWidget {
-  const TodayHeader({super.key, required this.header, this.onWeek, this.avatar = const YouAvatarButton()});
+  const TodayHeader({super.key, required this.header, this.onWeek, this.avatar = const YouAvatarButton(), this.aim});
 
   final HeaderModel header;
   final VoidCallback? onWeek;
   final Widget avatar;
+
+  /// The move card's key, so the header Mobi can point at it.
+  final GlobalKey? aim;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +30,11 @@ class TodayHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        TabRootHeader(
+        _GreetingRow(
           avatar: avatar,
-          overline: header.dateLine,
-          title: header.greeting,
-          trailing: header.mobi == null ? null : HeaderMobi(cue: header.mobi!),
+          dateLine: header.dateLine,
+          greeting: header.greeting,
+          trailing: header.mobi == null ? null : HeaderMobi(cue: header.mobi!, aim: aim),
         ),
         if (header.updatedLine != null)
           Padding(
@@ -49,6 +52,51 @@ class TodayHeader extends StatelessWidget {
           TodayWeekRow(week: week, onTap: onWeek),
         ],
       ],
+    );
+  }
+}
+
+/// The tab-root top row (avatar, date line, title, trailing) with one difference: "Good evening,
+/// Asha" is a full sentence, so a long one scales down to fit beside Mobi instead of ending in
+/// an ellipsis.
+class _GreetingRow extends StatelessWidget {
+  const _GreetingRow({required this.avatar, required this.dateLine, required this.greeting, this.trailing});
+
+  final Widget avatar;
+  final String dateLine;
+  final String greeting;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: Row(
+        children: [
+          avatar,
+          const SizedBox(width: MmSpace.s12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(dateLine, style: type.caption.copyWith(color: colors.ink2)),
+                Semantics(
+                  header: true,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(greeting, style: type.screenTitle, maxLines: 1, softWrap: false),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
+        ],
+      ),
     );
   }
 }

@@ -54,7 +54,7 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
     final type = context.mmType;
     final g = widget.group;
     final items = _ordered;
-    final open = g.open;
+    final papers = g.openByPaper;
     final summary = ReviewCopy.groupLine(subjectName(g.subjectId), g.openCount, g.repairedCount, g.setAsideCount);
 
     return SolidPanel(
@@ -134,12 +134,24 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
                     children: [
                       Divider(height: 1, color: colors.line),
                       for (final item in items) MistakeRow(item: item, clock: widget.clock, onTap: () => widget.onOpen(item)),
-                      if (open.isNotEmpty)
+                      // One key per paper: a run covers one chapter of one paper, so the number on
+                      // the key is the number of mistakes the run holds.
+                      if (papers.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s16, MmSpace.s16),
-                          child: KeyButton.secondary(
-                            label: ReviewCopy.repairGroupKey(open.length),
-                            onPressed: () => widget.onOpen(open.first),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              for (var i = 0; i < papers.length; i++) ...[
+                                if (i > 0) const SizedBox(height: MmSpace.s8),
+                                KeyButton.secondary(
+                                  label: papers.length == 1
+                                      ? ReviewCopy.repairGroupKey(papers[i].items.length)
+                                      : ReviewCopy.repairGroupFromKey(papers[i].items.length, papers[i].source),
+                                  onPressed: () => widget.onOpen(papers[i].items.first),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                     ],

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/domain/cuet_dates.dart';
 import 'package:mockmob/core/domain/tonight_pick.dart';
+import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/domain/repair_candidates.dart';
 import 'package:mockmob/core/models/learning_plan.dart';
@@ -8,6 +12,7 @@ import 'package:mockmob/core/widgets/art/mm_art.dart';
 import 'package:mockmob/core/widgets/bubbles/bubble_painter.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/move_builder.dart';
+import 'package:mockmob/features/today/logic/road_builder.dart' show roadEndFor, roadStops;
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -134,6 +139,128 @@ void main() {
     });
   });
 
+  group('practice moves offer 5, 10 and 20 questions and start the one chosen', () {
+    int countIn(MoveHero m) => int.parse(Uri.parse((m.primary.target as GoTo).location).queryParameters['count']!);
+
+    final clean = accountancyMock('clean', daysBefore(now, 1));
+    final staleMock = accountancyMock('old', daysBefore(now, 20), wrongAt: {1, 2, 3});
+    final shortQuick = paper(
+      id: 'q5',
+      completedAt: daysBefore(now, 1),
+      mode: 'quick',
+      runs: const [('Partnership fundamentals', V.right, 4), ('Partnership fundamentals', V.wrong, 1)],
+    );
+
+    final moves = <String, MoveHero Function(int? chosen)>{
+      'mixed practice': (c) => _move(ashaInputs(attempts: [clean], selectedMinutes: c)),
+      'a stale record': (c) => _move(ashaInputs(attempts: [staleMock], selectedMinutes: c)),
+      'a thin record': (c) => _move(ashaInputs(attempts: [shortQuick], selectedMinutes: c)),
+      'a repaired record': (c) => _move(ashaInputs(
+            repaired: {'m7': {for (final q in [3, 5, 7, 8, 22, 31]) 'm7-q$q'}},
+            selectedMinutes: c,
+          )),
+    };
+    for (final entry in moves.entries) {
+      test('${entry.key}: the chips are 5, 10 and 20 and the key matches the chip', () {
+        final fresh = entry.value(null);
+        expect(fresh.durations.map((d) => d.questions), [5, 10, 20]);
+        expect(fresh.durations.length, greaterThan(1), reason: 'the chooser shows whenever there is a choice');
+        expect(fresh.selectedMinutes, 10);
+        expect(countIn(fresh), 10);
+        for (final n in [5, 20]) {
+          final m = entry.value(n);
+          expect(m.selectedMinutes, n);
+          expect(countIn(m), n, reason: 'the started session is the chip');
+          expect(m.primary.label, endsWith('$n questions'));
+        }
+        // The repair's 15 is not a practice length.
+        expect(countIn(entry.value(15)), 10);
+      });
+    }
+
+    test('the mixed number is the question count', () {
+      final m = _move(ashaInputs(attempts: [clean], selectedMinutes: 5));
+      expect(m.number, '5');
+      expect(m.numberLabel, TodayCopy.questionsOfMixed);
+      expect(m.primary.label, TodayCopy.startMixed(5));
+    });
+
+    test('a repair keeps its own chips in minutes and shows them too', () {
+      final m = _move(ashaInputs());
+      expect(m.durations.length, greaterThan(1));
+      expect(m.durations.map((d) => d.label), ['5 min', '10 min', '15 min']);
+      expect(m.durationPrompt, isNull, reason: 'the chips carry their unit, so no prompt line on an ordinary day');
+    });
+  });
+
+  group('header Mobi cheers only for a result that improved or held', () {
+    final todayAt = daysBefore(now, 0);
+    final record = ashaRecord(now);
+
+    HeaderMobiCue? cue(List<Attempt> attempts, {List<({String attemptId, DateTime receivedAt})> unopened = const []}) =>
+        buildToday(ashaInputs(attempts: attempts, unopened: unopened)).header.mobi;
+
+    // Mock 7 scored 6 wrong and 2 blank. Mock 8 today: fewer wrong is up, the same is held.
+    Attempt mock8(Set<int> wrongAt, Set<int> blankAt) => accountancyMock('m8', todayAt, wrongAt: wrongAt, blankAt: blankAt);
+
+    test('a sealed paper from today gets a neutral wave that says nothing about the marks', () {
+      final c = cue([mock8(const {}, const {}), ...record], unopened: [(attemptId: 'm8', receivedAt: now)])!;
+      expect(c.kind, HeaderMobiKind.idle);
+      expect(c.lines, TodayCopy.mobiSealed);
+    });
+
+    test('a lower result gets a neutral wave, not a cheer', () {
+      final c = cue([mock8({for (var q = 1; q <= 20; q++) q}, const {}), ...record])!;
+      expect(c.kind, HeaderMobiKind.idle);
+      expect(c.lines, TodayCopy.mobiRecorded);
+    });
+
+    test('a first paper has nothing to beat, so it gets the neutral wave', () {
+      final c = cue([mock8(const {}, const {})])!;
+      expect(c.kind, HeaderMobiKind.idle);
+    });
+
+    test('an improved result cheers', () {
+      final c = cue([mock8({3}, const {}), ...record])!;
+      expect(c.kind, HeaderMobiKind.cheer);
+      expect(c.lines, TodayCopy.mobiCheer);
+    });
+
+    test('a held result cheers', () {
+      final c = cue([mock8({3, 5, 7, 8, 22, 31}, {40, 47}), ...record])!;
+      expect(c.kind, HeaderMobiKind.cheer);
+    });
+
+    test('no line for a sealed or lower result says Nice', () {
+      for (final lines in [TodayCopy.mobiSealed, TodayCopy.mobiRecorded, TodayCopy.mobiCheer]) {
+        expect(lines.any((l) => l.contains('Nice')), isFalse);
+      }
+    });
+
+    test('no paper today: Mobi points at the move', () {
+      expect(buildToday(ashaInputs()).header.mobi!.kind, HeaderMobiKind.point);
+    });
+  });
+
+  group('plain copy: no verdict hedges', () {
+    test('the thin and early lines say what to do next', () {
+      expect(TodayCopy.thinLine, 'From one paper. Ten more questions sharpen this.');
+      for (final line in [TodayCopy.thinLine, TodayCopy.whyEarly, TodayCopy.earlySignal]) {
+        expect(line.toLowerCase(), isNot(contains('verdict')));
+        expect(line.toLowerCase(), isNot(contains('signal')));
+        expect(line.toLowerCase(), isNot(contains('not a pattern')));
+      }
+    });
+
+    test('the thin count stays visible', () {
+      final m = _move(ashaInputs(attempts: [
+        paper(id: 'q5', completedAt: daysBefore(now, 1), mode: 'quick', runs: const [('Partnership fundamentals', V.right, 4), ('Partnership fundamentals', V.wrong, 1)]),
+      ]));
+      expect(m.numberLabel, TodayCopy.thinLabel(5));
+      expect(m.meaning, TodayCopy.thinLine);
+    });
+  });
+
   group('day one', () {
     test('ten questions to the starting point in the weakest subject, Mobi greets', () {
       final m = _move(ashaInputs(attempts: const []));
@@ -239,10 +366,19 @@ void main() {
 
   group('header and road', () {
     test('greets by first name and the time of day', () {
-      expect(TodayCopy.greeting(8, 'Asha'), 'Morning, Asha');
-      expect(TodayCopy.greeting(20, 'Asha'), 'Evening, Asha');
+      expect(TodayCopy.greeting(8, 'Asha'), 'Good morning, Asha');
+      expect(TodayCopy.greeting(14, 'Asha'), 'Good afternoon, Asha');
+      expect(TodayCopy.greeting(20, 'Asha'), 'Good evening, Asha');
+      expect(TodayCopy.greeting(23, 'Asha'), 'Up late, Asha');
       expect(TodayCopy.greeting(1, 'Asha'), 'Up late, Asha');
       expect(TodayCopy.greeting(14, null), 'Good afternoon');
+      expect(TodayCopy.greeting(1, null), 'Up late tonight');
+    });
+
+    test('the sessions line says the pace plainly and never counts zero', () {
+      expect(TodayCopy.sessionsLine(40, 5), 'About 40 study sessions at 5 a week.');
+      expect(TodayCopy.sessionsLine(1, 3), 'About 1 study session at 3 a week.');
+      expect(TodayCopy.sessionsLine(0, 5), 'Your first session starts the count.');
     });
 
     test('offline shows the time of the cached data', () {
@@ -286,9 +422,61 @@ void main() {
       expect(rows.first.change, isNull);
     });
 
-    test('weeks to the expected May 2027 window, then gone once it starts', () {
-      expect(buildRoad(ashaInputs())!.weeks, 28);
-      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 2)))?.weeks, isNull);
+    test('weeks to the expected May 2027 window', () {
+      final road = buildRoad(ashaInputs())!;
+      expect(road.weeks, 28);
+      expect(road.phase, RoadPhase.countdown);
+    });
+
+    test('the exam window is a state of its own: open, with the days left and CSAS still ahead', () {
+      final first = buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 1, 8)))!;
+      expect(first.phase, RoadPhase.window);
+      expect(first.daysLeft, 31);
+      expect(first.stops.map((s) => s.kind.name), ['exam', 'counselling']);
+      final last = buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 31, 8)))!;
+      expect(last.phase, RoadPhase.window);
+      expect(last.daysLeft, 1);
+      expect(last.ladder, isNotEmpty, reason: 'the colleges ladder stays through the window');
+    });
+
+    test('after the window the road is CSAS, results first, and the ladder stays', () {
+      final june = buildRoad(ashaInputs(now: DateTime.utc(2027, 6, 5, 8)))!;
+      expect(june.phase, RoadPhase.csas);
+      expect(june.weeks, 0);
+      expect(june.daysLeft, isNull);
+      expect(june.studyDays, isNull, reason: 'no countdown arithmetic after the window');
+      expect(june.stops.map((s) => s.kind.name), ['counselling']);
+      expect(june.ladder.first.dream, isTrue);
+      // Once the rounds have begun the stop is behind us; the road still shows the ladder.
+      final july = buildRoad(ashaInputs(now: DateTime.utc(2027, 6, 25, 8)))!;
+      expect(july.phase, RoadPhase.csas);
+      expect(july.stops, isEmpty);
+    });
+
+    test('the road ends the month after its last stop, and nothing remains after that', () {
+      final road = buildRoad(ashaInputs())!;
+      expect(road.end, DateTime.utc(2027, 7, 1));
+      expect(roadEndFor(road.stops), road.end);
+      expect(roadEndFor([road.stops.first]), DateTime.utc(2027, 4, 1), reason: 'derived from the last stop, not a constant');
+      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 7, 2))), isNull);
+    });
+
+    test('the registration window reads the same everywhere Today states it', () {
+      final reg = roadStops.firstWhere((s) => s.kind == RoadStopKind.registration);
+      expect(reg.start, CuetDates.registrationStart);
+      expect(reg.end, CuetDates.registrationEnd);
+      expect(reg.when, CuetDates.registrationWhen);
+      expect(TodayCopy.whenRegistration, CuetDates.registrationWhen);
+      // The words name the same months and year the dates do.
+      const months = ['January', 'February', 'March', 'April', 'May', 'June'];
+      expect(CuetDates.registrationMonths, '${months[CuetDates.registrationStart.month - 1]} to ${months[CuetDates.registrationEnd.month - 1]} ${CuetDates.registrationEnd.year}');
+      final exam = roadStops.firstWhere((s) => s.kind == RoadStopKind.exam);
+      expect(exam.when, 'Expected ${months[exam.start.month - 1]} ${exam.start.year}');
+      expect(TodayCopy.weeksLabel(3), contains(CuetDates.windowMonth));
+      // No Today string types the window again.
+      final copy = File('lib/features/today/copy.dart').readAsStringSync();
+      expect(copy, isNot(contains('January to March')));
+      expect(copy, isNot(contains('February to March')));
     });
 
     test('the ladder is only real picks, dream first', () {
@@ -311,6 +499,11 @@ void main() {
       expect(march.stops.first.kind.name, 'registration');
       final april = buildRoad(ashaInputs(now: DateTime.utc(2027, 4, 10)))!;
       expect(april.stops.map((s) => s.kind.name), ['exam', 'counselling']);
+    });
+
+    test('the road weeks line never counts a week it does not have', () {
+      expect(TodayCopy.weeksLabel(1), startsWith('week to'));
+      expect(TodayCopy.windowDaysLeft(1), startsWith('day left'));
     });
   });
 }

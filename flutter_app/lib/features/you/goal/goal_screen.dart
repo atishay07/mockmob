@@ -24,8 +24,16 @@ class GoalScreen extends ConsumerStatefulWidget {
 class _GoalScreenState extends ConsumerState<GoalScreen> {
   int? _picked;
   bool _saving = false;
+  bool _changedElsewhere = false;
   String? _error;
   DateTime? _savedAt;
+  final MobiController _mobi = MobiController();
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
 
   Future<void> _save(int days, String? pausedUntil) async {
     setState(() {
@@ -40,10 +48,17 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
       if (!mounted) return;
       setState(() {
         _saving = false;
+        // What the student picked is now what the server holds: from here the picker follows
+        // the server again, so a later change from another phone is never overwritten by it.
+        _picked = null;
+        _changedElsewhere = false;
         _savedAt = ref.read(nowProvider)();
       });
+      // Only after the server answered.
+      _mobi.play(MobiAct.cheer);
     } on ApiError catch (e) {
       if (!mounted) return;
+      _mobi.play(MobiAct.oops);
       setState(() {
         _saving = false;
         _error = e.isOffline
@@ -66,6 +81,15 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // The goal changed on the server (another phone, a refresh) while a pick was waiting: the
+    // pick is dropped, so Save cannot write a stale number over the newer one.
+    ref.listen<int?>(goalRepositoryProvider.select((s) => s.value?.daysPerWeek), (before, now) {
+      if (_saving || now == null || now == before || _picked == null) return;
+      setState(() {
+        _picked = null;
+        _changedElsewhere = true;
+      });
+    });
     final state = ref.watch(goalRepositoryProvider);
     final goal = state.value;
 
@@ -107,7 +131,21 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 const InlineBanner(message: YouCopy.goalStale),
                 const SizedBox(height: MmSpace.s16),
               ],
-              Text(YouCopy.goalQuestion, style: type.lead),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: Text(YouCopy.goalQuestion, style: type.lead)),
+                  const SizedBox(width: MmSpace.s12),
+                  Mobi(pose: MobiPose.idle, size: 56, controller: _mobi),
+                ],
+              ),
+              if (_changedElsewhere) ...[
+                const SizedBox(height: MmSpace.s12),
+                Semantics(
+                  liveRegion: true,
+                  child: Text(YouCopy.goalChangedElsewhere, style: type.small.copyWith(color: colors.ink2)),
+                ),
+              ],
               const SizedBox(height: MmSpace.s24),
               GoalPicker(
                 value: days,
@@ -115,6 +153,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                     ? null
                     : (value) => setState(() {
                           _picked = value;
+                          _changedElsewhere = false;
                           _error = null;
                           _savedAt = null;
                         }),

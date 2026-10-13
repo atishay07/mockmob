@@ -7,6 +7,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_row.dart' show YouPanel;
 import '../copy.dart';
 import '../data/reminder_state.dart';
+import '../logic/reminder_plan.dart' show repairReadyKey;
 import '../widgets/day_shape.dart';
 import '../widgets/settings_rows.dart';
 import '../widgets/settings_sections.dart';
@@ -60,6 +61,9 @@ class SettingsBody extends StatelessWidget {
 
   final NotificationPrefs prefs;
   final NotificationPermission permission;
+
+  /// The reminder state on this phone. Its `mutedUntil` is set only while a mute is running,
+  /// in the student's own timezone, and dims every reminder channel with its end date.
   final ReminderState reminder;
   final int cap;
   final bool freshChecksOpen;
@@ -73,11 +77,24 @@ class SettingsBody extends StatelessWidget {
     if (key == NotificationChannelKeys.weeklyPlan) {
       return prefs.channelOn(key) && reminder.weeklyPlanOn;
     }
+    if (key == repairReadyKey) return reminder.repairReadyOn;
     return prefs.channelOn(key);
   }
 
-  String? _pausedNote(String key) =>
-      reminder.category(key).paused ? NotificationsCopy.channelPaused : null;
+  /// Mute for 7 days is running: reminders are on hold until it ends.
+  DateTime? get _mutedUntil => reminder.mutedUntil;
+
+  /// Why a reminder channel is on hold: stopped after unopened reminders, or the mute (which
+  /// holds the reminders this phone plans: study window, repair ready and weekly plan).
+  String? _pausedNote(String key) {
+    if (reminder.category(key).paused) return NotificationsCopy.channelPaused;
+    final until = _mutedUntil;
+    if (until != null && key != NotificationChannelKeys.checkDue && _on(key)) return NotificationsCopy.channelMuted(until);
+    return null;
+  }
+
+  /// A reminder channel reads as on hold while Android blocks it or a mute runs.
+  bool _dim(bool blocked) => blocked || _mutedUntil != null;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +155,15 @@ class SettingsBody extends StatelessWidget {
               value: _on(NotificationChannelKeys.studyWindow),
               note: _pausedNote(NotificationChannelKeys.studyWindow),
               onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
-              dimmed: blocked,
+              dimmed: _dim(blocked),
+            ),
+            ChannelRow(
+              title: NotificationsCopy.channelRepair,
+              body: NotificationsCopy.channelRepairBody,
+              value: _on(repairReadyKey),
+              note: _pausedNote(repairReadyKey),
+              onChanged: (on) => actions.onChannel(repairReadyKey, on),
+              dimmed: _dim(blocked),
             ),
             ChannelRow(
               title: NotificationsCopy.channelWeekly,
@@ -146,7 +171,7 @@ class SettingsBody extends StatelessWidget {
               value: _on(NotificationChannelKeys.weeklyPlan),
               note: _pausedNote(NotificationChannelKeys.weeklyPlan),
               onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
-              dimmed: blocked,
+              dimmed: _dim(blocked),
             ),
             if (freshChecksOpen)
               ChannelRow(

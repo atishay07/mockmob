@@ -7,9 +7,11 @@ import '../copy/formatters.dart';
 import '../domain/session_rules.dart';
 import '../models/session_draft.dart';
 import '../repositories/session_draft_repository.dart';
+import '../motion/motion.dart';
 import '../theme/theme.dart';
 import '../widgets/bubbles/sheet_glyph.dart';
 import '../widgets/materials/lit_edge.dart';
+import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
 import 'routes.dart';
 
@@ -25,10 +27,18 @@ class ResumeOffer {
   int get total => draft.view.questions.length;
 }
 
-final resumeOfferProvider = FutureProvider.autoDispose<ResumeOffer?>((ref) async {
+/// The open session Start can resume, known at once from the live draft, so the sheet draws its
+/// Resume row on the first frame. Its answer count follows in [resumeOfferProvider].
+final resumeDraftProvider = Provider.autoDispose<SessionDraft?>((ref) {
   final draft = ref.watch(latestSessionDraftProvider).value;
   final now = ref.watch(nowProvider)();
   if (draft == null || !resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) return null;
+  return draft;
+});
+
+final resumeOfferProvider = FutureProvider.autoDispose<ResumeOffer?>((ref) async {
+  final draft = ref.watch(resumeDraftProvider);
+  if (draft == null) return null;
   final summary = await ref.watch(sessionDraftRepositoryProvider).summaryOf(draft);
   return ResumeOffer(draft: draft, answered: summary.answered);
 });
@@ -72,7 +82,7 @@ final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 
 /// The quick-start sheet that Start morphs into: resume the open session when there is one,
 /// then Quick 10, Full mock, NTA mode (when offered), Repair the next mistake (only when there
-/// is one) and Ask Mobi, never more than five rows. Costs are not
+/// is one) and Ask your record, never more than five rows. Costs are not
 /// here; they live on the confirm sheet each choice opens.
 class QuickStartSheet extends ConsumerWidget {
   const QuickStartSheet({super.key});
@@ -82,10 +92,15 @@ class QuickStartSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
+    // The Resume row is decided from the live draft on the first frame; only its answer count
+    // waits for the journal, so the lit edge never jumps from Quick 10 to Resume.
     final offer = ref.watch(resumeOfferProvider).value;
+    final draft = offer?.draft ?? ref.watch(resumeDraftProvider);
+    final answered = offer != null && draft != null && offer.draft.sessionId == draft.sessionId ? offer.answered : null;
     final repair = ref.watch(quickStartRepairProvider);
     final nta = ref.watch(quickStartNtaProvider);
     final now = ref.watch(nowProvider)();
+    final reduced = Motion.reduced(context);
 
     void go(String location) {
       final router = GoRouter.of(context);
@@ -95,80 +110,122 @@ class QuickStartSheet extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // The same grab handle as every other sheet: it drags down to close.
-          Center(
-            child: SizedBox(
-              width: 36,
-              height: 4,
-              child: DecoratedBox(decoration: BoxDecoration(color: context.mmColors.ink4, borderRadius: MmRadius.pillAll)),
+      child: AnimatedSize(
+        duration: reduced ? Duration.zero : Motion.ui,
+        curve: Motion.glide,
+        alignment: Alignment.topCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // The same grab handle as every other sheet: it drags down to close.
+            Center(
+              child: SizedBox(
+                width: 36,
+                height: 4,
+                child: DecoratedBox(decoration: BoxDecoration(color: context.mmColors.ink4, borderRadius: MmRadius.pillAll)),
+              ),
             ),
-          ),
-          const SizedBox(height: MmSpace.s16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-            child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
-          ),
-          const SizedBox(height: MmSpace.s16),
-          if (offer != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                      child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  // Mobi weighs the choice with the student; it never sits in the dock itself.
+                  const _SettleIn(child: Mobi(pose: MobiPose.think, size: 52)),
+                ],
+              ),
+            ),
+            const SizedBox(height: MmSpace.s12),
+            if (draft != null) ...[
+              QuickStartRow(
+                key: const ValueKey('quick-start-resume'),
+                glyph: SheetGlyph.resume,
+                title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}'
+                    '${answered == null ? '' : ', $answered of ${draft.view.questions.length}'}',
+                note: draft.isMock
+                    ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
+                    : 'Pick up where you left off.',
+                lit: true,
+                onTap: () => go(AppRoutes.run(draft.sessionId)),
+              ),
+              const SizedBox(height: MmSpace.s8),
+            ],
             QuickStartRow(
-              glyph: SheetGlyph.resume,
-              title: 'Resume ${subjectDisplayName(offer.draft.subject)} ${offer.draft.isMock ? 'mock' : 'practice'}, '
-                  '${offer.answered} of ${offer.total}',
-              note: offer.draft.isMock
-                  ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(offer.draft.endsAtWallMs))}.'
-                  : 'Pick up where you left off.',
-              lit: true,
-              onTap: () => go(AppRoutes.run(offer.draft.sessionId)),
+              glyph: SheetGlyph.quick,
+              title: 'Quick 10',
+              note: '10 questions, about 10 minutes.',
+              lit: draft == null,
+              onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
             ),
             const SizedBox(height: MmSpace.s8),
-          ],
-          QuickStartRow(
-            glyph: SheetGlyph.quick,
-            title: 'Quick 10',
-            note: '10 questions, about 10 minutes.',
-            lit: offer == null,
-            onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
-          ),
-          const SizedBox(height: MmSpace.s8),
-          QuickStartRow(
-            glyph: SheetGlyph.mock,
-            title: 'Full mock',
-            note: '50 questions, 60 minutes, timed like the exam.',
-            onTap: () => go(AppRoutes.practiceSetup('full')),
-          ),
-          if (nta != null) ...[
-            const SizedBox(height: MmSpace.s8),
             QuickStartRow(
-              glyph: SheetGlyph.exam,
-              title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
-              note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
-              onTap: () => go(nta.location),
+              glyph: SheetGlyph.mock,
+              title: 'Full mock',
+              note: '50 questions, 60 minutes, timed like the exam.',
+              onTap: () => go(AppRoutes.practiceSetup('full')),
             ),
+            if (nta != null) ...[
+              const SizedBox(height: MmSpace.s8),
+              QuickStartRow(
+                glyph: SheetGlyph.exam,
+                title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
+                note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
+                onTap: () => go(nta.location),
+              ),
+            ],
+            if (repair != null) ...[
+              const SizedBox(height: MmSpace.s8),
+              QuickStartRow(
+                glyph: SheetGlyph.repair,
+                title: 'Repair the next mistake',
+                note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
+                onTap: () => go(repair.location),
+              ),
+            ],
+            // Never more than five rows: Ask gives way to a resume.
+            if (draft == null || nta == null || repair == null) ...[
+              const SizedBox(height: MmSpace.s8),
+              QuickStartRow(
+                glyph: SheetGlyph.ask,
+                title: 'Ask your record',
+                note: 'Questions about your marks and chapters, answered from what you have done.',
+                onTap: () => go(AppRoutes.ask),
+              ),
+            ],
           ],
-          if (repair != null) ...[
-            const SizedBox(height: MmSpace.s8),
-            QuickStartRow(
-              glyph: SheetGlyph.repair,
-              title: 'Repair the next mistake',
-              note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-              onTap: () => go(repair.location),
-            ),
-          ],
-          // Never more than five rows: Ask gives way to a resume.
-          if (offer == null || nta == null || repair == null) ...[
-            const SizedBox(height: MmSpace.s8),
-            QuickStartRow(
-              glyph: SheetGlyph.ask,
-              title: 'Ask Mobi',
-              note: 'Questions about your marks and chapters, answered from your record.',
-              onTap: () => go(AppRoutes.ask),
-            ),
-          ],
-        ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Mobi's 420 ms settle into the sheet header: rises 6 dp and grows from 0.96. Still under
+/// reduced motion.
+class _SettleIn extends StatelessWidget {
+  const _SettleIn({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduced(context)) return child;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Mobi.settleDuration,
+      curve: Motion.emphasized,
+      child: child,
+      builder: (context, t, child) => Transform.translate(
+        offset: Offset(0, 6 * (1 - t)),
+        child: Transform.scale(scale: 0.96 + 0.04 * t, alignment: Alignment.bottomCenter, child: child),
       ),
     );
   }

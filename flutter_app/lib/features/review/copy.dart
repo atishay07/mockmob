@@ -51,6 +51,10 @@ abstract final class ReviewCopy {
   ].join('. ');
 
   static String repairGroupKey(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';
+
+  /// A chapter whose open mistakes sit in several papers gets one key per paper, so the number
+  /// on the key is the number of steps the run holds.
+  static String repairGroupFromKey(int n, String source) => '${repairGroupKey(n)} from $source';
   static String groupExpandHint(bool expanded) => expanded ? 'Hide the questions' : 'Show the questions';
 
   static String questionLabel(int number) => 'Question $number';
@@ -71,6 +75,7 @@ abstract final class ReviewCopy {
 
   static const found = 'Found';
   static const repaired = 'Repaired';
+  static const setAsideHeading = 'Set aside while the key is checked';
   static const checked = 'Checked';
   static const holds = 'Holds';
   static const reviewed = 'Reviewed';
@@ -84,6 +89,18 @@ abstract final class ReviewCopy {
   static const emptyAction = 'Start practice';
   static const allClearTitle = 'Nothing waiting to repair';
   static const allClearMessage = "Every mistake you've found is repaired. A Quick 10 finds the next one.";
+  static String allClearSetAside(int n) =>
+      'Nothing is open. ${plural(n, 'question')} ${n == 1 ? 'is' : 'are'} set aside while the answer key is checked.';
+
+  /// Open mistakes exist, but none of them can carry tonight's repair.
+  static const noTonightTitle = 'Nothing to repair tonight';
+  static const noTonightShort =
+      "Tonight's repair comes from a mock or a 10-question check. Your open mistakes are in a shorter practice, so they wait in the list below.";
+  static const noTonightUnopened = "Your open mistakes are in a result you haven't opened yet. Open it first, then repair from it.";
+
+  /// "3 of 12 repaired": repaired mistakes of all mistakes found, nothing else.
+  static String repairsProgress(int repaired, int found) => '$repaired of $found repaired';
+  static String repairsProgressSemantics(int repaired, int found) => '$repaired of ${plural(found, 'mistake')} found so far repaired';
   static const loadErrorTitle = 'We could not load your mistakes';
   static const loadErrorMessage = 'Your record is safe. Check the connection and try again.';
   static const offlineTitle = 'You are offline';
@@ -181,7 +198,7 @@ abstract final class ReviewCopy {
   // ---- Record ---------------------------------------------------------------------------
 
   static const recordTitle = 'Repair record';
-  static const onThisPhone = 'On this phone. Repairs made on another phone show here once your record syncs.';
+  static const onThisPhone = 'This record is on this phone only. Repairs made on another phone are not shown here.';
   static const checksGate = 'Fresh checks are not available yet, so Checked and Holds stay open.';
   static String recordTitleLine(int number, String chapter) => 'Question $number, $chapter';
   static String foundOn(String when, String source) => 'Found on $when in $source.';
@@ -195,4 +212,11 @@ abstract final class ReviewCopy {
   // ---- Mistakes page --------------------------------------------------------------------
 
   static const mistakesTitle = 'Mistakes';
+
+  // ---- Loading (read by screen readers while a page loads) -------------------------------
+
+  static const loadingMistakes = 'Loading your mistakes';
+  static const loadingRecord = 'Loading your repair record';
+  static const loadingRepair = 'Loading your repair';
+  static const loadingAnswers = 'Loading the answer sheet';
 }

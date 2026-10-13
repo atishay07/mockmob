@@ -11,6 +11,7 @@ import '../../../core/models/repair.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
+import '../../rhythm/rhythm.dart' show CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 import 'mistake_index.dart';
 import 'repair_api.dart';
 import 'repair_state.dart';
@@ -106,6 +107,39 @@ class RepairRun extends Notifier<RepairRunState?> {
       // The week row and the wallet are the server's to update.
       unawaited(ref.read(rhythmRepositoryProvider.notifier).refresh());
       unawaited(ref.read(creditsRepositoryProvider.notifier).refresh());
+      unawaited(_celebrate(s));
+    }
+  }
+
+  /// The run's repairs were acknowledged by the server: fire the one `repairFinished` moment
+  /// (consuming `first_repair` for a first repair, so Today never celebrates it a second time).
+  /// The ending screen draws its own receipt, so nothing else is mounted for it. Skipped while
+  /// the student has turned the weekly rhythm off, so the moment is not spent unseen.
+  Future<void> _celebrate(RepairRunState s) async {
+    try {
+      await ref.read(rhythmPrefsProvider.notifier).ensureLoaded();
+      if (!ref.read(rhythmVisibleProvider)) return;
+      RepairStep? first;
+      for (final step in s.steps) {
+        if (step.countsAsRepaired && (step.outcome as OutcomeExplained).requestId != null) {
+          first = step;
+          break;
+        }
+      }
+      final at = s.lastAckedAt;
+      if (first == null || at == null) return;
+      final controller = ref.read(celebrationControllerProvider.notifier);
+      controller.clearScope(CelebrationScope.repair(attemptId));
+      await controller.celebrate(
+        CelebrationEvent.repairFinished(
+          attemptId: attemptId,
+          firstRequestId: (first.outcome as OutcomeExplained).requestId!,
+          at: at,
+          firstEver: !s.repairedBefore,
+        ),
+      );
+    } on Object {
+      // The ending is already on screen; a missed moment never breaks it.
     }
   }
 
@@ -149,7 +183,7 @@ class RepairRun extends Notifier<RepairRunState?> {
         case RepairStatus.explained || RepairStatus.stored:
           if (!wasRepaired) await _repo.recordOutcome(attemptId: attemptId, questionId: qid, status: r.status.wire, requestId: requestId);
           unawaited(ref.read(hapticsProvider).settle());
-          return OutcomeExplained(r, ackedAt: ackedAt, reopened: wasRepaired);
+          return OutcomeExplained(r, ackedAt: ackedAt, reopened: wasRepaired, requestId: requestId);
         case RepairStatus.heldForRecheck:
           await _repo.recordOutcome(attemptId: attemptId, questionId: qid, status: RepairLocalStatus.heldForRecheck, requestId: requestId);
           return const OutcomeSetAside(heldByServer: true);

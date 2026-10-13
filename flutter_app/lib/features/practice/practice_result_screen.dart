@@ -66,6 +66,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   final ScrollController _scroll = ScrollController();
   bool _seeded = false;
   bool _finished = false;
+
+  /// Whether the moment plays, read once from the pending-result row on the first build that has
+  /// it and then held, so marking the result opened can never flip it mid-moment.
+  bool? _fresh;
   Timer? _leaveTimer;
   PracticeResultModel? _model;
 
@@ -200,7 +204,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       return ResultFootAction(PracticeCopy.tryTheBlanks, () => _jumpTo(model.blank.first));
     }
     final location = Uri(path: AppRoutes.practiceSetup('chapter'), queryParameters: {'subject': _publicSubject(attempt)}).toString();
-    return ResultFootAction(PracticeCopy.practiseAnotherChapter, () => context.go(location));
+    return ResultFootAction(PracticeCopy.practiceAnotherChapter, () => context.go(location));
   }
 
   @override
@@ -213,6 +217,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final attempt = detail?.attempt ?? cached;
     final receivedState = ref.watch(resultReceivedAtProvider(id));
     final fresh = ref.watch(finishFreshProvider(id));
+    if (fresh.hasValue) _fresh ??= fresh.requireValue;
 
     if (attempt == null) {
       return ResultNoAttempt(state: detailState, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true));
@@ -232,6 +237,11 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final large = MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
     final failedKeys = detail == null && detailState.error != null && !detailState.loading;
     final marks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
+    // The moment plays on the real sheet: straight from the cached attempt (the submit put it
+    // there with its rows), without waiting for the full result read. Only when the cache has no
+    // rows does a fresh moment wait for them, and only until the read has settled either way.
+    final rowsSettled = model.hasRows || detail != null || failedKeys;
+    final isFresh = _fresh;
 
     return PopScope(
       // Opened by link or straight after a session there is nothing to go back to: back
@@ -258,20 +268,23 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                           padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
                           children: [
                             // The moment waits the few milliseconds it takes to know whether
-                            // this is the first open, so it never plays twice or not at all.
-                            if (fresh.hasValue)
+                            // this is the first open (so it never plays twice or not at all), and
+                            // for the sheet's rows; meanwhile Mobi reads the sheet. Keyed by the
+                            // number of bubbles, so rows that arrive late ink in from the start.
+                            if (isFresh != null && (!isFresh || rowsSettled))
                               FinishStage(
+                                key: ValueKey('finish-${model.cells.length}'),
                                 marks: marks,
                                 cells: model.cells,
                                 tone: finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt)),
                                 recordedAt: recordedAt,
-                                fresh: fresh.requireValue,
+                                fresh: isFresh,
                                 subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
                                 chapter: chapter,
                                 onCellTap: model.hasRows ? _tapCell : null,
                               )
                             else
-                              const SizedBox(height: 320),
+                              const ResultReading(),
                             if (detailState.isStale && detailState.fetchedAt != null) ...[
                               const SizedBox(height: MmSpace.s12),
                               Text(

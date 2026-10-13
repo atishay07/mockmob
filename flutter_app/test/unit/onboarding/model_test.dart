@@ -112,6 +112,42 @@ void main() {
       expect(FirstMove.of(a).subject.hasStartingPoint, isTrue);
     });
 
+    test('a physics-only student gets honest practice, not a starting point', () {
+      final a = _student().copyWith(subjects: const [SheetSubject.physics], confidence: const {});
+      final move = FirstMove.of(a);
+      expect(move.subject, SheetSubject.physics);
+      expect(move.isStartingPoint, isFalse);
+      expect(move.startLabel, 'Start with 10 questions in Physics');
+      expect(move.line, 'First practice: 10 questions in Physics');
+      expect(move.unit, isNot(contains('starting point')));
+      expect(move.title, isNot(contains('starting point')));
+      expect(move.route, '/practice/setup/quick?subject=physics&count=10', reason: 'the plain practice path, no baseline allowance');
+      expect(PlanSummary.of(a, _now).lines.join(' '), isNot(contains('starting point')));
+    });
+
+    test('a Political Science-only student gets the same, whatever the worry', () {
+      for (final w in [null, ...Worry.values]) {
+        final a = _student(worry: w).copyWith(subjects: const [SheetSubject.politicalScience], confidence: const {});
+        final move = FirstMove.of(a);
+        expect(move.subject, SheetSubject.politicalScience, reason: '$w');
+        expect(move.isStartingPoint, isFalse);
+        expect(move.startLabel, 'Start with 10 questions in Political Science');
+        expect(move.route, isNot(contains('baseline')));
+      }
+    });
+
+    test('one starting-point subject among science ones is the one used', () {
+      final a = _student().copyWith(
+        subjects: const [SheetSubject.physics, SheetSubject.chemistry, SheetSubject.english],
+        confidence: const {SheetSubject.physics: Confidence.shaky, SheetSubject.english: Confidence.strong},
+      );
+      final move = FirstMove.of(a);
+      expect(move.subject, SheetSubject.english);
+      expect(move.isStartingPoint, isTrue);
+      expect(move.startLabel, OnboardingCopy.startNow);
+      expect(move.route, contains('purpose=baseline'));
+    });
+
     test('later is tonight before the window opens and tomorrow after', () {
       final move = FirstMove.of(_student());
       expect(move.laterLabel(DateTime(2026, 10, 13, 18)), 'Tonight at 8:00 PM');

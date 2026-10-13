@@ -6,22 +6,80 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show Bubble, BubbleState;
+import '../copy.dart';
 import '../logic/plan_week.dart';
 
 class PlanWeekStrip extends StatelessWidget {
-  const PlanWeekStrip({super.key, required this.days, this.bubble = 22, this.showDates = false});
+  const PlanWeekStrip({super.key, required this.days, this.bubble = 22, this.showDates = false, this.daySemantics = false});
 
   final List<PlanDay> days;
   final double bubble;
   final bool showDates;
 
+  /// Each day is its own screen-reader stop ("Wednesday, today, planned study day"). Off where
+  /// the strip sits inside a control that reads [describe] as one label (Today's week row).
+  final bool daySemantics;
+
   String describe() => days.map((d) => d.describe()).join('; ');
 
   @override
   Widget build(BuildContext context) {
+    final row = Row(
+      children: [
+        for (final d in days)
+          Expanded(
+            child: daySemantics
+                ? Semantics(container: true, label: d.describe(), excludeSemantics: true, child: _DayColumn(day: d, bubble: bubble, showDate: showDates))
+                : _DayColumn(day: d, bubble: bubble, showDate: showDates),
+          ),
+      ],
+    );
+    return daySemantics ? row : ExcludeSemantics(child: row);
+  }
+}
+
+/// The one-line key under the strip: a small mark and its word, for each kind of mark the strip
+/// shows now (owner 13 Oct: every dot must mean something, so the marks are named). Decorative
+/// for screen readers, which read each day in words.
+class PlanWeekKey extends StatelessWidget {
+  const PlanWeekKey({super.key, required this.days});
+
+  final List<PlanDay> days;
+
+  static BubbleState stateOf(PlanDayMark mark) => switch (mark) {
+        PlanDayMark.done => BubbleState.filled,
+        PlanDayMark.rest => BubbleState.rest,
+        PlanDayMark.planned || PlanDayMark.open => BubbleState.hollow,
+      };
+
+  static String wordOf(PlanDayMark mark) => switch (mark) {
+        PlanDayMark.done => RhythmCopy.keyCounted,
+        PlanDayMark.planned => RhythmCopy.keyPlanned,
+        PlanDayMark.rest => RhythmCopy.keyRest,
+        PlanDayMark.open => RhythmCopy.keyOpen,
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final shown = {for (final d in days) d.mark};
+    final marks = [for (final m in PlanDayMark.values) if (shown.contains(m)) m];
     return ExcludeSemantics(
-      child: Row(
-        children: [for (final d in days) Expanded(child: _DayColumn(day: d, bubble: bubble, showDate: showDates))],
+      child: Wrap(
+        spacing: MmSpace.s16,
+        runSpacing: MmSpace.s4,
+        children: [
+          for (final m in marks)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Opacity(opacity: m == PlanDayMark.open ? 0.55 : 1, child: Bubble(state: stateOf(m), size: 12, animate: false)),
+                const SizedBox(width: MmSpace.s6),
+                Text(wordOf(m), style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink2)),
+              ],
+            ),
+        ],
       ),
     );
   }
@@ -34,11 +92,7 @@ class _DayColumn extends StatelessWidget {
   final double bubble;
   final bool showDate;
 
-  BubbleState get _state => switch (day.mark) {
-        PlanDayMark.done => BubbleState.filled,
-        PlanDayMark.rest => BubbleState.rest,
-        PlanDayMark.planned || PlanDayMark.open => BubbleState.hollow,
-      };
+  BubbleState get _state => PlanWeekKey.stateOf(day.mark);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +106,8 @@ class _DayColumn extends StatelessWidget {
       color: today ? colors.ink : (day.mark == PlanDayMark.rest ? colors.ink3 : colors.ink2),
       letterSpacing: 0.4,
     );
-    // A planned day ahead is a brighter ring than a day with nothing planned, so the plan reads
-    // at a glance without a legend.
+    // A planned day ahead is a brighter ring than a day with nothing planned; [PlanWeekKey]
+    // names each mark under the strip.
     final planned = day.mark == PlanDayMark.planned;
     final mark = Opacity(
       opacity: day.mark == PlanDayMark.open && !today ? 0.55 : 1,

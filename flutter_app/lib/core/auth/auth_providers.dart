@@ -36,5 +36,9 @@ final authServiceProvider = FutureProvider<AuthService?>(
     await service.restore();
     return service;
   },
+  // The provider itself never retries: nobody listens to it between reads, so a provider-level
+  // retry would leave the first read hanging. A failed start is retried by AuthController
+  // (timed retries, then the student's own retry), which invalidates this provider each time. A
+  // build without Supabase is a null result, not an error, and never retries.
   retry: (retryCount, error) => null,
 );

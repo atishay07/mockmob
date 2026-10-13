@@ -74,13 +74,14 @@ class _Pip extends StatelessWidget {
   }
 }
 
-/// The pips of a finished run, filling one after another once when the screen opens (about 70 ms
-/// apart). With reduced motion they are simply full. A quiet picture of cards put away, not a
-/// celebration.
+/// The pips of a finished run, filling one after another once when the screen opens (70 ms
+/// apart): one pip per card or step put away. With reduced motion they are simply full.
+/// [onSettled] runs once the last pip is in, so the ending can follow the inking.
 class SettlingPips extends StatefulWidget {
-  const SettlingPips({super.key, required this.total});
+  const SettlingPips({super.key, required this.total, this.onSettled});
 
   final int total;
+  final VoidCallback? onSettled;
 
   @override
   State<SettlingPips> createState() => _SettlingPipsState();
@@ -96,14 +97,20 @@ class _SettlingPipsState extends State<SettlingPips> {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (Motion.reduced(context)) {
+    if (Motion.reduced(context) || widget.total <= 0) {
       _filled = widget.total;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onSettled?.call();
+      });
       return;
     }
     _timer = Timer.periodic(const Duration(milliseconds: 70), (t) {
       if (!mounted) return;
       setState(() => _filled++);
-      if (_filled >= widget.total) t.cancel();
+      if (_filled >= widget.total) {
+        t.cancel();
+        widget.onSettled?.call();
+      }
     });
   }
 

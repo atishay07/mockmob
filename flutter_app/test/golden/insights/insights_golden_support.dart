@@ -64,6 +64,7 @@ class _FixedSave extends SaveController {
 List<Override> insightsOverrides({
   RemoteState<PrepInsights>? insights,
   List<Attempt>? attempts,
+  RemoteState<List<Attempt>>? attemptsState,
   bool pro = false,
   RemoteState<SavedList>? saved,
   StreamState? stream,
@@ -78,7 +79,9 @@ List<Override> insightsOverrides({
     ),
     nowProvider.overrideWithValue(() => _evening),
     insightsRepositoryProvider.overrideWithBuild((ref, n) => record),
-    insightsInputsProvider.overrideWithValue(InsightsInputs(insights: record, attempts: attempts ?? trendAttempts(), pro: pro)),
+    insightsInputsProvider.overrideWithValue(
+      InsightsInputs(insights: record, attempts: attempts ?? trendAttempts(), attemptsState: attemptsState, pro: pro),
+    ),
     savedRepositoryProvider.overrideWithBuild((ref, n) => saved ?? const RemoteState()),
     creditsRepositoryProvider.overrideWithBuild(
       (ref, n) => RemoteState(value: credits ?? const AiCredits(state: 'available', wallet: AiWallet(known: true, spendable: 18))),

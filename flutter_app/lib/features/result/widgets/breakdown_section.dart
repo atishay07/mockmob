@@ -74,12 +74,10 @@ class _BreakdownSectionState extends State<BreakdownSection> {
           ),
         ],
         const SizedBox(height: MmSpace.s4),
+        // A 32 dp pill inside a 48 dp target, on the gutter like the Show me pill.
         Align(
           alignment: Alignment.centerLeft,
-          child: KeyButton.quiet(
-            label: _arithmetic ? ResultCopy.hideArithmetic : ResultCopy.showArithmetic,
-            onPressed: () => setState(() => _arithmetic = !_arithmetic),
-          ),
+          child: _ArithmeticToggle(open: _arithmetic, onTap: () => setState(() => _arithmetic = !_arithmetic)),
         ),
         if (_arithmetic)
           Semantics(
@@ -87,6 +85,50 @@ class _BreakdownSectionState extends State<BreakdownSection> {
             child: Text(ResultCopy.arithmetic(b.correct, b.wrong, b.scored), style: type.title.copyWith(color: colors.ink)),
           ),
       ],
+    );
+  }
+}
+
+class _ArithmeticToggle extends StatelessWidget {
+  const _ArithmeticToggle({required this.open, required this.onTap});
+
+  final bool open;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final label = open ? ResultCopy.hideArithmetic : ResultCopy.showArithmetic;
+    return MmPressable(
+      semanticsLabel: label,
+      focusRadius: MmRadius.pillAll,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox(
+        height: MmTarget.min,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          widthFactor: 1,
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              color: pressed ? colors.raised2 : colors.ground.withValues(alpha: colors.isNight ? 0.55 : 0.6),
+              shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+            ),
+            child: SizedBox(
+              height: 32,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Center(
+                  widthFactor: 1,
+                  child: Text(
+                    label,
+                    style: context.mmType.caption.copyWith(fontSize: 13, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

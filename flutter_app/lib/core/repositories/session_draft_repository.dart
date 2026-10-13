@@ -34,7 +34,9 @@ class SessionDraftRepository {
 
   Future<void> save(SessionDraft draft) async {
     final updated = _scope.now().millisecondsSinceEpoch;
-    await _db.into(_db.sessionDrafts).insertOnConflictUpdate(
+    await _db
+        .into(_db.sessionDrafts)
+        .insertOnConflictUpdate(
           SessionDraftsCompanion.insert(
             draftKey: draft.draftKey,
             userId: draft.userId,
@@ -46,6 +48,38 @@ class SessionDraftRepository {
             updatedAtMs: updated,
           ),
         );
+  }
+
+  /// The key an archived draft lives under: one per session id, so it never meets a selection.
+  static String archiveKeyOf(String sessionId) => 'archive:$sessionId';
+
+  /// Moves a rejected or still-owed draft out of its selection's row, so the next session with
+  /// the same selection cannot overwrite it. Its answer journal is untouched (it is keyed by
+  /// session id already); the draft keeps its flags, so the backup job, the sign-out count and
+  /// any later review still find it. The write is one transaction: the draft is archived or it
+  /// stays where it was.
+  Future<void> archive(SessionDraft draft) async {
+    final key = archiveKeyOf(draft.sessionId);
+    final updated = draft.updatedAtMs > 0 ? draft.updatedAtMs : _scope.now().millisecondsSinceEpoch;
+    await _db.transaction(() async {
+      await _db
+          .into(_db.sessionDrafts)
+          .insertOnConflictUpdate(
+            SessionDraftsCompanion.insert(
+              draftKey: key,
+              userId: draft.userId,
+              sessionId: draft.sessionId,
+              generationKey: draft.generationKey,
+              payloadJson: jsonEncode({...draft.toJson(), 'draftKey': key, 'updatedAtMs': updated}),
+              endsAtMs: draft.endsAtWallMs,
+              pendingSubmission: Value(draft.pendingSubmission),
+              updatedAtMs: updated,
+            ),
+          );
+      await (_db.delete(
+        _db.sessionDrafts,
+      )..where((t) => t.userId.equals(draft.userId) & t.draftKey.equals(draft.draftKey) & t.sessionId.equals(draft.sessionId))).go();
+    });
   }
 
   SessionDraft? _decode(SessionDraftRow? row) {
@@ -103,11 +137,12 @@ class SessionDraftRepository {
   Future<SessionDraft?> latest() async {
     final id = _scope.userIdOrNull;
     if (id == null) return null;
-    final row = await (_db.select(_db.sessionDrafts)
-          ..where((t) => t.userId.equals(id))
-          ..orderBy([(t) => OrderingTerm.desc(t.updatedAtMs)])
-          ..limit(1))
-        .getSingleOrNull();
+    final row =
+        await (_db.select(_db.sessionDrafts)
+              ..where((t) => t.userId.equals(id))
+              ..orderBy([(t) => OrderingTerm.desc(t.updatedAtMs)])
+              ..limit(1))
+            .getSingleOrNull();
     return _decode(row);
   }
 
@@ -149,7 +184,9 @@ class SessionDraftRepository {
     }
     // Charset [A-Za-z0-9_-], 12 to 100 characters.
     final key = const Uuid().v4();
-    await _db.into(_db.cacheEntries).insertOnConflictUpdate(
+    await _db
+        .into(_db.cacheEntries)
+        .insertOnConflictUpdate(
           CacheEntriesCompanion.insert(userId: id, cacheKey: cacheKey, json: jsonEncode({'key': key}), fetchedAtMs: now.millisecondsSinceEpoch),
         );
     return key;

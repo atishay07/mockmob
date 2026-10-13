@@ -6,9 +6,13 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
 class RingSweep extends StatefulWidget {
-  const RingSweep({super.key, this.size = 44, this.animate = true});
+  const RingSweep({super.key, this.size = 44, this.animate = true, this.label});
 
   final double size;
+
+  /// What the ring means, read by screen readers ("Week done" for a met week). Null leaves the
+  /// ring to the words beside it, so it is never read out for a moment it does not describe.
+  final String? label;
 
   /// False draws the finished ring at once.
   final bool animate;
@@ -42,18 +46,16 @@ class _RingSweepState extends State<RingSweep> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Semantics(
-      label: 'Week done',
-      image: true,
-      child: ExcludeSemantics(
-        child: RepaintBoundary(
-          child: CustomPaint(
-            size: Size.square(widget.size),
-            painter: _RingPainter(progress: CurvedAnimation(parent: _controller, curve: Motion.out), color: colors.ink, track: colors.line),
-          ),
+    final ring = ExcludeSemantics(
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size.square(widget.size),
+          painter: _RingPainter(progress: CurvedAnimation(parent: _controller, curve: Motion.out), color: colors.ink, track: colors.line),
         ),
       ),
     );
+    final label = widget.label;
+    return label == null ? ring : Semantics(label: label, image: true, child: ring);
   }
 }
 

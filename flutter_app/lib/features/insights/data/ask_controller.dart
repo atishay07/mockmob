@@ -33,9 +33,10 @@ class AskMessage {
         actions = const [],
         sending = false,
         failure = null,
-        balance = null;
+        balance = null,
+        requestId = null;
 
-  const AskMessage.reply(this.text, {required AskOrigin this.origin, this.actions = const []})
+  const AskMessage.reply(this.text, {required AskOrigin this.origin, this.actions = const [], this.requestId})
       : fromStudent = false,
         sending = false,
         failure = null,
@@ -48,14 +49,16 @@ class AskMessage {
         actions = const [],
         sending = true,
         failure = null,
-        balance = null;
+        balance = null,
+        requestId = null;
 
   const AskMessage.failed(AskFailure this.failure, {this.balance})
       : fromStudent = false,
         text = '',
         origin = null,
         actions = const [],
-        sending = false;
+        sending = false,
+        requestId = null;
 
   final bool fromStudent;
   final String text;
@@ -68,6 +71,12 @@ class AskMessage {
 
   /// Credits the server said the student has, on [AskFailure.noCredits].
   final int? balance;
+
+  /// The request that produced a server reply, so a report names exactly that reply.
+  final String? requestId;
+
+  /// Written by a model: carries the "can be wrong" line and Report this reply.
+  bool get isModel => origin == AskOrigin.model;
 }
 
 class AskState {
@@ -93,6 +102,14 @@ class AskController extends Notifier<AskState> {
   AskState build() {
     ref.watch(authSnapshotProvider.select((s) => s.userId));
     return const AskState();
+  }
+
+  /// True when [raw] is answered on the phone from the record, so nothing leaves the phone.
+  bool answersOnPhone(String raw) {
+    final text = raw.trim();
+    if (text.isEmpty || text.length > askMaxChars) return true;
+    final insights = ref.read(insightsRepositoryProvider).value;
+    return insights != null && answerFromInsights(text, insights, pro: ref.read(insightsProProvider)) != null;
   }
 
   Future<void> send(String raw) async {
@@ -124,6 +141,7 @@ class AskController extends Notifier<AskState> {
 
   Future<void> _post() async {
     final text = _pendingText!;
+    final requestId = _pendingRequestId;
     try {
       final res = await ref.read(apiClientProvider).post('/api/ai/mentor/chat', body: {
         'message': text,
@@ -144,7 +162,7 @@ class AskController extends Notifier<AskState> {
       _pendingText = null;
       _pendingRequestId = null;
       state = AskState(
-        messages: [..._withoutLast(), AskMessage.reply(asStringOr(body['reply'], ''), origin: origin, actions: actions)],
+        messages: [..._withoutLast(), AskMessage.reply(asStringOr(body['reply'], ''), origin: origin, actions: actions, requestId: requestId)],
         sessionId: asString(body['sessionId']) ?? state.sessionId,
       );
       if (origin == AskOrigin.model) ref.read(creditsRepositoryProvider.notifier).refresh();

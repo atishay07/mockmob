@@ -44,7 +44,7 @@ void main() {
 
     final gesture = await tester.startGesture(tester.getCenter(find.text('Start repair')));
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 120));
+    await tester.pump(const Duration(milliseconds: 400));
     expect(presses, 0, reason: 'nothing commits on pointer down');
     expect(_depth(tester), closeTo(1, 0.01), reason: 'the face is flush while held');
 
@@ -67,12 +67,12 @@ void main() {
     );
     final gesture = await tester.startGesture(tester.getCenter(find.text('Start repair')));
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 120));
+    await tester.pump(const Duration(milliseconds: 400));
     expect(_depth(tester), closeTo(1, 0.01));
     await gesture.moveBy(const Offset(0, 300));
     await gesture.up();
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(const Duration(milliseconds: 400));
     expect(presses, 0);
     expect(driver.calls, isEmpty);
     expect(_depth(tester), closeTo(0, 0.01));

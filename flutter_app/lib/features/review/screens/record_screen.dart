@@ -28,7 +28,9 @@ class RecordScreen extends ConsumerWidget {
 
     final Widget body;
     if (entries == null) {
-      body = Center(child: MmSpinner(color: context.mmColors.ink2));
+      body = Center(
+        child: Semantics(label: ReviewCopy.loadingRecord, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
+      );
     } else if (entries.isEmpty) {
       body = StateView(
         kind: StateViewKind.empty,

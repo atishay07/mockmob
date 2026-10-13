@@ -24,6 +24,9 @@ class SignInMethods extends ConsumerStatefulWidget {
     this.initialEmail = '',
     this.onForgotPassword,
     this.onPhone,
+    this.busy = false,
+    this.onBusyChanged,
+    this.onSignedIn,
   });
 
   /// The existing email-code block (email field and "Send code").
@@ -39,6 +42,17 @@ class SignInMethods extends ConsumerStatefulWidget {
   /// Defaults to opening [AccountAccessRoutes.phoneSignIn].
   final VoidCallback? onPhone;
 
+  /// The screen's own email-code form is working (sending a code): hold Google, the method
+  /// choice and the phone key until it is done.
+  final bool busy;
+
+  /// Tells the screen when Google or the password form is working, so it can hold its own keys.
+  final ValueChanged<bool>? onBusyChanged;
+
+  /// Google or the password signed the student in (on the spot or through the browser). The
+  /// router moves on by itself; this is for what the screen does besides.
+  final VoidCallback? onSignedIn;
+
   @override
   ConsumerState<SignInMethods> createState() => _SignInMethodsState();
 }
@@ -47,6 +61,17 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
   late SignInMethod _method = widget.initialMethod;
   bool _googleBusy = false;
   bool _passwordBusy = false;
+
+  bool get _otherBusy => _googleBusy || _passwordBusy;
+
+  void _setBusy({bool? google, bool? password}) {
+    final before = _otherBusy;
+    setState(() {
+      _googleBusy = google ?? _googleBusy;
+      _passwordBusy = password ?? _passwordBusy;
+    });
+    if (before != _otherBusy) widget.onBusyChanged?.call(_otherBusy);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +85,9 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
       SignInMethod.password => PasswordSignInForm(
           key: const ValueKey(SignInMethod.password),
           initialEmail: widget.initialEmail,
-          busy: _googleBusy,
-          onBusyChanged: (v) => setState(() => _passwordBusy = v),
+          busy: _googleBusy || widget.busy,
+          onBusyChanged: (v) => _setBusy(password: v),
+          onSignedIn: widget.onSignedIn,
           onForgotPassword: widget.onForgotPassword ??
               () => context.push(AccountAccessRoutes.forgotPasswordFor(email: widget.initialEmail)),
         ),
@@ -71,7 +97,11 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (methods.google) ...[
-          GoogleSignInButton(busy: _passwordBusy, onBusyChanged: (v) => setState(() => _googleBusy = v)),
+          GoogleSignInButton(
+            busy: _passwordBusy || widget.busy,
+            onSignedIn: widget.onSignedIn,
+            onBusyChanged: (v) => _setBusy(google: v),
+          ),
           const SizedBox(height: MmSpace.s20),
           Row(
             children: [
@@ -92,7 +122,7 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
             MmSegment(SignInMethod.password, AccessCopy.methodPassword),
           ],
           value: _method,
-          onChanged: _googleBusy || _passwordBusy ? null : (m) => setState(() => _method = m),
+          onChanged: _otherBusy || widget.busy ? null : (m) => setState(() => _method = m),
         ),
         const SizedBox(height: MmSpace.s24),
         AnimatedSwitcher(
@@ -107,7 +137,7 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
             alignment: Alignment.centerLeft,
             child: KeyButton.quiet(
               label: AccessCopy.usePhone,
-              onPressed: _googleBusy || _passwordBusy
+              onPressed: _otherBusy || widget.busy
                   ? null
                   : widget.onPhone ?? () => context.push(AccountAccessRoutes.phoneSignIn),
             ),

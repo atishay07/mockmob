@@ -92,11 +92,7 @@ class RunnerTimer extends StatelessWidget {
           return Semantics(
             label: RunnerCopy.timerSemantics(left),
             excludeSemantics: true,
-            child: Text(
-              formatTimer(left),
-              style: style.copyWith(color: low ? colors.warnText : colors.ink),
-              textScaler: TextScaler.noScaling,
-            ),
+            child: Text(formatTimer(left), style: style.copyWith(color: low ? colors.warnText : colors.ink)),
           );
         },
       ),

@@ -12,6 +12,7 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,6 +67,7 @@ import '../unit/you/you_test_support.dart' as you;
 import 'demo_book.dart';
 import 'demo_insights.dart';
 import 'demo_questions.dart';
+import 'demo_repair.dart';
 import 'demo_session.dart';
 
 const _asha = AuthSnapshot(
@@ -95,7 +97,7 @@ class _Starter implements PracticeStarting {
       subject: selection.subjectId,
       chapter: selection.chapterLabel,
       remaining: Duration(minutes: minutes),
-      endsAt: DateTime.now().add(Duration(minutes: minutes)),
+      endsAt: clock.now().add(Duration(minutes: minutes)),
     );
     return Started(id);
   }
@@ -111,25 +113,9 @@ class _RepairApi implements RepairApi {
   @override
   Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
     await Future<void>.delayed(const Duration(milliseconds: 900));
-    final paper = demoBook.detail(attemptId)?.attempt;
-    final q = paper?.questions.where((x) => x.id == questionId).firstOrNull;
-    final chosen = paper?.detailFor(questionId)?.givenIndex;
-    final key = q?.correctIndex ?? 0;
-    String option(int? i) => q == null || i == null || i < 0 || i >= q.options.length ? '' : q.options[i].text;
-    return RepairResponse.fromJson({
-      'status': 'explained',
-      'repair': {
-        'why_tempting': chosen == null ? 'It was left blank, which costs nothing but gains nothing.' : '“${option(chosen)}” uses words from the question, so it looks right at a glance.',
-        'why_wrong': 'The answer is “${option(key)}”${chosen == null ? '' : ', not “${option(chosen)}”'}.',
-        'key_idea': q?.explanation ?? 'Work it from the definition, one line at a time.',
-        'next_step': 'Before you choose, say the rule of ${q?.chapter ?? 'this chapter'} in one line.',
-        'generatedAt': DateTime.now().toUtc().toIso8601String(),
-      },
-      'charged': 1,
-      'wallet': {'state': 'available', 'known': true, 'spendable': 8},
-      'chosenIndex': chosen ?? -1,
-      'keyIndex': key,
-    });
+    final response = demoRepairResponse(demoBook.detail(attemptId), questionId);
+    if (response == null) throw const ApiError(status: 404, kind: ApiErrorKind.notFound, code: 'not_found');
+    return response;
   }
 }
 

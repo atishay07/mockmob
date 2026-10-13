@@ -85,6 +85,13 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
     }
   }
 
+  /// A tap on a bubble of the timing track: the same jump as the palette's.
+  void _jump(int index) {
+    if (index == session.currentIndex) return;
+    unawaited(ref.read(hapticsProvider).tick());
+    goTo(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     watchNetwork();
@@ -103,6 +110,8 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
           onSelect: (qid, option) => unawaited(select(qid, option)),
           onPrevious: previous,
           onNext: next,
+          onJump: _jump,
+          onRetrySave: session.onConnectivityRestored,
         ),
       ),
     );

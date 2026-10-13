@@ -11,12 +11,17 @@ import '../copy.dart';
 /// - Saved: an inked bubble with a check. Only when the server acknowledged every answer.
 /// - Saving: a turning ring.
 /// - On this phone: a phone outline, with the count while the network holds answers back.
+/// - Not saved yet: a retry arrow, tappable. The server refused the answers and will not be asked
+///   again by itself; the answers are still on this phone.
 ///
 /// A polite live region, so TalkBack hears changes only.
 class SaveGlyph extends StatelessWidget {
-  const SaveGlyph({super.key, required this.snapshot, this.full = false});
+  const SaveGlyph({super.key, required this.snapshot, this.full = false, this.onRetry});
 
   final SaveSnapshot snapshot;
+
+  /// Called by a tap on the "Not saved yet" state.
+  final VoidCallback? onRetry;
 
   /// Spells out "waiting for network" when the line has room.
   final bool full;
@@ -26,13 +31,15 @@ class SaveGlyph extends StatelessWidget {
     SaveState.saving => RunnerCopy.saving,
     SaveState.waitingForNetwork => short ? RunnerCopy.waitingShort(s.unsyncedAnswers) : RunnerCopy.waiting(s.unsyncedAnswers),
     SaveState.onThisPhone => RunnerCopy.onThisPhone,
+    SaveState.notSaved => RunnerCopy.notSavedYet,
   };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final waiting = snapshot.state == SaveState.waitingForNetwork;
+    final notSaved = snapshot.state == SaveState.notSaved;
+    final waiting = snapshot.state == SaveState.waitingForNetwork || notSaved;
     final Widget glyph = switch (snapshot.state) {
       SaveState.saved => SizedBox.square(
         dimension: 16,
@@ -45,12 +52,14 @@ class SaveGlyph extends StatelessWidget {
         ),
       ),
       SaveState.saving => MmSpinner(color: colors.ink2, size: 14, strokeWidth: 1.8),
-      SaveState.waitingForNetwork ||
-      SaveState.onThisPhone => Icon(LucideIcons.smartphone, size: 15, color: waiting ? colors.warnText : colors.ink2),
+      SaveState.notSaved => Icon(LucideIcons.refreshCw, size: 15, color: colors.warnText),
+      SaveState.waitingForNetwork || SaveState.onThisPhone => Icon(LucideIcons.smartphone, size: 15, color: waiting ? colors.warnText : colors.ink2),
     };
-    return Semantics(
+    final row = Semantics(
       container: true,
       liveRegion: true,
+      button: notSaved && onRetry != null,
+      onTap: notSaved ? onRetry : null,
       label: wordsFor(snapshot),
       excludeSemantics: true,
       child: Row(
@@ -69,5 +78,7 @@ class SaveGlyph extends StatelessWidget {
         ],
       ),
     );
+    if (!notSaved || onRetry == null) return row;
+    return GestureDetector(behavior: HitTestBehavior.opaque, onTap: onRetry, child: row);
   }
 }

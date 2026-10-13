@@ -7,7 +7,6 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
-import '../../../core/copy/copy.dart';
 import '../../../core/models/notification_prefs.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/permissions/permission_requester.dart';
@@ -20,6 +19,7 @@ import '../../you/widgets/you_page.dart' show BackKey;
 import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
+import '../logic/reminder_plan.dart' show repairReadyKey;
 import '../services/notification_providers.dart';
 import '../services/system_settings.dart';
 import '../widgets/settings_rows.dart' show LoadingRows;
@@ -36,7 +36,8 @@ enum _Save { idle, sending, saved, failed }
 
 /// You, Notifications (spec 5.12.1). Every change is a real save: the line at the top says
 /// Sending until the server answers, then that it was saved, or that it was not and what is
-/// still in place.
+/// still in place. Changes kept only on this phone (mute, the repair switch, the fewer-reminders
+/// hint) say "Saved on this phone", never "on the server".
 class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
 
@@ -49,6 +50,9 @@ class _NotificationSettingsScreenState
     extends ConsumerState<NotificationSettingsScreen> {
   _Save _save = _Save.idle;
   DateTime? _savedAt;
+
+  /// The last save was kept on this phone only.
+  bool _savedLocal = false;
   Future<void> Function()? _retry;
   AppLifecycleListener? _lifecycle;
 
@@ -78,9 +82,10 @@ class _NotificationSettingsScreenState
   NotificationPrefsRepository get _repo =>
       ref.read(notificationPrefsRepositoryProvider.notifier);
 
-  /// Runs one change as a save. [change] must finish only after the server acknowledged it.
-  Future<void> _run(Future<void> Function() change) async {
-    _retry = () => _run(change);
+  /// Runs one change as a save. [change] must finish only after the server acknowledged it, or,
+  /// with [local], after this phone stored it.
+  Future<void> _run(Future<void> Function() change, {bool local = false}) async {
+    _retry = () => _run(change, local: local);
     setState(() => _save = _Save.sending);
     try {
       await change();
@@ -101,6 +106,7 @@ class _NotificationSettingsScreenState
     ref.invalidate(weeklyCapProvider);
     setState(() {
       _save = _Save.saved;
+      _savedLocal = local;
       _savedAt = ref.read(nowProvider)();
     });
   }
@@ -113,7 +119,19 @@ class _NotificationSettingsScreenState
       ref.read(notificationPrefsRepositoryProvider).value ??
       NotificationPrefs.defaults;
 
-  Future<void> _setChannel(String key, bool on) => _run(() async {
+  Future<void> _setChannel(String key, bool on) {
+    // Repair ready has no key on the server: its switch is kept on this phone.
+    if (key == repairReadyKey) {
+      return _run(() async {
+        final scheduler = ref.read(reminderSchedulerProvider);
+        await scheduler.setRepairReady(on);
+        if (on) await scheduler.resumeCategory(key);
+      }, local: true);
+    }
+    return _setServerChannel(key, on);
+  }
+
+  Future<void> _setServerChannel(String key, bool on) => _run(() async {
     final scheduler = ref.read(reminderSchedulerProvider);
     final needsWindow =
         on &&
@@ -211,10 +229,10 @@ class _NotificationSettingsScreenState
         await ref.read(appPrefsProvider).setWeeklyCap(n);
       }),
     ),
-    onMute: () => unawaited(ref.read(reminderSchedulerProvider).mute()),
-    onUnmute: () => unawaited(ref.read(reminderSchedulerProvider).unmute()),
+    onMute: () => unawaited(_run(() => ref.read(reminderSchedulerProvider).mute(), local: true)),
+    onUnmute: () => unawaited(_run(() => ref.read(reminderSchedulerProvider).unmute(), local: true)),
     onHintSeen: (key) => unawaited(
-      ref.read(reminderSchedulerProvider).markFewerRemindersShown(key),
+      _run(() => ref.read(reminderSchedulerProvider).markFewerRemindersShown(key), local: true),
     ),
   );
 
@@ -228,10 +246,10 @@ class _NotificationSettingsScreenState
           child: SavePill(state: SaveState.sending),
         );
       case _Save.saved:
-        return ReceiptLine(
-          text:
-              'Settings saved on the server at ${formatTime12(_inStudentZone(_savedAt!))}.',
-        );
+        final at = _inStudentZone(_savedAt!);
+        return _savedLocal
+            ? ReceiptLine(text: NotificationsCopy.savedOnPhone(at), recorded: false)
+            : ReceiptLine(text: NotificationsCopy.savedOnServer(at));
       case _Save.failed:
         return InlineBanner(
           message: NotificationsCopy.saveFailed,

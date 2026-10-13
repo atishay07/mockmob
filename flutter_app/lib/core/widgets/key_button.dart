@@ -6,6 +6,7 @@ import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'key_button_face.dart';
+import 'pressable.dart';
 
 export 'key_button_face.dart' show KeyVariant;
 
@@ -13,8 +14,9 @@ export 'key_button_face.dart' show KeyVariant;
 /// pill, [KeyButton.quiet] a text button and [KeyButton.option] a solid answer option whose
 /// bubble inks when chosen.
 ///
-/// Press: the face sinks to 0.96 the moment a finger lands (80 ms, no tap delay) and settles
-/// back in 140 ms on release; the tap commits on pointer up with the `lightImpact` haptic.
+/// Press: the face sinks to 0.96 the moment a finger lands (no tap delay) and springs back on
+/// release, on the same near-critical spring as every other surface ([MmPressSpring]); the tap
+/// commits on pointer up with the `lightImpact` haptic.
 /// Disabled pills go quiet (no volt) with an optional one-line [disabledReason] below. A
 /// loading key keeps its label and width and ignores taps.
 class KeyButton extends ConsumerStatefulWidget {
@@ -108,48 +110,41 @@ class KeyButton extends ConsumerStatefulWidget {
 }
 
 class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: Motion.keyDown,
-    reverseDuration: Motion.release,
-  );
-  late final Animation<double> _depth = CurvedAnimation(parent: _controller, curve: Motion.out);
+  late final MmPressSpring _spring = MmPressSpring(this);
   bool _focused = false;
+  bool _down0 = false;
   Offset _downAt = Offset.zero;
 
   bool get _active => widget.onPressed != null && !widget.loading;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final reduced = Motion.reduced(context);
-    _controller.duration = reduced ? Duration.zero : Motion.keyDown;
-    _controller.reverseDuration = reduced ? Duration.zero : Motion.release;
-  }
-
-  @override
   void didUpdateWidget(KeyButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!_active && _controller.value != 0) _controller.reverse();
+    if (!_active && _spring.scale.value != 1) _release();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _spring.dispose();
     super.dispose();
   }
 
   void _down(PointerDownEvent event) {
     _downAt = event.position;
-    if (_active) _controller.forward();
+    if (!_active) return;
+    _down0 = true;
+    _spring.to(Springs.pressedScale, reduced: Motion.reduced(context));
   }
 
   void _move(PointerMoveEvent event) {
     // Dragging away (a scroll, or sliding off the key) lets the face come back up.
-    if ((event.position - _downAt).distance > kTouchSlop) _release();
+    if (_down0 && (event.position - _downAt).distance > kTouchSlop) _release();
   }
 
-  void _release() => _controller.reverse();
+  void _release() {
+    _down0 = false;
+    _spring.to(1, reduced: Motion.reduced(context));
+  }
 
   void _commit() {
     if (!_active) return;
@@ -186,11 +181,12 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
           behavior: HitTestBehavior.opaque,
           onTap: _commit,
           child: AnimatedBuilder(
-            animation: _depth,
+            animation: _spring.scale,
+            // The face scales linearly with depth, so it lands exactly on the spring's scale.
             builder: (context, _) => KeyButtonFace(
               label: widget.label,
               variant: widget.variant,
-              depth: _depth.value,
+              depth: _spring.depth(),
               disabled: disabled,
               loading: widget.loading,
               selected: widget.selected,

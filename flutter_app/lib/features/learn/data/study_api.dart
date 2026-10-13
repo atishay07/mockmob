@@ -39,6 +39,11 @@ class StudyApi {
     return StudyRun.fromJson(response.map);
   }
 
+  /// `GET /api/study/summary?subject&chapter`: the published lessons of one chapter. The server
+  /// records an exposure for each, so call it only when the student opens the reader.
+  Future<Json> summary(String subject, String chapter) async =>
+      (await _client.get('/api/study/summary', query: {'subject': subject, 'chapter': chapter})).map;
+
   /// `GET /api/study/units/{id}`. The server records an exposure, so call it only when the
   /// student opens the lesson, never to prefetch.
   Future<Json> unit(String id) async => (await _client.get('/api/study/units/${Uri.encodeComponent(id)}')).map;

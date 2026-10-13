@@ -100,9 +100,67 @@ void main() {
     test('cold start unknown, then signed out, then signed in', () {
       final intended = IntendedRoute();
       expect(_redirect(AuthSnapshot.unknown, '/result/abc', intended), '/splash');
-      expect(_redirect(AuthSnapshot.signedOut, '/splash', intended), '/welcome');
+      expect(_redirect(AuthSnapshot.signedOut, '/splash', intended), '/sign-in', reason: 'a remembered link goes to sign-in');
       expect(intended.location, '/result/abc');
+      expect(_redirect(AuthSnapshot.signedOut, '/sign-in', intended), isNull);
       expect(_redirect(_signedIn, '/sign-in/code', intended), '/result/abc');
+    });
+
+    test('the splash with nothing remembered still goes to welcome', () {
+      expect(_redirect(AuthSnapshot.signedOut, '/splash', IntendedRoute()), '/welcome');
+    });
+  });
+
+  group('a remembered link goes stale (navigation-07)', () {
+    test('it is dropped after about ten minutes', () {
+      var now = DateTime(2026, 10, 13, 21);
+      final intended = IntendedRoute(clock: () => now);
+      expect(_redirect(AuthSnapshot.signedOut, '/result/abc', intended), '/sign-in');
+      now = now.add(const Duration(minutes: 9, seconds: 59));
+      expect(intended.location, '/result/abc');
+      now = now.add(const Duration(seconds: 2));
+      expect(intended.location, isNull);
+      expect(_redirect(_signedIn, '/sign-in/code', intended), '/today', reason: 'an old link is not restored');
+    });
+
+    test('take returns null once stale, and forgets it', () {
+      var now = DateTime(2026, 10, 13, 21);
+      final intended = IntendedRoute(clock: () => now)..remember('/result/abc');
+      now = now.add(IntendedRoute.defaultMaxAge + const Duration(seconds: 1));
+      expect(intended.take(), isNull);
+      now = now.subtract(const Duration(minutes: 20));
+      expect(intended.location, isNull, reason: 'a stale link stays forgotten');
+    });
+
+    test('remembering again restarts the clock', () {
+      var now = DateTime(2026, 10, 13, 21);
+      final intended = IntendedRoute(clock: () => now)..remember('/a');
+      now = now.add(const Duration(minutes: 8));
+      intended.remember('/b');
+      now = now.add(const Duration(minutes: 8));
+      expect(intended.location, '/b');
+    });
+
+    test('entering welcome or onboarding forgets it', () {
+      for (final path in ['/welcome', '/onboarding/subject', '/onboarding/sample/1']) {
+        final intended = IntendedRoute()..remember('/result/abc');
+        expect(_redirect(AuthSnapshot.signedOut, path, intended), isNull, reason: path);
+        expect(intended.location, isNull, reason: path);
+      }
+    });
+
+    test('the sign-in screens keep it', () {
+      for (final path in ['/sign-in', '/sign-in/code', '/sign-in/password', '/sign-in/forgot', '/sign-in/phone']) {
+        final intended = IntendedRoute()..remember('/result/abc');
+        expect(_redirect(AuthSnapshot.signedOut, path, intended), isNull, reason: path);
+        expect(intended.location, '/result/abc', reason: path);
+      }
+    });
+
+    test('an unknown auth state on welcome does not forget it', () {
+      final intended = IntendedRoute()..remember('/result/abc');
+      expect(_redirect(AuthSnapshot.unknown, '/welcome', intended), '/splash');
+      expect(intended.location, '/result/abc');
     });
   });
 

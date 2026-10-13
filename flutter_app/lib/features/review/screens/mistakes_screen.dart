@@ -37,7 +37,9 @@ class MistakesScreen extends ConsumerWidget {
               message: ReviewCopy.loadErrorMessage,
               primary: StateAction(ReviewCopy.tryAgainKey, () => ref.read(attemptsRepositoryProvider.notifier).refresh(force: true)),
             )
-          : Center(child: MmSpinner(color: context.mmColors.ink2));
+          : Center(
+              child: Semantics(label: ReviewCopy.loadingMistakes, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
+            );
     } else if (!index.hasAnyMistake && index.blanks == null) {
       body = StateView(
         kind: StateViewKind.empty,
@@ -48,10 +50,15 @@ class MistakesScreen extends ConsumerWidget {
       );
     } else {
       final open = index.openGroups;
-      final closed = [
-        for (final g in index.groups)
-          if (g.openCount == 0) g,
-      ];
+      // Closed chapters split by outcome, item by item: a repaired mistake is never listed under
+      // "Set aside" and a set-aside one is never listed under "Repaired".
+      final repaired = <ChapterGroup>[];
+      final setAside = <ChapterGroup>[];
+      for (final g in index.groups) {
+        if (g.openCount > 0) continue;
+        if (g.onlyStage(MistakeStage.repaired) case final r?) repaired.add(r);
+        if (g.onlyStage(MistakeStage.setAside) case final a?) setAside.add(a);
+      }
       body = ListView(
         padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
         children: [
@@ -63,10 +70,15 @@ class MistakesScreen extends ConsumerWidget {
               const SizedBox(height: MmSpace.s12),
             ],
           ],
-          if (closed.isNotEmpty) ...[
+          if (repaired.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s20),
             const SectionHeading(ReviewCopy.repaired),
-            for (final g in closed) ...[ChapterGroupCard(group: g, clock: clock, onOpen: openRepair), const SizedBox(height: MmSpace.s12)],
+            for (final g in repaired) ...[ChapterGroupCard(group: g, clock: clock, onOpen: openRepair), const SizedBox(height: MmSpace.s12)],
+          ],
+          if (setAside.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s20),
+            const SectionHeading(ReviewCopy.setAsideHeading),
+            for (final g in setAside) ...[ChapterGroupCard(group: g, clock: clock, onOpen: openRepair), const SizedBox(height: MmSpace.s12)],
           ],
           if (index.blanks case final blanks?) ...[const SizedBox(height: MmSpace.s20), NotAttemptedGroup(group: blanks)],
         ],

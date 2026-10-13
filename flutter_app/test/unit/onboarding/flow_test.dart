@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/router/routes.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
@@ -11,6 +16,7 @@ import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/onboarding_routes.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
+import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
 
 import '../../golden/onboarding/support.dart';
@@ -24,7 +30,7 @@ Future<void> _settle(WidgetTester tester) async {
   }
 }
 
-Future<ProviderContainer> _pump(WidgetTester tester, {OnboardingAnswers answers = OnboardingAnswers.empty}) async {
+Future<ProviderContainer> _pump(WidgetTester tester, {OnboardingAnswers answers = OnboardingAnswers.empty, AnswersStore? store, bool settle = true}) async {
   tester.view.physicalSize = const Size(768, 1706);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -39,14 +45,14 @@ Future<ProviderContainer> _pump(WidgetTester tester, {OnboardingAnswers answers 
   );
   addTearDown(router.dispose);
   final scope = ProviderScope(
-    overrides: onboardingOverrides(answers: answers),
+    overrides: onboardingOverrides(answers: answers, store: store),
     child: DefaultAssetBundle(
       bundle: FileAssetBundle(),
       child: MaterialApp.router(theme: buildTheme(Brightness.dark), routerConfig: router),
     ),
   );
   await tester.pumpWidget(scope);
-  await _settle(tester);
+  if (settle) await _settle(tester);
   return ProviderScope.containerOf(tester.element(find.byType(MaterialApp)));
 }
 
@@ -94,7 +100,7 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text('Week one starts with Partnership.'), findsOneWidget);
-    // One control: hold to seal.
+    // Hold to seal (Seal it beside it is the plain alternative).
     final hold = await tester.startGesture(tester.getCenter(find.byType(HoldToSeal)));
     for (var i = 0; i < 16; i++) {
       await tester.pump(const Duration(milliseconds: 100));
@@ -189,4 +195,85 @@ void main() {
     expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse);
     semantics.dispose();
   });
+
+  testWidgets('Seal it seals at once, beside the hold, at a full touch target', (tester) async {
+    final c = await _pump(tester, answers: studentUpTo(Steps.rhythm, step: Steps.plan));
+    await _tap(tester, OnboardingCopy.continuePlan);
+    final seal = find.byWidgetPredicate((w) => w is KeyButton && w.label == OnboardingCopy.sealIt);
+    expect(seal, findsOneWidget);
+    expect(find.byType(HoldToSeal), findsOneWidget, reason: 'the hold stays');
+    expect(tester.getSize(seal).height, greaterThanOrEqualTo(48));
+    expect(tester.getCenter(seal).dy, moreOrLessEquals(tester.getCenter(find.byType(HoldToSeal)).dy, epsilon: 1), reason: 'one row');
+    await tester.tap(seal);
+    await _settle(tester);
+    expect(c.read(onboardingAnswersProvider).value!.sealed, isTrue);
+  });
+
+  testWidgets('Build my plan tapped before the stored sheet is read still opens the deck', (tester) async {
+    final slow = _SlowStore(const OnboardingAnswers(step: Steps.stage));
+    await _pump(tester, store: slow, settle: false);
+    await tester.pump();
+    expect(find.text(OnboardingCopy.buildPlan), findsOneWidget);
+    await tester.tap(find.text(OnboardingCopy.buildPlan));
+    await tester.pump();
+    expect(find.text(OnboardingCopy.stageTitle), findsNothing, reason: 'not read yet');
+    slow.gate.complete();
+    await _settle(tester);
+    expect(find.text(OnboardingCopy.stageTitle), findsOneWidget);
+  });
+
+  testWidgets('a sheet that cannot be read is never shown as new or written over', (tester) async {
+    final prefs = _FailingPrefs()..values[AnswersStore.key] = jsonEncode(studentUpTo(Steps.subjects, step: Steps.worry).toJson());
+    final c = await _pump(tester, store: AnswersStore(prefs));
+    expect(find.text(OnboardingCopy.continuePlan), findsNothing);
+    expect(find.text(OnboardingCopy.sheetUnreadable), findsOneWidget);
+    await _tap(tester, OnboardingCopy.tryAgain);
+    expect(find.text(OnboardingCopy.stageTitle), findsNothing);
+    expect(prefs.saved, isEmpty, reason: 'no empty sheet saved over the real one');
+    expect(c.read(onboardingAnswersProvider).hasError, isTrue);
+
+    // Storage comes back: the next tap reads the real sheet and picks up where it was.
+    prefs.fail = false;
+    await _tap(tester, OnboardingCopy.tryAgain);
+    expect(find.text(OnboardingCopy.worryTitle), findsOneWidget);
+  });
+
+  testWidgets('course Next says why it waits', (tester) async {
+    await _pump(tester, answers: studentUpTo(Steps.stage, step: Steps.course).copyWith(courseId: 'b-com-hons'));
+    await _tap(tester, OnboardingCopy.continuePlan);
+    expect(find.text(OnboardingCopy.ladderTitle), findsOneWidget);
+    expect(find.text(OnboardingCopy.pickCollege), findsOneWidget);
+    await _tap(tester, 'Hindu College');
+    expect(find.text(OnboardingCopy.pickCollege), findsNothing);
+  });
+}
+
+class _SlowStore extends AnswersStore {
+  _SlowStore(this.answers) : super(MemoryPrefsStore());
+
+  final OnboardingAnswers answers;
+  final Completer<void> gate = Completer<void>();
+
+  @override
+  Future<OnboardingAnswers> load() async {
+    await gate.future;
+    return answers;
+  }
+}
+
+class _FailingPrefs extends MemoryPrefsStore {
+  bool fail = true;
+  final List<String> saved = [];
+
+  @override
+  Future<String?> getString(String key) async {
+    if (fail) throw StateError('storage unavailable');
+    return super.getString(key);
+  }
+
+  @override
+  Future<void> setString(String key, String value) async {
+    if (key == AnswersStore.key) saved.add(value);
+    return super.setString(key, value);
+  }
 }

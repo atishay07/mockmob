@@ -53,7 +53,7 @@ class WeeklyEndingCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              if (ring) ...[const RingSweep(size: 36), const SizedBox(width: MmSpace.s12)],
+              if (ring) ...[const RingSweep(size: 36, label: RhythmCopy.weekDoneLabel), const SizedBox(width: MmSpace.s12)],
               Expanded(child: Semantics(header: true, child: Text(RhythmCopy.endingTitle, style: type.subhead))),
               Semantics(
                 button: true,
@@ -144,6 +144,7 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
     });
     final actions = ref.read(rhythmActionsProvider);
     String? confirmation;
+    // The server write first: only its failure is "could not save".
     try {
       switch (key.action) {
         case EndingAction.keep:
@@ -157,10 +158,23 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
           final date = parseIsoDate(until);
           confirmation = RhythmCopy.endingRestWeek(date == null ? until : formatDayMonthDate(date));
       }
-      await actions.dismissWeeklyEnding(data);
-      if (mounted) setState(() => _confirmation = confirmation);
     } on Object {
-      if (mounted) _error = RhythmCopy.endingActionFailed;
+      if (mounted) {
+        setState(() {
+          _error = RhythmCopy.endingActionFailed;
+          _busy = false;
+        });
+      }
+      return;
+    }
+    // The change is saved: say so now, whatever happens to the local dismissal.
+    if (mounted) setState(() => _confirmation = confirmation);
+    // Remembering that the card was seen is local and best effort. If it fails the card stays,
+    // with the saved line under it, and the next visit can close it.
+    try {
+      await actions.dismissWeeklyEnding(data);
+    } on Object {
+      // Nothing was lost: the goal or pause above is already saved on the server.
     }
     if (mounted) setState(() => _busy = false);
   }
@@ -176,13 +190,20 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
       if (mounted) _celebrate(data);
     });
     final celebration = ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.weeklyEnding(data.weekId)]));
-    return WeeklyEndingCard(
+    final card = WeeklyEndingCard(
       data: data,
       ring: celebration?.ring ?? false,
       busy: _busy,
       errorText: _error,
       onKey: (key) => _onKey(data, key),
       onDismiss: () => _onKey(data, const EndingKey(EndingAction.keep, '')),
+    );
+    final done = _confirmation;
+    if (done == null) return card;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [card, const SizedBox(height: MmSpace.s8), ReceiptLine(text: done)],
     );
   }
 }

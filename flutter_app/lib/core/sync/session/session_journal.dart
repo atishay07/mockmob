@@ -11,13 +11,11 @@ import 'session_clock.dart';
 /// Rules from contract section 3, enforced here and unit tested:
 /// - `seq` starts at 1 and rises by 1, with no gaps, up to 5,000 events,
 /// - `at` is an integer number of milliseconds on the session clock and never decreases,
-/// - an event is written to the database before it is returned, so the UI shows an answer
-///   selected only once it is on the phone,
+/// - an event is returned only once it is in the database; the engine shows a tapped answer
+///   at once and rolls it back if that write fails,
 /// - the log only grows, so every resend is a byte-identical prefix of the next one.
 class SessionJournal {
-  SessionJournal._(this._db, this.userId, this.sessionId, List<SessionEvent> events, DateTime Function() now)
-      : _events = events,
-        _now = now;
+  SessionJournal._(this._db, this.userId, this.sessionId, List<SessionEvent> events, DateTime Function() now) : _events = events, _now = now;
 
   /// Hard server limit on events in one session.
   static const maxEvents = 5000;
@@ -34,13 +32,12 @@ class SessionJournal {
 
   /// Loads the session's stored events.
   static Future<SessionJournal> open(AppDatabase db, {required String userId, required String sessionId, DateTime Function()? now}) async {
-    final rows = await (db.select(db.answerJournal)
-          ..where((t) => t.userId.equals(userId) & t.sessionId.equals(sessionId))
-          ..orderBy([(t) => OrderingTerm.asc(t.seq)]))
-        .get();
-    final events = [
-      for (final r in rows) SessionEvent(seq: r.seq, qid: r.qid, type: r.type, at: r.atMs, answer: r.answer),
-    ];
+    final rows =
+        await (db.select(db.answerJournal)
+              ..where((t) => t.userId.equals(userId) & t.sessionId.equals(sessionId))
+              ..orderBy([(t) => OrderingTerm.asc(t.seq)]))
+            .get();
+    final events = [for (final r in rows) SessionEvent(seq: r.seq, qid: r.qid, type: r.type, at: r.atMs, answer: r.answer)];
     return SessionJournal._(db, userId, sessionId, events, now ?? DateTime.now);
   }
 
@@ -66,9 +63,9 @@ class SessionJournal {
 
   /// Questions with an answer event the server has not acknowledged (a clear counts too).
   Set<String> unsyncedQuestionIds(int acknowledgedSequence) => {
-        for (final e in _events)
-          if (e.isAnswer && e.seq > acknowledgedSequence) e.qid,
-      };
+    for (final e in _events)
+      if (e.isAnswer && e.seq > acknowledgedSequence) e.qid,
+  };
 
   /// How many questions had an answer as of event [seq]: the "31 answers sent before then"
   /// figure, counted from the journal up to `acknowledgedSequence`.
@@ -80,6 +77,9 @@ class SessionJournal {
     }
     return answered.values.where((v) => v).length;
   }
+
+  /// Completes when every write queued so far has finished (a failed write never fails the queue).
+  Future<void> idle() => _queue;
 
   /// Records that the student is now looking at [qid]. Returns null when the log is nearly
   /// full and visits are no longer recorded.
@@ -100,14 +100,10 @@ class SessionJournal {
           result.complete(null);
           return;
         }
-        final event = SessionEvent(
-          seq: lastSeq + 1,
-          qid: qid,
-          type: type,
-          at: clock.eventAt(lastAt),
-          answer: isAnswer ? answer : null,
-        );
-        await _db.into(_db.answerJournal).insert(
+        final event = SessionEvent(seq: lastSeq + 1, qid: qid, type: type, at: clock.eventAt(lastAt), answer: isAnswer ? answer : null);
+        await _db
+            .into(_db.answerJournal)
+            .insert(
               AnswerJournalCompanion.insert(
                 userId: userId,
                 sessionId: sessionId,
@@ -164,5 +160,8 @@ class SessionJournal {
   }
 
   /// Events with `at <= durationMs`, as the submit sends them [API 3.9].
-  List<SessionEvent> eventsWithin(int durationMs) => [for (final e in _events) if (e.at <= durationMs) e];
+  List<SessionEvent> eventsWithin(int durationMs) => [
+    for (final e in _events)
+      if (e.at <= durationMs) e,
+  ];
 }

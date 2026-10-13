@@ -2,6 +2,7 @@
 // their category, what costs marks, and how solid each subject feels. They change the phone's
 // onboarding answers (the same store Today's first move reads) and nothing else, so the screens
 // word them as kept on this phone, never as saved.
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../onboarding/data/subjects.dart' show Confidence, SheetSubject;
@@ -13,6 +14,17 @@ import 'confidence_store.dart';
 
 /// The most colleges a sheet holds.
 const int kMaxColleges = 3;
+
+/// The course part of the sheet as it was before a course change, so the change can be undone.
+@immutable
+class CourseSnapshot {
+  const CourseSnapshot({required this.courseId, required this.courseUndecided, required this.colleges, required this.openToAny});
+
+  final String? courseId;
+  final bool courseUndecided;
+  final List<String> colleges;
+  final bool openToAny;
+}
 
 class SheetEditor {
   SheetEditor(this._ref);
@@ -33,6 +45,24 @@ class SheetEditor {
   }
 
   void setStage(Stage stage) => _edit((a) => a.copyWith(stage: stage).mark(Steps.stage));
+
+  /// The colleges a change to [courseId] would remove: the saved ones when the course differs from
+  /// the current one, none when it is the same course.
+  List<String> collegesLostBy(String? courseId) {
+    if (courseId == current.courseId && courseId != null) return const [];
+    return [...current.colleges];
+  }
+
+  /// The course and colleges as they are now.
+  CourseSnapshot courseSnapshot() {
+    final a = current;
+    return CourseSnapshot(courseId: a.courseId, courseUndecided: a.courseUndecided, colleges: [...a.colleges], openToAny: a.openToAny);
+  }
+
+  /// Puts the course and colleges back as they were (the undo after a course change).
+  void restoreCourse(CourseSnapshot before) => _edit(
+        (a) => a.copyWith(courseId: before.courseId, courseUndecided: before.courseUndecided, colleges: before.colleges, openToAny: before.openToAny),
+      );
 
   /// A new course clears the colleges, which belong to the course. Null is "Not sure yet".
   /// Unlike setup, it never changes the subjects: those are the profile's now.

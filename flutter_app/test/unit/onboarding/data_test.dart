@@ -140,7 +140,48 @@ void main() {
 
     test('a subject gets a question the student has not seen', () {
       expect(warmupFor(SheetSubject.accountancy, seen: {'acc-1'})!.id, 'acc-2');
+      expect(warmupFor(SheetSubject.accountancy, seen: {'acc-1'}, seed: 7)!.id, 'acc-2');
       expect(warmupFor(SheetSubject.mathematics), isNull);
+    });
+
+    test('the student seed picks the question, the same one every time', () {
+      for (final s in warmupSubjects) {
+        final ids = {for (var seed = 0; seed < 8; seed++) warmupFor(s, seed: seed)!.id};
+        expect(ids.length, 2, reason: '${s.id}: different students see both questions');
+        expect(warmupFor(s, seed: 12345)!.id, warmupFor(s, seed: 12345)!.id);
+      }
+    });
+
+    test('the right answer is not always in the same place', () {
+      final shown = [for (final q in kWarmupPool) q.shownAnswer];
+      expect(shown.toSet().length, greaterThan(2), reason: 'shown positions $shown');
+      for (final q in kWarmupPool) {
+        expect(q.order.toSet(), {0, 1, 2, 3}, reason: '${q.id}: every option shows once');
+        expect(q.order, q.order, reason: 'stable');
+        expect(q.options[q.order[q.shownAnswer]], q.options[q.answer], reason: q.id);
+      }
+      // Both accountancy answers were written at A; at least one now shows elsewhere.
+      final acc = kWarmupPool.where((q) => q.subject == SheetSubject.accountancy);
+      expect(acc.map((q) => q.shownAnswer).toSet(), isNot({0}));
+    });
+
+    test('the shuffle is the same on every run (no String.hashCode)', () {
+      expect(stableSeed('acc-1'), stableSeed('acc-1'));
+      expect(stableOrder(4, stableSeed('acc-1')), stableOrder(4, stableSeed('acc-1')));
+      expect(stableSeed('acc-1'), isNot(stableSeed('acc-2')));
+      // Pinned: a change here moves options under students who already answered on screen.
+      expect({for (final q in kWarmupPool) q.id: q.order}, {
+        'acc-1': [2, 1, 3, 0],
+        'acc-2': [2, 3, 0, 1],
+        'bst-1': [0, 3, 1, 2],
+        'bst-2': [2, 1, 3, 0],
+        'eco-1': [2, 3, 0, 1],
+        'eco-2': [1, 0, 2, 3],
+        'eng-1': [2, 0, 3, 1],
+        'eng-2': [3, 0, 2, 1],
+        'gt-1': [2, 3, 1, 0],
+        'gt-2': [3, 1, 2, 0],
+      });
     });
   });
 

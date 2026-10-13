@@ -108,9 +108,13 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
     unawaited(context.push<void>(AppRoutes.runSubmit(session.sessionId)).whenComplete(() => _submitOpen = false));
   }
 
+  /// A tap on an option: the tick fires on the tap itself and the screen shows the answer on the
+  /// next frame; the journal write happens after (a failed one is rolled back by the engine).
   Future<void> select(String qid, int? option) async {
-    final ok = await session.selectAnswer(qid, option);
-    if (ok && option != null) unawaited(ref.read(hapticsProvider).tick());
+    if (!session.canAnswer) return;
+    if (option != null) unawaited(ref.read(hapticsProvider).tick());
+    session.dismissAway();
+    await session.selectAnswer(qid, option);
   }
 
   void goTo(int index) {

@@ -8,6 +8,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../account/name_sheet.dart';
 import '../copy.dart';
+import '../data/sheet_editor.dart' show CourseSnapshot, sheetEditorProvider;
 import '../data/student_target.dart';
 import '../edit_copy.dart';
 import '../widgets/you_page.dart';
@@ -31,6 +32,29 @@ class SheetEditorScreen extends ConsumerStatefulWidget {
 
 class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
   DateTime? _nameSavedAt;
+
+  /// The course and colleges before a change that removed colleges, while the undo is offered.
+  CourseSnapshot? _courseUndo;
+  bool _courseRestored = false;
+
+  Future<void> _editCourse() async {
+    final removed = await showCourseSheet(context, ref);
+    if (!mounted) return;
+    setState(() {
+      _courseUndo = removed;
+      _courseRestored = false;
+    });
+  }
+
+  void _undoCourse() {
+    final before = _courseUndo;
+    if (before == null) return;
+    ref.read(sheetEditorProvider).restoreCourse(before);
+    setState(() {
+      _courseUndo = null;
+      _courseRestored = true;
+    });
+  }
 
   Future<void> _editName() async {
     final saved = await showNameSheet(context);
@@ -88,7 +112,7 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
               icon: LucideIcons.graduationCap,
               title: EditCopy.rowCourse,
               note: target.course ?? EditCopy.courseNotSure,
-              onTap: () => showCourseSheet(context, ref),
+              onTap: _editCourse,
             ),
             YouRow(
               icon: LucideIcons.landmark,
@@ -104,6 +128,26 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
             ),
           ],
         ),
+        if (_courseUndo != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Semantics(
+                    liveRegion: true,
+                    child: Text(EditCopy.courseChanged(_courseUndo!.colleges.length), style: type.small.copyWith(color: colors.ink2)),
+                  ),
+                ),
+                KeyButton.quiet(label: EditCopy.courseUndo, onPressed: _undoCourse),
+              ],
+            ),
+          )
+        else if (_courseRestored)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            child: Semantics(liveRegion: true, child: Text(EditCopy.courseRestored, style: type.small.copyWith(color: colors.ink2))),
+          ),
         const GroupHeading(EditCopy.groupSubjects, top: MmSpace.s24),
         YouPanel(
           inset: _rowInset,

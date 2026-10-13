@@ -178,6 +178,7 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
+        onShowMe = null,
         onRetry = null;
 
   const SheetWeek.failed(this.onRetry)
@@ -186,7 +187,8 @@ class SheetWeek {
         count = null,
         note = null,
         description = null,
-        planDays = null;
+        planDays = null,
+        onShowMe = null;
 
   const SheetWeek.off()
       : state = SheetWeekState.off,
@@ -195,9 +197,10 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
+        onShowMe = null,
         onRetry = null;
 
-  const SheetWeek.ready({required this.days, required this.count, required this.description, this.note, this.planDays})
+  const SheetWeek.ready({required this.days, required this.count, required this.description, this.note, this.planDays, this.onShowMe})
       : state = SheetWeekState.ready,
         onRetry = null;
 
@@ -216,6 +219,10 @@ class SheetWeek {
 
   /// The whole week in words for TalkBack.
   final String? description;
+
+  /// Opens the study days behind the count ("Show me"). Null when there are none yet: a claim
+  /// with no evidence shows no key.
+  final VoidCallback? onShowMe;
   final VoidCallback? onRetry;
 }
 
@@ -246,13 +253,21 @@ class WeekField extends StatelessWidget {
       SheetWeekState.ready => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (week.planDays != null)
-              Semantics(label: week.description, child: PlanWeekStrip(days: week.planDays!, bubble: 20))
-            else
+            // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
+            // from the rhythm's own words, and the marks are named in a one-line key.
+            if (week.planDays != null) ...[
+              PlanWeekStrip(days: week.planDays!, bubble: 20, daySemantics: true),
+              const SizedBox(height: MmSpace.s8),
+              PlanWeekKey(days: week.planDays!),
+            ] else
               WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
             if (week.note != null) ...[
-              const SizedBox(height: MmSpace.s4),
+              const SizedBox(height: MmSpace.s8),
               Text(week.note!, style: type.caption.copyWith(color: colors.ink2)),
+            ],
+            if (week.onShowMe != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              ShowMePill(onTap: week.onShowMe!, semanticsLabel: YouCopy.showMeWeek),
             ],
           ],
         ),

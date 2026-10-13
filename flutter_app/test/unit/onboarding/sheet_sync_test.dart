@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/models/rhythm.dart' show Goal;
+import 'package:mockmob/core/repositories/repositories.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -18,6 +20,12 @@ import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
 
 import '../core_data/support/fakes.dart';
 import '../core_data/support/test_db.dart';
+
+/// A goal write that fails with something other than an ApiError (here: signed out part way).
+class _SignedOutGoal extends GoalRepository {
+  @override
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async => throw const SignedOutException();
+}
 
 class _FakeAuth extends AuthController {
   _FakeAuth(this.snapshot);
@@ -61,7 +69,7 @@ void main() {
   late FakeHttpAdapter http;
   late MemoryPrefsStore sheetPrefs;
 
-  ProviderContainer start({AuthSnapshot auth = _newAccount, OnboardingAnswers? answers}) {
+  ProviderContainer start({AuthSnapshot auth = _newAccount, OnboardingAnswers? answers, bool goalThrows = false}) {
     db = newTestDb();
     // The server keeps what it was last told, as the real one does.
     var band = 'unknown';
@@ -84,6 +92,7 @@ void main() {
       apiClientProvider.overrideWithValue(newApiClient(http)),
       answersStoreProvider.overrideWithValue(AnswersStore(sheetPrefs)),
       nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 45)),
+      if (goalThrows) goalRepositoryProvider.overrideWith(_SignedOutGoal.new),
     ]);
     addTearDown(() async {
       c.dispose();
@@ -158,5 +167,37 @@ void main() {
     await settle();
     expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
     expect(writes(), isEmpty);
+  });
+
+  test('any other failure ends in failed with Try again, not stuck on saving', () async {
+    final c = start(goalThrows: true);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    final state = c.read(sheetSyncProvider);
+    expect(state.phase, SheetSyncPhase.failed);
+    expect(state.offline, isFalse, reason: 'only an ApiError can say the connection was lost');
+    expect((await AnswersStore(sheetPrefs).load()).syncedFor, isNull);
+  });
+
+  test('two overlapping runs send one set of writes', () async {
+    final c = start();
+    await c.read(onboardingAnswersProvider.future);
+    final gate = http.hold = Completer<void>();
+    final sync = c.read(sheetSyncProvider.notifier);
+    // The listener's microtask, plus two taps on Try again, all before anything is answered.
+    final first = sync.run();
+    final second = sync.run();
+    await settle();
+    gate.complete();
+    http.hold = null;
+    await Future.wait([first, second]);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+    final sent = [for (final r in writes()) '${r.method} ${r.path}'];
+    // The consent repository has its own follow-up PUT, so the sheet's own writes are counted.
+    for (final w in ['PUT /api/me/goal', 'PUT /api/me/notification-prefs', 'PATCH /api/users/u1']) {
+      expect(sent.where((s) => s == w).length, 1, reason: '$w once: $sent');
+    }
   });
 }

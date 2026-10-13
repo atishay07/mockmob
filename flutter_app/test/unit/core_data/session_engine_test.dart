@@ -144,7 +144,7 @@ void main() {
   });
 
   group('answers and the save pill', () {
-    test('an answer is in the database before the UI is told', () async {
+    test('an answer reaches the database right after the UI is told', () async {
       final e = await start();
       var inDbWhenNotified = false;
       e.addListener(() async {

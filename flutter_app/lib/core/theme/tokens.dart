@@ -43,9 +43,6 @@ abstract final class MmRadius {
   /// Panels, cards and the inner cards of sheets.
   static const double panel = 24;
 
-  /// Top corners of a sheet.
-  static const double sheetTop = 32;
-
   /// Pills (large enough to always round fully).
   static const double pill = 999;
 
@@ -53,15 +50,15 @@ abstract final class MmRadius {
   static const BorderRadius keyAll = BorderRadius.all(Radius.circular(key));
   static const BorderRadius panelAll = BorderRadius.all(Radius.circular(panel));
   static const BorderRadius pillAll = BorderRadius.all(Radius.circular(pill));
-  static const BorderRadius sheetTopOnly = BorderRadius.vertical(top: Radius.circular(sheetTop));
+
+  /// Top corners of a sheet (32 dp).
+  static const BorderRadius sheetTopOnly = BorderRadius.vertical(top: Radius.circular(32));
 }
 
 /// Minimum touch targets (48 dp floor, brief section 10).
 abstract final class MmTarget {
   static const double min = 48;
-  static const double tab = 48;
   static const double primaryKey = 56;
-  static const double runnerKey = 56;
   static const double option = 56;
 }
 
@@ -88,6 +85,9 @@ abstract final class MmDock {
 
   /// Lift above the gesture inset.
   static const double lift = 10;
+
+  /// The lit tile's pane on Night: warm paper white at 12%.
+  static const Color litTileNight = Color(0x1FFFF6E4);
 
   /// What the shell adds to a tab root's bottom padding (on top of the gesture inset) so the last
   /// row scrolls clear of the dock and its scrim.

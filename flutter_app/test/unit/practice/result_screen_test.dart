@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/attempt.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptDetailProvider;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MobiCharacter;
+import 'package:mockmob/features/practice/practice_result_screen.dart' show PracticeResultScreen;
+import 'package:mockmob/features/practice/widgets/finish_stage.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
@@ -123,11 +127,11 @@ void main() {
     expect(find.text('This try stays on your phone.'), findsOneWidget);
   });
 
-  testWidgets('with no wrong answer the primary key is Practise another chapter', (tester) async {
+  testWidgets('with no wrong answer the primary key is Practice another chapter', (tester) async {
     final all = [for (var i = 0; i < 10; i++) ('Goodwill', V.right)];
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Practise another chapter'), findsWidgets);
+    expect(find.text('Practice another chapter'), findsWidgets);
     expect(find.textContaining('Review'), findsNothing);
     expect(find.text('10 right. Nothing wrong, nothing left blank.'), findsOneWidget);
   });
@@ -260,5 +264,65 @@ void main() {
     await tester.scrollUntilVisible(find.text('One question left blank'), 200, scrollable: find.byType(Scrollable).first);
     expect(find.text('What this set shows'), findsOneWidget);
     expect(find.text('Question 10'), findsOneWidget);
+  });
+
+  group('the finish moment never waits on a blank band (owner: "it is just loading the score")', () {
+    /// The attempt as the submit cached it, before any per-question rows are known.
+    Attempt countsOnly() {
+      final json = attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _mixed)
+        ..remove('details')
+        ..remove('questionsSnapshot');
+      return Attempt.fromJson(json);
+    }
+
+    testWidgets('with nothing on the phone yet, Mobi reads the sheet instead of a skeleton', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Reading your sheet'), findsOneWidget);
+      expect(find.byType(MobiCharacter), findsOneWidget);
+      expect(find.text('Loading your answers'), findsNothing);
+    });
+
+    testWidgets('a fresh result with the rows in the cache plays at once, without waiting for the result read', (tester) async {
+      final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
+      final cached = Attempt.fromJson(attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _mixed));
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached, pending: pending));
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.text('Reading your sheet'), findsNothing);
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(find.text('8'), findsOneWidget);
+    });
+
+    testWidgets('a fresh result without rows waits with Mobi, then inks the real sheet from 0 when the rows arrive', (tester) async {
+      final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly(), pending: pending));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 600));
+      // No moment on an empty sheet: Mobi has not reacted and nothing has inked.
+      expect(find.byType(FinishStage), findsNothing);
+      expect(find.text('Reading your sheet'), findsOneWidget);
+      expect(find.textContaining('Strong run'), findsNothing);
+
+      final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
+      (container.read(attemptDetailProvider('p1').notifier) as FakeDetail).deliver(detailOf(_mixed));
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.text('0'), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 420));
+      await tester.pump(const Duration(milliseconds: 420));
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(find.text('8'), findsOneWidget);
+    });
+
+    testWidgets('opened again later, the end state shows at once from the cache', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly()));
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.text('8'), findsOneWidget);
+    });
   });
 }

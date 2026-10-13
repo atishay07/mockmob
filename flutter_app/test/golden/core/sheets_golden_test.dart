@@ -78,6 +78,7 @@ void main() {
         brightness: brightness,
         size: kNightSize,
         overrides: [
+          resumeDraftProvider.overrideWith((ref) => null),
           resumeOfferProvider.overrideWith((ref) async => null),
           nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
@@ -100,6 +101,7 @@ void main() {
         brightness: brightness,
         size: kNightSize,
         overrides: [
+          resumeDraftProvider.overrideWith((ref) => null),
           resumeOfferProvider.overrideWith((ref) async => null),
           nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),

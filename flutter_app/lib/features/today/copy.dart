@@ -14,7 +14,10 @@ abstract final class TodayCopy {
       >= 17 && < 23 => 'Evening',
       _ => 'Up late',
     };
-    return who == null ? (part == 'Up late' ? 'Up late tonight' : 'Good ${part.toLowerCase()}') : '$part, $who';
+    // One pattern: "Good morning, Asha". After 11 PM the line changes to "Up late, Asha".
+    final salutation = part == 'Up late' ? 'Up late' : 'Good ${part.toLowerCase()}';
+    if (who == null) return part == 'Up late' ? 'Up late tonight' : salutation;
+    return '$salutation, $who';
   }
 
   static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
@@ -56,7 +59,14 @@ abstract final class TodayCopy {
   // Mobi in the header (a tap says one of these, in turn).
   static const List<String> mobiIdle = ['One move at a time. This one is ready.', 'Ten focused minutes beat an hour of scrolling.'];
   static const List<String> mobiPoint = ['That one, just below. Start when you are set.', 'Small repairs add up to marks.'];
-  static const List<String> mobiCheer = ['A set is on your sheet today. Nice.', 'That counts for today.'];
+  /// Only when today's opened result improved or held. A sealed or lower result never gets it.
+  static const List<String> mobiCheer = ["Today's paper held or beat the last one. That counts.", 'That counts for today.'];
+
+  /// A paper was submitted today and its result is lower or has nothing to compare with.
+  static const List<String> mobiRecorded = ["Today's paper is on your sheet.", 'That counts for today.'];
+
+  /// A paper from today is still sealed: the line says nothing about how it went.
+  static const List<String> mobiSealed = ['Your result is ready when you are.', 'Open it whenever you are set.'];
   static const List<String> mobiSleepy = ['Late one. Something short, then sleep.', 'Sleep is part of the plan too.'];
 
   static String questionNumbers(List<int> numbers) {
@@ -68,22 +78,26 @@ abstract final class TodayCopy {
   static String startRepair(int minutes) => 'Start repair, about $minutes minutes';
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
   static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
-  static const String earlySignal = 'Early signal from one paper.';
+  static const String earlySignal = 'From one paper. Another mock sharpens this.';
 
   // Other next-move states (spec 5.3 table, in this voice).
   static String staleLabel(int days) => '${pluralWord(days, 'day')}\nsince a mock';
   static String staleLine(DateTime date) => 'Your last mock was on ${formatDayMonth(date)}. A fresh set will update this.';
   static const String practiseToRefresh = 'Practise to refresh';
   static String thinLabel(int n) => '${pluralWord(n, 'question')}\nso far';
-  static const String thinLine = "An early signal, not a pattern yet. Ten more questions will tell us more.";
-  static const String checkThisSkill = 'Check this skill, about 10 minutes';
+  static const String thinLine = 'From one paper. Ten more questions sharpen this.';
+  static const String checkThisSkill = 'Check this skill';
   static String repairedLabel(int n) => 'repaired\nfrom $n';
   static String repairedNumberLabel(String source) => 'repaired\nfrom $source';
   static const String repairedLine = 'Fresh checks are not open yet. Practise another skill while those settle.';
   static const String practiseAnother = 'Practise another skill';
-  static const String minutesUnit = 'minutes of\nmixed practice';
+  static const String questionsOfMixed = 'mixed\nquestions';
   static const String noStrongWeakness = 'Nothing stands out right now. Mixed practice keeps things fresh.';
-  static String startMixed(int minutes) => 'Start mixed practice, $minutes minutes';
+  static String startMixed(int count) => 'Start mixed practice, $count questions';
+
+  /// A practice key states its length: "Check this skill, 10 questions".
+  static String withCount(String label, int count) => '$label, $count questions';
+  static const String practiceLength = 'How many questions?';
   static const String unavailableTitle = 'Your earlier results are still there.';
   static const String unavailableLine = 'We could not load a new suggestion just now.';
   static const String tryAgain = 'Try again';
@@ -103,7 +117,6 @@ abstract final class TodayCopy {
       ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
       : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
   static const String lateNight = 'Late one tonight. Ten minutes, then sleep.';
-  static const String mobiLateNight = 'Ten minutes, then sleep.';
   static const String mobiWelcomeBack = 'Good to see you.';
   static const String mobiDayOne = "Let's find your marks.";
 
@@ -149,22 +162,28 @@ abstract final class TodayCopy {
 
   // The road.
   static const String roadTitle = 'The road to May';
-  static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, May 2027';
+  static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
   static const String boardsOn = 'Boards are on. The plan stays light until they end.';
-  static String sessionsLine(int n, int goal) =>
-      'About ${n < 20 ? n : (n / 10).round() * 10} study sessions at your $goal a week. During boards we count two a week.';
+  static const String roadTitleCsas = 'The road to your college';
+  static const String windowOpen = 'Exam window open';
+  static String windowDaysLeft(int days) => '${days == 1 ? 'day' : 'days'} left in the expected\nexam window';
+  static const String csasHeadline = 'CSAS rounds: results first';
+  static const String csasLine = 'The rounds open after the results. Your colleges are below.';
+  static String sessionsLine(int n, int goal) {
+    if (n <= 0) return 'Your first session starts the count.';
+    final about = n < 20 ? n : (n / 10).round() * 10;
+    return 'About $about study ${about == 1 ? 'session' : 'sessions'} at $goal a week.';
+  }
   static const String stopRegistration = 'CUET registration';
   static const String whenRegistration = CuetDates.registrationWhen;
   static const String stopBoards = 'Class 12 boards';
-  static const String whenBoards = 'Mid-February to early April 2027';
+  static const String whenBoards = CuetDates.boardsWhen;
   static const String noteBoards = 'The plan goes lighter from mid-February.';
   static const String stopExam = 'CUET UG';
-  static const String whenExam = 'Expected May 2027';
+  static const String whenExam = CuetDates.windowWhen;
   static const String stopCounselling = 'CSAS rounds';
-  static const String whenCounselling = 'After the results';
-  static const String expectedTag = 'Expected';
-  static const String datesExpected = 'Registration February to March, boards mid-February to early April, the exam in May: all expected, from the 2026 cycle.';
+  static const String whenCounselling = CuetDates.counsellingWhen;
   static const String nowLabel = 'Now';
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
@@ -189,8 +208,7 @@ abstract final class TodayCopy {
     if (wrong == 0) return '$blank not attempted';
     return '$wrong wrong, $blank not attempted';
   }
-  static const String whyEarly =
-      'One paper is an early signal, not a verdict. Each mock you add makes this sharper.';
+  static const String whyEarly = 'One paper so far. Each mock you add sharpens it.';
   static const String whyRepair =
       'A repair walks you through each mistake with a worked explanation, then lets you try a similar question.';
   static const String seeMyAnswers = 'See my answers';

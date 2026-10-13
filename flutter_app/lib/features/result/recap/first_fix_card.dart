@@ -69,7 +69,19 @@ class FirstFixCard extends StatelessWidget {
       children: [
         _Header(subjectId: m.subjectId),
         Semantics(header: true, child: Text(title, style: context.mmType.moment)),
-        const SizedBox(height: MmSpace.s16),
+        if (tiles.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s4),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ShowMePill(
+              semanticsLabel: ResultCopy.showMeQuestions,
+              marks: [for (final (_, s) in tiles.take(3)) s],
+              onTap: () => ResultNav.toFullResult(context, m.attemptId, question: tiles.first.$1),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s8),
+        ] else
+          const SizedBox(height: MmSpace.s16),
         ...evidence,
         if (tiles.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s24),

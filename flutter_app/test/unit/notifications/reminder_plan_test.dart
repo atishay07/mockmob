@@ -50,6 +50,7 @@ void main() {
       expect(plan.first.body, 'Your repair is ready: 3 mistakes, about 10 minutes.');
       expect(plan.where((r) => r.taskId.startsWith('study_window:2026-10-12')), isEmpty);
       expect(plan.skip(1).every((r) => r.taskId.startsWith('study_window:')), isTrue);
+      expect(plan.first.channel.id, 'repair_ready');
     });
 
     test('one mistake is singular', () {
@@ -78,6 +79,50 @@ void main() {
       // 6:00 PM in Kolkata is 8:30 AM in New York, so 8:00 PM there is still today.
       expect((plan.first.at! as tz.TZDateTime).location.name, 'America/New_York');
       expect(plan.first.at!.hour, 20);
+    });
+  });
+
+  group('repair ready, on its own switch', () {
+    const repair = RepairReady(attemptId: 'att-9', mistakes: 3, minutes: 10);
+
+    test('with the study window off it comes at the next 7:00 PM, in its own channel', () {
+      final plan = buildReminderPlan(now: now, prefs: prefsWith(studyOn: false, weeklyOn: false), state: const ReminderState(), repair: repair);
+      expect(plan.single.taskId, 'repair_ready:att-9');
+      expect(plan.single.at, kolkata(2026, 10, 12, 19));
+      expect(plan.single.validUntil, kolkata(2026, 10, 12, 22));
+      expect(plan.single.channel.id, 'repair_ready');
+      expect(plan.single.channel.prefKey, isNull, reason: 'the server has no key for it; its switch is on this phone');
+    });
+
+    test('after 7:00 PM it waits for tomorrow evening', () {
+      final late = kolkata(2026, 10, 12, 19, 30).toUtc();
+      final plan = buildReminderPlan(now: late, prefs: prefsWith(window: null, weeklyOn: false), state: const ReminderState(), repair: repair);
+      expect(plan.single.at, kolkata(2026, 10, 13, 19));
+    });
+
+    test('its switch off, or its category stopped, leaves the study window alone', () {
+      final off = buildReminderPlan(now: now, prefs: prefsWith(weeklyOn: false), state: const ReminderState(repairReadyOn: false), repair: repair);
+      expect(off.length, 7);
+      expect(off.every((r) => r.taskId.startsWith('study_window:')), isTrue);
+      final stopped = const ReminderState().withCategory(repairReadyKey, const CategoryStatus(paused: true));
+      expect(buildReminderPlan(now: now, prefs: prefsWith(studyOn: false, weeklyOn: false), state: stopped, repair: repair), isEmpty);
+    });
+
+    test('a mute moves it past the mute', () {
+      final muted = ReminderState(mutedUntil: kolkata(2026, 10, 14, 12).toUtc());
+      final plan = buildReminderPlan(now: now, prefs: prefsWith(studyOn: false, weeklyOn: false), state: muted, repair: repair);
+      expect(plan.single.at, kolkata(2026, 10, 14, 19));
+    });
+
+    test('its unopened count is its own category', () {
+      expect(prefKeyForTask('repair_ready:att-9'), repairReadyKey);
+      expect(prefKeyForTask('study_window:2026-10-12'), NotificationChannelKeys.studyWindow);
+    });
+
+    test('the switch is kept with the rest of the phone state, on by default', () {
+      expect(const ReminderState().repairReadyOn, isTrue);
+      final back = ReminderState.fromJsonString(const ReminderState(repairReadyOn: false).toJsonString());
+      expect(back.repairReadyOn, isFalse);
     });
   });
 

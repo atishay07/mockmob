@@ -229,7 +229,12 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
                       ignoring: !_opened,
                       child: ExcludeSemantics(
                         excluding: !_opened,
-                        child: StoryBar(card: _order.indexOf(_card) + 1, count: _order.length, onSkip: _skip),
+                        child: StoryBar(
+                          card: _order.indexOf(_card) + 1,
+                          count: _order.length,
+                          onSkip: _skip,
+                          onBack: _order.indexOf(_card) > 0 ? _back : null,
+                        ),
                       ),
                     ),
                   ),

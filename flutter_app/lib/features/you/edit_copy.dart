@@ -14,6 +14,7 @@ abstract final class EditCopy {
   static const subjectsNeedOne = 'Keep at least one subject.';
   static const subjectsSave = 'Save subjects';
   static const subjectsUnchanged = 'Change a subject to save.';
+  static const subjectsProfileLoading = 'Loading your profile. Save turns on once it has.';
   static const subjectsMobiSaved = 'Done. Practice and Today follow these now.';
   static String subjectsSaved(DateTime at) => 'Subjects saved at ${formatTime12(at)}. Practice and Today now use them.';
   static const subjectsOffline = 'You are offline. Your subjects were not changed. Try again when you are connected.';
@@ -55,6 +56,15 @@ abstract final class EditCopy {
   static const stageSheet = 'Where are you on the road to CUET?';
   static const courseSheet = 'Which course are you aiming for?';
   static const courseNote = 'Changing the course clears your colleges, because they belong to a course.';
+  static String courseConfirmTitle(int n) => n == 1 ? 'Remove your college?' : 'Remove your $n colleges?';
+  static String courseConfirmBody(String course, String colleges) =>
+      'Colleges belong to a course. Switching to $course removes $colleges.';
+  static const courseConfirmUndo = 'You can undo it right after.';
+  static const courseKeep = 'Keep course';
+  static const courseChange = 'Change course';
+  static String courseChanged(int n) => n == 1 ? 'Course changed. Your college was removed.' : 'Course changed. Your $n colleges were removed.';
+  static const courseUndo = 'Undo';
+  static const courseRestored = 'Your course and colleges are back.';
   static const collegesSheet = 'Your colleges, in order';
   static String collegesNote(String category) =>
       'Pick up to three. Figures are the CSAS 2026 Round 1 minimum for $category, out of 1000. '
@@ -110,5 +120,5 @@ abstract final class EditCopy {
   static const creditUnitOne = 'practice credit';
   static const proActive = 'Pro is active.';
   static String proUntil(String date) => 'Pro is active until $date.';
-  static const manage = 'Plans are managed on mockmob.in. Pro bought there works here.';
+  static const manage = 'Your plan and credits as of the last check.';
 }

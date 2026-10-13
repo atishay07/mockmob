@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
@@ -19,6 +20,25 @@ import '../../golden/rhythm/rhythm_test_kit.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../core_data/support/test_db.dart';
+
+class _FailingGoalRepo extends FakeGoalRepo {
+  _FailingGoalRepo(super.initial);
+
+  @override
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async =>
+      throw const ApiError(kind: ApiErrorKind.network, code: 'network');
+}
+
+/// The goal saves, but remembering that the weekly card was seen fails.
+class _DismissFailsSeenRepo extends RhythmSeenRepository {
+  _DismissFailsSeenRepo(super.scope);
+
+  @override
+  Future<bool> markCelebrated(String id) async {
+    if (id.startsWith('week-card:')) throw StateError('database closed');
+    return super.markCelebrated(id);
+  }
+}
 
 Future<void> settle(WidgetTester tester) async {
   for (var i = 0; i < 6; i++) {
@@ -60,29 +80,88 @@ void main() {
       await settle(tester);
       expect(goalRepo.saved, [5]);
       expect(find.text('Your study days'), findsNothing);
+      // The receipt says what the server holds and what stays on this phone.
+      expect(find.text('Goal saved: 5 study days a week. Your days are kept on this phone.'), findsOneWidget);
+      expect(store.values['rhythm_days_u1'], isNotNull);
+    });
+
+    testWidgets('a failed goal save shows no receipt and keeps the editor open', (tester) async {
+      final failing = _FailingGoalRepo(RemoteState(value: const Goal(daysPerWeek: 4), fetchedAt: kNow));
+      await pumpMockmob(
+        tester,
+        const YouRhythmScreen(),
+        wrapInScaffold: false,
+        disableAnimations: true,
+        overrides: [
+          ...rhythmOverrides(rhythm: loaded(rhythmFixture()), goalRepo: failing, store: store),
+          rhythmSeenRepositoryProvider.overrideWithValue(RhythmSeenRepository(LocalScope(db, () => 'u1', () => kNow))),
+        ],
+      );
+      await tester.tap(find.text('Edit goal'));
+      await settle(tester);
+      await tester.tap(find.text('Save study days'));
+      await settle(tester);
+      expect(find.text('We could not save your goal. Try again.'), findsOneWidget);
+      expect(find.textContaining('Goal saved'), findsNothing);
+      expect(store.values['rhythm_days_u1'], isNull);
+    });
+
+    testWidgets('without a plan the strip offers Set your study days and names its marks', (tester) async {
+      await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
+      await settle(tester);
+      expect(find.text('Set your study days'), findsOneWidget);
+      expect(find.text('Counted'), findsOneWidget);
+      expect(find.text('Not counted'), findsOneWidget);
+      expect(find.text('Planned'), findsNothing);
+      // Each day is its own stop for a screen reader.
+      expect(find.bySemanticsLabel('Wednesday, today, study day, counted'), findsOneWidget);
+    });
+
+    testWidgets('a paused week says until when, and that the run is kept', (tester) async {
+      await pumpMockmob(
+        tester,
+        const YouRhythmScreen(),
+        wrapInScaffold: false,
+        disableAnimations: true,
+        overrides: [
+          ...rhythmOverrides(
+            rhythm: loaded(rhythmFixture(paused: true)),
+            goal: const Goal(daysPerWeek: 4, pausedUntil: '2027-01-21'),
+            store: store,
+          ),
+          rhythmSeenRepositoryProvider.overrideWithValue(RhythmSeenRepository(LocalScope(db, () => 'u1', () => kNow))),
+        ],
+      );
+      await settle(tester);
+      final line = find.text('Paused until 21 January. Your run is kept.');
+      await tester.scrollUntilVisible(line, 200, scrollable: find.byType(Scrollable).first);
+      expect(line, findsOneWidget);
+      expect(find.text('Resume rhythm'), findsOneWidget);
     });
 
     testWidgets('a pause preset sends the Sunday of this week and keeps the goal', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       final thisWeek = find.bySemanticsLabel('Pause rhythm, This week');
       await tester.scrollUntilVisible(thisWeek, 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(thisWeek);
+      await tester.pumpAndSettle();
       await tester.tap(thisWeek);
       await settle(tester);
       expect(goalRepo.saved, [4]);
       expect(goalRepo.savedPause, ['2026-10-18']);
     });
 
-    testWidgets('2 weeks pauses to the Sunday after next, the long pause is the 100 day limit', (tester) async {
+    testWidgets('2 weeks pauses to the Sunday after next, the long pause is labelled as the 100 day limit', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await tester.scrollUntilVisible(find.text('2 weeks'), 200, scrollable: find.byType(Scrollable).first);
       await tester.ensureVisible(find.text('2 weeks'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('2 weeks'));
       await settle(tester);
-      await tester.scrollUntilVisible(find.text('Until I turn it on'), 200, scrollable: find.byType(Scrollable).first);
-      await tester.ensureVisible(find.text('Until I turn it on'));
+      await tester.scrollUntilVisible(find.text('Pause for about 3 months'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(find.text('Pause for about 3 months'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Until I turn it on'));
+      await tester.tap(find.text('Pause for about 3 months'));
       await settle(tester);
       expect(goalRepo.savedPause, ['2026-10-25', '2027-01-22']);
     });
@@ -197,6 +276,23 @@ void main() {
       await settle(tester);
       expect(find.byType(WeeklyEndingCard), findsNothing);
     });
+
+    testWidgets('a saved goal whose dismissal fails says it was saved, never could not save', (tester) async {
+      await pumpMockmob(
+        tester,
+        const SingleChildScrollView(child: WeeklyEndingSection()),
+        overrides: [
+          ...rhythmOverrides(rhythm: loaded(closedMet), goalRepo: goalRepo, store: store),
+          rhythmSeenRepositoryProvider.overrideWithValue(_DismissFailsSeenRepo(LocalScope(db, () => 'u1', () => kNow))),
+        ],
+      );
+      await settle(tester);
+      await tester.tap(find.text('Try 5'));
+      await settle(tester);
+      expect(goalRepo.saved, [5]);
+      expect(find.text('Goal is now 5 days a week.'), findsOneWidget);
+      expect(find.text('We could not save that. Try again.'), findsNothing);
+    });
   });
 
   group('Celebration slot', () {
@@ -216,6 +312,50 @@ void main() {
       expect(find.byType(CelebrationMoment), findsOneWidget);
       expect(find.text('Repair finished. Recorded at 11:51 PM.'), findsOneWidget);
       expect(find.bySemanticsLabel('Repair finished. Recorded at 11:51 PM.'), findsOneWidget);
+    });
+
+    testWidgets('the first repair milestone draws its sentence and dated receipt on Today', (tester) async {
+      await pumpMockmob(tester, const CelebrationSlot(scope: CelebrationScope.today), overrides: overrides(rhythmFixture()));
+      final container = ProviderScope.containerOf(tester.element(find.byType(CelebrationSlot)));
+      final shown = await tester.runAsync(
+        () => container.read(celebrationControllerProvider.notifier).celebrate(
+              CelebrationEvent.milestone(RhythmMilestone(id: 'first_repair', achievedAt: kNow), date: '14 October'),
+            ),
+      );
+      await settle(tester);
+      expect(shown, isNotNull);
+      expect(find.byType(CelebrationMoment), findsOneWidget);
+      expect(find.text('That was your first repair.'), findsOneWidget);
+      expect(find.text('First repair finished on 14 October.'), findsOneWidget);
+    });
+
+    testWidgets('while rhythm is off the slot draws nothing and the moment is not used up', (tester) async {
+      await pumpMockmob(tester, const CelebrationSlot(scope: CelebrationScope.today), overrides: overrides(rhythmFixture(), hidden: true));
+      await settle(tester);
+      final container = ProviderScope.containerOf(tester.element(find.byType(CelebrationSlot)));
+      final shown = await tester.runAsync(
+        () => container.read(celebrationControllerProvider.notifier).celebrate(
+              CelebrationEvent.milestone(RhythmMilestone(id: 'first_repair', achievedAt: kNow), date: '14 October'),
+            ),
+      );
+      await settle(tester);
+      expect(shown, isNull);
+      expect(find.byType(CelebrationMoment), findsNothing);
+      final seen = await tester.runAsync(() => RhythmSeenRepository(LocalScope(db, () => 'u1', () => kNow)).read());
+      expect(seen!.celebratedIds, isNot(contains('first_repair')));
+    });
+
+    testWidgets('the away receipt shows once with a link to the milestones', (tester) async {
+      await pumpMockmob(tester, const CelebrationSlot(scope: CelebrationScope.today), overrides: overrides(rhythmFixture()));
+      final container = ProviderScope.containerOf(tester.element(find.byType(CelebrationSlot)));
+      await tester.runAsync(
+        () => container.read(celebrationControllerProvider.notifier).celebrate(
+              CelebrationEvent.milestoneReceipt(newest: RhythmMilestone(id: 'first_repair', achievedAt: kNow), date: '11 October'),
+            ),
+      );
+      await settle(tester);
+      expect(find.text('Your first repair landed on 11 October.'), findsOneWidget);
+      expect(find.text('See your milestones'), findsOneWidget);
     });
 
     testWidgets('an L3 row never draws a moment', (tester) async {

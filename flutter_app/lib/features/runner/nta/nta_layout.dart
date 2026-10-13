@@ -53,6 +53,7 @@ class NtaLayout extends StatelessWidget {
     required this.session,
     required this.actions,
     required this.canAnswer,
+    this.modalUp = false,
     required this.strikes,
     required this.textScale,
     required this.candidate,
@@ -67,6 +68,9 @@ class NtaLayout extends StatelessWidget {
 
   /// The session allows answers and no warning card is up.
   final bool canAnswer;
+
+  /// The warning card is over the paper: nothing under it is reachable by TalkBack or a keyboard.
+  final bool modalUp;
   final int strikes;
   final double textScale;
   final String? candidate;
@@ -137,31 +141,41 @@ class NtaLayout extends StatelessWidget {
       ],
     );
 
-    if (!wide) return ColoredBox(color: colors.ground, child: main);
-    return ColoredBox(
-      color: colors.ground,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(child: main),
-          DecoratedBox(
-            decoration: BoxDecoration(border: Border(left: BorderSide(color: colors.line))),
-            child: SizedBox(
-              width: panelWidth,
-              child: Padding(
-                padding: EdgeInsets.only(top: MediaQuery.viewPaddingOf(context).top, bottom: MediaQuery.viewPaddingOf(context).bottom),
-                child: NtaPalettePanel(
-                  cells: cells,
-                  subject: subject,
-                  candidate: candidate,
-                  onJump: actions.onJump,
-                  onSubmit: actions.onSubmit,
-                  onQuestionPaper: actions.onQuestionPaper,
+    if (!wide) {
+      return ExcludeSemantics(
+        excluding: modalUp,
+        child: ColoredBox(color: colors.ground, child: main),
+      );
+    }
+    return ExcludeSemantics(
+      excluding: modalUp,
+      child: ColoredBox(
+        color: colors.ground,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: main),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(left: BorderSide(color: colors.line)),
+              ),
+              child: SizedBox(
+                width: panelWidth,
+                child: Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.viewPaddingOf(context).top, bottom: MediaQuery.viewPaddingOf(context).bottom),
+                  child: NtaPalettePanel(
+                    cells: cells,
+                    subject: subject,
+                    candidate: candidate,
+                    onJump: actions.onJump,
+                    onSubmit: actions.onSubmit,
+                    onQuestionPaper: actions.onQuestionPaper,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -16,6 +18,13 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/dock/dock_pill.dart';
+import 'package:mockmob/features/account_access/access_routes.dart';
+import 'package:mockmob/features/account_access/screens/forgot_password_screen.dart';
+import 'package:mockmob/features/account_access/screens/password_sign_in_screen.dart';
+import 'package:mockmob/features/account_access/screens/phone_screens.dart';
+import 'package:mockmob/features/account_access/screens/set_password_screen.dart';
+
+import '../../helpers/fonts.dart';
 
 class _Auth extends Notifier<AuthSnapshot> {
   @override
@@ -38,7 +47,25 @@ class _RecordingOpener implements ExternalLinkOpener {
 
 const _signedIn = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1');
 
-Future<ProviderContainer> _pump(WidgetTester tester, {AuthSnapshot auth = _signedIn, ExternalLinkOpener? opener}) async {
+class _FakeLinks implements AppLinkSource {
+  _FakeLinks({this.initial});
+
+  final Uri? initial;
+  final StreamController<Uri> controller = StreamController<Uri>.broadcast();
+
+  @override
+  Future<Uri?> initialLink() async => initial;
+
+  @override
+  Stream<Uri> get links => controller.stream;
+}
+
+Future<ProviderContainer> _pump(
+  WidgetTester tester, {
+  AuthSnapshot auth = _signedIn,
+  ExternalLinkOpener? opener,
+  AppLinkSource? links,
+}) async {
   tester.view.physicalSize = const Size(720, 1560);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -48,6 +75,7 @@ Future<ProviderContainer> _pump(WidgetTester tester, {AuthSnapshot auth = _signe
       authSnapshotProvider.overrideWithBuild((ref, notifier) => ref.watch(_testAuth)),
       appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
       if (opener != null) externalLinkOpenerProvider.overrideWithValue(opener),
+      if (links != null) appLinkSourceProvider.overrideWithValue(links),
     ],
   );
   addTearDown(container.dispose);
@@ -292,5 +320,115 @@ void main() {
     await _settle(tester);
     expect(opener.opened, isEmpty);
     expect(_location(container), '/today');
+  });
+
+  group('account access routes (auth-01)', () {
+    // Real type: the Ahem test font is wide enough to overflow these forms' fixed rows.
+    setUpAll(loadAppFonts);
+
+    _test('the sign-in methods open their screens when signed out', (tester) async {
+      final container = await _pump(tester, auth: AuthSnapshot.signedOut);
+      final router = _router(container);
+      for (final (path, screen) in [
+        (AccountAccessRoutes.passwordSignIn, PasswordSignInScreen),
+        (AccountAccessRoutes.passwordSignInFor(email: 'a@b.in'), PasswordSignInScreen),
+        (AccountAccessRoutes.forgotPassword, ForgotPasswordScreen),
+        (AccountAccessRoutes.phoneSignIn, PhoneSignInScreen),
+      ]) {
+        router.go(path);
+        await _settle(tester);
+        expect(_location(container), path, reason: path);
+        expect(find.byType(screen), findsOneWidget, reason: path);
+        expect(tester.takeException(), isNull, reason: path);
+      }
+    });
+
+    _test('set password and add phone open over the shell when signed in', (tester) async {
+      final container = await _pump(tester);
+      final router = _router(container);
+      for (final (path, screen) in [
+        (AccountAccessRoutes.setPassword, SetPasswordScreen),
+        (AccountAccessRoutes.addPhone, AddPhoneScreen),
+      ]) {
+        router.go(path);
+        await _settle(tester);
+        expect(_location(container), path, reason: path);
+        expect(find.byType(screen), findsOneWidget, reason: path);
+        expect(find.byType(DockPill), findsNothing, reason: '$path is a root page');
+        expect(tester.takeException(), isNull, reason: path);
+      }
+    });
+
+    _test('a reset code sign-in continues to Choose a new password', (tester) async {
+      final container = await _pump(tester, auth: AuthSnapshot.signedOut);
+      final router = _router(container);
+      router.go(AccountAccessRoutes.forgotPassword);
+      await _settle(tester);
+
+      // What the forgot-password screen does just before the code signs the student in.
+      container.read(intendedRouteProvider).remember(AccountAccessRoutes.setPasswordAfterReset);
+      container.read(_testAuth.notifier).set(_signedIn);
+      await _settle(tester);
+
+      expect(_location(container), AccountAccessRoutes.setPasswordAfterReset);
+      expect(tester.widget<SetPasswordScreen>(find.byType(SetPasswordScreen)).reset, isTrue);
+    });
+
+    _test('the reset destination while signed out goes through sign-in', (tester) async {
+      final container = await _pump(tester, auth: AuthSnapshot.signedOut);
+      _router(container).go(AccountAccessRoutes.setPasswordAfterReset);
+      await _settle(tester);
+      expect(_location(container), AppRoutes.signIn);
+      expect(container.read(intendedRouteProvider).location, AccountAccessRoutes.setPasswordAfterReset);
+    });
+  });
+
+  group('App Links (navigation-01)', () {
+    _test('a link on our domain opens its native screen when signed in', (tester) async {
+      final links = _FakeLinks();
+      final container = await _pump(tester, links: links);
+      links.controller.add(Uri.parse('https://www.mockmob.in/result/att7'));
+      await _settle(tester);
+      expect(_location(container), '/result/att7');
+    });
+
+    _test('a page with no native screen opens in a Custom Tab; others are ignored', (tester) async {
+      final links = _FakeLinks();
+      final opener = _RecordingOpener();
+      final container = await _pump(tester, links: links, opener: opener);
+      links.controller
+        ..add(Uri.parse('https://www.mockmob.in/cuet-mock-test-free'))
+        ..add(Uri.parse('https://evil.example/today'))
+        ..add(Uri.parse('https://www.mockmob.in/pricing'))
+        ..add(Uri.parse('in.mockmob.app://login-callback?code=x'));
+      await _settle(tester);
+      expect(opener.opened, [Uri.parse('https://www.mockmob.in/cuet-mock-test-free')]);
+      expect(_location(container), '/today');
+    });
+
+    _test('the launch link while signed out continues after sign-in', (tester) async {
+      final links = _FakeLinks(initial: Uri.parse('https://mockmob.in/result/att9'));
+      final container = await _pump(tester, auth: AuthSnapshot.signedOut, links: links);
+      expect(_location(container), AppRoutes.signIn);
+
+      // app_links replays the launch link on the stream; it is handled once.
+      links.controller.add(Uri.parse('https://mockmob.in/result/att9'));
+      await _settle(tester);
+
+      container.read(_testAuth.notifier).set(_signedIn);
+      await _settle(tester);
+      expect(_location(container), '/result/att9');
+    });
+
+    _test('a link while auth is still loading is remembered for after the splash', (tester) async {
+      final links = _FakeLinks(initial: Uri.parse('https://www.mockmob.in/review'));
+      final container = await _pump(tester, auth: AuthSnapshot.unknown, links: links);
+      expect(_location(container), '/splash');
+      expect(container.read(intendedRouteProvider).location, '/review');
+
+      container.read(_testAuth.notifier).set(_signedIn);
+      await _settle(tester);
+      expect(_location(container), '/review');
+    });
   });
 }

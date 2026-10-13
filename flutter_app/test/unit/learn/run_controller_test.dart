@@ -9,8 +9,10 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/features/learn/data/learn_log.dart';
 import 'package:mockmob/features/learn/data/learn_store.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
+import 'package:mockmob/features/learn/models/run_item.dart';
 
 import '../core_data/support/fakes.dart';
 import '../core_data/support/test_db.dart';
@@ -220,6 +222,45 @@ void main() {
     expect(posts(http), hasLength(2));
     expect(container.read(provider).run!.revision, 1);
     expect(await LearnStore(scopeFor(db)).pending('run-1'), isNull);
+  });
+
+  test('a step answered on another device is dropped with a notice and logged without the answer', () async {
+    LearnLog.clear();
+    var posted = false;
+    final http = FakeHttpAdapter()
+      ..handler = (o) {
+        if (o.method == 'GET') {
+          // After the conflict the server has moved on to the next card.
+          return FakeReply(200, posted ? runJson(revision: 3, cursor: 1, item: revealCard(id: 'card-9')) : runJson());
+        }
+        posted = true;
+        return const FakeReply(409, {'error': 'REVISION_CONFLICT'});
+      };
+    final container = containerFor(http);
+    container.listen(provider, (_, _) {});
+    await until(() => container.read(provider).load == RunLoad.ready);
+    await container.read(provider.notifier).reveal();
+    await until(() => container.read(provider).notice == RunNotice.supersededElsewhere);
+    final ui = container.read(provider);
+    expect(posts(http), hasLength(1));
+    expect(ui.run!.currentItem!.id, 'card-9');
+    expect(ui.pending, isNull);
+    final sentKey = (posts(http).single.body! as Map)['requestKey'] as String;
+    expect(LearnLog.lines.single, contains('reveal'));
+    expect(LearnLog.lines.single, contains(sentKey));
+  });
+
+  test('a step type this build does not know can be skipped with continue', () async {
+    final http = serverWith(
+      get: runJson(item: {'id': 'card-x', 'type': 'drag_match', 'prompt': 'Match the pairs'}),
+      post: (_) => FakeReply(200, runJson(revision: 1, cursor: 1, item: revealCard(id: 'card-2'))),
+    );
+    final container = containerFor(http);
+    container.listen(provider, (_, _) {});
+    await until(() => container.read(provider).load == RunLoad.ready);
+    await container.read(provider.notifier).advance();
+    await until(() => container.read(provider).run?.currentItem?.id == 'card-2');
+    expect((posts(http).single.body! as Map)['type'], 'continue');
   });
 
   test('STUDY_CONTENT_CHANGED on an event replaces the run and clears what was waiting', () async {

@@ -9,8 +9,10 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/notifications/data/reminder_state.dart';
 import 'package:mockmob/features/notifications/data/reminder_store.dart';
+import 'package:mockmob/features/notifications/logic/reminder_plan.dart' show RepairReady;
 import 'package:mockmob/features/notifications/screens/notification_settings_screen.dart';
 import 'package:mockmob/features/notifications/screens/reminders_prompt_sheet.dart';
+import 'package:mockmob/features/notifications/services/system_settings.dart';
 import 'package:mockmob/features/notifications/widgets/day_shape.dart';
 import 'package:mockmob/features/notifications/widgets/settings_rows.dart';
 import 'package:mockmob/features/notifications/widgets/time_sheet.dart';
@@ -204,9 +206,25 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.textContaining('Muted on this phone until Monday, 19 October, 6:00 PM.'), findsOneWidget);
       expect(rig.gateway.scheduled, isEmpty);
+      // The mute is kept on this phone, and the receipt says exactly that.
+      expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
+      expect(find.textContaining('on the server'), findsNothing);
+      // The reminder channels read as on hold until the mute ends; Result ready does not.
+      expect(find.textContaining('Paused until Monday, 19 October.'), findsWidgets);
       await tester.tap(_text('Unmute'));
       await tester.pumpAndSettle();
       expect(_text('Mute for 7 days'), findsOneWidget);
+      expect(find.textContaining('Paused until'), findsNothing);
+    });
+
+    testWidgets('Repair ready has its own switch, kept on this phone', (tester) async {
+      await pumpScreen(tester, prefs: prefsWith(studyOn: false));
+      expect(_text('Repair ready'), findsOneWidget);
+      await tester.tap(_text('Repair ready'));
+      await tester.pumpAndSettle();
+      expect((await rig.store.load()).repairReadyOn, isFalse);
+      expect(repo.saved, isEmpty, reason: 'the server has no key for it');
+      expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
     });
 
     testWidgets('the weekly cap is saved on the server and on this phone', (tester) async {
@@ -242,6 +260,7 @@ void main() {
       await tester.tap(_text('Got it'));
       await tester.pumpAndSettle();
       expect(_text('Want fewer reminders? You can turn this one off.'), findsNothing);
+      expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
     });
 
     testWidgets('loading shows skeleton rows and no stale words', (tester) async {
@@ -280,12 +299,19 @@ void main() {
 
   group('pre-prompt sheet', () {
     late Rig rig;
+    late _FakeSystemSettings settings;
     late FakePermissionRequester permission;
     late AppPrefs appPrefs;
     late MemoryPrefsStore memory;
 
-    Future<void> pumpSheet(WidgetTester tester, {NotificationPermission after = NotificationPermission.granted}) async {
+    Future<void> pumpSheet(
+      WidgetTester tester, {
+      NotificationPermission after = NotificationPermission.granted,
+      RepairReady? repair,
+      NotificationPrefs prefs = NotificationPrefs.defaults,
+    }) async {
       rig = Rig();
+      settings = _FakeSystemSettings();
       permission = FakePermissionRequester(NotificationPermission.notAsked, afterRequest: after);
       memory = MemoryPrefsStore();
       appPrefs = AppPrefs(memory);
@@ -293,22 +319,36 @@ void main() {
         tester,
         const SingleChildScrollView(child: RemindersPromptSheet()),
         size: const Size(360, 1200),
-        overrides: featureOverrides(rig: rig, repo: FakePrefsRepo(NotificationPrefs.defaults), permission: permission, appPrefs: appPrefs),
+        overrides: [
+          ...featureOverrides(rig: rig, repo: FakePrefsRepo(prefs), permission: permission, appPrefs: appPrefs, repair: repair),
+          systemSettingsProvider.overrideWithValue(settings),
+        ],
       );
       await tester.pumpAndSettle();
     }
 
-    testWidgets('lists the three kinds with their example words and a full-width Not now', (tester) async {
+    testWidgets('with no data yet the previews describe each kind with no number', (tester) async {
       await pumpSheet(tester);
       expect(_text('Remind me when it matters'), findsOneWidget);
-      expect(_text('Mock 7 was received. Your result is ready.'), findsOneWidget);
-      expect(_text('Your repair is ready: 3 mistakes, about 10 minutes.'), findsOneWidget);
-      expect(_text('Your week is ready to look at.'), findsOneWidget);
+      expect(_text('Your mock was received. Your result is ready.'), findsOneWidget);
+      expect(_text('When a mock leaves mistakes, a short repair is waiting for you.'), findsOneWidget);
+      expect(_text('Your study window has started. Pick a small next step when you are ready.'), findsOneWidget);
+      expect(find.textContaining(RegExp(r'\d+ mistakes')), findsNothing);
       expect(_text('Allow reminders'), findsOneWidget);
       final notNow = tester.getSize(find.widgetWithText(KeyButton, 'Not now'));
       final allow = tester.getSize(find.widgetWithText(KeyButton, 'Allow reminders'));
       expect(notNow.width, allow.width);
       expect(find.textContaining('Quiet hours are 11:00 PM to 7:00 AM.'), findsOneWidget);
+    });
+
+    testWidgets("the previews use the student's own waiting repair and study time", (tester) async {
+      await pumpSheet(
+        tester,
+        repair: const RepairReady(attemptId: 'a', mistakes: 4, minutes: 10),
+        prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 30), end: ClockTime(21, 30))),
+      );
+      expect(_text('Your repair is ready: 4 mistakes, about 10 minutes.'), findsOneWidget);
+      expect(_text('At 8:30 PM: your study window has started.'), findsOneWidget);
     });
 
     testWidgets('Allow asks the system once and ends on a designed state', (tester) async {
@@ -326,6 +366,13 @@ void main() {
       await tester.pumpAndSettle();
       expect(_text('Reminders stay off'), findsOneWidget);
       expect(find.textContaining('Studying works the same without them.'), findsOneWidget);
+      // Not a dead end: Android settings is one tap away, with a plain line if it will not open.
+      expect(_text('Open Android settings'), findsOneWidget);
+      await tester.tap(_text('Open Android settings'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(settings.opened, 1);
+      expect(find.textContaining('Android did not open its settings.'), findsOneWidget);
     });
 
     testWidgets('Not now is recorded with its date and never asks the system', (tester) async {
@@ -337,4 +384,15 @@ void main() {
       expect((await appPrefs.lastPrePromptAt())!.isAtSameMomentAs(rig.now), isTrue);
     });
   });
+}
+
+/// Android settings that never open, as in a test or on an Android that refuses the intent.
+class _FakeSystemSettings extends SystemSettings {
+  int opened = 0;
+
+  @override
+  Future<bool> openNotificationSettings() async {
+    opened++;
+    return false;
+  }
 }

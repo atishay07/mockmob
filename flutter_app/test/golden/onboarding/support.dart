@@ -10,6 +10,7 @@ import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/config/app_config.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier;
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
@@ -24,7 +25,6 @@ import 'package:mockmob/features/onboarding/state/answers_store.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
-import '../../unit/auth/fakes.dart' show FakeNetwork;
 import '../../unit/core_data/support/fakes.dart';
 import 'subject_rows.dart';
 
@@ -72,15 +72,16 @@ List<Override> onboardingOverrides({
   DateTime? now,
   DateTime Function()? clock,
   SubjectRegistry? registry,
+  AnswersStore? store,
 }) {
-  final store = MemoryPrefsStore();
-  store.values[AnswersStore.key] = jsonEncode(answers.toJson());
+  final memory = MemoryPrefsStore();
+  memory.values[AnswersStore.key] = jsonEncode(answers.toJson());
   final appPrefs = MemoryPrefsStore();
   return [
-    answersStoreProvider.overrideWithValue(AnswersStore(store)),
+    answersStoreProvider.overrideWithValue(store ?? AnswersStore(memory)),
     nowProvider.overrideWithValue(clock ?? () => now ?? kNow),
     authSnapshotProvider.overrideWithBuild((ref, notifier) => auth),
-    networkStatusProvider.overrideWith(() => FakeNetwork(network)),
+    networkStatusProvider.overrideWith(() => _FakeNetwork(network)),
     appPrefsProvider.overrideWithValue(AppPrefs(appPrefs)),
     shouldPlayColdOpenProvider.overrideWith((ref) async => false),
     // The picker reads the live list; the default is what the server returns today.
@@ -144,4 +145,15 @@ Future<void> preview(WidgetTester tester, GlobalKey key, String name) async {
     image.dispose();
     await File('$dir/$name.png').writeAsBytes(bytes!.buffer.asUint8List());
   });
+}
+
+/// A fixed network status (kept here so the onboarding tests do not depend on other features'
+/// test fakes).
+class _FakeNetwork extends NetworkStatusNotifier {
+  _FakeNetwork(this.value);
+
+  final NetworkStatus value;
+
+  @override
+  NetworkStatus build() => value;
 }

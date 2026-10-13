@@ -7,6 +7,7 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/models/study.dart';
 import '../models/run_item.dart';
+import 'learn_log.dart';
 import 'learn_store.dart';
 import 'pending_event.dart';
 import 'study_api.dart';
@@ -26,7 +27,16 @@ enum RunLoad {
 }
 
 /// A line the run screen shows under the card.
-enum RunNotice { none, connectToReveal, connectToCheck, queuedOffline, sendFailed }
+enum RunNotice {
+  none,
+  connectToReveal,
+  connectToCheck,
+  queuedOffline,
+  sendFailed,
+
+  /// The step the student answered was already answered elsewhere; their tap was not recorded.
+  supersededElsewhere,
+}
 
 class RunUiState {
   const RunUiState({
@@ -243,7 +253,8 @@ class RunController extends Notifier<RunUiState> {
   }
 
   /// A conflict: read the run again and, once, send the step again at the current revision when
-  /// it still applies. The student sees nothing unless that fails too.
+  /// it still applies. When it no longer applies (another device answered that step) the tap is
+  /// dropped, logged without its answer, and the student is told where they are now.
   Future<void> _recover(PendingEvent event) async {
     try {
       final fresh = await _api.run(runId);
@@ -254,7 +265,8 @@ class RunController extends Notifier<RunUiState> {
       }
       await _store.clearPending(runId);
       await _cacheRun(fresh);
-      if (!_conflictRetried && _applies(fresh, event)) {
+      final applies = _applies(fresh, event);
+      if (!_conflictRetried && applies) {
         _conflictRetried = true;
         final again = event.withFreshKey(fresh.revision);
         await _store.putPending(runId, again);
@@ -263,7 +275,14 @@ class RunController extends Notifier<RunUiState> {
         await _send(again);
         return;
       }
-      state = RunUiState(load: RunLoad.ready, run: fresh, ackedAt: state.ackedAt);
+      LearnLog.droppedEvent(type: event.type, requestKey: event.requestKey);
+      // Still the same step after one retry: the student can simply try it again.
+      state = RunUiState(
+        load: RunLoad.ready,
+        run: fresh,
+        ackedAt: state.ackedAt,
+        notice: applies ? RunNotice.none : RunNotice.supersededElsewhere,
+      );
     } on ApiError catch (e) {
       if (!ref.mounted) return;
       state = state.copyWith(sending: false, notice: e.isOffline ? RunNotice.queuedOffline : RunNotice.sendFailed);
@@ -277,7 +296,7 @@ class RunController extends Notifier<RunUiState> {
       'reveal' => !run.revealed && item.isSelfRated,
       'answer' => !run.revealed && item.isChecked,
       'rate' => run.revealed && item.isSelfRated,
-      'continue' => (run.revealed && !item.isSelfRated) || (run.isLearn && item.isReading),
+      'continue' => (run.revealed && !item.isSelfRated) || (run.isLearn && item.isReading) || item.type == RunItemType.unknown,
       _ => false,
     };
   }

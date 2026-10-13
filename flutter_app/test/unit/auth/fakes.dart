@@ -16,7 +16,10 @@ class FakeGateway implements SignInGateway {
   Object? sendError;
   Object? verifyError;
   Object? googleError;
-  bool googleResult = true;
+  GoogleOutcome googleOutcome = GoogleOutcome.signedIn;
+
+  /// Browser sign-in results, as the callback link would deliver them.
+  final StreamController<OAuthReturn> returns = StreamController<OAuthReturn>.broadcast();
   bool signedInAfterVerify = true;
   bool _signedIn = false;
 
@@ -47,16 +50,25 @@ class FakeGateway implements SignInGateway {
   }
 
   @override
-  Future<bool> signInWithGoogle() async {
+  Future<GoogleOutcome> signInWithGoogle() async {
     googleCalls++;
     final e = googleError;
     if (e != null) throw e;
-    _signedIn = googleResult;
-    return googleResult;
+    _signedIn = googleOutcome == GoogleOutcome.signedIn;
+    return googleOutcome;
   }
 
   @override
+  Stream<OAuthReturn> oauthReturns() => returns.stream;
+
+  @override
   bool get isSignedIn => _signedIn;
+}
+
+/// A preferences store whose every call fails, like a phone whose storage is not answering.
+class BrokenPrefs implements PrefsStore {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => Future<void>.error(StateError('prefs down'));
 }
 
 class FakeNetwork extends NetworkStatusNotifier {
@@ -81,7 +93,7 @@ class TestClock {
 
 List<Override> authOverrides({
   required FakeGateway gateway,
-  MemoryPrefsStore? prefs,
+  PrefsStore? prefs,
   TestClock? clock,
   NetworkStatus network = NetworkStatus.online,
 }) {

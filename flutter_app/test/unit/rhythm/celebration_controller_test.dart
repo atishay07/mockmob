@@ -208,13 +208,49 @@ void main() {
       expect(plan.silent, ['first_scored_session', 'first_repair']);
     });
 
-    test('later, only news inside 48 hours celebrates; old history stays quiet', () {
+    test('later, news inside 48 hours is a moment with its dated receipt; older news is one quiet receipt', () {
       final seen = RhythmSeenState(
         lastSeenWeek: LastSeenWeek.fromRhythm(rhythmFixture()),
       );
       final plan = planMilestones(rhythm, seen, now);
-      expect([for (final e in plan.events) e.id], ['first_repair']);
-      expect(plan.silent, ['first_scored_session']);
+      expect([for (final e in plan.events) e.id], ['first_repair', 'first_scored_session']);
+      final fresh = plan.events.first;
+      expect(fresh.level, CelebrationLevel.l2);
+      expect(fresh.receipt, 'First repair finished on 12 October.');
+      final away = plan.events.last;
+      expect(away.kind, CelebrationKind.milestoneReceipt);
+      expect(away.receipt, 'Your first scored set landed on 1 September.');
+      expect(away.link, '/you/milestones');
+      expect(plan.silent, isEmpty);
+    });
+
+    test('several away milestones make one receipt for the newest, counting the others', () {
+      final seen = RhythmSeenState(lastSeenWeek: LastSeenWeek.fromRhythm(rhythmFixture()));
+      final plan = planMilestones(
+        rhythmFixture(
+          milestones: [
+            RhythmMilestone(id: 'first_scored_session', achievedAt: DateTime.utc(2026, 9, 1)),
+            RhythmMilestone(id: 'first_repair', achievedAt: DateTime.utc(2026, 10, 9)),
+            RhythmMilestone(id: 'some_future_id', achievedAt: DateTime.utc(2026, 10, 8)),
+          ],
+        ),
+        seen,
+        now,
+      );
+      expect(plan.events, hasLength(1));
+      expect(plan.events.single.id, 'first_repair');
+      expect(plan.events.single.extraIds, ['first_scored_session']);
+      expect(plan.events.single.receipt, 'Your first repair landed on 9 October. 1 more milestone landed while you were away.');
+      expect(plan.silent, ['some_future_id']);
+    });
+
+    test('a fresh moment wins Today; the away receipt waits and is not used up', () async {
+      final fresh = CelebrationEvent.milestone(RhythmMilestone(id: 'first_repair', achievedAt: at), date: '12 October');
+      final away = CelebrationEvent.milestoneReceipt(newest: RhythmMilestone(id: 'repairs_5', achievedAt: at), date: '9 October');
+      final shown = await controller().celebrateBest([away, fresh]);
+      expect(shown!.id, 'first_repair');
+      final seenNow = await container.read(rhythmSeenRepositoryProvider).read();
+      expect(seenNow.celebratedIds, isNot(contains('repairs_5')));
     });
 
     test('ids already celebrated are skipped, and unearned ones never count', () {
@@ -225,6 +261,31 @@ void main() {
       final plan = planMilestones(rhythm, seen, now);
       expect(plan.events, isEmpty);
       expect(plan.silent, isEmpty);
+    });
+  });
+
+  group('rhythm turned off', () {
+    final rhythm = rhythmFixture(
+      milestones: [RhythmMilestone(id: 'first_repair', achievedAt: DateTime(2026, 10, 12, 20))],
+    );
+
+    test('a fresh read plans, marks and records nothing', () async {
+      await container.read(rhythmPrefsProvider.notifier).setHidden(true);
+      final seenRepo = container.read(rhythmSeenRepositoryProvider);
+      await seenRepo.saveSeen(rhythmFixture());
+      final run = FutureProvider<void>((ref) => processFreshRhythm(ref, rhythm));
+      await container.read(run.future);
+      final seen = await seenRepo.read();
+      expect(seen.celebratedIds, isEmpty);
+      expect(container.read(celebrationControllerProvider).byScope, isEmpty);
+    });
+
+    test('celebrate refuses without using the id, so it fires once rhythm is back on', () async {
+      final prefs = container.read(rhythmPrefsProvider.notifier);
+      await prefs.setHidden(true);
+      expect(await controller().celebrate(repair('r1')), isNull);
+      await prefs.setHidden(false);
+      expect(await controller().celebrate(repair('r1')), isNotNull);
     });
   });
 

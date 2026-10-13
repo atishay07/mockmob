@@ -6,7 +6,7 @@ abstract final class AuthCopy {
   // Sign-in screen.
   static const String signInTitle = 'Sign in';
   static const String signInLead =
-      'We email you an 8-digit code. No password to remember.';
+      'Pick how you want to sign in. An email code needs no password to remember.';
   static const String newHere =
       'New to MockMob? The same code creates your free account.';
   static const String emailLabel = 'Email address';
@@ -16,6 +16,9 @@ abstract final class AuthCopy {
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
   static const String alreadyHaveCode = 'I already have a code';
+  static String codeSentTo(String email) => 'Code sent to $email.';
+  static const String googleInBrowser =
+      'Finish signing in with Google in your browser, then come back.';
   static const String sessionExpired =
       'Please sign in again. Your work is still on this phone.';
   static const String offlineBanner = 'You are offline. Connect to sign in.';

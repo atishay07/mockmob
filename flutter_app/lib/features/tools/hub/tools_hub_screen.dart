@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,33 +9,57 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../compass/compass_controller.dart';
 import '../copy.dart';
+import '../data/tools_store.dart';
 import '../tools_paths.dart';
 import '../widgets/sources_sheet.dart';
 import '../widgets/tools_card.dart';
+import '../widgets/tool_row.dart';
 import '../widgets/tools_page.dart';
 import '../widgets/web_link.dart';
 
 /// CUET tools (`/tools`, pushed from You): Compass first (with what the student's own subjects
 /// open, once the DU data is on the phone), then the planner, the 2027 guide and the sources.
-class ToolsHubScreen extends ConsumerWidget {
+/// Mobi hops once, the first time the hub is opened on a phone.
+class ToolsHubScreen extends ConsumerStatefulWidget {
   const ToolsHubScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ToolsHubScreen> createState() => _ToolsHubScreenState();
+}
+
+class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
+  bool _firstOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_resolveFirstOpen());
+  }
+
+  Future<void> _resolveFirstOpen() async {
+    final store = ref.read(toolsStoreProvider);
+    final seen = await store.hubSeen();
+    if (seen) return;
+    unawaited(store.markHubSeen());
+    if (mounted) setState(() => _firstOpen = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final compass = ref.watch(compassControllerProvider).value;
     return ToolsPage(
       title: ToolsCopy.hubTitle,
       lead: ToolsCopy.hubLead,
       slivers: [
-        SliverToBoxAdapter(child: CompassFeature(state: compass)),
+        SliverToBoxAdapter(child: CompassFeature(state: compass, greet: _firstOpen)),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(top: MmSpace.s24),
             child: YouPanel(
-              inset: 64,
+              inset: 72,
               children: [
-                YouRow(icon: LucideIcons.layoutGrid, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
-                YouRow(icon: LucideIcons.calendarRange, title: ToolsCopy.guideTitle, note: ToolsCopy.guideNote, onTap: () => context.push(ToolsPaths.guide2027)),
+                ToolRow(art: ToolArtKind.combo, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
+                ToolRow(art: ToolArtKind.guide, title: ToolsCopy.guideTitle, note: ToolsCopy.guideNote, onTap: () => context.push(ToolsPaths.guide2027)),
               ],
             ),
           ),
@@ -71,9 +97,12 @@ class ToolsHubScreen extends ConsumerWidget {
 /// The lit Compass pane: what the student's subjects open (real, from DU's rules) when known,
 /// otherwise what Compass does. One key into Compass.
 class CompassFeature extends StatelessWidget {
-  const CompassFeature({super.key, required this.state});
+  const CompassFeature({super.key, required this.state, this.greet = false});
 
   final CompassState? state;
+
+  /// Mobi hops beside the title (the first time the hub is opened).
+  final bool greet;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +119,8 @@ class CompassFeature extends StatelessWidget {
             children: [
               Icon(LucideIcons.compass, size: 20, color: colors.accentText),
               const SizedBox(width: MmSpace.s8),
-              Text(ToolsCopy.compassTitle, style: type.labelLarge.copyWith(color: colors.ink2)),
+              Expanded(child: Text(ToolsCopy.compassTitle, style: type.labelLarge.copyWith(color: colors.ink2))),
+              if (greet) const Mobi(pose: MobiPose.cheer, size: 52),
             ],
           ),
           const SizedBox(height: MmSpace.s12),

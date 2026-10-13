@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
+import '../../../core/auth/auth_state.dart';
 import '../../../core/models/practice_quote.dart';
 import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
@@ -76,6 +79,11 @@ Future<LaunchResult> launchPractice(WidgetRef ref, PracticeSelection selection, 
   }
 
   final outcome = await ref.read(practiceStarterProvider).start(selection, quote: quote, mockNumber: mockNumber);
+  return _resultOf(ref, outcome);
+}
+
+LaunchResult _resultOf(WidgetRef ref, StartOutcome outcome) {
+  if (outcome case StartFailed(failure: StartFailure.generic)) _recheckCredits(ref);
   return switch (outcome) {
     Started(:final sessionId) => LaunchStarted(sessionId),
     StartFailed(:final failure, :final message) => LaunchFailed(failure, message: message),
@@ -83,15 +91,21 @@ Future<LaunchResult> launchPractice(WidgetRef ref, PracticeSelection selection, 
   };
 }
 
+/// A start that failed with no definite answer may or may not have moved credits on the server.
+/// The balance is read again, so the "we are checking" copy is true and You shows the result.
+void _recheckCredits(WidgetRef ref) {
+  try {
+    unawaited(ref.read(authSnapshotProvider.notifier).reload().catchError((Object _) {}));
+  } on Object {
+    // The balance refreshes on the next app resume anyway.
+  }
+}
+
 /// Starts a "5 fresh questions" check (WEB-PARITY A8). No quote: the server starts it free
 /// and rechecks evidence, freshness and access itself.
 Future<LaunchResult> launchFreshCheck(WidgetRef ref, PracticeSelection selection) async {
   final outcome = await ref.read(practiceStarterProvider).start(selection);
-  return switch (outcome) {
-    Started(:final sessionId) => LaunchStarted(sessionId),
-    StartFailed(:final failure, :final message) => LaunchFailed(failure, message: message),
-    StartPendingElsewhere(:final sessionId) => LaunchPendingElsewhere(sessionId),
-  };
+  return _resultOf(ref, outcome);
 }
 
 /// The cost line of a fresh quote, for "The cost changed" copy.

@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:io' show Platform;
+
+import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/account_access/access_routes.dart';
 import '../auth/auth_state.dart';
 import '../widgets/mm_sheet.dart';
 import 'action_router.dart';
@@ -35,12 +40,100 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: _routes(rootKey),
   );
 
+  final links = _AppLinkRouting(ref, router, intended)..start(ref.read(appLinkSourceProvider));
+
   ref.onDispose(() {
+    links.dispose();
     refresh.dispose();
     router.dispose();
   });
   return router;
 });
+
+/// Where verified https App Links (www.mockmob.in) come from. Replaceable in tests.
+abstract interface class AppLinkSource {
+  /// The link that launched the app, if any.
+  Future<Uri?> initialLink();
+
+  /// Links that arrive while the app runs.
+  Stream<Uri> get links;
+}
+
+/// The platform's links through `app_links` (the same singleton the auth callback listens to).
+/// Off under `flutter test`, where there is no platform channel.
+class PlatformAppLinkSource implements AppLinkSource {
+  const PlatformAppLinkSource();
+
+  static bool get _testing => Platform.environment.containsKey('FLUTTER_TEST');
+
+  @override
+  Future<Uri?> initialLink() async {
+    if (_testing) return null;
+    try {
+      return await AppLinks().getInitialLink();
+    } on Object {
+      return null;
+    }
+  }
+
+  @override
+  Stream<Uri> get links => _testing ? const Stream<Uri>.empty() : AppLinks().uriLinkStream;
+}
+
+final appLinkSourceProvider = Provider<AppLinkSource>((ref) => const PlatformAppLinkSource());
+
+/// Sends each https link on our own domain through [ActionRouter] (spec 4.3): a native screen
+/// opens with the router (or is remembered for after sign-in while auth is still loading), a
+/// page with no native screen opens in a Custom Tab, anything else is ignored. The auth
+/// callback (`in.mockmob.app://`) is the auth service's and is skipped here.
+class _AppLinkRouting {
+  _AppLinkRouting(this._ref, this._router, this._intended);
+
+  final Ref _ref;
+  final GoRouter _router;
+  final IntendedRoute _intended;
+  StreamSubscription<Uri>? _sub;
+  bool _disposed = false;
+  Uri? _last;
+  DateTime? _lastAt;
+
+  void start(AppLinkSource source) {
+    // app_links also replays the launch link on the stream; [_handle] drops the repeat.
+    _sub = source.links.listen(_handle, onError: (Object _) {});
+    unawaited(source.initialLink().then((uri) {
+      if (uri != null) _handle(uri);
+    }, onError: (Object _) {}));
+  }
+
+  void _handle(Uri uri) {
+    if (_disposed || uri.scheme != 'https') return;
+    final now = DateTime.now();
+    final at = _lastAt;
+    if (uri == _last && at != null && now.difference(at) < const Duration(seconds: 3)) return;
+    _last = uri;
+    _lastAt = now;
+
+    switch (ActionRouter.resolve(uri.toString())) {
+      case NativeTarget(:final location):
+        if (_ref.read(authSnapshotProvider).status == AuthStatus.unknown) {
+          // The splash is still deciding; the redirect continues here after sign-in.
+          _intended.remember(location);
+        } else {
+          // Signed in: open it. Signed out: the redirect remembers it and asks to sign in.
+          _router.go(location);
+        }
+      case ExternalTarget(uri: final target):
+        unawaited(_ref.read(externalLinkOpenerProvider).open(target));
+      case UnsupportedTarget():
+        break;
+    }
+  }
+
+  void dispose() {
+    _disposed = true;
+    unawaited(_sub?.cancel());
+  }
+}
 
 class _AuthRefresh extends ChangeNotifier {
   void notify() => notifyListeners();
@@ -99,7 +192,13 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     page('/onboarding/subject', onboardingSubjectScreen),
     page('/onboarding/sample/result', onboardingSampleResultScreen),
     page('/onboarding/sample/:i', onboardingSampleScreen),
-    page('/sign-in', signInScreen, routes: [page('code', signInCodeScreen)]),
+    page('/sign-in', signInScreen, routes: [
+      page('code', signInCodeScreen),
+      // Account access: password, forgot password and phone (account_access/access_routes.dart).
+      page('password', passwordSignInScreen),
+      page('forgot', forgotPasswordScreen),
+      page('phone', phoneSignInScreen),
+    ]),
     sheet(AppRoutes.beforeYouStart, beforeYouStartScreen),
 
     // The three tabs. Each branch keeps its own navigation stack and fades in on a switch.
@@ -145,7 +244,11 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       page('rhythm', youRhythmScreen, root: true),
       page('notifications', youNotificationsScreen, root: true),
       page('privacy', youPrivacyScreen, root: true),
-      page('account', youAccountScreen, root: true),
+      page('account', youAccountScreen, root: true, routes: [
+        // Set or reset the password (`?mode=reset` after a forgot-password code) and add a phone.
+        page('password', setPasswordScreen, root: true),
+        page('phone', addPhoneScreen, root: true),
+      ]),
       page('delete', youDeleteScreen, root: true),
       page('milestones', youMilestonesScreen, root: true),
       page('bests', youBestsScreen, root: true),

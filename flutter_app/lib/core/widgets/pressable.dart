@@ -4,6 +4,31 @@ import 'package:flutter/material.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
 
+/// The one press physics of the Night Sheet, shared by [MmPressable] and `KeyButton`: the
+/// surface's scale on the near-critical [Springs.snappy] spring, down to [Springs.pressedScale]
+/// the moment a finger lands and back to 1 on release, keeping its velocity between the two.
+/// Under reduced motion it jumps to the target.
+class MmPressSpring {
+  MmPressSpring(TickerProvider vsync) : scale = AnimationController.unbounded(vsync: vsync, value: 1);
+
+  /// The current scale (1 at rest).
+  final AnimationController scale;
+
+  /// How far down the press is: 0 at rest, 1 at [pressedScale].
+  double depth({double pressedScale = Springs.pressedScale}) =>
+      ((1 - scale.value) / (1 - pressedScale)).clamp(0.0, 1.0);
+
+  void to(double target, {required bool reduced}) {
+    if (reduced) {
+      scale.value = target;
+      return;
+    }
+    scale.animateWith(Motion.spring(Springs.snappy, scale.value, target, velocity: scale.velocity));
+  }
+
+  void dispose() => scale.dispose();
+}
+
 /// Builds a surface for its pressed and focused state.
 typedef PressableBuilder = Widget Function(BuildContext context, bool pressed, bool focused);
 
@@ -59,7 +84,8 @@ class MmPressable extends StatefulWidget {
 }
 
 class _MmPressableState extends State<MmPressable> with SingleTickerProviderStateMixin {
-  late final AnimationController _scale = AnimationController.unbounded(vsync: this, value: 1);
+  late final MmPressSpring _spring = MmPressSpring(this);
+  AnimationController get _scale => _spring.scale;
   final ValueNotifier<bool> _pressed = ValueNotifier(false);
   bool _focused = false;
   Offset _downAt = Offset.zero;
@@ -74,18 +100,12 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
 
   @override
   void dispose() {
-    _scale.dispose();
+    _spring.dispose();
     _pressed.dispose();
     super.dispose();
   }
 
-  void _springTo(double target) {
-    if (Motion.reduced(context)) {
-      _scale.value = target;
-      return;
-    }
-    _scale.animateWith(Motion.spring(Springs.snappy, _scale.value, target, velocity: _scale.velocity));
-  }
+  void _springTo(double target) => _spring.to(target, reduced: Motion.reduced(context));
 
   void _down(PointerDownEvent event) {
     if (!_enabled) return;

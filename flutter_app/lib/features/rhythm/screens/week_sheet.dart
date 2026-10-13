@@ -27,6 +27,17 @@ class WeekSheet extends ConsumerStatefulWidget {
 }
 
 class _WeekSheetState extends ConsumerState<WeekSheet> {
+  /// The receipt after the study days editor saved, shown only once the server acknowledged.
+  String? _saved;
+
+  Future<void> _changeDays(RhythmSnapshot snapshot) async {
+    final goal = snapshot.goal?.daysPerWeek ?? snapshot.rhythm?.daysGoal ?? 4;
+    final saved = await showGoalEditor(context, initialDays: goal);
+    if (saved == null || !mounted) return;
+    ref.read(hapticsProvider).settle();
+    setState(() => _saved = ref.read(rhythmActionsProvider).studyDaysReceipt(saved));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,11 +62,9 @@ class _WeekSheetState extends ConsumerState<WeekSheet> {
         router.push(AppRoutes.youRhythm);
       },
       plan: ref.watch(studyDayPlanProvider),
-      onChangeDays: () {
-        final goal = snapshot.goal?.daysPerWeek ?? snapshot.rhythm?.daysGoal ?? 4;
-        showGoalEditor(context, initialDays: goal);
-      },
+      onChangeDays: () => _changeDays(snapshot),
       onPauseWeek: () => ref.read(rhythmActionsProvider).pauseThisWeek(),
+      savedLine: _saved,
     );
   }
 }
@@ -72,6 +81,7 @@ class WeekSheetBody extends StatelessWidget {
     this.plan,
     this.onChangeDays,
     this.onPauseWeek,
+    this.savedLine,
   });
 
   final RhythmSnapshot snapshot;
@@ -84,6 +94,9 @@ class WeekSheetBody extends StatelessWidget {
   final Set<int>? plan;
   final VoidCallback? onChangeDays;
   final Future<void> Function()? onPauseWeek;
+
+  /// The receipt of a study days save the server acknowledged.
+  final String? savedLine;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +117,7 @@ class WeekSheetBody extends StatelessWidget {
       );
     } else if (snapshot.isInitialLoading) {
       content = const SkeletonGroup(
-        label: 'Loading this week',
+        label: RhythmCopy.loadingWeek,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -137,6 +150,10 @@ class WeekSheetBody extends StatelessWidget {
         children: [
           Semantics(header: true, child: Text(RhythmCopy.weekTitle, style: type.title)),
           const SizedBox(height: MmSpace.s16),
+          if (savedLine != null && !rhythmOff) ...[
+            ReceiptLine(text: savedLine!),
+            const SizedBox(height: MmSpace.s12),
+          ],
           content,
         ],
       ),
@@ -175,7 +192,7 @@ class _Loaded extends StatelessWidget {
       planned: plan,
       dates: [for (final d in week.days) d.date?.day],
     );
-    final strip = PlanWeekStrip(days: days, bubble: 28, showDates: true);
+    final strip = PlanWeekStrip(days: days, bubble: 28, showDates: true, daySemantics: true);
 
     final secondary = switch (week.status) {
       WeekStatus.paused => RhythmCopy.pausedKeepsRun,
@@ -195,7 +212,14 @@ class _Loaded extends StatelessWidget {
           Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.small.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s8),
         ],
-        Semantics(label: '${week.label}. ${strip.describe()}', child: strip),
+        strip,
+        const SizedBox(height: MmSpace.s4),
+        PlanWeekKey(days: days),
+        if (plan == null && onChangeDays != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),
+          FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
+        ],
         const SizedBox(height: MmSpace.s16),
         Text(week.label, style: type.subhead),
         if (secondary != null) ...[
@@ -224,7 +248,7 @@ class _Loaded extends StatelessWidget {
         Wrap(
           spacing: MmSpace.s24,
           children: [
-            if (onChangeDays != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
+            if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
             FlushQuietKey(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
           ],
         ),

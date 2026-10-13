@@ -34,12 +34,6 @@ abstract final class Motion {
   /// Digits rolling into place.
   static const Duration numberRoll = Duration(milliseconds: 500);
 
-  /// The wordmark hairline drawing left to right.
-  static const Duration hairline = Duration(milliseconds: 500);
-
-  /// The first-launch cold open, end to end.
-  static const Duration coldOpen = Duration(milliseconds: 1400);
-
   /// A bubble inking from the touch point.
   static const Duration ink = Duration(milliseconds: 260);
 
@@ -48,8 +42,6 @@ abstract final class Motion {
 
   // ---- Shared tokens (kept for existing screens) --------------------------------------------
 
-  /// Key press travel.
-  static const Duration keyDown = Duration(milliseconds: 80);
   static const Duration press = Duration(milliseconds: 100);
   static const Duration release = Duration(milliseconds: 140);
   static const Duration ui = Duration(milliseconds: 200);
@@ -73,7 +65,6 @@ abstract final class Motion {
 
   /// Decelerating ease for UI that settles (the glide family).
   static const Cubic out = Cubic(0.23, 1, 0.32, 1);
-  static const Cubic arena = emphasized;
   static const Cubic drawer = Cubic(0.32, 0.72, 0, 1);
 
   /// Position change only.

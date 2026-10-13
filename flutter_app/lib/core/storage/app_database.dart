@@ -48,11 +48,14 @@ class AppDatabase extends _$AppDatabase {
       );
 
   /// Removes every row that belongs to a user. Used on sign-out and account switch.
-  /// Server read caches can be kept when the same account signs in again.
-  Future<void> clearUserData(String userId, {bool keepCaches = false}) async {
+  /// Server read caches can be kept when the same account signs in again. [keepOutbox] leaves
+  /// the queued writes: they are scoped by user id, so they stay apart from any other account
+  /// and send when the same account signs in again (a sign-out keeps them; an account switch and
+  /// an account deletion do not).
+  Future<void> clearUserData(String userId, {bool keepCaches = false, bool keepOutbox = false}) async {
     await transaction(() async {
       await (delete(answerJournal)..where((t) => t.userId.equals(userId))).go();
-      await (delete(outbox)..where((t) => t.userId.equals(userId))).go();
+      if (!keepOutbox) await (delete(outbox)..where((t) => t.userId.equals(userId))).go();
       await (delete(sessionDrafts)..where((t) => t.userId.equals(userId))).go();
       await (delete(analyticsQueue)..where((t) => t.userId.equals(userId))).go();
       await (delete(pendingResults)..where((t) => t.userId.equals(userId))).go();

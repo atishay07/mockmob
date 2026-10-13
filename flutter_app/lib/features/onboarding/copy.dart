@@ -20,6 +20,13 @@ abstract final class OnboardingCopy {
   static const String buildPlan = 'Build my plan';
   static const String haveAccount = 'I already have an account';
   static const String continuePlan = 'Pick up my sheet';
+
+  /// The stored sheet could not be read and nothing was lost: the key reads it again.
+  static const String sheetUnreadable = "Couldn't open the sheet saved on this phone.";
+
+  /// A sheet this build cannot read was kept aside, and the key starts a new one.
+  static const String sheetFromNewer = 'Your saved sheet is from a newer MockMob. Update to pick it up, or start a new one here. The old one is kept.';
+  static const String sheetBroken = "Your saved sheet couldn't be read, so this starts a new one. The old one is kept.";
   static String welcomeBackLine(int filled, int of) => 'Your sheet is where you left it. $filled of $of filled.';
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
@@ -82,6 +89,7 @@ abstract final class OnboardingCopy {
   static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
   static const String fiveMax = 'Five is the most a profile takes. Drop one to add another.';
   static const String pickOne = 'Pick at least one subject.';
+  static const String pickCollege = 'Pick a college to continue, or say any college is fine.';
   static const String commonPicks = 'Common picks';
   static const String addSubject = 'Add a subject';
   static const String addSubjectNote = 'Science, humanities and the rest of the 15 MockMob offers';
@@ -127,7 +135,7 @@ abstract final class OnboardingCopy {
   static const String holdToSeal = 'Hold to seal';
   static const String sealing = 'Keep holding';
   static const String sealIt = 'Seal it';
-  static const String holdHint = 'Press and hold for a second to keep this plan.';
+  static const String holdHint = 'Hold for a second to keep this plan, or tap Seal it.';
   static const String sealed = 'Sealed';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
@@ -151,6 +159,12 @@ abstract final class OnboardingCopy {
   static String firstMoveChapter(String chapter) => 'Week one starts with $chapter.';
   static const String startNow = 'Start now, about 10 minutes';
   static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account. Your sheet comes with you.';
+
+  // First move when none of the subjects has a starting-point check: plain practice, said plainly.
+  static const String firstPracticeTitle = 'Your first move';
+  static String practiceUnit(String subject) => 'questions in $subject';
+  static String startPractice(String subject) => 'Start with 10 questions in $subject';
+  static const String practiceNeedsAccount = 'Practice is marked on our server, so it needs your account. Your sheet comes with you.';
   static const String mobiFirstMove = 'Ten minutes. I\'ll be here after.';
   static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
   static const String saveNow = 'Save my sheet';

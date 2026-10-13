@@ -1,6 +1,7 @@
 // Mobi in Today's header, every day (owner feedback 13 Oct: "animated everywhere, like Duo"). A
-// 56 dp living Mobi beside the greeting: he breathes and blinks, cheers once when a set was
-// recorded today, yawns after 11 PM, points down at the move when one is ready, and says one
+// 56 dp living Mobi beside the greeting: he breathes and blinks, cheers only when today's opened
+// result improved or held, waves for any other submission, yawns after 11 PM, points at the move
+// card when one is ready (aimed at the card itself, again after layout and scroll), and says one
 // short line when tapped. When the hero already has Mobi (day one, coming back, late night) the
 // header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
@@ -11,9 +12,12 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 
 class HeaderMobi extends StatefulWidget {
-  const HeaderMobi({super.key, required this.cue});
+  const HeaderMobi({super.key, required this.cue, this.aim});
 
   final HeaderMobiCue cue;
+
+  /// The move card's key: where Mobi points when the cue is [HeaderMobiKind.point].
+  final GlobalKey? aim;
 
   static const double size = 56;
 
@@ -21,10 +25,13 @@ class HeaderMobi extends StatefulWidget {
   State<HeaderMobi> createState() => _HeaderMobiState();
 }
 
-class _HeaderMobiState extends State<HeaderMobi> {
+class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   final MobiController _mobi = MobiController();
   Timer? _hush;
   int _tap = 0;
+  ScrollPosition? _position;
+  Offset? _aimedVector;
+  bool _aimQueued = false;
 
   MobiAct get _entrance => switch (widget.cue.kind) {
         HeaderMobiKind.cheer => MobiAct.cheer,
@@ -36,27 +43,64 @@ class _HeaderMobiState extends State<HeaderMobi> {
   @override
   void initState() {
     super.initState();
-    // Pointing is aimed down at the move card, once the header is laid out.
-    if (widget.cue.kind == HeaderMobiKind.point) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        final box = context.findRenderObject();
-        if (box is RenderBox && box.hasSize) _mobi.pointAt(box.localToGlobal(Offset(-40, box.size.height + 140)));
-      });
-    }
+    WidgetsBinding.instance.addObserver(this);
+    _reaim();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // The page scrolls under him: keep the aim on the card as it moves.
+    final position = Scrollable.maybeOf(context)?.position;
+    if (position == _position) return;
+    _position?.removeListener(_reaim);
+    _position = position?..addListener(_reaim);
   }
 
   @override
   void didUpdateWidget(HeaderMobi old) {
     super.didUpdateWidget(old);
-    if (old.cue.kind != widget.cue.kind) _mobi.play(_entrance);
+    if (old.cue.kind != widget.cue.kind) {
+      _mobi.play(_entrance);
+      _aimedVector = null;
+    }
+    _reaim();
   }
+
+  /// Text scale, rotation and window changes move the card.
+  @override
+  void didChangeMetrics() => _reaim();
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _position?.removeListener(_reaim);
     _hush?.cancel();
     _mobi.dispose();
     super.dispose();
+  }
+
+  /// Aims once per frame, after layout, and only when the card moved relative to Mobi.
+  void _reaim() {
+    if (_aimQueued || widget.cue.kind != HeaderMobiKind.point || widget.aim == null) return;
+    _aimQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _aimQueued = false;
+      if (mounted) _aim();
+    });
+    WidgetsBinding.instance.ensureVisualUpdate();
+  }
+
+  void _aim() {
+    final key = widget.aim;
+    final card = key?.currentContext?.findRenderObject();
+    final me = context.findRenderObject();
+    if (key == null || card is! RenderBox || me is! RenderBox || !card.attached || !card.hasSize || !me.hasSize) return;
+    final vector = card.localToGlobal(card.size.center(Offset.zero)) - me.localToGlobal(Offset.zero);
+    final last = _aimedVector;
+    if (last != null && (vector - last).distance < 1.5) return;
+    _aimedVector = vector;
+    _mobi.pointAtWidget(key);
   }
 
   void _onTap() {

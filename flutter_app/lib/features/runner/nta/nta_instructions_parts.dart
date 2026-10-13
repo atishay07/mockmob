@@ -9,6 +9,7 @@ import 'nta_skin.dart';
 /// Words of the instructions page and its preparing stage.
 abstract final class NtaStartCopy {
   static const String heading = 'Read before you start';
+  static const String intro = 'Meet the exam before exam day. Mobi stays outside while you answer.';
   static const String questionsUnit = 'questions';
   static const String minutesUnit = 'minutes';
   static const String marking = 'marking';
@@ -35,8 +36,6 @@ abstract final class NtaStartCopy {
     ('Previous', 'Goes back one question. The palette jumps anywhere.'),
   ];
   static const String screenTitle = 'Stay on the exam screen';
-  static const String disclaimer =
-      'Original practice questions, independent of NTA. The official CUET UG 2027 interface may change.';
   static const String declare = 'I have read the instructions and I am ready to begin.';
   static const String start = 'Start NTA mode';
   static String preparingTitle(String subject) => 'Building your $subject paper.';
@@ -57,11 +56,18 @@ class NtaFactTile extends StatelessWidget {
     final type = context.mmType;
     return Container(
       padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12),
-      decoration: BoxDecoration(color: colors.raised, borderRadius: NtaSkin.radiusAll, border: Border.all(color: colors.line)),
+      decoration: BoxDecoration(
+        color: colors.raised,
+        borderRadius: NtaSkin.radiusAll,
+        border: Border.all(color: colors.line),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1, style: type.figureCompact.copyWith(fontSize: 30, height: 1))),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(value, maxLines: 1, style: type.figureCompact.copyWith(fontSize: 30, height: 1)),
+          ),
           const SizedBox(height: MmSpace.s4),
           Text(unit, style: type.caption.copyWith(color: colors.ink2)),
         ],
@@ -84,16 +90,25 @@ class NtaMarkingTile extends StatelessWidget {
       excludeSemantics: true,
       child: Container(
         padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, MmSpace.s8),
-        decoration: BoxDecoration(color: colors.raised, borderRadius: NtaSkin.radiusAll, border: Border.all(color: colors.line)),
+        decoration: BoxDecoration(
+          color: colors.raised,
+          borderRadius: NtaSkin.radiusAll,
+          border: Border.all(color: colors.line),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (final (v, w) in NtaStartCopy.markingLines)
               Text.rich(
-                TextSpan(children: [
-                  TextSpan(text: v, style: figure),
-                  TextSpan(text: ' $w', style: figure.copyWith(fontWeight: FontWeight.w400, color: colors.ink2)),
-                ]),
+                TextSpan(
+                  children: [
+                    TextSpan(text: v, style: figure),
+                    TextSpan(
+                      text: ' $w',
+                      style: figure.copyWith(fontWeight: FontWeight.w400, color: colors.ink2),
+                    ),
+                  ],
+                ),
                 maxLines: 1,
               ),
           ],
@@ -145,7 +160,10 @@ class NtaInstructionRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: leadingWidth, child: Align(alignment: Alignment.topLeft, child: leading)),
+          SizedBox(
+            width: leadingWidth,
+            child: Align(alignment: Alignment.topLeft, child: leading),
+          ),
           const SizedBox(width: MmSpace.s8),
           Expanded(
             child: Column(
@@ -186,12 +204,23 @@ class NtaKeyRow extends StatelessWidget {
           ExcludeSemantics(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
-              decoration: BoxDecoration(color: fill, borderRadius: const BorderRadius.all(Radius.circular(8)), border: Border.all(color: edge)),
-              child: Text(label, style: type.label.copyWith(color: ink, fontWeight: FontWeight.w700)),
+              decoration: BoxDecoration(
+                color: fill,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                border: Border.all(color: edge),
+              ),
+              child: Text(
+                label,
+                style: type.label.copyWith(color: ink, fontWeight: FontWeight.w700),
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s6),
-          Semantics(label: '$label. $meaning', excludeSemantics: true, child: Text(meaning, style: type.small.copyWith(color: colors.ink2))),
+          Semantics(
+            label: '$label. $meaning',
+            excludeSemantics: true,
+            child: Text(meaning, style: type.small.copyWith(color: colors.ink2)),
+          ),
         ],
       ),
     );
@@ -266,7 +295,23 @@ class NtaPreparing extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(header: true, child: Text(NtaStartCopy.preparingTitle(subject), style: type.headline)),
+          // Mobi follows the real steps: thinking while access is checked, reading the paper
+          // while it is built, waving as the exam opens.
+          Center(
+            child: ExcludeSemantics(
+              child: MobiCharacter(
+                size: 120,
+                entrance: switch (phase) {
+                  NtaPrepPhase.checking => MobiAct.think,
+                  NtaPrepPhase.starting => MobiAct.read,
+                  NtaPrepPhase.opening => MobiAct.hello,
+                },
+                seed: 13,
+              ),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          Semantics(header: true, child: Text(NtaStartCopy.preparingTitle(subject), style: NtaSkin.of(context).type.headline)),
           const SizedBox(height: MmSpace.s12),
           Text(NtaStartCopy.preparingBody, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s24),

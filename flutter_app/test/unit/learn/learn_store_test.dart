@@ -107,6 +107,43 @@ void main() {
     expect(await store.lesson('b'), isNotNull);
   });
 
+  group('ids with LIKE wildcards are plain characters', () {
+    test('lesson() reads only the exact id, with and without the subject', () async {
+      await store.putLesson(lesson('accXgoodwill'));
+      expect(await store.lesson('acc_goodwill'), isNull);
+      expect(await store.lesson('acc%'), isNull);
+      await store.putLesson(lesson('acc_goodwill'));
+      expect((await store.lesson('acc_goodwill'))!.json['id'], 'acc_goodwill');
+      expect((await store.lesson('acc_goodwill', subject: 'accountancy'))!.json['id'], 'acc_goodwill');
+      expect(await store.lesson('acc_goodwill', subject: 'english'), isNull);
+    });
+
+    test('dropLesson() never removes another lesson that a wildcard would match', () async {
+      await store.putLesson(lesson('accXgoodwill'));
+      await store.putLesson(lesson('acc%will'));
+      await store.dropLesson('acc_goodwill');
+      await store.dropLesson('acc%');
+      expect(await store.lesson('accXgoodwill'), isNotNull);
+      expect(await store.lesson('acc%will'), isNotNull);
+      await store.dropLesson('acc%will');
+      expect(await store.lesson('acc%will'), isNull);
+      expect(await store.lesson('accXgoodwill'), isNotNull);
+    });
+
+    test('dropSubject() drops only the exact subject', () async {
+      await store.putLesson(lesson('a', subject: 'gen_test'));
+      await store.putLesson(lesson('b', subject: 'genXtest'));
+      await store.putLesson(lesson('c', subject: 'gen%'));
+      await store.dropSubject('gen_test');
+      expect(await store.lesson('a'), isNull);
+      expect(await store.lesson('b'), isNotNull);
+      expect(await store.lesson('c'), isNotNull);
+      await store.dropSubject('gen%');
+      expect(await store.lesson('b'), isNotNull);
+      expect(await store.lesson('c'), isNull);
+    });
+  });
+
   test('one pending event per run survives a restart and is cleared on demand', () async {
     final event = PendingEvent.create(expectedRevision: 4, itemId: 'card-1', type: 'rate', rating: 3);
     await store.putPending('run-1', event);

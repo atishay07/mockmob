@@ -14,11 +14,14 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/data/repair_run.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
+import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationScope, celebrationControllerProvider;
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 import 'support/review_fixtures.dart';
 
@@ -54,11 +57,13 @@ void main() {
   late FakeAnalytics analytics;
   late ProviderContainer container;
   late AppDatabase db;
+  late MemoryPrefsStore rhythmStore;
 
   setUp(() {
     api = FakeRepairApi();
     analytics = FakeAnalytics();
     db = AppDatabase(NativeDatabase.memory());
+    rhythmStore = MemoryPrefsStore();
     container = ProviderContainer(
       overrides: [
         authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1')),
@@ -75,6 +80,7 @@ void main() {
         hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
         creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
         rhythmRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<Rhythm>()),
+        rhythmPrefsStoreProvider.overrideWithValue(rhythmStore),
       ],
     );
     // Keep the live record stream subscribed, as the screens do.
@@ -205,6 +211,52 @@ void main() {
     expect(state().repairedCount, 2);
     expect(analytics.events.last.$1, AnalyticsEvents.repairCompleted);
     expect(analytics.events.last.$2, {'count': 2});
+  });
+
+  test('a group key counts the steps its run holds, paper by paper', () async {
+    final index = container.read(reviewIndexProvider)!;
+    final group = index.openGroups.firstWhere((g) => g.chapter == 'Partnership: admission of a partner');
+    expect(group.openByPaper.map((p) => p.items.length), [3, 2]);
+    for (final paper in group.openByPaper) {
+      expect(container.read(repairRunProvider(paper.attemptId).notifier).open(paper.items.first.questionId), isTrue);
+      expect(container.read(repairRunProvider(paper.attemptId))!.steps, hasLength(paper.items.length));
+    }
+  });
+
+  group('the repair ending fires the one repairFinished moment (rhythm-01)', () {
+    test('it consumes the moment with the acknowledged time, once, in the run scope', () async {
+      run().open('m7-q0');
+      run().begin(limit: 2);
+      await settle();
+      run().next();
+      await settle();
+      run().next();
+      await settle();
+      final c = container.read(celebrationControllerProvider).byScope[CelebrationScope.repair('m7')];
+      expect(c, isNotNull);
+      expect(c!.id, startsWith('repair:m7:'));
+      expect(c.receipt, startsWith('Repair finished.'));
+    });
+
+    test('a run with nothing repaired fires nothing', () async {
+      api.answers.add(explainedJson(status: 'not_explained'));
+      run().open('m7-q0');
+      run().begin(limit: 1);
+      await settle();
+      run().finish();
+      await settle();
+      expect(container.read(celebrationControllerProvider).byScope, isEmpty);
+    });
+
+    test('with the weekly rhythm turned off the moment is not spent unseen', () async {
+      rhythmStore.values['rhythm_hidden_u1'] = true;
+      run().open('m7-q0');
+      run().begin(limit: 1);
+      await settle();
+      run().finish();
+      await settle();
+      expect(container.read(celebrationControllerProvider).byScope, isEmpty);
+    });
   });
 
   test('reopening a repaired mistake is free and leaves the record alone', () async {

@@ -5,6 +5,7 @@ import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/road_section.dart';
 import 'package:mockmob/features/today/screens/why_sheet.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -29,11 +30,26 @@ Widget _sheet(Widget body) => Builder(
       ),
     );
 
+/// The road to May on its own: the timeline with the dated stops under it, and the ladder.
+Widget _road(TodayInputs inputs) => Builder(
+      builder: (context) => ColoredBox(
+        color: context.mmColors.ground,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
+          child: RoadSection(road: buildRoad(inputs)!, onChooseColleges: () {}),
+        ),
+      ),
+    );
+
 void main() {
   final now = tuesdayEvening;
 
   todayGolden('today_ready', () => _view(ashaInputs()));
   todayGolden('today_ready_full', () => _view(ashaInputs()), size: const Size(384, 1900), dock: false);
+  todayGolden('today_practice', () => _view(ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))])));
+  screenGolden('today_road', () => _road(ashaInputs()), size: const Size(384, 860), dock: false);
+  screenGolden('today_road_window', () => _road(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))), size: const Size(384, 720), dock: false);
+  screenGolden('today_road_csas', () => _road(ashaInputs(now: DateTime.utc(2027, 6, 5, 8))), size: const Size(384, 680), dock: false);
   todayGolden('today_ready_5min', () => _view(ashaInputs(selectedMinutes: 5)));
   todayGolden('today_ready_text130', () => _view(ashaInputs()), textScale: 1.3);
   todayGolden('today_morning', () => _view(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0))));

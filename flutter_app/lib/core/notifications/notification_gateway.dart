@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -12,9 +13,52 @@ class NotificationTap {
   final String? actionId;
 }
 
+/// The tap that started the app from a killed state, read from the plugin's launch details. Null
+/// when the app was not launched by a notification, or the launch carried no response.
+NotificationTap? launchTapFrom(NotificationAppLaunchDetails? details) {
+  if (details == null || !details.didNotificationLaunchApp) return null;
+  final response = details.notificationResponse;
+  if (response == null) return null;
+  final action = response.actionId;
+  return NotificationTap(payload: response.payload, actionId: action == null || action.isEmpty ? null : action);
+}
+
+/// Hands the cold-start tap to the app exactly once per process.
+///
+/// A tap on a reminder while the app is killed starts the app, but the plugin only reports it
+/// through its launch details: the tap callback fires for a running app only. The engine can
+/// initialise more than once in a process (a rebuilt service, a scheduler that calls
+/// `ensureReady` again), and the launch details stay the same for the whole process, so the tap
+/// is delivered on the first initialise only. Otherwise the same reminder would route and count
+/// twice.
+class LaunchTapLatch {
+  LaunchTapLatch._();
+
+  static bool _consumed = false;
+
+  /// Reads the launch tap with [read] and passes it to [onTap], once per process. Later calls do
+  /// nothing. A failed read is treated as no tap and still closes the latch.
+  static Future<void> deliverOnce(Future<NotificationTap?> Function() read, void Function(NotificationTap tap)? onTap) async {
+    if (_consumed) return;
+    _consumed = true;
+    NotificationTap? tap;
+    try {
+      tap = await read();
+    } on Object {
+      return;
+    }
+    if (tap != null) onTap?.call(tap);
+  }
+
+  @visibleForTesting
+  static void reset() => _consumed = false;
+}
+
 /// The slice of the local notifications plugin the engine uses, so scheduling logic is tested
 /// with a fake and the plugin stays replaceable.
 abstract class LocalNotificationsGateway {
+  /// Prepares the plugin and registers [onTap]. Also hands [onTap] the tap that launched the app
+  /// from a killed state, once per process (see [LaunchTapLatch]).
   Future<void> initialize({void Function(NotificationTap tap)? onTap});
   Future<void> createChannel(NotificationChannelSpec spec);
 
@@ -58,11 +102,16 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
   @override
   Future<void> initialize({void Function(NotificationTap tap)? onTap}) async {
     await _plugin.initialize(
-      settings: const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher')),
+      // The status-bar icon: "mo" in one white ink (Android draws only a small icon's alpha, so
+      // the full-colour launcher icon would show as a solid blob). Kept from resource shrinking
+      // by res/raw/keep.xml.
+      settings: const InitializationSettings(android: AndroidInitializationSettings('ic_stat_mockmob')),
       onDidReceiveNotificationResponse: (response) => onTap?.call(
         NotificationTap(payload: response.payload, actionId: response.actionId?.isEmpty ?? true ? null : response.actionId),
       ),
     );
+    // A tap that launched the app from a killed state never reaches the callback above.
+    await LaunchTapLatch.deliverOnce(() async => launchTapFrom(await _plugin.getNotificationAppLaunchDetails()), onTap);
   }
 
   Importance _importance(NotificationChannelSpec c) => c.importance == NotificationImportance.low ? Importance.low : Importance.defaultImportance;

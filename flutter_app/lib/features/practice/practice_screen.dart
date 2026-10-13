@@ -168,7 +168,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                               icon: ModeIcons.nta,
                               title: PracticeCopy.ntaTitle,
                               tag: ntaGated ? PracticeCopy.proTag : null,
-                              line: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine(questions: mockQuestionCount),
+                              line: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
                               chips: PracticeCopy.ntaChips,
                               // The exam's own instructions page: the clock starts only after it.
                               onTap: () => context.push(NtaRoutes.location(subject)),

@@ -111,8 +111,11 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
     if (session.currentIndex < session.questions.length - 1) goTo(session.currentIndex + 1);
   }
 
+  /// The warning card (or the ended notice) is up: "Return to the exam" is the only live control.
+  bool get _modalUp => _integrity.showing;
+
   Future<void> _confirmLeave() async {
-    if (session.submitState.value.stage != SubmitStage.idle) return;
+    if (_modalUp || session.submitState.value.stage != SubmitStage.idle) return;
     unawaited(ref.read(hapticsProvider).warn());
     final nextStrike = _integrity.strikes + 1;
     final ends = nextStrike >= NtaRules.strikes;
@@ -131,6 +134,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   }
 
   Future<void> _openPalette() async {
+    if (_modalUp) return;
     final pick = await showNtaDrawer<int>(
       context: context,
       builder: (drawerContext) => ListenableBuilder(
@@ -159,6 +163,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   }
 
   Future<void> _openQuestionPaper() async {
+    if (_modalUp) return;
     final pick = await showNtaQuestionPaper(
       context,
       subject: NtaCopy.subject(session.subject),
@@ -169,6 +174,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   }
 
   void _jump(int i) {
+    if (_modalUp) return;
     unawaited(ref.read(hapticsProvider).tick());
     goTo(i);
   }
@@ -191,6 +197,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
               child: NtaLayout(
                 session: session,
                 canAnswer: _canAnswer,
+                modalUp: _modalUp,
                 strikes: _integrity.strikes,
                 textScale: NtaTextStep.scales[textStep],
                 candidate: candidate,
@@ -207,10 +214,15 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
                   onClear: () {
                     if (_canAnswer) unawaited(select(_qid, null));
                   },
-                  onPrevious: previous,
-                  onSaveAndNext: next,
+                  onPrevious: () {
+                    if (!_modalUp) previous();
+                  },
+                  onSaveAndNext: () {
+                    if (!_modalUp) next();
+                  },
                   onJump: _jump,
                   onSubmit: () {
+                    if (_modalUp) return;
                     session.dismissAway();
                     openSubmit();
                   },

@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/repositories/credits_repository.dart';
+import '../../../core/sync/sync_providers.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/ai_reply_report.dart';
 import '../data/ask_controller.dart';
 import '../data/insights_repository.dart';
 import '../widgets/ask_messages.dart';
@@ -49,11 +51,81 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   Future<void> _send([String? text]) async {
     final message = (text ?? _text.text).trim();
     if (message.isEmpty) return;
+    if (!await _disclosed(message)) return;
+    if (!mounted) return;
     if (text == null) _text.clear();
     final sending = ref.read(askControllerProvider.notifier).send(message);
     _toEnd();
     await sending;
     _toEnd();
+  }
+
+  /// Before the first message that would leave the phone for an AI service, says so once and
+  /// waits for the student. Record questions answered on the phone never ask.
+  Future<bool> _disclosed(String message) async {
+    if (ref.read(askControllerProvider.notifier).answersOnPhone(message)) return true;
+    final store = ref.read(insightsPrefsStoreProvider);
+    if (await aiServiceDisclosed(store)) return true;
+    if (!mounted) return false;
+    final go = await showMmSheet<bool>(
+      context: context,
+      title: InsightsCopy.disclosureTitle,
+      builder: (sheet) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(InsightsCopy.disclosureBody, style: sheet.mmType.body),
+          const SizedBox(height: MmSpace.s20),
+          KeyButton(label: InsightsCopy.disclosureSend, onPressed: () => Navigator.of(sheet).pop(true)),
+          const SizedBox(height: MmSpace.s4),
+          Center(child: KeyButton.quiet(label: InsightsCopy.disclosureNotNow, onPressed: () => Navigator.of(sheet).pop(false))),
+        ],
+      ),
+    );
+    if (go != true) return false;
+    await markAiServiceDisclosed(store);
+    return true;
+  }
+
+  /// Report this reply: the flag sheet, then the report through the outbox. The line after it
+  /// says only what happened: reached us, waiting on this phone, or did not reach us.
+  Future<void> _report(AskMessage m) async {
+    final reason = await showMmSheet<String>(
+      context: context,
+      title: InsightsCopy.reportTitle,
+      builder: (sheet) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final r in InsightsCopy.reportReasons) ...[
+            MmSelectRow(title: r, selected: false, onTap: () => Navigator.of(sheet).pop(r)),
+            const SizedBox(height: MmSpace.s8),
+          ],
+        ],
+      ),
+    );
+    if (reason == null || !mounted) return;
+    ReplyReportOutcome outcome;
+    try {
+      outcome = await reportAiReply(
+        ref.read(syncCoordinatorProvider),
+        reason: reason,
+        reply: m.text,
+        sessionId: ref.read(askControllerProvider).sessionId,
+        requestId: m.requestId,
+      );
+    } on Object {
+      outcome = ReplyReportOutcome.failed;
+    }
+    if (!mounted) return;
+    final line = switch (outcome) {
+      ReplyReportOutcome.sent => InsightsCopy.reportSent,
+      ReplyReportOutcome.waiting => InsightsCopy.reportWaiting,
+      ReplyReportOutcome.failed => InsightsCopy.reportFailed,
+    };
+    ScaffoldMessenger.maybeOf(context)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(line), behavior: SnackBarBehavior.floating));
   }
 
   void _toEnd() {
@@ -107,6 +179,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     const SizedBox(height: MmSpace.s16),
                     AskMessageView(
                       message: m,
+                      onReport: m.isModel ? () => _report(m) : null,
                       onRetry: () {
                         ref.read(askControllerProvider.notifier).retry();
                         _toEnd();

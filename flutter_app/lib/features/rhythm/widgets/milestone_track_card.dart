@@ -2,7 +2,9 @@
 // once any step has landed and a faint ghost until then; the steps on one rail, inked when the
 // server dated them, ringed when next, quiet after that; then the next step with exactly what
 // lands it and, where the app can count it, how far along it is; and the record behind the path.
-// No locks, no streak pressure, nothing expires.
+// No locks, no streak pressure, nothing expires. When a step just landed (a fresh row), the card
+// plays its earned moment once: the token settles while a ring sweeps round it, and Mobi
+// celebrates beside the title with one line naming the step.
 import 'package:flutter/material.dart';
 
 
@@ -13,6 +15,7 @@ import '../copy.dart';
 import '../logic/milestone_progress.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/tokens.dart';
+import 'earned_token.dart';
 import 'rhythm_page.dart' show FlushQuietKey;
 import 'locked_coin.dart';
 
@@ -45,6 +48,11 @@ class MilestoneTrackCard extends StatelessWidget {
     final next = track.next;
     final count = next == null ? null : progress[next.step.id];
     final target = next == null ? null : milestoneTargets[next.step.id];
+    // The newest step of this path that landed since the last visit, if any.
+    StepView? landed;
+    for (final s in track.earned) {
+      if (freshIds.contains(s.step.id) && (landed == null || s.earnedAt!.isAfter(landed.earnedAt!))) landed = s;
+    }
     return FakeGlass(
       borderRadius: MmRadius.panelAll,
       child: Padding(
@@ -54,7 +62,7 @@ class MilestoneTrackCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                _TokenArt(token: _token, earned: earned > 0),
+                _TokenArt(token: _token, earned: earned > 0, justLanded: landed != null),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
@@ -63,9 +71,23 @@ class MilestoneTrackCard extends StatelessWidget {
                       Semantics(header: true, child: Text(track.track.title, style: type.title.copyWith(fontSize: 20, height: 24 / 20))),
                       const SizedBox(height: 2),
                       Text(RhythmCopy.trackCount(earned, total), style: type.caption.copyWith(color: colors.ink2)),
+                      if (landed != null) ...[
+                        const SizedBox(height: 2),
+                        Semantics(
+                          liveRegion: true,
+                          child: Text(
+                            RhythmCopy.stepJustLanded(landed.step.name),
+                            style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
+                if (landed != null) ...[
+                  const SizedBox(width: MmSpace.s8),
+                  const Mobi(pose: MobiPose.celebrating, size: 52, motion: MobiMotion.hop),
+                ],
               ],
             ),
             const SizedBox(height: MmSpace.s16),
@@ -85,15 +107,19 @@ class MilestoneTrackCard extends StatelessWidget {
 }
 
 class _TokenArt extends StatelessWidget {
-  const _TokenArt({required this.token, required this.earned});
+  const _TokenArt({required this.token, required this.earned, this.justLanded = false});
 
   final MilestoneToken token;
   final bool earned;
+
+  /// A step of this path landed since the last visit: the token plays its earned moment.
+  final bool justLanded;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     if (!earned) return LockedCoin(token, size: 64);
+    if (justLanded) return EarnedToken(child: ArtImage(token.art, width: 54, height: 54));
     return SizedBox.square(
       dimension: 64,
       child: DecoratedBox(
@@ -232,8 +258,8 @@ class _NextPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              RhythmCopy.nextLabel.toUpperCase(),
-              style: type.caption.copyWith(fontSize: 11, height: 14 / 11, letterSpacing: 0.8, fontWeight: FontWeight.w700, color: colors.accentText),
+              RhythmCopy.nextLabel,
+              style: type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w700, color: colors.accentText),
             ),
             const SizedBox(height: 2),
             Text(view.step.name, style: type.labelLarge.copyWith(fontSize: 16)),

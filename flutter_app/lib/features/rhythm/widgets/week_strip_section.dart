@@ -48,7 +48,7 @@ class WeekStripBody extends StatelessWidget {
     final type = context.mmType;
     if (snapshot.isInitialLoading) {
       return const SkeletonGroup(
-        label: 'Loading this week',
+        label: RhythmCopy.loadingWeek,
         child: SizedBox(
           height: 44,
           child: Row(

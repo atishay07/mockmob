@@ -16,7 +16,9 @@ import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../logic/reminder_plan.dart' show RepairReady;
 import '../services/notification_providers.dart';
+import '../services/system_settings.dart';
 import '../widgets/notification_preview.dart';
 import '../widgets/time_sheet.dart';
 
@@ -63,6 +65,14 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     });
   }
 
+  Future<void> _openSettings() async {
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final opened = await ref.read(systemSettingsProvider).openNotificationSettings();
+    if (!opened) {
+      messenger?.showSnackBar(const SnackBar(content: Text(NotificationsCopy.settingsDidNotOpen)));
+    }
+  }
+
   Future<void> _notNow() async {
     final scheduler = ref.read(reminderSchedulerProvider);
     final prefs = ref.read(appPrefsProvider);
@@ -87,6 +97,7 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     final child = switch (_phase) {
       _Phase.ask => _Ask(
         prefs: prefs,
+        repair: ref.watch(repairReadyProvider),
         asking: _asking,
         onAllow: _allow,
         onNotNow: _notNow,
@@ -106,6 +117,8 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
         mobi: MobiPose.rest,
         title: NotificationsCopy.deniedTitle,
         body: NotificationsCopy.deniedBody,
+        secondaryLabel: NotificationsCopy.openAndroidSettings,
+        onSecondary: () => unawaited(_openSettings()),
         doneLabel: NotificationsCopy.deniedDone,
         onDone: () => Navigator.of(context).maybePop(),
       ),
@@ -122,12 +135,17 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
 class _Ask extends StatelessWidget {
   const _Ask({
     required this.prefs,
+    this.repair,
     required this.asking,
     required this.onAllow,
     required this.onNotNow,
   });
 
   final NotificationPrefs prefs;
+
+  /// The student's own waiting repair, so its preview says their real count. Null shows the
+  /// plain description with no number.
+  final RepairReady? repair;
   final bool asking;
   final VoidCallback onAllow;
   final VoidCallback onNotNow;
@@ -136,6 +154,16 @@ class _Ask extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final waiting = repair;
+    final window = prefs.studyWindow;
+    // Each preview is the student's own reminder where the app knows it, and a plain line
+    // with no number where it does not.
+    final repairBody = waiting == null
+        ? NotificationsCopy.exampleRepairBody
+        : NotificationsCopy.repairBody(waiting.mistakes, waiting.minutes);
+    final studyBody = window == null
+        ? NotificationsCopy.exampleStudyBody
+        : NotificationsCopy.exampleStudyAt(formatClock(window.start));
 
     return Column(
       key: const ValueKey('ask'),
@@ -186,19 +214,19 @@ class _Ask extends StatelessWidget {
                 const _PreviewRule(),
                 StaggerIn(
                   index: 1,
-                  child: const NotificationPreview(
+                  child: NotificationPreview(
                     icon: LucideIcons.wrench,
-                    channel: NotificationsCopy.exampleStudyChannel,
-                    body: NotificationsCopy.exampleStudyBody,
+                    channel: NotificationsCopy.exampleRepairChannel,
+                    body: repairBody,
                   ),
                 ),
                 const _PreviewRule(),
                 StaggerIn(
                   index: 2,
-                  child: const NotificationPreview(
-                    icon: LucideIcons.calendarDays,
-                    channel: NotificationsCopy.exampleWeeklyChannel,
-                    body: NotificationsCopy.exampleWeeklyBody,
+                  child: NotificationPreview(
+                    icon: LucideIcons.clock,
+                    channel: NotificationsCopy.exampleStudyChannel,
+                    body: studyBody,
                   ),
                 ),
               ],
@@ -245,6 +273,8 @@ class _Outcome extends StatelessWidget {
     required this.onDone,
     this.primaryLabel,
     this.onPrimary,
+    this.secondaryLabel,
+    this.onSecondary,
   });
 
   /// Mobi cheers once Android granted it, and sits calmly when it did not.
@@ -255,6 +285,10 @@ class _Outcome extends StatelessWidget {
   final VoidCallback onDone;
   final String? primaryLabel;
   final VoidCallback? onPrimary;
+
+  /// A secondary way forward next to Done (Open Android settings after a refusal).
+  final String? secondaryLabel;
+  final VoidCallback? onSecondary;
 
   @override
   Widget build(BuildContext context) {
@@ -283,6 +317,10 @@ class _Outcome extends StatelessWidget {
           KeyButton(label: primaryLabel!, onPressed: onPrimary),
           const SizedBox(height: MmSpace.s8),
           KeyButton.quiet(label: doneLabel, expanded: true, onPressed: onDone),
+        ] else if (secondaryLabel != null) ...[
+          KeyButton(label: doneLabel, onPressed: onDone),
+          const SizedBox(height: MmSpace.s8),
+          KeyButton.secondary(label: secondaryLabel!, onPressed: onSecondary),
         ] else
           KeyButton(label: doneLabel, onPressed: onDone),
       ],

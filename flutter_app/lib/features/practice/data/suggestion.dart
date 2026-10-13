@@ -65,13 +65,15 @@ class SubjectSuggestion extends PracticeSuggestion {
   PracticeSelection get selection => PracticeSelection(mode: PracticeMode.quick, subjectId: subjectId, count: count);
 }
 
-/// No paper yet (or none readable): ten questions in the first subject the student chose.
-/// [firstEver] is true only when the attempts list is known to be empty; then the quote is asked
-/// with `purpose=baseline`, so a first-use allowance shows on the confirm sheet when it exists.
+/// No paper yet (or none readable): ten questions in the first subject the student chose, or in
+/// the subject they picked on the tiles. [firstEver] is true only when the attempts list is known
+/// to be empty; then the quote is asked with `purpose=baseline`, so a first-use allowance shows on
+/// the confirm sheet when it exists. [picked] is true when the subject is the student's own pick.
 class StartingSuggestion extends PracticeSuggestion {
-  const StartingSuggestion({required String subjectId, required this.firstEver}) : super(subjectId);
+  const StartingSuggestion({required String subjectId, required this.firstEver, this.picked = false}) : super(subjectId);
 
   final bool firstEver;
+  final bool picked;
 
   int get count => defaultPracticeCount;
 
@@ -92,19 +94,37 @@ String publicSubjectOf(String internal, List<Subject>? catalog) {
 }
 
 /// The rules, in order. Pure, so the precedence is unit tested.
+///
+/// [pickedSubject] is the subject the student picked on the tiles. When there is one, every
+/// suggestion except an open session is about that subject only: its latest paper and the
+/// chapter that cost the most there, or ten questions to start it. The card never offers one
+/// subject while the tiles show another (owner, 13 October: Business Studies became Accountancy).
 PracticeSuggestion suggestPractice({
   required SessionDraft? draft,
   required DateTime now,
   required List<Attempt>? attempts,
   required List<String> chosenSubjects,
   required String fallbackSubject,
+  String? pickedSubject,
   List<Subject>? catalog,
 }) {
   if (draft != null && resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) {
     return ResumeSuggestion(draft);
   }
-  final first = chosenSubjects.isEmpty ? fallbackSubject : chosenSubjects.first;
   final all = attempts;
+  if (pickedSubject != null) {
+    final mine = [
+      for (final a in all ?? const <Attempt>[])
+        if (publicSubjectOf(a.subject, catalog) == pickedSubject) a,
+    ];
+    if (mine.isEmpty) {
+      return StartingSuggestion(subjectId: pickedSubject, firstEver: all != null && all.isEmpty, picked: true);
+    }
+    mine.sort((a, b) => b.completedAt.compareTo(a.completedAt));
+    return _fromLatest(mine.first, pickedSubject, all!);
+  }
+
+  final first = chosenSubjects.isEmpty ? fallbackSubject : chosenSubjects.first;
   if (all == null || all.isEmpty) return StartingSuggestion(subjectId: first, firstEver: all != null);
 
   final chosen = chosenSubjects.toSet();
@@ -113,7 +133,11 @@ PracticeSuggestion suggestPractice({
     (a) => chosen.isEmpty || chosen.contains(publicSubjectOf(a.subject, catalog)),
     orElse: () => sorted.first,
   );
-  final subject = publicSubjectOf(latest.subject, catalog);
+  return _fromLatest(latest, publicSubjectOf(latest.subject, catalog), all);
+}
+
+/// The chapter that cost the most in [latest], or quick practice in its subject.
+PracticeSuggestion _fromLatest(Attempt latest, String subject, List<Attempt> all) {
   final leader = observedChapterBreakdown(latest).leader;
   if (leader != null && leader.chapter.trim().isNotEmpty && leader.wrong > 0) {
     return ChapterSuggestion(
@@ -129,20 +153,25 @@ PracticeSuggestion suggestPractice({
 }
 
 /// The suggestion for the Practice tab, from what is already on the phone (drafts, cached
-/// attempts, the chosen subjects). Never waits on the network: unknown attempts give the
-/// starting suggestion until they arrive.
+/// attempts, the chosen subjects, the subject picked on the tiles). Never waits on the network:
+/// unknown attempts give the starting suggestion until they arrive. A tile change recomputes it.
 final practiceSuggestionProvider = Provider.autoDispose<PracticeSuggestion>((ref) {
   final draft = ref.watch(latestSessionDraftProvider).value;
   final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
   final subjects = ref.watch(authSnapshotProvider.select((a) => a.subjects));
   final catalog = ref.watch(practiceSubjectsProvider).value;
   final now = ref.watch(nowProvider)();
+  final tile = ref.watch(practiceSubjectProvider);
+  // Only an explicit pick that still stands (the tiles show it) steers the card; with no pick the
+  // card follows the student's latest paper, as before.
+  final picked = ref.watch(pickedPracticeSubjectProvider);
   return suggestPractice(
     draft: draft,
     now: now,
     attempts: attempts,
     chosenSubjects: subjects,
-    fallbackSubject: ref.watch(practiceSubjectProvider),
+    fallbackSubject: tile,
+    pickedSubject: picked != null && picked == tile ? picked : null,
     catalog: catalog,
   );
 });

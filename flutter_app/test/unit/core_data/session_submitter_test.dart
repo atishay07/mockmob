@@ -129,6 +129,32 @@ void main() {
     expect(outcome, isA<SubmitRejected>());
   });
 
+  test('a local failure after the server accepted still ends received', () async {
+    final draft = draftOf(endsAtWallMs: 600000);
+    await drafts.save(draft);
+    final flaky = SessionSubmitter(
+      api: api,
+      drafts: drafts,
+      pendingResults: pending,
+      cacheAttempt: (_) async => throw StateError('cache locked'),
+      now: () => fixedNow,
+    );
+    final outcome = await flaky.submit(draft: draft, journal: journal, durationMs: 600000);
+    expect(outcome, isA<SubmitReceived>());
+    expect(await drafts.latest(), isNull);
+  });
+
+  test('a failure that is not an ApiError is pending with the draft kept, never thrown', () async {
+    final draft = draftOf(endsAtWallMs: 600000);
+    await drafts.save(draft);
+    api.submitFailure = const FormatException('not json');
+    final outcome = await submitter.submit(draft: draft, journal: journal, durationMs: 600000);
+    expect(outcome, isA<SubmitPending>());
+    expect((outcome as SubmitPending).error.kind, ApiErrorKind.unknown);
+    expect((await drafts.bySessionId('sess-1'))!.pendingSubmission, isTrue);
+    expect(await db.select(db.answerJournal).get(), isNotEmpty);
+  });
+
   test('a repeat submit is safe: the second 200 still ends received', () async {
     final draft = draftOf(endsAtWallMs: 600000);
     await drafts.save(draft);

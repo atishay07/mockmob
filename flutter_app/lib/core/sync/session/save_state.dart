@@ -14,6 +14,10 @@ enum SaveState {
 
   /// Ticket mode: the server holds nothing until submit, so the pill reads "On this phone".
   onThisPhone,
+
+  /// The server refused the answers it was sent and will not be asked again by itself:
+  /// "Not saved yet. Tap to retry." The answers are still on this phone.
+  notSaved,
 }
 
 class SaveSnapshot {
@@ -39,18 +43,12 @@ class SaveSnapshot {
 
 /// Derives the pill. "Saved" is never shown for local-only work: it needs every answer
 /// acknowledged. In ticket mode it is always [SaveState.onThisPhone].
-SaveSnapshot deriveSaveState({
-  required bool ticketMode,
-  required int unsyncedAnswers,
-  required SyncStatus syncStatus,
-  DateTime? lastAckAt,
-}) {
+SaveSnapshot deriveSaveState({required bool ticketMode, required int unsyncedAnswers, required SyncStatus syncStatus, DateTime? lastAckAt}) {
   if (ticketMode) return SaveSnapshot(state: SaveState.onThisPhone, unsyncedAnswers: unsyncedAnswers, lastAckAt: lastAckAt);
   if (unsyncedAnswers == 0) return SaveSnapshot(state: SaveState.saved, lastAckAt: lastAckAt);
+  if (syncStatus == SyncStatus.notSaved) {
+    return SaveSnapshot(state: SaveState.notSaved, unsyncedAnswers: unsyncedAnswers, lastAckAt: lastAckAt);
+  }
   final blocked = syncStatus == SyncStatus.failing || syncStatus == SyncStatus.stopped || syncStatus == SyncStatus.conflict;
-  return SaveSnapshot(
-    state: blocked ? SaveState.waitingForNetwork : SaveState.saving,
-    unsyncedAnswers: unsyncedAnswers,
-    lastAckAt: lastAckAt,
-  );
+  return SaveSnapshot(state: blocked ? SaveState.waitingForNetwork : SaveState.saving, unsyncedAnswers: unsyncedAnswers, lastAckAt: lastAckAt);
 }

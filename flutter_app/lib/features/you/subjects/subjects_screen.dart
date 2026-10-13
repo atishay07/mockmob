@@ -26,9 +26,16 @@ class SubjectsScreen extends ConsumerStatefulWidget {
 }
 
 class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
-  /// What the account holds (updated after a save).
-  late List<String> _saved = _initial();
-  late List<String> _chosen = [..._saved];
+  /// What the account holds (updated after a save). Null until the profile has loaded: the
+  /// phone's own list is only a starting point to show, never the baseline Save compares with.
+  late List<String>? _saved = _profileSubjects(ref.read(authSnapshotProvider));
+
+  /// What is ticked. Starts from the profile, or from the phone's setup answers while the
+  /// profile is still loading.
+  late List<String> _chosen = [..._saved ?? ref.read(studentTargetProvider).subjects];
+
+  /// The student ticked or removed something, so a late profile must not replace the ticks.
+  bool _touched = false;
   bool _saving = false;
   String? _error;
   String? _cap;
@@ -41,15 +48,36 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
     super.dispose();
   }
 
-  List<String> _initial() {
-    final profile = ref.read(authSnapshotProvider).subjects;
-    return profile.isNotEmpty ? [...profile] : [...ref.read(studentTargetProvider).subjects];
+  /// The profile's subjects once the profile is known (signed in, with subjects or told that it
+  /// has none yet), else null.
+  static List<String>? _profileSubjects(AuthSnapshot auth) {
+    if (!auth.isSignedIn) return null;
+    if (auth.subjects.isNotEmpty) return [...auth.subjects];
+    return auth.needsOnboarding ? <String>[] : null;
   }
 
-  bool get _changed => _chosen.length != _saved.length || _chosen.toSet().difference(_saved.toSet()).isNotEmpty;
+  bool get _baselineKnown => _saved != null;
+
+  bool get _changed {
+    final saved = _saved;
+    if (saved == null) return false;
+    return _chosen.length != saved.length || _chosen.toSet().difference(saved.toSet()).isNotEmpty;
+  }
+
+  /// The profile arrived (or changed) while the screen was open.
+  void _onProfile(AuthSnapshot? before, AuthSnapshot now) {
+    if (_saving) return;
+    final known = _profileSubjects(now);
+    if (known == null) return;
+    setState(() {
+      _saved = known;
+      if (!_touched) _chosen = [...known];
+    });
+  }
 
   void _toggle(String id) {
     setState(() {
+      _touched = true;
       _error = null;
       _savedAt = null;
       if (_chosen.remove(id)) {
@@ -83,6 +111,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         _saving = false;
         _saved = [...stored];
         _chosen = [...stored];
+        _touched = false;
         _savedAt = ref.read(nowProvider)();
       });
       // Only after the server stored them: Mobi cheers and says what changes.
@@ -104,9 +133,10 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authSnapshotProvider, _onProfile);
     final catalog = ref.watch(youSubjectCatalogProvider);
     final loaded = catalog.value;
-    final canSave = _changed && _chosen.isNotEmpty && !_saving;
+    final canSave = _baselineKnown && _changed && _chosen.isNotEmpty && !_saving;
 
     return YouPage(
       title: EditCopy.subjectsTitle,
@@ -132,11 +162,13 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             onPressed: canSave ? _save : null,
             disabledReason: _saving || _savedAt != null
                 ? null
-                : _chosen.isEmpty
-                    ? EditCopy.subjectsNeedOne
-                    : !_changed
-                        ? EditCopy.subjectsUnchanged
-                        : null,
+                : !_baselineKnown
+                    ? EditCopy.subjectsProfileLoading
+                    : _chosen.isEmpty
+                        ? EditCopy.subjectsNeedOne
+                        : !_changed
+                            ? EditCopy.subjectsUnchanged
+                            : null,
           ),
         ],
       ),

@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/domain/cuet_dates.dart';
+import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/core/repositories/local_scope.dart';
+import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
+import 'package:mockmob/features/rhythm/rhythm.dart';
+import 'package:mockmob/features/today/widgets/header_mobi.dart';
+import 'package:mockmob/features/today/widgets/today_celebration.dart';
 import 'package:mockmob/core/router/routes.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show MmSegmented;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -9,12 +21,15 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
-import 'package:mockmob/features/rhythm/widgets/plan_week_strip.dart';
 
+import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../core_data/support/test_db.dart';
 import 'support/today_fixtures.dart';
 
 void main() {
+  setUpAll(loadAppFonts);
+
   final overrides = [
     authSnapshotProvider.overrideWithBuild(
       (ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha Verma'),
@@ -43,10 +58,10 @@ void main() {
     return events;
   }
 
-  testWidgets('the volt pill starts the repair; Show me reports back; the length is not on the card', (tester) async {
+  testWidgets('the volt pill starts the repair; Show me reports back; the length chips are on the card', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
+    expect(find.text('5 min'), findsOneWidget, reason: 'a move with more than one length shows its chooser every day');
     await tester.tap(find.text(TodayCopy.startRepair(15)));
-    expect(find.text('5 min'), findsNothing, reason: 'the length changes under Choose something else');
     await tester.tap(find.text(TodayCopy.showMe));
     await tester.pump();
     final action = events.whereType<TodayAction>().single;
@@ -107,4 +122,92 @@ void main() {
     expect(rows.map((r) => r.title), contains(TodayCopy.altReview));
     expect(rows.any((r) => r.note.contains('credit') || r.note.contains('Rs')), isFalse);
   });
+
+  testWidgets('a practice move offers 5, 10 and 20 questions and the chip reports the count', (tester) async {
+    final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]);
+    final events = await pumpToday(tester, buildToday(inputs));
+    Finder chip(String n) => find.descendant(of: find.byType(MmSegmented<int>), matching: find.text(n));
+    expect(find.text(TodayCopy.practiceLength), findsOneWidget);
+    expect(chip('5'), findsOneWidget);
+    expect(chip('10'), findsOneWidget);
+    expect(chip('20'), findsOneWidget);
+    expect(chip('15'), findsNothing);
+    await tester.tap(chip('20'));
+    await tester.pump();
+    expect(events, contains('minutes:20'));
+  });
+
+  testWidgets('the road lists every stop with its dates under the timeline', (tester) async {
+    await pumpToday(tester, buildToday(ashaInputs()));
+    final road = find.text(TodayCopy.roadTitle);
+    await tester.scrollUntilVisible(road, 300, scrollable: find.byType(Scrollable).first);
+    for (final stop in buildToday(ashaInputs()).road!.stops) {
+      expect(find.text(stop.title), findsOneWidget, reason: stop.title);
+      expect(find.text(stop.when), findsOneWidget, reason: '${stop.title} states its dates');
+      if (stop.note != null) expect(find.text(stop.note!), findsOneWidget);
+    }
+    expect(find.text(CuetDates.registrationWhen), findsOneWidget);
+  });
+
+  testWidgets('after the exam window opens the road says so instead of vanishing', (tester) async {
+    await pumpToday(tester, buildToday(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))));
+    await tester.scrollUntilVisible(find.text(TodayCopy.windowOpen), 300, scrollable: find.byType(Scrollable).first);
+    expect(find.text(TodayCopy.windowOpen), findsOneWidget);
+    expect(find.text(TodayCopy.ladderTitle), findsOneWidget, reason: 'the college ladder stays');
+  });
+
+  testWidgets('the header Mobi keeps pointing at the move card through a scroll and a text-size change', (tester) async {
+    final view = buildToday(ashaInputs());
+    expect(view.header.mobi!.kind, HeaderMobiKind.point);
+    await pumpToday(tester, view);
+    final list = find.byType(CustomScrollView);
+    await tester.drag(list, const Offset(0, -300));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.drag(list, const Offset(0, 300));
+    await tester.pump(const Duration(milliseconds: 100));
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(tester.takeException(), isNull);
+    expect(find.byType(HeaderMobi), findsOneWidget);
+  });
+
+  testWidgets('the first repair milestone renders its sentence under the week ending', (tester) async {
+    final db = newTestDb();
+    addTearDown(db.close);
+    final at = DateTime(2026, 10, 12, 23, 51);
+    await pumpMockmob(
+      tester,
+      const TodayCelebration(),
+      overrides: [
+        userIdProvider.overrideWithValue('u1'),
+        rhythmSeenRepositoryProvider.overrideWithValue(RhythmSeenRepository(LocalScope(db, () => 'u1', () => at))),
+        rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        hapticsProvider.overrideWithValue(Haptics(enabled: false, driver: _NoHaptics())),
+      ],
+    );
+    expect(find.text('That was your first repair.'), findsNothing, reason: 'nothing, and no gap, before it fires');
+    final container = ProviderScope.containerOf(tester.element(find.byType(TodayCelebration)));
+    await tester.runAsync(
+      () => container.read(celebrationControllerProvider.notifier).celebrate(
+            CelebrationEvent.milestone(RhythmMilestone(id: 'first_repair', achievedAt: at)),
+          ),
+    );
+    for (var i = 0; i < 6; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(find.text('That was your first repair.'), findsOneWidget);
+  });
+}
+
+class _NoHaptics implements HapticDriver {
+  @override
+  Future<void> lightImpact() async {}
+
+  @override
+  Future<void> mediumImpact() async {}
+
+  @override
+  Future<void> selectionClick() async {}
 }

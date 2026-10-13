@@ -26,6 +26,20 @@ class SavedCombo {
   final int maxPapers;
 }
 
+/// One DU programme at one college that the student is aiming for.
+class ShortlistTarget {
+  const ShortlistTarget({required this.groupId, required this.college});
+
+  final String groupId;
+  final String college;
+
+  @override
+  bool operator ==(Object other) => other is ShortlistTarget && other.groupId == groupId && other.college == college;
+
+  @override
+  int get hashCode => Object.hash(groupId, college);
+}
+
 class ToolsStore {
   ToolsStore(this._prefs);
 
@@ -33,6 +47,7 @@ class ToolsStore {
 
   static const _compass = 'mm.tools.compass.v1';
   static const _combo = 'mm.tools.combo.v1';
+  static const _hubSeen = 'mm.tools.hub.seen.v1';
 
   Future<Map<String, dynamic>?> _read(String key) async {
     try {
@@ -79,6 +94,37 @@ class ToolsStore {
 
   Future<void> saveCombo(SavedCombo v) =>
       _write(_combo, {'targets': v.targets, 'pool': v.pool, 'maxPapers': v.maxPapers});
+
+  static String _shortlistKey(String userId) => 'mm.tools.compass.shortlist.v1.$userId';
+
+  /// The student's DU shortlist, per account, on this phone.
+  Future<List<ShortlistTarget>> shortlist(String userId) async {
+    try {
+      final raw = await _prefs.getString(_shortlistKey(userId));
+      if (raw == null) return const [];
+      final v = jsonDecode(raw);
+      if (v is! List) return const [];
+      return [
+        for (final e in v)
+          if (e is Map && e['g'] is String && e['c'] is String) ShortlistTarget(groupId: e['g'] as String, college: e['c'] as String),
+      ];
+    } on Object {
+      return const [];
+    }
+  }
+
+  Future<void> saveShortlist(String userId, List<ShortlistTarget> list) async {
+    try {
+      await _prefs.setString(_shortlistKey(userId), jsonEncode([for (final t in list) {'g': t.groupId, 'c': t.college}]));
+    } on Object {
+      // Storage refused: the list lasts this visit.
+    }
+  }
+
+  /// Whether the tools hub has been opened on this phone before (Mobi hops the first time only).
+  Future<bool> hubSeen() async => (await _read(_hubSeen)) != null;
+
+  Future<void> markHubSeen() => _write(_hubSeen, {'seen': true});
 }
 
 final toolsPrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());

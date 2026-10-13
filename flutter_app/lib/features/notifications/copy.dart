@@ -27,12 +27,14 @@ abstract final class NotificationsCopy {
 
   static const String exampleResultChannel = 'Result ready';
   static const String exampleResultBody =
-      'Mock 7 was received. Your result is ready.';
+      'Your mock was received. Your result is ready.';
   static const String exampleStudyChannel = 'Study window';
   static const String exampleStudyBody =
-      'Your repair is ready: 3 mistakes, about 10 minutes.';
-  static const String exampleWeeklyChannel = 'Weekly plan';
-  static const String exampleWeeklyBody = 'Your week is ready to look at.';
+      'Your study window has started. Pick a small next step when you are ready.';
+  static String exampleStudyAt(String time) => 'At $time: your study window has started.';
+  static const String exampleRepairChannel = 'Repair ready';
+  static const String exampleRepairBody =
+      'When a mock leaves mistakes, a short repair is waiting for you.';
 
   static String promptQuietLine(String start, String end) =>
       'Quiet hours are $start to $end.';
@@ -54,6 +56,8 @@ abstract final class NotificationsCopy {
       'Showing settings from ${formatTime12(at)}. We could not refresh them. Try again soon.';
   static const String saveFailed =
       'We could not save that. Your earlier setting is still in place.';
+  static String savedOnServer(DateTime at) => 'Settings saved on the server at ${formatTime12(at)}.';
+  static String savedOnPhone(DateTime at) => 'Saved on this phone at ${formatTime12(at)}.';
 
   // System permission.
   static const String permissionOn = 'Notifications are on';
@@ -88,6 +92,10 @@ abstract final class NotificationsCopy {
   static const String channelWeekly = 'Weekly plan';
   static const String channelWeeklyBody =
       'A look at your week, on Sunday evening.';
+  static const String channelRepair = 'Repair ready';
+  static const String channelRepairBody =
+      'When mistakes from a recent mock are waiting for a repair. Kept on this phone.';
+  static String channelMuted(DateTime until) => 'Paused until ${formatWeekdayDate(until)}.';
   static const String channelCheck = 'Check due';
   static const String channelCheckBody = 'When a fresh-question check is due.';
   static const String channelPaused =

@@ -11,8 +11,12 @@ abstract interface class SignInGateway {
   /// [SignInException].
   Future<void> verifyCode(String email, String code);
 
-  /// Native Google sign-in. False when the student cancelled.
-  Future<bool> signInWithGoogle();
+  /// Google sign-in: the native sheet when it works, else the browser. [GoogleOutcome.browserOpened]
+  /// is not a cancel; the result comes back through [oauthReturns].
+  Future<GoogleOutcome> signInWithGoogle();
+
+  /// Browser sign-in results as the callback link arrives.
+  Stream<OAuthReturn> oauthReturns();
 
   /// True once the profile loaded and the session is usable.
   bool get isSignedIn;
@@ -34,7 +38,10 @@ class CoreSignInGateway implements SignInGateway {
       _auth.verifyEmailCode(email, code);
 
   @override
-  Future<bool> signInWithGoogle() => _auth.signInWithGoogle();
+  Future<GoogleOutcome> signInWithGoogle() => _auth.signInWithGoogle();
+
+  @override
+  Stream<OAuthReturn> oauthReturns() => _auth.oauthReturns();
 
   @override
   bool get isSignedIn => _ref.read(authSnapshotProvider).isSignedIn;

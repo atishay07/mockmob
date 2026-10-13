@@ -10,16 +10,13 @@ import '../model/recap_variant.dart';
 /// bubble, so state is never colour alone), the sum, one comparison line when the server sent
 /// one, and the key naming what comes next.
 class MarksFooter extends StatelessWidget {
-  const MarksFooter({super.key, required this.model, required this.onNext, required this.onFirstFix, this.mobi});
+  const MarksFooter({super.key, required this.model, required this.onNext, required this.onFirstFix});
 
   final RecapModel model;
   final VoidCallback onNext;
 
   /// The lower variant's extra quiet key, which jumps to card 3.
   final VoidCallback onFirstFix;
-
-  /// Mobi on card 1: greeting for a first mock, one hop for a higher result. Null otherwise.
-  final Widget? mobi;
 
   String? _line() {
     if (model.keysUnavailable) return ResultCopy.keysUnavailable;
@@ -51,28 +48,20 @@ class MarksFooter extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      spacing: MmSpace.s16,
-                      runSpacing: MmSpace.s6,
-                      children: [
-                        _Count(state: BubbleState.filled, text: ResultCopy.correct(m.correct)),
-                        _Count(state: BubbleState.wrong, text: ResultCopy.wrong(m.wrong)),
-                        _Count(state: BubbleState.blank, text: ResultCopy.notAttempted(m.unattempted)),
-                        if (m.heldCount > 0) _Count(state: BubbleState.marked, text: ResultCopy.heldCell(m.heldCount)),
-                      ],
-                    ),
-                    if (line != null) ...[const SizedBox(height: MmSpace.s8), Text(line, style: type.small.copyWith(color: colors.ink2))],
-                  ],
-                ),
+              Wrap(
+                spacing: MmSpace.s16,
+                runSpacing: MmSpace.s6,
+                children: [
+                  _Count(state: BubbleState.filled, text: ResultCopy.correct(m.correct)),
+                  _Count(state: BubbleState.wrong, text: ResultCopy.wrong(m.wrong)),
+                  _Count(state: BubbleState.blank, text: ResultCopy.notAttempted(m.unattempted)),
+                  if (m.heldCount > 0) _Count(state: BubbleState.marked, text: ResultCopy.heldCell(m.heldCount)),
+                ],
               ),
-              if (mobi != null) ...[const SizedBox(width: MmSpace.s8), mobi!],
+              if (line != null) ...[const SizedBox(height: MmSpace.s8), Text(line, style: type.small.copyWith(color: colors.ink2))],
             ],
           ),
           const SizedBox(height: MmSpace.s16),

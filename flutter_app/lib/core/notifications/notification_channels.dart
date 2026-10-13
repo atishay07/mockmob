@@ -51,6 +51,15 @@ abstract final class NotificationChannels {
     prefKey: NotificationChannelKeys.studyWindow,
   );
 
+  /// Mistakes from a recent mock are waiting for a repair. Its switch lives on this phone (the
+  /// server has no key for it), so the engine never skips it for a server channel setting.
+  static const repairReady = NotificationChannelSpec(
+    id: 'repair_ready',
+    name: 'Repair ready',
+    description: 'Tells you when mistakes from a recent mock are waiting for a repair.',
+    importance: NotificationImportance.normal,
+  );
+
   static const weeklyPlan = NotificationChannelSpec(
     id: 'weekly_plan',
     name: 'Weekly plan',
@@ -75,7 +84,7 @@ abstract final class NotificationChannels {
     importance: NotificationImportance.normal,
   );
 
-  static const all = [mockInProgress, resultsReady, studyReminders, weeklyPlan, freshChecks, accountSafety];
+  static const all = [mockInProgress, resultsReady, studyReminders, repairReady, weeklyPlan, freshChecks, accountSafety];
 
   static NotificationChannelSpec byId(String id) => all.firstWhere((c) => c.id == id, orElse: () => accountSafety);
 }

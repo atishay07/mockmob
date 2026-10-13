@@ -77,7 +77,7 @@ class InlineBanner extends StatelessWidget {
       );
     }
 
-    final surface = tone == BannerTone.error ? colors.wrongSurface : (colors.isNight ? colors.raised : colors.raised);
+    final surface = tone == BannerTone.error ? colors.wrongSurface : colors.raised;
     final rim = tone == BannerTone.error ? colors.wrongBorder : colors.line;
 
     return Semantics(

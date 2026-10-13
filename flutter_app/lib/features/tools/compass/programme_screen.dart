@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -104,7 +103,7 @@ class ProgrammeScreen extends ConsumerWidget {
           ),
         ),
       ],
-      const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.honesty, top: MmSpace.s20, icon: LucideIcons.info)),
+      const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmSpace.s20)),
     ];
   }
 }

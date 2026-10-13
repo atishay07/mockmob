@@ -25,11 +25,15 @@ class _YouRhythmScreenState extends ConsumerState<YouRhythmScreen> {
   bool _busy = false;
   String? _error;
 
+  /// The receipt of the last save the server acknowledged (study days).
+  String? _saved;
+
   /// Runs a write, keeps the keys still while it is in flight, and names a recovery on failure.
   Future<void> _run(Future<void> Function() write, String failure) async {
     setState(() {
       _busy = true;
       _error = null;
+      _saved = null;
     });
     try {
       await write();
@@ -41,7 +45,12 @@ class _YouRhythmScreenState extends ConsumerState<YouRhythmScreen> {
 
   Future<void> _editGoal(int current) async {
     final saved = await showGoalEditor(context, initialDays: current);
-    if (saved != null) ref.read(hapticsProvider).settle();
+    if (saved == null || !mounted) return;
+    ref.read(hapticsProvider).settle();
+    setState(() {
+      _error = null;
+      _saved = ref.read(rhythmActionsProvider).studyDaysReceipt(saved);
+    });
   }
 
   Future<void> _confirmTurnOff() async {
@@ -76,6 +85,7 @@ class _YouRhythmScreenState extends ConsumerState<YouRhythmScreen> {
         mode: prefs.mode,
         busy: _busy,
         errorText: _error,
+        savedText: _saved,
         plan: ref.watch(studyDayPlanProvider),
         onEditGoal: () => _editGoal(snapshot.goal?.daysPerWeek ?? snapshot.rhythm!.daysGoal),
         onPauseThisWeek: () => _run(actions.pauseThisWeek, RhythmCopy.pauseFailed),
@@ -115,7 +125,7 @@ class _LoadingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SkeletonGroup(
-      label: 'Loading your rhythm',
+      label: RhythmCopy.loadingRhythm,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

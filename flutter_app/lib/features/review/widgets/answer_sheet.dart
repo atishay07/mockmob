@@ -56,7 +56,9 @@ class _AnswerSheetBodyState extends ConsumerState<AnswerSheetBody> {
       }
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: MmSpace.s32),
-        child: Center(child: MmSpinner(color: colors.ink2)),
+        child: Center(
+          child: Semantics(label: ReviewCopy.loadingAnswers, liveRegion: true, child: MmSpinner(color: colors.ink2)),
+        ),
       );
     }
 

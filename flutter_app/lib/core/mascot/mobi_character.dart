@@ -44,7 +44,8 @@ class MobiCharacter extends StatefulWidget {
   /// Mobi is decorative (excluded from semantics) unless this is given.
   final String? semanticLabel;
 
-  /// A tap makes Mobi react (a wave, then a hop).
+  /// A tap makes Mobi react (a wave, then a hop). With a [semanticLabel] it is also a TalkBack
+  /// button; without one it stays decorative.
   final bool interactive;
 
   /// Draw the contact shadow.
@@ -214,6 +215,12 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       child = GestureDetector(behavior: HitTestBehavior.opaque, onTap: _onTap, child: child);
     }
     final label = widget.semanticLabel;
-    return label == null ? ExcludeSemantics(child: child) : Semantics(label: label, image: true, child: ExcludeSemantics(child: child));
+    // Decorative Mobi stays out of TalkBack. A labelled, interactive Mobi is a button whose
+    // double tap plays the same reaction as a touch.
+    if (label == null) return ExcludeSemantics(child: child);
+    if (widget.interactive) {
+      return Semantics(button: true, label: label, onTap: _onTap, child: ExcludeSemantics(child: child));
+    }
+    return Semantics(label: label, image: true, child: ExcludeSemantics(child: child));
   }
 }

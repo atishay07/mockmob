@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/subject_names.dart';
 
 /// The top row of a pushed insights page: back, the title, an optional trailing key.
 class InsightsHeader extends StatelessWidget {
@@ -136,34 +138,88 @@ class ProTag extends StatelessWidget {
 
 /// Right, wrong and blank as one bar, in proportion. Each part also has a shape (solid,
 /// solid with a darker edge, hatched) so the bar never depends on colour alone.
-class MarksBar extends StatelessWidget {
-  const MarksBar({super.key, required this.right, required this.wrong, required this.blank, this.height = 12});
+///
+/// With [engrave], the bar fills left to right once (280 ms) when it first appears and again
+/// only when its counts change; never under reduced motion.
+class MarksBar extends StatefulWidget {
+  const MarksBar({super.key, required this.right, required this.wrong, required this.blank, this.height = 12, this.engrave = false});
 
   final int right;
   final int wrong;
   final int blank;
   final double height;
+  final bool engrave;
+
+  @override
+  State<MarksBar> createState() => _MarksBarState();
+}
+
+class _MarksBarState extends State<MarksBar> with SingleTickerProviderStateMixin {
+  late final AnimationController _fill = AnimationController(vsync: this, duration: Motion.engrave, value: 1);
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (widget.engrave && !Motion.reduced(context)) _fill.forward(from: 0);
+  }
+
+  @override
+  void didUpdateWidget(MarksBar old) {
+    super.didUpdateWidget(old);
+    final same = old.right == widget.right && old.wrong == widget.wrong && old.blank == widget.blank;
+    if (same || !widget.engrave) return;
+    if (Motion.reduced(context)) {
+      _fill.value = 1;
+    } else {
+      _fill.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _fill.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return ExcludeSemantics(
-      child: SizedBox(
-        height: height,
-        width: double.infinity,
-        child: CustomPaint(painter: _MarksBarPainter(right: right, wrong: wrong, blank: blank, colors: colors)),
+      child: RepaintBoundary(
+        child: SizedBox(
+          height: widget.height,
+          width: double.infinity,
+          child: AnimatedBuilder(
+            animation: _fill,
+            builder: (context, _) => CustomPaint(
+              painter: _MarksBarPainter(
+                right: widget.right,
+                wrong: widget.wrong,
+                blank: widget.blank,
+                colors: colors,
+                reach: Motion.out.transform(_fill.value),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
 class _MarksBarPainter extends CustomPainter {
-  _MarksBarPainter({required this.right, required this.wrong, required this.blank, required this.colors});
+  _MarksBarPainter({required this.right, required this.wrong, required this.blank, required this.colors, this.reach = 1});
 
   final int right;
   final int wrong;
   final int blank;
   final MmColors colors;
+
+  /// How much of the bar's width is engraved so far, 0 to 1.
+  final double reach;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -171,9 +227,10 @@ class _MarksBarPainter extends CustomPainter {
     final r = Radius.circular(size.height / 2);
     final whole = RRect.fromRectAndRadius(Offset.zero & size, r);
     canvas.drawRRect(whole, Paint()..color = colors.sunken);
-    if (total == 0) return;
+    if (total == 0 || reach <= 0) return;
     canvas.save();
     canvas.clipRRect(whole);
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width * reach, size.height));
     const gap = 2.0;
     var x = 0.0;
     void part(int n, void Function(Rect rect) draw) {
@@ -214,7 +271,8 @@ class _MarksBarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MarksBarPainter old) => old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors;
+  bool shouldRepaint(_MarksBarPainter old) =>
+      old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors || old.reach != reach;
 }
 
 /// One legend entry: the bubble that means it, then the words.
@@ -278,15 +336,24 @@ class ActionLink extends StatelessWidget {
   }
 }
 
-/// A subject's object in its pool of light, so a row says which paper it is at a glance.
+/// A subject's object in its pool of light, so a row says which paper it is at a glance. Under
+/// 56 dp it is the subject's line glyph on its tile. A subject id this build does not know gets
+/// its initials, never another subject's mark (and is logged so the table can be filled in).
 class SubjectThumb extends StatelessWidget {
   const SubjectThumb({super.key, required this.subject, this.size = 44});
 
   final String subject;
   final double size;
 
+  static final Set<String> _logged = {};
+
   @override
   Widget build(BuildContext context) {
+    final known = isKnownSubject(subject) || isLanguageSubject(subject);
+    if (!known) {
+      if (_logged.add(subject)) debugPrint('Insights: no subject art for "$subject"; showing its initials');
+      return _Monogram(name: subjectDisplayName(subject), size: size);
+    }
     if (size < 56) return SubjectGlyphTile(subject, size: size.clamp(32, 40));
     final colors = context.mmColors;
     final light = SubjectLight.forSubject(subject)?.of(Theme.of(context).brightness) ?? colors.raised2;
@@ -302,7 +369,54 @@ class SubjectThumb extends StatelessWidget {
               stops: const [0.2, 1],
             ),
           ),
-          child: object == null ? null : Center(child: ArtImage(object, width: size * 0.86, height: size * 0.86)),
+          child: object == null
+              ? null
+              : Center(
+                  child: ArtImage(
+                    object,
+                    width: size * 0.86,
+                    height: size * 0.86,
+                    placeholder: _Monogram(name: subjectDisplayName(subject), size: size * 0.86),
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A subject's initials on a paper disc.
+class _Monogram extends StatelessWidget {
+  const _Monogram({required this.name, required this.size});
+
+  final String name;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final words = name.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    final letters = words.isEmpty
+        ? '?'
+        : words.length == 1
+            ? words.first.substring(0, words.first.length.clamp(1, 2))
+            : '${words[0][0]}${words[1][0]}'.toUpperCase();
+    return ExcludeSemantics(
+      child: SizedBox.square(
+        dimension: size,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: colors.isNight ? colors.raised2 : colors.sunken,
+            border: Border.all(color: colors.line),
+          ),
+          child: Center(
+            child: Text(
+              letters,
+              textScaler: TextScaler.noScaling,
+              style: context.mmType.caption.copyWith(fontSize: size * 0.34, fontWeight: FontWeight.w700, color: colors.ink2),
+            ),
+          ),
         ),
       ),
     );

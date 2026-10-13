@@ -21,7 +21,7 @@ enum BrandLogoForm {
 /// coordinates (y down, baseline at 0), so a pose holds at any painted size.
 @immutable
 class LogoGlyphPose {
-  const LogoGlyphPose({this.offset = Offset.zero, this.opacity = 1, this.clip});
+  const LogoGlyphPose({this.offset = Offset.zero, this.opacity = 1, this.clip, this.scaleX = 1, this.hingeX = 0});
 
   /// Added to the letter's place in the word.
   final Offset offset;
@@ -32,13 +32,20 @@ class LogoGlyphPose {
   /// The letter shows only inside this rect (word coordinates), for clipped reveals.
   final Rect? clip;
 
+  /// Horizontal scale about [hingeX], for a letter unfolding on a hinge like a paper flap (0 is
+  /// folded flat, and skips the letter; 1 is open).
+  final double scaleX;
+
+  /// The hinge, in the letter's own units (x from its pen position).
+  final double hingeX;
+
   static const LogoGlyphPose rest = LogoGlyphPose();
 }
 
 /// Mobi's face inside the logo.
 @immutable
 class MobiFacePose {
-  const MobiFacePose({this.blink = 0, this.look = Offset.zero, this.ink, this.eyesToSmall, this.detail});
+  const MobiFacePose({this.blink = 0, this.look = Offset.zero, this.ink, this.eyesToSmall, this.detail, this.bodyToSmall});
 
   /// 0 open, 1 closed.
   final double blink;
@@ -57,6 +64,11 @@ class MobiFacePose {
 
   /// Forces a detail master; null picks it by the painted size.
   final LogoDetail? detail;
+
+  /// When set (0 to 1), the body crossfades from the full master's (the flap cut) to the small
+  /// master's, whatever [detail] says, so an animation that crosses the size threshold does not
+  /// pop. The eyes follow [eyesToSmall].
+  final double? bodyToSmall;
 
   static const MobiFacePose rest = MobiFacePose();
 }
@@ -178,7 +190,7 @@ class BrandLogo extends StatelessWidget {
   }
 
   static MobiFacePose _withDetail(MobiFacePose p, LogoDetail d) =>
-      MobiFacePose(blink: p.blink, look: p.look, ink: p.ink, eyesToSmall: p.eyesToSmall, detail: d);
+      MobiFacePose(blink: p.blink, look: p.look, ink: p.ink, eyesToSmall: p.eyesToSmall, detail: d, bodyToSmall: p.bodyToSmall);
 }
 
 /// Paints the logo. Paths are parsed once and cached; a frame only transforms and fills them, so
@@ -267,39 +279,64 @@ class BrandLogoPainter extends CustomPainter {
     canvas.scale(s);
     canvas.translate(-view.center.dx, -view.center.dy);
 
-    final fill = Paint()..isAntiAlias = true;
+    final fill = _fill;
     final wholeWord = form == BrandLogoForm.wordmark;
     for (final letter in LogoGeometry.letters) {
       if (!wholeWord && letter.index != _iconMIndex) continue;
       final g = p.glyph(letter.index);
-      if (g.opacity <= 0) continue;
+      if (g.opacity <= 0 || g.scaleX <= 0) continue;
       fill.color = letterColor.withValues(alpha: letterColor.a * g.opacity.clamp(0.0, 1.0));
       canvas.save();
       if (g.clip != null) canvas.clipRect(g.clip!);
       canvas.translate(letter.x + g.offset.dx, g.offset.dy);
+      if (g.scaleX != 1) {
+        canvas.translate(g.hingeX, 0);
+        canvas.scale(g.scaleX, 1);
+        canvas.translate(-g.hingeX, 0);
+      }
       canvas.drawPath(_path(letter.outline), fill);
       canvas.restore();
     }
 
     final mobiPose = p.glyph(LogoGeometry.mobiIndex);
     if (mobiPose.opacity > 0) {
-      final detail = detailFor(form, size, devicePixelRatio, pose: p);
+      final toSmall = p.mobi.bodyToSmall;
+      final detail = toSmall == null
+          ? detailFor(form, size, devicePixelRatio, pose: p)
+          : (toSmall < 0.5 ? LogoDetail.full : LogoDetail.small);
       _paintMobi(canvas, LogoGeometry.mobi(detail), mobiPose, p.mobi);
     }
     canvas.restore();
   }
 
+  // Reused by every frame (painting is single-threaded), so an animation allocates no paints.
+  static final Paint _fill = Paint()..isAntiAlias = true;
+  static final Paint _volt = Paint()..color = LogoGeometry.volt;
+  static final Paint _voltOver = Paint();
+  static final Paint _charcoal = Paint()..color = LogoGeometry.charcoal;
+  static final Paint _white = Paint()..color = LogoGeometry.warmWhite;
+  static final Paint _layer = Paint();
+
   static void _paintMobi(Canvas canvas, MobiGlyph m, LogoGlyphPose g, MobiFacePose face) {
     final layered = g.opacity < 1;
     if (layered) {
-      canvas.saveLayer(null, Paint()..color = Color.fromRGBO(0, 0, 0, g.opacity.clamp(0.0, 1.0)));
+      final bounds = m.bounds.shift(Offset(m.x + g.offset.dx, g.offset.dy)).inflate(2);
+      canvas.saveLayer(bounds, _layer..color = Color.fromRGBO(0, 0, 0, g.opacity.clamp(0.0, 1.0)));
     } else {
       canvas.save();
     }
     if (g.clip != null) canvas.clipRect(g.clip!);
     canvas.translate(m.x + g.offset.dx, g.offset.dy);
-    canvas.drawPath(_path(m.body), Paint()..color = LogoGeometry.volt);
-    canvas.drawPath(_path(m.visor), Paint()..color = LogoGeometry.charcoal);
+    final toSmall = face.bodyToSmall?.clamp(0.0, 1.0);
+    if (toSmall == null || toSmall <= 0 || toSmall >= 1) {
+      canvas.drawPath(_path(m.body), _volt);
+    } else {
+      // The flap cut fills in: the full body, then the small (uncut) body over it, fading in.
+      // Outside the cut both are the same volt, so only the cut changes.
+      canvas.drawPath(_path(LogoGeometry.mobiFull.body), _volt);
+      canvas.drawPath(_path(LogoGeometry.mobiSmall.body), _voltOver..color = LogoGeometry.volt.withValues(alpha: toSmall));
+    }
+    canvas.drawPath(_path(m.visor), _charcoal);
     _paintEyes(canvas, m, face);
     canvas.restore();
   }
@@ -325,7 +362,7 @@ class BrandLogoPainter extends CustomPainter {
     final shift = Offset(face.look.dx.clamp(-1.0, 1.0) * roomX, face.look.dy.clamp(-1.0, 1.0) * roomY);
     final open = 1 - 0.9 * face.blink.clamp(0.0, 1.0);
 
-    final white = Paint()..color = LogoGeometry.warmWhite;
+    final white = _white;
     Rect lid(Rect r) => Rect.fromCenter(center: r.center + shift, width: r.width, height: r.height * open);
 
     canvas.drawOval(lid(left), white);
@@ -345,9 +382,12 @@ class BrandLogoPainter extends CustomPainter {
     canvas.drawPath(_path(ring), white);
     final t = (ink ?? 0).clamp(0.0, 1.0);
     if (t > 0) {
-      final hole = _hole(ring);
-      final grown = Rect.lerp(Rect.fromCenter(center: hole.center, width: 0, height: 0), hole.inflate(0.5), t)!;
-      canvas.drawOval(grown, white);
+      // A pencil dot that spreads: a round dot grows from the centre until it is as wide as the
+      // bubble, then fills it top and bottom (a tall sliver read as a slashed zero on the device).
+      final full = _hole(ring).inflate(0.5);
+      final width = full.width * Curves.easeOut.transform(math.min(1.0, t / 0.45));
+      final height = math.max(width, full.height * t);
+      canvas.drawOval(Rect.fromCenter(center: full.center, width: width, height: height), white);
     }
     canvas.restore();
   }

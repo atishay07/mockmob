@@ -61,10 +61,13 @@ class LearnUnit {
 }
 
 class LearnSubject {
-  const LearnSubject({required this.id, required this.title});
+  const LearnSubject({required this.id, required this.title, this.chapters = const []});
 
   final String id;
   final String title;
+
+  /// The syllabus chapters, in syllabus order (titles), when the catalog sends them.
+  final List<String> chapters;
 }
 
 /// The lesson the server suggests next (`nextUnit`).
@@ -93,7 +96,14 @@ class LearnCatalog {
     final subjects = [
       for (final s in asJsonList(j['subjects']))
         if (asString(s['subject']) != null)
-          LearnSubject(id: asString(s['subject'])!, title: asStringOr(s['title'], asString(s['subject'])!)),
+          LearnSubject(
+            id: asString(s['subject'])!,
+            title: asStringOr(s['title'], asString(s['subject'])!),
+            chapters: [
+              for (final c in asJsonList(s['chapters']))
+                if (asString(c['title']) != null && asString(c['title'])!.trim().isNotEmpty) asString(c['title'])!.trim(),
+            ],
+          ),
     ];
     final units = [for (final u in asJsonList(j['units'])) LearnUnit.fromJson(u)]..sort((a, b) => a.order.compareTo(b.order));
     return LearnCatalog(
@@ -122,6 +132,28 @@ class LearnCatalog {
       ...known,
       for (final id in present)
         if (!knownIds.contains(id)) LearnSubject(id: id, title: LearnCopy.subjectLabel(id)),
+    ];
+  }
+
+  /// Syllabus chapters of [subject] with no published lesson yet, in syllabus order. Practice is
+  /// open for them; their lessons come later.
+  List<String> untaughtOf(String subject) {
+    final taught = {for (final u in units) if (u.subject == subject && u.chapter != null) u.chapter!.trim()};
+    for (final s in subjects) {
+      if (s.id == subject) return [for (final c in s.chapters) if (!taught.contains(c)) c];
+    }
+    return const [];
+  }
+
+  /// Subjects to show: those with lessons first (syllabus order), then syllabus subjects that
+  /// only have untaught chapters.
+  List<LearnSubject> get subjectsToShow {
+    final withLessons = subjectsWithLessons;
+    final shown = {for (final s in withLessons) s.id};
+    return [
+      ...withLessons,
+      for (final s in subjects)
+        if (!shown.contains(s.id) && s.chapters.isNotEmpty) s,
     ];
   }
 

@@ -46,7 +46,7 @@ void main() {
     expect(PracticeCopy.offlineStart, 'Connect to start. Your downloaded reviews still work.');
     expect(
       PracticeCopy.startFailed,
-      'We could not start the session. Try again. If you were charged, trying again will not charge you twice.',
+      'We could not start the session. We are checking whether this was charged. Your credits show in You.',
     );
     expect(PracticeCopy.notEnoughQuestions, 'We do not have enough questions for this yet. Nothing was charged.');
     expect(PracticeCopy.sheetTimer, 'The timer keeps running if you leave the app. Submit ends the mock.');

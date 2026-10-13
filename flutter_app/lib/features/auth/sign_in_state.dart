@@ -29,6 +29,7 @@ class SignInState {
     this.codeSentTo,
     this.resendAvailableAt,
     this.codeResentNotice = false,
+    this.googleInBrowser = false,
   });
 
   /// What the student typed. Kept when they go back from the code screen.
@@ -49,6 +50,10 @@ class SignInState {
   /// True right after "Resend code" worked.
   final bool codeResentNotice;
 
+  /// Google was opened in the browser and the student has not come back yet. Not a cancel: the
+  /// session arrives through the callback link.
+  final bool googleInBrowser;
+
   bool get isBusy => busy != SignInBusy.none;
 
   SignInProblem? problemFor(SignInStep step) =>
@@ -67,6 +72,7 @@ class SignInState {
     String? codeSentTo,
     DateTime? resendAvailableAt,
     bool? codeResentNotice,
+    bool? googleInBrowser,
   }) {
     return SignInState(
       email: email ?? this.email,
@@ -77,6 +83,7 @@ class SignInState {
       codeSentTo: codeSentTo ?? this.codeSentTo,
       resendAvailableAt: resendAvailableAt ?? this.resendAvailableAt,
       codeResentNotice: codeResentNotice ?? this.codeResentNotice,
+      googleInBrowser: googleInBrowser ?? this.googleInBrowser,
     );
   }
 }

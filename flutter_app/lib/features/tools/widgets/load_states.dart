@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/connectivity/connectivity.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -52,24 +54,30 @@ class ToolsLoading extends StatelessWidget {
   }
 }
 
-/// Nothing could be loaded: offline (sleepy Mobi, the promise that one load is enough) or an
-/// error (thinking Mobi), each with "Try again".
-class ToolsLoadFailed extends StatelessWidget {
-  const ToolsLoadFailed({super.key, required this.error, required this.onRetry, this.offlineBody = ToolsCopy.offlineBody});
+/// Nothing could be loaded. Offline (the DU files not on this phone yet, or the phone says it
+/// has no network) shows sleepy Mobi and the promise that the student's work is safe, and the
+/// load runs again by itself the moment the network returns. Any other failure shows thinking
+/// Mobi. Both keep "Try again".
+class ToolsLoadFailed extends ConsumerWidget {
+  const ToolsLoadFailed({super.key, required this.error, required this.onRetry});
 
   final Object error;
   final VoidCallback onRetry;
-  final String offlineBody;
 
   @override
-  Widget build(BuildContext context) {
-    final offline = error is DuLoadError && (error as DuLoadError).offline;
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<void>>(networkRestoredProvider, (previous, next) {
+      if (next is AsyncData<void>) onRetry();
+    });
+    final phoneOffline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
+    final offline = phoneOffline || (error is DuLoadError && (error as DuLoadError).offline);
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s32),
       child: StateView(
         kind: offline ? StateViewKind.offline : StateViewKind.error,
+        pose: offline ? MobiPose.sleepy : MobiPose.think,
         title: offline ? ToolsCopy.offlineTitle : ToolsCopy.errorTitle,
-        message: offline ? offlineBody : ToolsCopy.errorBody,
+        message: offline ? ToolsCopy.offlineBody : ToolsCopy.errorBody,
         primary: StateAction(ToolsCopy.tryAgain, onRetry),
       ),
     );

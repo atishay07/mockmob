@@ -9,6 +9,7 @@ import '../../core/motion/motion.dart';
 import '../../core/repositories/repositories.dart';
 import '../../core/router/external_link_opener.dart';
 import '../../core/router/routes.dart';
+import '../../core/sync/pending_work.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../rhythm/logic/tokens.dart';
@@ -110,6 +111,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
       count: count,
       note: note,
       description: [count, study.isEmpty ? 'No study days yet this week' : 'Studied ${joinWithAnd(study)}'].join('. '),
+      // "Show me" only when there is a study day behind the count.
+      onShowMe: week.studyDays > 0 ? () => context.push(AppRoutes.youRhythm) : null,
     );
   }
 
@@ -144,10 +147,16 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                 child: ListView(
                   padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
-                      child: Align(alignment: Alignment.centerLeft, child: BackKey()),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+                      child: Row(
+                        children: [
+                          const BackKey(),
+                          Expanded(child: Align(alignment: Alignment.centerRight, child: _greeting(auth.name))),
+                        ],
+                      ),
                     ),
+                    const _ExpiredWorkNotice(),
                     if (_openFailed)
                       const Padding(
                         padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
@@ -184,6 +193,18 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
     );
   }
 
+  /// Mobi greets the student by first name. A line only when the profile has a name; Mobi holds
+  /// still under reduced motion.
+  Widget _greeting(String? name) {
+    final first = name?.trim().split(RegExp(r'\s+')).first ?? '';
+    return Mobi(
+      pose: MobiPose.greet,
+      size: 56,
+      say: first.isEmpty ? null : YouCopy.hubGreeting(first),
+      interactive: true,
+    );
+  }
+
   Widget _shelf(RhythmSnapshot snapshot, DateTime now) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -207,14 +228,51 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                     ),
                   ],
                 )
-              : TokenShelf(
-                  slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
-                  zone: snapshot.timezone,
-                  now: now,
-                  loading: snapshot.isInitialLoading,
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TokenShelf(
+                      slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
+                      zone: snapshot.timezone,
+                      now: now,
+                      loading: snapshot.isInitialLoading,
+                    ),
+                    // "Show me" only when a milestone has been earned.
+                    if ((snapshot.rhythm?.milestones ?? const []).any((m) => m.achievedAt != null)) ...[
+                      const SizedBox(height: MmSpace.s4),
+                      ShowMePill(onTap: () => context.push(AppRoutes.youMilestones), semanticsLabel: YouCopy.showMeMilestones),
+                    ],
+                  ],
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// Study updates the outbox gave up on after a week unsent. Said once on You, then dismissed.
+class _ExpiredWorkNotice extends ConsumerWidget {
+  const _ExpiredWorkNotice();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(expiredWorkCountProvider).value ?? 0;
+    if (count <= 0) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
+      child: InlineBanner(
+        message: YouCopy.expiredWork(count),
+        tone: BannerTone.warning,
+        actionLabel: YouCopy.expiredWorkDismiss,
+        onAction: () async {
+          try {
+            await ref.read(expiredWorkNoticeProvider).clear();
+          } on Object {
+            // The notice stays until it can be cleared.
+          }
+          ref.invalidate(expiredWorkCountProvider);
+        },
+      ),
     );
   }
 }

@@ -31,10 +31,13 @@ class OutcomeLoading extends MistakeOutcome {
 
 /// `explained`, or `stored` (a free reopen). Acknowledged by the server at [ackedAt].
 class OutcomeExplained extends MistakeOutcome {
-  const OutcomeExplained(this.response, {required this.ackedAt, this.reopened = false});
+  const OutcomeExplained(this.response, {required this.ackedAt, this.reopened = false, this.requestId});
 
   final RepairResponse response;
   final DateTime ackedAt;
+
+  /// The `requestId` the server acknowledged: the stable part of this repair's celebration id.
+  final String? requestId;
 
   /// Reopened an earlier repair: shown again, not counted again.
   final bool reopened;

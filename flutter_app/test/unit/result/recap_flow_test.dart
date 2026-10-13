@@ -1,11 +1,17 @@
+import 'package:flutter/material.dart' show Brightness, DecoratedBox;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
+import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/result/recap/record_card.dart';
+import 'package:mockmob/features/result/model/recap_variant.dart';
 
 import '../../helpers/fonts.dart';
+import '../../helpers/golden_harness.dart';
 import 'support/fixtures.dart';
 import 'support/harness.dart';
 
@@ -37,6 +43,7 @@ void main() {
     AttemptDetail? d,
     RecapRitual ritual = const RecapRitual(sheetsOpened: 1),
     bool reduced = false,
+    bool reminderDue = false,
   }) async {
     actions = ResultLog();
     haptics = FakeHaptics();
@@ -45,7 +52,7 @@ void main() {
       tester,
       location: location,
       disableAnimations: reduced,
-      overrides: resultOverrides(attemptId: m.attemptId, data: _data(m, d), ritual: ritual, haptics: haptics, log: actions),
+      overrides: resultOverrides(attemptId: m.attemptId, data: _data(m, d), ritual: ritual, haptics: haptics, log: actions, reminderDue: reminderDue),
     );
     await _run(tester, 50);
     return router;
@@ -260,6 +267,96 @@ void main() {
       expect(popped, isTrue);
       await tester.pumpAndSettle();
       expect(_at(router), '/result/a7');
+    });
+
+    testWidgets('cards 2 to 4 have a visible back chevron; card 1 has none (result-04)', (tester) async {
+      final router = await pump(tester, '/result/a7/recap/3');
+      await _run(tester, 1000);
+      final back = find.bySemanticsLabel('Previous card');
+      expect(back, findsOneWidget);
+      expect(tester.getSize(back).width, greaterThanOrEqualTo(48));
+      expect(tester.getSize(back).height, greaterThanOrEqualTo(48));
+      await tester.tap(back);
+      await _run(tester, 800);
+      expect(find.text('Where the other 135 marks went'), findsOneWidget);
+      expect(_at(router), '/result/a7/recap/3', reason: 'cards change inside the recap, the route stays');
+      await tester.tap(find.bySemanticsLabel('Previous card'));
+      await _run(tester, 800);
+      expect(find.bySemanticsLabel('Previous card'), findsNothing);
+      expect(find.bySemanticsLabel('Card 1 of 4'), findsOneWidget);
+    });
+
+    testWidgets('card 2 and card 3 carry a Show me pill that opens the evidence (result-05)', (tester) async {
+      final router = await pump(tester, '/result/a7/recap/2');
+      await _run(tester, 1000);
+      expect(find.byType(ShowMePill), findsOneWidget);
+      await tester.tap(find.byType(ShowMePill));
+      await tester.pumpAndSettle();
+      expect(_at(router), startsWith('/result/a7?q='));
+
+      final router3 = await pump(tester, '/result/a7/recap/3');
+      await _run(tester, 1000);
+      expect(find.byType(ShowMePill), findsOneWidget);
+      await tester.tap(find.byType(ShowMePill));
+      await tester.pumpAndSettle();
+      expect(_at(router3), startsWith('/result/a7?q='));
+    });
+
+    testWidgets('the arithmetic toggle is a 32 dp pill on the gutter (result-09)', (tester) async {
+      await pump(tester, '/result/a7/recap/2');
+      await _run(tester, 1000);
+      final pill = find.ancestor(of: find.text('Show the arithmetic'), matching: find.byType(DecoratedBox)).first;
+      expect(tester.getTopLeft(pill).dx, MmSpace.cardGutter);
+      expect(tester.getSize(pill).height, 32);
+      expect(tester.getTopLeft(find.text('Where the other 135 marks went')).dx, MmSpace.cardGutter);
+    });
+
+    testWidgets('one Mobi per recap, on card 4 only (result-10)', (tester) async {
+      final first = mock7(attempts: [detail().attempt]);
+      expect(first.variant, RecapVariant.firstMock);
+      await pump(tester, '/result/a7/recap/1', model: first);
+      await _run(tester, 1500);
+      expect(find.byType(Mobi), findsNothing);
+      expect(find.byType(Mobi), findsNothing);
+      await pump(tester, '/result/a7/recap/4', model: first);
+      await _run(tester, 1000);
+      expect(find.byType(Mobi), findsOneWidget);
+      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.greet);
+
+      final higher = detail(recap: {'tone': 'higher', 'previousMarks': 90, 'previousMax': 250, 'hasPrevious': true});
+      await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: higher), d: higher);
+      await _run(tester, 1000);
+      expect(find.byType(Mobi), findsOneWidget);
+      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.cheer);
+    });
+
+    testWidgets('card 4 without an acknowledgement on this phone shows no time (result-06)', (tester) async {
+      final d = detail();
+      final m = buildRecapModel(attempt: d.attempt, detail: d, attempts: [...history(), d.attempt], creditBalance: 12);
+      await pump(tester, '/result/a7/recap/4', model: m);
+      await _run(tester, 1000);
+      expect(find.text('Marked on the server.'), findsOneWidget);
+      expect(find.textContaining('Saved on the server at'), findsNothing);
+    });
+
+    testWidgets('Not now on the reminder row is counted through the shared policy (notifications-02)', (tester) async {
+      final m = mock7();
+      final log = ResultLog();
+      await pumpMockmob(
+        tester,
+        RecordCard(model: m, firstResult: true, onBack: () {}, onFinish: () {}, onRetryKeys: () {}),
+        brightness: Brightness.dark,
+        size: const Size(384, 853),
+        disableAnimations: true,
+        wrapInScaffold: false,
+        overrides: resultOverrides(attemptId: m.attemptId, data: _data(m), reminderDue: true, log: log),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Set a reminder'), findsOneWidget);
+      await tester.tap(find.text('Not now'));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(log.reminderDeclined, 1);
+      expect(find.text('Not now'), findsNothing);
     });
 
     testWidgets('a question tile opens that answer in the full result', (tester) async {

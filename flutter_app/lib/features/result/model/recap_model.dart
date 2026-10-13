@@ -25,7 +25,7 @@ class RecapModel {
     required this.questionCount,
     required this.durationMinutes,
     required this.submittedAt,
-    required this.receivedAt,
+    this.receivedAt,
     required this.breakdown,
     required this.cells,
     required this.variant,
@@ -57,8 +57,9 @@ class RecapModel {
   /// Local time of completion.
   final DateTime submittedAt;
 
-  /// When this phone received the server's acknowledgment (falls back to [submittedAt]).
-  final DateTime receivedAt;
+  /// When this phone received the server's acknowledgment; null when no acknowledgment is on
+  /// this phone (a result submitted elsewhere), so no "saved at" time is ever invented.
+  final DateTime? receivedAt;
   final MarkBreakdown breakdown;
 
   /// One bubble per question in paper order: filled (correct), wrong, blank, marked (held).
@@ -123,7 +124,8 @@ class RecapModel {
 }
 
 /// Builds the [RecapModel]. [attempts] is the cached list (may not hold this attempt yet);
-/// [repairedIds] are questions repaired on this phone; [milestones] are the server's.
+/// [attemptsLoaded] is false while that list has not loaded, so the mock number and the
+/// first-mock token stay unknown rather than guessed from an empty list; [repairedIds] are questions repaired on this phone; [milestones] are the server's.
 RecapModel buildRecapModel({
   required Attempt attempt,
   AttemptDetail? detail,
@@ -132,8 +134,9 @@ RecapModel buildRecapModel({
   int? creditBalance,
   DateTime? receivedAt,
   List<RhythmMilestone> milestones = const [],
+  bool attemptsLoaded = true,
 }) {
-  final ordinal = mockOrdinal(attempts, attempt);
+  final ordinal = mockOrdinal(attempts, attempt, listLoaded: attemptsLoaded);
   final held = detail?.heldQuestionIds.toSet() ?? const <String>{};
   final variant = resolveRecapVariant(hasHeld: held.isNotEmpty, ordinal: ordinal, tone: detail?.recap?.tone);
 
@@ -160,7 +163,7 @@ RecapModel buildRecapModel({
     questionCount: attempt.total,
     durationMinutes: attempt.selectionMeta.durationMinutes,
     submittedAt: local,
-    receivedAt: (receivedAt ?? attempt.completedAt).toLocal(),
+    receivedAt: receivedAt?.toLocal(),
     breakdown: markBreakdownOf(attempt),
     cells: cells,
     variant: variant,
@@ -172,7 +175,7 @@ RecapModel buildRecapModel({
     monthMockCount: monthMockCount(attempts, attempt),
     previous: _previous(detail, attempts),
     creditBalance: creditBalance,
-    firstMockTokenAt: _firstMockToken(attempts, attempt, milestones),
+    firstMockTokenAt: attemptsLoaded ? _firstMockToken(attempts, attempt, milestones) : null,
     detailLoaded: detail != null,
     mode: attempt.mode ?? 'full',
     blanksInReview: _blanksInReview(attempts, attempt),

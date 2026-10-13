@@ -9,6 +9,7 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot, celebrationControllerProvider;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
@@ -84,7 +85,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
     final Widget body;
     if (model == null || attempt == null) {
-      body = RecapPlaceholder(data: data, attemptId: id, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true));
+      body = RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
     } else {
       final groups = buildAnswerGroups(
         attempt,
@@ -117,6 +118,11 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   onPressed: () => context.go(AppRoutes.resultRecap(id, progress)),
                 ),
               ),
+              const SizedBox(height: MmSpace.s16),
+            ],
+            if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
+              // A moment the rhythm module fired for this result; nothing is reserved without one.
+              CelebrationSlot(scope: CelebrationScope.result(id)),
               const SizedBox(height: MmSpace.s16),
             ],
             SummarySection(model: model),

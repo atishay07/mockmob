@@ -3,50 +3,62 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_state.dart';
 import '../../../core/haptics/haptics.dart';
-import '../../../core/repositories/repositories.dart';
+import '../../../core/sync/pending_work.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// Answers waiting on this phone that the server has not acknowledged. Zero when it cannot be
-/// read (signed out, or the database is not ready).
-Future<int> unsentAnswers(WidgetRef ref) async {
+/// What is only on this phone: unsent session answers and queued study writes. Zero when it
+/// cannot be read (signed out, or the database is not ready).
+Future<PendingWorkCount> pendingWork(WidgetRef ref) async {
   try {
-    return await ref.read(sessionDraftRepositoryProvider).unsentAnswerCount();
+    return await ref.refresh(pendingWorkCountProvider.future);
   } on Object {
-    return 0;
+    return PendingWorkCount.none;
   }
 }
 
-/// Asks before signing out, and warns first when answers are only on this phone ("3 answers are
-/// on this phone and not sent. Sign out anyway?"). The safe key is the dominant one. Returns
-/// true when the student confirmed.
-Future<bool> confirmSignOut(BuildContext context, {required int unsent}) async {
+/// Asks before signing out, and warns first when work is only on this phone ("3 answers are on
+/// this phone and not sent. Sign out anyway?", "2 study updates are waiting to send"). The safe
+/// key is the dominant one. Returns true when the student confirmed.
+Future<bool> confirmSignOut(BuildContext context, {required PendingWorkCount pending}) async {
   final choice = await showMmSheet<bool>(
     context: context,
     title: YouCopy.signOutTitle,
-    builder: (context) => _SignOutSheet(unsent: unsent),
+    builder: (context) => _SignOutSheet(pending: pending),
   );
   return choice ?? false;
 }
 
 class _SignOutSheet extends ConsumerWidget {
-  const _SignOutSheet({required this.unsent});
+  const _SignOutSheet({required this.pending});
 
-  final int unsent;
+  final PendingWorkCount pending;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final warn = unsent > 0;
+    final answers = pending.unsentAnswers;
+    final queued = pending.queuedWrites;
+    final warn = !pending.isEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(warn ? YouCopy.signOutUnsent(unsent) : YouCopy.signOutPlain, style: type.body),
-        if (warn) ...[
-          const SizedBox(height: MmSpace.s8),
-          Text(YouCopy.signOutUnsentNote, style: type.small.copyWith(color: colors.ink2)),
+        if (!warn)
+          Text(YouCopy.signOutPlain, style: type.body)
+        else ...[
+          if (answers > 0) ...[
+            Text(YouCopy.signOutUnsent(answers), style: type.body),
+            const SizedBox(height: MmSpace.s8),
+            Text(YouCopy.signOutUnsentNote, style: type.small.copyWith(color: colors.ink2)),
+          ],
+          if (queued > 0) ...[
+            if (answers > 0) const SizedBox(height: MmSpace.s16),
+            Text(answers > 0 ? YouCopy.signOutQueued(queued) : YouCopy.signOutQueuedAsk(queued), style: type.body),
+            const SizedBox(height: MmSpace.s8),
+            Text(YouCopy.signOutQueuedNote, style: type.small.copyWith(color: colors.ink2)),
+          ],
         ],
         const SizedBox(height: MmSpace.s24),
         if (warn) ...[
@@ -71,5 +83,7 @@ class _SignOutSheet extends ConsumerWidget {
 }
 
 /// Signs out through the auth controller, which clears tokens, local drafts and the usage-data
-/// queue. Throws on failure so the caller can say so.
-Future<void> performSignOut(WidgetRef ref) => ref.read(authSnapshotProvider.notifier).signOut();
+/// queue. Queued study writes stay for the same account to send ([keepQueuedWork]); account
+/// deletion drops them. Throws on failure so the caller can say so.
+Future<void> performSignOut(WidgetRef ref, {bool keepQueuedWork = true}) =>
+    ref.read(authSnapshotProvider.notifier).signOut(keepQueuedWork: keepQueuedWork);

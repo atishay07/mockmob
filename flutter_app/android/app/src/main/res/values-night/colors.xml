@@ -2,5 +2,4 @@
 <resources>
     <!-- Same as the day values: Night is the default identity. -->
     <color name="splash_ground">#12110E</color>
-    <color name="splash_mark">#D2F000</color>
 </resources>

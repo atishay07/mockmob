@@ -53,6 +53,7 @@ class OnboardingAnswers {
     this.notNow = false,
     this.tonight = false,
     this.syncedFor,
+    this.seed,
   });
 
   /// Store format. Bump with a migration in [fromJson] when a field changes meaning.
@@ -109,6 +110,10 @@ class OnboardingAnswers {
   /// The account the sheet was written to, once every write was acknowledged.
   final String? syncedFor;
 
+  /// A number picked once for this phone's sheet, so per-student choices (which warm-up
+  /// question shows) stay the same on every return. Null until the first answer is saved.
+  final int? seed;
+
   DuCourse? get course => DuCatalog.course(courseId);
   bool get sealed => sealedAt != null;
   bool get started => done.isNotEmpty || skipped.isNotEmpty;
@@ -141,6 +146,7 @@ class OnboardingAnswers {
     bool? notNow,
     bool? tonight,
     Object? syncedFor = _keep,
+    int? seed,
   }) {
     return OnboardingAnswers(
       stage: stage ?? this.stage,
@@ -165,6 +171,7 @@ class OnboardingAnswers {
       notNow: notNow ?? this.notNow,
       tonight: tonight ?? this.tonight,
       syncedFor: identical(syncedFor, _keep) ? this.syncedFor : syncedFor as String?,
+      seed: seed ?? this.seed,
     );
   }
 
@@ -198,9 +205,12 @@ class OnboardingAnswers {
         'notNow': notNow,
         'tonight': tonight,
         'syncedFor': syncedFor,
+        'seed': seed,
       };
 
-  /// Reads a stored sheet. Anything unreadable, or from a newer store version, starts fresh.
+  /// Reads a stored sheet of this store version or older. `AnswersStore.load` checks the
+  /// version first and keeps a newer or broken sheet in its backup key instead of reading it;
+  /// called directly, anything it cannot read gives [empty].
   static OnboardingAnswers fromJson(Map<String, Object?> j) {
     if (j['v'] is! int || (j['v']! as int) > version) return empty;
     List<String> strings(Object? raw) => raw is List ? [for (final e in raw) if (e is String) e] : const [];
@@ -240,6 +250,7 @@ class OnboardingAnswers {
       notNow: j['notNow'] == true,
       tonight: j['tonight'] == true,
       syncedFor: j['syncedFor'] as String?,
+      seed: j['seed'] is int ? j['seed']! as int : null,
     );
   }
 }

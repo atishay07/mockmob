@@ -19,6 +19,10 @@ import 'sheet_columns.dart';
 /// counts up with each right answer, and then Mobi, who has been reading the sheet, reacts:
 /// a cheer for a good run, thinking it over for a mixed one, never sad. A tap anywhere skips to
 /// the end; reduced motion and a result opened again show the end at once.
+///
+/// The screen mounts it only once the sheet has rows (or the read has settled without them) and
+/// keys it by the number of bubbles. Should rows still arrive after it mounted empty, the ink is
+/// timed again for the real sheet and starts from 0, and Mobi reacts only when that ink ends.
 class FinishStage extends ConsumerStatefulWidget {
   const FinishStage({
     super.key,
@@ -65,7 +69,7 @@ const double _mobiSize = 92;
 
 class _FinishStageState extends ConsumerState<FinishStage> with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: FinishStage.durationFor(widget.cells.length));
-  late final Animation<double> _ink;
+  late Animation<double> _ink;
   final MobiController _mobi = MobiController();
   final GlobalKey _sheetKey = GlobalKey();
   bool _reacted = false;
@@ -74,13 +78,31 @@ class _FinishStageState extends ConsumerState<FinishStage> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    final total = _c.duration!.inMilliseconds;
-    final start = FinishStage.lead.inMilliseconds / total;
-    final end = 1 - FinishStage.tail.inMilliseconds / total;
-    _ink = CurvedAnimation(parent: _c, curve: Interval(start, end));
+    _ink = _inkFor(_c.duration!);
     _c.addStatusListener((s) {
       if (s == AnimationStatus.completed) _react();
     });
+  }
+
+  /// The ink runs between the lead-in and the tail of a moment [total] long.
+  Animation<double> _inkFor(Duration total) {
+    final ms = total.inMilliseconds;
+    return CurvedAnimation(parent: _c, curve: Interval(FinishStage.lead.inMilliseconds / ms, 1 - FinishStage.tail.inMilliseconds / ms));
+  }
+
+  @override
+  void didUpdateWidget(FinishStage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // The first real rows of a fresh moment that began without them: time the ink for this sheet
+    // and play it from the first bubble. Mobi's reaction waits for this ink to end.
+    if (oldWidget.cells.isEmpty && widget.cells.isNotEmpty && widget.fresh && !Motion.reduced(context)) {
+      _c.stop();
+      _c.duration = FinishStage.durationFor(widget.cells.length);
+      _ink = _inkFor(_c.duration!);
+      _reacted = false;
+      _mobi.hush();
+      _c.forward(from: 0);
+    }
   }
 
   @override

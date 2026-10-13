@@ -3,15 +3,20 @@
 // nothing to show. Nothing here is a toast, a dialog or a full-screen reward.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/mobi.dart';
 import '../../../core/widgets/receipt_line.dart';
+import '../copy.dart';
+import '../data/rhythm_prefs.dart';
+import '../widgets/rhythm_page.dart' show FlushQuietKey;
 import 'celebration_controller.dart';
 import 'ring_sweep.dart';
 
 /// Shows the celebration of [scope], if one fired. Place it on the ground, not inside a card.
+/// Draws nothing while the student has turned rhythm off.
 class CelebrationSlot extends ConsumerWidget {
   const CelebrationSlot({super.key, required this.scope});
 
@@ -19,6 +24,7 @@ class CelebrationSlot extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(rhythmVisibleProvider)) return const SizedBox.shrink();
     final celebration = ref.watch(celebrationControllerProvider.select((s) => s.byScope[scope]));
     if (celebration == null || !celebration.showsMoment) return const SizedBox.shrink();
     return CelebrationMoment(key: ValueKey(celebration.id), celebration: celebration);
@@ -65,13 +71,31 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
     final type = context.mmType;
     final label = [if (c.sentence != null) c.sentence!, if (c.receipt != null) c.receipt!].join(' ');
 
+    final link = c.link;
     final text = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (c.sentence != null) Text(c.sentence!, style: type.subhead),
-        if (c.sentence != null && c.receipt != null) const SizedBox(height: MmSpace.s4),
-        if (c.receipt != null) ReceiptLine(text: c.receipt!),
+        Semantics(
+          container: true,
+          liveRegion: true,
+          label: label,
+          excludeSemantics: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (c.sentence != null) Text(c.sentence!, style: type.subhead),
+              if (c.sentence != null && c.receipt != null) const SizedBox(height: MmSpace.s4),
+              if (c.receipt != null) ReceiptLine(text: c.receipt!),
+            ],
+          ),
+        ),
+        if (c.linkLabel != null && link != null)
+          FlushQuietKey(
+            label: c.linkLabel!,
+            onPressed: () => GoRouter.maybeOf(context)?.push(link),
+          ),
       ],
     );
 
@@ -86,7 +110,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (c.ring) ...[RingSweep(), const SizedBox(width: MmSpace.s12)],
+          if (c.ring) ...[const RingSweep(label: RhythmCopy.weekDoneLabel), const SizedBox(width: MmSpace.s12)],
           Expanded(child: text),
           if (c.mobiHop) ...[
             const SizedBox(width: MmSpace.s12),
@@ -96,12 +120,6 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
       ),
     );
 
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      label: label,
-      excludeSemantics: true,
-      child: FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body),
-    );
+    return FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body);
   }
 }

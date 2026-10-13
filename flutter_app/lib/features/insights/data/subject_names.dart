@@ -32,3 +32,16 @@ String subjectDisplayName(String id) {
   if (words.isEmpty) return 'Practice';
   return words.map((w) => w[0].toUpperCase() + w.substring(1)).join(' ');
 }
+
+const Set<String> _languages = {
+  'hindi', 'sanskrit', 'bengali', 'tamil', 'telugu', 'kannada', 'malayalam', 'marathi', 'gujarati',
+  'odia', 'punjabi', 'assamese', 'urdu', 'french', 'german', 'spanish', 'japanese', 'russian',
+  'chinese', 'persian', 'arabic', 'italian', 'nepali', 'tibetan', 'sindhi', 'kashmiri', 'konkani',
+  'bodo', 'dogri', 'maithili', 'manipuri', 'santhali',
+};
+
+/// A subject this build has its own name and art for.
+bool isKnownSubject(String id) => _names.containsKey(canonicalSubjectId(id.trim().toLowerCase()));
+
+/// A language paper: these share the open notebook art and the "translate" glyph.
+bool isLanguageSubject(String id) => _languages.contains(id.trim().toLowerCase());

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/storage/app_database.dart';
+import 'package:mockmob/core/sync/session/save_state.dart';
 import 'package:mockmob/core/sync/session/session_clock.dart';
 import 'package:mockmob/core/sync/session/session_journal.dart';
 import 'package:mockmob/core/sync/session/session_syncer.dart';
@@ -203,6 +204,73 @@ void main() {
     await journal.recordAnswer('q2', 1, clock);
     syncer.notifyChanged();
     expect(timers.pendingCount, 0);
+  });
+
+  test('a 422 that is not a conflict is not fatal: the pill says not saved, and a retry sends again', () async {
+    final syncer = newSyncer();
+    api.putFailure = () => const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'invalid_events');
+    await journal.recordAnswer('q1', 1, clock);
+    syncer.notifyChanged();
+    timers.fireNext();
+    await settle();
+    expect(syncer.status.value, SyncStatus.notSaved);
+    expect(stoppedWith?.kind, ApiErrorKind.validation);
+    expect(timers.pendingCount, 0, reason: 'a deterministic refusal is not retried on a loop');
+    final pill = deriveSaveState(ticketMode: false, unsyncedAnswers: 1, syncStatus: syncer.status.value);
+    expect(pill.state, SaveState.notSaved, reason: 'it must not claim the network is the cause');
+
+    // A change alone does not hammer the server...
+    await journal.recordAnswer('q2', 1, clock);
+    syncer.notifyChanged();
+    expect(timers.pendingCount, 0);
+
+    // ...but the student's tap does.
+    api.putFailure = null;
+    syncer.retryNow();
+    timers.fireNext();
+    await settle();
+    expect(api.puts, hasLength(1));
+    expect(syncer.status.value, SyncStatus.idle);
+    expect(syncer.acknowledgedSequence, 2);
+  });
+
+  test('a refusal that repeats stays not saved after a retry', () async {
+    final syncer = newSyncer();
+    api.putFailure = () => const ApiError(status: 400, kind: ApiErrorKind.validation, code: 'invalid_events');
+    await journal.recordAnswer('q1', 1, clock);
+    await syncer.flushNow();
+    expect(syncer.status.value, SyncStatus.notSaved);
+    syncer.retryNow();
+    timers.fireNext();
+    await settle();
+    expect(syncer.status.value, SyncStatus.notSaved);
+    expect(timers.pendingCount, 0);
+  });
+
+  test('a flush (pause, submit) tries once after a refusal', () async {
+    final syncer = newSyncer();
+    api.putFailure = () => const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'invalid_events');
+    await journal.recordAnswer('q1', 1, clock);
+    await syncer.flushNow();
+    expect(syncer.status.value, SyncStatus.notSaved);
+    api.putFailure = null;
+    await syncer.flushNow();
+    expect(api.puts, hasLength(1));
+    expect(syncer.status.value, SyncStatus.idle);
+  });
+
+  test('a session that is gone stays fatal: retryNow does nothing', () async {
+    final syncer = newSyncer();
+    api.putFailure = () => const ApiError(status: 404, kind: ApiErrorKind.notFound, code: ApiCodes.sessionNotFound);
+    await journal.recordAnswer('q1', 1, clock);
+    await syncer.flushNow();
+    expect(syncer.status.value, SyncStatus.stopped);
+    api.putFailure = null;
+    syncer.retryNow();
+    await syncer.flushNow();
+    expect(timers.pendingCount, 0);
+    expect(api.puts, isEmpty);
+    expect(syncer.status.value, SyncStatus.stopped);
   });
 
   test('events written during an in-flight PUT are sent next', () async {

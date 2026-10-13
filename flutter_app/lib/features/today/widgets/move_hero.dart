@@ -107,15 +107,17 @@ class MoveHeroCard extends StatelessWidget {
               ],
             ),
           ],
-          // Only when coming back after days away does the card ask how long there is; on an
-          // ordinary day the length is in the key and changes under "Choose something else".
-          if (m.durations.length > 1 && m.durationPrompt != null) ...[
+          // Whenever the move can change size the chips are here, and the key says the same
+          // length the chip does: a repair in minutes, practice in questions.
+          if (m.durations.length > 1) ...[
             const SizedBox(height: MmSpace.s16),
-            Text(m.durationPrompt!, style: type.labelLarge),
-            const SizedBox(height: MmSpace.s8),
+            if (m.durationPrompt != null) ...[
+              Text(m.durationPrompt!, style: type.labelLarge),
+              const SizedBox(height: MmSpace.s8),
+            ],
             MmSegmented<int>(
-              semanticsLabel: m.durationPrompt!,
-              segments: [for (final d in m.durations) MmSegment(d.minutes, '${d.minutes} min')],
+              semanticsLabel: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
+              segments: [for (final d in m.durations) MmSegment(d.minutes, d.label)],
               value: m.selectedMinutes ?? m.durations.first.minutes,
               onChanged: onMinutes,
             ),

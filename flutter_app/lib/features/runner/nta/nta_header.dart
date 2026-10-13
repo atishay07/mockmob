@@ -20,6 +20,7 @@ class NtaBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
+    final skin = NtaSkin.of(context);
     final top = MediaQuery.viewPaddingOf(context).top;
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.3,
@@ -47,14 +48,20 @@ class NtaBar extends StatelessWidget {
                           children: [
                             Text(
                               NtaCopy.modeLine.toUpperCase(),
-                              style: type.caption.copyWith(color: NtaSkin.onBar2, height: 1.2, fontWeight: FontWeight.w600, letterSpacing: 0.8, fontSize: 11),
+                              style: type.caption.copyWith(
+                                color: NtaSkin.onBar2,
+                                height: 1.2,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.8,
+                                fontSize: 11,
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               subject,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: type.cardTitle.copyWith(color: NtaSkin.onBar, height: 1.15),
+                              style: skin.type.barTitle.copyWith(color: NtaSkin.onBar),
                             ),
                           ],
                         ),
@@ -64,7 +71,11 @@ class NtaBar extends StatelessWidget {
                   ],
                 ),
               ),
-              if (bottom != null) Padding(padding: const EdgeInsets.only(right: MmSpace.s8), child: bottom),
+              if (bottom != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: MmSpace.s8),
+                  child: bottom,
+                ),
             ],
           ),
         ),
@@ -91,7 +102,9 @@ class NtaProgressRow extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: Text(NtaCopy.questionOf(current, total), style: style.copyWith(color: NtaSkin.onBar))),
+              Expanded(
+                child: Text(NtaCopy.questionOf(current, total), style: style.copyWith(color: NtaSkin.onBar)),
+              ),
               Text(NtaCopy.answeredCount(answered), style: style),
             ],
           ),
@@ -130,7 +143,7 @@ class NtaTimerChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
+    final clock = NtaSkin.of(context).type.clock;
     return RepaintBoundary(
       child: ValueListenableBuilder<Duration>(
         valueListenable: remaining,
@@ -156,7 +169,7 @@ class NtaTimerChip extends StatelessWidget {
                   Text(
                     NtaCopy.clock(left),
                     textScaler: TextScaler.noScaling,
-                    style: type.timer.copyWith(color: NtaSkin.onBar, fontSize: 19, height: 1),
+                    style: clock.copyWith(color: NtaSkin.onBar),
                   ),
                 ],
               ),

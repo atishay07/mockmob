@@ -6,8 +6,9 @@ import '../copy.dart';
 import '../model/plan.dart';
 
 /// The first move as a hero (brief section 11, step 11): the subject's light field, "10
-/// questions to your starting point" in monumental figures, the volt "Start now" and the later
-/// option at equal footing below it. No object art: Mobi points at it from below instead.
+/// questions to your starting point" (or "10 questions in Physics" for plain practice) in
+/// monumental figures, the volt start key and the later option at equal footing below it. No
+/// object art: the step's Mobi points at the start key.
 class FirstMoveHero extends StatelessWidget {
   const FirstMoveHero({
     super.key,
@@ -16,6 +17,7 @@ class FirstMoveHero extends StatelessWidget {
     required this.onStart,
     required this.onLater,
     this.laterChosen = false,
+    this.startKey,
   });
 
   final FirstMove move;
@@ -25,6 +27,9 @@ class FirstMoveHero extends StatelessWidget {
 
   /// The student put it off to the study window: the later button becomes a quiet line.
   final bool laterChosen;
+
+  /// On the start key, so Mobi can point at it.
+  final GlobalKey? startKey;
 
   static const BorderRadius radius = MmRadius.panelAll;
 
@@ -62,7 +67,7 @@ class FirstMoveHero extends StatelessWidget {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: MmSpace.s12),
-                            child: Text(OnboardingCopy.firstMoveUnit, style: type.title.copyWith(fontSize: 20, height: 1.15)),
+                            child: Text(move.unit, style: type.title.copyWith(fontSize: 20, height: 1.15)),
                           ),
                         ),
                       ],
@@ -72,7 +77,7 @@ class FirstMoveHero extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(move.framing, style: type.body.copyWith(color: colors.ink2)),
                     const SizedBox(height: MmSpace.s20),
-                    KeyButton(label: OnboardingCopy.startNow, onPressed: onStart),
+                    KeyedSubtree(key: startKey, child: KeyButton(label: move.startLabel, onPressed: onStart)),
                     const SizedBox(height: MmSpace.s8),
                     if (laterChosen)
                       Padding(

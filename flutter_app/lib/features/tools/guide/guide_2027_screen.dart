@@ -24,7 +24,7 @@ class Guide2027Screen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = ref.watch(nowProvider)();
     return ToolsPage(
-      title: 'CUET 2027',
+      title: ToolsCopy.guidePageTitle,
       lead: guideIntro,
       slivers: [
         SliverToBoxAdapter(
@@ -39,7 +39,7 @@ class Guide2027Screen extends ConsumerWidget {
             ),
           ),
         ),
-        const SliverToBoxAdapter(child: ToolsNote('Expected dates are based on the 2026 cycle. They change the day NTA publishes the 2027 bulletin.', icon: LucideIcons.info)),
+        const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.guideDatesNote, icon: LucideIcons.info)),
         SliverToBoxAdapter(child: _Section(section: guidePattern)),
         SliverToBoxAdapter(child: _Section(section: guideSubjects)),
         SliverToBoxAdapter(
@@ -53,7 +53,7 @@ class Guide2027Screen extends ConsumerWidget {
             ),
           ),
         ),
-        const SliverToBoxAdapter(child: ToolsHeading('Common questions')),
+        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.guideCommonQuestions)),
         SliverToBoxAdapter(child: YouPanel(children: [for (final (q, a) in guideFaqs) _Faq(question: q, answer: a)])),
         SliverToBoxAdapter(
           child: Padding(
@@ -90,7 +90,7 @@ class _TimelineRow extends StatelessWidget {
     final m = milestone;
     final passed = !now.isBefore(m.end);
     final current = !passed && !now.isBefore(m.start);
-    final state = passed ? 'Passed' : current ? 'Now' : (m.expected ? 'Expected' : 'Coming up');
+    final state = passed ? ToolsCopy.guidePassed : current ? ToolsCopy.guideNow : (m.expected ? ToolsCopy.guideExpected : ToolsCopy.guideComingUp);
     return MergeSemantics(
       child: IntrinsicHeight(
         child: Row(
@@ -129,8 +129,8 @@ class _TimelineRow extends StatelessWidget {
                     Row(
                       children: [
                         Flexible(child: Text(m.title, style: type.cardTitle)),
-                        if (m.expected) ...[const SizedBox(width: MmSpace.s8), const ToolTag('Expected')],
-                        if (current) ...[const SizedBox(width: MmSpace.s8), const ToolTag('Now', tone: ToolTone.good)],
+                        if (m.expected) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideExpected)],
+                        if (current) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideNow, tone: ToolTone.good)],
                       ],
                     ),
                     const SizedBox(height: MmSpace.s4),

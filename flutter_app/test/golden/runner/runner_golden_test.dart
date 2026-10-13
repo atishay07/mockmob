@@ -89,6 +89,109 @@ void main() {
         await _shot(tester, 'practice_first', b);
       });
 
+      // The practice skin on the paper sizes the bubble track has to fit (finding runner-practice-01).
+      for (final (name, size, index) in [
+        ('practice_q19_360', const Size(360, 780), 18),
+        ('practice_q19_320', const Size(320, 640), 18),
+        ('practice_q20_320', const Size(320, 640), 19),
+      ]) {
+        testWidgets('practice of 20 on question ${index + 1} at ${size.width.toInt()} dp', (tester) async {
+          final s = FakeRunnerSession(
+            questions: accountancyQuestions(20),
+            mode: 'quick',
+            mockNumber: null,
+            chapter: 'Admission of a partner',
+            currentIndex: index,
+            answers: _answered(index, skipFrom: 6),
+            visited: {for (var i = 1; i <= index + 1; i++) 'q$i'},
+            save: const SaveSnapshot(state: SaveState.saved),
+          );
+          await pumpRunner(tester, session: s, brightness: b, size: size);
+          await settle(tester);
+          await _shot(tester, name, b);
+        });
+      }
+
+      testWidgets('practice: back after an interruption, the away strip over the meta line', (tester) async {
+        final s = FakeRunnerSession(
+          questions: accountancyQuestions(10),
+          mode: 'quick',
+          mockNumber: null,
+          chapter: 'Goodwill',
+          currentIndex: 4,
+          answers: _answered(4),
+          visited: {for (var i = 1; i <= 5; i++) 'q$i'},
+          away: const AwayInfo(duration: Duration(minutes: 2, seconds: 10), allSaved: true, unsyncedAnswers: 0),
+        );
+        await pumpRunner(tester, session: s, brightness: b);
+        await settle(tester);
+        await _shot(tester, 'practice_away', b);
+      });
+
+      testWidgets('practice: answers held back by the network', (tester) async {
+        final s = FakeRunnerSession(
+          questions: accountancyQuestions(15),
+          mode: 'quick',
+          mockNumber: null,
+          chapter: 'Retirement of a partner',
+          currentIndex: 8,
+          answers: _answered(8),
+          visited: {for (var i = 1; i <= 9; i++) 'q$i'},
+          unsynced: {'q6', 'q7', 'q8'},
+          save: const SaveSnapshot(state: SaveState.waitingForNetwork, unsyncedAnswers: 3),
+        );
+        await pumpRunner(tester, session: s, brightness: b);
+        await settle(tester);
+        await _shot(tester, 'practice_offline', b);
+      });
+
+      testWidgets('practice: the server refused the answers, tap to retry', (tester) async {
+        final s = FakeRunnerSession(
+          questions: accountancyQuestions(10),
+          mode: 'quick',
+          mockNumber: null,
+          chapter: 'Goodwill',
+          currentIndex: 5,
+          answers: _answered(5),
+          visited: {for (var i = 1; i <= 6; i++) 'q$i'},
+          unsynced: {'q4', 'q5'},
+          save: const SaveSnapshot(state: SaveState.notSaved, unsyncedAnswers: 2),
+        );
+        await pumpRunner(tester, session: s, brightness: b);
+        await settle(tester);
+        await _shot(tester, 'practice_not_saved', b);
+      });
+
+      testWidgets('practice: large text 1.5x on a small phone', (tester) async {
+        final s = FakeRunnerSession(
+          questions: accountancyQuestions(10),
+          mode: 'quick',
+          mockNumber: null,
+          chapter: 'Admission of a partner',
+          currentIndex: 3,
+          answers: {..._answered(3), 'q4': 1},
+          visited: {for (var i = 1; i <= 4; i++) 'q$i'},
+        );
+        await pumpRunner(tester, session: s, brightness: b, size: const Size(360, 780), textScale: 1.5);
+        await settle(tester);
+        await _shot(tester, 'practice_large_text', b);
+      });
+
+      testWidgets('practice: a passage question', (tester) async {
+        final s = FakeRunnerSession(
+          questions: passageQuestions(),
+          mode: 'quick',
+          mockNumber: null,
+          subject: 'english',
+          chapter: 'Reading comprehension',
+          currentIndex: 1,
+          answers: {'p1': 0},
+        );
+        await pumpRunner(tester, session: s, brightness: b);
+        await settle(tester);
+        await _shot(tester, 'practice_passage', b);
+      });
+
       testWidgets('back after an interruption', (tester) async {
         final s = FakeRunnerSession(
           currentIndex: 7,

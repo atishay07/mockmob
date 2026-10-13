@@ -96,8 +96,8 @@ abstract final class NtaCopy {
     'Leaving the app, switching apps or locking the screen counts as a warning.',
     'A quick look at notifications does not count.',
     'The third warning submits the answers you already gave.',
+    'Warnings are counted on this phone.',
   ];
-  static const String finePrint = 'This safeguard runs on this phone. It is not server-verified proctoring.';
   static String leaveBody(int next, DateTime until) =>
       'Leaving counts as warning $next of ${NtaRules.strikes}. The clock keeps running until ${formatTime12(until)}, and your answers stay in the paper.';
   static const String leaveEnds = 'Leaving now is your third warning, so the paper will be submitted with the answers you gave.';

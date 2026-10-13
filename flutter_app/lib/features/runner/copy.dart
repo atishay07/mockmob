@@ -8,7 +8,7 @@ abstract final class RunnerCopy {
   static String sessionLabel({required bool isMock, required String mode, int? mockNumber}) {
     if (!isMock) return 'Quick practice';
     if (mockNumber != null) return 'Mock $mockNumber';
-    return mode == 'nta' ? 'NTA-style mock' : 'Full mock';
+    return mode == 'nta' ? 'NTA mode' : 'Full mock';
   }
 
   static String subjectLine(String subject, String? chapter) {
@@ -20,6 +20,10 @@ abstract final class RunnerCopy {
 
   // Top bar.
   static String countSemantics(int current, int total) => 'Question $current of $total';
+
+  /// The bubble strip under the top bar: "Question 3 of 20, answered".
+  static String trackSemantics({required int number, required int total, required bool answered}) =>
+      'Question $number of $total, ${answered ? 'answered' : 'not answered'}';
   static const String questionsKey = 'Questions';
   static String leaveSemantics(bool isMock) => 'Leave the ${noun(isMock)}';
 
@@ -40,6 +44,9 @@ abstract final class RunnerCopy {
   static const String saved = 'Saved';
   static const String saving = 'Saving';
   static const String onThisPhone = 'On this phone';
+
+  /// The server refused the answers it was sent: they are still on this phone.
+  static const String notSavedYet = 'Not saved yet. Tap to retry';
   static String waiting(int n) => '${plural(n, 'answer')} on this phone, waiting for network';
   static String waitingShort(int n) => '${plural(n, 'answer')} on this phone';
 
@@ -54,13 +61,14 @@ abstract final class RunnerCopy {
   static const String clearAnswer = 'Clear my answer';
   static const String mark = 'Mark for review';
   static const String marked = 'Marked for review';
-  /// A practice has no visible timer, but it does close: say when, once, as plain text.
-  static String practiceNote(DateTime openUntil) => 'Feedback comes after you finish.';
+
+  /// A practice has no visible timer: the one line at the start says when feedback comes.
+  static const String practiceNote = 'Feedback comes after you finish.';
   static String openUntil(DateTime at) => 'Open until ${formatTime12(at)}';
 
   // Bottom bar.
   static const String previous = 'Previous';
-  static const String saveAndNext = 'Save and next';
+  static const String next = 'Next';
   static const String reviewAndSubmit = 'Review and submit';
 
   // Return after an interruption.
@@ -69,19 +77,20 @@ abstract final class RunnerCopy {
   static const String awayOnPhone = 'Your answers are on this phone and will be sent when you are online.';
   static const String awayDismiss = 'Got it';
 
+  /// The glass strip over the meta line: short enough for two lines at 1.3x text.
+  static String awayStrip(Duration d, {required bool allSaved}) =>
+      'Away for ${durationWords(d)}. The timer kept running. ${allSaved ? awaySavedShort : awayOnPhoneShort}';
+  static const String awaySavedShort = 'Answers saved.';
+  static const String awayOnPhoneShort = 'Answers on this phone.';
+
   // Palette.
   static const String paletteTitle = 'Your answer sheet';
   static const String answered = 'Answered';
   static const String notAnswered = 'Not answered';
   static const String notVisited = 'Not visited';
   static const String markedShort = 'Marked';
-  static String legendSummary({
-    required int answered,
-    required int notAnswered,
-    required int notVisited,
-    required int marked,
-    required int total,
-  }) => '$answered answered, $notAnswered not answered, $notVisited not visited, $marked marked for review, of $total';
+  static String legendSummary({required int answered, required int notAnswered, required int notVisited, required int marked, required int total}) =>
+      '$answered answered, $notAnswered not answered, $notVisited not visited, $marked marked for review, of $total';
   static String cellSemantics({
     required int number,
     required bool answered,
@@ -140,6 +149,9 @@ abstract final class RunnerCopy {
   static const String endedBody = 'Today shows what was recorded and what is still being sent.';
   static const String missingTitle = 'This session is not on this phone.';
   static const String missingBody = 'It may have finished on another device, or it was cleared when you signed out.';
+  static const String badPaperTitle = 'This paper is not complete.';
+  static String badPaperBody(int count) =>
+      'NTA mode needs all 50 questions and this paper has $count, so it was not opened and no clock is running on this phone. Start it again from Practice.';
   static const String failedTitle = 'This session did not open.';
   static const String failedBody = 'Your answers are still on this phone. Try again in a moment.';
 }

@@ -82,7 +82,7 @@ void main() {
 
     test('labels', () {
       expect(RunnerCopy.sessionLabel(isMock: true, mode: 'full', mockNumber: 7), 'Mock 7');
-      expect(RunnerCopy.sessionLabel(isMock: true, mode: 'nta', mockNumber: null), 'NTA-style mock');
+      expect(RunnerCopy.sessionLabel(isMock: true, mode: 'nta', mockNumber: null), 'NTA mode');
       expect(RunnerCopy.sessionLabel(isMock: false, mode: 'quick', mockNumber: null), 'Quick practice');
       expect(RunnerCopy.subjectLine('business_studies', 'Planning'), 'Business Studies, Planning');
     });

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -14,8 +13,8 @@ import '../widgets/load_states.dart';
 import '../widgets/subject_picker_sheet.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_page.dart';
-import 'combo_card.dart';
 import 'combo_controller.dart';
+import 'combo_results.dart';
 
 /// The Combo planner (`/tools/combo`): target DU programmes and the subjects the student could
 /// take in, the best combinations out, ranked by targets opened, then all programmes opened,
@@ -46,7 +45,6 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
           SliverToBoxAdapter(
             child: ToolsLoadFailed(
               error: error,
-              offlineBody: 'The planner needs one load with a connection. After that it works offline.',
               onRetry: () {
                 ref.invalidate(duCatalogProvider);
                 ref.invalidate(comboControllerProvider);
@@ -179,8 +177,6 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                 value: s.maxPapers,
                 onChanged: controller.setMaxPapers,
               ),
-              const SizedBox(height: MmSpace.s8),
-              Text(ToolsCopy.papersNote, style: type.caption.copyWith(color: colors.ink2)),
             ],
           ),
         ),
@@ -189,11 +185,8 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
         done: result.ranked.isNotEmpty,
         title: ToolsCopy.resultsHeading,
         note: s.pool.isEmpty ? ToolsCopy.resultsEmpty : null,
-        trailing: plan.isLoading && s.pool.isNotEmpty
-            ? Semantics(label: ToolsCopy.checking, liveRegion: true, child: MmSpinner(color: colors.ink2))
-            : null,
       ),
-      if (result.keep.isNotEmpty && s.pool.isNotEmpty)
+      if (result.keep.isNotEmpty && s.pool.isNotEmpty && !plan.isLoading)
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s16),
@@ -204,42 +197,33 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
           ),
         ),
       if (s.pool.isNotEmpty)
-        for (var i = 0; i < result.ranked.length; i++)
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s16),
-              child: AnimatedOpacity(
-                opacity: plan.isLoading ? 0.55 : 1,
-                duration: Motion.ui,
-                child: ComboCard(combo: result.ranked[i], rank: i, catalog: s.catalog, targetCount: s.targets.length),
-              ),
-            ),
-          ),
+        SliverToBoxAdapter(
+          child: ComboResults(checking: plan.isLoading, ranked: result.ranked, catalog: s.catalog, targetCount: s.targets.length),
+        ),
       if (plan.hasError && s.pool.isNotEmpty)
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
             child: InlineBanner(
               tone: BannerTone.error,
-              message: 'The combinations could not be checked.',
+              message: ToolsCopy.comboError,
               actionLabel: ToolsCopy.tryAgain,
               onAction: () => ref.invalidate(comboPlanProvider),
             ),
           ),
         ),
-      const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.comboFine, top: MmSpace.s8, icon: LucideIcons.info)),
+      const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmSpace.s8)),
     ];
   }
 }
 
 /// A step heading with an answer bubble that inks once the step has an answer.
 class _Step extends StatelessWidget {
-  const _Step({required this.done, required this.title, this.note, this.trailing});
+  const _Step({required this.done, required this.title, this.note});
 
   final bool done;
   final String title;
   final String? note;
-  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +232,6 @@ class _Step extends StatelessWidget {
         title,
         note: note,
         leading: Bubble(state: done ? BubbleState.filled : BubbleState.hollow, size: 14, semanticsLabel: done ? 'Answered' : 'Not answered yet'),
-        trailing: trailing == null ? null : Padding(padding: const EdgeInsets.only(right: MmSpace.s12, bottom: 4), child: trailing),
       ),
     );
   }
