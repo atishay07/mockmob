@@ -3,7 +3,7 @@
   "subject": "mathematics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.506Z",
+  "merged_at": "2026-10-13T15:32:56.745Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -45,32 +45,33 @@
     }
   },
   "measures": {
-    "judged_by_both": 273,
-    "judged_by_one": 12,
-    "score_mean_abs_diff": 0.82,
-    "score_exact_agreement_pct": 50.2,
-    "score_within_1_pct": 84.2,
-    "score_pearson_r": 0.805,
-    "key_both_match": 252,
+    "judged_by_both": 285,
+    "judged_by_one": 0,
+    "score_mean_abs_diff": 0.83,
+    "score_exact_agreement_pct": 49.8,
+    "score_within_1_pct": 82.8,
+    "score_pearson_r": 0.808,
+    "key_both_match": 263,
     "key_one_match": 7,
-    "key_none_match": 14,
-    "blind_answers_agree_pct": 97.4,
-    "tag_agreement_pct": 20.9,
-    "difficulty_agreement_pct": 79.1,
+    "key_none_match": 15,
+    "blind_answers_agree_pct": 97.5,
+    "tag_agreement_pct": 21.1,
+    "difficulty_agreement_pct": 79.6,
     "blocking_flagged": 98,
+    "difficulty_one_level_not_applied": 84,
     "flags": {
       "off_syllabus": 52,
       "wrong_key": 12,
+      "factual_error": 12,
       "garbled_text": 11,
       "multiple_defensible": 25,
       "duplicate_options": 4,
       "answer_in_stem": 4,
       "doubtful_key": 5,
-      "factual_error": 11,
       "hedge_wording": 3
     },
-    "mean_of_means": 6.07,
-    "admissible_before_row_checks": 136
+    "mean_of_means": 6.01,
+    "admissible_before_row_checks": 139
   },
   "questions": {
     "20cefb21-fbbb-4668-93d3-a5621732115f": {
@@ -80,6 +81,18 @@
       "key": "A",
       "content_hash": "c9254de245eb3ebcd57d7802dcfd77ee27fc70028056ff52b3a3925ec2007109",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
+          "flags": [],
+          "note": "Correct: (1)-B, (2)-D, (3)-A, (4)-C. Mixes FTC with the general Leibniz rule (4), which is beyond NCERT and sits under the wrong chapter. Practice-grade."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -95,26 +108,31 @@
           "note": "Key A verified: FTC for (1), chain rule for (2) and (3), Leibniz rule for (4). Leibniz rule is beyond CUET UG maths and the content is Integrals, not this chapter. Syllabus call from knowledge, not checked against the spec."
         }
       ],
-      "mean": 4,
+      "mean": 5,
       "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "off_syllabus"
       ],
       "blocking": true,
       "unknown_flags": [],
       "objective_tag": "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
-      "tag_agreement": null,
+      "tag_agreement": true,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
+        "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral"
+      ],
       "key_dispute": false
     },
     "2c0b2c84-bba3-4dc4-8afd-3aa085825a4f": {
@@ -124,6 +142,20 @@
       "key": "A",
       "content_hash": "93981b38a2cac44126f74d9803798194bfd43d43a0ca98a48a15581200d5df18",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.expected-score-is-zero",
+          "flags": [
+            "off_syllabus"
+          ],
+          "note": "Key A is correct (E[score]=0 for regular families). Score-function and likelihood theory is statistical inference, outside CUET UG maths and this chapter."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -139,26 +171,31 @@
           "note": "Key A correct (expected score is zero for a regular family). Score function and likelihood theory is statistical inference, not CUET UG maths. Difficulty is medium, not easy."
         }
       ],
-      "mean": 4,
-      "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "mean": 3,
+      "min": 2,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "off_syllabus"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.expectation-of-score-zero",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.expected-score-is-zero",
+        "mathematics.application-of-derivatives.expectation-of-score-zero"
+      ],
       "key_dispute": false
     },
     "413c8d37-3e22-4b6d-884d-fc87dc5e9432": {
@@ -168,6 +205,18 @@
       "key": "A",
       "content_hash": "4f1efd5a661eca6f1d4bc405c3473d6b0d9bdfee1eb7b8f4bea848d9854233da",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.application-of-derivatives.fundamental-theorem-derivative-of-integral",
+          "flags": [],
+          "note": "Clean FTC item with a chain-rule trap (B) and a plausible cos distractor (C). Content is Integrals (FTC) though filed under Application of Derivatives."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -183,22 +232,27 @@
       ],
       "mean": 8,
       "min": 8,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.fundamental-theorem-first-part",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "easy",
           "easy"
         ],
-        "agreed": null,
+        "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.fundamental-theorem-derivative-of-integral",
+        "mathematics.application-of-derivatives.fundamental-theorem-first-part"
+      ],
       "key_dispute": false
     },
     "59a78c69-d5bc-4d76-b0f9-619c70bc115a": {
@@ -208,6 +262,22 @@
       "key": "A",
       "content_hash": "6538046020ad59cb6e05b4dab05184c922ceb77a824c5660609b0cbcb09077f9",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "?",
+          "key_matches": false,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.derivative-of-2x2-determinant",
+          "flags": [
+            "wrong_key",
+            "factual_error",
+            "garbled_text"
+          ],
+          "note": "d/dx(1-x^2) is -2x, not 2x, and -2x is not in List II, so no option is fully correct. Key A pairs (3) with C; the explanation repeats the sign error. Raw LaTeX in stem."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -224,27 +294,33 @@
           "note": "Key A wrong: (3) derivative of 1-x^2 is -2x, not 2x, so no option is fully right. (1)-B, (2)-D, (4)-A hold. det(kI) size unstated. Raw LaTeX in stem."
         }
       ],
-      "mean": 1,
+      "mean": 1.5,
       "min": 1,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 1,
+      "key_agreement": "none",
+      "blind_answers_agree": true,
       "flags": [
         "wrong_key",
+        "factual_error",
         "garbled_text"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.derivative-of-determinant-of-functions",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.derivative-of-2x2-determinant",
+        "mathematics.application-of-derivatives.derivative-of-determinant-of-functions"
+      ],
       "key_dispute": true
     },
     "6299411c-801c-463e-8548-0b484acfe7b5": {
@@ -254,6 +330,18 @@
       "key": "A",
       "content_hash": "436d787079b185987ddb5c90c75b76bb38c73b45a3641c2ddffef1b6a4e6d721",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
+          "flags": [],
+          "note": "Both statements true and continuity of e^{xt} and its x-derivative justifies R explaining A. Interchange is beyond NCERT. '*R' in the reason should read x R."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -269,26 +357,31 @@
           "note": "Key A correct: interchange is justified by continuity on the compact set [0,1] x R, so R explains A. Stray *R in reason text. Differentiation under the integral sign is beyond CUET (from knowledge)."
         }
       ],
-      "mean": 4,
+      "mean": 5,
       "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "off_syllabus"
       ],
       "blocking": true,
       "unknown_flags": [],
       "objective_tag": "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
-      "tag_agreement": null,
+      "tag_agreement": true,
       "difficulty": {
         "label": "medium",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral",
+        "mathematics.application-of-derivatives.leibniz-rule-differentiation-under-integral"
+      ],
       "key_dispute": false
     },
     "676bcb9c-87fe-4a7a-a905-1d6878a8043d": {
@@ -298,6 +391,20 @@
       "key": "A",
       "content_hash": "2b38dbd445765bde4200cc3e7ce76dd3646ce9342061834971fcf35b0a7c3be2",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "mathematics.application-of-derivatives.derivative-of-determinant-jacobi-formula",
+          "flags": [
+            "off_syllabus"
+          ],
+          "note": "Key A is correct (Jacobi's formula). The reason's log det A = tr(log A) needs logs defined. Matrix-calculus identity is outside CUET UG maths, so not for NTA mode."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -313,26 +420,31 @@
           "note": "Key A matches Jacobi's formula. Reason is a formal log-det sketch that needs det A positive. Jacobi formula and matrix log are beyond CUET UG maths. Difficulty hard, not medium."
         }
       ],
-      "mean": 4,
-      "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "mean": 3,
+      "min": 2,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "off_syllabus"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.jacobi-formula-derivative-of-determinant",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "medium",
         "judges": [
+          "hard",
           "hard"
         ],
-        "agreed": null,
+        "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.derivative-of-determinant-jacobi-formula",
+        "mathematics.application-of-derivatives.jacobi-formula-derivative-of-determinant"
+      ],
       "key_dispute": false
     },
     "abe5b940-174f-49ee-a895-59d7bcf30cf7": {
@@ -342,6 +454,18 @@
       "key": "A",
       "content_hash": "bba2da6b502d7acb34b7363f9575ec57533bc9678fadaed423e3990a2a20ca26",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.chain-rule-with-integral-upper-limit",
+          "flags": [],
+          "note": "Correct: A'(1)=2*f(1)=2*(1/2)=1. Distractors 1/2 (missing chain factor) and 2 are plausible slips. Two steps, so medium rather than easy."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -357,22 +481,27 @@
       ],
       "mean": 8,
       "min": 8,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.fundamental-theorem-chain-rule-upper-limit",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.chain-rule-with-integral-upper-limit",
+        "mathematics.application-of-derivatives.fundamental-theorem-chain-rule-upper-limit"
+      ],
       "key_dispute": false
     },
     "bd408636-67d0-4f15-8d0f-c87a6dcf5c5c": {
@@ -382,6 +511,18 @@
       "key": "A",
       "content_hash": "32a9866f0bdd776da98bbb72e184c3606c8a303a34c0aa281820f408e6b78040",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.horizontal-tangent-where-derivative-zero",
+          "flags": [],
+          "note": "f'(x)=2x cos(x^2); smallest positive root is sqrt(pi/2), unique. D (0) is excluded by x>0 but is a fair decoy. Two steps, so label easy is a notch low."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -397,22 +538,27 @@
       ],
       "mean": 8,
       "min": 8,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
       "objective_tag": "mathematics.application-of-derivatives.horizontal-tangent-where-derivative-zero",
-      "tag_agreement": null,
+      "tag_agreement": true,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.horizontal-tangent-where-derivative-zero",
+        "mathematics.application-of-derivatives.horizontal-tangent-where-derivative-zero"
+      ],
       "key_dispute": false
     },
     "beb519d7-e830-4e60-b989-c76869dc0119": {
@@ -422,6 +568,20 @@
       "key": "A",
       "content_hash": "1eb7f720a6939635a46aa9d0e9af5e586679998ab5e3285d0705a499630367d9",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.application-of-derivatives.derivative-of-polynomial-at-point",
+          "flags": [
+            "garbled_text"
+          ],
+          "note": "Key A is correct (det=1+x^3, derivative 3x^2=3 at x=1). Stem shows raw \\begin{pmatrix} LaTeX, which shows as code unless rendered. Stem also gives det, leaving one step."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -439,24 +599,29 @@
       ],
       "mean": 2,
       "min": 2,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "garbled_text"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.derivative-of-determinant-of-functions",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "easy",
           "easy"
         ],
-        "agreed": null,
+        "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.derivative-of-polynomial-at-point",
+        "mathematics.application-of-derivatives.derivative-of-determinant-of-functions"
+      ],
       "key_dispute": false
     },
     "cd49dd81-06b4-4f26-9fe9-5aa06c9f6061": {
@@ -466,6 +631,20 @@
       "key": "A",
       "content_hash": "19c8dbe218b1fadc214159563576670f614e7ece9598e071fac4c5fe9462a235",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.score-function-of-power-density",
+          "flags": [
+            "off_syllabus"
+          ],
+          "note": "Key A is correct (n/theta + sum ln X_i). Score function and MLE are statistics, outside CUET UG maths. D is a sign-swap trap; the item is well built but off-syllabus."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -481,26 +660,31 @@
           "note": "Key A correct: log-likelihood n ln theta + (theta-1) sum ln X, derivative n/theta + sum ln X. Sign-slip distractor D is good. Score function is statistical inference, not CUET UG maths. Stem prefix Case: is a factory label."
         }
       ],
-      "mean": 4,
-      "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "mean": 3,
+      "min": 2,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "off_syllabus"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.score-function-from-log-likelihood",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "medium",
           "medium"
         ],
-        "agreed": null,
+        "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.score-function-of-power-density",
+        "mathematics.application-of-derivatives.score-function-from-log-likelihood"
+      ],
       "key_dispute": false
     },
     "e70dea14-39aa-4ccc-9e82-4ef22f562a2b": {
@@ -510,6 +694,18 @@
       "key": "A",
       "content_hash": "beff633eb5ac3cd6dfe129132a715b6eb6a7e36295b7ede44f67dbe3086835ed",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.fundamental-theorem-derivative-of-integral",
+          "flags": [],
+          "note": "Correct: A and R true, and FTC (g'=h>0) explains A. R restates the FTC step almost verbatim, a mild signpost, so scored down one point."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -525,26 +721,31 @@
           "note": "Key A holds only if h is continuous (FTC part 1); stated condition is just h>0, an unstated assumption. Reason restates the proof, so the A-R link is trivial. One-step item, so easy."
         }
       ],
-      "mean": 4,
+      "mean": 5.5,
       "min": 4,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 3,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "multiple_defensible"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.increasing-integral-function-when-integrand-positive",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "medium",
         "judges": [
+          "medium",
           "easy"
         ],
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.fundamental-theorem-derivative-of-integral",
+        "mathematics.application-of-derivatives.increasing-integral-function-when-integrand-positive"
+      ],
       "key_dispute": false
     },
     "ee679095-6eee-48a6-997a-172e069d4d8f": {
@@ -554,6 +755,20 @@
       "key": "A",
       "content_hash": "3f2ea9ed751ba4fab53c359af8164a6c37cf4764af20cbf7c2eaef2545fb515d",
       "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.application-of-derivatives.derivative-of-polynomial-at-point",
+          "flags": [
+            "garbled_text"
+          ],
+          "note": "Key A is correct (det=3x^2-2, derivative 6x=6 at x=1). Stem shows raw \\begin{pmatrix} LaTeX, which shows as code unless rendered. Stem also gives det, leaving one step."
+        },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
@@ -571,24 +786,29 @@
       ],
       "mean": 2,
       "min": 2,
-      "spread": null,
-      "key_agreement": "one_judge",
-      "blind_answers_agree": null,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
       "flags": [
         "garbled_text"
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-derivatives.derivative-of-determinant-of-functions",
-      "tag_agreement": null,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
         "label": "easy",
         "judges": [
+          "easy",
           "easy"
         ],
-        "agreed": null,
+        "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.derivative-of-polynomial-at-point",
+        "mathematics.application-of-derivatives.derivative-of-determinant-of-functions"
+      ],
       "key_dispute": false
     },
     "1a307a4a-0e13-4fb4-9d0c-df2acbb1240b": {
@@ -642,6 +862,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.odd-function-symmetric-integral-zero",
+        "mathematics.application-of-integrals.odd-function-symmetric-integral-zero"
+      ],
       "key_dispute": false
     },
     "1cc62529-f76a-46c6-b46f-2c9053b37ff4": {
@@ -695,7 +919,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.volume-of-revolution-disk-method",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -706,6 +930,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.volume-of-revolution-disk-method",
+        "mathematics.application-of-integrals.volume-disk-method-about-x-axis"
+      ],
       "key_dispute": false
     },
     "28979835-a55e-42db-bc44-cef033bae03c": {
@@ -756,7 +984,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.centroid-x-coordinate-from-moment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -767,6 +995,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.centroid-x-coordinate-from-moment",
+        "mathematics.application-of-integrals.centroid-from-moment-integral"
+      ],
       "key_dispute": false
     },
     "29ce7e08-42ae-49b0-8768-46e3726f3390": {
@@ -809,7 +1041,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.definite-integral-properties-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -820,6 +1052,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.definite-integral-properties-matching",
+        "mathematics.application-of-integrals.integral-properties-matching"
+      ],
       "key_dispute": false
     },
     "513acd90-6f98-4116-862f-ebfbd5de3030": {
@@ -866,7 +1102,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.derivative-of-integral-variable-limit",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -875,8 +1111,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.derivative-of-integral-variable-limit",
+        "mathematics.application-of-integrals.fundamental-theorem-part-one-derivative"
+      ],
       "key_dispute": false
     },
     "5d0850cd-9267-4b02-98b8-5fe60c9efbc4": {
@@ -934,6 +1174,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.rms-equals-mean-iff-constant",
+        "mathematics.application-of-integrals.rms-equals-mean-iff-constant"
+      ],
       "key_dispute": false
     },
     "6e57f335-b086-4a70-a906-8448f8025668": {
@@ -985,7 +1229,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.area-between-curves-intersection-limits",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -996,6 +1240,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.area-between-curves-intersection-limits",
+        "mathematics.application-of-integrals.area-between-curves-upper-minus-lower"
+      ],
       "key_dispute": false
     },
     "7d503ef4-a1d5-404e-88bf-f09bda8be4e4": {
@@ -1049,7 +1297,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.arc-length-vector-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1060,6 +1308,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.arc-length-vector-function",
+        "mathematics.application-of-integrals.arc-length-parametric-speed"
+      ],
       "key_dispute": false
     },
     "97eaf5ac-701d-472f-aedf-432efc777a8d": {
@@ -1108,7 +1360,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.work-done-variable-force-integral",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1119,6 +1371,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.work-done-variable-force-integral",
+        "mathematics.application-of-integrals.work-done-variable-force"
+      ],
       "key_dispute": false
     },
     "d32a462b-08f5-4e22-a48a-d117e8d1b195": {
@@ -1161,7 +1417,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.application-of-integrals.areas-of-simple-regions-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1172,6 +1428,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.areas-of-simple-regions-matching",
+        "mathematics.application-of-integrals.area-of-simple-regions-as-integrals"
+      ],
       "key_dispute": false
     },
     "ffde4867-e561-440d-a42d-39816b12eb35": {
@@ -1225,6 +1485,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.application-of-integrals.area-under-parametric-curve",
+        "mathematics.application-of-integrals.area-under-parametric-curve"
+      ],
       "key_dispute": false
     },
     "1ddf5005-119e-402b-93ae-0ad99dd960ca": {
@@ -1267,7 +1531,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.absolute-value-kink-not-differentiable",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1278,6 +1542,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.absolute-value-kink-not-differentiable",
+        "mathematics.continuity-and-differentiability.abs-value-derivative-not-defined-at-zero"
+      ],
       "key_dispute": false
     },
     "40059c99-cc78-4947-85e7-3424f3d4dbfa": {
@@ -1320,7 +1588,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.continuity-at-point-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1329,8 +1597,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.continuity-at-point-meaning",
+        "mathematics.continuity-and-differentiability.meaning-of-continuity-at-a-point"
+      ],
       "key_dispute": false
     },
     "421c5689-30d3-4aed-8541-31d9f2d01f5d": {
@@ -1373,7 +1645,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.differentiable-implies-continuous-not-converse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1382,8 +1654,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.differentiable-implies-continuous-not-converse",
+        "mathematics.continuity-and-differentiability.differentiability-implies-continuity"
+      ],
       "key_dispute": false
     },
     "42da53df-58d5-4a92-9cc9-f30fe8c50581": {
@@ -1426,7 +1702,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.differentiable-implies-continuous-not-converse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1437,6 +1713,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.differentiable-implies-continuous-not-converse",
+        "mathematics.continuity-and-differentiability.continuity-does-not-imply-differentiability"
+      ],
       "key_dispute": false
     },
     "5460abea-c37c-4521-a65b-2d1d1c601143": {
@@ -1485,7 +1765,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.continuity-does-not-imply-differentiability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1494,8 +1774,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.classify-continuity-and-differentiability-at-zero",
+        "mathematics.continuity-and-differentiability.continuity-does-not-imply-differentiability"
+      ],
       "key_dispute": true
     },
     "5f983640-5116-42d7-91f2-1f8cac3ae025": {
@@ -1538,7 +1822,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.chain-rule-composite-derivative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1547,8 +1831,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.chain-rule-composite-derivative",
+        "mathematics.continuity-and-differentiability.chain-rule-differentiability-of-composite"
+      ],
       "key_dispute": false
     },
     "7022f0ad-b440-4d45-bfe5-fb1064835d16": {
@@ -1606,8 +1894,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.inverse-function-differentiability-conditions",
+        "mathematics.continuity-and-differentiability.inverse-function-differentiability-conditions"
+      ],
       "key_dispute": false
     },
     "a5c7c002-aba6-458b-b410-951ffb011e33": {
@@ -1650,7 +1942,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.derivative-of-polynomial-at-point",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1661,6 +1953,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.derivative-of-polynomial-at-point",
+        "mathematics.continuity-and-differentiability.power-rule-polynomial-derivative"
+      ],
       "key_dispute": false
     },
     "aa1cf5e0-bc9e-48d7-8baa-8f70b9206f17": {
@@ -1703,7 +1999,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.max-of-functions-differentiable-at-crossing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1712,8 +2008,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.max-of-functions-differentiable-at-crossing",
+        "mathematics.continuity-and-differentiability.differentiability-of-maximum-of-functions"
+      ],
       "key_dispute": false
     },
     "ccb2b007-b1aa-41ac-920b-534ce9cd3502": {
@@ -1762,7 +2062,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.differential-equation-solution-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1771,8 +2071,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.differential-equation-solution-properties",
+        "mathematics.continuity-and-differentiability.first-order-de-solution-properties"
+      ],
       "key_dispute": true
     },
     "d19ae691-7711-4459-a734-cb706958b860": {
@@ -1823,7 +2127,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.continuity-and-differentiability.piecewise-junction-continuity-and-derivative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1834,6 +2138,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.piecewise-junction-continuity-and-derivative",
+        "mathematics.continuity-and-differentiability.differentiability-at-piecewise-junction"
+      ],
       "key_dispute": true
     },
     "d22a3c9d-052a-44f5-a18b-661438f164b3": {
@@ -1887,6 +2195,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.velocity-as-derivative-of-position",
+        "mathematics.continuity-and-differentiability.velocity-as-derivative-of-position"
+      ],
       "key_dispute": false
     },
     "0057b2a7-5aec-400c-a30c-9e98b3d70e98": {
@@ -1929,7 +2241,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.transpose-preserves-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1938,8 +2250,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.transpose-preserves-determinant",
+        "mathematics.determinants.transpose-invariance"
+      ],
       "key_dispute": false
     },
     "0ace6614-1854-467e-9c53-35af2be62b0f": {
@@ -1982,7 +2298,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.row-operations-effect-on-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1993,6 +2309,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.row-operations-effect-on-determinant",
+        "mathematics.determinants.effect-of-row-operations"
+      ],
       "key_dispute": false
     },
     "0ccc1d5b-3b8e-4b45-8526-7643a6738aed": {
@@ -2041,7 +2361,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.jacobian-area-scaling-factor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2052,6 +2372,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.jacobian-area-scaling-factor",
+        "mathematics.determinants.jacobian-area-scaling"
+      ],
       "key_dispute": false
     },
     "14769036-da01-46d2-b998-62124151fdac": {
@@ -2094,7 +2418,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.cramers-rule-unknown-as-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2105,6 +2429,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.cramers-rule-unknown-as-ratio",
+        "mathematics.determinants.cramers-rule-unknown"
+      ],
       "key_dispute": false
     },
     "3901b54b-e578-4d42-8e8e-ab1fc6d960a0": {
@@ -2147,7 +2475,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.singular-matrix-dependent-rows",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2158,6 +2486,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.singular-matrix-dependent-rows",
+        "mathematics.determinants.singular-matrix-dependence"
+      ],
       "key_dispute": false
     },
     "51f0ee28-e1b1-4085-96a1-acc2d81c1a8d": {
@@ -2200,7 +2532,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.suitable-evaluation-method-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2211,6 +2543,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.suitable-evaluation-method-matching",
+        "mathematics.determinants.evaluation-method-selection"
+      ],
       "key_dispute": false
     },
     "683f1d5f-275d-4e13-a856-ef0b5bffabe1": {
@@ -2253,7 +2589,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.row-operations-effect-on-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2264,6 +2600,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.row-operations-effect-on-determinant",
+        "mathematics.determinants.effect-of-row-operations"
+      ],
       "key_dispute": false
     },
     "6f08fbbf-66a0-4e54-b9a0-441904565623": {
@@ -2306,7 +2646,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.evaluating-3x3-by-expansion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2317,6 +2657,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.evaluating-3x3-by-expansion",
+        "mathematics.determinants.three-by-three-evaluation"
+      ],
       "key_dispute": false
     },
     "7de82d1c-961e-466a-bc15-c7ca3be4bf39": {
@@ -2359,7 +2703,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.block-triangular-determinant-product",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2370,6 +2714,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.block-triangular-determinant-product",
+        "mathematics.determinants.block-triangular-determinant"
+      ],
       "key_dispute": false
     },
     "840f10f9-56f8-4e66-b9ac-ae917948363b": {
@@ -2412,7 +2760,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.triangular-determinant-diagonal-product",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2423,6 +2771,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.triangular-determinant-diagonal-product",
+        "mathematics.determinants.triangular-matrix-product"
+      ],
       "key_dispute": false
     },
     "99b5a2ad-1566-4410-9866-b307767fba3f": {
@@ -2476,6 +2828,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.two-by-two-formula",
+        "mathematics.determinants.two-by-two-formula"
+      ],
       "key_dispute": false
     },
     "9ca4f226-e3b5-4df1-8b2a-e172480ff397": {
@@ -2518,7 +2874,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.orthogonal-matrix-determinant-value",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2529,6 +2885,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.orthogonal-matrix-determinant-value",
+        "mathematics.determinants.orthogonal-determinant-values"
+      ],
       "key_dispute": false
     },
     "b9b9e1d8-76eb-4a1d-b3a5-b376d31249c6": {
@@ -2582,6 +2942,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.permutation-matrix-sign",
+        "mathematics.determinants.permutation-matrix-sign"
+      ],
       "key_dispute": false
     },
     "d2444ad8-4008-4597-a8a0-5f1694f634a0": {
@@ -2624,7 +2988,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.product-rule-for-determinants",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2633,8 +2997,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.product-rule-for-determinants",
+        "mathematics.determinants.product-rule-singularity"
+      ],
       "key_dispute": false
     },
     "e02ff94b-bbb3-4b08-a51d-8312e2ee9808": {
@@ -2683,7 +3051,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.determinants.area-of-triangle-by-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2694,6 +3062,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.determinants.area-of-triangle-by-determinant",
+        "mathematics.determinants.triangle-area-formula"
+      ],
       "key_dispute": false
     },
     "067b976c-d835-49aa-a270-34c363c0f4c2": {
@@ -2736,7 +3108,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.first-order-solution-method-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2747,6 +3119,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.first-order-solution-method-matching",
+        "mathematics.differential-equations.ode-type-to-solution-method"
+      ],
       "key_dispute": false
     },
     "2312abf9-b827-45b4-9b2c-0d5165b07553": {
@@ -2793,7 +3169,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2804,6 +3180,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+        "mathematics.differential-equations.degree-requires-polynomial-in-derivatives"
+      ],
       "key_dispute": false
     },
     "3b2b02e1-2614-4d8f-b666-8daa87c3fbb0": {
@@ -2852,7 +3232,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.linear-first-order-model-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2863,6 +3243,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.linear-first-order-model-identification",
+        "mathematics.differential-equations.proportional-growth-is-linear-ode"
+      ],
       "key_dispute": false
     },
     "4d577d6d-f4a8-473d-8028-862c325a4ae1": {
@@ -2905,7 +3289,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.cooling-exponential-approach-to-ambient",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2916,6 +3300,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.cooling-exponential-approach-to-ambient",
+        "mathematics.differential-equations.newton-cooling-exponential-decay"
+      ],
       "key_dispute": false
     },
     "4e51e290-24a6-4248-8edd-9b5b8f6fcafb": {
@@ -2962,7 +3350,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2973,6 +3361,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+        "mathematics.differential-equations.degree-requires-polynomial-in-derivatives"
+      ],
       "key_dispute": false
     },
     "4e7ac489-32b2-47f3-a0d3-7c363c2449c9": {
@@ -3023,7 +3415,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.linear-ode-uniqueness-needs-initial-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3034,6 +3426,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.linear-ode-uniqueness-needs-initial-condition",
+        "mathematics.differential-equations.uniqueness-needs-initial-condition"
+      ],
       "key_dispute": true
     },
     "5b9311a6-2a9e-44d8-8e8a-797221847994": {
@@ -3093,6 +3489,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.existence-uniqueness-lipschitz-condition",
+        "mathematics.differential-equations.existence-uniqueness-lipschitz-condition"
+      ],
       "key_dispute": false
     },
     "9c4dd942-7a1a-4d3c-a8fa-b4230d7fa580": {
@@ -3135,7 +3535,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.linear-first-order-integrating-factor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3144,8 +3544,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.linear-first-order-integrating-factor",
+        "mathematics.differential-equations.linear-ivp-integrating-factor"
+      ],
       "key_dispute": false
     },
     "aca8a91f-0d64-42b8-864f-fad15fd62bbe": {
@@ -3188,7 +3592,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.order-and-degree-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3197,8 +3601,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.order-and-degree-definition",
+        "mathematics.differential-equations.order-and-degree-definitions"
+      ],
       "key_dispute": false
     },
     "b94a33dd-45c2-4ddb-a9f9-4aa4729d71b6": {
@@ -3252,6 +3660,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.arbitrary-constants-equal-order",
+        "mathematics.differential-equations.arbitrary-constants-equal-order"
+      ],
       "key_dispute": false
     },
     "cb644137-cff9-4932-90e8-3de0f1da569d": {
@@ -3300,7 +3712,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.general-vs-particular-solution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3311,6 +3723,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.general-vs-particular-solution",
+        "mathematics.differential-equations.general-vs-particular-solutions"
+      ],
       "key_dispute": false
     },
     "d6d3093b-c4af-4500-8fd7-3dfe0cac79b6": {
@@ -3364,7 +3780,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.exponential-rate-constant-from-two-values",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3375,6 +3791,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.exponential-rate-constant-from-two-values",
+        "mathematics.differential-equations.exponential-growth-decay-constant"
+      ],
       "key_dispute": false
     },
     "ddbac3ae-10d8-4219-a4d2-6841ebc45f66": {
@@ -3421,7 +3841,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3432,6 +3852,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.degree-undefined-for-non-polynomial-form",
+        "mathematics.differential-equations.degree-requires-polynomial-in-derivatives"
+      ],
       "key_dispute": false
     },
     "f52ddf72-b8f2-4b1e-9904-32ad6b7a0f5e": {
@@ -3474,7 +3898,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.differential-equations.exponential-rate-constant-from-two-values",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3485,6 +3909,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.differential-equations.exponential-rate-constant-from-two-values",
+        "mathematics.differential-equations.exponential-growth-decay-constant"
+      ],
       "key_dispute": false
     },
     "16e77c02-09b4-4dc4-a959-799c39537a0f": {
@@ -3527,7 +3955,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.rank-condition-for-consistency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3538,6 +3966,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.rank-condition-for-consistency",
+        "mathematics.financial-mathematics.consistency-rank-condition"
+      ],
       "key_dispute": false
     },
     "171fe9d5-38e4-45ca-99db-8e4bd7a52fb5": {
@@ -3586,7 +4018,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.linear-dependence-of-vectors",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3595,8 +4027,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.linear-dependence-of-vectors",
+        "mathematics.financial-mathematics.linear-dependence-in-r3"
+      ],
       "key_dispute": true
     },
     "1895b891-a563-4cd3-a7bc-c2e800d82e4e": {
@@ -3639,7 +4075,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.effective-rate-quarterly-compounding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3650,6 +4086,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.effective-rate-quarterly-compounding",
+        "mathematics.financial-mathematics.quarterly-compounding-effective-rate"
+      ],
       "key_dispute": false
     },
     "257bca96-a500-49fb-9585-7bba32fd2af2": {
@@ -3692,7 +4132,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.lp-optimum-at-corner-point",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3703,6 +4143,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.lp-optimum-at-corner-point",
+        "mathematics.financial-mathematics.lp-corner-point-maximum"
+      ],
       "key_dispute": false
     },
     "265223e2-1fea-4d71-ba3d-791e42145a82": {
@@ -3745,7 +4189,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.feasible-region-convexity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3756,6 +4200,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.feasible-region-convexity",
+        "mathematics.financial-mathematics.convexity-of-feasible-region"
+      ],
       "key_dispute": false
     },
     "5986f7c8-e109-45fd-9ad5-d93415b63868": {
@@ -3804,7 +4252,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.two-asset-return-simultaneous-equations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3813,8 +4261,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.two-asset-return-simultaneous-equations",
+        "mathematics.financial-mathematics.two-asset-return-linear-system"
+      ],
       "key_dispute": true
     },
     "71bd28d8-35ca-4ae4-a4ce-f902ae0b329f": {
@@ -3868,6 +4320,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.vector-projection-formula",
+        "mathematics.financial-mathematics.vector-projection-formula"
+      ],
       "key_dispute": false
     },
     "7464b5c8-54e8-4b06-b1c0-6e2fa95738bc": {
@@ -3910,7 +4366,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.annuity-due-vs-ordinary-present-value",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3921,6 +4377,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.annuity-due-vs-ordinary-present-value",
+        "mathematics.financial-mathematics.annuity-due-vs-ordinary-pv"
+      ],
       "key_dispute": false
     },
     "7c0197c6-6636-4175-bacf-e40ede7e644c": {
@@ -3963,7 +4423,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.slack-variable-for-less-than-constraint",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3974,6 +4434,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.slack-variable-for-less-than-constraint",
+        "mathematics.financial-mathematics.slack-variable-definition"
+      ],
       "key_dispute": false
     },
     "85e0bdd1-075c-40a4-abea-df3178112308": {
@@ -4016,7 +4480,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.unbounded-objective-no-finite-maximum",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4025,8 +4489,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.unbounded-objective-no-finite-maximum",
+        "mathematics.financial-mathematics.unbounded-objective-in-lp"
+      ],
       "key_dispute": false
     },
     "93dfb1df-0e0e-46db-bcc6-eb19cc3f6637": {
@@ -4086,6 +4554,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.redundant-constraint-identification",
+        "mathematics.financial-mathematics.redundant-constraint-identification"
+      ],
       "key_dispute": true
     },
     "d8432125-c19d-42de-82e4-d6d2c5ba078d": {
@@ -4128,7 +4600,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.dot-product-geometric-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4139,6 +4611,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.dot-product-geometric-formula",
+        "mathematics.financial-mathematics.dot-product-geometric-form"
+      ],
       "key_dispute": false
     },
     "dd402714-6931-4455-9ba5-ce8f22ea8d9e": {
@@ -4185,7 +4661,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.financial-mathematics.two-by-two-invertibility-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4196,6 +4672,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.financial-mathematics.two-by-two-invertibility-determinant",
+        "mathematics.financial-mathematics.determinant-nonzero-invertibility"
+      ],
       "key_dispute": false
     },
     "1bda8d68-fd80-4665-a2f6-5bb3b0c2408c": {
@@ -4255,6 +4735,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.first-differencing-removes-trend",
+        "mathematics.inferential-statistics.first-differencing-removes-trend"
+      ],
       "key_dispute": false
     },
     "1d3ca91e-1633-49bf-8a9c-4ba11b79e8e1": {
@@ -4303,7 +4787,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.regression-function-conditional-expectation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4314,6 +4798,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.regression-function-conditional-expectation",
+        "mathematics.inferential-statistics.regression-function-conditional-mean"
+      ],
       "key_dispute": false
     },
     "210c8b12-3589-485c-95f7-a952bc59de63": {
@@ -4362,7 +4850,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.iid-se-under-positive-autocorrelation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4371,8 +4859,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.iid-se-under-positive-autocorrelation",
+        "mathematics.inferential-statistics.iid-standard-error-under-autocorrelation"
+      ],
       "key_dispute": false
     },
     "321bf30b-029a-4697-959f-464e58e2a6d4": {
@@ -4423,7 +4915,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.acf-white-noise-distribution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4432,8 +4924,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.acf-white-noise-distribution",
+        "mathematics.inferential-statistics.acf-white-noise-variance"
+      ],
       "key_dispute": false
     },
     "43390724-f29c-4aba-8f9f-095c87b4fe5f": {
@@ -4482,7 +4978,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.acf-measures-linear-lag-dependence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4493,6 +4989,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.acf-measures-linear-lag-dependence",
+        "mathematics.inferential-statistics.acf-measures-lagged-dependence"
+      ],
       "key_dispute": false
     },
     "912867d8-48d5-424f-a1fc-35c77787b87b": {
@@ -4550,6 +5050,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.standardized-ols-slope-equals-correlation",
+        "mathematics.inferential-statistics.standardized-ols-slope-equals-correlation"
+      ],
       "key_dispute": false
     },
     "955f973d-8375-4718-87df-59cdbdd6c418": {
@@ -4598,7 +5102,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.mle-equals-sample-mean",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4609,6 +5113,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.poisson-mle-sample-mean",
+        "mathematics.inferential-statistics.mle-equals-sample-mean"
+      ],
       "key_dispute": false
     },
     "a24db07e-22e5-40d5-8d63-40251f91b645": {
@@ -4657,7 +5165,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.sample-autocorrelation-lag-one-computation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4668,6 +5176,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.sample-autocorrelation-lag-one-computation",
+        "mathematics.inferential-statistics.sample-acf-lag-one-computation"
+      ],
       "key_dispute": false
     },
     "d4855099-28e7-4c80-9122-c1a0eb8525ac": {
@@ -4716,7 +5228,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.ar1-pacf-cutoff-after-lag-one",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4727,6 +5239,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.ar1-pacf-cutoff-after-lag-one",
+        "mathematics.inferential-statistics.ar1-pacf-cuts-off-after-lag-one"
+      ],
       "key_dispute": false
     },
     "d542e90b-584b-420c-a7cc-d68f725a041d": {
@@ -4775,7 +5291,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.mle-equals-sample-mean",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4786,6 +5302,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.normal-mle-mean-known-variance",
+        "mathematics.inferential-statistics.mle-equals-sample-mean"
+      ],
       "key_dispute": false
     },
     "e5355931-ff3c-42a2-94ef-53b3c3997658": {
@@ -4834,7 +5354,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.detrend-deseasonalise-before-inference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4845,6 +5365,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.detrend-deseasonalise-before-inference",
+        "mathematics.inferential-statistics.trend-seasonality-spurious-autocorrelation"
+      ],
       "key_dispute": false
     },
     "f6e9314f-827e-496e-9f09-8337e5f9e12b": {
@@ -4893,7 +5417,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inferential-statistics.acf-pacf-unit-root-seasonal-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4904,6 +5428,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inferential-statistics.acf-pacf-unit-root-seasonal-matching",
+        "mathematics.inferential-statistics.time-series-tool-definitions-match"
+      ],
       "key_dispute": false
     },
     "0957024d-45fb-4625-9521-c15120ef137f": {
@@ -4946,7 +5474,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.normalizing-density-by-integration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4957,6 +5485,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.normalizing-density-by-integration",
+        "mathematics.integrals.normalisation-of-probability-density"
+      ],
       "key_dispute": false
     },
     "0aa41fc8-79d7-446a-85f1-46d007147269": {
@@ -4999,7 +5531,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.separation-of-variables-integration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5010,6 +5542,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.separation-of-variables-integration",
+        "mathematics.integrals.separable-ode-integration"
+      ],
       "key_dispute": false
     },
     "6b8a8202-885f-470a-b304-15e0d9174c98": {
@@ -5056,7 +5592,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.riemann-integrability-bounded-discontinuities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5067,6 +5603,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.riemann-integrability-bounded-discontinuities",
+        "mathematics.integrals.riemann-integrability-discontinuities"
+      ],
       "key_dispute": false
     },
     "74f0bf66-bd24-4e21-8341-b0ed2c5e2b62": {
@@ -5127,6 +5667,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "mathematics.integrals.odd-function-symmetric-limits",
+        "mathematics.integrals.odd-function-symmetric-limits"
+      ],
       "key_dispute": false
     },
     "7edf4fcc-9c9d-4893-8ba3-0483573f2253": {
@@ -5180,6 +5724,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.standard-antiderivative-matching",
+        "mathematics.integrals.standard-antiderivative-matching"
+      ],
       "key_dispute": false
     },
     "d4e48bc4-4827-479a-ace6-d13fcff6b6ee": {
@@ -5222,7 +5770,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.substitution-x-equals-sin-theta",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5233,6 +5781,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.substitution-x-equals-sin-theta",
+        "mathematics.integrals.arcsin-standard-integral"
+      ],
       "key_dispute": false
     },
     "da82b699-53f4-403e-a2f7-d5f0b1c5abb3": {
@@ -5275,7 +5827,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.integration-by-parts-polynomial-trig",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5284,8 +5836,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.integration-by-parts-polynomial-trig",
+        "mathematics.integrals.integration-by-parts-definite"
+      ],
       "key_dispute": false
     },
     "e303f625-b148-4ae2-a6dc-d047290cfa67": {
@@ -5337,8 +5893,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.average-value-of-function",
+        "mathematics.integrals.average-value-of-function"
+      ],
       "key_dispute": false
     },
     "e3ac09da-471b-47fe-a032-7868937ad998": {
@@ -5387,7 +5947,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.properties-of-definite-integrals-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5398,6 +5958,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.properties-of-definite-integrals-matching",
+        "mathematics.integrals.jacobian-change-of-variables"
+      ],
       "key_dispute": false
     },
     "e7968c9f-7372-4140-9cb9-b22457da4c1f": {
@@ -5444,7 +6008,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.integrals.riemann-integrability-bounded-discontinuities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5455,6 +6019,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.integrals.riemann-integrability-bounded-discontinuities",
+        "mathematics.integrals.riemann-integrability-discontinuities"
+      ],
       "key_dispute": false
     },
     "23832365-80bb-44bb-9cce-4dda7056d7d8": {
@@ -5503,7 +6071,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.check-principal-range-before-inverse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5514,6 +6082,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.check-principal-range-before-inverse",
+        "mathematics.inverse-trigonometric-functions.domain-check-before-inverse-sine"
+      ],
       "key_dispute": false
     },
     "3174519c-3b06-43dc-ba2b-a0cc2c9f80c2": {
@@ -5556,7 +6128,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5567,6 +6139,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+        "mathematics.inverse-trigonometric-functions.sin-cos-inverse-identity"
+      ],
       "key_dispute": false
     },
     "4dd4d696-c24e-4cf6-bb17-adb05f6c576c": {
@@ -5609,7 +6185,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.principal-value-of-sin-inverse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5620,6 +6196,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.principal-value-of-sin-inverse",
+        "mathematics.inverse-trigonometric-functions.standard-angle-sin-inverse-value"
+      ],
       "key_dispute": false
     },
     "a129f66a-1c74-47c5-9895-276e427834e1": {
@@ -5662,7 +6242,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5673,6 +6253,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+        "mathematics.inverse-trigonometric-functions.sin-cos-inverse-identity"
+      ],
       "key_dispute": false
     },
     "b5029719-2535-469b-91a6-dfbee8c60eef": {
@@ -5715,7 +6299,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.sum-of-tan-inverse-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5726,6 +6310,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.sum-of-tan-inverse-formula",
+        "mathematics.inverse-trigonometric-functions.tan-inverse-addition-formula"
+      ],
       "key_dispute": false
     },
     "ff432d3b-95ee-4827-808f-7416cf82ffd2": {
@@ -5779,7 +6367,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5790,6 +6378,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.inverse-trigonometric-functions.sin-inverse-plus-cos-inverse-identity",
+        "mathematics.inverse-trigonometric-functions.sin-cos-inverse-identity"
+      ],
       "key_dispute": true
     },
     "10d26b15-0786-4873-bf3f-d1cc153ed8ba": {
@@ -5832,7 +6424,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.formulate-minimisation-lp-from-requirements",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5843,6 +6435,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.formulate-minimisation-lp-from-requirements",
+        "mathematics.linear-programming.minimization-lp-formulation"
+      ],
       "key_dispute": false
     },
     "281d31ff-b8e5-493b-aba3-62e9ca484d91": {
@@ -5885,7 +6481,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.corner-point-optimum-principle",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5894,8 +6490,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.corner-point-optimum-principle",
+        "mathematics.linear-programming.corner-point-theorem"
+      ],
       "key_dispute": false
     },
     "4a35c2ef-78f7-4462-b395-aa164b6bf46a": {
@@ -5947,8 +6547,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.feasible-region-definition",
+        "mathematics.linear-programming.feasible-region-definition"
+      ],
       "key_dispute": false
     },
     "6bea46e3-d9ac-42f7-8345-35b92887394b": {
@@ -5991,7 +6595,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.graphical-max-by-corner-evaluation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6002,6 +6606,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.graphical-max-by-corner-evaluation",
+        "mathematics.linear-programming.corner-point-method-evaluation"
+      ],
       "key_dispute": false
     },
     "b9335eee-6ebd-4d01-bd4f-c4dcb0184520": {
@@ -6065,6 +6673,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.degeneracy-and-multiple-optima",
+        "mathematics.linear-programming.degeneracy-and-multiple-optima"
+      ],
       "key_dispute": true
     },
     "bb68fdd0-d2af-4657-9c56-a5340353c8ba": {
@@ -6107,7 +6719,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.formulate-minimisation-lp-from-requirements",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6118,6 +6730,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.formulate-minimisation-lp-from-requirements",
+        "mathematics.linear-programming.minimization-lp-formulation"
+      ],
       "key_dispute": false
     },
     "e182c783-fdd8-4242-84f7-4d135406a08a": {
@@ -6177,6 +6793,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.redundant-constraint-identification",
+        "mathematics.linear-programming.redundant-constraint-identification"
+      ],
       "key_dispute": true
     },
     "e1eb5c20-715e-424e-b3f2-927f740bcf66": {
@@ -6219,7 +6839,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.feasible-region-is-convex",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6230,6 +6850,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.feasible-region-is-convex",
+        "mathematics.linear-programming.convexity-of-feasible-region"
+      ],
       "key_dispute": false
     },
     "e276701d-ea05-4cb1-8ed9-dd88c580a473": {
@@ -6272,7 +6896,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.linear-programming.formulate-maximisation-lp-from-resources",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6283,6 +6907,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.linear-programming.formulate-maximisation-lp-from-resources",
+        "mathematics.linear-programming.maximization-lp-formulation"
+      ],
       "key_dispute": false
     },
     "0575dda0-2d3f-4511-93a4-a1c3aaa1f946": {
@@ -6325,7 +6953,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.symmetry-of-matrix-products",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6336,6 +6964,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.symmetry-of-matrix-products",
+        "mathematics.matrices.transpose-of-product-symmetry"
+      ],
       "key_dispute": false
     },
     "20a21920-2d0d-4913-bd07-65fb35e1081f": {
@@ -6382,7 +7014,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.orthogonal-matrix-inverse-equals-transpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6393,6 +7025,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.orthogonal-matrix-inverse-equals-transpose",
+        "mathematics.matrices.orthogonal-matrix-inverse-is-transpose"
+      ],
       "key_dispute": false
     },
     "26c98fda-70ec-493f-8d1f-bac1eaa4964a": {
@@ -6435,7 +7071,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.invertibility-condition-2x2-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6446,6 +7082,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "mathematics.matrices.invertibility-condition-2x2-determinant",
+        "mathematics.matrices.invertible-iff-nonzero-determinant"
+      ],
       "key_dispute": false
     },
     "3cf87328-dad6-4164-a21f-b67acd340df6": {
@@ -6488,7 +7128,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.idempotent-determinant-values",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6497,8 +7137,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.idempotent-determinant-values",
+        "mathematics.matrices.determinant-of-idempotent"
+      ],
       "key_dispute": false
     },
     "5590c1cd-39cf-4740-a079-6156673b0670": {
@@ -6552,6 +7196,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.determinant-of-adjugate",
+        "mathematics.matrices.determinant-of-adjugate"
+      ],
       "key_dispute": false
     },
     "6b41f426-5336-4432-b2f8-07b70b28778c": {
@@ -6594,7 +7242,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.nilpotent-eigenvalues-and-trace",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6603,8 +7251,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.nilpotent-eigenvalues-and-trace",
+        "mathematics.matrices.nilpotent-matrix-trace-zero"
+      ],
       "key_dispute": false
     },
     "6dfbac1f-41bc-4be6-aced-bb93a8c63922": {
@@ -6658,6 +7310,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.scalar-matrix-properties",
+        "mathematics.matrices.scalar-matrix-properties"
+      ],
       "key_dispute": false
     },
     "72dabd9b-2f38-4014-92d5-62492fbab5c7": {
@@ -6711,6 +7367,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.matrix-type-property-matching",
+        "mathematics.matrices.matrix-type-property-matching"
+      ],
       "key_dispute": false
     },
     "77859c50-ff8a-4a3e-acdb-175db1085b48": {
@@ -6764,6 +7424,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.consistency-by-rank-comparison",
+        "mathematics.matrices.consistency-by-rank-comparison"
+      ],
       "key_dispute": false
     },
     "7daaed3e-44f0-4c7e-9e66-065d4e914ddd": {
@@ -6817,6 +7481,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.conformability-of-product-order",
+        "mathematics.matrices.conformability-of-product-order"
+      ],
       "key_dispute": false
     },
     "829b8fb5-8cb0-4b91-9e66-5b5eb876813f": {
@@ -6859,7 +7527,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.idempotent-eigenvalues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6870,6 +7538,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.idempotent-eigenvalues",
+        "mathematics.matrices.idempotent-eigenvalues-are-zero-or-one"
+      ],
       "key_dispute": false
     },
     "94c1d67d-e42e-4f12-a5f2-7a2caa8a46c6": {
@@ -6923,6 +7595,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "mathematics.matrices.trace-cyclic-property",
+        "mathematics.matrices.trace-cyclic-property"
+      ],
       "key_dispute": false
     },
     "af78c8e9-6838-4b92-b5be-25f1cb7c199c": {
@@ -6965,7 +7641,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.sum-of-symmetric-and-skew-matrices",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6976,6 +7652,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.sum-of-symmetric-and-skew-matrices",
+        "mathematics.matrices.sum-of-symmetric-and-skew-symmetric"
+      ],
       "key_dispute": false
     },
     "b02049cb-587a-422f-abcc-2ef8165cfdfe": {
@@ -7022,7 +7702,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.symmetric-skew-decomposition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7031,8 +7711,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.symmetric-skew-decomposition",
+        "mathematics.matrices.symmetric-skew-decomposition-of-square-matrix"
+      ],
       "key_dispute": false
     },
     "c18deda8-f90e-4975-af25-fc72654148da": {
@@ -7086,6 +7770,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.row-operation-effect-on-determinant",
+        "mathematics.matrices.row-operation-effect-on-determinant"
+      ],
       "key_dispute": false
     },
     "cc9487d4-5482-447d-a761-05d04563806f": {
@@ -7136,7 +7824,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.matrices.inverse-of-matrix-product",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7147,6 +7835,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.inverse-of-matrix-product",
+        "mathematics.matrices.inverse-of-product-reverse-order"
+      ],
       "key_dispute": false
     },
     "e37b3be7-d058-493c-8cc6-47df7c43bc51": {
@@ -7200,6 +7892,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.block-diagonal-multiplication",
+        "mathematics.matrices.block-diagonal-multiplication"
+      ],
       "key_dispute": false
     },
     "m3": {
@@ -7251,8 +7947,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.matrices.determinant-of-scalar-multiple",
+        "mathematics.matrices.determinant-of-scalar-multiple"
+      ],
       "key_dispute": false
     },
     "0aa5bcef-771d-490c-a47c-c61bb2ed196e": {
@@ -7306,6 +8006,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.removable-discontinuity-redefinition",
+        "mathematics.numbers-quantification-and-numerical-applications.removable-discontinuity-redefinition"
+      ],
       "key_dispute": false
     },
     "4c02a8b2-0771-47cc-8db0-6832ad5f3c22": {
@@ -7348,7 +8052,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.definite-integral-power-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7359,6 +8063,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.definite-integral-power-function",
+        "mathematics.numbers-quantification-and-numerical-applications.definite-integral-power-rule"
+      ],
       "key_dispute": false
     },
     "5ea3cdc9-b6f1-4254-b106-a788d72e4448": {
@@ -7407,7 +8115,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.infinitely-many-optimal-solutions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7418,6 +8126,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.infinitely-many-optimal-solutions",
+        "mathematics.numbers-quantification-and-numerical-applications.lpp-infinitely-many-optimal-solutions"
+      ],
       "key_dispute": false
     },
     "691312f0-4190-4917-b995-51cf5cc405ae": {
@@ -7460,7 +8172,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.sample-statistic-vs-parameter",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7471,6 +8183,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.sample-statistic-vs-parameter",
+        "mathematics.numbers-quantification-and-numerical-applications.sample-statistic-vs-population-parameter"
+      ],
       "key_dispute": false
     },
     "81e84997-cf16-4ce7-8315-9ec751a6bc2e": {
@@ -7522,8 +8238,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.feasible-region-convexity",
+        "mathematics.numbers-quantification-and-numerical-applications.feasible-region-convexity"
+      ],
       "key_dispute": false
     },
     "839eb038-07a8-4f14-9b6c-e58696603f77": {
@@ -7566,7 +8286,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.lpp-corner-point-maximum",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7575,8 +8295,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.lpp-corner-point-maximum",
+        "mathematics.numbers-quantification-and-numerical-applications.lpp-corner-point-maximisation"
+      ],
       "key_dispute": false
     },
     "c86bbc64-f940-4b0a-8c10-13113a29344c": {
@@ -7628,8 +8352,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.confidence-interval-interpretation",
+        "mathematics.numbers-quantification-and-numerical-applications.confidence-interval-interpretation"
+      ],
       "key_dispute": false
     },
     "d03046dd-c1e0-4e96-b1ce-06b13751f8ce": {
@@ -7676,7 +8404,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.linear-inequality-half-plane-graph",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7687,6 +8415,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.linear-inequality-half-plane-graph",
+        "mathematics.numbers-quantification-and-numerical-applications.linear-constraint-to-half-plane-matching"
+      ],
       "key_dispute": false
     },
     "ded74208-48dd-4a27-80cf-886a74afccbb": {
@@ -7740,6 +8472,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.cuboid-surface-area-unknown-dimension",
+        "mathematics.numbers-quantification-and-numerical-applications.cuboid-surface-area-unknown-dimension"
+      ],
       "key_dispute": false
     },
     "f1c4488e-fd06-49b2-a555-cbf349ca3b2a": {
@@ -7782,7 +8518,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.test-selection-for-situations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7793,6 +8529,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.test-selection-for-situations",
+        "mathematics.numbers-quantification-and-numerical-applications.test-selection-for-statistical-situation"
+      ],
       "key_dispute": false
     },
     "fbf126b0-5cee-49ac-92be-f95534c48cc0": {
@@ -7846,6 +8586,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.standard-error-of-sample-mean",
+        "mathematics.numbers-quantification-and-numerical-applications.standard-error-of-sample-mean"
+      ],
       "key_dispute": false
     },
     "0174009d-89e3-4836-a31d-008610816c51": {
@@ -7888,7 +8632,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.pdf-from-cdf-derivative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7899,6 +8643,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.pdf-from-cdf-derivative",
+        "mathematics.probability-distributions.pdf-as-derivative-of-cdf"
+      ],
       "key_dispute": false
     },
     "49270ae6-5503-4d17-a313-6044c7889f24": {
@@ -7941,7 +8689,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.median-defined-by-cdf",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7950,8 +8698,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.median-defined-by-cdf",
+        "mathematics.probability-distributions.median-satisfies-cdf-half"
+      ],
       "key_dispute": false
     },
     "4acd6e63-7d16-426b-a63a-87810ccd745a": {
@@ -8003,8 +8755,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.pdf-integrates-to-one",
+        "mathematics.probability-distributions.pdf-integrates-to-one"
+      ],
       "key_dispute": false
     },
     "4b70bd4e-9a74-46c8-8b29-ec9a9fc34cf3": {
@@ -8058,6 +8814,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.variance-of-linear-transformation",
+        "mathematics.probability-distributions.variance-of-linear-transformation"
+      ],
       "key_dispute": false
     },
     "761fec2d-b78b-4636-be56-22e6ceb9627e": {
@@ -8111,6 +8871,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.variance-of-sample-mean",
+        "mathematics.probability-distributions.variance-of-sample-mean"
+      ],
       "key_dispute": false
     },
     "795a2f77-b362-4f11-aed7-807023e29f66": {
@@ -8153,7 +8917,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.linearity-of-expectation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8164,6 +8928,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.linearity-of-expectation",
+        "mathematics.probability-distributions.linearity-of-expectation-no-independence"
+      ],
       "key_dispute": false
     },
     "93a0d16f-1e3e-4da6-a033-95e8e725e6a0": {
@@ -8210,7 +8978,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.support-of-standard-distributions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8221,6 +8989,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.support-of-standard-distributions",
+        "mathematics.probability-distributions.support-of-standard-discrete-distributions"
+      ],
       "key_dispute": false
     },
     "9679486b-c54d-4fbc-9396-8b99c43ac527": {
@@ -8263,7 +9035,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.expectation-of-continuous-variable",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8272,8 +9044,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.expectation-of-continuous-variable",
+        "mathematics.probability-distributions.expectation-of-continuous-rv"
+      ],
       "key_dispute": false
     },
     "a48fc4ac-b323-4a51-8c67-e89872e138c7": {
@@ -8316,7 +9092,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.normalising-constant-of-pdf",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8327,6 +9103,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.normalising-constant-of-pdf",
+        "mathematics.probability-distributions.normalizing-constant-of-pdf"
+      ],
       "key_dispute": false
     },
     "bbb6a2ba-b921-41f9-80ce-97119ea67502": {
@@ -8380,6 +9160,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.marginal-pdf-by-integration",
+        "mathematics.probability-distributions.marginal-pdf-by-integration"
+      ],
       "key_dispute": false
     },
     "e505f38f-76f5-425d-96f7-5b11003dce8e": {
@@ -8422,7 +9206,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.clt-sample-mean-probability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8431,8 +9215,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.clt-sample-mean-probability",
+        "mathematics.probability-distributions.clt-probability-for-sample-mean"
+      ],
       "key_dispute": false
     },
     "e9c38df7-8ff3-4222-8cee-12bb31328f55": {
@@ -8475,7 +9263,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability-distributions.variance-via-second-moment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8486,6 +9274,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability-distributions.variance-via-second-moment",
+        "mathematics.probability-distributions.variance-from-moments"
+      ],
       "key_dispute": false
     },
     "0877e704-ae64-4c38-b077-cbce393bc52e": {
@@ -8528,7 +9320,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.conditional-probability-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8539,6 +9331,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability-definition",
+        "mathematics.probability.conditional-probability-from-joint-table"
+      ],
       "key_dispute": false
     },
     "1ef1efbe-8a41-4eca-9ad9-128d3828b5bf": {
@@ -8581,7 +9377,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.addition-rule-general-form",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8590,8 +9386,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.addition-rule-under-independence",
+        "mathematics.probability.addition-rule-general-form"
+      ],
       "key_dispute": false
     },
     "1fef9803-436c-4ed3-947d-ad3c9a9ae089": {
@@ -8634,7 +9434,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.equally-likely-outcomes-counting",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8645,6 +9445,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.equally-likely-outcomes-counting",
+        "mathematics.probability.classical-probability-favourable-outcomes"
+      ],
       "key_dispute": false
     },
     "397fdef1-768d-4962-9a36-1ae67469d110": {
@@ -8704,6 +9508,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability-definition",
+        "mathematics.probability.conditional-probability-definition"
+      ],
       "key_dispute": false
     },
     "486a6797-2ae6-4d04-8af5-b74217dd1fdc": {
@@ -8746,7 +9554,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.addition-rule-general-form",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8755,8 +9563,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.addition-rule-for-union",
+        "mathematics.probability.addition-rule-general-form"
+      ],
       "key_dispute": false
     },
     "4ca58ad2-5611-45a1-b7ea-9d53934ad326": {
@@ -8799,7 +9611,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.intersection-bounds-from-marginals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8808,8 +9620,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.intersection-bounds-from-marginals",
+        "mathematics.probability.bounds-on-intersection-probability"
+      ],
       "key_dispute": false
     },
     "4dfa5031-8c48-48be-8914-4b02a41bc1ac": {
@@ -8852,7 +9668,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.valid-probability-distribution-conditions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8863,6 +9679,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.valid-probability-distribution-conditions",
+        "mathematics.probability.conditions-for-probability-distribution"
+      ],
       "key_dispute": false
     },
     "517e872c-2e7b-4898-81b8-4bbf12de55f6": {
@@ -8905,7 +9725,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.conditional-equals-marginal-under-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8914,8 +9734,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability-under-independence",
+        "mathematics.probability.conditional-equals-marginal-under-independence"
+      ],
       "key_dispute": false
     },
     "5272eb72-45de-47d8-bd99-c9394aa8658c": {
@@ -8958,7 +9782,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.exclusive-vs-independent-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8969,6 +9793,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.exclusive-vs-independent-distinction",
+        "mathematics.probability.exclusive-events-not-independent"
+      ],
       "key_dispute": false
     },
     "5861e7f5-4ade-49b5-83e1-54ccb2a12294": {
@@ -9017,7 +9845,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.conditional-equals-marginal-under-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9028,6 +9856,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-symmetry-not-general",
+        "mathematics.probability.conditional-equals-marginal-under-independence"
+      ],
       "key_dispute": false
     },
     "5be950e0-315c-4dae-87a1-9eb2c864bd3c": {
@@ -9079,8 +9911,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.exclusive-events-conditional-zero",
+        "mathematics.probability.exclusive-events-conditional-zero"
+      ],
       "key_dispute": false
     },
     "5dd42886-5e78-4f44-b2d8-1f531e4a669d": {
@@ -9123,7 +9959,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.exclusive-vs-independent-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9132,8 +9968,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.exclusive-vs-independent-distinction",
+        "mathematics.probability.exclusive-events-not-independent"
+      ],
       "key_dispute": false
     },
     "d0e035ed-de35-4753-9c18-c378d621d4b2": {
@@ -9176,7 +10016,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.conditional-equals-marginal-under-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9185,8 +10025,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability-complement-rule",
+        "mathematics.probability.conditional-equals-marginal-under-independence"
+      ],
       "key_dispute": false
     },
     "df84d0ef-99f7-4fa5-8d73-103f1a84a06b": {
@@ -9229,7 +10073,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.independent-events-product-rule",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9238,8 +10082,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.independent-events-product-rule",
+        "mathematics.probability.union-of-independent-events"
+      ],
       "key_dispute": false
     },
     "efaab0cf-d395-48ee-969d-a8d242b8daa5": {
@@ -9282,7 +10130,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.probability.conditional-probability-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9293,6 +10141,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability-complement-rule",
+        "mathematics.probability.conditional-probability-definition"
+      ],
       "key_dispute": false
     },
     "fafc6f6f-cbfd-430a-8807-8164d3ddb917": {
@@ -9346,6 +10198,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "mathematics.probability.exclusive-events-intersection-zero",
+        "mathematics.probability.exclusive-events-intersection-zero"
+      ],
       "key_dispute": false
     },
     "00f32491-2545-4851-93e5-ba8775f641c5": {
@@ -9397,7 +10253,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.zero-derivative-implies-constant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9408,6 +10264,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.zero-derivative-implies-constant",
+        "mathematics.relations-and-functions.constancy-from-derivative-zero-on-dense-set"
+      ],
       "key_dispute": true
     },
     "04f172b4-f280-40cd-be89-d452a38046cd": {
@@ -9450,7 +10310,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-function-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9461,6 +10321,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-function-matching",
+        "mathematics.relations-and-functions.two-by-two-determinant-expansion"
+      ],
       "key_dispute": false
     },
     "09629525-a1f3-494f-b15d-b57acb647f00": {
@@ -9503,7 +10367,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.binomial-probability-exactly-k",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9514,6 +10378,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.binomial-probability-exactly-k",
+        "mathematics.relations-and-functions.binomial-exact-success-probability"
+      ],
       "key_dispute": false
     },
     "0a6faf47-94c4-44c4-822b-4ccc58f927b0": {
@@ -9556,7 +10424,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.even-odd-classification-of-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9567,6 +10435,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.even-odd-classification-of-functions",
+        "mathematics.relations-and-functions.even-odd-function-classification"
+      ],
       "key_dispute": false
     },
     "0fadfa19-9b2a-4795-b2d8-ec1e4ee7dab9": {
@@ -9609,7 +10481,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.probability-without-replacement-two-draws",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9620,6 +10492,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.probability-without-replacement-two-draws",
+        "mathematics.relations-and-functions.without-replacement-both-success"
+      ],
       "key_dispute": false
     },
     "14a8db2f-0f9d-43d0-9ce9-8eac06ea5652": {
@@ -9662,7 +10538,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.parity-of-composition-even-outer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9671,8 +10547,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.parity-of-composition-of-even-and-odd",
+        "mathematics.relations-and-functions.parity-of-composition-even-outer"
+      ],
       "key_dispute": false
     },
     "15efc8b9-d4a6-4bc3-886b-3e36f4d4fec4": {
@@ -9722,7 +10602,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.definition-of-periodic-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9731,8 +10611,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.definition-of-periodic-function",
+        "mathematics.relations-and-functions.periodic-function-definition"
+      ],
       "key_dispute": true
     },
     "16dd52bb-281b-408c-8047-37aa08655c09": {
@@ -9779,7 +10663,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.rate-of-change-of-composite-revenue",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9790,6 +10674,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.rate-of-change-of-composite-revenue",
+        "mathematics.relations-and-functions.chain-rule-on-composed-revenue"
+      ],
       "key_dispute": false
     },
     "18b269e7-4b15-4a34-a583-3b80571ec244": {
@@ -9832,7 +10720,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.checking-equivalence-relation-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9843,6 +10731,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.checking-equivalence-relation-properties",
+        "mathematics.relations-and-functions.equivalence-check-of-square-equality"
+      ],
       "key_dispute": false
     },
     "1d059779-e1e8-47e5-aeeb-327658061ef6": {
@@ -9893,7 +10785,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.equivalence-relation-transitivity-failure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9904,6 +10796,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.equivalence-relation-transitivity-failure",
+        "mathematics.relations-and-functions.non-transitive-shared-parent-relation"
+      ],
       "key_dispute": true
     },
     "22e520b3-ab31-4d56-995f-f980aa34e45a": {
@@ -9946,7 +10842,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.dice-sum-favourable-outcomes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9955,8 +10851,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.dice-sum-favourable-outcomes",
+        "mathematics.relations-and-functions.dice-sum-counting-probability"
+      ],
       "key_dispute": false
     },
     "247d2eb6-7e43-48d4-95b7-707eecf584c7": {
@@ -9999,7 +10899,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.nonnegative-derivative-strictly-increasing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10010,6 +10910,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.nonnegative-derivative-strictly-increasing",
+        "mathematics.relations-and-functions.strict-monotonicity-from-derivative-zero-set"
+      ],
       "key_dispute": false
     },
     "26f17800-cd82-4b7c-81d9-0c363b3e7597": {
@@ -10056,7 +10960,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-of-dependent-columns",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10067,6 +10971,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-of-dependent-columns",
+        "mathematics.relations-and-functions.three-by-three-determinant-linear-dependence"
+      ],
       "key_dispute": false
     },
     "27cd0d40-4b4f-437b-8c36-29fd638288a0": {
@@ -10109,7 +11017,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.singular-matrix-solvability-of-linear-system",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10120,6 +11028,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.singular-matrix-solvability-of-linear-system",
+        "mathematics.relations-and-functions.singular-matrix-solvability-of-linear-map"
+      ],
       "key_dispute": false
     },
     "29a486ab-3a8a-4e04-8776-fef239c69db6": {
@@ -10162,7 +11074,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.classify-relations-as-order-or-equivalence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10173,6 +11085,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.classify-relations-as-order-or-equivalence",
+        "mathematics.relations-and-functions.classify-relations-equivalence-or-partial-order"
+      ],
       "key_dispute": false
     },
     "2c3656ef-74fa-49de-bde3-bc6a090b7aca": {
@@ -10226,6 +11142,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.derivative-of-inverse-function",
+        "mathematics.relations-and-functions.derivative-of-inverse-function"
+      ],
       "key_dispute": false
     },
     "32f6c536-497e-4515-adb9-108875e407b0": {
@@ -10274,7 +11194,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.parametrised-family-cdf-injectivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10285,6 +11205,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.parametrised-family-cdf-injectivity",
+        "mathematics.relations-and-functions.injectivity-of-parameter-to-cdf-map"
+      ],
       "key_dispute": false
     },
     "36f53402-2f4e-44ed-af04-8c9d857ddaf5": {
@@ -10327,7 +11251,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.principal-ranges-of-inverse-trig",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10338,6 +11262,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.principal-ranges-of-inverse-trig",
+        "mathematics.relations-and-functions.principal-range-of-inverse-trig"
+      ],
       "key_dispute": false
     },
     "3f67ee78-32f8-4d80-ad95-0815a6dc73a3": {
@@ -10380,7 +11308,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.inverse-of-odd-function-is-odd",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10391,6 +11319,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.inverse-of-odd-function-is-odd",
+        "mathematics.relations-and-functions.inverse-of-odd-function"
+      ],
       "key_dispute": false
     },
     "3f9dd6c6-a230-4498-a842-bc2134098111": {
@@ -10433,7 +11365,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.pmf-normalization-constant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10442,8 +11374,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.pmf-normalization-constant",
+        "mathematics.relations-and-functions.pmf-normalisation-constant"
+      ],
       "key_dispute": false
     },
     "40934776-a733-4cd3-bdeb-5c3a6c8d88b3": {
@@ -10492,7 +11428,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.nonzero-kernel-vector-from-equal-images",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10501,8 +11437,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.nonzero-kernel-vector-from-equal-images",
+        "mathematics.relations-and-functions.kernel-of-singular-matrix-same-output"
+      ],
       "key_dispute": false
     },
     "451171c6-ab20-46f2-adac-e3e2484f93f6": {
@@ -10545,7 +11485,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.zero-solution-ode-initial-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10554,8 +11494,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.zero-solution-ode-initial-condition",
+        "mathematics.relations-and-functions.unique-solution-of-first-order-ode-invertibility"
+      ],
       "key_dispute": false
     },
     "47d5c54f-d457-4677-a7ea-237d3d738ce8": {
@@ -10607,8 +11551,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.profit-as-revenue-minus-cost",
+        "mathematics.relations-and-functions.profit-as-revenue-minus-cost"
+      ],
       "key_dispute": false
     },
     "4ee69f94-20dd-4fc9-8851-2050fb9caa51": {
@@ -10651,7 +11599,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.absolute-value-differentiable-at-nonzero-det",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10662,6 +11610,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.absolute-value-differentiable-at-nonzero-det",
+        "mathematics.relations-and-functions.differentiability-of-modulus-at-nonzero-value"
+      ],
       "key_dispute": false
     },
     "4f6177d7-9110-4bad-9041-2fb317e7d4da": {
@@ -10704,7 +11656,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.maximum-of-quadratic-at-vertex",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10715,6 +11667,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.maximum-of-quadratic-at-vertex",
+        "mathematics.relations-and-functions.vertex-maximum-of-quadratic-profit"
+      ],
       "key_dispute": false
     },
     "508b460b-ae4e-40cc-b8c6-dcda27fcc9b4": {
@@ -10766,7 +11722,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.equivalence-relation-check",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10777,6 +11733,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.equivalence-relation-check",
+        "mathematics.relations-and-functions.equivalence-relation-properties"
+      ],
       "key_dispute": true
     },
     "51204f9e-e30e-4743-8fdb-8db4535febc1": {
@@ -10819,7 +11779,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.reflection-determinant-and-involution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10828,8 +11788,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.reflection-determinant-and-involution",
+        "mathematics.relations-and-functions.reflection-matrix-determinant-and-involution"
+      ],
       "key_dispute": false
     },
     "519f8bfd-3a4d-483f-a8cd-8dddeeb7ae1f": {
@@ -10872,7 +11836,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.unique-solution-when-determinant-nonzero",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10883,6 +11847,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.unique-solution-when-determinant-nonzero",
+        "mathematics.relations-and-functions.invertible-matrix-unique-solution"
+      ],
       "key_dispute": false
     },
     "52526aa2-e324-4c06-916c-1ec68591b511": {
@@ -10925,7 +11893,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-of-standard-linear-maps",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10936,6 +11904,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-of-standard-linear-maps",
+        "mathematics.relations-and-functions.standard-transformation-determinants"
+      ],
       "key_dispute": false
     },
     "556852ed-b86d-44fc-a73b-7418a410ca9e": {
@@ -10986,7 +11958,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.one-sided-inverses-and-bijectivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10997,6 +11969,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.one-sided-inverses-and-bijectivity",
+        "mathematics.relations-and-functions.one-sided-inverse-implications"
+      ],
       "key_dispute": true
     },
     "558f0946-a926-4c4b-9fea-84ce1347e126": {
@@ -11039,7 +12015,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.hypergeometric-selection-probability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11050,6 +12026,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.hypergeometric-selection-probability",
+        "mathematics.relations-and-functions.probability-without-replacement-selection"
+      ],
       "key_dispute": false
     },
     "5666324f-9bc5-4e01-83e7-16932249c67d": {
@@ -11092,7 +12072,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-polynomial-real-roots",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11103,6 +12083,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-polynomial-real-roots",
+        "mathematics.relations-and-functions.real-roots-of-determinant-equation"
+      ],
       "key_dispute": false
     },
     "597642d3-600a-4c93-a6da-94fc7fe387bc": {
@@ -11145,7 +12129,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.inverse-trig-negative-argument-identities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11154,8 +12138,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.inverse-trig-negative-argument-identities",
+        "mathematics.relations-and-functions.inverse-trig-identities-matching"
+      ],
       "key_dispute": false
     },
     "5b61ce3f-16e0-4b08-9fef-99f1d7b54b81": {
@@ -11198,7 +12186,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.det-product-rule-volume-scaling",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11207,8 +12195,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.det-product-rule-volume-scaling",
+        "mathematics.relations-and-functions.determinant-product-rule"
+      ],
       "key_dispute": false
     },
     "604b79a9-a5f8-427c-988d-e9a116f21c77": {
@@ -11262,6 +12254,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.surjective-but-not-injective",
+        "mathematics.relations-and-functions.surjective-but-not-injective"
+      ],
       "key_dispute": false
     },
     "68d413a2-e7c7-4927-8fa2-290cf96a1a0b": {
@@ -11304,7 +12300,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.linear-function-from-two-values",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11315,6 +12311,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.linear-function-from-two-values",
+        "mathematics.relations-and-functions.linear-function-from-two-points"
+      ],
       "key_dispute": false
     },
     "6d94b442-d671-44ab-8b57-c9855e401695": {
@@ -11363,7 +12363,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.local-invertibility-nonzero-jacobian",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11372,8 +12372,12 @@
           "hard"
         ],
         "agreed": "hard",
-        "corrected": "hard"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.local-invertibility-nonzero-jacobian",
+        "mathematics.relations-and-functions.inverse-function-theorem-jacobian"
+      ],
       "key_dispute": false
     },
     "7837e48b-b7b8-4742-905d-03f955965bff": {
@@ -11416,7 +12420,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.involution-bijective-self-inverse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11425,8 +12429,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.involution-bijective-self-inverse",
+        "mathematics.relations-and-functions.involution-is-bijective"
+      ],
       "key_dispute": false
     },
     "7b8cc956-407b-48dc-bd0c-e0c73f94fe18": {
@@ -11475,7 +12483,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.continuous-bijection-compact-inverse-continuous",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11486,6 +12494,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.continuous-bijection-compact-inverse-continuous",
+        "mathematics.relations-and-functions.compact-continuous-bijection-homeomorphism"
+      ],
       "key_dispute": false
     },
     "7d7ef828-e666-446f-bff8-b90fcb1b1014": {
@@ -11539,6 +12551,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.surjective-but-not-injective",
+        "mathematics.relations-and-functions.surjective-but-not-injective"
+      ],
       "key_dispute": false
     },
     "7e23f011-b6da-43e7-947a-6671b5a53b6d": {
@@ -11581,7 +12597,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.composition-with-nondifferentiable-outer-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11592,6 +12608,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.composition-with-nondifferentiable-outer-function",
+        "mathematics.relations-and-functions.composition-differentiability-with-cusp"
+      ],
       "key_dispute": false
     },
     "82888dd2-eab4-405d-9783-56d76e15a17b": {
@@ -11634,7 +12654,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-function-parity-injectivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11643,8 +12663,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-function-parity-injectivity",
+        "mathematics.relations-and-functions.even-function-not-injective"
+      ],
       "key_dispute": false
     },
     "8345650a-bdd4-4788-ac16-3f52e584dd8f": {
@@ -11696,7 +12720,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.derivative-of-inverse-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11707,6 +12731,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.inverse-function-derivative-at-point",
+        "mathematics.relations-and-functions.derivative-of-inverse-function"
+      ],
       "key_dispute": true
     },
     "8366d8be-bf01-47e6-8505-d55eb81bd9b8": {
@@ -11749,7 +12777,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.complementary-sine-cosine-identity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11760,6 +12788,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.complementary-sine-cosine-identity",
+        "mathematics.relations-and-functions.inverse-trig-complementary-identity"
+      ],
       "key_dispute": false
     },
     "839bec0c-db96-49b7-b3a6-ada31f529a12": {
@@ -11802,7 +12834,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.linear-system-via-inverse-matrix",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11811,8 +12843,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.linear-system-via-inverse-matrix",
+        "mathematics.relations-and-functions.two-by-two-inverse-solve"
+      ],
       "key_dispute": false
     },
     "848422ca-2587-4ca0-97de-78c6418fa55f": {
@@ -11855,7 +12891,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.area-scaling-by-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11866,6 +12902,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.area-scaling-by-determinant",
+        "mathematics.relations-and-functions.determinant-scales-area-of-image"
+      ],
       "key_dispute": false
     },
     "879023dd-8dea-4622-8d7a-aea066f669dc": {
@@ -11923,6 +12963,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.normal-cdf-determines-parameters",
+        "mathematics.relations-and-functions.normal-cdf-determines-parameters"
+      ],
       "key_dispute": false
     },
     "8a15ad0c-f754-461b-bee6-a76aa32943d3": {
@@ -11971,7 +13015,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.kernel-of-linear-functional",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11982,6 +13026,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.kernel-of-linear-functional",
+        "mathematics.relations-and-functions.linear-functional-never-injective"
+      ],
       "key_dispute": true
     },
     "91516fc4-ed63-49b1-9307-df306e95d3c8": {
@@ -12024,7 +13072,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.floor-function-counting-in-interval",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12033,8 +13081,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.floor-function-counting-in-interval",
+        "mathematics.relations-and-functions.counting-sample-times-in-interval"
+      ],
       "key_dispute": false
     },
     "971c68a6-c41d-4a72-b04b-e2eb2568ce73": {
@@ -12077,7 +13129,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-linearity-in-vector-argument",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12086,8 +13138,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-linearity-in-vector-argument",
+        "mathematics.relations-and-functions.determinant-linear-in-column"
+      ],
       "key_dispute": false
     },
     "9a44b147-ac1d-4af7-aeca-ce81f08ba04d": {
@@ -12134,7 +13190,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.differentiability-of-power-sine",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12145,6 +13201,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.differentiability-of-power-sine",
+        "mathematics.relations-and-functions.continuity-and-differentiability-at-zero"
+      ],
       "key_dispute": false
     },
     "9c7bce47-1d9c-44e2-88ea-4509f28cf6f9": {
@@ -12193,7 +13253,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.determinant-and-linear-map-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12204,6 +13264,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.determinant-and-linear-map-properties",
+        "mathematics.relations-and-functions.determinant-multiplicative-rule"
+      ],
       "key_dispute": false
     },
     "a08fdc8e-0bd2-4fcf-b8dc-0003dfd36b05": {
@@ -12246,7 +13310,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.composition-monotonicity-via-chain-rule",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12257,6 +13321,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.composition-monotonicity-via-chain-rule",
+        "mathematics.relations-and-functions.composition-monotonicity-sign-rule"
+      ],
       "key_dispute": false
     },
     "a33abaca-8c82-4322-8a52-4437c0077769": {
@@ -12305,7 +13373,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.jacobian-local-invertibility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12316,6 +13384,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.jacobian-meaning-matching",
+        "mathematics.relations-and-functions.jacobian-local-invertibility"
+      ],
       "key_dispute": false
     },
     "aa150836-a6c1-4953-963b-a384c92ea03d": {
@@ -12358,7 +13430,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.critical-points-of-cubic",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12367,8 +13439,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.critical-points-of-cubic",
+        "mathematics.relations-and-functions.critical-points-where-derivative-vanishes"
+      ],
       "key_dispute": false
     },
     "b09cc3e3-8ece-4371-84f8-efddad4881b7": {
@@ -12426,8 +13502,12 @@
           "hard"
         ],
         "agreed": "hard",
-        "corrected": "hard"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.gradient-of-quadratic-form",
+        "mathematics.relations-and-functions.gradient-of-quadratic-form"
+      ],
       "key_dispute": false
     },
     "b65bfe05-079a-4827-b267-cd6c22a66079": {
@@ -12470,7 +13550,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.classifying-relations-by-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12479,8 +13559,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.classifying-relations-by-properties",
+        "mathematics.relations-and-functions.relation-property-classification"
+      ],
       "key_dispute": false
     },
     "b67537a9-0bf1-4d0b-88ff-462cc6afa55c": {
@@ -12534,6 +13618,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.derivative-of-determinant-function",
+        "mathematics.relations-and-functions.derivative-of-determinant-function"
+      ],
       "key_dispute": false
     },
     "ba711656-fcf1-4ede-90ad-ada170224262": {
@@ -12582,7 +13670,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.jacobian-local-invertibility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12593,6 +13681,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.local-invertibility-jacobian-test",
+        "mathematics.relations-and-functions.jacobian-local-invertibility"
+      ],
       "key_dispute": false
     },
     "bdd24762-c6bf-4e1c-a7a6-5ee5bcfff9b3": {
@@ -12635,7 +13727,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.even-functions-not-injective",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12646,6 +13738,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.non-injectivity-via-equal-values",
+        "mathematics.relations-and-functions.even-functions-not-injective"
+      ],
       "key_dispute": false
     },
     "c119baa3-1469-43bd-bfd6-2cb730b83de9": {
@@ -12697,8 +13793,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.divisibility-relation-membership",
+        "mathematics.relations-and-functions.divisibility-relation-membership"
+      ],
       "key_dispute": false
     },
     "c9724161-4d30-4fc9-b3a8-8caa06572744": {
@@ -12747,7 +13847,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.derivative-of-determinant-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12758,6 +13858,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.gradient-of-two-variable-polynomial",
+        "mathematics.relations-and-functions.derivative-of-determinant-function"
+      ],
       "key_dispute": false
     },
     "cb267c8d-11d6-470e-a64f-4f361f8534a4": {
@@ -12804,7 +13908,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.derivative-zero-implies-constant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12815,6 +13919,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.derivative-zero-implies-constant",
+        "mathematics.relations-and-functions.constant-function-from-zero-derivative"
+      ],
       "key_dispute": false
     },
     "cbb79691-78a9-47f5-ab66-3e3b1e3a2896": {
@@ -12857,7 +13965,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.verify-inverse-by-composition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12866,8 +13974,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.verify-inverse-by-composition",
+        "mathematics.relations-and-functions.inverse-check-by-composition"
+      ],
       "key_dispute": false
     },
     "d538b90b-3f96-4f5a-b7f6-73583a9866ee": {
@@ -12910,7 +14022,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.injectivity-of-cardinality-map",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12921,6 +14033,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.injectivity-of-cardinality-map",
+        "mathematics.relations-and-functions.injectivity-of-subset-size-map"
+      ],
       "key_dispute": false
     },
     "d870dcc2-95f7-4fd8-9b28-5774c40da58b": {
@@ -12967,7 +14083,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.monotonicity-from-nonzero-derivative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12978,6 +14094,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.monotonicity-from-nonzero-derivative",
+        "mathematics.relations-and-functions.nonvanishing-derivative-implies-invertibility"
+      ],
       "key_dispute": false
     },
     "d93ea3a1-8624-4abf-8ef2-b5d5d35bbe3b": {
@@ -13026,7 +14146,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.derivative-of-determinant-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13037,6 +14157,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.gradient-of-squared-determinant",
+        "mathematics.relations-and-functions.derivative-of-determinant-function"
+      ],
       "key_dispute": false
     },
     "dff1015b-db2f-4dac-88d2-4e13f0812f75": {
@@ -13079,7 +14203,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.arctan-addition-equation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13088,8 +14212,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.arctan-addition-equation",
+        "mathematics.relations-and-functions.inverse-tan-sum-extraneous-root"
+      ],
       "key_dispute": false
     },
     "e5979cf5-f188-463b-bd98-08e8ca726cef": {
@@ -13132,7 +14260,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.classifying-relations-by-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13141,8 +14269,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.classifying-relations-by-properties",
+        "mathematics.relations-and-functions.equivalence-relation-identification"
+      ],
       "key_dispute": false
     },
     "e68d04ed-4a0d-4592-b116-de402b859df1": {
@@ -13185,7 +14317,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.arcsin-of-sine-identity-range",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13196,6 +14328,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.arcsin-of-sine-identity-range",
+        "mathematics.relations-and-functions.arcsin-sin-principal-range"
+      ],
       "key_dispute": false
     },
     "e68eca51-163a-4304-b04d-c71773c9dc23": {
@@ -13247,7 +14383,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.atan2-branch-cut-continuity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13258,6 +14394,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.atan2-branch-cut-continuity",
+        "mathematics.relations-and-functions.two-argument-arctangent-branch-cut"
+      ],
       "key_dispute": true
     },
     "e9a210a7-02cf-4208-b7e9-1b3ce07c13e5": {
@@ -13300,7 +14440,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.rate-of-change-from-derivative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13311,6 +14451,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.rate-of-change-from-derivative",
+        "mathematics.relations-and-functions.instantaneous-rate-of-change-from-derivative"
+      ],
       "key_dispute": false
     },
     "eabedec2-6bf9-4c5e-9ac7-94e36bdc795a": {
@@ -13353,7 +14497,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.even-functions-not-injective",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13362,8 +14506,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.non-injectivity-via-equal-values",
+        "mathematics.relations-and-functions.even-functions-not-injective"
+      ],
       "key_dispute": false
     },
     "f1d4b848-4690-4086-a4dd-9c48ea771174": {
@@ -13406,7 +14554,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.classical-probability-favourable-outcomes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13415,8 +14563,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.classical-probability-favourable-outcomes",
+        "mathematics.relations-and-functions.classical-probability-count-favourable"
+      ],
       "key_dispute": false
     },
     "f828b8ba-dc3c-4937-9af7-2461d6c3c46a": {
@@ -13463,7 +14615,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.derivative-continuity-at-zero",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13474,6 +14626,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.derivative-continuity-at-zero",
+        "mathematics.relations-and-functions.derivative-continuity-fails-oscillation"
+      ],
       "key_dispute": false
     },
     "f942a198-99aa-44ea-a4b3-78dfbaabc44c": {
@@ -13522,7 +14678,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.gradient-of-scalar-triple-product",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13533,6 +14689,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.gradient-of-scalar-triple-product",
+        "mathematics.relations-and-functions.scalar-triple-product-gradient"
+      ],
       "key_dispute": false
     },
     "fc3274b8-6b40-46e1-9788-9f1c21e7364a": {
@@ -13575,7 +14735,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.injectivity-from-left-inverse",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13586,6 +14746,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.injectivity-from-left-inverse",
+        "mathematics.relations-and-functions.left-inverse-implies-injective"
+      ],
       "key_dispute": false
     },
     "ffcabb9d-f136-4b04-8f03-cc4881a5124d": {
@@ -13634,7 +14798,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.even-functions-not-injective",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13643,8 +14807,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.norm-injectivity-of-vector-function",
+        "mathematics.relations-and-functions.even-functions-not-injective"
+      ],
       "key_dispute": true
     },
     "m1": {
@@ -13687,7 +14855,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.classifying-relations-by-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13698,6 +14866,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.classifying-relations-by-properties",
+        "mathematics.relations-and-functions.relation-property-classification"
+      ],
       "key_dispute": false
     },
     "m2": {
@@ -13740,7 +14912,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.relations-and-functions.composition-evaluation-numeric",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13751,6 +14923,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.relations-and-functions.composition-evaluation-numeric",
+        "mathematics.relations-and-functions.composition-evaluation-at-point"
+      ],
       "key_dispute": false
     },
     "30d7edcb-aa53-4493-a9c1-c91292f04fac": {
@@ -13802,8 +14978,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.scalar-triple-product-volume",
+        "mathematics.three-dimensional-geometry.scalar-triple-product-volume"
+      ],
       "key_dispute": false
     },
     "4211219f-a2ee-4f63-9352-5b8f628779a2": {
@@ -13857,6 +15037,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.distance-point-to-plane",
+        "mathematics.three-dimensional-geometry.distance-point-to-plane"
+      ],
       "key_dispute": false
     },
     "45f96af8-9adc-4b16-a872-641bc9a55c35": {
@@ -13905,7 +15089,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.double-integral-volume-under-plane",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13916,6 +15100,10 @@
         "agreed": "hard",
         "corrected": "hard"
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.double-integral-volume-under-plane",
+        "mathematics.three-dimensional-geometry.volume-under-surface-double-integral"
+      ],
       "key_dispute": false
     },
     "46700799-b9ee-4bd4-a075-44a92d293a8d": {
@@ -13967,8 +15155,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.angle-between-two-planes",
+        "mathematics.three-dimensional-geometry.angle-between-two-planes"
+      ],
       "key_dispute": false
     },
     "4fc82c55-c463-4da9-891b-6448c06f292f": {
@@ -14015,7 +15207,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.speed-increase-from-velocity-acceleration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14026,6 +15218,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.speed-increase-from-velocity-acceleration",
+        "mathematics.three-dimensional-geometry.speed-increase-via-v-dot-a"
+      ],
       "key_dispute": false
     },
     "51681588-34fd-4376-9bac-86546fbda27c": {
@@ -14068,7 +15264,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.shortest-distance-between-skew-lines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14077,8 +15273,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.shortest-distance-between-skew-lines",
+        "mathematics.three-dimensional-geometry.shortest-distance-skew-lines"
+      ],
       "key_dispute": false
     },
     "7eaa7e1b-7ef5-411c-bf01-4893cfe73c27": {
@@ -14121,7 +15321,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.tetrahedron-volume-by-determinant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14132,6 +15332,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.tetrahedron-volume-by-determinant",
+        "mathematics.three-dimensional-geometry.tetrahedron-volume-one-sixth-factor"
+      ],
       "key_dispute": false
     },
     "88d4d2ff-c94b-4116-ba69-269f2e6d104e": {
@@ -14182,7 +15386,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.determinant-as-volume-scaling-factor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14193,6 +15397,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.determinant-as-volume-scaling-factor",
+        "mathematics.three-dimensional-geometry.det-as-volume-scaling-factor"
+      ],
       "key_dispute": false
     },
     "8d75cd78-e1fb-4f51-b2fb-58c06a62f41e": {
@@ -14235,7 +15443,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.line-perpendicular-to-plane-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14246,6 +15454,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.line-perpendicular-to-plane-condition",
+        "mathematics.three-dimensional-geometry.line-normal-to-plane-condition"
+      ],
       "key_dispute": false
     },
     "922aed94-ed1d-46b0-861d-4d2a10203140": {
@@ -14294,7 +15506,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.velocity-angle-with-axis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14303,8 +15515,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.velocity-angle-with-axis",
+        "mathematics.three-dimensional-geometry.direction-cosine-angle-with-axis"
+      ],
       "key_dispute": true
     },
     "a31b37a6-b463-4e64-96fd-58be21065dac": {
@@ -14353,7 +15569,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.rotation-fixes-axis-eigenvalue-one",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14364,6 +15580,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.rotation-fixes-axis-eigenvalue-one",
+        "mathematics.three-dimensional-geometry.proper-rotation-eigenvalue-one"
+      ],
       "key_dispute": false
     },
     "ac7e6616-c7b6-49ed-a4bf-dedce03ed783": {
@@ -14412,7 +15632,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.three-dimensional-geometry.rotation-about-z-axis-image",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14423,6 +15643,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.rotation-about-z-axis-image",
+        "mathematics.three-dimensional-geometry.rotation-about-coordinate-axis"
+      ],
       "key_dispute": false
     },
     "c2930e09-7bf5-448f-bd7f-dd58cc8b69cf": {
@@ -14476,6 +15700,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.vector-equation-of-plane-through-point",
+        "mathematics.three-dimensional-geometry.vector-equation-of-plane-through-point"
+      ],
       "key_dispute": false
     },
     "fb636c85-0185-49e3-b23f-1e5211d9f003": {
@@ -14533,6 +15761,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.constant-speed-acceleration-orthogonal",
+        "mathematics.three-dimensional-geometry.constant-speed-acceleration-orthogonal"
+      ],
       "key_dispute": false
     },
     "0dc3005f-f3cb-45c4-a66f-8761435825f4": {
@@ -14584,8 +15816,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.mean-minimises-squared-deviations",
+        "mathematics.time-based-data.mean-minimises-squared-deviations"
+      ],
       "key_dispute": false
     },
     "1b07c779-30c5-4eb6-a741-d070750cce26": {
@@ -14628,7 +15864,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.integral-of-rate-gives-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14639,6 +15875,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.integral-of-rate-gives-total",
+        "mathematics.time-based-data.rate-integral-equals-total-quantity"
+      ],
       "key_dispute": false
     },
     "379097ab-5d60-48d6-b33f-95510ce58996": {
@@ -14681,7 +15921,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.machine-hours-binding-constraint",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14692,6 +15932,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.machine-hours-binding-constraint",
+        "mathematics.time-based-data.machine-hours-capacity-bound"
+      ],
       "key_dispute": false
     },
     "42ade9a1-dd52-4199-94f3-694e467b1720": {
@@ -14745,6 +15989,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.trapezoidal-rule-estimate",
+        "mathematics.time-based-data.trapezoidal-rule-estimate"
+      ],
       "key_dispute": false
     },
     "5db8bfc2-2411-4c57-b0fe-b5aee37e3b94": {
@@ -14787,7 +16035,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.integral-of-rate-gives-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14798,6 +16046,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.integral-of-rate-gives-total",
+        "mathematics.time-based-data.rate-integral-equals-total-quantity"
+      ],
       "key_dispute": false
     },
     "6e91f42e-a443-4093-8d3e-e5ccf0010593": {
@@ -14861,8 +16113,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.lp-corner-point-maximum-profit",
+        "mathematics.time-based-data.lp-corner-point-maximum-profit"
+      ],
       "key_dispute": true
     },
     "7babbf34-f8eb-4d37-b584-438f1a6d31b2": {
@@ -14905,7 +16161,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.integral-of-rate-gives-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14916,6 +16172,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.integral-of-rate-gives-total",
+        "mathematics.time-based-data.net-change-from-signed-rate"
+      ],
       "key_dispute": false
     },
     "85bdb98a-b7fe-4fa5-8414-7dca497edb55": {
@@ -14958,7 +16218,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.linear-trend-forecast-arithmetic-progression",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14969,6 +16229,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.linear-trend-forecast-arithmetic-progression",
+        "mathematics.time-based-data.linear-trend-forecast"
+      ],
       "key_dispute": false
     },
     "8698f269-51bd-4e19-a0e7-188537ab5ce8": {
@@ -15017,7 +16281,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.rounding-error-half-unit",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15026,8 +16290,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.rounding-error-half-unit",
+        "mathematics.time-based-data.rounding-error-half-last-place"
+      ],
       "key_dispute": false
     },
     "9a98360b-3e50-4696-ba17-a6e9957a42e7": {
@@ -15070,7 +16338,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.hours-to-minutes-conversion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15081,6 +16349,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.hours-to-minutes-conversion",
+        "mathematics.time-based-data.decimal-hours-to-minutes"
+      ],
       "key_dispute": false
     },
     "a1ae6a3a-bb3d-4913-8317-d4f04edbd817": {
@@ -15123,7 +16395,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.integral-of-rate-gives-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15134,6 +16406,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.integral-of-rate-gives-total",
+        "mathematics.time-based-data.rate-integral-equals-total-quantity"
+      ],
       "key_dispute": false
     },
     "afd8be3d-fbbb-4cff-b095-10fbd86d4160": {
@@ -15176,7 +16452,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.integral-of-rate-gives-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15187,6 +16463,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.integral-of-rate-gives-total",
+        "mathematics.time-based-data.rate-integral-equals-total-quantity"
+      ],
       "key_dispute": false
     },
     "b5e928f3-5ec9-4c93-8f55-111b63aff3a6": {
@@ -15229,7 +16509,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.match-time-series-terms",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15240,6 +16520,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.match-time-series-terms",
+        "mathematics.time-based-data.time-series-terms-matching"
+      ],
       "key_dispute": false
     },
     "fc445a64-5553-4a72-9c98-d31bebccf390": {
@@ -15282,7 +16566,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.time-based-data.left-riemann-sum-overestimate-decreasing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15291,8 +16575,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.time-based-data.left-riemann-sum-overestimate-decreasing",
+        "mathematics.time-based-data.left-riemann-sum-overestimate"
+      ],
       "key_dispute": false
     },
     "18a9e3bd-e4c3-4c9c-9e94-54043dd75a00": {
@@ -15335,7 +16623,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.vector-algebra.distance-point-from-plane",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15346,6 +16634,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.distance-point-from-plane",
+        "mathematics.vector-algebra.distance-of-point-from-plane"
+      ],
       "key_dispute": false
     },
     "33156bc5-356a-44e8-92ab-f0fc11504f82": {
@@ -15388,7 +16680,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.vector-algebra.unit-vector-division-by-magnitude",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15399,6 +16691,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.unit-vector-division-by-magnitude",
+        "mathematics.vector-algebra.unit-vector-in-direction-of-vector"
+      ],
       "key_dispute": false
     },
     "6a11a7c2-54c8-46fb-8e42-eabd345261ac": {
@@ -15441,7 +16737,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.vector-algebra.angle-between-vectors-cosine",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15450,8 +16746,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.angle-between-vectors-cosine",
+        "mathematics.vector-algebra.angle-between-vectors-via-dot-product"
+      ],
       "key_dispute": false
     },
     "73146cf6-41bb-476c-b336-73fcd80b09be": {
@@ -15505,6 +16805,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.definition-of-vector-quantity",
+        "mathematics.vector-algebra.definition-of-vector-quantity"
+      ],
       "key_dispute": false
     },
     "8c2638a2-09cb-44a3-a7a2-0ca02a07df4a": {
@@ -15547,7 +16851,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.vector-algebra.plane-through-three-points",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15556,8 +16860,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.plane-through-three-points",
+        "mathematics.vector-algebra.plane-through-three-points-normal"
+      ],
       "key_dispute": false
     },
     "f713c81c-e0fe-4779-ad64-999e876ae57f": {
@@ -15600,7 +16908,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "mathematics.vector-algebra.scalar-triple-product-volume",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15609,8 +16917,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "mathematics.vector-algebra.scalar-triple-product-volume",
+        "mathematics.vector-algebra.volume-of-parallelepiped-by-determinant"
+      ],
       "key_dispute": false
     }
   }

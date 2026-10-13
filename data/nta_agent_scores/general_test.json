@@ -3,7 +3,7 @@
   "subject": "general_test",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.471Z",
+  "merged_at": "2026-10-13T15:32:56.704Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 23.6,
     "difficulty_agreement_pct": 86,
     "blocking_flagged": 21,
+    "difficulty_one_level_not_applied": 53,
     "flags": {
       "multiple_defensible": 11,
       "cites_source_text": 2,
@@ -112,7 +113,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.unit-rate-from-percentage-share",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -123,6 +124,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.unit-rate-from-percentage-share",
+        "general_test.basic-mathematical-concepts.unit-rate-computation"
+      ],
       "key_dispute": false
     },
     "38f341cf-9618-447b-a4d9-c58c858f7b63": {
@@ -174,8 +179,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.independence-multiplication-rule",
+        "general_test.basic-mathematical-concepts.independence-multiplication-rule"
+      ],
       "key_dispute": false
     },
     "3aa78428-e692-4aea-abb8-a4889e57deac": {
@@ -218,7 +227,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.percentage-point-vs-relative-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -229,6 +238,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.percentage-point-vs-relative-change",
+        "general_test.basic-mathematical-concepts.absolute-vs-relative-percentage-change"
+      ],
       "key_dispute": false
     },
     "4be21626-b416-4acd-935c-5602e6ee637e": {
@@ -271,7 +284,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.percentage-point-vs-relative-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -280,8 +293,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.percentage-point-vs-relative-change",
+        "general_test.basic-mathematical-concepts.absolute-vs-relative-percentage-change"
+      ],
       "key_dispute": false
     },
     "50ff192d-4d9d-4124-8427-67f4079caae3": {
@@ -324,7 +341,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.per-capita-normalization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -335,6 +352,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.per-capita-normalization",
+        "general_test.basic-mathematical-concepts.per-capita-rate-comparison"
+      ],
       "key_dispute": false
     },
     "53cb4b46-af3a-45d8-92db-1b76eb3c7653": {
@@ -388,6 +409,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.successive-percentage-change-compounding",
+        "general_test.basic-mathematical-concepts.successive-percentage-change-compounding"
+      ],
       "key_dispute": false
     },
     "66c0a92a-1f7a-4802-a3f5-be8fa0204d58": {
@@ -430,7 +455,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.range-as-max-minus-min",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -441,6 +466,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.range-as-max-minus-min",
+        "general_test.basic-mathematical-concepts.range-definition-and-dependence"
+      ],
       "key_dispute": false
     },
     "96ad5233-34e0-4a50-8d80-e7e41d707690": {
@@ -483,7 +512,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.average-speed-equal-distances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -492,8 +521,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.average-speed-equal-distances",
+        "general_test.basic-mathematical-concepts.average-speed-equal-distances-harmonic-mean"
+      ],
       "key_dispute": false
     },
     "9a23d29b-c2e4-4453-abb2-f757bb96794f": {
@@ -536,7 +569,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.compound-minus-simple-interest-difference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -547,6 +580,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.compound-minus-simple-interest-difference",
+        "general_test.basic-mathematical-concepts.compound-vs-simple-interest-difference"
+      ],
       "key_dispute": false
     },
     "ad15c624-dc50-4e20-9246-5fbe201ff9ba": {
@@ -589,7 +626,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.basic-mathematical-concepts.average-speed-equal-distances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -598,8 +635,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.average-speed-equal-distances",
+        "general_test.basic-mathematical-concepts.average-speed-equal-distances-harmonic-mean"
+      ],
       "key_dispute": false
     },
     "08767142-d94c-4703-b447-5ae408885877": {
@@ -642,7 +683,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.weighted-average-of-group-rates",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -653,6 +694,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.weighted-average-of-group-rates",
+        "general_test.current-affairs.weighted-average-of-group-percentages"
+      ],
       "key_dispute": false
     },
     "0b5551f2-d815-499f-b1f9-73f82f590536": {
@@ -701,7 +746,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.poll-result-shift-explanation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -712,6 +757,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.poll-result-shift-explanation",
+        "general_test.current-affairs.poll-miss-explanation"
+      ],
       "key_dispute": true
     },
     "101d84cd-2bd4-44f8-a7c5-094aa3ad6dea": {
@@ -754,7 +803,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.weighted-average-of-group-rates",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -765,6 +814,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.weighted-average-of-group-rates",
+        "general_test.current-affairs.weighted-average-of-group-percentages"
+      ],
       "key_dispute": false
     },
     "167ca2a6-030a-413b-83da-2af3f6407afd": {
@@ -824,6 +877,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.population-density-comparison",
+        "general_test.current-affairs.population-density-comparison"
+      ],
       "key_dispute": false
     },
     "1a4b1b9e-2b51-4ecd-bebd-758ac3b888f4": {
@@ -877,6 +934,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.inflation-rate-vs-price-level",
+        "general_test.current-affairs.inflation-rate-vs-price-level"
+      ],
       "key_dispute": false
     },
     "1c832644-f18f-43a3-8264-4e55666fe4cd": {
@@ -923,7 +984,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.complement-of-fraction-of-area",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -934,6 +995,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.complement-of-fraction-of-area",
+        "general_test.current-affairs.fraction-of-total-remaining"
+      ],
       "key_dispute": false
     },
     "1df5b2fd-e988-4865-a20d-8abb16b9bb82": {
@@ -976,7 +1041,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.percent-change-on-base-value",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -987,6 +1052,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.percent-change-on-base-value",
+        "general_test.current-affairs.percentage-change-base-value"
+      ],
       "key_dispute": false
     },
     "2518f284-b5e2-4973-afb8-0feeba0aa4b9": {
@@ -1029,7 +1098,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.percent-change-on-base-value",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1040,6 +1109,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.percent-change-on-base-value",
+        "general_test.current-affairs.cpi-index-to-inflation-rate"
+      ],
       "key_dispute": false
     },
     "25a68906-48c1-4310-a25b-5e26a8c596ad": {
@@ -1093,6 +1166,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.international-body-flagship-publications",
+        "general_test.current-affairs.international-body-flagship-publications"
+      ],
       "key_dispute": false
     },
     "2621de26-21c6-499b-b7f2-19eba044101c": {
@@ -1135,7 +1212,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.percentage-point-vs-percent-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1144,8 +1221,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.percentage-point-vs-percent-change",
+        "general_test.current-affairs.percentage-points-vs-percent-change"
+      ],
       "key_dispute": false
     },
     "2d7d2b5c-7119-4218-8b38-76c5f0488f4d": {
@@ -1188,7 +1269,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.chart-type-for-data-pattern",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1199,6 +1280,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.chart-type-for-data-pattern",
+        "general_test.current-affairs.chart-type-for-data-type"
+      ],
       "key_dispute": false
     },
     "311fa4cc-03c4-43f9-ac40-5d78205699a3": {
@@ -1258,6 +1343,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.margin-of-error-scope",
+        "general_test.current-affairs.margin-of-error-scope"
+      ],
       "key_dispute": true
     },
     "50cbb3d0-b263-448e-8e6d-802e7d816ca9": {
@@ -1300,7 +1389,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.successive-percent-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1309,8 +1398,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.successive-percent-change",
+        "general_test.current-affairs.successive-percentage-change"
+      ],
       "key_dispute": false
     },
     "5a7fccea-98e1-456b-b3de-96656785450a": {
@@ -1362,8 +1455,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.correlation-is-not-causation",
+        "general_test.current-affairs.correlation-is-not-causation"
+      ],
       "key_dispute": false
     },
     "5b8b9fc0-60cb-42b0-9c19-60036d765bb9": {
@@ -1406,7 +1503,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.percentage-of-total-count",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1417,6 +1514,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.percentage-of-total-count",
+        "general_test.current-affairs.percentage-of-a-total"
+      ],
       "key_dispute": false
     },
     "5ce182f3-c030-4a5d-b7de-7f961f088816": {
@@ -1459,7 +1560,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.environmental-monitoring-technology-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1470,6 +1571,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.environmental-monitoring-technology-matching",
+        "general_test.current-affairs.monitoring-technology-application"
+      ],
       "key_dispute": false
     },
     "5faf5264-9ab8-42f8-890f-3b91c30e29de": {
@@ -1512,7 +1617,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.green-hydrogen-production-method",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1521,8 +1626,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.green-hydrogen-production-method",
+        "general_test.current-affairs.green-hydrogen-definition"
+      ],
       "key_dispute": false
     },
     "6adfbbbb-d54a-4dfb-8adf-febfcc4d460b": {
@@ -1565,7 +1674,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.policy-rate-tightening-tool",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1576,6 +1685,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.policy-rate-tightening-tool",
+        "general_test.current-affairs.policy-rate-as-monetary-tool"
+      ],
       "key_dispute": false
     },
     "7058d237-5b15-4329-bfd8-b352a3700f0a": {
@@ -1618,7 +1731,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.green-bonds-earmarked-finance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1629,6 +1742,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.green-bonds-earmarked-finance",
+        "general_test.current-affairs.green-bonds-purpose"
+      ],
       "key_dispute": false
     },
     "7229d63f-38fc-47f0-95dd-89af4eeb6d3c": {
@@ -1671,7 +1788,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.search-volume-not-prevalence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1680,8 +1797,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.search-volume-not-prevalence",
+        "general_test.current-affairs.search-volume-not-outbreak-proof"
+      ],
       "key_dispute": false
     },
     "760eff1b-6a3c-4278-b294-6f4c495c170a": {
@@ -1739,6 +1860,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.rule-of-70-doubling-time",
+        "general_test.current-affairs.rule-of-70-doubling-time"
+      ],
       "key_dispute": false
     },
     "82370873-f181-401f-8dda-4f03113ad67d": {
@@ -1781,7 +1906,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.median-vs-mean-robustness",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1792,6 +1917,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.median-vs-mean-robustness",
+        "general_test.current-affairs.median-vs-mean-for-skewed-data"
+      ],
       "key_dispute": false
     },
     "8584b9b0-3813-4775-a7e0-159e88c4570f": {
@@ -1834,7 +1963,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.international-bodies-and-mandates",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1843,8 +1972,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.international-bodies-and-mandates",
+        "general_test.current-affairs.international-body-focus-areas"
+      ],
       "key_dispute": false
     },
     "8b03a627-fccf-4ea3-a680-9e2082e7677c": {
@@ -1887,7 +2020,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.percentage-point-vs-percent-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1896,8 +2029,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.percentage-point-vs-percent-change",
+        "general_test.current-affairs.percentage-points-vs-percent-change"
+      ],
       "key_dispute": false
     },
     "8cacdbc1-4041-41b6-bb4d-f67a155bd1f2": {
@@ -1944,7 +2081,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.contact-tracing-reduces-reproduction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1955,6 +2092,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.contact-tracing-reduces-reproduction",
+        "general_test.current-affairs.control-measures-reduce-transmission"
+      ],
       "key_dispute": false
     },
     "912b441b-7c71-4cc4-b5aa-8c24f8b4cf56": {
@@ -2008,6 +2149,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.index-highs-narrow-breadth",
+        "general_test.current-affairs.index-highs-narrow-breadth"
+      ],
       "key_dispute": false
     },
     "98d7ac00-4dfc-4800-bc39-67dd32cc284e": {
@@ -2050,7 +2195,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.rebasing-revises-growth-estimates",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2061,6 +2206,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.rebasing-revises-growth-estimates",
+        "general_test.current-affairs.rebasing-revises-growth-rates"
+      ],
       "key_dispute": false
     },
     "9a8db982-0a75-4360-a8ee-d18db22e199c": {
@@ -2103,7 +2252,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.per-capita-size-comparison",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2114,6 +2263,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.per-capita-size-comparison",
+        "general_test.current-affairs.per-capita-for-fair-comparison"
+      ],
       "key_dispute": false
     },
     "9c961ed3-4dfb-473f-9be9-18c4af66a530": {
@@ -2156,7 +2309,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.core-inflation-exclusions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2167,6 +2320,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.core-inflation-exclusions",
+        "general_test.current-affairs.core-inflation-excludes-food-energy"
+      ],
       "key_dispute": false
     },
     "c4a5afc2-445c-46b2-b818-60b6448434d3": {
@@ -2209,7 +2366,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.combined-percentage-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2218,8 +2375,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.combined-percentage-change",
+        "general_test.current-affairs.percentage-change-of-combined-total"
+      ],
       "key_dispute": false
     },
     "d4754527-4aba-46bb-a706-2639fc688f39": {
@@ -2262,7 +2423,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.budget-ratio-division",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2273,6 +2434,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.budget-ratio-division",
+        "general_test.current-affairs.ratio-share-of-total-amount"
+      ],
       "key_dispute": false
     },
     "d7b45ae0-d624-4b7f-988f-a289591a8fc9": {
@@ -2324,7 +2489,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.rounding-rule-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2335,6 +2500,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.rounding-rule-identification",
+        "general_test.current-affairs.rounding-to-one-decimal"
+      ],
       "key_dispute": false
     },
     "df6d9cb6-cd1a-4191-9293-0dae23a98285": {
@@ -2381,7 +2550,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.climate-adaptation-funding-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2392,6 +2561,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.climate-adaptation-funding-purpose",
+        "general_test.current-affairs.adaptation-funding-reduces-vulnerability"
+      ],
       "key_dispute": false
     },
     "e3cd2683-3718-4ba1-a078-48a90506a9f9": {
@@ -2434,7 +2607,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.rank-change-arithmetic",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2445,6 +2618,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.rank-change-arithmetic",
+        "general_test.current-affairs.rank-change-as-difference"
+      ],
       "key_dispute": false
     },
     "ebf2d5a0-9dcf-4c8d-aec9-b539ecf55c09": {
@@ -2487,7 +2664,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.per-capita-emission-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2498,6 +2675,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.per-capita-emission-calculation",
+        "general_test.current-affairs.per-capita-value-by-division"
+      ],
       "key_dispute": false
     },
     "efcf6ca9-1395-45e7-97f3-af61c8702126": {
@@ -2540,7 +2721,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.unemployment-and-participation-link",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2551,6 +2732,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.unemployment-and-participation-link",
+        "general_test.current-affairs.unemployment-falls-with-participation"
+      ],
       "key_dispute": false
     },
     "f10e0ad4-d495-4041-9051-62882de805f4": {
@@ -2593,7 +2778,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.current-affairs.economic-indicator-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2604,6 +2789,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.current-affairs.economic-indicator-matching",
+        "general_test.current-affairs.economic-indicators-what-they-measure"
+      ],
       "key_dispute": false
     },
     "02c12943-d164-41fa-975a-8f457e70c7d3": {
@@ -2657,6 +2846,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.cpi-vs-wpi-measures",
+        "general_test.general-knowledge.cpi-vs-wpi-measures"
+      ],
       "key_dispute": false
     },
     "04945aef-1818-4ca6-8ba3-932fca911eea": {
@@ -2710,6 +2903,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.cumulative-co2-warming-link",
+        "general_test.general-knowledge.cumulative-co2-warming-link"
+      ],
       "key_dispute": false
     },
     "0d85819f-666c-4f29-a821-34e8d6c1536d": {
@@ -2752,7 +2949,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.carbon-offsets-delay-domestic-cuts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2761,8 +2958,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.carbon-offsets-delay-domestic-cuts",
+        "general_test.general-knowledge.offsets-delay-domestic-cuts"
+      ],
       "key_dispute": false
     },
     "0dd280fb-d1ec-44c2-80ee-3c3ecb4afa4e": {
@@ -2816,6 +3017,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.compound-vs-linear-growth",
+        "general_test.general-knowledge.compound-vs-linear-growth"
+      ],
       "key_dispute": false
     },
     "17e40e00-f515-4ff8-805a-26edf2b92d96": {
@@ -2858,7 +3063,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.logical-fallacy-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2869,6 +3074,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.logical-fallacy-matching",
+        "general_test.general-knowledge.logical-fallacy-identification"
+      ],
       "key_dispute": false
     },
     "2076c21e-b58a-4f9c-b6dd-f91ebd789be3": {
@@ -2911,7 +3120,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.automation-technological-unemployment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2920,8 +3129,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.automation-technological-unemployment",
+        "general_test.general-knowledge.technological-unemployment-automation"
+      ],
       "key_dispute": false
     },
     "45c3baa5-3c1c-425c-b98f-046f480baf7c": {
@@ -2964,7 +3177,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.constitutional-amendment-procedure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2973,8 +3186,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.constitutional-amendment-procedure",
+        "general_test.general-knowledge.amendment-vs-statute-procedure"
+      ],
       "key_dispute": false
     },
     "468512ba-e161-456f-8db8-a12974069fc1": {
@@ -3017,7 +3234,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.coverage-bias-undercoverage",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3028,6 +3245,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.coverage-bias-undercoverage",
+        "general_test.general-knowledge.undercoverage-bias-in-surveys"
+      ],
       "key_dispute": false
     },
     "46d29a00-dff8-40ba-bdfd-054ae8b69d98": {
@@ -3070,7 +3291,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.molecular-biology-concept-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3081,6 +3302,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.molecular-biology-concept-matching",
+        "general_test.general-knowledge.molecular-biology-term-definitions"
+      ],
       "key_dispute": false
     },
     "4f560baf-5e38-4dd2-8dc6-4035335e149a": {
@@ -3123,7 +3348,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.labour-force-exit-unemployment-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3132,8 +3357,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.labour-force-exit-unemployment-rate",
+        "general_test.general-knowledge.unemployment-rate-labour-force"
+      ],
       "key_dispute": false
     },
     "527ae9f2-1350-4478-8ce2-4361d4b54277": {
@@ -3176,7 +3405,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.minimum-overlap-two-sets",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3187,6 +3416,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.minimum-overlap-two-sets",
+        "general_test.general-knowledge.minimum-overlap-of-two-sets"
+      ],
       "key_dispute": false
     },
     "53c389b7-1727-4363-950d-2d7ca4ba4922": {
@@ -3229,7 +3462,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.mean-vs-median-income",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3238,8 +3471,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.mean-vs-median-income",
+        "general_test.general-knowledge.mean-vs-median-divergence"
+      ],
       "key_dispute": false
     },
     "57740f88-3617-4f16-adda-dd0801755c6a": {
@@ -3286,7 +3523,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.energy-transition-geopolitics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3297,6 +3534,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.energy-transition-geopolitics",
+        "general_test.general-knowledge.fusion-energy-geopolitical-impact"
+      ],
       "key_dispute": false
     },
     "5875d229-9c0a-49d3-85ff-b16d4d6226b3": {
@@ -3348,8 +3589,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.successive-percentage-change",
+        "general_test.general-knowledge.successive-percentage-change"
+      ],
       "key_dispute": false
     },
     "5e95c5a5-db6b-4c7e-a341-2b9ff99a0781": {
@@ -3392,7 +3637,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.wind-solar-grid-stability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3401,8 +3646,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.wind-solar-grid-stability",
+        "general_test.general-knowledge.renewable-intermittency-grid-stability"
+      ],
       "key_dispute": false
     },
     "63e0c54f-1e36-46ca-a6ba-8627442a2a9f": {
@@ -3454,8 +3703,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.contrapositive-of-conditional",
+        "general_test.general-knowledge.contrapositive-of-conditional"
+      ],
       "key_dispute": false
     },
     "6567ebe6-ffe9-40df-a183-0cbe5d88383d": {
@@ -3498,7 +3751,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.environmental-terms-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3509,6 +3762,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.environmental-terms-matching",
+        "general_test.general-knowledge.match-environmental-science-terms"
+      ],
       "key_dispute": false
     },
     "6971d134-e3af-43a5-a572-4553eefcbbe7": {
@@ -3551,7 +3808,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.head-of-state-vs-government",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3562,6 +3819,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.head-of-state-vs-government",
+        "general_test.general-knowledge.head-of-state-vs-head-of-government"
+      ],
       "key_dispute": false
     },
     "73bf7243-38af-4240-bc6a-b95b46b5e51a": {
@@ -3604,7 +3865,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.fiscal-tradeoff-subsidy-investment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3613,8 +3874,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.fiscal-tradeoff-subsidy-investment",
+        "general_test.general-knowledge.fiscal-trade-off-subsidy-vs-investment"
+      ],
       "key_dispute": false
     },
     "886f24ca-dfb0-4ba6-a90f-7654e38abd85": {
@@ -3663,7 +3928,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.classical-dance-state-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3674,6 +3939,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.classical-dance-state-matching",
+        "general_test.general-knowledge.classical-dance-state-of-origin"
+      ],
       "key_dispute": false
     },
     "91b6c959-dff0-4d42-9d0d-190544a5db8f": {
@@ -3725,8 +3994,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.emissions-intensity-decomposition",
+        "general_test.general-knowledge.emissions-intensity-decomposition"
+      ],
       "key_dispute": false
     },
     "9584a929-aeac-4248-81a7-3c4d15e64d87": {
@@ -3778,8 +4051,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.dispatchability-of-renewables",
+        "general_test.general-knowledge.dispatchability-of-renewables"
+      ],
       "key_dispute": false
     },
     "9709de59-1a8d-4105-88ab-fa56ea2bd3ba": {
@@ -3829,7 +4106,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.syllogistic-inference-from-subsets",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3840,6 +4117,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.syllogistic-inference-from-subsets",
+        "general_test.general-knowledge.syllogistic-inference-some-all"
+      ],
       "key_dispute": false
     },
     "a20422ca-a7e5-400b-8e7a-729a374e5cc1": {
@@ -3882,7 +4163,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.absolute-change-from-share-and-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3891,8 +4172,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.absolute-change-from-share-and-total",
+        "general_test.general-knowledge.share-of-total-generation-change"
+      ],
       "key_dispute": false
     },
     "acf7de8c-c8a9-43e2-b665-f31b30aaab3b": {
@@ -3935,7 +4220,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.fermi-paradox-statistical-argument",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3946,6 +4231,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.fermi-paradox-statistical-argument",
+        "general_test.general-knowledge.fermi-paradox-concept"
+      ],
       "key_dispute": false
     },
     "b18c1e86-41c3-4422-813f-1a801243510b": {
@@ -3995,7 +4284,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.assertion-reason-explanation-link",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4006,6 +4295,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.assertion-reason-explanation-link",
+        "general_test.general-knowledge.synthetic-biology-definition"
+      ],
       "key_dispute": true
     },
     "b5bd13d8-72a7-429a-ac4e-3c971fa96309": {
@@ -4057,8 +4350,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.soft-power-vs-smart-power",
+        "general_test.general-knowledge.soft-power-vs-smart-power"
+      ],
       "key_dispute": false
     },
     "bc36de75-f21d-47b7-8e7c-0337a6a813f9": {
@@ -4110,8 +4407,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.biodiversity-hotspot-criteria",
+        "general_test.general-knowledge.biodiversity-hotspot-criteria"
+      ],
       "key_dispute": false
     },
     "be011887-f020-42fb-b9c4-cc3792bab317": {
@@ -4163,8 +4464,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.headquarters-of-international-organizations",
+        "general_test.general-knowledge.headquarters-of-international-organizations"
+      ],
       "key_dispute": false
     },
     "bfe44ae1-ffa4-43d8-bef5-9d6b24cad9f7": {
@@ -4216,8 +4521,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.post-hoc-false-cause-fallacy",
+        "general_test.general-knowledge.post-hoc-false-cause-fallacy"
+      ],
       "key_dispute": false
     },
     "c09309c9-ae1f-4504-a77b-bffd91eb7a26": {
@@ -4269,8 +4578,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.renewable-vs-sustainable-energy",
+        "general_test.general-knowledge.renewable-vs-sustainable-energy"
+      ],
       "key_dispute": false
     },
     "c568e6e6-edd2-4ad7-a4eb-93e5ab9a0556": {
@@ -4313,7 +4626,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.median-robust-to-skew",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4324,6 +4637,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.median-robust-to-skew",
+        "general_test.general-knowledge.median-preferred-for-skewed-data"
+      ],
       "key_dispute": false
     },
     "cc66a02c-949d-42ca-8703-75e80e53a012": {
@@ -4366,7 +4683,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.green-revolution-hyv-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4377,6 +4694,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.green-revolution-hyv-focus",
+        "general_test.general-knowledge.green-revolution-focus-on-cereals"
+      ],
       "key_dispute": false
     },
     "ce32a4d4-3f7c-4ce3-9c3b-7ed428abec00": {
@@ -4419,7 +4740,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.statistical-measure-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4430,6 +4751,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.statistical-measure-definitions",
+        "general_test.general-knowledge.statistical-measures-definitions"
+      ],
       "key_dispute": false
     },
     "e8193f11-66ee-4e60-8682-a73eb1d02be7": {
@@ -4472,7 +4797,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.misleading-omission-in-journalism",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4481,8 +4806,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.misleading-omission-in-journalism",
+        "general_test.general-knowledge.selective-omission-misleading-reporting"
+      ],
       "key_dispute": false
     },
     "e96f3e8e-d503-4557-8931-2a0610d8c2bc": {
@@ -4529,7 +4858,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.sea-walls-climate-adaptation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4538,8 +4867,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.sea-walls-climate-adaptation",
+        "general_test.general-knowledge.sea-walls-as-climate-adaptation"
+      ],
       "key_dispute": false
     },
     "f268929d-936e-4a46-bb42-abe0d3ee1d57": {
@@ -4588,7 +4921,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-knowledge.linear-inequality-weighted-index",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4599,6 +4932,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.linear-inequality-weighted-index",
+        "general_test.general-knowledge.solving-weighted-linear-inequality"
+      ],
       "key_dispute": true
     },
     "g1": {
@@ -4652,6 +4989,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.constitution-adoption-date",
+        "general_test.general-knowledge.constitution-adoption-date"
+      ],
       "key_dispute": false
     },
     "g2": {
@@ -4705,6 +5046,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.number-of-fundamental-rights",
+        "general_test.general-knowledge.number-of-fundamental-rights"
+      ],
       "key_dispute": false
     },
     "g3": {
@@ -4767,6 +5112,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-knowledge.longest-river-in-india",
+        "general_test.general-knowledge.longest-river-in-india"
+      ],
       "key_dispute": false
     },
     "49203044-8e0e-4a83-b8cf-364bbb3e8a0b": {
@@ -4809,7 +5158,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.percent-increase-relative-to-base",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4820,6 +5169,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.percent-increase-relative-to-base",
+        "general_test.general-mental-ability.percentage-change-relative-to-original"
+      ],
       "key_dispute": false
     },
     "543d1727-f4be-4b86-83b9-98ce628b82d8": {
@@ -4862,7 +5215,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.successive-percent-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4873,6 +5226,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.successive-percent-change",
+        "general_test.general-mental-ability.successive-percentage-changes"
+      ],
       "key_dispute": false
     },
     "5cdd2da8-3144-414b-8f07-63e5d8209a56": {
@@ -4915,7 +5272,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.matching-quantitative-concept-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4926,6 +5283,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.matching-quantitative-concept-definitions",
+        "general_test.general-mental-ability.mean-median-rounding-definitions"
+      ],
       "key_dispute": false
     },
     "67e150e7-2be7-4f7b-a93d-1cc7f0676117": {
@@ -4979,6 +5340,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.correlation-does-not-imply-causation",
+        "general_test.general-mental-ability.correlation-does-not-imply-causation"
+      ],
       "key_dispute": false
     },
     "75638bef-a83e-4d9e-9dc0-6933d65a39ea": {
@@ -5021,7 +5386,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.ratio-share-from-sum",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5032,6 +5397,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.ratio-share-from-sum",
+        "general_test.general-mental-ability.dividing-quantity-in-given-ratio"
+      ],
       "key_dispute": false
     },
     "a3a54e19-c9ad-4733-bf19-ff69beaefbe5": {
@@ -5074,7 +5443,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.pipes-and-cisterns-combined-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5083,8 +5452,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.pipes-and-cisterns-combined-rate",
+        "general_test.general-mental-ability.combined-work-rate-with-drain"
+      ],
       "key_dispute": false
     },
     "b05a323e-9ae0-4467-9de7-328ce207ae0a": {
@@ -5133,7 +5506,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.unit-conversion-litres-to-cubic-metres",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5144,6 +5517,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.unit-conversion-litres-to-cubic-metres",
+        "general_test.general-mental-ability.litres-to-cubic-metres-conversion"
+      ],
       "key_dispute": false
     },
     "b2a6dae0-6dc3-488c-b24f-cdeffeea781f": {
@@ -5197,6 +5574,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.median-robust-to-outliers",
+        "general_test.general-mental-ability.median-robust-to-outliers"
+      ],
       "key_dispute": false
     },
     "d1c04588-4784-4ecc-96f9-d64c4db60067": {
@@ -5239,7 +5620,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.fossil-fuel-emissions-cause-pollution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5248,8 +5629,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.fossil-fuel-emissions-cause-pollution",
+        "general_test.general-mental-ability.fossil-fuel-emissions-and-air-pollution"
+      ],
       "key_dispute": false
     },
     "d3606f32-0de9-4de8-8596-3932c9311731": {
@@ -5292,7 +5677,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.probability-without-replacement-both-red",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5301,8 +5686,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.probability-without-replacement-both-red",
+        "general_test.general-mental-ability.probability-without-replacement"
+      ],
       "key_dispute": false
     },
     "d5426b84-d438-4eff-b8ee-0273d12fb5bc": {
@@ -5345,7 +5734,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.producers-autotroph-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5354,8 +5743,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.producers-autotroph-definition",
+        "general_test.general-mental-ability.role-of-producers-in-ecosystem"
+      ],
       "key_dispute": false
     },
     "f1cc74be-6889-4fff-b6fe-9a14384e810f": {
@@ -5398,7 +5791,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-mental-ability.pollutant-to-primary-effect-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5409,6 +5802,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-mental-ability.pollutant-to-primary-effect-matching",
+        "general_test.general-mental-ability.pollutants-and-their-effects"
+      ],
       "key_dispute": false
     },
     "076a8514-e3d8-41c6-bda0-d8e929823c3d": {
@@ -5451,7 +5848,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.syllogism-undetermined-conclusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5460,8 +5857,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.syllogism-undetermined-conclusion",
+        "general_test.general-science-and-environment-literacy.syllogism-cannot-be-determined"
+      ],
       "key_dispute": false
     },
     "5e4edfd1-3849-473a-8f92-f68136dc45b5": {
@@ -5504,7 +5905,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.line-chart-for-time-trend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5513,8 +5914,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.line-chart-for-time-trend",
+        "general_test.general-science-and-environment-literacy.line-chart-for-trends"
+      ],
       "key_dispute": false
     },
     "68c140bb-0968-42dc-9e9f-8eddeaea4386": {
@@ -5568,6 +5973,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.ph-logarithmic-scale",
+        "general_test.general-science-and-environment-literacy.ph-logarithmic-scale"
+      ],
       "key_dispute": false
     },
     "6ae8c839-bf51-455b-a45d-a84746f12752": {
@@ -5610,7 +6019,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.water-maximum-density-at-4c",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5619,8 +6028,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.water-maximum-density-at-4c",
+        "general_test.general-science-and-environment-literacy.water-density-maximum-at-4c"
+      ],
       "key_dispute": false
     },
     "6d463895-93c9-4dde-b7ef-19cde5336cdb": {
@@ -5663,7 +6076,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.percentage-remaining-after-diversion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5674,6 +6087,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.percentage-remaining-after-diversion",
+        "general_test.general-science-and-environment-literacy.percentage-residual-waste"
+      ],
       "key_dispute": false
     },
     "c33dcd57-23b2-4759-a287-c5ba370901dd": {
@@ -5725,8 +6142,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.mean-median-outlier-effect",
+        "general_test.general-science-and-environment-literacy.mean-median-outlier-effect"
+      ],
       "key_dispute": false
     },
     "c373a417-0d25-485b-b069-7dc721723479": {
@@ -5769,7 +6190,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.arithmetic-mean-from-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5780,6 +6201,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.arithmetic-mean-from-total",
+        "general_test.general-science-and-environment-literacy.arithmetic-mean-of-daily-values"
+      ],
       "key_dispute": false
     },
     "d5ec83b8-7da9-4424-9d10-c097aadd6ed8": {
@@ -5831,7 +6256,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.biomagnification-trophic-level-multiplication",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5840,8 +6265,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.biomagnification-trophic-level-multiplication",
+        "general_test.general-science-and-environment-literacy.biomagnification-factor-per-trophic-level"
+      ],
       "key_dispute": false
     },
     "e39ac5c1-cc22-4e9f-8ec5-9fee43c1ce9e": {
@@ -5884,7 +6313,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.echo-round-trip-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5895,6 +6324,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.echo-round-trip-distance",
+        "general_test.general-science-and-environment-literacy.echo-distance-round-trip"
+      ],
       "key_dispute": false
     },
     "fc33f97e-7b23-4998-90bc-ded3b684cfcc": {
@@ -5937,7 +6370,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.general-science-and-environment-literacy.ten-percent-energy-transfer-law",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5946,8 +6379,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.ten-percent-energy-transfer-law",
+        "general_test.general-science-and-environment-literacy.ten-percent-energy-transfer-two-levels"
+      ],
       "key_dispute": false
     },
     "20c99a92-0503-4ce3-babc-cda1b5fae35b": {
@@ -6001,6 +6438,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.logical-fallacy-identification",
+        "general_test.logical-and-analytical-reasoning.logical-fallacy-identification"
+      ],
       "key_dispute": false
     },
     "30714f74-9cff-4fa5-9e32-5114af659f45": {
@@ -6043,7 +6484,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.classical-probability-favourable-outcomes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6054,6 +6495,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.classical-probability-favourable-outcomes",
+        "general_test.logical-and-analytical-reasoning.probability-favourable-over-total"
+      ],
       "key_dispute": false
     },
     "43123385-0b89-4594-811d-f858080de5f3": {
@@ -6107,6 +6552,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.inclusion-exclusion-two-sets",
+        "general_test.logical-and-analytical-reasoning.inclusion-exclusion-two-sets"
+      ],
       "key_dispute": false
     },
     "60ef47a7-4b65-4667-8753-82a2e5cc0c89": {
@@ -6149,7 +6598,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.truth-condition-of-implication",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6158,8 +6607,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.truth-condition-of-implication",
+        "general_test.logical-and-analytical-reasoning.material-implication-truth-condition"
+      ],
       "key_dispute": false
     },
     "6b413ad8-1d71-493a-8aab-438cb78bb4c5": {
@@ -6202,7 +6655,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.probability-exactly-one-success",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6211,8 +6664,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.probability-exactly-one-success",
+        "general_test.logical-and-analytical-reasoning.independent-events-exactly-one-success"
+      ],
       "key_dispute": false
     },
     "778e71d9-a8ba-4923-8c1b-9823c6bfc7cf": {
@@ -6255,7 +6712,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.correlation-does-not-imply-causation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6264,8 +6721,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.correlation-does-not-imply-causation",
+        "general_test.logical-and-analytical-reasoning.correlation-not-causation"
+      ],
       "key_dispute": true
     },
     "82c4328f-910b-4af9-9760-7febca3a3bca": {
@@ -6315,7 +6776,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.strength-ordering-of-claims",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6326,6 +6787,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.strength-ordering-of-claims",
+        "general_test.logical-and-analytical-reasoning.modal-strength-of-claims"
+      ],
       "key_dispute": false
     },
     "955c151f-6788-4ebc-961a-e2653eabdb2a": {
@@ -6368,7 +6833,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.mean-sensitivity-to-all-values",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6379,6 +6844,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.mean-sensitivity-to-all-values",
+        "general_test.logical-and-analytical-reasoning.mean-vs-median-sensitivity"
+      ],
       "key_dispute": false
     },
     "96cd0eb9-342c-4fe1-b03f-75643d9eca84": {
@@ -6421,7 +6890,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.coefficient-of-variation-comparison",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6432,6 +6901,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.coefficient-of-variation-comparison",
+        "general_test.logical-and-analytical-reasoning.coefficient-of-variation-relative-spread"
+      ],
       "key_dispute": false
     },
     "98a18da5-5232-44b2-8b1f-4f027a2577ae": {
@@ -6474,7 +6947,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.ratio-scaling-from-known-term",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6485,6 +6958,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.ratio-scaling-from-known-term",
+        "general_test.logical-and-analytical-reasoning.ratio-unit-from-known-part"
+      ],
       "key_dispute": false
     },
     "bd5467c6-e491-4032-b079-2913cf1647ac": {
@@ -6527,7 +7004,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.selection-bias-in-sampling",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6538,6 +7015,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.selection-bias-in-sampling",
+        "general_test.logical-and-analytical-reasoning.selection-bias-sampling-location"
+      ],
       "key_dispute": false
     },
     "c420b8d7-1c8f-40a6-a353-4a16a3cf77f2": {
@@ -6580,7 +7061,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.logic-connectives-to-english",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6591,6 +7072,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.logic-connectives-to-english",
+        "general_test.logical-and-analytical-reasoning.logical-connective-symbol-matching"
+      ],
       "key_dispute": false
     },
     "cb430cdb-8069-4e21-836d-081d7f33997a": {
@@ -6651,8 +7136,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.mutually-exclusive-events-definition",
+        "general_test.logical-and-analytical-reasoning.mutually-exclusive-events-definition"
+      ],
       "key_dispute": true
     },
     "de0c8929-ba42-4fa0-9ff8-e3b409642dee": {
@@ -6695,7 +7184,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.logical-and-analytical-reasoning.sequential-percentage-decrease",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6706,6 +7195,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.sequential-percentage-decrease",
+        "general_test.logical-and-analytical-reasoning.successive-percentage-decrease-multiplier"
+      ],
       "key_dispute": false
     },
     "76e09026-8c2e-4087-ab12-f4518202e7a2": {
@@ -6748,7 +7241,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.mean-median-relation-by-skewness",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6759,6 +7252,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.mean-median-relation-by-skewness",
+        "general_test.numerical-ability.mean-median-skewness-relation"
+      ],
       "key_dispute": false
     },
     "7cab2ca7-7197-4db9-89ff-aeaba2265e2f": {
@@ -6801,7 +7298,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.mean-update-using-sum-of-observations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6810,8 +7307,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.mean-change-on-adding-observation",
+        "general_test.numerical-ability.mean-update-using-sum-of-observations"
+      ],
       "key_dispute": false
     },
     "9bf6babe-8b4a-4dc6-b1d0-37ae6016a178": {
@@ -6854,7 +7355,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.compare-mean-and-median-of-data",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6865,6 +7366,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.compare-mean-and-median-of-data",
+        "general_test.numerical-ability.mean-median-comparison-from-data"
+      ],
       "key_dispute": false
     },
     "a2d92630-26db-4b86-a45b-34db08ca78c1": {
@@ -6907,7 +7412,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.chaining-ratios-via-common-term",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6916,8 +7421,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.chaining-ratios-via-common-term",
+        "general_test.numerical-ability.ratio-chain-combination"
+      ],
       "key_dispute": false
     },
     "af96c33a-3146-4282-aac4-83245f78cb80": {
@@ -6960,7 +7469,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.typical-use-of-mean-median-mode",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6971,6 +7480,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.typical-use-of-mean-median-mode",
+        "general_test.numerical-ability.choosing-measure-of-central-tendency"
+      ],
       "key_dispute": false
     },
     "b6c21e92-d7f3-4655-98e2-a7c258515030": {
@@ -7019,7 +7532,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.mean-update-using-sum-of-observations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7030,6 +7543,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.mean-change-on-replacing-observation",
+        "general_test.numerical-ability.mean-update-using-sum-of-observations"
+      ],
       "key_dispute": true
     },
     "cbfdeb0c-f5e2-45ff-8c98-56724ee40ba5": {
@@ -7072,7 +7589,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.definition-of-median",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7083,6 +7600,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.definition-of-median",
+        "general_test.numerical-ability.median-definition"
+      ],
       "key_dispute": false
     },
     "d57074ef-8a9a-42bf-8905-395e7d15dc1b": {
@@ -7125,7 +7646,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.sd-unchanged-under-shift",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7134,8 +7655,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.sd-unchanged-under-shift",
+        "general_test.numerical-ability.standard-deviation-invariant-under-shift"
+      ],
       "key_dispute": false
     },
     "ec2431a6-82f3-45f0-8c07-d3d6ff52f865": {
@@ -7178,7 +7703,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.numerical-ability.weighted-average-of-scores",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7189,6 +7714,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.weighted-average-of-scores",
+        "general_test.numerical-ability.weighted-mean-calculation"
+      ],
       "key_dispute": false
     },
     "fa177d41-82ca-44b1-aae1-d0acf7d61825": {
@@ -7242,6 +7771,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.numerical-ability.range-as-max-minus-min",
+        "general_test.numerical-ability.range-as-max-minus-min"
+      ],
       "key_dispute": false
     },
     "08a07834-b3ee-44c7-b0d8-76e72ebcf094": {
@@ -7284,7 +7817,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.doubling-time-rule-of-70",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7295,6 +7828,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.doubling-time-rule-of-70",
+        "general_test.quantitative-reasoning.rule-of-70-doubling-time"
+      ],
       "key_dispute": false
     },
     "1598109f-f902-4e32-bfc9-402a85b3ec09": {
@@ -7337,7 +7874,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.relative-vs-percentage-point-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7346,8 +7883,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.relative-vs-percentage-point-change",
+        "general_test.quantitative-reasoning.relative-percent-change"
+      ],
       "key_dispute": false
     },
     "162e1e1a-ee83-4f25-b425-a9e312c509b6": {
@@ -7399,8 +7940,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.population-weighted-average",
+        "general_test.quantitative-reasoning.population-weighted-average"
+      ],
       "key_dispute": false
     },
     "214a0a2d-a633-4de4-90aa-1a03164a0b62": {
@@ -7443,7 +7988,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.release-frequency-of-official-statistics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7454,6 +7999,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.release-frequency-of-official-statistics",
+        "general_test.quantitative-reasoning.data-release-frequency-matching"
+      ],
       "key_dispute": false
     },
     "545c4ce5-aefc-4d43-938f-a3fdb59170ec": {
@@ -7507,6 +8056,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.median-robust-to-outliers",
+        "general_test.quantitative-reasoning.median-robust-to-outliers"
+      ],
       "key_dispute": false
     },
     "5ce860f9-b4f2-4458-b295-dfb15c4c89f4": {
@@ -7560,6 +8113,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.per-capita-rate-comparison",
+        "general_test.quantitative-reasoning.per-capita-rate-comparison"
+      ],
       "key_dispute": false
     },
     "75db89a6-86bb-4604-81f0-a9f2816d2f45": {
@@ -7602,7 +8159,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.correlation-vs-causation-critique",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7611,8 +8168,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.correlation-vs-causation-critique",
+        "general_test.quantitative-reasoning.correlation-not-causation"
+      ],
       "key_dispute": false
     },
     "78f1dd3d-5672-45e6-8d46-792bba399b5f": {
@@ -7655,7 +8216,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.unrepresentative-sample-bias",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7666,6 +8227,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.unrepresentative-sample-bias",
+        "general_test.quantitative-reasoning.survey-sampling-bias"
+      ],
       "key_dispute": false
     },
     "813afedb-1b71-467f-884c-b1959944b48f": {
@@ -7708,7 +8273,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.combinations-with-minimum-group-constraint",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7717,8 +8282,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.combinations-with-minimum-group-constraint",
+        "general_test.quantitative-reasoning.combinations-with-at-least-constraint"
+      ],
       "key_dispute": false
     },
     "857ab92e-20a2-4fac-af72-8baca5c6d5c4": {
@@ -7761,7 +8330,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.trade-balance-exports-minus-imports",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7772,6 +8341,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.trade-balance-exports-minus-imports",
+        "general_test.quantitative-reasoning.trade-balance-sign"
+      ],
       "key_dispute": false
     },
     "9e808ed3-c114-4b07-9b0f-d34ab3efcb11": {
@@ -7825,6 +8398,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.deductive-syllogism-validity",
+        "general_test.quantitative-reasoning.deductive-syllogism-validity"
+      ],
       "key_dispute": false
     },
     "cc28a6ec-fbf8-4ab3-b318-4bf0bc06f17d": {
@@ -7867,7 +8444,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.conditional-probability-multiplication",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7878,6 +8455,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.conditional-probability-multiplication",
+        "general_test.quantitative-reasoning.conditional-probability-two-stage"
+      ],
       "key_dispute": false
     },
     "e3f311ee-79bf-4457-a052-1d29df3706ae": {
@@ -7920,7 +8501,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.quantitative-reasoning.deduction-induction-analogy-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7931,6 +8512,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.deduction-induction-analogy-identification",
+        "general_test.quantitative-reasoning.types-of-reasoning-matching"
+      ],
       "key_dispute": false
     },
     "03306cc2-a85c-484a-ba1d-d0d780064138": {
@@ -7973,7 +8558,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.average-speed-harmonic-mean-equal-distances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7982,8 +8567,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.average-speed-harmonic-mean-equal-distances",
+        "general_test.statistical-data-analysis.average-speed-harmonic-mean"
+      ],
       "key_dispute": false
     },
     "1ad7c830-bbb7-41d0-bcfc-2b50a4730869": {
@@ -8037,6 +8626,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.census-vs-sampling",
+        "general_test.statistical-data-analysis.census-vs-sampling"
+      ],
       "key_dispute": false
     },
     "43619029-4141-43d2-b3a5-31b202ce3d8a": {
@@ -8079,7 +8672,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.sd-invariant-under-constant-shift",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8090,6 +8683,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.sd-invariant-under-constant-shift",
+        "general_test.statistical-data-analysis.effect-of-constant-shift-on-sd"
+      ],
       "key_dispute": false
     },
     "44ac0748-2765-44d3-b7b0-b74e6d51e5b4": {
@@ -8132,7 +8729,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.qualitative-vs-quantitative-variables",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8143,6 +8740,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.qualitative-vs-quantitative-variables",
+        "general_test.statistical-data-analysis.categorical-vs-numerical-variables"
+      ],
       "key_dispute": false
     },
     "784fc9e0-b8d8-4c6f-a199-4f6c3254bb13": {
@@ -8189,7 +8790,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.relative-frequency-probability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8200,6 +8801,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.relative-frequency-probability",
+        "general_test.statistical-data-analysis.probability-from-frequency-table"
+      ],
       "key_dispute": false
     },
     "93a46fce-3e4c-4b6a-8c69-ba472250cde6": {
@@ -8242,7 +8847,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.measure-of-central-tendency-suitability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8253,6 +8858,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.measure-of-central-tendency-suitability",
+        "general_test.statistical-data-analysis.measures-matched-to-data-type"
+      ],
       "key_dispute": false
     },
     "a7722cd6-d9ab-4abb-a49f-59bc06753782": {
@@ -8295,7 +8904,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.median-ungrouped-odd-count",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8306,6 +8915,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.median-ungrouped-odd-count",
+        "general_test.statistical-data-analysis.median-of-ungrouped-data"
+      ],
       "key_dispute": false
     },
     "bff04f79-f4c7-4d62-b035-ce55abac7ea9": {
@@ -8348,7 +8961,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.range-vs-iqr-sensitivity-to-outliers",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8359,6 +8972,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.range-vs-iqr-sensitivity-to-outliers",
+        "general_test.statistical-data-analysis.range-vs-iqr-outlier-sensitivity"
+      ],
       "key_dispute": false
     },
     "f47d0d8b-3be5-45f3-963d-2b0aa228e480": {
@@ -8401,7 +9018,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.same-mean-different-spread",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8412,6 +9029,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.same-mean-different-spread",
+        "general_test.statistical-data-analysis.spread-not-determined-by-mean"
+      ],
       "key_dispute": false
     },
     "f78d62f4-2484-4fc6-abd7-fc37cd383694": {
@@ -8454,7 +9075,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.levels-of-measurement-examples",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8465,6 +9086,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.levels-of-measurement-examples",
+        "general_test.statistical-data-analysis.levels-of-measurement-matching"
+      ],
       "key_dispute": false
     },
     "fde6d35f-a4e7-4dd6-a8b0-a37501a93bbf": {
@@ -8507,7 +9132,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "general_test.statistical-data-analysis.chart-type-matching-use-case",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8518,6 +9143,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.chart-type-matching-use-case",
+        "general_test.statistical-data-analysis.chart-type-to-use-case"
+      ],
       "key_dispute": false
     }
   }

@@ -177,7 +177,9 @@ test('the merge records both judges with provenance, sends key disagreements to 
   fs.mkdirSync(out);
   fs.writeFileSync(path.join(out, 'nta_objectives.json'), JSON.stringify({ note: 'x', questions: { hand: 'acc.hand.tag' } }));
 
-  const rows = makeBank('accountancy', { copies: 1 }).filter((row) => !row.passage_group_id).slice(0, 6).map(plain);
+  // Row 3 is labelled easy and both judges say hard (two levels); row 5 is labelled medium and both say hard (one level).
+  const rows = makeBank('accountancy', { copies: 1 }).filter((row) => !row.passage_group_id).slice(0, 6).map(plain)
+    .map((row, i) => ({ ...row, difficulty: i === 3 ? 'easy' : i === 5 ? 'medium' : row.difficulty }));
   const shape = (row) => ({ id: row.id, subject: 'accountancy', chapter: row.chapter, stem: row.body, options: row.options, correct_key: 'A', difficulty_label: row.difficulty });
   fs.writeFileSync(path.join(dir, 'batches', 'accountancy__x__01.json'), JSON.stringify({ batch: 'accountancy__x__01', subject: 'accountancy', questions: rows.map(shape) }));
   fs.writeFileSync(path.join(dir, 'batches', 'accountancy__y__01.json'), JSON.stringify({ batch: 'accountancy__y__01', subject: 'accountancy', questions: [] }));
@@ -185,13 +187,13 @@ test('the merge records both judges with provenance, sends key disagreements to 
   fs.writeFileSync(path.join(dir, 'judges.json'), JSON.stringify({ j1: { model: 'model-one', date: '2026-10-14' }, j2: { model: 'model-two', date: '2026-10-14' } }));
   fs.writeFileSync(path.join(dir, 'calibration.json'), JSON.stringify(CALIBRATED));
   const result = (row, i, who) => {
-    const other = (row.difficulty === 'hard' ? 'easy' : 'hard');
+    const other = i === 3 || i === 5 ? 'hard' : row.difficulty;
     return {
       id: row.id,
       blind_answer: i === 1 && who === 'j2' ? 'B' : 'A',
       key_matches: !(i === 1 && who === 'j2'),
       quality_score: i === 2 && who === 'j1' ? 7 : 9,
-      difficulty_check: i === 3 ? other : row.difficulty,
+      difficulty_check: other,
       objective_tag: i === 4 && who === 'j2' ? 'accountancy.x.other-idea-here' : `accountancy.x.idea-number-${'abcdef'[i]}`,
       flags: i === 5 && who === 'j1' ? ['hedge_wording'] : [],
       note: '',
@@ -223,12 +225,18 @@ test('the merge records both judges with provenance, sends key disagreements to 
 
   const objectives = JSON.parse(fs.readFileSync(path.join(out, 'nta_objectives.json'), 'utf8'));
   assert.equal(objectives.questions.hand, 'acc.hand.tag', 'hand tags are kept');
-  assert.equal(Object.keys(objectives.agent_questions).length, 6);
+  // Only tags both judges gave alike are stored; row 4's judges disagree.
+  assert.equal(Object.keys(objectives.agent_questions).length, 5);
   assert.equal(objectives.agent_questions[rows[0].id], 'accountancy.x.idea-number-a');
+  assert.equal(objectives.agent_questions[rows[4].id], undefined);
+  assert.deepEqual(table.questions[rows[4].id].objective_tags, ['accountancy.x.idea-number-e', 'accountancy.x.other-idea-here'], 'both judges\' tags stay in the table');
 
+  // Difficulty: only the two-level gap is a correction; the one-level gap is counted, not applied.
   const difficulty = JSON.parse(fs.readFileSync(path.join(out, 'nta_difficulty.json'), 'utf8'));
   assert.deepEqual(Object.keys(difficulty.questions), [rows[3].id]);
-  assert.equal(difficulty.questions[rows[3].id].from, rows[3].difficulty);
+  assert.deepEqual([difficulty.questions[rows[3].id].from, difficulty.questions[rows[3].id].to], ['easy', 'hard']);
+  assert.equal(difficulty.policy, 'two_level_gap_only');
+  assert.equal(table.measures.difficulty_one_level_not_applied, 1);
 
   // The merged table drives the engine the same way.
   const agentScores = { accountancy: table };

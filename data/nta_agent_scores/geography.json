@@ -3,7 +3,7 @@
   "subject": "geography",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.535Z",
+  "merged_at": "2026-10-13T15:32:56.777Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 22.5,
     "difficulty_agreement_pct": 90.7,
     "blocking_flagged": 20,
+    "difficulty_one_level_not_applied": 38,
     "flags": {
       "off_syllabus": 1,
       "answer_in_stem": 4,
@@ -111,7 +112,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.reserve-lifespan-from-extraction-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -122,6 +123,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.geographical-perspective-on-selected-issues-and-problems.reserve-lifespan-from-extraction-rate",
+        "geography.geographical-perspective-on-selected-issues-and-problems.resource-reserve-lifespan"
+      ],
       "key_dispute": false
     },
     "62fc3a15-9919-4f39-ab0d-ccf571c3e2a5": {
@@ -170,7 +175,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.per-capita-average-by-division",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -181,6 +186,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.geographical-perspective-on-selected-issues-and-problems.per-capita-average-by-division",
+        "geography.geographical-perspective-on-selected-issues-and-problems.per-worker-productivity-ratio"
+      ],
       "key_dispute": false
     },
     "68ecfc9d-2fa9-4425-853e-b66dadb7859b": {
@@ -223,7 +232,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.industrial-water-conservation-measures",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -234,6 +243,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.geographical-perspective-on-selected-issues-and-problems.industrial-water-conservation-measures",
+        "geography.geographical-perspective-on-selected-issues-and-problems.industrial-water-recycling-measure"
+      ],
       "key_dispute": false
     },
     "b829b6fc-3e59-4f03-a020-722b119a3ecb": {
@@ -276,7 +289,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.per-capita-average-by-division",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -287,6 +300,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.geographical-perspective-on-selected-issues-and-problems.per-capita-average-by-division",
+        "geography.geographical-perspective-on-selected-issues-and-problems.per-capita-water-availability"
+      ],
       "key_dispute": false
     },
     "0c0d75bb-dd3d-4fff-9146-b4fe0b75877f": {
@@ -340,6 +357,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.natural-increase-vs-growth-rate",
+        "geography.human-development.natural-increase-vs-growth-rate"
+      ],
       "key_dispute": false
     },
     "0d35e9a0-7d0c-405f-bc8d-e36d477ef4b4": {
@@ -382,7 +403,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.doubling-time-estimation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -391,8 +412,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.doubling-time-estimation",
+        "geography.human-development.doubling-time-rule-of-70"
+      ],
       "key_dispute": false
     },
     "0e4e1b44-6491-4c1c-a6fb-d2b2aebe32f9": {
@@ -435,7 +460,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.ageing-population-policy-response",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -446,6 +471,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.ageing-population-policy-response",
+        "geography.human-development.policy-for-ageing-workforce"
+      ],
       "key_dispute": false
     },
     "1283cd12-7614-4f6f-8190-0ada46a702ac": {
@@ -488,7 +517,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.rural-settlement-pattern-types",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -499,6 +528,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.rural-settlement-pattern-types",
+        "geography.human-development.settlement-pattern-types"
+      ],
       "key_dispute": false
     },
     "133f1bd9-b9e4-4f30-b531-b27b21e1a0b1": {
@@ -552,6 +585,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.arithmetic-density-calculation",
+        "geography.human-development.arithmetic-density-calculation"
+      ],
       "key_dispute": false
     },
     "28367cd8-5f1e-4e12-9059-04b83d9b56bf": {
@@ -598,7 +635,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.coastal-urban-concentration-trend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -609,6 +646,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.coastal-urban-concentration-trend",
+        "geography.human-development.port-led-coastal-urban-concentration"
+      ],
       "key_dispute": false
     },
     "42ed7e14-300b-4bf2-b98a-aa5da1cc4e3b": {
@@ -660,8 +701,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.comparative-advantage-specialization",
+        "geography.human-development.comparative-advantage-specialization"
+      ],
       "key_dispute": false
     },
     "52ac7263-7942-4fd1-a171-1ff654efaf66": {
@@ -704,7 +749,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.trade-shock-economic-indicators",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -715,6 +760,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.trade-shock-economic-indicators",
+        "geography.human-development.short-term-economic-indicators"
+      ],
       "key_dispute": false
     },
     "559477fc-e7d7-4d48-aea9-1c9531dced65": {
@@ -757,7 +806,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.remittance-household-impact",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -768,6 +817,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.remittance-household-impact",
+        "geography.human-development.remittance-impact-on-households"
+      ],
       "key_dispute": false
     },
     "76e5e74b-6da6-4fa3-b27b-34ec1d365605": {
@@ -821,6 +874,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.density-measure-definitions",
+        "geography.human-development.density-measure-definitions"
+      ],
       "key_dispute": false
     },
     "890ea745-a9dd-45ad-99be-d06efd47fe67": {
@@ -863,7 +920,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.youth-bulge-demographic-dividend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -874,6 +931,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.youth-bulge-demographic-dividend",
+        "geography.human-development.youth-bulge-not-guarantee-growth"
+      ],
       "key_dispute": false
     },
     "bfc69567-a5b9-40b0-a900-099a99074b56": {
@@ -927,6 +988,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.scope-of-human-geography",
+        "geography.human-development.scope-of-human-geography"
+      ],
       "key_dispute": false
     },
     "ccada143-f3f9-40e1-b441-acb5162e6e6d": {
@@ -969,7 +1034,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-development.single-commodity-export-vulnerability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -980,6 +1045,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.single-commodity-export-vulnerability",
+        "geography.human-development.single-crop-export-vulnerability"
+      ],
       "key_dispute": false
     },
     "cd710271-7fe9-482f-b3d0-d81ffbc51304": {
@@ -1033,6 +1102,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.scope-of-human-geography",
+        "geography.human-development.scope-of-human-geography"
+      ],
       "key_dispute": false
     },
     "e9119d09-db3c-449b-b957-c0c04169bd01": {
@@ -1086,6 +1159,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.decadal-growth-rate-calculation",
+        "geography.human-development.decadal-growth-rate-calculation"
+      ],
       "key_dispute": false
     },
     "f8f432fa-26be-4648-a924-b3d85b9e7fdd": {
@@ -1139,6 +1216,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-development.river-valley-population-concentration",
+        "geography.human-development.river-valley-population-concentration"
+      ],
       "key_dispute": false
     },
     "1fbfbc6d-849b-4e25-8020-dddc9cad7fc8": {
@@ -1181,7 +1262,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.seasonal-migration-recognition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1192,6 +1273,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.seasonal-migration-recognition",
+        "geography.human-geography-nature-and-scope.seasonal-migration-meaning"
+      ],
       "key_dispute": false
     },
     "29cafd81-58ca-41f6-a3e9-208929573bef": {
@@ -1243,8 +1328,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.urban-share-percentage-point-change",
+        "geography.human-geography-nature-and-scope.urban-share-percentage-point-change"
+      ],
       "key_dispute": false
     },
     "3b2ef766-3a9a-4b7c-bf5f-3ab83471a1af": {
@@ -1287,7 +1376,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.hdi-component-averaging",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1296,8 +1385,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.hdi-component-averaging",
+        "geography.human-geography-nature-and-scope.hdi-equal-weight-composite-comparison"
+      ],
       "key_dispute": false
     },
     "5c7c02ee-b09a-4dee-ac17-ec8e93ba62e6": {
@@ -1340,7 +1433,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.settlement-hierarchy-characteristics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1351,6 +1444,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.settlement-hierarchy-characteristics",
+        "geography.human-geography-nature-and-scope.settlement-types-by-dominant-function"
+      ],
       "key_dispute": false
     },
     "6304134a-0d64-4401-96c3-0219de14ebe1": {
@@ -1393,7 +1490,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.net-migration-rate-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1404,6 +1501,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.net-migration-rate-calculation",
+        "geography.human-geography-nature-and-scope.net-migration-rate-per-thousand"
+      ],
       "key_dispute": false
     },
     "7db07c78-1f73-4ff3-a0a4-5622ae44e5b0": {
@@ -1446,7 +1547,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.rural-urban-density-difference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1457,6 +1558,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.rural-urban-density-difference",
+        "geography.human-geography-nature-and-scope.rural-density-and-land-per-person"
+      ],
       "key_dispute": false
     },
     "8c2dd82c-9c12-4d01-acff-efad80f3b042": {
@@ -1499,7 +1604,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.hdi-is-not-income-only",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1510,6 +1615,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.human-development-choices-not-income",
+        "geography.human-geography-nature-and-scope.hdi-is-not-income-only"
+      ],
       "key_dispute": false
     },
     "95717ba6-2737-4a05-bc1b-c08e6c5f7cc1": {
@@ -1552,7 +1661,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.push-pull-factors-in-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1561,8 +1670,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.push-pull-factors-in-migration",
+        "geography.human-geography-nature-and-scope.push-pull-factors-of-youth-migration"
+      ],
       "key_dispute": false
     },
     "97b41e68-d8cf-4845-8356-91114d1b6f8c": {
@@ -1605,7 +1718,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.scope-of-human-geography",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1616,6 +1729,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.scope-of-human-geography",
+        "geography.human-geography-nature-and-scope.human-vs-physical-geography-focus"
+      ],
       "key_dispute": false
     },
     "9e7d388d-2fcf-4ecf-9dc2-c427eb82cdf0": {
@@ -1658,7 +1775,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.hdi-is-not-income-only",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1667,8 +1784,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.hdi-beyond-income-measures",
+        "geography.human-geography-nature-and-scope.hdi-is-not-income-only"
+      ],
       "key_dispute": false
     },
     "cd705e9a-e906-41a7-b033-363addda9642": {
@@ -1711,7 +1832,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.urban-service-priority-in-rapid-growth",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1722,6 +1843,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.urban-service-priority-in-rapid-growth",
+        "geography.human-geography-nature-and-scope.basic-services-first-in-rapid-growth"
+      ],
       "key_dispute": false
     },
     "d9a5b65b-a8f2-40c5-b929-579c2c648bd9": {
@@ -1771,7 +1896,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.cultural-landscape-as-study-object",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1782,6 +1907,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.cultural-landscape-as-study-object",
+        "geography.human-geography-nature-and-scope.cultural-landscape-object-of-study"
+      ],
       "key_dispute": true
     },
     "ee9e4264-b277-4ee6-b877-7c16ebb6674c": {
@@ -1824,7 +1953,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.research-methods-and-purposes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1835,6 +1964,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.research-methods-and-purposes",
+        "geography.human-geography-nature-and-scope.research-method-purpose-matching"
+      ],
       "key_dispute": false
     },
     "f309bc96-73a0-436f-8f92-e023ffcca45b": {
@@ -1877,7 +2010,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-geography-nature-and-scope.linear-settlement-along-corridors",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1888,6 +2021,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-geography-nature-and-scope.linear-settlement-along-corridors",
+        "geography.human-geography-nature-and-scope.linear-settlement-along-transport-routes"
+      ],
       "key_dispute": false
     },
     "28135f78-f362-4947-9cb0-9a40285720ce": {
@@ -1941,6 +2078,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.service-sector-classification",
+        "geography.human-settlements.service-sector-classification"
+      ],
       "key_dispute": false
     },
     "41640100-ee3d-4985-9926-060a8d3c104a": {
@@ -1994,6 +2135,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.transport-mode-advantages",
+        "geography.human-settlements.transport-mode-advantages"
+      ],
       "key_dispute": false
     },
     "6ad6c475-d5e1-4758-bcfc-7c5d3adc0313": {
@@ -2036,7 +2181,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.communication-enables-decentralization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2047,6 +2192,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.communication-enables-decentralization",
+        "geography.human-settlements.quaternary-decentralization-enablers"
+      ],
       "key_dispute": false
     },
     "6c06cc6f-cf08-46fd-85a3-78c9d97b0e2c": {
@@ -2089,7 +2238,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.transport-mode-choice-for-perishables",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2100,6 +2249,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.transport-mode-choice-for-perishables",
+        "geography.human-settlements.transport-mode-for-perishables"
+      ],
       "key_dispute": false
     },
     "6eb82fe2-5f92-44bc-aefe-e25699a9b55f": {
@@ -2142,7 +2295,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.multiplier-effect-of-high-order-jobs",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2151,8 +2304,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.multiplier-effect-of-high-order-jobs",
+        "geography.human-settlements.tertiary-quaternary-multiplier-effect"
+      ],
       "key_dispute": false
     },
     "94d6cbaf-9230-441f-ae0d-831ae86f808e": {
@@ -2195,7 +2352,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.raw-material-oriented-industry-location",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2206,6 +2363,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.raw-material-oriented-industry-location",
+        "geography.human-settlements.secondary-location-raw-material-access"
+      ],
       "key_dispute": false
     },
     "ac5e500e-1cdd-4c7f-8f8a-479389c07c5a": {
@@ -2252,7 +2413,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.knowledge-activities-agglomeration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2261,8 +2422,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.knowledge-activities-agglomeration",
+        "geography.human-settlements.agglomeration-of-knowledge-activities"
+      ],
       "key_dispute": false
     },
     "b0473cc7-3116-4671-8992-7bf0e3bcf8b9": {
@@ -2305,7 +2470,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.settlement-rank-decline-after-industry-loss",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2316,6 +2481,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.settlement-rank-decline-after-industry-loss",
+        "geography.human-settlements.settlement-rank-after-industry-loss"
+      ],
       "key_dispute": false
     },
     "b81bc3c8-6f14-49bf-a6ac-54c64b280f91": {
@@ -2375,6 +2544,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.effective-market-access-time",
+        "geography.human-settlements.effective-market-access-time"
+      ],
       "key_dispute": false
     },
     "bcce11dd-ddd2-4884-9c7d-040c6fa62bc0": {
@@ -2417,7 +2590,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.knowledge-activities-agglomeration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2426,8 +2599,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.knowledge-activities-agglomeration",
+        "geography.human-settlements.agglomeration-of-knowledge-activities"
+      ],
       "key_dispute": false
     },
     "c90c411f-af93-4992-b935-1af838707a5e": {
@@ -2474,7 +2651,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.satellite-town-shift-to-residential-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2485,6 +2662,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.satellite-town-shift-to-residential-function",
+        "geography.human-settlements.commuter-suburb-function-change"
+      ],
       "key_dispute": false
     },
     "d0fc4dde-0d37-4749-be1d-02e2bb41a5fe": {
@@ -2527,7 +2708,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.transport-links-drive-settlement-growth",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2536,8 +2717,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.transport-links-drive-settlement-growth",
+        "geography.human-settlements.transport-links-drive-growth"
+      ],
       "key_dispute": false
     },
     "d531e27a-539d-40fc-ba97-06ee74c1fdca": {
@@ -2586,7 +2771,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.peripheral-industry-employment-and-commuting",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2597,6 +2782,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.peripheral-industry-employment-and-commuting",
+        "geography.human-settlements.peripheral-industrial-estate-employment"
+      ],
       "key_dispute": true
     },
     "e85e36f9-6729-414c-b680-7aa923467391": {
@@ -2639,7 +2828,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.per-capita-service-provision-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2650,6 +2839,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.human-settlements.per-capita-service-provision-ratio",
+        "geography.human-settlements.bank-branches-per-capita"
+      ],
       "key_dispute": false
     },
     "01c3461d-bd5d-404b-a337-27f586511eb9": {
@@ -2692,7 +2885,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.match-issues-to-causes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2703,6 +2896,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.match-issues-to-causes",
+        "geography.india-people-and-economy.issues-to-causes-matching"
+      ],
       "key_dispute": false
     },
     "02902148-9297-41ff-9a07-54e24ff930db": {
@@ -2745,7 +2942,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.mechanisation-and-rural-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2756,6 +2953,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.mechanisation-and-rural-migration",
+        "geography.india-people-and-economy.mechanisation-effect-on-rural-labour"
+      ],
       "key_dispute": false
     },
     "1811863f-f9ea-40c7-9161-bec2f9a5858f": {
@@ -2815,6 +3016,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.demographic-dividend-conditions",
+        "geography.india-people-and-economy.demographic-dividend-conditions"
+      ],
       "key_dispute": true
     },
     "8433c80d-9fdc-4738-82a3-b1791905b410": {
@@ -2857,7 +3062,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.sectoral-share-vs-absolute-employment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2866,8 +3071,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.sectoral-share-vs-absolute-employment",
+        "geography.india-people-and-economy.agriculture-share-vs-absolute-employment"
+      ],
       "key_dispute": false
     },
     "9a7439ad-f127-45e2-ac3e-0b35f04e619f": {
@@ -2910,7 +3119,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.agriculture-employment-vs-gdp-share",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2921,6 +3130,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.agriculture-employment-vs-gdp-share",
+        "geography.india-people-and-economy.agriculture-employment-gdp-share-gap"
+      ],
       "key_dispute": false
     },
     "9fe752fc-855c-4345-ac49-436b134d3f69": {
@@ -2974,6 +3187,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.dependency-ratio-calculation",
+        "geography.india-people-and-economy.dependency-ratio-calculation"
+      ],
       "key_dispute": false
     },
     "a06b0573-73d3-4a30-8a80-e0b644d1d957": {
@@ -3016,7 +3233,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.infant-mortality-and-fertility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3025,8 +3242,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.infant-mortality-and-fertility",
+        "geography.india-people-and-economy.infant-mortality-raises-fertility"
+      ],
       "key_dispute": false
     },
     "a53050c0-8932-4d88-8f27-5b2ee8170164": {
@@ -3069,7 +3290,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.female-literacy-and-fertility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3080,6 +3301,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.female-literacy-and-fertility",
+        "geography.india-people-and-economy.female-literacy-lowers-birth-rate"
+      ],
       "key_dispute": false
     },
     "b9064617-dc08-404c-ba23-973cfa9102d4": {
@@ -3122,7 +3347,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.match-rural-occupational-categories",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3133,6 +3358,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.match-rural-occupational-categories",
+        "geography.india-people-and-economy.rural-occupational-categories"
+      ],
       "key_dispute": false
     },
     "bcdcbfa2-79ec-4f7e-8273-0faecc81a68b": {
@@ -3186,6 +3415,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.rule-of-70-doubling-time",
+        "geography.india-people-and-economy.rule-of-70-doubling-time"
+      ],
       "key_dispute": false
     },
     "c05f75f3-40ea-4f7d-9961-afc410495cba": {
@@ -3228,7 +3461,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.fisheries-income-stabilisation-policy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3237,8 +3470,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.fisheries-income-stabilisation-policy",
+        "geography.india-people-and-economy.fisheries-income-stabilisation"
+      ],
       "key_dispute": false
     },
     "d76fde3e-c4e4-4e0b-80de-e1fe5c3c9103": {
@@ -3292,6 +3529,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.disguised-unemployment-definition",
+        "geography.india-people-and-economy.disguised-unemployment-definition"
+      ],
       "key_dispute": false
     },
     "de3e3bb4-375d-43c5-94b2-6e59e1f05b17": {
@@ -3334,7 +3575,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.infant-mortality-rate-indicator",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3345,6 +3586,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.infant-mortality-rate-indicator",
+        "geography.india-people-and-economy.imr-as-health-indicator"
+      ],
       "key_dispute": false
     },
     "f2bd23fd-431e-46e3-9554-c38389a605c4": {
@@ -3396,7 +3641,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.india-people-and-economy.wpr-equals-worker-population-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3407,6 +3652,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.india-people-and-economy.work-participation-rate-vs-worker-population-ratio",
+        "geography.india-people-and-economy.wpr-equals-worker-population-ratio"
+      ],
       "key_dispute": true
     },
     "0b3f7ac1-52ac-4bc5-8396-cc0d69e10741": {
@@ -3456,7 +3705,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.trade-policy-instruments-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3467,6 +3716,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.trade-policy-instruments-match",
+        "geography.international-trade.trade-policy-instrument-definitions"
+      ],
       "key_dispute": true
     },
     "0d143be1-9a4b-4802-ae19-6f5f45407b63": {
@@ -3520,6 +3773,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.exports-per-capita-calculation",
+        "geography.international-trade.exports-per-capita-calculation"
+      ],
       "key_dispute": false
     },
     "4d4d3515-fb6f-40ad-a4fa-8e0299cd44dc": {
@@ -3568,7 +3825,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.population-growth-and-capital-goods-imports",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3579,6 +3836,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.population-growth-and-capital-goods-imports",
+        "geography.international-trade.population-growth-and-capital-imports"
+      ],
       "key_dispute": true
     },
     "4fa68bae-3c29-455f-a5d0-120ef3f2ba01": {
@@ -3621,7 +3882,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.entrepot-free-trade-port-role",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3630,8 +3891,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.entrepot-free-trade-port-role",
+        "geography.international-trade.entrepot-port-function"
+      ],
       "key_dispute": false
     },
     "6058a713-6989-4b72-91c1-147c612e6766": {
@@ -3674,7 +3939,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.current-account-composition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3685,6 +3950,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.current-account-composition",
+        "geography.international-trade.current-account-transaction-identification"
+      ],
       "key_dispute": false
     },
     "614d478e-9762-4106-b37e-417eedfe197c": {
@@ -3727,7 +3996,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.transport-cost-and-export-pattern",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3738,6 +4007,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.transport-cost-and-export-pattern",
+        "geography.international-trade.transport-costs-and-export-composition"
+      ],
       "key_dispute": false
     },
     "649a40a0-e002-4499-a5de-88a1ca8524ef": {
@@ -3784,7 +4057,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.terms-of-trade-change-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3793,8 +4066,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.terms-of-trade-change-calculation",
+        "geography.international-trade.terms-of-trade-index-change"
+      ],
       "key_dispute": false
     },
     "a9a2ef6f-4c85-4fad-ad25-51f3c9de3e87": {
@@ -3837,7 +4114,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.demand-supply-gap-and-trade-balance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3848,6 +4125,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.demand-supply-gap-and-trade-balance",
+        "geography.international-trade.domestic-demand-and-trade-balance"
+      ],
       "key_dispute": false
     },
     "b93cd4f3-1ffd-49bf-9b20-72c2270789bb": {
@@ -3899,8 +4180,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.population-density-and-export-specialization",
+        "geography.international-trade.population-density-and-export-specialization"
+      ],
       "key_dispute": false
     },
     "be428752-8b0f-4110-a71e-f7761968da27": {
@@ -3943,7 +4228,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.landlocked-tariff-cut-outcome",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3954,6 +4239,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.landlocked-tariff-cut-outcome",
+        "geography.international-trade.regional-trade-agreement-outcome"
+      ],
       "key_dispute": false
     },
     "cbdf008d-dd34-4185-a357-24899fb208d3": {
@@ -4005,8 +4294,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.scope-of-international-trade",
+        "geography.international-trade.scope-of-international-trade"
+      ],
       "key_dispute": false
     },
     "d8a53c24-0aef-4938-a79d-fa0c47fa63a5": {
@@ -4060,6 +4353,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.comparative-advantage-basis",
+        "geography.international-trade.comparative-advantage-basis"
+      ],
       "key_dispute": false
     },
     "fd3d8ffe-7b83-4edf-b638-d70d1c9c971b": {
@@ -4102,7 +4399,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.visible-vs-invisible-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4113,6 +4410,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.visible-vs-invisible-classification",
+        "geography.international-trade.visible-invisible-trade-classification"
+      ],
       "key_dispute": false
     },
     "fd72a8af-b160-4ec9-89c5-da1bffc871fa": {
@@ -4155,7 +4456,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.international-trade.food-import-vulnerability-policy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4166,6 +4467,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.international-trade.food-import-vulnerability-policy",
+        "geography.international-trade.import-dependence-policy-response"
+      ],
       "key_dispute": false
     },
     "94088b1f-058d-4586-9fd2-e080b83e821c": {
@@ -4219,6 +4524,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.iron-steel-industry-location-and-status",
+        "geography.manufacturing-industries.iron-steel-industry-location-and-status"
+      ],
       "key_dispute": false
     },
     "9dc7c3a2-879c-4a6b-b98e-fe4c529e00ae": {
@@ -4270,8 +4579,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.iron-steel-as-feeder-industry",
+        "geography.manufacturing-industries.iron-steel-as-feeder-industry"
+      ],
       "key_dispute": false
     },
     "a8a3b800-6efe-45f2-8ea8-0f9a9cc56afe": {
@@ -4314,7 +4627,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.manufacturing-industries.footloose-industry-location-factors",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4323,8 +4636,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.footloose-industry-location-factors",
+        "geography.manufacturing-industries.footloose-industry-location-irrelevance"
+      ],
       "key_dispute": false
     },
     "afb85e59-65b1-4f6e-b23a-5ff696b6045d": {
@@ -4376,7 +4693,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.manufacturing-industries.agglomeration-economies-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4387,6 +4704,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.agglomeration-economies-definition",
+        "geography.manufacturing-industries.agglomeration-economies-meaning"
+      ],
       "key_dispute": true
     },
     "c356300e-b6cf-43b6-83e7-6bac6475805d": {
@@ -4429,7 +4750,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.manufacturing-industries.primary-vs-secondary-industry-characteristics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4440,6 +4761,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.primary-vs-secondary-industry-characteristics",
+        "geography.manufacturing-industries.primary-vs-secondary-industry-distinction"
+      ],
       "key_dispute": false
     },
     "c463b369-4756-4132-957a-2239e32e4c20": {
@@ -4489,7 +4814,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.manufacturing-industries.manufacturing-role-in-gdp-and-employment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4500,6 +4825,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.manufacturing-role-in-gdp-and-employment",
+        "geography.manufacturing-industries.manufacturing-role-in-gdp"
+      ],
       "key_dispute": true
     },
     "f820cb22-78f4-4e26-afb5-c2192b44cdf0": {
@@ -4542,7 +4871,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.manufacturing-industries.sugar-industry-shift-to-peninsula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4553,6 +4882,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.manufacturing-industries.sugar-industry-shift-to-peninsula",
+        "geography.manufacturing-industries.sugar-shift-to-peninsular-india"
+      ],
       "key_dispute": false
     },
     "04e8dc94-8e50-47ad-a55a-be828aea9e87": {
@@ -4595,7 +4928,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.percentage-increase-from-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4606,6 +4939,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.percentage-increase-from-migration",
+        "geography.migration.percentage-change-from-migration"
+      ],
       "key_dispute": false
     },
     "47bf754a-1396-45a5-bf1b-00533c768b77": {
@@ -4648,7 +4985,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.pull-factors-of-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4659,6 +4996,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.pull-factors-of-migration",
+        "geography.migration.pull-factor-identification"
+      ],
       "key_dispute": false
     },
     "4cae825f-938f-41b8-87b5-a179711a83bd": {
@@ -4712,6 +5053,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.push-factor-categories",
+        "geography.migration.push-factor-categories"
+      ],
       "key_dispute": false
     },
     "691e8ba1-fb55-473b-a507-47e51ea1c220": {
@@ -4765,6 +5110,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.migration-vs-circulation",
+        "geography.migration.migration-vs-circulation"
+      ],
       "key_dispute": false
     },
     "76eca387-3483-4e97-a6cd-e3310a4740bb": {
@@ -4807,7 +5156,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.chain-migration-mechanism",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4816,8 +5165,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.chain-migration-mechanism",
+        "geography.migration.chain-migration-networks"
+      ],
       "key_dispute": false
     },
     "902c483a-1d53-4a5f-ab66-49985df16d9c": {
@@ -4860,7 +5213,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.types-of-migration-examples",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4871,6 +5224,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.types-of-migration-examples",
+        "geography.migration.types-of-migration-matching"
+      ],
       "key_dispute": false
     },
     "a9d79e92-d2b8-4aee-9c69-0d880852d594": {
@@ -4924,6 +5281,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.net-migration-calculation",
+        "geography.migration.net-migration-calculation"
+      ],
       "key_dispute": false
     },
     "d8db07c3-2522-4654-9f11-914190e3a412": {
@@ -4966,7 +5327,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.urban-strain-from-rapid-inflow",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4975,8 +5336,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.urban-strain-from-rapid-inflow",
+        "geography.migration.urban-infrastructure-strain-from-migration"
+      ],
       "key_dispute": false
     },
     "e1f44f48-c06f-4fce-8552-5cf5024b5efc": {
@@ -5019,7 +5384,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.brain-drain-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5030,6 +5395,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.brain-drain-meaning",
+        "geography.migration.brain-drain-definition"
+      ],
       "key_dispute": false
     },
     "edd5906f-214a-4b0c-b962-6fcbc3acdba4": {
@@ -5072,7 +5441,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.migration.remittance-effects-of-emigration-curbs",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5081,8 +5450,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.migration.remittance-effects-of-emigration-curbs",
+        "geography.migration.remittance-decline-from-reduced-emigration"
+      ],
       "key_dispute": false
     },
     "03edf1eb-c3cc-4715-a35b-e433a3f5d9d5": {
@@ -5136,6 +5509,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.industrial-estate-shared-infrastructure",
+        "geography.planning-and-sustainable-development.industrial-estate-shared-infrastructure"
+      ],
       "key_dispute": false
     },
     "28450fa9-265a-4b80-8a97-0130aedfdaad": {
@@ -5186,7 +5563,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.reserve-life-of-non-renewables",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5197,6 +5574,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.reserve-life-of-non-renewables",
+        "geography.planning-and-sustainable-development.non-renewable-reserve-life-calculation"
+      ],
       "key_dispute": true
     },
     "3e056d75-6366-4ba6-873b-3f6a726757be": {
@@ -5250,6 +5631,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.conservation-vs-management",
+        "geography.planning-and-sustainable-development.conservation-vs-management"
+      ],
       "key_dispute": false
     },
     "40040ddd-b61f-4aff-95eb-0f796b3bc08a": {
@@ -5303,6 +5688,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.integrated-coastal-zone-planning",
+        "geography.planning-and-sustainable-development.integrated-coastal-zone-planning"
+      ],
       "key_dispute": false
     },
     "4ffc741f-3560-4a79-89d5-859b76692732": {
@@ -5345,7 +5734,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.rainwater-harvesting-groundwater-recharge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5356,6 +5745,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.rainwater-harvesting-groundwater-recharge",
+        "geography.planning-and-sustainable-development.groundwater-recharge-first-step"
+      ],
       "key_dispute": false
     },
     "5665ddc7-861b-4bf8-877c-7c724d3002b2": {
@@ -5398,7 +5791,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.diversification-after-resource-depletion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5409,6 +5802,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.diversification-after-resource-depletion",
+        "geography.planning-and-sustainable-development.non-renewable-dependence-diversification"
+      ],
       "key_dispute": false
     },
     "606fa45e-1cde-4ed3-a67c-f8c35413b3b4": {
@@ -5451,7 +5848,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.industry-location-factors-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5462,6 +5859,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.industry-location-factors-matching",
+        "geography.planning-and-sustainable-development.industry-location-requirements-match"
+      ],
       "key_dispute": false
     },
     "60e06efe-3960-4115-a883-68de8c23a479": {
@@ -5519,6 +5920,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.tradable-emission-permits",
+        "geography.planning-and-sustainable-development.tradable-emission-permits"
+      ],
       "key_dispute": false
     },
     "855a35b1-3b47-4374-a428-4a38eacc064c": {
@@ -5561,7 +5966,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.planning-tools-primary-objectives",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5572,6 +5977,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.planning-tools-primary-objectives",
+        "geography.planning-and-sustainable-development.planning-tools-and-objectives-match"
+      ],
       "key_dispute": false
     },
     "a9e316dc-bf1d-422a-afb8-d274942b77a2": {
@@ -5622,7 +6031,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.percentage-decrease-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5633,6 +6042,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.percentage-decrease-calculation",
+        "geography.planning-and-sustainable-development.energy-reduction-percentage"
+      ],
       "key_dispute": true
     },
     "ab41cd77-bbeb-4853-9126-ce00ec467e10": {
@@ -5675,7 +6088,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.decoupling-absolute-resource-reduction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5684,8 +6097,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.decoupling-absolute-resource-reduction",
+        "geography.planning-and-sustainable-development.decoupling-growth-from-resource-use"
+      ],
       "key_dispute": false
     },
     "b37eee50-86d8-456e-ac5a-c3c8edcabc21": {
@@ -5728,7 +6145,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.sustainable-yield-harvest-vs-regeneration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5739,6 +6156,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.sustainable-yield-harvest-vs-regeneration",
+        "geography.planning-and-sustainable-development.sustainable-yield-vs-regeneration"
+      ],
       "key_dispute": false
     },
     "bd551f89-7aa1-4328-8345-a8982c0f5f17": {
@@ -5781,7 +6202,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.zoning-separates-incompatible-uses",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5792,6 +6213,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.zoning-separates-incompatible-uses",
+        "geography.planning-and-sustainable-development.zoning-reduces-land-use-conflict"
+      ],
       "key_dispute": false
     },
     "f4678f52-0604-4e7e-a54f-c9200bedcbfb": {
@@ -5834,7 +6259,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.planning-and-sustainable-development.perishable-goods-location-principle",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5845,6 +6270,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.perishable-goods-location-principle",
+        "geography.planning-and-sustainable-development.perishable-input-location-principle"
+      ],
       "key_dispute": false
     },
     "f9a737a0-acbf-41be-8d38-8c4e3c11fab5": {
@@ -5898,6 +6327,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.common-effluent-treatment-plant",
+        "geography.planning-and-sustainable-development.common-effluent-treatment-plant"
+      ],
       "key_dispute": false
     },
     "1096f3f3-6320-46b1-be9b-ae22dba285fe": {
@@ -5940,7 +6373,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.factor-effect-on-distribution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5951,6 +6384,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.factor-effect-on-distribution",
+        "geography.population-distribution-density-growth.factors-affecting-population-distribution"
+      ],
       "key_dispute": false
     },
     "272aea17-3ff0-44a7-9b1d-484eeb2f4e1a": {
@@ -5993,7 +6430,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.physiological-density-land-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6004,6 +6441,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.physiological-density-land-pressure",
+        "geography.population-distribution-density-growth.physiological-density-signals-land-pressure"
+      ],
       "key_dispute": false
     },
     "30dc25c0-ed5b-4ce5-870b-a504969d05a5": {
@@ -6055,8 +6496,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.arithmetic-density-definition",
+        "geography.population-distribution-density-growth.arithmetic-density-definition"
+      ],
       "key_dispute": false
     },
     "37b6b956-7cb6-4a0d-89c4-819d443d5d0a": {
@@ -6099,7 +6544,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.physiological-density-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6110,6 +6555,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.physiological-density-calculation",
+        "geography.population-distribution-density-growth.physiological-density-definition"
+      ],
       "key_dispute": false
     },
     "5b0122b5-f6c7-4de3-bce3-0713431b886a": {
@@ -6152,7 +6601,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.physiological-density-land-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6163,6 +6612,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.physiological-density-land-pressure",
+        "geography.population-distribution-density-growth.physiological-density-signals-land-pressure"
+      ],
       "key_dispute": false
     },
     "8328a8fe-1738-4611-9c7b-4f9aa9a50105": {
@@ -6216,6 +6669,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.natural-increase-cbr-minus-cdr",
+        "geography.population-distribution-density-growth.natural-increase-cbr-minus-cdr"
+      ],
       "key_dispute": false
     },
     "83c54363-302b-46eb-bbcb-342aa8bdf3d5": {
@@ -6262,7 +6719,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.natural-increase-cbr-minus-cdr",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6271,8 +6728,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.natural-increase-cbr-minus-cdr",
+        "geography.population-distribution-density-growth.natural-increase-excludes-migration"
+      ],
       "key_dispute": false
     },
     "9593c8d6-b112-4e8f-8f4d-e4dd7d54aa80": {
@@ -6326,6 +6787,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.linear-settlement-pattern",
+        "geography.population-distribution-density-growth.linear-settlement-pattern"
+      ],
       "key_dispute": false
     },
     "a1bd628f-08c2-44ae-b1bb-2d804a9afe39": {
@@ -6368,7 +6833,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.density-types-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6379,6 +6844,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.density-types-definitions",
+        "geography.population-distribution-density-growth.density-types-distinction"
+      ],
       "key_dispute": false
     },
     "e56d9f46-df9a-41b5-9c76-f55b2949459b": {
@@ -6421,7 +6890,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.arithmetic-density-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6432,6 +6901,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.arithmetic-density-calculation",
+        "geography.population-distribution-density-growth.arithmetic-density-definition"
+      ],
       "key_dispute": false
     },
     "fbbb91c3-0ae5-4f5c-a78a-11d1f351d54c": {
@@ -6474,7 +6947,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.population-distribution-density-growth.internal-migration-and-birth-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6485,6 +6958,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.internal-migration-and-birth-rate",
+        "geography.population-distribution-density-growth.internal-migration-birth-rate-effect"
+      ],
       "key_dispute": false
     },
     "0893c07c-b2b0-47b8-a98e-05be9bd38830": {
@@ -6527,7 +7004,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.sectoral-productivity-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6536,8 +7013,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.sectoral-productivity-ratio",
+        "geography.primary-activities.per-worker-productivity-ratio"
+      ],
       "key_dispute": false
     },
     "0aa354e9-5753-4fbd-8148-ffed935ef00c": {
@@ -6580,7 +7061,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.plantation-agriculture-tropical-distribution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6589,8 +7070,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.plantation-agriculture-tropical-distribution",
+        "geography.primary-activities.plantation-agriculture-location"
+      ],
       "key_dispute": false
     },
     "14220516-31cf-495a-a091-e8dfaf21dd3d": {
@@ -6633,7 +7118,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.primary-activity-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6642,8 +7127,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.definition-of-primary-activities",
+        "geography.primary-activities.primary-activity-definition"
+      ],
       "key_dispute": false
     },
     "148ca8eb-3173-4e9c-9e7b-f117dcf9763d": {
@@ -6686,7 +7175,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.primary-sector-resource-constraints-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6697,6 +7186,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.primary-sector-resource-constraints-matching",
+        "geography.primary-activities.primary-sector-constraint-matching"
+      ],
       "key_dispute": false
     },
     "1af5925d-da65-4ab8-b48e-92c48b9c13b5": {
@@ -6747,7 +7240,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.share-of-households-in-primary-sector",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6758,6 +7251,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.share-of-households-in-primary-sector",
+        "geography.primary-activities.household-share-in-primary-sector"
+      ],
       "key_dispute": true
     },
     "52d02cb4-8755-4af8-9eb2-d9659d0039aa": {
@@ -6800,7 +7297,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.labour-shortage-and-mechanisation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6811,6 +7308,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.labour-shortage-and-mechanisation",
+        "geography.primary-activities.labour-shortage-mechanisation"
+      ],
       "key_dispute": false
     },
     "55f45222-f7f0-4f1a-b64f-2643a621454f": {
@@ -6853,7 +7354,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.primary-activity-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6864,6 +7365,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.primary-vs-secondary-classification",
+        "geography.primary-activities.primary-activity-definition"
+      ],
       "key_dispute": false
     },
     "5c901a0c-c26a-4df9-9bed-01943d9b0fb6": {
@@ -6906,7 +7411,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.farming-systems-characteristics-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6917,6 +7422,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.farming-systems-characteristics-matching",
+        "geography.primary-activities.farming-system-characteristics-matching"
+      ],
       "key_dispute": false
     },
     "62ff8e71-ca4c-46a6-8f33-257295abd452": {
@@ -6959,7 +7468,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.community-fisheries-management-strategy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6970,6 +7479,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.community-fisheries-management-strategy",
+        "geography.primary-activities.sustainable-coastal-fishery-strategy"
+      ],
       "key_dispute": false
     },
     "6418f70a-43ee-47aa-8379-f5458ace4c27": {
@@ -7023,6 +7536,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.livelihood-diversification-meaning",
+        "geography.primary-activities.livelihood-diversification-meaning"
+      ],
       "key_dispute": false
     },
     "77c922b7-3c0d-43c1-bc15-ac3f5b29319c": {
@@ -7065,7 +7582,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.fragmented-holdings-and-productivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7074,8 +7591,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.fragmented-holdings-and-productivity",
+        "geography.primary-activities.fragmentation-low-productivity"
+      ],
       "key_dispute": false
     },
     "948ed55a-b928-4b30-8356-28a01602c7f5": {
@@ -7118,7 +7639,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.water-availability-and-cropping-intensity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7129,6 +7650,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.water-availability-and-cropping-intensity",
+        "geography.primary-activities.water-availability-cropping-intensity"
+      ],
       "key_dispute": false
     },
     "ae40af55-1e53-42e1-936c-39a9671644b6": {
@@ -7171,7 +7696,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.trawling-and-overfishing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7182,6 +7707,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.trawling-and-overfishing",
+        "geography.primary-activities.trawling-overfishing"
+      ],
       "key_dispute": false
     },
     "c815fb5e-2fd1-4a75-9924-6af978c48a94": {
@@ -7224,7 +7753,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.irrigation-and-rainfall-dependence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7235,6 +7764,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.irrigation-and-rainfall-dependence",
+        "geography.primary-activities.irrigation-rainfall-dependence"
+      ],
       "key_dispute": false
     },
     "cd6335d3-2b91-4e4d-83d6-b7cfba3ac1e1": {
@@ -7277,7 +7810,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.overgrazing-and-soil-erosion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7288,6 +7821,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.overgrazing-and-soil-erosion",
+        "geography.primary-activities.overgrazing-land-degradation"
+      ],
       "key_dispute": false
     },
     "e5a60c32-e9c7-4d52-9524-0576e7b47fe5": {
@@ -7330,7 +7867,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.primary-activities.short-fallow-and-soil-fertility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7339,8 +7876,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.primary-activities.short-fallow-and-soil-fertility",
+        "geography.primary-activities.short-fallow-soil-degradation"
+      ],
       "key_dispute": false
     },
     "0e84b02e-5e9d-44ac-9120-23600a333fbf": {
@@ -7383,7 +7924,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.weight-losing-industry-location",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7394,6 +7935,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.bulky-industries-transport-cost",
+        "geography.resources-and-development.weight-losing-industry-location"
+      ],
       "key_dispute": false
     },
     "46d3c8e4-65c6-45c6-9922-1acc5e7f456b": {
@@ -7436,7 +7981,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.suburban-transport-suburbanization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7447,6 +7992,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.suburban-transport-suburbanization",
+        "geography.resources-and-development.transport-induced-suburbanization"
+      ],
       "key_dispute": false
     },
     "79ba1cc8-1e28-4c26-9f5a-79e396442bf9": {
@@ -7489,7 +8038,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.quaternary-activities-knowledge-services",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7500,6 +8049,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.quaternary-activities-knowledge-services",
+        "geography.resources-and-development.quaternary-activity-classification"
+      ],
       "key_dispute": false
     },
     "a2654dfe-cd08-4812-a496-a4be377def6f": {
@@ -7542,7 +8095,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.service-types-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7553,6 +8106,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.service-types-classification",
+        "geography.resources-and-development.service-types-by-function"
+      ],
       "key_dispute": false
     },
     "a7a4bd5e-dc90-469f-83ee-c872a303d0fc": {
@@ -7595,7 +8152,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.weight-losing-industry-location",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7606,6 +8163,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.bulk-reducing-industries-raw-material",
+        "geography.resources-and-development.weight-losing-industry-location"
+      ],
       "key_dispute": false
     },
     "ef9edf52-9e83-408b-9d9d-0c2413a4ed73": {
@@ -7659,6 +8220,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.resources-and-development.freight-modal-share-percentage",
+        "geography.resources-and-development.freight-modal-share-percentage"
+      ],
       "key_dispute": false
     },
     "1843cb01-e530-44a2-a80e-6e4bea25fb9a": {
@@ -7701,7 +8266,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.market-based-pollution-instruments",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7712,6 +8277,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "geography.secondary-activities.market-based-pollution-instruments",
+        "geography.secondary-activities.market-based-pollution-control-instruments"
+      ],
       "key_dispute": false
     },
     "1e0ce648-069a-4121-8054-dfc4b16ddf08": {
@@ -7754,7 +8323,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.shared-estate-sustainability-benefits",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7765,6 +8334,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.shared-estate-sustainability-benefits",
+        "geography.secondary-activities.shared-facilities-reduce-pollution"
+      ],
       "key_dispute": false
     },
     "237d282e-abb5-43b2-8d50-342f18ffe975": {
@@ -7807,7 +8380,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.raw-material-oriented-location",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7818,6 +8391,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.raw-material-oriented-location",
+        "geography.secondary-activities.raw-material-orientation-of-industry"
+      ],
       "key_dispute": false
     },
     "28e356a2-f36b-4581-b70c-f6b69d688c40": {
@@ -7860,7 +8437,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.industry-input-output-linkages",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7869,8 +8446,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.industry-input-output-linkages",
+        "geography.secondary-activities.backward-forward-industrial-linkages"
+      ],
       "key_dispute": false
     },
     "2fc9de4b-144b-4f62-8cb4-8063975fab48": {
@@ -7924,6 +8505,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.value-addition-meaning",
+        "geography.secondary-activities.value-addition-meaning"
+      ],
       "key_dispute": false
     },
     "3075ef89-2104-4d99-a775-e312c279d254": {
@@ -7975,8 +8560,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.zoning-for-industrial-land-use",
+        "geography.secondary-activities.zoning-for-industrial-land-use"
+      ],
       "key_dispute": false
     },
     "51dc4947-6072-4af8-b818-a72e6e137e6d": {
@@ -8019,7 +8608,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.recycling-benefits-to-industry",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8030,6 +8619,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.recycling-benefits-to-industry",
+        "geography.secondary-activities.recycling-reduces-virgin-input-demand"
+      ],
       "key_dispute": false
     },
     "559777e2-7040-4e04-b790-ad422a09161c": {
@@ -8072,7 +8665,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.stock-and-flow-resources",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8083,6 +8676,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.stock-and-flow-resources",
+        "geography.secondary-activities.stock-vs-flow-resources"
+      ],
       "key_dispute": false
     },
     "6a09cd7e-a5d2-4ae1-8608-0a7dd8caa404": {
@@ -8125,7 +8722,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.common-effluent-treatment-cost-pooling",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8136,6 +8733,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.common-effluent-treatment-cost-pooling",
+        "geography.secondary-activities.common-effluent-treatment-cost-sharing"
+      ],
       "key_dispute": false
     },
     "758891db-b793-4460-9077-7b71a083f1ba": {
@@ -8178,7 +8779,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.industrial-clustering-advantages",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8189,6 +8790,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.industrial-clustering-advantages",
+        "geography.secondary-activities.industrial-clustering-benefits"
+      ],
       "key_dispute": false
     },
     "9a97cbff-a0b1-4890-9ffc-fe879647cf19": {
@@ -8231,7 +8836,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.small-scale-manufacturing-rural-employment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8242,6 +8847,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.small-scale-manufacturing-rural-employment",
+        "geography.secondary-activities.small-scale-rural-employment"
+      ],
       "key_dispute": false
     },
     "ad91e4f2-8298-4093-8434-a939786c07bf": {
@@ -8295,6 +8904,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.primary-vs-secondary-activity-classification",
+        "geography.secondary-activities.primary-vs-secondary-activity-classification"
+      ],
       "key_dispute": false
     },
     "e8384828-c41d-4ed7-ab96-53821927196e": {
@@ -8337,7 +8950,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.raw-material-oriented-location",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8346,8 +8959,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.raw-material-oriented-location",
+        "geography.secondary-activities.raw-material-orientation-of-industry"
+      ],
       "key_dispute": false
     },
     "f9a9eeab-3a5e-4339-a9bf-cb16aa89d619": {
@@ -8401,6 +9018,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.eco-industrial-park-waste-exchange",
+        "geography.secondary-activities.eco-industrial-park-waste-exchange"
+      ],
       "key_dispute": false
     },
     "fb98f20c-35ad-4935-adcb-1fa303f96359": {
@@ -8443,7 +9064,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.secondary-activities.energy-intensity-per-unit-output",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8454,6 +9075,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.secondary-activities.energy-intensity-per-unit-output",
+        "geography.secondary-activities.energy-intensity-per-unit-calculation"
+      ],
       "key_dispute": false
     },
     "01bc71e2-dd62-4638-837e-ee9a026d4686": {
@@ -8502,7 +9127,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.skilled-youth-selective-in-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8513,6 +9138,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.skilled-youth-selective-in-migration",
+        "geography.tertiary-and-quaternary-activities.service-led-selective-in-migration"
+      ],
       "key_dispute": false
     },
     "28e39c87-dac1-43a0-9051-653e88c23bec": {
@@ -8555,7 +9184,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.skilled-labour-attracts-quaternary-activities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8566,6 +9195,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.skilled-labour-attracts-quaternary-activities",
+        "geography.tertiary-and-quaternary-activities.skilled-labour-and-quaternary-location"
+      ],
       "key_dispute": false
     },
     "3edbd614-4c21-41ac-bcc8-c70693d8519e": {
@@ -8608,7 +9241,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.remittances-boost-local-tertiary-demand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8619,6 +9252,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.remittances-boost-local-tertiary-demand",
+        "geography.tertiary-and-quaternary-activities.remittance-driven-local-demand"
+      ],
       "key_dispute": false
     },
     "6e00d66f-f76c-4eec-b189-7c38b7976079": {
@@ -8661,7 +9298,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.quaternary-vs-tertiary-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8670,8 +9307,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.quaternary-vs-tertiary-distinction",
+        "geography.tertiary-and-quaternary-activities.quaternary-vs-tertiary-definition"
+      ],
       "key_dispute": false
     },
     "83c113da-9774-4e6e-956f-89886fb5f93e": {
@@ -8714,7 +9355,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.quaternary-firms-raise-skilled-training-demand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8725,6 +9366,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.quaternary-firms-raise-skilled-training-demand",
+        "geography.tertiary-and-quaternary-activities.quaternary-firms-raise-skilled-labour-demand"
+      ],
       "key_dispute": false
     },
     "85873678-36f4-4ee1-8b64-4e87c36fbf18": {
@@ -8767,7 +9412,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.tertiary-services-and-human-development",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8776,8 +9421,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.tertiary-services-and-human-development",
+        "geography.tertiary-and-quaternary-activities.tertiary-services-human-development"
+      ],
       "key_dispute": false
     },
     "8e4eab09-03b3-4aa9-87d4-305943fd1b4e": {
@@ -8820,7 +9469,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.remittances-do-not-replace-skilled-services",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8831,6 +9480,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.remittances-do-not-replace-skilled-services",
+        "geography.tertiary-and-quaternary-activities.remittances-not-substitute-skilled-services"
+      ],
       "key_dispute": false
     },
     "ad871150-d0eb-43b5-9450-e943289ee116": {
@@ -8873,7 +9526,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.settlement-change-and-service-outcomes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8884,6 +9537,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.settlement-change-and-service-outcomes",
+        "geography.tertiary-and-quaternary-activities.settlement-change-service-outcomes"
+      ],
       "key_dispute": false
     },
     "cd78d831-5d47-46a6-b013-4aec8aa506bf": {
@@ -8926,7 +9583,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.ageing-population-drives-healthcare-demand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8937,6 +9594,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.ageing-population-drives-healthcare-demand",
+        "geography.tertiary-and-quaternary-activities.ageing-population-service-demand"
+      ],
       "key_dispute": false
     },
     "d25f15d0-ae97-422a-bfb1-86d4c3400649": {
@@ -8979,7 +9640,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.counter-urbanization-from-remote-quaternary-work",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8990,6 +9651,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.counter-urbanization-from-remote-quaternary-work",
+        "geography.tertiary-and-quaternary-activities.remote-work-counter-urbanization"
+      ],
       "key_dispute": false
     },
     "dd2e0a17-444b-40ff-bdc3-1e60ee3d0e1a": {
@@ -9032,7 +9697,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.transport-links-drive-suburban-services",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9043,6 +9708,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.transport-links-drive-suburban-services",
+        "geography.tertiary-and-quaternary-activities.transport-links-suburban-services"
+      ],
       "key_dispute": false
     },
     "eb0a8089-b253-4812-9cef-2f4c591d3216": {
@@ -9085,7 +9754,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.formal-informal-quaternary-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9096,6 +9765,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.formal-informal-quaternary-classification",
+        "geography.tertiary-and-quaternary-activities.classifying-service-types"
+      ],
       "key_dispute": false
     },
     "f9757da6-1327-455f-bc6d-f018c65b426e": {
@@ -9138,7 +9811,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.remittances-boost-local-tertiary-demand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9149,6 +9822,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.remittances-boost-local-tertiary-demand",
+        "geography.tertiary-and-quaternary-activities.remittance-driven-local-demand"
+      ],
       "key_dispute": false
     },
     "fb4630f3-a933-4361-99bc-b4f02a8e05b4": {
@@ -9191,7 +9868,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.tertiary-and-quaternary-activities.skilled-migration-creates-professional-enclaves",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9202,6 +9879,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.tertiary-and-quaternary-activities.skilled-migration-creates-professional-enclaves",
+        "geography.tertiary-and-quaternary-activities.high-skilled-migration-and-enclaves"
+      ],
       "key_dispute": false
     },
     "3c0c7171-4dca-4fb2-b7d1-ae1ff10055f3": {
@@ -9255,6 +9936,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.communication-access-reduces-out-migration",
+        "geography.transport-and-communication.communication-access-reduces-out-migration"
+      ],
       "key_dispute": false
     },
     "50550af3-bc74-413c-b551-7523ffc8579b": {
@@ -9297,7 +9982,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.population-growth-rate-decadal",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9308,6 +9993,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.population-growth-rate-decadal",
+        "geography.transport-and-communication.decadal-growth-rate-census-change"
+      ],
       "key_dispute": false
     },
     "55734e7c-f425-42d2-8561-f8177fb70b53": {
@@ -9350,7 +10039,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.accessibility-drives-settlement-density",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9359,8 +10048,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.accessibility-gradient-density-decline",
+        "geography.transport-and-communication.accessibility-drives-settlement-density"
+      ],
       "key_dispute": false
     },
     "769ff4bf-36e7-48e5-9000-fa4a01264be0": {
@@ -9403,7 +10096,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.transport-access-attracts-settlement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9414,6 +10107,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.transport-access-attracts-settlement",
+        "geography.transport-and-communication.faster-commute-drives-suburbanisation"
+      ],
       "key_dispute": false
     },
     "8f9d44a9-fc84-40f1-bb77-26f6cf00cc1c": {
@@ -9456,7 +10153,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.growth-from-natural-increase-and-migration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9465,8 +10162,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.growth-from-natural-increase-and-migration",
+        "geography.transport-and-communication.growth-rate-natural-increase-plus-migration"
+      ],
       "key_dispute": false
     },
     "902a6a67-8068-4d0c-beea-cd3a70d08091": {
@@ -9509,7 +10210,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.transport-access-attracts-settlement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9518,8 +10219,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.transport-access-attracts-settlement",
+        "geography.transport-and-communication.accessibility-drives-settlement-density"
+      ],
       "key_dispute": false
     },
     "9cd44ae0-91d4-4f75-98e5-5621f8d3a935": {
@@ -9573,6 +10278,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.transport-mode-population-effect-matching",
+        "geography.transport-and-communication.transport-mode-population-effect-matching"
+      ],
       "key_dispute": false
     },
     "b4ae799a-e128-471a-99ee-accd861c7d3c": {
@@ -9615,7 +10324,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.population-density-definition-and-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9626,6 +10335,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.population-density-definition-and-formula",
+        "geography.transport-and-communication.population-density-formula"
+      ],
       "key_dispute": false
     },
     "b554d29f-dc4a-43d9-9149-1634d3f5a472": {
@@ -9668,7 +10381,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.population-density-definition-and-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9679,6 +10392,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.population-density-definition-and-formula",
+        "geography.transport-and-communication.population-density-formula"
+      ],
       "key_dispute": false
     },
     "d0771614-6bf8-4330-b4c3-ccc27002b0d8": {
@@ -9721,7 +10438,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.population-density-definition-and-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9732,6 +10449,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.population-density-definition-and-formula",
+        "geography.transport-and-communication.population-density-formula"
+      ],
       "key_dispute": false
     },
     "e7054720-78c0-455a-8e35-430b1c0c74cb": {
@@ -9774,7 +10495,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.clustered-distribution-pattern",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9785,6 +10506,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.clustered-distribution-pattern",
+        "geography.transport-and-communication.clustered-distribution-definition"
+      ],
       "key_dispute": false
     },
     "fcd860aa-8db5-4115-80e3-a81f94c3e3f7": {
@@ -9827,7 +10552,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.transport-and-communication.transport-access-attracts-settlement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9838,6 +10563,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "geography.transport-and-communication.transport-access-attracts-settlement",
+        "geography.transport-and-communication.port-employment-attracts-population"
+      ],
       "key_dispute": false
     }
   }

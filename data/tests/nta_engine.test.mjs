@@ -16,7 +16,7 @@ import {
 import { buildNtaPaper, recordNtaShortfall } from '../nta_pool.js';
 import { contentHash, evidenceSignature } from '../content_evidence.js';
 import { publicSessionView } from '../../shared/recoveryContract.js';
-import { makeBank, signEvidence, stemFor } from './ntaEngineFixtures.mjs';
+import { fixtureId, makeBank, signEvidence, stemFor } from './ntaEngineFixtures.mjs';
 
 const TIME_TARGET_MS = 3000;
 
@@ -160,10 +160,10 @@ test('hard gates: publication, disputes, family holds, key integrity and syllabu
   assert.ok(ntaEligibility({ ...row, correct_answer: 'Z', correct_index: null }, { subject }).reasons.some((reason) => /key_unresolved|answer_missing/.test(reason)));
   assert.ok(ntaEligibility({ ...row, explanation: 'The correct answer is B.' }, { subject }).reasons.includes('answer_guard_explanation_contradicts_key'));
   const { evidence: _evidence, ...plain } = row;
-  const bank = [...makeBank(subject), signEvidence({ ...plain, id: 'cas-1', family_id: 'fam-cas-1', chapter: 'Computerized Accounting System' })];
+  const bank = [...makeBank(subject), signEvidence({ ...plain, id: fixtureId('cas-1'), family_id: 'fam-cas-1', chapter: 'Computerized Accounting System' })];
   const result = assembleNtaPaper(bank, { subject, seed: 'syllabus' });
   assert.equal(result.pool.excluded.chapter_out_of_syllabus, 1);
-  assert.ok(!result.paper.some((entry) => entry.id === 'cas-1'));
+  assert.ok(!result.paper.some((entry) => entry.id === fixtureId('cas-1')));
 });
 
 test('question types come from the stem, the options and the stored type', () => {

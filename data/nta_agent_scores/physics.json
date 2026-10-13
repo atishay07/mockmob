@@ -3,7 +3,7 @@
   "subject": "physics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.510Z",
+  "merged_at": "2026-10-13T15:32:56.752Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 22.8,
     "difficulty_agreement_pct": 89.7,
     "blocking_flagged": 93,
+    "difficulty_one_level_not_applied": 110,
     "flags": {
       "answer_in_stem": 12,
       "off_syllabus": 24,
@@ -113,7 +114,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.motional-emf-of-moving-rod",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -124,6 +125,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.motional-emf-of-moving-rod",
+        "physics.alternating-current.motional-emf-moving-rod"
+      ],
       "key_dispute": false
     },
     "0d3d0872-8cb3-478c-ba07-7d44751677bd": {
@@ -166,7 +171,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.energy-coupled-inductors-aiding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -175,8 +180,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.energy-coupled-inductors-aiding",
+        "physics.alternating-current.magnetic-energy-coupled-inductors"
+      ],
       "key_dispute": false
     },
     "1791b115-83c8-4e8a-bf93-92792fdeb7ae": {
@@ -219,7 +228,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.lenz-law-approaching-pole",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -230,6 +239,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.lenz-law-approaching-pole",
+        "physics.alternating-current.lenz-law-opposes-approach"
+      ],
       "key_dispute": false
     },
     "18fe15ca-aedb-4c51-b1ae-b9387ca23ba3": {
@@ -272,7 +285,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.average-power-with-phase-angle",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -283,6 +296,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.average-power-with-phase-angle",
+        "physics.alternating-current.average-power-rms-with-phase"
+      ],
       "key_dispute": false
     },
     "1d4726eb-0d43-4567-a1e0-d53390b56aec": {
@@ -325,7 +342,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.reactance-and-impedance-formulas-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -336,6 +353,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.reactance-and-impedance-formulas-match",
+        "physics.alternating-current.reactance-and-impedance-formulas"
+      ],
       "key_dispute": false
     },
     "474a52dd-aa2b-460b-8015-78993e5e53c8": {
@@ -382,7 +403,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.emf-amplitude-scales-with-omega",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -391,8 +412,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.emf-amplitude-scales-with-omega",
+        "physics.alternating-current.emf-amplitude-proportional-to-omega"
+      ],
       "key_dispute": false
     },
     "47ab1e03-c4e1-46cf-bc66-d591aa6b83b9": {
@@ -435,7 +460,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.laminated-core-reduces-eddy-loss",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -446,6 +471,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.laminated-core-reduces-eddy-loss",
+        "physics.alternating-current.laminated-core-eddy-current-reduction"
+      ],
       "key_dispute": false
     },
     "5499d308-bc4d-499c-a707-0a36362b48c9": {
@@ -488,7 +517,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.resonance-impedance-equals-resistance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -497,8 +526,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.resonance-impedance-equals-resistance",
+        "physics.alternating-current.series-resonance-current-maximum"
+      ],
       "key_dispute": false
     },
     "878d4e55-98d6-4560-8208-1365ba8643f0": {
@@ -550,8 +583,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.transformer-primary-current-with-load",
+        "physics.alternating-current.transformer-primary-current-with-load"
+      ],
       "key_dispute": false
     },
     "930fc1d2-117a-4dcd-99a4-db1bd62805ef": {
@@ -594,7 +631,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.devices-and-governing-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -605,6 +642,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.devices-and-governing-principles",
+        "physics.alternating-current.ac-device-dominant-principle"
+      ],
       "key_dispute": false
     },
     "a921192c-8599-440c-a5e8-cadbdd0234f9": {
@@ -647,7 +688,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.series-mutual-inductance-aiding-flux",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -658,6 +699,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.series-mutual-inductance-aiding-flux",
+        "physics.alternating-current.series-coupled-inductors-aiding"
+      ],
       "key_dispute": false
     },
     "c2466172-de19-43ad-a8cf-458df117695a": {
@@ -700,7 +745,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.rms-peak-relation-sinusoid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -711,6 +756,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.rms-peak-relation-sinusoid",
+        "physics.alternating-current.rms-and-peak-value-relation"
+      ],
       "key_dispute": false
     },
     "c5f630eb-9163-4366-aad7-669bde8c8602": {
@@ -762,8 +811,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.inductor-current-lags-voltage",
+        "physics.alternating-current.inductor-current-lags-voltage"
+      ],
       "key_dispute": false
     },
     "cad0b9e2-09b3-47e3-a6dd-9be8c4bcef4e": {
@@ -806,7 +859,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.alternating-current.rms-peak-relation-sinusoid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -817,6 +870,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.rms-peak-relation-sinusoid",
+        "physics.alternating-current.rms-and-peak-value-relation"
+      ],
       "key_dispute": false
     },
     "da760ea9-b10d-4b1e-a400-584056fef210": {
@@ -874,6 +931,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.alternating-current.skin-depth-frequency-dependence",
+        "physics.alternating-current.skin-depth-frequency-dependence"
+      ],
       "key_dispute": false
     },
     "083c5475-52d9-474e-94c0-ce0d66dbf819": {
@@ -916,7 +977,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.atoms.beta-minus-decay-z-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -927,6 +988,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.atoms.beta-minus-decay-z-change",
+        "physics.atoms.beta-minus-decay-z-and-a"
+      ],
       "key_dispute": false
     },
     "13908401-1465-4050-af13-d2d613b929c0": {
@@ -973,7 +1038,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.atoms.potential-of-point-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -984,6 +1049,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.atoms.potential-of-point-charge",
+        "physics.atoms.electric-potential-of-point-charge"
+      ],
       "key_dispute": false
     },
     "7396c189-161c-4213-9236-469e3a10e7d3": {
@@ -1026,7 +1095,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.atoms.potential-inverse-proportional-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1037,6 +1106,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.atoms.potential-inverse-proportional-distance",
+        "physics.atoms.potential-as-work-per-unit-charge"
+      ],
       "key_dispute": false
     },
     "90e486e1-e6d2-4464-ac01-f3aa3bf15bc2": {
@@ -1079,7 +1152,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.atoms.capacitor-energy-half-cv-squared",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1090,6 +1163,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.atoms.capacitor-energy-half-cv-squared",
+        "physics.atoms.energy-stored-in-capacitor"
+      ],
       "key_dispute": false
     },
     "b3ac6138-c3e8-4f46-9a74-9c5f6080181e": {
@@ -1138,7 +1215,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.atoms.neutral-atom-charge-balance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1149,6 +1226,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.atoms.neutral-atom-charge-balance",
+        "physics.atoms.neutral-atom-equal-protons-and-electrons"
+      ],
       "key_dispute": false
     },
     "095f730e-9b91-4121-aeb6-5dd9f49df923": {
@@ -1195,7 +1276,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.skin-effect-increases-resistance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1206,6 +1287,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.skin-effect-increases-resistance",
+        "physics.communication-systems.skin-effect-raises-ac-resistance"
+      ],
       "key_dispute": false
     },
     "0eaa849e-27f0-4679-b00b-ac91900a4650": {
@@ -1258,7 +1343,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.faradays-law-induced-emf-numerical",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1269,6 +1354,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.faradays-law-induced-emf-numerical",
+        "physics.communication-systems.faraday-emf-from-turns-and-flux"
+      ],
       "key_dispute": true
     },
     "13d4ba50-a529-4187-9a35-ccfb6e8f8132": {
@@ -1326,6 +1415,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.rc-low-pass-cutoff-frequency",
+        "physics.communication-systems.rc-low-pass-cutoff-frequency"
+      ],
       "key_dispute": false
     },
     "287185ec-895d-43e9-be76-6664a19edfc6": {
@@ -1372,7 +1465,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.loop-antenna-detects-flux-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1381,8 +1474,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.loop-antenna-detects-flux-change",
+        "physics.communication-systems.loop-antenna-detects-changing-flux"
+      ],
       "key_dispute": false
     },
     "31d7d639-139b-4b07-b1a2-d5e8afb2351c": {
@@ -1440,6 +1537,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.modal-dispersion-multimode-fibre",
+        "physics.communication-systems.modal-dispersion-multimode-fibre"
+      ],
       "key_dispute": false
     },
     "3a90d127-7e20-4a54-a69c-f0b67a5716f5": {
@@ -1486,7 +1587,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.loop-orientation-flux-zero",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1497,6 +1598,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.loop-orientation-flux-zero",
+        "physics.communication-systems.loop-zero-flux-parallel-to-field"
+      ],
       "key_dispute": false
     },
     "51161b5b-e722-47e8-9c4e-cdb33f029e85": {
@@ -1547,7 +1652,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.coherence-length-inverse-spectral-width",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1556,8 +1661,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.coherence-length-inverse-spectral-width",
+        "physics.communication-systems.coherence-length-and-spectral-width"
+      ],
       "key_dispute": true
     },
     "7ee4a219-4362-470d-962c-04f8cf0c0c5d": {
@@ -1608,7 +1717,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.matching-network-reduces-reflections",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1619,6 +1728,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.matching-network-reduces-reflections",
+        "physics.communication-systems.impedance-matching-reduces-reflection"
+      ],
       "key_dispute": false
     },
     "9b079935-172c-4982-8324-e44fa35f827f": {
@@ -1665,7 +1778,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.diffraction-angle-wavelength-over-aperture",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1676,6 +1789,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.diffraction-angle-wavelength-over-aperture",
+        "physics.communication-systems.diffraction-limited-beam-spread"
+      ],
       "key_dispute": false
     },
     "b9973631-a79b-4453-b8a5-cbbeb8ea5cf5": {
@@ -1722,7 +1839,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.match-communication-terms-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1733,6 +1850,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.match-communication-terms-definitions",
+        "physics.communication-systems.communication-terms-and-definitions"
+      ],
       "key_dispute": false
     },
     "e8ce37bd-5e60-4bfd-9cf9-1661b431daa1": {
@@ -1794,6 +1915,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.numerical-aperture-relation",
+        "physics.communication-systems.numerical-aperture-relation"
+      ],
       "key_dispute": false
     },
     "ff69c2b4-4b41-4b30-a97a-5025c6920e20": {
@@ -1840,7 +1965,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.communication-systems.line-attenuation-from-resistive-loss",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1849,8 +1974,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.communication-systems.line-attenuation-from-resistive-loss",
+        "physics.communication-systems.line-resistance-power-loss-attenuation"
+      ],
       "key_dispute": false
     },
     "08a02fe6-918d-48fc-8835-6e7d18bd7c3e": {
@@ -1893,7 +2022,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.photoelectric-equation-max-ke",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1904,6 +2033,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.photoelectric-equation-max-ke",
+        "physics.current-electricity.photoelectric-equation-max-kinetic-energy"
+      ],
       "key_dispute": false
     },
     "1eb93802-da1f-4129-b920-4616c5a6395c": {
@@ -1950,7 +2083,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.rc-circuit-initial-current",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1961,6 +2094,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.rc-circuit-initial-current",
+        "physics.current-electricity.rc-current-at-switch-closing"
+      ],
       "key_dispute": false
     },
     "5af8146e-4fa2-4ede-8b1f-eec790f6b677": {
@@ -2020,6 +2157,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.drift-velocity-proportional-to-field",
+        "physics.current-electricity.drift-velocity-proportional-to-field"
+      ],
       "key_dispute": false
     },
     "67e4a625-a4b0-408d-ad37-14ccd8b9a711": {
@@ -2062,7 +2203,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.saturation-current-proportional-to-intensity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2073,6 +2214,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.saturation-current-proportional-to-intensity",
+        "physics.current-electricity.photocurrent-proportional-to-intensity"
+      ],
       "key_dispute": false
     },
     "7611bfb9-f2d7-4b6d-be5d-3864664c7857": {
@@ -2126,6 +2271,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.lenz-law-opposes-flux-decrease",
+        "physics.current-electricity.lenz-law-opposes-flux-decrease"
+      ],
       "key_dispute": false
     },
     "808d5965-5ed0-4a7b-a4e2-583c27f8fc09": {
@@ -2177,8 +2326,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.electron-drift-opposite-to-conventional-current",
+        "physics.current-electricity.electron-drift-opposite-to-conventional-current"
+      ],
       "key_dispute": false
     },
     "8bf0785a-944b-4136-b313-14fe2a08ff9b": {
@@ -2232,6 +2385,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.motional-emf-blv",
+        "physics.current-electricity.motional-emf-blv"
+      ],
       "key_dispute": false
     },
     "8dd140fe-76ad-436d-8316-05dcd306b0c7": {
@@ -2280,7 +2437,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.faraday-law-emf-from-flux-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2291,6 +2448,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.faraday-law-emf-from-flux-change",
+        "physics.current-electricity.faraday-law-changing-flux-induces-emf"
+      ],
       "key_dispute": false
     },
     "8e09577a-eb1e-44bf-bdd6-ec6e2a7a8d43": {
@@ -2344,6 +2505,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.potentiometer-emf-balancing-length-ratio",
+        "physics.current-electricity.potentiometer-emf-balancing-length-ratio"
+      ],
       "key_dispute": false
     },
     "ae7890ed-c3f5-4f00-b519-2650f6710011": {
@@ -2386,7 +2551,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.stopping-potential-depends-on-frequency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2397,6 +2562,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.stopping-potential-depends-on-frequency",
+        "physics.current-electricity.stopping-potential-depends-only-on-frequency"
+      ],
       "key_dispute": false
     },
     "aed3627f-5be1-4e36-ba2a-17d849caa2d5": {
@@ -2454,6 +2623,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.motional-emf-blv",
+        "physics.current-electricity.motional-emf-blv"
+      ],
       "key_dispute": false
     },
     "b2718f77-2bdc-4a2b-b555-1f1a6b0af2ea": {
@@ -2507,6 +2680,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.back-emf-vs-motional-emf",
+        "physics.current-electricity.back-emf-vs-motional-emf"
+      ],
       "key_dispute": false
     },
     "cb185535-c86c-4339-bfc3-32c198a99e6e": {
@@ -2549,7 +2726,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.induced-current-joule-heating",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2558,8 +2735,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.induced-current-joule-heating",
+        "physics.current-electricity.induced-current-heating-of-resistor"
+      ],
       "key_dispute": false
     },
     "d8fc3ba8-6ad5-4791-9d8f-513a215fbd5b": {
@@ -2602,7 +2783,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.lenz-law-energy-conservation-basis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2611,8 +2792,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.lenz-law-energy-conservation-basis",
+        "physics.current-electricity.lenz-law-from-energy-conservation"
+      ],
       "key_dispute": false
     },
     "dcb75336-3254-4a14-9c27-d8ea6c21ca56": {
@@ -2655,7 +2840,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.emf-source-mechanism-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2666,6 +2851,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.emf-source-mechanism-match",
+        "physics.current-electricity.sources-of-emf-mechanisms"
+      ],
       "key_dispute": false
     },
     "f7253eee-22f9-4409-bee4-ec70d86e811b": {
@@ -2708,7 +2897,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.terminal-voltage-internal-resistance-load",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2719,6 +2908,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.terminal-voltage-internal-resistance-load",
+        "physics.current-electricity.terminal-voltage-with-internal-resistance"
+      ],
       "key_dispute": false
     },
     "f9f62398-f7f8-4747-8e15-f052f362870e": {
@@ -2770,7 +2963,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.current-electricity.conductivity-and-mobility-relations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2779,8 +2972,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.current-electricity.conductivity-and-mobility-relations",
+        "physics.current-electricity.conductivity-resistivity-drift-relations"
+      ],
       "key_dispute": true
     },
     "062a5bb1-3140-4100-acd0-3916cd510080": {
@@ -2823,7 +3020,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.wave-nature-significant-for-small-particles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2834,6 +3031,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.wave-nature-significant-for-small-particles",
+        "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-inverse-momentum"
+      ],
       "key_dispute": false
     },
     "51bf79f7-c972-4b1b-a6a4-020a0dadb012": {
@@ -2876,7 +3077,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-of-accelerated-electron",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2887,6 +3088,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-of-accelerated-electron",
+        "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-from-voltage"
+      ],
       "key_dispute": false
     },
     "6b65d869-08c3-4b68-b896-b4e5027839b2": {
@@ -2929,7 +3134,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.duality-not-restricted-to-light",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2940,6 +3145,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.duality-not-restricted-to-light",
+        "physics.dual-nature-of-radiation-and-matter.wave-particle-duality-of-radiation"
+      ],
       "key_dispute": false
     },
     "86ff7de1-544e-48ed-a697-a525505f7c1b": {
@@ -2982,7 +3191,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.intensity-affects-number-not-kmax",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2993,6 +3202,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.intensity-affects-number-not-kmax",
+        "physics.dual-nature-of-radiation-and-matter.photoelectric-intensity-vs-kinetic-energy"
+      ],
       "key_dispute": false
     },
     "a6d8c965-1d2f-4a3c-8597-67b03554b574": {
@@ -3041,7 +3254,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.duality-assertion-reason-explanation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3052,6 +3265,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.duality-assertion-reason-explanation",
+        "physics.dual-nature-of-radiation-and-matter.matter-wave-duality-explanation-link"
+      ],
       "key_dispute": true
     },
     "cca57e84-5eb5-4421-9b8f-7150d3a18b5c": {
@@ -3094,7 +3311,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.photoelectric-equation-ke-max",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3105,6 +3322,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.photoelectric-equation-ke-max",
+        "physics.dual-nature-of-radiation-and-matter.einstein-photoelectric-equation-ke-max"
+      ],
       "key_dispute": false
     },
     "dea29a06-b90c-47f4-95d3-f2be40be3496": {
@@ -3151,7 +3372,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.dual-nature-of-radiation-and-matter.electron-diffraction-evidence-of-wave-nature",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3160,8 +3381,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.electron-diffraction-evidence-of-wave-nature",
+        "physics.dual-nature-of-radiation-and-matter.electron-diffraction-wave-nature"
+      ],
       "key_dispute": false
     },
     "e0848c84-2e5a-4751-b2ac-0c58164d3326": {
@@ -3213,8 +3438,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.classical-vs-quantum-approach-to-matter",
+        "physics.dual-nature-of-radiation-and-matter.classical-vs-quantum-approach-to-matter"
+      ],
       "key_dispute": false
     },
     "02eee0b6-0dfa-4095-875b-5dc4bf1d73be": {
@@ -3257,7 +3486,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.zero-flux-inside-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3266,8 +3495,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.zero-flux-inside-conductor",
+        "physics.electric-charges-and-fields.flux-zero-inside-conductor"
+      ],
       "key_dispute": false
     },
     "059f6d37-5761-4bd5-a288-aa5e52927451": {
@@ -3310,7 +3543,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.field-at-centre-of-uniform-shell",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3321,6 +3554,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-at-centre-of-uniform-shell",
+        "physics.electric-charges-and-fields.uniform-shell-centre-field"
+      ],
       "key_dispute": false
     },
     "068d3fe6-e655-4454-8a96-cc08561604fe": {
@@ -3363,7 +3600,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.field-in-narrow-section-of-wire",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3374,6 +3611,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-in-narrow-section-of-wire",
+        "physics.electric-charges-and-fields.surface-charge-sets-field-in-wire"
+      ],
       "key_dispute": false
     },
     "08d1d052-92e0-49e9-b742-72d23947d284": {
@@ -3427,6 +3668,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-at-zero-field-point",
+        "physics.electric-charges-and-fields.potential-at-zero-field-point"
+      ],
       "key_dispute": false
     },
     "097828d2-d49a-4d61-b1e1-680cbf963666": {
@@ -3469,7 +3714,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.radiated-power-grows-with-frequency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3478,8 +3723,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.radiated-power-grows-with-frequency",
+        "physics.electric-charges-and-fields.radiated-power-vs-frequency"
+      ],
       "key_dispute": false
     },
     "0ba20534-2844-4b17-84b2-27458c5b6327": {
@@ -3522,7 +3771,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.flux-equals-field-dot-area",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3533,6 +3782,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.flux-equals-field-dot-area",
+        "physics.electric-charges-and-fields.flux-normal-component-only"
+      ],
       "key_dispute": false
     },
     "0df70314-d12d-454e-8167-828151832367": {
@@ -3584,8 +3837,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-perpendicular-to-equipotentials",
+        "physics.electric-charges-and-fields.field-perpendicular-to-equipotentials"
+      ],
       "key_dispute": false
     },
     "0f2b9ded-b5ed-448c-b638-51cecefbf21d": {
@@ -3636,7 +3893,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.sign-of-potential-energy-unlike-charges",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3647,6 +3904,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.sign-of-potential-energy-unlike-charges",
+        "physics.electric-charges-and-fields.sign-of-potential-energy"
+      ],
       "key_dispute": true
     },
     "1125e6dd-62a2-470a-afe4-77b229e6d979": {
@@ -3698,8 +3959,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.conservation-of-charge",
+        "physics.electric-charges-and-fields.conservation-of-charge"
+      ],
       "key_dispute": false
     },
     "1d7bdbb6-ce52-4f35-ad2e-d174d107b40b": {
@@ -3751,8 +4016,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.ion-radius-scales-with-sqrt-voltage",
+        "physics.electric-charges-and-fields.ion-radius-scales-with-sqrt-voltage"
+      ],
       "key_dispute": false
     },
     "1dfe2301-3660-4e4c-94a8-97948015cebe": {
@@ -3795,7 +4064,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.polarization-mechanisms-match-frequency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3804,8 +4073,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.polarization-mechanisms-match-frequency",
+        "physics.electric-charges-and-fields.polarization-mechanism-frequency-ranges"
+      ],
       "key_dispute": false
     },
     "1ebe50e1-0a3a-4f84-a6bf-ea8f1b90246a": {
@@ -3854,7 +4127,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.floating-potential-under-illumination",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3865,6 +4138,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.floating-potential-under-illumination",
+        "physics.electric-charges-and-fields.floating-potential-under-photoemission"
+      ],
       "key_dispute": false
     },
     "1f8b603c-ec67-489f-a909-d9b43a51d491": {
@@ -3907,7 +4184,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.zero-field-midpoint-of-like-charges",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3916,8 +4193,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.zero-field-midpoint-of-like-charges",
+        "physics.electric-charges-and-fields.field-zero-midpoint-like-charges"
+      ],
       "key_dispute": false
     },
     "1fd3ca01-988c-4bef-b803-d133846df425": {
@@ -3960,7 +4241,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.peak-capacitive-current-omega-c-v0",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3971,6 +4252,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.peak-capacitive-current-omega-c-v0",
+        "physics.electric-charges-and-fields.peak-capacitive-current"
+      ],
       "key_dispute": false
     },
     "21f86a24-170d-4f40-a74a-aad731af95b4": {
@@ -4013,7 +4298,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.uniform-field-from-field-lines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4022,8 +4307,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.uniform-field-from-field-lines",
+        "physics.electric-charges-and-fields.field-line-pattern-uniform"
+      ],
       "key_dispute": false
     },
     "240ff6d4-00ed-4d68-94fe-28a6b6809099": {
@@ -4075,8 +4364,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-of-point-charge",
+        "physics.electric-charges-and-fields.potential-of-point-charge"
+      ],
       "key_dispute": false
     },
     "28913be1-0b1e-4d71-9af2-2b92ca36d3cf": {
@@ -4119,7 +4412,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.zero-flux-not-zero-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4130,6 +4423,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.total-flux-depends-only-on-net-charge",
+        "physics.electric-charges-and-fields.zero-flux-not-zero-charge"
+      ],
       "key_dispute": false
     },
     "2c343eb3-986e-4f19-8fbf-a3d80f2473a1": {
@@ -4179,7 +4476,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.magnetic-force-zero-when-parallel",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4190,6 +4487,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.magnetic-force-zero-when-parallel",
+        "physics.electric-charges-and-fields.lorentz-force-parallel-velocity"
+      ],
       "key_dispute": true
     },
     "2d82cf0f-9078-40ef-85f5-9d2deb701863": {
@@ -4247,6 +4548,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-just-outside-conductor",
+        "physics.electric-charges-and-fields.field-just-outside-conductor"
+      ],
       "key_dispute": true
     },
     "2f2e0ca4-03a6-404c-8a83-159109810205": {
@@ -4295,7 +4600,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.far-field-distance-about-wavelength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4306,6 +4611,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.far-field-distance-about-wavelength",
+        "physics.electric-charges-and-fields.far-field-transition-distance"
+      ],
       "key_dispute": false
     },
     "30b718e8-b31a-4b69-9885-dc9863c49ab4": {
@@ -4348,7 +4657,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.potential-uniform-inside-conducting-shell",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4359,6 +4668,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-uniform-inside-conducting-shell",
+        "physics.electric-charges-and-fields.potential-inside-conducting-shell"
+      ],
       "key_dispute": false
     },
     "31973357-8648-45c0-af8a-e416f16f3a36": {
@@ -4401,7 +4714,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.induced-charge-independent-of-position",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4410,8 +4723,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.induced-charge-independent-of-position",
+        "physics.electric-charges-and-fields.induced-charges-in-conducting-shell"
+      ],
       "key_dispute": false
     },
     "363dbc14-2a7b-4f5c-947f-db525cd0526f": {
@@ -4460,7 +4777,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.uniqueness-theorem-boundary-data",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4471,6 +4788,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.uniqueness-theorem-boundary-data",
+        "physics.electric-charges-and-fields.uniqueness-theorem-boundary-conditions"
+      ],
       "key_dispute": false
     },
     "3a0dc1ad-f132-4672-8130-c3eea021382c": {
@@ -4513,7 +4834,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.dipole-enclosed-net-flux-zero",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4522,8 +4843,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.total-flux-depends-only-on-net-charge",
+        "physics.electric-charges-and-fields.dipole-enclosed-net-flux-zero"
+      ],
       "key_dispute": false
     },
     "3c6d917e-c4d8-4c26-aa8e-93b2bcc12ee5": {
@@ -4566,7 +4891,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.capacitance-si-unit-farad",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4575,8 +4900,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.capacitance-si-unit-farad",
+        "physics.electric-charges-and-fields.capacitance-si-unit"
+      ],
       "key_dispute": false
     },
     "3ca52639-eb69-4a2b-b66a-b1b8033d4626": {
@@ -4625,7 +4954,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.fringe-shift-proportional-to-voltage",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4636,6 +4965,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.fringe-shift-proportional-to-voltage",
+        "physics.electric-charges-and-fields.electro-optic-fringe-shift"
+      ],
       "key_dispute": false
     },
     "4299a071-66e8-4eb4-87c0-5695e3888cd3": {
@@ -4678,7 +5011,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.field-perpendicular-to-equipotential-surface",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4689,6 +5022,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-perpendicular-to-equipotential-surface",
+        "physics.electric-charges-and-fields.field-perpendicular-to-equipotential"
+      ],
       "key_dispute": false
     },
     "43b54748-5dc7-4ba0-acf6-e89c9109b4a6": {
@@ -4746,8 +5083,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.electrostatic-vs-gravitational-force-strength",
+        "physics.electric-charges-and-fields.electrostatic-vs-gravitational-force-strength"
+      ],
       "key_dispute": false
     },
     "4534ee02-34ce-449b-9bdd-a38c60f5d3d9": {
@@ -4790,7 +5131,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.van-de-graaff-working-principle",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4799,8 +5140,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.van-de-graaff-working-principle",
+        "physics.electric-charges-and-fields.van-de-graaff-principle"
+      ],
       "key_dispute": false
     },
     "455398ea-9a84-4c0a-aba1-20f3959ce2e6": {
@@ -4852,8 +5197,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.capacitance-proportional-to-plate-area",
+        "physics.electric-charges-and-fields.capacitance-proportional-to-plate-area"
+      ],
       "key_dispute": false
     },
     "4d564a80-1b2e-4784-8a17-e91fbb5f8928": {
@@ -4896,7 +5245,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.induced-dipole-by-field-polarization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4907,6 +5256,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.induced-dipole-by-field-polarization",
+        "physics.electric-charges-and-fields.induced-dipole-in-neutral-atom"
+      ],
       "key_dispute": false
     },
     "51f7e7e8-10d5-43ec-bfae-d36acd2c99f5": {
@@ -4958,8 +5311,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.electric-flux-si-unit",
+        "physics.electric-charges-and-fields.electric-flux-si-unit"
+      ],
       "key_dispute": false
     },
     "53b8cf0a-9ef6-436a-aa49-d8860402914f": {
@@ -5006,7 +5363,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.charging-by-induction-without-contact",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5015,8 +5372,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.charging-by-induction-without-contact",
+        "physics.electric-charges-and-fields.charging-by-induction-identification"
+      ],
       "key_dispute": false
     },
     "550095af-cf99-4f2f-81ff-2ee8d882c0ea": {
@@ -5059,7 +5420,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.polarizability-depends-on-electron-binding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5070,6 +5431,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.polarizability-depends-on-electron-binding",
+        "physics.electric-charges-and-fields.polarizability-and-atomic-size"
+      ],
       "key_dispute": false
     },
     "6912d7ee-4a25-4b30-9a7b-85d4f507c10e": {
@@ -5118,7 +5483,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.induced-charge-on-conductor-outer-surface",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5127,8 +5492,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.induced-charge-on-hollow-conductor-outer-surface",
+        "physics.electric-charges-and-fields.induced-charge-on-conductor-outer-surface"
+      ],
       "key_dispute": true
     },
     "69947818-b565-4b7c-9a7d-c4b9c992d0e3": {
@@ -5180,7 +5549,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.potential-shifts-electron-interference-fringes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5191,6 +5560,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-shifts-electron-interference-fringes",
+        "physics.electric-charges-and-fields.electron-potential-fringe-shift-direction"
+      ],
       "key_dispute": true
     },
     "6af021cb-086b-4d18-bb20-da001dfc2ca7": {
@@ -5233,7 +5606,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.em-wave-equal-electric-magnetic-energy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5244,6 +5617,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.em-wave-equal-electric-magnetic-energy",
+        "physics.electric-charges-and-fields.em-wave-equal-energy-densities"
+      ],
       "key_dispute": false
     },
     "6d743e75-4c94-4d34-8649-e44bc1f96f7a": {
@@ -5293,7 +5670,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.image-charge-for-conducting-plane",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5304,6 +5681,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.image-charge-for-conducting-plane",
+        "physics.electric-charges-and-fields.image-charge-induced-net-charge-on-plane"
+      ],
       "key_dispute": false
     },
     "6de2b973-8080-4732-99c6-a3ff470a824a": {
@@ -5346,7 +5727,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.earthing-gives-opposite-sign-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5357,6 +5738,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.earthing-gives-opposite-sign-charge",
+        "physics.electric-charges-and-fields.induction-with-earthing-sign"
+      ],
       "key_dispute": false
     },
     "6e2d0f6d-6240-4cf5-9983-e455f4dd7dee": {
@@ -5405,7 +5790,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.mass-from-velocity-selector-deflection",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5416,6 +5801,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.mass-from-velocity-selector-deflection",
+        "physics.electric-charges-and-fields.mass-inference-from-velocity-selector"
+      ],
       "key_dispute": true
     },
     "70de1388-8979-4830-a837-4c17745a0803": {
@@ -5458,7 +5847,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.dipole-moment-direction-convention",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5467,8 +5856,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.dipole-moment-direction-convention",
+        "physics.electric-charges-and-fields.dipole-moment-direction"
+      ],
       "key_dispute": false
     },
     "7b3d81f7-0340-4cae-91b1-9b3abb9b4f76": {
@@ -5522,6 +5915,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-energy-sign-like-charges",
+        "physics.electric-charges-and-fields.potential-energy-sign-like-charges"
+      ],
       "key_dispute": false
     },
     "7b876c56-dd27-4140-a455-8e2942f4dde9": {
@@ -5575,6 +5972,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.displacement-current-not-real-charge-flow",
+        "physics.electric-charges-and-fields.displacement-current-not-real-charge-flow"
+      ],
       "key_dispute": false
     },
     "7ed98b96-ec20-4b62-9380-2047b588b9f6": {
@@ -5627,7 +6028,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.time-averaged-field-of-oscillating-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5638,6 +6039,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.time-averaged-field-of-oscillating-charge",
+        "physics.electric-charges-and-fields.time-averaged-field-oscillating-charge"
+      ],
       "key_dispute": true
     },
     "7eeea175-444a-4826-b42e-cdf1a926ff32": {
@@ -5680,7 +6085,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.zero-field-inside-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5691,6 +6096,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.zero-field-inside-conductor",
+        "physics.electric-charges-and-fields.field-zero-inside-conductor"
+      ],
       "key_dispute": false
     },
     "80d1aefe-74d9-4019-aea2-58767dcb0aa1": {
@@ -5733,7 +6142,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.constant-potential-throughout-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5744,6 +6153,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.constant-potential-throughout-conductor",
+        "physics.electric-charges-and-fields.potential-uniform-inside-conductor"
+      ],
       "key_dispute": false
     },
     "84c19b06-badf-4efb-a61c-d669d59060ef": {
@@ -5786,7 +6199,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.field-in-nonuniform-wire-current",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5795,8 +6208,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-larger-in-narrow-section-of-wire",
+        "physics.electric-charges-and-fields.field-in-nonuniform-wire-current"
+      ],
       "key_dispute": false
     },
     "8670c1d0-7422-4351-b518-ab79f2ee2c22": {
@@ -5846,7 +6263,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.velocity-selector-signal-vs-accelerating-voltage",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5857,6 +6274,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.velocity-selector-signal-vs-accelerating-voltage",
+        "physics.electric-charges-and-fields.velocity-selector-energy-slice-signal"
+      ],
       "key_dispute": false
     },
     "896f8141-8242-4e33-9e78-114faa325cd2": {
@@ -5908,8 +6329,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.equipotential-surfaces-cannot-intersect",
+        "physics.electric-charges-and-fields.equipotential-surfaces-cannot-intersect"
+      ],
       "key_dispute": false
     },
     "8ea587ac-ae4b-433f-b60d-8570734b1e22": {
@@ -5952,7 +6377,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.displacement-current-phase-and-amplitude",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5963,6 +6388,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.displacement-current-phase-and-amplitude",
+        "physics.electric-charges-and-fields.displacement-current-phase-and-peak"
+      ],
       "key_dispute": false
     },
     "935de2e9-02c9-4ff2-8e27-821cc832e9bc": {
@@ -6016,6 +6445,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.force-on-charge-in-electric-field",
+        "physics.electric-charges-and-fields.force-on-charge-in-electric-field"
+      ],
       "key_dispute": false
     },
     "953baa0e-9394-45cb-b42f-c439454fe0a2": {
@@ -6058,7 +6491,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.potential-uniform-in-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6069,6 +6502,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.potential-uniform-in-conductor",
+        "physics.electric-charges-and-fields.potential-constant-in-conductor"
+      ],
       "key_dispute": false
     },
     "9574b9cd-e755-41b8-8e86-c0c1014ba9d1": {
@@ -6117,7 +6554,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.charge-transfer-by-rubbing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6128,6 +6565,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.charge-transfer-by-rubbing",
+        "physics.electric-charges-and-fields.triboelectric-charging-sign"
+      ],
       "key_dispute": true
     },
     "98576d0c-4ef5-4ec2-ae69-2be4f4797949": {
@@ -6170,7 +6611,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.coulomb-law-applicability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6179,8 +6620,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.coulomb-law-applicability",
+        "physics.electric-charges-and-fields.coulombs-law-validity"
+      ],
       "key_dispute": false
     },
     "9d046963-17d9-4f8e-8564-bba61082c6a4": {
@@ -6227,7 +6672,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.gauss-law-usefulness-with-symmetry",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6238,6 +6683,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.gauss-law-usefulness-with-symmetry",
+        "physics.electric-charges-and-fields.gauss-law-symmetry-and-surface-choice"
+      ],
       "key_dispute": true
     },
     "a1090bed-3151-45ca-995c-ee67d7bd1755": {
@@ -6280,7 +6729,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.matching-charge-types-with-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6289,8 +6738,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.matching-charge-types-with-properties",
+        "physics.electric-charges-and-fields.material-classes-conductors-insulators"
+      ],
       "key_dispute": false
     },
     "a15b664f-adc7-4d0f-90b4-5b6e56a05e59": {
@@ -6333,7 +6786,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.displacement-current-and-magnetic-field",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6344,6 +6797,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.displacement-current-and-magnetic-field",
+        "physics.electric-charges-and-fields.displacement-current-in-ampere-maxwell"
+      ],
       "key_dispute": false
     },
     "a220b850-43d7-4ab0-96da-2c99a7dbc1bc": {
@@ -6386,7 +6843,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.zero-flux-without-enclosed-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6395,8 +6852,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.gauss-law-zero-flux-no-enclosed-charge",
+        "physics.electric-charges-and-fields.zero-flux-without-enclosed-charge"
+      ],
       "key_dispute": false
     },
     "aa30e002-fec3-4121-bedf-cfbc45c98dc2": {
@@ -6439,7 +6900,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.matching-conductors-insulators-dielectrics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6448,8 +6909,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.matching-conductors-insulators-dielectrics",
+        "physics.electric-charges-and-fields.dielectrics-and-grounding"
+      ],
       "key_dispute": false
     },
     "ae0e0440-8945-4ce7-858b-aa42942903c3": {
@@ -6492,7 +6957,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.sign-of-potential-from-positive-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6501,8 +6966,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.sign-of-potential-from-positive-charge",
+        "physics.electric-charges-and-fields.sign-of-potential-from-point-charge"
+      ],
       "key_dispute": false
     },
     "af66ae4e-7d1f-42e8-b837-34d5de6a3772": {
@@ -6545,7 +7014,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.induced-charge-on-neutral-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6554,8 +7023,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.induced-charge-on-neutral-conductor",
+        "physics.electric-charges-and-fields.induction-force-on-neutral-conductor"
+      ],
       "key_dispute": false
     },
     "afddc45c-9160-4ba1-841b-ab736e1efb0c": {
@@ -6602,7 +7075,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.poynting-vector-reactive-near-field",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6613,6 +7086,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.poynting-vector-reactive-near-field",
+        "physics.electric-charges-and-fields.poynting-vector-near-field-energy"
+      ],
       "key_dispute": false
     },
     "b15778fb-3150-45eb-a9d8-150775aeb4ea": {
@@ -6659,7 +7136,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.shielding-effectiveness-skin-depth",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6670,6 +7147,10 @@
         "agreed": "hard",
         "corrected": "hard"
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.shielding-effectiveness-skin-depth",
+        "physics.electric-charges-and-fields.shielding-skin-depth-vs-frequency"
+      ],
       "key_dispute": false
     },
     "b6d07ecd-0a64-4e23-a9f5-990eb30937ba": {
@@ -6712,7 +7193,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.matching-radiation-from-accelerated-charges",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6721,8 +7202,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.matching-radiation-from-accelerated-charges",
+        "physics.electric-charges-and-fields.radiation-from-accelerated-charges"
+      ],
       "key_dispute": false
     },
     "b954f7bb-dea9-4726-88c4-61c98a283232": {
@@ -6769,7 +7254,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.frequency-dependence-of-permittivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6778,8 +7263,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.frequency-dependence-of-permittivity",
+        "physics.electric-charges-and-fields.dielectric-constant-vs-frequency"
+      ],
       "key_dispute": false
     },
     "c02227c6-7538-432f-8aa8-34b97ed9922a": {
@@ -6826,7 +7315,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.monopole-oscillation-radiation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6837,6 +7326,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.monopole-oscillation-radiation",
+        "physics.electric-charges-and-fields.monopole-oscillation-no-radiation"
+      ],
       "key_dispute": false
     },
     "c9334546-485f-4606-b283-c513e265d659": {
@@ -6896,6 +7389,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.field-at-centre-of-shell-with-hole",
+        "physics.electric-charges-and-fields.field-at-centre-of-shell-with-hole"
+      ],
       "key_dispute": true
     },
     "cfe85add-0f90-46be-860b-208184c5196d": {
@@ -6938,7 +7435,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.matching-physical-situations-to-consequences",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6947,8 +7444,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.matching-physical-situations-to-consequences",
+        "physics.electric-charges-and-fields.conductor-charge-distribution-matching"
+      ],
       "key_dispute": false
     },
     "d161211e-c1cf-4f70-a0e9-7a2d1690d3c2": {
@@ -7002,6 +7503,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.dielectric-at-constant-charge-energy",
+        "physics.electric-charges-and-fields.dielectric-at-constant-charge-energy"
+      ],
       "key_dispute": false
     },
     "d595b890-fd20-434d-a6cd-a61ad49f5bbe": {
@@ -7048,7 +7553,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.skin-effect-field-in-metal",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7059,6 +7564,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.skin-effect-field-in-metal",
+        "physics.electric-charges-and-fields.finite-conductivity-field-penetration"
+      ],
       "key_dispute": false
     },
     "e0c036e5-ab45-4382-a695-c99b7fb47654": {
@@ -7108,7 +7617,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.principle-governing-em-wave-charges",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7119,6 +7628,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.principle-governing-em-wave-charges",
+        "physics.electric-charges-and-fields.principle-governing-em-waves-charge"
+      ],
       "key_dispute": true
     },
     "e41f576b-a283-4d4f-81d5-2a89370d97bf": {
@@ -7170,8 +7683,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.dielectric-increases-capacitance",
+        "physics.electric-charges-and-fields.dielectric-increases-capacitance"
+      ],
       "key_dispute": false
     },
     "f408be84-63dd-47f9-a29f-bf06d6621c83": {
@@ -7218,7 +7735,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.bremsstrahlung-pulse-duration-spectrum",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7229,6 +7746,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.bremsstrahlung-pulse-duration-spectrum",
+        "physics.electric-charges-and-fields.bremsstrahlung-pulse-sharpness"
+      ],
       "key_dispute": false
     },
     "f8fc741a-663e-4776-8744-cba89d72f457": {
@@ -7286,6 +7807,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.transverse-far-field-of-dipole",
+        "physics.electric-charges-and-fields.transverse-far-field-of-dipole"
+      ],
       "key_dispute": false
     },
     "f941dc5c-6f6b-4b35-a473-b71cf27cb15f": {
@@ -7345,6 +7870,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.work-rotating-dipole-in-field",
+        "physics.electric-charges-and-fields.work-rotating-dipole-in-field"
+      ],
       "key_dispute": true
     },
     "f99b2fdf-e8d6-455a-aa71-b6f2e5175398": {
@@ -7387,7 +7916,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.current-leads-voltage-in-capacitor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7398,6 +7927,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.current-leads-voltage-in-capacitor",
+        "physics.electric-charges-and-fields.current-phase-in-ideal-capacitor"
+      ],
       "key_dispute": false
     },
     "fb148ca5-d890-4bd4-8242-2227a2d7ef3a": {
@@ -7444,7 +7977,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.work-done-between-potentials",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7455,6 +7988,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.work-done-between-potentials",
+        "physics.electric-charges-and-fields.work-from-potential-difference"
+      ],
       "key_dispute": false
     },
     "fe61c7e3-ffd3-4d24-82ad-81b80d0ee3ac": {
@@ -7497,7 +8034,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electric-charges-and-fields.parabolic-path-perpendicular-field",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7508,6 +8045,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electric-charges-and-fields.parabolic-path-perpendicular-field",
+        "physics.electric-charges-and-fields.trajectory-perpendicular-to-uniform-field"
+      ],
       "key_dispute": false
     },
     "02097043-5918-4306-94d5-80ad1cc425ed": {
@@ -7561,6 +8102,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-maximum-at-coil-orientation",
+        "physics.electromagnetic-induction.emf-maximum-at-coil-orientation"
+      ],
       "key_dispute": false
     },
     "030714f1-098d-40f2-9ca6-83d23d242c16": {
@@ -7607,7 +8152,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.soft-iron-core-effect-on-emf",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7618,6 +8163,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.soft-iron-core-effect-on-emf",
+        "physics.electromagnetic-induction.soft-iron-core-raises-flux-linkage"
+      ],
       "key_dispute": false
     },
     "030f8c82-ca4b-4ec8-a227-9a4a735376ab": {
@@ -7660,7 +8209,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-opposition-direction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7671,6 +8220,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-direction-vs-faraday-magnitude",
+        "physics.electromagnetic-induction.lenz-law-opposition-direction"
+      ],
       "key_dispute": false
     },
     "0f8a48f6-7503-4d10-9874-f1235f26f430": {
@@ -7713,7 +8266,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-direction-vs-faraday-magnitude",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7722,8 +8275,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-direction-vs-faraday-magnitude",
+        "physics.electromagnetic-induction.faraday-vs-lenz-distinction"
+      ],
       "key_dispute": false
     },
     "11a05d53-7c59-43c2-9afc-41bd2dfb9b30": {
@@ -7766,7 +8323,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-opposition-direction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7777,6 +8334,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-opposes-flux-change",
+        "physics.electromagnetic-induction.lenz-law-opposition-direction"
+      ],
       "key_dispute": false
     },
     "17f92e1d-d0a9-4491-9ade-a3ee9701c37c": {
@@ -7819,7 +8380,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7830,6 +8391,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-depends-on-speed-of-motion",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": false
     },
     "1f717b7c-e769-47f6-bc5d-f0f92daa1ee6": {
@@ -7872,7 +8437,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.self-induction-emf-rate-of-current",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7881,8 +8446,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.self-induction-emf-rate-of-current",
+        "physics.electromagnetic-induction.self-induction-opposes-current-change"
+      ],
       "key_dispute": false
     },
     "20f8ee79-0ad7-4434-8e09-5328bd1218be": {
@@ -7925,7 +8494,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7934,8 +8503,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-proportional-to-rate-of-flux-change",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": false
     },
     "2911703f-c8c8-4219-a7ef-85844abdf21d": {
@@ -7985,7 +8558,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.eddy-currents-from-changing-flux",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7994,8 +8567,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.eddy-currents-from-changing-flux",
+        "physics.electromagnetic-induction.eddy-currents-production-and-heating"
+      ],
       "key_dispute": true
     },
     "2c1c8d46-615d-4e54-9e2d-c21066e53e8a": {
@@ -8038,7 +8615,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-opposition-direction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8047,8 +8624,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-explains-opposing-force",
+        "physics.electromagnetic-induction.lenz-law-opposition-direction"
+      ],
       "key_dispute": false
     },
     "3a24c937-586f-409b-8731-f654301ba32b": {
@@ -8102,6 +8683,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.force-on-current-carrying-conductor",
+        "physics.electromagnetic-induction.force-on-current-carrying-conductor"
+      ],
       "key_dispute": false
     },
     "4b5b1c28-9faf-46d4-a996-338db61764f5": {
@@ -8144,7 +8729,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-explains-opposing-force",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8153,8 +8738,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-explains-opposing-force",
+        "physics.electromagnetic-induction.eddy-currents-oppose-magnet-motion"
+      ],
       "key_dispute": false
     },
     "625b64a1-77b8-44a0-a021-b114512c322f": {
@@ -8197,7 +8786,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.mutual-inductance-with-coupling-coefficient",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8206,8 +8795,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.mutual-inductance-with-coupling-coefficient",
+        "physics.electromagnetic-induction.mutual-inductance-depends-on-coupling"
+      ],
       "key_dispute": false
     },
     "73a88abb-e91f-4ffa-bb4b-a1f74b551904": {
@@ -8256,7 +8849,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.eddy-current-losses-undesirable",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8267,6 +8860,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.eddy-current-losses-undesirable",
+        "physics.electromagnetic-induction.self-inductance-of-solenoid-turns"
+      ],
       "key_dispute": true
     },
     "7d091ab9-e731-4a86-b002-22aeb4365114": {
@@ -8315,7 +8912,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.eddy-current-losses-undesirable",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8326,6 +8923,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.eddy-current-losses-undesirable",
+        "physics.electromagnetic-induction.self-inductance-depends-on-core"
+      ],
       "key_dispute": true
     },
     "8ee6bd75-756e-482a-9872-3510b97e25bb": {
@@ -8374,7 +8975,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.ac-vs-dc-changing-flux",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8385,6 +8986,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.ac-vs-dc-changing-flux",
+        "physics.electromagnetic-induction.ac-vs-dc-induction-effectiveness"
+      ],
       "key_dispute": true
     },
     "98331104-5077-4a2c-b1ee-2977ff6d5315": {
@@ -8427,7 +9032,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8438,6 +9043,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-proportional-to-rate-of-flux-change",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": false
     },
     "a243574c-d164-45a1-96eb-31b0646d1cfb": {
@@ -8480,7 +9089,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.emf-from-relative-motion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8491,6 +9100,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-from-relative-motion",
+        "physics.electromagnetic-induction.relative-motion-changes-flux-linkage"
+      ],
       "key_dispute": false
     },
     "abed1a98-0db3-4dd7-8eb8-679c1d73cea5": {
@@ -8542,7 +9155,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8553,6 +9166,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-proportional-to-rate-of-flux-change",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": true
     },
     "b92d8722-c0d3-4004-b74f-c994381b98f4": {
@@ -8601,7 +9218,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-energy-conservation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8612,6 +9229,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-energy-conservation",
+        "physics.electromagnetic-induction.eddy-currents-are-undesirable"
+      ],
       "key_dispute": true
     },
     "c960f044-70d6-4c88-a6b6-2e9643b87f28": {
@@ -8654,7 +9275,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-explains-opposing-force",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8665,6 +9286,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-explains-opposing-force",
+        "physics.electromagnetic-induction.eddy-currents-oppose-magnet-motion"
+      ],
       "key_dispute": false
     },
     "ce6ab00f-0fcc-4271-ab7b-fc2b0f771555": {
@@ -8707,7 +9332,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.motional-emf-in-moving-rod",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8716,8 +9341,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.motional-emf-in-moving-rod",
+        "physics.electromagnetic-induction.motional-emf-in-moving-conductor"
+      ],
       "key_dispute": false
     },
     "cfd638a9-1463-413d-9c94-2035c06dd97d": {
@@ -8771,6 +9400,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.transformer-emf-proportional-to-turns",
+        "physics.electromagnetic-induction.transformer-emf-proportional-to-turns"
+      ],
       "key_dispute": false
     },
     "d9b4ddd6-10f5-48b1-a8af-8418613cf58f": {
@@ -8813,7 +9446,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8822,8 +9455,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.emf-depends-on-speed-of-motion",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": false
     },
     "ecae0e0a-4bf4-45e0-a323-dffe54f174d0": {
@@ -8866,7 +9503,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.no-emf-without-flux-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8877,6 +9514,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.no-emf-without-flux-change",
+        "physics.electromagnetic-induction.emf-requires-flux-change"
+      ],
       "key_dispute": false
     },
     "ed458324-6487-4587-90a3-966974ffb873": {
@@ -8919,7 +9560,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.lenz-law-opposition-direction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8930,6 +9571,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-opposes-flux-change",
+        "physics.electromagnetic-induction.lenz-law-opposition-direction"
+      ],
       "key_dispute": false
     },
     "f54a0b82-b0ba-48a4-8be6-81cb2a3c4b88": {
@@ -8972,7 +9617,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.soft-iron-core-in-transformer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8983,6 +9628,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.soft-iron-core-in-transformer",
+        "physics.electromagnetic-induction.transformer-soft-iron-core-role"
+      ],
       "key_dispute": false
     },
     "f6145193-5431-46d1-ac91-e3455da8c853": {
@@ -9025,7 +9674,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9034,8 +9683,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-induction.lenz-law-opposes-flux-change",
+        "physics.electromagnetic-induction.faraday-emf-proportional-to-flux-rate"
+      ],
       "key_dispute": false
     },
     "0305c6e4-f3b2-4ddc-b59a-e0427557dfa0": {
@@ -9082,7 +9735,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.poynting-vector-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9091,8 +9744,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.poynting-vector-meaning",
+        "physics.electromagnetic-waves.poynting-vector-energy-flux"
+      ],
       "key_dispute": true
     },
     "0707fc3c-3464-40f6-9b7e-b72c01d677f7": {
@@ -9141,7 +9798,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.wave-speed-depends-on-permeability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9152,6 +9809,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.wave-speed-depends-on-permeability",
+        "physics.electromagnetic-waves.speed-depends-on-permeability"
+      ],
       "key_dispute": false
     },
     "1cac92b8-3301-4709-900f-3a2b23d70e9d": {
@@ -9194,7 +9855,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.isolated-sphere-capacitance-radius",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9205,6 +9866,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.isolated-sphere-capacitance-radius",
+        "physics.electromagnetic-waves.isolated-sphere-capacitance-ratio"
+      ],
       "key_dispute": false
     },
     "47bc9b0e-8510-4117-b3d9-19b29e6a7ffc": {
@@ -9247,7 +9912,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.conductor-field-zero-electrostatic-equilibrium",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9256,8 +9921,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.conductor-field-zero-electrostatic-equilibrium",
+        "physics.electromagnetic-waves.field-inside-conductor-zero"
+      ],
       "key_dispute": false
     },
     "4ba66263-859c-41f8-b948-43b09749dddd": {
@@ -9300,7 +9969,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.dipole-radiation-intensity-falloff",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9311,6 +9980,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.dipole-radiation-intensity-falloff",
+        "physics.electromagnetic-waves.dipole-far-field-intensity-falloff"
+      ],
       "key_dispute": false
     },
     "55713352-29e6-47c8-b562-5c69dc6bf947": {
@@ -9353,7 +10026,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.stable-equilibrium-magnetic-moment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9364,6 +10037,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.stable-equilibrium-magnetic-moment",
+        "physics.electromagnetic-waves.magnetic-dipole-stable-orientation"
+      ],
       "key_dispute": false
     },
     "805885b5-f851-4271-bf76-3b0ef2f32d98": {
@@ -9406,7 +10083,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.potential-sign-point-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9415,8 +10092,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.potential-sign-point-charge",
+        "physics.electromagnetic-waves.point-charge-potential-sign"
+      ],
       "key_dispute": false
     },
     "9b7feb10-da63-445f-9fee-70aee05dbd71": {
@@ -9467,7 +10148,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.average-energy-density-plane-wave",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9478,6 +10159,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.average-energy-density-plane-wave",
+        "physics.electromagnetic-waves.plane-wave-average-energy-density"
+      ],
       "key_dispute": true
     },
     "c6578db8-1650-4bda-8081-c3839f8052ff": {
@@ -9531,6 +10216,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.em-wave-transverse-nature",
+        "physics.electromagnetic-waves.em-wave-transverse-nature"
+      ],
       "key_dispute": false
     },
     "cd484f51-f025-43ba-8e70-5b23484f1491": {
@@ -9573,7 +10262,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.poynting-direction-from-e-and-b",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9584,6 +10273,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.poynting-direction-from-e-and-b",
+        "physics.electromagnetic-waves.poynting-vector-direction"
+      ],
       "key_dispute": false
     },
     "ea931791-49b4-4d7c-b461-2a5f67cdd2dd": {
@@ -9626,7 +10319,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.magnetic-material-type-characteristics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9637,6 +10330,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.magnetic-material-type-characteristics",
+        "physics.electromagnetic-waves.match-magnetic-material-types"
+      ],
       "key_dispute": false
     },
     "f4fd675c-bd08-4919-a9c5-28795d7c3e8a": {
@@ -9679,7 +10376,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electromagnetic-waves.intensity-to-field-amplitude",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9688,8 +10385,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.intensity-to-field-amplitude",
+        "physics.electromagnetic-waves.amplitude-from-average-intensity"
+      ],
       "key_dispute": false
     },
     "f8ffae45-60c7-446a-ad3b-cde375b008bc": {
@@ -9743,6 +10444,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electromagnetic-waves.electrostatic-energy-density",
+        "physics.electromagnetic-waves.electrostatic-energy-density"
+      ],
       "key_dispute": false
     },
     "0da7c0cc-06aa-4724-89a4-b97e4df35af8": {
@@ -9785,7 +10490,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.force-on-dielectric-with-battery-connected",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9794,8 +10499,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.force-on-dielectric-with-battery-connected",
+        "physics.electrostatic-potential-and-capacitance.force-on-dielectric-fixed-potential"
+      ],
       "key_dispute": false
     },
     "118066da-3ff7-47f8-9a9f-eb5ccd12fe70": {
@@ -9838,7 +10547,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.energy-loss-on-charge-sharing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9847,8 +10556,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-loss-on-charge-sharing",
+        "physics.electrostatic-potential-and-capacitance.charge-sharing-energy-loss"
+      ],
       "key_dispute": false
     },
     "132779bf-5a91-49c8-a320-5df173fd57e4": {
@@ -9911,6 +10624,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.equipotential-surface-properties",
+        "physics.electrostatic-potential-and-capacitance.equipotential-surface-properties"
+      ],
       "key_dispute": true
     },
     "170d35fa-b8de-4d91-a354-6ae627d3021d": {
@@ -9962,8 +10679,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.series-capacitor-voltage-division",
+        "physics.electrostatic-potential-and-capacitance.series-capacitor-voltage-division"
+      ],
       "key_dispute": false
     },
     "1e475707-94d2-4f5a-921a-ff09edf3274a": {
@@ -10006,7 +10727,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.energy-isolated-capacitor-fixed-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10017,6 +10738,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-isolated-capacitor-fixed-charge",
+        "physics.electrostatic-potential-and-capacitance.energy-change-fixed-charge-capacitor"
+      ],
       "key_dispute": false
     },
     "225dfc40-e129-4079-bff5-06ea4d36549e": {
@@ -10063,7 +10788,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.potential-of-point-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10072,8 +10797,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-sign-and-variation-of-point-charge",
+        "physics.electrostatic-potential-and-capacitance.potential-of-point-charge"
+      ],
       "key_dispute": false
     },
     "2334c580-969b-4728-af2f-a9b7d2b5cc81": {
@@ -10127,6 +10856,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-energy-of-two-point-charges",
+        "physics.electrostatic-potential-and-capacitance.potential-energy-of-two-point-charges"
+      ],
       "key_dispute": false
     },
     "28caff0a-984e-4448-adc5-02f6cecd7a70": {
@@ -10169,7 +10902,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.dielectric-insertion-fixed-potential",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10180,6 +10913,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-battery-connected-dielectric",
+        "physics.electrostatic-potential-and-capacitance.dielectric-insertion-fixed-potential"
+      ],
       "key_dispute": false
     },
     "2b9edf30-e937-4221-adc8-781b612fcfe5": {
@@ -10222,7 +10959,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.potential-of-point-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10233,6 +10970,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-of-point-charge-formula",
+        "physics.electrostatic-potential-and-capacitance.potential-of-point-charge"
+      ],
       "key_dispute": false
     },
     "32ceba9f-8ec6-4c59-9175-b7ede2422c07": {
@@ -10275,7 +11016,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.standard-capacitance-formulas",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10286,6 +11027,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.standard-capacitance-formulas",
+        "physics.electrostatic-potential-and-capacitance.standard-capacitor-geometry-formulas"
+      ],
       "key_dispute": false
     },
     "3e1f9785-8d0f-42e6-98eb-74e21052c016": {
@@ -10339,6 +11084,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.work-zero-along-equipotential",
+        "physics.electrostatic-potential-and-capacitance.work-zero-along-equipotential"
+      ],
       "key_dispute": false
     },
     "3f493f44-d58b-4c1d-8d3a-77a7fe819291": {
@@ -10381,7 +11130,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.standard-capacitance-formulas",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10392,6 +11141,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.standard-capacitance-formulas",
+        "physics.electrostatic-potential-and-capacitance.standard-capacitor-geometry-formulas"
+      ],
       "key_dispute": false
     },
     "4649f077-3127-4e6d-9ab4-92f0c918c171": {
@@ -10444,7 +11197,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.series-capacitor-energy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10453,8 +11206,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.series-capacitor-energy",
+        "physics.electrostatic-potential-and-capacitance.energy-in-capacitor-combination"
+      ],
       "key_dispute": true
     },
     "46e0c5d4-fbcc-4761-b3e9-4ebdf9ec1480": {
@@ -10508,6 +11265,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-energy-of-two-point-charges",
+        "physics.electrostatic-potential-and-capacitance.potential-energy-of-two-point-charges"
+      ],
       "key_dispute": false
     },
     "52be353c-5d5b-4985-b38f-5c9a90696787": {
@@ -10550,7 +11311,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.dielectric-insertion-fixed-potential",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10561,6 +11322,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.charge-battery-connected-dielectric",
+        "physics.electrostatic-potential-and-capacitance.dielectric-insertion-fixed-potential"
+      ],
       "key_dispute": false
     },
     "58384ae7-1244-4766-ab47-0310a00a8b57": {
@@ -10603,7 +11368,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.conductor-excess-charge-on-surface",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10612,8 +11377,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.conductor-excess-charge-on-surface",
+        "physics.electrostatic-potential-and-capacitance.excess-charge-on-conductor-surface"
+      ],
       "key_dispute": false
     },
     "5c0ec3ff-f1ce-416d-bb4f-01c2fd641484": {
@@ -10656,7 +11425,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.reference-zero-at-infinity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10665,8 +11434,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.reference-zero-at-infinity",
+        "physics.electrostatic-potential-and-capacitance.potential-reference-at-infinity"
+      ],
       "key_dispute": false
     },
     "6423cd2e-4b62-4d84-90d5-1f077038b252": {
@@ -10720,6 +11493,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-inside-conducting-cavity",
+        "physics.electrostatic-potential-and-capacitance.potential-inside-conducting-cavity"
+      ],
       "key_dispute": false
     },
     "7b95aa59-7d3b-4e8e-ad7f-86813c7c70cd": {
@@ -10771,7 +11548,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.capacitance-concentric-spheres",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10782,6 +11559,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.capacitance-concentric-spheres",
+        "physics.electrostatic-potential-and-capacitance.spherical-capacitor-capacitance"
+      ],
       "key_dispute": false
     },
     "86648d06-92c4-42c7-8444-6a801361903e": {
@@ -10835,6 +11616,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-at-centre-of-ring",
+        "physics.electrostatic-potential-and-capacitance.potential-at-centre-of-ring"
+      ],
       "key_dispute": false
     },
     "aa9d4665-91f9-4df4-8edc-22b1f9d75ac9": {
@@ -10877,7 +11662,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.work-depends-on-potential-difference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10886,8 +11671,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.work-depends-on-potential-difference",
+        "physics.electrostatic-potential-and-capacitance.work-depends-only-on-potential-difference"
+      ],
       "key_dispute": false
     },
     "abb49550-03b6-491e-aeb8-be0f46d8d8df": {
@@ -10948,6 +11737,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.field-as-negative-potential-gradient",
+        "physics.electrostatic-potential-and-capacitance.field-as-negative-potential-gradient"
+      ],
       "key_dispute": false
     },
     "af40d56b-2b64-4651-9926-e3470baf9a1c": {
@@ -10990,7 +11783,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.dipole-potential-equatorial-plane",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11001,6 +11794,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.dipole-potential-equatorial-plane",
+        "physics.electrostatic-potential-and-capacitance.dipole-equatorial-potential-zero"
+      ],
       "key_dispute": false
     },
     "b3678cfb-202d-4a9b-92f8-c4f1e4e5c08c": {
@@ -11043,7 +11840,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.depletion-capacitance-reverse-bias",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11054,6 +11851,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.depletion-capacitance-reverse-bias",
+        "physics.electrostatic-potential-and-capacitance.junction-capacitance-reverse-bias"
+      ],
       "key_dispute": false
     },
     "b646618b-c91c-49d3-b8cf-635d05ae5a6c": {
@@ -11096,7 +11897,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.energy-isolated-capacitor-fixed-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11105,8 +11906,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-isolated-capacitor-fixed-charge",
+        "physics.electrostatic-potential-and-capacitance.energy-change-fixed-charge-capacitor"
+      ],
       "key_dispute": false
     },
     "bc406227-e117-45a2-997e-5560c88093d4": {
@@ -11149,7 +11954,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.dielectric-force-at-fixed-charge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11158,8 +11963,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.dielectric-force-at-fixed-charge",
+        "physics.electrostatic-potential-and-capacitance.dielectric-pulled-in-at-fixed-charge"
+      ],
       "key_dispute": false
     },
     "bff71984-f14d-44e3-9cb1-b693bdaa3ed6": {
@@ -11202,7 +12011,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.potential-scalar-superposition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11211,8 +12020,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-from-symmetric-point-charges",
+        "physics.electrostatic-potential-and-capacitance.potential-scalar-superposition"
+      ],
       "key_dispute": false
     },
     "d369f212-1f8a-4a2a-9565-95cbd122d68f": {
@@ -11255,7 +12068,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.potential-inside-charged-spherical-shell",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11266,6 +12079,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.potential-inside-charged-spherical-shell",
+        "physics.electrostatic-potential-and-capacitance.potential-inside-charged-shell"
+      ],
       "key_dispute": false
     },
     "d3ab1b71-83f1-48d8-a514-6babc063949c": {
@@ -11319,6 +12136,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.capacitance-vs-plate-separation",
+        "physics.electrostatic-potential-and-capacitance.capacitance-vs-plate-separation"
+      ],
       "key_dispute": false
     },
     "e1d2a29c-c253-45d8-8071-16b3966d8e7b": {
@@ -11361,7 +12182,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.bound-charge-sign-on-dielectric-face",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11372,6 +12193,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.bound-charge-sign-on-dielectric-face",
+        "physics.electrostatic-potential-and-capacitance.bound-surface-charge-sign"
+      ],
       "key_dispute": false
     },
     "e8cc75d6-42eb-4699-994f-e4e346f7c249": {
@@ -11414,7 +12239,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.parallel-series-capacitance-rules",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11425,6 +12250,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.parallel-series-capacitance-rules",
+        "physics.electrostatic-potential-and-capacitance.parallel-increases-series-decreases-capacitance"
+      ],
       "key_dispute": false
     },
     "ea25f90f-7ed5-4712-9713-995dac3c4a73": {
@@ -11477,7 +12306,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.series-parallel-capacitor-network",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11486,8 +12315,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.series-parallel-capacitor-network",
+        "physics.electrostatic-potential-and-capacitance.series-parallel-equivalent-capacitance"
+      ],
       "key_dispute": true
     },
     "ec562a3e-145e-47db-9c9f-2c15afb1ad05": {
@@ -11539,8 +12372,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-in-series-capacitor-branch",
+        "physics.electrostatic-potential-and-capacitance.energy-in-series-capacitor-branch"
+      ],
       "key_dispute": false
     },
     "f07821a1-a397-4033-af28-342cde8bb406": {
@@ -11583,7 +12420,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.energy-of-charged-conducting-sphere",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11594,6 +12431,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-of-charged-conducting-sphere",
+        "physics.electrostatic-potential-and-capacitance.energy-from-charge-and-capacitance"
+      ],
       "key_dispute": false
     },
     "f5f33873-aade-4ccc-b339-848e4383e306": {
@@ -11636,7 +12477,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.isolated-capacitor-dielectric-effects",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11645,8 +12486,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.isolated-capacitor-dielectric-effects",
+        "physics.electrostatic-potential-and-capacitance.dielectric-insertion-isolated-capacitor"
+      ],
       "key_dispute": false
     },
     "faf47707-9402-457d-a1a8-e70a6bf1a284": {
@@ -11689,7 +12534,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.potential-scalar-superposition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11700,6 +12545,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.why-potential-easier-than-field",
+        "physics.electrostatic-potential-and-capacitance.potential-scalar-superposition"
+      ],
       "key_dispute": false
     },
     "fba5293b-9b56-4441-a816-093c2d81d9d7": {
@@ -11750,7 +12599,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.electrostatic-potential-and-capacitance.energy-change-on-parallel-connection",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11759,8 +12608,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.electrostatic-potential-and-capacitance.energy-change-on-parallel-connection",
+        "physics.electrostatic-potential-and-capacitance.energy-on-parallel-connection-of-charged-capacitors"
+      ],
       "key_dispute": true
     },
     "029cbe99-88bc-4458-b427-a325f94a5cb3": {
@@ -11809,7 +12662,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.uniform-field-inside-solenoid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11818,8 +12671,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.uniform-field-inside-solenoid",
+        "physics.magnetism-and-matter.solenoid-field-uniformity-reason"
+      ],
       "key_dispute": true
     },
     "05c1dc59-f2f0-4fc1-a48e-8a4606058f6c": {
@@ -11862,7 +12719,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.gauss-law-magnetism-no-monopoles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11873,6 +12730,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.gauss-law-magnetism-no-monopoles",
+        "physics.magnetism-and-matter.gauss-law-implies-no-monopoles"
+      ],
       "key_dispute": false
     },
     "0d597e18-6b45-4165-a58c-785b4058d9b5": {
@@ -11915,7 +12776,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.solenoid-equivalent-to-bar-magnet",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11924,8 +12785,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.solenoid-equivalent-to-bar-magnet",
+        "physics.magnetism-and-matter.bar-magnet-equivalent-to-solenoid"
+      ],
       "key_dispute": false
     },
     "29530bec-c27c-4912-a5a0-45cf145c62c5": {
@@ -11968,7 +12833,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.dip-angle-zero-at-magnetic-equator",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11977,8 +12842,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.dip-angle-zero-at-magnetic-equator",
+        "physics.magnetism-and-matter.vertical-component-zero-at-equator"
+      ],
       "key_dispute": false
     },
     "30db97c3-9563-46dd-b78f-94deabaeae3a": {
@@ -12021,7 +12890,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.gauss-law-magnetism-no-monopoles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12030,8 +12899,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.gauss-law-magnetism-no-monopoles",
+        "physics.magnetism-and-matter.gauss-law-implies-no-monopoles"
+      ],
       "key_dispute": false
     },
     "3ca388a2-e0f5-4d73-8690-6e347ed9c763": {
@@ -12091,6 +12964,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.torque-on-loop-depends-on-area",
+        "physics.magnetism-and-matter.torque-on-loop-depends-on-area"
+      ],
       "key_dispute": true
     },
     "48e6b659-0da2-4712-9f98-f629f8f22a7e": {
@@ -12144,6 +13021,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.hall-coefficient-sign-carrier-type",
+        "physics.magnetism-and-matter.hall-coefficient-sign-carrier-type"
+      ],
       "key_dispute": false
     },
     "4eb54d82-841a-4484-b3d4-0b2c5e8ed806": {
@@ -12186,7 +13067,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.straight-wire-field-direction-right-hand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12197,6 +13078,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.straight-wire-field-direction-right-hand-rule",
+        "physics.magnetism-and-matter.straight-wire-field-direction-right-hand"
+      ],
       "key_dispute": false
     },
     "54c87321-a8eb-403e-a1c0-dc2073f80cb7": {
@@ -12245,7 +13130,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.loop-centre-field-varies-with-radius",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12256,6 +13141,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.loop-centre-field-varies-with-radius",
+        "physics.magnetism-and-matter.circular-loop-field-vs-radius"
+      ],
       "key_dispute": false
     },
     "5d4345c3-174f-49ba-8033-ac2345505ae2": {
@@ -12298,7 +13187,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.parallel-current-wires-force-per-length",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12309,6 +13198,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.parallel-current-wires-force-per-length",
+        "physics.magnetism-and-matter.parallel-currents-force-per-length"
+      ],
       "key_dispute": false
     },
     "61e447aa-30c3-4f42-a84b-09739761f063": {
@@ -12351,7 +13244,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.standard-magnetic-formulas-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12362,6 +13255,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.standard-magnetic-formulas-matching",
+        "physics.magnetism-and-matter.standard-magnetic-expression-matching"
+      ],
       "key_dispute": false
     },
     "67580f83-9863-41c9-8df9-47243f41911a": {
@@ -12404,7 +13301,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.force-on-current-carrying-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12415,6 +13312,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.force-on-current-carrying-conductor",
+        "physics.magnetism-and-matter.force-on-current-conductor-ilb"
+      ],
       "key_dispute": false
     },
     "861e2357-fcd0-48c4-aef3-f7ceca9f668f": {
@@ -12468,6 +13369,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.si-units-of-magnetic-quantities",
+        "physics.magnetism-and-matter.si-units-of-magnetic-quantities"
+      ],
       "key_dispute": false
     },
     "a1ae301a-d059-46bc-9200-bfa9d51108a2": {
@@ -12519,8 +13424,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.magnetic-force-does-no-work",
+        "physics.magnetism-and-matter.magnetic-force-does-no-work"
+      ],
       "key_dispute": false
     },
     "b5ecd3aa-b9f1-4cba-a325-a6e7504c2695": {
@@ -12574,6 +13483,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.hysteresis-loop-area-energy-loss",
+        "physics.magnetism-and-matter.hysteresis-loop-area-energy-loss"
+      ],
       "key_dispute": false
     },
     "c3a0734b-a024-455b-ae3f-2d3ce6004115": {
@@ -12616,7 +13529,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.lorentz-force-magnitude-from-cross-product",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12627,6 +13540,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.lorentz-force-magnitude-from-cross-product",
+        "physics.magnetism-and-matter.lorentz-force-magnitude-cross-product"
+      ],
       "key_dispute": false
     },
     "cf73bf61-d556-4fb3-b761-a65a818a72a5": {
@@ -12669,7 +13586,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.force-on-current-carrying-conductor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12678,8 +13595,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.force-on-current-carrying-conductor",
+        "physics.magnetism-and-matter.force-perpendicular-to-current"
+      ],
       "key_dispute": false
     },
     "d079c511-eff8-402e-a77c-356a2cc1ca61": {
@@ -12722,7 +13643,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.ferromagnet-susceptibility-above-curie-temperature",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12733,6 +13654,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.ferromagnet-susceptibility-above-curie-temperature",
+        "physics.magnetism-and-matter.ferromagnet-above-curie-temperature"
+      ],
       "key_dispute": false
     },
     "d0c71283-1cb7-4353-aabb-97450b717b45": {
@@ -12775,7 +13700,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.field-lines-never-intersect",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12786,6 +13711,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.field-lines-never-intersect",
+        "physics.magnetism-and-matter.magnetic-field-lines-never-intersect"
+      ],
       "key_dispute": false
     },
     "ea2c1bf1-3705-45aa-99eb-5426e1f170d9": {
@@ -12839,6 +13768,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.solenoid-field-mu0-n-i",
+        "physics.magnetism-and-matter.solenoid-field-mu0-n-i"
+      ],
       "key_dispute": false
     },
     "f22c84ec-861a-49ec-94cd-c6de06bedd57": {
@@ -12889,7 +13822,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.loop-torque-depends-on-orientation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12900,6 +13833,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.torque-zero-when-moment-parallel-to-field",
+        "physics.magnetism-and-matter.loop-torque-depends-on-orientation"
+      ],
       "key_dispute": true
     },
     "f599534c-e3ce-4ee0-b890-2eb391c04b88": {
@@ -12953,6 +13890,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.motional-emf-blv",
+        "physics.magnetism-and-matter.motional-emf-blv"
+      ],
       "key_dispute": false
     },
     "f9f60897-b7dc-4bec-8149-90bbfc5832f4": {
@@ -12995,7 +13936,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.magnetism-and-matter.dipole-force-nonuniform-field",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13006,6 +13947,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.magnetism-and-matter.dipole-force-nonuniform-field",
+        "physics.magnetism-and-matter.dipole-torque-and-force-nonuniform"
+      ],
       "key_dispute": false
     },
     "079b8a6c-fb7c-4697-8a0c-2a8a03bd7e95": {
@@ -13048,7 +13993,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.axial-field-two-coils-superposition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13059,6 +14004,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.axial-field-two-coils-superposition",
+        "physics.moving-charges-and-magnetism.field-on-axis-of-circular-coil"
+      ],
       "key_dispute": false
     },
     "179ed1de-ae31-401c-bb91-bca4cda1eca3": {
@@ -13101,7 +14050,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.cyclotron-frequency-independent-of-speed",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13112,6 +14061,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.cyclotron-frequency-independent-of-speed",
+        "physics.moving-charges-and-magnetism.cyclotron-frequency"
+      ],
       "key_dispute": false
     },
     "37ec914e-59b0-4d55-ac58-329bc92f73a7": {
@@ -13154,7 +14107,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.long-wire-field-inverse-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13163,8 +14116,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.long-wire-field-inverse-distance",
+        "physics.moving-charges-and-magnetism.field-of-long-wire-inverse-distance"
+      ],
       "key_dispute": false
     },
     "4e2ea5c2-d0bf-4630-bb1a-dd966f3b32d7": {
@@ -13213,7 +14170,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.flux-through-loop-beside-long-wire",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13224,6 +14181,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.flux-through-loop-beside-long-wire",
+        "physics.moving-charges-and-magnetism.flux-of-wire-field-through-loop"
+      ],
       "key_dispute": false
     },
     "5c4c847f-44a5-4e6e-9239-8294228162da": {
@@ -13277,6 +14238,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.helical-path-at-oblique-angle",
+        "physics.moving-charges-and-magnetism.helical-path-at-oblique-angle"
+      ],
       "key_dispute": false
     },
     "5d3613d4-ab80-464d-ab6e-cf28ffc31619": {
@@ -13319,7 +14284,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.force-between-parallel-currents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13328,8 +14293,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.parallel-wires-force-depends-on-current-direction",
+        "physics.moving-charges-and-magnetism.force-between-parallel-currents"
+      ],
       "key_dispute": false
     },
     "65b66f7d-1056-49a2-abc9-741ba31f8031": {
@@ -13372,7 +14341,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.radius-of-path-after-acceleration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13381,8 +14350,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.radius-of-path-after-acceleration",
+        "physics.moving-charges-and-magnetism.radius-from-accelerating-potential"
+      ],
       "key_dispute": false
     },
     "68dbdcde-afaa-40d2-8ab8-41e22d325c5a": {
@@ -13442,6 +14415,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.opposite-charges-deflect-oppositely",
+        "physics.moving-charges-and-magnetism.opposite-charges-deflect-oppositely"
+      ],
       "key_dispute": false
     },
     "72e09dfa-d12d-4cef-8cfd-97a68dc2fa6f": {
@@ -13493,7 +14470,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.magnetic-force-zero-when-parallel",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13502,8 +14479,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.no-force-on-charge-parallel-to-field",
+        "physics.moving-charges-and-magnetism.magnetic-force-zero-when-parallel"
+      ],
       "key_dispute": true
     },
     "74bea827-9ab5-4018-9d0d-479262bcb2f9": {
@@ -13546,7 +14527,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.force-maximum-at-perpendicular-orientation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13557,6 +14538,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.force-maximum-at-perpendicular-orientation",
+        "physics.moving-charges-and-magnetism.force-on-conductor-depends-on-angle"
+      ],
       "key_dispute": false
     },
     "953e15c1-a4f8-43c0-ad56-97aa2fc8528a": {
@@ -13599,7 +14584,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.magnetic-force-does-no-work",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13610,6 +14595,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.magnetic-force-does-no-work-on-charge",
+        "physics.moving-charges-and-magnetism.magnetic-force-does-no-work"
+      ],
       "key_dispute": false
     },
     "b6e84497-d854-4c6b-bc46-b75523e8bb47": {
@@ -13661,8 +14650,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.circular-field-lines-around-wire",
+        "physics.moving-charges-and-magnetism.circular-field-lines-around-wire"
+      ],
       "key_dispute": false
     },
     "b8ce96f3-bf4e-41a0-80bd-5be8cab08f68": {
@@ -13705,7 +14698,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.voltmeter-series-resistance-conversion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13716,6 +14709,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.voltmeter-series-resistance-conversion",
+        "physics.moving-charges-and-magnetism.galvanometer-to-voltmeter-series-resistance"
+      ],
       "key_dispute": false
     },
     "d5ef1095-f81b-4f33-b705-e2dfc367a6e5": {
@@ -13758,7 +14755,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.force-direction-by-right-hand-rule",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13769,6 +14766,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.force-direction-by-right-hand-rule",
+        "physics.moving-charges-and-magnetism.right-hand-rule-for-magnetic-force"
+      ],
       "key_dispute": false
     },
     "dd4d34da-751c-4397-bd5d-e9f2c99af77c": {
@@ -13817,7 +14818,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.perpendicular-force-gives-circular-path",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13826,8 +14827,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.perpendicular-force-gives-circular-path",
+        "physics.moving-charges-and-magnetism.circular-path-in-uniform-field"
+      ],
       "key_dispute": false
     },
     "e4df1b22-f42b-45c7-97f4-15a904b68c6e": {
@@ -13870,7 +14875,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.force-between-parallel-currents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13879,8 +14884,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.parallel-wires-force-depends-on-current-direction",
+        "physics.moving-charges-and-magnetism.force-between-parallel-currents"
+      ],
       "key_dispute": false
     },
     "ff2bc1ba-d7e0-4785-b723-7244abea5614": {
@@ -13932,7 +14941,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.moving-charges-and-magnetism.torque-without-net-force-couple",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13943,6 +14952,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.torque-without-net-force-couple",
+        "physics.moving-charges-and-magnetism.torque-without-net-force-on-loop"
+      ],
       "key_dispute": false
     },
     "0d0155b8-b116-4a12-b459-03f79128dcf7": {
@@ -14000,6 +15013,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.binding-energy-per-nucleon-curve",
+        "physics.nuclei.binding-energy-per-nucleon-curve"
+      ],
       "key_dispute": true
     },
     "102b0d10-f45f-4bbb-85d1-7d9c3a0f1ef9": {
@@ -14042,7 +15059,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.radioactive-decay-independent-of-conditions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14051,8 +15068,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.radioactive-decay-independent-of-conditions",
+        "physics.nuclei.decay-rate-independent-of-conditions"
+      ],
       "key_dispute": false
     },
     "10438655-94cd-4bc1-b67d-cfa9bf3b8249": {
@@ -14095,7 +15116,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.fusion-and-fission-energy-release",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14106,6 +15127,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.fusion-and-fission-conditions",
+        "physics.nuclei.fusion-and-fission-energy-release"
+      ],
       "key_dispute": false
     },
     "30afa5e2-7d7c-4eb7-aaf3-7c5ef75f852f": {
@@ -14154,7 +15179,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.fusion-and-fission-energy-release",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14163,8 +15188,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.energy-release-from-binding-energy-curve",
+        "physics.nuclei.fusion-and-fission-energy-release"
+      ],
       "key_dispute": false
     },
     "4f8e8173-d8e2-43df-ac2e-f69cabce2da7": {
@@ -14223,8 +15252,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.nuclear-force-vs-coulomb-repulsion",
+        "physics.nuclei.nuclear-force-vs-coulomb-repulsion"
+      ],
       "key_dispute": true
     },
     "5be00351-39c0-4f3a-95ff-66e1846fe96a": {
@@ -14267,7 +15300,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.alpha-decay-daughter-nucleus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14278,6 +15311,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.alpha-decay-daughter-nucleus",
+        "physics.nuclei.alpha-decay-changes-z-and-a"
+      ],
       "key_dispute": false
     },
     "5fb603d2-8ccf-4080-abef-10fdfdfae573": {
@@ -14320,7 +15357,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.radiation-penetration-and-ionization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14331,6 +15368,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.radiation-penetration-and-ionization",
+        "physics.nuclei.radiation-ionizing-and-penetrating-power"
+      ],
       "key_dispute": false
     },
     "692a124b-64c3-4355-84f2-eca56177d6dc": {
@@ -14381,7 +15422,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.isotopes-chemical-vs-physical-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14390,8 +15431,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.isotopes-chemical-vs-physical-properties",
+        "physics.nuclei.isotopes-same-chemistry-different-mass"
+      ],
       "key_dispute": true
     },
     "695a0835-bdce-44e2-97d6-f28b2a5841ee": {
@@ -14434,7 +15479,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.radioactive-decay-independent-of-conditions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14445,6 +15490,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.radioactive-decay-independent-of-conditions",
+        "physics.nuclei.mass-defect-definition"
+      ],
       "key_dispute": false
     },
     "9d09992f-47bc-419f-926f-3d5fcfe1aa81": {
@@ -14494,7 +15543,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.fusion-in-stars",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14503,8 +15552,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.fusion-in-stars",
+        "physics.nuclei.stellar-energy-from-fusion"
+      ],
       "key_dispute": true
     },
     "a22e0dfd-febd-4733-8539-0015b3f85ed6": {
@@ -14547,7 +15600,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.radiation-penetration-and-ionization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14558,6 +15611,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.radiation-penetration-and-ionization",
+        "physics.nuclei.radiation-ionizing-and-penetrating-power"
+      ],
       "key_dispute": false
     },
     "a2847989-16d3-483b-8955-9aee39ffcf66": {
@@ -14600,7 +15657,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.activity-vs-number-of-nuclei",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14611,6 +15668,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.activity-vs-number-of-nuclei",
+        "physics.nuclei.activity-depends-on-decay-constant"
+      ],
       "key_dispute": false
     },
     "a3fd0981-e997-45b2-843d-c0dbc9f50384": {
@@ -14653,7 +15714,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.half-life-remaining-fraction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14664,6 +15725,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.half-life-remaining-fraction",
+        "physics.nuclei.fraction-remaining-after-half-lives"
+      ],
       "key_dispute": false
     },
     "a6ee416e-713f-446e-ab02-8711661eac02": {
@@ -14706,7 +15771,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.half-life-remaining-fraction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14717,6 +15782,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.half-life-remaining-fraction",
+        "physics.nuclei.radiocarbon-dating-age-estimate"
+      ],
       "key_dispute": false
     },
     "a904ec90-8023-4df6-84c5-8fa146b1698a": {
@@ -14774,6 +15843,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.nuclear-radius-scaling-with-mass-number",
+        "physics.nuclei.nuclear-radius-scaling-with-mass-number"
+      ],
       "key_dispute": false
     },
     "d301604a-c737-4a65-a1c0-01a0a9257874": {
@@ -14835,6 +15908,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.binding-energy-per-nucleon-curve",
+        "physics.nuclei.binding-energy-per-nucleon-curve"
+      ],
       "key_dispute": true
     },
     "f7ffd47a-fceb-4608-a1a6-634185887944": {
@@ -14877,7 +15954,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.nuclei.gm-counter-pulse-energy-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14888,6 +15965,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.gm-counter-pulse-energy-independence",
+        "physics.nuclei.gm-counter-pulses-independent-of-energy"
+      ],
       "key_dispute": false
     },
     "fa7c0cb9-9309-44cd-884b-90adca44d2af": {
@@ -14943,8 +16024,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.nuclei.half-life-independent-of-initial-amount",
+        "physics.nuclei.half-life-independent-of-initial-amount"
+      ],
       "key_dispute": false
     },
     "0b29e4f3-1b16-462d-b842-d86bf491de3c": {
@@ -14998,6 +16083,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.power-of-lenses-in-contact",
+        "physics.ray-optics-and-optical-instruments.power-of-lenses-in-contact"
+      ],
       "key_dispute": false
     },
     "39ef7beb-91aa-4eb1-81b0-f9a47ff0a129": {
@@ -15049,8 +16138,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.image-type-depends-on-object-position",
+        "physics.ray-optics-and-optical-instruments.image-type-depends-on-object-position"
+      ],
       "key_dispute": false
     },
     "3d2b1ea3-2d21-4a14-b1df-52a8d82f93e9": {
@@ -15104,6 +16197,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.concave-mirror-object-at-centre-of-curvature",
+        "physics.ray-optics-and-optical-instruments.concave-mirror-object-at-centre-of-curvature"
+      ],
       "key_dispute": false
     },
     "50dcf31d-cb09-4f12-ae22-70a5b25de005": {
@@ -15146,7 +16243,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.concave-lens-virtual-erect-diminished-image",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15155,8 +16252,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.concave-lens-virtual-erect-diminished-image",
+        "physics.ray-optics-and-optical-instruments.concave-lens-image-nature"
+      ],
       "key_dispute": false
     },
     "518aea70-49b0-4c7b-b50d-a986786e2014": {
@@ -15199,7 +16300,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.images-in-inclined-plane-mirrors",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15210,6 +16311,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.images-in-inclined-plane-mirrors",
+        "physics.ray-optics-and-optical-instruments.images-from-inclined-plane-mirrors"
+      ],
       "key_dispute": false
     },
     "56ec4730-efbf-43c1-9bbc-d748580816f2": {
@@ -15252,7 +16357,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.critical-angle-depends-only-on-indices",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15261,8 +16366,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.critical-angle-depends-only-on-indices",
+        "physics.ray-optics-and-optical-instruments.critical-angle-independent-of-incidence"
+      ],
       "key_dispute": false
     },
     "6690e8d9-9d77-420b-a864-36231575bd7d": {
@@ -15305,7 +16414,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.magnification-increases-with-focal-length",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15314,8 +16423,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.magnification-increases-with-focal-length",
+        "physics.ray-optics-and-optical-instruments.magnification-with-focal-length-fixed-object"
+      ],
       "key_dispute": false
     },
     "75579acc-c098-4b1a-9a42-51b87f5569b2": {
@@ -15358,7 +16471,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.convex-lens-forms-real-image",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15367,8 +16480,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.convex-lens-forms-real-image",
+        "physics.ray-optics-and-optical-instruments.convex-lens-real-image-of-real-object"
+      ],
       "key_dispute": false
     },
     "7b893dc7-e19a-4857-9764-d82a087378a3": {
@@ -15415,7 +16532,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.lens-formula-solve-for-focal-length",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15426,6 +16543,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.lens-formula-solve-for-focal-length",
+        "physics.ray-optics-and-optical-instruments.lens-formula-focal-length-from-image"
+      ],
       "key_dispute": false
     },
     "7e4226d4-fc47-48fc-9c5d-106323942117": {
@@ -15479,6 +16600,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions",
+        "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions"
+      ],
       "key_dispute": false
     },
     "8f98aee3-5d69-4053-b502-3d1c888497f0": {
@@ -15532,6 +16657,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.chromatic-aberration-cause-dispersion",
+        "physics.ray-optics-and-optical-instruments.chromatic-aberration-cause-dispersion"
+      ],
       "key_dispute": false
     },
     "b26d0446-1bce-4d70-9680-33f37e8b4fdd": {
@@ -15574,7 +16703,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.concave-lens-image-nature-and-position",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15585,6 +16714,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.concave-lens-image-nature-and-position",
+        "physics.ray-optics-and-optical-instruments.concave-lens-image-position"
+      ],
       "key_dispute": false
     },
     "c0847bbd-b69e-4617-93dc-a3a2355356f1": {
@@ -15627,7 +16760,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.refraction-speed-and-bending",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15638,6 +16771,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.refraction-speed-and-bending",
+        "physics.ray-optics-and-optical-instruments.refraction-speed-and-bending-towards-normal"
+      ],
       "key_dispute": false
     },
     "c30dc7b7-7dae-433b-9a08-251ca9a136b1": {
@@ -15680,7 +16817,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15689,8 +16826,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions",
+        "physics.ray-optics-and-optical-instruments.critical-angle-depends-on-refractive-indices"
+      ],
       "key_dispute": false
     },
     "c9078d02-d07d-42fc-ba4c-d04afc1f6a09": {
@@ -15733,7 +16874,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.lens-formula-solve-for-image-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15744,6 +16885,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.lens-formula-solve-for-image-distance",
+        "physics.ray-optics-and-optical-instruments.lens-formula-image-distance-real-image"
+      ],
       "key_dispute": false
     },
     "cdd9d2ac-5b4f-4f57-856f-8bc831be62d0": {
@@ -15786,7 +16931,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.spherical-aberration-reduced-by-stopping-down",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15797,6 +16942,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.spherical-aberration-reduced-by-stopping-down",
+        "physics.ray-optics-and-optical-instruments.spherical-aberration-reduced-by-diaphragm"
+      ],
       "key_dispute": false
     },
     "d18fad4d-8f6d-4743-a201-4fadbfa79121": {
@@ -15845,7 +16994,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.image-nature-in-mirrors-and-lenses",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15856,6 +17005,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.image-nature-in-mirrors-and-lenses",
+        "physics.ray-optics-and-optical-instruments.image-nature-of-mirrors-and-lenses"
+      ],
       "key_dispute": true
     },
     "d237a6da-487a-4111-bdb2-a7224c66c1ff": {
@@ -15902,7 +17055,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.astronomical-telescope-normal-adjustment-separation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15913,6 +17066,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.astronomical-telescope-normal-adjustment-separation",
+        "physics.ray-optics-and-optical-instruments.telescope-separation-for-normal-adjustment"
+      ],
       "key_dispute": false
     },
     "dfe55664-30ca-456b-a347-5698d098654b": {
@@ -15964,8 +17121,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions",
+        "physics.ray-optics-and-optical-instruments.total-internal-reflection-conditions"
+      ],
       "key_dispute": false
     },
     "e5824db6-ba11-49a9-b3fb-b0b213ba3c0b": {
@@ -16014,7 +17175,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.optical-component-purposes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16023,8 +17184,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.optical-component-purposes",
+        "physics.ray-optics-and-optical-instruments.optical-component-primary-purposes"
+      ],
       "key_dispute": true
     },
     "ee809ed5-8cf8-4efb-9d47-0f5c6a36e470": {
@@ -16067,7 +17232,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.ray-optics-and-optical-instruments.chromatic-aberration-corrected-by-achromatic-doublet",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16078,6 +17243,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.chromatic-aberration-corrected-by-achromatic-doublet",
+        "physics.ray-optics-and-optical-instruments.chromatic-aberration-correction-by-achromat"
+      ],
       "key_dispute": false
     },
     "effdeeff-ca05-40bc-8dcb-ba9bf6463733": {
@@ -16129,8 +17298,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.concave-mirror-object-at-centre-of-curvature",
+        "physics.ray-optics-and-optical-instruments.concave-mirror-object-at-centre-of-curvature"
+      ],
       "key_dispute": false
     },
     "0375dea9-b753-482a-9fef-3b2f6fb17818": {
@@ -16173,7 +17346,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.photon-energy-exceeds-band-gap",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16184,6 +17357,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.photon-energy-exceeds-band-gap",
+        "physics.semiconductor-electronics.photon-energy-vs-band-gap-photodetection"
+      ],
       "key_dispute": false
     },
     "0cfc3dfb-e408-4c79-8d42-ff2b88c97f97": {
@@ -16237,6 +17414,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.reverse-bias-barrier-and-depletion-width",
+        "physics.semiconductor-electronics.reverse-bias-barrier-and-depletion-width"
+      ],
       "key_dispute": false
     },
     "142e2120-88e8-4d9b-b3a9-d4bee22f33e6": {
@@ -16279,7 +17460,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.p-type-trivalent-doping",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16290,6 +17471,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.p-type-trivalent-doping",
+        "physics.semiconductor-electronics.trivalent-impurity-for-p-type"
+      ],
       "key_dispute": false
     },
     "31be4776-81b5-45a2-88d6-1710bcc7c355": {
@@ -16332,7 +17517,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.universal-gate-nand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16343,6 +17528,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.universal-gate-nand",
+        "physics.semiconductor-electronics.nand-as-universal-gate"
+      ],
       "key_dispute": false
     },
     "52e53285-4fbb-4ff3-a7eb-487be8a1d3be": {
@@ -16385,7 +17574,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.zener-breakdown-voltage-regulation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16394,8 +17583,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.zener-breakdown-voltage-regulation",
+        "physics.semiconductor-electronics.zener-breakdown-regulation"
+      ],
       "key_dispute": false
     },
     "77c1f3f2-4c60-402e-babb-c8aeb9ae69d1": {
@@ -16438,7 +17631,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.ce-amplifier-phase-inversion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16447,8 +17640,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.ce-amplifier-phase-inversion",
+        "physics.semiconductor-electronics.common-emitter-phase-inversion"
+      ],
       "key_dispute": false
     },
     "7aff20e3-0221-46ed-a067-6e9a40ce7c36": {
@@ -16491,7 +17688,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.insulator-energy-gap-range",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16502,6 +17699,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.insulator-energy-gap-range",
+        "physics.semiconductor-electronics.insulator-band-gap-magnitude"
+      ],
       "key_dispute": false
     },
     "f75cc4be-58de-4ef6-aee3-6a82228ac0d6": {
@@ -16544,7 +17745,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.devices-matched-to-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16555,6 +17756,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.devices-matched-to-functions",
+        "physics.semiconductor-electronics.communication-device-functions"
+      ],
       "key_dispute": false
     },
     "ff4abdb8-5da9-424d-ae71-1e78c6bedc6e": {
@@ -16597,7 +17802,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.semiconductor-electronics.full-wave-rectifier-ripple-frequency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16608,6 +17813,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.semiconductor-electronics.full-wave-rectifier-ripple-frequency",
+        "physics.semiconductor-electronics.full-wave-ripple-frequency"
+      ],
       "key_dispute": false
     },
     "0e4d0cfd-7606-42bf-b341-7454556437c3": {
@@ -16650,7 +17859,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.single-slit-central-width-inverse-a",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16661,6 +17870,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.central-max-width-inverse-to-slit-width",
+        "physics.wave-optics.single-slit-central-width-inverse-a"
+      ],
       "key_dispute": false
     },
     "1d3f84dd-9fe2-4de8-8fde-9d4d51dd3c6f": {
@@ -16703,7 +17916,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.interference-diffraction-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16714,6 +17927,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.interference-diffraction-principles",
+        "physics.wave-optics.coherence-and-superposition-statements"
+      ],
       "key_dispute": false
     },
     "53d938e3-095f-46e2-ba84-195df5dabe38": {
@@ -16756,7 +17973,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.polarization-basics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16767,6 +17984,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.polarization-basics",
+        "physics.wave-optics.polarization-transverse-and-polaroid"
+      ],
       "key_dispute": false
     },
     "542b2f12-e913-4f42-af77-9d1a18766c01": {
@@ -16809,7 +18030,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.constructive-interference-in-phase-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16820,6 +18041,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "physics.wave-optics.constructive-interference-in-phase-condition",
+        "physics.wave-optics.constructive-interference-condition"
+      ],
       "key_dispute": false
     },
     "6484aeee-8c3b-4524-82db-763d02f9edf4": {
@@ -16862,7 +18087,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.fringe-angle-independent-of-screen-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16871,8 +18096,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.angular-fringe-position-independent-of-screen-distance",
+        "physics.wave-optics.fringe-angle-independent-of-screen-distance"
+      ],
       "key_dispute": false
     },
     "76f9103b-3696-4a3d-8c69-aac0f89b82ed": {
@@ -16915,7 +18144,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.coherence-requirement-for-interference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16924,8 +18153,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.coherence-requirement-for-interference",
+        "physics.wave-optics.coherence-required-for-interference"
+      ],
       "key_dispute": false
     },
     "898b645a-8059-4451-ba3d-7ba5fd45639e": {
@@ -16974,7 +18207,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.single-slit-central-width-inverse-a",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16985,6 +18218,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.central-max-width-inverse-to-slit-width",
+        "physics.wave-optics.single-slit-central-width-inverse-a"
+      ],
       "key_dispute": false
     },
     "9f62ced2-7a3f-4d32-b9e6-db1c46432da0": {
@@ -17033,7 +18270,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.glass-plate-fringe-shift",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -17044,6 +18281,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.glass-plate-fringe-shift",
+        "physics.wave-optics.fringe-shift-by-thin-plate"
+      ],
       "key_dispute": true
     },
     "a7baafad-0cd7-48aa-97b8-342f58607411": {
@@ -17097,6 +18338,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.fringe-width-change-in-medium",
+        "physics.wave-optics.fringe-width-change-in-medium"
+      ],
       "key_dispute": false
     },
     "c060d217-9a1b-4912-93a2-d0c639e17385": {
@@ -17149,7 +18394,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.phenomenon-to-condition-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -17158,8 +18403,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.phenomenon-to-condition-matching",
+        "physics.wave-optics.matching-phenomena-to-conditions"
+      ],
       "key_dispute": true
     },
     "c2f40cb5-456a-4e89-b54c-14f486ae8861": {
@@ -17213,6 +18462,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.bright-fringe-path-difference-condition",
+        "physics.wave-optics.bright-fringe-path-difference-condition"
+      ],
       "key_dispute": false
     },
     "c9d5ba6d-10cf-4a0c-a161-057a5626d7fc": {
@@ -17255,7 +18508,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.coherence-requirement-for-interference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -17264,8 +18517,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.coherence-requirement-for-interference",
+        "physics.wave-optics.coherence-required-for-interference"
+      ],
       "key_dispute": false
     },
     "cd1082be-25bb-4c26-96cd-1e9ac8152342": {
@@ -17308,7 +18565,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.fringe-width-inverse-to-slit-separation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -17319,6 +18576,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.fringe-width-inverse-to-slit-separation",
+        "physics.wave-optics.fringe-width-inverse-slit-separation"
+      ],
       "key_dispute": false
     },
     "cd8e8309-0f14-48ec-8885-520322c4042a": {
@@ -17370,8 +18631,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.thin-film-bright-reflection-thickness",
+        "physics.wave-optics.thin-film-bright-reflection-thickness"
+      ],
       "key_dispute": false
     },
     "e3aa9808-aaf0-498b-b255-b5e2f2941f22": {
@@ -17431,6 +18696,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.fringe-width-lambda-d-over-slit-separation",
+        "physics.wave-optics.fringe-width-formula-lambda-d-over-d"
+      ],
       "key_dispute": true
     },
     "f0da0883-7258-4071-a0b7-057661ee40e9": {
@@ -17473,7 +18742,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.single-slit-central-width-inverse-a",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -17484,6 +18753,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.central-max-width-inverse-to-slit-width",
+        "physics.wave-optics.single-slit-central-width-inverse-a"
+      ],
       "key_dispute": false
     },
     "f12c9e38-fa09-4537-9517-b12527602b6b": {
@@ -17526,7 +18799,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.single-slit-central-width-inverse-a",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -17537,6 +18810,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.single-slit-first-minima-separation",
+        "physics.wave-optics.single-slit-central-width-inverse-a"
+      ],
       "key_dispute": false
     },
     "f6136d55-0e06-4eea-8a3d-4d4e74c9aec3": {
@@ -17579,7 +18856,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "physics.wave-optics.interference-diffraction-general-wave-property",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -17588,8 +18865,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "physics.wave-optics.interference-diffraction-general-wave-property",
+        "physics.wave-optics.interference-diffraction-basic-facts"
+      ],
       "key_dispute": false
     }
   }

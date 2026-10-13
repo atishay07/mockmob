@@ -3,7 +3,7 @@
   "subject": "history",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.524Z",
+  "merged_at": "2026-10-13T15:32:56.767Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 19.8,
     "difficulty_agreement_pct": 84.8,
     "blocking_flagged": 37,
+    "difficulty_one_level_not_applied": 54,
     "flags": {
       "answer_in_stem": 6,
       "wrong_key": 4,
@@ -113,7 +114,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.source-reliability-partiality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -124,6 +125,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.source-reliability-partiality",
+        "history.an-imperial-capital-vijayanagara.court-chronicles-praise-bias"
+      ],
       "key_dispute": false
     },
     "30fc8ec1-198b-4046-9230-0e8015334ea4": {
@@ -166,7 +171,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.traveller-emphasis-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -177,6 +182,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.traveller-emphasis-match",
+        "history.an-imperial-capital-vijayanagara.traveller-accounts-emphasis-match"
+      ],
       "key_dispute": false
     },
     "5944aa2b-cf76-4201-aa68-9367e6091194": {
@@ -219,7 +228,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.artifact-inference-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -230,6 +239,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.artifact-inference-matching",
+        "history.an-imperial-capital-vijayanagara.artifact-find-inference-match"
+      ],
       "key_dispute": false
     },
     "7b9ab79c-a15e-4a95-9012-f1c1526765b5": {
@@ -272,7 +285,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.persian-vs-portuguese-narrative-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -283,6 +296,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.persian-vs-portuguese-narrative-focus",
+        "history.an-imperial-capital-vijayanagara.persian-vs-portuguese-accounts-contrast"
+      ],
       "key_dispute": false
     },
     "a132ee63-ffcb-432d-a2b4-4b5347f6f105": {
@@ -325,7 +342,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.court-poetry-legitimacy-reasoning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -334,8 +351,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.court-poetry-legitimacy-reasoning",
+        "history.an-imperial-capital-vijayanagara.court-poetry-military-legitimacy"
+      ],
       "key_dispute": false
     },
     "adcd1dae-f1c6-4dd9-8488-807fb64173ba": {
@@ -378,7 +399,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.source-reliability-partiality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -389,6 +410,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.source-reliability-partiality",
+        "history.an-imperial-capital-vijayanagara.traveller-accounts-subjectivity"
+      ],
       "key_dispute": false
     },
     "b0226b92-06d4-4493-991e-c96500f7c4ca": {
@@ -431,7 +456,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.stone-versus-brick-architecture-use",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -442,6 +467,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.stone-versus-brick-architecture-use",
+        "history.an-imperial-capital-vijayanagara.stone-vs-brick-urban-building-materials"
+      ],
       "key_dispute": false
     },
     "bf64e15d-ee98-4ecd-ba3d-e0093a7ae854": {
@@ -488,7 +517,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.ceremonial-space-from-platform",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -499,6 +528,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.ceremonial-space-from-platform",
+        "history.an-imperial-capital-vijayanagara.ceremonial-platform-interpretation"
+      ],
       "key_dispute": false
     },
     "c098ccd4-469b-4427-b59e-85ce712f251b": {
@@ -541,7 +574,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.craft-workshop-cautious-inference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -552,6 +585,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.craft-workshop-cautious-inference",
+        "history.an-imperial-capital-vijayanagara.bead-workshop-evidence-interpretation"
+      ],
       "key_dispute": false
     },
     "cac527b2-27ec-4f03-9f11-6f9ab593fd7a": {
@@ -594,7 +631,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.bone-cutmarks-dietary-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -605,6 +642,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.bone-cutmarks-dietary-evidence",
+        "history.an-imperial-capital-vijayanagara.bones-as-dietary-evidence"
+      ],
       "key_dispute": false
     },
     "ecdae13b-0cd6-40cd-a42d-faf4a926d13d": {
@@ -647,7 +688,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.bead-finds-trade-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -658,6 +699,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.bead-finds-trade-evidence",
+        "history.an-imperial-capital-vijayanagara.bead-finds-trade-and-consumption"
+      ],
       "key_dispute": false
     },
     "f5290092-5753-4642-80ea-cd16bf99a9f7": {
@@ -712,7 +757,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.an-imperial-capital-vijayanagara.brick-course-count-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -721,8 +766,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.an-imperial-capital-vijayanagara.brick-course-count-calculation",
+        "history.an-imperial-capital-vijayanagara.brick-course-quantity-estimate"
+      ],
       "key_dispute": true
     },
     "069d0dda-bbdf-4b5e-85a7-3a203db71b1e": {
@@ -776,6 +825,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.sufi-terms-and-meanings",
+        "history.bhakti-sufi-traditions.sufi-terms-and-meanings"
+      ],
       "key_dispute": false
     },
     "09735e1f-5a65-41e5-8c11-bee836b66d3a": {
@@ -822,7 +875,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.experiential-devotion-and-shared-practice",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -831,8 +884,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.experiential-devotion-and-shared-practice",
+        "history.bhakti-sufi-traditions.devotion-over-metaphysics-shared-practice"
+      ],
       "key_dispute": false
     },
     "0d4cd7ae-126b-4179-8e2d-c46a00b2f533": {
@@ -884,8 +941,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.saguna-vs-nirguna-bhakti",
+        "history.bhakti-sufi-traditions.saguna-vs-nirguna-bhakti"
+      ],
       "key_dispute": false
     },
     "1d104e37-8c26-4b35-ba60-81277d9a1f49": {
@@ -928,7 +989,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.role-of-music-in-devotion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -939,6 +1000,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.role-of-music-in-devotion",
+        "history.bhakti-sufi-traditions.music-as-collective-devotion"
+      ],
       "key_dispute": false
     },
     "6094e0f5-6574-46b2-aa22-76083baa850c": {
@@ -981,7 +1046,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.virashaiva-movement-features",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -992,6 +1057,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.virashaiva-movement-features",
+        "history.bhakti-sufi-traditions.virashaiva-rejection-of-ritual-and-caste"
+      ],
       "key_dispute": false
     },
     "7caf43b2-97da-422b-85c1-879b235af29a": {
@@ -1034,7 +1103,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.saints-and-regional-languages",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1045,6 +1114,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.saints-and-regional-languages",
+        "history.bhakti-sufi-traditions.saint-language-region-pairing"
+      ],
       "key_dispute": false
     },
     "93fd191c-016a-4eca-91f0-64f03007fc65": {
@@ -1093,7 +1166,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.devotional-forms-and-saints",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1104,6 +1177,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.devotional-forms-and-saints",
+        "history.bhakti-sufi-traditions.devotional-forms-and-associated-saints"
+      ],
       "key_dispute": false
     },
     "94504911-89ea-4e9f-83e7-5e5ba117722f": {
@@ -1146,7 +1223,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.doha-as-vernacular-communication",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1157,6 +1234,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.doha-as-vernacular-communication",
+        "history.bhakti-sufi-traditions.doha-as-accessible-verse-form"
+      ],
       "key_dispute": false
     },
     "dd74f524-e292-4c0f-b1cb-676dc81e178a": {
@@ -1199,7 +1280,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.social-critique-and-popular-appeal",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1208,8 +1289,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.social-critique-and-popular-appeal",
+        "history.bhakti-sufi-traditions.bhakti-sufi-appeal-to-marginalised-groups"
+      ],
       "key_dispute": false
     },
     "df9a129a-08c9-4c9a-a272-c786e856752a": {
@@ -1252,7 +1337,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bhakti-sufi-traditions.khanqah-social-welfare-role",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1263,6 +1348,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bhakti-sufi-traditions.khanqah-social-welfare-role",
+        "history.bhakti-sufi-traditions.khanqah-as-welfare-centres"
+      ],
       "key_dispute": false
     },
     "1546ece9-1f6d-43fe-b001-6f23d8d504c9": {
@@ -1305,7 +1394,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.beads-versus-bricks-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1314,8 +1403,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.beads-versus-bricks-evidence",
+        "history.bricks-beads-and-bones.beads-and-bricks-different-evidence"
+      ],
       "key_dispute": false
     },
     "2f21067d-b27a-4902-b9db-e58a823c7d04": {
@@ -1358,7 +1451,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.trade-goods-not-proof-of-continuity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1367,8 +1460,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.trade-goods-not-proof-of-continuity",
+        "history.bricks-beads-and-bones.beads-trade-not-local-continuity"
+      ],
       "key_dispute": false
     },
     "34646b3f-365b-4462-904a-18d7334f7da8": {
@@ -1411,7 +1508,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.monastic-charity-as-institutional-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1422,6 +1519,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.monastic-charity-as-institutional-evidence",
+        "history.bricks-beads-and-bones.monastic-charity-traveller-accounts"
+      ],
       "key_dispute": false
     },
     "3812b84f-6e49-4bd4-bd3f-c47b06983f64": {
@@ -1468,7 +1569,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.temple-economy-resilience-after-disruption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1477,8 +1578,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.temple-economy-resilience-after-disruption",
+        "history.bricks-beads-and-bones.temple-economy-post-disruption-resilience"
+      ],
       "key_dispute": false
     },
     "3a20ca04-5a44-44dd-83b2-c7520148779e": {
@@ -1525,7 +1630,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.communal-harmony-efforts-during-partition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1534,8 +1639,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.communal-harmony-efforts-during-partition",
+        "history.bricks-beads-and-bones.partition-communal-violence-peace-efforts"
+      ],
       "key_dispute": false
     },
     "3f279499-b7b0-4bc9-87ee-668eaad6fceb": {
@@ -1578,7 +1687,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.indus-seals-civilisation-marker",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1587,8 +1696,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.indus-seals-civilisation-marker",
+        "history.bricks-beads-and-bones.indus-seals-identification"
+      ],
       "key_dispute": false
     },
     "419645ff-e796-46b7-9456-562b074af1d6": {
@@ -1640,8 +1753,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.caste-versus-class-distinction",
+        "history.bricks-beads-and-bones.caste-versus-class-distinction"
+      ],
       "key_dispute": false
     },
     "4229e77a-bcda-480a-ace4-ab03c06dc56b": {
@@ -1690,7 +1807,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.stratigraphy-limit-reused-bricks",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1701,6 +1818,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.stratigraphy-limit-reused-bricks",
+        "history.bricks-beads-and-bones.stratigraphy-relative-vs-absolute-dating"
+      ],
       "key_dispute": true
     },
     "48a0afdc-c882-4eb8-adc3-aa4aca9f1cb2": {
@@ -1749,7 +1870,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.guild-training-and-syncretic-motifs",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1760,6 +1881,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.guild-training-and-syncretic-motifs",
+        "history.bricks-beads-and-bones.temple-iconography-as-syncretism-evidence"
+      ],
       "key_dispute": true
     },
     "496725fe-a1c2-4593-9cda-5cf477cc72b4": {
@@ -1802,7 +1927,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.dhamma-as-imperial-integration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1813,6 +1938,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.dhamma-as-imperial-integration",
+        "history.bricks-beads-and-bones.dhamma-as-unifying-ideology"
+      ],
       "key_dispute": false
     },
     "4a7a861d-4847-4421-8829-6734825c1882": {
@@ -1855,7 +1984,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.large-buildings-not-proof-of-palace",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1866,6 +1995,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.large-buildings-not-proof-of-palace",
+        "history.bricks-beads-and-bones.size-does-not-prove-palace"
+      ],
       "key_dispute": false
     },
     "690592f7-fc61-4062-8e65-5d114bab9611": {
@@ -1908,7 +2041,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.centralised-production-redistribution-model",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1917,8 +2050,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.centralised-production-redistribution-model",
+        "history.bricks-beads-and-bones.centralised-production-with-redistribution"
+      ],
       "key_dispute": false
     },
     "74fc3fbb-e6e4-45a8-82fc-0dab4b32e48c": {
@@ -1961,7 +2098,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.religious-grants-and-state-delegation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1972,6 +2109,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.religious-grants-and-state-delegation",
+        "history.bricks-beads-and-bones.land-grants-delegation-of-revenue"
+      ],
       "key_dispute": false
     },
     "813a8017-7bcc-4835-bb1c-7532f5647feb": {
@@ -2014,7 +2155,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.great-bath-waterproofing-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2025,6 +2166,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.great-bath-waterproofing-evidence",
+        "history.bricks-beads-and-bones.great-bath-waterproofing-special-function"
+      ],
       "key_dispute": false
     },
     "84d27335-6396-4d93-9f7e-539498da4e4f": {
@@ -2076,8 +2221,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.dependent-craft-labour-forms",
+        "history.bricks-beads-and-bones.dependent-craft-labour-forms"
+      ],
       "key_dispute": false
     },
     "895d8756-ca8f-4b7e-b0b6-7fd8305283d9": {
@@ -2126,7 +2275,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.town-growth-and-occupational-heredity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2137,6 +2286,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.town-growth-and-occupational-heredity",
+        "history.bricks-beads-and-bones.urban-growth-occupational-heredity"
+      ],
       "key_dispute": true
     },
     "9f70f6cf-a128-48f2-952d-1dafc775f64c": {
@@ -2179,7 +2332,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.mughal-village-headman-muqaddam",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2188,8 +2341,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.mughal-village-headman-muqaddam",
+        "history.bricks-beads-and-bones.village-headman-muqaddam-role"
+      ],
       "key_dispute": false
     },
     "a270432e-8986-4d13-82b1-00eae52563a5": {
@@ -2232,7 +2389,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.archaeology-not-legal-category-source",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2243,6 +2400,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.archaeology-not-legal-category-source",
+        "history.bricks-beads-and-bones.archaeology-not-legal-categories"
+      ],
       "key_dispute": false
     },
     "a5948fd7-8ed3-4d22-9b51-e2b57879baea": {
@@ -2285,7 +2446,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.gandhi-last-fast-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2294,8 +2455,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.gandhi-last-fast-purpose",
+        "history.bricks-beads-and-bones.last-fast-communal-harmony-purpose"
+      ],
       "key_dispute": false
     },
     "a6cb9a1e-9dc7-4d95-a3d6-11ce5952a8e5": {
@@ -2338,7 +2503,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.heterodox-thinkers-and-social-mobility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2347,8 +2512,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.heterodox-thinkers-and-social-mobility",
+        "history.bricks-beads-and-bones.heterodoxy-cultural-not-legal-change"
+      ],
       "key_dispute": false
     },
     "af7558fb-386b-4d44-94dd-b5600378f5a4": {
@@ -2391,7 +2560,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.temple-patronage-monetisation-chain",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2400,8 +2569,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.temple-patronage-monetisation-chain",
+        "history.bricks-beads-and-bones.patronage-drives-wage-labour-chain"
+      ],
       "key_dispute": false
     },
     "bf643763-4e58-45ff-ada6-a725cd4145a7": {
@@ -2444,7 +2617,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.incremental-reservoir-planning-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2455,6 +2628,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.incremental-reservoir-planning-evidence",
+        "history.bricks-beads-and-bones.incremental-public-works-state-planning"
+      ],
       "key_dispute": false
     },
     "bf815e63-4b14-44a4-9f53-81cafc602a16": {
@@ -2503,7 +2680,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.population-from-household-density",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2512,8 +2689,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.population-from-household-density",
+        "history.bricks-beads-and-bones.household-density-population-estimate"
+      ],
       "key_dispute": true
     },
     "c723f890-670d-428b-86c0-2787349285a7": {
@@ -2567,6 +2748,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.new-world-crops-in-mughal-economy",
+        "history.bricks-beads-and-bones.new-world-crops-in-mughal-economy"
+      ],
       "key_dispute": false
     },
     "d3314af0-7895-4de2-a9bc-777fa0f41771": {
@@ -2609,7 +2794,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.vernacular-language-for-bhakti-reach",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2618,8 +2803,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.vernacular-language-for-bhakti-reach",
+        "history.bricks-beads-and-bones.bhakti-vernacular-for-lay-audience"
+      ],
       "key_dispute": false
     },
     "d591ce75-6308-428e-a09e-5d7b2c0b4c0b": {
@@ -2662,7 +2851,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.communalism-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2671,8 +2860,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.communalism-meaning",
+        "history.bricks-beads-and-bones.communalism-definition"
+      ],
       "key_dispute": false
     },
     "d7e36fdd-34ab-407c-b623-857ca1fb305e": {
@@ -2715,7 +2908,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.burial-location-social-inference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2726,6 +2919,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.burial-location-social-inference",
+        "history.bricks-beads-and-bones.burial-location-and-social-affiliation"
+      ],
       "key_dispute": false
     },
     "dbdfc8b8-4bc3-415c-8a53-476e9047f8c6": {
@@ -2768,7 +2965,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.partition-boundary-naming",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2777,8 +2974,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.partition-boundary-naming",
+        "history.bricks-beads-and-bones.radcliffe-line-boundary"
+      ],
       "key_dispute": false
     },
     "e1b0c702-29a0-46ab-8b0c-ffea5db61289": {
@@ -2821,7 +3022,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.matching-ancient-rulers-to-texts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2832,6 +3033,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.matching-ancient-rulers-to-texts",
+        "history.bricks-beads-and-bones.ancient-sources-and-their-authors"
+      ],
       "key_dispute": false
     },
     "e3af83f0-5a17-490a-ade9-a11c5763736a": {
@@ -2878,7 +3083,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.rebel-ritual-patronage-legitimacy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2889,6 +3094,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.rebel-ritual-patronage-legitimacy",
+        "history.bricks-beads-and-bones.ritual-ties-and-rebel-legitimacy"
+      ],
       "key_dispute": false
     },
     "e3cbf2b2-335f-4167-9703-5a76f4e6bc75": {
@@ -2931,7 +3140,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.isotopes-broad-diet-categories-only",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2940,8 +3149,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.isotopes-broad-diet-categories-only",
+        "history.bricks-beads-and-bones.isotope-evidence-limitations"
+      ],
       "key_dispute": false
     },
     "e6e8e1e3-3d5d-4107-a268-9753d70663d2": {
@@ -2984,7 +3197,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.integration-of-princely-states",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2993,8 +3206,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.integration-of-princely-states",
+        "history.bricks-beads-and-bones.princely-states-integration-challenge"
+      ],
       "key_dispute": false
     },
     "ef57cbd8-861c-4ffd-975e-5a9cc0b39811": {
@@ -3043,7 +3260,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.hybrid-court-ritual-legitimacy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3052,8 +3269,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.hybrid-court-ritual-legitimacy",
+        "history.bricks-beads-and-bones.hybrid-court-ritual-and-legitimacy"
+      ],
       "key_dispute": false
     },
     "f1a9d6fb-d86f-44ca-af7e-232594765022": {
@@ -3118,6 +3339,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.compound-growth-rate-estimation",
+        "history.bricks-beads-and-bones.compound-growth-rate-estimation"
+      ],
       "key_dispute": false
     },
     "f2ff1122-f58e-4880-be6e-2b17ab0b7e8c": {
@@ -3160,7 +3385,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.united-india-plan-by-mission",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3171,6 +3396,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.united-india-plan-by-mission",
+        "history.bricks-beads-and-bones.cabinet-mission-united-india-plan"
+      ],
       "key_dispute": false
     },
     "f67f2598-4fca-4180-9e62-66e52b94c8e0": {
@@ -3220,7 +3449,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.bricks-beads-and-bones.urban-layout-inference-from-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3229,8 +3458,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.bricks-beads-and-bones.urban-layout-inference-from-evidence",
+        "history.bricks-beads-and-bones.planned-urban-layout-inference"
+      ],
       "key_dispute": false
     },
     "03d78f58-a2de-46fa-8320-74922c7978a3": {
@@ -3284,6 +3517,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.khadi-self-reliance-and-employment",
+        "history.colonialism-and-the-countryside.khadi-self-reliance-and-employment"
+      ],
       "key_dispute": false
     },
     "224b0607-56af-4354-a6b9-2d95f9f3e6bf": {
@@ -3326,7 +3563,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.subsidiary-alliance-effect-on-rulers",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3337,6 +3574,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.subsidiary-alliance-effect-on-rulers",
+        "history.colonialism-and-the-countryside.subsidiary-alliance-loss-of-sovereignty"
+      ],
       "key_dispute": false
     },
     "2793e6ef-796c-4489-a268-5ba9c471be3d": {
@@ -3379,7 +3620,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.cash-taxation-forces-market-sale",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3388,8 +3629,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.cash-taxation-forces-market-sale",
+        "history.colonialism-and-the-countryside.cash-taxation-and-market-integration"
+      ],
       "key_dispute": false
     },
     "32475ad6-08ad-430d-901f-99bad02bc650": {
@@ -3432,7 +3677,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.commercialization-market-and-credit-risk",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3443,6 +3688,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.commercialization-market-and-credit-risk",
+        "history.colonialism-and-the-countryside.commercialization-price-and-credit-risk"
+      ],
       "key_dispute": false
     },
     "56fefbf0-fde6-46ae-a9d8-257fc33edad3": {
@@ -3485,7 +3734,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.peasant-revolt-triggers",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3496,6 +3745,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.peasant-revolt-triggers",
+        "history.colonialism-and-the-countryside.causes-of-peasant-uprisings"
+      ],
       "key_dispute": false
     },
     "71daddfd-cb19-4b5d-9bba-216ad36429e2": {
@@ -3538,7 +3791,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.subsidiary-alliance-effect-on-rulers",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3549,6 +3802,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.subsidiary-alliance-effect-on-rulers",
+        "history.colonialism-and-the-countryside.subsidiary-alliance-loss-of-sovereignty"
+      ],
       "key_dispute": false
     },
     "748047d9-3dd7-400f-b424-dd9d33a8eab8": {
@@ -3597,7 +3854,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.rural-movement-characteristics-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3608,6 +3865,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.rural-movement-characteristics-matching",
+        "history.colonialism-and-the-countryside.rural-movements-and-characteristics-matching"
+      ],
       "key_dispute": true
     },
     "b2f44e47-c4a8-44e1-a94f-4a0448a1eb17": {
@@ -3650,7 +3911,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.criminalising-agrarian-revolts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3661,6 +3922,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.criminalising-agrarian-revolts",
+        "history.colonialism-and-the-countryside.criminalisation-of-agrarian-revolts"
+      ],
       "key_dispute": false
     },
     "c19aa18d-d8f0-4ee2-97bc-2eb7d8c28502": {
@@ -3714,6 +3979,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.satyagraha-legal-and-mass-action",
+        "history.colonialism-and-the-countryside.satyagraha-legal-and-mass-action"
+      ],
       "key_dispute": false
     },
     "c3786276-4d77-43da-8c13-b8ca66dc05fa": {
@@ -3767,6 +4036,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.collective-punishment-as-repression",
+        "history.colonialism-and-the-countryside.collective-punishment-as-repression"
+      ],
       "key_dispute": false
     },
     "ee9e7432-e7dc-4f3f-b368-6efdc249faa8": {
@@ -3809,7 +4082,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.colonialism-and-the-countryside.machine-imports-decline-of-crafts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3820,6 +4093,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.colonialism-and-the-countryside.machine-imports-decline-of-crafts",
+        "history.colonialism-and-the-countryside.machine-goods-decline-artisans"
+      ],
       "key_dispute": false
     },
     "25e7279b-efbe-4983-a1be-86c2fe21c92d": {
@@ -3862,7 +4139,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.caste-class-state-remedy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3873,6 +4150,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.caste-class-state-remedy",
+        "history.framing-the-constitution.affirmative-action-for-caste"
+      ],
       "key_dispute": false
     },
     "4c3e156b-8e8d-414b-8a53-b71ad1c7d897": {
@@ -3915,7 +4196,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.equality-before-law-over-kinship",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3926,6 +4207,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.equality-before-law-over-kinship",
+        "history.framing-the-constitution.equality-before-law"
+      ],
       "key_dispute": false
     },
     "4db07b8b-02f3-4213-9b9b-f510d1911665": {
@@ -3972,7 +4257,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.proportional-seat-allocation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3983,6 +4268,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.proportional-seat-allocation",
+        "history.framing-the-constitution.proportional-seat-calculation"
+      ],
       "key_dispute": false
     },
     "540f5a8a-5e38-49b6-b1b2-986011ea44f3": {
@@ -4025,7 +4314,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.reservation-time-limit-rationale",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4034,8 +4323,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.reservation-time-limit-rationale",
+        "history.framing-the-constitution.periodic-review-of-reservation"
+      ],
       "key_dispute": false
     },
     "63e87f55-8ec3-4788-9761-fb7484d0be64": {
@@ -4078,7 +4371,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.purpose-of-fundamental-rights",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4089,6 +4382,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.purpose-of-fundamental-rights",
+        "history.framing-the-constitution.fundamental-rights-protect-against-state"
+      ],
       "key_dispute": false
     },
     "67c64345-4b2c-47c1-923c-58d86f4abbb0": {
@@ -4135,7 +4432,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.partition-consequences-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4146,6 +4443,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.partition-consequences-matching",
+        "history.framing-the-constitution.partition-consequences-match"
+      ],
       "key_dispute": false
     },
     "804efedc-a94b-4d3a-bc2c-e2df09cd522b": {
@@ -4188,7 +4489,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.travellers-accounts-as-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4199,6 +4500,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.travellers-accounts-as-evidence",
+        "history.framing-the-constitution.corroborating-traveller-accounts"
+      ],
       "key_dispute": false
     },
     "849e518f-b399-4bba-843b-f013f92ea3c7": {
@@ -4241,7 +4546,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.partition-kinship-networks",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4250,8 +4555,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.partition-kinship-networks",
+        "history.framing-the-constitution.kinship-support-in-partition"
+      ],
       "key_dispute": false
     },
     "8db17fea-02e8-4a56-99e3-701cd6ed8b29": {
@@ -4294,7 +4603,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.travellers-accounts-as-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4305,6 +4614,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.travellers-accounts-as-evidence",
+        "history.framing-the-constitution.limits-of-traveller-accounts"
+      ],
       "key_dispute": false
     },
     "a49fab3a-38d1-4275-bf26-56c2f5aac67d": {
@@ -4347,7 +4660,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.caste-certificate-administration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4358,6 +4671,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.caste-certificate-administration",
+        "history.framing-the-constitution.certificate-verification-by-state-authorities"
+      ],
       "key_dispute": false
     },
     "bfdbb12e-4713-4753-80e5-57424d07bdbb": {
@@ -4400,7 +4717,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.framers-and-their-positions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4411,6 +4728,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.framers-and-their-positions",
+        "history.framing-the-constitution.framers-positions-match"
+      ],
       "key_dispute": false
     },
     "c210ca70-ee36-455e-b621-52e56f560af0": {
@@ -4464,6 +4785,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.article-16-4-backward-class-reservation",
+        "history.framing-the-constitution.article-16-4-backward-class-reservation"
+      ],
       "key_dispute": false
     },
     "f6f1c50f-0478-43b9-a489-3c74d94d342f": {
@@ -4506,7 +4831,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.framing-the-constitution.partition-minority-safeguards",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4515,8 +4840,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.framing-the-constitution.partition-minority-safeguards",
+        "history.framing-the-constitution.safeguards-for-religious-minorities"
+      ],
       "key_dispute": false
     },
     "0d74db8f-fd05-440d-b905-f5fad39f7a1a": {
@@ -4568,8 +4897,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.bhakti-regional-language-accessibility",
+        "history.kings-and-chronicles.bhakti-regional-language-accessibility"
+      ],
       "key_dispute": false
     },
     "1d9190d7-f91c-40ca-970f-1661932a31ac": {
@@ -4616,7 +4949,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.peasant-migration-response-to-distress",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4627,6 +4960,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.peasant-migration-response-to-distress",
+        "history.kings-and-chronicles.peasant-migration-under-distress"
+      ],
       "key_dispute": false
     },
     "675b4255-894c-46e1-9b60-f167db470c85": {
@@ -4669,7 +5006,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.zamindar-role-as-intermediary",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4680,6 +5017,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.zamindar-role-as-intermediary",
+        "history.kings-and-chronicles.zamindar-role-intermediary"
+      ],
       "key_dispute": false
     },
     "8e869a79-c6d6-4d91-a54c-ec8014b59243": {
@@ -4733,6 +5074,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.peasant-collective-negotiation-with-zamindars",
+        "history.kings-and-chronicles.peasant-collective-negotiation-with-zamindars"
+      ],
       "key_dispute": false
     },
     "bf26e5b0-0e4e-439b-944d-23d4e5d4f47f": {
@@ -4775,7 +5120,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.mansabdari-iqta-diwan-patwari-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4784,8 +5129,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.mansabdari-iqta-diwan-patwari-matching",
+        "history.kings-and-chronicles.mughal-administrative-terms-match"
+      ],
       "key_dispute": false
     },
     "d5a91948-45dc-4878-bcac-c7ce03da57c2": {
@@ -4839,6 +5188,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.land-grants-for-political-legitimacy",
+        "history.kings-and-chronicles.land-grants-for-political-legitimacy"
+      ],
       "key_dispute": false
     },
     "d64eb3b1-8556-443d-938e-a40497eb2ec1": {
@@ -4881,7 +5234,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.sources-not-direct-policy-models",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4892,6 +5245,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.sources-not-direct-policy-models",
+        "history.kings-and-chronicles.using-bhakti-texts-cautiously"
+      ],
       "key_dispute": false
     },
     "f5cb43e9-4618-4db6-902e-16b56c312a08": {
@@ -4934,7 +5291,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.sources-not-direct-policy-models",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4945,6 +5302,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.sources-not-direct-policy-models",
+        "history.kings-and-chronicles.chronicles-not-neutral-sources"
+      ],
       "key_dispute": false
     },
     "f8cbf25d-c405-4b62-989f-8a6e4c21eb15": {
@@ -4998,6 +5359,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.sufi-adaptation-of-local-culture",
+        "history.kings-and-chronicles.sufi-adaptation-of-local-culture"
+      ],
       "key_dispute": false
     },
     "fb4ca000-e84f-4140-b8a7-84da0be799a4": {
@@ -5040,7 +5405,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-and-chronicles.chronicles-legitimize-rulers",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5051,6 +5416,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-and-chronicles.chronicles-legitimize-rulers",
+        "history.kings-and-chronicles.court-chronicle-purpose-legitimacy"
+      ],
       "key_dispute": false
     },
     "0ca00800-52c4-42a8-a4ff-a576514fbf8c": {
@@ -5093,7 +5462,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.vernacular-language-accessibility-bhakti",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5102,8 +5471,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.vernacular-language-accessibility-bhakti",
+        "history.kings-farmers-and-towns.bhakti-vernacular-language-accessibility"
+      ],
       "key_dispute": false
     },
     "0ec125df-6c25-44b5-ad69-6f6db3fd94b0": {
@@ -5157,6 +5530,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.royal-inscriptions-selective-emphasis",
+        "history.kings-farmers-and-towns.royal-inscriptions-selective-emphasis"
+      ],
       "key_dispute": false
     },
     "179db687-5f95-4c9f-bcc2-0bf0a8e1e76b": {
@@ -5210,6 +5587,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.kinship-terms-matching",
+        "history.kings-farmers-and-towns.kinship-terms-matching"
+      ],
       "key_dispute": false
     },
     "2a43e8fc-248c-4ada-b844-4d3f810305cf": {
@@ -5263,6 +5644,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.class-versus-caste-distinction",
+        "history.kings-farmers-and-towns.class-versus-caste-distinction"
+      ],
       "key_dispute": false
     },
     "2e3c9745-e3e7-4561-8e89-f5b8d339bff1": {
@@ -5305,7 +5690,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.caste-occupation-urban-mobility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5314,8 +5699,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.caste-occupation-urban-mobility",
+        "history.kings-farmers-and-towns.urban-growth-occupational-mobility"
+      ],
       "key_dispute": false
     },
     "2ffcdac5-3d38-42b0-b5a8-a073d5da9199": {
@@ -5358,7 +5747,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.bhakti-sufi-devotional-common-ground",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5367,8 +5756,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.bhakti-sufi-devotional-common-ground",
+        "history.kings-farmers-and-towns.bhakti-sufi-common-devotional-approach"
+      ],
       "key_dispute": false
     },
     "303274d3-9f0c-4e15-a4da-61477a4dc295": {
@@ -5411,7 +5804,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.langar-sufi-social-inclusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5422,6 +5815,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.langar-sufi-social-inclusion",
+        "history.kings-farmers-and-towns.langar-inclusive-commensality"
+      ],
       "key_dispute": false
     },
     "30843e10-3f32-4607-af77-10f275c124db": {
@@ -5473,8 +5870,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.royal-records-religious-legitimacy",
+        "history.kings-farmers-and-towns.royal-records-religious-legitimacy"
+      ],
       "key_dispute": false
     },
     "33d51182-8fad-4675-8cc7-0362c56b5b9e": {
@@ -5517,7 +5918,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.fractional-share-of-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5528,6 +5929,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.land-revenue-fractional-share-calculation",
+        "history.kings-farmers-and-towns.fractional-share-of-total"
+      ],
       "key_dispute": false
     },
     "6356ab50-8470-47b5-a506-959274e9769c": {
@@ -5570,7 +5975,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.coins-as-historical-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5579,8 +5984,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.coins-as-historical-evidence",
+        "history.kings-farmers-and-towns.coins-as-political-evidence"
+      ],
       "key_dispute": false
     },
     "65c8ee0b-613a-4261-9517-48ec027239e2": {
@@ -5634,6 +6043,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.court-chronicles-selective-bias",
+        "history.kings-farmers-and-towns.court-chronicles-selective-bias"
+      ],
       "key_dispute": false
     },
     "66fc172d-2926-49dc-8263-2f7e8071ba57": {
@@ -5687,6 +6100,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.zamindar-revenue-intermediary-role",
+        "history.kings-farmers-and-towns.zamindar-revenue-intermediary-role"
+      ],
       "key_dispute": false
     },
     "6aa7facf-006e-4f84-8e37-2861dcdb511a": {
@@ -5729,7 +6146,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.agrarian-terminology",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5740,6 +6157,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.agrarian-terminology",
+        "history.kings-farmers-and-towns.agrarian-terms-matching"
+      ],
       "key_dispute": false
     },
     "6db16811-0df6-49b0-8332-5b1470596efd": {
@@ -5782,7 +6203,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.caste-occupation-urban-mobility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5793,6 +6214,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.caste-occupation-urban-mobility",
+        "history.kings-farmers-and-towns.urban-growth-occupational-mobility"
+      ],
       "key_dispute": false
     },
     "7c9c8aa1-c088-440e-9bd3-0473abe617ea": {
@@ -5846,6 +6271,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.shreni-merchant-guild-functions",
+        "history.kings-farmers-and-towns.shreni-merchant-guild-functions"
+      ],
       "key_dispute": false
     },
     "80600aee-0cbc-4c83-92ac-a4db349ae993": {
@@ -5892,7 +6321,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.constitutional-list-for-agriculture",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5903,6 +6332,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.constitutional-list-for-agriculture",
+        "history.kings-farmers-and-towns.state-list-land-agriculture"
+      ],
       "key_dispute": false
     },
     "83201ded-09e7-4821-861f-b3e74bc88769": {
@@ -5945,7 +6378,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.building-types-and-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5956,6 +6389,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.building-types-and-functions",
+        "history.kings-farmers-and-towns.urban-building-functions-matching"
+      ],
       "key_dispute": false
     },
     "874a81df-b445-4e3d-beb1-eec33fc3b614": {
@@ -6009,6 +6446,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.court-chronicles-selective-bias",
+        "history.kings-farmers-and-towns.court-chronicles-selective-bias"
+      ],
       "key_dispute": false
     },
     "98325253-1f65-4496-9cd6-7d4a4c84ca8a": {
@@ -6051,7 +6492,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.kinship-networks-labour-pooling",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6060,8 +6501,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.kinship-networks-labour-pooling",
+        "history.kings-farmers-and-towns.kinship-joint-family-labour-pooling"
+      ],
       "key_dispute": false
     },
     "9a70fd46-c9f7-41ec-80c3-bfadcd447b74": {
@@ -6110,7 +6555,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.village-institutions-protect-market-ties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6121,6 +6566,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.village-institutions-protect-market-ties",
+        "history.kings-farmers-and-towns.village-institutions-market-disputes"
+      ],
       "key_dispute": false
     },
     "b842b60e-e2ff-41dc-ae5e-cf9e89090543": {
@@ -6167,7 +6616,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.constitutional-measures-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6178,6 +6627,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.constitutional-measures-matching",
+        "history.kings-farmers-and-towns.constitutional-provisions-matching"
+      ],
       "key_dispute": false
     },
     "c12997e2-6fbb-43d0-b416-e8cac55e9672": {
@@ -6224,7 +6677,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.equal-partible-inheritance-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6235,6 +6688,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.equal-partible-inheritance-calculation",
+        "history.kings-farmers-and-towns.equal-division-of-inherited-land"
+      ],
       "key_dispute": false
     },
     "cf72c8e1-72e9-4db5-9246-4f77adce36d6": {
@@ -6277,7 +6734,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.sanskrit-as-elite-inscription-language",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6286,8 +6743,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.sanskrit-as-elite-inscription-language",
+        "history.kings-farmers-and-towns.sanskrit-inscriptions-elite-audience"
+      ],
       "key_dispute": false
     },
     "d1d9908a-b701-4a4d-b1b4-5f90b168d59c": {
@@ -6330,7 +6791,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.temple-architecture-parts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6341,6 +6802,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.temple-architecture-parts",
+        "history.kings-farmers-and-towns.temple-architecture-parts-functions"
+      ],
       "key_dispute": false
     },
     "d8b4f2ad-6325-46d4-ace4-128392b99520": {
@@ -6383,7 +6848,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.bhakti-limits-on-caste-equality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6392,8 +6857,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.bhakti-limits-on-caste-equality",
+        "history.kings-farmers-and-towns.bhakti-limits-social-hierarchy"
+      ],
       "key_dispute": false
     },
     "df162079-204b-436a-8ff3-83e66ed73c06": {
@@ -6436,7 +6905,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.fractional-share-of-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6447,6 +6916,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.percentage-of-households-calculation",
+        "history.kings-farmers-and-towns.fractional-share-of-total"
+      ],
       "key_dispute": false
     },
     "e183a83a-ca27-48a6-b3eb-151d716a76c8": {
@@ -6489,7 +6962,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.bhakti-saints-regional-features",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6500,6 +6973,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.bhakti-saints-regional-features",
+        "history.kings-farmers-and-towns.bhakti-sant-figures-matching"
+      ],
       "key_dispute": false
     },
     "edf965cf-21da-4f34-8674-37733c89b774": {
@@ -6542,7 +7019,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.agrarian-terminology",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6553,6 +7030,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.agrarian-terminology",
+        "history.kings-farmers-and-towns.batai-sharecropping-meaning"
+      ],
       "key_dispute": false
     },
     "f459ce8a-7100-4144-9d0e-4202403c3c89": {
@@ -6595,7 +7076,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kings-farmers-and-towns.chronicle-vs-hagiography-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6606,6 +7087,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.chronicle-vs-hagiography-purpose",
+        "history.kings-farmers-and-towns.chronicles-versus-hagiography-purpose"
+      ],
       "key_dispute": false
     },
     "065fd853-4c72-4bb5-948a-a2d5f41b848e": {
@@ -6659,6 +7144,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.local-markets-reduce-moneylender-dependence",
+        "history.kinship-caste-and-class.local-markets-reduce-moneylender-dependence"
+      ],
       "key_dispute": false
     },
     "317892bc-7bb8-4448-a6cf-5f01c425bf93": {
@@ -6707,7 +7196,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.kin-claims-resist-land-sale",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6718,6 +7207,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.kin-claims-resist-land-sale",
+        "history.kinship-caste-and-class.kinship-claims-limit-land-sale"
+      ],
       "key_dispute": false
     },
     "40545707-b709-4f1c-87b3-1f405576a0b6": {
@@ -6760,7 +7253,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.vijayanagara-city-features-and-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6771,6 +7264,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.vijayanagara-city-features-and-functions",
+        "history.kinship-caste-and-class.vijayanagara-city-functions-matching"
+      ],
       "key_dispute": false
     },
     "4206cd7c-0948-4fb6-aa8a-1c4d42d06f45": {
@@ -6813,7 +7310,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.state-patronage-sustains-urban-scale",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6822,8 +7319,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.state-patronage-sustains-urban-scale",
+        "history.kinship-caste-and-class.state-patronage-sustains-city-economy"
+      ],
       "key_dispute": false
     },
     "b6273ef6-3282-42da-93a7-32db266cb082": {
@@ -6877,6 +7378,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.peasant-revolts-target-local-intermediaries",
+        "history.kinship-caste-and-class.peasant-revolts-target-local-intermediaries"
+      ],
       "key_dispute": false
     },
     "bf62bee1-9c45-494b-b3d0-330f60d4b8bf": {
@@ -6919,7 +7424,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.rural-roles-and-characteristics-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6930,6 +7435,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.rural-roles-and-characteristics-match",
+        "history.kinship-caste-and-class.rural-social-categories-matching"
+      ],
       "key_dispute": false
     },
     "ca97f462-3281-4727-a168-c9c90da41d52": {
@@ -6978,7 +7487,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.standard-coinage-and-weights-trade",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6987,8 +7496,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.standard-coinage-and-weights-trade",
+        "history.kinship-caste-and-class.standard-coinage-fosters-long-distance-trade"
+      ],
       "key_dispute": false
     },
     "cc6743af-1687-4f34-932d-7b0bd547ed31": {
@@ -7031,7 +7544,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.land-grants-political-legitimacy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7042,6 +7555,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.land-grants-political-legitimacy",
+        "history.kinship-caste-and-class.land-grants-for-royal-legitimacy"
+      ],
       "key_dispute": false
     },
     "ce752806-a7e1-48f4-86e0-eb4593f8a062": {
@@ -7095,6 +7612,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.hereditary-zamindars-local-autonomy",
+        "history.kinship-caste-and-class.hereditary-zamindars-local-autonomy"
+      ],
       "key_dispute": false
     },
     "db57f23a-3faa-4b78-8285-069f385afb9f": {
@@ -7137,7 +7658,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.kinship-caste-and-class.hereditary-zamindars-local-autonomy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7148,6 +7669,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.kinship-caste-and-class.hereditary-zamindars-local-autonomy",
+        "history.kinship-caste-and-class.zamindars-retain-revenue-and-force"
+      ],
       "key_dispute": false
     },
     "0fe11f36-aa65-42c4-a4c7-ed3e79afc518": {
@@ -7190,7 +7715,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.salt-march-average-daily-distance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7201,6 +7726,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.salt-march-average-daily-distance",
+        "history.mahatma-gandhi-and-the-nationalist-movement.dandi-march-scale-and-duration"
+      ],
       "key_dispute": false
     },
     "28fdcf17-07d9-4ccc-b6e2-d15d006ff84e": {
@@ -7254,6 +7783,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.bhu-speech-critique-of-elite",
+        "history.mahatma-gandhi-and-the-nationalist-movement.bhu-speech-critique-of-elite"
+      ],
       "key_dispute": false
     },
     "29436ed3-d509-4531-a052-102fac3db3e7": {
@@ -7296,7 +7829,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.constructive-work-for-inclusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7307,6 +7840,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.constructive-work-for-inclusion",
+        "history.mahatma-gandhi-and-the-nationalist-movement.constructive-programme-for-inclusion"
+      ],
       "key_dispute": false
     },
     "3f059519-cc9a-4e09-83b2-67f1a66ecdab": {
@@ -7349,7 +7886,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.ashram-training-production-and-communal-life",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7360,6 +7897,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.ashram-training-production-and-communal-life",
+        "history.mahatma-gandhi-and-the-nationalist-movement.ashram-as-training-and-production-centre"
+      ],
       "key_dispute": false
     },
     "41a7bfa8-7971-4625-9107-f7728ed2a0f8": {
@@ -7417,6 +7958,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.non-cooperation-movement-duration",
+        "history.mahatma-gandhi-and-the-nationalist-movement.non-cooperation-movement-duration"
+      ],
       "key_dispute": false
     },
     "7e87d361-4cdd-49bf-a672-170419ae8c45": {
@@ -7459,7 +8004,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.economic-influences-on-gandhi",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7470,6 +8015,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.economic-influences-on-gandhi",
+        "history.mahatma-gandhi-and-the-nationalist-movement.ruskin-influence-on-economic-ideas"
+      ],
       "key_dispute": false
     },
     "8bc90378-9bec-4a9f-9b07-7c55eb2ccca3": {
@@ -7512,7 +8061,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.constructive-work-for-inclusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7523,6 +8072,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.constructive-work-for-inclusion",
+        "history.mahatma-gandhi-and-the-nationalist-movement.constructive-programme-for-inclusion"
+      ],
       "key_dispute": false
     },
     "97e81202-48bf-4c21-97ed-23a5f561b0c1": {
@@ -7569,7 +8122,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.quit-india-cripps-mission-origin",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7580,6 +8133,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.quit-india-cripps-mission-origin",
+        "history.mahatma-gandhi-and-the-nationalist-movement.quit-india-launched-after-cripps-failure"
+      ],
       "key_dispute": false
     },
     "d6c9e136-5e92-40fe-9af9-75011ea85002": {
@@ -7622,7 +8179,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.gandhian-terms-and-their-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7633,6 +8190,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.gandhian-terms-and-their-functions",
+        "history.mahatma-gandhi-and-the-nationalist-movement.matching-gandhian-terms-to-functions"
+      ],
       "key_dispute": false
     },
     "e324a096-c4ac-4621-843a-6a23bd2a4870": {
@@ -7675,7 +8236,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.champaran-satyagraha-significance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7686,6 +8247,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.champaran-satyagraha-significance",
+        "history.mahatma-gandhi-and-the-nationalist-movement.champaran-first-peasant-satyagraha"
+      ],
       "key_dispute": false
     },
     "fe43a845-62ec-487f-8068-45703965c6e4": {
@@ -7728,7 +8293,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.mahatma-gandhi-and-the-nationalist-movement.ashram-training-production-and-communal-life",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7737,8 +8302,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.mahatma-gandhi-and-the-nationalist-movement.ashram-training-production-and-communal-life",
+        "history.mahatma-gandhi-and-the-nationalist-movement.ashram-as-training-and-production-centre"
+      ],
       "key_dispute": false
     },
     "447c4c1b-af8b-4ada-bf37-1c81b07cfd0d": {
@@ -7792,6 +8361,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.evacuee-property-custodianship",
+        "history.partition.evacuee-property-custodianship"
+      ],
       "key_dispute": false
     },
     "528a3767-9ba2-4428-8c33-bba8923b6cb0": {
@@ -7838,7 +8411,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.partition.immediate-relief-priority-for-refugees",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7849,6 +8422,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.immediate-relief-priority-for-refugees",
+        "history.partition.immediate-relief-priority-refugees"
+      ],
       "key_dispute": false
     },
     "5ac76f26-f4e6-440b-8e42-15531fde6802": {
@@ -7891,7 +8468,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.partition.mountbatten-plan-reason-for-partition-acceptance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7900,8 +8477,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.partition.mountbatten-plan-reason-for-partition-acceptance",
+        "history.partition.mountbatten-plan-british-haste-reason"
+      ],
       "key_dispute": false
     },
     "8f5acce5-a48c-48c3-8643-0a1f56a20d93": {
@@ -7948,7 +8529,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.partition.shared-shrine-communal-continuity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7959,6 +8540,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.shared-shrine-communal-continuity",
+        "history.partition.syncretic-shrine-intercommunal-continuity"
+      ],
       "key_dispute": false
     },
     "9066a338-9925-4bf3-a55d-975cf97199f9": {
@@ -8005,7 +8590,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.partition.immediate-curfew-and-security-response",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8016,6 +8601,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.immediate-curfew-and-security-response",
+        "history.partition.curfew-and-security-forces-response"
+      ],
       "key_dispute": false
     },
     "9974de9a-9c56-48d8-89b2-b1249df9f9be": {
@@ -8069,6 +8658,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.percentage-of-displaced-population",
+        "history.partition.percentage-of-displaced-population"
+      ],
       "key_dispute": false
     },
     "99bd163f-04a7-4852-a033-8671ccc6b8c4": {
@@ -8122,6 +8715,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.radcliffe-commission-mandate",
+        "history.partition.radcliffe-commission-mandate"
+      ],
       "key_dispute": false
     },
     "cd7d76a7-6955-4a7c-ab28-890a28f799b6": {
@@ -8179,6 +8776,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.mountbatten-plan-announcement-date",
+        "history.partition.mountbatten-plan-announcement-date"
+      ],
       "key_dispute": false
     },
     "d51724c7-3313-4e54-944a-9961f43f08d6": {
@@ -8221,7 +8822,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.partition.events-to-consequences-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8230,8 +8831,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.partition.events-to-consequences-matching",
+        "history.partition.partition-events-to-consequences"
+      ],
       "key_dispute": false
     },
     "f20ff433-3e5c-4bf2-9463-5a4d4697fd9e": {
@@ -8274,7 +8879,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.partition.partition-leaders-roles-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8285,6 +8890,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.partition.partition-leaders-roles-matching",
+        "history.partition.partition-leaders-and-roles"
+      ],
       "key_dispute": false
     },
     "0f473d68-cfe6-400e-aa08-6d8cbd629d44": {
@@ -8327,7 +8936,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.permanent-settlement-zamindar-status",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8336,8 +8945,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.permanent-settlement-zamindar-status",
+        "history.peasants-zamindars-and-the-state.permanent-settlement-hereditary-proprietors"
+      ],
       "key_dispute": false
     },
     "0f6176f2-6cf6-4a2f-9c8e-7956905bd13f": {
@@ -8380,7 +8993,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.forest-restriction-impact-on-tribals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8391,6 +9004,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.forest-restriction-impact-on-tribals",
+        "history.peasants-zamindars-and-the-state.colonial-forest-ban-tribal-dispossession"
+      ],
       "key_dispute": false
     },
     "2b9bf54a-7cbf-4658-8868-7f9416d08ec8": {
@@ -8433,7 +9050,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.revenue-systems-regional-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8444,6 +9061,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.revenue-systems-regional-match",
+        "history.peasants-zamindars-and-the-state.revenue-systems-regional-distribution"
+      ],
       "key_dispute": false
     },
     "499b5148-4197-4aba-b5d8-9cd791f5796c": {
@@ -8486,7 +9107,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.ryotwari-vs-mahalwari-assessment-unit",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8497,6 +9118,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.ryotwari-vs-mahalwari-assessment-unit",
+        "history.peasants-zamindars-and-the-state.ryotwari-mahalwari-assessment-unit"
+      ],
       "key_dispute": false
     },
     "811bbba4-8fd3-4a45-ad40-a53d8fc22869": {
@@ -8545,7 +9170,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.champaran-cause-vs-methods",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8556,6 +9181,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.champaran-cause-vs-methods",
+        "history.peasants-zamindars-and-the-state.satyagraha-methods-vs-indigo-grievance"
+      ],
       "key_dispute": true
     },
     "988db1a6-e29d-4806-9d83-d0db925c1413": {
@@ -8598,7 +9227,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.nationalist-vs-earlier-rural-rebellions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8609,6 +9238,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.nationalist-vs-earlier-rural-rebellions",
+        "history.peasants-zamindars-and-the-state.nationalist-peasant-movements-vs-earlier-revolts"
+      ],
       "key_dispute": false
     },
     "a5911c42-6f86-4144-b98d-cfcdcd09c3c1": {
@@ -8651,7 +9284,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.permanent-settlement-zamindar-status",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8662,6 +9295,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.permanent-settlement-zamindar-status",
+        "history.peasants-zamindars-and-the-state.permanent-settlement-hereditary-proprietors"
+      ],
       "key_dispute": false
     },
     "be05a880-92fc-44d1-a7d4-894371c6dfea": {
@@ -8704,7 +9341,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.peasants-zamindars-and-the-state.deccan-riots-causes-and-targets",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8713,8 +9350,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.deccan-riots-causes-and-targets",
+        "history.peasants-zamindars-and-the-state.deccan-riots-moneylender-target-causes"
+      ],
       "key_dispute": false
     },
     "e0f9c062-98a9-4879-8916-73bc23c0ae00": {
@@ -8768,6 +9409,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.peasants-zamindars-and-the-state.peasant-movements-characteristics-match",
+        "history.peasants-zamindars-and-the-state.peasant-movements-characteristics-match"
+      ],
       "key_dispute": false
     },
     "0d403fd8-3abd-4dea-9231-6593063038a9": {
@@ -8810,7 +9455,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.rural-leader-roles-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8819,8 +9464,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.rural-leader-roles-matching",
+        "history.rebels-and-the-raj.roles-of-rural-leaders"
+      ],
       "key_dispute": false
     },
     "1100e06c-b9af-4f72-a696-a7dea2fad1b8": {
@@ -8878,6 +9527,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.kinship-networks-enable-mobilisation",
+        "history.rebels-and-the-raj.kinship-networks-enable-mobilisation"
+      ],
       "key_dispute": false
     },
     "2fe0e558-18a1-49a4-b71e-f5be2f7ee4d4": {
@@ -8920,7 +9573,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.religious-sites-as-mobilising-symbols",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8931,6 +9584,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.religious-sites-as-mobilising-symbols",
+        "history.rebels-and-the-raj.religious-sites-focus-mobilisation"
+      ],
       "key_dispute": false
     },
     "33df35e0-b0f4-4b51-815e-200162a5ba8d": {
@@ -8979,7 +9636,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.percentage-based-participation-count",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8990,6 +9647,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.percentage-based-participation-count",
+        "history.rebels-and-the-raj.percentage-of-total-calculation"
+      ],
       "key_dispute": false
     },
     "5bfbc481-f38c-4193-b565-1740ca8c5cd8": {
@@ -9032,7 +9693,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.elite-bias-in-chronicles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9043,6 +9704,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.elite-bias-in-chronicles",
+        "history.rebels-and-the-raj.chronicles-elite-bias-limits-peasant-voice"
+      ],
       "key_dispute": false
     },
     "671bd7a4-17aa-4334-91bf-5865bed37603": {
@@ -9085,7 +9750,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.elite-bias-in-chronicles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9094,8 +9759,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.elite-bias-in-chronicles",
+        "history.rebels-and-the-raj.chronicles-elite-bias-limits-peasant-voice"
+      ],
       "key_dispute": false
     },
     "7b3a1abb-8f87-4452-aa4f-c522456db357": {
@@ -9138,7 +9807,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.corroborate-conflicting-accounts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9149,6 +9818,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.corroborate-conflicting-accounts",
+        "history.rebels-and-the-raj.corroborate-multiple-sources"
+      ],
       "key_dispute": false
     },
     "7c743b57-cb8c-4d95-8b94-9bd4bba5e902": {
@@ -9202,6 +9875,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.kinship-networks-enable-mobilisation",
+        "history.rebels-and-the-raj.kinship-networks-enable-mobilisation"
+      ],
       "key_dispute": false
     },
     "d68f0b4b-120d-4f17-9a57-3610782cbea5": {
@@ -9244,7 +9921,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.caste-pollution-limits-alliances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9253,8 +9930,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.caste-pollution-limits-alliances",
+        "history.rebels-and-the-raj.caste-barriers-to-cross-caste-alliances"
+      ],
       "key_dispute": false
     },
     "d69709fc-b6fe-4ca8-b075-e2e739d7f965": {
@@ -9297,7 +9978,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.rebel-sites-and-their-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9308,6 +9989,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.rebel-sites-and-their-functions",
+        "history.rebels-and-the-raj.functions-of-local-sites"
+      ],
       "key_dispute": false
     },
     "d8f5e8c5-2860-4759-9150-1cb84696b1e4": {
@@ -9350,7 +10035,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.percentage-based-participation-count",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9361,6 +10046,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.percentage-based-participation-count",
+        "history.rebels-and-the-raj.percentage-of-total-calculation"
+      ],
       "key_dispute": false
     },
     "fcc8570e-daad-4d67-81f6-62357df7bc31": {
@@ -9403,7 +10092,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.rebels-and-the-raj.forts-as-military-strongholds",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9414,6 +10103,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.rebels-and-the-raj.forts-as-military-strongholds",
+        "history.rebels-and-the-raj.forts-as-strategic-military-sites"
+      ],
       "key_dispute": false
     },
     "077836a6-522f-4ed0-880b-964d3f22a2b3": {
@@ -9467,6 +10160,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.standardized-bricks-planned-construction",
+        "history.thinkers-beliefs-and-buildings.standardized-bricks-planned-construction"
+      ],
       "key_dispute": false
     },
     "0890017d-ea9e-407d-ba6b-c2e9330533ad": {
@@ -9509,7 +10206,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.butchery-evidence-domestic-consumption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9520,6 +10217,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.butchery-evidence-domestic-consumption",
+        "history.thinkers-beliefs-and-buildings.animal-bones-domestic-butchery"
+      ],
       "key_dispute": false
     },
     "2b3c0a76-9523-45db-856f-b7fee207f55f": {
@@ -9573,6 +10274,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.citadel-lower-town-differentiation",
+        "history.thinkers-beliefs-and-buildings.citadel-lower-town-differentiation"
+      ],
       "key_dispute": false
     },
     "5bdb6b8d-8722-441a-8f8a-700f0d0ced75": {
@@ -9626,6 +10331,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.bow-drill-bead-perforation",
+        "history.thinkers-beliefs-and-buildings.bow-drill-bead-perforation"
+      ],
       "key_dispute": false
     },
     "8cf8b85f-23b6-49b0-96e6-c997ae85bf87": {
@@ -9668,7 +10377,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.planned-urbanism-from-urban-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9679,6 +10388,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.planned-urbanism-from-urban-evidence",
+        "history.thinkers-beliefs-and-buildings.planned-urbanism-from-evidence"
+      ],
       "key_dispute": false
     },
     "8d2035e6-0be7-426b-a707-c8b44d9c2cc8": {
@@ -9721,7 +10434,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.iron-tools-expanding-cultivation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9732,6 +10445,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.iron-tools-expanding-cultivation",
+        "history.thinkers-beliefs-and-buildings.iron-tools-expand-cultivation"
+      ],
       "key_dispute": false
     },
     "ab63a9a2-8589-46a5-936c-b550a299e453": {
@@ -9778,7 +10495,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.abrasive-bead-drilling",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9789,6 +10506,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.abrasive-bead-drilling",
+        "history.thinkers-beliefs-and-buildings.bead-drilling-abrasive"
+      ],
       "key_dispute": false
     },
     "ba991510-2853-412c-973f-b18504165e0f": {
@@ -9831,7 +10552,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.non-local-materials-trade-inference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9840,8 +10561,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.non-local-materials-trade-inference",
+        "history.thinkers-beliefs-and-buildings.non-local-materials-long-distance-trade"
+      ],
       "key_dispute": false
     },
     "e8bc6e2a-3d47-4b50-847d-6aa34f7ae78f": {
@@ -9884,7 +10609,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.traveller-accounts-urban-information",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9895,6 +10620,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.traveller-accounts-urban-information",
+        "history.thinkers-beliefs-and-buildings.travellers-accounts-urban-markets"
+      ],
       "key_dispute": false
     },
     "f2914274-c255-4a52-8001-3bda4e8c2d75": {
@@ -9944,7 +10673,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.stupa-relics-assertion-reason",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9955,6 +10684,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.stupa-relics-assertion-reason",
+        "history.thinkers-beliefs-and-buildings.stupa-relics-purpose"
+      ],
       "key_dispute": true
     },
     "fa44bd56-52fb-448a-9daf-98a3f0b92940": {
@@ -9997,7 +10730,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.kilns-specialised-craft-production",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10008,6 +10741,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.kilns-specialised-craft-production",
+        "history.thinkers-beliefs-and-buildings.craft-production-kilns-quarters"
+      ],
       "key_dispute": false
     },
     "ff85a785-1ef4-4b53-95aa-72e1cf8c5ffe": {
@@ -10050,7 +10787,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.thinkers-beliefs-and-buildings.mixed-agro-pastoral-economy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10061,6 +10798,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.thinkers-beliefs-and-buildings.mixed-agro-pastoral-economy",
+        "history.thinkers-beliefs-and-buildings.faunal-and-plant-evidence-agro-pastoral"
+      ],
       "key_dispute": false
     },
     "0f9dea2b-aea2-4e34-98de-fc8c830418d7": {
@@ -10121,6 +10862,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.urban-markets-indicate-craft-specialisation",
+        "history.through-the-eyes-of-travellers.urban-markets-indicate-craft-specialisation"
+      ],
       "key_dispute": true
     },
     "2dfe8fcd-d9d7-471d-9bfc-090998a6fd24": {
@@ -10163,7 +10908,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.public-spheres-bias-omits-women-labour",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10172,8 +10917,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.public-spheres-bias-omits-women-labour",
+        "history.through-the-eyes-of-travellers.travellers-public-focus-misses-domestic-labour"
+      ],
       "key_dispute": false
     },
     "38c1cb98-f613-4163-aabe-e55ef4071d0a": {
@@ -10216,7 +10965,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.exaggerated-traveller-counts-need-caution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10225,8 +10974,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.exaggerated-traveller-counts-need-caution",
+        "history.through-the-eyes-of-travellers.travellers-numerical-claims-exaggerated"
+      ],
       "key_dispute": false
     },
     "438ca903-b28b-4492-9e86-f807dc02aebb": {
@@ -10269,7 +11022,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.peasant-surplus-after-rent-and-levies",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10280,6 +11033,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.peasant-surplus-after-rent-and-levies",
+        "history.through-the-eyes-of-travellers.fractional-rent-from-produce"
+      ],
       "key_dispute": false
     },
     "4a98ac1c-2e68-4700-8915-1a3f060153b9": {
@@ -10330,7 +11087,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.exaggerated-traveller-counts-need-caution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10341,6 +11098,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.exaggerated-traveller-counts-need-caution",
+        "history.through-the-eyes-of-travellers.travellers-numerical-claims-exaggerated"
+      ],
       "key_dispute": false
     },
     "707136cb-cd05-41f0-b6bc-fafa48df705e": {
@@ -10383,7 +11144,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.coins-indicate-monetised-exchange",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10394,6 +11155,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.coins-indicate-monetised-exchange",
+        "history.through-the-eyes-of-travellers.coinage-indicates-monetised-exchange"
+      ],
       "key_dispute": false
     },
     "84bf3dd8-7f51-48e6-a414-11f191fc0f22": {
@@ -10436,7 +11201,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.spectacle-displays-ruler-legitimacy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10447,6 +11212,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.spectacle-displays-ruler-legitimacy",
+        "history.through-the-eyes-of-travellers.spectacle-displays-signify-royal-legitimacy"
+      ],
       "key_dispute": false
     },
     "86a12a00-9b48-4177-bce0-4d73156c260f": {
@@ -10489,7 +11258,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.seasonal-labour-migration-links-villages-towns",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10500,6 +11269,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.seasonal-labour-migration-links-villages-towns",
+        "history.through-the-eyes-of-travellers.seasonal-migration-shows-rural-urban-labour"
+      ],
       "key_dispute": false
     },
     "9526027d-4f52-4c5d-b414-e58a4b7e422e": {
@@ -10553,6 +11326,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.indebtedness-drives-peasant-vulnerability",
+        "history.through-the-eyes-of-travellers.indebtedness-drives-peasant-vulnerability"
+      ],
       "key_dispute": false
     },
     "a2377380-334b-4def-bcba-09dd46e8cec2": {
@@ -10595,7 +11372,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.spectacle-over-systematic-data-reliability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10606,6 +11383,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.spectacle-over-systematic-data-reliability",
+        "history.through-the-eyes-of-travellers.travellers-spectacle-over-systematic-accuracy"
+      ],
       "key_dispute": false
     },
     "a60974db-8efb-400b-a15b-0abc8ae31227": {
@@ -10648,7 +11429,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.evidence-to-inference-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10657,8 +11438,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.evidence-to-inference-matching",
+        "history.through-the-eyes-of-travellers.match-observations-to-economic-inferences"
+      ],
       "key_dispute": false
     },
     "da0cdf26-ff19-41db-aaec-667884ff3b3e": {
@@ -10701,7 +11486,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "history.through-the-eyes-of-travellers.evidence-to-inference-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10710,8 +11495,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "history.through-the-eyes-of-travellers.evidence-to-inference-matching",
+        "history.through-the-eyes-of-travellers.match-observations-to-economic-inferences"
+      ],
       "key_dispute": false
     }
   }

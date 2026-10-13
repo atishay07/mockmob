@@ -18,8 +18,12 @@
 //                                         per subject: rubric version and hash, calibration, measures
 //   data/nta_key_disputes.json            every question where a judge's blind answer differs from the key
 //                                         (scoring and calibration passes); entries under "resolved" stay out
-//   data/nta_objectives.json              agent_questions: one objective tag per judged question
-//   data/nta_difficulty.json              corrections where both judges agree on a level other than the label
+//   data/nta_objectives.json              agent_questions: the objective tag of each question both judges
+//                                         tagged alike (a tag only one judge gave is not a stored tag; the
+//                                         engine's concept guard reads both judges' tags from the score tables)
+//   data/nta_difficulty.json              corrections where both judges agree on a level two levels from the
+//                                         label (easy labelled hard, or the reverse); one-level disagreements
+//                                         are counted but not applied (policy in data/nta_item_checks.js ntaDifficultyOf)
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -42,6 +46,7 @@ const today = new Date().toISOString().slice(0, 10);
 const BLOCKING = new Set(NTA_AGENT_BLOCKING_FLAGS);
 const KNOWN_FLAGS = BLOCKING;
 const LEVELS = new Set(['easy', 'medium', 'hard']);
+const LEVEL_RANK = { easy: 0, medium: 1, hard: 2 };
 const ANSWERS = new Set(['A', 'B', 'C', 'D', '?']);
 const TAG = /^[a-z0-9_]+\.[a-z0-9]+(?:-[a-z0-9]+)*\.[a-z0-9]+(?:-[a-z0-9]+){1,5}$/;
 
@@ -166,14 +171,13 @@ function addDisputes(map, pass) {
 addDisputes(judged, 'scoring');
 addDisputes(calJudged, 'calibration');
 
-// ---- objective tags: agreed, else the spelling used more often in the subject, else j1 ----
-const tagUse = new Map();
-for (const { results } of judged.values()) for (const result of results) tagUse.set(result.objective_tag, (tagUse.get(result.objective_tag) || 0) + 1);
+// ---- objective tags: stored only where both judges gave the same well-formed tag ----
+// (Review of 13 Oct 2026: about one tag in five agrees. A tag picked from two different spellings is
+// not evidence of the concept; the engine's concept guard reads both judges' tag words instead.)
 function chooseTag(results) {
   const tags = results.map((result) => result.objective_tag).filter((tag) => TAG.test(tag));
-  if (!tags.length) return null;
-  if (tags.every((tag) => tag === tags[0])) return tags[0];
-  return tags.slice().sort((a, b) => (tagUse.get(b) || 0) - (tagUse.get(a) || 0))[0];
+  if (tags.length < 2 || results.length < 2) return null;
+  return tags.every((tag) => tag === tags[0]) ? tags[0] : null;
 }
 
 // ---- per subject tables ----
@@ -185,7 +189,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
   const questions = {};
   const pairs = [];
   let oneJudge = 0;
-  let keyBoth = 0; let keyOne = 0; let keyNone = 0; let blindAgree = 0; let tagAgree = 0; let diffAgree = 0; let blocking = 0;
+  let keyBoth = 0; let keyOne = 0; let keyNone = 0; let blindAgree = 0; let tagAgree = 0; let diffAgree = 0; let blocking = 0; let oneLevel = 0;
   const flagCounts = {};
   const models = new Set();
   for (const [id, { question, results }] of judged) {
@@ -212,7 +216,8 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     } else oneJudge += 1;
     if (tag) agentObjectives[id] = tag;
     if (agreedLevel && label && LEVELS.has(label) && agreedLevel !== label) {
-      difficulty[id] = { subject, from: label, to: agreedLevel, source: `agent pass ${today}, both judges` };
+      if (Math.abs(LEVEL_RANK[agreedLevel] - LEVEL_RANK[label]) === 2) difficulty[id] = { subject, from: label, to: agreedLevel, source: `agent pass ${today}, both judges, two levels from the label` };
+      else oneLevel += 1;
     }
     questions[id] = {
       question_id: id,
@@ -232,6 +237,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
       objective_tag: tag,
       tag_agreement: ordered.length === 2 ? ordered[0].objective_tag === ordered[1].objective_tag : null,
       difficulty: { label, judges: levels, agreed: agreedLevel, corrected: difficulty[id]?.to ?? null },
+      objective_tags: ordered.map((result) => result.objective_tag),
       key_dispute: Boolean(disputes[id]),
     };
   }
@@ -251,6 +257,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     tag_agreement_pct: pct(tagAgree, n),
     difficulty_agreement_pct: pct(diffAgree, n),
     blocking_flagged: blocking,
+    difficulty_one_level_not_applied: oneLevel,
     flags: flagCounts,
     mean_of_means: n ? round2(pairs.reduce((sum, [a, b]) => sum + (a + b) / 2, 0) / n) : null,
   };
@@ -267,7 +274,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
   };
   table.measures.admissible_before_row_checks = ntaAgentAdmissibleIds(subject, { agentScores: { [subject]: table } }).length;
   tables[subject] = table;
-  summary.push({ subject, judged: Object.keys(questions).length, both: n, admissible: table.measures.admissible_before_row_checks, disputes: Object.values(disputes).filter((d) => d.subject === subject).length, corrections: Object.values(difficulty).filter((d) => d.subject === subject).length });
+  summary.push({ subject, judged: Object.keys(questions).length, both: n, admissible: table.measures.admissible_before_row_checks, disputes: Object.values(disputes).filter((d) => d.subject === subject).length, corrections: Object.values(difficulty).filter((d) => d.subject === subject).length, oneLevelNotApplied: oneLevel, agreedTags: Object.values(questions).filter((q) => q.objective_tag).length });
 }
 
 // ---- write ----
@@ -285,14 +292,14 @@ fs.writeFileSync(disputesPath, stable({
 const objectivesPath = path.join(DATA, 'nta_objectives.json');
 const objectives = readJson(objectivesPath, { questions: {} });
 objectives.agent_questions = Object.fromEntries(Object.entries(agentObjectives).sort(([a], [b]) => a.localeCompare(b)));
-objectives.agent_note = 'agent_questions: one tag per question from the agent pass (scripts/nta-pass-merge.mjs; the tag both judges gave, else the spelling used more often in the subject). Hand-assigned tags in questions take precedence.';
+objectives.agent_note = 'agent_questions: the tag both agent judges gave alike (scripts/nta-pass-merge.mjs); questions whose judges disagree have no stored tag here, and the engine separates them by the words of both judges\' tags (data/nta_item_checks.js conceptKeysOf). Hand-assigned tags in questions take precedence.';
 objectives.agent_version = Object.keys(agentObjectives).length ? `agent-pass-${today}` : 'none';
 fs.writeFileSync(objectivesPath, stable(objectives));
 
 const difficultyPath = path.join(DATA, 'nta_difficulty.json');
-const difficultyFile = readJson(difficultyPath, {});
 fs.writeFileSync(difficultyPath, stable({
-  note: difficultyFile.note,
+  note: 'Difficulty corrections for NTA mode (data/nta_item_checks.js ntaDifficultyOf). Written by scripts/nta-pass-merge.mjs only where both agent judges independently put the question at the same level AND that level is two levels from the stored label (easy labelled hard, or the reverse); one-level disagreements are not applied, because the judges were told to choose the lower level when unsure (owner review, 13 Oct 2026). An entry applies only while the stored label still equals \'from\'. Nothing here changes the database.',
+  policy: 'two_level_gap_only',
   version: Object.keys(difficulty).length ? `agent-pass-${today}` : 'none',
   questions: Object.fromEntries(Object.entries(difficulty).sort(([a], [b]) => a.localeCompare(b))),
 }));
@@ -309,6 +316,7 @@ console.log(JSON.stringify({
   questionsJudged: judged.size,
   keyDisputes: Object.keys(disputes).length,
   difficultyCorrections: Object.keys(difficulty).length,
+  difficultyOneLevelNotApplied: summary.reduce((sum, entry) => sum + entry.oneLevelNotApplied, 0),
   objectiveTags: Object.keys(agentObjectives).length,
   perSubject: summary,
 }, null, 1));

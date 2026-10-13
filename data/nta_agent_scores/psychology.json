@@ -3,7 +3,7 @@
   "subject": "psychology",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.538Z",
+  "merged_at": "2026-10-13T15:32:56.780Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 29.9,
     "difficulty_agreement_pct": 79.3,
     "blocking_flagged": 13,
+    "difficulty_one_level_not_applied": 24,
     "flags": {
       "answer_in_stem": 2,
       "multiple_defensible": 6,
@@ -109,7 +110,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.stereotype-as-overgeneralised-belief",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -120,6 +121,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.stereotype-as-overgeneralised-belief",
+        "psychology.attitude-and-social-cognition.stereotype-definition"
+      ],
       "key_dispute": false
     },
     "958f8ee2-5df5-4297-8f57-82125dd64d71": {
@@ -162,7 +167,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.factors-affecting-attitude-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -171,8 +176,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.factors-affecting-attitude-change",
+        "psychology.attitude-and-social-cognition.persuasion-source-and-message-factors"
+      ],
       "key_dispute": false
     },
     "a5200d37-05ac-4c54-9354-9743d24172f7": {
@@ -221,7 +230,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.cognitive-dissonance-attitude-behaviour-conflict",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -232,6 +241,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.cognitive-dissonance-attitude-behaviour-conflict",
+        "psychology.attitude-and-social-cognition.cognitive-dissonance-theory"
+      ],
       "key_dispute": false
     },
     "ba5a53a9-bfae-497f-b4fe-99a1643eb373": {
@@ -274,7 +287,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.halo-effect-in-person-judgment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -285,6 +298,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.halo-effect-in-person-judgment",
+        "psychology.attitude-and-social-cognition.halo-effect-impression-bias"
+      ],
       "key_dispute": false
     },
     "dd4ba16c-6c90-4885-bce6-b73a15134f99": {
@@ -327,7 +344,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.origins-of-prejudice-through-learning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -338,6 +355,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.origins-of-prejudice-through-learning",
+        "psychology.attitude-and-social-cognition.prejudice-learning-mechanisms"
+      ],
       "key_dispute": false
     },
     "e58c1fc0-92b1-4aa5-aecc-f15286183c8a": {
@@ -380,7 +401,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.social-cognition-as-umbrella-term",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -391,6 +412,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.social-cognition-as-umbrella-term",
+        "psychology.attitude-and-social-cognition.social-cognition-definition"
+      ],
       "key_dispute": false
     },
     "faa63656-efd0-4fa3-ac89-d8b2790e7196": {
@@ -433,7 +458,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.attitude-and-social-cognition.fundamental-attribution-error-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -442,8 +467,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.fundamental-attribution-error-definition",
+        "psychology.attitude-and-social-cognition.fundamental-attribution-error"
+      ],
       "key_dispute": false
     },
     "fc5d8112-7735-4469-9843-9459d5baa843": {
@@ -497,6 +526,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.attitude-and-social-cognition.attitude-as-evaluative-state",
+        "psychology.attitude-and-social-cognition.attitude-as-evaluative-state"
+      ],
       "key_dispute": false
     },
     "0a2058de-669b-48c6-9539-928fda8b914f": {
@@ -539,7 +572,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.general-vs-specific-skills",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -550,6 +583,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.general-vs-specific-skills",
+        "psychology.developing-psychological-skills.specific-vs-general-skills"
+      ],
       "key_dispute": false
     },
     "128b93ce-c03c-478d-9fc0-921b361e230a": {
@@ -592,7 +629,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.attending-behaviour-non-verbal-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -603,6 +640,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.attending-behaviour-non-verbal-cues",
+        "psychology.developing-psychological-skills.attending-behaviour"
+      ],
       "key_dispute": false
     },
     "27e6b360-96f8-4ac7-95ad-b46230eb4b6a": {
@@ -645,7 +686,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.quasi-experimental-design-selection",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -654,8 +695,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.quasi-experimental-design-selection",
+        "psychology.developing-psychological-skills.quasi-experimental-design"
+      ],
       "key_dispute": false
     },
     "2dee1da4-b97d-48db-b4fa-fb7e7155babd": {
@@ -698,7 +743,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -709,6 +754,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.active-listening-components",
+        "psychology.developing-psychological-skills.active-listening-core-skill"
+      ],
       "key_dispute": false
     },
     "6ca4f143-9800-431e-b101-c910a58fac15": {
@@ -751,7 +800,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.self-awareness-bias-in-practice",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -762,6 +811,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.self-awareness-bias-in-practice",
+        "psychology.developing-psychological-skills.self-awareness-and-bias"
+      ],
       "key_dispute": false
     },
     "710c365c-517e-4e8c-83ea-48f26a8e83ef": {
@@ -804,7 +857,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -815,6 +868,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.active-listening-components",
+        "psychology.developing-psychological-skills.components-of-active-listening"
+      ],
       "key_dispute": false
     },
     "747568fc-8bf4-4d72-9184-6e4a9b04ee9b": {
@@ -857,7 +914,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -868,6 +925,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+        "psychology.developing-psychological-skills.open-ended-questioning-elicits-elaboration"
+      ],
       "key_dispute": false
     },
     "7a843176-9df0-40d9-b31d-3fb7fe2090eb": {
@@ -910,7 +971,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.confidentiality-exceptions-duty-to-protect",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -921,6 +982,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.confidentiality-exceptions-duty-to-protect",
+        "psychology.developing-psychological-skills.confidentiality-exception-duty-to-protect"
+      ],
       "key_dispute": false
     },
     "b77dce90-5d50-4885-bcf5-e77d2c3a7d9b": {
@@ -963,7 +1028,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.unconditional-positive-regard-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -974,6 +1039,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.unconditional-positive-regard-meaning",
+        "psychology.developing-psychological-skills.unconditional-positive-regard"
+      ],
       "key_dispute": false
     },
     "c59f3484-e7b5-44e6-8ee0-8d9c582edefc": {
@@ -1027,6 +1096,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.reflecting-feelings-as-listening-skill",
+        "psychology.developing-psychological-skills.reflecting-feelings-as-listening-skill"
+      ],
       "key_dispute": false
     },
     "e0bbe7a2-9e28-412a-ab33-577f20cb620d": {
@@ -1080,6 +1153,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.confidentiality-as-ethical-principle",
+        "psychology.developing-psychological-skills.confidentiality-as-ethical-principle"
+      ],
       "key_dispute": false
     },
     "f42ae264-c997-42a9-8537-807b525a9029": {
@@ -1122,7 +1199,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1133,6 +1210,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+        "psychology.developing-psychological-skills.open-ended-questioning-elicits-elaboration"
+      ],
       "key_dispute": false
     },
     "0bb53666-1adc-4f2d-95ce-d482d11f1939": {
@@ -1175,7 +1256,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.primary-appraisal-threat-vs-challenge",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1186,6 +1267,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.primary-appraisal-threat-vs-challenge",
+        "psychology.meeting-life-challenges.primary-appraisal-challenge-vs-threat"
+      ],
       "key_dispute": false
     },
     "25c88815-9bae-4fc0-a31c-cf6adce8745c": {
@@ -1239,6 +1324,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.secondary-appraisal-of-resources",
+        "psychology.meeting-life-challenges.secondary-appraisal-of-resources"
+      ],
       "key_dispute": false
     },
     "293917c3-9301-4e51-88a4-5e65fe7de923": {
@@ -1292,6 +1381,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.gas-exhaustion-stage",
+        "psychology.meeting-life-challenges.gas-exhaustion-stage"
+      ],
       "key_dispute": false
     },
     "4c762946-544b-455a-a99d-c09f3a4fce61": {
@@ -1334,7 +1427,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1345,6 +1438,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.coping-strategy-classification",
+        "psychology.meeting-life-challenges.problem-focused-coping"
+      ],
       "key_dispute": false
     },
     "590d0f2f-32b3-45aa-82da-13ac06c640d2": {
@@ -1387,7 +1484,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.stress-and-immune-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1396,8 +1493,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.stress-and-immune-function",
+        "psychology.meeting-life-challenges.chronic-stress-immune-suppression"
+      ],
       "key_dispute": false
     },
     "c4fae9a1-0529-4901-80fc-68ab92486be4": {
@@ -1440,7 +1541,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.eustress-vs-distress",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1451,6 +1552,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.eustress-vs-distress",
+        "psychology.meeting-life-challenges.eustress-positive-stress"
+      ],
       "key_dispute": false
     },
     "dd3b7dc4-1186-40d0-a6e8-da0887915e54": {
@@ -1493,7 +1598,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1504,6 +1609,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.coping-strategy-classification",
+        "psychology.meeting-life-challenges.emotion-focused-coping"
+      ],
       "key_dispute": false
     },
     "f0d4bdb4-dc9d-41d4-b2e6-ef32adf711c1": {
@@ -1546,7 +1655,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.meeting-life-challenges.stress-as-overarching-term",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1557,6 +1666,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.meeting-life-challenges.stress-as-overarching-term",
+        "psychology.meeting-life-challenges.stress-definition-umbrella-term"
+      ],
       "key_dispute": false
     },
     "945d9bf0-9a96-4668-a339-726d29d7ff2b": {
@@ -1599,7 +1712,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychological-disorders.schizophrenia-features-and-treatment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1610,6 +1723,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychological-disorders.schizophrenia-features-and-treatment",
+        "psychology.psychological-disorders.schizophrenia-symptoms-onset-treatment"
+      ],
       "key_dispute": false
     },
     "afbb1b90-92d3-4aea-8da9-89b34a5e30f3": {
@@ -1652,7 +1769,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychological-disorders.psychodynamic-perspective-unconscious-conflicts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1663,6 +1780,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychological-disorders.psychodynamic-perspective-unconscious-conflicts",
+        "psychology.psychological-disorders.psychodynamic-perspective-causation"
+      ],
       "key_dispute": false
     },
     "cfc1d472-f539-4b06-b9e4-eb491d996f96": {
@@ -1711,7 +1832,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychological-disorders.normal-stress-vs-disorder-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1722,6 +1843,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychological-disorders.normal-stress-vs-disorder-distinction",
+        "psychology.psychological-disorders.transient-stress-response-vs-disorder"
+      ],
       "key_dispute": false
     },
     "04071df4-a9d8-45e0-80a7-0abdfdf0cc9f": {
@@ -1764,7 +1889,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.noise-exposure-psychological-effects",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1775,6 +1900,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.noise-exposure-psychological-effects",
+        "psychology.psychology-and-life.environmental-stressor-noise-effects"
+      ],
       "key_dispute": false
     },
     "1b27a8c4-182d-46d1-a125-da70222360e3": {
@@ -1832,6 +1961,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.emotion-focused-coping-definition",
+        "psychology.psychology-and-life.emotion-focused-coping-definition"
+      ],
       "key_dispute": false
     },
     "414fd80f-dee2-4386-866e-2a11d6da42f3": {
@@ -1874,7 +2007,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.well-being-individual-environment-interaction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1885,6 +2018,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.well-being-individual-environment-interaction",
+        "psychology.psychology-and-life.wellbeing-individual-environment-interaction"
+      ],
       "key_dispute": false
     },
     "63183cf0-cf3d-446d-95eb-cd49fa50d980": {
@@ -1927,7 +2064,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.resilience-can-be-developed",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1936,8 +2073,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.resilience-can-be-developed",
+        "psychology.psychology-and-life.resilience-is-trainable"
+      ],
       "key_dispute": false
     },
     "86e45e07-c28a-495e-8e3c-3146e95ffa63": {
@@ -1991,6 +2132,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.problem-focused-coping-identification",
+        "psychology.psychology-and-life.problem-focused-coping-identification"
+      ],
       "key_dispute": false
     },
     "96ca882a-4e8c-40d6-860b-df700ad8e6aa": {
@@ -2037,7 +2182,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.fines-without-support-least-effective",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2046,8 +2191,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.fines-without-support-least-effective",
+        "psychology.psychology-and-life.punitive-measures-less-effective-for-behaviour-change"
+      ],
       "key_dispute": false
     },
     "be2e7ce4-2f40-48da-a213-6b593e8f4497": {
@@ -2090,7 +2239,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.superordinate-goals-reduce-intergroup-hostility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2099,8 +2248,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.superordinate-goals-reduce-intergroup-hostility",
+        "psychology.psychology-and-life.superordinate-goals-reduce-hostility"
+      ],
       "key_dispute": false
     },
     "c39df4e6-9372-4459-9e0c-65c4b71a898e": {
@@ -2152,8 +2305,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.empowerment-in-community-psychology",
+        "psychology.psychology-and-life.empowerment-in-community-psychology"
+      ],
       "key_dispute": false
     },
     "c8595359-8221-42f7-9da1-e00493bf235e": {
@@ -2207,6 +2364,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.primary-vs-secondary-appraisal",
+        "psychology.psychology-and-life.primary-vs-secondary-appraisal"
+      ],
       "key_dispute": false
     },
     "db47b608-cf0e-4c1a-bf15-dc10a0ec7551": {
@@ -2260,6 +2421,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.hall-personal-distance-zone",
+        "psychology.psychology-and-life.hall-personal-distance-zone"
+      ],
       "key_dispute": false
     },
     "f0d2e3d5-d98e-4f0b-acfe-244669e980e9": {
@@ -2309,7 +2474,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.psychology-and-life.cognitive-reappraisal-as-coping",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2320,6 +2485,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.psychology-and-life.cognitive-reappraisal-as-coping",
+        "psychology.psychology-and-life.reframing-as-appraisal-coping"
+      ],
       "key_dispute": true
     },
     "18344e27-49a2-4124-97c9-10e3940a6454": {
@@ -2373,6 +2542,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-efficacy-vs-locus-of-control",
+        "psychology.self-and-personality.self-efficacy-vs-locus-of-control"
+      ],
       "key_dispute": false
     },
     "1cb7a866-1c02-4895-a6b4-9297d2919041": {
@@ -2415,7 +2588,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2424,8 +2597,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+        "psychology.self-and-personality.self-efficacy-drives-behaviour"
+      ],
       "key_dispute": false
     },
     "209aed36-3baa-423c-9e0e-b0a722796662": {
@@ -2475,7 +2652,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-concept-and-social-performance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2486,6 +2663,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-concept-and-social-performance",
+        "psychology.self-and-personality.self-concept-and-social-behaviour"
+      ],
       "key_dispute": false
     },
     "23da6798-a31e-4aac-8c9c-af083722bab1": {
@@ -2528,7 +2709,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-efficacy-task-specificity-and-sources",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2537,8 +2718,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-efficacy-task-specificity-and-sources",
+        "psychology.self-and-personality.self-efficacy-properties"
+      ],
       "key_dispute": false
     },
     "488318ed-9877-4bcc-8d62-72acc5aeb452": {
@@ -2581,7 +2766,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.freud-structures-and-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2592,6 +2777,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.freud-structures-and-principles",
+        "psychology.self-and-personality.freud-personality-structures-principles"
+      ],
       "key_dispute": false
     },
     "50aeb0de-66d9-44d4-a4b1-09ac11e7af3d": {
@@ -2640,7 +2829,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-concept-determinants",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2649,8 +2838,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-concept-shaped-by-reflection-not-only-others",
+        "psychology.self-and-personality.self-concept-determinants"
+      ],
       "key_dispute": false
     },
     "522814e3-b0b9-4418-a891-39ca424e16c7": {
@@ -2704,6 +2897,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-concept-vs-self-esteem",
+        "psychology.self-and-personality.self-concept-vs-self-esteem"
+      ],
       "key_dispute": false
     },
     "55615ca7-3254-43bb-a73f-4252321dda46": {
@@ -2746,7 +2943,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-esteem-buffers-negative-events",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2755,8 +2952,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-esteem-buffers-negative-events",
+        "psychology.self-and-personality.self-esteem-as-buffer"
+      ],
       "key_dispute": false
     },
     "582f938a-1985-4cf9-a123-bd42c82e5ecc": {
@@ -2799,7 +3000,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.positive-self-concept-and-motivation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2810,6 +3011,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.positive-self-concept-and-motivation",
+        "psychology.self-and-personality.self-concept-and-motivation"
+      ],
       "key_dispute": false
     },
     "588d8937-66f6-49e7-a2fa-ed1b6211f0cd": {
@@ -2867,6 +3072,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.allport-cardinal-trait",
+        "psychology.self-and-personality.allport-cardinal-trait"
+      ],
       "key_dispute": false
     },
     "7a02219d-f37f-4805-aae3-d7e435c5e46a": {
@@ -2926,6 +3135,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.personal-identity-and-conformity",
+        "psychology.self-and-personality.personal-identity-and-conformity"
+      ],
       "key_dispute": false
     },
     "82ecb29b-ec76-41f2-8805-93bf20af0263": {
@@ -2968,7 +3181,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.type-a-behaviour-pattern",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2979,6 +3192,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.type-a-behaviour-pattern",
+        "psychology.self-and-personality.type-a-personality"
+      ],
       "key_dispute": false
     },
     "83496229-7de1-44ed-9d67-c4e1b430d658": {
@@ -3036,6 +3253,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-concept-vs-self-esteem",
+        "psychology.self-and-personality.self-concept-vs-self-esteem"
+      ],
       "key_dispute": false
     },
     "a675822f-bc4d-45f1-a8ad-0afc2ac83dec": {
@@ -3078,7 +3299,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3089,6 +3310,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+        "psychology.self-and-personality.self-efficacy-drives-behaviour"
+      ],
       "key_dispute": false
     },
     "ad5f0953-5a92-4a4c-aa29-e5f21c0a847f": {
@@ -3142,6 +3367,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-esteem-definition",
+        "psychology.self-and-personality.self-esteem-definition"
+      ],
       "key_dispute": false
     },
     "c3a11666-835e-452c-9157-d30f40d3e19c": {
@@ -3184,7 +3413,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.self-esteem-not-mainly-external-validation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3195,6 +3424,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-esteem-not-mainly-external-validation",
+        "psychology.self-and-personality.self-concept-role-and-self-esteem-source"
+      ],
       "key_dispute": false
     },
     "d97e2640-fdd8-4661-a5bf-e207382a5ab6": {
@@ -3237,7 +3470,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.internal-locus-of-control-responsibility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3248,6 +3481,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.internal-locus-of-control-responsibility",
+        "psychology.self-and-personality.internal-locus-of-control"
+      ],
       "key_dispute": false
     },
     "f1c913b3-5b6f-4b70-8fed-3824bd9e41ed": {
@@ -3301,6 +3538,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.self-regulation-components",
+        "psychology.self-and-personality.self-regulation-components"
+      ],
       "key_dispute": false
     },
     "f642bd76-bb56-413f-9048-0b9db3b9a5a5": {
@@ -3343,7 +3584,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.unconditional-positive-regard-and-congruence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3354,6 +3595,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.unconditional-positive-regard-and-congruence",
+        "psychology.self-and-personality.rogers-unconditional-positive-regard"
+      ],
       "key_dispute": false
     },
     "f9f3c833-20e3-425f-9ed2-3339b991d2e9": {
@@ -3396,7 +3641,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.self-and-personality.social-comparison-and-self-enhancement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3407,6 +3652,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.self-and-personality.social-comparison-and-self-enhancement",
+        "psychology.self-and-personality.social-comparison-self-enhancement"
+      ],
       "key_dispute": false
     },
     "1283ce32-e1c2-40b8-9498-735c9a457842": {
@@ -3460,6 +3709,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.groupthink-harmony-over-appraisal",
+        "psychology.social-influence-and-group-processes.groupthink-harmony-over-appraisal"
+      ],
       "key_dispute": false
     },
     "2f46d294-55bd-4a1f-8e1f-ba8e4b36dd99": {
@@ -3502,7 +3755,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.social-influence-and-group-processes.deindividuation-reduces-accountability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3513,6 +3766,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.deindividuation-reduces-accountability",
+        "psychology.social-influence-and-group-processes.deindividuation-and-antinormative-behaviour"
+      ],
       "key_dispute": false
     },
     "5134bebe-527a-419a-b1b7-f7dc196862b9": {
@@ -3555,7 +3812,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.social-influence-and-group-processes.social-influence-can-change-beliefs",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3564,8 +3821,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.social-influence-can-change-beliefs",
+        "psychology.social-influence-and-group-processes.social-influence-on-beliefs-not-values"
+      ],
       "key_dispute": false
     },
     "6196f891-b805-4a0a-b09d-345c0afc9114": {
@@ -3617,8 +3878,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.groupthink-symptoms-and-prevention",
+        "psychology.social-influence-and-group-processes.groupthink-symptoms-and-prevention"
+      ],
       "key_dispute": false
     },
     "b8dea37a-8908-4100-bdcd-2faff0d0d2c6": {
@@ -3661,7 +3926,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.social-influence-and-group-processes.single-dissenter-reduces-conformity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3670,8 +3935,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.single-dissenter-reduces-conformity",
+        "psychology.social-influence-and-group-processes.unanimity-and-dissenter-effect-on-conformity"
+      ],
       "key_dispute": false
     },
     "e8f6a019-c959-4663-ad72-0042a381d038": {
@@ -3729,8 +3998,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.social-influence-not-always-negative",
+        "psychology.social-influence-and-group-processes.social-influence-not-always-negative"
+      ],
       "key_dispute": false
     },
     "fe890728-404a-483d-b14f-e502353ee6f1": {
@@ -3773,7 +4046,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.social-influence-and-group-processes.compliance-vs-internalization-belief-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3784,6 +4057,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.social-influence-and-group-processes.compliance-vs-internalization-belief-change",
+        "psychology.social-influence-and-group-processes.kelman-compliance-vs-internalization"
+      ],
       "key_dispute": false
     },
     "0e5ff47c-2e06-404b-bc4c-eedf560a1015": {
@@ -3837,6 +4114,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.systematic-desensitisation-vs-flooding",
+        "psychology.therapeutic-approaches.systematic-desensitisation-vs-flooding"
+      ],
       "key_dispute": false
     },
     "23c45b10-fea8-48e6-bd5a-2919f64587c1": {
@@ -3890,6 +4171,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.free-association-technique",
+        "psychology.therapeutic-approaches.free-association-technique"
+      ],
       "key_dispute": false
     },
     "3477113b-a358-48e3-9bcf-3eefea9980a5": {
@@ -3941,8 +4226,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+        "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus"
+      ],
       "key_dispute": false
     },
     "39340af9-5550-4bb7-904c-28c89a5582fe": {
@@ -3991,7 +4280,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4002,6 +4291,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-focus",
+        "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-targets"
+      ],
       "key_dispute": false
     },
     "3a8fbc1b-e14e-4102-a73b-06b1480aa6a9": {
@@ -4044,7 +4337,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-aversive-conditioning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4055,6 +4348,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.systematic-desensitisation-vs-aversive-conditioning",
+        "psychology.therapeutic-approaches.matching-behaviour-techniques-to-therapies"
+      ],
       "key_dispute": false
     },
     "3e3f1a07-22d9-4359-8bdd-31822bf97889": {
@@ -4106,8 +4403,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.rebt-disputing-irrational-beliefs",
+        "psychology.therapeutic-approaches.rebt-disputing-irrational-beliefs"
+      ],
       "key_dispute": false
     },
     "7ed9e3db-3066-4ce7-b6b5-95bacdf61791": {
@@ -4150,7 +4451,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.humanistic-therapy-personal-growth",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4159,8 +4460,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.humanistic-therapy-personal-growth",
+        "psychology.therapeutic-approaches.humanistic-personal-growth"
+      ],
       "key_dispute": false
     },
     "837970a3-145e-4b88-be75-01538f0c385d": {
@@ -4203,7 +4508,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4212,8 +4517,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+        "psychology.therapeutic-approaches.behaviour-therapy-reinforcement-based-modification"
+      ],
       "key_dispute": false
     },
     "9c95fa34-538e-4cf2-ab14-589f5f48068c": {
@@ -4262,7 +4571,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.cbt-targets-conscious-cognitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4273,6 +4582,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.cbt-targets-conscious-cognitions",
+        "psychology.therapeutic-approaches.cbt-focus-on-conscious-cognition"
+      ],
       "key_dispute": true
     },
     "cd935a57-3296-4043-be41-1e21be8b5992": {
@@ -4315,7 +4628,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.therapeutic-approaches.cbt-structured-behaviour-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4324,8 +4637,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.therapeutic-approaches.cbt-structured-behaviour-change",
+        "psychology.therapeutic-approaches.identifying-cbt-from-description"
+      ],
       "key_dispute": false
     },
     "3681c6b3-ae67-4f92-b54e-aab358f536b8": {
@@ -4368,7 +4685,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.person-centered-unconditional-regard",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4379,6 +4696,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.person-centered-unconditional-regard",
+        "psychology.variations-in-psychological-attributes.person-centered-unconditional-positive-regard"
+      ],
       "key_dispute": false
     },
     "61dc61bc-8137-4f02-8bdb-98a6c2d8a346": {
@@ -4421,7 +4742,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4430,8 +4751,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+        "psychology.variations-in-psychological-attributes.coping-strategy-types"
+      ],
       "key_dispute": false
     },
     "61f1e1b7-a260-4409-a352-1806785d2171": {
@@ -4483,8 +4808,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.resilience-trainable-not-solely-genetic",
+        "psychology.variations-in-psychological-attributes.resilience-trainable-not-solely-genetic"
+      ],
       "key_dispute": false
     },
     "7a15f1a9-d61d-4ee0-a232-53cc21a74e28": {
@@ -4527,7 +4856,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4536,8 +4865,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-focus",
+        "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-behaviour-focus"
+      ],
       "key_dispute": false
     },
     "9997a965-2f8e-4ba7-9fb6-80ab272907c8": {
@@ -4580,7 +4913,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.therapy-approach-primary-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4591,6 +4924,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.therapy-approach-primary-focus",
+        "psychology.variations-in-psychological-attributes.therapy-approaches-matched-to-focus"
+      ],
       "key_dispute": false
     },
     "bc28754e-7a25-4b10-a51d-86ad1de4680d": {
@@ -4633,7 +4970,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.standard-deviation-score-interpretation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4644,6 +4981,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.standard-deviation-score-interpretation",
+        "psychology.variations-in-psychological-attributes.standard-score-z-interpretation"
+      ],
       "key_dispute": false
     },
     "c393bdc7-e680-4f73-a710-e94fba28459a": {
@@ -4686,7 +5027,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4697,6 +5038,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+        "psychology.variations-in-psychological-attributes.coping-strategy-types"
+      ],
       "key_dispute": false
     },
     "f1ef284c-2f5d-4670-aab1-4019e9c1e554": {
@@ -4750,6 +5095,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "psychology.variations-in-psychological-attributes.defence-mechanism-projection",
+        "psychology.variations-in-psychological-attributes.defence-mechanism-projection"
+      ],
       "key_dispute": false
     }
   }

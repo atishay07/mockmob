@@ -14,10 +14,11 @@ import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { qualityGateNtaQuestion, getPassageKey, getPassageText, getQuestionText, isPassageLinkedQuestion, normalizeOptions } from './nta_question_selector.js';
 import { toInternalSubjectId, toPublicSubjectId } from './cuet_controls.js';
 import {
-  conflictReason, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, ntaDifficultyOf, ntaKeyDispute, ntaQuarantine, objectiveCap,
-  optionPairs, passageWordCount, structuralReasons, wordingReasons,
+  conflictReason, corruptedWordingReasons, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, listedOrderKeyReasons,
+  ntaDifficultyOf, ntaKeyDispute, ntaQuarantine, ntaServedRow, objectiveCap, optionPairs, passageWordCount, seedOrDemoReasons,
+  stemGramWeights, structuralReasons, wordingReasons,
 } from './nta_item_checks.js';
-import { ntaAgentMean, ntaAgentScoreEntry, ntaAgentScoreIntegrity } from './nta_agent_scores.js';
+import { ntaAgentBlockingFlags, ntaAgentMean, ntaAgentScoreEntry, ntaAgentScoreIntegrity } from './nta_agent_scores.js';
 import typesFile from './nta_blueprints/_types.json' with { type: 'json' };
 import english from './nta_blueprints/english.json' with { type: 'json' };
 import generalTest from './nta_blueprints/general_test.json' with { type: 'json' };
@@ -46,7 +47,7 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r3';
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r4';
 // Version of the signed nta_question_index rows this engine accepts (scripts/nta-index-build.mjs).
 export const NTA_INDEX_VERSION = 'nta-index-1';
 
@@ -270,6 +271,8 @@ export function ntaEligibility(row, context = {}) {
   const reasons = [];
   const status = text(row?.status).toLowerCase();
   if (row?.is_deleted === true || status !== 'live') reasons.push('not_published');
+  // Seed and demo rows (ids such as a2, e1, g1) are not bank questions, whatever they score.
+  reasons.push(...seedOrDemoReasons(row));
   if (text(row?.verification_state).toLowerCase() === 'disputed') reasons.push('key_disputed');
   if (context.disputedIds?.has(row?.id)) reasons.push('key_disputed');
   const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id || row?.nta_index?.family_id;
@@ -282,6 +285,10 @@ export function ntaEligibility(row, context = {}) {
   if (score !== null) reasons.push(...ntaScoreIntegrity(row, { secret: context.secret, agentScores: context.agentScores, minScore }));
   if (ntaQuarantine(row?.id)) reasons.push('nta_quarantined');
   if (ntaKeyDispute(row?.id)) reasons.push('agent_key_dispute');
+  // A blocking flag from either agent judge vetoes the question whatever its score source: factory
+  // evidence admits a question, it never overrules a judge who found a wrong fact or a giveaway.
+  const agent = ntaAgentScoreEntry(row?.id, { agentScores: context.agentScores });
+  if (agent && ntaAgentBlockingFlags(agent.entry).length) reasons.push('agent_blocking_flag');
   const answer = verifyAnswerIntegrity(row);
   if (!answer.accepted) reasons.push(...answer.reasons);
   const content = qualityGateNtaQuestion(row, { subjectId: subject });
@@ -289,7 +296,7 @@ export function ntaEligibility(row, context = {}) {
   // The item must read like an NTA question and its options must fit its own stem.
   const bp = getNtaBlueprint(subject);
   const type = classifyNtaType(row, subject, bp ? Object.keys(bp.typeQuotas) : undefined);
-  reasons.push(...structuralReasons(row, type), ...wordingReasons(row, type));
+  reasons.push(...structuralReasons(row, type), ...wordingReasons(row, type), ...corruptedWordingReasons(row), ...listedOrderKeyReasons(row, type));
   return { eligible: reasons.length === 0, reasons: [...new Set(reasons)], score, scoreSource: source, type };
 }
 
@@ -401,7 +408,7 @@ function buildModel(bp, variant) {
 // Candidates
 // ---------------------------------------------------------------------------------------------
 
-// The stored label, or the level both agent judges agreed on (data/nta_difficulty.json).
+// The stored label; an agent correction only for a two-level gap (data/nta_item_checks.js ntaDifficultyOf).
 function difficultyOf(row) {
   const value = ntaDifficultyOf(row);
   return DIFFICULTIES.includes(value) ? value : 'medium';
@@ -435,6 +442,8 @@ function prepareCandidates(rows, model, context) {
   const items = [];
   const scores = [];
   const eligibleBySource = {};
+  // Stem wording is compared with 5-grams weighted by rarity in this pool (data/nta_item_checks.js).
+  const gramWeights = stemGramWeights(rows);
   for (const row of rows) {
     const verdict = ntaEligibility(row, { ...context, subject });
     if (verdict.score !== null) scores.push(verdict.score);
@@ -447,7 +456,7 @@ function prepareCandidates(rows, model, context) {
     if (model.excluded.has(chapter)) { count('chapter_out_of_syllabus'); continue; }
     const slotIds = model.slotsByChapter.get(chapter) || [];
     if (!slotIds.length) { count('chapter_not_in_this_paper'); continue; }
-    const features = itemFeatures(row, { english });
+    const features = itemFeatures(row, { english, agentScores: context.agentScores, gramWeights });
     items.push({
       id: row.id, row, chapter, slotIds,
       type: verdict.type,
@@ -859,12 +868,25 @@ function arrangeMixed(entries, { maxChapterRun, maxTypeRun, typeRunApplies, seed
     for (let i = out.length - 1; i >= 0 && out[i][key] === value; i -= 1) run += 1;
     return run;
   };
+  // Run length that `entry` would sit in if placed at position `at` of `out`.
+  const runAt = (at, key, value) => {
+    let run = 1;
+    for (let i = at - 1; i >= 0 && out[i][key] === value; i -= 1) run += 1;
+    for (let i = at; i < out.length && out[i][key] === value; i += 1) run += 1;
+    return run;
+  };
+  const fitsAt = (entry, at) => (!maxChapterRun || runAt(at, 'chapter', entry.chapter) <= maxChapterRun)
+    && (!maxTypeRun || !typeRunApplies(entry.type) || runAt(at, 'type', entry.type) <= maxTypeRun);
   while (pending.length) {
-    let index = pending.findIndex((entry) =>
+    const index = pending.findIndex((entry) =>
       (!maxChapterRun || runOf('chapter', entry.chapter) < maxChapterRun)
       && (!maxTypeRun || !typeRunApplies(entry.type) || runOf('type', entry.type) < maxTypeRun));
-    if (index < 0) index = 0;
-    out.push(pending.splice(index, 1)[0]);
+    if (index >= 0) { out.push(pending.splice(index, 1)[0]); continue; }
+    // Nothing fits at the end: put the next entry at the latest earlier place where it breaks no run.
+    const entry = pending.shift();
+    let at = out.length;
+    while (at > 0 && !fitsAt(entry, at)) at -= 1;
+    out.splice(at > 0 || fitsAt(entry, 0) ? at : out.length, 0, entry);
   }
   return out;
 }
@@ -1112,14 +1134,8 @@ function englishParagraphJumbles(paper) {
 // Entry point
 // ---------------------------------------------------------------------------------------------
 
-/**
- * Builds one NTA paper. rows: the subject's candidate pool (any rows; gates are applied here).
- * options: { subject, variant, seed, seenIds:Set, disputedIds:Set, heldFamilies:Set, minScore,
- * secret, deadline (epoch ms), now, agentScores (tests: replaces data/nta_agent_scores/*.json) }.
- * Returns { status: 'exact'|'closest'|'refused', rows (ordered), paper (annotated entries),
- * notice: { summary, items }, refusal, deviations, shortfall, structure, timings }.
- */
-export function assembleNtaPaper(rows, options = {}) {
+// One assembly from one pool with one seed (assembleNtaPaper decides how often and with what).
+function assembleSeeded(rows, options = {}) {
   const startedAt = Date.now();
   const bp = getNtaBlueprint(options.subject);
   if (!bp) throw new Error('NTA_BLUEPRINT_MISSING');
@@ -1208,6 +1224,7 @@ export function assembleNtaPaper(rows, options = {}) {
 
   return {
     status,
+    refusalReason,
     rows: status === 'refused' ? [] : paper.map((entry) => entry.row),
     paper,
     notice: { summary, items },
@@ -1220,6 +1237,88 @@ export function assembleNtaPaper(rows, options = {}) {
     engineVersion: NTA_ENGINE_VERSION,
     blueprintVersion: bp.blueprintVersion,
   };
+}
+
+// The seed a refusal is worked out with (assembleNtaPaper), so it reads the same on every retry.
+const NTA_REFUSAL_SEED = 'nta-refusal';
+
+/**
+ * Builds one NTA paper. rows: the subject's candidate pool (any rows; gates are applied here).
+ * options: { subject, variant, seed, seenIds:Set, previousPaperIds:Set, shuffleKey, disputedIds:Set,
+ * heldFamilies:Set, minScore, secret, deadline (epoch ms), now, agentScores (tests: replaces
+ * data/nta_agent_scores/*.json) }.
+ *
+ * previousPaperIds: questions served in this student's earlier NTA papers. They are left out of the
+ * pool whenever the rest of the pool still gives a paper that can be served; otherwise the paper is
+ * built from the whole pool with them treated as seen (used only where nothing new fits), and
+ * structure.crossPaper records why.
+ * shuffleKey (default: the seed, which the website derives from the session's generation key): the
+ * options of each served row are put in an order seeded by this key and the question id, with the key
+ * remapped (data/nta_item_checks.js ntaServedRow). result.rows are the served rows; result.paper
+ * entries keep the stored row in entry.row and the served row in entry.served.
+ *
+ * Returns { status: 'exact'|'closest'|'refused', rows (ordered, served), paper (annotated entries),
+ * notice: { summary, items }, refusal, deviations, shortfall, structure, timings }.
+ */
+export function assembleNtaPaper(rows, options = {}) {
+  const pool = Array.isArray(rows) ? rows : [];
+  // A paper the bank cannot supply is refused the same way whatever the session's seed: the refusal
+  // is worked out once more with a fixed seed, so a student who retries reads the same sentence (and
+  // gets that paper if the fixed seed happens to fit it).
+  const assembleOnce = (subset, opts) => {
+    const result = assembleSeeded(subset, opts);
+    if (result.status !== 'refused' || result.refusalReason === 'time_budget' || String(opts.seed || '') === NTA_REFUSAL_SEED) return result;
+    const again = assembleSeeded(subset, { ...opts, seed: NTA_REFUSAL_SEED });
+    return again.refusalReason === 'time_budget' ? result : again;
+  };
+  const previous = options.previousPaperIds instanceof Set ? options.previousPaperIds : new Set(options.previousPaperIds || []);
+  let result;
+  let crossPaper = { previousPaperQuestions: previous.size, leftOut: 0, repeated: 0, fallback: false, reason: null };
+  if (!previous.size) {
+    result = assembleOnce(pool, options);
+  } else {
+    const fresh = pool.filter((row) => !previous.has(row?.id));
+    const leftOut = pool.length - fresh.length;
+    const strict = assembleOnce(fresh, options);
+    if (strict.status !== 'refused' || strict.refusalReason === 'time_budget' || !leftOut) {
+      result = strict;
+      crossPaper = { ...crossPaper, leftOut };
+      if (leftOut) {
+        result.pool.excluded = { ...result.pool.excluded, served_in_previous_nta_paper: leftOut };
+        if (result.shortfall) result.shortfall.excluded = { ...result.shortfall.excluded, served_in_previous_nta_paper: leftOut };
+      }
+    } else {
+      const seenIds = new Set([...(options.seenIds || []), ...previous]);
+      result = assembleOnce(pool, { ...options, seenIds });
+      crossPaper = {
+        ...crossPaper,
+        leftOut: 0,
+        repeated: result.paper.filter((entry) => previous.has(entry.id)).length,
+        fallback: true,
+        reason: 'pool_too_small_without_previous_papers',
+        withoutPrevious: { status: strict.status, refusal: strict.refusalReason, built: strict.paper.length },
+      };
+    }
+  }
+  result.structure.crossPaper = crossPaper;
+  if (result.shortfall) result.shortfall.crossPaper = crossPaper;
+
+  // Served rows: options in a per-session order, key remapped (finding 1 of the 13 Oct review).
+  const shuffleKey = String(options.shuffleKey || options.seed || 'nta');
+  const shuffle = { shuffled: 0, keptInPlace: 0, reasons: {} };
+  for (const entry of result.paper) {
+    const served = ntaServedRow(entry.row, shuffleKey);
+    entry.served = served.row;
+    if (served.shuffled) shuffle.shuffled += 1;
+    else {
+      shuffle.keptInPlace += 1;
+      for (const reason of served.reasons) shuffle.reasons[reason] = (shuffle.reasons[reason] || 0) + 1;
+    }
+  }
+  result.structure.optionShuffle = shuffle;
+  result.rows = result.status === 'refused' ? [] : result.paper.map((entry) => entry.served);
+  delete result.refusalReason;
+  return result;
 }
 
 // Kept for callers that only need to know whether a row is a passage child.

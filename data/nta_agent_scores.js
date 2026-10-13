@@ -113,6 +113,16 @@ export function ntaAgentTableReasons(table) {
 }
 
 /**
+ * The blocking flags any judge raised on an entry (rubric section 3). A blocking flag vetoes the
+ * question for NTA mode whatever its score source, factory evidence included (review of 13 Oct 2026:
+ * factory items flagged factual_error, answer_in_stem or broken_layout were still served).
+ */
+export function ntaAgentBlockingFlags(entry) {
+  const judges = Array.isArray(entry?.judges) ? entry.judges : [];
+  return [...new Set(judges.flatMap((judge) => (Array.isArray(judge?.flags) ? judge.flags : []).filter((flag) => BLOCKING.has(flag))))];
+}
+
+/**
  * Provenance and key checks for one row's agent score, given its lookup result. Score-bar reasons
  * (agent_score_below_threshold) are included so the caller needs no second rule for this source.
  */
@@ -129,7 +139,7 @@ export function ntaAgentScoreIntegrity(row, found, { minScore = NTA_AGENT_OWNER_
   const key = text(entry.key).toUpperCase();
   if (!KEYS.has(key)) reasons.push('agent_score_key_missing');
   else if (judges.some((judge) => text(judge?.blind_answer).toUpperCase() !== key)) reasons.push('agent_blind_key_mismatch');
-  if (judges.some((judge) => (Array.isArray(judge?.flags) ? judge.flags : []).some((flag) => BLOCKING.has(flag)))) reasons.push('agent_blocking_flag');
+  if (ntaAgentBlockingFlags(entry).length) reasons.push('agent_blocking_flag');
   const threshold = ntaAgentThreshold(table, minScore);
   if (threshold !== null && valid.length >= 2 && valid.some((judge) => Number(judge.quality_score) < threshold)) reasons.push('score_below_threshold');
   return [...new Set(reasons)];

@@ -16,3 +16,12 @@ test('leaves real answers alone: a word that starts with a letter, partial prefi
   assert.deepEqual(plainOptionTexts(['A', 'B', 'C', 'D']), ['A', 'B', 'C', 'D']);
   assert.deepEqual(plainOptionTexts(undefined), []);
 });
+
+test('a single space after every option letter is a stored prefix too, unless the options then read as references', () => {
+  assert.deepEqual(plainOptionTexts([{ text: 'A 36' }, { text: 'B 4' }, { text: 'C 9' }, { text: 'D 12' }]), ['36', '4', '9', '12']);
+  assert.deepEqual(plainOptionTexts(['A Net sales', 'B Total assets', 'C Equity', 'D Cost of goods sold']), ['Net sales', 'Total assets', 'Equity', 'Cost of goods sold']);
+  const references = ['A and B', 'B and C', 'C and D', 'D and A'];
+  assert.deepEqual(plainOptionTexts(references), references);
+  const labels = ['A B', 'B C', 'C D', 'D A'];
+  assert.deepEqual(plainOptionTexts(labels), labels);
+});

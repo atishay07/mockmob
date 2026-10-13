@@ -3,7 +3,7 @@
   "subject": "political_science",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.531Z",
+  "merged_at": "2026-10-13T15:32:56.773Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 18.2,
     "difficulty_agreement_pct": 89.4,
     "blocking_flagged": 52,
+    "difficulty_one_level_not_applied": 38,
     "flags": {
       "answer_in_stem": 11,
       "multiple_defensible": 12,
@@ -112,7 +113,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.matching-actors-to-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -123,6 +124,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.matching-actors-to-functions",
+        "political_science.alternative-centres-of-power.distinct-roles-of-power-centres"
+      ],
       "key_dispute": false
     },
     "12051b75-049a-451c-95e3-f07bb05ae9cb": {
@@ -165,7 +170,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.multipolarity-not-us-decline",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -174,8 +179,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.multipolarity-not-us-decline",
+        "political_science.alternative-centres-of-power.multipolarity-not-complete-us-decline"
+      ],
       "key_dispute": false
     },
     "13034ff9-4ce5-4a3f-9f4c-2288809ed3a4": {
@@ -218,7 +227,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.eu-supranationalism-vs-asean-sovereignty",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -229,6 +238,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.eu-supranationalism-vs-asean-sovereignty",
+        "political_science.alternative-centres-of-power.eu-supranational-vs-asean-sovereignty"
+      ],
       "key_dispute": false
     },
     "3bc6fa83-66b8-4e1c-b619-854bf8c9530a": {
@@ -271,7 +284,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.meaning-of-alternative-power-centres",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -280,8 +293,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.meaning-of-alternative-power-centres",
+        "political_science.alternative-centres-of-power.new-powers-challenge-unipolarity"
+      ],
       "key_dispute": false
     },
     "5e77d9bb-e5b3-4552-843f-0859a110e6f3": {
@@ -324,7 +341,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.state-role-decline-claim-evaluation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -335,6 +352,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.states-remain-central-despite-non-state-actors",
+        "political_science.alternative-centres-of-power.state-role-decline-claim-evaluation"
+      ],
       "key_dispute": false
     },
     "6877d2f2-89a5-4c48-99ce-85ffd7ab80a9": {
@@ -383,7 +404,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.regional-bodies-resource-cooperation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -394,6 +415,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.regional-bodies-resource-cooperation",
+        "political_science.alternative-centres-of-power.regional-bodies-shared-resources"
+      ],
       "key_dispute": false
     },
     "7d040652-ffc7-4604-831b-6ed12d2c5cba": {
@@ -440,7 +465,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.multipolarity-broadens-representation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -451,6 +476,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.multipolarity-broadens-representation",
+        "political_science.alternative-centres-of-power.multipolarity-balanced-order-claim"
+      ],
       "key_dispute": false
     },
     "dd0366dd-ce6b-48a6-8a53-a70f746aef83": {
@@ -499,7 +528,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.alternative-centres-of-power.mncs-shape-environmental-practices",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -510,6 +539,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.mncs-shape-environmental-practices",
+        "political_science.alternative-centres-of-power.mncs-shape-environmental-standards"
+      ],
       "key_dispute": false
     },
     "f4fe3eb8-a480-4a9c-b0f0-f42209130422": {
@@ -561,8 +594,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.alternative-centres-of-power.non-state-actors-lack-treaty-power",
+        "political_science.alternative-centres-of-power.non-state-actors-lack-treaty-power"
+      ],
       "key_dispute": false
     },
     "07791c94-2173-4514-8c70-8b96fe1b75e0": {
@@ -605,7 +642,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.princely-state-integration-by-force",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -614,8 +651,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.hyderabad-integrated-by-police-action",
+        "political_science.challenges-of-nation-building.princely-state-integration-by-force"
+      ],
       "key_dispute": false
     },
     "3932e313-9943-4245-bf7f-ca484fb6f5aa": {
@@ -658,7 +699,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.trade-union-membership-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -669,6 +710,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.trade-union-membership-strength",
+        "political_science.challenges-of-nation-building.trade-union-membership-and-bargaining-power"
+      ],
       "key_dispute": false
     },
     "4b4234fa-3665-456e-a7d4-1887e9e805eb": {
@@ -711,7 +756,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.princely-state-integration-by-force",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -722,6 +767,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.princely-states-resistance-military-merger",
+        "political_science.challenges-of-nation-building.princely-state-integration-by-force"
+      ],
       "key_dispute": false
     },
     "6d1a4d6f-f997-47e1-bc7e-6f589495acd6": {
@@ -764,7 +813,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.src-language-not-sole-criterion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -773,8 +822,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.src-language-not-sole-criterion",
+        "political_science.challenges-of-nation-building.src-rejected-language-as-sole-criterion"
+      ],
       "key_dispute": false
     },
     "ac7032ba-a0b7-4f0c-ae88-96a144172923": {
@@ -817,7 +870,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.princely-states-mostly-acceded-peacefully",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -826,8 +879,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.princely-states-combined-diplomacy-and-force",
+        "political_science.challenges-of-nation-building.princely-states-mostly-acceded-peacefully"
+      ],
       "key_dispute": false
     },
     "c03cd181-7649-4f66-b6f9-ca567944bfdd": {
@@ -876,7 +933,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.princely-states-mostly-acceded-peacefully",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -887,6 +944,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.accession-methods-diplomacy-vs-force",
+        "political_science.challenges-of-nation-building.princely-states-mostly-acceded-peacefully"
+      ],
       "key_dispute": true
     },
     "d1caf0b5-79c5-4735-87ea-181ce1dd0cc7": {
@@ -935,7 +996,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-of-nation-building.indo-soviet-defence-ties-alignment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -946,6 +1007,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-of-nation-building.indo-soviet-defence-ties-alignment",
+        "political_science.challenges-of-nation-building.indo-soviet-defence-partnership"
+      ],
       "key_dispute": false
     },
     "333053a2-9c42-4abf-9157-c35f6a3070e2": {
@@ -988,7 +1053,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.congress-split-over-presidential-nominee",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -999,6 +1064,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.congress-split-over-presidential-nominee",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.congress-split-over-presidential-candidate"
+      ],
       "key_dispute": false
     },
     "37a3d14d-31c7-43b8-b73b-41f1ab2fe565": {
@@ -1041,7 +1110,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.reasons-for-congress-dominance-after-1967",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1052,6 +1121,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.reasons-for-congress-dominance-after-1967",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.populism-over-organisational-strength"
+      ],
       "key_dispute": false
     },
     "5c5099c8-9861-4360-9efd-5420be9e81be": {
@@ -1094,7 +1167,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.parliament-cannot-amend-fundamental-rights",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1105,6 +1178,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.parliament-cannot-amend-fundamental-rights",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.fundamental-rights-amendable-by-parliament"
+      ],
       "key_dispute": false
     },
     "6b103633-584a-4563-bd0b-9ea2782c67be": {
@@ -1164,6 +1241,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.causes-of-congress-party-split",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.causes-of-congress-party-split"
+      ],
       "key_dispute": true
     },
     "6f1bc638-6611-42df-b329-14935408fe03": {
@@ -1212,7 +1293,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-vs-indira-ten-point-programme",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1223,6 +1304,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-vs-indira-ten-point-programme",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-view-of-ten-point-programme"
+      ],
       "key_dispute": false
     },
     "ac0c8107-24eb-4a90-9e08-9ff7ee2d057c": {
@@ -1265,7 +1350,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-role-and-ideology",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1276,6 +1361,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-role-and-ideology",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.syndicate-not-ideologically-socialist"
+      ],
       "key_dispute": false
     },
     "c10311f1-be46-4d49-8346-454d3f3e6447": {
@@ -1318,7 +1407,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.early-challenges-to-congress-dominance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1329,6 +1418,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.early-challenges-to-congress-dominance",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.early-signs-of-congress-decline"
+      ],
       "key_dispute": false
     },
     "c6252ec4-0340-4dec-8e87-33174c4b5e0c": {
@@ -1377,7 +1470,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.challenges-to-and-restoration-of-the-congress-system.opposition-gains-in-states-and-coalitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1388,6 +1481,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.challenges-to-and-restoration-of-the-congress-system.opposition-gains-in-states-and-coalitions",
+        "political_science.challenges-to-and-restoration-of-the-congress-system.congress-loss-of-state-governments"
+      ],
       "key_dispute": false
     },
     "3bf2e42d-1fc4-46b5-9124-11675cae206c": {
@@ -1445,6 +1542,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.one-party-dominance-consequences",
+        "political_science.cold-war-era.one-party-dominance-consequences"
+      ],
       "key_dispute": false
     },
     "3d9b00c8-1a06-4042-9d8a-197ebbabc267": {
@@ -1487,7 +1588,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.cold-war-era.end-of-superpower-patronage-conflicts",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1498,6 +1599,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.end-of-superpower-patronage-conflicts",
+        "political_science.cold-war-era.end-of-bipolarity-internal-conflict"
+      ],
       "key_dispute": false
     },
     "5f1f01a6-05c7-4483-bc23-07b8a3875dd9": {
@@ -1551,6 +1656,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.conditional-aid-for-democratic-restoration",
+        "political_science.cold-war-era.conditional-aid-for-democratic-restoration"
+      ],
       "key_dispute": false
     },
     "8009638b-0b08-4c16-89e3-a1d0f57af414": {
@@ -1593,7 +1702,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.cold-war-era.duration-of-bipolar-order",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1604,6 +1713,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.duration-of-bipolar-order",
+        "political_science.cold-war-era.bipolar-period-duration"
+      ],
       "key_dispute": false
     },
     "8b5ae79f-56f7-4120-ad9c-20e726067750": {
@@ -1652,7 +1765,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.cold-war-era.indicators-of-democratic-crisis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1663,6 +1776,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.indicators-of-democratic-crisis",
+        "political_science.cold-war-era.democratic-crisis-indicators"
+      ],
       "key_dispute": false
     },
     "9475fb30-16f9-4db1-be83-6fd60d0520aa": {
@@ -1716,6 +1833,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.one-party-dominance-definition",
+        "political_science.cold-war-era.one-party-dominance-definition"
+      ],
       "key_dispute": false
     },
     "b9d313c7-7839-4661-98fd-bf839a1e2923": {
@@ -1773,6 +1894,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.ideological-nature-of-cold-war",
+        "political_science.cold-war-era.ideological-nature-of-cold-war"
+      ],
       "key_dispute": true
     },
     "c391a855-3d37-40fb-a366-e6b628f63174": {
@@ -1821,7 +1946,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.cold-war-era.democratic-crisis-signs-to-consequences",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1832,6 +1957,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.democratic-crisis-signs-to-consequences",
+        "political_science.cold-war-era.democratic-crisis-signs-consequences"
+      ],
       "key_dispute": true
     },
     "ff3d3575-60b7-4d22-bb42-6fbaf2e3adff": {
@@ -1874,7 +2003,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.cold-war-era.regional-security-after-bipolarity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1885,6 +2014,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.cold-war-era.regional-security-after-bipolarity",
+        "political_science.cold-war-era.regional-organisations-after-bipolarity"
+      ],
       "key_dispute": false
     },
     "1b50b4d1-51af-4cd9-9329-1042fb2b289f": {
@@ -1933,7 +2066,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.regional-water-disputes-beyond-indus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1944,6 +2077,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.regional-water-disputes-beyond-indus",
+        "political_science.contemporary-south-asia.transboundary-water-disputes-beyond-pakistan"
+      ],
       "key_dispute": true
     },
     "2a2814c3-8141-4e1a-9210-f664d2672eca": {
@@ -1986,7 +2123,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.diversity-requires-institutional-accommodation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1997,6 +2134,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.diversity-requires-institutional-accommodation",
+        "political_science.contemporary-south-asia.ethnic-diversity-nation-building-challenge"
+      ],
       "key_dispute": false
     },
     "3072d128-3bad-4f20-bafb-14950c9f986a": {
@@ -2039,7 +2180,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.country-specific-nation-building-challenges",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2050,6 +2191,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.country-specific-nation-building-challenges",
+        "political_science.contemporary-south-asia.nation-building-challenges-by-country"
+      ],
       "key_dispute": false
     },
     "3cbfd2eb-b7d7-4fce-9c03-839a14065af5": {
@@ -2096,7 +2241,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.relative-percentage-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2107,6 +2252,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.relative-percentage-change",
+        "political_science.contemporary-south-asia.relative-vs-percentage-point-change"
+      ],
       "key_dispute": false
     },
     "3fd2611e-35ea-4b7d-a26b-d649f634aee2": {
@@ -2160,6 +2309,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.planned-development-policy-outcomes",
+        "political_science.contemporary-south-asia.planned-development-policy-outcomes"
+      ],
       "key_dispute": false
     },
     "66e6cfe9-1e72-4251-9921-cbce7941015c": {
@@ -2202,7 +2355,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.development-displacement-resistance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2213,6 +2366,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.development-displacement-resistance",
+        "political_science.contemporary-south-asia.development-displacement-and-local-resistance"
+      ],
       "key_dispute": false
     },
     "790d57d1-7535-4a24-9365-9233fca3ae92": {
@@ -2259,7 +2416,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.centralised-planning-and-bureaucracy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2268,8 +2425,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.centralised-planning-and-bureaucracy",
+        "political_science.contemporary-south-asia.centralised-planning-and-bureaucratic-power"
+      ],
       "key_dispute": false
     },
     "9a3d3199-3a9e-40aa-b378-7028024ed010": {
@@ -2312,7 +2473,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.citizenship-drive-identity-politics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2323,6 +2484,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.citizenship-drive-identity-politics",
+        "political_science.contemporary-south-asia.citizenship-drives-identity-politics"
+      ],
       "key_dispute": false
     },
     "bf589862-fe59-4561-9bf2-562dce6b276c": {
@@ -2369,7 +2534,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.relative-percentage-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2380,6 +2545,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.relative-percentage-change",
+        "political_science.contemporary-south-asia.relative-vs-percentage-point-change"
+      ],
       "key_dispute": false
     },
     "d346cc25-6f2c-465d-a0ca-b19be0bc8df5": {
@@ -2422,7 +2591,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.land-reform-limited-outcomes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2433,6 +2602,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.land-reform-limited-outcomes",
+        "political_science.contemporary-south-asia.land-reform-limits-on-empowerment"
+      ],
       "key_dispute": false
     },
     "d7c32621-702a-4f95-942f-3b89f673f072": {
@@ -2475,7 +2648,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.river-water-bilateral-negotiation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2486,6 +2659,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.river-water-bilateral-negotiation",
+        "political_science.contemporary-south-asia.bilateral-river-water-diplomacy"
+      ],
       "key_dispute": false
     },
     "e8515f69-2a2c-44d1-a3d2-911b0c13d97a": {
@@ -2528,7 +2705,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.elected-governments-vs-bureaucracy-roles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2537,8 +2714,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.elected-governments-vs-bureaucracy-roles",
+        "political_science.contemporary-south-asia.elected-government-versus-bureaucracy-roles"
+      ],
       "key_dispute": false
     },
     "e9bad111-59fb-41af-bced-fe5ee081f9f8": {
@@ -2590,8 +2771,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.language-policy-federal-accommodation",
+        "political_science.contemporary-south-asia.language-policy-federal-accommodation"
+      ],
       "key_dispute": false
     },
     "f74ade63-6c5d-4b3c-a839-4942847d6f23": {
@@ -2638,7 +2823,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.transit-agreement-connectivity-security-balance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2649,6 +2834,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.transit-agreement-connectivity-security-balance",
+        "political_science.contemporary-south-asia.balancing-connectivity-and-security-in-transit"
+      ],
       "key_dispute": false
     },
     "fa1c61cc-53ac-4758-869b-a59c88cdf087": {
@@ -2700,8 +2889,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.electoral-cycles-short-term-planning",
+        "political_science.contemporary-south-asia.electoral-cycles-short-term-planning"
+      ],
       "key_dispute": false
     },
     "ffce7323-dfe2-4e57-93f2-e5a43ee3d91b": {
@@ -2744,7 +2937,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.contemporary-south-asia.external-debt-sovereignty-concern",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2755,6 +2948,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.contemporary-south-asia.external-debt-sovereignty-concern",
+        "political_science.contemporary-south-asia.debt-sustainability-and-conditionality"
+      ],
       "key_dispute": false
     },
     "4bae3e49-011a-4e2b-bcfe-bdd386dd4d27": {
@@ -2797,7 +2994,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.congress-decline-coalition-governments",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2808,6 +3005,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.congress-decline-coalition-governments",
+        "political_science.crisis-of-the-democratic-order.congress-decline-non-congress-coalitions"
+      ],
       "key_dispute": false
     },
     "4c21c4bc-3bc8-4164-8447-cf11156ec4c9": {
@@ -2850,7 +3051,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.emergency-period-leaders-roles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2861,6 +3062,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.emergency-period-leaders-roles",
+        "political_science.crisis-of-the-democratic-order.leaders-roles-in-emergency-period"
+      ],
       "key_dispute": false
     },
     "536f20e8-9e3a-4c98-875d-114423f912d5": {
@@ -2903,7 +3108,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.emergency-excesses-electoral-backlash",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2914,6 +3119,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.emergency-excesses-electoral-backlash",
+        "political_science.crisis-of-the-democratic-order.popular-resentment-drives-electoral-reversal"
+      ],
       "key_dispute": false
     },
     "743645ba-6a79-4a6f-96de-3b3d2e28b765": {
@@ -2956,7 +3165,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.international-organisations-sovereignty-limits",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2967,6 +3176,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.international-organisations-sovereignty-limits",
+        "political_science.crisis-of-the-democratic-order.role-of-international-organisations-sovereignty"
+      ],
       "key_dispute": false
     },
     "752eb7aa-3a90-4611-bd4c-f70a77fd0cdb": {
@@ -3009,7 +3222,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.garibi-hatao-populism-and-opposition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3018,8 +3231,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.garibi-hatao-populism-and-opposition",
+        "political_science.crisis-of-the-democratic-order.garibi-hatao-mass-appeal-limits"
+      ],
       "key_dispute": false
     },
     "9f8fc438-57ff-4aff-8496-2fa514722c23": {
@@ -3062,7 +3279,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.civil-society-mobilisation-against-emergency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3071,8 +3288,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.civil-society-mobilisation-against-emergency",
+        "political_science.crisis-of-the-democratic-order.civil-society-role-in-opposition"
+      ],
       "key_dispute": false
     },
     "ab84f8ba-9244-46e6-af94-4b63a67fcb03": {
@@ -3115,7 +3336,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.federal-autonomy-and-central-dismissals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3126,6 +3347,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.federal-autonomy-and-central-dismissals",
+        "political_science.crisis-of-the-democratic-order.central-dismissal-undermines-federal-autonomy"
+      ],
       "key_dispute": false
     },
     "abc50c4c-ad9e-44d0-a1dd-6e9be28ba282": {
@@ -3168,7 +3393,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.internal-emergency-constitutional-basis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3179,6 +3404,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.internal-emergency-constitutional-basis",
+        "political_science.crisis-of-the-democratic-order.article-352-internal-emergency-provision"
+      ],
       "key_dispute": false
     },
     "ac6e039d-1ec2-4faa-bc32-661fcc8f0e7b": {
@@ -3240,6 +3469,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.restoration-populism-and-party-renewal",
+        "political_science.crisis-of-the-democratic-order.restoration-populism-and-party-renewal"
+      ],
       "key_dispute": false
     },
     "ad04b24a-ba54-46c7-a38f-070e1665a954": {
@@ -3288,7 +3521,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.percentage-point-vs-percent-change",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3299,6 +3532,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.percentage-point-vs-percent-change",
+        "political_science.crisis-of-the-democratic-order.percentage-point-vs-relative-change"
+      ],
       "key_dispute": true
     },
     "eecbaad7-ab84-40c8-ac4b-b118ff92d53f": {
@@ -3345,7 +3582,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.fundamental-rights-curtailed-in-emergency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3356,6 +3593,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.fundamental-rights-curtailed-in-emergency",
+        "political_science.crisis-of-the-democratic-order.fundamental-rights-suspended-during-emergency"
+      ],
       "key_dispute": false
     },
     "fa059145-9b9a-4240-8993-03c2b0df12d5": {
@@ -3398,7 +3639,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.crisis-of-the-democratic-order.south-asian-country-political-developments",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3409,6 +3650,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.crisis-of-the-democratic-order.south-asian-country-political-developments",
+        "political_science.crisis-of-the-democratic-order.south-asia-country-developments-match"
+      ],
       "key_dispute": false
     },
     "176de835-622b-4afe-9e91-b517fabab9bb": {
@@ -3451,7 +3696,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.coalition-types-and-features",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3462,6 +3707,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.democratic-upsurge-and-coalition-politics.coalition-types-and-features",
+        "political_science.democratic-upsurge-and-coalition-politics.coalition-types-by-timing-and-size"
+      ],
       "key_dispute": false
     },
     "7fbf72c7-34b6-403f-83e0-9dcf235dc1e9": {
@@ -3504,7 +3753,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.coalitions-and-marginal-group-representation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3515,6 +3764,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.democratic-upsurge-and-coalition-politics.coalitions-and-marginal-group-representation",
+        "political_science.democratic-upsurge-and-coalition-politics.coalition-era-representation-of-marginal-groups"
+      ],
       "key_dispute": false
     },
     "84cf4ee8-f4d7-4379-a654-f39bc4f9c5c4": {
@@ -3568,6 +3821,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.democratic-upsurge-and-coalition-politics.regional-parties-by-state",
+        "political_science.democratic-upsurge-and-coalition-politics.regional-parties-by-state"
+      ],
       "key_dispute": false
     },
     "8bca1ddf-eb63-41e6-9ba5-06f1e54f3642": {
@@ -3614,7 +3871,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.regional-parties-and-coalition-dependence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3623,8 +3880,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.democratic-upsurge-and-coalition-politics.regional-parties-and-coalition-dependence",
+        "political_science.democratic-upsurge-and-coalition-politics.regional-parties-as-coalition-partners"
+      ],
       "key_dispute": false
     },
     "f37f7cb9-0750-433d-b481-cb793b49aa62": {
@@ -3674,7 +3935,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.unipolarity-removes-bipolar-constraints",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3685,6 +3946,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.democratic-upsurge-and-coalition-politics.unipolarity-removes-bipolar-constraints",
+        "political_science.democratic-upsurge-and-coalition-politics.post-cold-war-unipolarity-and-economic-engagement"
+      ],
       "key_dispute": false
     },
     "06ab766e-e646-44d7-952a-2e15233fa48f": {
@@ -3731,7 +3996,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.environmental-diplomacy-regional-influence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3742,6 +4007,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.environmental-diplomacy-regional-influence",
+        "political_science.end-of-bipolarity.environmental-diplomacy-soft-power"
+      ],
       "key_dispute": false
     },
     "0c729b27-ef4c-45f1-9fde-e5f923347fc3": {
@@ -3784,7 +4053,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.mnc-agenda-setting-power",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3795,6 +4064,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.mnc-agenda-setting-power",
+        "political_science.end-of-bipolarity.mnc-agenda-setting-influence"
+      ],
       "key_dispute": false
     },
     "297c295e-9097-4e76-beae-9e5aab1f2bb7": {
@@ -3837,7 +4110,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.resource-nationalism-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3848,6 +4121,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.resource-nationalism-meaning",
+        "political_science.end-of-bipolarity.resource-nationalism-state-control"
+      ],
       "key_dispute": false
     },
     "44981956-f6d9-44d2-9430-624f79bbbcb1": {
@@ -3901,6 +4178,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.civil-society-growth-after-bipolarity",
+        "political_science.end-of-bipolarity.civil-society-growth-after-bipolarity"
+      ],
       "key_dispute": false
     },
     "4f6026a2-7853-40bd-8bff-b34413916f38": {
@@ -3960,6 +4241,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.percentage-reduction-calculation",
+        "political_science.end-of-bipolarity.percentage-reduction-calculation"
+      ],
       "key_dispute": false
     },
     "57f36ebb-5748-4fa0-a6f1-e78817f7acb5": {
@@ -4010,7 +4295,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.regional-trade-share-from-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4019,8 +4304,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.regional-trade-share-from-ratio",
+        "political_science.end-of-bipolarity.regional-trade-share-equation"
+      ],
       "key_dispute": true
     },
     "82edc76d-d0d5-4628-8e2b-fffbca657f70": {
@@ -4063,7 +4352,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.it-enables-transnational-mobilisation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4072,8 +4361,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.it-enables-transnational-mobilisation",
+        "political_science.end-of-bipolarity.it-enabled-cross-border-mobilisation"
+      ],
       "key_dispute": false
     },
     "92a5159c-f8cf-44ba-b806-8f7c07e52bf1": {
@@ -4116,7 +4409,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.joint-bodies-reduce-conflict",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4127,6 +4420,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.joint-bodies-reduce-conflict",
+        "political_science.end-of-bipolarity.joint-scientific-panels-cooperation"
+      ],
       "key_dispute": false
     },
     "acfd5b53-654f-456e-8e4e-5e3b4141239e": {
@@ -4169,7 +4466,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.post-bipolar-triggers-and-responses",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4180,6 +4477,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.post-bipolar-triggers-and-responses",
+        "political_science.end-of-bipolarity.post-bipolar-triggers-popular-responses"
+      ],
       "key_dispute": false
     },
     "bac189c5-b80c-489e-83e7-ad69f89eb040": {
@@ -4233,6 +4534,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.international-institutions-environmental-roles",
+        "political_science.end-of-bipolarity.international-institutions-environmental-roles"
+      ],
       "key_dispute": false
     },
     "d546bfa3-c2de-4797-9529-f901adf9d564": {
@@ -4275,7 +4580,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.alternative-centres-of-power-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4284,8 +4589,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.alternative-centres-of-power-meaning",
+        "political_science.end-of-bipolarity.alternative-centres-of-power-concept"
+      ],
       "key_dispute": false
     },
     "d75c4256-544f-4db7-b851-dd9421ac1f00": {
@@ -4334,7 +4643,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.end-of-bipolarity.percentage-share-after-change-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4343,8 +4652,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.end-of-bipolarity.percentage-share-after-change-calculation",
+        "political_science.end-of-bipolarity.percentage-share-after-value-change"
+      ],
       "key_dispute": false
     },
     "04cf80e8-f447-4210-a699-f1924a9c430b": {
@@ -4387,7 +4700,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.globalization-transboundary-regulatory-gaps",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4398,6 +4711,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.globalization-transboundary-regulatory-gaps",
+        "political_science.environment-and-natural-resources.globalization-complicates-resource-governance"
+      ],
       "key_dispute": false
     },
     "6286dced-cd5d-4ded-9cb7-d4c92143a06f": {
@@ -4440,7 +4757,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.major-environmental-treaties-focus",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4451,6 +4768,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.major-environmental-treaties-focus",
+        "political_science.environment-and-natural-resources.international-environmental-treaty-focus"
+      ],
       "key_dispute": false
     },
     "6a1f40e7-35c5-4f5a-b416-b16382578fe3": {
@@ -4493,7 +4814,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.percentage-share-of-whole",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4504,6 +4825,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.percentage-share-of-whole",
+        "political_science.environment-and-natural-resources.population-share-as-percentage"
+      ],
       "key_dispute": false
     },
     "a063bb05-ca97-4199-8619-9895a749264b": {
@@ -4553,7 +4878,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.globalization-concentrates-production-risk",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4562,8 +4887,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.globalization-concentrates-production-risk",
+        "political_science.environment-and-natural-resources.globalization-environmental-vulnerability"
+      ],
       "key_dispute": true
     },
     "a6098682-fec2-4388-8ae5-f61ec5bd8a5e": {
@@ -4606,7 +4935,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.global-commons-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4615,8 +4944,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.global-commons-definition",
+        "political_science.environment-and-natural-resources.global-commons-meaning"
+      ],
       "key_dispute": false
     },
     "c59fdcc4-6e30-44a4-825d-09a7926c5206": {
@@ -4659,7 +4992,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.percentage-change-from-base",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4670,6 +5003,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.percentage-change-from-base",
+        "political_science.environment-and-natural-resources.percentage-change-relative-to-base"
+      ],
       "key_dispute": false
     },
     "d3bfcfc3-3aab-4d0f-af2a-0f5605ad837e": {
@@ -4712,7 +5049,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.percentage-change-from-base",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4723,6 +5060,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.percentage-change-from-base",
+        "political_science.environment-and-natural-resources.percentage-change-relative-to-base"
+      ],
       "key_dispute": false
     },
     "f425836e-ef88-42e9-99d7-e47ce9976383": {
@@ -4765,7 +5106,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.commons-and-ecological-concepts-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4776,6 +5117,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.commons-and-ecological-concepts-matching",
+        "political_science.environment-and-natural-resources.common-pool-resource-characteristics"
+      ],
       "key_dispute": false
     },
     "fe32ab96-0d43-4d84-85fb-79a53e5f76ec": {
@@ -4818,7 +5163,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.environment-and-natural-resources.common-but-differentiated-responsibilities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4829,6 +5174,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.environment-and-natural-resources.common-but-differentiated-responsibilities",
+        "political_science.environment-and-natural-resources.common-but-differentiated-responsibility"
+      ],
       "key_dispute": false
     },
     "01ddc566-d410-417d-bbf0-9daf7a943ada": {
@@ -4871,7 +5220,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.era-of-one-party-dominance.weak-opposition-explains-congress-success",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4882,6 +5231,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.weak-opposition-explains-congress-success",
+        "political_science.era-of-one-party-dominance.congress-dominance-weak-opposition"
+      ],
       "key_dispute": false
     },
     "056d7931-f874-41c9-af92-28d208a35213": {
@@ -4928,7 +5281,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.era-of-one-party-dominance.public-private-investment-split",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4939,6 +5292,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.public-private-investment-split",
+        "political_science.era-of-one-party-dominance.public-private-investment-share"
+      ],
       "key_dispute": false
     },
     "2291e2c6-0a5d-4120-865b-6be68a858f44": {
@@ -4992,6 +5349,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.planning-commission-coordinates-planning",
+        "political_science.era-of-one-party-dominance.planning-commission-coordinates-planning"
+      ],
       "key_dispute": false
     },
     "271fefce-4321-4f9f-a148-415a2e165bd3": {
@@ -5052,6 +5413,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition",
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition"
+      ],
       "key_dispute": true
     },
     "30f76149-4cbf-4dfd-bda4-db870e440d68": {
@@ -5094,7 +5459,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.era-of-one-party-dominance.implementation-gap-in-planned-development",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5105,6 +5470,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.implementation-gap-in-planned-development",
+        "political_science.era-of-one-party-dominance.implementation-gap-in-central-schemes"
+      ],
       "key_dispute": false
     },
     "3eebdb86-5ed1-4029-854b-ac9121c47e9f": {
@@ -5158,6 +5527,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition",
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition"
+      ],
       "key_dispute": false
     },
     "5c4bcaf9-bf6d-46e2-9dc4-879b6a050490": {
@@ -5200,7 +5573,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.era-of-one-party-dominance.emergency-crisis-of-democratic-order",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5209,8 +5582,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.emergency-crisis-of-democratic-order",
+        "political_science.era-of-one-party-dominance.emergency-as-crisis-of-democracy"
+      ],
       "key_dispute": false
     },
     "5d5620b3-6bd7-447f-9c5b-cef4b5881ec3": {
@@ -5264,6 +5641,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.nation-building-integration-challenges",
+        "political_science.era-of-one-party-dominance.nation-building-integration-challenges"
+      ],
       "key_dispute": false
     },
     "ea3c3d4d-cb50-4199-81ba-c48b2fb0e239": {
@@ -5317,6 +5698,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition",
+        "political_science.era-of-one-party-dominance.dominance-coexists-with-opposition"
+      ],
       "key_dispute": false
     },
     "18036b67-dea9-4aab-b38d-bc4ce1651042": {
@@ -5370,6 +5755,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.regional-parties-rise-after-liberalisation",
+        "political_science.globalisation.regional-parties-rise-after-liberalisation"
+      ],
       "key_dispute": false
     },
     "1bf88f46-0139-4b53-9d54-ceebcbfa8d3e": {
@@ -5429,6 +5818,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.trade-openness-ratio-calculation",
+        "political_science.globalisation.trade-openness-ratio-calculation"
+      ],
       "key_dispute": false
     },
     "285f148a-338c-4bbf-8353-e02abccb541c": {
@@ -5471,7 +5864,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.diaspora-diplomacy-mobilises-migrants",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5482,6 +5875,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.diaspora-diplomacy-mobilises-migrants",
+        "political_science.globalisation.diaspora-diplomacy-role"
+      ],
       "key_dispute": false
     },
     "3e17cfd2-5149-4387-a5f3-d0c237646197": {
@@ -5524,7 +5921,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.economic-diplomacy-trade-investment-ties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5535,6 +5932,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.economic-diplomacy-trade-investment-ties",
+        "political_science.globalisation.economic-diplomacy-examples"
+      ],
       "key_dispute": false
     },
     "a5bfe458-c8e1-45ed-bd4e-2cd9c3f38c13": {
@@ -5588,6 +5989,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.regional-parties-rise-after-liberalisation",
+        "political_science.globalisation.regional-parties-rise-after-liberalisation"
+      ],
       "key_dispute": false
     },
     "b8207d36-243e-4fa6-8c8d-53d80cfd7ad3": {
@@ -5636,7 +6041,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.cagr-growth-rate-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5645,8 +6050,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.cagr-growth-rate-calculation",
+        "political_science.globalisation.cagr-two-period-growth"
+      ],
       "key_dispute": false
     },
     "bf566d6b-c449-4c71-95e9-7314c90c40c7": {
@@ -5693,7 +6102,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.challenge-cause-matching-south-asia",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5704,6 +6113,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.challenge-cause-matching-south-asia",
+        "political_science.globalisation.south-asia-challenges-globalisation-causes"
+      ],
       "key_dispute": false
     },
     "c63ee5c4-6f0c-4d58-8e62-e27ab9a32ae2": {
@@ -5746,7 +6159,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.bilateral-mistrust-limits-regional-cooperation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5757,6 +6170,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.bilateral-mistrust-limits-regional-cooperation",
+        "political_science.globalisation.bilateral-mistrust-blocks-regional-cooperation"
+      ],
       "key_dispute": false
     },
     "ce6a917f-2469-4f3a-83e9-c1287315d676": {
@@ -5799,7 +6216,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.look-east-policy-outcome-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5810,6 +6227,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.look-east-policy-outcome-matching",
+        "political_science.globalisation.india-policy-initiatives-outcomes"
+      ],
       "key_dispute": false
     },
     "dc0842a7-1096-42fd-9e20-b6af15674eaa": {
@@ -5858,7 +6279,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.remittance-percentage-increase",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5869,6 +6290,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.remittance-percentage-increase",
+        "political_science.globalisation.percentage-change-remittance-inflows"
+      ],
       "key_dispute": false
     },
     "dc49133f-162e-4f06-8c08-c6236f6ad097": {
@@ -5911,7 +6336,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.bilateral-mistrust-limits-regional-cooperation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5920,8 +6345,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.bilateral-mistrust-limits-regional-cooperation",
+        "political_science.globalisation.bilateral-mistrust-blocks-regional-cooperation"
+      ],
       "key_dispute": false
     },
     "e0ed1db8-c799-4f06-9285-92bb389394dd": {
@@ -5973,8 +6402,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.political-globalisation-definition",
+        "political_science.globalisation.political-globalisation-definition"
+      ],
       "key_dispute": false
     },
     "e580b7bd-633a-44b1-9635-c7cc47f06956": {
@@ -6023,7 +6456,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.remittances-recorded-in-current-account",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6032,8 +6465,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.remittances-recorded-in-current-account",
+        "political_science.globalisation.remittances-current-account-effect"
+      ],
       "key_dispute": false
     },
     "ee879651-1527-4380-8c13-3dc30e32c727": {
@@ -6076,7 +6513,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.globalisation.strategic-autonomy-not-abandoned",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6087,6 +6524,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.globalisation.strategic-autonomy-not-abandoned",
+        "political_science.globalisation.consequences-for-foreign-policy"
+      ],
       "key_dispute": false
     },
     "018dd717-3918-4226-a05d-0f53507437eb": {
@@ -6129,7 +6570,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.asean-engagement-scope",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6140,6 +6581,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.asean-engagement-scope",
+        "political_science.india-s-external-relations.asean-engagement-economic-drivers"
+      ],
       "key_dispute": false
     },
     "0b9272ad-80ce-4987-b2b5-ae034a5c9a6e": {
@@ -6186,7 +6631,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-avoids-alliances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6197,6 +6642,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-avoids-alliances",
+        "political_science.india-s-external-relations.economic-cooperation-over-military-alliances"
+      ],
       "key_dispute": false
     },
     "1b85395c-2a56-4a06-85c7-2592761c7f76": {
@@ -6239,7 +6688,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-not-neutrality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6250,6 +6699,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-not-neutrality",
+        "political_science.india-s-external-relations.non-alignment-not-isolation"
+      ],
       "key_dispute": false
     },
     "3286c625-55cb-44c6-ae5f-ed53eb4e7755": {
@@ -6296,7 +6749,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.cbms-reduce-tensions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6307,6 +6760,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.cbms-reduce-tensions",
+        "political_science.india-s-external-relations.multilateral-dialogue-reduces-misperception"
+      ],
       "key_dispute": false
     },
     "3ed691c2-7b6a-44cd-92e3-e9b6090d90ec": {
@@ -6349,7 +6806,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.panchsheel-principles-and-origin",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6360,6 +6817,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.panchsheel-principles-and-origin",
+        "political_science.india-s-external-relations.panchsheel-principles"
+      ],
       "key_dispute": false
     },
     "4fd387ba-eb22-4703-833e-6a19cbb76f92": {
@@ -6402,7 +6863,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-means-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6413,6 +6874,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-means-independence",
+        "political_science.india-s-external-relations.non-alignment-friendly-ties-both-blocs"
+      ],
       "key_dispute": false
     },
     "6e369199-3019-4219-b9c7-171afb53f78d": {
@@ -6461,7 +6926,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.balanced-neighbour-and-power-ties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6470,8 +6935,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.balanced-neighbour-and-power-ties",
+        "political_science.india-s-external-relations.neighborhood-first-balance-with-major-powers"
+      ],
       "key_dispute": false
     },
     "a3c8bb1d-725a-4d83-8750-7845b9216eae": {
@@ -6514,7 +6983,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.india-un-peacekeeping-role",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6525,6 +6994,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.india-un-peacekeeping-role",
+        "political_science.india-s-external-relations.un-peacekeeping-role"
+      ],
       "key_dispute": false
     },
     "a62593a5-28b8-4a5a-88ba-db9ad3df9127": {
@@ -6567,7 +7040,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.neighborhood-first-policy-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6576,8 +7049,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.neighborhood-first-policy-meaning",
+        "political_science.india-s-external-relations.neighborhood-first-policy-aim"
+      ],
       "key_dispute": false
     },
     "bcaf2aa6-5d48-4ad2-af48-cbb59be9affe": {
@@ -6620,7 +7097,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-not-neutrality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6631,6 +7108,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-not-neutrality",
+        "political_science.india-s-external-relations.non-alignment-not-isolation"
+      ],
       "key_dispute": false
     },
     "cb58ae10-a547-483a-bbde-c826cc7b8229": {
@@ -6677,7 +7158,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.regional-initiatives-mapping",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6688,6 +7169,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.regional-initiatives-mapping",
+        "political_science.india-s-external-relations.regional-initiatives-policy-mapping"
+      ],
       "key_dispute": true
     },
     "e32a7295-fc58-4768-8837-35f982fa462d": {
@@ -6730,7 +7215,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.cbms-reduce-tensions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6741,6 +7226,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.cbms-reduce-tensions",
+        "political_science.india-s-external-relations.bilateral-talks-for-border-disputes"
+      ],
       "key_dispute": false
     },
     "ee9d8ca9-bb7c-42ca-9be9-01834dfe9662": {
@@ -6787,7 +7276,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.look-east-policy-continuity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6798,6 +7287,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.look-east-policy-continuity",
+        "political_science.india-s-external-relations.look-east-continuity-with-past"
+      ],
       "key_dispute": false
     },
     "f4ce3b5b-2635-4793-9911-4fd89e4257e9": {
@@ -6840,7 +7333,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-means-independence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6851,6 +7344,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-means-independence",
+        "political_science.india-s-external-relations.non-alignment-independence-from-blocs"
+      ],
       "key_dispute": false
     },
     "f95d6daa-db2d-4f66-b9a2-a5f416b877a5": {
@@ -6893,7 +7390,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.non-alignment-avoids-alliances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6904,6 +7401,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.non-alignment-avoids-alliances",
+        "political_science.india-s-external-relations.colonial-experience-shapes-foreign-policy"
+      ],
       "key_dispute": false
     },
     "fe714433-6c02-441a-a6c0-cdfe44ae03e6": {
@@ -6946,7 +7447,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.india-s-external-relations.peaceful-resolution-with-rivals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6955,8 +7456,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.india-s-external-relations.peaceful-resolution-with-rivals",
+        "political_science.india-s-external-relations.peaceful-resolution-with-rival-neighbours"
+      ],
       "key_dispute": false
     },
     "01f75096-efec-43a0-b1c2-e86e63832f26": {
@@ -6999,7 +7504,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.un-predecessor-league-of-nations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7010,6 +7515,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.un-predecessor-league-of-nations",
+        "political_science.international-organisations.league-of-nations-un-predecessor"
+      ],
       "key_dispute": false
     },
     "37bbbd57-4132-4aef-98f5-17e6c513468d": {
@@ -7052,7 +7561,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.unsc-veto-holders",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7063,6 +7572,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.unsc-veto-holders",
+        "political_science.international-organisations.veto-power-permanent-members"
+      ],
       "key_dispute": false
     },
     "739d0426-70c5-4b37-a50d-dadb3861d7a3": {
@@ -7105,7 +7618,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.un-chief-administrative-officer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7114,8 +7627,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.un-chief-administrative-officer",
+        "political_science.international-organisations.secretary-general-chief-administrative-officer"
+      ],
       "key_dispute": false
     },
     "78839a5b-0b4c-410b-b7ee-8101cf0a155e": {
@@ -7175,6 +7692,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.ngo-influence-after-bipolarity",
+        "political_science.international-organisations.ngo-influence-after-bipolarity"
+      ],
       "key_dispute": true
     },
     "844d8d6c-3ae0-4d88-b88d-20775de4b143": {
@@ -7228,6 +7749,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.who-headquarters-location",
+        "political_science.international-organisations.who-headquarters-location"
+      ],
       "key_dispute": false
     },
     "9923ff3f-71d7-4b14-a409-3b1d02c96e42": {
@@ -7270,7 +7795,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.non-state-actor-participation-in-ios",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7281,6 +7806,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.non-state-actor-participation-in-ios",
+        "political_science.international-organisations.io-openness-to-non-state-actors"
+      ],
       "key_dispute": false
     },
     "a0c4ccc2-07d7-4278-8ac1-414fe4e40002": {
@@ -7323,7 +7852,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.unsc-primary-responsibility-peace",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7332,8 +7861,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.unsc-primary-responsibility-peace",
+        "political_science.international-organisations.security-council-peace-responsibility"
+      ],
       "key_dispute": false
     },
     "ae5705e6-d0a3-428d-aa75-750f451786e3": {
@@ -7376,7 +7909,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.unipolarity-challenge-to-un-authority",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7385,8 +7918,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.unipolarity-challenge-to-un-authority",
+        "political_science.international-organisations.unipolar-challenge-to-un"
+      ],
       "key_dispute": false
     },
     "db989b1f-dc83-4980-afd3-8df7e64eed12": {
@@ -7429,7 +7966,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.international-organisations.unsc-reform-veto-deadlock-argument",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7438,8 +7975,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.unsc-reform-veto-deadlock-argument",
+        "political_science.international-organisations.veto-deadlock-reform-argument"
+      ],
       "key_dispute": false
     },
     "e66ee4ba-042c-4c86-b2d0-8699a7692b9e": {
@@ -7491,8 +8032,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.international-organisations.unsc-permanent-seat-criteria",
+        "political_science.international-organisations.unsc-permanent-seat-criteria"
+      ],
       "key_dispute": false
     },
     "0ec4f80c-93a8-4e8c-b7f1-38b3651f1307": {
@@ -7535,7 +8080,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.planning-institutions-and-functions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7546,6 +8091,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.planning-institutions-and-functions",
+        "political_science.politics-of-planned-development.planning-instruments-and-their-functions"
+      ],
       "key_dispute": false
     },
     "11da05b5-2238-4107-b39e-bbaefc104f1e": {
@@ -7588,7 +8137,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.planned-development-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7597,8 +8146,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.planned-development-meaning",
+        "political_science.politics-of-planned-development.meaning-of-planned-development"
+      ],
       "key_dispute": false
     },
     "276fb9e4-76b8-47cc-ad99-1699ad43cc6d": {
@@ -7641,7 +8194,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.planning-regional-disparities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7652,6 +8205,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.planning-regional-disparities",
+        "political_science.politics-of-planned-development.planning-causes-regional-disparities"
+      ],
       "key_dispute": false
     },
     "6e95da75-0b29-4fd7-9cb3-00702ae469dd": {
@@ -7700,7 +8257,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.congress-dominance-through-mass-base",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7711,6 +8268,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.congress-dominance-through-mass-base",
+        "political_science.politics-of-planned-development.congress-dominance-through-mass-organization"
+      ],
       "key_dispute": false
     },
     "92fc1fd3-940a-49ee-90f3-8b65d647583b": {
@@ -7757,7 +8318,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.regional-parties-challenge-to-congress",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7768,6 +8329,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.regional-parties-challenge-to-congress",
+        "political_science.politics-of-planned-development.regional-parties-challenge-congress-dominance"
+      ],
       "key_dispute": false
     },
     "976b1cc0-d2b0-41be-9687-2852646f8f1f": {
@@ -7810,7 +8375,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.non-alignment-foreign-policy-principle",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7821,6 +8386,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.non-alignment-foreign-policy-principle",
+        "political_science.politics-of-planned-development.non-alignment-principle-in-foreign-policy"
+      ],
       "key_dispute": false
     },
     "a5b0f2e8-8e6b-4896-b4ef-7fba4bb57e22": {
@@ -7863,7 +8432,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.bombay-plan-mixed-economy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7874,6 +8443,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.bombay-plan-mixed-economy",
+        "political_science.politics-of-planned-development.bombay-plan-mixed-economy-stance"
+      ],
       "key_dispute": false
     },
     "ab8bb858-c647-4394-b83e-cba088cbd1d6": {
@@ -7920,7 +8493,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.development-benefits-and-ruling-party-support",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7931,6 +8504,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.development-benefits-and-ruling-party-support",
+        "political_science.politics-of-planned-development.development-spending-boosts-ruling-party-support"
+      ],
       "key_dispute": false
     },
     "bc99de7a-fce8-4047-bc2b-d5b4921d23c6": {
@@ -7973,7 +8550,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.politics-of-planned-development.green-revolution-vs-irdp-objectives",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7984,6 +8561,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.politics-of-planned-development.green-revolution-vs-irdp-objectives",
+        "political_science.politics-of-planned-development.agriculture-productivity-vs-rural-development"
+      ],
       "key_dispute": false
     },
     "028404cf-0fb2-4025-abad-341db3dd3978": {
@@ -8026,7 +8607,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.regional-parties-end-one-party-dominance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8037,6 +8618,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.regional-parties-end-one-party-dominance",
+        "political_science.recent-issues-and-challenges.regional-parties-end-dominance"
+      ],
       "key_dispute": false
     },
     "0da69b45-e344-4ac4-8cc7-da6697bbcdc7": {
@@ -8090,6 +8675,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.us-hegemony-dimensions",
+        "political_science.recent-issues-and-challenges.us-hegemony-dimensions"
+      ],
       "key_dispute": false
     },
     "1b1f25b4-bdb7-4817-826d-5c08c36d3cee": {
@@ -8132,7 +8721,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.short-term-electoral-incentives-vs-sustainability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8143,6 +8732,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.short-term-electoral-incentives-vs-sustainability",
+        "political_science.recent-issues-and-challenges.short-term-electoral-vs-sustainability"
+      ],
       "key_dispute": false
     },
     "28cbd2bd-f9aa-47ba-9830-6485b83c1ffc": {
@@ -8185,7 +8778,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.environmental-movements-strategies-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8196,6 +8789,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.environmental-movements-strategies-matching",
+        "political_science.recent-issues-and-challenges.environmental-movement-strategies"
+      ],
       "key_dispute": false
     },
     "2a1831d5-d246-49fd-b316-5f417f3e5baa": {
@@ -8244,7 +8841,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.internal-party-democracy-under-dominance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8253,8 +8850,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.internal-party-democracy-under-dominance",
+        "political_science.recent-issues-and-challenges.dominant-party-centralisation-internal-democracy"
+      ],
       "key_dispute": false
     },
     "49008990-c618-4714-bff7-b160052bbce7": {
@@ -8308,6 +8909,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.market-based-pollution-instruments",
+        "political_science.recent-issues-and-challenges.market-based-pollution-instruments"
+      ],
       "key_dispute": false
     },
     "5c8ad9de-06f8-4e43-b57b-000ca63fdfdf": {
@@ -8350,7 +8955,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.fptp-seat-share-vs-vote-share",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8359,8 +8964,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.fptp-seat-share-vs-vote-share",
+        "political_science.recent-issues-and-challenges.fptp-seat-vote-disproportionality"
+      ],
       "key_dispute": false
     },
     "719a1990-51b5-4c4b-a748-2d693400eadc": {
@@ -8403,7 +9012,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.per-capita-consumption-growth-rates",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8414,6 +9023,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.per-capita-consumption-growth-rates",
+        "political_science.recent-issues-and-challenges.population-growth-per-capita-consumption"
+      ],
       "key_dispute": false
     },
     "82c99454-9f7e-4345-9d3c-bd457e7223e6": {
@@ -8456,7 +9069,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.pil-environmental-protection-locus-standi",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8467,6 +9080,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.pil-environmental-protection-locus-standi",
+        "political_science.recent-issues-and-challenges.pil-locus-standi-environment"
+      ],
       "key_dispute": false
     },
     "88b08cde-319a-4f9a-bd3a-860701d03692": {
@@ -8509,7 +9126,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.environmental-laws-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8520,6 +9137,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.environmental-laws-matching",
+        "political_science.recent-issues-and-challenges.environmental-problem-to-national-law"
+      ],
       "key_dispute": false
     },
     "9da30f79-1ab5-46bc-8328-f208cafcb503": {
@@ -8568,7 +9189,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.regional-cooperation-with-autonomy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8579,6 +9200,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.regional-cooperation-with-autonomy",
+        "political_science.recent-issues-and-challenges.regional-cooperation-preserving-autonomy"
+      ],
       "key_dispute": false
     },
     "a23c323c-fd8d-4a5e-a946-e00aedd83656": {
@@ -8632,6 +9257,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.one-party-dominance-features",
+        "political_science.recent-issues-and-challenges.one-party-dominance-features"
+      ],
       "key_dispute": false
     },
     "cdcca627-05b1-4bd1-a4d3-60df01ab3817": {
@@ -8674,7 +9303,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.recent-issues-and-challenges.ngo-role-environmental-litigation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8685,6 +9314,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.recent-issues-and-challenges.ngo-role-environmental-litigation",
+        "political_science.recent-issues-and-challenges.ngo-role-environmental-justice"
+      ],
       "key_dispute": false
     },
     "0a258a6d-6789-4a6a-8e78-a8cbb93fbd9b": {
@@ -8727,7 +9360,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.resource-control-autonomy-demand",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8738,6 +9371,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.resource-control-autonomy-demand",
+        "political_science.regional-aspirations.resource-control-autonomy"
+      ],
       "key_dispute": false
     },
     "226f361a-90d7-4f92-a62f-823d7282bfa4": {
@@ -8780,7 +9417,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.local-coalition-protest-strategy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8791,6 +9428,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.local-coalition-protest-strategy",
+        "political_science.regional-aspirations.local-coalitions-peaceful-protest"
+      ],
       "key_dispute": false
     },
     "2f50500c-f753-4fc4-8570-f20c704564ea": {
@@ -8833,7 +9474,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.cultural-vs-economic-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8844,6 +9485,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.cultural-vs-economic-distinction",
+        "political_science.regional-aspirations.cultural-vs-economic-aspirations"
+      ],
       "key_dispute": false
     },
     "3254fe26-4580-49ce-b51a-9d0e9157d98f": {
@@ -8886,7 +9531,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.environmental-protest-tactics",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8897,6 +9542,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.environmental-protest-tactics",
+        "political_science.regional-aspirations.environmental-mobilisation-tactics"
+      ],
       "key_dispute": false
     },
     "681917d5-0030-46c9-8918-f25b01bbe8b0": {
@@ -8950,6 +9599,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.meaning-of-regional-aspirations",
+        "political_science.regional-aspirations.meaning-of-regional-aspirations"
+      ],
       "key_dispute": false
     },
     "9175dd49-6760-4614-b6e3-c340eea3f924": {
@@ -9007,6 +9660,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.percentage-share-of-national-total",
+        "political_science.regional-aspirations.percentage-share-of-national-total"
+      ],
       "key_dispute": false
     },
     "ae0cf70f-336f-40a2-9f95-442fa0f44f8e": {
@@ -9055,7 +9712,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.globalisation-and-environmental-standards",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9064,8 +9721,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.globalisation-and-environmental-standards",
+        "political_science.regional-aspirations.global-integration-local-environmental-demands"
+      ],
       "key_dispute": false
     },
     "b5e8da4f-fb35-471c-b6f1-2380bc8bffc2": {
@@ -9112,7 +9773,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.regional-environmental-grievances",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9123,6 +9784,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.regional-environmental-grievances",
+        "political_science.regional-aspirations.environmental-grievance-by-region"
+      ],
       "key_dispute": false
     },
     "cc3cc955-65d4-4a73-94b0-49f94050fa32": {
@@ -9165,7 +9830,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.globalisation-regional-inequality-claims",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9176,6 +9841,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.globalisation-regional-inequality-claims",
+        "political_science.regional-aspirations.economic-opening-fuels-regional-claims"
+      ],
       "key_dispute": false
     },
     "cd206de7-1638-47d9-96fb-b2fa42084992": {
@@ -9218,7 +9887,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.regional-aspirations.inter-state-river-pollution-dispute",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9229,6 +9898,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.regional-aspirations.inter-state-river-pollution-dispute",
+        "political_science.regional-aspirations.inter-state-dispute-resolution-route"
+      ],
       "key_dispute": false
     },
     "0e75d343-aabc-4657-a5f1-5f8bf314d677": {
@@ -9282,6 +9955,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.popular-movement-vs-interest-group",
+        "political_science.rise-of-popular-movements.popular-movement-vs-interest-group"
+      ],
       "key_dispute": false
     },
     "1f260338-1021-497c-a715-5087c77bb05e": {
@@ -9335,6 +10012,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.alternative-centre-of-power-indicator",
+        "political_science.rise-of-popular-movements.alternative-centre-of-power-indicator"
+      ],
       "key_dispute": false
     },
     "3fc94a2a-58fb-43ce-adac-e30f5905fc39": {
@@ -9388,6 +10069,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.alternative-centre-of-power-definition",
+        "political_science.rise-of-popular-movements.alternative-centre-of-power-definition"
+      ],
       "key_dispute": false
     },
     "4be3a4c5-3ab2-4c2b-917b-fda0abcc86b3": {
@@ -9430,7 +10115,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.rise-of-popular-movements.movement-type-constituency-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9441,6 +10126,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.movement-type-constituency-matching",
+        "political_science.rise-of-popular-movements.movement-type-leading-constituency"
+      ],
       "key_dispute": false
     },
     "5c548c91-c63b-4092-b327-c4c39d8ca69d": {
@@ -9487,7 +10176,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.rise-of-popular-movements.external-funding-effect-on-framing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9498,6 +10187,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.external-funding-effect-on-framing",
+        "political_science.rise-of-popular-movements.external-funding-influence-on-framing"
+      ],
       "key_dispute": false
     },
     "ab832fed-4848-4822-87fe-dbb4f528f741": {
@@ -9546,7 +10239,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.rise-of-popular-movements.grievance-outcome-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9557,6 +10250,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.grievance-outcome-matching",
+        "political_science.rise-of-popular-movements.grievance-type-and-movement-response"
+      ],
       "key_dispute": true
     },
     "da75847d-865d-4ff7-b0db-47b3cd327dce": {
@@ -9599,7 +10296,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.rise-of-popular-movements.cold-war-ideological-divisions-assertion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9610,6 +10307,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.cold-war-ideological-divisions-assertion",
+        "political_science.rise-of-popular-movements.superpowers-did-not-back-all-movements"
+      ],
       "key_dispute": false
     },
     "eeb94c90-bfc1-47f4-9f3d-4077bf5a7416": {
@@ -9652,7 +10353,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.rise-of-popular-movements.state-concession-to-prevent-escalation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9663,6 +10364,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.rise-of-popular-movements.state-concession-to-prevent-escalation",
+        "political_science.rise-of-popular-movements.state-concession-motive-prevent-escalation"
+      ],
       "key_dispute": false
     },
     "0a79564d-bc7c-4578-93bb-34ff180f9202": {
@@ -9705,7 +10410,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.multilateral-regional-coordination",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9716,6 +10421,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.multilateral-regional-coordination",
+        "political_science.security-in-the-contemporary-world.multilateral-regional-response"
+      ],
       "key_dispute": false
     },
     "2511c977-670c-440d-a2ae-8551630175fb": {
@@ -9769,6 +10478,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.intra-state-conflict-after-bipolarity",
+        "political_science.security-in-the-contemporary-world.intra-state-conflict-after-bipolarity"
+      ],
       "key_dispute": false
     },
     "37ba5757-71d1-4a1e-8795-90250d949e7b": {
@@ -9818,7 +10531,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.bloc-collapse-and-state-autonomy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9827,8 +10540,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.bloc-collapse-and-state-autonomy",
+        "political_science.security-in-the-contemporary-world.bipolarity-end-and-state-autonomy"
+      ],
       "key_dispute": true
     },
     "4f5246b6-77fc-4968-a3a1-4414b335d8cb": {
@@ -9871,7 +10588,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.democratic-legitimacy-decline-signs",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9882,6 +10599,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.democratic-legitimacy-decline-signs",
+        "political_science.security-in-the-contemporary-world.democratic-crisis-legitimacy-signs"
+      ],
       "key_dispute": false
     },
     "6362f0a4-0fd0-4902-9142-6ca9e5049342": {
@@ -9924,7 +10645,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.one-party-dominance-via-state-resources",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9935,6 +10656,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.one-party-dominance-via-state-resources",
+        "political_science.security-in-the-contemporary-world.one-party-dominance-mechanisms"
+      ],
       "key_dispute": false
     },
     "95a03267-9721-43c1-9065-919a9dddbc43": {
@@ -9977,7 +10702,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.consequences-of-end-of-bipolarity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9988,6 +10713,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.consequences-of-end-of-bipolarity",
+        "political_science.security-in-the-contemporary-world.match-phenomena-to-consequences"
+      ],
       "key_dispute": false
     },
     "ad9c640a-ad26-4c1b-81af-523c7d12c2e1": {
@@ -10041,6 +10770,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.unipolar-moment-meaning",
+        "political_science.security-in-the-contemporary-world.unipolar-moment-meaning"
+      ],
       "key_dispute": false
     },
     "dc3de76c-ff85-46c9-b126-158b8059a77a": {
@@ -10083,7 +10816,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.security-in-the-contemporary-world.balancing-vs-bandwagoning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10094,6 +10827,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.security-in-the-contemporary-world.balancing-vs-bandwagoning",
+        "political_science.security-in-the-contemporary-world.balancing-through-alliances"
+      ],
       "key_dispute": false
     },
     "03cb2497-2235-4069-8549-f293dea8bf3a": {
@@ -10136,7 +10873,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.legitimacy-of-external-backed-governments",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10147,6 +10884,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.legitimacy-of-external-backed-governments",
+        "us-hegemony-in-world-politics.legitimacy-of-externally-backed-governments"
+      ],
       "key_dispute": false
     },
     "17fffb72-c5e4-443d-91a2-7984a0fd9a11": {
@@ -10189,7 +10930,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.alliances-over-direct-colonial-rule",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10200,6 +10941,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.alliances-over-direct-colonial-rule",
+        "us-hegemony-in-world-politics.alliances-over-direct-colonial-rule"
+      ],
       "key_dispute": false
     },
     "1c36bf16-b824-471c-9cb5-e3a30380dfc5": {
@@ -10242,7 +10987,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.non-alignment-strategic-autonomy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10253,6 +10998,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.non-alignment-strategic-autonomy",
+        "us-hegemony-in-world-politics.strategic-autonomy-in-non-alignment"
+      ],
       "key_dispute": false
     },
     "2f39ae39-43e5-4bd5-aff4-af1ac3ae455f": {
@@ -10295,7 +11044,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.india-policy-rationales-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10306,6 +11055,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.india-policy-rationales-matching",
+        "us-hegemony-in-world-politics.indian-policy-rationales-matching"
+      ],
       "key_dispute": false
     },
     "40c130e9-7962-416f-a06e-8c3a2599129d": {
@@ -10348,7 +11101,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.consent-vs-coercion-in-hegemony",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10359,6 +11112,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.consent-vs-coercion-in-hegemony",
+        "us-hegemony-in-world-politics.consent-through-cultural-influence"
+      ],
       "key_dispute": false
     },
     "53e60de7-b734-4176-8b46-4991db95a399": {
@@ -10401,7 +11158,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.conditional-aid-erodes-sovereignty",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10412,6 +11169,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.conditional-aid-erodes-sovereignty",
+        "us-hegemony-in-world-politics.conditional-aid-erodes-sovereignty"
+      ],
       "key_dispute": false
     },
     "69567fcb-88be-4bbb-9053-0753187ff141": {
@@ -10454,7 +11215,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.hegemonic-stability-public-goods",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10465,6 +11226,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.hegemonic-stability-public-goods",
+        "us-hegemony-in-world-politics.hegemonic-stability-public-goods"
+      ],
       "key_dispute": false
     },
     "a50f3e76-4864-44bd-b5ea-7287022abfc8": {
@@ -10507,7 +11272,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.containment-vs-rollback-distinction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10518,6 +11283,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.containment-vs-rollback-distinction",
+        "us-hegemony-in-world-politics.containment-vs-rollback"
+      ],
       "key_dispute": false
     },
     "ac5f5b96-99d9-4817-a3de-617d57cd7473": {
@@ -10560,7 +11329,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.proxy-wars-containment-without-escalation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10569,8 +11338,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.proxy-wars-containment-without-escalation",
+        "us-hegemony-in-world-politics.proxy-wars-and-nuclear-restraint"
+      ],
       "key_dispute": false
     },
     "c0ced2b4-a24b-436a-a85f-dcffb34e2d43": {
@@ -10619,7 +11392,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.structural-power-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10630,6 +11403,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.structural-power-definition",
+        "us-hegemony-in-world-politics.structural-power-meaning"
+      ],
       "key_dispute": false
     },
     "c5911ece-33f2-4eb1-934c-7f2898c9eb66": {
@@ -10672,7 +11449,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.marshall-plan-economic-recovery-aim",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10683,6 +11460,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.marshall-plan-economic-recovery-aim",
+        "us-hegemony-in-world-politics.marshall-plan-economic-recovery-aim"
+      ],
       "key_dispute": false
     },
     "ddac3c73-8571-44a7-accc-0540cce8f8d7": {
@@ -10725,7 +11506,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.cold-war-institutions-policy-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10736,6 +11517,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.cold-war-institutions-policy-matching",
+        "us-hegemony-in-world-politics.cold-war-instruments-matched-to-outcomes"
+      ],
       "key_dispute": false
     },
     "e4c53f8b-a189-463a-bf2d-06a5ba5f315e": {
@@ -10778,7 +11563,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.percentage-share-of-total",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10789,6 +11574,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.percentage-share-of-total",
+        "us-hegemony-in-world-politics.percentage-share-of-combined-total"
+      ],
       "key_dispute": false
     },
     "f351c041-a205-4c18-9fa6-9d824f28c66a": {
@@ -10831,7 +11620,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "political_science.us-hegemony-in-world-politics.liberalisation-driven-india-us-engagement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10842,6 +11631,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "political_science.us-hegemony-in-world-politics.liberalisation-driven-india-us-engagement",
+        "us-hegemony-in-world-politics.economic-liberalisation-drives-india-us-ties"
+      ],
       "key_dispute": false
     }
   }

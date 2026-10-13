@@ -205,6 +205,27 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
   return seen;
 }
 
+/**
+ * Questions served in this student's earlier NTA papers of this subject: submitted NTA attempts and
+ * NTA sessions kept on the server. The engine leaves them out when the pool allows (data/nta_engine.js).
+ * Lookup failures degrade to "no earlier paper".
+ */
+export async function loadPreviousNtaPaperIds(db, userId, subject, { signal } = {}) {
+  const ids = new Set();
+  if (!userId) return ids;
+  const settle = (query) => Promise.resolve().then(() => withSignal(query(), signal)).catch(() => ({ data: null }));
+  const [attempts, sessions] = await Promise.all([
+    settle(() => db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40)),
+    settle(() => db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject).eq('mode', 'nta').limit(20)),
+  ]);
+  for (const attempt of attempts?.data || []) {
+    if (attempt?.selection_meta?.mode !== 'nta') continue;
+    for (const question of attempt.questions_snapshot || []) if (question?.id) ids.add(question.id);
+  }
+  for (const session of sessions?.data || []) for (const question of session?.questions || []) if (question?.id) ids.add(question.id);
+  return ids;
+}
+
 function timeBudgetError(subject) {
   const bp = getNtaBlueprint(subject);
   const label = bp?.subject === 'general_test' ? 'General Test' : String(bp?.officialName || subject).split(' / ')[0];
@@ -215,7 +236,7 @@ function timeBudgetError(subject) {
 }
 
 /**
- * Reads the pool and builds one paper. options: { userId, seenIds, variant, seed, timeBudgetMs,
+ * Reads the pool and builds one paper. options: { userId, seenIds, previousPaperIds, shuffleKey, variant, seed, timeBudgetMs,
  * cache (default true), source ('auto' | 'index' | 'full'), agentScores (tests: replaces the committed agent tables) }.
  * Returns the engine result with timings for each stage added.
  */
@@ -228,16 +249,17 @@ export async function buildNtaPaper(db, subject, options = {}) {
   const timer = setTimeout(() => controller.abort(), Math.max(1000, budget - 3000));
   const signal = controller.signal;
   try {
-    const [pool, disputedIds, seenIds] = await Promise.all([
+    const [pool, disputedIds, seenIds, previousPaperIds] = await Promise.all([
       cachedPool(db, subject, { signal, cache: options.cache !== false, source: options.source, agentScores: options.agentScores }),
       loadOpenDisputes(db, { signal }),
       options.seenIds ? Promise.resolve(options.seenIds) : loadSeenQuestionIds(db, options.userId, subject, { signal }),
+      options.previousPaperIds ? Promise.resolve(options.previousPaperIds) : loadPreviousNtaPaperIds(db, options.userId, subject, { signal }),
     ]);
     const readMs = Date.now() - startedAt;
     const rows = pool.rows;
     const heldFamilies = await loadHeldFamilies(db, rows, { signal });
     const loadMs = Date.now() - startedAt;
-    const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, seenIds, disputedIds, heldFamilies, deadline, agentScores: options.agentScores });
+    const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, shuffleKey: options.shuffleKey, seenIds, previousPaperIds, disputedIds, heldFamilies, deadline, agentScores: options.agentScores });
     result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached };
     result.pool.loaded = rows.length;
     result.pool.source = pool.source;

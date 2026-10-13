@@ -1,7 +1,17 @@
 // Synthetic question banks shaped by each NTA blueprint, for engine tests. Software-generated
 // fixtures prove the engine's arithmetic and layout only, never academic quality.
+import { createHash } from 'node:crypto';
 import { getNtaBlueprint } from '../nta_engine.js';
 import { contentHash, evidenceSignature } from '../content_evidence.js';
+
+/**
+ * A UUID-shaped id for a readable fixture label. NTA mode serves only UUID ids (seed and demo rows such
+ * as "a2" or "g1" are kept out), so fixtures carry real-looking ids and keep the label in fixture_label.
+ */
+export function fixtureId(label) {
+  const hex = createHash('sha256').update(`nta-fixture:${label}`).digest('hex');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-8${hex.slice(17, 20)}-${hex.slice(20, 32)}`;
+}
 
 // Scores reach the engine only through signed evidence (or a signed index row), so the fixtures sign
 // theirs with a test key that the engine reads from the environment.
@@ -125,7 +135,8 @@ function baseRow(bp, id, chapter, type, difficulty, extra = {}) {
   const numerical = type === 'single_mcq' && (hash(`${id}:numerical`) % 1000) / 1000 < numericalShare(bp);
   const { body, options } = stemFor(numerical ? 'numerical' : type, id);
   return {
-    id,
+    id: fixtureId(id),
+    fixture_label: id,
     subject: bp.internalSubject,
     chapter,
     body,

@@ -3,7 +3,7 @@
   "subject": "english",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.467Z",
+  "merged_at": "2026-10-13T15:32:56.698Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 17,
     "difficulty_agreement_pct": 79.8,
     "blocking_flagged": 100,
+    "difficulty_one_level_not_applied": 70,
     "flags": {
       "hedge_wording": 42,
       "answer_in_stem": 20,
@@ -119,7 +120,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.candid-meaning-frank",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -128,8 +129,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.candid-meaning-frank",
+        "english.correct-word-usage.word-meaning-candid"
+      ],
       "key_dispute": false
     },
     "0b106c458873ea92e998d275178ca663": {
@@ -178,7 +183,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.prudent-meaning-careful",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -189,6 +194,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.prudent-meaning-careful",
+        "english.correct-word-usage.word-meaning-prudent"
+      ],
       "key_dispute": false
     },
     "0f662d12bdd206b0d260c7d41f50892f": {
@@ -231,7 +240,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.elated-meaning-very-happy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -240,8 +249,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.elated-meaning-very-happy",
+        "english.correct-word-usage.word-meaning-elated"
+      ],
       "key_dispute": false
     },
     "13baa89b0354877f55f5d8a5c4afaa7e": {
@@ -288,7 +301,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.frugal-meaning-economical",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -297,8 +310,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.frugal-meaning-economical",
+        "english.correct-word-usage.word-meaning-frugal"
+      ],
       "key_dispute": false
     },
     "1fb8165980588d409ac0224c191e5ffb": {
@@ -345,7 +362,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.discreet-meaning-careful-with-information",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -356,6 +373,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.discreet-meaning-careful-with-information",
+        "english.correct-word-usage.word-meaning-discreet"
+      ],
       "key_dispute": false
     },
     "246b07ecc64527cc6bb4f40f5c47d6b6": {
@@ -402,7 +423,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.diligent-meaning-careful-hardworking",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -413,6 +434,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.diligent-meaning-careful-hardworking",
+        "english.correct-word-usage.word-meaning-diligent"
+      ],
       "key_dispute": false
     },
     "2a67d3c5dc869a05a9fc4434c149c4b9": {
@@ -461,7 +486,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.authentic-meaning-real-not-copy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -472,6 +497,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.authentic-meaning-real-not-copy",
+        "english.correct-word-usage.word-meaning-authentic"
+      ],
       "key_dispute": false
     },
     "3137d051-f15e-4257-b2ed-36b35fff097d": {
@@ -532,6 +561,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.inference-vs-assumption",
+        "english.correct-word-usage.inference-vs-assumption"
+      ],
       "key_dispute": true
     },
     "3936d671d69dce13796bfd5d39217eaa": {
@@ -574,7 +607,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.hostile-meaning-aggressive",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -583,8 +616,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.hostile-meaning-aggressive",
+        "english.correct-word-usage.word-meaning-hostile"
+      ],
       "key_dispute": false
     },
     "66e4697bc7076cb177be755f3046ac71": {
@@ -631,7 +668,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.obsolete-meaning-no-longer-used",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -640,8 +677,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.obsolete-meaning-no-longer-used",
+        "english.correct-word-usage.word-meaning-obsolete"
+      ],
       "key_dispute": false
     },
     "68c3b1ca776a23d1ba4fb2dc449fa6a7": {
@@ -688,7 +729,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.obsolete-meaning-no-longer-used",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -699,6 +740,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.obsolete-meaning-no-longer-used",
+        "english.correct-word-usage.word-meaning-obsolete"
+      ],
       "key_dispute": false
     },
     "6d92334f-2cce-407e-b9b5-9f5e6c21d69d": {
@@ -747,7 +792,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.central-idea-vs-topic-sentence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -758,6 +803,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.central-idea-vs-topic-sentence",
+        "english.correct-word-usage.topic-sentence-vs-central-idea"
+      ],
       "key_dispute": true
     },
     "730c5efe-96a1-4b34-ab0c-2228724093fc": {
@@ -815,8 +864,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.connotation-vs-denotation",
+        "english.correct-word-usage.connotation-vs-denotation"
+      ],
       "key_dispute": true
     },
     "762829e64d0018f9924de752e31fb832": {
@@ -868,7 +921,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.versatile-meaning-many-tasks",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -877,8 +930,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.versatile-meaning-many-tasks",
+        "english.correct-word-usage.word-meaning-versatile"
+      ],
       "key_dispute": false
     },
     "783a0d212622dcd4d7e24d3b361e354b": {
@@ -921,7 +978,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.coherent-meaning-logically-organised",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -932,6 +989,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.coherent-meaning-logically-organised",
+        "english.correct-word-usage.word-meaning-coherent"
+      ],
       "key_dispute": false
     },
     "78da66f177b1ad60ba00a05294399a3d": {
@@ -974,7 +1035,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.arrogant-meaning-superior-attitude",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -985,6 +1046,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.arrogant-meaning-superior-attitude",
+        "english.correct-word-usage.word-meaning-arrogant"
+      ],
       "key_dispute": false
     },
     "7b9747022fdea215e8fec49f152d33d1": {
@@ -1031,7 +1096,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.sporadic-meaning-irregular-intervals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1042,6 +1107,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.sporadic-meaning-irregular-intervals",
+        "english.correct-word-usage.word-meaning-sporadic"
+      ],
       "key_dispute": false
     },
     "7c23be75-e553-40ea-9982-a88456f9e15f": {
@@ -1093,8 +1162,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.semicolon-joins-independent-clauses",
+        "english.correct-word-usage.semicolon-joins-independent-clauses"
+      ],
       "key_dispute": false
     },
     "802be37438b2e90cc1fb6912b73aa8a6": {
@@ -1141,7 +1214,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.conscientious-meaning-careful-thorough",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1152,6 +1225,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.conscientious-meaning-careful-thorough",
+        "english.correct-word-usage.word-meaning-conscientious"
+      ],
       "key_dispute": false
     },
     "8033d9d6-9ebf-47cd-b5b3-0aba1436b02d": {
@@ -1200,7 +1277,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.topic-sentence-placement-and-coherence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1211,6 +1288,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.topic-sentence-placement-and-coherence",
+        "english.correct-word-usage.topic-sentence-end-placement"
+      ],
       "key_dispute": true
     },
     "8e8da505-f073-4f67-9b14-2a18cc44616b": {
@@ -1253,7 +1334,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.chronological-order-in-notes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1262,8 +1343,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.chronological-order-in-notes",
+        "english.correct-word-usage.chronological-order-clarity"
+      ],
       "key_dispute": false
     },
     "92d0afb657c60d04ead0b8d703fcf2da": {
@@ -1306,7 +1391,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.indifferent-meaning-no-interest",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1315,8 +1400,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.indifferent-meaning-no-interest",
+        "english.correct-word-usage.word-meaning-indifferent"
+      ],
       "key_dispute": false
     },
     "9721d9b0f1f334d38af2ef240c62e70a": {
@@ -1368,7 +1457,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.conspicuous-meaning-easy-to-see",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1377,8 +1466,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.conspicuous-meaning-easy-to-see",
+        "english.correct-word-usage.word-meaning-conspicuous"
+      ],
       "key_dispute": false
     },
     "9b36b0de835e19b77a09ca3890248ee5": {
@@ -1421,7 +1514,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.resilient-meaning-recovers-quickly",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1432,6 +1525,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.resilient-meaning-recovers-quickly",
+        "english.correct-word-usage.word-meaning-resilient"
+      ],
       "key_dispute": false
     },
     "a1cfa36df1658a324564c0ee4bb3b017": {
@@ -1478,7 +1575,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.meticulous-meaning-careful-detail",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1489,6 +1586,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meticulous-meaning-careful-detail",
+        "english.correct-word-usage.word-meaning-meticulous"
+      ],
       "key_dispute": false
     },
     "b64d12e2ab797dcdc203ce7264b19de9": {
@@ -1549,8 +1650,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-concise",
+        "english.correct-word-usage.meaning-of-concise"
+      ],
       "key_dispute": false
     },
     "c0241624bb19a6e0ccabc6cfd9e8799b": {
@@ -1606,8 +1711,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-transient",
+        "english.correct-word-usage.meaning-of-transient"
+      ],
       "key_dispute": false
     },
     "c41b2c41c0fbbbeb4ba60fcace13f02e": {
@@ -1663,8 +1772,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-benevolent",
+        "english.correct-word-usage.meaning-of-benevolent"
+      ],
       "key_dispute": false
     },
     "e0efc66b54bc8aab89939e99970f901c": {
@@ -1716,8 +1829,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-assertive",
+        "english.correct-word-usage.meaning-of-assertive"
+      ],
       "key_dispute": false
     },
     "e4832620aecc1b9c84b21e5d4f1f582f": {
@@ -1777,6 +1894,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-reluctant",
+        "english.correct-word-usage.meaning-of-reluctant"
+      ],
       "key_dispute": false
     },
     "e9f21082434b025f399a715f9f2e3401": {
@@ -1828,8 +1949,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-sparse",
+        "english.correct-word-usage.meaning-of-sparse"
+      ],
       "key_dispute": false
     },
     "f0e3e49a2d75d7480e01d15f9d536736": {
@@ -1883,6 +2008,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-plausible",
+        "english.correct-word-usage.meaning-of-plausible"
+      ],
       "key_dispute": false
     },
     "f10b30f1-ae13-4b4c-820c-50a151a166da": {
@@ -1929,7 +2058,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.correct-word-usage.were-in-counterfactual-conditionals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1940,6 +2069,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.were-in-counterfactual-conditionals",
+        "english.correct-word-usage.subjunctive-were-in-counterfactuals"
+      ],
       "key_dispute": false
     },
     "f377f9c2f3dae6ce82326f048bf38b1f": {
@@ -1991,8 +2124,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-gregarious",
+        "english.correct-word-usage.meaning-of-gregarious"
+      ],
       "key_dispute": false
     },
     "f89c31ca89d7727d925bbaca1e94e73a": {
@@ -2044,8 +2181,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.correct-word-usage.meaning-of-sceptical",
+        "english.correct-word-usage.meaning-of-sceptical"
+      ],
       "key_dispute": false
     },
     "08bffd35-e5fc-4bed-9c7b-b38ec3d0e637": {
@@ -2088,7 +2229,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.anaphoric-this-reference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2099,6 +2240,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.anaphoric-this-reference",
+        "english.factual-passage.demonstrative-this-reference"
+      ],
       "key_dispute": false
     },
     "09994901-5ea2-47cb-a424-a5104e13ec06": {
@@ -2141,7 +2286,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.structured-summary-for-study-aid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2150,8 +2295,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.structured-summary-for-study-aid",
+        "english.factual-passage.structured-summary-for-retention"
+      ],
       "key_dispute": false
     },
     "09e48bf6-8833-4514-b994-0edfdf05e595": {
@@ -2203,8 +2352,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.main-idea-vs-central-idea",
+        "english.factual-passage.main-idea-vs-central-idea"
+      ],
       "key_dispute": false
     },
     "0c49a72e-e04d-41b7-b25b-bb821ecf709f": {
@@ -2253,7 +2406,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.expected-value-uniform-density",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2264,6 +2417,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.expected-value-uniform-density",
+        "english.factual-passage.expected-count-under-uniform-sampling"
+      ],
       "key_dispute": false
     },
     "0cab3f4c-f0de-40fc-9e71-f6bdc25cf9ff": {
@@ -2306,7 +2463,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.linear-outline-for-hierarchical-notes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2315,8 +2472,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.linear-outline-for-hierarchical-notes",
+        "english.factual-passage.hierarchical-outline-for-notes"
+      ],
       "key_dispute": false
     },
     "0e64cf7e-d818-4aeb-8307-6bfb23b7cb1f": {
@@ -2363,7 +2524,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.pronoun-ambiguity-revision",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2372,8 +2533,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.pronoun-ambiguity-revision",
+        "english.factual-passage.pronoun-reference-disambiguation"
+      ],
       "key_dispute": true
     },
     "0e9b9602747176f1df2575fcdbbf0855": {
@@ -2416,7 +2581,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.explicit-limitation-of-trial",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2427,6 +2592,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.explicit-limitation-of-trial",
+        "english.factual-passage.stated-limitation-of-trial"
+      ],
       "key_dispute": false
     },
     "1924c42b397a1effaabb64d9d745744b": {
@@ -2469,7 +2638,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.identify-shared-feature-in-comparison",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2480,6 +2649,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.identify-shared-feature-in-comparison",
+        "english.factual-passage.identical-feature-of-versions"
+      ],
       "key_dispute": false
     },
     "1d89bf05d120b1435e6abd976fb84795": {
@@ -2522,7 +2695,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.recall-both-versions-remained-available",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2533,6 +2706,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.recall-both-versions-remained-available",
+        "english.factual-passage.availability-of-versions-during-planning"
+      ],
       "key_dispute": false
     },
     "5473ff16b2f7b98462dca9136d963ed3": {
@@ -2575,7 +2752,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.supported-conclusion-from-confounded-trial",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2584,8 +2761,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.supported-conclusion-from-confounded-trial",
+        "english.factual-passage.inference-association-not-causation"
+      ],
       "key_dispute": false
     },
     "fbb5b5887c59bdde2a603b20bea37d5c": {
@@ -2639,6 +2820,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.purpose-of-proposed-second-trial",
+        "english.factual-passage.purpose-of-proposed-second-trial"
+      ],
       "key_dispute": false
     },
     "10beb621-11ac-4b99-a7f3-d90cdde28f09": {
@@ -2690,8 +2875,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.reading-skill-improves-with-practice",
+        "english.factual-passage.reading-skill-improves-with-practice"
+      ],
       "key_dispute": false
     },
     "16eeaf63-c769-4293-a7c6-3f3db4c5871a": {
@@ -2738,7 +2927,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.explicit-directions-comprehension",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2747,8 +2936,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.explicit-directions-comprehension",
+        "english.factual-passage.reading-explicit-directions-literally"
+      ],
       "key_dispute": false
     },
     "214d5d62a815697a1055a9956c8b9cde": {
@@ -2791,7 +2984,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.librarian-proposed-action-recall",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2802,6 +2995,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.librarian-proposed-action-recall",
+        "english.factual-passage.stated-proposal-before-decision"
+      ],
       "key_dispute": false
     },
     "54c8469794935f5493fe018c477dcf61": {
@@ -2844,7 +3041,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.purpose-of-discussing-notes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2855,6 +3052,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.purpose-of-discussing-notes",
+        "english.factual-passage.purpose-of-proposed-student-discussion"
+      ],
       "key_dispute": false
     },
     "2e0d73e6-20b2-4712-a998-48a43735b381": {
@@ -2897,7 +3098,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.central-idea-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2906,8 +3107,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.central-idea-spanning-paragraphs",
+        "english.factual-passage.central-idea-identification"
+      ],
       "key_dispute": false
     },
     "7521ea07-eddc-4dd7-92c9-6bb196e5207c": {
@@ -2950,7 +3155,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-organisms-adapted-to-extremes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2961,6 +3166,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-organisms-adapted-to-extremes",
+        "english.factual-passage.inference-organism-adaptations"
+      ],
       "key_dispute": false
     },
     "32e55357-73dc-4916-87f4-f4675c50d0c5": {
@@ -3003,7 +3212,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.active-reading-improves-comprehension",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3012,8 +3221,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.active-reading-improves-comprehension",
+        "english.factual-passage.active-reading-questioning-and-notes"
+      ],
       "key_dispute": false
     },
     "3b9be710-59c7-4ed0-a292-33ee990f5df5": {
@@ -3060,7 +3273,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.thesis-matching-mixed-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3071,6 +3284,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.thesis-matching-mixed-evidence",
+        "english.factual-passage.thesis-matches-mixed-evidence"
+      ],
       "key_dispute": false
     },
     "4cc8fa6c-be81-43fb-a30c-07da2d5e88ad": {
@@ -3124,6 +3341,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.concluding-sentence-function",
+        "english.factual-passage.concluding-sentence-function"
+      ],
       "key_dispute": false
     },
     "55b9ec4f-49b6-41d1-ad76-e1e56a5d1ffc": {
@@ -3175,7 +3396,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.flesch-reading-ease-formula",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3186,6 +3407,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.flesch-reading-ease-formula",
+        "english.factual-passage.flesch-reading-ease-computation"
+      ],
       "key_dispute": true
     },
     "61670274-a45e-4049-86b8-2553d8fd97c1": {
@@ -3232,7 +3457,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-consistent-with-explicit-text",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3241,8 +3466,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-consistent-with-explicit-text",
+        "english.factual-passage.inference-compatible-with-explicit-text"
+      ],
       "key_dispute": false
     },
     "69231963-4e61-45fa-9bff-aaf02d33f911": {
@@ -3285,7 +3514,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-from-concealment-behaviour",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3296,6 +3525,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-from-concealment-behaviour",
+        "english.factual-passage.inference-motive-from-action"
+      ],
       "key_dispute": false
     },
     "6bbff06d-a578-48f4-8ed6-45289d29e6c9": {
@@ -3342,7 +3575,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.lexical-density-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3353,6 +3586,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.lexical-density-calculation",
+        "english.factual-passage.lexical-density-register-implication"
+      ],
       "key_dispute": false
     },
     "6dc46417-5ddf-49d2-b2c5-a7d810292948": {
@@ -3395,7 +3632,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.anecdotal-opening-implied-thesis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3406,6 +3643,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.anecdotal-opening-implied-thesis",
+        "english.factual-passage.anecdote-opening-function"
+      ],
       "key_dispute": false
     },
     "7481435f-a7ef-4d3d-9f0e-c60717f7c7a4": {
@@ -3448,7 +3689,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.critical-inference-of-writer-approach",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3457,8 +3698,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.critical-inference-of-writer-approach",
+        "english.factual-passage.critical-inference-author-approach"
+      ],
       "key_dispute": false
     },
     "840107af-4825-4d80-aa5f-2561d79cfceb": {
@@ -3512,6 +3757,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "english.factual-passage.summary-omits-supporting-examples",
+        "english.factual-passage.summary-omits-supporting-examples"
+      ],
       "key_dispute": false
     },
     "8591dd8f-d075-4005-b24f-2b4d5ada0f5f": {
@@ -3554,7 +3803,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.author-purpose-from-content-and-style",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3563,8 +3812,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.author-purpose-from-content-and-style",
+        "english.factual-passage.purpose-from-content-and-style"
+      ],
       "key_dispute": false
     },
     "8aa61694-7836-4bd1-8e5e-adf154caa015": {
@@ -3607,7 +3860,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.author-attitude-tone",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3616,8 +3869,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.author-attitude-tone",
+        "english.factual-passage.overall-tone-toward-subject"
+      ],
       "key_dispute": false
     },
     "97d3fb5a-b045-4529-a90e-954b2999c3e0": {
@@ -3680,6 +3937,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.central-idea-identification",
+        "english.factual-passage.central-idea-identification"
+      ],
       "key_dispute": true
     },
     "8b63152f-a395-4c50-a3cc-85c2afb2f01a": {
@@ -3722,7 +3983,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.note-making-consistent-abbreviations",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3733,6 +3994,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.note-making-consistent-abbreviations",
+        "english.factual-passage.consistent-abbreviations-in-notes"
+      ],
       "key_dispute": false
     },
     "8d53c579-91e6-475b-9e54-0140136f3ab1": {
@@ -3775,7 +4040,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.sentence-length-and-polysyllable-readability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3786,6 +4051,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.sentence-length-and-polysyllable-readability",
+        "english.factual-passage.readability-from-sentence-length-and-polysyllables"
+      ],
       "key_dispute": false
     },
     "9bd626b4-ca5b-49a6-afd6-99b920e9f82f": {
@@ -3828,7 +4097,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.latinate-verbs-and-register",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3839,6 +4108,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.latinate-verbs-and-register",
+        "english.factual-passage.latinate-verbs-and-formality"
+      ],
       "key_dispute": false
     },
     "ae787229d7f06404c872f26ab9ac7f0d": {
@@ -3881,7 +4154,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.explicit-detail-retrieval",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3892,6 +4165,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.explicit-detail-recall",
+        "english.factual-passage.explicit-detail-retrieval"
+      ],
       "key_dispute": false
     },
     "b3cc5ae6-58db-47da-8917-be73447eedee": {
@@ -3934,7 +4211,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.note-making-clustering-details",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3945,6 +4222,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.note-making-clustering-details",
+        "english.factual-passage.grouping-details-by-category-in-notes"
+      ],
       "key_dispute": false
     },
     "b6c71a32-c825-4697-bc13-f41c5895c03d": {
@@ -3987,7 +4268,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.explicit-detail-retrieval",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3998,6 +4279,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.cause-and-effect-stated-in-passage",
+        "english.factual-passage.explicit-detail-retrieval"
+      ],
       "key_dispute": false
     },
     "b72993f9-e996-4361-ba1b-7d81bda8cb8b": {
@@ -4040,7 +4325,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-limited-to-stated-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4051,6 +4336,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-limited-to-stated-evidence",
+        "english.factual-passage.inference-demand-despite-short-lifespan"
+      ],
       "key_dispute": false
     },
     "e90f565e-cbda-4433-a301-01a3823c4a69": {
@@ -4104,6 +4393,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.central-idea-identification",
+        "english.factual-passage.central-idea-identification"
+      ],
       "key_dispute": false
     },
     "ef42ff37-729d-4a2f-96d8-9a42025b7f5c": {
@@ -4158,7 +4451,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-limited-to-stated-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4169,6 +4462,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-limited-to-stated-evidence",
+        "english.factual-passage.inference-habitat-limited-range"
+      ],
       "key_dispute": true
     },
     "b6ebf986-d9f6-4dc0-b381-35a4eb264172": {
@@ -4211,7 +4508,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.sensory-detail-function-by-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4222,6 +4519,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.sensory-detail-function-by-sequence",
+        "english.factual-passage.reading-strategy-for-paragraph-function"
+      ],
       "key_dispute": false
     },
     "c347c94e-53a6-45fb-943e-a176a2e06b90": {
@@ -4264,7 +4565,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.ambiguous-pronoun-reference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4275,6 +4576,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.ambiguous-pronoun-reference",
+        "english.factual-passage.pronoun-reference-ambiguity"
+      ],
       "key_dispute": false
     },
     "c51f771b-ed76-4224-a34a-ca75f510851f": {
@@ -4321,7 +4626,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.inference-as-probable-not-certain",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4332,6 +4637,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.inference-as-probable-not-certain",
+        "english.factual-passage.inference-probable-not-certain"
+      ],
       "key_dispute": false
     },
     "cc6d0748-d196-4262-9f70-2fb47a670a25": {
@@ -4380,7 +4689,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.sentence-role-proportion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4391,6 +4700,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.sentence-role-proportion",
+        "english.factual-passage.counting-sentences-by-function"
+      ],
       "key_dispute": true
     },
     "ccca78d2-83cd-45ed-af6d-9e1e120ef669": {
@@ -4442,8 +4755,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.central-idea-identification",
+        "english.factual-passage.central-idea-identification"
+      ],
       "key_dispute": false
     },
     "cd625f6d-ef6c-4daf-a47e-50e1513f4926": {
@@ -4486,7 +4803,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.main-idea-vs-topic-sentence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4497,6 +4814,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.main-idea-vs-topic-sentence",
+        "english.factual-passage.main-idea-vs-supporting-detail"
+      ],
       "key_dispute": false
     },
     "cda986f7-5e70-463d-b2c3-8fe042f2396e": {
@@ -4550,6 +4871,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.coherence-without-explicit-topic-sentence",
+        "english.factual-passage.coherence-without-explicit-topic-sentence"
+      ],
       "key_dispute": false
     },
     "d9fa7cd8-ac4e-4a52-922e-90c7b98773c1": {
@@ -4592,7 +4917,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.examples-do-not-guarantee-induction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4603,6 +4928,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.examples-do-not-guarantee-inductive-main-idea",
+        "english.factual-passage.examples-do-not-guarantee-induction"
+      ],
       "key_dispute": false
     },
     "df57b826-e041-4241-bcc9-c9e3f9ec762f": {
@@ -4653,7 +4982,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.tone-depends-on-more-than-diction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4664,6 +4993,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.tone-depends-on-more-than-diction",
+        "english.factual-passage.tone-depends-on-multiple-factors"
+      ],
       "key_dispute": true
     },
     "e79a4a91-c4e3-462f-a668-609d8826ceff": {
@@ -4706,7 +5039,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.factual-passage.summary-requires-comprehension-of-main-points",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4717,6 +5050,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.factual-passage.summary-requires-comprehension-of-main-points",
+        "english.factual-passage.summary-requires-understanding-of-main-points"
+      ],
       "key_dispute": false
     },
     "0280e45c-26ff-4144-ae9e-a54277f68290": {
@@ -4767,7 +5104,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.metaphor-of-watchful-presence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4778,6 +5115,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.metaphor-of-watchful-presence",
+        "english.literary-passage.figurative-metaphor-connotation"
+      ],
       "key_dispute": false
     },
     "050eabfb0b60dbd8a567b1d31da10d6d": {
@@ -4820,7 +5161,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-closing-image-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4831,6 +5172,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-closing-image-meaning",
+        "english.literary-passage.closing-state-of-objects"
+      ],
       "key_dispute": false
     },
     "824ac5f16d42f7764c59279ee9c3463a": {
@@ -4873,7 +5218,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-closing-image-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4884,6 +5229,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-closing-image-meaning",
+        "english.literary-passage.closing-state-of-objects"
+      ],
       "key_dispute": false
     },
     "9048d2f486336e85842313066cbff939": {
@@ -4926,7 +5275,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-action-instead-of-flattening",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4937,6 +5286,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-action-instead-of-flattening",
+        "english.literary-passage.detail-recall-instead-of-action"
+      ],
       "key_dispute": false
     },
     "bbab60f8d4303571149c713af0b0551f": {
@@ -4979,7 +5332,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-action-instead-of-flattening",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4990,6 +5343,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-action-instead-of-flattening",
+        "english.literary-passage.detail-recall-instead-of-action"
+      ],
       "key_dispute": false
     },
     "0a27f308377925246465b8c7b64246fa": {
@@ -5032,7 +5389,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-painter-response-to-comment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5043,6 +5400,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-painter-response-to-comment",
+        "english.literary-passage.balanced-response-to-criticism"
+      ],
       "key_dispute": false
     },
     "6c03291a2924115aeec20daef514568d": {
@@ -5085,7 +5446,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-painter-response-to-comment",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5096,6 +5457,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-painter-response-to-comment",
+        "english.literary-passage.balanced-response-to-criticism"
+      ],
       "key_dispute": false
     },
     "a7bd660f711431eb12cea1b99dd3ed36": {
@@ -5138,7 +5503,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-reason-for-return-visit",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5149,6 +5514,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-reason-for-return-visit",
+        "english.literary-passage.purpose-of-return-to-design-light"
+      ],
       "key_dispute": false
     },
     "125e40f3-8c85-4385-97e7-52315e77cc82": {
@@ -5191,7 +5560,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.vocabulary-in-context-word-nuance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5202,6 +5571,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.vocabulary-in-context-word-nuance",
+        "english.literary-passage.vocabulary-in-context"
+      ],
       "key_dispute": false
     },
     "19e8c766-522b-4d2c-910c-9a5c05af0e55": {
@@ -5244,7 +5617,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-motive-for-repair-request",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5255,6 +5628,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-motive-for-repair-request",
+        "english.literary-passage.inference-motive-for-repair"
+      ],
       "key_dispute": false
     },
     "1aca16379d61c37b5f84487b136b87e8": {
@@ -5297,7 +5674,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.object-retained-without-former-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5308,6 +5685,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.object-retained-without-former-function",
+        "english.literary-passage.retired-object-status"
+      ],
       "key_dispute": false
     },
     "b1203f7f3231b57d0a610f14f17cf1a8": {
@@ -5350,7 +5731,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-quieter-bell-benefit",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5361,6 +5742,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-quieter-bell-benefit",
+        "english.literary-passage.detail-recall-daughter-preference"
+      ],
       "key_dispute": false
     },
     "de3f511b3cdd2ae9a202b927930abb80": {
@@ -5403,7 +5788,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.object-retained-without-former-function",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5414,6 +5799,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.object-retained-without-former-function",
+        "english.literary-passage.retired-object-status"
+      ],
       "key_dispute": false
     },
     "1c0cadf0-c323-40d9-bec6-ae3e06ffbffd": {
@@ -5467,6 +5856,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.tone-from-diction-and-syntax",
+        "english.literary-passage.tone-from-diction-and-syntax"
+      ],
       "key_dispute": false
     },
     "24e40787d738137e8f0bc0c5b96c3cf6": {
@@ -5509,7 +5902,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-gesture-to-child-question",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5520,6 +5913,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-gesture-to-child-question",
+        "english.literary-passage.detail-recall-tea-seller-gesture"
+      ],
       "key_dispute": false
     },
     "a7bb8bb4cabed4cc11d13a431a776674": {
@@ -5562,7 +5959,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.contrast-stillness-versus-motion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5573,6 +5970,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.contrast-stillness-versus-motion",
+        "english.literary-passage.contrast-stillness-and-motion"
+      ],
       "key_dispute": false
     },
     "aa457563a906481660791e4d051e9e90": {
@@ -5615,7 +6016,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.sequence-event-before-noticing",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5626,6 +6027,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.sequence-event-before-noticing",
+        "english.literary-passage.immediate-preceding-event"
+      ],
       "key_dispute": false
     },
     "2b1b2e18-dbfa-4880-955e-db8de1061d4b": {
@@ -5668,7 +6073,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-detail-signals-emotion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5677,8 +6082,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-detail-signals-emotion",
+        "english.literary-passage.inference-author-purpose-of-detail"
+      ],
       "key_dispute": false
     },
     "674b5799-1310-46bb-a668-e526bd31cceb": {
@@ -5721,7 +6130,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.central-idea-music-reconnects-memory",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5732,6 +6141,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.central-idea-music-reconnects-memory",
+        "english.literary-passage.central-idea-music-and-memory"
+      ],
       "key_dispute": false
     },
     "5c5d6408-cdcd-46db-9abd-173323a91fe6": {
@@ -5778,7 +6191,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.mood-from-warm-imagery",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5787,8 +6200,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.mood-from-warm-imagery",
+        "english.literary-passage.mood-from-word-connotation"
+      ],
       "key_dispute": false
     },
     "6dff3694-fb01-4e1a-b3d2-7fb8d616bbae": {
@@ -5837,7 +6254,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.analogy-basis-in-comparison",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5848,6 +6265,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.analogy-basis-in-comparison",
+        "english.literary-passage.prose-rhythm-as-music-analogy"
+      ],
       "key_dispute": false
     },
     "7c93ba5270b262b8aba33c51780d0ea0": {
@@ -5890,7 +6311,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.detail-children-choice-after-question",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5901,6 +6322,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.detail-children-choice-after-question",
+        "english.literary-passage.detail-recall-changed-layout"
+      ],
       "key_dispute": false
     },
     "9081a9c01da9a7634cfc78b889b8129f": {
@@ -5943,7 +6368,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-effect-of-questioning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -5954,6 +6379,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-effect-of-questioning",
+        "english.literary-passage.inference-changed-design-from-question"
+      ],
       "key_dispute": false
     },
     "7fb4ca25-a949-4d2d-a180-419a47cbd6df": {
@@ -5996,7 +6425,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.inference-unreliable-narrator-evidence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6007,6 +6436,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.inference-unreliable-narrator-evidence",
+        "english.literary-passage.unreliable-narrator-inference"
+      ],
       "key_dispute": false
     },
     "9d9e1b7c-859f-4551-a307-e1b7e0a93488": {
@@ -6055,7 +6488,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.imagery-type-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6066,6 +6499,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.imagery-type-identification",
+        "english.literary-passage.dominant-imagery-type"
+      ],
       "key_dispute": true
     },
     "b40402a3-b937-459d-aa9e-07cdf11dd0a6": {
@@ -6112,7 +6549,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.oxymoron-reveals-internal-conflict",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6123,6 +6560,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.oxymoron-reveals-internal-conflict",
+        "english.literary-passage.oxymoron-internal-conflict"
+      ],
       "key_dispute": false
     },
     "bb0aa460-7dcd-41e5-af18-5f89ea74066c": {
@@ -6165,7 +6606,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.enjambment-effect-on-clause",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6176,6 +6617,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.enjambment-effect-on-clause",
+        "english.literary-passage.enjambment-effect-on-syntax"
+      ],
       "key_dispute": false
     },
     "cdf4025a-01e4-4020-828c-5c47669d0424": {
@@ -6227,7 +6672,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.contrast-sanctuary-versus-natural-force",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6238,6 +6683,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.contrast-sanctuary-versus-natural-force",
+        "english.literary-passage.contrast-between-setting-images"
+      ],
       "key_dispute": false
     },
     "ecd9af8b-1004-4fd4-96da-97ca4d503765": {
@@ -6288,7 +6737,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.metaphor-shadows-as-untold-stories",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6299,6 +6748,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.literary-passage.metaphor-shadows-as-untold-stories",
+        "english.literary-passage.symbolic-meaning-of-shadows"
+      ],
       "key_dispute": false
     },
     "f5793863-e227-42f9-81a3-89290ac98e64": {
@@ -6341,7 +6794,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.literary-passage.device-identification-personification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6352,6 +6805,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "english.literary-passage.device-identification-personification",
+        "english.literary-passage.figure-personification-identification"
+      ],
       "key_dispute": false
     },
     "085008293e76ae369f244c779d29a881": {
@@ -6394,7 +6851,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6405,6 +6862,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.character-trait-adjective-meanings"
+      ],
       "key_dispute": false
     },
     "13f2d5542173e339abc4c88ea18bddbd": {
@@ -6447,7 +6908,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.vocabulary-meaning-general-adjectives",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6458,6 +6919,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.word-definition-matching",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "194b0b9a3be52737caf18426885146d1": {
@@ -6506,7 +6971,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6517,6 +6982,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "2130f881886cb0899ed42dbb4880e51b": {
@@ -6559,7 +7028,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.arrogant-meaning-components",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6568,8 +7037,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.arrogant-meaning-components",
+        "english.match-the-following.meaning-components-of-arrogant"
+      ],
       "key_dispute": false
     },
     "2288e437-30c7-499a-b159-075843ddb1cb": {
@@ -6612,7 +7085,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.cohesive-devices-and-transitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6623,6 +7096,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.connective-signal-words-functions",
+        "english.match-the-following.cohesive-devices-and-transitions"
+      ],
       "key_dispute": false
     },
     "2a3d20f1-d662-4b18-bcf0-3093c411ed15": {
@@ -6674,8 +7151,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.figures-of-speech-definitions",
+        "english.match-the-following.figures-of-speech-definitions"
+      ],
       "key_dispute": false
     },
     "2e7ee67a5644cd51b1ece61d2af07979": {
@@ -6735,6 +7216,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.concise-writing-necessary-information",
+        "english.match-the-following.concise-writing-necessary-information"
+      ],
       "key_dispute": false
     },
     "361f280a-bbd8-4aab-b0c4-22b7adbc85e0": {
@@ -6777,7 +7262,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.poetic-form-terms-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6788,6 +7273,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.poetic-form-terms-definitions",
+        "english.match-the-following.poetic-terms-definitions"
+      ],
       "key_dispute": false
     },
     "379191f2d6fa6e4844bf6a8b159f1a10": {
@@ -6836,7 +7325,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.obsolete-end-of-use-with-cause",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6845,8 +7334,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.obsolete-end-of-use-with-cause",
+        "english.match-the-following.reading-of-stated-cause-and-status"
+      ],
       "key_dispute": false
     },
     "46a75100c48da2751b3daa76f73de665": {
@@ -6889,7 +7382,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6900,6 +7393,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "4ce51f89959ceb021a0f5cfd78f63779": {
@@ -6948,7 +7445,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.necessary-food-money-use",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6959,6 +7456,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.necessary-food-money-use",
+        "english.match-the-following.frugal-means-only-necessary-use"
+      ],
       "key_dispute": false
     },
     "4ce849e0-9e45-43fa-a6b4-3a0cc44246c3": {
@@ -7001,7 +7502,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.cohesive-devices-and-transitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7012,6 +7513,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.cohesive-devices-functions",
+        "english.match-the-following.cohesive-devices-and-transitions"
+      ],
       "key_dispute": false
     },
     "576dc4a91d39eee85df6729f99ed8a96": {
@@ -7054,7 +7559,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7065,6 +7570,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "59e5b314a247b24a5bb79e908ea44635": {
@@ -7107,7 +7616,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7118,6 +7627,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "5dcebe35b11f524fa86438bfd1152cf1": {
@@ -7160,7 +7673,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7171,6 +7684,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.character-trait-adjective-meanings"
+      ],
       "key_dispute": false
     },
     "60511b2272bcced89bed6cca9eb0ab01": {
@@ -7213,7 +7730,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7224,6 +7741,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "6375cecd-6481-4d04-a64e-857f5b23c063": {
@@ -7275,8 +7796,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.stylistic-devices-effects",
+        "english.match-the-following.stylistic-devices-effects"
+      ],
       "key_dispute": false
     },
     "6e1136f379358985d63524831b9971be": {
@@ -7319,7 +7844,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7330,6 +7855,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.character-trait-adjective-meanings"
+      ],
       "key_dispute": false
     },
     "8557c1f8bc775dbb27a8c2b573a4c270": {
@@ -7372,7 +7901,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7383,6 +7912,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "88051c7e-8da6-4b61-a35a-ec279375309f": {
@@ -7425,7 +7958,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.sentence-types-and-examples",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7436,6 +7969,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.sentence-types-and-examples",
+        "english.match-the-following.sentence-types-identification"
+      ],
       "key_dispute": false
     },
     "89e01410-8940-4ece-a973-f1e88aa58716": {
@@ -7485,7 +8022,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.sound-devices-alliteration-assonance-consonance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7496,6 +8033,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.sound-devices-alliteration-assonance-consonance",
+        "english.match-the-following.sound-devices-definitions"
+      ],
       "key_dispute": false
     },
     "8d1800f4b20e731395d48361f6c4842e": {
@@ -7538,7 +8079,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.vocabulary-meaning-general-adjectives",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7549,6 +8090,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.sparse-spread-versus-clustered",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "99cb445e-7e75-41a0-bb8b-482c074dc97c": {
@@ -7600,8 +8145,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.clause-types-identification",
+        "english.match-the-following.clause-types-identification"
+      ],
       "key_dispute": false
     },
     "9e237220-91a1-4575-8f1c-f2810eed2702": {
@@ -7655,6 +8204,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.prose-techniques-characterization",
+        "english.match-the-following.prose-techniques-characterization"
+      ],
       "key_dispute": false
     },
     "a703edc635378894e7004a8d408f429f": {
@@ -7697,7 +8250,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-adjective-meanings",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7708,6 +8261,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-adjective-meanings",
+        "english.match-the-following.vocabulary-meaning-general-adjectives"
+      ],
       "key_dispute": false
     },
     "a8211db0-f696-445e-b45d-38e38fdd29ce": {
@@ -7750,7 +8307,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.poetic-device-to-example",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7761,6 +8318,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.poetic-device-to-example",
+        "english.match-the-following.figures-of-speech-examples"
+      ],
       "key_dispute": false
     },
     "b261cbe2-4022-4413-b7b4-a1cc97c67306": {
@@ -7807,7 +8368,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7818,6 +8379,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.connotation-of-descriptive-words"
+      ],
       "key_dispute": false
     },
     "b43c82d6619ce97ddbdca183a4d1555d": {
@@ -7860,7 +8425,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7871,6 +8436,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "b71e96d2bb78a3ada6a3a46e7129aa05": {
@@ -7913,7 +8482,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7924,6 +8493,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "b903828e7653c069ceae49279b031b51": {
@@ -7966,7 +8539,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7977,6 +8550,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "c0c84c23-1c56-4714-ba01-d78faa4b7502": {
@@ -8019,7 +8596,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.note-making-element-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8030,6 +8607,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.note-making-element-purpose",
+        "english.match-the-following.note-making-elements-purpose"
+      ],
       "key_dispute": false
     },
     "c203c2a940ad8a1d108e7ef7c802b278": {
@@ -8072,7 +8653,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.word-meaning-from-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8083,6 +8664,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.word-meaning-from-definition",
+        "english.match-the-following.vocabulary-meaning-matching"
+      ],
       "key_dispute": false
     },
     "c22fe4759d5ec9f195e45c733209481e": {
@@ -8140,8 +8725,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.coherence-and-clarity-classification",
+        "english.match-the-following.coherence-and-clarity-classification"
+      ],
       "key_dispute": false
     },
     "c575dcc4fe8af8b0991602929a5ce232": {
@@ -8184,7 +8773,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.concise-restatement-of-message",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8195,6 +8784,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.concise-restatement-of-message",
+        "english.match-the-following.message-restatement-precis"
+      ],
       "key_dispute": false
     },
     "c849acd03ebfad2a2878f7b65f647a2a": {
@@ -8237,7 +8830,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8248,6 +8841,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "c8f2eeea-e39f-4272-9ab9-5cd9469c84b2": {
@@ -8290,7 +8887,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.prose-type-to-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8301,6 +8898,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.prose-type-to-purpose",
+        "english.match-the-following.prose-types-primary-purpose"
+      ],
       "key_dispute": false
     },
     "d2d9953661b99ad9dac4afd2af59a90d": {
@@ -8343,7 +8944,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8354,6 +8955,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "d717500da583078e515b5b1a457366fd": {
@@ -8396,7 +9001,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.word-meaning-from-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8407,6 +9012,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.word-meaning-from-definition",
+        "english.match-the-following.vocabulary-meaning-matching"
+      ],
       "key_dispute": false
     },
     "d9110e80bb26a1232515cd85ea85c2ea": {
@@ -8449,7 +9058,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.word-meaning-from-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8460,6 +9069,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.word-meaning-from-definition",
+        "english.match-the-following.vocabulary-meaning-matching"
+      ],
       "key_dispute": false
     },
     "deb270a1-f776-4f76-9338-088348552105": {
@@ -8502,7 +9115,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.figures-of-speech-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8513,6 +9126,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.figure-of-speech-definition",
+        "english.match-the-following.figures-of-speech-definitions"
+      ],
       "key_dispute": false
     },
     "e1746c9ba0e4f943f01be46b59426a80": {
@@ -8555,7 +9172,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.situation-to-describing-word",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8566,6 +9183,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.situation-to-describing-word",
+        "english.match-the-following.situation-to-descriptive-word"
+      ],
       "key_dispute": false
     },
     "f58d7ce329f167054f7e42d9774a6203": {
@@ -8612,7 +9233,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.stated-preference-vs-company",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8621,8 +9242,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.stated-preference-vs-company",
+        "english.match-the-following.preference-versus-circumstance"
+      ],
       "key_dispute": false
     },
     "ffab83e7-4806-4a4d-a758-3a90e2afd9c1": {
@@ -8665,7 +9290,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.match-the-following.reading-technique-to-purpose",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8676,6 +9301,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.match-the-following.reading-technique-to-purpose",
+        "english.match-the-following.reading-techniques-purpose"
+      ],
       "key_dispute": false
     },
     "056d994754438131e76f75a3c1895aeb": {
@@ -8718,7 +9347,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.recall-retained-elements",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8729,6 +9358,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.recall-retained-elements",
+        "english.narrative-passage.retained-content-after-revision"
+      ],
       "key_dispute": false
     },
     "c5961ca1d655542533164e7482307b11": {
@@ -8771,7 +9404,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.inference-purpose-over-sentences",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8782,6 +9415,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.inference-purpose-over-sentences",
+        "english.narrative-passage.inference-character-priority"
+      ],
       "key_dispute": false
     },
     "117be8c2-564a-4b71-b176-e4970c179df9": {
@@ -8832,7 +9469,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.identify-climax-turning-point",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8841,8 +9478,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.identify-climax-turning-point",
+        "english.narrative-passage.climax-as-turning-point-of-conflict"
+      ],
       "key_dispute": true
     },
     "1ed8f3fc9f348753fa08672cfd1d439d": {
@@ -8885,7 +9526,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.sequence-of-actions-in-narrative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8896,6 +9537,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.sequence-after-decision",
+        "english.narrative-passage.sequence-of-actions-in-narrative"
+      ],
       "key_dispute": false
     },
     "351b2b5fbb84714d8487272b58aec6df": {
@@ -8938,7 +9583,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.recall-action-during-rain",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8949,6 +9594,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.recall-action-during-rain",
+        "english.narrative-passage.explicit-detail-recall"
+      ],
       "key_dispute": false
     },
     "288cc9c74867c52469c363a05e6ec5d6": {
@@ -8991,7 +9640,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.sequence-of-actions-in-narrative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9002,6 +9651,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.identify-delegated-help-action",
+        "english.narrative-passage.sequence-of-actions-in-narrative"
+      ],
       "key_dispute": false
     },
     "65e181043829eb4b07115b16cac9368e": {
@@ -9051,7 +9704,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.inference-delegation-as-assistance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9060,8 +9713,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.inference-delegation-as-assistance",
+        "english.narrative-passage.inference-from-character-response"
+      ],
       "key_dispute": false
     },
     "2f5f7a55-4fce-4660-b60c-465ef0d93cd7": {
@@ -9110,7 +9767,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.emotion-from-physical-reaction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9121,6 +9778,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.emotion-from-physical-reaction",
+        "english.narrative-passage.emotional-response-inferred-from-action"
+      ],
       "key_dispute": false
     },
     "7aaf478d-5e4e-4bf6-9da3-8ff547464918": {
@@ -9163,7 +9824,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.theme-heading-from-excerpt",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9174,6 +9835,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.theme-heading-from-excerpt",
+        "english.narrative-passage.sensory-description-and-nostalgic-contrast"
+      ],
       "key_dispute": false
     },
     "899ee931-f17b-4d5f-948e-e34a50a6f7ff": {
@@ -9222,7 +9887,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.motive-for-character-action",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9233,6 +9898,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.motive-for-choosing-quiet-setting",
+        "english.narrative-passage.motive-for-character-action"
+      ],
       "key_dispute": false
     },
     "9237512a3a83da1470593cf713987e5d": {
@@ -9282,7 +9951,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.recall-verification-by-records",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9293,6 +9962,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.recall-verification-by-records",
+        "english.narrative-passage.process-of-decision-implementation"
+      ],
       "key_dispute": false
     },
     "c7215261f1e55247d54ae4ebcfa5c7db": {
@@ -9335,7 +10008,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.recall-verification-by-records",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9346,6 +10019,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.recall-verification-by-records",
+        "english.narrative-passage.verification-by-recorded-evidence"
+      ],
       "key_dispute": false
     },
     "952f4119-d204-470d-ab78-9e4ed682d84c": {
@@ -9399,6 +10076,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.tone-vs-mood-distinction",
+        "english.narrative-passage.tone-vs-mood-distinction"
+      ],
       "key_dispute": false
     },
     "9bbdc36b-73c0-4f8f-b262-3182a528a9c6": {
@@ -9441,7 +10122,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.analytical-vs-summary-revision",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9450,8 +10131,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.analytical-vs-summary-revision",
+        "english.narrative-passage.analytical-revision-of-summary-ending"
+      ],
       "key_dispute": false
     },
     "a9417080710f69ccf49d5ae0ed8c43c9": {
@@ -9494,7 +10179,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.motive-for-character-action",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9505,6 +10190,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.motive-for-waiting-for-repair",
+        "english.narrative-passage.motive-for-character-action"
+      ],
       "key_dispute": false
     },
     "b032360d-4b5c-4c69-acd6-503a3089fe3d": {
@@ -9554,7 +10243,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.narrative-passage.attitude-from-word-choice",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9563,8 +10252,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.attitude-from-word-choice",
+        "english.narrative-passage.inference-author-attitude-from-diction"
+      ],
       "key_dispute": false
     },
     "f87d7d86-22f0-4a75-b796-b8fe159e4495": {
@@ -9622,8 +10315,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.narrative-passage.figurative-phrase-referent",
+        "english.narrative-passage.figurative-phrase-referent"
+      ],
       "key_dispute": false
     },
     "0247258de456a670df19039e3a2c4dfa": {
@@ -9666,7 +10363,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9677,6 +10374,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "026f366a-b507-4d21-83d2-e76cf97eb315": {
@@ -9719,7 +10420,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9730,6 +10431,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "05fac976-9fae-4d48-84f5-9efdc640ae30": {
@@ -9772,7 +10477,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9783,6 +10488,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "09513d692e04a2ab548d0c5f21434fc4": {
@@ -9825,7 +10534,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9836,6 +10545,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b": {
@@ -9878,7 +10591,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9887,8 +10600,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "11a1cd0da911c0091e9884629edb5165": {
@@ -9931,7 +10648,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9942,6 +10659,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "13aea4d5-168d-4dc0-92e4-7440d7989858": {
@@ -9990,7 +10711,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9999,8 +10720,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": true
     },
     "21ffdb2198b350582fa6e53d8a820211": {
@@ -10043,7 +10768,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10054,6 +10779,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "23be84e9a8a798f5249456b77ea00570": {
@@ -10100,7 +10829,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10111,6 +10840,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "3614eade-0e16-4965-b98e-86c223cca196": {
@@ -10153,7 +10886,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10164,6 +10897,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "373d250d21b4c8d7cff3367cd69d7b25": {
@@ -10206,7 +10943,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10217,6 +10954,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "3840664fceb9afc9c36309542c0ab16f": {
@@ -10259,7 +11000,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10270,6 +11011,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "39e09ce54267c6d56a9b954d8bf3ed1c": {
@@ -10312,7 +11057,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10323,6 +11068,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "44a68c3a74bc36acd586a1e1c13e39b5": {
@@ -10369,7 +11118,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10380,6 +11129,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.clause-two-part-structure",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "5ff5d221-553c-48ba-9e84-a54edceb92ec": {
@@ -10428,7 +11181,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10439,6 +11192,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": true
     },
     "6136c491-8f26-4f3b-a17d-f241f8e77ba6": {
@@ -10487,7 +11244,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10498,6 +11255,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.logical-connectives-and-pronoun-links",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": true
     },
     "6e65669238f8a31b656dbe0e711a7e70": {
@@ -10540,7 +11301,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10551,6 +11312,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "74d976848985c48f5b5697a9203b959b": {
@@ -10597,7 +11362,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10608,6 +11373,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "792a2de8e6e896455610f3d9100ccd79": {
@@ -10654,7 +11423,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10665,6 +11434,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "7c67f9ec-3490-476e-89d2-eb65c4d100f5": {
@@ -10716,7 +11489,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.sentence-rearrangement-of-phrases",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10727,6 +11500,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.sentence-rearrangement-of-phrases",
+        "english.para-jumbles.adverb-and-phrase-placement"
+      ],
       "key_dispute": true
     },
     "7d10fc7f53286803800ad017f85322cc": {
@@ -10773,7 +11550,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.logical-paragraph-ordering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10784,6 +11561,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.clause-two-part-structure",
+        "english.para-jumbles.logical-paragraph-ordering"
+      ],
       "key_dispute": false
     },
     "843dbff98d887fa97d091dd73de2b1c0": {
@@ -10826,7 +11607,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10837,6 +11618,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "850ff821eb18ed00ba2aff76d05c04fa": {
@@ -10879,7 +11664,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10890,6 +11675,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "8b93316006439c791a59e7a5a664f278": {
@@ -10936,7 +11725,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10947,6 +11736,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "90c24807e1a72c192a3c7d75ee9ed454": {
@@ -10989,7 +11782,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-sequence-cues",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11000,6 +11793,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-sequence-cues",
+        "english.para-jumbles.chronological-event-ordering"
+      ],
       "key_dispute": false
     },
     "9ab866f3-fc98-4b38-8332-d89ba83e7989": {
@@ -11048,7 +11845,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.word-order-in-sentence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11059,6 +11856,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.word-order-in-sentence",
+        "english.para-jumbles.sentence-part-ordering"
+      ],
       "key_dispute": false
     },
     "9bd2d77281ddf33604855c9a579c0c71": {
@@ -11105,7 +11906,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11116,6 +11917,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "9d134d424cc6abd3b6e68b7b66773b24": {
@@ -11164,7 +11969,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11175,6 +11980,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "a601205cfe584a89b63c47661c258937": {
@@ -11221,7 +12030,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11232,6 +12041,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "a65094cc32d7797098bdfa33fc8ab015": {
@@ -11278,7 +12091,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11289,6 +12102,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "a65d834b667f318d9ce07a34d6cf8daa": {
@@ -11331,7 +12148,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11342,6 +12159,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "acfe4927de77c0cc2c95d1a664d206b0": {
@@ -11390,7 +12211,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11401,6 +12222,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "b7b7e9358ed2fc2a03d80893a060d198": {
@@ -11449,7 +12274,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11460,6 +12285,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "b828abf0-d2bf-4797-85b5-6dfad65729c2": {
@@ -11502,7 +12331,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.cohesive-links-and-referents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11513,6 +12342,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.cohesive-links-and-referents",
+        "english.para-jumbles.argument-order-via-referents"
+      ],
       "key_dispute": false
     },
     "c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1": {
@@ -11559,7 +12392,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.cohesive-links-and-referents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11570,6 +12403,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.cohesive-links-and-referents",
+        "english.para-jumbles.argument-order-via-referents"
+      ],
       "key_dispute": false
     },
     "c159d74b4d72ea24a97a9398294284fc": {
@@ -11612,7 +12449,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11623,6 +12460,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "ca3ee25d-0162-4e86-a01e-22c54406c356": {
@@ -11669,7 +12510,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.cohesive-links-and-referents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11680,6 +12521,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.cohesive-links-and-referents",
+        "english.para-jumbles.argument-order-via-referents"
+      ],
       "key_dispute": true
     },
     "d8602438-3f30-40e2-a0cf-f9d2a56b47e2": {
@@ -11726,7 +12571,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.cohesive-links-and-referents",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11737,6 +12582,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.cohesive-links-and-referents",
+        "english.para-jumbles.argument-order-via-referents"
+      ],
       "key_dispute": false
     },
     "f547e34627af9ffec31cffd2d0d62be9": {
@@ -11785,7 +12634,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11796,6 +12645,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "f7119751c3481939c8fbb406810d5ff1": {
@@ -11838,7 +12691,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.para-jumbles.chronological-event-sequence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11849,6 +12702,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.para-jumbles.chronological-event-sequence",
+        "english.para-jumbles.narrative-order-via-cues"
+      ],
       "key_dispute": false
     },
     "08c9dff7d4a536b90a7b7ad46e092703": {
@@ -11891,7 +12748,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.discreet-means-keeping-secrets",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11902,6 +12759,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.discreet-means-keeping-secrets",
+        "english.vocabulary.discreet-keeping-secrets"
+      ],
       "key_dispute": false
     },
     "12a0365139728085758891691f5caac9": {
@@ -11950,7 +12811,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.discreet-means-keeping-secrets",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11959,8 +12820,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.discreet-means-keeping-secrets",
+        "english.vocabulary.discreet-keeping-secrets"
+      ],
       "key_dispute": false
     },
     "14eec8eff7926ca92409549e6da4973d": {
@@ -12007,7 +12872,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.authentic-means-genuine-not-copy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12016,8 +12881,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.authentic-means-genuine-not-copy",
+        "english.vocabulary.authentic-genuine-vs-counterfeit"
+      ],
       "key_dispute": false
     },
     "21380dd66b3bbb0f1ed0379e901ffe14": {
@@ -12060,7 +12929,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.inevitable-means-cannot-be-avoided",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12069,8 +12938,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.inevitable-means-cannot-be-avoided",
+        "english.vocabulary.inevitable-unavoidable"
+      ],
       "key_dispute": false
     },
     "253b603d56e8104f41758dffab65384b": {
@@ -12117,7 +12990,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.authentic-means-genuine-not-copy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12126,8 +12999,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.authentic-means-genuine-not-copy",
+        "english.vocabulary.authentic-genuine-vs-counterfeit"
+      ],
       "key_dispute": false
     },
     "26c5d2ac584f37f60da67fae4da93944": {
@@ -12170,7 +13047,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.transient-means-temporary",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12179,8 +13056,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.transient-means-temporary",
+        "english.vocabulary.transient-temporary"
+      ],
       "key_dispute": false
     },
     "26e2b72eb0f16c31868306372d610d2d": {
@@ -12223,7 +13104,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.reluctant-means-unwilling-to-act",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12232,8 +13113,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.reluctant-means-unwilling-to-act",
+        "english.vocabulary.reluctant-hesitant-not-willing"
+      ],
       "key_dispute": false
     },
     "27d9c1bbed193a6cdfb58172422bde4e": {
@@ -12283,7 +13168,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.obsolete-means-no-longer-used",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12292,8 +13177,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.obsolete-means-no-longer-used",
+        "english.vocabulary.obsolete-no-longer-used"
+      ],
       "key_dispute": false
     },
     "2ba43117067ffb85467af3eb10a9a830": {
@@ -12343,7 +13232,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.versatile-means-many-abilities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12354,6 +13243,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.versatile-means-many-abilities",
+        "english.vocabulary.versatile-many-things"
+      ],
       "key_dispute": false
     },
     "2c9a16eb863b2309b1735321aa43d938": {
@@ -12396,7 +13289,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.concise-means-only-necessary-words",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12407,6 +13300,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.concise-means-only-necessary-words",
+        "english.vocabulary.concise-few-words"
+      ],
       "key_dispute": false
     },
     "302d8d707e481216910d656ad853463b": {
@@ -12449,7 +13346,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.elated-means-very-happy",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12458,8 +13355,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.elated-means-very-happy",
+        "english.vocabulary.elated-very-happy-excited"
+      ],
       "key_dispute": false
     },
     "31c9b04448450069518088901c9cc5ba": {
@@ -12506,7 +13407,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.prudent-means-careful-avoiding-risk",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12517,6 +13418,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.prudent-means-careful-avoiding-risk",
+        "english.vocabulary.prudent-sensible-careful"
+      ],
       "key_dispute": false
     },
     "34187742884e82ff04925abfef8b10d4": {
@@ -12559,7 +13464,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.prudent-means-careful-avoiding-risk",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12568,8 +13473,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.prudent-means-careful-avoiding-risk",
+        "english.vocabulary.prudent-sensible-careful"
+      ],
       "key_dispute": false
     },
     "35150358022dec606938893ff263c005": {
@@ -12616,7 +13525,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.benevolent-kind-generous",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12625,8 +13534,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.benevolent-means-kind-generous",
+        "english.vocabulary.benevolent-kind-generous"
+      ],
       "key_dispute": false
     },
     "40f5a079c78b73071b6f8e88df589c6e": {
@@ -12669,7 +13582,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.vigilant-means-alert-to-danger",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12678,8 +13591,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.vigilant-means-alert-to-danger",
+        "english.vocabulary.vigilant-alert-to-danger"
+      ],
       "key_dispute": false
     },
     "43d1832c48e9bcab1d5ee03e93eabbfc": {
@@ -12722,7 +13639,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.obsolete-means-no-longer-used",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12733,6 +13650,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.obsolete-means-no-longer-used",
+        "english.vocabulary.obsolete-no-longer-used"
+      ],
       "key_dispute": false
     },
     "4a61924e675c35253ff085debc70e1d5": {
@@ -12775,7 +13696,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.ambiguous-means-more-than-one-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12786,6 +13707,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.ambiguous-means-more-than-one-meaning",
+        "english.vocabulary.ambiguous-more-than-one-meaning"
+      ],
       "key_dispute": false
     },
     "5bb3304243eced3f7921751972122d75": {
@@ -12828,7 +13753,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.frugal-means-using-only-necessary",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12837,8 +13762,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.frugal-means-using-only-necessary",
+        "english.vocabulary.frugal-thrifty-economy"
+      ],
       "key_dispute": false
     },
     "5d150ead4cb95cffe2221629901079ba": {
@@ -12881,7 +13810,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.versatile-means-many-abilities",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12892,6 +13821,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.versatile-means-many-abilities",
+        "english.vocabulary.versatile-many-things"
+      ],
       "key_dispute": false
     },
     "5e8cee853565283c6a372d7287dead96": {
@@ -12938,7 +13871,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.indifferent-means-no-interest",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12949,6 +13882,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.indifferent-means-no-interest",
+        "english.vocabulary.indifferent-no-interest"
+      ],
       "key_dispute": false
     },
     "69c08375f5218d8cc766ab0172bc7d95": {
@@ -12995,7 +13932,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.reluctant-means-unwilling-to-act",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13006,6 +13943,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.reluctant-means-unwilling-to-act",
+        "english.vocabulary.reluctant-hesitant-not-willing"
+      ],
       "key_dispute": false
     },
     "6a67f64a-48a9-4388-bd17-318fe2f31d4c": {
@@ -13048,7 +13989,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.benevolent-kind-generous",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13059,6 +14000,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.benevolent-vs-malevolent-meaning",
+        "english.vocabulary.benevolent-kind-generous"
+      ],
       "key_dispute": false
     },
     "6e80d3335e51535eb61880c52b32caa5": {
@@ -13101,7 +14046,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.inevitable-means-cannot-be-avoided",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13112,6 +14057,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.inevitable-means-cannot-be-avoided",
+        "english.vocabulary.inevitable-unavoidable"
+      ],
       "key_dispute": false
     },
     "6f8be5461f535165ed7de1f7d8beecf8": {
@@ -13154,7 +14103,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.vigilant-means-alert-to-danger",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13165,6 +14114,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.vigilant-means-alert-to-danger",
+        "english.vocabulary.vigilant-alert-to-danger"
+      ],
       "key_dispute": false
     },
     "7f06219fa89856483c44d00c0e39965d": {
@@ -13214,7 +14167,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.impartial-means-not-favouring",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13223,8 +14176,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.impartial-means-not-favouring",
+        "english.vocabulary.impartial-no-favouritism"
+      ],
       "key_dispute": false
     },
     "82876d025acfb9d500d6c12bcd73b0f5": {
@@ -13267,7 +14224,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.coherent-means-logical-clear",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13278,6 +14235,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "english.vocabulary.coherent-means-logical-clear",
+        "english.vocabulary.antonym-by-negative-prefix"
+      ],
       "key_dispute": false
     },
     "82d3698b9973e8b58b67691d2e0c9792": {
@@ -13330,7 +14291,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.plausible-means-reasonable-likely",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13341,6 +14302,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.plausible-means-reasonable-likely",
+        "english.vocabulary.plausible-means-reasonable-and-likely-true"
+      ],
       "key_dispute": false
     },
     "841d7cfaa48c0eedf1f6b093489b1542": {
@@ -13383,7 +14348,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.arduous-means-demanding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13394,6 +14359,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.arduous-means-demanding",
+        "english.vocabulary.arduous-means-demanding-effort"
+      ],
       "key_dispute": false
     },
     "86749dec-42ff-4cd8-b867-7792416c89f4": {
@@ -13436,7 +14405,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.vocabulary-size-aids-fluency",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13447,6 +14416,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.vocabulary-size-aids-fluency",
+        "english.vocabulary.vocabulary-breadth-and-reading-fluency"
+      ],
       "key_dispute": false
     },
     "88203504d8681843ed4741d2cb2b5aba": {
@@ -13489,7 +14462,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.candid-means-open-honest",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13500,6 +14473,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.candid-means-open-honest",
+        "english.vocabulary.candid-means-open-and-honest"
+      ],
       "key_dispute": false
     },
     "88ed950b9b61ccadc5096692b8695217": {
@@ -13542,7 +14519,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.plausible-means-reasonable-likely",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13553,6 +14530,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.plausible-means-reasonable-likely",
+        "english.vocabulary.plausible-means-reasonable-and-likely-true"
+      ],
       "key_dispute": false
     },
     "8db859a1b7eab5aac1eb13818e0863fc": {
@@ -13595,7 +14576,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.sparse-means-scattered",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13606,6 +14587,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.sparse-means-scattered",
+        "english.vocabulary.sparse-means-thinly-spread"
+      ],
       "key_dispute": false
     },
     "969087a9352795113be2bda8def8d501": {
@@ -13661,8 +14646,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.arrogant-means-proud",
+        "english.vocabulary.arrogant-means-proud"
+      ],
       "key_dispute": false
     },
     "995205f96f49073b44b66043f1cb1c72": {
@@ -13705,7 +14694,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.concise-means-brief-essential",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13716,6 +14705,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.concise-means-brief-essential",
+        "english.vocabulary.concise-means-few-words-essential-info"
+      ],
       "key_dispute": false
     },
     "99de722eb49ebfa10306bd2d9dd3e88d": {
@@ -13762,7 +14755,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.sceptical-means-doubtful",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13771,8 +14764,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.sceptical-means-doubtful",
+        "english.vocabulary.sceptical-antonym-is-convinced"
+      ],
       "key_dispute": false
     },
     "9cad22a17f57ed29322e49747ffe701f": {
@@ -13826,6 +14823,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.sceptical-means-doubtful",
+        "english.vocabulary.sceptical-means-doubtful"
+      ],
       "key_dispute": false
     },
     "9fb19b37af88e3fd26211399a702a68e": {
@@ -13868,7 +14869,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.impartial-means-unbiased",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13879,6 +14880,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.impartial-means-unbiased",
+        "english.vocabulary.impartial-means-not-favouring-either-side"
+      ],
       "key_dispute": false
     },
     "a64559586761c9cafcfd80def1465390": {
@@ -13921,7 +14926,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.coherent-means-logical-clear",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13932,6 +14937,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.coherent-means-logical-clear",
+        "english.vocabulary.coherent-means-logical-well-organised"
+      ],
       "key_dispute": false
     },
     "a68b518be4fdf34048c1a685de2fee51": {
@@ -13978,7 +14987,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.transient-means-short-lived",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13987,8 +14996,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.transient-means-short-lived",
+        "english.vocabulary.transient-antonym-is-enduring"
+      ],
       "key_dispute": false
     },
     "a9cda88616d00ec5cc2ab6ec076e9b9e": {
@@ -14031,7 +15044,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.conspicuous-means-noticeable",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14042,6 +15055,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.conspicuous-means-noticeable",
+        "english.vocabulary.conspicuous-means-easily-noticed"
+      ],
       "key_dispute": false
     },
     "ac33be6bfb6236cb41ff36ffab60c6a8": {
@@ -14084,7 +15101,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.antonym-by-negative-prefix",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14095,6 +15112,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.resilient-means-recovers-quickly",
+        "english.vocabulary.antonym-by-negative-prefix"
+      ],
       "key_dispute": false
     },
     "b0ca1a8c-d7c8-4f55-9845-18b332b08de1": {
@@ -14148,6 +15169,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.abate-means-subside",
+        "english.vocabulary.abate-means-subside"
+      ],
       "key_dispute": false
     },
     "b555ce7a9098df8538f567506fbaa36e": {
@@ -14190,7 +15215,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.arrogant-means-proud",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14199,8 +15224,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.arrogant-means-proud",
+        "english.vocabulary.arrogant-antonym-is-modest"
+      ],
       "key_dispute": false
     },
     "ba91d0be754c94fd86b37ed7dff0594b": {
@@ -14247,7 +15276,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.candid-means-open-honest",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14258,6 +15287,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.candid-means-open-honest",
+        "english.vocabulary.candid-antonym-is-hiding-views"
+      ],
       "key_dispute": false
     },
     "bd7f5c49e29e94a1739b02b24f784000": {
@@ -14300,7 +15333,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.assertive-means-firm-confident",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14311,6 +15344,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.assertive-means-firm-confident",
+        "english.vocabulary.assertive-means-firm-and-confident"
+      ],
       "key_dispute": false
     },
     "bd8a43c8a3249bdd23757022b51c6607": {
@@ -14353,7 +15390,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.diligent-means-careful-effort",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14362,8 +15399,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.diligent-means-careful-effort",
+        "english.vocabulary.diligent-means-care-and-effort"
+      ],
       "key_dispute": false
     },
     "bf06364eaf1233ab3c4fa7eaf164e502": {
@@ -14423,6 +15464,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.benevolent-antonym-reverses-qualities",
+        "english.vocabulary.benevolent-antonym-reverses-qualities"
+      ],
       "key_dispute": false
     },
     "bf18390487fde0f4f26df578e1964dce": {
@@ -14473,7 +15518,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.sparse-means-scattered",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14484,6 +15529,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.sparse-means-scattered",
+        "english.vocabulary.sparse-antonym-is-dense"
+      ],
       "key_dispute": false
     },
     "c46788496fede6ef21510a83b0c8a8a4": {
@@ -14530,7 +15579,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.concise-means-brief-essential",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14541,6 +15590,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.concise-means-brief-essential",
+        "english.vocabulary.concise-means-few-words-essential-info"
+      ],
       "key_dispute": false
     },
     "c696b0691dcda100924ef54aad29a825": {
@@ -14594,6 +15647,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.frugal-means-economical",
+        "english.vocabulary.frugal-means-economical"
+      ],
       "key_dispute": false
     },
     "c6eac54db23692e188f253448f5e6b36": {
@@ -14651,6 +15708,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-meticulous",
+        "english.vocabulary.meaning-of-meticulous"
+      ],
       "key_dispute": false
     },
     "c8c84f0d38809205de6570a864ae4a66": {
@@ -14704,6 +15765,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-conscientious",
+        "english.vocabulary.meaning-of-conscientious"
+      ],
       "key_dispute": false
     },
     "d25cc262e66ed26d5766e68f0acc3f1d": {
@@ -14763,6 +15828,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-tedious",
+        "english.vocabulary.meaning-of-tedious"
+      ],
       "key_dispute": false
     },
     "d8cf89de-abe3-4faa-a9bf-bff14a2870ae": {
@@ -14814,8 +15883,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-ephemeral",
+        "english.vocabulary.meaning-of-ephemeral"
+      ],
       "key_dispute": false
     },
     "da302dc03b0b1c38eaab0d2a69ddf3b7": {
@@ -14867,8 +15940,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.antonym-of-assertive",
+        "english.vocabulary.antonym-of-assertive"
+      ],
       "key_dispute": false
     },
     "da6943969141734f920de78cef27cf03": {
@@ -14922,6 +15999,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-plausible",
+        "english.vocabulary.meaning-of-plausible"
+      ],
       "key_dispute": false
     },
     "dffb2044ebcb43f66bf26fe470c48227": {
@@ -14975,6 +16056,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-resilient",
+        "english.vocabulary.meaning-of-resilient"
+      ],
       "key_dispute": false
     },
     "e4d3fd44-2ec6-4add-b552-b97d3287f310": {
@@ -15021,7 +16106,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "english.vocabulary.sarcasm-as-subtype-of-verbal-irony",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15032,6 +16117,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.sarcasm-as-subtype-of-verbal-irony",
+        "english.vocabulary.sarcasm-as-form-of-verbal-irony"
+      ],
       "key_dispute": false
     },
     "e75c7604908254529c7572bda2c4b722": {
@@ -15085,6 +16174,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-inquisitive",
+        "english.vocabulary.meaning-of-inquisitive"
+      ],
       "key_dispute": false
     },
     "ede22f8e1fcb4240734c14efa7b7b556": {
@@ -15138,6 +16231,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-gregarious",
+        "english.vocabulary.meaning-of-gregarious"
+      ],
       "key_dispute": false
     },
     "eeafcc925d5f01368aa1ffd21cde6e13": {
@@ -15195,8 +16292,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.meaning-of-hostile",
+        "english.vocabulary.meaning-of-hostile"
+      ],
       "key_dispute": false
     },
     "efd5073278a5b9862be45fb89c7e7cf6": {
@@ -15248,8 +16349,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.antonym-of-inquisitive",
+        "english.vocabulary.antonym-of-inquisitive"
+      ],
       "key_dispute": false
     },
     "f1d9a9559a3f9b3baba787ccf0352a22": {
@@ -15307,6 +16412,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "english.vocabulary.antonym-of-conspicuous",
+        "english.vocabulary.antonym-of-conspicuous"
+      ],
       "key_dispute": false
     }
   }

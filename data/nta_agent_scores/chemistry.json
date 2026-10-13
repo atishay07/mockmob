@@ -3,7 +3,7 @@
   "subject": "chemistry",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T14:15:20.515Z",
+  "merged_at": "2026-10-13T15:32:56.758Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -58,6 +58,7 @@
     "tag_agreement_pct": 17.3,
     "difficulty_agreement_pct": 83,
     "blocking_flagged": 110,
+    "difficulty_one_level_not_applied": 84,
     "flags": {
       "wrong_key": 21,
       "doubtful_key": 28,
@@ -114,7 +115,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.williamson-tertiary-halide-failure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -123,8 +124,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.williamson-tertiary-halide-failure",
+        "chemistry.alcohols-phenols-and-ethers.williamson-ether-sn2-limitation"
+      ],
       "key_dispute": false
     },
     "14830350-815a-4269-88e8-b022ade0b20e": {
@@ -167,7 +172,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.pcc-oxidation-selectivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -176,8 +181,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.pcc-oxidation-selectivity",
+        "chemistry.alcohols-phenols-and-ethers.pcc-oxidation-needs-carbinol-hydrogen"
+      ],
       "key_dispute": false
     },
     "2ac15d41-cb78-42e5-9ecb-08c1a9bfe502": {
@@ -227,7 +236,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.temperature-dependence-alcohol-dehydration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -236,8 +245,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.temperature-dependence-alcohol-dehydration",
+        "chemistry.alcohols-phenols-and-ethers.temperature-controls-ether-vs-alkene"
+      ],
       "key_dispute": true
     },
     "7b57ac4c-3c81-4ddf-b623-b2308ad9c97b": {
@@ -286,7 +299,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenoxide-nitration-polysubstitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -297,6 +310,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.phenoxide-nitration-polysubstitution",
+        "chemistry.alcohols-phenols-and-ethers.phenoxide-more-reactive-in-nitration"
+      ],
       "key_dispute": false
     },
     "987bdc73-4359-400b-98fa-0042a2e8508d": {
@@ -350,6 +367,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.phenol-bromination-without-catalyst",
+        "chemistry.alcohols-phenols-and-ethers.phenol-bromination-without-catalyst"
+      ],
       "key_dispute": false
     },
     "9cef788a-ac1a-4852-b392-3ecd2f66645d": {
@@ -401,7 +422,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.lucas-test-reactivity-order",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -410,8 +431,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.lucas-test-reactivity-order",
+        "chemistry.alcohols-phenols-and-ethers.lucas-test-alcohol-classification"
+      ],
       "key_dispute": true
     },
     "d1591a65-39d1-4f92-9375-55edee081540": {
@@ -454,7 +479,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.hydrogen-bonding-boiling-point",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -463,8 +488,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.hydrogen-bonding-boiling-point",
+        "chemistry.alcohols-phenols-and-ethers.hydrogen-bonding-boiling-point-comparison"
+      ],
       "key_dispute": false
     },
     "d32697b6-602c-418b-964d-6d482a4e07d8": {
@@ -518,6 +547,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.nitrophenol-acidity-order",
+        "chemistry.alcohols-phenols-and-ethers.nitrophenol-acidity-order"
+      ],
       "key_dispute": false
     },
     "e4676634-a160-495c-bd31-42b7ac165777": {
@@ -560,7 +593,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-friedel-crafts-failure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -569,8 +602,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.phenol-friedel-crafts-failure",
+        "chemistry.alcohols-phenols-and-ethers.phenol-friedel-crafts-failure-lewis-acid"
+      ],
       "key_dispute": false
     },
     "04eaa796-667b-4a28-bc65-58afea39c4fb": {
@@ -613,7 +650,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -624,6 +661,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-ketone-reactivity-factors"
+      ],
       "key_dispute": false
     },
     "073ad1ca-e46a-4454-8219-0fd97c6bdaf7": {
@@ -672,7 +713,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -683,6 +724,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-ketone-reactivity-factors"
+      ],
       "key_dispute": true
     },
     "16af48da-c11a-409d-a3e6-cda38f20a3f4": {
@@ -733,7 +778,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.hydrogen-bonding-effect-on-carbonyl-electrophilicity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -744,6 +789,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.hydrogen-bonding-effect-on-carbonyl-electrophilicity",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.protonation-activates-carbonyl-for-addition"
+      ],
       "key_dispute": true
     },
     "1810bd1b-4dcd-4b58-a8d7-3f7ebd703b69": {
@@ -786,7 +835,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -797,6 +846,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-hydrogen-criterion-aldol-cannizzaro"
+      ],
       "key_dispute": false
     },
     "34c16549-614f-4bb1-a3df-c0a63523c40e": {
@@ -839,7 +892,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.carboxylic-acid-vs-phenol-acidity-resonance",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -848,8 +901,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.carboxylic-acid-vs-phenol-acidity-resonance",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.carboxylate-resonance-explains-acidity"
+      ],
       "key_dispute": false
     },
     "37618510-e1f7-473d-8df9-8e5e189c81d6": {
@@ -892,7 +949,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -903,6 +960,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-ketone-reactivity-factors"
+      ],
       "key_dispute": false
     },
     "41bb3739-ee8c-4745-9485-7286b25a4f5b": {
@@ -945,7 +1006,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -956,6 +1017,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-scope-and-conditions"
+      ],
       "key_dispute": false
     },
     "42ae03af-cba2-4394-8d09-ae60dcc82d8e": {
@@ -1004,7 +1069,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1015,6 +1080,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cannizzaro-reaction-no-alpha-hydrogen",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.iodoform-test-methyl-carbonyl"
+      ],
       "key_dispute": true
     },
     "464ab0ee-5c70-494a-ac20-3b5058dc41e1": {
@@ -1057,7 +1126,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.electron-withdrawing-halogen-acidity-trend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1066,8 +1135,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.electron-withdrawing-halogen-acidity-trend",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.inductive-effect-halogen-acid-strength"
+      ],
       "key_dispute": false
     },
     "5375dd19-ff37-40d5-aac4-a09f85f626a9": {
@@ -1116,7 +1189,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-alpha-keto-stabilization",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1125,8 +1198,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-alpha-keto-stabilization",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.keto-group-stabilizes-decarboxylation"
+      ],
       "key_dispute": false
     },
     "5e3472d0-6a70-44cd-bc66-302e9861aaba": {
@@ -1169,7 +1246,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.bisulfite-adduct-purification-of-aldehyde",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1180,6 +1257,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.bisulfite-adduct-purification-of-aldehyde",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.bisulfite-adduct-purification"
+      ],
       "key_dispute": false
     },
     "790e5cfc-a5b0-48de-9a93-98d820b19ecf": {
@@ -1228,7 +1309,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-hydrogen-criterion-aldol-cannizzaro",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1239,6 +1320,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldol-condensation-alpha-hydrogen",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-hydrogen-criterion-aldol-cannizzaro"
+      ],
       "key_dispute": true
     },
     "8b55ed7f-b6b7-46c0-86af-2149e230bb53": {
@@ -1281,7 +1366,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.sodium-salt-separation-of-carboxylic-acid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1292,6 +1377,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.sodium-salt-separation-of-carboxylic-acid",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.carboxylate-salt-acid-separation"
+      ],
       "key_dispute": false
     },
     "9d1d82c9-4df3-4cb2-9cfc-7ccb1dbd379c": {
@@ -1340,7 +1429,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.steric-vs-electronic-factors-carbonyl-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1349,8 +1438,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.steric-vs-electronic-factors-carbonyl-reactivity",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.dominant-factor-carbonyl-addition-rates"
+      ],
       "key_dispute": true
     },
     "aba72133-d954-4eda-91e4-576f5a35636b": {
@@ -1393,7 +1486,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.hydration-acid-base-catalysis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1404,6 +1497,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.hydration-acid-base-catalysis",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.dual-acid-base-catalysis-hydration"
+      ],
       "key_dispute": false
     },
     "c5c6a1f0-f06a-45fc-a4e9-5e177d4a065c": {
@@ -1446,7 +1543,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1455,8 +1552,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.nucleophilic-addition-reactivity-aldehyde-vs-ketone",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-ketone-reactivity-factors"
+      ],
       "key_dispute": false
     },
     "cfbc2ab2-01a1-40dd-b140-322830bcd36e": {
@@ -1508,7 +1609,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-vs-ketone-oxidation-ease",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1517,8 +1618,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehyde-vs-ketone-oxidation-ease",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.aldehydic-hydrogen-enables-oxidation"
+      ],
       "key_dispute": true
     },
     "d17ca9f3-38e3-4dea-b957-1b4b7901d583": {
@@ -1570,7 +1675,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.tollens-reagent-acidification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1581,6 +1686,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.tollens-reagent-acidification",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.tollens-silver-mirror-chemistry"
+      ],
       "key_dispute": false
     },
     "d7d4eba4-794b-4442-b3b8-c582657dc60a": {
@@ -1627,7 +1736,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.boiling-point-order-h-bonding-classes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1638,6 +1747,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.boiling-point-order-h-bonding-classes",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.boiling-point-order-hydrogen-bonding"
+      ],
       "key_dispute": false
     },
     "3162f8b3-d5db-4a15-a960-d45c0e41ab58": {
@@ -1686,7 +1799,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aryl-diazonium-salt-stability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -1695,8 +1808,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aryl-diazonium-salt-stability",
+        "chemistry.amines.diazonium-salt-stability-resonance"
+      ],
       "key_dispute": true
     },
     "3d580565-787f-4de5-9436-6ddef0076c3f": {
@@ -1739,7 +1856,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.amino-functional-group-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1750,6 +1867,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.amino-functional-group-identification",
+        "chemistry.amines.amino-group-identification"
+      ],
       "key_dispute": false
     },
     "45d56f5e-db8a-4a19-af87-b0d0c44c37e1": {
@@ -1798,7 +1919,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -1809,6 +1930,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amines",
+        "chemistry.amines.aromatic-vs-aliphatic-amine-classification"
+      ],
       "key_dispute": false
     },
     "573be659-76a8-43e9-90f6-7da4c532fa91": {
@@ -1851,7 +1976,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.preparation-routes-give-primary-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1862,6 +1987,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.preparation-routes-give-primary-amines",
+        "chemistry.amines.primary-amine-preparation-methods"
+      ],
       "key_dispute": false
     },
     "6b072afc-6a48-4189-8f21-02eea69c4a24": {
@@ -1904,7 +2033,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.amine-reactions-with-nitrous-acid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1915,6 +2044,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.reaction-with-nitrous-acid-by-amine-class",
+        "chemistry.amines.amine-reactions-with-nitrous-acid"
+      ],
       "key_dispute": false
     },
     "785ee3d0-b4fb-4d87-a4d7-cf1cfbbd4428": {
@@ -1957,7 +2090,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -1968,6 +2101,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amines",
+        "chemistry.amines.aromatic-vs-aliphatic-amine-classification"
+      ],
       "key_dispute": false
     },
     "7d8b2cb9-76b5-4abe-bdb0-cc1ca3b3549b": {
@@ -2016,7 +2153,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.amine-as-substituted-ammonia",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2025,8 +2162,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.amine-as-substituted-ammonia",
+        "chemistry.amines.amine-structure-from-ammonia"
+      ],
       "key_dispute": false
     },
     "7f158887-f454-4d46-8112-36ceb189dd73": {
@@ -2069,7 +2210,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2080,6 +2221,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "8b828870-6e67-4673-8420-de0f450b9248": {
@@ -2122,7 +2267,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2133,6 +2278,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "8bd06c9c-5146-4f70-87d6-168fb2e65cab": {
@@ -2175,7 +2324,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2186,6 +2335,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+        "chemistry.amines.aniline-weaker-base-than-alkylamines"
+      ],
       "key_dispute": false
     },
     "8bf00b56-c804-4575-9336-e7a746e0f3d9": {
@@ -2234,7 +2387,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.pkb-based-protonation-at-neutral-ph",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2245,6 +2398,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.pkb-based-protonation-at-neutral-ph",
+        "chemistry.amines.protonation-state-from-pka-at-ph"
+      ],
       "key_dispute": false
     },
     "97e1a1c9-5318-41d2-9124-2b72844e5771": {
@@ -2293,7 +2450,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2304,6 +2461,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "9f2f69e9-f221-431a-99a0-bbcd4cbf17ae": {
@@ -2346,7 +2507,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2357,6 +2518,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+        "chemistry.amines.aniline-weaker-base-than-alkylamines"
+      ],
       "key_dispute": false
     },
     "a123a0af-a4b0-43c1-8679-61eef2ff58bd": {
@@ -2405,7 +2570,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2414,8 +2579,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "a1fceff0-888f-414c-9515-1f7fcd20c5be": {
@@ -2458,7 +2627,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.preparation-routes-give-primary-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2469,6 +2638,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.preparation-routes-give-primary-amines",
+        "chemistry.amines.primary-amine-preparation-methods"
+      ],
       "key_dispute": false
     },
     "a5a48591-3848-42ad-b525-43eaeca447a0": {
@@ -2517,7 +2690,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2526,8 +2699,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "af4018af-e643-4f26-a3eb-0402863cf2d8": {
@@ -2570,7 +2747,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2579,8 +2756,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amines",
+        "chemistry.amines.aromatic-vs-aliphatic-amine-classification"
+      ],
       "key_dispute": false
     },
     "d1125a43-1f8e-417b-a144-fa45bc21910a": {
@@ -2629,7 +2810,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.catalytic-role-of-tertiary-amines",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2640,6 +2821,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.catalytic-role-of-tertiary-amines",
+        "chemistry.amines.tertiary-amine-catalytic-activity"
+      ],
       "key_dispute": false
     },
     "f2c71e42-eee0-486c-8c3a-96d228025d84": {
@@ -2682,7 +2867,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2693,6 +2878,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.aromatic-vs-aliphatic-amine-basicity",
+        "chemistry.amines.aniline-weaker-base-than-alkylamines"
+      ],
       "key_dispute": false
     },
     "f2d31fbb-e8f9-44a0-b2b7-80b7aca343ee": {
@@ -2741,7 +2930,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2750,8 +2939,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "f84cba88-b743-4d6c-aac1-30bc3f2807fd": {
@@ -2798,7 +2991,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.basicity-order-in-aqueous-solution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -2809,6 +3002,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.basicity-order-in-aqueous-solution",
+        "chemistry.amines.aqueous-basicity-order-amines"
+      ],
       "key_dispute": false
     },
     "fefa59af-1cc1-4131-af55-455608203d8d": {
@@ -2857,7 +3054,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.amines.classification-by-nitrogen-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2866,8 +3063,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.amines.classification-by-nitrogen-substitution",
+        "chemistry.amines.amine-degree-classification"
+      ],
       "key_dispute": false
     },
     "068bcfc7-d36e-4ff2-97db-2d81317162f9": {
@@ -2910,7 +3111,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.heme-iron-oxidation-methemoglobin",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -2921,6 +3122,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.heme-iron-oxidation-methemoglobin",
+        "chemistry.biomolecules.methemoglobin-iron-oxidation"
+      ],
       "key_dispute": false
     },
     "131fc0d5-a6e7-48ff-81da-cd132d329d54": {
@@ -2963,7 +3168,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.metal-ion-in-biomolecule-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -2974,6 +3179,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.metal-redox-couples-in-proteins",
+        "chemistry.biomolecules.metal-ion-in-biomolecule-match"
+      ],
       "key_dispute": false
     },
     "17083bb8-8879-4408-ac7c-a4064ec13fe6": {
@@ -3020,7 +3229,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.henderson-hasselbalch-species-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3031,6 +3240,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.henderson-hasselbalch-species-ratio",
+        "chemistry.biomolecules.phosphate-species-ratio-near-pka"
+      ],
       "key_dispute": false
     },
     "722881ec-f5e1-40b4-b118-c28b98c1a961": {
@@ -3090,6 +3303,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.chelate-effect-entropy-driver",
+        "chemistry.biomolecules.chelate-effect-entropy-driver"
+      ],
       "key_dispute": false
     },
     "8104e6a0-3d6c-441e-bbe4-56e3df237616": {
@@ -3132,7 +3349,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.heme-iron-coordination-number",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3143,6 +3360,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.heme-iron-coordination-number",
+        "chemistry.biomolecules.hemoglobin-iron-coordination-number"
+      ],
       "key_dispute": false
     },
     "9b44865e-02a2-4ad6-a447-ad48d4439207": {
@@ -3185,7 +3406,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.thioether-side-chain-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3196,6 +3417,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.thioether-side-chain-identification",
+        "chemistry.biomolecules.methionine-thioether-side-chain"
+      ],
       "key_dispute": false
     },
     "a22390d1-7bd3-4493-bb24-372747fec7c3": {
@@ -3238,7 +3463,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.cysteine-disulfide-bond-role",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3249,6 +3474,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.cysteine-disulfide-bond-role",
+        "chemistry.biomolecules.disulfide-bonds-protein-stability"
+      ],
       "key_dispute": false
     },
     "f7c7a013-c3c9-458d-926d-e0cebd8a1d71": {
@@ -3291,7 +3520,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.biomolecules.metal-ion-in-biomolecule-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3302,6 +3531,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.metal-cofactor-identity-matching",
+        "chemistry.biomolecules.metal-ion-in-biomolecule-match"
+      ],
       "key_dispute": false
     },
     "fb661230-ad36-4229-a30b-9097082ac22e": {
@@ -3355,6 +3588,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.biomolecules.atp-phosphoanhydride-high-energy-bond",
+        "chemistry.biomolecules.atp-phosphoanhydride-high-energy-bond"
+      ],
       "key_dispute": false
     },
     "0998447e-54b1-488f-ac39-4753a5039bea": {
@@ -3408,7 +3645,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.polymer-kinetic-phenomena-causes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3419,6 +3656,10 @@
         "agreed": "hard",
         "corrected": "hard"
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.polymer-kinetic-phenomena-causes",
+        "chemistry.chemical-kinetics.polymerisation-rate-anomalies"
+      ],
       "key_dispute": true
     },
     "0a8feb68-22ed-47d2-b06f-a89ad3f4e7dd": {
@@ -3461,7 +3702,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.pseudo-first-order-half-life",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3472,6 +3713,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.first-order-half-life-from-rate-constant",
+        "chemistry.chemical-kinetics.pseudo-first-order-half-life"
+      ],
       "key_dispute": false
     },
     "0b3b8ab0-61e9-4899-85fc-59a9a8157168": {
@@ -3522,7 +3767,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.amine-catalysed-ester-hydrolysis",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -3533,6 +3778,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.amine-catalysed-ester-hydrolysis",
+        "chemistry.chemical-kinetics.amine-catalysis-of-ester-hydrolysis"
+      ],
       "key_dispute": true
     },
     "2299a0bc-5b2c-41aa-92bf-9e0224de4002": {
@@ -3579,7 +3828,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.activation-energy-temperature-sensitivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3590,6 +3839,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.activation-energy-temperature-sensitivity",
+        "chemistry.chemical-kinetics.activation-energy-and-temperature-sensitivity"
+      ],
       "key_dispute": false
     },
     "25ccd3b4-666f-464c-aa0d-dec36f141e0a": {
@@ -3652,6 +3905,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.radical-polymerisation-rate-law",
+        "chemistry.chemical-kinetics.radical-polymerisation-rate-law"
+      ],
       "key_dispute": false
     },
     "2ffe9b23-374d-4dd4-bab3-cfb58ccd9079": {
@@ -3694,7 +3951,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.sn-e-mechanism-rate-law-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3705,6 +3962,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.sn-e-mechanism-rate-law-matching",
+        "chemistry.chemical-kinetics.mechanism-to-rate-law-matching"
+      ],
       "key_dispute": false
     },
     "35a48858-fc1d-4ef3-9c8e-3b56bed78509": {
@@ -3747,7 +4008,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.order-from-initial-rate-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3758,6 +4019,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.order-from-initial-rate-ratio",
+        "chemistry.chemical-kinetics.order-from-initial-rate-data"
+      ],
       "key_dispute": false
     },
     "38dc6c77-882d-4afe-b277-16f8c5b0afa4": {
@@ -3819,6 +4084,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.radical-polymerisation-rate-law",
+        "chemistry.chemical-kinetics.radical-polymerisation-rate-law"
+      ],
       "key_dispute": false
     },
     "450d2697-7228-4a12-9de8-490c561749dd": {
@@ -3861,7 +4130,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.second-order-half-life-inverse-concentration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -3870,8 +4139,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.second-order-half-life-inverse-concentration",
+        "chemistry.chemical-kinetics.second-order-integrated-rate-law-equal-concentrations"
+      ],
       "key_dispute": false
     },
     "483859b7-ae0d-4458-b3db-fc7037e3815d": {
@@ -3922,7 +4195,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.pre-exponential-factor-meaning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -3933,6 +4206,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.pre-exponential-factor-meaning",
+        "chemistry.chemical-kinetics.arrhenius-pre-exponential-factor-meaning"
+      ],
       "key_dispute": false
     },
     "5129e2b1-b910-483b-89a3-7b8f22c53cce": {
@@ -3986,6 +4263,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.sn2-steric-hindrance-rate",
+        "chemistry.chemical-kinetics.sn2-steric-hindrance-rate"
+      ],
       "key_dispute": false
     },
     "559ddfe6-91ae-43f9-8d35-a7564d868728": {
@@ -4037,7 +4318,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.polymerisation-type-rate-dependence",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4046,8 +4327,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.polymerisation-type-rate-dependence",
+        "chemistry.chemical-kinetics.polymerisation-kinetic-dependence-matching"
+      ],
       "key_dispute": false
     },
     "5f781503-6202-4f5e-a136-709ecd248909": {
@@ -4090,7 +4375,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.aldehyde-vs-ketone-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4101,6 +4386,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.aldehyde-vs-ketone-reactivity",
+        "chemistry.chemical-kinetics.aldehyde-vs-ketone-nucleophilic-addition-rate"
+      ],
       "key_dispute": false
     },
     "6abbc13f-9def-409f-b1ce-5f1c3cf52b67": {
@@ -4143,7 +4432,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.nitro-group-snar-meisenheimer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4152,8 +4441,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.nitro-group-snar-meisenheimer",
+        "chemistry.chemical-kinetics.nitro-group-activation-of-snar"
+      ],
       "key_dispute": false
     },
     "6ed9bbc4-30f8-49e7-8272-2a4cd0c12f61": {
@@ -4202,7 +4495,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.chain-transfer-rate-vs-molecular-weight",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4213,6 +4506,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.chain-transfer-rate-vs-molecular-weight",
+        "chemistry.chemical-kinetics.chain-transfer-effect-on-rate"
+      ],
       "key_dispute": false
     },
     "777bca75-136a-46f0-921a-3dd4412e8b26": {
@@ -4259,7 +4556,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.surface-catalysis-rate-factors",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4270,6 +4567,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.surface-catalysis-rate-factors",
+        "chemistry.chemical-kinetics.temperature-effect-on-surface-catalysed-rate"
+      ],
       "key_dispute": false
     },
     "7a6b5865-f617-46e7-aa18-62fc8943a7c0": {
@@ -4312,7 +4613,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.activation-energy-temperature-sensitivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4323,6 +4624,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.activation-energy-temperature-sensitivity",
+        "chemistry.chemical-kinetics.activation-energy-and-temperature-sensitivity"
+      ],
       "key_dispute": false
     },
     "834bd3f9-f14c-41c7-bbce-4d17f4d8b4df": {
@@ -4371,7 +4676,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.particle-size-surface-area-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4382,6 +4687,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.particle-size-surface-area-rate",
+        "chemistry.chemical-kinetics.surface-area-and-solid-reaction-rate"
+      ],
       "key_dispute": false
     },
     "87faf5ea-4082-484d-b970-3f4cdd5a2f74": {
@@ -4424,7 +4733,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.pseudo-first-order-approximation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4435,6 +4744,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.pseudo-first-order-approximation",
+        "chemistry.chemical-kinetics.pseudo-first-order-rate-expression"
+      ],
       "key_dispute": false
     },
     "88a8a814-a066-4695-a0f0-613e347d9688": {
@@ -4488,6 +4801,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.sn1-unimolecular-rate-law",
+        "chemistry.chemical-kinetics.sn1-unimolecular-rate-law"
+      ],
       "key_dispute": false
     },
     "a8260263-cd22-45bf-bc29-6d146820ae5a": {
@@ -4530,7 +4847,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.benzylic-vs-aryl-halide-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4541,6 +4858,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.benzylic-vs-aryl-halide-reactivity",
+        "chemistry.chemical-kinetics.sp3-vs-sp2-halide-reactivity"
+      ],
       "key_dispute": false
     },
     "afa7c1c4-4d46-4a61-96a2-93f89a02d904": {
@@ -4589,7 +4910,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.second-order-half-life-inverse-concentration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4600,6 +4921,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.second-order-half-life-inverse-concentration",
+        "chemistry.chemical-kinetics.half-life-dependence-on-initial-concentration"
+      ],
       "key_dispute": false
     },
     "c16ffb9d-d5e0-4f78-88e5-7e8b6999d984": {
@@ -4648,7 +4973,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.product-layer-diffusion-control",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -4659,6 +4984,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.solid-state-product-layer-diffusion",
+        "chemistry.chemical-kinetics.product-layer-diffusion-control"
+      ],
       "key_dispute": false
     },
     "c8ae9e56-6443-461a-9ef4-36fd31af3a0d": {
@@ -4712,6 +5041,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.first-order-time-to-fraction-remaining",
+        "chemistry.chemical-kinetics.first-order-time-to-fraction-remaining"
+      ],
       "key_dispute": false
     },
     "d3df8383-8ab7-4e52-b84d-44b14e5ef448": {
@@ -4763,7 +5096,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.product-layer-diffusion-control",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4774,6 +5107,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.solid-state-kinetic-signatures",
+        "chemistry.chemical-kinetics.product-layer-diffusion-control"
+      ],
       "key_dispute": false
     },
     "e5c125d8-d2ea-47c3-a3f4-9c1678557ee4": {
@@ -4816,7 +5153,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemical-kinetics.half-life-dependence-on-initial-concentration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -4827,6 +5164,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.half-life-dependence-by-order",
+        "chemistry.chemical-kinetics.half-life-dependence-on-initial-concentration"
+      ],
       "key_dispute": false
     },
     "2f19d621-ed8d-4c84-87f5-a4178e802fc2": {
@@ -4877,7 +5218,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.metal-ion-coordination-number",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4888,6 +5229,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.metal-ion-coordination-number",
+        "chemistry.chemistry-in-everyday-life.coordination-number-of-metal-ions"
+      ],
       "key_dispute": true
     },
     "4f78ec1f-71c9-47f8-891a-65e62b6a9419": {
@@ -4938,7 +5283,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.amine-basicity-steric-solvation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -4949,6 +5294,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.amine-basicity-steric-solvation",
+        "chemistry.chemistry-in-everyday-life.amine-basicity-aqueous-solvation"
+      ],
       "key_dispute": false
     },
     "633b76ba-7293-4a42-af76-4648d6474d3d": {
@@ -4991,7 +5340,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.tranquilizer-examples",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5000,8 +5349,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.tranquilizer-examples",
+        "chemistry.chemistry-in-everyday-life.tranquilizer-identification"
+      ],
       "key_dispute": false
     },
     "76325152-7ce9-417f-ab03-16ca1a94a394": {
@@ -5048,7 +5401,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.lanthanide-plus3-oxidation-state",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5057,8 +5410,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.lanthanide-plus3-oxidation-state",
+        "chemistry.chemistry-in-everyday-life.lanthanide-plus-three-oxidation-state"
+      ],
       "key_dispute": false
     },
     "78252784-5323-431e-ac0f-504881e331eb": {
@@ -5112,6 +5469,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.antacid-definition",
+        "chemistry.chemistry-in-everyday-life.antacid-definition"
+      ],
       "key_dispute": false
     },
     "82f5ee35-ec17-47c1-be93-52f8bfd3b576": {
@@ -5154,7 +5515,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.artificial-sweeteners-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5163,8 +5524,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.artificial-sweeteners-definition",
+        "chemistry.chemistry-in-everyday-life.artificial-sweetener-use"
+      ],
       "key_dispute": false
     },
     "9783dfb9-1d34-48ce-bed7-f75f9bda1c5f": {
@@ -5207,7 +5572,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.chromium-oxide-passive-layer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5216,8 +5581,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.chromium-oxide-passive-layer",
+        "chemistry.chemistry-in-everyday-life.chromium-oxide-passive-film"
+      ],
       "key_dispute": false
     },
     "983777eb-78a1-49b2-9898-62d51974ef44": {
@@ -5270,7 +5639,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.aniline-reactivity-under-acid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5281,6 +5650,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.aniline-reactivity-under-acid",
+        "chemistry.chemistry-in-everyday-life.aniline-activating-amino-group"
+      ],
       "key_dispute": true
     },
     "9bc7ad43-9fd9-4395-9f61-34871ac4dcca": {
@@ -5323,7 +5696,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.antibiotics-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5332,8 +5705,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.antibiotics-definition",
+        "chemistry.chemistry-in-everyday-life.antibiotic-definition"
+      ],
       "key_dispute": false
     },
     "b5075e5a-5197-41e6-b4d9-d1daf4f80ba6": {
@@ -5376,7 +5753,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.chemistry-in-everyday-life.soaps-ineffective-hard-water",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5385,8 +5762,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.soaps-ineffective-hard-water",
+        "chemistry.chemistry-in-everyday-life.soap-ineffective-in-hard-water"
+      ],
       "key_dispute": false
     },
     "b729c2a8-bee6-40f5-8b34-6715422b9a51": {
@@ -5440,6 +5821,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.drug-definition",
+        "chemistry.chemistry-in-everyday-life.drug-definition"
+      ],
       "key_dispute": false
     },
     "fa664196-9f72-48df-abd6-35c8b736e63e": {
@@ -5491,8 +5876,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.chemistry-in-everyday-life.food-preservative-definition",
+        "chemistry.chemistry-in-everyday-life.food-preservative-definition"
+      ],
       "key_dispute": false
     },
     "04eb7d7e-4544-4455-8b98-05e3d7cecf98": {
@@ -5546,6 +5935,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.oxidation-state-and-coordination-number",
+        "chemistry.coordination-compounds.oxidation-state-and-coordination-number"
+      ],
       "key_dispute": false
     },
     "26903d57-127b-4121-bfc5-c9243f3ec8f3": {
@@ -5588,7 +5981,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.spin-only-moment-to-unpaired-electrons",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5599,6 +5992,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.spin-only-moment-to-unpaired-electrons",
+        "chemistry.coordination-compounds.spin-only-magnetic-moment"
+      ],
       "key_dispute": false
     },
     "29b049cf-2991-4f30-bfac-29fff0274ab7": {
@@ -5641,7 +6038,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.chelation-therapy-for-metal-overload",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5650,8 +6047,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.chelation-therapy-for-metal-overload",
+        "chemistry.coordination-compounds.chelation-therapy-for-metal-poisoning"
+      ],
       "key_dispute": false
     },
     "346762d8-88c1-47aa-9943-6e64e5460459": {
@@ -5694,7 +6095,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.ligand-field-splitting-explains-colour",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -5705,6 +6106,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.ligand-field-splitting-explains-colour",
+        "chemistry.coordination-compounds.ligand-field-splitting-and-colour"
+      ],
       "key_dispute": false
     },
     "36c7b253-7132-4105-8500-7d8e74684223": {
@@ -5758,6 +6163,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability",
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability"
+      ],
       "key_dispute": false
     },
     "4b21d318-fb5d-4781-a5d3-87619c111f4f": {
@@ -5818,6 +6227,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability",
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability"
+      ],
       "key_dispute": true
     },
     "5942f169-bfc3-4828-b247-b68fa25ef17f": {
@@ -5860,7 +6273,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.transferrin-iron-transport",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -5869,8 +6282,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.transferrin-iron-transport",
+        "chemistry.coordination-compounds.iron-transport-by-transferrin"
+      ],
       "key_dispute": false
     },
     "5b47ef06-a4a9-4c5a-8664-b9edeb544671": {
@@ -5930,6 +6347,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.coordination-number-and-geometry",
+        "chemistry.coordination-compounds.coordination-number-and-geometry"
+      ],
       "key_dispute": true
     },
     "5f9a6212-f7c7-44d4-b70d-f032e2abd312": {
@@ -5981,8 +6402,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.chelate-kinetic-inertness",
+        "chemistry.coordination-compounds.chelate-kinetic-inertness"
+      ],
       "key_dispute": false
     },
     "645e6098-9a9b-4960-a2c3-b245549c330e": {
@@ -6025,7 +6450,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.heme-reversible-oxygen-binding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6034,8 +6459,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.heme-reversible-oxygen-binding",
+        "chemistry.coordination-compounds.oxygen-carrier-metal-choice"
+      ],
       "key_dispute": false
     },
     "70c76c1a-f320-48b1-bf96-10d479df88cd": {
@@ -6084,7 +6513,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.coordination-number-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6095,6 +6524,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.coordination-number-definition",
+        "chemistry.coordination-compounds.coordination-number-counts-donor-atoms"
+      ],
       "key_dispute": false
     },
     "7f046ecb-f986-48d7-be07-a720ac02f5b7": {
@@ -6146,8 +6579,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability",
+        "chemistry.coordination-compounds.chelate-effect-and-complex-stability"
+      ],
       "key_dispute": false
     },
     "8a19701b-efa8-4909-be0c-a91c06f1ae3e": {
@@ -6190,7 +6627,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.spin-state-from-ligand-field-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6201,6 +6638,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.spin-state-from-ligand-field-strength",
+        "chemistry.coordination-compounds.high-spin-vs-low-spin-ligand-strength"
+      ],
       "key_dispute": false
     },
     "95a013b7-eb12-4b1e-974b-8705f4a8eede": {
@@ -6247,7 +6688,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.coordination-number-and-geometry",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6258,6 +6699,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.geometry-from-cn-and-ligand-types",
+        "chemistry.coordination-compounds.coordination-number-and-geometry"
+      ],
       "key_dispute": true
     },
     "a6551582-c614-4bdd-abbf-9ccb02f07585": {
@@ -6300,7 +6745,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.spin-state-from-ligand-field-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6309,8 +6754,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.spin-state-from-ligand-field-strength",
+        "chemistry.coordination-compounds.high-spin-vs-low-spin-ligand-strength"
+      ],
       "key_dispute": false
     },
     "aea5a8e7-61ca-4e7f-936a-5404adeff855": {
@@ -6364,6 +6813,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.orbital-contribution-to-magnetic-moment",
+        "chemistry.coordination-compounds.orbital-contribution-to-magnetic-moment"
+      ],
       "key_dispute": false
     },
     "d89d6960-66b9-4322-80fa-8812aec1c1c4": {
@@ -6406,7 +6859,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.lanthanide-ion-colour-and-spectra",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6415,8 +6868,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.lanthanide-ion-colour-and-spectra",
+        "chemistry.coordination-compounds.lanthanide-colour-origin"
+      ],
       "key_dispute": false
     },
     "ddef42de-4a02-4626-b81a-1c92eb23840a": {
@@ -6463,7 +6920,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.denticity-of-ligands",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6474,6 +6931,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.denticity-of-ligands",
+        "chemistry.coordination-compounds.denticity-of-chelating-ligands"
+      ],
       "key_dispute": false
     },
     "e8619fdd-4bc3-4e5a-82a2-24f8f6909d63": {
@@ -6520,7 +6981,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.coordination-compounds.coordination-number-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6531,6 +6992,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.coordination-compounds.coordination-number-definition",
+        "chemistry.coordination-compounds.coordination-number-counts-donor-atoms"
+      ],
       "key_dispute": false
     },
     "03b92761-7cda-430e-9a49-36aecf0837f3": {
@@ -6577,7 +7042,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.spin-only-moment-high-spin-d5",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6586,8 +7051,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.spin-only-moment-high-spin-d5",
+        "chemistry.d-and-f-block-elements.high-spin-spin-only-moment"
+      ],
       "key_dispute": false
     },
     "1b6c425f-7acd-4f23-a899-b57aa0f0956f": {
@@ -6636,7 +7105,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6645,8 +7114,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+        "chemistry.d-and-f-block-elements.d-block-defined-by-differentiating-electron"
+      ],
       "key_dispute": false
     },
     "42799b56-99ae-4b1c-8388-b2f28fd10664": {
@@ -6689,7 +7162,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.jahn-teller-elongation-d9",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6698,8 +7171,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.jahn-teller-elongation-d9",
+        "chemistry.d-and-f-block-elements.jahn-teller-distortion-direction"
+      ],
       "key_dispute": false
     },
     "44e4b95d-0d09-47dc-bac9-06d9b37060bf": {
@@ -6742,7 +7219,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.d-block-placement-in-table",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -6751,8 +7228,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.d-block-placement-in-table",
+        "chemistry.d-and-f-block-elements.d-block-position-in-periodic-table"
+      ],
       "key_dispute": false
     },
     "4e3c92ab-1b8b-4a91-ad33-4b4de922e046": {
@@ -6815,6 +7296,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.coordination-number-of-complexes",
+        "chemistry.d-and-f-block-elements.coordination-number-of-complexes"
+      ],
       "key_dispute": true
     },
     "51d7b345-fea6-47bc-8740-5d422347ed75": {
@@ -6857,7 +7342,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.f-block-placement-in-table",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6868,6 +7353,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.f-block-placement-in-table",
+        "chemistry.d-and-f-block-elements.f-block-position-detached-rows"
+      ],
       "key_dispute": false
     },
     "74acc6a1-b00c-4ac8-8000-333c1bbb882e": {
@@ -6916,7 +7405,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.isomerism-type-octahedral-complexes",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -6927,6 +7416,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.isomerism-type-octahedral-complexes",
+        "chemistry.d-and-f-block-elements.geometrical-and-optical-isomerism"
+      ],
       "key_dispute": false
     },
     "89b11249-be9a-4dc7-860a-83cb58330438": {
@@ -6969,7 +7462,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.f-block-placement-in-table",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -6980,6 +7473,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.f-block-placement-in-table",
+        "chemistry.d-and-f-block-elements.f-block-position-detached-rows"
+      ],
       "key_dispute": false
     },
     "97801547-69c9-46cf-bcb1-91cebcb76df2": {
@@ -7022,7 +7519,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.d-block-placement-in-table",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7033,6 +7530,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.d-block-placement-in-table",
+        "chemistry.d-and-f-block-elements.d-block-position-in-periodic-table"
+      ],
       "key_dispute": false
     },
     "a8788f5f-643e-4561-a396-77bb9592a270": {
@@ -7083,7 +7584,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.distinguish-d-and-f-block-positions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7094,6 +7595,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.distinguish-d-and-f-block-positions",
+        "chemistry.d-and-f-block-elements.distinct-d-and-f-block-classes"
+      ],
       "key_dispute": true
     },
     "c086765a-dc1d-4762-896e-8c965616e342": {
@@ -7136,7 +7641,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -7147,6 +7652,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+        "chemistry.d-and-f-block-elements.d-block-defined-by-differentiating-electron"
+      ],
       "key_dispute": false
     },
     "ce129e80-cde1-490c-8ccc-79a246f34565": {
@@ -7189,7 +7698,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7198,8 +7707,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+        "chemistry.d-and-f-block-elements.f-block-defined-by-differentiating-electron"
+      ],
       "key_dispute": false
     },
     "d3858abd-55e7-4ea5-84ba-279b3e46332c": {
@@ -7242,7 +7755,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7251,8 +7764,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.block-classification-by-differentiating-electron",
+        "chemistry.d-and-f-block-elements.d-block-defined-by-differentiating-electron"
+      ],
       "key_dispute": false
     },
     "e2ca8a35-f69e-4d72-9c3b-9e77c7f769e3": {
@@ -7302,7 +7819,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.d-and-f-block-elements.sigma-donor-nh3-vs-cl",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7313,6 +7830,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.sigma-donor-nh3-vs-cl",
+        "chemistry.d-and-f-block-elements.sigma-donor-nh3-vs-halide"
+      ],
       "key_dispute": true
     },
     "19aced45-7e05-4bba-bbb2-4262b7bd0021": {
@@ -7355,7 +7876,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.conductivity-from-cell-constant",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7366,6 +7887,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.conductivity-from-cell-constant",
+        "chemistry.electrochemistry.conductivity-from-resistance-and-cell-constant"
+      ],
       "key_dispute": false
     },
     "2724933c-3c88-4569-a1c9-9024f62cc517": {
@@ -7419,6 +7944,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.degree-of-dissociation-from-molar-conductivity",
+        "chemistry.electrochemistry.degree-of-dissociation-from-molar-conductivity"
+      ],
       "key_dispute": false
     },
     "287a3bdb-1f6a-460d-8fe1-b65a55d4cf2e": {
@@ -7461,7 +7990,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.oxidising-strength-from-standard-potentials",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7472,6 +8001,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.oxidising-strength-from-standard-potentials",
+        "chemistry.electrochemistry.relative-oxidising-strength-from-e-values"
+      ],
       "key_dispute": false
     },
     "313ec53f-7279-4ac5-9a54-a946d797abe8": {
@@ -7514,7 +8047,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.standard-electrode-potential-properties",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7525,6 +8058,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.standard-electrode-potential-properties",
+        "chemistry.electrochemistry.she-reference-and-sign-convention"
+      ],
       "key_dispute": false
     },
     "34d45e4b-b014-4e4c-8063-6cd5d01d272d": {
@@ -7578,6 +8115,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.faraday-first-law-mass-and-charge",
+        "chemistry.electrochemistry.faraday-first-law-mass-and-charge"
+      ],
       "key_dispute": false
     },
     "3dd035fe-64e2-4480-8d58-cf76220e64c9": {
@@ -7620,7 +8161,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.concentration-cell-emf-decay-to-zero",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7629,8 +8170,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.concentration-cell-emf-decay-to-zero",
+        "chemistry.electrochemistry.emf-decay-to-zero-at-equilibrium"
+      ],
       "key_dispute": false
     },
     "6cae5119-d856-4930-83bf-176f15454396": {
@@ -7673,7 +8218,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.standard-hydrogen-electrode-reference",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7684,6 +8229,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.standard-hydrogen-electrode-reference",
+        "chemistry.electrochemistry.galvanic-cell-terms-and-she-zero"
+      ],
       "key_dispute": false
     },
     "99eb3d3c-7864-42ee-bfef-fbd0a50fc9d9": {
@@ -7726,7 +8275,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.concentration-cell-construction-and-origin",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7737,6 +8286,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.concentration-cell-construction-and-origin",
+        "chemistry.electrochemistry.concentration-cell-emf-origin-and-construction"
+      ],
       "key_dispute": false
     },
     "ae5ce2d9-680e-4116-a7d7-aa32c7906d65": {
@@ -7779,7 +8332,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.equilibrium-constant-from-cell-emf",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7790,6 +8343,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.equilibrium-constant-from-cell-emf",
+        "chemistry.electrochemistry.kc-from-standard-cell-emf"
+      ],
       "key_dispute": false
     },
     "b5ce2d3d-e7c9-4ec1-85dc-b7fe0383960a": {
@@ -7832,7 +8389,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.concentration-cell-emf-dependence-on-n",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7841,8 +8398,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.concentration-cell-emf-dependence-on-n",
+        "chemistry.electrochemistry.emf-inversely-proportional-to-n"
+      ],
       "key_dispute": false
     },
     "b9cc193a-71ff-40b7-81d1-b92a7ea687b7": {
@@ -7885,7 +8446,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.matching-electrochemical-devices-and-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -7896,6 +8457,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.matching-electrochemical-devices-and-principles",
+        "chemistry.electrochemistry.match-electrode-devices-to-principles"
+      ],
       "key_dispute": false
     },
     "f83154a3-c282-4be1-bf85-1ef89b270449": {
@@ -7938,7 +8503,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.electrochemistry.nernst-effect-of-h-ion-concentration",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -7947,8 +8512,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.electrochemistry.nernst-effect-of-h-ion-concentration",
+        "chemistry.electrochemistry.effect-of-ph-on-cell-emf"
+      ],
       "key_dispute": false
     },
     "08c08e36-3259-445a-ab14-3d680e1bd46c": {
@@ -8000,8 +8569,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.snar-activation-by-nitro-group",
+        "chemistry.haloalkanes-and-haloarenes.snar-activation-by-nitro-group"
+      ],
       "key_dispute": false
     },
     "288afd5f-33c1-4cf0-8c78-1af59f207608": {
@@ -8050,7 +8623,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.chloroform-solubility-hydrogen-bonding",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8061,6 +8634,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.chloroform-solubility-hydrogen-bonding",
+        "chemistry.haloalkanes-and-haloarenes.chloroform-miscibility-ethanol-water"
+      ],
       "key_dispute": true
     },
     "2b4a9f48-293d-429a-a51b-449c1ae907ac": {
@@ -8114,6 +8691,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene",
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene"
+      ],
       "key_dispute": false
     },
     "2e366be5-5c65-49a2-9779-baefd7ecb6d2": {
@@ -8156,7 +8737,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.saytzeff-rule-in-elimination",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8167,6 +8748,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.saytzeff-rule-in-elimination",
+        "chemistry.haloalkanes-and-haloarenes.saytzeff-rule-major-alkene"
+      ],
       "key_dispute": false
     },
     "3ae6db51-ab9c-4a41-9325-fec4b0b930c8": {
@@ -8220,6 +8805,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene",
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene"
+      ],
       "key_dispute": false
     },
     "7f59e0b2-469d-454c-a071-06866d9b3463": {
@@ -8262,7 +8851,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.sn1-vs-sn2-mechanism-features",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8273,6 +8862,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.sn1-vs-sn2-mechanism-features",
+        "chemistry.haloalkanes-and-haloarenes.sn1-sn2-mechanism-distinctions"
+      ],
       "key_dispute": false
     },
     "894575c5-1a81-4334-939b-15c417e59b66": {
@@ -8319,7 +8912,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.resonance-stabilized-carbocation-sn1",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8328,8 +8921,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.allylic-halide-resonance-sn1",
+        "chemistry.haloalkanes-and-haloarenes.resonance-stabilized-carbocation-sn1"
+      ],
       "key_dispute": false
     },
     "8bbb8000-2d0c-4fab-81c8-86526bbbaa6d": {
@@ -8383,6 +8980,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene",
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene"
+      ],
       "key_dispute": false
     },
     "ccdb1f24-d090-40a9-a9fc-e5a6cb35f56e": {
@@ -8425,7 +9026,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.alcoholic-vs-aqueous-koh-conditions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8436,6 +9037,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.alcoholic-vs-aqueous-koh-conditions",
+        "chemistry.haloalkanes-and-haloarenes.elimination-needs-alcoholic-koh"
+      ],
       "key_dispute": false
     },
     "e2e4a5b5-69fc-41d1-941f-af2faabe8aee": {
@@ -8495,6 +9100,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene",
+        "chemistry.haloalkanes-and-haloarenes.classify-haloalkane-vs-haloarene"
+      ],
       "key_dispute": false
     },
     "fe51b33d-7b02-4c3b-a828-f97882f895a1": {
@@ -8541,7 +9150,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.haloalkanes-and-haloarenes.resonance-stabilized-carbocation-sn1",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8552,6 +9161,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.benzyl-vs-aryl-carbocation-stability",
+        "chemistry.haloalkanes-and-haloarenes.resonance-stabilized-carbocation-sn1"
+      ],
       "key_dispute": false
     },
     "0ee80ae1-8b48-4f27-9347-67c4b3df82ff": {
@@ -8594,7 +9207,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.adsorption-enhances-surface-reaction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8603,8 +9216,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.adsorption-enhances-surface-reaction",
+        "chemistry.isolation-of-elements.adsorption-increases-surface-reaction-rate"
+      ],
       "key_dispute": false
     },
     "2fe0d0cc-d99a-4d6c-a9c2-e393362ceeef": {
@@ -8647,7 +9264,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.powdering-increases-surface-area",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -8658,6 +9275,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.powdering-increases-surface-area",
+        "chemistry.isolation-of-elements.crushing-increases-surface-area"
+      ],
       "key_dispute": false
     },
     "47069bca-a259-48cc-b127-762aa890c822": {
@@ -8700,7 +9321,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8711,6 +9332,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.electrolysis-for-high-reactivity-metals",
+        "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity"
+      ],
       "key_dispute": false
     },
     "48ba6183-9382-4a83-9a78-8853e24bfdc6": {
@@ -8753,7 +9378,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.carbon-reduction-limit-ellingham",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -8762,8 +9387,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.carbon-reduction-limit-ellingham",
+        "chemistry.isolation-of-elements.carbon-reduction-not-feasible-for-reactive-metals"
+      ],
       "key_dispute": false
     },
     "49fdd1ce-ebbb-4458-b0c3-c60eba14b263": {
@@ -8812,7 +9441,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.copper-bessemer-self-reduction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8823,6 +9452,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.copper-bessemer-self-reduction",
+        "chemistry.isolation-of-elements.copper-extraction-steps"
+      ],
       "key_dispute": true
     },
     "4d24f42b-1300-42ef-ae96-d9796c98db1c": {
@@ -8865,7 +9498,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.hydrometallurgy-and-bioleaching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8876,6 +9509,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.hydrometallurgy-and-bioleaching",
+        "chemistry.isolation-of-elements.hydrometallurgy-scope-and-bioleaching"
+      ],
       "key_dispute": false
     },
     "64424b46-8997-41ad-8ee8-fd92fdf831cb": {
@@ -8918,7 +9555,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.refining-method-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8929,6 +9566,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.refining-method-principles",
+        "chemistry.isolation-of-elements.refining-methods-principles"
+      ],
       "key_dispute": false
     },
     "6507f3d9-bbaa-438f-9daf-a49fce0e72c2": {
@@ -8977,7 +9618,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.copper-pyrites-roasting-products",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -8988,6 +9629,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.copper-pyrites-roasting-products",
+        "chemistry.isolation-of-elements.copper-sulphide-concentration-and-roasting"
+      ],
       "key_dispute": false
     },
     "6adaacdb-356f-47f7-9908-e19c64bb94be": {
@@ -9037,7 +9682,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.electrolysis-for-high-reactivity-metals",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9048,6 +9693,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.electrolysis-for-high-reactivity-metals",
+        "chemistry.isolation-of-elements.aluminium-electrolysis-reason"
+      ],
       "key_dispute": true
     },
     "7361b4a5-ad79-48a1-b2c4-3cafc92ad56e": {
@@ -9090,7 +9739,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9101,6 +9750,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.reactivity-determines-extraction-method",
+        "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity"
+      ],
       "key_dispute": false
     },
     "751fb6bf-e5ce-4fd0-844d-3abcc2977fe9": {
@@ -9152,8 +9805,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.fcc-unit-cell-density",
+        "chemistry.isolation-of-elements.fcc-unit-cell-density"
+      ],
       "key_dispute": false
     },
     "967b3e18-7485-4ae4-9908-ec1cfb2c4e25": {
@@ -9196,7 +9853,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9207,6 +9864,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.reactivity-determines-extraction-method",
+        "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity"
+      ],
       "key_dispute": false
     },
     "968a1525-47b8-4bb6-8c3a-3f27226bd6c3": {
@@ -9267,6 +9928,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.roasting-converts-sulphide-to-oxide",
+        "chemistry.isolation-of-elements.roasting-converts-sulphide-to-oxide"
+      ],
       "key_dispute": false
     },
     "9a7f07cb-ab14-4cf3-acb1-9934febf8152": {
@@ -9309,7 +9974,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9320,6 +9985,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.reactivity-determines-extraction-method",
+        "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity"
+      ],
       "key_dispute": false
     },
     "a8cfa5ed-2ad0-4377-bfc5-976df4e3b04c": {
@@ -9373,6 +10042,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.aluminium-extraction-steps",
+        "chemistry.isolation-of-elements.aluminium-extraction-steps"
+      ],
       "key_dispute": false
     },
     "a953f41a-b5bf-41a5-889b-17065d73e5f9": {
@@ -9415,7 +10088,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.schottky-defects-enhance-diffusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9426,6 +10099,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.schottky-defects-enhance-diffusion",
+        "chemistry.isolation-of-elements.solid-defects-ionic-diffusion"
+      ],
       "key_dispute": false
     },
     "aab65b07-8ace-4eb5-893f-d168ae60e4f7": {
@@ -9468,7 +10145,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.copper-pyrites-roasting-products",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9479,6 +10156,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.copper-pyrites-roasting-products",
+        "chemistry.isolation-of-elements.metal-extraction-processes-recall"
+      ],
       "key_dispute": false
     },
     "acce048b-1cea-4543-a000-69b26d2fb53b": {
@@ -9521,7 +10202,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.concentration-method-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9532,6 +10213,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.concentration-method-principles",
+        "chemistry.isolation-of-elements.concentration-methods-principles"
+      ],
       "key_dispute": false
     },
     "d09bdf97-6c0e-4e4b-b5c0-e63f11a596c9": {
@@ -9574,7 +10259,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.concentration-method-principles",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9585,6 +10270,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.concentration-method-principles",
+        "chemistry.isolation-of-elements.concentration-methods-principles"
+      ],
       "key_dispute": false
     },
     "d245bc71-6e93-4cfe-a685-a5ee188ad2ac": {
@@ -9627,7 +10316,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9638,6 +10327,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.reactivity-determines-extraction-method",
+        "chemistry.isolation-of-elements.extraction-method-depends-on-reactivity"
+      ],
       "key_dispute": false
     },
     "f9f78980-2907-417d-b942-871b9eb4fbda": {
@@ -9680,7 +10373,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.isolation-of-elements.zinc-oxide-carbon-reduction-reason",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9691,6 +10384,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.isolation-of-elements.zinc-oxide-carbon-reduction-reason",
+        "chemistry.isolation-of-elements.zinc-blende-roasting-and-reduction"
+      ],
       "key_dispute": false
     },
     "06b8366c-02c4-408c-b1f7-bfde011910eb": {
@@ -9733,7 +10430,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.inert-pair-effect",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -9744,6 +10441,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.inert-pair-effect-highest-oxidation-state",
+        "chemistry.p-block-elements.inert-pair-effect"
+      ],
       "key_dispute": false
     },
     "0cde91a7-9840-4eb9-95a1-5047348e1631": {
@@ -9792,7 +10493,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.halogen-reactivity-and-diatomic-nature",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -9803,6 +10504,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.halogen-reactivity-and-diatomic-nature",
+        "chemistry.p-block-elements.halogen-reactivity-not-uniform"
+      ],
       "key_dispute": true
     },
     "2ad1c931-3022-4298-b40b-2268f912f0ad": {
@@ -9856,6 +10561,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.chlorine-oxyacid-strength-trend",
+        "chemistry.p-block-elements.chlorine-oxyacid-strength-trend"
+      ],
       "key_dispute": false
     },
     "2d4605b2-6b59-4f1e-893d-b7b30e88b939": {
@@ -9905,7 +10614,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.carbon-family-negative-oxidation-state-trend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9914,8 +10623,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.carbon-family-negative-oxidation-state-trend",
+        "chemistry.p-block-elements.group-14-minus-four-state-trend"
+      ],
       "key_dispute": true
     },
     "30264c85-7493-4225-982d-bf38bc2e26fa": {
@@ -9958,7 +10671,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.second-row-pi-bonding-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -9967,8 +10680,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.second-row-pi-bonding-strength",
+        "chemistry.p-block-elements.second-row-pi-bonding-overlap"
+      ],
       "key_dispute": false
     },
     "32051314-a9cb-42b0-afc5-13643a0892a2": {
@@ -10011,7 +10728,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.coordinate-bond-in-lewis-adduct",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10022,6 +10739,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.coordinate-bond-in-lewis-adduct",
+        "chemistry.p-block-elements.lewis-adduct-dative-bond"
+      ],
       "key_dispute": false
     },
     "3f9ac7f9-2e45-4432-9cae-7a403a514d9f": {
@@ -10064,7 +10785,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.oxygen-paramagnetism-and-ozone-diamagnetism",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10073,8 +10794,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.oxygen-paramagnetism-and-ozone-diamagnetism",
+        "chemistry.p-block-elements.o2-paramagnetism-and-bond-order"
+      ],
       "key_dispute": false
     },
     "48f88588-4a17-4949-bd23-ebf80cc25523": {
@@ -10117,7 +10842,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.oxygen-vs-sulfur-hydride-bond-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10128,6 +10853,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.oxygen-vs-sulfur-hydride-bond-strength",
+        "chemistry.p-block-elements.o-h-vs-s-h-bond-strength"
+      ],
       "key_dispute": false
     },
     "609edbdc-cea4-48dc-9efe-c753af8b61b4": {
@@ -10181,6 +10910,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.variable-oxidation-states-from-ns-np",
+        "chemistry.p-block-elements.variable-oxidation-states-from-ns-np"
+      ],
       "key_dispute": false
     },
     "7c4ac5c5-f0e6-462d-b886-b0d46710d3d4": {
@@ -10223,7 +10956,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.electronegativity-and-radius-trend-across-period",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10232,8 +10965,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.electronegativity-and-radius-trend-across-period",
+        "chemistry.p-block-elements.en-and-radius-trend-across-period"
+      ],
       "key_dispute": false
     },
     "84b74de7-8878-45f5-bd83-964e059f273d": {
@@ -10276,7 +11013,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.oxidation-state-and-coordination-number",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10287,6 +11024,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.oxidation-state-and-coordination-number",
+        "chemistry.p-block-elements.oxidation-state-from-ion-charge"
+      ],
       "key_dispute": false
     },
     "885112d1-1893-46b4-8949-c5e5304d9faf": {
@@ -10336,7 +11077,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.pyramidal-hydride-bond-angle-trend",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10347,6 +11088,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.pyramidal-hydride-bond-angle-trend",
+        "chemistry.p-block-elements.bond-angle-and-electronegativity"
+      ],
       "key_dispute": true
     },
     "8ca5fdd9-954b-47e2-a46a-93a3421f037a": {
@@ -10389,7 +11134,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.noble-gas-inertness-explanation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10400,6 +11145,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.noble-gas-inertness-explanation",
+        "chemistry.p-block-elements.noble-gas-inertness-reason"
+      ],
       "key_dispute": false
     },
     "af52e8e0-8685-4069-93e1-3fcdd27b65f4": {
@@ -10448,7 +11197,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.halogen-variable-oxidation-states",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10459,6 +11208,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.halogen-variable-oxidation-states",
+        "chemistry.p-block-elements.halogen-oxidation-states-range"
+      ],
       "key_dispute": true
     },
     "c2eb01dd-dc58-4015-a147-03956a77a639": {
@@ -10510,7 +11263,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.inert-pair-effect",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10521,6 +11274,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.inert-pair-effect-lower-oxidation-state",
+        "chemistry.p-block-elements.inert-pair-effect"
+      ],
       "key_dispute": true
     },
     "e3def1ac-60a1-4306-b12d-314844d97568": {
@@ -10563,7 +11320,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.chelating-ligand-denticity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -10574,6 +11331,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.chelating-ligand-denticity",
+        "chemistry.p-block-elements.chelating-ligand-identification"
+      ],
       "key_dispute": false
     },
     "ec523bbe-9c5f-44b7-ae95-83ffed6a598e": {
@@ -10622,7 +11383,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.p-block-elements.oxide-acidity-trend-down-group",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10633,6 +11394,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.p-block-elements.oxide-acidity-trend-down-group",
+        "chemistry.p-block-elements.group-15-oxide-acidity-trend"
+      ],
       "key_dispute": true
     },
     "1963223e-b109-4294-b329-0401d22136c4": {
@@ -10684,7 +11449,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.substituent-polarity-and-tg",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10695,6 +11460,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.substituent-polarity-and-tg",
+        "chemistry.polymers.tg-effect-of-polar-substituent"
+      ],
       "key_dispute": false
     },
     "3caa3b34-f14f-47a9-a2b3-f93de4a9edba": {
@@ -10737,7 +11506,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.plasticizer-mechanism-and-tg",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10748,6 +11517,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.plasticizer-mechanism-and-tg",
+        "chemistry.polymers.plasticizer-action-on-pvc"
+      ],
       "key_dispute": false
     },
     "5b7734f2-acd6-420f-86ac-773f07896efd": {
@@ -10799,7 +11572,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.distinguishing-phenolic-oh-from-ether",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -10810,6 +11583,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.distinguishing-phenolic-oh-from-ether",
+        "chemistry.polymers.distinguish-phenolic-oh-from-ether"
+      ],
       "key_dispute": false
     },
     "677c676b-f5fc-4632-ad5b-d47e99d5a71d": {
@@ -10852,7 +11629,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.aryl-halide-resists-nucleophilic-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10863,6 +11640,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.aryl-halide-snar-inertness",
+        "chemistry.polymers.aryl-halide-resists-nucleophilic-substitution"
+      ],
       "key_dispute": false
     },
     "72d6d7fb-8e4e-496f-bca0-a205b0a81d28": {
@@ -10909,7 +11690,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.aryl-halide-resists-nucleophilic-substitution",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -10920,6 +11701,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.alkyl-vs-aryl-halide-reactivity",
+        "chemistry.polymers.aryl-halide-resists-nucleophilic-substitution"
+      ],
       "key_dispute": false
     },
     "828df98d-6e58-4b20-927b-47d620512075": {
@@ -10973,6 +11758,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.definition-of-polymer",
+        "chemistry.polymers.definition-of-polymer"
+      ],
       "key_dispute": false
     },
     "b452f23d-9165-43a8-9206-afefdb78354a": {
@@ -11015,7 +11804,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.synthetic-rubber-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11024,8 +11813,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.synthetic-rubber-identification",
+        "chemistry.polymers.examples-of-synthetic-rubber"
+      ],
       "key_dispute": false
     },
     "ce14da77-5dcd-42d5-9eaf-ccfa2128eb13": {
@@ -11068,7 +11861,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.thermosetting-vs-thermoplastic",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11079,6 +11872,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.thermosetting-vs-thermoplastic",
+        "chemistry.polymers.examples-of-thermosetting-polymers"
+      ],
       "key_dispute": false
     },
     "cf1c56db-71d0-4e96-9873-27c870b8c5d9": {
@@ -11121,7 +11918,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.copolymer-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11132,6 +11929,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.copolymer-identification",
+        "chemistry.polymers.copolymer-vs-homopolymer-identification"
+      ],
       "key_dispute": false
     },
     "e29cc39f-025c-4824-afe0-40f13d76384a": {
@@ -11174,7 +11975,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.polymers.polymer-from-ethene-monomer",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11185,6 +11986,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.polymers.polymer-from-ethene-monomer",
+        "chemistry.polymers.common-polymer-monomer-pairs"
+      ],
       "key_dispute": false
     },
     "0c1ca226-c49b-4ead-866a-44dfe5f5aeb7": {
@@ -11227,7 +12032,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.vacancy-concentration-temperature",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11236,8 +12041,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.vacancy-concentration-temperature",
+        "chemistry.solid-state.vacancy-entropy-drives-temperature-dependence"
+      ],
       "key_dispute": false
     },
     "1177a338-ca8c-46da-abff-3b7ee3b39f53": {
@@ -11284,7 +12093,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.porosity-tortuosity-diffusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11295,6 +12104,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.porosity-tortuosity-diffusion",
+        "chemistry.solid-state.porosity-tortuosity-slows-diffusion"
+      ],
       "key_dispute": false
     },
     "153c7f65-b0fe-4353-b462-0a097a90d06a": {
@@ -11337,7 +12150,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.band-gap-insulators",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11348,6 +12161,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.band-gap-insulators",
+        "chemistry.solid-state.band-gap-explains-insulation"
+      ],
       "key_dispute": false
     },
     "45dde24d-21e9-4f61-8e47-86b7815d5909": {
@@ -11396,7 +12213,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.packing-type-properties-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11407,6 +12224,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.packing-type-properties-matching",
+        "chemistry.solid-state.close-packing-stacking-and-efficiency"
+      ],
       "key_dispute": false
     },
     "4c748484-4815-4826-9ea6-87cec2191936": {
@@ -11460,6 +12281,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.amorphous-vs-crystalline-properties",
+        "chemistry.solid-state.amorphous-vs-crystalline-properties"
+      ],
       "key_dispute": false
     },
     "54a7744f-8d57-421a-a9de-468540f509a0": {
@@ -11502,7 +12327,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.point-defect-types-and-consequences",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11513,6 +12338,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.point-defect-types-and-consequences",
+        "chemistry.solid-state.point-defect-consequences"
+      ],
       "key_dispute": false
     },
     "5f429ef2-894a-43dc-b813-feae6c89c41c": {
@@ -11564,8 +12393,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.vacancy-fraction-boltzmann-estimate",
+        "chemistry.solid-state.vacancy-fraction-boltzmann-estimate"
+      ],
       "key_dispute": false
     },
     "7f86e534-f1dd-4234-8811-923434d03e14": {
@@ -11619,6 +12452,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.fcc-packing-efficiency",
+        "chemistry.solid-state.fcc-packing-efficiency"
+      ],
       "key_dispute": false
     },
     "84aa2cad-3419-49e5-a4c8-b51bb823e2fd": {
@@ -11665,7 +12502,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.porosity-tortuosity-diffusion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -11676,6 +12513,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.porosity-tortuosity-diffusion",
+        "chemistry.solid-state.porosity-tortuosity-slows-diffusion"
+      ],
       "key_dispute": false
     },
     "ad52ecd0-a57c-461b-9a43-1a46bf055726": {
@@ -11735,6 +12576,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.electronic-polarization-optical-frequency",
+        "chemistry.solid-state.electronic-polarization-optical-frequency"
+      ],
       "key_dispute": false
     },
     "bd127a4f-a11f-4ff0-a931-7b28ecbdae19": {
@@ -11777,7 +12622,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.conductivity-ionic-solids-vs-melt",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11788,6 +12633,10 @@
         "agreed": "easy",
         "corrected": "easy"
       },
+      "objective_tags": [
+        "chemistry.solid-state.conductivity-ionic-solids-vs-melt",
+        "chemistry.solid-state.ionic-solids-conduct-only-molten"
+      ],
       "key_dispute": false
     },
     "ca2b76da-499c-4618-85ed-54930207c533": {
@@ -11841,6 +12690,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.surface-defects-catalytic-sites",
+        "chemistry.solid-state.surface-defects-catalytic-sites"
+      ],
       "key_dispute": false
     },
     "ca408a34-c501-48be-9dd9-f6247f21fe9f": {
@@ -11883,7 +12736,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solid-state.defects-increase-ionic-conductivity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -11894,6 +12747,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solid-state.defects-increase-ionic-conductivity",
+        "chemistry.solid-state.defects-enable-ionic-conduction"
+      ],
       "key_dispute": false
     },
     "00810b98-f174-49ed-a714-ae55dd90644b": {
@@ -11936,7 +12793,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.hydrogen-bonding-and-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -11945,8 +12802,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.hydrogen-bonding-and-solubility",
+        "chemistry.solutions.solubility-ranking-by-intermolecular-forces"
+      ],
       "key_dispute": false
     },
     "013d8549-36cf-43e4-a27e-a6f97d4f7fea": {
@@ -11995,7 +12856,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.polymer-additive-effects",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12006,6 +12867,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.polymer-additive-effects",
+        "chemistry.solutions.polymer-additive-solution-effects"
+      ],
       "key_dispute": false
     },
     "01c26888-9d6c-420f-8cea-37470e829b8b": {
@@ -12059,6 +12924,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.concentration-term-definitions",
+        "chemistry.solutions.concentration-term-definitions"
+      ],
       "key_dispute": false
     },
     "08717e1e-1edf-4a56-84af-18232e6ac24d": {
@@ -12101,7 +12970,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.moles-from-molarity-and-volume",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12110,8 +12979,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.moles-from-molarity-and-volume",
+        "chemistry.solutions.molarity-to-moles-conversion"
+      ],
       "key_dispute": false
     },
     "0aa02223-a9dc-4cfa-b064-3f4398716abb": {
@@ -12158,7 +13031,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12169,6 +13042,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-solubility",
+        "chemistry.solutions.metal-hydroxide-redissolution"
+      ],
       "key_dispute": false
     },
     "0aafb3ed-2b65-48b7-9894-21a096562909": {
@@ -12215,7 +13092,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12226,6 +13103,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-solubility",
+        "chemistry.solutions.complexation-raises-salt-solubility"
+      ],
       "key_dispute": false
     },
     "0cc9b9b6-5b54-49e7-90b1-f4be4dfc1cf2": {
@@ -12268,7 +13149,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.types-of-solutions-with-examples",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12277,8 +13158,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.types-of-solutions-with-examples",
+        "chemistry.solutions.solution-types-with-examples"
+      ],
       "key_dispute": false
     },
     "0f72e865-0198-495e-87dd-ca7628e52e6e": {
@@ -12330,7 +13215,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.theta-temperature-ideal-chain",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12341,6 +13226,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.theta-temperature-ideal-chain",
+        "chemistry.solutions.theta-temperature-ideal-polymer-chain"
+      ],
       "key_dispute": true
     },
     "1121980f-801c-4e28-a6ee-f5fa93ca1fbb": {
@@ -12383,7 +13272,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.raoult-law-ideal-solution-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -12394,6 +13283,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.raoult-law-ideal-solution-condition",
+        "chemistry.solutions.raoult-law-ideal-condition"
+      ],
       "key_dispute": false
     },
     "19acba20-0b2e-4828-8d99-7341cad751f3": {
@@ -12440,7 +13333,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.cryolite-lowers-melting-point",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12449,8 +13342,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.cryolite-lowers-melting-point",
+        "chemistry.solutions.cryolite-lowers-alumina-melting-point"
+      ],
       "key_dispute": false
     },
     "19cdfce3-0ee3-405f-8ed5-f12fc6b821fd": {
@@ -12504,6 +13401,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.osmosis-direction-of-solvent-flow",
+        "chemistry.solutions.osmosis-direction-of-solvent-flow"
+      ],
       "key_dispute": false
     },
     "1a0fccf6-adea-4fb9-802a-ed411393e47b": {
@@ -12550,7 +13451,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.hydrogen-bonding-and-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12559,8 +13460,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.hydrogen-bonding-and-solubility",
+        "chemistry.solutions.polymer-solubility-hydrogen-bonding"
+      ],
       "key_dispute": false
     },
     "1c95e662-3e0a-4b88-8aa3-1c751e36c090": {
@@ -12610,7 +13515,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -12619,8 +13524,12 @@
           "hard"
         ],
         "agreed": "hard",
-        "corrected": "hard"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-solubility",
+        "chemistry.solutions.complexation-raises-salt-solubility"
+      ],
       "key_dispute": false
     },
     "25308217-fce2-4b81-98d3-5e996d71c691": {
@@ -12672,8 +13581,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.mole-fraction-calculation",
+        "chemistry.solutions.mole-fraction-calculation"
+      ],
       "key_dispute": false
     },
     "2a2d07ff-9db6-434b-a7df-b39d29267827": {
@@ -12723,7 +13636,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.nitro-group-stabilizes-anionic-intermediate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12734,6 +13647,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.nitro-group-stabilizes-anionic-intermediate",
+        "chemistry.solutions.anionic-complex-stabilisation-conductivity"
+      ],
       "key_dispute": false
     },
     "2c49757d-e843-40d9-9157-1d313bb3f667": {
@@ -12780,7 +13697,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-lowers-van-t-hoff-factor",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12791,6 +13708,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-lowers-van-t-hoff-factor",
+        "chemistry.solutions.complexation-reduces-van-t-hoff-factor"
+      ],
       "key_dispute": false
     },
     "31afbd26-a206-4c82-9d72-10f6e9e4fb9c": {
@@ -12844,6 +13765,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.mole-fractions-sum-to-one",
+        "chemistry.solutions.mole-fractions-sum-to-one"
+      ],
       "key_dispute": false
     },
     "32c9df4a-0a6a-4066-a31c-2e8c46ade1bf": {
@@ -12892,7 +13817,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.ionic-strength-activity-coefficients",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -12903,6 +13828,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.ionic-strength-activity-coefficients",
+        "chemistry.solutions.ionic-strength-activity-effect"
+      ],
       "key_dispute": false
     },
     "33381ab6-d781-4ea3-ac4f-e56f30814d10": {
@@ -12954,8 +13883,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.strong-vs-weak-electrolyte-ionization",
+        "chemistry.solutions.strong-vs-weak-electrolyte-ionization"
+      ],
       "key_dispute": false
     },
     "445ae24f-2638-45b5-b4e4-eb5f0913d7f1": {
@@ -13004,7 +13937,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.bp-elevation-cause-vapour-pressure-lowering",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13015,6 +13948,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.bp-elevation-cause-vapour-pressure-lowering",
+        "chemistry.solutions.bp-elevation-nonvolatile-solute"
+      ],
       "key_dispute": false
     },
     "46f197aa-0edd-4cb6-823d-1cb0290bdae0": {
@@ -13057,7 +13994,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.raoult-law-total-vapour-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13068,6 +14005,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.raoult-law-total-vapour-pressure",
+        "chemistry.solutions.raoult-law-linear-total-pressure"
+      ],
       "key_dispute": false
     },
     "4bbe2cfa-6fa9-45d6-9bc2-e3798fbe2eb7": {
@@ -13114,7 +14055,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.salting-out-by-ionic-strength",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13123,8 +14064,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.salting-out-by-ionic-strength",
+        "chemistry.solutions.salting-out-hydrophobic-effect"
+      ],
       "key_dispute": false
     },
     "53e95947-9ae8-4bf1-b4f9-79582a4b7852": {
@@ -13173,7 +14118,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13184,6 +14129,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-solubility",
+        "chemistry.solutions.complexation-raises-salt-solubility"
+      ],
       "key_dispute": false
     },
     "540e8276-908a-4e07-8cce-df11b4ac8c24": {
@@ -13226,7 +14175,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.positive-deviation-azeotrope-cause",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13237,6 +14186,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.positive-deviation-azeotrope-cause",
+        "chemistry.solutions.azeotrope-sign-of-deviation"
+      ],
       "key_dispute": false
     },
     "57de167c-42c0-4c82-b1f4-aaaf2e1dfa91": {
@@ -13279,7 +14232,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.isotonic-hypotonic-hypertonic-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13290,6 +14243,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.isotonic-hypotonic-hypertonic-matching",
+        "chemistry.solutions.tonicity-terms-and-definitions"
+      ],
       "key_dispute": false
     },
     "58bd17ca-101b-4870-a04a-b5c75a20f408": {
@@ -13332,7 +14289,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.brownian-movement-cause",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13341,8 +14298,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.brownian-movement-cause",
+        "chemistry.solutions.brownian-motion-from-medium-collisions"
+      ],
       "key_dispute": false
     },
     "58ed9f54-9b56-4d8c-bf6b-34c70577e0d1": {
@@ -13385,7 +14346,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.boiling-point-elevation-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13396,6 +14357,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.boiling-point-elevation-calculation",
+        "chemistry.solutions.boiling-point-elevation-from-molality"
+      ],
       "key_dispute": false
     },
     "5db72d5a-6a70-460f-a7e6-1f9160d8bced": {
@@ -13444,7 +14409,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.henrys-law-statement",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13455,6 +14420,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.henrys-law-statement",
+        "chemistry.solutions.henrys-law-pressure-mole-fraction"
+      ],
       "key_dispute": false
     },
     "5db851bd-5fd9-49ab-b427-0cebbf0de9bb": {
@@ -13512,8 +14481,12 @@
           "hard"
         ],
         "agreed": "hard",
-        "corrected": "hard"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.lcst-entropy-driven-demixing",
+        "chemistry.solutions.lcst-entropy-driven-demixing"
+      ],
       "key_dispute": false
     },
     "63a30083-ffea-4f45-8b78-0225b3982427": {
@@ -13562,7 +14535,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.ionic-strength-activity-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13573,6 +14546,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.ionic-strength-activity-solubility",
+        "chemistry.solutions.salt-effect-ionic-strength-solubility"
+      ],
       "key_dispute": false
     },
     "67133636-a209-4792-84c6-bc06e9bd61dc": {
@@ -13619,7 +14596,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.solvent-extraction-fraction-remaining",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13630,6 +14607,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.solvent-extraction-fraction-remaining",
+        "chemistry.solutions.distribution-ratio-successive-extraction"
+      ],
       "key_dispute": false
     },
     "67d03d21-9d5b-4df2-b34b-994acb582b42": {
@@ -13672,7 +14653,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.colligative-property-expression-match",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -13683,6 +14664,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.colligative-property-expression-match",
+        "chemistry.solutions.colligative-property-formulas-match"
+      ],
       "key_dispute": false
     },
     "6ff329ff-04fd-4c8c-ad6c-8e97147314cb": {
@@ -13729,7 +14714,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.freezing-point-depression-constant-calculation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13738,8 +14723,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.freezing-point-depression-constant-calculation",
+        "chemistry.solutions.cryoscopic-constant-from-depression"
+      ],
       "key_dispute": false
     },
     "703b2bc7-86e3-43e0-9b79-20a16fba1427": {
@@ -13788,7 +14777,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.methanol-water-miscibility-reason",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13797,8 +14786,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.methanol-water-miscibility-reason",
+        "chemistry.solutions.methanol-water-miscibility"
+      ],
       "key_dispute": false
     },
     "72248520-6e33-4dea-8967-7cc461ec0e39": {
@@ -13841,7 +14834,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.hydrogen-bond-donor-acceptor-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -13850,8 +14843,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.hydrogen-bond-donor-acceptor-solubility",
+        "chemistry.solutions.h-bond-donor-acceptor-solubility"
+      ],
       "key_dispute": false
     },
     "768e0f74-ea1b-4780-a688-1dc04cbdcd65": {
@@ -13894,7 +14891,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.raoult-law-ideal-solution-condition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13903,8 +14900,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.raoult-law-ideal-solution-condition",
+        "chemistry.solutions.raoult-law-ideal-solution-forces"
+      ],
       "key_dispute": false
     },
     "7cd4257d-6935-4b81-a15e-1b850d381e0d": {
@@ -13947,7 +14948,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.temperature-effect-solid-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -13956,8 +14957,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.temperature-effect-solid-solubility",
+        "chemistry.solutions.temperature-effect-on-solid-solubility"
+      ],
       "key_dispute": false
     },
     "8161645b-0364-44a4-bef6-4a0aa0839266": {
@@ -14006,7 +15011,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.pka-ph-selective-extraction",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14017,6 +15022,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.pka-ph-selective-extraction",
+        "chemistry.solutions.ph-controlled-acid-extraction"
+      ],
       "key_dispute": false
     },
     "9096c923-19ad-477d-9aaf-de96ac29a69d": {
@@ -14063,7 +15072,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.osmotic-pressure-proportional-to-molarity",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14074,6 +15083,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.osmotic-pressure-proportional-to-molarity",
+        "chemistry.solutions.osmotic-pressure-proportional-to-concentration"
+      ],
       "key_dispute": true
     },
     "937cdd43-83b4-4ab4-b421-e33fbaccc980": {
@@ -14125,8 +15138,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.osmotic-pressure-definition",
+        "chemistry.solutions.osmotic-pressure-definition"
+      ],
       "key_dispute": false
     },
     "973c7bab-c127-470e-8341-97eacbba700a": {
@@ -14169,7 +15186,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.noble-impurity-anode-mud",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14178,8 +15195,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.noble-impurity-anode-mud",
+        "chemistry.solutions.electrorefining-anode-mud-silver"
+      ],
       "key_dispute": false
     },
     "9773ca6b-afa3-4efd-ba5b-0421fbb94b35": {
@@ -14231,7 +15252,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.partition-coefficient-salting-out",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14242,6 +15263,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.partition-coefficient-salting-out",
+        "chemistry.solutions.partition-coefficient-constancy"
+      ],
       "key_dispute": false
     },
     "9e633ed2-2810-40c4-8c76-af77d413a56b": {
@@ -14293,8 +15318,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.colligative-depends-on-particle-number",
+        "chemistry.solutions.colligative-depends-on-particle-number"
+      ],
       "key_dispute": false
     },
     "a057c206-40b2-4812-bccb-640e124f5845": {
@@ -14343,7 +15372,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.extractant-chain-length-distribution-ratio",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14354,6 +15383,10 @@
         "agreed": "hard",
         "corrected": "hard"
       },
+      "objective_tags": [
+        "chemistry.solutions.extractant-chain-length-distribution-ratio",
+        "chemistry.solutions.alkyl-chain-length-extraction"
+      ],
       "key_dispute": false
     },
     "a1067084-66bc-4441-9372-0559c837c790": {
@@ -14396,7 +15429,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.relative-lowering-vapour-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14407,6 +15440,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.relative-lowering-vapour-pressure",
+        "chemistry.solutions.raoult-law-vapour-pressure-calculation"
+      ],
       "key_dispute": false
     },
     "a1e34585-275e-454a-8e5a-018c83a387d5": {
@@ -14449,7 +15486,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.branching-and-alcohol-water-solubility",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14458,8 +15495,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.branching-and-alcohol-water-solubility",
+        "chemistry.solutions.alcohol-solubility-branching"
+      ],
       "key_dispute": false
     },
     "a7b5e1c6-d428-4c50-bbc5-5904936e6fc5": {
@@ -14513,6 +15554,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.osmotic-pressure-inverse-molar-mass",
+        "chemistry.solutions.osmotic-pressure-inverse-molar-mass"
+      ],
       "key_dispute": false
     },
     "aeab2d8a-a8ba-49e5-8738-4685397409d1": {
@@ -14562,7 +15607,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.selective-precipitation-complex-stability",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14573,6 +15618,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.selective-precipitation-complex-stability",
+        "chemistry.solutions.selective-precipitation-with-edta"
+      ],
       "key_dispute": false
     },
     "b00d77dc-6559-4144-b158-11f59208c915": {
@@ -14619,7 +15668,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.sn1-solvent-polarity-rate",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -14630,6 +15679,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.sn1-solvent-polarity-rate",
+        "chemistry.solutions.sn1-solvent-stabilisation-assertion"
+      ],
       "key_dispute": false
     },
     "b17e9312-c4c7-4511-8961-d602374e5686": {
@@ -14683,6 +15736,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.concentration-unit-definitions",
+        "chemistry.solutions.concentration-unit-definitions"
+      ],
       "key_dispute": false
     },
     "b7cae84c-ffcb-432d-8ab5-53e91f3c056f": {
@@ -14725,7 +15782,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.molality-from-mass-of-solute",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14736,6 +15793,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.molality-from-mass-of-solute",
+        "chemistry.solutions.molality-from-mass-and-molar-mass"
+      ],
       "key_dispute": false
     },
     "b7daefc2-75f0-4c2d-8382-2d6e0cbd28f1": {
@@ -14778,7 +15839,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.spontaneity-from-sign-of-cell-potential",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14789,6 +15850,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.spontaneity-from-sign-of-cell-potential",
+        "chemistry.solutions.cell-potential-sign-and-gibbs-energy"
+      ],
       "key_dispute": false
     },
     "bbea499a-9531-4fb5-bb20-3a21611f947e": {
@@ -14838,7 +15903,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.halogen-effect-on-solubility-and-partitioning",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -14849,6 +15914,10 @@
         "agreed": "hard",
         "corrected": "hard"
       },
+      "objective_tags": [
+        "chemistry.solutions.halogen-effect-on-solubility-and-partitioning",
+        "chemistry.solutions.halobenzene-solubility-and-octanol-partition"
+      ],
       "key_dispute": false
     },
     "bc8477e4-b3b0-4fca-8a6b-d6e9dc85be9b": {
@@ -14891,7 +15960,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.colligative-property-definition-matching",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14902,6 +15971,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.colligative-property-definition-matching",
+        "chemistry.solutions.colligative-property-definitions-match"
+      ],
       "key_dispute": false
     },
     "c0a8e7db-9d02-4c3b-b75c-c549201ea472": {
@@ -14944,7 +16017,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.molality-from-mass-of-solute",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -14955,6 +16028,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.molality-from-mass-of-solute",
+        "chemistry.solutions.molality-from-mass-and-molar-mass"
+      ],
       "key_dispute": false
     },
     "c1de43d5-02b4-40d1-a07d-641fab6ef80c": {
@@ -15004,7 +16081,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-dissolution-of-solid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15015,6 +16092,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-dissolution-of-solid",
+        "chemistry.solutions.chelation-lowers-free-metal-ion"
+      ],
       "key_dispute": false
     },
     "c87d3d08-ee24-473a-bc62-e030b635a014": {
@@ -15057,7 +16138,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.boiling-elevation-from-vapour-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15068,6 +16149,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.boiling-elevation-from-vapour-pressure",
+        "chemistry.solutions.boiling-point-elevation-by-nonvolatile-solute"
+      ],
       "key_dispute": false
     },
     "c9095dce-ccdc-4c91-a65b-7fee1115062b": {
@@ -15110,7 +16195,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.boiling-elevation-from-vapour-pressure",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15121,6 +16206,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.boiling-elevation-from-vapour-pressure",
+        "chemistry.solutions.boiling-point-elevation-by-nonvolatile-solute"
+      ],
       "key_dispute": false
     },
     "cc3dcaae-49cb-4352-9c2d-3087f3b44630": {
@@ -15169,7 +16258,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.henrys-law-proportionality",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15180,6 +16269,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.henrys-law-proportionality",
+        "chemistry.solutions.henry-law-pressure-proportionality"
+      ],
       "key_dispute": false
     },
     "cfa113c6-ed02-46e2-bfa8-aafbe7ffa07e": {
@@ -15228,7 +16321,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.nernst-emf-with-complexed-ion",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15239,6 +16332,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.nernst-emf-with-complexed-ion",
+        "chemistry.solutions.nernst-potential-with-complex-formation"
+      ],
       "key_dispute": false
     },
     "d02b3a44-2fd0-4f62-aa66-a2481a849f96": {
@@ -15293,7 +16390,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.freezing-point-depression-with-complex-formation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15304,6 +16401,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.freezing-point-depression-with-complex-formation",
+        "chemistry.solutions.freezing-point-depression-and-particle-count"
+      ],
       "key_dispute": true
     },
     "d0fc074a-9015-4d87-8fd4-dc923fafb7a2": {
@@ -15359,8 +16460,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.degree-of-dissociation-from-molar-conductivity",
+        "chemistry.solutions.degree-of-dissociation-from-molar-conductivity"
+      ],
       "key_dispute": false
     },
     "d31a333a-c63d-4b88-b23c-54fe48b10a73": {
@@ -15403,7 +16508,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.complexation-increases-dissolution-of-solid",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15412,8 +16517,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.complexation-increases-dissolution-of-solid",
+        "chemistry.solutions.complex-ion-formation-increases-solubility"
+      ],
       "key_dispute": false
     },
     "d322d8a5-342b-4f98-bb8e-ee00e379a558": {
@@ -15456,7 +16565,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.colligative-property-identification",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15467,6 +16576,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.colligative-property-identification",
+        "chemistry.solutions.colligative-properties-depend-on-particle-number"
+      ],
       "key_dispute": false
     },
     "d49beb60-bc1f-4ad4-909d-562d71fbce2c": {
@@ -15515,7 +16628,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.citrate-complexation-slows-silver-precipitation",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -15526,6 +16639,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.citrate-complexation-slows-silver-precipitation",
+        "chemistry.solutions.weak-complexation-controls-metal-ion-release"
+      ],
       "key_dispute": false
     },
     "d71bcf45-9364-4e25-8bf8-ca9a814ed098": {
@@ -15568,7 +16685,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.concentration-unit-definitions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15579,6 +16696,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.concentration-unit-definitions",
+        "chemistry.solutions.concentration-unit-definitions-match"
+      ],
       "key_dispute": false
     },
     "dd58355d-9229-446d-a7c0-54598023b856": {
@@ -15632,6 +16753,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.vapour-pressure-lowering-mole-fraction",
+        "chemistry.solutions.vapour-pressure-lowering-mole-fraction"
+      ],
       "key_dispute": false
     },
     "dfe50db6-ab82-45fe-904c-061751c685ad": {
@@ -15674,7 +16799,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.freezing-point-depression-colligative",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15685,6 +16810,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.freezing-point-depression-colligative",
+        "chemistry.solutions.freezing-point-depression-is-colligative"
+      ],
       "key_dispute": false
     },
     "dfeccad5-ab82-477b-868e-57447f61425c": {
@@ -15727,7 +16856,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.positive-deviation-example-pair",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15738,6 +16867,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.positive-deviation-example-pair",
+        "chemistry.solutions.pairs-showing-positive-raoult-deviation"
+      ],
       "key_dispute": false
     },
     "e2be795b-9505-40a4-9d15-f774176f6808": {
@@ -15784,7 +16917,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.separation-by-extraction-strategies",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15795,6 +16928,10 @@
         "agreed": "medium",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.separation-by-extraction-strategies",
+        "chemistry.solutions.extraction-strategy-mechanism-match"
+      ],
       "key_dispute": false
     },
     "e94cbc89-bc99-46ad-b3c2-a76bdca78366": {
@@ -15837,7 +16974,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.physisorption-van-der-waals-forces",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -15846,8 +16983,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.physisorption-van-der-waals-forces",
+        "chemistry.solutions.physisorption-forces-van-der-waals"
+      ],
       "key_dispute": false
     },
     "e973f4d7-97b7-4300-99d0-25ee1489c33f": {
@@ -15890,7 +17031,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.positive-deviation-implies-weak-unlike-interactions",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15901,6 +17042,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.positive-deviation-implies-weak-unlike-interactions",
+        "chemistry.solutions.positive-deviation-means-weaker-interactions"
+      ],
       "key_dispute": false
     },
     "ea7f9cb2-abc3-47e5-8bfa-82a92803da7c": {
@@ -15943,7 +17088,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.molarity-from-percentage-and-density",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -15952,8 +17097,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.molarity-from-percent-w-w-and-density",
+        "chemistry.solutions.molarity-from-percentage-and-density"
+      ],
       "key_dispute": false
     },
     "ed16ba87-329d-4185-835f-155b671524a0": {
@@ -15996,7 +17145,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.solutions.promoter-definition",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16005,8 +17154,12 @@
           "easy"
         ],
         "agreed": "easy",
-        "corrected": "easy"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.promoter-definition",
+        "chemistry.solutions.promoter-enhances-catalyst-activity"
+      ],
       "key_dispute": false
     },
     "f2360ceb-adb7-4dd8-b8f2-97d03e9c7cd0": {
@@ -16060,6 +17213,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.solutions.gas-solubility-falls-with-temperature",
+        "chemistry.solutions.gas-solubility-falls-with-temperature"
+      ],
       "key_dispute": false
     },
     "10cf187a-3d26-4c84-b3b4-95f8bfe80379": {
@@ -16113,6 +17270,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.fractional-surface-coverage",
+        "chemistry.surface-chemistry.fractional-surface-coverage"
+      ],
       "key_dispute": false
     },
     "46c2435c-1759-4522-8fb3-99d970d7417d": {
@@ -16155,7 +17316,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.ph-surface-charge-controls-adsorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16164,8 +17325,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.ph-surface-charge-controls-adsorption",
+        "chemistry.surface-chemistry.surface-charge-and-ionic-adsorption"
+      ],
       "key_dispute": false
     },
     "5da9354f-c3ee-4d9c-ad9e-dadb883932e3": {
@@ -16208,7 +17373,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.hydrogen-bond-donor-controls-adsorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16219,6 +17384,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.hydrogen-bond-donor-controls-adsorption",
+        "chemistry.surface-chemistry.hydrogen-bond-donor-in-adsorption-on-oxides"
+      ],
       "key_dispute": false
     },
     "605650e3-9eff-4c06-b131-9411bcd6f226": {
@@ -16271,7 +17440,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.ph-surface-charge-controls-adsorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16282,6 +17451,10 @@
         "agreed": "hard",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.ph-surface-charge-controls-adsorption",
+        "chemistry.surface-chemistry.surface-charge-and-ionic-adsorption"
+      ],
       "key_dispute": true
     },
     "6c1e2b5c-2a43-4783-9bc5-3f0a2cc9ffbf": {
@@ -16324,7 +17497,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.physisorption-vs-chemisorption-features",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16335,6 +17508,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.physisorption-vs-chemisorption-features",
+        "chemistry.surface-chemistry.physisorption-vs-chemisorption-properties"
+      ],
       "key_dispute": false
     },
     "7c7681b1-0e1d-4bed-9a27-70d29ef0baba": {
@@ -16381,7 +17558,7 @@
       ],
       "blocking": true,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.langmuir-isotherm-application",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16392,6 +17569,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.langmuir-isotherm-application",
+        "chemistry.surface-chemistry.langmuir-coverage-calculation"
+      ],
       "key_dispute": false
     },
     "a0d0655c-62e4-4c92-90a7-be0ac2475e37": {
@@ -16434,7 +17615,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.hydrophobic-surface-favours-nonpolar-adsorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16445,6 +17626,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.hydrophobic-surface-favours-nonpolar-adsorption",
+        "chemistry.surface-chemistry.hydrophobic-surface-selectivity-for-nonpolar-vapour"
+      ],
       "key_dispute": false
     },
     "b3f5f0b5-57ce-48be-a657-b4f1fe796ac2": {
@@ -16487,7 +17672,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.chemisorption-enthalpy-explains-desorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "hard",
@@ -16496,8 +17681,12 @@
           "medium"
         ],
         "agreed": "medium",
-        "corrected": "medium"
+        "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.chemisorption-enthalpy-explains-desorption",
+        "chemistry.surface-chemistry.adsorption-enthalpy-and-desorption-temperature"
+      ],
       "key_dispute": false
     },
     "b48dbd4b-a33f-4516-a255-f22aebe5d652": {
@@ -16540,7 +17729,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.multilayer-bet-physisorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "medium",
@@ -16551,6 +17740,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.multilayer-bet-physisorption",
+        "chemistry.surface-chemistry.multilayer-adsorption-in-physisorption"
+      ],
       "key_dispute": false
     },
     "c0971d52-2377-4fa1-8c4b-63e5675c0cc8": {
@@ -16593,7 +17786,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.catalyst-poisoning-by-strong-adsorption",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16604,6 +17797,10 @@
         "agreed": "easy",
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.catalyst-poisoning-by-strong-adsorption",
+        "chemistry.surface-chemistry.catalyst-poisoning-by-adsorbed-sulfur"
+      ],
       "key_dispute": false
     },
     "cdadc76d-424e-4e55-ac22-253005733a51": {
@@ -16646,7 +17843,7 @@
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "chemistry.surface-chemistry.ionised-form-less-adsorbed",
+      "objective_tag": null,
       "tag_agreement": false,
       "difficulty": {
         "label": "easy",
@@ -16657,6 +17854,10 @@
         "agreed": null,
         "corrected": null
       },
+      "objective_tags": [
+        "chemistry.surface-chemistry.ionised-form-less-adsorbed",
+        "chemistry.surface-chemistry.ionised-adsorbate-less-adsorbed"
+      ],
       "key_dispute": false
     }
   }

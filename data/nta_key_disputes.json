@@ -4140,6 +4140,18 @@
       "judges": [
         {
           "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "?",
+          "flags": [
+            "wrong_key",
+            "factual_error",
+            "garbled_text"
+          ],
+          "note": "d/dx(1-x^2) is -2x, not 2x, and -2x is not in List II, so no option is fully correct. Key A pairs (3) with C; the explanation repeats the sign error. Raw LaTeX in stem."
+        },
+        {
+          "pass": "scoring",
           "judge": "j2",
           "model": "claude-haiku-5-5",
           "blind_answer": "?",
@@ -4383,6 +4395,16 @@
       "content_hash": "bf50ecda66b1e481dcb3687edf495bd8d028bf0baea395d51bdc3f93cb3f77da",
       "since": "2026-10-13",
       "judges": [
+        {
+          "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "?",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Key wrong. 25 percent of 500,000 is 125,000; shortfall over 80,000 is 45,000, which no option gives. The explanation itself admits the mismatch."
+        },
         {
           "pass": "scoring",
           "judge": "j2",
@@ -6320,6 +6342,17 @@
       "judges": [
         {
           "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "C",
+          "flags": [
+            "wrong_key",
+            "factual_error"
+          ],
+          "note": "Reason is false: DRR is a reserve created out of profits, not a capital reserve. Correct key is C (assertion true, reason false), not A."
+        },
+        {
+          "pass": "scoring",
           "judge": "j2",
           "model": "claude-haiku-5-5",
           "blind_answer": "C",
@@ -6905,6 +6938,16 @@
       "content_hash": "e2d7b68ae13676ce6d65bfeeefd1649fa1859357870e2bcc821f7498331ef6cf",
       "since": "2026-10-13",
       "judges": [
+        {
+          "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "B",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Blind answer 80,000 (150,000 less arrears 40,000 less dividend 30,000) is option B. Key D reads 70,000, and the explanation itself says 80,000."
+        },
         {
           "pass": "scoring",
           "judge": "j2",
@@ -8967,6 +9010,14 @@
             "multiple_defensible"
           ],
           "note": "Conflicting instructions from several supervisors also fit Unity of Command (A). Coordination (key) is defensible, but the stem does not settle between them."
+        },
+        {
+          "pass": "scoring",
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "B",
+          "flags": [],
+          "note": "Key B correct. Conflicting supervisor instructions also evoke unity of command, so A is a close distractor. Labelled hard but reads as medium."
         }
       ],
       "source": "scripts/nta-pass-merge.mjs",
@@ -9334,6 +9385,16 @@
       "content_hash": "e56084c988495976188de53569c7e9ec2967aa2c8b1eb048aeedfe12682f995a",
       "since": "2026-10-13",
       "judges": [
+        {
+          "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "?",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Interest 800,000 less 25 percent tax gives 600,000; PAT 800,000 over 150,000 shares = 5.33. No option matches; key 1.373 is wrong. Stem PAT is inconsistent with interest."
+        },
         {
           "pass": "scoring",
           "judge": "j2",
@@ -10891,6 +10952,37 @@
       "source": "scripts/nta-pass-merge.mjs",
       "reason": "one_blind_answer_differs"
     },
+    "ec03ac3b-d421-4418-b425-a7efe6a04ee0": {
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "key": "B",
+      "content_hash": "d39a21064c9e8dd73fc3e557cab225eb20b4c01953f31175d8f6bf18c10de2cb",
+      "since": "2026-10-13",
+      "judges": [
+        {
+          "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "B",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "Key B holds only if the Reason (controllability) is read as not explaining the Assertion (need for central control). A reader could take the link as explanatory, so answer A is also defensible."
+        },
+        {
+          "pass": "scoring",
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "A",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key B is contestable: the explanation concedes the Reason does not fully explain, while controllability plausibly explains A. Doubtful key."
+        }
+      ],
+      "source": "scripts/nta-pass-merge.mjs",
+      "reason": "one_blind_answer_differs"
+    },
     "ec523bbe-9c5f-44b7-ae95-83ffed6a598e": {
       "subject": "chemistry",
       "chapter": "p-Block Elements",
@@ -11215,6 +11307,16 @@
       "content_hash": "1ae81c1597735c651c312b8bb4cca40d81c4d4421c1c8f853eb25ce50bd215f4",
       "since": "2026-10-13",
       "judges": [
+        {
+          "pass": "scoring",
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "blind_answer": "?",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Stem numbers are inconsistent (120,000 shares at face 10 is 1,200,000 against 210,000 due). No option derives from them; explanation admits misalignment. Key A unsupported."
+        },
         {
           "pass": "scoring",
           "judge": "j2",
