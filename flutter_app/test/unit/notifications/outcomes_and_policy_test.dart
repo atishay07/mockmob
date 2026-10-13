@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/notification_prefs.dart';
-import 'package:mockmob/core/permissions/permission_requester.dart';
 import 'package:mockmob/features/notifications/data/reminder_state.dart';
-import 'package:mockmob/features/notifications/logic/pre_prompt_policy.dart';
 import 'package:mockmob/features/notifications/logic/reminder_outcomes.dart';
 
 const key = NotificationChannelKeys.studyWindow;
@@ -87,37 +85,6 @@ void main() {
     test('unreadable stored state is empty state', () {
       expect(ReminderState.fromJsonString('{broken').weeklyPlanOn, isFalse);
       expect(ReminderState.fromJsonString(null).delivered, isEmpty);
-    });
-  });
-
-  group('pre-prompt policy', () {
-    final now = DateTime(2026, 10, 12, 21);
-
-    bool offer({
-      NotificationPermission permission = NotificationPermission.notAsked,
-      int notNow = 0,
-      DateTime? last,
-    }) => shouldOfferPrePrompt(permission: permission, notNowCount: notNow, lastNotNowAt: last, now: now);
-
-    test('offered the first time', () => expect(offer(), isTrue));
-
-    test('never offered once the system question was answered', () {
-      expect(offer(permission: NotificationPermission.granted), isFalse);
-      expect(offer(permission: NotificationPermission.denied), isFalse);
-      expect(offer(permission: NotificationPermission.unavailable), isFalse);
-    });
-
-    test('after Not now it waits 14 days', () {
-      expect(offer(notNow: 1, last: now.subtract(const Duration(days: 13))), isFalse);
-      expect(offer(notNow: 1, last: now.subtract(const Duration(days: 14))), isTrue);
-    });
-
-    test('after a second Not now it never returns', () {
-      expect(offer(notNow: 2, last: now.subtract(const Duration(days: 60))), isFalse);
-    });
-
-    test('a missing date after one Not now does not offer', () {
-      expect(offer(notNow: 1), isFalse);
     });
   });
 }

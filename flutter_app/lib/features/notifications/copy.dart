@@ -14,6 +14,32 @@ abstract final class NotificationsCopy {
   static const String promptStudyNote =
       'Reminders come at most once a day and never during quiet hours.';
 
+  // The sheet comes back after a refusal or a dismissal, spaced out, and each time it asks a
+  // different way. The first wording is [promptTitle] and [promptLead]; these follow it. Each is
+  // tied to something a reminder really does. Plain, no guilt, no urgency.
+  static const String promptStudyTitle = 'A nudge at your study time';
+  static String promptStudyLineAt(String time) =>
+      'One reminder when your study window starts at $time. Move it or turn it off whenever you like.';
+  static const String promptStudyLine =
+      'One reminder at the time you choose to study. You pick the time and can change it whenever you like.';
+  static const String promptRepairTitle = 'Hear when a repair is waiting';
+  static const String promptRepairLine =
+      'When a mock leaves mistakes, one reminder says a short repair is ready. It stops once you have done it.';
+  static const String promptResultTitle = 'Know when your result is ready';
+  static const String promptResultLine =
+      'If you submit a mock and leave the app, a reminder tells you when the result is ready.';
+  static const String promptWeeklyTitle = 'Keep your weekly rhythm';
+  static const String promptWeeklyLine =
+      'You can add a look at your week on Sunday evening. It stays off until you turn it on.';
+  static const String promptOptionalTitle = 'Only if it helps';
+  static const String promptOptionalLine =
+      'Studying works the same without reminders. If you want a nudge now and then, you choose which ones.';
+
+  // After Android stopped showing its own question: the key opens its settings instead.
+  static const String promptOpenSettings = 'Open settings';
+  static const String promptBlockedNote =
+      'Android no longer asks from inside the app. Open settings and allow notifications for MockMob.';
+
   static const String grantedTitle = 'Reminders are on';
   static const String grantedBody =
       'You will hear when a result you submitted in the background is ready. Pick a study time if you want a nudge, or leave it.';

@@ -185,7 +185,9 @@ class ReminderScheduler {
     _onStateChanged?.call();
   }
 
-  /// The pre-prompt sheet was dismissed with Not now.
+  /// One ask of the pre-prompt was put to the student and not taken up: the sheet opened, or the
+  /// recap row was answered with Not now. Counted for the spacing and the wording of the next
+  /// ask (`PrePromptAsks` also writes the time).
   Future<void> prePromptDismissed() async {
     await _store.update(
       (s) => s.copyWith(prePromptNotNowCount: s.prePromptNotNowCount + 1),

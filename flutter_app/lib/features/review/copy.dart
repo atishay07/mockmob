@@ -67,7 +67,7 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date, $marks of $max';
+  static String pastLine(String date, int marks, int max) => '$date, $marks / $max';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 

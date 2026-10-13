@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/notification_prefs.dart';
 import 'package:mockmob/core/permissions/permission_requester.dart';
+import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -307,14 +309,17 @@ void main() {
     Future<void> pumpSheet(
       WidgetTester tester, {
       NotificationPermission after = NotificationPermission.granted,
+      NotificationPermission start = NotificationPermission.notAsked,
       RepairReady? repair,
       NotificationPrefs prefs = NotificationPrefs.defaults,
+      int asks = 0,
     }) async {
       rig = Rig();
       settings = _FakeSystemSettings();
-      permission = FakePermissionRequester(NotificationPermission.notAsked, afterRequest: after);
+      permission = FakePermissionRequester(start, afterRequest: after);
       memory = MemoryPrefsStore();
       appPrefs = AppPrefs(memory);
+      if (asks > 0) await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
       await pumpMockmob(
         tester,
         const SingleChildScrollView(child: RemindersPromptSheet()),
@@ -382,6 +387,168 @@ void main() {
       expect(permission.requests, 0);
       expect((await rig.store.load()).prePromptNotNowCount, 1);
       expect((await appPrefs.lastPrePromptAt())!.isAtSameMomentAs(rig.now), isTrue);
+    });
+
+    testWidgets('the first ask uses the original wording', (tester) async {
+      await pumpSheet(tester);
+      expect(_text('Remind me when it matters'), findsOneWidget);
+      expect(_text('Three kinds of reminder, and you choose which ones stay on.'), findsOneWidget);
+    });
+
+    testWidgets('each ask after a refusal or a close uses the next wording, chosen by the ask count', (tester) async {
+      await pumpSheet(tester, asks: 3);
+      expect(_text('Know when your result is ready'), findsOneWidget);
+      expect(
+        _text('If you submit a mock and leave the app, a reminder tells you when the result is ready.'),
+        findsOneWidget,
+      );
+      expect(_text('Remind me when it matters'), findsNothing);
+      // Mobi stays, and so do the three examples and the main key.
+      expect(find.byType(Mobi), findsOneWidget);
+      expect(_text('What they would say'), findsOneWidget);
+      expect(_text('Allow reminders'), findsOneWidget);
+      expect(_text('Not now'), findsOneWidget);
+    });
+
+    testWidgets("the study-time wording says the start of the student's own study window", (tester) async {
+      await pumpSheet(
+        tester,
+        asks: 1,
+        prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 30), end: ClockTime(21, 30))),
+      );
+      expect(_text('A nudge at your study time'), findsOneWidget);
+      expect(find.textContaining('your study window starts at 8:30 PM.'), findsOneWidget);
+    });
+
+    testWidgets('the wording starts over after the sixth', (tester) async {
+      await pumpSheet(tester, asks: 6);
+      expect(_text('Remind me when it matters'), findsOneWidget);
+    });
+
+    testWidgets('opening the sheet counts as one ask, and closing it adds no second', (tester) async {
+      await pumpSheet(tester);
+      expect((await rig.store.load()).prePromptAskCount, 1);
+      expect((await appPrefs.lastPrePromptAt())!.isAtSameMomentAs(rig.now), isTrue);
+      // The wording on screen is the one it opened with, not the next.
+      expect(_text('Remind me when it matters'), findsOneWidget);
+      await tester.tap(find.text('Not now'));
+      await tester.pumpAndSettle();
+      expect((await rig.store.load()).prePromptAskCount, 1);
+    });
+
+    testWidgets('a refusal after opening is not counted twice', (tester) async {
+      await pumpSheet(tester, after: NotificationPermission.denied);
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      expect((await rig.store.load()).prePromptAskCount, 1);
+    });
+
+    testWidgets('reminders already on: the sheet does not count an ask', (tester) async {
+      await pumpSheet(tester, start: NotificationPermission.granted);
+      expect((await rig.store.load()).prePromptAskCount, 0);
+      expect(await appPrefs.lastPrePromptAt(), isNull);
+    });
+
+    testWidgets('once Android no longer asks, the main key says Open settings and opens them', (tester) async {
+      await pumpSheet(tester, start: NotificationPermission.denied, asks: 2);
+      expect(_text('Open settings'), findsOneWidget);
+      expect(_text('Allow reminders'), findsNothing);
+      expect(find.textContaining('Android no longer asks from inside the app.'), findsOneWidget);
+      expect(_text('Not now'), findsOneWidget);
+      // The wording still rotates in this state.
+      expect(_text('Hear when a repair is waiting'), findsOneWidget);
+      await tester.tap(find.text('Open settings'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(settings.opened, 1);
+      expect(permission.requests, 0, reason: 'Android would show nothing');
+      expect(find.textContaining('Android did not open its settings.'), findsOneWidget);
+    });
+
+    testWidgets('the Open settings key is the same size as Not now', (tester) async {
+      await pumpSheet(tester, start: NotificationPermission.denied);
+      final key = tester.getSize(find.widgetWithText(KeyButton, 'Open settings'));
+      final notNow = tester.getSize(find.widgetWithText(KeyButton, 'Not now'));
+      expect(key.width, notNow.width);
+    });
+
+    Future<void> comeBackToTheApp(WidgetTester tester) async {
+      for (final state in [
+        AppLifecycleState.inactive,
+        AppLifecycleState.hidden,
+        AppLifecycleState.paused,
+        AppLifecycleState.hidden,
+        AppLifecycleState.inactive,
+        AppLifecycleState.resumed,
+      ]) {
+        tester.binding.handleAppLifecycleStateChanged(state);
+      }
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('back from Android settings with notifications on ends on the granted state', (tester) async {
+      await pumpSheet(tester, start: NotificationPermission.denied);
+      permission.current = NotificationPermission.granted;
+      await comeBackToTheApp(tester);
+      expect(_text('Reminders are on'), findsOneWidget);
+      expect(_text('Choose a study time'), findsOneWidget);
+      expect(permission.requests, 0);
+    });
+
+    testWidgets('back from Android settings with notifications still off stays on the sheet', (tester) async {
+      await pumpSheet(tester, start: NotificationPermission.denied);
+      await comeBackToTheApp(tester);
+      expect(_text('Open settings'), findsOneWidget);
+      expect(_text('Reminders are on'), findsNothing);
+    });
+
+    testWidgets('a refusal in the system dialog still ends on a designed state with Android settings one tap away', (tester) async {
+      await pumpSheet(tester, after: NotificationPermission.denied);
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      expect(_text('Reminders stay off'), findsOneWidget);
+      expect(_text('Open Android settings'), findsOneWidget);
+    });
+  });
+
+  group('Turn on in Notifications settings', () {
+    testWidgets('opens the sheet, and Allow turns reminders on', (tester) async {
+      final rig = Rig(prefs: prefsWith());
+      final permission = FakePermissionRequester(NotificationPermission.notAsked);
+      final router = GoRouter(
+        routes: [
+          GoRoute(path: '/', builder: (_, _) => const NotificationSettingsScreen()),
+          GoRoute(
+            path: AppRoutes.permissionsNotifications,
+            builder: (_, _) => const Scaffold(body: SingleChildScrollView(child: RemindersPromptSheet())),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      await pumpMockmob(
+        tester,
+        Router<Object>.withConfig(config: router),
+        size: const Size(360, 2400),
+        wrapInScaffold: false,
+        overrides: featureOverrides(
+          rig: rig,
+          repo: FakePrefsRepo(prefsWith()),
+          permission: permission,
+          appPrefs: AppPrefs(MemoryPrefsStore()),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(_text('Notifications are off'), findsOneWidget);
+      await tester.tap(find.text('Turn on'));
+      await tester.pumpAndSettle();
+      expect(_text('Remind me when it matters'), findsOneWidget);
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      expect(permission.requests, 1);
+      expect(_text('Reminders are on'), findsOneWidget);
+      await tester.tap(find.text('Done'));
+      await tester.pumpAndSettle();
+      expect(_text('Notifications are on'), findsOneWidget);
     });
   });
 }

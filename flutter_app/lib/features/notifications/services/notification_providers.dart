@@ -18,6 +18,7 @@ import '../data/reminder_store.dart';
 import '../logic/pre_prompt_policy.dart';
 import '../logic/reminder_plan.dart';
 import '../logic/repair_ready.dart';
+import 'pre_prompt_asks.dart';
 import 'reminder_scheduler.dart';
 import 'reminder_taps.dart';
 
@@ -117,13 +118,8 @@ final notificationPermissionProvider =
       (ref) => ref.watch(permissionRequesterProvider).notificationPermission(),
     );
 
-/// True when the "Remind me when it matters" sheet may be shown now: the system question has
-/// never been put on this phone, and the sheet has not been put off twice or put off less than 14 days ago.
-/// The Result module reads this after the first result is opened and closed.
-final prePromptDueProvider = FutureProvider.autoDispose<bool>((ref) async {
-  // The system question was put once already (and refused, or it would read granted): the
-  // student can ask again from Notifications in You, but the sheet does not come back by itself.
-  if (await ref.watch(appPrefsProvider).notificationPermissionAsked()) return false;
+Future<bool> _prePromptDue(Ref ref, PrePromptMoment moment) async {
+  if (!moment.mayAsk) return false;
   final permission = await ref
       .watch(permissionRequesterProvider)
       .notificationPermission();
@@ -131,11 +127,41 @@ final prePromptDueProvider = FutureProvider.autoDispose<bool>((ref) async {
   final last = await ref.watch(appPrefsProvider).lastPrePromptAt();
   return shouldOfferPrePrompt(
     permission: permission,
-    notNowCount: state.prePromptNotNowCount,
-    lastNotNowAt: last,
+    askCount: state.prePromptAskCount,
+    lastAskedAt: last,
     now: ref.read(nowProvider)(),
+    moment: moment,
   );
-});
+}
+
+/// True when the "Remind me when it matters" sheet may be shown now, at the moment right after a
+/// finished session's result: reminders are still off, and the spacing since the last ask has
+/// passed (2, 4, 7, then every 10 days; never twice in a day). A refusal does not end it. The
+/// Result module reads this when a result is on screen.
+final prePromptDueProvider = FutureProvider.autoDispose<bool>(
+  (ref) => _prePromptDue(ref, PrePromptMoment.afterResult),
+);
+
+/// The same answer for another moment: false for [PrePromptMoment.inSession],
+/// [PrePromptMoment.ntaMode] and [PrePromptMoment.appOpen]. A caller that knows the result is an
+/// NTA mode one asks with `ntaMode`.
+final prePromptDueAtProvider = FutureProvider.autoDispose
+    .family<bool, PrePromptMoment>((ref, moment) => _prePromptDue(ref, moment));
+
+/// Records each time the pre-prompt is put to the student (the time and the count).
+final prePromptAsksProvider = Provider<PrePromptAsks>(
+  (ref) => PrePromptAsks(
+    prefs: ref.watch(appPrefsProvider),
+    scheduler: ref.watch(reminderSchedulerProvider),
+    now: ref.read(nowProvider),
+    // The recap row and the sheet answer from the new history straight away.
+    onRecorded: () {
+      if (!ref.mounted) return;
+      ref.invalidate(prePromptDueProvider);
+      ref.invalidate(prePromptDueAtProvider);
+    },
+  ),
+);
 
 /// Opens the pre-prompt sheet. The Result module calls this from the recap's reminder row.
 Future<void> openRemindersSheet(BuildContext context) =>

@@ -128,6 +128,41 @@ void main() {
         await tester.pumpAndSettle();
         await _shoot(tester, 'prompt_denied', b);
       });
+
+      // The sheet comes back after a refusal and asks a different way: the second wording, with
+      // the student's own study time.
+      testWidgets('ask again, study time', (tester) async {
+        final rig = Rig();
+        await rig.store.update((s) => s.copyWith(prePromptNotNowCount: 1));
+        await _openSheet(
+          tester,
+          b,
+          sheet: (_) => const RemindersPromptSheet(),
+          overrides: featureOverrides(
+            rig: rig,
+            repo: FakePrefsRepo(prefsWith(window: _window)),
+            permission: FakePermissionRequester(NotificationPermission.notAsked),
+          ),
+        );
+        await _shoot(tester, 'prompt_ask_again_study', b);
+      });
+
+      // Android no longer shows its question: the main key opens Android settings.
+      testWidgets('ask again, open settings', (tester) async {
+        final rig = Rig();
+        await rig.store.update((s) => s.copyWith(prePromptNotNowCount: 2));
+        await _openSheet(
+          tester,
+          b,
+          sheet: (_) => const RemindersPromptSheet(),
+          overrides: featureOverrides(
+            rig: rig,
+            repo: FakePrefsRepo(NotificationPrefs.defaults),
+            permission: FakePermissionRequester(NotificationPermission.denied),
+          ),
+        );
+        await _shoot(tester, 'prompt_ask_again_settings', b);
+      });
     });
 
     group('time sheet, ${b.name}', () {

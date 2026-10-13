@@ -5,17 +5,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/api/api_providers.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/notification_prefs.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/permissions/permission_requester.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
-import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/reminder_store.dart' show reminderStoreProvider;
+import '../logic/pre_prompt_policy.dart';
+import '../logic/pre_prompt_variants.dart';
 import '../logic/reminder_plan.dart' show RepairReady;
 import '../services/notification_providers.dart';
 import '../services/system_settings.dart';
@@ -24,10 +25,28 @@ import '../widgets/time_sheet.dart';
 
 enum _Phase { ask, granted, denied }
 
+/// What the sheet was opened on: the wording it uses (set by how many times it has been put to
+/// the student) and whether Android still shows its own question. Read once, so the wording
+/// does not change under the student while the sheet is up.
+class _Opened {
+  const _Opened({required this.asks, required this.permission});
+
+  final int asks;
+  final NotificationPermission permission;
+
+  _Opened withPermission(NotificationPermission next) =>
+      _Opened(asks: asks, permission: next);
+}
+
 /// The pre-prompt sheet "Remind me when it matters" (spec 8): three examples of what a reminder
-/// would say, Allow, and Not now. Allow opens the Android 13 system dialog; Not now returns
-/// the sheet at most once, 14 days later. Whatever the student chooses, the sheet ends on a
-/// designed state and never blocks study.
+/// would say, a main key, and Not now. The main key opens the Android 13 system dialog; once
+/// Android has stopped showing it (two refusals) it says Open settings and opens MockMob's
+/// notification settings instead. Whatever the student chooses, the sheet ends on a designed
+/// state and never blocks study.
+///
+/// It comes back after a Not now, a refusal or a closed sheet (see `shouldOfferPrePrompt`) and
+/// asks a different way each time (see `prePromptVariantFor`). Opening it counts as one ask,
+/// written before it can close.
 ///
 /// The body only: `MmSheetPage` supplies the frame.
 class RemindersPromptSheet extends ConsumerStatefulWidget {
@@ -41,6 +60,51 @@ class RemindersPromptSheet extends ConsumerStatefulWidget {
 class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
   _Phase _phase = _Phase.ask;
   bool _asking = false;
+  _Opened? _opened;
+  Future<void>? _recording;
+  AppLifecycleListener? _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_open());
+    // Coming back from Android settings with notifications on ends on the granted state.
+    _lifecycle = AppLifecycleListener(onResume: () => unawaited(_recheck()));
+  }
+
+  @override
+  void dispose() {
+    _lifecycle?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _open() async {
+    var asks = 0;
+    var permission = NotificationPermission.notAsked;
+    try {
+      asks = (await ref.read(reminderStoreProvider).load()).prePromptAskCount;
+      if (!mounted) return;
+      permission = await ref.read(permissionRequesterProvider).notificationPermission();
+    } on Object {
+      // The sheet still opens, on the first wording and the plain key.
+    }
+    if (!mounted) return;
+    setState(() => _opened = _Opened(asks: asks, permission: permission));
+    // Counted as soon as it is on screen, so closing it any way at all keeps the spacing.
+    // A student who already has reminders on is not being asked.
+    if (permission != NotificationPermission.granted) {
+      _recording = _record();
+      await _recording;
+    }
+  }
+
+  Future<void> _record() async {
+    try {
+      await ref.read(prePromptAsksProvider).record();
+    } on Object {
+      // The ask simply counts one less; the sheet is unaffected.
+    }
+  }
 
   Future<void> _allow() async {
     setState(() => _asking = true);
@@ -73,13 +137,31 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     }
   }
 
+  /// The app came back to the front: the student may have allowed notifications in Android
+  /// settings. Android's own dialog also brings the app back, so a running request is left alone.
+  Future<void> _recheck() async {
+    if (_phase != _Phase.ask || _asking || _opened == null) return;
+    NotificationPermission permission;
+    try {
+      permission = await ref.read(permissionRequesterProvider).notificationPermission();
+    } on Object {
+      return;
+    }
+    if (!mounted || _phase != _Phase.ask || _asking) return;
+    ref.invalidate(notificationPermissionProvider);
+    if (permission == NotificationPermission.granted) {
+      unawaited(ref.read(hapticsProvider).settle());
+      unawaited(ref.read(reminderSchedulerProvider).sync());
+      setState(() => _phase = _Phase.granted);
+    } else if (permission != _opened!.permission) {
+      setState(() => _opened = _opened!.withPermission(permission));
+    }
+  }
+
   Future<void> _notNow() async {
-    final scheduler = ref.read(reminderSchedulerProvider);
-    final prefs = ref.read(appPrefsProvider);
-    final now = ref.read(nowProvider)();
-    // Recorded before the sheet closes, so the return rule holds even if the app is killed.
-    await prefs.setLastPrePromptAt(now);
-    await scheduler.prePromptDismissed();
+    // The ask was counted when the sheet opened; make sure that write has finished before the
+    // sheet closes, so the spacing holds even if the app is killed right after.
+    await _recording;
     if (mounted) Navigator.of(context).maybePop();
   }
 
@@ -94,12 +176,22 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     final prefs =
         ref.watch(notificationPrefsRepositoryProvider).value ??
         NotificationPrefs.defaults;
+    final opened = _opened;
+    final window = prefs.studyWindow;
     final child = switch (_phase) {
+      // The first frames, until the wording is known: nothing, rather than a wording that then changes.
+      _Phase.ask when opened == null => const SizedBox.shrink(key: ValueKey('opening')),
       _Phase.ask => _Ask(
         prefs: prefs,
         repair: ref.watch(repairReadyProvider),
+        variant: prePromptVariantFor(
+          opened!.asks,
+          studyTime: window == null ? null : formatClock(window.start),
+        ),
+        primary: prePromptPrimaryFor(opened.permission),
         asking: _asking,
         onAllow: _allow,
+        onOpenSettings: () => unawaited(_openSettings()),
         onNotNow: _notNow,
       ),
       _Phase.granted => _Outcome(
@@ -136,8 +228,11 @@ class _Ask extends StatelessWidget {
   const _Ask({
     required this.prefs,
     this.repair,
+    required this.variant,
+    required this.primary,
     required this.asking,
     required this.onAllow,
+    required this.onOpenSettings,
     required this.onNotNow,
   });
 
@@ -146,8 +241,15 @@ class _Ask extends StatelessWidget {
   /// The student's own waiting repair, so its preview says their real count. Null shows the
   /// plain description with no number.
   final RepairReady? repair;
+
+  /// The title and line for this ask: a different wording each time the sheet comes back.
+  final PrePromptVariant variant;
+
+  /// Allow reminders, or Open settings once Android no longer shows its question.
+  final PrePromptPrimary primary;
   final bool asking;
   final VoidCallback onAllow;
+  final VoidCallback onOpenSettings;
   final VoidCallback onNotNow;
 
   @override
@@ -175,7 +277,7 @@ class _Ask extends StatelessWidget {
             Expanded(
               child: Semantics(
                 header: true,
-                child: Text(NotificationsCopy.promptTitle, style: type.title),
+                child: Text(variant.title, style: type.title),
               ),
             ),
             const SizedBox(width: MmSpace.s12),
@@ -184,7 +286,7 @@ class _Ask extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s8),
         Text(
-          NotificationsCopy.promptLead,
+          variant.line,
           style: type.body.copyWith(color: colors.ink2),
         ),
         const SizedBox(height: MmSpace.s20),
@@ -234,16 +336,26 @@ class _Ask extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s12),
+        if (primary == PrePromptPrimary.openSettings) ...[
+          Text(
+            NotificationsCopy.promptBlockedNote,
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+          const SizedBox(height: MmSpace.s8),
+        ],
         Text(
           '${NotificationsCopy.promptQuietLine(formatClock(prefs.quietStart), formatClock(prefs.quietEnd))} ${NotificationsCopy.promptStudyNote}',
           style: type.small.copyWith(color: colors.ink3),
         ),
         const SizedBox(height: MmSpace.s24),
-        KeyButton(
-          label: NotificationsCopy.promptAllow,
-          loading: asking,
-          onPressed: asking ? null : onAllow,
-        ),
+        if (primary == PrePromptPrimary.openSettings)
+          KeyButton(label: NotificationsCopy.promptOpenSettings, onPressed: onOpenSettings)
+        else
+          KeyButton(
+            label: NotificationsCopy.promptAllow,
+            loading: asking,
+            onPressed: asking ? null : onAllow,
+          ),
         const SizedBox(height: MmSpace.s8),
         KeyButton.quiet(
           label: NotificationsCopy.promptNotNow,

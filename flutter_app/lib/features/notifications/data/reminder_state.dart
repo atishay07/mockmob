@@ -127,8 +127,14 @@ class ReminderState {
   /// Reminders scheduled earlier whose outcome is still unknown.
   final List<DeliveredReminder> delivered;
 
-  /// How many times the student pressed Not now on the pre-prompt sheet.
+  /// How many times the pre-prompt was put to the student without turning reminders on: the
+  /// sheet opened (and then Not now, a refused system question or a closed sheet) or the recap
+  /// row answered with Not now. Kept under its first name so stored state still reads. It sets
+  /// the spacing and the wording of the next ask.
   final int prePromptNotNowCount;
+
+  /// [prePromptNotNowCount] under the name the cadence uses.
+  int get prePromptAskCount => prePromptNotNowCount;
 
   bool isMuted(DateTime now) => mutedUntil != null && now.isBefore(mutedUntil!);
 
