@@ -600,9 +600,7 @@ canvas { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .skeleton,
   .animate-pulse-slow,
-  .marquee-track,
-  .logo .bolt,
-  .logo .dot { animation: none !important; }
+  .marquee-track { animation: none !important; }
   .glass { transition: none; }
 }
 
@@ -622,77 +620,28 @@ canvas { max-width: 100%; }
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   min-height: 44px;
   color: #fff;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 800;
   text-decoration: none;
   position: relative;
 }
-.logo .bolt {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: var(--volt);
-  color: #000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 22px var(--volt-glow);
-  transform-origin: center;
-  animation: logoBoltWake 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* Wordmark art: one SVG per theme. Light is the default; dark swaps in. */
+.logo__img {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 100%;
 }
-.logo .dot {
-  color: var(--volt);
-  display: inline-block;
-  text-shadow: 0 0 12px rgba(210, 240, 0, 0.46);
-  transform-origin: center;
-  animation: logoDotWake 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
-}
+.logo__img--dark { display: none; }
+html[data-theme='dark'] .logo__img--dark { display: block; }
+html[data-theme='dark'] .logo__img--light { display: none; }
 @media (hover: hover) and (pointer: fine){
-.logo:hover .bolt {
-  transform: rotate(-8deg) scale(1.05);
-  box-shadow: 0 0 32px rgba(210, 240, 0, 0.42);
+.logo .logo__img { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: left center; }
+.logo:hover .logo__img { transform: scale(1.03); }
 }
-}
-@media (hover: hover) and (pointer: fine){
-.logo:hover .dot {
-  transform: scale(1.18);
-  text-shadow: 0 0 18px rgba(210, 240, 0, 0.74);
-}
-}
-@keyframes logoBoltWake {
-  0% {
-    opacity: 0;
-    transform: translateY(-6px) rotate(-18deg) scale(0.72);
-    box-shadow: 0 0 0 rgba(210, 240, 0, 0);
-  }
-  62% {
-    opacity: 1;
-    transform: translateY(0) rotate(7deg) scale(1.08);
-    box-shadow: 0 0 34px rgba(210, 240, 0, 0.46);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotate(0) scale(1);
-    box-shadow: 0 0 22px var(--volt-glow);
-  }
-}
-@keyframes logoDotWake {
-  0% {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  48% {
-    opacity: 1;
-    transform: scale(1.38);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+@media (prefers-reduced-motion: reduce) {
+  .logo .logo__img { transition: none; }
+  .logo:hover .logo__img { transform: none; }
 }
 
 .coming-soon-page {
@@ -1969,23 +1918,14 @@ body:has(.mm) {
   border-bottom: 0;
 }
 /* High zoom on a phone leaves a CSS viewport under 300px. The menu button must stay
-   reachable, so the wordmark steps aside (still named for assistive tech), and below
-   240px the theme switch moves into the sheet. 320px and wider are unchanged. */
-.logo__word {
-  display: contents;
-}
+   reachable, so the wordmark shrinks, and below 240px the theme switch moves into
+   the sheet. 320px and wider are unchanged. */
 .mm-nav__sheet-theme {
   display: none;
 }
 @media (max-width: 299px) {
-  .mm-nav .logo__word {
-    display: block;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+  .mm-nav .logo__img {
+    height: 20px;
   }
 }
 @media (max-width: 239px) {
@@ -2062,26 +2002,9 @@ body:has(.mm) {
   cursor: pointer;
 }
 
-/* Logo reads as ink on paper; the bolt keeps the volt signature. */
-.mm .logo {
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.mm .logo .bolt {
-  box-shadow: 0 2px 0 var(--volt-edge);
-}
-.mm .logo .dot {
-  color: var(--volt-edge);
-  text-shadow: none;
-}
-.mm-foot .logo {
-  color: var(--chalk);
-}
-.mm-foot .logo .dot {
-  color: var(--volt);
-}
+/* The footer sits on slate in both themes, so it always uses the dark-theme art. */
+.mm-foot .logo .logo__img--dark { display: block; }
+.mm-foot .logo .logo__img--light { display: none; }
 
 /* Thumb-zone action bar. Mobile only — desktop has the nav CTA instead. */
 .mm-dock {

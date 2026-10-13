@@ -14,8 +14,8 @@ try {
   await p.reload({ waitUntil: 'load' });
   await p.waitForFunction(() => !!navigator.serviceWorker.controller);
   await p.evaluate(() => fetch('/api/auth/me'));
-  const assets = await p.evaluate(async () => { const cache = await caches.open('mockmob-public-fallback-v1'); return (await cache.keys()).map(r => new URL(r.url).pathname).sort(); });
-  assert.deepEqual(assets, ['/offline.html', '/pwa/icon-192.png', '/pwa/icon-512.png']);
+  const assets = await p.evaluate(async () => { const cache = await caches.open('mockmob-public-fallback-v2'); return (await cache.keys()).map(r => new URL(r.url).pathname).sort(); });
+  assert.deepEqual(assets, ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png']);
   await c.setOffline(true);
   const apiFailed = await p.evaluate(async () => { try { await fetch('/api/auth/me'); return false; } catch { return true; } });
   assert.equal(apiFailed, true);

@@ -133,7 +133,6 @@ html:has(.app-shell) :is(.app-shell .stat .value, .app-shell .logo, .app-shell .
 html[data-theme='light'] .app-shell :is(.q-option, .q-chip, .subject-card, .count-btn, .glass.hover, .glass.lift):hover { border-color: var(--a-line-hover); }
 html[data-theme='light'] .app-shell .btn-outline:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
 html[data-theme='light'] .app-shell .q-chip.skipped { color: var(--a-warn-text); }
-html[data-theme='light'] .app-shell .logo .dot { color: var(--a-accent-text); }
 /* The NTA-style console is its own conventional skin: restore Tailwind defaults inside it. */
 html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .arena-dark-island) {
   --color-zinc-50: oklch(98.5% 0 0); --color-zinc-100: oklch(96.7% 0.001 286.375); --color-zinc-200: oklch(92% 0.004 286.32);

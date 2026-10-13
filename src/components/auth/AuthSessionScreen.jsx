@@ -102,7 +102,6 @@ export function AuthSessionScreen({
         html[data-theme='light'] .auth-session-bg::after { display: none; }
         html[data-theme='light'] .auth-session-card { border-color: #dce1d4; background: #fff; box-shadow: 0 24px 60px -30px rgba(20,32,14,0.25); }
         html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #172016; }
-        html[data-theme='light'] .auth-session-card .logo .dot { color: #4f6400; }
         html[data-theme='light'] .auth-session-card p { color: #56624f; }
         html[data-theme='light'] .auth-session-card .bg-white\\/10 { background: #e6eadc; }
         .auth-session-spinner {
