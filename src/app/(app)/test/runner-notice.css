@@ -1,0 +1,7 @@
+/* Text colours come from --text-subtle, which both the MockMob and the NTA-style console set,
+   so the notices stay readable in either. State is shown by a dot and wording, not by colour alone. */
+.runner-sync-state--warn { display: flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 600; border-left: 4px solid #d98a00; }
+.runner-save { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 12.5px; line-height: 1.4; color: var(--text-subtle); }
+.runner-save i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2f9e44; }
+.runner-save[data-tone='warn'] { font-weight: 600; color: var(--text-primary); }
+.runner-save[data-tone='warn'] i { background: #d98a00; border-radius: 2px; transform: rotate(45deg); }

@@ -6,6 +6,8 @@ import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
 import AssistantLauncherGate from "@/components/ai/AssistantLauncherGate";
+import { VISITOR_BOOT_SCRIPT } from "@/../data/visitor_state.mjs";
+import "./visitor.css";
 
 const gabarito = Gabarito({
   variable: "--font-gabarito",
@@ -73,6 +75,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: VISITOR_BOOT_SCRIPT }} />
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">

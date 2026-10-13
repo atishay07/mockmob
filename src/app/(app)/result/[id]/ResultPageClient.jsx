@@ -12,6 +12,7 @@ import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice
 import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
+import { resultContentNote } from '@/../data/runner_notice.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
 import '@/components/recovery/result.css';
@@ -203,6 +204,7 @@ export default function ResultPageClient({ previewId = null }) {
           </div>
         </div>
         {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
+        {resultContentNote(attempt.selectionMeta) ? <p className="rp-note">{resultContentNote(attempt.selectionMeta)}</p> : null}
 
         <ol className="rp-list">
           {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : null}

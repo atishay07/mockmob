@@ -8,6 +8,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
+import { MemberCard, MemberHeroCopy, ReturningNote } from '@/components/landing/VisitorHero';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { Reveal } from '@/components/landing/Reveal';
@@ -122,20 +123,21 @@ export default function LandingPage() {
                 CUET UG 2027
                 <ArrowRight size={14} aria-hidden="true" />
               </a><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
-              <h1 className="lp-title">
+              <ReturningNote />
+              <h1 className="lp-title vs-guest-only">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line">CUET 2027.</span>
                 <span className="lp-title__line">One mock.</span>
                 <span className="lp-title__line lp-title__morph">A clearer next step.</span>
                 </>}
               </h1>
-              <p className="lp-lead" data-hero style={{ '--h': 1 }}>
+              <p className="lp-lead vs-guest-only" data-hero style={{ '--h': 1 }}>
                 {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed session. Review missed answers. Choose your next step.'}
               </p>
-              <div className="lp-cta" data-hero style={{ '--h': 2 }}>
+              <div className="lp-cta vs-guest-only" data-hero style={{ '--h': 2 }}>
                 <LandingActions />
               </div>
-              <ul className="lp-trust" data-hero style={{ '--h': 3 }}>
+              <ul className="lp-trust vs-guest-only" data-hero style={{ '--h': 3 }}>
                 <li><Check size={16} aria-hidden="true" />Free to start</li>
                 <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? `Pro ₹${OFFER.monthly.rupees} a month` : `Pro ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}`}</li>
                 <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
@@ -144,10 +146,11 @@ export default function LandingPage() {
                 Free DU eligibility and cutoff calculator
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
+              <a href="#exam-experience" className="lp-hero__exam-link vs-guest-only"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
+              <MemberHeroCopy />
             </div>
 
-            <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
+            <div className="lp-stage vs-guest-only" id="try-practice" data-hero style={{ '--h': 2 }}>
               <div className="lp-stage__heading"><span><span className="lp-stage__live" />Your first question starts here</span><span>No signup</span></div>
               <div className="lp-stage__card">
                 <DemoDrill />
@@ -157,11 +160,12 @@ export default function LandingPage() {
                 Five original sample questions. No signup. Not an official PYQ or a scored diagnostic.
               </p>
             </div>
+            <MemberCard />
           </div>
 
           {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
           <div className="mm-wrap">
-            <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
+            <nav className="lp-proof vs-guest-only" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
               <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try the sample before you sign up</span></a>
               {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes · check subject rules free</span></a> : null}
               <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style · your choice</span></a>
@@ -356,8 +360,10 @@ export default function LandingPage() {
           </div>
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="greeting" label="See you in the Arena." note="Start with one session." />
-            <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
-            <p className="lp-sub">Try the sample now. Build your practice record when you’re ready.</p>
+            <h2 className="lp-h2 lp-h2--xl vs-guest-only">Five questions. Then your next move.</h2>
+            <p className="lp-sub vs-guest-only">Try the sample now. Build your practice record when you’re ready.</p>
+            <h2 className="lp-h2 lp-h2--xl vs-member-only">Back to practice.</h2>
+            <p className="lp-sub vs-member-only">Your plan, your mistakes and your next step are one tap away.</p>
             <LandingActions mode="primary" />
           </Reveal>
         </section>

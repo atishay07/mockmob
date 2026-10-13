@@ -77,20 +77,17 @@ export function NavBar() {
 
         <div className="mm-nav__end">
           <ThemeToggle hint />
-          {isAuthenticated ? (
-            <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
-              My Arena
-            </Link>
-          ) : (
-            <>
-              <Link href="/login" className="mm-nav__link mm-nav__login">
-                Log in
-              </Link>
-              <Link href="/signup" className="mm-btn mm-btn--primary mm-nav__cta">
-                Start free
-              </Link>
-            </>
-          )}
+          {/* Both sets are rendered; <html data-visitor> picks one before first paint, so a signed-in
+              student does not see Log in flash first. */}
+          <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta vs-member-only">
+            My Arena
+          </Link>
+          <Link href="/login" className="mm-nav__link mm-nav__login vs-guest-only">
+            Log in
+          </Link>
+          <Link href="/signup" className="mm-btn mm-btn--primary mm-nav__cta vs-guest-only">
+            Start free
+          </Link>
 
           <button
             ref={toggleRef}

@@ -1,0 +1,31 @@
+/* Which version of the home page to show. <html data-visitor> is set by an inline script before
+   first paint (new | returning | member) and kept current by VisitorSync, so a signed-in student
+   never sees the pitch for strangers first. No attribute (no script, no storage) means "new". */
+html[data-visitor='returning'] .vs-new-only,
+html[data-visitor='member'] .vs-new-only,
+html:not([data-visitor='returning']) .vs-returning-only,
+html:not([data-visitor='member']) .vs-member-only,
+html[data-visitor='member'] .vs-guest-only { display: none !important; }
+
+.vs-welcome { margin: 0; max-width: 34rem; padding: .7rem 1rem; border: 1px solid var(--accent-line, var(--line-strong)); border-radius: 14px; background: var(--accent-wash, var(--paper-raised)); color: var(--ink); font-size: .9375rem; line-height: 1.45; }
+.vs-welcome b { font-weight: 700; }
+
+.vs-plan { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .75rem; margin: 0; font-size: .9375rem; font-weight: 600; color: var(--ink); }
+.vs-plan i { width: .6rem; height: .6rem; border-radius: 50%; background: var(--ink-3); }
+.vs-plan i[data-plan='pro'] { background: var(--volt-edge, #9db400); }
+.vs-plan span + span { color: var(--ink-2); font-weight: 500; }
+
+.vs-pref { display: flex; align-items: center; gap: .65rem; min-height: 44px; color: var(--ink-2); font-size: .875rem; cursor: pointer; }
+.vs-pref input { flex: none; width: 1.25rem; height: 1.25rem; accent-color: var(--ink); }
+
+.vs-card { display: grid; gap: .5rem; align-content: start; padding: 1.1rem; border: 1px solid var(--line); border-radius: 24px; background: var(--paper-raised); box-shadow: 0 24px 48px -28px rgb(16 24 12 / .35); }
+.vs-card__head { margin: 0 0 .15rem .35rem; font-family: var(--font-display, inherit); font-size: .6875rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.vs-card__list { display: grid; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.vs-card__list a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 64px; padding: .75rem .9rem; border-radius: 16px; color: var(--ink); text-decoration: none; background: var(--paper-sunken, transparent); }
+.vs-card__list a:hover { background: var(--accent-wash, var(--paper-sunken)); }
+.vs-card__list a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+.vs-card__list b { display: block; font-size: 1rem; font-weight: 700; }
+.vs-card__list small { display: block; margin-top: .15rem; color: var(--ink-2); font-size: .875rem; line-height: 1.4; }
+.vs-card__list svg { flex: none; width: 1.1rem; height: 1.1rem; color: var(--ink-3); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (min-width: 960px) { .vs-card { padding: 1.4rem; } }
+@media (prefers-reduced-motion: no-preference) { .vs-card__list a { transition: background-color .2s ease; } }

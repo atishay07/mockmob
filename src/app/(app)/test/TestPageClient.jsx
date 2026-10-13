@@ -13,6 +13,7 @@ import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import './nta-classic.css';
+import { RunnerBanner, RunnerSaveState } from './RunnerNotice';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -167,6 +168,7 @@ function TestRunner() {
   const [syncStatus, setSyncStatus] = useState('saved');
   const [pendingSubmission,setPendingSubmission] = useState(false);
   const online = useSyncExternalStore(subscribeConnection, connectionSnapshot, () => true);
+  const noticeState = useMemo(() => ({ pendingSubmission, online, syncStatus, hasTicket: Boolean(selectionMeta?.sessionTicket) }), [pendingSubmission, online, syncStatus, selectionMeta?.sessionTicket]);
   const autoSubmitTried = useRef(false);
   const [showVoteCoach, setShowVoteCoach] = useState(false);
   const [mobilePaletteOpen, setMobilePaletteOpen] = useState(false);
@@ -326,6 +328,8 @@ function TestRunner() {
         endsAt,
         idx,
         pendingSubmission,
+        // Lets the home page offer "Resume your test" without guessing the URL.
+        resumeUrl: `${window.location.pathname}${window.location.search}`,
       }));
     } catch {
       // Private mode or quota pressure should not interrupt the attempt.
@@ -661,7 +665,7 @@ function TestRunner() {
 
   return (
     <div ref={fullscreenTarget} className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
-      <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
+      <RunnerBanner state={noticeState} />
       {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
       {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
       {showVoteCoach && (
@@ -810,6 +814,7 @@ function TestRunner() {
               <span><i className="legend notvisited" /> Not visited</span>
               <span><i className="legend marked-answered" /> Answered & marked for review</span>
             </div>
+            <RunnerSaveState state={noticeState} />
             <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit test'}
             </button>
@@ -849,6 +854,7 @@ function TestRunner() {
               <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
             </div>
             {renderPalette(true)}
+            <RunnerSaveState state={noticeState} />
             <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit test'}
             </button>
