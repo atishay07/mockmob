@@ -63,7 +63,13 @@ class RunnerLayout extends StatelessWidget {
                   onLeave: onLeave,
                   onQuestions: onQuestions,
                 ),
-                RunnerMetaRow(subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter), save: s.saveState, warning: warning),
+                RunnerMetaRow(
+                  subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
+                  openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
+                  save: s.saveState,
+                  showSave: s.answeredCount > 0,
+                  warning: warning,
+                ),
                 const SizedBox(height: MmSpace.s4),
                 TimingTrack(cells: cells),
               ],
@@ -85,7 +91,7 @@ class RunnerLayout extends StatelessWidget {
                     onMark: (value) => s.setMarked(q.id, value),
                     passageRange: passageRangeOf(s, index),
                     leading: [_AwayBanner(session: s)],
-                    note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                    note: !s.isMock && index == 0 && s.answeredCount == 0 ? _PracticeNote(openUntil: s.endsAt.toLocal()) : null,
                   ),
                 ),
               ),
@@ -127,7 +133,9 @@ class _AwayBanner extends StatelessWidget {
 
 /// The practice skin's one line at the start: no feedback while answering.
 class _PracticeNote extends StatelessWidget {
-  const _PracticeNote();
+  const _PracticeNote({required this.openUntil});
+
+  final DateTime openUntil;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +146,7 @@ class _PracticeNote extends StatelessWidget {
         Icon(LucideIcons.messageCircle, size: 15, color: colors.ink3),
         const SizedBox(width: MmSpace.s8),
         Expanded(
-          child: Text(RunnerCopy.practiceNote, style: type.small.copyWith(color: colors.ink2)),
+          child: Text(RunnerCopy.practiceNote(openUntil), style: type.small.copyWith(color: colors.ink2)),
         ),
       ],
     );

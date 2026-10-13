@@ -86,11 +86,16 @@ void main() {
     });
 
     test('ending lines count only what happened', () {
-      expect(ReviewCopy.endingLine('Partnership: x', 3, 3), 'Partnership: all 3 repaired tonight.');
+      final night = DateTime(2026, 10, 13, 21, 30);
+      expect(ReviewCopy.endingLine('Partnership: x', 3, 3, now: night), 'Partnership: all 3 repaired tonight.');
       expect(
-        ReviewCopy.endingLine('Partnership', 2, 3, setAside: 1),
+        ReviewCopy.endingLine('Partnership', 2, 3, now: night, setAside: 1),
         'Partnership: 2 of 3 repaired tonight. 1 set aside while its key is checked.',
       );
+      // In the morning it is "today", never "tonight".
+      expect(ReviewCopy.endingLine('Partnership', 1, 1, now: DateTime(2026, 10, 13, 7, 34)), 'Partnership: the mistake repaired today.');
+      expect(ReviewCopy.finishFor(DateTime(2026, 10, 13, 7, 34)), 'Finish for today');
+      expect(ReviewCopy.tonightOverline(DateTime(2026, 10, 13, 16), 'Accountancy'), "Tonight's repair, Accountancy");
       expect(ReviewCopy.nothingRepaired(0, 0), contains('Nothing was charged'));
     });
 
@@ -99,8 +104,9 @@ void main() {
         ReviewCopy.allClearMessage,
         ReviewCopy.lifeCaption,
         ReviewCopy.checkedLater,
-        ReviewCopy.endingLine('Partnership', 1, 1),
+        ReviewCopy.endingLine('Partnership', 1, 1, now: DateTime(2026, 10, 13, 22)),
         ReviewCopy.firstRepair,
+        ReviewCopy.tonightCount(3, 'Mock 2', 5),
       ].join(' ').toLowerCase();
       for (final word in ['fixed', 'mastered', 'forever', '!']) {
         expect(all.contains(word), isFalse, reason: word);

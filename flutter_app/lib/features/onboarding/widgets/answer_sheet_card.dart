@@ -9,6 +9,7 @@ import '../model/answers.dart';
 import '../model/choices.dart';
 import '../model/deck.dart';
 import 'engraved_text.dart';
+import 'foil_seal.dart';
 import 'sheet_lines.dart';
 
 /// "Your sheet": the smoked-glass answer sheet at the top of every step (brief section 11).
@@ -23,6 +24,7 @@ class AnswerSheetCard extends StatelessWidget {
     this.current,
     this.compact = false,
     this.full = false,
+    this.sealedLine,
     this.animate = true,
   });
 
@@ -35,6 +37,10 @@ class AnswerSheetCard extends StatelessWidget {
 
   /// Every engraved line, not just the newest: the sealed sheet the student is keeping.
   final bool full;
+
+  /// "Sealed at 9:40 PM. Week one starts with Partnership.": shown with the foil seal, inside the
+  /// card's bottom-right corner, once the plan is sealed.
+  final String? sealedLine;
   final bool animate;
 
   static const BorderRadius radius = MmRadius.panelAll;
@@ -60,7 +66,7 @@ class AnswerSheetCard extends StatelessWidget {
           borderRadius: radius,
           opacity: colors.isNight ? 0.62 : 0.78,
           child: CustomPaint(
-            foregroundPainter: _TimingMarks(colors.ink4.withValues(alpha: colors.isNight ? 0.5 : 0.35)),
+            foregroundPainter: _TimingMarks(colors.ink3.withValues(alpha: 0.5)),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s24, MmSpace.s16),
               child: _Grow(
@@ -98,6 +104,22 @@ class AnswerSheetCard extends StatelessWidget {
                           ),
                         ),
                     ],
+                    if (sealedLine != null) ...[
+                      const SizedBox(height: MmSpace.s12),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                              child: Text(sealedLine!, style: type.caption.copyWith(color: colors.ink2)),
+                            ),
+                          ),
+                          const SizedBox(width: MmSpace.s12),
+                          FoilSeal(sealed: true, animate: animate),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -123,8 +145,9 @@ class _Grow extends StatelessWidget {
   }
 }
 
-/// One labelled bubble per step, spread across the card: inked when answered, dashed when
-/// skipped, ringed for the step on screen.
+/// One column of the answer sheet per step: the column number printed above, a 22 dp bubble
+/// (inked when answered, dashed when skipped, ringed for the step on screen) and the step's
+/// label beneath. Labels grow with the text size up to 1.3x and shrink rather than clip.
 class _BubbleTrack extends StatelessWidget {
   const _BubbleTrack({required this.steps, required this.answers, required this.current, required this.animate});
 
@@ -136,29 +159,38 @@ class _BubbleTrack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final label = context.mmType.caption.copyWith(fontSize: 10, height: 1.1, fontWeight: FontWeight.w600);
+    final type = context.mmType;
+    final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
+    final number = type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w500, color: colors.ink3);
+    final label = type.caption.copyWith(fontSize: 11.5, height: 1.15, fontWeight: FontWeight.w600);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        for (final s in steps)
+        for (var i = 0; i < steps.length; i++)
           Expanded(
             child: Column(
               children: [
+                Text('${i + 1}', textScaler: TextScaler.noScaling, style: number),
+                const SizedBox(height: 4),
                 Bubble(
-                  state: answers.isDone(s.id) ? BubbleState.filled : (answers.isSkipped(s.id) ? BubbleState.blank : BubbleState.hollow),
-                  size: 18,
-                  emphasis: s.id == current,
+                  state: answers.isDone(steps[i].id)
+                      ? BubbleState.filled
+                      : (answers.isSkipped(steps[i].id) ? BubbleState.blank : BubbleState.hollow),
+                  size: 22,
+                  emphasis: steps[i].id == current,
                   inkOrigin: const Offset(-1, 0),
                   animate: animate,
                 ),
                 const SizedBox(height: 5),
-                Text(
-                  s.bubble,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  softWrap: false,
-                  textScaler: TextScaler.noScaling,
-                  style: label.copyWith(color: s.id == current || answers.isDone(s.id) ? colors.ink2 : colors.ink3),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    steps[i].bubble,
+                    maxLines: 1,
+                    softWrap: false,
+                    textScaler: scaler,
+                    style: label.copyWith(color: steps[i].id == current || answers.isDone(steps[i].id) ? colors.ink : colors.ink2),
+                  ),
                 ),
               ],
             ),
@@ -182,9 +214,10 @@ class _Weeks extends StatelessWidget {
     final type = context.mmType;
     final s = stage;
     final weeks = s == null ? null : CuetCalendar.weeksTo(s.cuetYear, now);
-    final caption = s == null
-        ? 'Weeks to CUET print here'
-        : (weeks == null ? OnboardingCopy.datesNotOut : OnboardingCopy.weeksUnit(s.cuetYear));
+    if (s == null) {
+      return Text(OnboardingCopy.weeksPlaceholder, style: type.small.copyWith(color: colors.ink3));
+    }
+    final caption = weeks == null ? OnboardingCopy.datesNotOut : OnboardingCopy.weeksUnit(s.cuetYear);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -194,14 +227,15 @@ class _Weeks extends StatelessWidget {
           Text('--', style: type.figure.copyWith(color: colors.ink4)),
         const SizedBox(width: MmSpace.s12),
         Expanded(
-          child: Text(caption, style: type.small.copyWith(color: s == null ? colors.ink3 : colors.ink2, height: 1.3)),
+          child: Text(caption, style: type.small.copyWith(color: colors.ink2, height: 1.3)),
         ),
       ],
     );
   }
 }
 
-/// The black timing marks down the edge of a real OMR sheet, printed faintly.
+/// The timing marks down the edge of a real OMR sheet: short bars a scanner reads, printed in
+/// the sheet's own ink.
 class _TimingMarks extends CustomPainter {
   const _TimingMarks(this.color);
 
@@ -210,8 +244,8 @@ class _TimingMarks extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = color;
-    const w = 6.0, h = 2.0, gap = 9.0;
-    final x = size.width - 12;
+    const w = 8.0, h = 2.5, gap = 10.0;
+    final x = size.width - 14;
     for (var y = 28.0; y < size.height - 20; y += gap) {
       canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), const Radius.circular(1)), paint);
     }

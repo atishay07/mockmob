@@ -3,16 +3,18 @@ import 'dart:ui' show PathMetric;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/plan.dart';
 import 'engraved_text.dart';
+import 'foil_seal.dart';
 
-/// The back of the sheet: the plan, engraved line by line, each line with its own bubble that
-/// inks as it lands. While the student holds to seal, a volt light runs around the edge
-/// ([seal]); once sealed, the lime-and-gold foil seal is pressed onto the corner.
+/// The back of the sheet: the plan, written like the rows of an answer sheet. Each line has its
+/// row number in the gutter and engraves in turn; timing marks run down the left edge; the lamp
+/// pools behind the card. While the student holds to seal, a volt light runs around the edge
+/// ([seal]); once sealed, the foil seal is stamped into the corner. Volt appears only on the
+/// newest engraved line's number and the seal.
 class PlanSheet extends StatelessWidget {
   const PlanSheet({
     super.key,
@@ -20,6 +22,7 @@ class PlanSheet extends StatelessWidget {
     required this.seal,
     required this.sealed,
     required this.from,
+    this.lead = OnboardingCopy.planLead,
     this.revealed = true,
     this.animate = true,
   });
@@ -30,6 +33,9 @@ class PlanSheet extends StatelessWidget {
 
   /// "Tuesday, 13 October": the day week one starts.
   final String from;
+
+  /// The overline: built from the answers (and defaults, when a step was skipped).
+  final String lead;
 
   /// False until the flip has landed: the lines wait, then engrave.
   final bool revealed;
@@ -42,37 +48,50 @@ class PlanSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final card = LitEdge(
-      glow: true,
+    final card = FakeGlass(
       borderRadius: radius,
-      child: FakeGlass(
-        borderRadius: radius,
-        opacity: colors.isNight ? 0.66 : 0.82,
+      lamp: true,
+      opacity: colors.isNight ? 0.7 : 0.84,
+      child: CustomPaint(
+        foregroundPainter: _LeftTimingMarks(colors.ink3.withValues(alpha: 0.4)),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s24, MmSpace.s20, MmSpace.s20, MmSpace.s16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(OnboardingCopy.planFrom(from), style: type.label.copyWith(color: colors.ink2)),
+              Text(lead, style: type.caption.copyWith(color: colors.ink2)),
               const SizedBox(height: MmSpace.s8),
-              Padding(
-                padding: const EdgeInsets.only(right: MmSpace.s40),
-                child: Semantics(
-                  header: true,
-                  child: Text(plan.headline, style: type.headline.copyWith(fontSize: 26, height: 29 / 26)),
-                ),
+              Semantics(
+                header: true,
+                child: Text(plan.headline, style: type.headline.copyWith(fontSize: 26, height: 29 / 26)),
               ),
+              const SizedBox(height: MmSpace.s4),
+              Text(OnboardingCopy.planFrom(from), style: type.small.copyWith(color: colors.ink3)),
               const SizedBox(height: MmSpace.s16),
               for (var i = 0; i < plan.lines.length; i++)
                 _PlanLine(
+                  number: i + 1,
                   text: plan.lines[i],
+                  newest: i == plan.lines.length - 1,
                   show: revealed,
                   delay: stagger * i,
                   animate: animate,
                 ),
               const SizedBox(height: MmSpace.s4),
-              Text(OnboardingCopy.sharpens, style: type.caption.copyWith(color: colors.ink3)),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                      child: Text(OnboardingCopy.sharpens, style: type.caption.copyWith(color: colors.ink3)),
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s12),
+                  FoilSeal(sealed: sealed, size: 72, animate: animate),
+                ],
+              ),
             ],
           ),
         ),
@@ -82,17 +101,39 @@ class PlanSheet extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
+        // The lamp pooled behind the card, from the upper left.
+        Positioned(
+          left: -80,
+          top: -90,
+          right: 40,
+          height: 360,
+          child: IgnorePointer(
+            child: LightField(
+              pools: [
+                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.14), center: const Alignment(-0.3, -0.4), radius: 0.6),
+              ],
+            ),
+          ),
+        ),
         CustomPaint(foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText), child: card),
-        Positioned(top: -22, right: -8, child: _FoilSeal(sealed: sealed, animate: animate)),
       ],
     );
   }
 }
 
 class _PlanLine extends StatelessWidget {
-  const _PlanLine({required this.text, required this.show, required this.delay, required this.animate});
+  const _PlanLine({
+    required this.number,
+    required this.text,
+    required this.newest,
+    required this.show,
+    required this.delay,
+    required this.animate,
+  });
 
+  final int number;
   final String text;
+  final bool newest;
   final bool show;
   final Duration delay;
   final bool animate;
@@ -101,16 +142,18 @@ class _PlanLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final numberStyle = type.figure.copyWith(
+      fontSize: 13,
+      height: 1.6,
+      letterSpacing: 0,
+      color: newest && show ? colors.accentText : colors.ink3,
+    );
     return Padding(
       padding: const EdgeInsets.only(bottom: MmSpace.s12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 3),
-            child: Bubble(state: show ? BubbleState.filled : BubbleState.hollow, size: 14, inkOrigin: const Offset(-1, 0), animate: animate),
-          ),
-          const SizedBox(width: MmSpace.s12),
+          SizedBox(width: 28, child: ExcludeSemantics(child: Text('$number', style: numberStyle))),
           Expanded(
             child: show
                 ? EngravedText(text, delay: delay, animate: animate, style: type.small.copyWith(color: colors.ink, height: 1.4))
@@ -122,28 +165,22 @@ class _PlanLine extends StatelessWidget {
   }
 }
 
-/// The foil seal, pressed on with a short settle once the sheet is sealed.
-class _FoilSeal extends StatelessWidget {
-  const _FoilSeal({required this.sealed, required this.animate});
+/// The timing marks down the left edge of the sheet's back: 3 by 10 dp bars every 24 dp.
+class _LeftTimingMarks extends CustomPainter {
+  const _LeftTimingMarks(this.color);
 
-  final bool sealed;
-  final bool animate;
+  final Color color;
 
   @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(end: sealed ? 1 : 0),
-      duration: animate ? Motion.of(context, Motion.emphasizedDuration) : Duration.zero,
-      curve: Motion.emphasized,
-      builder: (context, t, child) => t == 0
-          ? const SizedBox.square(dimension: 76)
-          : Opacity(
-              opacity: t.clamp(0.0, 1.0),
-              child: Transform.rotate(angle: -0.18, child: Transform.scale(scale: 1.35 - 0.35 * t, child: child)),
-            ),
-      child: const ArtImage(MmArt.foilSeal, width: 76, height: 76, semanticLabel: OnboardingCopy.sealed),
-    );
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = color;
+    for (var y = 24.0; y < size.height - 24; y += 24) {
+      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(8, y, 3, 10), const Radius.circular(1)), paint);
+    }
   }
+
+  @override
+  bool shouldRepaint(_LeftTimingMarks old) => old.color != color;
 }
 
 /// The light that runs around the sheet's edge while the student holds to seal.

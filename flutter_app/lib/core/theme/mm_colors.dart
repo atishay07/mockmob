@@ -125,7 +125,7 @@ class MmColors extends ThemeExtension<MmColors> {
     lineStrong: Color(0xFF4A453B),
     ink: Color(0xFFF4F0E6),
     ink2: Color(0xFFBDB6A6),
-    ink3: Color(0xFF8E877A),
+    ink3: Color(0xFFA09989),
     ink4: Color(0xFF6A645A),
     volt: _volt,
     voltInk: _voltInk,

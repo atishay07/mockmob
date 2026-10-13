@@ -215,7 +215,7 @@ class _DockTab extends StatelessWidget {
                       active ? tab.activeIcon : tab.icon,
                       key: ValueKey(active),
                       size: 24,
-                      color: active ? colors.ink : colors.ink3,
+                      color: active ? colors.ink : colors.ink2,
                     ),
                   ),
                   if (showDot)
@@ -249,7 +249,7 @@ class _DockTab extends StatelessWidget {
                     tab.label,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
-                    style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink3),
+                    style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink2),
                   ),
                 ),
               ],

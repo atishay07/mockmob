@@ -16,7 +16,14 @@ class InkingSheet extends StatefulWidget {
 }
 
 class _InkingSheetState extends State<InkingSheet> with SingleTickerProviderStateMixin {
-  late final AnimationController _loop = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400));
+  late final AnimationController _loop = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400))
+    ..addListener(_tick);
+
+  /// How many bubbles are inked. Changes ten times a loop, so the row rebuilds only then.
+  final ValueNotifier<int> _inked = ValueNotifier(0);
+
+  // First 80% inks left to right; the last 20% holds, then the row clears at once.
+  void _tick() => _inked.value = (_loop.value / 0.8 * widget.count).floor().clamp(0, widget.count);
 
   @override
   void didChangeDependencies() {
@@ -32,6 +39,7 @@ class _InkingSheetState extends State<InkingSheet> with SingleTickerProviderStat
   @override
   void dispose() {
     _loop.dispose();
+    _inked.dispose();
     super.dispose();
   }
 
@@ -39,11 +47,9 @@ class _InkingSheetState extends State<InkingSheet> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return ExcludeSemantics(
       child: RepaintBoundary(
-        child: AnimatedBuilder(
-          animation: _loop,
-          builder: (context, _) {
-            // First 80% inks left to right; the last 20% holds, then the row clears at once.
-            final inked = (_loop.value / 0.8 * widget.count).floor().clamp(0, widget.count);
+        child: ValueListenableBuilder<int>(
+          valueListenable: _inked,
+          builder: (context, inked, _) {
             return BubbleRow(
               states: [for (var i = 0; i < widget.count; i++) i < inked ? BubbleState.filled : BubbleState.hollow],
               bubbleSize: widget.size,

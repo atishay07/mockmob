@@ -106,7 +106,6 @@ void main() {
       final at = DateTime(2026, 10, 12, 23, 42);
       expect(Receipts.mockSaved('Mock 7', at), 'Mock 7 saved on the server at 11:42 PM.');
       expect(Receipts.repairFinished(DateTime(2026, 10, 12, 23, 51)), 'Repair finished. Recorded at 11:51 PM.');
-      expect(Receipts.practiceFinished(8), 'Practice finished. 8 answered. This is practice, not proof.');
       expect(Receipts.notRecordedYet, 'On this phone. Not recorded yet.');
     });
 
@@ -118,8 +117,6 @@ void main() {
         Receipts.notRecordedYet,
         Receipts.mockSaved('Mock 7', DateTime(2026, 10, 12, 23, 42)),
         Receipts.repairFinished(DateTime(2026, 10, 12, 23, 51)),
-        Receipts.practiceRecorded(DateTime(2026, 10, 12, 23, 51)),
-        Receipts.practiceFinished(3),
       ];
       for (final text in all) {
         expect(text, isNot(contains('·')));

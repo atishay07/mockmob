@@ -31,11 +31,11 @@ class DayPicker extends ConsumerWidget {
               onToggle(i);
             },
             builder: (context, pressed, _) => SizedBox(
-              width: 44,
+              width: 48,
               child: Column(
                 children: [
                   SizedBox.square(
-                    dimension: 44,
+                    dimension: 48,
                     child: Center(
                       child: Bubble(
                         state: days.contains(i) ? BubbleState.filled : BubbleState.rest,

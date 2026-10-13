@@ -86,29 +86,31 @@ class _StatusBarScrim extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final top = MediaQuery.paddingOf(context).top;
-    if (top <= 0) return child;
     final ground = context.mmColors.ground;
+    // One tree shape whatever the inset: when the runner hides the status bar the inset drops
+    // to 0, and returning `child` bare would re-parent the router and its navigators.
     return Stack(
       children: [
         Positioned.fill(child: child),
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          height: top + 18,
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0, top / (top + 18), 1],
-                  colors: [ground.withValues(alpha: 0.95), ground.withValues(alpha: 0.86), ground.withValues(alpha: 0)],
+        if (top > 0)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: top + 18,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, top / (top + 18), 1],
+                    colors: [ground.withValues(alpha: 0.95), ground.withValues(alpha: 0.86), ground.withValues(alpha: 0)],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
       ],
     );
   }

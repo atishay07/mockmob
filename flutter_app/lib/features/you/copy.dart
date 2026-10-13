@@ -43,7 +43,7 @@ abstract final class YouCopy {
   static const accountPro = 'Pro';
 
   static String goalNote(int days) => 'Goal: ${days == 1 ? '1 day' : '$days days'} a week';
-  static String weeksInRhythm(int weeks) => 'Weeks in rhythm: $weeks';
+  static String weeksInRhythm(int weeks) => weeks == 1 ? '1 week in rhythm' : '$weeks weeks in rhythm';
   static String pausedUntil(String date) => 'Rhythm is paused until $date.';
   static String weekCount(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 

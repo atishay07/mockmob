@@ -50,7 +50,7 @@ class WelcomeView extends StatelessWidget {
             right: 0,
             top: 0,
             height: artHeight,
-            child: const ArtImage(MmArt.heroSlab, fit: BoxFit.cover, alignment: Alignment(0.25, 0.1)),
+            child: const ArtImage(MmArt.heroDesk, fit: BoxFit.cover, alignment: Alignment(0.25, 0.1)),
           ),
           Positioned(
             left: 0,
@@ -134,7 +134,7 @@ class WelcomeView extends StatelessWidget {
                         gap: 5,
                       ),
                       const SizedBox(width: MmSpace.s12),
-                      Expanded(child: Text(OnboardingCopy.welcomeBackLine, style: type.small.copyWith(color: colors.ink2))),
+                      Expanded(child: Text(OnboardingCopy.welcomeBackLine(filled, 7), style: type.small.copyWith(color: colors.ink2))),
                     ],
                   ),
                   const SizedBox(height: MmSpace.s16),

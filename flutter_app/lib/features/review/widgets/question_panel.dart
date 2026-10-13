@@ -169,11 +169,8 @@ class _PassageBlockState extends State<PassageBlock> {
                 ),
               ],
             ),
-            AnimatedSize(
-              duration: Motion.of(context, Motion.card),
-              curve: Motion.emphasized,
-              alignment: Alignment.topCenter,
-              child: Padding(
+            // The size snaps (no layout animation inside a scrolling list).
+            Padding(
                 padding: const EdgeInsets.only(right: MmSpace.s8),
                 child: Text(
                   widget.text,
@@ -182,7 +179,6 @@ class _PassageBlockState extends State<PassageBlock> {
                   overflow: _open ? TextOverflow.visible : TextOverflow.fade,
                 ),
               ),
-            ),
           ],
         ),
       ),

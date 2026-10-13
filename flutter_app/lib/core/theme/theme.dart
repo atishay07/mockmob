@@ -37,15 +37,28 @@ class _FadeOnlyTransitionsBuilder extends PageTransitionsBuilder {
 
 // On states are volt, the one interactive accent; a check glyph marks "on" so the state never
 // depends on colour alone. Off states sit on the sunken well with a strong hairline.
-SwitchThemeData _switchTheme(MmColors colors) => SwitchThemeData(
-      trackColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.sunken),
-      trackOutlineColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.lineStrong),
-      thumbColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.voltInk : colors.ink2),
-      thumbIcon: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.selected) ? Icon(Icons.check, size: 16, color: colors.volt) : null,
-      ),
-      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-    );
+SwitchThemeData _switchTheme(MmColors colors) {
+  // On but not changeable here (the phone decides, or Android blocks it): the volt goes quiet,
+  // so the switch says "kept, on hold" rather than "live".
+  bool held(Set<WidgetState> s) => s.contains(WidgetState.selected) && s.contains(WidgetState.disabled);
+  return SwitchThemeData(
+    trackColor: WidgetStateProperty.resolveWith(
+      (states) => held(states) ? colors.lineStrong : (states.contains(WidgetState.selected) ? colors.volt : colors.sunken),
+    ),
+    trackOutlineColor: WidgetStateProperty.resolveWith(
+      (states) => held(states) ? colors.lineStrong : (states.contains(WidgetState.selected) ? colors.volt : colors.lineStrong),
+    ),
+    thumbColor: WidgetStateProperty.resolveWith(
+      (states) => held(states) ? colors.ink3 : (states.contains(WidgetState.selected) ? colors.voltInk : colors.ink2),
+    ),
+    thumbIcon: WidgetStateProperty.resolveWith(
+      (states) => states.contains(WidgetState.selected)
+          ? Icon(Icons.check, size: 16, color: held(states) ? colors.lineStrong : colors.volt)
+          : null,
+    ),
+    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+  );
+}
 
 CheckboxThemeData _checkboxTheme(MmColors colors) => CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.sunken),

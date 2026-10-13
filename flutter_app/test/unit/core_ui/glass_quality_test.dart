@@ -43,10 +43,34 @@ void main() {
       }
       expect(fired, isFalse);
     });
+
+    test('fires on a slow phone at 25 fps with 40 ms frames', () {
+      final m = RasterBudgetMonitor();
+      var fired = false;
+      for (var i = 0; i < 60 && !fired; i++) {
+        fired = m.add(endMicros: i * 40000, rasterMicros: 40000);
+      }
+      expect(fired, isTrue);
+    });
+
+    test('fires on a struggling phone at 4 fps with 300 ms frames (no false idle gaps)', () {
+      final m = RasterBudgetMonitor();
+      var fired = false;
+      for (var i = 0; i < 30 && !fired; i++) {
+        fired = m.add(endMicros: i * 250000, rasterMicros: 300000);
+      }
+      expect(fired, isTrue);
+    });
+
+    test('the budget follows the refresh rate', () {
+      expect(RasterBudgetMonitor.thresholdFor(60), const Duration(milliseconds: 12));
+      expect(RasterBudgetMonitor.thresholdFor(90).inMicroseconds, 10000);
+      expect(RasterBudgetMonitor.thresholdFor(120).inMicroseconds, 7500);
+    });
   });
 
   group('GlassQualitySetting', () {
-    test('defaults to Full, saves a choice and downgrades Full to Lite only', () async {
+    test('defaults to Full; the automatic step to Lite is kept apart from the choice', () async {
       final store = MemoryPrefsStore();
       final container = ProviderContainer(overrides: [appPrefsProvider.overrideWithValue(AppPrefs(store))]);
       addTearDown(container.dispose);
@@ -54,11 +78,30 @@ void main() {
       expect(container.read(glassQualityProvider), GlassQuality.full);
       await container.read(glassQualityProvider.notifier).downgrade();
       expect(container.read(glassQualityProvider), GlassQuality.lite);
-      expect(await AppPrefs(store).glassQuality(), 'lite');
+      expect(container.read(glassQualityProvider.notifier).chosen, GlassQuality.full);
+      expect(container.read(glassQualityProvider.notifier).autoLite, isTrue);
+      expect(await AppPrefs(store).glassQuality(), isNull, reason: 'the automatic step is not saved as the choice');
+      expect(await AppPrefs(store).glassAutoLite(), isTrue);
+
+      // Picking Full again clears the automatic step.
+      await container.read(glassQualityProvider.notifier).choose(GlassQuality.full);
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+      expect(await AppPrefs(store).glassAutoLite(), isFalse);
 
       await container.read(glassQualityProvider.notifier).choose(GlassQuality.off);
       await container.read(glassQualityProvider.notifier).downgrade();
       expect(container.read(glassQualityProvider), GlassQuality.off, reason: 'a choice of Off is never changed');
+    });
+
+    test('a saved choice read before the first frame applies at once', () {
+      final container = ProviderContainer(
+        overrides: [
+          appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
+          glassBootProvider.overrideWithValue(const GlassBoot(chosen: GlassQuality.full, autoLite: true)),
+        ],
+      );
+      addTearDown(container.dispose);
+      expect(container.read(glassQualityProvider), GlassQuality.lite);
     });
 
     test('Night is the default theme choice', () async {

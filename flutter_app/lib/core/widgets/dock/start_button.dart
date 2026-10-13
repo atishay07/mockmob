@@ -5,7 +5,7 @@ import '../../theme/theme.dart';
 import '../materials/glass_surface.dart';
 import '../pressable.dart';
 
-/// The Start half of the split dock: a 60 dp glass circle holding a volt ring and a play glyph,
+/// The Start half of the split dock: a 60 dp glass circle holding a volt disc and a play glyph,
 /// the one-tap way into the core loop from anywhere. It morphs into the quick-start sheet.
 class StartButton extends StatelessWidget {
   const StartButton({super.key, required this.onPressed, this.pressed = false});
@@ -28,26 +28,37 @@ class StartButton extends StatelessWidget {
   }
 }
 
-/// The visual of [StartButton], shared with the morph into the sheet.
+/// The visual of [StartButton], shared with the morph into the sheet: a glass ring holding a
+/// volt disc (an inked answer bubble) with a dark play glyph, and a soft volt glow pooled below
+/// it on Night. The disc is the light of the dock; the ring keeps it part of the glass.
 class StartFace extends StatelessWidget {
   const StartFace({super.key, this.pressed = false});
 
   final bool pressed;
 
+  static const double disc = 46;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final light = colors.isNight ? colors.volt : colors.accentText;
     return SizedBox.square(
       dimension: MmDock.startSize,
-      child: GlassSurface(
-        role: GlassRole.dock,
-        borderRadius: MmRadius.pillAll,
-        pressed: pressed,
-        child: Center(
-          child: CustomPaint(
-            size: const Size.square(40),
-            painter: _StartGlyph(light: light, glow: colors.isNight ? colors.voltGlow : Colors.transparent, pressed: pressed),
+      child: CustomPaint(
+        painter: colors.isNight ? _GlowBelow(colors.voltGlow) : null,
+        child: GlassSurface(
+          role: GlassRole.dock,
+          borderRadius: MmRadius.pillAll,
+          pressed: pressed,
+          child: Center(
+            child: AnimatedScale(
+              scale: pressed ? 0.94 : 1,
+              duration: Motion.press,
+              curve: Motion.glide,
+              child: CustomPaint(
+                size: const Size.square(disc),
+                painter: _StartDisc(fill: colors.volt, glyph: colors.voltInk, rim: colors.voltEdge),
+              ),
+            ),
           ),
         ),
       ),
@@ -55,58 +66,66 @@ class StartFace extends StatelessWidget {
   }
 }
 
-class _StartGlyph extends CustomPainter {
-  const _StartGlyph({required this.light, required this.glow, required this.pressed});
+/// A 14% volt glow pooled under the button, outside its glass, never behind text.
+class _GlowBelow extends CustomPainter {
+  const _GlowBelow(this.color);
 
-  final Color light;
-  final Color glow;
-  final bool pressed;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = Offset(size.width / 2, size.height * 0.78);
+    final r = size.width * 0.62;
+    canvas.drawCircle(
+      c,
+      r,
+      Paint()..shader = RadialGradient(colors: [color, color.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: c, radius: r)),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GlowBelow old) => old.color != color;
+}
+
+class _StartDisc extends CustomPainter {
+  const _StartDisc({required this.fill, required this.glyph, required this.rim});
+
+  final Color fill;
+  final Color glyph;
+  final Color rim;
 
   @override
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
     final r = size.shortestSide / 2;
-    // A soft inner glow so the ring reads as light, not a stroke.
+    canvas.drawCircle(c, r, Paint()..color = fill);
+    // A hairline rim, a shade deeper, so the disc reads as ink pressed into the sheet.
     canvas.drawCircle(
       c,
-      r,
-      Paint()
-        ..shader = RadialGradient(
-          colors: [glow.withValues(alpha: glow.a * (pressed ? 1.6 : 1)), glow.withValues(alpha: 0)],
-        ).createShader(Rect.fromCircle(center: c, radius: r)),
-    );
-    canvas.drawCircle(
-      c,
-      r - 1.5,
+      r - 0.5,
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
-        ..color = light,
+        ..strokeWidth = 1
+        ..color = rim.withValues(alpha: 0.6),
     );
-    // The play glyph, optically centred (nudged right of the geometric centre).
-    final h = r * 0.62;
+    // The play glyph, optically centred (nudged right of the geometric centre), corners rounded.
+    final h = r * 0.5;
     final path = Path()
-      ..moveTo(c.dx - h * 0.38, c.dy - h * 0.55)
-      ..lineTo(c.dx + h * 0.58, c.dy)
-      ..lineTo(c.dx - h * 0.38, c.dy + h * 0.55)
+      ..moveTo(c.dx - h * 0.36, c.dy - h * 0.6)
+      ..lineTo(c.dx + h * 0.62, c.dy)
+      ..lineTo(c.dx - h * 0.36, c.dy + h * 0.6)
       ..close();
+    canvas.drawPath(path, Paint()..color = glyph);
     canvas.drawPath(
       path,
       Paint()
-        ..color = light
-        ..style = PaintingStyle.fill
-        ..strokeJoin = StrokeJoin.round,
-    );
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = light
+        ..color = glyph
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.4
+        ..strokeWidth = 2.6
         ..strokeJoin = StrokeJoin.round,
     );
   }
 
   @override
-  bool shouldRepaint(_StartGlyph old) => old.light != light || old.glow != glow || old.pressed != pressed;
+  bool shouldRepaint(_StartDisc old) => old.fill != fill || old.glyph != glyph || old.rim != rim;
 }

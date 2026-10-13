@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/router/app_shell.dart' show DockScrim;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -37,7 +38,7 @@ class PhoneFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    final clearance = MmDock.height + MmDock.lift + 8;
+    const clearance = MmDock.clearanceAbove;
     final insets = media.copyWith(padding: kPhoneInsets, viewPadding: kPhoneInsets);
     return MediaQuery(
       data: insets,
@@ -50,13 +51,21 @@ class PhoneFrame extends StatelessWidget {
                 child: child,
               ),
             ),
-            if (dock)
+            if (dock) ...[
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: MmDock.height + MmDock.lift + kPhoneInsets.bottom + 48,
+                child: const IgnorePointer(child: DockScrim()),
+              ),
               Positioned(
                 left: 0,
                 right: 0,
                 bottom: 0,
                 child: SplitDock(currentIndex: 0, onTab: (_) {}, onStart: (_) {}),
               ),
+            ],
           ],
         ),
       ),
@@ -65,18 +74,19 @@ class PhoneFrame extends StatelessWidget {
 }
 
 /// Renders Today for [view] in both themes as `<name>_<night|day>.png`.
-void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize, double scrollTo = 0, bool dock = true}) {
+void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize, double scrollTo = 0, bool dock = true, double textScale = 1}) {
   screenGolden(
     name,
     () => _Scrolled(offset: scrollTo, builder: (controller) => TodayBody(view: view(), callbacks: noopCallbacks, controller: controller, skeletonDelay: Duration.zero)),
     size: size,
     dock: dock,
     settle: scrollTo > 0,
+    textScale: textScale,
   );
 }
 
 /// Any widget in the phone frame, both themes.
-void screenGolden(String name, Widget Function() build, {Size size = kTodaySize, bool dock = true, bool settle = false}) {
+void screenGolden(String name, Widget Function() build, {Size size = kTodaySize, bool dock = true, bool settle = false, double textScale = 1}) {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
@@ -87,6 +97,7 @@ void screenGolden(String name, Widget Function() build, {Size size = kTodaySize,
         RepaintBoundary(key: boundary, child: PhoneFrame(dock: dock, child: build())),
         brightness: brightness,
         size: size,
+        textScale: textScale,
         disableAnimations: true,
         overrides: todayOverrides,
       );

@@ -148,9 +148,10 @@ class _Ticket extends StatelessWidget {
   }
 }
 
-/// The blank answer sheet of [count] questions, ten bubbles to a row.
+/// The blank answer sheet of [count] questions: ten columns across the full width, a 14 dp
+/// bubble centred in each cell, rows numbered by their first question.
 class SheetPreview extends StatelessWidget {
-  const SheetPreview({super.key, required this.count, this.bubble = 11});
+  const SheetPreview({super.key, required this.count, this.bubble = 14});
 
   final int count;
   final double bubble;
@@ -158,17 +159,27 @@ class SheetPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rows = (count / 10).ceil();
+    final colors = context.mmColors;
+    final number = context.mmType.caption.copyWith(fontSize: 11, height: 1, color: colors.ink3);
     return ExcludeSemantics(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var r = 0; r < rows; r++)
             Padding(
-              padding: EdgeInsets.only(top: r == 0 ? 0 : 5),
-              child: BubbleRow(
-                states: List.filled((count - r * 10).clamp(0, 10), BubbleState.hollow),
-                bubbleSize: bubble,
-                gap: 5,
+              padding: EdgeInsets.only(top: r == 0 ? 0 : 6),
+              child: Row(
+                children: [
+                  if (rows > 1) SizedBox(width: 22, child: Text('${r * 10 + 1}', style: number)),
+                  for (var c = 0; c < 10; c++)
+                    Expanded(
+                      child: Center(
+                        child: r * 10 + c < count
+                            ? Bubble(state: BubbleState.hollow, size: bubble, animate: false)
+                            : SizedBox.square(dimension: bubble),
+                      ),
+                    ),
+                ],
               ),
             ),
         ],

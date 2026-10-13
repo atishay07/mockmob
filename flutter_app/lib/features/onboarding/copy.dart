@@ -20,7 +20,7 @@ abstract final class OnboardingCopy {
   static const String buildPlan = 'Build my plan';
   static const String haveAccount = 'I already have an account';
   static const String continuePlan = 'Pick up my sheet';
-  static const String welcomeBackLine = 'Your sheet is on this phone, right where you left it.';
+  static String welcomeBackLine(int filled, int of) => 'Your sheet is where you left it. $filled of $of filled.';
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
 
@@ -30,6 +30,7 @@ abstract final class OnboardingCopy {
   // Stage.
   static const String stageTitle = 'Which CUET are you writing?';
   static const String stageSupport = 'No dates to type. We work them out.';
+  static const String weeksPlaceholder = 'Your weeks to May land here.';
   static String weeksUnit(int year) => 'weeks to the expected May $year window';
   static const String datesNotOut = 'Dates not out yet';
   static const String classElevenNote = 'You\'re early. That helps.';
@@ -37,9 +38,9 @@ abstract final class OnboardingCopy {
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
-  static const String courseSupport = 'Commerce at DU, with how many colleges took each course through CUET in 2026.';
+  static const String courseSupport = 'Commerce at DU, with how many colleges offered seats in CSAS 2026, Round 1.';
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
-  static String collegesUnit(int n) => n == 1 ? 'college took it in 2026' : 'colleges took it in 2026';
+  static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';
   static const String notSureNote = 'Fine. The plan works without it.';
   static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
@@ -47,9 +48,10 @@ abstract final class OnboardingCopy {
   static String showing(String category) => 'Showing $category';
   static const String categoryTitle = 'Category for the figures';
   static const String categoryNote = 'This stays on your phone. It only changes which figures you see.';
-  static const String openToAny = 'Open to any college';
+  static const String openToAny = 'Any college is fine';
   static String showAll(int n) => 'Show all $n';
   static const String showFewer = 'Show fewer';
+  static String courseChange(String course) => '$course, change';
   static const String changeCourse = 'Change course';
   static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
   static String barLine(String college, String score, int perPaper) =>
@@ -60,7 +62,6 @@ abstract final class OnboardingCopy {
   static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';
   static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
   static const String fiveMax = 'Five is the most a profile takes. Drop one to add another.';
-  static const String practiceReady = 'Starting point ready';
   static const String pickOne = 'Pick at least one subject.';
 
   // Worry.
@@ -68,12 +69,13 @@ abstract final class OnboardingCopy {
   static const String worrySupport = 'Pick the one that stings most. It changes where you start.';
 
   // Question.
-  static String questionTitle(String subject) => 'One real question. $subject.';
+  static String questionTitle(String subject) => 'One question from $subject.';
   static const String questionSupport = 'Answer the way you would in the hall.';
   static String rightIn(int seconds) => seconds <= 1 ? 'Right, in about a second.' : 'Right, in $seconds seconds.';
-  static const String trapLead = 'That\'s a trap. Here\'s the ten-second fix:';
-  static const String skipQuestion = 'Skip this one';
+  static const String trapLead = 'That\'s the trap. The ten-second fix';
   static String optionSemantics(String letter, String text) => 'Option $letter, $text';
+  static const String correctAnswer = 'Correct answer';
+  static const String yourAnswer = 'Your answer';
 
   // Rhythm.
   static const String rhythmTitle = 'Pick a pace you can keep.';
@@ -81,11 +83,13 @@ abstract final class OnboardingCopy {
   static const String daysLabel = 'Study days';
   static const String timeLabel = 'Around';
   static const String restDays = 'Dotted days are rest days. Rest is part of the plan.';
-  static const String boardWeeks = 'Board weeks count as two.';
+  static const String boardWeeks = 'During boards we count two a week.';
   static String minutes(int m) => '$m min';
 
   // Plan.
   static const String planLead = 'Your plan, built from your answers.';
+  static const String planLeadDefaults = 'Your plan, built from your answers and a few defaults.';
+  static const String ourDefault = 'our default, change it any time';
   static String planFrom(String date) => 'From $date';
   static const String holdToSeal = 'Hold to seal';
   static const String sealing = 'Keep holding';
@@ -105,7 +109,6 @@ abstract final class OnboardingCopy {
   static const String useEmailCode = 'Use an email code';
   static const String notNow = 'Not now';
   static const String offline = 'You\'re offline. Your sheet is safe here; connect to save it.';
-  static const String stillOnPhone = 'Everything so far is on this phone until you save.';
   static String sealedAt(String time, String chapter) => 'Sealed at $time. Week one starts with $chapter.';
 
   // First move.
@@ -114,6 +117,7 @@ abstract final class OnboardingCopy {
   static String firstMoveChapter(String chapter) => 'Week one starts with $chapter.';
   static const String startNow = 'Start now, about 10 minutes';
   static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account. Your sheet comes with you.';
+  static const String mobiFirstMove = 'Ten minutes. I\'ll be here after.';
   static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
   static const String saveNow = 'Save my sheet';
 

@@ -13,7 +13,13 @@ const Map<String, String> fallbackSubjectNames = {
   'accountancy': 'Accountancy',
   'business_studies': 'Business Studies',
   'economics': 'Economics',
+  'general_test': 'General Test',
 };
+
+const _commerceFour = ['english', 'accountancy', 'business_studies', 'economics'];
+
+/// Subject names are proper names ("Business Studies"), whatever case the catalogue sends.
+String _properName(String id, String name) => fallbackSubjectNames[id] ?? name;
 
 /// A subject as a chip: public id and display name.
 class SubjectChoice {
@@ -117,7 +123,7 @@ String _prettyId(String id) {
 /// Display name for a public subject id from whatever is loaded.
 String subjectNameFor(String id, List<Subject>? catalog) {
   for (final s in catalog ?? const <Subject>[]) {
-    if (s.id == id) return s.name;
+    if (s.id == id) return _properName(id, s.name);
   }
   return fallbackSubjectNames[id] ?? _prettyId(id);
 }
@@ -133,7 +139,7 @@ String internalSubjectFor(String id, List<Subject>? catalog) {
 /// The student's chosen subjects as chips (or the commerce four when none), with the current
 /// [selected] subject always present, so a subject chosen from "Other subjects" stays visible.
 List<SubjectChoice> subjectChoices({required List<String> chosen, required String selected, List<Subject>? catalog}) {
-  final ids = <String>[...(chosen.isEmpty ? fallbackSubjectNames.keys : chosen)];
+  final ids = <String>[...(chosen.isEmpty ? _commerceFour : chosen)];
   if (!ids.contains(selected)) ids.add(selected);
   return [for (final id in ids) SubjectChoice(id, subjectNameFor(id, catalog))];
 }
@@ -143,7 +149,7 @@ List<SubjectChoice> otherSubjects({required List<SubjectChoice> shown, List<Subj
   final taken = {for (final c in shown) c.id};
   return [
     for (final s in catalog ?? const <Subject>[])
-      if (!taken.contains(s.id)) SubjectChoice(s.id, s.name),
+      if (!taken.contains(s.id)) SubjectChoice(s.id, _properName(s.id, s.name)),
   ];
 }
 

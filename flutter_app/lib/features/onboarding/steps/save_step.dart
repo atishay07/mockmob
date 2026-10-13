@@ -68,14 +68,14 @@ class _SaveStepState extends ConsumerState<SaveStep> {
       onEmail: () => context.push(AppRoutes.signIn),
       onNotNow: widget.onNotNow,
       note: widget.note,
-      sealedLine: _sealedLine(widget.answers),
       // The whole sealed sheet where the phone has the height for it (and no note above it);
-      // the newest line otherwise.
+      // the newest line otherwise. The seal and the sealed line sit inside it.
       sheet: AnswerSheetCard(
         answers: widget.answers,
         now: ref.watch(nowProvider)(),
         compact: true,
-        full: widget.note == null && MediaQuery.sizeOf(context).height >= 800,
+        full: widget.note == null && MediaQuery.sizeOf(context).height >= 900,
+        sealedLine: _sealedLine(widget.answers),
         animate: false,
       ),
     );
@@ -158,15 +158,8 @@ class SaveView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (note != null) ...[InlineBanner(message: note!), const SizedBox(height: MmSpace.s16)],
-          if (sheet != null)
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                sheet!,
-                const Positioned(bottom: -18, right: -8, child: ArtImage(MmArt.foilSeal, width: 64, height: 64)),
-              ],
-            ),
-          if (sealedLine != null) ...[
+          ?sheet,
+          if (sheet == null && sealedLine != null) ...[
             const SizedBox(height: MmSpace.s12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
@@ -201,11 +194,6 @@ class SaveView extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Center(
             child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: busy ? null : onNotNow),
-          ),
-          Text(
-            OnboardingCopy.stillOnPhone,
-            style: type.caption.copyWith(color: colors.ink3),
-            textAlign: TextAlign.center,
           ),
         ],
       ),

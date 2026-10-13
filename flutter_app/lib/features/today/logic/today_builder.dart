@@ -96,6 +96,7 @@ TodayHero? _resumeOrEnded(TodayInputs i) {
       answered: d.answered,
       total: d.total,
       line: '${TodayCopy.endsAt(i.clock(d.endsAt))} $saved',
+      keyLabel: TodayCopy.resumeKey(d.isMock && d.mockNumber != null ? label : (d.isMock ? 'your mock' : 'your practice')),
       subjectId: canonicalSubject(d.subject),
     );
   }
@@ -157,7 +158,7 @@ AlsoSlot _slotFor(TodayHero h) => switch (h) {
       ResumeHero() => AlsoSlot(
           title: h.title,
           line: h.line,
-          action: TodayAction(TodayCopy.continueKey, GoTo(AppRoutes.run(h.sessionId)), actionType: 'resume'),
+          action: TodayAction(h.keyLabel, GoTo(AppRoutes.run(h.sessionId)), actionType: 'resume'),
         ),
       EndedHero() => AlsoSlot(title: h.title, line: h.line, action: h.action),
       MoveHero() => _moveSlot(h),

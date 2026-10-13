@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/domain/tonight_pick.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/domain/repair_candidates.dart';
 import 'package:mockmob/core/models/learning_plan.dart';
@@ -56,23 +57,31 @@ void main() {
   });
 
   group('the ready repair', () {
-    test('names the chapter that holds most mistakes and defaults to 20 minutes in the evening', () {
+    test('tonight is one chapter of the newest paper: the chapter with the most open mistakes', () {
       final m = _move(ashaInputs());
-      expect(m.number, '6');
-      expect(m.numberLabel, 'mistakes\nfrom Mock 7');
-      expect(m.meaning, 'Partnership fundamentals holds 4 of them.');
-      expect(m.selectedMinutes, 20);
-      expect(m.durations.map((d) => d.minutes), [5, 10, 20]);
+      // Partnership holds 4 of Mock 7's 6; a repair run covers one chapter, so the chips stop at 3.
+      expect(m.number, '3');
+      expect(m.numberLabel, 'mistakes\ntonight');
+      expect(m.meaning, '3 of the 6 from Mock 7. All 3 are in Partnership fundamentals.');
+      expect(m.selectedMinutes, 10);
+      expect(m.durations.map((d) => d.minutes), [5, 10]);
       expect(m.evidenceId, 'm7');
       expect((m.primary.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
-      expect(m.primary.label, TodayCopy.startRepair(20));
+      expect(m.primary.label, TodayCopy.startRepair(10));
+      expect(m.meaning, isNot(contains('holds')), reason: '"Holds" is kept for a passed fresh check');
     });
 
     test('a shorter chip shrinks the task and the number', () {
       final m = _move(ashaInputs(selectedMinutes: 5));
       expect(m.number, '2');
-      expect(m.meaning, 'Partnership fundamentals holds 4 of the 6 waiting.');
+      expect(m.meaning, '2 of the 6 from Mock 7. All 2 are in Partnership fundamentals.');
       expect((m.primary.target as GoTo).location, endsWith('count=2'));
+    });
+
+    test('in the morning it says today, never tonight', () {
+      final m = _move(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0)));
+      expect(m.numberLabel, 'mistakes\ntoday');
+      expect(m.overline, "Today's move");
     });
 
     test('late at night the default is shorter and Mobi is sleepy', () {
@@ -84,11 +93,12 @@ void main() {
       expect(m.headline, TodayCopy.lateNight);
     });
 
-    test('returning after days away asks how long, greets by name, says nothing was lost', () {
+    test('returning after days away asks how long without repeating the name, says nothing was lost', () {
       final m = _move(ashaInputs(returning: true));
       expect(m.mood, TodayMood.returning);
-      expect(m.headline, 'Welcome back, Asha.');
-      expect(m.durationPrompt, TodayCopy.howLong);
+      expect(m.headline, 'Good to have you back.');
+      expect(m.headline, isNot(contains('Asha')), reason: 'the greeting above already says the name');
+      expect(m.durationPrompt, 'How long have you got tonight?');
       expect(m.selectedMinutes, 10);
       expect(m.meaning, contains('Its 6 mistakes are still here.'));
       expect(m.art.art, MmArt.mobiGreet);
@@ -107,11 +117,16 @@ void main() {
       expect(m.numberLabel, isNot(contains('Mock 7')));
     });
 
-    test('a chapter is named only when it holds two or more', () {
-      const one = RepairCandidate(questionId: 'a', number: 1, chapter: 'Ratio analysis');
-      const two = RepairCandidate(questionId: 'b', number: 2, chapter: 'Cash flow statement');
-      expect(topChapter(const [one, two]), isNull);
-      expect(topChapter(const [one, one, two]), ('Ratio analysis', 2));
+    test("tonight's chapter: most open mistakes, ties to the earliest question", () {
+      const a = RepairCandidate(questionId: 'a', number: 9, chapter: 'Ratio analysis');
+      const b = RepairCandidate(questionId: 'b', number: 2, chapter: 'Cash flow statement');
+      const c = RepairCandidate(questionId: 'c', number: 4, chapter: 'Ratio analysis');
+      final tie = pickTonightChapter(const [a, b], chapterOf: (x) => x.chapter, numberOf: (x) => x.number)!;
+      expect(tie.chapter, 'Cash flow statement');
+      final most = pickTonightChapter(const [a, b, c], chapterOf: (x) => x.chapter, numberOf: (x) => x.number)!;
+      expect(most.chapter, 'Ratio analysis');
+      expect([for (final x in most.items) x.number], [4, 9]);
+      expect(most.paperOpen, 3);
     });
   });
 

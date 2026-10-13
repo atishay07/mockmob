@@ -79,17 +79,9 @@ class FoldedSheet extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       ColoredBox(color: paper),
-                      Opacity(
-                        opacity: colors.isNight ? 0.9 : 0.2,
-                        child: Image.asset(
-                          MmArt.paperTile.asset,
-                          repeat: ImageRepeat.repeat,
-                          scale: 2.4,
-                          alignment: Alignment.topLeft,
-                          excludeFromSemantics: true,
-                          errorBuilder: (context, error, stack) => const SizedBox.shrink(),
-                        ),
-                      ),
+                      // One cover of the tile (it has a visible seam when repeated); the image
+                      // carries its own opacity, so no extra layer.
+                      ArtImage(MmArt.paperTile, fit: BoxFit.cover, opacity: colors.isNight ? 0.9 : 0.2),
                       CustomPaint(painter: _FoldPainter(crease: crease, colors: colors)),
                     ],
                   ),

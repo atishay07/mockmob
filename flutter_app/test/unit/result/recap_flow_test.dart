@@ -67,7 +67,9 @@ void main() {
     testWidgets('a tap on the tab lifts it open, with the open haptic, and marks the result opened', (tester) async {
       await pump(tester, '/result/a7/sealed');
       expect(find.text('Your sheet is back.'), findsOneWidget);
-      expect(find.text("Mock 7 done. That's your third full paper this month."), findsOneWidget);
+      expect(find.text('Marked on the server.'), findsOneWidget);
+      // The effort line is said once, by Mobi on card 4, never on the sealed sheet.
+      expect(find.textContaining('full paper this month'), findsNothing);
       await tester.tap(find.text('Open your result'));
       await _run(tester, 700);
       expect(haptics.calls, containsAllInOrder(['light', 'medium']));
@@ -228,7 +230,8 @@ void main() {
       await _run(tester, 1000);
       expect(find.text('Mock 7 is in your record.'), findsOneWidget);
       expect(find.text('Saved on the server at 10:44 PM.'), findsOneWidget);
-      expect(find.text('Fresh check: not available yet.'), findsOneWidget);
+      expect(find.text('Fresh check: not available yet.'), findsNothing);
+      expect(find.text('Third full paper this month.'), findsOneWidget);
       await tester.tap(find.text('5 min'));
       await tester.pump();
       expect(find.text('Start 5-minute repair'), findsOneWidget);

@@ -76,6 +76,7 @@ void reviewGolden(
   Size size = kReviewSize,
   bool disableAnimations = true,
   Future<void> Function(WidgetTester tester)? after,
+  double textScale = 1,
 }) {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
@@ -87,6 +88,7 @@ void reviewGolden(
         RepaintBoundary(key: boundary, child: build()),
         brightness: brightness,
         size: size,
+        textScale: textScale,
         disableAnimations: disableAnimations,
         overrides: overrides?.call() ?? reviewOverrides(),
         wrapInScaffold: false,

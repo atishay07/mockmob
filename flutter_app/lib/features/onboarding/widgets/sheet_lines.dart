@@ -1,5 +1,6 @@
 import '../model/answers.dart';
 import '../model/deck.dart';
+import '../data/subjects.dart';
 import '../model/plan.dart';
 
 /// The lines engraved on the front of the sheet, one per answered step, in deck order.
@@ -14,15 +15,14 @@ List<String> sheetLines(OnboardingAnswers a) {
     if (picks.isNotEmpty) {
       lines.add('${course.short}: ${picks.join(', ')}');
     } else {
-      lines.add(a.openToAny ? '${course.short}, open to any college' : course.short);
+      lines.add(a.openToAny ? '${course.short}, any college is fine' : course.short);
     }
   } else if (a.courseUndecided) {
     lines.add('Course: deciding later');
   }
 
   if (a.isDone(Steps.subjects) && a.subjects.isNotEmpty) {
-    final ranked = a.ranked;
-    lines.add(ranked.length == 1 ? 'Subject: ${ranked.first.label}' : 'Weakest first: ${ranked[0].label}, then ${ranked[1].label}');
+    lines.add(subjectsLine(a));
   }
 
   if (a.worry != null) lines.add(FirstMove.of(a).line);
@@ -31,7 +31,7 @@ List<String> sheetLines(OnboardingAnswers a) {
   if (w != null) {
     // Never "0 s": a tap under half a second still took about a second.
     final seconds = (w.millis / 1000).round().clamp(1, 1 << 30);
-    lines.add(w.correct ? 'One real question: right in $seconds s' : 'One real question: one trap found');
+    lines.add(w.correct ? 'Warm-up: right in $seconds s' : 'Warm-up: one trap found');
   }
 
   if (a.isDone(Steps.rhythm)) {
@@ -40,4 +40,16 @@ List<String> sheetLines(OnboardingAnswers a) {
     );
   }
   return lines;
+}
+
+/// The subjects line. The order is only claimed when the ratings differ; a tie says so.
+String subjectsLine(OnboardingAnswers a) {
+  final ranked = a.ranked;
+  if (ranked.length == 1) return 'Subject: ${ranked.first.label}';
+  Confidence of(SheetSubject s) => a.confidence[s] ?? Confidence.okay;
+  if (of(ranked[0]) != of(ranked[1])) return 'Weakest first: ${ranked[0].label}, then ${ranked[1].label}';
+  final tied = [for (final s in ranked) if (of(s) == of(ranked[0])) s];
+  final names = tied.length == 2 ? '${tied[0].label} and ${tied[1].label}' : '${tied.length} subjects';
+  final both = tied.length == 2 ? 'both' : 'all';
+  return '$names, $both ${of(ranked[0]).label}. Your check sorts them.';
 }

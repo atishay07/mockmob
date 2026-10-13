@@ -116,36 +116,41 @@ class FoldedSheet extends StatelessWidget {
             right: 0,
             top: 0,
             height: f,
-            child: AnimatedBuilder(
-              animation: open,
-              builder: (context, _) {
-                final p = open.value.clamp(0.0, 1.0);
-                final angle = math.pi * (1 - p);
-                final showOutside = angle > math.pi / 2;
-                // Lit flat; darkest when standing on edge, turned away from the lamp.
-                final shade = showOutside ? (math.pi - angle) / (math.pi / 2) * 0.5 : angle / (math.pi / 2) * 0.38;
-                return Transform(
-                  alignment: Alignment.bottomCenter,
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, perspective)
-                    ..rotateX(angle),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    fit: StackFit.expand,
-                    children: [
-                      showOutside ? outsideFace : insideFace,
-                      if (shade > 0.01)
-                        IgnorePointer(
-                          // Both faces put their folded corner top right in the flap's own space.
-                          child: ClipPath(
-                            clipper: const PaperClipper(notch: PaperNotch.topRight),
-                            child: ColoredBox(color: Color.fromRGBO(6, 5, 3, shade.clamp(0.0, 1.0))),
+            // The flap never paints wider than the sheet: near upright, perspective would push its
+            // free edge past the screen's sides.
+            child: ClipRect(
+              clipper: const _SheetWidth(),
+              child: AnimatedBuilder(
+                animation: open,
+                builder: (context, _) {
+                  final p = open.value.clamp(0.0, 1.0);
+                  final angle = math.pi * (1 - p);
+                  final showOutside = angle > math.pi / 2;
+                  // Lit flat; darkest when standing on edge, turned away from the lamp.
+                  final shade = showOutside ? (math.pi - angle) / (math.pi / 2) * 0.5 : angle / (math.pi / 2) * 0.38;
+                  return Transform(
+                    alignment: Alignment.bottomCenter,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, perspective)
+                      ..rotateX(angle),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      fit: StackFit.expand,
+                      children: [
+                        showOutside ? outsideFace : insideFace,
+                        if (shade > 0.01)
+                          IgnorePointer(
+                            // Both faces put their folded corner top right in the flap's own space.
+                            child: ClipPath(
+                              clipper: const PaperClipper(notch: PaperNotch.topRight),
+                              child: ColoredBox(color: Color.fromRGBO(6, 5, 3, shade.clamp(0.0, 1.0))),
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           if (sweep != null)
@@ -158,6 +163,17 @@ class FoldedSheet extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Clips to the sheet's width only; the flap may still rise above or below its slot.
+class _SheetWidth extends CustomClipper<Rect> {
+  const _SheetWidth();
+
+  @override
+  Rect getClip(Size size) => Rect.fromLTRB(0, -size.height * 2, size.width, size.height * 3);
+
+  @override
+  bool shouldReclip(_SheetWidth oldClipper) => false;
 }
 
 class _DeskShadow extends StatelessWidget {

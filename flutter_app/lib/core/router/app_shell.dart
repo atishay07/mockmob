@@ -91,6 +91,7 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   bool _onScroll(UserScrollNotification n) {
     if (n.metrics.axis != Axis.vertical) return false;
+    GlassActivity.userScrolling = n.direction != ScrollDirection.idle;
     switch (n.direction) {
       case ScrollDirection.reverse:
         _compact.value = true;
@@ -101,10 +102,15 @@ class _AppShellState extends ConsumerState<AppShell> {
     return false;
   }
 
+  /// Pushed confirm and loading pages inside Practice hide the dock, like the runner: they pin
+  /// their own key at the bottom.
+  static bool dockHiddenAt(String path) => path.startsWith('/practice/setup/') || path == AppRoutes.practiceStart;
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    final clearance = MmDock.height + MmDock.lift + 8;
+    final showDock = !dockHiddenAt(GoRouterState.of(context).uri.path);
+    final clearance = showDock ? MmDock.clearanceAbove : 0.0;
     final content = MediaQuery(
       data: media.copyWith(
         padding: media.padding.copyWith(bottom: media.padding.bottom + clearance),
@@ -112,6 +118,17 @@ class _AppShellState extends ConsumerState<AppShell> {
       ),
       child: NotificationListener<UserScrollNotification>(onNotification: _onScroll, child: shell),
     );
+    // While a sheet or dialog covers the shell, the dock stops blurring: it sits under the
+    // sheet's scrim, so a live blur there would cost frames for nothing.
+    final covered = !(ModalRoute.of(context)?.isCurrent ?? true);
+    Widget dock = SplitDock(
+      currentIndex: shell.currentIndex,
+      onTab: _onTab,
+      onStart: _onStart,
+      showReviewDot: ref.watch(reviewDotProvider),
+      compact: _compact,
+    );
+    if (covered) dock = GlassScope(quality: GlassQuality.lite, child: dock);
 
     return PopScope(
       canPop: shell.currentIndex == 0,
@@ -124,20 +141,40 @@ class _AppShellState extends ConsumerState<AppShell> {
           child: Stack(
             children: [
               Positioned.fill(child: content),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: SplitDock(
-                  currentIndex: shell.currentIndex,
-                  onTab: _onTab,
-                  onStart: _onStart,
-                  showReviewDot: ref.watch(reviewDotProvider),
-                  compact: _compact,
+              if (showDock) ...[
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: MmDock.height + MmDock.lift + media.viewPadding.bottom + 48,
+                  child: const IgnorePointer(child: RepaintBoundary(child: DockScrim())),
                 ),
-              ),
+                Positioned(left: 0, right: 0, bottom: 0, child: RepaintBoundary(child: dock)),
+              ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The ground fading in behind the dock, so content scrolling under it never sits between the
+/// pill and Start or shows through the glass as readable text. Environment, never touchable.
+class DockScrim extends StatelessWidget {
+  const DockScrim({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ground = context.mmColors.ground;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          // Fully ground by the dock's top edge, so nothing reads between the pill and Start.
+          stops: const [0, 0.28, 0.38],
+          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.9), ground],
         ),
       ),
     );

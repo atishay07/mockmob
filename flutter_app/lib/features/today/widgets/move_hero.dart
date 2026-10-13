@@ -43,10 +43,11 @@ class MoveHeroCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+            // One line each, shrinking at large text rather than breaking a word in two.
+            _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
             if (m.subjectLine != null) ...[
               const SizedBox(height: 2),
-              Text(m.subjectLine!, style: type.labelLarge.copyWith(color: colors.ink)),
+              _OneLine(m.subjectLine!, style: type.labelLarge.copyWith(color: colors.ink)),
             ],
             if (m.headline != null) ...[
               const SizedBox(height: MmSpace.s12),
@@ -132,4 +133,19 @@ class MoveHeroCard extends StatelessWidget {
       child: content,
     );
   }
+}
+
+/// A short label kept to one line: it scales down to fit instead of wrapping mid-word.
+class _OneLine extends StatelessWidget {
+  const _OneLine(this.text, {required this.style});
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) => FittedBox(
+    fit: BoxFit.scaleDown,
+    alignment: Alignment.centerLeft,
+    child: Text(text, style: style, maxLines: 1, softWrap: false),
+  );
 }

@@ -58,7 +58,7 @@ class EndingSheet extends StatelessWidget {
             ),
           ),
           // The lamp catching the sheet from the upper left.
-          Positioned.fill(child: LightField.lamp(context, strength: 0.9)),
+          const Positioned.fill(child: LampScene(strength: 0.9)),
           Positioned.fill(child: Grain(opacity: colors.grain)),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 18, 20, 22),
@@ -69,7 +69,7 @@ class EndingSheet extends StatelessWidget {
                 const SizedBox(height: MmSpace.s16),
                 Center(
                   child: Semantics(
-                    label: 'Answer sheet. $repairedNow repaired tonight.',
+                    label: 'Answer sheet. $repairedNow repaired just now.',
                     child: RepaintBoundary(
                       child: CustomPaint(
                         size: Size(cols * _cell + (cols - 1) * _gap, rows * _cell + (rows - 1) * _gap),

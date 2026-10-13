@@ -6,7 +6,7 @@ abstract final class ReviewCopy {
   // ---- The tab --------------------------------------------------------------------------
 
   static const title = 'Review';
-  static const tonightOverline = "Tonight's repair";
+  static String tonightOverline(DateTime now, String subject) => "${tonightOrTodayTitle(now)}'s repair, $subject";
   static const mistakesHeading = 'Mistakes to repair';
   static const recordHeading = 'Your record';
   static const pastHeading = 'Past results';
@@ -18,9 +18,16 @@ abstract final class ReviewCopy {
 
   static String seeAllChapters(int chapters) => 'See all $chapters chapters';
 
-  static String tonightUnit(int n) => pluralWord(n, 'mistake');
-  static String tonightSource(String source, String subject) => 'From $source, $subject. You can stop after any one.';
-  static String tonightKey(int n) => 'Repair ${plural(n, 'mistake')}';
+  /// Where tonight's mistakes come from, reconciled with the chapter's count in the list below.
+  static String tonightCount(int n, String source, int chapterOpen) {
+    final head = '${plural(n, 'mistake')} from $source.';
+    final rest = chapterOpen - n;
+    if (rest <= 0) return '$head You can stop after any one.';
+    return '$head ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
+  }
+
+  static String tonightKey(int n, int? minutes) =>
+      minutes == null ? 'Repair ${plural(n, 'mistake')}' : 'Repair ${plural(n, 'mistake')}, about $minutes minutes';
 
   /// The one Hinglish caption on the tab.
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, ${shortChapter(chapter)}.';
@@ -76,7 +83,7 @@ abstract final class ReviewCopy {
   static const emptyMessage = 'Finish a mock or a practice and every wrong answer lands here, grouped by chapter, ready to repair.';
   static const emptyAction = 'Start practice';
   static const allClearTitle = 'Nothing waiting to repair';
-  static const allClearMessage = 'Every mistake you have found is repaired. Checked comes later, on fresh questions.';
+  static const allClearMessage = "Every mistake you've found is repaired. A Quick 10 finds the next one.";
   static const loadErrorTitle = 'We could not load your mistakes';
   static const loadErrorMessage = 'Your record is safe. Check the connection and try again.';
   static const offlineTitle = 'You are offline';
@@ -129,7 +136,8 @@ abstract final class ReviewCopy {
   static const stillWorking = 'Still working on this one. Try again in a moment.';
   static const offline = 'You are offline. Your place is kept.';
   static const cannotRepair = 'This one cannot be repaired here. The key explanation still works.';
-  static const notFound = 'This mistake is no longer on your account.';
+  static const notFound = "We can't find this mistake any more. It may already be repaired.";
+  static const backToReview = 'Back to Review';
   static const keyNeedsConnection = 'The key explanation needs a connection the first time.';
 
   static String retryTitle(String chapter) => 'Practise 5 on ${shortChapter(chapter)}';
@@ -142,10 +150,11 @@ abstract final class ReviewCopy {
   // ---- Ending ---------------------------------------------------------------------------
 
   static String endingUnit(int n) => n == 1 ? 'mistake repaired' : 'mistakes repaired';
-  static String endingLine(String chapter, int repaired, int total, {int setAside = 0, int reviewed = 0}) {
+  static String endingLine(String chapter, int repaired, int total, {required DateTime now, int setAside = 0, int reviewed = 0}) {
+    final when = tonightOrToday(now);
     final head = repaired == total
-        ? '${shortChapter(chapter)}: ${repaired == 1 ? 'the mistake' : 'all $repaired'} repaired tonight.'
-        : '${shortChapter(chapter)}: $repaired of $total repaired tonight.';
+        ? '${shortChapter(chapter)}: ${repaired == 1 ? 'the mistake' : 'all $repaired'} repaired $when.'
+        : '${shortChapter(chapter)}: $repaired of $total repaired $when.';
     return [
       head,
       if (setAside > 0) '$setAside set aside while ${setAside == 1 ? 'its key is' : 'their keys are'} checked.',
@@ -153,12 +162,12 @@ abstract final class ReviewCopy {
     ].join(' ');
   }
 
-  static const checkedLater = "Checked needs fresh questions you haven't seen. Those open later.";
+  static const checkedLater = "Checked comes later, on questions you haven't seen. That's how we know it holds.";
   static const firstRepair = 'This is your first repair.';
-  static const goodPlaceToStop = 'That is a good place to stop for tonight.';
+  static String goodPlaceToStop(DateTime now) => 'That is a good place to stop for ${tonightOrToday(now)}.';
   static String repairMore(int n) => 'Repair ${plural(n, 'more mistake')}';
   static String repairMoreLine(String chapter, int? minutes) => minutes == null ? chapter : '$chapter, about $minutes minutes';
-  static const finishTonight = 'Finish for tonight';
+  static String finishFor(DateTime now) => 'Finish for ${tonightOrToday(now)}';
   static const nothingRepairedTitle = 'Nothing was repaired this time';
   static String nothingRepaired(int setAside, int reviewed) {
     final parts = <String>[

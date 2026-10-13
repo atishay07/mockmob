@@ -37,7 +37,7 @@ void main() {
     });
 
     test('seven bubbles on the sheet; save and the first move come after the seal', () {
-      expect([for (final s in kOnboardingDeck.sheetSteps) s.bubble], ['CUET', 'Aim', 'Subjects', 'Marks', 'Try', 'Pace', 'Plan']);
+      expect([for (final s in kOnboardingDeck.sheetSteps) s.bubble], ['CUET', 'Aim', 'Subjects', 'Worry', 'Try', 'Pace', 'Plan']);
       expect(kOnboardingDeck.visible(OnboardingAnswers.empty).map((s) => s.id), isNot(contains(Steps.firstMove)));
       expect(kOnboardingDeck.visible(const OnboardingAnswers(notNow: true)).last.id, Steps.firstMove);
     });
@@ -199,9 +199,9 @@ void main() {
   group('sheet lines', () {
     test('a right answer faster than half a second still reads as about a second, never 0 s', () {
       const quick = OnboardingAnswers(warmup: WarmupResult(questionId: 'q', chosen: 0, correct: true, millis: 320));
-      expect(sheetLines(quick), contains('One real question: right in 1 s'));
+      expect(sheetLines(quick), contains('Warm-up: right in 1 s'));
       const slow = OnboardingAnswers(warmup: WarmupResult(questionId: 'q', chosen: 0, correct: true, millis: 41600));
-      expect(sheetLines(slow), contains('One real question: right in 42 s'));
+      expect(sheetLines(slow), contains('Warm-up: right in 42 s'));
     });
   });
 }

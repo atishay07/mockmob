@@ -4,9 +4,11 @@ import '../data/calendar.dart';
 import '../data/chapter_order.dart';
 import '../data/du_catalog.dart';
 import '../data/eligibility.dart';
+import '../copy.dart';
 import '../data/subjects.dart';
 import 'answers.dart';
 import 'choices.dart';
+import 'deck.dart';
 
 /// The first move the plan ends on: the 10-question starting-point check, in the subject the
 /// answers point to. Today reads it to show "10 questions to your starting point".
@@ -62,7 +64,7 @@ class FirstMove {
       Worry.time => 'Answer at exam pace, about a minute each.',
       Worry.numericals => 'Repairs start with the numericals you miss.',
       Worry.passages => 'English first, since passages cost you most.',
-      Worry.syllabus => 'Then $chapter, first in our chapter order.',
+      Worry.syllabus => 'Then $chapter, the first chapter on your plan.',
       Worry.noIdea || null => 'It decides what you repair first.',
     };
     return FirstMove(subject: subject, chapter: chapter, framing: framing, window: a.window);
@@ -79,10 +81,13 @@ class PlanSummary {
 
   static PlanSummary of(OnboardingAnswers a, DateTime now) {
     final move = FirstMove.of(a);
+    final subjectDefault = a.isSkipped(Steps.subjects) || a.subjects.isEmpty;
     final lines = <String>[
-      '${move.line}, about ${FirstMove.minutes} minutes. ${move.framing}',
+      subjectDefault
+          ? '${move.line} (${OnboardingCopy.ourDefault}), about ${FirstMove.minutes} minutes. ${move.framing}'
+          : '${move.line}, about ${FirstMove.minutes} minutes. ${move.framing}',
       rhythmLine(a),
-      '${move.chapter} is first in MockMob\'s chapter order for ${move.subject.label}.',
+      chapterLine(move),
       if ((a.stage ?? Stage.notSure).boards) 'Boards end in early April. The plan goes lighter from mid-February.',
       ?eligibilityLine(a),
       ?aimLine(a),
@@ -90,11 +95,23 @@ class PlanSummary {
     return PlanSummary(headline: 'Week one starts with ${move.chapter}.', lines: lines);
   }
 
-  /// "4 evenings a week, 20 minutes, around 8:00 PM."
+  /// True when a skipped step left a default in the plan.
+  static bool usesDefaults(OnboardingAnswers a) =>
+      a.isSkipped(Steps.subjects) || a.isSkipped(Steps.rhythm) || a.isSkipped(Steps.worry) || a.subjects.isEmpty;
+
+  /// Why the plan starts where it does, without claiming how often a chapter appears.
+  static String chapterLine(FirstMove move) => switch (move.subject) {
+        SheetSubject.accountancy when move.chapter == 'Partnership' =>
+          'Accountancy starts at Partnership. Admission, retirement and dissolution all build on it.',
+        _ => '${move.subject.label} starts at ${move.chapter}, the first chapter on your plan.',
+      };
+
+  /// "4 evenings a week, 20 minutes, around 8:00 PM." A skipped pace says it is a default.
   static String rhythmLine(OnboardingAnswers a) {
     final n = a.days.length;
     final unit = n == 1 ? a.window.plural.substring(0, a.window.plural.length - 1) : a.window.plural;
-    return '$n $unit a week, ${a.minutes} minutes, around ${a.window.time}.';
+    final base = '$n $unit a week, ${a.minutes} minutes, around ${a.window.time}';
+    return a.isSkipped(Steps.rhythm) ? '$base (${OnboardingCopy.ourDefault}).' : '$base.';
   }
 
   /// "That's about 120 sessions before May." Null when the window has passed.

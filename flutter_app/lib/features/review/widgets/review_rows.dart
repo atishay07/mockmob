@@ -208,7 +208,7 @@ class PastResultRow extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
                 child: Row(
                   children: [
-                    SubjectMark(subjectId: attempt.subject, size: 40),
+                    SubjectMark(subjectId: attempt.subject, size: 40, art: false),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(

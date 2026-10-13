@@ -16,10 +16,14 @@ class PermissionPanel extends StatelessWidget {
     super.key,
     required this.permission,
     required this.onTurnOn,
+    this.onOpenSettings,
   });
 
   final NotificationPermission permission;
   final VoidCallback onTurnOn;
+
+  /// Opens Android's notification settings for MockMob, when blocked.
+  final VoidCallback? onOpenSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,7 @@ class PermissionPanel extends StatelessWidget {
       ),
     };
     final canAsk = permission == NotificationPermission.notAsked;
+    final blocked = permission == NotificationPermission.denied || permission == NotificationPermission.unavailable;
 
     final panel = FakeGlass(
       child: Padding(
@@ -73,6 +78,10 @@ class PermissionPanel extends StatelessWidget {
             if (canAsk) ...[
               const SizedBox(height: MmSpace.s16),
               KeyButton(label: NotificationsCopy.permissionTurnOn, onPressed: onTurnOn),
+            ],
+            if (blocked && onOpenSettings != null) ...[
+              const SizedBox(height: MmSpace.s16),
+              KeyButton.secondary(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
             ],
           ],
         ),

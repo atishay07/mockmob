@@ -210,7 +210,7 @@ class _ReceivedLamp extends StatelessWidget {
       opacity: on ? 1 : 0,
       duration: Motion.of(context, Motion.sweep),
       curve: Motion.glide,
-      child: LightField.lamp(context),
+      child: const LampScene(vignette: false),
     );
   }
 }

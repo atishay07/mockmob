@@ -30,8 +30,9 @@ class StageStep extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final s in Stage.values) ...[
+          for (final (i, s) in Stage.values.indexed) ...[
             MmSelectRow(
+              letter: kAnswerLetters[i],
               title: s.option,
               selected: stage == s,
               onTap: () => ref.read(onboardingAnswersProvider.notifier).setStage(s),

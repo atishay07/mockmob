@@ -25,7 +25,7 @@ abstract final class ResultCopy {
   // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
 
   static const sheetBack = 'Your sheet is back.';
-  static const openWhenReady = 'Marked on the server. Open it when you are ready.';
+  static const openWhenReady = 'Marked on the server.';
   static const openTab = 'Open your result';
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';
@@ -35,10 +35,17 @@ abstract final class ResultCopy {
 
   // ---- Effort, separate from the score (brief 1.1) -----------------------------------------
 
-  /// "Mock 7 done. That's your third full paper this month."
-  static String effort(String mock, int monthCount) => monthCount <= 1
-      ? '$mock done. Your first full paper this month.'
-      : '$mock done. That\'s your ${ordinalWord(monthCount)} full paper this month.';
+  /// Mobi's line on card 4: "Third full paper this month." Effort, said once, never after a
+  /// lower or held result.
+  static String effort(int monthCount, {required bool firstEver}) {
+    if (firstEver) return 'Your first full paper.';
+    if (monthCount <= 1) return 'First full paper this month.';
+    final word = ordinalWord(monthCount);
+    return '${word[0].toUpperCase()}${word.substring(1)} full paper this month.';
+  }
+
+  /// Mobi's line on card 4 after a lower or held result: the next step, nothing about the score.
+  static const nextStepLine = 'One repair at a time. The rest wait in Review.';
 
   static String ordinalWord(int n) {
     const words = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
@@ -96,6 +103,10 @@ abstract final class ResultCopy {
   static String breakdownCaption(int max, int scored, int takenOff, int wrongNot, int blankNot) =>
       'Of $max marks: ${formatSignedNumber(scored)} scored, $takenOff taken off, $wrongNot not earned on wrong answers, '
       '$blankNot not earned on blanks. $takenOff + $wrongNot + $blankNot = ${takenOff + wrongNot + blankNot}.';
+  /// The one line that leads card 2: where most of the lost marks went.
+  static String breakdownLead(int wrong, int onWrong, int onBlank) => wrong > 0 && onWrong >= onBlank
+      ? '$onWrong went on answers you got wrong.'
+      : '$onBlank went on questions left blank.';
   static const showArithmetic = 'Show the arithmetic';
   static const hideArithmetic = 'Hide the arithmetic';
   static String arithmetic(int correct, int wrong, int scored) => '$correct × 5 $minusSign $wrong = ${formatSignedNumber(scored)}';
@@ -135,8 +146,10 @@ abstract final class ResultCopy {
       ? '${plural(n, 'wrong answer')} ready to repair.'
       : '${plural(n, 'wrong answer')} ready to repair, about $minutes minutes.';
   static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Review.';
+  static String blanksCount(int n) => '$n not attempted.';
+  static String startWithChapter(String chapter, int n) =>
+      n == 1 ? 'The repair starts with the one in $chapter.' : 'The repair starts with the $n in $chapter.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
-  static const freshCheck = 'Fresh check: not available yet.';
   static String walletShort(int needed, int balance) =>
       'This repair needs $needed explanation credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
   static const tryAgain = 'Try again';

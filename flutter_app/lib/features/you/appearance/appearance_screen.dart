@@ -30,6 +30,7 @@ class AppearanceScreen extends ConsumerWidget {
     final openDirectly = ref.watch(openResultsDirectlyProvider);
     final lateNight = ref.watch(lateNightLinesProvider);
     final celebrations = ref.watch(rhythmPrefsProvider.select((p) => p.mode));
+    final autoLite = glassAutoLite(ref);
 
     return YouPage(
       title: YouCopy.appearanceTitle,
@@ -40,7 +41,10 @@ class AppearanceScreen extends ConsumerWidget {
         const Padding(padding: youGutter, child: GlassQualityPicker()),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter, 0),
-          child: Text(YouCopy.glassNote, style: type.caption.copyWith(color: colors.ink2)),
+          child: Text(
+            autoLite ? GlassQualityPicker.autoNote : YouCopy.glassNote,
+            style: type.caption.copyWith(color: colors.ink2),
+          ),
         ),
         const GroupHeading(YouCopy.feelHeading),
         YouPanel(

@@ -71,11 +71,13 @@ class SubmitSheetCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s20),
             Divider(height: 1, thickness: 1, color: colors.line),
             const SizedBox(height: MmSpace.s12),
-            _CountRow(
-              glyph: Icon(LucideIcons.flag, size: 15, color: colors.ink),
-              text: RunnerCopy.markedCount(counts.marked),
-            ),
-            const SizedBox(height: MmSpace.s8),
+            if (counts.marked > 0) ...[
+              _CountRow(
+                glyph: Icon(LucideIcons.flag, size: 15, color: colors.ink),
+                text: RunnerCopy.markedCount(counts.marked),
+              ),
+              const SizedBox(height: MmSpace.s8),
+            ],
             _CountRow(
               glyph: const Bubble(state: BubbleState.blank, size: 15, animate: false),
               text: RunnerCopy.notAnsweredCount(counts.notAnswered),

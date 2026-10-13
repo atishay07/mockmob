@@ -147,10 +147,10 @@ void main() {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
       await pumpRunner(tester, session: s);
       expect(find.text('47:12'), findsNothing);
-      expect(find.text('Feedback comes after you finish.'), findsOneWidget);
+      expect(find.textContaining('Feedback comes after you finish. Open until '), findsOneWidget);
       await tester.tap(find.text('3:2:1'));
       await tester.pump();
-      expect(find.text('Feedback comes after you finish.'), findsNothing);
+      expect(find.textContaining('Feedback comes after you finish.'), findsNothing);
     });
   });
 

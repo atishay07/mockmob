@@ -55,7 +55,7 @@ void main() {
 
   group('run language', () {
     test('weeks in rhythm is never shown as 0', () {
-      expect(weeksInRhythmText(rhythmFixture(streak: 3)), 'Weeks in rhythm: 3');
+      expect(weeksInRhythmText(rhythmFixture(streak: 3)), '3 weeks in rhythm');
       final none = weeksInRhythmText(rhythmFixture(streak: 0));
       expect(none, isNot(contains('0')));
       expect(none, RhythmCopy.weeksInRhythmNone);

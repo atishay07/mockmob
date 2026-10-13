@@ -65,7 +65,11 @@ class _SolidKeyState extends State<_SolidKey> {
           onTapUp: (_) => _set(false),
           onTapCancel: () => _set(false),
           onTap: widget.onTap,
-          child: body,
+          // The face stays 44 dp; the touch target is 48.
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: MmTarget.min, minHeight: MmTarget.min),
+            child: Center(widthFactor: 1, heightFactor: 1, child: body),
+          ),
         ),
       ),
     );

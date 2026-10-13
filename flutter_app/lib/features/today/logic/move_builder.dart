@@ -5,6 +5,7 @@
 import '../../../core/domain/mock_ordinal.dart';
 import '../../../core/domain/next_move.dart';
 import '../../../core/domain/repair_candidates.dart';
+import '../../../core/domain/tonight_pick.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/repositories/dismissal_repository.dart';
 import '../../../core/router/action_router.dart';
@@ -17,7 +18,7 @@ import 'today_inputs.dart';
 import 'today_model.dart';
 
 /// A ready repair must come from a paper at least this long (a 10-question check counts).
-const int minQuestionsForBasis = 10;
+const int minQuestionsForBasis = minQuestionsForRepairBasis;
 
 /// Chips for practice moves. Practice runs one question a minute, so 30 minutes is not offered.
 const List<int> practiceMinutes = [10, 20];
@@ -35,12 +36,13 @@ class MoveFacts {
     final unopened = {for (final u in inputs.unopened) u.attemptId};
     final eligible = [for (final a in all) if (!unopened.contains(a.id)) a];
     attempts = all;
-    basis = _first(eligible, (a) => a.isMock || a.total >= minQuestionsForBasis);
+    basis = _first(eligible, isRepairBasis);
     latestMock = _first(eligible, (a) => a.isMock);
     final b = basis;
     if (b != null) {
       repairedHere = inputs.repaired[b.id] ?? const {};
       candidates = repairCandidates(b, repairedIds: repairedHere);
+      tonight = pickTonightChapter(candidates, chapterOf: (c) => c.chapter, numberOf: (c) => c.number);
       dismissed = inputs.dismissed.contains(dismissalKeyFor(b));
     }
   }
@@ -51,6 +53,9 @@ class MoveFacts {
   Attempt? latestMock;
   Set<String> repairedHere = const {};
   List<RepairCandidate> candidates = const [];
+
+  /// Tonight's chapter of [basis] (the same pick Review and Start make).
+  TonightChapter<RepairCandidate>? tonight;
   bool dismissed = false;
 
   static Attempt? _first(List<Attempt> list, bool Function(Attempt) test) {
@@ -85,20 +90,6 @@ class MoveFacts {
   }
 }
 
-/// The chapter holding the most of [candidates], when it holds at least two.
-(String, int)? topChapter(List<RepairCandidate> candidates) {
-  final counts = <String, int>{};
-  for (final c in candidates) {
-    if (c.chapter.trim().isEmpty) continue;
-    counts[c.chapter] = (counts[c.chapter] ?? 0) + 1;
-  }
-  (String, int)? best;
-  for (final e in counts.entries) {
-    if (best == null || e.value > best.$2 || (e.value == best.$2 && e.key.compareTo(best.$1) < 0)) best = (e.key, e.value);
-  }
-  return best != null && best.$2 >= 2 ? best : null;
-}
-
 /// The dismissal key of a client-built repair (spec 5.3: kind, subject, chapter, source).
 DismissalKey dismissalKeyFor(Attempt basis) => DismissalKey(kind: 'repair', subject: basis.subject, sourceAttemptId: basis.id);
 
@@ -125,8 +116,7 @@ MoveHero buildMove(TodayInputs i) {
   final f = MoveFacts(i);
   final state = nextMoveState(f.table);
   final mood = moodOf(i, f);
-  final hour = i.clock().hour;
-  final overline = mood == TodayMood.dayOne ? TodayCopy.firstMoveOverline : TodayCopy.moveOverline(hour);
+  final overline = mood == TodayMood.dayOne ? TodayCopy.firstMoveOverline : TodayCopy.moveOverline(i.clock());
   final b = f.basis;
 
   HeroArt artFor(String? subject) => switch (mood) {
@@ -135,7 +125,7 @@ MoveHero buildMove(TodayInputs i) {
         _ => HeroArt.object(MmArt.subjectObject(subject == null ? null : canonicalSubject(subject)) ?? MmArt.objAccountancy),
       };
   String? headlineFor() => switch (mood) {
-        TodayMood.returning => TodayCopy.welcomeBack(i.firstName),
+        TodayMood.returning => TodayCopy.returningHeadline(f.attempts.isEmpty ? null : i.daysSince(f.attempts.first.completedAt)),
         TodayMood.lateNight => TodayCopy.lateNight,
         _ => null,
       };
@@ -222,7 +212,7 @@ MoveHero buildMove(TodayInputs i) {
       );
 
     case NextMoveState.ready:
-      if (b == null || f.candidates.isEmpty || f.dismissed) return _planReady(i, f, mood, overline, artFor, headlineFor);
+      if (b == null || f.tonight == null || f.dismissed) return _planReady(i, f, mood, overline, artFor, headlineFor);
       return _repair(i, f, b, mood, overline, artFor(b.subject), headlineFor());
 
     case NextMoveState.repairedCheckNotDue:
@@ -251,20 +241,22 @@ MoveHero buildMove(TodayInputs i) {
 }
 
 MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String overline, HeroArt art, String? headline) {
-  final options = [for (final o in repairDurationOptions(f.candidates.length)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
+  // A repair run covers one chapter, so tonight's count is that chapter's open mistakes.
+  final tonight = f.tonight!;
+  final chapterCount = tonight.items.length;
+  final options = [for (final o in repairDurationOptions(chapterCount)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
   final choice = options.isEmpty
-      ? DurationChoice(minutes: repairMinutes(f.candidates.length) ?? 5, mistakes: f.candidates.length)
+      ? DurationChoice(minutes: repairMinutes(chapterCount) ?? 5, mistakes: chapterCount)
       : _pick(options, i.selectedMinutes, preferred: mood == TodayMood.normal ? 20 : 10);
-  final n = choice.mistakes ?? f.candidates.length;
+  final n = choice.mistakes ?? chapterCount;
   final source = paperLabel(f.attempts, b);
   final date = i.date(b.completedAt);
-  final top = topChapter(f.candidates);
-  final total = f.candidates.length;
-  final chapterLine = top != null
-      ? TodayCopy.chapterHolds(top.$1, top.$2, total, sameAsTask: n == total)
-      : TodayCopy.questionNumbers([for (final c in f.candidates) c.number]);
+  final now = i.clock();
+  final chapterLine = tonight.hasNamedChapter
+      ? TodayCopy.tonightLine(n, tonight.paperOpen, source, tonight.chapter)
+      : TodayCopy.questionNumbers([for (final c in tonight.items.take(n)) c.number]);
   final mocksInSubject = f.attempts.where((a) => a.isMock && a.subject == b.subject).length;
-  final meaning = mood == TodayMood.returning ? TodayCopy.lastMockStillHere(source, date, total) : chapterLine;
+  final meaning = mood == TodayMood.returning ? TodayCopy.lastMockStillHere(source, date, tonight.paperOpen) : chapterLine;
   return MoveHero(
     state: NextMoveState.ready,
     mood: mood,
@@ -274,21 +266,23 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
     art: art,
     headline: headline,
     number: '$n',
-    numberLabel: TodayCopy.mistakesLabel(n, source),
+    numberLabel: TodayCopy.mistakesLabel(n, now),
     meaning: meaning,
     evidenceId: b.id,
-    durationPrompt: mood == TodayMood.returning && options.isNotEmpty ? TodayCopy.howLong : null,
+    durationPrompt: mood == TodayMood.returning && options.isNotEmpty ? TodayCopy.howLong(now) : null,
     durations: options,
     selectedMinutes: choice.minutes,
     summary: 'Repair ${n == 1 ? '1 mistake' : '$n mistakes'} from $source',
     primary: TodayAction(
       TodayCopy.startRepair(choice.minutes),
-      GoTo(TodayLinks.repair(b.id, f.candidates.first.questionId, n)),
+      GoTo(TodayLinks.repair(b.id, tonight.items.first.questionId, n)),
       startsSession: true,
       actionType: 'repair',
     ),
     secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
-    caption: mood == TodayMood.normal && top != null && top.$1.length <= 18 ? TodayCopy.aajKaRepair(choice.minutes, top.$1) : null,
+    caption: mood == TodayMood.normal && tonight.hasNamedChapter && tonight.chapter.length <= 18
+        ? TodayCopy.aajKaRepair(choice.minutes, tonight.chapter)
+        : null,
     basisLine: mood == TodayMood.returning
         ? null
         : mocksInSubject <= 1 && b.isMock
@@ -353,7 +347,7 @@ MoveHero _mixed(
     number: '$minutes',
     numberLabel: TodayCopy.minutesUnit,
     meaning: TodayCopy.noStrongWeakness,
-    durationPrompt: mood == TodayMood.returning ? TodayCopy.howLong : null,
+    durationPrompt: mood == TodayMood.returning ? TodayCopy.howLong(i.clock()) : null,
     durations: options,
     selectedMinutes: minutes,
     summary: TodayCopy.startMixed(minutes),

@@ -87,6 +87,7 @@ abstract final class MmDock {
   /// Lift above the gesture inset.
   static const double lift = 10;
 
-  /// Space a tab root leaves at the bottom so its last row clears the dock.
-  static double clearance(BuildContext context) => height + lift + MediaQuery.viewPaddingOf(context).bottom + 16;
+  /// What the shell adds to a tab root's bottom padding (on top of the gesture inset) so the last
+  /// row scrolls clear of the dock and its scrim.
+  static const double clearanceAbove = height + lift + 24;
 }

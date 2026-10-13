@@ -18,6 +18,7 @@ class FakeGlass extends StatelessWidget {
     this.pressed = false,
     this.grain = true,
     this.opacity,
+    this.lamp = false,
   });
 
   final Widget child;
@@ -27,6 +28,9 @@ class FakeGlass extends StatelessWidget {
   final Widget? backdrop;
   final bool pressed;
   final bool grain;
+
+  /// The warm lamp catch along the top edge: for moment cards (heroes), never work cards.
+  final bool lamp;
 
   /// Tint opacity override (default 0.56 Night, 0.7 Daylight; 0.88 / 0.92 without a backdrop is
   /// not needed because the ground under a card is already opaque).
@@ -44,7 +48,7 @@ class FakeGlass extends StatelessWidget {
         borderRadius: borderRadius,
         top: colors.edgeTop,
         bottom: colors.edgeBottom,
-        lamp: colors.isNight ? colors.lamp : null,
+        lamp: lamp && colors.isNight ? colors.lamp : null,
         boost: pressed ? MmElevation.pressedEdgeBoost : 1,
       ),
       child: child,

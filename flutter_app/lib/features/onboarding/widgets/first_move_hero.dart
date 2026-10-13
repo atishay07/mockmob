@@ -5,9 +5,9 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/plan.dart';
 
-/// The first move as a hero (brief section 11, step 11): the subject's light field and its
-/// object, "10 questions to your starting point" in monumental figures, the volt "Start now"
-/// and the later option at equal footing below it. Today may embed it for the day-one state.
+/// The first move as a hero (brief section 11, step 11): the subject's light field, "10
+/// questions to your starting point" in monumental figures, the volt "Start now" and the later
+/// option at equal footing below it. No object art: Mobi points at it from below instead.
 class FirstMoveHero extends StatelessWidget {
   const FirstMoveHero({
     super.key,
@@ -33,7 +33,6 @@ class FirstMoveHero extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final light = SubjectLight.forSubject(move.subject.id) ?? SubjectLight.accountancy;
-    final object = MmArt.subjectObject(move.subject.id);
     final later = move.laterLabel(now);
 
     return LitEdge(
@@ -46,7 +45,6 @@ class FirstMoveHero extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(child: LightField.subject(context, light, center: const Alignment(0.7, -0.6))),
-              if (object != null) Positioned(right: 10, top: 10, width: 128, height: 128, child: ArtImage(object, fit: BoxFit.contain)),
               const Positioned.fill(child: Grain()),
               Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
@@ -55,7 +53,7 @@ class FirstMoveHero extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(move.subject.label, style: type.label.copyWith(color: colors.ink2)),
-                    const SizedBox(height: 56),
+                    const SizedBox(height: MmSpace.s12),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [

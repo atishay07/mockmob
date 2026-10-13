@@ -162,4 +162,14 @@ void main() {
       expect(buildAnswerGroups(a).all.every((x) => x.keyIndex == null), isTrue);
     });
   });
+
+  group('blanks in Review', () {
+    test('only the newest paper with blanks has its blanks kept in Review', () {
+      final older = attempt(id: 'a6', completedAt: DateTime.utc(2026, 10, 5, 17));
+      final newer = attempt(id: 'a7', completedAt: DateTime.utc(2026, 10, 12, 17));
+      final both = [older, newer];
+      expect(buildRecapModel(attempt: newer, attempts: both).blanksInReview, isTrue);
+      expect(buildRecapModel(attempt: older, attempts: both).blanksInReview, isFalse, reason: 'a replayed older result');
+    });
+  });
 }

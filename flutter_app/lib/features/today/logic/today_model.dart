@@ -164,11 +164,15 @@ class ResumeHero extends TodayHero {
     required this.answered,
     required this.total,
     required this.line,
+    this.keyLabel = 'Resume',
     this.subjectId,
   });
 
   final String sessionId;
   final String title;
+
+  /// "Resume Mock 8".
+  final String keyLabel;
   final int answered;
   final int total;
   final String line;

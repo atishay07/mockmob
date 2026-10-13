@@ -43,9 +43,9 @@ class WarmupOption extends StatelessWidget {
           shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: border)),
         ),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 56),
+          constraints: BoxConstraints(minHeight: state == WarmupOptionState.dimmed ? 40 : 56),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+            padding: EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: state == WarmupOptionState.dimmed ? MmSpace.s8 : MmSpace.s12),
             child: Row(
               children: [
                 SizedBox.square(
@@ -63,7 +63,17 @@ class WarmupOption extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(child: Text(text, style: type.body.copyWith(color: ink, fontWeight: right ? FontWeight.w600 : FontWeight.w400))),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(text, style: type.body.copyWith(color: ink, fontWeight: right ? FontWeight.w600 : FontWeight.w400)),
+                      if (right) Text(OnboardingCopy.correctAnswer, style: type.caption.copyWith(color: colors.ink2)),
+                      if (wrong) Text(OnboardingCopy.yourAnswer, style: type.caption.copyWith(color: colors.wrongText)),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

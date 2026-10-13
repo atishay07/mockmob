@@ -62,6 +62,7 @@ class RepairPanel extends StatelessWidget {
     required this.onMinutes,
     required this.onRetryKeys,
     this.shortfall,
+    this.blanksInReview = false,
   });
 
   final RecapModel model;
@@ -72,20 +73,28 @@ class RepairPanel extends StatelessWidget {
   final VoidCallback onRetryKeys;
   final RepairWalletShortfall? shortfall;
 
+  /// Review keeps the blanks of the newest paper that has any; true when that is this one.
+  final bool blanksInReview;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final m = model;
     final n = m.candidates.length;
+    final tonight = m.tonight;
     final rows = <Widget>[
       _Row(
         state: n > 0 ? BubbleState.wrong : BubbleState.filled,
-        text: n > 0 ? ResultCopy.readyToRepair(n, repairMinutes(n)) : ResultCopy.noMistakes,
+        text: n > 0 ? ResultCopy.readyToRepair(n, null) : ResultCopy.noMistakes,
         strong: true,
       ),
-      if (m.blankCount > 0) _Row(state: BubbleState.blank, text: ResultCopy.blanksInReview(m.blankCount)),
-      const _Row(state: BubbleState.hollow, text: ResultCopy.freshCheck),
+      // A repair covers one chapter: say which, and how many of the wrong answers are in it.
+      if (tonight != null && tonight.items.length < n)
+        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(tonight.chapter, tonight.items.length)),
+      // "They are in Review" only when Review really holds this paper's blanks.
+      if (m.blankCount > 0)
+        _Row(state: BubbleState.blank, text: blanksInReview ? ResultCopy.blanksInReview(m.blankCount) : ResultCopy.blanksCount(m.blankCount)),
       if (shortfall != null) _Row(state: null, text: ResultCopy.walletShort(shortfall!.needed, shortfall!.balance)),
     ];
     return LitEdge(

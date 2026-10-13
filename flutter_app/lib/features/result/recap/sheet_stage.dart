@@ -282,11 +282,8 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
         open: open,
         outside: FlapOutside(model: m, geometry: g),
         inside: FlapInside(model: m, geometry: g, showFigure: _figureIn, rollFigure: !_calm),
-        body: AnimatedBuilder(
-          animation: open,
-          builder: (context, _) =>
-              SheetBody(geometry: g, cells: m.cells, sealed: !_opened, reveal: _calm ? kAlwaysCompleteAnimation : _ink),
-        ),
+        // Nothing in the body reads the unfold, so it is not rebuilt on every frame of it.
+        body: SheetBody(geometry: g, cells: m.cells, sealed: !_opened, reveal: _calm ? kAlwaysCompleteAnimation : _ink),
         sweep: _calm ? null : _sweep,
       ),
     );

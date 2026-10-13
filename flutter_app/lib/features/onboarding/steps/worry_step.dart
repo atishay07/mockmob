@@ -27,8 +27,9 @@ class WorryStep extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final w in Worry.values) ...[
+          for (final (i, w) in Worry.values.indexed) ...[
             MmSelectRow(
+              letter: kAnswerLetters[i],
               title: w.option,
               selected: worry == w,
               onTap: () => ref.read(onboardingAnswersProvider.notifier).setWorry(w),
@@ -51,7 +52,7 @@ class WorryStep extends ConsumerWidget {
                     padding: const EdgeInsets.only(bottom: MmSpace.s12),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Mobi(pose: MobiPose.point, size: 76, motion: MobiMotion.settle, say: worry.mobiLine),
+                      child: Mobi(pose: MobiPose.point, size: 76, motion: MobiMotion.settle, say: worry.mobiLine, sayLive: true),
                     ),
                   ),
           ),

@@ -28,6 +28,7 @@ class MmPressable extends StatefulWidget {
     this.inMutuallyExclusiveGroup,
     this.autofocus = false,
     this.excludeSemantics = true,
+    this.isolate = false,
   });
 
   final PressableBuilder builder;
@@ -48,6 +49,10 @@ class MmPressable extends StatefulWidget {
 
   /// When a [semanticsLabel] is given, the built children are hidden from TalkBack.
   final bool excludeSemantics;
+
+  /// Paints the surface on its own layer: only for a large surface whose press would otherwise
+  /// repaint costly neighbours. Off by default, so a palette of 50 keys is not 50 layers.
+  final bool isolate;
 
   @override
   State<MmPressable> createState() => _MmPressableState();
@@ -160,7 +165,7 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
           behavior: HitTestBehavior.opaque,
           onTap: widget.onTap,
           onLongPress: widget.onLongPress,
-          child: RepaintBoundary(child: body),
+          child: widget.isolate ? RepaintBoundary(child: body) : body,
         ),
       ),
     );

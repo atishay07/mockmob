@@ -52,8 +52,21 @@ class RepairRun extends Notifier<RepairRunState?> {
       subjectId: item.subjectId,
       source: item.source,
       steps: [for (final i in items) RepairStep(i)],
-      repairedBefore: records.any((r) => r.isRepaired),
+      repairedBefore: _repairedBefore(records),
     );
+    return true;
+  }
+
+  /// "This is your first repair" must be true across phones and reinstalls, so it comes from the
+  /// server: `/api/me/rhythm` says `first_repair` is not achieved yet. Without rhythm data, or with
+  /// any repair on this phone, it counts as not the first (and no line is shown).
+  bool _repairedBefore(List<RepairLocalRecord> records) {
+    if (records.any((r) => r.isRepaired)) return true;
+    final rhythm = ref.read(rhythmRepositoryProvider).value;
+    if (rhythm == null) return true;
+    for (final m in rhythm.milestones) {
+      if (m.id == 'first_repair') return m.achievedAt != null;
+    }
     return true;
   }
 

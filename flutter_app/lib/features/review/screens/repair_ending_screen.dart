@@ -88,7 +88,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
     final nothing = model.repaired == 0;
     final mobiLine = !model.repairedBefore && !nothing
         ? ReviewCopy.firstRepair
-        : (lateNight && !nothing ? ReviewCopy.goodPlaceToStop : null);
+        : (lateNight && !nothing ? ReviewCopy.goodPlaceToStop(clock.now()) : null);
 
     return PopScope(
       canPop: false,
@@ -99,7 +99,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
         backgroundColor: colors.ground,
         body: Stack(
           children: [
-            Positioned.fill(child: LightField.lamp(context, strength: nothing ? 0.5 : 1)),
+            Positioned.fill(child: LampScene(strength: nothing ? 0.5 : 1)),
             Positioned.fill(
               child: IgnorePointer(child: Grain(opacity: colors.grain)),
             ),
@@ -142,6 +142,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                               model.chapter,
                               model.repaired,
                               model.total,
+                              now: clock.now(),
                               setAside: model.setAside,
                               reviewed: model.reviewed,
                             ),
@@ -188,10 +189,10 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                             ),
                           ),
                           Align(
-                            child: KeyButton.quiet(label: ReviewCopy.finishTonight, onPressed: _finish),
+                            child: KeyButton.quiet(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
                           ),
                         ] else
-                          KeyButton(label: ReviewCopy.finishTonight, onPressed: _finish),
+                          KeyButton(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
                       ],
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
@@ -58,7 +59,7 @@ void main() {
     expect(find.text('Free today'), findsNothing);
     expect(find.textContaining('not proof'), findsNothing);
 
-    await openSheet(tester, find.text('Start'));
+    await openSheet(tester, find.widgetWithText(KeyButton, 'Start').first);
     expect(find.text('What you get'), findsOneWidget);
     expect(find.text('10 questions, about 10 minutes.'), findsOneWidget);
     expect(find.text('Free today'), findsOneWidget);
@@ -116,7 +117,7 @@ void main() {
     await settle(tester);
     expect(find.text('Mock 7, Accountancy'), findsOneWidget);
     expect(find.text('The clock kept running. It ends at 11:47 PM.'), findsOneWidget);
-    await tester.tap(find.text('Resume'));
+    await tester.tap(find.widgetWithText(KeyButton, 'Resume').first);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/run/sess-7');
   });

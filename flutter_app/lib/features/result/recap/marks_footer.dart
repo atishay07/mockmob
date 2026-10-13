@@ -68,8 +68,6 @@ class MarksFooter extends StatelessWidget {
                         if (m.heldCount > 0) _Count(state: BubbleState.marked, text: ResultCopy.heldCell(m.heldCount)),
                       ],
                     ),
-                    const SizedBox(height: MmSpace.s6),
-                    Text(ResultCopy.sum(m.correct, m.wrong, m.unattempted), style: type.caption.copyWith(color: colors.ink3)),
                     if (line != null) ...[const SizedBox(height: MmSpace.s8), Text(line, style: type.small.copyWith(color: colors.ink2))],
                   ],
                 ),

@@ -21,7 +21,7 @@ abstract final class TodayCopy {
   static String updatedOffline(DateTime time) => 'Updated ${formatTime12(time)}. You are offline.';
 
   // Hero overlines.
-  static String moveOverline(int hour) => hour >= 17 || hour < 5 ? "Tonight's move" : "Today's move";
+  static String moveOverline(DateTime now) => "${tonightOrTodayTitle(now)}'s move";
   static const String firstMoveOverline = 'Your first move';
   static const String resumeOverline = 'Still open';
   static const String endedOverline = 'While you were away';
@@ -30,18 +30,21 @@ abstract final class TodayCopy {
   // Day one and new user (brief 11.11).
   static const String questionsUnit = 'questions';
   static String startingPointLine(String subject) =>
-      'Ten real CUET questions in $subject. The result shows where your marks go, chapter by chapter.';
-  static String startingPointWith(String subject, String framing) => 'Ten real CUET questions in $subject. $framing';
+      'Ten CUET-style questions in $subject. The result shows where your marks go, chapter by chapter.';
+  static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   static const String startNow = 'Start now, about 10 minutes';
   static const String fullMockInstead = 'Sit a full mock instead';
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
   // Ready (client-built repair).
-  static String mistakesLabel(int n, String source) => '${pluralWord(n, 'mistake')}\nfrom $source';
-  static String chapterHolds(String chapter, int count, int total, {required bool sameAsTask}) {
-    if (count == total) return 'All of them are in $chapter.';
-    return sameAsTask ? '$chapter holds $count of them.' : '$chapter holds $count of the $total waiting.';
+  /// "mistakes\ntonight": the big number is tonight's batch.
+  static String mistakesLabel(int n, DateTime now) => '${pluralWord(n, 'mistake')}\n${tonightOrToday(now)}';
+
+  /// Where tonight's batch comes from. Never "holds": that word is kept for a passed fresh check.
+  static String tonightLine(int n, int paperOpen, String source, String chapter) {
+    if (n == paperOpen) return n == 1 ? 'From $source, in $chapter.' : 'All $n from $source are in $chapter.';
+    return '$n of the $paperOpen from $source. ${n == 1 ? 'It is' : 'All $n are'} in $chapter.';
   }
 
   static String questionNumbers(List<int> numbers) {
@@ -79,8 +82,10 @@ abstract final class TodayCopy {
   static const String showMe = 'Show me';
 
   // Returning and late night (brief 1.1, spec 6.7, 6.8).
-  static String welcomeBack(String? firstName) => firstName == null ? 'Welcome back.' : 'Welcome back, $firstName.';
-  static const String howLong = 'How long have you got tonight?';
+  /// The greeting already says the name, so the returning hero never repeats it.
+  static String returningHeadline(int? daysSincePaper) =>
+      daysSincePaper != null && daysSincePaper >= 3 ? '$daysSincePaper days since your last paper.' : 'Good to have you back.';
+  static String howLong(DateTime now) => 'How long have you got ${tonightOrToday(now)}?';
   static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
       ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
       : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
@@ -95,7 +100,7 @@ abstract final class TodayCopy {
   static String endsAt(DateTime at) => 'Ends at ${formatTime12(at)}.';
   static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
   static const String answersOnPhone = 'Answers are on this phone.';
-  static const String continueKey = 'Continue';
+  static String resumeKey(String label) => 'Resume $label';
   static String endedRecorded(String label, DateTime at, int answered) =>
       '$label ended at ${formatTime12(at)}. Your ${plural(answered, 'answer')} sent before then were recorded.';
   static String endedSending(String label, DateTime at) =>
@@ -129,7 +134,7 @@ abstract final class TodayCopy {
   static const String roadTitle = 'The road to May';
   static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nMay 2027 window';
   static const String boardsLine = 'Boards run mid-February to early April. The plan goes lighter from mid-February.';
-  static String ladderCaption(String category) => 'CSAS 2026, Round 1 closing scores, $category';
+  static String ladderCaption(String category) => 'CSAS 2026, Round 1 minimum scores, $category, out of 1000';
   static const String chooseColleges = 'Choose your colleges';
   static const String ladderEmpty = 'Pick up to three colleges and see where each one closed last year.';
 
@@ -151,7 +156,7 @@ abstract final class TodayCopy {
   static const String whyMissing = 'This suggestion has changed since you opened it.';
 
   // Alternatives sheet.
-  static const String alternativesTitle = 'Something else tonight';
+  static const String alternativesTitle = 'Something else instead';
   static const String altFullMock = 'Full mock';
   static const String altFullMockLine = '50 questions, 60 minutes.';
   static const String altQuick = 'Quick practice';
@@ -161,7 +166,7 @@ abstract final class TodayCopy {
   static const String altReview = 'Review your mistakes';
   static const String altReviewLine = 'Read the worked explanations. Free.';
   static const String notToday = 'Not today';
-  static const String notTodayNote = "Hides tonight's repair until tomorrow. Your mistakes stay in Review.";
+  static const String notTodayNote = 'Hides this repair until tomorrow. Your mistakes stay in Review.';
 
   // Weekly ending page.
   static const String weeklyEndingTitle = 'Your week';

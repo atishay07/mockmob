@@ -57,7 +57,7 @@ void main() {
       expect(find.text(subject), findsOneWidget, reason: subject);
     }
     expect(find.text('1 of 4 study days'), findsOneWidget);
-    expect(find.text('Weeks in rhythm: 3'), findsOneWidget);
+    expect(find.text('3 weeks in rhythm'), findsOneWidget);
   });
 
   testWidgets('the course and colleges picked in setup print in order of preference', (tester) async {
@@ -104,7 +104,7 @@ void main() {
   testWidgets('a run of zero weeks is never printed as a number', (tester) async {
     await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(streak: 0, best: 0)));
     expect(find.text('A run starts the week you reach your goal.'), findsOneWidget);
-    expect(find.textContaining('Weeks in rhythm'), findsNothing);
+    expect(find.textContaining('weeks in rhythm'), findsNothing);
   });
 
   testWidgets('a pause is said on the rhythm row', (tester) async {

@@ -18,6 +18,7 @@ abstract final class PracticeCopy {
   static const String lateOverline = 'Late one tonight. Ten minutes, then sleep.';
   static const String resumeOverline = 'Still open';
   static const String showMe = 'Show me';
+  static const String showMeSemantics = 'Show me, the attempt behind this';
   static const String startKey = 'Start';
   static const String resumeKey = 'Resume';
   static const String questionsUnit = 'questions';

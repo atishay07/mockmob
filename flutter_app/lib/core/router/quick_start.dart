@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../api/api_providers.dart';
 import '../copy/formatters.dart';
@@ -9,8 +8,12 @@ import '../domain/session_rules.dart';
 import '../models/session_draft.dart';
 import '../repositories/session_draft_repository.dart';
 import '../theme/theme.dart';
+import '../widgets/bubbles/sheet_glyph.dart';
+import '../widgets/materials/lit_edge.dart';
 import '../widgets/pressable.dart';
 import 'routes.dart';
+
+export '../widgets/bubbles/sheet_glyph.dart' show SheetGlyph;
 
 /// The open session Start offers to resume, with its answer count, or null.
 class ResumeOffer {
@@ -41,16 +44,31 @@ String subjectDisplayName(String id) => switch (id) {
       _ => id.isEmpty ? 'your' : id[0].toUpperCase() + id.substring(1).replaceAll('_', ' '),
     };
 
+/// Where Start's "Repair the next mistake" goes: tonight's first mistake (the pick Today and
+/// Review make). Null hides the row. `main.dart` wires it to Review's index.
+class QuickRepair {
+  const QuickRepair({required this.location, required this.chapter});
+
+  final String location;
+  final String chapter;
+}
+
+final quickStartRepairProvider = Provider<QuickRepair?>((ref) => null);
+
 /// The quick-start sheet that Start morphs into: resume the open session when there is one,
-/// then Quick 10, Full mock and Repair the next mistake. Costs are not here; they live on the
-/// confirm sheet each choice opens.
+/// then Quick 10, Full mock and Repair the next mistake (only when there is one). Costs are not
+/// here; they live on the confirm sheet each choice opens.
 class QuickStartSheet extends ConsumerWidget {
   const QuickStartSheet({super.key});
+
+  static String titleFor(DateTime now) => isEvening(now) ? "What's it going to be tonight?" : "Pick today's work";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
     final offer = ref.watch(resumeOfferProvider).value;
+    final repair = ref.watch(quickStartRepairProvider);
+    final now = ref.watch(nowProvider)();
 
     void go(String location) {
       final router = GoRouter.of(context);
@@ -66,12 +84,12 @@ class QuickStartSheet extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-            child: Semantics(header: true, child: Text('Start something', style: type.screenTitle.copyWith(fontSize: 24))),
+            child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
           ),
           const SizedBox(height: MmSpace.s16),
           if (offer != null) ...[
             QuickStartRow(
-              icon: LucideIcons.play,
+              glyph: SheetGlyph.resume,
               title: 'Resume ${subjectDisplayName(offer.draft.subject)} ${offer.draft.isMock ? 'mock' : 'practice'}, '
                   '${offer.answered} of ${offer.total}',
               note: offer.draft.isMock
@@ -83,7 +101,7 @@ class QuickStartSheet extends ConsumerWidget {
             const SizedBox(height: MmSpace.s8),
           ],
           QuickStartRow(
-            icon: LucideIcons.zap,
+            glyph: SheetGlyph.quick,
             title: 'Quick 10',
             note: '10 questions, about 10 minutes.',
             lit: offer == null,
@@ -91,30 +109,32 @@ class QuickStartSheet extends ConsumerWidget {
           ),
           const SizedBox(height: MmSpace.s8),
           QuickStartRow(
-            icon: LucideIcons.fileText,
+            glyph: SheetGlyph.mock,
             title: 'Full mock',
             note: '50 questions, 60 minutes, timed like the exam.',
             onTap: () => go(AppRoutes.practiceSetup('full')),
           ),
-          const SizedBox(height: MmSpace.s8),
-          QuickStartRow(
-            icon: LucideIcons.wrench,
-            title: 'Repair the next mistake',
-            note: 'A worked explanation, then a fresh check.',
-            onTap: () => go(AppRoutes.reviewMistakes),
-          ),
+          if (repair != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            QuickStartRow(
+              glyph: SheetGlyph.repair,
+              title: 'Repair the next mistake',
+              note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
+              onTap: () => go(repair.location),
+            ),
+          ],
         ],
       ),
     );
   }
 }
 
-/// One choice of the quick-start sheet: a glyph in a small well, the title and a note, and a
-/// chevron. The first choice carries the volt glyph well (the one light in the sheet).
+/// One choice of the quick-start sheet: a bubble glyph in a 40 dp tile, the title and a note.
+/// The first choice carries the lit edge (the one light in the sheet).
 class QuickStartRow extends StatelessWidget {
-  const QuickStartRow({super.key, required this.icon, required this.title, required this.note, required this.onTap, this.lit = false});
+  const QuickStartRow({super.key, required this.glyph, required this.title, required this.note, required this.onTap, this.lit = false});
 
-  final IconData icon;
+  final SheetGlyph glyph;
   final String title;
   final String note;
   final VoidCallback onTap;
@@ -124,49 +144,40 @@ class QuickStartRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    Widget row(bool pressed) => DecoratedBox(
+          decoration: ShapeDecoration(
+            color: pressed ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: colors.isNight ? 0.04 : 0.03),
+            shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.08))),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 68),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
+              child: Row(
+                children: [
+                  SheetGlyphTile(glyph),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(title, style: type.labelLarge),
+                        const SizedBox(height: 2),
+                        Text(note, style: type.caption.copyWith(color: colors.ink2)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
     return MmPressable(
       semanticsLabel: '$title. $note',
       focusRadius: MmRadius.keyAll,
       onTap: onTap,
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: pressed ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: colors.isNight ? 0.04 : 0.03),
-          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.08))),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 68),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
-            child: Row(
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: lit ? colors.volt : colors.ink.withValues(alpha: 0.08),
-                    shape: BoxShape.circle,
-                  ),
-                  child: SizedBox.square(
-                    dimension: 40,
-                    child: Icon(icon, size: 20, color: lit ? colors.voltInk : colors.ink),
-                  ),
-                ),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(title, style: type.labelLarge),
-                      const SizedBox(height: 2),
-                      Text(note, style: type.caption.copyWith(color: colors.ink2)),
-                    ],
-                  ),
-                ),
-                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
-              ],
-            ),
-          ),
-        ),
-      ),
+      builder: (context, pressed, _) => lit ? LitEdge(borderRadius: MmRadius.keyAll, child: row(pressed)) : row(pressed),
     );
   }
 }

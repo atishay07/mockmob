@@ -54,6 +54,7 @@ class _PracticeSetupScreenState extends ConsumerState<PracticeSetupScreen> {
         children: [
           Positioned(top: 0, left: 0, right: 0, height: 360, child: IgnorePointer(child: LightField.lamp(context, strength: 0.7))),
           SafeArea(
+            bottom: false,
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
@@ -61,19 +62,16 @@ class _PracticeSetupScreenState extends ConsumerState<PracticeSetupScreen> {
                   children: [
                     const PracticeAppBar(),
                     Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
-                        children: [
-                          PracticeComposer(
-                            initial: _initial,
-                            showSubjects: true,
-                            exits: ComposerExits(
-                              run: (id) => context.go(AppRoutes.run(id)),
-                              concepts: () => context.push(AppRoutes.learn),
-                              review: () => context.go(AppRoutes.review),
-                            ),
-                          ),
-                        ],
+                      // Start is pinned at the bottom: the dock is hidden here, like the runner.
+                      child: PracticeComposer(
+                        initial: _initial,
+                        showSubjects: true,
+                        pinKey: true,
+                        exits: ComposerExits(
+                          run: (id) => context.go(AppRoutes.run(id)),
+                          concepts: () => context.push(AppRoutes.learn),
+                          review: () => context.go(AppRoutes.review),
+                        ),
                       ),
                     ),
                   ],

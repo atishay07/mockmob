@@ -179,7 +179,7 @@ class LabStates extends StatelessWidget {
           child: StateView(
             kind: StateViewKind.empty,
             title: 'Nothing to repair',
-            message: 'Every mistake you found is checked. Take a Quick 10 to find the next one.',
+            message: "Every mistake you've found is repaired. A Quick 10 finds the next one.",
             primary: StateAction('Quick 10', () {}),
           ),
         ),

@@ -1,6 +1,6 @@
 // Today's top row (brief 12): the avatar that opens You, the date and a greeting by first name,
-// and the week as seven small bubbles that open the week sheet. A quiet time line appears under
-// it when Today is showing what it last loaded.
+// then the week as its own row of seven bubbles with day initials, which opens the week sheet.
+// A quiet time line appears under it when Today is showing what it last loaded.
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -24,12 +24,11 @@ class TodayHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        TabRootHeader(
-          avatar: avatar,
-          overline: header.dateLine,
-          title: header.greeting,
-          trailing: week == null ? null : _WeekButton(days: week, label: header.weekLabel, onTap: onWeek),
-        ),
+        TabRootHeader(avatar: avatar, overline: header.dateLine, title: header.greeting),
+        if (week != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          _WeekRow(days: week, label: header.weekLabel, onTap: onWeek),
+        ],
         if (header.updatedLine != null)
           Padding(
             padding: const EdgeInsets.only(left: 60, top: 2),
@@ -46,8 +45,10 @@ class TodayHeader extends StatelessWidget {
   }
 }
 
-class _WeekButton extends StatelessWidget {
-  const _WeekButton({required this.days, this.label, this.onTap});
+/// The signature week row: seven 18 dp bubbles, 10 dp apart, initials beneath. Done study days
+/// are inked, today is ringed in paper white, rest days are dashed. The whole row opens the week.
+class _WeekRow extends StatelessWidget {
+  const _WeekRow({required this.days, this.label, this.onTap});
 
   final List<WeekBubbleDay> days;
   final String? label;
@@ -55,15 +56,28 @@ class _WeekButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bubbles = WeekBubbles(days: days, bubbleSize: 8, gap: 3.5, initials: false);
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final bubbles = WeekBubbles(days: days, bubbleSize: 18, gap: 10);
     final description = [?label, bubbles.describe(), 'Opens your week'].join('. ');
     return MmPressable(
       semanticsLabel: description,
       onTap: onTap,
+      pressedScale: 0.98,
       focusRadius: MmRadius.smallAll,
-      builder: (context, pressed, _) => SizedBox(
-        height: 48,
-        child: Center(child: ExcludeSemantics(child: bubbles)),
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Row(
+          children: [
+            Transform.translate(offset: const Offset(-5, 0), child: ExcludeSemantics(child: bubbles)),
+            if (label != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              Expanded(
+                child: Text(label!, style: type.caption.copyWith(color: colors.ink2), textAlign: TextAlign.right),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

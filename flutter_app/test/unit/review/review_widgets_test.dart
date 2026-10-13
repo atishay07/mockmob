@@ -25,8 +25,8 @@ void main() {
 
   testWidgets('the tab offers tonight, skipped questions without a repair key, and the record', (tester) async {
     await pump(tester, const ReviewScreen());
-    expect(find.text("Tonight's repair"), findsOneWidget);
-    expect(find.text('Repair 3 mistakes'), findsOneWidget);
+    expect(find.textContaining("'s repair, "), findsOneWidget);
+    expect(find.textContaining('Repair 3 mistakes'), findsOneWidget);
     expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
     expect(find.text('See the answer'), findsNWidgets(3));
     expect(find.text('Try it again'), findsNWidgets(3));

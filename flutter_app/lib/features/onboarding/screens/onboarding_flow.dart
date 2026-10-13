@@ -138,7 +138,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         backgroundColor: colors.ground,
         body: Stack(
           children: [
-            if (step.kind != StepKind.check) Positioned.fill(child: LightField.lamp(context, strength: 0.85)),
+            if (step.kind != StepKind.check) Positioned.fill(child: LampScene(strength: 0.85, vignette: false)),
             const Positioned.fill(child: IgnorePointer(child: Grain())),
             SafeArea(
               bottom: false,
@@ -252,17 +252,14 @@ class _TopBar extends StatelessWidget {
       height: 56,
       child: Row(
         children: [
-          Semantics(
-            button: true,
-            label: OnboardingCopy.back,
-            excludeSemantics: true,
-            child: MmPressable(
-              onTap: onBack,
-              pressedScale: 0.9,
-              builder: (context, pressed, _) => SizedBox.square(
-                dimension: 48,
-                child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
-              ),
+          // The label sits on the pressable itself, so TalkBack's double tap reaches onTap.
+          MmPressable(
+            semanticsLabel: OnboardingCopy.back,
+            onTap: onBack,
+            pressedScale: 0.9,
+            builder: (context, pressed, _) => SizedBox.square(
+              dimension: 48,
+              child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
             ),
           ),
           const Spacer(),

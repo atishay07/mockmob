@@ -45,7 +45,7 @@ class AuthPage extends ConsumerWidget {
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          Positioned.fill(child: LightField.lamp(context, strength: 0.9)),
+          const Positioned.fill(child: LampScene(strength: 0.9, vignette: false)),
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           SafeArea(
         child: Column(

@@ -1,4 +1,5 @@
 import '../../../core/domain/mock_ordinal.dart';
+import '../../../core/domain/tonight_pick.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 
@@ -88,16 +89,33 @@ class BlankGroup {
   final List<BlankItem> items;
 }
 
-/// The single next move on the tab: the chapter with the most open mistakes in the newest
-/// attempt that still has any.
+/// The single next move on the tab, the same pick Today and Start make ([pickTonightChapter]):
+/// the chapter with the most open mistakes in the newest paper that can carry a repair and still
+/// has any (results not opened yet are left for their reveal).
 class TonightPick {
-  const TonightPick({required this.attemptId, required this.chapter, required this.subjectId, required this.source, required this.items});
+  const TonightPick({
+    required this.attemptId,
+    required this.chapter,
+    required this.subjectId,
+    required this.source,
+    required this.items,
+    this.paperOpen = 0,
+    this.chapterOpen = 0,
+  });
 
   final String attemptId;
   final String chapter;
   final String subjectId;
   final String source;
+
+  /// The chapter's open mistakes in this paper, by question number.
   final List<MistakeItem> items;
+
+  /// Every open mistake in the paper.
+  final int paperOpen;
+
+  /// The chapter's open mistakes across every paper.
+  final int chapterOpen;
 }
 
 /// Everything the Review tab shows, derived from the attempts list and the local repair records.
@@ -180,10 +198,7 @@ String sourceLabel(Iterable<Attempt> attempts, Attempt attempt) {
 }
 
 /// Chapter name for a question, never empty.
-String chapterOf(String? chapter) {
-  final c = chapter?.trim() ?? '';
-  return c.isEmpty ? 'Other questions' : c;
-}
+String chapterOf(String? chapter) => chapterKey(chapter);
 
 MistakeStage _stageFor(RepairLocalRecord? r) {
   if (r == null) return MistakeStage.found;
@@ -196,8 +211,9 @@ MistakeStage _stageFor(RepairLocalRecord? r) {
 }
 
 /// Builds the index. [attempts] is the attempts list (any order); [records] are the local repair
-/// records. Questions the server called `not_a_mistake` are hidden quietly.
-ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> records) {
+/// records; [unopened] are results not opened yet. Questions the server called `not_a_mistake`
+/// are hidden quietly.
+ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> records, {Set<String> unopened = const {}}) {
   final sorted = [...attempts]..sort((a, b) => b.completedAt.compareTo(a.completedAt));
   final byKey = {for (final r in records) '${r.attemptId}/${r.questionId}': r};
   final groups = <String, List<MistakeItem>>{};
@@ -249,24 +265,32 @@ ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> rec
         });
 
   final index = ReviewIndex(groups: list, attempts: sorted, blanks: blanks);
-  return ReviewIndex(groups: list, attempts: sorted, blanks: blanks, tonight: _tonight(index, sorted));
+  return ReviewIndex(groups: list, attempts: sorted, blanks: blanks, tonight: _tonight(index, sorted, unopened));
 }
 
-TonightPick? _tonight(ReviewIndex index, List<Attempt> newestFirst) {
+TonightPick? _tonight(ReviewIndex index, List<Attempt> newestFirst, Set<String> unopened) {
   for (final attempt in newestFirst) {
-    final chapters = <String, List<MistakeItem>>{};
-    for (final g in index.groups) {
-      for (final i in g.items) {
-        if (i.attemptId == attempt.id && i.stage.isOpen) chapters.putIfAbsent(i.chapter, () => []).add(i);
-      }
-    }
-    if (chapters.isEmpty) continue;
-    final best = chapters.values.reduce((a, b) {
-      if (b.length != a.length) return b.length > a.length ? b : a;
-      return b.map((i) => i.number).reduce((x, y) => x < y ? x : y) < a.map((i) => i.number).reduce((x, y) => x < y ? x : y) ? b : a;
-    })..sort((a, b) => a.number.compareTo(b.number));
-    final first = best.first;
-    return TonightPick(attemptId: attempt.id, chapter: first.chapter, subjectId: first.subjectId, source: first.source, items: best);
+    if (!isRepairBasis(attempt) || unopened.contains(attempt.id)) continue;
+    final open = [
+      for (final g in index.groups)
+        for (final i in g.items)
+          if (i.attemptId == attempt.id && i.stage.isOpen) i,
+    ];
+    final pick = pickTonightChapter(open, chapterOf: (i) => i.chapter, numberOf: (i) => i.number);
+    if (pick == null) continue;
+    final first = pick.items.first;
+    final chapterOpen = index.groups
+        .where((g) => g.chapter == pick.chapter && g.subjectId == first.subjectId)
+        .fold<int>(0, (n, g) => n + g.openCount);
+    return TonightPick(
+      attemptId: attempt.id,
+      chapter: pick.chapter,
+      subjectId: first.subjectId,
+      source: first.source,
+      items: pick.items,
+      paperOpen: pick.paperOpen,
+      chapterOpen: chapterOpen,
+    );
   }
   return null;
 }

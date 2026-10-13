@@ -35,6 +35,8 @@ void main() {
   todayGolden('today_ready', () => _view(ashaInputs()));
   todayGolden('today_ready_full', () => _view(ashaInputs()), size: const Size(384, 1900), dock: false);
   todayGolden('today_ready_5min', () => _view(ashaInputs(selectedMinutes: 5)));
+  todayGolden('today_ready_text130', () => _view(ashaInputs()), textScale: 1.3);
+  todayGolden('today_morning', () => _view(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0))));
 
   todayGolden(
     'today_day_one',

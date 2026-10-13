@@ -23,7 +23,7 @@ void clipMmShape(Canvas canvas, BorderRadius radius, Rect rect) {
 
 /// The light that lands on a pane of glass in a lamp-lit room: a 1 dp stroke that is bright
 /// along the top and fades down the sides, a whisper of sheen pooled under the top edge, and on
-/// Night a warm lamp catch in the upper-left corner (the desk lamp sits up and to the left).
+/// Night (glass only) a warm lamp catch along the left half of the straight top edge.
 ///
 /// Static and cheap: two strokes and two gradients, no layers.
 class EdgeLightPainter extends CustomPainter {
@@ -71,23 +71,22 @@ class EdgeLightPainter extends CustomPainter {
 
     final lampColor = lamp;
     if (lampColor != null) {
-      // The lamp sits up and to the left: its warmth runs along the top edge from the left and
-      // fades by the middle. No blob inside the pane, only the edge catches it.
-      canvas.save();
-      canvas.clipRect(Rect.fromLTWH(0, 0, size.width, (size.height * 0.5).clamp(0.0, 40.0)));
-      drawMmShape(
-        canvas,
-        borderRadius,
-        rect.deflate(0.5),
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.2
-          ..shader = LinearGradient(
-            colors: [lampColor.withValues(alpha: 0.55 * boost.clamp(0, 1.4)), lampColor.withValues(alpha: 0)],
-            stops: const [0, 0.55],
-          ).createShader(rect),
-      );
-      canvas.restore();
+      // The lamp sits up and to the left: its warmth runs along the straight top edge from the
+      // left and is gone before the middle. Never on the corner arc, where it read as a glitch.
+      final r = borderRadius.topLeft.x.clamp(0.0, size.width / 2);
+      final from = Offset(r, 0.5);
+      final to = Offset(size.width * 0.45, 0.5);
+      if (to.dx > from.dx) {
+        canvas.drawLine(
+          from,
+          to,
+          Paint()
+            ..strokeWidth = 1
+            ..shader = LinearGradient(
+              colors: [lampColor.withValues(alpha: 0.3 * boost.clamp(0, 1.4)), lampColor.withValues(alpha: 0)],
+            ).createShader(Rect.fromPoints(Offset.zero, Offset(size.width * 0.45, 1))),
+        );
+      }
     }
 
     if (sheen) {

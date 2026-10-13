@@ -12,6 +12,7 @@ import 'review_golden_support.dart';
 
 void main() {
   reviewGolden('review_tab', () => const ReviewScreen(), overrides: () => reviewOverrides(records: [repairedRecord]));
+  reviewGolden('review_tab_text130', () => const ReviewScreen(), overrides: () => reviewOverrides(records: [repairedRecord]), textScale: 1.3);
 
   reviewGolden(
     'review_tab_full',

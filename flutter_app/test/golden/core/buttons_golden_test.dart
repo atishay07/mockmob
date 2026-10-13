@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/widgets/lab/lab_sections.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'night_support.dart';
 
@@ -32,9 +31,9 @@ Widget _controls() {
           const MmChip(label: 'Later', selected: false, onTap: null),
         ]),
         const SizedBox(height: 16),
-        QuickStartRow(icon: LucideIcons.zap, title: 'Quick 10', note: '10 questions, about 10 minutes.', lit: true, onTap: () {}),
+        QuickStartRow(glyph: SheetGlyph.quick, title: 'Quick 10', note: '10 questions, about 10 minutes.', lit: true, onTap: () {}),
         const SizedBox(height: 8),
-        QuickStartRow(icon: LucideIcons.wrench, title: 'Repair the next mistake', note: 'A worked explanation, then a fresh check.', onTap: () {}),
+        QuickStartRow(glyph: SheetGlyph.repair, title: 'Repair the next mistake', note: 'A worked explanation for your next mistake, in Partnership.', onTap: () {}),
         const SizedBox(height: 16),
         const TabRootHeader(title: 'Practice', overline: 'Tuesday, 13 October'),
       ],

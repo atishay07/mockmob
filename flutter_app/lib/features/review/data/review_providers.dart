@@ -9,6 +9,8 @@ import '../../../core/repositories/notification_prefs_repository.dart';
 import '../../../core/repositories/pending_result_repository.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/repositories/repair_local_repository.dart';
+import '../../../core/router/quick_start.dart' show QuickRepair;
+import '../../../core/router/routes.dart';
 import '../../learn/data/catalog_repository.dart';
 import 'mistake_index.dart';
 
@@ -34,7 +36,14 @@ final reviewIndexProvider = Provider<ReviewIndex?>((ref) {
   final inputs = ref.watch(reviewInputsProvider);
   final attempts = inputs.attempts.value;
   if (attempts == null) return null;
-  return buildReviewIndex(attempts, inputs.records);
+  return buildReviewIndex(attempts, inputs.records, unopened: {for (final u in inputs.unopened) u.attemptId});
+});
+
+/// Start's "Repair the next mistake": tonight's first mistake, or null when there is none.
+final quickRepairFromReviewProvider = Provider<QuickRepair?>((ref) {
+  final tonight = ref.watch(reviewIndexProvider)?.tonight;
+  if (tonight == null) return null;
+  return QuickRepair(location: AppRoutes.reviewRepair(tonight.attemptId, tonight.items.first.questionId), chapter: tonight.chapter);
 });
 
 /// Converts instants to the student's timezone (notification prefs, default Asia/Kolkata), so

@@ -28,7 +28,6 @@ class LearnPanel extends StatelessWidget {
           borderRadius: MmRadius.panelAll,
           top: colors.edgeTop,
           bottom: colors.edgeBottom.withValues(alpha: 0),
-          lamp: colors.isNight ? colors.lamp : null,
           sheen: false,
         ),
         child: Padding(padding: padding, child: child),

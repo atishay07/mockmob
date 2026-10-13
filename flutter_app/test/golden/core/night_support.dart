@@ -14,7 +14,7 @@ import '../../helpers/golden_harness.dart';
 const Size kNightSize = Size(384, 853);
 
 /// Runs [body] once per theme as a golden test named `<name>_<night|day>.png`.
-void nightGolden(String name, Widget Function() build, {Size size = kNightSize, bool disableAnimations = true}) {
+void nightGolden(String name, Widget Function() build, {Size size = kNightSize, bool disableAnimations = true, double textScale = 1}) {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
@@ -28,6 +28,7 @@ void nightGolden(String name, Widget Function() build, {Size size = kNightSize, 
         ),
         brightness: brightness,
         size: size,
+        textScale: textScale,
         disableAnimations: disableAnimations,
       );
       await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_$tag.png'));

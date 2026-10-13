@@ -4,10 +4,10 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// The one lit card at the top of Practice: the subject's light pooled behind its object, a
-/// monumental number with its meaning, the title, the reason drawn from the student's own record
-/// with a quiet "Show me", and the volt key. The art sits in the upper right; every line a
-/// student reads sits on the left or below it, never on the object.
+/// The one lit element at the top of Practice, kept compact so the subject tiles below lead the
+/// page: the subject's object in its own light on the left, the session (title, length and
+/// subject) beside it, and a volt "Start" pill. The reason from the student's own record sits
+/// under it with the "Show me" pill.
 class SuggestionCard extends StatelessWidget {
   const SuggestionCard({
     super.key,
@@ -36,7 +36,7 @@ class SuggestionCard extends StatelessWidget {
   final VoidCallback? onAction;
   final String? numberSemantics;
 
-  static const double _artSize = 176;
+  static const double _object = 56;
 
   @override
   Widget build(BuildContext context) {
@@ -44,137 +44,79 @@ class SuggestionCard extends StatelessWidget {
     final type = context.mmType;
     final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.accountancy;
     final art = MmArt.subjectObject(subjectId);
+    final meta = [numberSemantics ?? '$number $unit', ?kicker].join(', ');
 
     return LitEdge(
       glow: true,
       child: MmClip(
         borderRadius: MmRadius.panelAll,
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: colors.isNight ? colors.raised : colors.raised),
+        child: ColoredBox(
+          color: colors.raised,
           child: Stack(
             children: [
-              Positioned.fill(
-                child: LightField.subject(context, light, center: const Alignment(0.75, -0.55), strength: colors.isNight ? 1 : 0.9),
-              ),
-              if (art != null)
-                Positioned(
-                  right: -6,
-                  top: 10,
-                  width: _artSize,
-                  height: _artSize * 0.86,
-                  child: ArtImage(art, alignment: Alignment.topRight),
+              // The subject's light pooled behind the object only, at the left.
+              Positioned(
+                left: -40,
+                top: -36,
+                width: 180,
+                height: 170,
+                child: LightField(
+                  pools: [LightPool(color: light.of(Theme.of(context).brightness), center: Alignment.center, radius: 0.5)],
                 ),
-              Positioned.fill(child: IgnorePointer(child: Grain(opacity: colors.grain))),
-              Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: _FloorShade(colors.raised)))),
+              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.cardPadding),
+                padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s16, MmSpace.s16, MmSpace.s12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: art == null ? 0 : _artSize - 28),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(overline, style: type.caption.copyWith(color: colors.ink2)),
-                          const SizedBox(height: MmSpace.s8),
-                          MergeSemantics(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: MonumentalNumber(value: number, style: type.figureHero, semanticsLabel: numberSemantics ?? number),
-                                ),
-                                Text(unit, style: type.labelLarge.copyWith(color: colors.ink2)),
-                              ],
-                            ),
+                    Row(
+                      children: [
+                        SizedBox.square(
+                          dimension: _object,
+                          child: art == null ? null : ArtImage(art, width: _object, height: _object),
+                        ),
+                        const SizedBox(width: MmSpace.s12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(overline, style: type.caption.copyWith(color: colors.ink2)),
+                              const SizedBox(height: 2),
+                              Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16), maxLines: 2)),
+                              const SizedBox(height: 2),
+                              Text(meta, style: type.caption.copyWith(color: colors.ink2)),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: MmSpace.s16),
-                    Semantics(
-                      header: true,
-                      child: Text(title, style: type.headline),
+                    const SizedBox(height: MmSpace.s8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: MmSpace.s4),
+                                child: Text(reason, style: type.small.copyWith(color: colors.ink)),
+                              ),
+                              if (onShowMe != null) ShowMePill(onTap: onShowMe!, semanticsLabel: PracticeCopy.showMeSemantics),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: MmSpace.s12),
+                        KeyButton(label: actionLabel, onPressed: onAction, expanded: false, minHeight: MmTarget.min),
+                      ],
                     ),
-                    if (kicker != null) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      Text(kicker!, style: type.labelLarge.copyWith(color: colors.ink2)),
-                    ],
-                    const SizedBox(height: MmSpace.s12),
-                    Text(reason, style: type.body.copyWith(color: colors.ink)),
-                    if (onShowMe != null) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      ShowMeTag(onTap: onShowMe!),
-                    ],
-                    const SizedBox(height: MmSpace.s20),
-                    KeyButton(label: actionLabel, onPressed: onAction),
                   ],
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Lets the light settle into the card's lower half, so the key and the reason sit on a calm,
-/// even surface whatever the object's colours.
-class _FloorShade extends CustomPainter {
-  const _FloorShade(this.ground);
-
-  final Color ground;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final shader = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0), ground.withValues(alpha: 0.55)],
-      stops: const [0, 0.45, 1],
-    ).createShader(rect);
-    canvas.drawRect(rect, Paint()..shader = shader);
-  }
-
-  @override
-  bool shouldRepaint(_FloorShade old) => old.ground != ground;
-}
-
-/// "Show me": the quiet tag under a claim that opens the attempt behind it (brief 12.1).
-class ShowMeTag extends StatelessWidget {
-  const ShowMeTag({super.key, required this.onTap, this.label = PracticeCopy.showMe});
-
-  final VoidCallback onTap;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return MmPressable(
-      semanticsLabel: label,
-      focusRadius: MmRadius.smallAll,
-      onTap: onTap,
-      builder: (context, pressed, _) => SizedBox(
-        height: MmTarget.min,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: type.label.copyWith(
-                color: pressed ? colors.ink : colors.ink2,
-                decoration: TextDecoration.underline,
-                decorationColor: colors.ink3,
-                decorationThickness: 1,
-              ),
-            ),
-          ],
         ),
       ),
     );

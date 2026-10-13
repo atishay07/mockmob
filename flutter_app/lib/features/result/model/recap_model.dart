@@ -40,6 +40,7 @@ class RecapModel {
     this.firstMockTokenAt,
     this.detailLoaded = true,
     this.mode = 'full',
+    this.blanksInReview = false,
   });
 
   final String attemptId;
@@ -89,6 +90,10 @@ class RecapModel {
   /// `full`, `nta` or `quick` (for analytics only).
   final String mode;
 
+  /// Review keeps the blanks of the newest paper that has any (`buildReviewIndex`); true when
+  /// that paper is this one, so "they are in Review" is only said when it is so.
+  final bool blanksInReview;
+
   String get mockLabel => ordinal == null ? 'Quick practice' : 'Mock $ordinal';
   String get title => '$mockLabel, $subjectName';
   int get marks => breakdown.scored;
@@ -99,13 +104,21 @@ class RecapModel {
   bool get isHeld => variant == RecapVariant.held;
 
   /// Default repair size: the 10-minute chip when it exists, else all candidates.
+  /// The repair this result asks for, the same pick Today and Review make: the chapter with the
+  /// most wrong answers (a repair run covers one chapter). Null with nothing to repair.
+  TonightChapter<RepairCandidate>? get tonight =>
+      pickTonightChapter(candidates, chapterOf: (c) => c.chapter, numberOf: (c) => c.number);
+
+  /// How many mistakes tonight's repair can hold.
+  int get tonightCount => tonight?.items.length ?? 0;
+
   int get defaultRepairMinutes {
-    final options = repairDurationOptions(candidates.length);
+    final options = repairDurationOptions(tonightCount);
     for (final o in options) {
       if (o.minutes == 10) return 10;
     }
     if (options.isNotEmpty) return options.first.minutes;
-    return repairMinutes(candidates.length) ?? 0;
+    return repairMinutes(tonightCount) ?? 0;
   }
 }
 
@@ -162,7 +175,13 @@ RecapModel buildRecapModel({
     firstMockTokenAt: _firstMockToken(attempts, attempt, milestones),
     detailLoaded: detail != null,
     mode: attempt.mode ?? 'full',
+    blanksInReview: _blanksInReview(attempts, attempt),
   );
+}
+
+bool _blanksInReview(List<Attempt> attempts, Attempt attempt) {
+  if (attempt.unattempted == 0) return false;
+  return !attempts.any((a) => a.id != attempt.id && a.unattempted > 0 && a.completedAt.isAfter(attempt.completedAt));
 }
 
 PreviousMock? _previous(AttemptDetail? detail, List<Attempt> attempts) {

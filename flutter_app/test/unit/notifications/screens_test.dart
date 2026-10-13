@@ -223,10 +223,11 @@ void main() {
       expect(_text('Turn on'), findsOneWidget);
     });
 
-    testWidgets('blocked: says how to change it in Android settings and offers no key', (tester) async {
+    testWidgets('blocked: keeps the choices, says nothing arrives yet, and opens Android settings', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.denied);
       expect(_text('Notifications are blocked in Android settings'), findsOneWidget);
-      expect(find.textContaining('Settings, Apps, MockMob, Notifications'), findsOneWidget);
+      expect(_text('Saved. Nothing arrives until Android allows it.'), findsOneWidget);
+      expect(_text('Open Android settings'), findsOneWidget);
       expect(_text('Turn on'), findsNothing);
     });
 

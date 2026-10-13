@@ -183,41 +183,52 @@ void main() {
     final container = await _pump(tester);
     final router = _router(container);
 
-    await tester.tap(_tab('Practice'));
-    await _settle(tester);
-    expect(_location(container), '/practice');
-
-    router.go('/practice/setup/full');
-    await _settle(tester);
-    expect(_location(container), '/practice/setup/full');
-
     await tester.tap(_tab('Review'));
     await _settle(tester);
     expect(_location(container), '/review');
 
-    // Back to Practice: its pushed screen is still there.
+    router.go('/review/mistakes');
+    await _settle(tester);
+    expect(_location(container), '/review/mistakes');
+
     await tester.tap(_tab('Practice'));
     await _settle(tester);
-    expect(_location(container), '/practice/setup/full');
+    expect(_location(container), '/practice');
+
+    // Back to Review: its pushed screen is still there.
+    await tester.tap(_tab('Review'));
+    await _settle(tester);
+    expect(_location(container), '/review/mistakes');
+  });
+
+  _test('the confirm pages inside Practice hide the dock, like the runner', (tester) async {
+    final container = await _pump(tester);
+    _router(container).go('/practice/setup/full');
+    await _settle(tester);
+    expect(find.byType(DockPill), findsNothing);
+
+    _router(container).go('/practice');
+    await _settle(tester);
+    expect(find.byType(DockPill), findsOneWidget);
   });
 
   _test('re-tapping a tab pops to its root, then asks the screen to scroll to top', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
-    router.go('/practice');
+    router.go('/review');
     await _settle(tester);
-    router.push('/practice/setup/quick');
+    router.push('/review/mistakes');
     await _settle(tester);
 
-    await tester.tap(_tab('Practice'));
+    await tester.tap(_tab('Review'));
     await _settle(tester);
-    expect(_location(container), '/practice');
+    expect(_location(container), '/review');
     expect(container.read(tabReselectProvider), isNull);
 
-    await tester.tap(_tab('Practice'));
+    await tester.tap(_tab('Review'));
     await _settle(tester);
     final event = container.read(tabReselectProvider);
-    expect(event?.tabIndex, 1);
+    expect(event?.tabIndex, 2);
   });
 
   _test('back from another tab goes to Today, then exits', (tester) async {

@@ -8,8 +8,8 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 
-/// The subjects as small lit tiles: each subject's object in its own light, the name below.
-/// The chosen tile carries a paper-white rim and an inked bubble; the rest a hairline. A last
+/// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
+/// below. Chosen and not chosen follow the shared answer-sheet selection ([MmSelection]). A last
 /// tile opens the remaining supported subjects. Scrolls sideways, bleeding to the screen edge.
 class SubjectTiles extends ConsumerWidget {
   const SubjectTiles({
@@ -31,8 +31,8 @@ class SubjectTiles extends ConsumerWidget {
   /// Horizontal padding of the scroller, so the first tile lines up with the page.
   final double gutter;
 
-  static const double width = 112;
-  static const double height = 128;
+  static const double width = 132;
+  static const double height = 148;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,15 +94,12 @@ class SubjectTile extends StatelessWidget {
         child: DecoratedBox(
           position: DecorationPosition.foreground,
           decoration: ShapeDecoration(
-            shape: RoundedSuperellipseBorder(
-              borderRadius: MmRadius.keyAll,
-              side: BorderSide(color: selected ? colors.ink : colors.line, width: selected ? 1.5 : 1),
-            ),
+            shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
           ),
           child: MmClip(
             borderRadius: MmRadius.keyAll,
             child: ColoredBox(
-              color: colors.raised,
+              color: MmSelection.fill(colors, selected: selected, pressed: pressed),
               child: Stack(
                 children: [
                   if (light != null)
@@ -111,11 +108,11 @@ class SubjectTile extends StatelessWidget {
                     ),
                   if (art != null)
                     Positioned(
-                      left: 14,
-                      right: 10,
-                      top: 12,
-                      bottom: 38,
-                      child: Opacity(opacity: selected ? 1 : 0.86, child: ArtImage(art)),
+                      left: 16,
+                      right: 12,
+                      top: 18,
+                      bottom: 40,
+                      child: ArtImage(art, width: SubjectTiles.width - 28, opacity: selected ? 1 : 0.86),
                     ),
                   Positioned(
                     left: 10,
@@ -125,10 +122,10 @@ class SubjectTile extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: Text(name, maxLines: 1, style: type.label.copyWith(color: selected ? colors.ink : colors.ink2)),
+                      child: Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
                     ),
                   ),
-                  Positioned(top: 8, left: 8, child: Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 14)),
+                  Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),
                 ],
               ),
             ),

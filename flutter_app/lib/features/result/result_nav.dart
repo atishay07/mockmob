@@ -17,12 +17,13 @@ abstract final class ResultNav {
   static void toFullResult(BuildContext context, String attemptId, {int? question}) =>
       context.go(fullResult(attemptId, question: question));
 
-  /// Mistake Repair for the first [mistakes] candidates. The repair flow reads `count` (how many
-  /// mistakes the chosen duration holds) and `minutes`.
+  /// Mistake Repair on tonight's chapter ([RecapModel.tonight]), starting with its first
+  /// mistake. The repair flow reads `count` (how many mistakes the chosen duration holds) and
+  /// `minutes`.
   static String repair(RecapModel m, {int? minutes}) {
-    final first = m.candidates.first;
-    final option = repairDurationOptions(m.candidates.length).where((o) => o.minutes == minutes).firstOrNull;
-    final count = option?.mistakes ?? m.candidates.length;
+    final first = m.tonight!.items.first;
+    final option = repairDurationOptions(m.tonightCount).where((o) => o.minutes == minutes).firstOrNull;
+    final count = option?.mistakes ?? m.tonightCount;
     final mins = minutes ?? repairMinutes(count);
     return Uri(
       path: AppRoutes.reviewRepair(m.attemptId, first.questionId),

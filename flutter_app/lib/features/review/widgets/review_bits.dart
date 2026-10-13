@@ -40,19 +40,21 @@ class SectionHeading extends StatelessWidget {
   }
 }
 
-/// The subject's object in a small pool of its own light: the colour accent of a chapter
-/// (brief section 3: light fields sit behind art only).
+/// The subject's colour as a small pool of light (brief section 3) holding either its object
+/// ([art], for a page's one hero) or a wrong-answer bubble (list rows, so the object art is not
+/// repeated down the page).
 class SubjectMark extends StatelessWidget {
-  const SubjectMark({super.key, required this.subjectId, this.size = 48});
+  const SubjectMark({super.key, required this.subjectId, this.size = 48, this.art = true});
 
   final String subjectId;
   final double size;
+  final bool art;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final light = SubjectLight.forSubject(subjectId);
-    final art = MmArt.subjectObject(subjectId);
+    final object = art ? MmArt.subjectObject(subjectId) : null;
     final brightness = Theme.of(context).brightness;
     return ExcludeSemantics(
       child: SizedBox.square(
@@ -75,10 +77,10 @@ class SubjectMark extends StatelessWidget {
                 ),
               ),
             ),
-            if (art != null)
-              ArtImage(art, height: size * 0.86, width: size * 0.86)
+            if (object != null)
+              ArtImage(object, height: size * 0.86, width: size * 0.86)
             else
-              Bubble(state: BubbleState.wrong, size: size * 0.32, animate: false),
+              Bubble(state: BubbleState.wrong, size: size * 0.36, animate: false),
           ],
         ),
       ),
@@ -132,33 +134,11 @@ class ShowMeTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final shown = count.clamp(1, 4);
-    return MmPressable(
+    final wrong = count.clamp(1, 3);
+    return ShowMePill(
       onTap: onTap,
-      semanticsLabel: semanticsLabel ?? ReviewCopy.showMe,
-      builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: MmTarget.min),
-        child: Align(
-          widthFactor: 1,
-          child: FakeGlass(
-            borderRadius: MmRadius.pillAll,
-            pressed: pressed,
-            opacity: colors.isNight ? 0.82 : 0.9,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 7, 14, 7),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  BubbleRow(states: List.filled(shown, BubbleState.wrong), bubbleSize: 9, gap: 3),
-                  const SizedBox(width: 8),
-                  Text(ReviewCopy.showMe, style: context.mmType.label.copyWith(color: colors.ink)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      semanticsLabel: semanticsLabel ?? 'Show me, the questions behind this',
+      marks: [for (var i = 0; i < 3; i++) i < wrong ? BubbleState.wrong : BubbleState.hollow],
     );
   }
 }

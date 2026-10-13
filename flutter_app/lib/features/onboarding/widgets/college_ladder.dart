@@ -94,8 +94,9 @@ class _LadderRow extends ConsumerWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final figure = DuCatalog.format(score);
+    final name = displayCollege(offering.college);
     return MmPressable(
-      semanticsLabel: '${offering.college}, $figure',
+      semanticsLabel: '$name, $figure',
       checked: selected,
       pressedScale: 0.98,
       focusRadius: MmRadius.keyAll,
@@ -104,9 +105,12 @@ class _LadderRow extends ConsumerWidget {
         onTap();
       },
       builder: (context, pressed, _) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: selected ? colors.raised2 : (pressed ? colors.raised : Colors.transparent),
-          borderRadius: MmRadius.keyAll,
+        decoration: ShapeDecoration(
+          color: selected ? MmSelection.fill(colors, selected: true) : (pressed ? colors.raised : Colors.transparent),
+          shape: mmShapeBorder(
+            MmRadius.keyAll,
+            side: selected ? MmSelection.side(colors, selected: true) : const BorderSide(color: Colors.transparent, width: 1.5),
+          ),
         ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 56),
@@ -114,11 +118,11 @@ class _LadderRow extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
             child: Row(
               children: [
-                Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 20, inkOrigin: const Offset(-0.7, 0)),
+                SelectBubble(selected: selected),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Text(
-                    offering.college,
+                    name,
                     style: type.labelLarge.copyWith(color: selected ? colors.ink : colors.ink2, fontWeight: selected ? FontWeight.w600 : FontWeight.w500),
                   ),
                 ),
@@ -132,6 +136,11 @@ class _LadderRow extends ConsumerWidget {
     );
   }
 }
+
+/// A college's name as shown: DU's "(W)" marks a women's college, so it is dropped where the
+/// name already says so ("Lady Shri Ram College for Women").
+String displayCollege(String college) =>
+    college.contains('Women') ? college.replaceAll(' (W)', '').trim() : college;
 
 /// The category chip above the ladder ("Showing UR"), which opens the category list.
 class CategoryChip extends StatelessWidget {

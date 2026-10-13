@@ -54,7 +54,9 @@ abstract final class RunnerCopy {
   static const String clearAnswer = 'Clear my answer';
   static const String mark = 'Mark for review';
   static const String marked = 'Marked for review';
-  static const String practiceNote = 'Feedback comes after you finish.';
+  /// A practice has no visible timer, but it does close: say when, once, as plain text.
+  static String practiceNote(DateTime openUntil) => 'Feedback comes after you finish. Open until ${formatTime12(openUntil)}.';
+  static String openUntil(DateTime at) => 'Open until ${formatTime12(at)}';
 
   // Bottom bar.
   static const String previous = 'Previous';
@@ -99,8 +101,9 @@ abstract final class RunnerCopy {
 
   // Leave guard.
   static String leaveTitle(bool isMock) => 'Leave this ${noun(isMock)}?';
-  static String leaveBody({required bool isMock, required DateTime until}) =>
-      'The clock keeps running. Your answers stay in the ${noun(isMock)} and you can continue until ${formatTime12(until)}.';
+  static String leaveBody({required bool isMock, required DateTime until}) => isMock
+      ? 'The clock keeps running. Your answers stay in the mock and you can continue until ${formatTime12(until)}.'
+      : 'This practice stays open until ${formatTime12(until)}. Your answers stay in it.';
   static const String keepGoing = 'Keep going';
   static String leaveKey(bool isMock) => 'Leave the ${noun(isMock)}';
 

@@ -58,9 +58,13 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
           child: Text(b.lost == 0 ? ResultCopy.allScored(b.max) : ResultCopy.breakdownTitle(b.lost), style: type.moment),
         ),
         const SizedBox(height: MmSpace.s8),
+        if (b.lost > 0) ...[
+          Text(ResultCopy.breakdownLead(b.wrong, b.takenOff + b.notEarnedOnWrong, b.notEarnedOnBlank), style: type.lead),
+          const SizedBox(height: MmSpace.s4),
+        ],
         Text(widget.model.title, style: type.small.copyWith(color: colors.ink3)),
         const SizedBox(height: MmSpace.s32),
-        BreakdownSection(breakdown: b, grow: _grow),
+        BreakdownSection(breakdown: b, grow: _grow, caption: false),
       ],
     );
   }

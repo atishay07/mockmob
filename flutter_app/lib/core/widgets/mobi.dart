@@ -67,6 +67,7 @@ class Mobi extends StatefulWidget {
     this.motion = MobiMotion.none,
     this.semanticLabel,
     this.say,
+    this.sayLive = false,
   });
 
   final MobiPose pose;
@@ -80,6 +81,9 @@ class Mobi extends StatefulWidget {
 
   /// One short line in a glass speech bubble beside Mobi.
   final String? say;
+
+  /// Announce [say] when it changes (a line that answers the student's own choice).
+  final bool sayLive;
 
   static const Duration settleDuration = Duration(milliseconds: 420);
   static const Duration hopDuration = Duration(milliseconds: 400);
@@ -160,18 +164,20 @@ class _MobiState extends State<Mobi> with SingleTickerProviderStateMixin {
       children: [
         body,
         const SizedBox(width: MmSpace.s8),
-        Flexible(child: MobiLine(line)),
+        Flexible(child: MobiLine(line, live: widget.sayLive)),
       ],
     );
   }
 }
 
-/// Mobi's one short line: a small smoked-glass bubble with a tail toward Mobi. A polite live
-/// region so TalkBack reads it once.
+/// Mobi's one short line: a small smoked-glass bubble with a tail toward Mobi. Read in place
+/// with the screen; a [live] line (one that changes after the student acts, such as the worry
+/// step) is announced when it changes.
 class MobiLine extends StatelessWidget {
-  const MobiLine(this.text, {super.key});
+  const MobiLine(this.text, {super.key, this.live = false});
 
   final String text;
+  final bool live;
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +190,7 @@ class MobiLine extends StatelessWidget {
       bottomRight: Radius.circular(18),
     );
     return Semantics(
-      liveRegion: true,
+      liveRegion: live,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 240),
         child: FakeGlass(

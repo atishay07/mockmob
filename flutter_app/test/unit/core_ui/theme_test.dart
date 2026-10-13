@@ -31,7 +31,7 @@ void main() {
       expect(c.line, const Color(0xFF312E27));
       expect(c.ink, const Color(0xFFF4F0E6));
       expect(c.ink2, const Color(0xFFBDB6A6));
-      expect(c.ink3, const Color(0xFF8E877A));
+      expect(c.ink3, const Color(0xFFA09989));
       expect(c.volt, const Color(0xFFD2F000));
       expect(c.voltInk, const Color(0xFF0B1000));
       expect(c.accentText, const Color(0xFFD2F000));
@@ -50,7 +50,7 @@ void main() {
       }
 
       for (final c in [MmColors.light, MmColors.dark]) {
-        for (final ground in [c.ground, c.raised]) {
+        for (final ground in [c.ground, c.raised, c.raised2]) {
           expect(ratio(c.ink3, ground), greaterThanOrEqualTo(4.5));
           expect(ratio(c.ink2, ground), greaterThanOrEqualTo(4.5));
           expect(ratio(c.accentText, ground), greaterThanOrEqualTo(4.5));

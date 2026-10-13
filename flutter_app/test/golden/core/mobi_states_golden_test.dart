@@ -12,7 +12,7 @@ Widget _state(StateViewKind kind) => StateView(
         StateViewKind.offline => 'You are offline',
       },
       message: switch (kind) {
-        StateViewKind.empty => 'Every mistake you found is checked. A Quick 10 finds the next one.',
+        StateViewKind.empty => "Every mistake you've found is repaired. A Quick 10 finds the next one.",
         StateViewKind.error => 'Your record is as you left it.',
         StateViewKind.offline => 'Your answers stay on this phone and go when you are back.',
       },

@@ -22,7 +22,7 @@ class WeeklyEndingPage extends ConsumerWidget {
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          Positioned.fill(child: IgnorePointer(child: LightField.lamp(context))),
+          const Positioned.fill(child: IgnorePointer(child: LampScene())),
           SafeArea(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),

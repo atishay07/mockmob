@@ -56,14 +56,7 @@ class FlapOutside extends StatelessWidget {
                       style: type.caption.copyWith(color: colors.ink2),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Bubble(state: BubbleState.filled, size: 10, animate: false),
-                      const SizedBox(width: 6),
-                      Text(ResultCopy.savedOnServer, style: type.caption.copyWith(color: colors.ink2)),
-                    ],
-                  ),
+
                 ],
               ),
             ),

@@ -53,7 +53,7 @@ class ResumeHeroCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s12),
             Text(resume.line, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s20),
-            KeyButton(label: TodayCopy.continueKey, onPressed: onContinue),
+            KeyButton(label: resume.keyLabel, onPressed: onContinue),
           ],
         ),
       ),

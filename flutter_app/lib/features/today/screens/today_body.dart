@@ -85,7 +85,7 @@ class TodayBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final media = MediaQuery.of(context);
+    final padding = MediaQuery.paddingOf(context);
     final children = <Widget>[
       TodayHeader(header: view.header, onWeek: callbacks.onWeek, avatar: avatar),
       const SizedBox(height: MmSpace.s16),
@@ -109,9 +109,9 @@ class TodayBody extends StatelessWidget {
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             MmSpace.cardGutter,
-            media.padding.top + MmSpace.s8,
+            padding.top + MmSpace.s8,
             MmSpace.cardGutter,
-            media.padding.bottom + MmSpace.s32,
+            padding.bottom + MmSpace.s32,
           ),
           sliver: SliverList.list(children: children),
         ),
@@ -134,7 +134,7 @@ class TodayBody extends StatelessWidget {
                       onRefresh: refresh,
                       color: colors.ink,
                       backgroundColor: colors.raised2,
-                      edgeOffset: media.padding.top,
+                      edgeOffset: padding.top,
                       child: scroll,
                     ),
             ),

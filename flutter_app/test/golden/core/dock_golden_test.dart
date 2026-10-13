@@ -25,4 +25,5 @@ void main() {
   nightGolden('dock_practice', () => _dock(1));
   nightGolden('dock_review_dot', () => _dock(2, dot: true));
   nightGolden('dock_start_pressed', () => _dock(0, startPressed: true));
+  nightGolden('dock_text130', () => _dock(1), textScale: 1.3);
 }

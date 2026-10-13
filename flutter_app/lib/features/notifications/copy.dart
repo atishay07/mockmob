@@ -66,7 +66,10 @@ abstract final class NotificationsCopy {
   static const String permissionBlocked =
       'Notifications are blocked in Android settings';
   static const String permissionBlockedBody =
-      'To get reminders, open Settings, Apps, MockMob, Notifications and allow them. Studying works the same without them.';
+      'Your choices below are saved. Allow notifications for MockMob in Android settings and they start. Studying works the same without them.';
+  static const String openAndroidSettings = 'Open Android settings';
+  static const String blockedChannels = 'Saved. Nothing arrives until Android allows it.';
+  static const String settingsDidNotOpen = 'Android did not open its settings. Open Settings, Apps, MockMob, Notifications.';
 
   // Your day.
   static const String dayHeading = 'Your day';

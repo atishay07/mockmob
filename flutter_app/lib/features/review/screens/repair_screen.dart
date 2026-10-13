@@ -80,7 +80,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
         kind: StateViewKind.empty,
         pose: MobiPose.read,
         title: ReviewCopy.notFound,
-        primary: StateAction(ReviewCopy.mistakesTitle, () => context.go(AppRoutes.review)),
+        primary: StateAction(ReviewCopy.backToReview, () => context.go(AppRoutes.review)),
       );
     } else if (!active || run.phase == RepairPhase.ending) {
       body = Center(child: MmSpinner(color: context.mmColors.ink2));

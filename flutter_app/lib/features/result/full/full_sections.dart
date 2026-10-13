@@ -64,7 +64,7 @@ List<Widget> firstFixSection(BuildContext context, RecapModel m) {
     if (m.candidates.isNotEmpty) ...[
       const SizedBox(height: MmSpace.s16),
       KeyButton(
-        label: '${ResultCopy.repairN(m.candidates.length)}, about ${repairMinutes(m.candidates.length)} minutes',
+        label: '${ResultCopy.repairN(m.tonightCount)}, about ${repairMinutes(m.tonightCount)} minutes',
         onPressed: () => context.go(ResultNav.repair(m)),
       ),
     ],

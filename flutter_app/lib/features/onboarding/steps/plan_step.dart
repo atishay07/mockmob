@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/copy/formatters.dart';
@@ -108,7 +109,12 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
         mainAxisSize: MainAxisSize.min,
         children: [
           for (final (id, label) in choices) ...[
-            MmSelectRow(title: label, selected: false, trailing: const SizedBox.shrink(), onTap: () => Navigator.of(context).pop(id)),
+            MmSelectRow(
+              title: label,
+              selected: false,
+              trailing: Icon(LucideIcons.pencil, size: 16, color: context.mmColors.ink3),
+              onTap: () => Navigator.of(context).pop(id),
+            ),
             const SizedBox(height: MmSpace.s8),
           ],
         ],
@@ -119,13 +125,12 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     final now = ref.watch(nowProvider)();
     final plan = PlanSummary.of(widget.answers, now);
     final sealed = widget.answers.sealed;
     final reduced = Motion.reduced(context);
     final from = formatWeekdayDate(widget.answers.sealedAt ?? now);
+    final lead = PlanSummary.usesDefaults(widget.answers) ? OnboardingCopy.planLeadDefaults : OnboardingCopy.planLead;
 
     final card = AnimatedBuilder(
       animation: _flip,
@@ -134,7 +139,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
         final back = t >= 0.5;
         if (reduced) {
           return back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, revealed: _flip.isCompleted)
+              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted)
               : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false);
         }
         final angle = t * math.pi;
@@ -144,7 +149,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
             ..setEntry(3, 2, 0.0012)
             ..rotateY(back ? angle - math.pi : angle),
           child: back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, revealed: _flip.isCompleted)
+              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted)
               : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false),
         );
       },
@@ -159,10 +164,6 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s16),
-                  child: Text(OnboardingCopy.planLead, style: type.label.copyWith(color: colors.ink2)),
-                ),
                 card,
               ],
             ),

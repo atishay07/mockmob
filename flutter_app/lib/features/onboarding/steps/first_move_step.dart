@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/plan.dart';
@@ -22,7 +23,6 @@ class FirstMoveStep extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
-    final colors = context.mmColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -42,10 +42,12 @@ class FirstMoveStep extends ConsumerWidget {
                   onStart: onStart,
                   onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
                 ),
-                const SizedBox(height: MmSpace.s16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                  child: Text(OnboardingCopy.checkNeedsAccount, style: type.small.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s24),
+                // Mobi points up at Start. Why the check needs an account is said only once a
+                // guest taps Start (on the save step it opens).
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Mobi(pose: MobiPose.point, size: 120, motion: MobiMotion.tilt, say: OnboardingCopy.mobiFirstMove),
                 ),
               ],
             ),

@@ -16,6 +16,7 @@ import '../widgets/time_sheet.dart';
 class SettingsActions {
   const SettingsActions({
     required this.onTurnOn,
+    this.onOpenSettings,
     required this.onChannel,
     required this.onQuietStart,
     required this.onQuietEnd,
@@ -29,6 +30,9 @@ class SettingsActions {
   });
 
   final VoidCallback onTurnOn;
+
+  /// Opens Android's notification settings (shown while Android blocks reminders).
+  final VoidCallback? onOpenSettings;
   final void Function(String key, bool on) onChannel;
   final VoidCallback onQuietStart;
   final VoidCallback onQuietEnd;
@@ -83,6 +87,7 @@ class SettingsBody extends StatelessWidget {
         if (e.value.hintPending) e.key,
     ].firstOrNull;
     final quietOff = prefs.quietStart == prefs.quietEnd;
+    final blocked = permission == NotificationPermission.denied || permission == NotificationPermission.unavailable;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(
@@ -101,7 +106,7 @@ class SettingsBody extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s16),
         ],
-        PermissionPanel(permission: permission, onTurnOn: actions.onTurnOn),
+        PermissionPanel(permission: permission, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings),
         const SectionHeading(NotificationsCopy.dayHeading),
         YouPanel(
           margin: EdgeInsets.zero,
@@ -113,6 +118,10 @@ class SettingsBody extends StatelessWidget {
           ],
         ),
         const SectionHeading(NotificationsCopy.channelsHeading),
+        if (blocked) ...[
+          const QuietNote(NotificationsCopy.blockedChannels),
+          const SizedBox(height: MmSpace.s8),
+        ],
         YouPanel(
           margin: EdgeInsets.zero,
           children: [
@@ -121,6 +130,7 @@ class SettingsBody extends StatelessWidget {
               body: NotificationsCopy.channelResultBody,
               value: prefs.channelOn(NotificationChannelKeys.resultReady),
               onChanged: (on) => actions.onChannel(NotificationChannelKeys.resultReady, on),
+              dimmed: blocked,
             ),
             ChannelRow(
               title: NotificationsCopy.channelStudy,
@@ -128,6 +138,7 @@ class SettingsBody extends StatelessWidget {
               value: _on(NotificationChannelKeys.studyWindow),
               note: _pausedNote(NotificationChannelKeys.studyWindow),
               onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
+              dimmed: blocked,
             ),
             ChannelRow(
               title: NotificationsCopy.channelWeekly,
@@ -135,6 +146,7 @@ class SettingsBody extends StatelessWidget {
               value: _on(NotificationChannelKeys.weeklyPlan),
               note: _pausedNote(NotificationChannelKeys.weeklyPlan),
               onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
+              dimmed: blocked,
             ),
             if (freshChecksOpen)
               ChannelRow(
@@ -143,6 +155,7 @@ class SettingsBody extends StatelessWidget {
                 value: _on(NotificationChannelKeys.checkDue),
                 note: _pausedNote(NotificationChannelKeys.checkDue),
                 onChanged: (on) => actions.onChannel(NotificationChannelKeys.checkDue, on),
+                dimmed: blocked,
               ),
           ],
         ),

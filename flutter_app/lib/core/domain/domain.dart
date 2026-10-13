@@ -7,3 +7,4 @@ export 'mock_ordinal.dart';
 export 'next_move.dart';
 export 'repair_candidates.dart';
 export 'session_rules.dart';
+export 'tonight_pick.dart';

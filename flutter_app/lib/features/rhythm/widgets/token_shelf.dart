@@ -1,9 +1,7 @@
-// The token shelf: the brass milestone tokens standing on a lamp-lit ledge. An earned token
-// stands in its slot with a contact shadow and the date it landed; a slot not yet earned is a
-// quiet recess pressed into the shelf with one plain line of what fills it. No locks, no
-// counts, nothing to chase (spec 6.5).
-import 'dart:math' as math;
-
+// The token shelf: the brass milestone tokens standing on a hairline shelf, each in its own
+// small pool of lamp light. An earned token stands in its slot with a contact shadow and the
+// date it landed; a slot not yet earned shows the token as a faint grey ghost with one plain
+// line of what fills it. No locks, no counts, nothing to chase (spec 6.5).
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -38,35 +36,22 @@ class TokenShelf extends StatelessWidget {
           height: band,
           child: CustomPaint(
             painter: _ShelfPainter(colors: colors),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // The lamp's light falling on the shelf from the upper left: a wide, low pool that
-                // fades out before the band's edges.
-                LightField(
-                  pools: [
-                    LightPool(
-                      color: colors.lamp.withValues(alpha: colors.isNight ? 0.24 : 0.18),
-                      center: const Alignment(-0.3, 0.92),
-                      radius: 0.3,
-                      aspect: 2.6,
-                    ),
-                  ],
-                ),
-                Row(
+            child: Row(
               children: [
                 for (final slot in slots)
                   Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 9),
-                        child: slot.earned && !loading ? _Token(slot.token) : const _Recess(),
+                    child: CustomPaint(
+                      // Each socket's own pool of lamp light, 56 dp, fading to nothing.
+                      painter: _SocketPool(colors.lamp.withValues(alpha: colors.isNight ? 0.10 : 0.12)),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: slot.earned && !loading ? _Token(slot.token) : _Ghost(slot.token, loading: loading),
+                        ),
                       ),
                     ),
                   ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -150,7 +135,7 @@ class _Token extends StatelessWidget {
           ),
           Positioned(
             bottom: 3,
-            child: ArtImage(token.art, height: TokenShelf.token, placeholder: const _Recess()),
+            child: ArtImage(token.art, height: TokenShelf.token, placeholder: const SizedBox.square(dimension: 64)),
           ),
         ],
       ),
@@ -173,76 +158,44 @@ class _ContactShadow extends CustomPainter {
   bool shouldRepaint(_ContactShadow old) => false;
 }
 
-/// An empty slot: a shallow round recess pressed into the shelf, shadowed along its upper rim
-/// and catching the lamp along its lower rim, with the faint ring of the coin it is waiting for.
-class _Recess extends StatelessWidget {
-  const _Recess();
+/// A slot not earned yet: the token itself, small, grey and faint, waiting on the shelf.
+class _Ghost extends StatelessWidget {
+  const _Ghost(this.token, {this.loading = false});
+
+  final MilestoneToken token;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(size: const Size.square(62), painter: _RecessPainter(context.mmColors)),
+    return SizedBox.square(
+      dimension: 64,
+      child: loading ? null : ArtImage(token.art, width: 64, height: 64, opacity: 0.25, ghost: true),
     );
   }
 }
 
-class _RecessPainter extends CustomPainter {
-  const _RecessPainter(this.colors);
+/// A small round pool of lamp light behind one socket.
+class _SocketPool extends CustomPainter {
+  const _SocketPool(this.color);
 
-  final MmColors colors;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final c = size.center(Offset.zero);
-    final r = size.shortestSide / 2;
-    final rect = Rect.fromCircle(center: c, radius: r);
+    final c = Offset(size.width / 2, size.height - 4 - 32);
+    const r = 56.0;
     canvas.drawCircle(
       c,
       r,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: colors.isNight ? [const Color(0xFF0B0A08), const Color(0xFF1C1A16)] : [const Color(0xFFDCD5C6), colors.sunken],
-        ).createShader(rect),
-    );
-    // The upper rim falls into shadow, the lower rim catches the room's light.
-    canvas.drawArc(
-      rect.deflate(0.75),
-      math.pi * 1.05,
-      math.pi * 0.9,
-      false,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5
-        ..color = colors.isNight ? const Color(0x99000000) : const Color(0x332A2010),
-    );
-    canvas.drawArc(
-      rect.deflate(0.5),
-      math.pi * 0.1,
-      math.pi * 0.8,
-      false,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
-        ..color = colors.isNight ? colors.lamp.withValues(alpha: 0.22) : Colors.white,
-    );
-    // The ghost of the coin's milled ring.
-    canvas.drawCircle(
-      c,
-      r * 0.64,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
-        ..color = colors.isNight ? colors.lineStrong.withValues(alpha: 0.6) : colors.line,
+      Paint()..shader = RadialGradient(colors: [color, color.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: c, radius: r)),
     );
   }
 
   @override
-  bool shouldRepaint(_RecessPainter old) => old.colors != colors;
+  bool shouldRepaint(_SocketPool old) => old.color != color;
 }
 
-/// The ledge the tokens stand on, and the lamp light pooled above it from the upper left.
+/// The shelf the tokens stand on.
 class _ShelfPainter extends CustomPainter {
   const _ShelfPainter({required this.colors});
 
@@ -250,31 +203,8 @@ class _ShelfPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final ledgeY = size.height - 6;
-    // The ledge's front face: a band that darkens downward.
-    final face = Rect.fromLTWH(0, ledgeY, size.width, 6);
-    canvas.drawRect(
-      face,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [colors.isNight ? colors.raised2 : colors.lineStrong, colors.ground],
-        ).createShader(face),
-    );
-    // Its top edge catches the lamp, warm at the left and fading to the right.
-    canvas.drawLine(
-      Offset(0, ledgeY + 0.5),
-      Offset(size.width, ledgeY + 0.5),
-      Paint()
-        ..strokeWidth = 1
-        ..shader = LinearGradient(
-          colors: colors.isNight
-              ? [colors.lamp.withValues(alpha: 0.55), colors.edgeTop, colors.edgeBottom]
-              : [colors.lamp.withValues(alpha: 0.6), Colors.white, colors.line],
-          stops: const [0, 0.45, 1],
-        ).createShader(face),
-    );
+    // The shelf: one 2 dp hairline under the tokens.
+    canvas.drawRect(Rect.fromLTWH(0, size.height - 3, size.width, 2), Paint()..color = colors.line);
   }
 
   @override

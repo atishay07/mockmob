@@ -53,7 +53,6 @@ class CourseTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final rim = selected ? (colors.isNight ? colors.volt : colors.accentText) : colors.line;
     return MmPressable(
       semanticsLabel: '${course.short}, ${OnboardingCopy.collegesCount(course.collegeCount)}',
       selected: selected,
@@ -65,15 +64,14 @@ class CourseTile extends ConsumerWidget {
       },
       builder: (context, pressed, _) => DecoratedBox(
         decoration: ShapeDecoration(
-          color: selected ? colors.raised2 : (pressed ? colors.raised2 : colors.raised),
-          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: rim, width: selected ? 1.5 : 1)),
+          color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
         ),
         child: CustomPaint(
           foregroundPainter: EdgeLightPainter(
             borderRadius: MmRadius.keyAll,
             top: colors.edgeTop,
             bottom: colors.edgeBottom.withValues(alpha: 0),
-            lamp: colors.isNight ? colors.lamp : null,
             sheen: false,
           ),
           child: Padding(
@@ -84,14 +82,32 @@ class CourseTile extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(child: Text('${course.collegeCount}', style: type.figureCompact)),
-                    Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 18, inkOrigin: const Offset(0.6, -0.6)),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${course.collegeCount}', style: type.figureCompact),
+                          const SizedBox(width: 4),
+                          // The unit at 55% of the figure, top-aligned (brief section 4).
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              OnboardingCopy.collegesUnit(course.collegeCount),
+                              style: type.figureCompact.copyWith(
+                                fontSize: (type.figureCompact.fontSize ?? 32) * 0.55,
+                                height: 1,
+                                color: colors.ink2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SelectBubble(selected: selected),
                   ],
                 ),
-                const SizedBox(height: MmSpace.s4),
-                Text(course.short, style: type.labelLarge),
-                const SizedBox(height: 2),
-                Text(OnboardingCopy.collegesUnit(course.collegeCount), style: type.caption.copyWith(color: colors.ink3)),
+                const SizedBox(height: MmSpace.s8),
+                Text(course.short, style: type.labelLarge.copyWith(height: 20 / 15)),
               ],
             ),
           ),

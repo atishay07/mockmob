@@ -48,7 +48,7 @@ abstract final class RhythmCopy {
   static const String rhythmLoadFailedTitle = 'We could not load your rhythm';
   static const String rhythmLoadFailedBody = 'Your record is as you left it.';
 
-  static String weeksInRhythm(int weeks) => 'Weeks in rhythm: $weeks';
+  static String weeksInRhythm(int weeks) => weeks == 1 ? '1 week in rhythm' : '$weeks weeks in rhythm';
   static const String weeksInRhythmNone = 'A run starts the week you reach your goal.';
 
   static String bestRun(int weeks) => 'Best run: ${plural(weeks, 'week')}';

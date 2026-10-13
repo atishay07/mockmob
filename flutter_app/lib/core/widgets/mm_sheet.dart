@@ -48,10 +48,16 @@ class MmSheetGlass extends StatelessWidget {
 /// text scale it fills the screen and shows a Close key. Use inside [showMmSheet] or an
 /// [MmSheetPage].
 class MmSheetScaffold extends StatelessWidget {
-  const MmSheetScaffold({super.key, required this.child, this.title, this.onClose});
+  const MmSheetScaffold({super.key, required this.child, this.title, this.onClose, this.footer, this.heightFactor});
 
   final Widget child;
   final String? title;
+
+  /// Pinned under the scrolling body, above a hairline: the sheet's main key stays in reach.
+  final Widget? footer;
+
+  /// Opens the sheet at this fraction of the screen height (the body scrolls inside it).
+  final double? heightFactor;
 
   /// Defaults to popping the sheet.
   final VoidCallback? onClose;
@@ -99,16 +105,26 @@ class MmSheetScaffold extends StatelessWidget {
       child: child,
     );
 
+    final fixed = large || heightFactor != null;
     final column = Column(
-      mainAxisSize: large ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisSize: fixed ? MainAxisSize.max : MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...header,
-        large ? Expanded(child: SingleChildScrollView(child: body)) : Flexible(child: SingleChildScrollView(child: body)),
+        fixed ? Expanded(child: SingleChildScrollView(child: body)) : Flexible(child: SingleChildScrollView(child: body)),
+        if (footer != null)
+          DecoratedBox(
+            decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
+            child: Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s16), child: footer),
+          ),
       ],
     );
 
-    return SafeArea(top: large, child: large ? SizedBox.expand(child: column) : column);
+    if (large) return SafeArea(child: SizedBox.expand(child: column));
+    if (heightFactor != null) {
+      return SafeArea(top: false, child: SizedBox(height: MediaQuery.sizeOf(context).height * heightFactor!, child: column));
+    }
+    return SafeArea(top: false, child: column);
   }
 }
 
@@ -120,6 +136,8 @@ Future<T?> showMmSheet<T>({
   String? title,
   bool isDismissible = true,
   bool useRootNavigator = true,
+  WidgetBuilder? footer,
+  double? heightFactor,
 }) {
   final colors = context.mmColors;
   final large = _isLargeText(context);
@@ -134,10 +152,12 @@ Future<T?> showMmSheet<T>({
     barrierColor: colors.scrim,
     elevation: 0,
     clipBehavior: Clip.none,
-    constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 680),
+    constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large || heightFactor != null ? double.infinity : 680),
     shape: const RoundedRectangleBorder(),
     sheetAnimationStyle: _sheetAnimationStyle(context),
-    builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, child: builder(context))),
+    builder: (context) => MmSheetGlass(
+      child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, child: builder(context)),
+    ),
   );
 }
 

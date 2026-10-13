@@ -64,15 +64,8 @@ class FirstFixCard extends StatelessWidget {
       onNext: onNext,
       onBack: onBack,
       topPadding: lower ? MmSpace.s32 : MmSpace.s8,
-      footer: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Attentive Mobi beside the key only, static, no words (spec 6.3).
-          const Mobi(pose: MobiPose.read, size: 52),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(child: primary),
-        ],
-      ),
+      // One Mobi per recap, and it lives on card 4.
+      footer: primary,
       children: [
         _Header(subjectId: m.subjectId),
         Semantics(header: true, child: Text(title, style: context.mmType.moment)),
@@ -85,17 +78,25 @@ class FirstFixCard extends StatelessWidget {
             style: context.mmType.label.copyWith(color: context.mmColors.ink2),
           ),
           const SizedBox(height: MmSpace.s8),
-          Wrap(
-            spacing: MmSpace.s8,
-            runSpacing: MmSpace.s8,
-            children: [
-              for (final (n, s) in tiles)
-                _QuestionTile(
-                  number: n,
-                  state: s,
-                  onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
-                ),
-            ],
+          // Six to a row across the full width, so no number is left alone on a row of its own
+          // unless the count says so.
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = (constraints.maxWidth - 5 * MmSpace.s8) / 6;
+              return Wrap(
+                spacing: MmSpace.s8,
+                runSpacing: MmSpace.s8,
+                children: [
+                  for (final (n, s) in tiles)
+                    _QuestionTile(
+                      number: n,
+                      state: s,
+                      width: width,
+                      onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
+                    ),
+                ],
+              );
+            },
           ),
         ],
         if (leader != null || tiles.isNotEmpty) ...[
@@ -125,8 +126,8 @@ class FirstFixCard extends StatelessWidget {
   }
 }
 
-/// The subject's object in its own light, top right, above the words (art never sits behind
-/// anything the student reads).
+/// The subject's light, pooled softly behind the top of the card: environment only, no object
+/// (the book belongs to Today). The headline starts 24 dp under the story bar.
 class _Header extends StatelessWidget {
   const _Header({required this.subjectId});
 
@@ -134,28 +135,24 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final art = MmArt.subjectObject(subjectId == 'gat' ? 'general_test' : subjectId);
     final light = SubjectLight.forSubject(subjectId == 'gat' ? 'general_test' : subjectId);
-    if (art == null) return const SizedBox(height: MmSpace.s24);
     return SizedBox(
-      height: 132,
+      height: MmSpace.s24,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           if (light != null)
             Positioned(
-              right: -36,
-              top: -36,
-              width: 220,
-              height: 210,
-              child: LightField(
-                pools: [
-                  LightPool(color: light.of(Theme.of(context).brightness), center: Alignment.center, radius: 0.48),
-                  LightPool(color: context.mmColors.lamp.withValues(alpha: 0.12), center: const Alignment(-0.2, -0.3), radius: 0.36),
-                ],
+              right: -60,
+              top: -80,
+              width: 280,
+              height: 240,
+              child: IgnorePointer(
+                child: LightField(
+                  pools: [LightPool(color: light.of(Theme.of(context).brightness), center: Alignment.center, radius: 0.5, strength: 0.8)],
+                ),
               ),
             ),
-          Positioned(right: 0, top: 4, child: ArtImage(art, width: 116, height: 116)),
         ],
       ),
     );
@@ -212,11 +209,12 @@ class _Counts extends StatelessWidget {
 }
 
 class _QuestionTile extends StatelessWidget {
-  const _QuestionTile({required this.number, required this.state, required this.onTap});
+  const _QuestionTile({required this.number, required this.state, required this.onTap, this.width = 52});
 
   final int number;
   final BubbleState state;
   final VoidCallback onTap;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -228,8 +226,8 @@ class _QuestionTile extends StatelessWidget {
       focusRadius: MmRadius.smallAll,
       semanticsLabel: ResultCopy.questionTile(number, word),
       builder: (context, pressed, _) => Container(
-        width: 52,
-        height: 56,
+        width: width,
+        height: 60,
         decoration: ShapeDecoration(
           color: pressed ? colors.raised2 : colors.raised,
           shape: RoundedSuperellipseBorder(

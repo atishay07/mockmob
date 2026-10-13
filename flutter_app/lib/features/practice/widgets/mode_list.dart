@@ -8,7 +8,8 @@ import '../../../core/widgets/widgets.dart';
 class ModeChoice {
   const ModeChoice({required this.icon, required this.title, required this.line, required this.onTap, this.tag});
 
-  final IconData icon;
+  /// The answer-sheet drawing for this mode.
+  final SheetGlyph icon;
   final String title;
   final String line;
   final VoidCallback onTap;
@@ -72,10 +73,7 @@ class _ModeRow extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
         child: Row(
           children: [
-            DecoratedBox(
-              decoration: BoxDecoration(color: colors.sunken, shape: BoxShape.circle, border: Border.all(color: colors.line)),
-              child: SizedBox.square(dimension: 40, child: Icon(c.icon, size: 19, color: colors.ink)),
-            ),
+            SheetGlyphTile(c.icon),
             const SizedBox(width: MmSpace.s16),
             Expanded(
               child: Column(
@@ -122,10 +120,10 @@ class _Tag extends StatelessWidget {
 
 /// The glyphs of the four modes.
 abstract final class ModeIcons {
-  static const IconData quick = LucideIcons.zap;
-  static const IconData chapter = LucideIcons.bookOpen;
-  static const IconData full = LucideIcons.fileText;
-  static const IconData nta = LucideIcons.monitor;
+  static const SheetGlyph quick = SheetGlyph.quick;
+  static const SheetGlyph chapter = SheetGlyph.chapter;
+  static const SheetGlyph full = SheetGlyph.mock;
+  static const SheetGlyph nta = SheetGlyph.exam;
 }
 
 /// Section heading on the tab ("Choose your own", "Concepts") with an optional trailing link.

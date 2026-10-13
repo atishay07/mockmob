@@ -148,6 +148,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         gutter(
           TonightCard(
             pick: tonight,
+            now: clock.now(),
             lateNight: lateNight,
             onRepair: () => _openRepair(tonight.items.first),
             onShowMe: () => _showEvidence(context, index, tonight),

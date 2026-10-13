@@ -149,12 +149,16 @@ class _RunnerViewState extends ConsumerState<RunnerView> {
     final jump = await showMmSheet<int>(
       context: context,
       title: RunnerCopy.paletteTitle,
+      heightFactor: _s.questions.length > 20 ? 0.88 : null,
+      footer: (sheetContext) =>
+          KeyButton(label: RunnerCopy.reviewAndSubmit, onPressed: () => Navigator.of(sheetContext).pop(-1), hapticOnCommit: false),
       builder: (sheetContext) => ListenableBuilder(
         listenable: _s,
         builder: (context, _) => PaletteSheet(
           cells: sheetCellsOf(_s),
           onJump: (i) => Navigator.of(sheetContext).pop(i),
           onReview: () => Navigator.of(sheetContext).pop(-1),
+          showSubmit: false,
         ),
       ),
     );

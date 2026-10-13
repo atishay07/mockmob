@@ -58,7 +58,34 @@ class StepLayout extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(child: content),
+        Expanded(
+          child: bottom == null
+              ? content
+              : Stack(
+                  children: [
+                    Positioned.fill(child: content),
+                    // A short fade into the ground above the pinned key, so a long list never
+                    // runs under it with a hard edge.
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      height: 32,
+                      child: IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [colors.ground.withValues(alpha: 0), colors.ground],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
         if (bottom != null)
           Padding(
             padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),

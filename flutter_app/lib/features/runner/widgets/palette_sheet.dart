@@ -8,13 +8,16 @@ import '../logic/sheet_cells.dart';
 import 'sheet_cell.dart';
 
 /// The palette (spec 5.5) as the student's own answer sheet: five columns of 48 dp bubbles, the
-/// legend with counts, and the submit key at the foot.
+/// legend with counts, and the submit key (pinned in the sheet's footer when the runner opens it).
 class PaletteSheet extends StatelessWidget {
-  const PaletteSheet({super.key, required this.cells, required this.onJump, required this.onReview});
+  const PaletteSheet({super.key, required this.cells, required this.onJump, required this.onReview, this.showSubmit = true});
 
   final List<SheetCell> cells;
   final ValueChanged<int> onJump;
   final VoidCallback onReview;
+
+  /// False when the sheet pins the submit key in its own footer.
+  final bool showSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +53,11 @@ class PaletteSheet extends StatelessWidget {
                 ),
             ],
           ),
-        const SizedBox(height: MmSpace.s20),
-        KeyButton(label: RunnerCopy.reviewAndSubmit, onPressed: onReview, hapticOnCommit: false),
+        // A short paper keeps its key at the foot; a long one gets a pinned footer instead.
+        if (showSubmit) ...[
+          const SizedBox(height: MmSpace.s20),
+          KeyButton(label: RunnerCopy.reviewAndSubmit, onPressed: onReview, hapticOnCommit: false),
+        ],
       ],
     );
   }

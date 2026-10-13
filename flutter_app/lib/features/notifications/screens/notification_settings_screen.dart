@@ -21,6 +21,7 @@ import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
 import '../services/notification_providers.dart';
+import '../services/system_settings.dart';
 import '../widgets/settings_rows.dart' show LoadingRows;
 import '../widgets/time_sheet.dart';
 import 'settings_body.dart';
@@ -172,6 +173,13 @@ class _NotificationSettingsScreenState
     if (mounted) ref.invalidate(notificationPermissionProvider);
   }
 
+  Future<void> _openSettings() async {
+    final opened = await ref.read(systemSettingsProvider).openNotificationSettings();
+    if (!opened && mounted) {
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(const SnackBar(content: Text(NotificationsCopy.settingsDidNotOpen)));
+    }
+  }
+
   void _back() {
     final router = GoRouter.of(context);
     if (router.canPop()) {
@@ -183,6 +191,7 @@ class _NotificationSettingsScreenState
 
   SettingsActions get _actions => SettingsActions(
     onTurnOn: () => unawaited(_turnOn()),
+    onOpenSettings: () => unawaited(_openSettings()),
     onChannel: (key, on) => unawaited(_setChannel(key, on)),
     onQuietStart: () => unawaited(_pickQuiet(start: true)),
     onQuietEnd: () => unawaited(_pickQuiet(start: false)),

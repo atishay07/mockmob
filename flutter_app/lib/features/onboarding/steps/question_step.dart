@@ -9,7 +9,6 @@ import '../copy.dart';
 import '../data/subjects.dart';
 import '../data/warmup_pool.dart';
 import '../model/answers.dart';
-import '../model/deck.dart';
 import '../state/answers_controller.dart';
 import '../widgets/step_layout.dart';
 import '../widgets/warmup_option.dart';
@@ -80,41 +79,28 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
             ),
             const SizedBox(height: MmSpace.s8),
           ],
+          // The payoff sits right under the options, so every option stays in view above it.
+          if (result != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                result.correct ? OnboardingCopy.rightIn((result.millis / 1000).round()) : OnboardingCopy.trapLead,
+                style: type.cardTitle.copyWith(color: colors.ink),
+              ),
+            ),
+            if (!result.correct) ...[
+              const SizedBox(height: MmSpace.s8),
+              DecoratedBox(
+                decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line))),
+                child: Padding(padding: const EdgeInsets.all(MmSpace.s16), child: Text(_q.fix, style: type.small.copyWith(color: colors.ink))),
+              ),
+            ],
+          ],
         ],
       ),
-      bottom: result == null
-          ? Align(
-              child: KeyButton.quiet(
-                label: OnboardingCopy.skipQuestion,
-                onPressed: () {
-                  ref.read(onboardingAnswersProvider.notifier).skip(Steps.question);
-                  widget.onNext();
-                },
-              ),
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // The payoff sits with the action, so it is seen without scrolling.
-                Semantics(
-                  liveRegion: true,
-                  child: Text(
-                    result.correct ? OnboardingCopy.rightIn((result.millis / 1000).round()) : OnboardingCopy.trapLead,
-                    style: type.cardTitle.copyWith(color: result.correct ? colors.ink : colors.wrongText),
-                  ),
-                ),
-                if (!result.correct) ...[
-                  const SizedBox(height: MmSpace.s8),
-                  DecoratedBox(
-                    decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line))),
-                    child: Padding(padding: const EdgeInsets.all(MmSpace.s16), child: Text(_q.fix, style: type.small.copyWith(color: colors.ink))),
-                  ),
-                ],
-                const SizedBox(height: MmSpace.s16),
-                KeyButton(label: OnboardingCopy.next, onPressed: widget.onNext),
-              ],
-            ),
+      // Skipping lives in the top bar; the only key here is Continue, once answered.
+      bottom: result == null ? null : KeyButton(label: OnboardingCopy.next, onPressed: widget.onNext),
     );
   }
 }

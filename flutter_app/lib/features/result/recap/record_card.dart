@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/recap_model.dart';
+import '../model/recap_variant.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
 import 'record_parts.dart';
@@ -53,18 +54,25 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     if (token != null) ref.read(resultActionsProvider).acknowledgeFirstMock(m.attemptId, token);
   }
 
+  /// Effort once, and only when the result allows it; the next step otherwise.
+  String? get _mobiLine {
+    if (!m.variant.allowsTokens) return ResultCopy.nextStepLine;
+    if (m.monthMockCount <= 0) return null;
+    return ResultCopy.effort(m.monthMockCount, firstEver: m.variant == RecapVariant.firstMock);
+  }
+
   int get _mistakes {
-    for (final o in repairDurationOptions(m.candidates.length)) {
+    for (final o in repairDurationOptions(m.tonightCount)) {
       if (o.minutes == _minutes) return o.mistakes;
     }
-    return m.candidates.length;
+    return m.tonightCount;
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final options = repairDurationOptions(m.candidates.length);
+    final options = repairDurationOptions(m.tonightCount);
     final hasRepair = m.candidates.isNotEmpty;
     final shortfall = hasRepair ? repairWalletShortfall(mistakes: _mistakes, balance: m.creditBalance) : null;
     final askReminder = widget.firstResult && !_reminderDismissed && hasRepair && (ref.watch(reminderOfferProvider).value ?? false);
@@ -96,29 +104,25 @@ class _RecordCardState extends ConsumerState<RecordCard> {
       ),
       children: [
         const SizedBox(height: MmSpace.s16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Semantics(header: true, child: Text(ResultCopy.inRecord(m.mockLabel), style: type.moment)),
-            ),
-            if (token == null)
-              const Padding(
-                padding: EdgeInsets.only(left: MmSpace.s8),
-                child: Mobi(pose: MobiPose.greet, size: 64),
-              ),
-          ],
-        ),
+        Semantics(header: true, child: Text(ResultCopy.inRecord(m.mockLabel), style: type.moment)),
         const SizedBox(height: MmSpace.s12),
         ReceiptLine(text: ResultCopy.savedAt(m.receivedAt)),
-        if (m.monthMockCount > 0) ...[
-          const SizedBox(height: MmSpace.s8),
-          Text(ResultCopy.effort(m.mockLabel, m.monthMockCount), style: type.body.copyWith(color: colors.ink2)),
-        ],
         if (token != null) ...[const SizedBox(height: MmSpace.s20), TokenRow(at: token)],
-        const SizedBox(height: MmSpace.s24),
+        const SizedBox(height: MmSpace.s20),
+        // The recap's one Mobi, left-aligned above the repair panel, with one line.
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Mobi(
+            pose: m.variant.allowsTokens ? MobiPose.cheer : MobiPose.point,
+            size: 112,
+            motion: m.variant.allowsTokens ? MobiMotion.hop : MobiMotion.settle,
+            say: _mobiLine,
+          ),
+        ),
+        const SizedBox(height: MmSpace.s16),
         RepairPanel(
           model: m,
+          blanksInReview: m.blanksInReview,
           mistakes: _mistakes,
           minutes: _minutes,
           shortfall: shortfall,

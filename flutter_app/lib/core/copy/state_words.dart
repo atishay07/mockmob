@@ -17,14 +17,6 @@ abstract final class Receipts {
   /// "Repair finished. Recorded at 11:51 PM."
   static String repairFinished(DateTime at) => 'Repair finished. Recorded at ${formatTime12(at)}.';
 
-  /// "Practice finished. Recorded at 11:51 PM. This is practice, not proof."
-  static String practiceRecorded(DateTime at) =>
-      'Practice finished. Recorded at ${formatTime12(at)}. This is practice, not proof.';
-
-  /// "Practice finished. 8 answered. This is practice, not proof."
-  static String practiceFinished(int answered) =>
-      'Practice finished. $answered answered. This is practice, not proof.';
-
   /// Before acknowledgment.
   static const String notRecordedYet = 'On this phone. Not recorded yet.';
 }

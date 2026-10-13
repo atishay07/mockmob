@@ -8,6 +8,7 @@ import '../../motion/motion.dart';
 import '../../storage/storage_providers.dart';
 import '../../theme/theme.dart';
 import '../materials/grain.dart';
+import '../art/mm_art.dart';
 import '../materials/light_field.dart';
 import 'mark.dart';
 import 'wordmark.dart';
@@ -54,9 +55,12 @@ class _ColdOpenState extends ConsumerState<ColdOpen> with SingleTickerProviderSt
   bool _ticked = false;
   Timer? _hold;
 
+  bool _precached = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _precacheWelcome();
     if (widget.progress != null || _t.isAnimating || _t.value > 0) return;
     _reduced = Motion.reduced(context);
     if (_reduced) {
@@ -66,6 +70,18 @@ class _ColdOpenState extends ConsumerState<ColdOpen> with SingleTickerProviderSt
       _t.addListener(_haptic);
       _t.forward().whenComplete(_finish);
     }
+  }
+
+  /// Decodes the welcome's desk scene and Mobi during the 1.4 s open, at the exact sizes the
+  /// welcome draws them, so they are on screen with its first frame instead of popping in.
+  void _precacheWelcome() {
+    if (_precached || widget.progress != null) return;
+    _precached = true;
+    final size = MediaQuery.sizeOf(context);
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    void warm(ImageProvider provider) => unawaited(precacheImage(provider, context, onError: (_, _) {}));
+    warm(ResizeImage(AssetImage(MmArt.heroDesk.asset), width: (size.width * dpr).round()));
+    warm(ResizeImage(AssetImage(MmArt.mobiGreet.asset), height: (116 * dpr).round()));
   }
 
   void _haptic() {

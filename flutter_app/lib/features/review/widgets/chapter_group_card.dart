@@ -72,7 +72,7 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
                 children: [
                   Row(
                     children: [
-                      SubjectMark(subjectId: g.subjectId, size: 52),
+                      SubjectMark(subjectId: g.subjectId, size: 52, art: false),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(
                         child: Column(
@@ -107,13 +107,16 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
               ),
             ),
           ),
-          AnimatedSize(
+          // The size snaps (no layout animation inside a scrolling list); the rows fade in.
+          AnimatedSwitcher(
             duration: Motion.of(context, Motion.card),
-            curve: Motion.emphasized,
-            alignment: Alignment.topCenter,
+            switchInCurve: Motion.glide,
+            switchOutCurve: Motion.exit,
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [?current]),
             child: !_expanded
-                ? const SizedBox(width: double.infinity)
+                ? const SizedBox(key: ValueKey('closed'), width: double.infinity)
                 : Column(
+                    key: const ValueKey('open'),
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Divider(height: 1, color: colors.line),

@@ -37,6 +37,7 @@ import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart' show resultReceivedAtProvider;
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
+import 'package:mockmob/features/result/model/recap_model.dart' show buildRecapModel;
 import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
 import 'package:mockmob/features/runner/data/runner_loader.dart';
@@ -44,15 +45,14 @@ import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart' show buildToday;
 import 'package:mockmob/features/you/data/student_target.dart';
 
-import '../unit/core_data/support/fixtures.dart' as core;
 import '../unit/notifications/support.dart' as notif;
 import '../unit/notifications/widget_support.dart' as notif_ui;
 import '../unit/practice/support/harness.dart' as practice;
-import '../unit/result/support/fixtures.dart' as result;
 import '../unit/review/support/review_fixtures.dart' as review;
 import '../unit/runner/support/fake_session.dart' as runner;
 import '../unit/today/support/today_fixtures.dart' as today;
 import '../unit/you/you_test_support.dart' as you;
+import 'demo_record.dart';
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -108,26 +108,19 @@ class _RepairApi implements RepairApi {
   }
 }
 
-AttemptDetail _practiceDetail() => AttemptDetail.fromJson({
-  ...core.attemptJson(
-    id: 'demo-practice',
-    mode: 'quick',
-    subject: 'accountancy',
-    questions: [
-      for (var i = 0; i < 7; i++) ('Admission of a partner', core.V.right),
-      ('Admission of a partner', core.V.wrong),
-      ('Goodwill', core.V.wrong),
-      ('Admission of a partner', core.V.blank),
-    ],
-  ),
-  'answerReviews': <String, dynamic>{},
-  'answerReviewState': 'ready',
-});
+/// The practice result, marked from the answers given in the demo runner (or none yet).
+AttemptDetail _practiceDetail(DateTime now) {
+  final session = _sessions['demo-quick'];
+  final questions = session?.questions ?? runner.accountancyQuestions(10);
+  return practiceDetailFrom(questions, session?.answers ?? const {}, now);
+}
 
 List<Override> _overrides() {
   final now = DateTime.now();
-  final mockDetail = result.detail();
-  final todayAttempts = today.ashaRecord(now.toUtc());
+  // One record behind every screen (demo_record.dart).
+  final todayAttempts = demoAttempts(now.toUtc());
+  final mockDetail = demoMockDetail(now.toUtc());
+  final milestones = demoMilestones(todayAttempts);
   return [
     reviewDotProvider.overrideWith((ref) => false),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
@@ -155,7 +148,7 @@ List<Override> _overrides() {
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     attemptDetailProvider(
       'demo-practice',
-    ).overrideWith(() => practice.FakeDetail('demo-practice', detail: _practiceDetail(), fetchedAt: now)),
+    ).overrideWith(() => practice.FakeDetail('demo-practice', detail: _practiceDetail(DateTime.now()), fetchedAt: DateTime.now())),
     resultReceivedAtProvider.overrideWith((ref, id) async => now),
     practiceNoteProvider.overrideWith((ref, id) async => const PracticeNote(chapter: 'Admission of a partner', mode: 'quick')),
 
@@ -165,7 +158,14 @@ List<Override> _overrides() {
     // Result: Mock 7.
     recapDataProvider('a7').overrideWithValue(
       RecapData(
-        model: result.mock7(withDetail: mockDetail),
+        model: buildRecapModel(
+          attempt: mockDetail.attempt,
+          detail: mockDetail,
+          attempts: todayAttempts,
+          creditBalance: 12,
+          receivedAt: mockDetail.attempt.completedAt.add(const Duration(minutes: 2)),
+          milestones: milestones,
+        ),
         attempt: mockDetail.attempt,
         detail: mockDetail,
         fetchedAt: now,
@@ -177,16 +177,16 @@ List<Override> _overrides() {
     // Review.
     reviewInputsProvider.overrideWithValue(
       ReviewInputs(
-        attempts: RemoteState(value: review.allAttempts, fetchedAt: now),
+        attempts: RemoteState(value: todayAttempts, fetchedAt: now),
         records: const [],
       ),
     ),
     creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
     repairApiProvider.overrideWithValue(_RepairApi()),
-    for (final a in review.allAttempts)
+    for (final a in todayAttempts)
       attemptDetailProvider(a.id).overrideWithBuild(
         (ref, n) => RemoteState(
-          value: AttemptDetail(attempt: a),
+          value: a.id == demoMockId ? mockDetail : AttemptDetail(attempt: a),
           fetchedAt: now,
         ),
       ),
@@ -194,7 +194,7 @@ List<Override> _overrides() {
     // You.
     goalRepositoryProvider.overrideWith(() => you.FakeGoal(you.goalState(4))),
     consentRepositoryProvider.overrideWith(() => you.FakeConsent(you.consentState(AgeBand.adult))),
-    rhythmRepositoryProvider.overrideWith(() => you.FakeRhythm(you.rhythmState())),
+    rhythmRepositoryProvider.overrideWith(() => you.FakeRhythm(you.rhythmState(milestones: milestones))),
     studentTargetProvider.overrideWithValue(you.ashaTarget),
     notificationPrefsRepositoryProvider.overrideWith(() => notif_ui.FakePrefsRepo(notif.prefsWith(), cachedAt: now)),
   ];

@@ -48,13 +48,16 @@ class ComposerExits {
 /// disabled with a stated reason until the quote for exactly this selection has arrived. A
 /// mock's before-mock lines live here too: one sheet, not a wizard.
 class PracticeComposer extends ConsumerStatefulWidget {
-  const PracticeComposer({super.key, required this.initial, required this.exits, this.showSubjects = false});
+  const PracticeComposer({super.key, required this.initial, required this.exits, this.showSubjects = false, this.pinKey = false});
 
   final PracticeSelection initial;
   final ComposerExits exits;
 
   /// The setup page shows the subject tiles; the sheet keeps the subject it was opened with.
   final bool showSubjects;
+
+  /// The setup page scrolls the content and pins Start at the bottom, on the ground.
+  final bool pinKey;
 
   @override
   ConsumerState<PracticeComposer> createState() => _PracticeComposerState();
@@ -240,7 +243,8 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
           onAction: () => widget.exits.run(_pendingSessionId!),
         ),
       ],
-      const SizedBox(height: MmSpace.s24),
+    ];
+    final keys = <Widget>[
       KeyButton(
         // A Pro-gated mode has nothing to start: the one action is the open alternative.
         label: gated ? PracticeCopy.takeFullInstead : _startLabel,
@@ -254,9 +258,14 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
       ],
     ];
 
+    if (widget.pinKey) return PopScope(canPop: !_starting, child: _Pinned(content: children, keys: keys));
     return PopScope(
       canPop: !_starting,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: children),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [...children, const SizedBox(height: MmSpace.s24), ...keys],
+      ),
     );
   }
 }
@@ -280,6 +289,61 @@ class _SubjectPicker extends ConsumerWidget {
       selectedId: selected,
       onSelected: onPick,
       onMore: others.isEmpty ? null : () => onOther(others),
+    );
+  }
+}
+
+/// The setup page's layout: the content scrolls and fades into the ground; Start is pinned at
+/// the bottom (16 dp gutter, 16 dp above the gesture inset).
+class _Pinned extends StatelessWidget {
+  const _Pinned({required this.content, required this.keys});
+
+  final List<Widget> content;
+  final List<Widget> keys;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                  children: content,
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: 32,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [colors.ground.withValues(alpha: 0), colors.ground],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        ColoredBox(
+          color: colors.ground,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16 + MediaQuery.paddingOf(context).bottom),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: keys),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -40,7 +40,6 @@ class YouPanel extends StatelessWidget {
             borderRadius: MmRadius.panelAll,
             top: colors.edgeTop,
             bottom: colors.edgeBottom,
-            lamp: colors.isNight ? colors.lamp : null,
             sheen: false,
           ),
           child: MmClip(

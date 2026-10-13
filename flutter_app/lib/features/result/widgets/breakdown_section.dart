@@ -28,7 +28,10 @@ List<(MarkPart, String, String, String?)> breakdownLabels(MarkBreakdown b) => [
 /// The bar, its scale, the rows, the caption that adds them up and the arithmetic toggle.
 /// Shared by recap card 2 and the full result.
 class BreakdownSection extends StatefulWidget {
-  const BreakdownSection({super.key, required this.breakdown, this.grow});
+  const BreakdownSection({super.key, required this.breakdown, this.grow, this.caption = true});
+
+  /// The full sentence of the arithmetic (the full result); the recap card leaves it to "Show the arithmetic".
+  final bool caption;
 
   final MarkBreakdown breakdown;
   final Animation<double>? grow;
@@ -63,11 +66,13 @@ class _BreakdownSectionState extends State<BreakdownSection> {
         const SizedBox(height: MmSpace.s8),
         MarksRows(breakdown: b, labels: breakdownLabels(b)),
         Divider(height: 1, thickness: 1, color: colors.line),
-        const SizedBox(height: MmSpace.s12),
-        Text(
-          ResultCopy.breakdownCaption(b.max, b.scored, b.takenOff, b.notEarnedOnWrong, b.notEarnedOnBlank),
-          style: type.small.copyWith(color: colors.ink2),
-        ),
+        if (widget.caption) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(
+            ResultCopy.breakdownCaption(b.max, b.scored, b.takenOff, b.notEarnedOnWrong, b.notEarnedOnBlank),
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+        ],
         const SizedBox(height: MmSpace.s4),
         Align(
           alignment: Alignment.centerLeft,

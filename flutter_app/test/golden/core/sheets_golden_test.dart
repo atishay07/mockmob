@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_providers.dart' show nowProvider;
 import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -76,7 +77,11 @@ void main() {
         _opener(_quickStart),
         brightness: brightness,
         size: kNightSize,
-        overrides: [resumeOfferProvider.overrideWith((ref) async => null)],
+        overrides: [
+          resumeOfferProvider.overrideWith((ref) async => null),
+          nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
+          quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+        ],
       );
       await tester.tap(find.text('Open'));
       for (var i = 0; i < 10; i++) {
@@ -94,7 +99,11 @@ void main() {
         _opener(_quickStart),
         brightness: brightness,
         size: kNightSize,
-        overrides: [resumeOfferProvider.overrideWith((ref) async => null)],
+        overrides: [
+          resumeOfferProvider.overrideWith((ref) async => null),
+          nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
+          quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+        ],
       );
       await tester.tap(find.text('Open'));
       await tester.pump();

@@ -45,20 +45,20 @@ void main() {
 
   testWidgets('the volt pill starts the repair; the chips and Show me report back', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    await tester.tap(find.text(TodayCopy.startRepair(20)));
-    await tester.tap(find.text('10 min'));
+    await tester.tap(find.text(TodayCopy.startRepair(10)));
+    await tester.tap(find.text('5 min'));
     await tester.tap(find.text(TodayCopy.showMe));
     await tester.pump();
     final action = events.whereType<TodayAction>().single;
     expect((action.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
-    expect(events, containsAll(['minutes:10', 'why:m7']));
+    expect(events, containsAll(['minutes:5', 'why:m7']));
   });
 
   testWidgets('offline, a start says why it is unavailable instead of failing', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(offline: true)));
     expect(find.text(TodayCopy.connectToStart), findsOneWidget);
     expect(find.text('Updated 7:30 PM. You are offline.'), findsOneWidget);
-    await tester.tap(find.text(TodayCopy.startRepair(20)));
+    await tester.tap(find.text(TodayCopy.startRepair(10)));
     await tester.pump();
     expect(events.whereType<TodayAction>(), isEmpty);
   });

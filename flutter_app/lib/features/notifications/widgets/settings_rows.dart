@@ -164,6 +164,7 @@ class ChannelRow extends ConsumerWidget {
     required this.onChanged,
     this.note,
     this.noteIsWarning = false,
+    this.dimmed = false,
   });
 
   final String title;
@@ -172,6 +173,9 @@ class ChannelRow extends ConsumerWidget {
   final ValueChanged<bool>? onChanged;
   final String? note;
   final bool noteIsWarning;
+
+  /// Android blocks notifications: the choice is kept and can change, but reads as on hold.
+  final bool dimmed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -206,11 +210,11 @@ class ChannelRow extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
+                      Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: dimmed ? colors.ink2 : colors.ink)),
                       const SizedBox(height: 2),
                       Text(
                         body,
-                        style: type.caption.copyWith(color: colors.ink2),
+                        style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2),
                       ),
                       if (note != null) ...[
                         const SizedBox(height: MmSpace.s4),
@@ -250,7 +254,7 @@ class ChannelRow extends ConsumerWidget {
                 IgnorePointer(
                   child: Switch(
                     value: value,
-                    onChanged: enabled ? (_) {} : null,
+                    onChanged: enabled && !dimmed ? (_) {} : null,
                   ),
                 ),
               ],

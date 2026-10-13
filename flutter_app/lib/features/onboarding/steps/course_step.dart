@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -91,12 +90,19 @@ class _CourseStepState extends ConsumerState<CourseStep> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: KeyButton.quiet(
+              label: OnboardingCopy.courseChange(course.short),
+              semanticsLabel: '${course.short}. ${OnboardingCopy.changeCourse}',
+              onPressed: () => setState(() => _choosing = true),
+            ),
+          ),
           Wrap(
             spacing: MmSpace.s8,
             runSpacing: 0,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              MmChip(label: course.short, leading: LucideIcons.pencil, selected: true, onTap: () => setState(() => _choosing = true)),
               CategoryChip(category: a.category, onTap: () => _category(a.category)),
               MmChip(label: OnboardingCopy.openToAny, selected: a.openToAny, onTap: () => _c.setOpenToAny(!a.openToAny)),
             ],

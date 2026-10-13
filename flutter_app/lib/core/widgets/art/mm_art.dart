@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 /// breaks a screen.
 enum MmArt {
   heroDesk('hero-desk'),
-  heroSlab('hero-slab', fallback: MmArt.heroDesk),
   paperTile('paper-tile'),
   foilSeal('foil-seal'),
   mobiGreet('mobi-greet'),
@@ -59,6 +58,8 @@ class ArtImage extends StatelessWidget {
     this.alignment = Alignment.center,
     this.placeholder,
     this.semanticLabel,
+    this.opacity,
+    this.ghost = false,
   });
 
   final MmArt art;
@@ -69,13 +70,27 @@ class ArtImage extends StatelessWidget {
   final Widget? placeholder;
   final String? semanticLabel;
 
-  @override
-  Widget build(BuildContext context) => _image(context, art);
+  /// An optional opacity, applied by the image itself (no extra layer).
+  final double? opacity;
 
-  Widget _image(BuildContext context, MmArt current) {
+  /// Drawn as a grey "not yet" ghost (a colour filter on the paint, no layer).
+  final bool ghost;
+
+  @override
+  Widget build(BuildContext context) {
+    final sized = (height != null && height!.isFinite) || (width != null && width!.isFinite);
+    if (sized) return _image(context, art, null);
+    // No size given: decode at the width of the box it lands in, never the full 512 px file.
+    return LayoutBuilder(
+      builder: (context, constraints) => _image(context, art, constraints.hasBoundedWidth ? constraints.maxWidth : null),
+    );
+  }
+
+  Widget _image(BuildContext context, MmArt current, double? boxWidth) {
     final dpr = MediaQuery.devicePixelRatioOf(context);
     final cacheHeight = height == null || !height!.isFinite ? null : (height! * dpr).round();
-    final cacheWidth = cacheHeight == null && width != null && width!.isFinite ? (width! * dpr).round() : null;
+    final w = width != null && width!.isFinite ? width : boxWidth;
+    final cacheWidth = cacheHeight == null && w != null ? (w * dpr).round() : null;
     return Image.asset(
       current.asset,
       width: width,
@@ -86,11 +101,15 @@ class ArtImage extends StatelessWidget {
       cacheWidth: cacheWidth,
       filterQuality: FilterQuality.medium,
       gaplessPlayback: true,
+      opacity: opacity == null ? null : AlwaysStoppedAnimation(opacity!),
+      // srcATop keeps the art's own outline (transparent stays transparent) and washes it grey.
+      color: ghost ? const Color(0xD98A8578) : null,
+      colorBlendMode: ghost ? BlendMode.srcATop : null,
       semanticLabel: semanticLabel,
       excludeFromSemantics: semanticLabel == null,
       errorBuilder: (context, error, stack) {
         final next = current.fallback;
-        if (next != null) return _image(context, next);
+        if (next != null) return _image(context, next, boxWidth);
         return placeholder ?? SizedBox(width: width, height: height);
       },
     );

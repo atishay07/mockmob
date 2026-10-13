@@ -7,8 +7,7 @@ import '../model/recap_model.dart';
 import '../sheet/open_tab.dart';
 
 /// The words above the folded sheet. They sit where the flap will land, so the flap sweeps over
-/// them as it opens. Effort first, separate from the score: finishing a full paper counts
-/// whatever the marks say (brief 1.1).
+/// them as it opens. The effort line is said once, by Mobi on card 4.
 class SealedHeadline extends StatelessWidget {
   const SealedHeadline({super.key, required this.model});
 
@@ -24,11 +23,7 @@ class SealedHeadline extends StatelessWidget {
       children: [
         Text(ResultCopy.sheetBack, style: type.moment, maxLines: 2),
         const SizedBox(height: MmSpace.s8),
-        if (model.monthMockCount > 0) ...[
-          Text(ResultCopy.effort(model.mockLabel, model.monthMockCount), style: type.body.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s4),
-        ],
-        Text(ResultCopy.openWhenReady, style: type.small.copyWith(color: colors.ink3)),
+        Text(ResultCopy.openWhenReady, style: type.body.copyWith(color: colors.ink2)),
       ],
     );
   }

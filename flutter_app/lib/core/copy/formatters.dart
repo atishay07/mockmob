@@ -45,6 +45,15 @@ String formatTime12(DateTime time) {
   return '$hour:$minute $suffix';
 }
 
+/// Evening runs from 4:00 PM to 4:59 AM: the hours a student says "tonight" about.
+bool isEvening(DateTime time) => time.hour >= 16 || time.hour < 5;
+
+/// "tonight" from 4:00 PM to 4:59 AM, otherwise "today".
+String tonightOrToday(DateTime time) => isEvening(time) ? 'tonight' : 'today';
+
+/// "Tonight" or "Today", for the start of a sentence.
+String tonightOrTodayTitle(DateTime time) => isEvening(time) ? 'Tonight' : 'Today';
+
 /// "12 October".
 String formatDayMonth(DateTime date) => '${date.day} ${_months[date.month - 1]}';
 
