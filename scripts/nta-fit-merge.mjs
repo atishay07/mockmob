@@ -41,13 +41,17 @@ const listJson = (sub) => { try { return fs.readdirSync(path.join(dir, sub)).fil
 const text = (value) => (value === null || value === undefined ? '' : String(value));
 const FLAGS = new Set(NTA_FIT_FLAGS);
 const ROUTES = new Set(['pyq', 'board', 'cbt_staple', 'key_aspect']);
+// Rubric section 7.1: when an item's real type is missing from the subject's list the judge writes the real
+// type from the rubric's table (and flags off_pattern_for_subject), so every table type is a valid cuet_type.
+const RUBRIC_TYPES = ['passage_set_item', 'assertion_reason', 'match_the_following', 'sentence_rearrangement', 'sequence_ordering', 'statement_based', 'synonym', 'antonym', 'idiom_phrase', 'one_word_substitution', 'error_detection', 'fill_in_blank', 'single_mcq'];
 const SKILLS = new Set(['central_idea', 'detail', 'not_mentioned', 'inference', 'tone_attitude', 'vocabulary_in_context', 'title', 'application', 'calculation', 'other']);
 // Flag names judges wrote that are a known typo of a rubric flag (the rubric's own words win).
 const FLAG_ALIASES = { off_pattern_for_paper: 'off_pattern_for_subject' };
 const otherFlagCounts = {}; // names outside rubric section 8: kept on the judge's record, never blocking
 const int = (value, lo, hi) => Number.isInteger(value) && value >= lo && value <= hi;
 
-const rubricSha = fs.existsSync(RUBRIC) ? createHash('sha256').update(fs.readFileSync(RUBRIC)).digest('hex') : null;
+// Line endings are normalised so the hash is the same on a CRLF checkout and matches the judges' manifest.rubricSha256.
+const rubricSha = fs.existsSync(RUBRIC) ? createHash('sha256').update(fs.readFileSync(RUBRIC, 'utf8').replace(/\r\n/g, '\n')).digest('hex') : null;
 const hashes = readJson(hashesFile, {});
 const judgesInfo = readJson(path.join(dir, 'judges.json'), {});
 
@@ -67,7 +71,7 @@ function check(result, question, allowed) {
   if (!result || typeof result !== 'object') return { problems: ['not an object'] };
   if (result.id !== question.id) problems.push('id');
   const card = allowed?.[question.subject];
-  const types = new Set([...(card?.types || []), 'single_mcq', 'assertion_reason']);
+  const types = new Set([...(card?.types || []), ...RUBRIC_TYPES]);
   if (!types.has(result.cuet_type)) problems.push('cuet_type');
   const chapters = new Set([...(card?.units || []).flatMap((unit) => unit.chapters), ...(card?.excluded_chapters || [])]);
   if (!chapters.has(result.chapter)) problems.push('chapter');
@@ -241,6 +245,8 @@ for (const [subject, table] of Object.entries(tables)) {
 fs.writeFileSync(path.join(DATA, 'nta_fit_scores', '_merge-report.json'), `${JSON.stringify({
   note: 'Written by scripts/nta-fit-merge.mjs. Judge result files absent or unusable at merge time; those questions keep the judges they have and stay out of NTA mode until all three judged them.',
   merged_at: new Date().toISOString(),
+  rubric_sha256: rubricSha,
+  manifest_rubric_sha256: readJson(path.join(dir, 'manifest.json'), {})?.rubricSha256 || null,
   batches: batches.size,
   result_files: resultFiles.size,
   questions_judged: judged.size,

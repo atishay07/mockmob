@@ -3,8 +3,8 @@
  "subject": "business_studies",
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
- "rubric_sha256": "a03b6612289a79a907fe0ea1b55c02c7cab632adf87b5d8c20a74ac7b1491bf2",
- "merged_at": "2026-10-13T20:05:39.235Z",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "merged_at": "2026-10-13T21:16:42.914Z",
  "models": [
   "claude-haiku-5-5"
  ],

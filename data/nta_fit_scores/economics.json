@@ -3,24 +3,24 @@
  "subject": "economics",
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
- "rubric_sha256": "a03b6612289a79a907fe0ea1b55c02c7cab632adf87b5d8c20a74ac7b1491bf2",
- "merged_at": "2026-10-13T20:05:39.238Z",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "merged_at": "2026-10-13T21:16:42.919Z",
  "models": [
   "claude-haiku-5-5"
  ],
- "status": "partial",
+ "status": "complete",
  "measures": {
   "questions_in_fit_batches": 195,
   "judged": 195,
-  "judged_by_three": 186,
-  "missing_result_files": 1,
-  "fit_pass_at_8": 166,
+  "judged_by_three": 195,
+  "missing_result_files": 0,
+  "fit_pass_at_8": 174,
   "fit_pass_at_9": 56,
   "blocking_flagged": 1,
-  "majority_type": 186,
+  "majority_type": 195,
   "no_majority_type": 0,
   "engine_type_disagrees_with_majority": 21,
-  "engine_type_disagreement_pct": 11.3,
+  "engine_type_disagreement_pct": 10.8,
   "no_majority_chapter": 0,
   "ten_route_agreed": 28,
   "tens_capped_without_agreed_route": 4
@@ -13652,7 +13652,7 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
@@ -13664,7 +13664,22 @@
      "est_seconds": 66,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Shutdown rule: price 6 is below minimum AVC 8, so zero output (A). Clean core item. Option A is the only non-positive output, so elimination gives it away."
+     "note": "Short-run shutdown rule (price below minimum AVC): core idea, direct application. Stem is wordy with an extra clause; no PYQ anchor."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 66,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Short-run shutdown when price is below minimum AVC: a core rule and a staple CBT test. Options are the usual misconceptions."
     },
     {
      "judge": "h3",
@@ -13676,10 +13691,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 48,
+     "est_seconds": 66,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Shutdown rule: price 6 is below minimum AVC 8, so zero output. Clean one-step item, but options are long clauses and the key is the shortest option, a test-wise cue."
+     "note": "Shutdown rule (price below minimum AVC) is a core CBT staple. Stem is wordy with a superfluous clause and long options, so format 2 caps at 8."
     }
    ],
    "cuet_type": "single_mcq",
@@ -13693,6 +13708,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
+    10,
     8
    ],
    "fit_median": 8,
@@ -13709,6 +13725,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 108,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Four-calculation tax-supply percentage in a long case stem (no passage). Clearly harder than typical items; plausible options. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -13721,7 +13752,7 @@
      "est_seconds": 108,
      "fit_score": 7,
      "fit_flags": [],
-     "note": "Pre-tax supply 200; cuts of 16 and 6 give 22/200 = 11.0% (D), arithmetic checks. Long case framing for a supply-sum item; labelled hard, judged medium with a multi-step setup."
+     "note": "Multi-step percentage on four firms' supply under a tax; key 11% checks out (22/200). Wordy case, harder than the one-step numericals."
     },
     {
      "judge": "h3",
@@ -13730,13 +13761,13 @@
      "cuet_type": "single_mcq",
      "passage_skill": null,
      "unit": "Introductory Microeconomics",
-     "chapter": "Theory of Firms under Perfect Competition",
+     "chapter": "Market Equilibrium & Simple Applications",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 90,
+     "est_seconds": 108,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key checks: 16 + 6 = 22 of 200 units, so 11.0%. Multi-step numerical, but the tax belongs to Market Equilibrium and the constructed case is wordier than CUET style."
+     "note": "Tax effect on market supply moved to Market Equilibrium. Four calculation steps are harder than most exemplars, so level 2 caps at 8. Key 11.0% checks."
     }
    ],
    "cuet_type": "single_mcq",
@@ -13750,10 +13781,11 @@
    "ten_route": null,
    "fit_scores": [
     7,
+    7,
     8
    ],
-   "fit_median": 7.5,
-   "fit_median_raw": 7.5,
+   "fit_median": 7,
+   "fit_median_raw": 7,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -13765,6 +13797,21 @@
    "content_hash": "7e122245ad9ef6a858fc6afb33c4c53ce67d27bda8bf231e654ee270247e7d1b",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Shutdown logic with four tempting distractors; 110-word stem carries extra facts (MC, min AVC, capacity) a CUET item would not need. No PYQ anchor."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -13778,7 +13825,7 @@
      "est_seconds": 77,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A is correct (price 6 below min AVC 8). Same shutdown idea as the Q1 item in this batch. Over-explained stem and distractors that are reasons rather than outputs."
+     "note": "Near-duplicate of the first item in this batch. Stem cue 'may choose zero output'; options carry reasons, which CUET options do not."
     },
     {
      "judge": "h3",
@@ -13791,9 +13838,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 77,
-     "fit_score": 8,
+     "fit_score": 6,
      "fit_flags": [],
-     "note": "Same shutdown idea as the first item in a longer stem. The stem's 'may choose zero output' signposts the key. Key A holds: price 6 is below minimum AVC 8."
+     "note": "Same shutdown idea as the first item, but the stem packs four facts (P=MC, minimum AVC, largest output) as distractor cues. Heavy parsing, format 1 caps at 6."
     }
    ],
    "cuet_type": "single_mcq",
@@ -13807,7 +13854,8 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    8
+    8,
+    6
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -13823,6 +13871,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Profit = (P - AC) x Q, two steps, core rule. Options repeat the key letter (A Rs 200), a layout glitch. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -13835,7 +13898,7 @@
      "est_seconds": 54,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Profit (10 - 8) x 100 = 200 (A), arithmetic checks. Clean one-step numerical; 800 (total cost) is a useful distractor. Option text repeats its letter (A Rs 200), a format slip."
+     "note": "Profit = (P - AC) x Q, one formula, correct key. Option text repeats its letter (A 200), a display defect, so no route."
     },
     {
      "judge": "h3",
@@ -13847,10 +13910,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 36,
+     "est_seconds": 54,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Profit (10 - 8) x 100 = 200, key A correct. Each option repeats its letter (A 200), which a real paper would not show and which cues the key. Distractors 800 and 0 are real errors."
+     "note": "Profit = (P - AC) x Q numerical, core and CBT-style. Options repeat their letter label (A Rs 200), a data defect, so format 2 caps at 8. Fix option text."
     }
    ],
    "cuet_type": "single_mcq",
@@ -13863,6 +13926,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -13880,6 +13944,21 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 96,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four-entry match (entry, exit, tax, technology) where each entry needs working out. Run-on list with number-to-letter codes; answerable. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -13889,10 +13968,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 114,
+     "est_seconds": 96,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A (1-C, 2-B, 3-D, 4-A) is the only option consistent with the four pairings. Entry to C is a long-run effect; labelled easy, judged medium. Options repeat their letters."
+     "note": "Four long-clause entries that each need reasoning; key checks out. Option text repeats its letter. Tax entry wording is loose."
     },
     {
      "judge": "h3",
@@ -13905,9 +13984,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 96,
-     "fit_score": 7,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A works only as a one-to-one match: 4-A (supply up), 1-C (zero profit). Entry also reads as a supply increase, so the pairing is contestable. Labelled easy; it is medium."
+     "note": "Four-entry entry, exit, tax and technology match where each entry needs working out. Options repeat the key letter and lists run together, so time 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -13921,10 +14000,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    7
+    8,
+    8
    ],
-   "fit_median": 7.5,
-   "fit_median_raw": 7.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -13937,6 +14017,21 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Lexical four-entry match on core terms (price taker, MR, shutdown, LR equilibrium). Real-style content; mapping written as number-letter pairs. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -13946,10 +14041,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 90,
+     "est_seconds": 72,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A (1-C, 2-A, 3-D, 4-B) checks out: price taker, MR, shutdown point and long-run equilibrium. Standard recall matching. Options repeat their letters, a format slip."
+     "note": "Core perfect-competition terms matched to short definitions, shaped like the CUET characteristic-implication match. Option text repeats its letter, so no route."
     },
     {
      "judge": "h3",
@@ -13964,7 +14059,7 @@
      "est_seconds": 72,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Standard firm definitions; key 1-C, 2-A, 3-D, 4-B checks out. Option labels repeat their letter as in the fourth item. Recall matching in CUET style."
+     "note": "Term-to-definition match (price taker, MR, shutdown, long-run equilibrium), close to real lexical matches. Option text repeats letter labels, so format 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -13977,6 +14072,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -13994,6 +14090,21 @@
    "engine_type_guess": "sequence_ordering",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Four-step market supply construction in standard CUET sequence layout; would sit in a paper unchanged. Not claimed as a 10 route. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -14003,10 +14114,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 89,
-     "fit_score": 7,
+     "est_seconds": 71,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Key B (B, A, C, D) is the only logical order: read firm quantities, add, repeat per price, plot. A procedure rather than the chronology or ranking CUET uses; the order is near-guessable."
+     "note": "Steps for building market supply from firm schedules; key B checks out. Stem is wordier than real CUET sequence items."
     },
     {
      "judge": "h3",
@@ -14018,10 +14129,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 89,
+     "est_seconds": 71,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key B correct: read each firm's quantity, add, repeat, plot. Procedural sequence rather than the chronology CUET uses for sequence items, so format is weaker."
+     "note": "Market-supply construction steps. Key (B)(A)(C)(D) checks. Stem is wordier than real sequence items with descriptive steps, so format 2 caps at 8."
     }
    ],
    "cuet_type": "sequence_ordering",
@@ -14034,11 +14145,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
+    9,
+    8,
     8
    ],
-   "fit_median": 7.5,
-   "fit_median_raw": 7.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -14050,6 +14162,21 @@
    "content_hash": "970d79ec40d67012570e3947d716b3aca580ea06df5cb05fc471906d23b1f5b0",
    "engine_type_guess": "assertion_reason",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "True-true assertion-reason on long-run minimum AC; core idea. AR is rare in this paper (target 0-2), so format held at 2. No PYQ anchor."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -14063,7 +14190,7 @@
      "est_seconds": 68,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Both true and reason explains assertion (free entry drives price to min AC, the long-run result), key A correct. Labelled hard, judged medium. Options repeat their letters."
+     "note": "Long-run minimum AC; reason explains assertion, key A correct. Assertion-reason is rare in Economics (0-2 per paper), so format 2."
     },
     {
      "judge": "h3",
@@ -14075,10 +14202,10 @@
      "chapter": "Theory of Firms under Perfect Competition",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 86,
+     "est_seconds": 68,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Both statements true and the reason explains the assertion, so key A is correct. Assertion-reason is allowed but rare in this paper. Labelled hard; a notch high."
+     "note": "Long-run minimum-AC assertion with reason explaining it, key A checks. Assertion-reason is rare in the Economics paper (0 to 2 per paper), so format 2 caps at 8."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -14091,6 +14218,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -14108,19 +14236,34 @@
    "engine_type_guess": "assertion_reason",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Market Equilibrium & Simple Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Tax incidence depends on elasticities; the 'always' assertion is false. Content belongs to Market Equilibrium, so chapter corrected. AR format rare. No PYQ anchor."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "assertion_reason",
      "passage_skill": null,
      "unit": "Introductory Microeconomics",
-     "chapter": "Theory of Firms under Perfect Competition",
+     "chapter": "Market Equilibrium & Simple Applications",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 66,
-     "fit_score": 7,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Key B is correct: assertion false ('always' fails, incidence depends on elasticities), reason true. The word 'always' makes the assertion false on sight, so discrimination is low."
+     "note": "Tax incidence belongs to Market Equilibrium, so the chapter is corrected. Key B checks out. Assertion-reason is rare here; option text repeats its letter."
     },
     {
      "judge": "h3",
@@ -14129,13 +14272,13 @@
      "cuet_type": "assertion_reason",
      "passage_skill": null,
      "unit": "Introductory Microeconomics",
-     "chapter": "Theory of Firms under Perfect Competition",
+     "chapter": "Market Equilibrium & Simple Applications",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 84,
+     "est_seconds": 66,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key B correct: assertion false (incidence depends on elasticities), reason true. Tax incidence sits in Market Equilibrium, not this chapter. Assertion-reason form is rare in this paper."
+     "note": "Tax incidence (absolute claim false, reason true), key B checks. Moved to Market Equilibrium. Assertion-reason is rare in this paper, so format 2 caps at 8."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -14143,16 +14286,17 @@
    "passage_skill": null,
    "unit": "Introductory Microeconomics",
    "unit_votes": null,
-   "chapter": "Theory of Firms under Perfect Competition",
+   "chapter": "Market Equilibrium & Simple Applications",
    "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
+    8,
+    8,
     8
    ],
-   "fit_median": 7.5,
-   "fit_median_raw": 7.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false

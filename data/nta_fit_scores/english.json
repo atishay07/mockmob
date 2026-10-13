@@ -3,27 +3,27 @@
  "subject": "english",
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
- "rubric_sha256": "a03b6612289a79a907fe0ea1b55c02c7cab632adf87b5d8c20a74ac7b1491bf2",
- "merged_at": "2026-10-13T20:05:39.213Z",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "merged_at": "2026-10-13T21:16:42.892Z",
  "models": [
   "claude-haiku-5-5"
  ],
- "status": "partial",
+ "status": "complete",
  "measures": {
   "questions_in_fit_batches": 96,
-  "judged": 89,
-  "judged_by_three": 1,
-  "missing_result_files": 14,
-  "fit_pass_at_8": 0,
-  "fit_pass_at_9": 0,
-  "blocking_flagged": 11,
-  "majority_type": 1,
+  "judged": 96,
+  "judged_by_three": 96,
+  "missing_result_files": 0,
+  "fit_pass_at_8": 50,
+  "fit_pass_at_9": 4,
+  "blocking_flagged": 39,
+  "majority_type": 96,
   "no_majority_type": 0,
   "engine_type_disagrees_with_majority": 0,
   "engine_type_disagreement_pct": 0,
   "no_majority_chapter": 0,
   "ten_route_agreed": 0,
-  "tens_capped_without_agreed_route": 0
+  "tens_capped_without_agreed_route": 3
  },
  "questions": {
   "f0e3e49a2d75d7480e01d15f9d536736": {
@@ -115,6 +115,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Passage is about 100 words, a fictional exhibition case, not a 200-300 word CUET passage. Key is the longest option, a small cue. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail on the trial's stated limitation; passage labelled 'fictional' and options are long clauses, so format 2 caps at 8."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -130,22 +160,18 @@
      "note": "Detail: the limitation is stated in the passage (days and galleries differed). Passage 99 words vs CUET 200-300; wordy options keep format at 2, so capped at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -162,6 +188,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail from a short fictional case passage (about 100 words). Distractors A and D are plausible misreads of the day and gallery facts. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail on what the two map versions shared; same fictional-passage framing and wordy options (format 2), capped at 8."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -177,22 +233,18 @@
      "note": "Detail: identical feature (same information) is stated directly. Short 99-word set and long options give format 2, capped at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -209,6 +261,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Best-supported conclusion from a short fictional passage. Options A and B are plausible causal and single-difference traps. Key is the longest option. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Supported conclusion that combines the observed difference with the trial's limit (level 2, two ideas); format 2 caps at 8."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -224,22 +306,18 @@
      "note": "Inference limited to the observed difference, not cause. Distractors carry the causal trap (real misconception). Format 2 caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "inference",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -256,6 +334,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 49,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Stated purpose of the same-day trial, from the same short fictional passage as the set. Overlaps with the answer to the first question in this set. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Purpose of the same-day trial; options A, C and D are contradicted or absurd, so the key is guessable from the passage. Format 2."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -271,22 +379,18 @@
      "note": "Detail: same-day trial is meant to address the day difference. Format 2 (short set, long options) caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -303,6 +407,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 47,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Stated proposal from a short fictional school-library passage (about 130 words). Distractors B and D contradict the passage. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 47,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail on the librarian's proposal; 'fictional school library' framing and long option clauses keep format at 2."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -318,22 +452,18 @@
      "note": "Detail: the librarian's proposal is stated directly. Passage 124 words, below CUET 200-300; format 2 caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -350,6 +480,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Purpose of the proposal, linked across two sentences of a short fictional passage. Option B reverses a stated fact. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Stated reason for the proposal; one-clause answer in a fictional-framed passage with long options; format 2 caps at 8."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -365,22 +525,18 @@
      "note": "Inference: purpose is combining the return record with student experience. Passage short vs CUET norm; format 2 caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -397,6 +553,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "central_idea",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Central idea of a passage of about 450 words, well over the 300-word CUET cap. Option D misreads 'raising concerns' as destruction. Core skill. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "central_idea",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Central idea of a factual passage far longer than CUET's 200-300 word sets; format 2 caps at 8 despite a clean key aspect."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -412,22 +598,18 @@
      "note": "Central idea with a clean key and a good option set. Passage 372 words, above CUET max 300; format 2 caps at 8. No route lift."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "central_idea",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -444,6 +626,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference about trench organisms from a long passage of about 450 words. Option C is a plausible trap; A and D are absurd. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference on Mariana organisms from a passage well above CUET length (format 2). Options A, C and D are throwaways; key is B."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -459,22 +671,18 @@
      "note": "Inference (adaptation to pressure, darkness, cold). Option D implausible. Passage 372 words, above CUET max 300; format 2 caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "inference",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -491,6 +699,36 @@
    "engine_type_guess": "passage_set_item",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "tone_attitude",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Tone of a passage of about 430 words, well over the CUET length. Option A is a plausible trap; C and D are off-text. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "tone_attitude",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Tone of a long coffee passage (format 2); key is defensible from the closing critique. Phrase-length options are a real but wordy style."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -506,22 +744,18 @@
      "note": "Tone item; key is fine-grained (neutral with critical undertone). Passage 417 words, above CUET max 300; format 2 caps at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Factual Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "tone_attitude",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Factual Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -566,6 +800,21 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Direct detail from a 63-word passage. Single item, not a 4-5 question CUET set, so format 2 and capped at 8. Nearest anchor q17."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail item, direct and fair. Passage is only about 63 words; CUET factual passages run 200-300 words, so format is 2, not 3."
     }
    ],
    "cuet_type": "passage_set_item",
@@ -575,9 +824,10 @@
    "unit_votes": null,
    "chapter": "Factual Passage",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -623,6 +873,21 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Detail stated in the stamp paragraph. Passage is about 500 words, well over the 300 max, and option C is lower-case. Format 2, capped at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail on the postal passage: stamp led to mail volume rise. Passage is about 400 words, over the CUET 300 max, so format 2. Option C is lowercase."
     }
    ],
    "cuet_type": "passage_set_item",
@@ -632,9 +897,10 @@
    "unit_votes": null,
    "chapter": "Factual Passage",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -680,6 +946,21 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Inference that the Pony Express showed demand for speed. Options A and C go beyond the text. Same long passage, format 2, capped at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference about Pony Express (demand for speed) is supported; distractors plausible. Shared passage is about 400 words, over CUET length, so format 2."
     }
    ],
    "cuet_type": "passage_set_item",
@@ -689,9 +970,10 @@
    "unit_votes": null,
    "chapter": "Factual Passage",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -737,6 +1019,21 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Central idea across the whole passage. Options B to D are overstated or contradicted by the text. Same long passage, format 2, capped at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "central_idea",
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Central idea is a core factual-passage skill and option A is right. Passage runs about 400 words, over CUET length, so format 2 caps it at 8."
     }
    ],
    "cuet_type": "passage_set_item",
@@ -746,9 +1043,10 @@
    "unit_votes": null,
    "chapter": "Factual Passage",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -798,6 +1096,23 @@
       "off_pattern_for_subject"
      ],
      "note": "Meta question defining reading terms, not a CUET passage or word item. Option letters repeated in the text. Off pattern, capped at 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 70,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Metalinguistic main idea vs central idea MCQ with no passage. English paper does not ask this. Option texts also repeat their letter labels."
     }
    ],
    "cuet_type": "single_mcq",
@@ -811,14 +1126,15 @@
    "ten_route": null,
    "fit_scores": [
     4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "cd625f6d-ef6c-4daf-a47e-50e1513f4926": {
@@ -861,6 +1177,23 @@
       "off_pattern_for_subject"
      ],
      "note": "Paragraph-writing concept as a standalone MCQ with no passage (rubric 7.4 says not real). Option letters repeated. Capped at 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Paragraph-writing item (main idea of a sentence) with no passage. Not a CUET English item type. Option texts repeat letter labels."
     }
    ],
    "cuet_type": "single_mcq",
@@ -874,14 +1207,15 @@
    "ten_route": null,
    "fit_scores": [
     4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "4cc8fa6c-be81-43fb-a30c-07da2d5e88ad": {
@@ -924,6 +1258,23 @@
       "off_pattern_for_subject"
      ],
      "note": "Assertion-reason item; the English blueprint allows none. Key C holds: a concluding sentence summarises rather than introduces. Capped at 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Assertion-reason on paragraph structure. English blueprint allows no AR items and no writing-structure chapter. Key C checks out."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -937,14 +1288,15 @@
    "ten_route": null,
    "fit_scores": [
     4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "9bd626b4-ca5b-49a6-afd6-99b920e9f82f": {
@@ -987,6 +1339,23 @@
       "off_pattern_for_subject"
      ],
      "note": "Assertion-reason on word register; English allows no AR. Key B holds: 'always' makes A false and the Latin origin makes R true. Capped at 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Assertion-reason on help vs assist register. English paper has no AR items. Key B is consistent with the stem."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -1000,14 +1369,15 @@
    "ten_route": null,
    "fit_scores": [
     4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "cda986f7-5e70-463d-b2c3-8fe042f2396e": {
@@ -1050,6 +1420,23 @@
       "off_pattern_for_subject"
      ],
      "note": "Assertion-reason on topic sentences; English allows no AR. Key D holds: implicit topic sentences can still be coherent. Capped at 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Reading Comprehension",
+     "chapter": "Factual Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Assertion-reason on paragraph coherence, not an English blueprint item. Stem prints a (Choose one.) instruction real papers do not show."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -1063,14 +1450,15 @@
    "ten_route": null,
    "fit_scores": [
     4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "050eabfb0b60dbd8a567b1d31da10d6d": {
@@ -1094,24 +1482,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Literary passage of 71 words, short against the 200-300 word CUET norm (format 2). Inference on the closing image; key D matches the final sentence. No literary anchor in the index."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference on closing image; cue 'neither restored exactly'. 71-word passage, one question, sentence options: format 2 (real sets are 200-300 words, 4-5 questions)."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reflective closing image; inference across boat and drawing, key D matches passage. Passage 71 words, long clause options; real passages run 200-300 words."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Literary Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "inference",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Literary Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1141,24 +1555,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary: a 98-word account of events. Key A matches the sequence in the text. Short passage caps format at 2. Anchor q17 is a narrative passage item, different idea."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Painter's actions after the comment; key is the only option that keeps the sky and looks again. 98 words, one question, long sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Painter's four actions in a 98-word narrative; four long clause options to check against the passage. Level 2 for combining four actions. Real passages are 200-300 words."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1188,24 +1628,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary: a 70-word short story. The bell's status is stated in the last sentence; key D matches. Short passage caps format at 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Bell's status at end; 'rather than returning it to the doorway' traps option A. Set of two, 70 words, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Status of the cracked bell at the end of a 70-word narrative; key D paraphrases the passage. Short passage and wordy options keep format at 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "inference",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1235,24 +1701,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary. Direct one-sentence detail; key B is stated in the text. Short 66-word passage caps format at 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 46,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail: what the daughter valued; B is the stated reason, A and C are passage-level misreadings. Set of two, 66 words, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Single detail on the daughter's preference; bell-related distractors are plausible. Peripheral example fact in a 66-word passage; format stays at 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1282,24 +1774,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary. Direct detail: the seller points to the moving train, key B. Options A and C conflict with the train's movement. Short 78-word passage caps format at 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail of the tea seller's response; C (train standing still) is a plausible misread. Set of three, 78 words, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Tea seller's response to the child's question; option C (standing train) is a plausible slip. Short 78-word passage and wordy options; real passages run 200-300 words."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1329,24 +1847,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary. Option B reverses the contrast, a real misconception trap. Key A matches the text. Short 83-word passage caps format at 2 and the score at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Central contrast in the final sentence; B reverses it and is a real trap. Set of three, 83 words, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Contrast stated in the passage's final sentence; option B is a plausible reversal. Long clause options and a short passage keep format at 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1376,24 +1920,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary. Sequence detail: key C (child watches, then looks back at the clock) is the event just before. Distractors come from the passage. Short passage caps score at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Event sequence in the passage; A and B are earlier events and D repeats C's imagery. Set of three, 84 words, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Event immediately before the noticing; option D is a plausible earlier event. Four long options and a 84-word passage, short of the CUET passage length."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1423,24 +1993,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Author-purpose item on a literary passage of roughly 390 words, over the 300-word CUET maximum (format 2, level 2 for a long case). No explanation printed; key C looks defensible."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Author purpose of the trembling hands; row explanation is null, key rests on 'perhaps she knew' after the performance. 118 words, one question: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "other",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Author-purpose item (no listed skill fits, so other) on a 118-word literary passage; key C fits the trembling hands after the performance. One question per passage."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Literary Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "other",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Literary Passage",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1470,24 +2066,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Chapter corrected from Literary: a 73-word account of children's play. Key C (a changed layout) is stated after the neighbour's question. Short passage caps format at 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Literary Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail: the children's choice; B (remembered layout) and D (exact recall) are the traps. 73 words, one question, sentence options: format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Children's choice after the neighbour's question in a 73-word narrative; each distractor maps to a plausible misreading. Short passage and wordy options cap format at 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "passage_set_item": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Narrative Passage": 1
-   },
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -1526,12 +2148,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 89,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-adjective matching (benevolent, assertive, candid, indifferent). Key A verified. Same format as the q3 anchor; staple vocabulary item, not a near-copy."
+     "note": "Situation-to-word match (Benevolent, Candid, Indifferent, Assertive). Key verified. Wordier than E1 word-definition lists, so format 2, max 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situation-to-adjective match (benevolent, indifferent, assertive, candid). Wordier than CUET word-definition lists, so format 2 caps it at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1541,9 +2178,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -1585,10 +2223,25 @@
      "chapter": "Match the Following",
      "pyq_closeness": 2,
      "ten_route": null,
-     "est_seconds": null,
-     "fit_score": 8,
+     "est_seconds": 82,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Word-to-definition matching (benevolent, candid, coherent, concise), close to the q3 anchor format. Key C verified. Overlaps Q1 vocabulary."
+     "note": "Word-to-definition match with definitions close in length and style to anchor q3. Key verified. Not a copy, no route, so 9."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Word-definition match in the same format as cuet2024 q3, with new words. Would sit in a paper unchanged. No route claimed; key C checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1602,10 +2255,11 @@
    "ten_route": null,
    "fit_scores": [
     9,
-    8
+    9,
+    9
    ],
-   "fit_median": 8.5,
-   "fit_median_raw": 8.5,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1642,10 +2296,27 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 107,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Parts-of-meaning match on one word (arrogant) with long situation stems. Not a word-definition list. Flagged off_pattern, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 107,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Matches situations to parts of the meaning of arrogant. Nuanced reading, and the option set is less CUET-like than the vocabulary items. Key C verified. Scores below the gate."
+     "note": "Four parts of one word's meaning set in 150 words of situations. Unusual parsing for CUET, so format 1 caps it at 6. Not a story scene."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1659,12 +2330,15 @@
    "ten_route": null,
    "fit_scores": [
     6,
+    4,
     6
    ],
    "fit_median": 6,
    "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "2288e437-30c7-499a-b159-075843ddb1cb": {
@@ -1690,33 +2364,63 @@
       "off_pattern_for_subject"
      ],
      "note": "Writing-structure match (paragraph function to signal phrase); rubric names this off pattern for English. Key A checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Paragraph function against signalling phrase: writing-structure match, the item type the rubric names as off pattern for English. Flagged, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Paragraph function against signalling phrase is a writing-structure match list. Not a CUET English item (blueprint lists are lexical). Key A checked."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Match the Following": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Match the Following",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "2a3d20f1-d662-4b18-bcf0-3093c411ed15": {
    "question_id": "2a3d20f1-d662-4b18-bcf0-3093c411ed15",
@@ -1748,42 +2452,56 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "Reading Comprehension",
-     "chapter": "Literary Passage",
-     "pyq_closeness": 1,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": null,
-     "fit_score": 6,
-     "fit_flags": [],
-     "note": "Matches alliteration, onomatopoeia and oxymoron to definitions. Literary terminology is only a peripheral CUET English element. Key A verified."
+     "est_seconds": 70,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Figures-of-speech definitions as a standalone match. Rhetoric terms are not asked as standalone English MCQs. Key verified. Flagged, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 70,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Figures of speech (alliteration, onomatopoeia, oxymoron) matched standalone. Rhetoric is not in the English lists. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
    "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1,
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Match the Following": 1,
-    "Literary Passage": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Match the Following",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     4,
-    6
+    4,
+    4
    ],
-   "fit_median": 5,
-   "fit_median_raw": 5,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "361f280a-bbd8-4aab-b0c4-22b7adbc85e0": {
    "question_id": "361f280a-bbd8-4aab-b0c4-22b7adbc85e0",
@@ -1815,42 +2533,56 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "Reading Comprehension",
-     "chapter": "Literary Passage",
-     "pyq_closeness": 1,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": null,
-     "fit_score": 5,
-     "fit_flags": [],
-     "note": "Matches poetic terms (enjambment, caesura, refrain, stanza) to definitions. Technical prosody terminology is off the CUET English focus. Key A verified."
+     "est_seconds": 72,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Poetic-term definitions (enjambment, caesura, refrain, stanza) as a standalone match. Not an English paper item. Key verified. Flagged, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Poetic-term definitions (enjambment, caesura, refrain, stanza) are literary terminology, outside the English lexical match lists. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
    "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1,
-    "Reading Comprehension": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Match the Following": 1,
-    "Literary Passage": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Match the Following",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     4,
-    5
+    4,
+    4
    ],
-   "fit_median": 4.5,
-   "fit_median_raw": 4.5,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "46a75100c48da2751b3daa76f73de665": {
    "question_id": "46a75100c48da2751b3daa76f73de665",
@@ -1882,12 +2614,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 103,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word matching (hostile, gregarious, tedious, arduous). Key D verified. Standard CUET vocabulary staple."
+     "note": "Situation-to-word match (arduous, hostile, gregarious, tedious). Key verified. Each entry needs working out, so time 2. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 85,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situation-to-word match (arduous, hostile, gregarious, tedious). Valid vocabulary item, but the wordy situation stems cap it at 8. Key D checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1897,9 +2644,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -1941,14 +2689,31 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Para Jumbles",
-     "pyq_closeness": 1,
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": null,
-     "fit_score": 5,
+     "est_seconds": 87,
+     "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Matches cohesive devices to their functions (writing-skill content). Key B verified. Writing-skill focus is not the CUET English reading or verbal pattern."
+     "note": "Cohesive-device functions (repetition, pronoun reference, transitions, parallelism) as a standalone match: writing-structure analysis, off pattern. Flagged, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Cohesive devices matched to their functions is rhetoric and writing analysis, not a CUET English item. Key B checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1956,23 +2721,21 @@
    "passage_skill": null,
    "unit": "Verbal Ability",
    "unit_votes": null,
-   "chapter": null,
-   "chapter_votes": {
-    "Match the Following": 1,
-    "Para Jumbles": 1
-   },
+   "chapter": "Match the Following",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     4,
-    5
+    4,
+    4
    ],
-   "fit_median": 4.5,
-   "fit_median_raw": 4.5,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "576dc4a91d39eee85df6729f99ed8a96": {
@@ -2005,12 +2768,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 102,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Word-to-description matching (hostile, sporadic, frugal, authentic). Key A verified. Standard CUET vocabulary staple."
+     "note": "Description-to-word match (hostile, sporadic, frugal, authentic). Key verified. Wordier than real lists, so format 2 and time 2. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Meaning-to-word match (hostile, sporadic, frugal, authentic). Valid lexical item, but the long definition stems cap it at 8. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2020,9 +2798,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -2064,12 +2843,29 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 106,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word matching (conscientious, vigilant, concise, gregarious). Key C verified."
+     "note": "Case-to-word match (conscientious, vigilant, concise, gregarious). Key verified. Case stems are longer than real lists. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 106,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Named-character scenes (Asha, Imran, Tara, Kabir) for four adjectives. Story scenes for vocabulary are off pattern for English. Key C checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2079,19 +2875,20 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     4,
-    8
+    8,
+    4
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 2
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 2,
+   "blocking": true
   },
   "5dcebe35b11f524fa86438bfd1152cf1": {
    "question_id": "5dcebe35b11f524fa86438bfd1152cf1",
@@ -2123,12 +2920,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 106,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-adjective matching (arduous, discreet, assertive, benevolent). Key D verified. Repeats Q1 and Q7 vocabulary."
+     "note": "Situation-to-adjective match (arduous, discreet, assertive, benevolent). Key verified. Wordier than real lists. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situation-to-adjective match (arduous, discreet, assertive, benevolent). Valid vocabulary item, wordier than real lists, so it caps at 8. Key D checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2138,9 +2950,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -2180,12 +2993,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 99,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word matching (sparse, versatile, resilient, diligent). Key A verified."
+     "note": "Situation-to-word match (sparse, versatile, resilient, diligent). Key verified. Wordier than real lists. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situation-to-word match (sparse, versatile, resilient, diligent). Valid vocabulary item, wordier than real lists, so it caps at 8. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2195,9 +3023,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -2237,12 +3066,29 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 104,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word matching (hostile, plausible, arrogant, candid). Key B verified."
+     "note": "Situation-to-word match (plausible, hostile, arrogant, candid). Key verified. Wordier than real lists. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 104,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Named-character scenes (Sam, Lee, Mira) for four adjectives. Story scenes for vocabulary are off pattern for English. Key B checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2252,16 +3098,19 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     8,
-    8
+    8,
+    4
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "8557c1f8bc775dbb27a8c2b573a4c270": {
@@ -2294,12 +3143,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
+     "est_seconds": 105,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word matching (plausible, prudent, frugal, conspicuous). Key A verified."
+     "note": "Situation-to-word match (plausible, prudent, frugal, conspicuous). Key verified. Wordier than real lists. Fit 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situation-to-word match (plausible, prudent, frugal, conspicuous). Valid vocabulary item, wordier than CUET lists, so it caps at 8. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2309,9 +3173,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -2353,12 +3218,31 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Correct Word Usage",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": null,
-     "fit_score": 6,
-     "fit_flags": [],
-     "note": "Matches clause types to examples (grammar terminology). Key A verified. Grammar-terminology matching is less CUET-like than word-usage items."
+     "est_seconds": 93,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Clause-type terminology matched to example sentences: grammar-analysis match, not an English paper item. Key verified. Flagged, cap 4."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 93,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Clause-type matching (restrictive, non-restrictive, noun clause, concession) is grammar analysis, not a CUET English match list. Key A checked."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2366,24 +3250,22 @@
    "passage_skill": null,
    "unit": "Verbal Ability",
    "unit_votes": null,
-   "chapter": null,
-   "chapter_votes": {
-    "Match the Following": 1,
-    "Correct Word Usage": 1
-   },
-   "pyq_closeness": 1.5,
+   "chapter": "Correct Word Usage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     4,
-    6
+    4,
+    4
    ],
-   "fit_median": 5,
-   "fit_median_raw": 5,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "a703edc635378894e7004a8d408f429f": {
    "question_id": "a703edc635378894e7004a8d408f429f",
@@ -2402,10 +3284,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 81,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Situation-to-adjective match; key D checks out (concise, candid, coherent, benevolent). Stem is about 120 words, much longer than CUET matching items, so format is 2."
+     "est_seconds": 99,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Scene-to-word match: vocabulary set inside four situations. Real English match lists are word-to-meaning. Off pattern."
     },
     {
      "judge": "h2",
@@ -2420,7 +3304,22 @@
      "est_seconds": 99,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word grid; vocabulary (concise, candid, coherent, benevolent) on a CUET-like 4-option map. Time 99s gives level 2."
+     "note": "Situation-to-word match; real lists pair words with definitions, so this is wordier. Key D checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 99,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situations matched to words, each entry worked out (est 99 s); wordier than CUET lists, so time 2 caps it at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2433,13 +3332,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "a8211db0-f696-445e-b45d-38e38fdd29ce": {
@@ -2457,6 +3359,23 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Figures of speech matched to example sentences: rhetoric analysis as a standalone match, not a CUET English item. Off pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 71,
@@ -2464,10 +3383,10 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Figures-of-speech matching is literary terminology, not a CUET English verbal item; flagged off-pattern. Key A checks out (metonymy, synecdoche, metaphor, personification)."
+     "note": "Figures-of-speech matching is rhetoric, not a CUET English item; off pattern. Key A checks out."
     },
     {
-     "judge": "h2",
+     "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
@@ -2481,7 +3400,7 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Figures-of-speech list match (metonymy, synecdoche); not in the CUET English item set, so off-syllabus for the subject."
+     "note": "Poetic devices matched to examples: rhetoric as a standalone match, not a CUET English item type. Key A checks out."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2491,18 +3410,19 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "b43c82d6619ce97ddbdca183a4d1555d": {
@@ -2522,10 +3442,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 80,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Action-to-quality match; key C checks out (concise, coherent, versatile, conscientious). Long action stems keep format at 2, so score is 8."
+     "est_seconds": 98,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Action-to-quality match on writing and editing; scene-set vocabulary, not the lexical word-to-meaning list. Off pattern."
     },
     {
      "judge": "h2",
@@ -2540,7 +3462,22 @@
      "est_seconds": 98,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Action-to-quality match (concise, coherent, versatile, conscientious); vocabulary-based but written as situations, not CUET wording."
+     "note": "Action-to-quality match; wordier than word-definition lists, otherwise a normal lexical item. Key C checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 98,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Actions matched to concise, coherent, versatile, conscientious; wordy situations, est 98 s, so time 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2553,13 +3490,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "b71e96d2bb78a3ada6a3a46e7129aa05": {
@@ -2579,10 +3519,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 85,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Behaviour-to-adjective match; key C checks out (conscientious, elated, vigilant, arrogant). Descriptive stems are longer than CUET's, so format is 2."
+     "est_seconds": 103,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Behaviour-to-adjective match set in short scenes; real lists are word-to-meaning. Off pattern."
     },
     {
      "judge": "h2",
@@ -2597,7 +3539,22 @@
      "est_seconds": 103,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Behaviour-to-adjective match (vigilant, elated, conscientious, arrogant); situational stems, moderately long for the 72s budget."
+     "note": "Behaviour-to-adjective match; wordier than word-definition lists. Key C checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 103,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Behaviour descriptions matched to adjectives; key C checks out. Scene-style lead-in and est 103 s cap it at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2610,13 +3567,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "b903828e7653c069ceae49279b031b51": {
@@ -2636,10 +3596,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 84,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Situation-to-word match; key A checks out (resilient, concise, coherent, hostile). Stem is long for CUET's short matching items, so format is 2."
+     "est_seconds": 102,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Situation-to-word match with four notices and replies; not the CUET lexical list. Off pattern. Key checked."
     },
     {
      "judge": "h2",
@@ -2654,7 +3616,22 @@
      "est_seconds": 102,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word match (resilient, concise, coherent, hostile); the situational stems add reading load."
+     "note": "Situation-to-word match; wordier than word-definition lists. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Situations matched to resilient, concise, coherent, hostile; key A checks out. Est 102 s, so time 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2667,13 +3644,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "c203c2a940ad8a1d108e7ef7c802b278": {
@@ -2696,7 +3676,7 @@
      "est_seconds": 86,
      "fit_score": 9,
      "fit_flags": [],
-     "note": "Word-to-meaning match in the CUET E1 frame (reluctant, assertive, discreet, transient); key B checks out. Fits a 90 s slot. No ten route claimed."
+     "note": "Word-to-meaning match (reluctant, assertive, discreet, transient), same shape as PYQ q3 with new words. Not a near copy, so no route."
     },
     {
      "judge": "h2",
@@ -2706,12 +3686,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
+     "ten_route": "key_aspect",
+     "est_seconds": 86,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Word-to-meaning match of CUET-level words, the core skill of this chapter; format matches q3. Key B checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
      "ten_route": "cbt_staple",
      "est_seconds": 86,
      "fit_score": 10,
      "fit_flags": [],
-     "note": "Word-to-meaning grid (reluctant, assertive, discreet, transient) in the standard CUET word-meaning form; highly predictable CBT staple at easy level."
+     "note": "Word-to-meaning match (reluctant, assertive, discreet, transient): the CUET staple shape of the Theocracy match, est 86 s."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2721,14 +3716,15 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 2,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     9,
+    10,
     10
    ],
-   "fit_median": 9.5,
-   "fit_median_raw": 9.5,
+   "fit_median": 9,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2751,9 +3747,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 109,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Restatement matching is not a standard CUET matching item; key B checks out. Stem is about 150 words and needs about 109 s, so syllabus, format and time sit at 2."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Message-to-restatement match is a writing skill, not a lexical list. Off pattern, format 1."
     },
     {
      "judge": "h2",
@@ -2763,12 +3761,29 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 0,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 91,
+     "est_seconds": 109,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Message-to-restatement matching; no CUET anchor. Keywords match literally, so elimination is easy."
+     "note": "Sentence-restatement match, not a lexical CUET list, with heavy reading for four entries. Key B checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 109,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Restating notices as a match list is not a CUET English item type; the blueprint match is lexical. Key B checks out."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2778,17 +3793,20 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    6
+    4,
+    6,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "c849acd03ebfad2a2878f7b65f647a2a": {
    "question_id": "c849acd03ebfad2a2878f7b65f647a2a",
@@ -2807,10 +3825,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 83,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Mixed situation and word match; key A checks out (concise, diligent, sparse, reluctant). Long situation stems keep format at 2."
+     "est_seconds": 101,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Scene-to-word match (concise, sparse, diligent, reluctant) set in short situations. Off pattern."
     },
     {
      "judge": "h2",
@@ -2825,7 +3845,22 @@
      "est_seconds": 101,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Situation-to-word match (diligent, sparse, reluctant, concise) with vocabulary at CBT level; situational stems are not CUET wording."
+     "note": "Situation-to-word match; wordier than word-definition lists. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 101,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Notice, situations and words matched (concise, diligent, sparse, reluctant); est 101 s, so time 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2838,13 +3873,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "c8f2eeea-e39f-4272-9ab9-5cd9469c84b2": {
@@ -2862,14 +3900,14 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 0,
+     "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 70,
+     "est_seconds": 88,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Prose-types matching is writing theory, not CUET English verbal ability; flagged off-pattern. Key A checks out (narrative, expository, persuasive, descriptive)."
+     "note": "Prose types matched to their purpose: writing-structure match, not a CUET English item. Off pattern, format 1."
     },
     {
      "judge": "h2",
@@ -2879,14 +3917,31 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 1,
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 88,
+     "est_seconds": 70,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Prose-type to purpose list match; writing-theory content outside the CUET English item set."
+     "note": "Prose-type purposes are writing theory, not a CUET English match; off pattern. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 70,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Prose types matched to purposes: a writing-structure match, not a CUET English item. Key A checks out."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2896,18 +3951,19 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 2
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 2,
+   "flagged_by": 3,
    "blocking": true
   },
   "d2d9953661b99ad9dac4afd2af59a90d": {
@@ -2927,10 +3983,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 99,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Feature-to-word match with a 183-word stem; key B checks out (coherent, concise, sparse, meticulous). About 99 s to answer, so time is 2."
+     "est_seconds": 117,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Case-to-word match with glossed List-II; scene-based vocabulary rather than word-to-meaning. Off pattern."
     },
     {
      "judge": "h2",
@@ -2945,7 +4003,22 @@
      "est_seconds": 117,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Case-to-word match (coherent, concise, sparse, meticulous); the 63s read and long definitional list push time to level 2."
+     "note": "Case-to-word match with the definitions printed in List-II; wordy but a normal lexical item. Key B checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 117,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Cases matched to coherent, concise, sparse, meticulous; 63 s of reading and est 117 s cap it at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2958,13 +4031,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "d717500da583078e515b5b1a457366fd": {
@@ -2987,7 +4063,7 @@
      "est_seconds": 81,
      "fit_score": 9,
      "fit_flags": [],
-     "note": "Word-to-meaning match in the CUET E1 frame (concise, authentic, sceptical, sparse); key A checks out. Clean and short. No ten route claimed."
+     "note": "Word-to-meaning match (concise, authentic, sceptical, sparse): PYQ q3 shape with plain CUET vocabulary. No route, not near copy."
     },
     {
      "judge": "h2",
@@ -2997,12 +4073,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
+     "ten_route": "key_aspect",
+     "est_seconds": 81,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Word-to-meaning match of CUET-level words, the core skill of this chapter; format matches q3. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
      "ten_route": "cbt_staple",
      "est_seconds": 81,
      "fit_score": 10,
      "fit_flags": [],
-     "note": "Word-to-meaning grid (concise, authentic, sceptical, sparse) in the standard CUET form; a predictable CBT staple at easy level."
+     "note": "Word-to-meaning match (concise, authentic, sceptical, sparse) in the Theocracy match shape; key A checks out. Est 81 s."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3012,14 +4103,15 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 2,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     9,
+    10,
     10
    ],
-   "fit_median": 9.5,
-   "fit_median_raw": 9.5,
+   "fit_median": 9,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3044,7 +4136,7 @@
      "est_seconds": 82,
      "fit_score": 9,
      "fit_flags": [],
-     "note": "Word-to-meaning match in the CUET E1 frame (obsolete, benevolent, optimistic, plausible); key C checks out. No ten route claimed."
+     "note": "Word-to-meaning match (obsolete, benevolent, optimistic, plausible): PYQ q3 shape with new words. No route, not near copy."
     },
     {
      "judge": "h2",
@@ -3054,12 +4146,27 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
+     "ten_route": "key_aspect",
+     "est_seconds": 82,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Word-to-meaning match of CUET-level words, the core skill of this chapter; format matches q3. Key C checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
      "ten_route": "cbt_staple",
      "est_seconds": 82,
      "fit_score": 10,
      "fit_flags": [],
-     "note": "Word-to-meaning grid (obsolete, benevolent, optimistic, plausible) in the standard CUET form; a predictable CBT staple at easy level."
+     "note": "Word-to-meaning match (obsolete, benevolent, optimistic, plausible) in the Theocracy match shape; key C checks out. Est 82 s."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3069,14 +4176,15 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 2,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
     9,
+    10,
     10
    ],
-   "fit_median": 9.5,
-   "fit_median_raw": 9.5,
+   "fit_median": 9,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3096,14 +4204,12 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 0,
+     "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 69,
-     "fit_score": 4,
-     "fit_flags": [
-      "off_pattern_for_subject"
-     ],
-     "note": "Figure-of-speech definition match is literary terminology, off the CUET English verbal pattern; flagged. Key A checks out (metaphor, hyperbole, oxymoron, onomatopoeia)."
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Figure-of-speech terms matched to definitions: lexical-style and valid, but figure names are a supporting concept, not core."
     },
     {
      "judge": "h2",
@@ -3113,14 +4219,31 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 1,
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 87,
+     "est_seconds": 69,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Figure-of-speech to definition list match; literary-term content outside the CUET English item set."
+     "note": "Figures-of-speech definitions are rhetoric, not a CUET English item; off pattern. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Figures of speech matched to definitions: rhetoric as a standalone match, not a CUET English item. Key A checks out."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3130,9 +4253,10 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     4,
     4
    ],
@@ -3161,10 +4285,12 @@
      "chapter": "Match the Following",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 82,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Case-to-word match (diligent, meticulous, versatile, hostile); key C checks out. Long case stems keep format at 2."
+     "est_seconds": 100,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Case-to-word match (diligent, meticulous, versatile, hostile) set in short scenes. Off pattern."
     },
     {
      "judge": "h2",
@@ -3179,7 +4305,22 @@
      "est_seconds": 100,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Case-to-word match (diligent, meticulous, versatile, hostile) with vocabulary at CBT level; situational stems are not CUET wording."
+     "note": "Situation-to-word match; wordier than word-definition lists. Key C checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 100,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Cases matched to diligent, meticulous, versatile, hostile; key C checks out. Est 100 s, so time 2 caps at 8."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3192,13 +4333,16 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
     8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "ffab83e7-4806-4a4d-a758-3a90e2afd9c1": {
@@ -3216,14 +4360,14 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 0,
+     "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 72,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Reading-technique matching is study-skills content, not a CUET English verbal item; flagged off-pattern. Key A checks out (skimming, scanning, critical, intensive)."
+     "note": "Reading techniques matched to purposes: study-skills match, not a CUET English item. Off pattern, format 1."
     },
     {
      "judge": "h2",
@@ -3233,14 +4377,31 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Match the Following",
-     "pyq_closeness": 1,
+     "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 90,
+     "est_seconds": 72,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Reading-technique to purpose list match (skimming, scanning); study-skill terms are not a CUET English item type."
+     "note": "Reading-technique match is study-skills content, not a CUET English item; off pattern. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Match the Following",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Reading techniques matched to purposes: a meta-skill match, not a CUET English item type. Key A checks out."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3250,9 +4411,600 @@
    "unit_votes": null,
    "chapter": "Match the Following",
    "chapter_votes": null,
-   "pyq_closeness": 0.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
+  },
+  "056d994754438131e76f75a3c1895aeb": {
+   "question_id": "056d994754438131e76f75a3c1895aeb",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "db3255d94e16b6402a0ececf95061febbe33341843372b341cb5dbab1131c3e2",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail on which speech parts were kept. Passage is about 100 words, well short of the 200-300 CUET length, so format is 2 and no 9."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail, key verified. Passage is 53 words (real narrative sets 200-300), so format 2 caps at 8. Distractors plausible."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail on what was kept after cuts. Passage is about 105 words, half the real 200-300, so format 2 caps it at 8. Same narrative-set family as q17."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "c5961ca1d655542533164e7482307b11": {
+   "question_id": "c5961ca1d655542533164e7482307b11",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "0991d6664066a4ea96d99476ed8689ca144c035f8f2360806a76db96d1736ebb",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference on purpose over sentences; options A, C and D mirror misreadings of the passage. Short passage (about 100 words) caps format at 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference that echoes the closing line; key verified. Passage 76 words (real 200-300), format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inference that purpose outweighed sentences. Short passage (about half real length) gives format 2, so the cap is 8. Same inference family as q20, different idea."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "inference",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "1ed8f3fc9f348753fa08672cfd1d439d": {
+   "question_id": "1ed8f3fc9f348753fa08672cfd1d439d",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "5e545e774fe35fea13880a9f6e8d68022183ea8e82a60533cc9d1b59fa035849",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sequence detail: phone call came before sitting by the window. Option B swaps the order. Short passage, format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sequence detail stated in one sentence; key verified. Options B and C reuse plausible action orders. 81-word passage, format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sequence detail after a decision. Passage is shorter than real sets (format 2) and no route applies, so the cap is 8."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "351b2b5fbb84714d8487272b58aec6df": {
+   "question_id": "351b2b5fbb84714d8487272b58aec6df",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "f8fb7e432df26f216219037d727d84674ad5cb5ea9830ad1d41e5fc844c38209",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct recall of one stated action in the passage. Plausible wrong actions. Passage is short, so format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail, key verified. Options A (waiting for rain) and B (leaving uncovered) are plausible traps. Passage 71 words, format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail on the rain episode with plausible distractors. Short passage (format 2) caps it at 8. No PYQ route."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "288cc9c74867c52469c363a05e6ec5d6": {
+   "question_id": "288cc9c74867c52469c363a05e6ec5d6",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "ecd432cc126782ce465b7c8349acc8e2a6a18de7e5fe653e9d0ba7c3d5cb4da0",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two-step detail: he went to the hall and asked another volunteer to search. Passage is about 90 words, format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Detail needing two linked facts; key verified. Option B (another volunteer takes the costumes) is a plausible trap. 78-word passage, format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Rohan's helping action; option B is a plausible near-miss. Short passage (format 2) caps it at 8."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "a9417080710f69ccf49d5ae0ed8c43c9": {
+   "question_id": "a9417080710f69ccf49d5ae0ed8c43c9",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "5686bb19854910e93c74e893c12e8e99d07f8f6143bb9e10d55bebd71ac7e183",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reason for waiting is linked to the repairer's warning. Passage is short, format 2. Row has set_id null but passage_text is printed."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "inference",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reason must be linked from the repairer's warning; key verified. Option A (electrical work needing time) is a plausible trap. 80-word passage, format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 68,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reason for waiting, stated in the repairer's warning. Short passage (format 2) caps it at 8. Row has no set_id but shares the Mira passage."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "c7215261f1e55247d54ae4ebcfa5c7db": {
+   "question_id": "c7215261f1e55247d54ae4ebcfa5c7db",
+   "batch": "english__narrative-passage__01",
+   "db_chapter": "Narrative Passage",
+   "content_hash": "852aa2bf84ba9921f70ff3e5b89d4eeebca897b613ee483bb7ff28f4ce82813a",
+   "engine_type_guess": "passage_set_item",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail: captains checked recorded deliveries. Replay option is contrasted in the passage. Short passage, format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail, key verified. Options B and C deny what the passage states, so they are only plausible on a skim. 63-word passage, format 2 caps at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "passage_set_item",
+     "passage_skill": "detail",
+     "unit": "Reading Comprehension",
+     "chapter": "Narrative Passage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct detail on the captains' check. Option B contradicts the text but is plausible. Short passage (format 2) caps it at 8."
+    }
+   ],
+   "cuet_type": "passage_set_item",
+   "cuet_type_votes": null,
+   "passage_skill": "detail",
+   "unit": "Reading Comprehension",
+   "unit_votes": null,
+   "chapter": "Narrative Passage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "0247258de456a670df19039e3a2c4dfa": {
+   "question_id": "0247258de456a670df19039e3a2c4dfa",
+   "batch": "english__para-jumbles__01",
+   "db_chapter": "Para Jumbles",
+   "content_hash": "b233229cf7119be146e977c16b4e38f58801fd07c0a567b63284bfa27cfb002a",
+   "engine_type_guess": "sentence_rearrangement",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four-sentence chronological account, not the one-sentence phrase form of the exemplars. Format 2 caps at 8. Key D verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Chronology of a fictional label story; sequence_ordering is not an English paper type and the item is four full sentences."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence story account to order; CUET English jumbles phrases of one sentence (like q1). Off pattern, capped at 4."
+    }
+   ],
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
     4,
     4
    ],
@@ -3264,53 +5016,6 @@
    "flagged_by": 2,
    "blocking": true
   },
-  "0247258de456a670df19039e3a2c4dfa": {
-   "question_id": "0247258de456a670df19039e3a2c4dfa",
-   "batch": "english__para-jumbles__01",
-   "db_chapter": "Para Jumbles",
-   "content_hash": "b233229cf7119be146e977c16b4e38f58801fd07c0a567b63284bfa27cfb002a",
-   "engine_type_guess": "sentence_rearrangement",
-   "judges": [
-    {
-     "judge": "h2",
-     "model": "claude-haiku-5-5",
-     "date": "2026-10-13",
-     "cuet_type": "sentence_rearrangement",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Para Jumbles",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 60,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Full-sentence chronological sequence, not CUET phrase form; format 2 caps at 8. Key D (B-D-A-C) verified; the story order is clear and the distractors are plausible."
-    }
-   ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
-   "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
-   "pyq_closeness": 1,
-   "ten_route": null,
-   "fit_scores": [
-    8
-   ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
-  },
   "026f366a-b507-4d21-83d2-e76cf97eb315": {
    "question_id": "026f366a-b507-4d21-83d2-e76cf97eb315",
    "batch": "english__para-jumbles__01",
@@ -3319,7 +5024,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3328,34 +5033,64 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 45,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Policy paragraph jumble with clear cues (Yet, This, Consequently). Multi-sentence and wordier than exemplars, so format 2 caps at 8. Key A verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Four full sentences, easy level; cue words (Yet, This, Consequently) make the order obvious. Key A (CDAB) verified. Practice-grade, not NTA-grade."
+     "note": "Four-sentence paragraph jumble; real English rearrangement uses one-sentence fragments. Key A checked: C-D-A-B fits."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four full expository sentences to order into a paragraph; real English jumbles are one-sentence phrase sets (like q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    6
+    8,
+    6,
+    4
    ],
    "fit_median": 6,
    "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "05fac976-9fae-4d48-84f5-9efdc640ae30": {
@@ -3366,7 +5101,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3375,34 +5110,64 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 45,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Public-communication paragraph; Therefore, However and This fix the order. Multi-sentence, so format 2 caps at 8. Key B verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Four full sentences, easy; However/Therefore/This signal the order. Key B (BACD) verified. Obvious by elimination, practice-grade."
+     "note": "Four-sentence paragraph jumble with connectives; real English rearrangement uses one-sentence fragments. Key B checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four full sentences of policy argument to order; connectives make it easy, but a multi-sentence paragraph is not a CUET one-sentence jumble (cf q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    6
+    8,
+    6,
+    4
    ],
    "fit_median": 6,
    "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "09513d692e04a2ab548d0c5f21434fc4": {
@@ -3413,7 +5178,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3422,35 +5187,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 55,
-     "fit_score": 7,
+     "est_seconds": 69,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Full-sentence narrative sequence; First/then/Finally signposting does most of the work. Key D (B-C-A-D) verified. Format 2."
+     "note": "Editing account with explicit First, then and Finally cues. Fictional framing is an extra clause; format 2 caps at 8. Key D verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Fictional audio-editing sequence; sequence_ordering is not in the English paper, so off pattern. Key D checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence account of an audio editing process; CUET English uses one-sentence phrase jumbles (like q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "21ffdb2198b350582fa6e53d8a820211": {
    "question_id": "21ffdb2198b350582fa6e53d8a820211",
@@ -3460,7 +5257,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3469,35 +5266,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 7,
+     "est_seconds": 89,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Medium referential chain (this match, that number). Key B (D-C-A-B) verified. Same parcel story as items 3 and 6 of this batch, so repeated content."
+     "note": "Parcel account with cross-references (this match, that count). Same Ravi scene as 6e656692 and 850ff821 in this batch. Format 2 caps at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Parcel story; sequence_ordering is not in the English paper. Same story as 6e656692 and 850ff821."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence parcel account with a 'this match' back-reference; CUET English uses one-sentence phrase jumbles. Off pattern. Parcel story repeats in q9 and q11."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "3614eade-0e16-4965-b98e-86c223cca196": {
    "question_id": "3614eade-0e16-4965-b98e-86c223cca196",
@@ -3507,7 +5336,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3516,34 +5345,64 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 50,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Digital-literacy paragraph; However and Thus fix the order. Multi-sentence and wordier than exemplars, so format 2 caps at 8. Key A verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Four full sentences, easy; However and Thus make the opener and closer obvious. Key A (BACD) verified. Practice-grade."
+     "note": "Four-sentence paragraph jumble on information and digital literacy; wordier than real fragment items. Key A checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four full sentences of education-policy argument to order into a paragraph; not a one-sentence CUET jumble (cf q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    6
+    8,
+    6,
+    4
    ],
    "fit_median": 6,
    "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "3840664fceb9afc9c36309542c0ab16f": {
@@ -3554,7 +5413,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3563,35 +5422,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 7,
+     "est_seconds": 90,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Full-sentence sequence with a fictional-class framing, which is a generation tell. Same teacher-titles story as item 13. Key D (B-D-A-C) verified."
+     "note": "Titles-vote account; near-duplicate of f7119751 (same scene, same story) in this batch. Format 2 caps at 8. Key D verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Class story on choosing titles; sequence_ordering is off pattern for English. Near-duplicate of f7119751."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence class-vote account with an 'Only then' cue; CUET English rearranges phrases of one sentence (like q1). Off pattern. Vote story repeats in q13."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "39e09ce54267c6d56a9b954d8bf3ed1c": {
    "question_id": "39e09ce54267c6d56a9b954d8bf3ed1c",
@@ -3601,7 +5492,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3610,35 +5501,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 55,
-     "fit_score": 7,
+     "est_seconds": 68,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Fictional-rehearsal framing and First/then/Finally cues. Key B (D-C-A-B) verified. Format 2."
+     "note": "Fictional rehearsal account with explicit cues (after reading it, then, finally). Multi-sentence, so format 2 caps at 8. Key B verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Rehearsal story sequence; sequence_ordering is off pattern for English. Key B checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence fictional rehearsal account; a multi-sentence story sequence, not the CUET one-sentence jumble (cf q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "6e65669238f8a31b656dbe0e711a7e70": {
    "question_id": "6e65669238f8a31b656dbe0e711a7e70",
@@ -3648,7 +5571,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3657,35 +5580,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 7,
+     "est_seconds": 89,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Same parcel story as items 5 and 11 of this batch, so repeated content in one paper. Key D (C-D-A-B) verified."
+     "note": "Ravi parcel account, same scene as 21ffdb21 and 850ff821 in this batch. Multi-sentence, so format 2 caps at 8. Key D verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Parcel story labelled a paragraph; sequence_ordering is off pattern for English. Same story as 21ffdb21 and 850ff821. Key D checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence parcel account; a multi-sentence story sequence, not a CUET one-sentence jumble (cf q1). Off pattern. Parcel story repeats in q5 and q11."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "843dbff98d887fa97d091dd73de2b1c0": {
    "question_id": "843dbff98d887fa97d091dd73de2b1c0",
@@ -3695,7 +5650,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3704,35 +5659,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 7,
+     "est_seconds": 90,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Fictional class project framing; Using that measurement and Only after link the order clearly. Key A (B-D-A-C) verified."
+     "note": "Display-board account; Only after and Using that measurement give the cues. Multi-sentence, so format 2 caps at 8. Key A verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Display-board steps with time cues; sequence_ordering is off pattern for English. Key A checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence fictional board-mounting account; multi-sentence story sequence, not a CUET one-sentence jumble (cf q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "850ff821eb18ed00ba2aff76d05c04fa": {
    "question_id": "850ff821eb18ed00ba2aff76d05c04fa",
@@ -3742,7 +5729,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3751,35 +5738,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 70,
-     "fit_score": 6,
+     "est_seconds": 94,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Stem says it is a fictional account and repeats the parcel story of items 5 and 9. Key A (C-A-D-B) verified. Format 2 plus repetition."
+     "note": "Parcel stages with cross-references; est 94 s gives time 2. Stem says fictional account, which real papers do not print. Format 2 caps at 8. Key A verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 94,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Parcel story at 94 s; sequence_ordering is off pattern for English. Same story as 21ffdb21 and 6e656692. Key A checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 94,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Third parcel-story item in this batch (see q5, q9), four full sentences with cross-references; not a CUET one-sentence jumble. Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    6
+    8,
+    4,
+    4
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "b828abf0-d2bf-4797-85b5-6dfad65729c2": {
    "question_id": "b828abf0-d2bf-4797-85b5-6dfad65729c2",
@@ -3789,7 +5808,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3798,34 +5817,64 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 50,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Digital-reading paragraph; Such habits ties D after C. Multi-sentence and wordier than exemplars, so format 2 caps at 8. Key B verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
      "fit_score": 6,
      "fit_flags": [],
-     "note": "Four full sentences, easy; However and Without such habits give the order away. Key B (BACD) verified. Obvious by elimination."
+     "note": "Four-sentence paragraph jumble on reading habits; wordier than real fragment items. Key B checked."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four full sentences of digital-reading argument to order into a paragraph; not a one-sentence CUET jumble (cf q1). Off pattern."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    6
+    8,
+    6,
+    4
    ],
    "fit_median": 6,
    "fit_median_raw": 6,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "f7119751c3481939c8fbb406810d5ff1": {
@@ -3836,7 +5885,7 @@
    "engine_type_guess": "sentence_rearrangement",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "sentence_rearrangement",
@@ -3845,35 +5894,67 @@
      "chapter": "Para Jumbles",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 7,
+     "est_seconds": 91,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Same teacher-titles story as item 7, so repeated content. Key A (C-B-D-A) verified. Only after and after those votes give the order."
+     "note": "Titles-vote account, near-duplicate of 3840664f (same story). est 91 s gives time 2. Format 2 caps at 8. Key A verified."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Class titles story at 91 s; sequence_ordering is off pattern for English. Near-duplicate of 3840664f."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "sentence_rearrangement",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Para Jumbles",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four-sentence class-vote account, est 91 s; not a CUET one-sentence jumble. Off pattern. Repeats the vote story of q7."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "sentence_rearrangement": 1
-   },
+   "cuet_type": "sentence_rearrangement",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Para Jumbles": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Para Jumbles",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    7
+    8,
+    4,
+    4
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 2
+   },
+   "flagged_by": 2,
+   "blocking": true
   },
   "21380dd66b3bbb0f1ed0379e901ffe14": {
    "question_id": "21380dd66b3bbb0f1ed0379e901ffe14",
@@ -3893,33 +5974,63 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 57,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Reviewer-scenario antonym for 'inevitable' with single-word options; CUET prints the word alone. Off pattern. Closest is q47 shape."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 57,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Single-word antonym inside a 42-word contextual stem. Key B checks out. Unavoidable is a fair trap. The stem is wordier than CUET's one-line antonym form."
+     "note": "Antonym after a short scene, single-word options like q47. Scene is wordier than real items; a small weakness only."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Antonym set in a reviewer scenario; single-word options are real but real items print the word alone. Format 1 caps at 6."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8
+    4,
+    8,
+    6
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "26e2b72eb0f16c31868306372d610d2d": {
@@ -3944,34 +6055,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Phrase-length options and a multi-sentence scenario for an antonym. Key B is correct. CUET vocabulary antonyms use single-word options."
+     "note": "Rina scene with phrase-length options for 'reluctant'; real antonym items print the word with single-word options. Off pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Story scene with long phrase options for an antonym; real CUET prints the word with single-word options."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Story scene with phrase-length options for an antonym; real CUET prints the word with single-word options. Flagged off pattern, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "2c9a16eb863b2309b1735321aa43d938": {
    "question_id": "2c9a16eb863b2309b1735321aa43d938",
@@ -3991,33 +6132,63 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 59,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Handover-note scene for 'concise' with single-word options; the scene framing is off pattern. 'brief' is a near-synonym trap."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 59,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Single-word antonym of concise in a report-draft stem. Key wordy is correct. Brief is a good synonym trap. The stem is longer than CUET's form."
+     "note": "Planning scene before a single-word antonym of concise; wordier than real items with a CUET-like option set."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Single-word antonym inside a handover-note scenario; the word itself is direct recall but the frame is not CUET style. Format 1 caps at 6."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8
+    4,
+    8,
+    6
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "34187742884e82ff04925abfef8b10d4": {
@@ -4042,34 +6213,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Phrase-length options and a 70-word scenario for an antonym. Key B is correct. Off-pattern for the single-word antonym format."
+     "note": "Two-sentence Leena scene and phrase options for 'prudent'; real antonym items print the word with single-word options. Off pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Story scene with long phrase options for an antonym of prudent; real CUET prints single-word options."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Three-sentence scene with phrase-length options and as-used-here wording; real antonym items print a single-word option set. Flagged, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "40f5a079c78b73071b6f8e88df589c6e": {
    "question_id": "40f5a079c78b73071b6f8e88df589c6e",
@@ -4093,34 +6294,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Phrase options and a story frame for an antonym. Key D is correct. Option B is related but not opposite. Off-pattern for CUET single-word antonyms."
+     "note": "Night-watch scene and phrase options for 'vigilant'; the stem cue is strong. Off pattern for a CUET vocabulary item."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Night-watch scene with phrase-length antonym options; off the real single-word format."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Night-watch story with phrase options for an antonym of vigilant; real CUET prints the word with single-word options. Flagged, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "b555ce7a9098df8538f567506fbaa36e": {
    "question_id": "b555ce7a9098df8538f567506fbaa36e",
@@ -4144,34 +6375,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Phrase options and a design-review story for an antonym. Key A is correct. Off-pattern for CUET single-word vocabulary items."
+     "note": "Design-review scene and phrase options for 'arrogant'; the key is sound but the shape is not a CUET antonym item. Off pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Design-review scene with phrase options for an antonym of arrogant; real CUET uses single-word options."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "antonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Design-review story with phrase options for an antonym of arrogant; not the CUET word-plus-single-word shape. Flagged off pattern, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "antonym": 1
-   },
+   "cuet_type": "antonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "08c9dff7d4a536b90a7b7ad46e092703": {
    "question_id": "08c9dff7d4a536b90a7b7ad46e092703",
@@ -4195,34 +6456,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Phrase options for a synonym. Option A partly fits discreet, so the distractor is weak. Key C fits the secret-keeping context. Off-pattern for CUET."
+     "note": "Mira scene with phrase options for 'discreet'; real synonym items print the word with single-word options. Off pattern. Closest is q46."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Colleague scene with phrase options for discreet; same shape as the bridge-scene pattern, real CUET prints the word."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Colleague-secret story with phrase options for discreet as used here; same pattern as the known off-pattern example. Real CUET prints the word with single-word options."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "synonym": 1
-   },
+   "cuet_type": "synonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "6e80d3335e51535eb61880c52b32caa5": {
    "question_id": "6e80d3335e51535eb61880c52b32caa5",
@@ -4246,34 +6537,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Clean stem and key C is correct, with D as a good antonym trap. Phrase-length options are off-pattern: CUET synonym options are single words."
+     "note": "Village delivery scene with phrase options for 'inevitable'; real synonym items print the word alone. Off pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Bridge-closure scene with phrase options for inevitable, as used here; real CUET prints the word with single-word options."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Multi-sentence bridge scene with phrase options for inevitable; real synonym items are one sentence with a single-word option set. Flagged, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "synonym": 1
-   },
+   "cuet_type": "synonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "6f8be5461f535165ed7de1f7d8beecf8": {
    "question_id": "6f8be5461f535165ed7de1f7d8beecf8",
@@ -4297,34 +6618,64 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Key B is correct. Option C is a plausible partial match, so the distractor is fair. Phrase-length options are off-pattern for a CUET synonym."
+     "note": "Wildlife-camp scene with phrase options for 'vigilant'; key B is sound but the shape is off pattern for English vocabulary."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Wildlife-camp scene with phrase options for vigilant; off the real word-plus-single-word format."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Wildlife-camp scene with phrase options for vigilant; the stem paraphrases the key, so discrimination is weak. Not CUET shape. Flagged, cap 4."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "synonym": 1
-   },
+   "cuet_type": "synonym",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Verbal Ability": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Vocabulary": 1
-   },
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    4,
+    4,
     4
    ],
    "fit_median": 4,
    "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 3
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 3,
+   "blocking": true
   },
   "841d7cfaa48c0eedf1f6b093489b1542": {
    "question_id": "841d7cfaa48c0eedf1f6b093489b1542",
@@ -4334,6 +6685,23 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Three-sentence crew story set before 'arduous' with 'as used here'; real CUET prints the word in one sentence. Flag off_pattern."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4344,9 +6712,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 56,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Synonym of a CUET-level word, but the stem is a multi-sentence vignette, not the short CUET synonym form. Key correct; lengthy and unpleasant are weaker distractors."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Story scene (crew, supplies, steep route) before a one-word synonym. Real items print the word alone. Off pattern, format 1."
     },
     {
      "judge": "h3",
@@ -4356,12 +6726,14 @@
      "passage_skill": null,
      "unit": "Verbal Ability",
      "chapter": "Vocabulary",
-     "pyq_closeness": 2,
+     "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 56,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Single-word synonym options in a multi-sentence supply scene; longer than CUET's one-line form. Key clear from context; no flag."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Three-sentence crew story framing a one-word synonym; real synonym items print the word alone. Off-pattern flag caps it at 4."
     }
    ],
    "cuet_type": "synonym",
@@ -4371,17 +6743,20 @@
    "unit_votes": null,
    "chapter": "Vocabulary",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    8
+    4,
+    4,
+    4
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
   },
   "88203504d8681843ed4741d2cb2b5aba": {
    "question_id": "88203504d8681843ed4741d2cb2b5aba",
@@ -4391,6 +6766,23 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Story scene (meeting, Devika, chair) with phrase-length options and 'as used here'; the B pattern. Flag off_pattern."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4401,9 +6793,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 65,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Contextual vignette with phrase options; CUET uses single-word or short-phrase options. Key correct; distractors are clearly separable."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Meeting scene with phrase-length options for 'candid'. Real synonym items use single-word options. Off pattern, format 1."
     },
     {
      "judge": "h3",
@@ -4416,9 +6810,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 65,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Phrase-length definition options on a 69-word scene; not CUET's single-word synonym form. Mild format drift, no blocking flag."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Meeting story with phrase-length options for a one-word skill; real synonym items use single-word options. Off-pattern, capped at 4."
     }
    ],
    "cuet_type": "synonym",
@@ -4431,14 +6827,17 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    8
+    4,
+    4,
+    4
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
   },
   "88ed950b9b61ccadc5096692b8695217": {
    "question_id": "88ed950b9b61ccadc5096692b8695217",
@@ -4448,6 +6847,23 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Stored type 'meaning in context' is not a CUET type; judged synonym. Reviewers story with phrase options. Flag off_pattern."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4458,9 +6874,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 64,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Two-reviewer vignette with phrase options; the item type is labelled meaning in context, mapped to synonym. Key correct; option B is a useful ambiguity distractor."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Stored type 'meaning in context' is not a paper type; the item is a synonym. Reviewer scene with phrase options. Off pattern, format 1."
     },
     {
      "judge": "h3",
@@ -4473,9 +6891,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 64,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Meaning-in-context item with phrase options and a two-reviewer scene; coded synonym, the blueprint has no meaning-in-context type. Mild drift."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Stored type 'meaning in context' is not a paper type, so written as synonym. Reviewers story with phrase options; off-pattern, capped at 4."
     }
    ],
    "cuet_type": "synonym",
@@ -4488,14 +6908,17 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    8
+    4,
+    4,
+    4
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
   },
   "8db859a1b7eab5aac1eb13818e0863fc": {
    "question_id": "8db859a1b7eab5aac1eb13818e0863fc",
@@ -4505,7 +6928,7 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "synonym",
@@ -4517,7 +6940,22 @@
      "est_seconds": 56,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Stem says 'Read the sentence and choose...', not the CUET wording. Key correct; the stem's few villages and long gaps point to scattered, and the antonym distractors are easy to reject."
+     "note": "One-sentence synonym with single-word options; 'as used here' wording and no underlined word, so format 2 caps it at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One sentence, 'closest in meaning as used here', single-word options. Wordier than the 'replace the underlined word' shape. Format 2 caps at 8."
     },
     {
      "judge": "h3",
@@ -4529,10 +6967,10 @@
      "chapter": "Vocabulary",
      "pyq_closeness": 2,
      "ten_route": null,
-     "est_seconds": 56,
-     "fit_score": 9,
+     "est_seconds": 38,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Single-word options in one context sentence, close to CUET's synonym format. Scattered is the key; Clustered and Dense are plausible traps."
+     "note": "Two-sentence contextual synonym with single-word options, same shape as q5 but wordier. Valid CUET form; not a 9 because of the extra context."
     }
    ],
    "cuet_type": "synonym",
@@ -4542,14 +6980,15 @@
    "unit_votes": null,
    "chapter": "Vocabulary",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 2,
    "ten_route": null,
    "fit_scores": [
     8,
-    9
+    8,
+    8
    ],
-   "fit_median": 8.5,
-   "fit_median_raw": 8.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4562,6 +7001,23 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Student review quote as a scene for 'coherent', with phrase-length options and 'as used here'. Flag off_pattern."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4572,9 +7028,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 63,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Student-review quotation vignette; not the CUET form. Key correct; the stem's logical, clear description is close to the key wording."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Quoted two-sentence review scene with phrase options for 'coherent'. Off pattern for a one-word synonym item, format 1."
     },
     {
      "judge": "h3",
@@ -4587,9 +7045,11 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 63,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Student-review quote with phrase-length options; mild format drift, no blocking flag. Meaning of coherent is direct from the context."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Student review quoted as a scene, with phrase-length options; real synonym items print the word with single-word options. Off-pattern, capped at 4."
     }
    ],
    "cuet_type": "synonym",
@@ -4602,14 +7062,17 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    8
+    4,
+    4,
+    4
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
   },
   "c696b0691dcda100924ef54aad29a825": {
    "question_id": "c696b0691dcda100924ef54aad29a825",
@@ -4619,7 +7082,7 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "synonym",
@@ -4631,7 +7094,22 @@
      "est_seconds": 35,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Short single-sentence vignette. Key correct, but the stem paraphrases the key ('carefully limiting spending'), so discrimination is low."
+     "note": "One sentence, single-word options, close to real synonym items; 'in this sentence' stem is wordier, so format 2 caps it at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 53,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One-sentence context with single-word options, close to the in-sentence synonym shape. Two distractors are clearly off. Format 2 caps at 8."
     },
     {
      "judge": "h3",
@@ -4643,10 +7121,10 @@
      "chapter": "Vocabulary",
      "pyq_closeness": 2,
      "ten_route": null,
-     "est_seconds": 53,
+     "est_seconds": 35,
      "fit_score": 9,
      "fit_flags": [],
-     "note": "One context sentence with single-word options, close to CUET's synonym form. Economical is clear; the other three are distinct."
+     "note": "One-sentence contextual synonym with single-word options, same shape as q5 and direct recall. Strong fit; no route since the word is not a known staple."
     }
    ],
    "cuet_type": "synonym",
@@ -4656,14 +7134,15 @@
    "unit_votes": null,
    "chapter": "Vocabulary",
    "chapter_votes": null,
-   "pyq_closeness": 1.5,
+   "pyq_closeness": 2,
    "ten_route": null,
    "fit_scores": [
     8,
+    8,
     9
    ],
-   "fit_median": 8.5,
-   "fit_median_raw": 8.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4676,6 +7155,21 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direct 'What is the meaning of' with definition-phrase options; real items use single-word options. Format 2 caps it at 8."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4688,7 +7182,7 @@
      "est_seconds": 34,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Bare 'What is the meaning of' definition stem with phrase options; CUET uses 'Choose the correct SYNONYM for X'. Key correct and unambiguous. explanation field is null."
+     "note": "Bare meaning-of-word item with phrase definitions, not the single-word synonym shape. Distractors mostly unrelated. Format 2 caps at 8."
     },
     {
      "judge": "h3",
@@ -4703,7 +7197,7 @@
      "est_seconds": 34,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Plain word-meaning question with phrase definitions, not the CUET wording. The explanation field is null; judged on the stem and options."
+     "note": "Bare word meaning with phrase-length definitions and no story; real synonym items use single words. Same chapter family as q48, different form."
     }
    ],
    "cuet_type": "synonym",
@@ -4716,6 +7210,7 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -4733,7 +7228,7 @@
    "engine_type_guess": "synonym",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "synonym",
@@ -4743,53 +7238,13 @@
      "pyq_closeness": 1,
      "ten_route": null,
      "est_seconds": 57,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Museum-visit vignette with single-word options, longer than CUET form. Key correct; vigilant, optimistic and ambiguous are clearly off."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Museum visit story (Leena, guide) before 'inquisitive' with 'in this context'. Scene for a one-word skill. Flag off_pattern."
     },
     {
-     "judge": "h3",
-     "model": "claude-haiku-5-5",
-     "date": "2026-10-13",
-     "cuet_type": "synonym",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Vocabulary",
-     "pyq_closeness": 2,
-     "ten_route": null,
-     "est_seconds": 57,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Museum scene with single-word options; the stem supports curious, but the scene is longer than CUET's one-line vocabulary form."
-    }
-   ],
-   "cuet_type": "synonym",
-   "cuet_type_votes": null,
-   "passage_skill": null,
-   "unit": "Verbal Ability",
-   "unit_votes": null,
-   "chapter": "Vocabulary",
-   "chapter_votes": null,
-   "pyq_closeness": 1.5,
-   "ten_route": null,
-   "fit_scores": [
-    8,
-    8
-   ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
-  },
-  "ede22f8e1fcb4240734c14efa7b7b556": {
-   "question_id": "ede22f8e1fcb4240734c14efa7b7b556",
-   "batch": "english__vocabulary__02",
-   "db_chapter": "Vocabulary",
-   "content_hash": "c3c10a6b24ebf97d247afa230a646445095911f8e235b9da2f09e9221a19bfa3",
-   "engine_type_guess": "synonym",
-   "judges": [
-    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4799,10 +7254,12 @@
      "chapter": "Vocabulary",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 63,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Residents' club vignette with phrase options, not the CUET form. Key correct; option C (warmth and kindness) is a fair near-miss distractor."
+     "est_seconds": 57,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Museum-visit scene before a one-word synonym for 'inquisitive'. Off pattern, format 1. Option casing is inconsistent, a slip only."
     },
     {
      "judge": "h3",
@@ -4814,10 +7271,12 @@
      "chapter": "Vocabulary",
      "pyq_closeness": 1,
      "ten_route": null,
-     "est_seconds": 63,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Residents' club scene with phrase-length options; the stem points to the meaning. Format drift only, no blocking flag."
+     "est_seconds": 57,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Museum-visit story framing a one-word skill (inquisitive); the English blueprint does not use story scenes for vocabulary. Off-pattern, capped at 4."
     }
    ],
    "cuet_type": "synonym",
@@ -4830,14 +7289,98 @@
    "pyq_closeness": 1,
    "ten_route": null,
    "fit_scores": [
-    8,
-    8
+    4,
+    4,
+    4
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
+  },
+  "ede22f8e1fcb4240734c14efa7b7b556": {
+   "question_id": "ede22f8e1fcb4240734c14efa7b7b556",
+   "batch": "english__vocabulary__02",
+   "db_chapter": "Vocabulary",
+   "content_hash": "c3c10a6b24ebf97d247afa230a646445095911f8e235b9da2f09e9221a19bfa3",
+   "engine_type_guess": "synonym",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Residents' club story (Nisha, friends) before 'gregarious' with phrase options and 'as used here'. Flag off_pattern."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Club-life scene with phrase options for 'gregarious'. Real synonym items print the word with single-word options. Off pattern, format 1."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "synonym",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Vocabulary",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Residents' club story with phrase-length options for gregarious; real synonym items print the word with single-word options. Off-pattern, capped at 4."
+    }
+   ],
+   "cuet_type": "synonym",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Vocabulary",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    4,
+    4,
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 3
+   },
+   "flagged_by": 3,
+   "blocking": true
   }
  }
 }

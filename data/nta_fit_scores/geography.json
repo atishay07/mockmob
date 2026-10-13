@@ -3,26 +3,26 @@
  "subject": "geography",
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
- "rubric_sha256": "a03b6612289a79a907fe0ea1b55c02c7cab632adf87b5d8c20a74ac7b1491bf2",
- "merged_at": "2026-10-13T20:05:39.269Z",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "merged_at": "2026-10-13T21:16:42.932Z",
  "models": [
   "claude-haiku-5-5"
  ],
- "status": "partial",
+ "status": "complete",
  "measures": {
   "questions_in_fit_batches": 95,
-  "judged": 85,
-  "judged_by_three": 30,
-  "missing_result_files": 17,
-  "fit_pass_at_8": 26,
-  "fit_pass_at_9": 4,
-  "blocking_flagged": 0,
-  "majority_type": 30,
+  "judged": 95,
+  "judged_by_three": 95,
+  "missing_result_files": 0,
+  "fit_pass_at_8": 90,
+  "fit_pass_at_9": 28,
+  "blocking_flagged": 2,
+  "majority_type": 95,
   "no_majority_type": 0,
   "engine_type_disagrees_with_majority": 0,
   "engine_type_disagreement_pct": 0,
   "no_majority_chapter": 0,
-  "ten_route_agreed": 0,
+  "ten_route_agreed": 13,
   "tens_capped_without_agreed_route": 1
  },
  "questions": {
@@ -58,12 +58,10 @@
      "chapter": "Resources & Development",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 38,
-     "fit_score": 4,
-     "fit_flags": [
-      "off_pattern_for_subject"
-     ],
-     "note": "One-step division (500/25=20) on reserve lifespan. Plain arithmetic is not a Geography paper form. Option labels are repeated inside the text."
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reserve lifespan (500/25 = 20). Moved to Resources & Development (reserves). Numerical is rare for Geography; options repeat letters ('A 10 years'). One division."
     },
     {
      "judge": "h3",
@@ -92,15 +90,13 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    4,
+    8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {
-    "off_pattern_for_subject": 1
-   },
-   "flagged_by": 1,
+   "fit_flags": {},
+   "flagged_by": 0,
    "blocking": false
   },
   "b829b6fc-3e59-4f03-a020-722b119a3ecb": {
@@ -136,11 +132,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 58,
-     "fit_score": 4,
-     "fit_flags": [
-      "off_pattern_for_subject"
-     ],
-     "note": "Per capita water (50e9 m3 / 50e6 people, with unit scaling) on the water-scarcity theme. Numerical item, not a typical Geography paper form. Option labels are repeated inside the text."
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Per capita water availability (50bn m3 / 50m people = 1,000 m3), a water scarcity indicator in the chapter. One division; numerical is rare for Geography; options repeat letters."
     },
     {
      "judge": "h3",
@@ -169,15 +163,13 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    4,
+    8,
     8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {
-    "off_pattern_for_subject": 1
-   },
-   "flagged_by": 1,
+   "fit_flags": {},
+   "flagged_by": 0,
    "blocking": false
   },
   "0c0d75bb-dd3d-4fff-9146-b4fe0b75877f": {
@@ -187,6 +179,21 @@
    "content_hash": "afc3c1a387ef09cc68b8f9751490aa8a816d8f41b4e011f4dfba446e708ddf0c",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 44,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Natural increase vs growth rate definition, a core population idea. Options are long and wordy (format 2), so no 10 route. Chapter corrected from Human Development."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -201,24 +208,35 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Natural increase vs growth rate is a core population definition. Long full-sentence options keep format at 2. Chapter moved to Population."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 44,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Core definitions of natural increase and growth rate. Options are long sentences, not the usual CUET shape (format 2), so capped at 8. Chapter moved to Population."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -235,6 +253,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Rule of 70 doubling-time shortcut is not a standard geography method, so syllabus 2 and level 2. Fair numerical in population growth. Chapter corrected from Human Development."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -248,24 +281,35 @@
      "fit_score": 6,
      "fit_flags": [],
      "note": "Rule-of-70 doubling time is a finance formula, peripheral to NCERT geography (syllabus 1, cap 6). Key 28 checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Rule of 70 is a finance shortcut, not geography content (syllabus 1), so capped at 6. Key 28 checks out. Chapter moved to Population."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    6,
     6
    ],
    "fit_median": 6,
@@ -282,6 +326,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 55,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Arithmetic density as population over area is a standard CBSE board numerical, so board route. Chapter corrected from Human Development."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -295,27 +354,38 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Arithmetic density (population/area) is a standard CBT calculation asked repeatedly. Direct two-step item. Chapter moved to Population."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 55,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Arithmetic density is one division, a textbook CBT formula asked year after year. Route cbt_staple. Chapter moved to Population."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
+    10,
+    10,
     10
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -328,6 +398,21 @@
    "content_hash": "57659703ad77b32c75588dfc822760befcf5d007146449cbc3f76dd2f914fd83",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Geography - Nature and Scope",
+     "chapter": "Human Geography — Nature & Scope",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 39,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Tests the scope of human geography, the core idea of the Nature and Scope chapter. Key_aspect route. Chapter corrected from Human Development."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -342,27 +427,38 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Tests the scope of human geography, the key idea of the chapter; soil formation is the physical-geography distractor. Chapter moved to Nature & Scope."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Geography - Nature and Scope",
+     "chapter": "Human Geography — Nature & Scope",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 57,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Tests the scope of human geography, a core Nature and Scope idea; the distractor set is clean. Key C (soil formation) checks out. Route key_aspect."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Human Geography - Nature and Scope": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Geography — Nature & Scope": 1
-   },
+   "unit": "Human Geography - Nature and Scope",
+   "unit_votes": null,
+   "chapter": "Human Geography — Nature & Scope",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "key_aspect",
    "fit_scores": [
+    10,
+    10,
     10
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -375,6 +471,21 @@
    "content_hash": "92d8c872ea643ef4beff804fe88693aea6ba1e1b1ebbb3b72f45419cea769426",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Decadal growth rate, a two-step standard population numerical that fits the paper. No route claimed, so capped at 9. Chapter corrected from Human Development."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -389,28 +500,39 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Decadal growth rate ((P2-P1)/P1 x 100) is a standard CBT calculation. Direct two-step item; key 15% checks out. Chapter moved to Population."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Decadal growth from two census counts: core and standard, two-step ratio, time 55s. No route claimed, so 9. Key 15% checks out. Chapter moved to Population."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    10
+    9,
+    10,
+    9
    ],
    "fit_median": 9,
-   "fit_median_raw": 10,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -422,6 +544,21 @@
    "content_hash": "48e8f31cc40920718e2b20439024d4662d06690e1dbc6b9025381290452c4d40",
    "engine_type_guess": "match_the_following",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Settlement types match, but the stem calls them Population distribution pattern, a wording slip (format 2), so capped at 8. Chapter corrected from Human Development."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -436,25 +573,36 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Settlement patterns (linear, clustered, scattered) are Human Settlements content. Three-entry match list keeps format at 2. Key A checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Settlement patterns match; key 1-B, 2-C, 3-A checks out. The stem calls the list population distribution pattern, a label slip, so no route. Chapter moved to Human Settlements."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Human Settlements": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Settlements": 1
-   },
+   "unit": "Human Settlements",
+   "unit_votes": null,
+   "chapter": "Human Settlements",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    8
+    8,
+    8,
+    9
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -470,6 +618,21 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Arithmetic, physiological and agricultural density definitions: direct NCERT recall in a standard four-entry match. No route claimed, so 9. Chapter corrected from Human Development."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -483,28 +646,39 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Arithmetic, physiological and agricultural density definitions; three-entry match keeps format at 2. Key A checks out. Chapter moved to Population."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 66,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Arithmetic, physiological and agricultural density definitions: a standard NCERT match staple. Key 1-B, 2-A, 3-C checks out. Route cbt_staple. Chapter moved to Population."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    8
+    9,
+    8,
+    10
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -516,6 +690,21 @@
    "content_hash": "5b17f05c823484e3cadf3038eaea2be30085b5ff67a23da916b2ce0ac4daf96a",
    "engine_type_guess": "assertion_reason",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is rare for geography (target 0 per paper) and comparative advantage is economics-leaning (syllabus 2). Chapter corrected from Human Development."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -530,24 +719,35 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Comparative advantage and specialisation is core trade content. AR is allowed (0-2) but rare in this paper, so format 2. Key A checks out. Chapter moved to International Trade."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is rare in geography (blueprint 0-2). Comparative advantage is economics theory in a trade chapter; two ideas combined (level 2), capped at 8. Key A checks out."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Transport, Communication and Trade": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "International Trade": 1
-   },
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -564,6 +764,21 @@
    "engine_type_guess": "assertion_reason",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Youth bulge and growth judgement goes beyond NCERT geography, and assertion-reason is rare for this paper (syllabus 2, level 2). Chapter corrected from Human Development."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -577,24 +792,35 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Youth bulge and demographic dividend is a supporting idea; AR is rare in this paper (0-2 allowed), so format 2. Key C checks out via the absolute word 'always'."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Human Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is rare in geography; youth bulge and growth combine two ideas plus an 'always' qualifier (level 2), capped at 8. Key C (A false, R true) checks out."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Development": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Human Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -611,6 +837,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Seasonal migration as temporary harvest labour is the textbook case. Format 2: option text repeats the letter labels. Chapter moved to Migration from batch label."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Seasonal migration definition: a CBT staple of the migration chapter. Distractors are other migration types, so subject knowledge is needed."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -626,25 +882,21 @@
      "note": "Seasonal harvest migration is a standard migration-type recall that CBT papers repeat. Chapter moved from Nature & Scope to Migration. Other options are other migration types."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Migration": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Migration",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
+    8,
+    10,
     10
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -657,6 +909,36 @@
    "content_hash": "ee8b388bf21de507950f9eac4e0144578d180eb251110478cf624235c1213103",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Urban share 30% to 45% of total, then a percentage-point change: two calculations. Chapter moved to Human Settlements. Distractor B mixes percent and points."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percentage-point change in urban share: a numerical, wordier than usual for geography, so format 2. Chapter moved from Nature and Scope to Population."
+    },
     {
      "judge": "h3",
      "model": "claude-haiku-5-5",
@@ -673,22 +955,18 @@
      "note": "Urban share 30 to 45 percent gives 15 points; option B is the relative-increase trap. Percentage numericals are not a typical geography item, so format 2 caps at 8. Chapter moved to Settlements."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Human Settlements": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Settlements": 1
-   },
+   "unit": "Human Settlements",
+   "unit_votes": null,
+   "chapter": "Human Settlements",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -705,6 +983,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Net migration rate: 400 net migrants over 50,000 gives 8 per 1,000, two calculations. Format 2: geography rarely asks numericals, so 9 is blocked. Chapter moved to Migration."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Net migration rate needs two calculations and is a supporting formula outside core NCERT text. Options B and C are real misconceptions."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -720,22 +1028,18 @@
      "note": "Net 400 over 50,000 x 1,000 = 8. Gross in-migration rate (24) and sign flip (-8) are real traps. Rate numerical is off the usual geography pattern, so format 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Migration": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Migration",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -752,6 +1056,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Push-pull concept in Migration. Options B to D are throwaway (wrong-way logic), so the key is nearly findable (discrimination 1). Stem is a one-line scenario."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Push-pull scenario is usable. Options B to D are implausible and the (push) and (pull) labels cue the key, so discrimination is 1."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -767,22 +1101,18 @@
      "note": "Push-pull applied to a one-line case: the key is correct, but options B and D are implausible pairings, so discrimination is 1."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Migration": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Migration",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    7,
     8
    ],
    "fit_median": 8,
@@ -799,6 +1129,36 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Hamlet, village, town, city hierarchy matching is a standard CBT staple. All dimensions 3 or discrimination 2, so the route lifts to 10."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Settlement hierarchy (hamlet, village, town, city) matched to functions: a standard NCERT match staple. Inline List I and II as in rubric examples."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -814,25 +1174,21 @@
      "note": "Hamlet, village, town and city matched to their functions: a textbook settlement-hierarchy staple. Key A verified (A-2, B-4, C-3, D-1)."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Human Settlements": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Settlements": 1
-   },
+   "unit": "Human Settlements",
+   "unit_votes": null,
+   "chapter": "Human Settlements",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
+    10,
+    10,
     10
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -845,6 +1201,36 @@
    "content_hash": "2d0b6ac94dbf979dde8f5433a6b5677670b830b0ce88ba780d32208f3b234b06",
    "engine_type_guess": "match_the_following",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Geography - Nature and Scope",
+     "chapter": "Human Geography — Nature & Scope",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Research-method matching (survey, imagery, census, observation) sits in Nature and Scope as a supporting element. Clean four-entry match with plausible distractors."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Geography - Nature and Scope",
+     "chapter": "Human Geography — Nature & Scope",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Research-method purpose matching: a clean four-entry match, but methods are a supporting idea of the chapter. No route; ladder gives 9."
+    },
     {
      "judge": "h3",
      "model": "claude-haiku-5-5",
@@ -861,22 +1247,18 @@
      "note": "Field survey, satellite imagery, census and participant observation matched to their purpose. Key A verified. Methods are a supporting idea, so no route and no 10."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Human Geography - Nature and Scope": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Human Geography — Nature & Scope": 1
-   },
+   "unit": "Human Geography - Nature and Scope",
+   "unit_votes": null,
+   "chapter": "Human Geography — Nature & Scope",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    9,
     9
    ],
    "fit_median": 9,
@@ -893,6 +1275,36 @@
    "engine_type_guess": "assertion_reason",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is 0 in the 2025 geography paper but within the blueprint range 0-2. Format 2 and a loose reason link. Rural versus urban density, so chapter moved to Population."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is an allowed geography type but rare in this paper (0 per paper in profile). The reason is a plausible textbook link. Base 8."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -908,22 +1320,18 @@
      "note": "Both statements true and the reason explains the assertion (primary work needs land per person). Two statements to combine, so level 2 caps at 8. Assertion-reason is absent from the geography paper pr"
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -975,14 +1383,14 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 67,
-     "fit_score": 8,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Sector-to-example match, key checks out (tertiary=bank, quaternary=research, secondary=mill, transport=bus terminal). Easy recall; chapter label is Human Settlements but content is activity types (Hum"
+     "note": "Service-type matching, core tertiary/quaternary idea. Real format. No route: 'Transport service' overlaps tertiary, so the item is not fully clean. Chapter corrected from Human Settlements."
     }
    ],
    "cuet_type": "match_the_following",
@@ -997,10 +1405,10 @@
    "fit_scores": [
     10,
     8,
-    8
+    9
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1048,14 +1456,14 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Transport, Communication and Trade",
+     "chapter": "Transport & Communication",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 70,
-     "fit_score": 7,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Key 1-A (rail = best for rapid intercity movement) is contestable: air also fits list II-A, so the mapping is weak. Not a blocking flag under this scheme; scored down."
+     "note": "Transport mode advantages, clean one-to-one pairs; a standard NCERT transport staple CUET repeats. Chapter corrected from Human Settlements."
     }
    ],
    "cuet_type": "match_the_following",
@@ -1070,7 +1478,7 @@
    "fit_scores": [
     8,
     8,
-    7
+    10
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -1121,14 +1529,16 @@
      "date": "2026-10-13",
      "cuet_type": "assertion_reason",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 61,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Agglomeration idea (knowledge firms cluster) is in the geography syllabus, but it sits in industry, not Human Settlements. Standard A/R layout; key A holds. Assertion-reason is 0 in the 2025 paper."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Assertion-reason is off-pattern for Geography (profile target 0; 2025 paper had none). Clustering claim is a loose generalisation. Chapter corrected from Human Settlements."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -1143,12 +1553,14 @@
    "fit_scores": [
     8,
     8,
-    8
+    4
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
    "blocking": false
   },
   "9fe752fc-855c-4345-ac49-436b134d3f69": {
@@ -1171,7 +1583,7 @@
      "est_seconds": 57,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A verified: (38/62)x100 = 61.3. Population structure rather than India-specific, so chapter set to Population. Inputs all in stem; one-step numerical."
+     "note": "Dependency ratio from age shares, a core population measure; a one-formula numerical, but geography rarely asks calculations, so format 2 and capped at 8."
     },
     {
      "judge": "h2",
@@ -1201,7 +1613,7 @@
      "est_seconds": 75,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Age-structure dependency ratio calculation; standard population content but a numeric item with a formula in the stem, rare in CUET Geography. Key 61.3 verified (38/62)."
+     "note": "Dependency ratio numerical (38/62 = 61.3 checks). Belongs to Population chapter, not the India chapter; stated formula is unusual for CUET."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1244,7 +1656,7 @@
      "est_seconds": 55,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A verified: 70/1.75 = 40. Rule of 70 is named in stem, so the student only applies it. Distractors 35 and 70 are identifiable slips."
+     "note": "Rule of 70 doubling time, a one-step numerical; the rule is an approximation beyond core NCERT, so syllabus and format are 2. Options are plausible."
     },
     {
      "judge": "h2",
@@ -1272,9 +1684,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 55,
-     "fit_score": 6,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Rule of 70 doubling-time shortcut is not a standard CUET Geography item; it reads as a maths/economics calculation. Key 40 is correct (70/1.75 = 40)."
+     "note": "Rule of 70 numerical (70/1.75 = 40 checks). Method is named in the stem, so the item leans on a rule outside NCERT geography."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1289,7 +1701,7 @@
    "fit_scores": [
     8,
     8,
-    6
+    8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -1310,14 +1722,14 @@
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
+     "unit": "Human Activities",
+     "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 40,
-     "fit_score": 8,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Key A verified: surplus labour adds no output. Direct definition recall. Distractors are seasonal, full-time and migration misconceptions, each informative."
+     "note": "Definition of disguised unemployment in agriculture, a direct CBT recall item. Concept is supporting rather than central, so no route; scores 9 on the base."
     },
     {
      "judge": "h2",
@@ -1340,29 +1752,29 @@
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
+     "unit": "Human Activities",
+     "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 40,
-     "fit_score": 9,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Definition of disguised unemployment in Indian agriculture; core India People & Economy content in a CBT-style MCQ with plausible distractors. Key A is correct. No PYQ anchor; no 10 route."
+     "note": "Definition recall of disguised unemployment in agriculture, a standard CBT item. Options are full sentences, wordier than real items. Chapter corrected to Primary Activities."
     }
    ],
    "cuet_type": "single_mcq",
    "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": "People",
+   "unit": "Human Activities",
    "unit_votes": null,
-   "chapter": "India — People & Economy",
+   "chapter": "Primary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
     8,
-    8,
-    9
+    8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -1383,14 +1795,14 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
+     "unit": "Human Activities",
+     "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 74,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Key A verified (1-B, 2-A, 3-C, 4-D). Four clean pairs with tenant/sharecropper confusion as a real distractor; 4 entries is short of CUET's usual 5."
+     "note": "Four-entry match of rural occupational categories, a normal CUET shape; lists are set out inline rather than in a column layout, and the categories are supporting detail."
     },
     {
      "judge": "h2",
@@ -1413,29 +1825,29 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
+     "unit": "Human Activities",
+     "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 110,
-     "fit_score": 8,
+     "est_seconds": 74,
+     "fit_score": 6,
      "fit_flags": [],
-     "note": "Four-pair match of rural occupational categories in the CUET match format. Key 1-B, 2-A, 3-C, 4-D is correct. Four pairs on about 99 words of reading puts it in the 150 s band, so time is 2."
+     "note": "Rural farm-occupation match, a standard item. List I and List II run inline inside the stem rather than set out as lists, so format 1 caps it at 6. Key checks."
     }
    ],
    "cuet_type": "match_the_following",
    "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": "People",
+   "unit": "Human Activities",
    "unit_votes": null,
-   "chapter": "India — People & Economy",
+   "chapter": "Primary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
     8,
     8,
-    8
+    6
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -1459,11 +1871,11 @@
      "unit": "People",
      "chapter": "Population — Distribution, Density, Growth",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "key_aspect",
      "est_seconds": 61,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Key A verified: both true and reason explains assertion (replacement-fertility logic). Assertion-reason is allowed for this paper but the 2025 paper had none."
+     "note": "key_aspect: tests the infant mortality and fertility link, a core population idea. Standard AR format with the correct explanatory relation; distractors are plausible."
     },
     {
      "judge": "h2",
@@ -1491,9 +1903,11 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 61,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Assertion-reason on infant mortality and fertility, a standard population growth relation. Assertion-reason is rare on the paper (0-2 per paper), so format is 2. Key A is correct."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Assertion-reason item. Geography profile has 0 per paper (0-2 allowed), so off pattern for this subject. Otherwise a valid demography MCQ."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -1502,6 +1916,373 @@
    "unit": "People",
    "unit_votes": null,
    "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10,
+    8,
+    4
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
+   "blocking": false
+  },
+  "0d143be1-9a4b-4802-ae19-6f5f45407b63": {
+   "question_id": "0d143be1-9a4b-4802-ae19-6f5f45407b63",
+   "batch": "geography__international-trade__01",
+   "db_chapter": "International Trade",
+   "content_hash": "228be1aaf052563c1765d1f8773a03fd7879383c2c532cd75866794ded31fd04",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 53,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Per-capita export figure is a peripheral derived number, not a core trade idea; unit-scaled one-formula numerical. Syllabus 1 caps at 6. No geography PYQs."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 53,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Per-capita export numerical with a billion-to-million step. Trade-statistics use, but economics-flavoured for geography; no PYQ anchor."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two-step numerical: bn to mn conversion, then divide by population. Not a geography recall item; no PYQ anchors for this subject. No route."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "4fa68bae-3c29-455f-a5d0-120ef3f2ba01": {
+   "question_id": "4fa68bae-3c29-455f-a5d0-120ef3f2ba01",
+   "batch": "geography__international-trade__01",
+   "db_chapter": "International Trade",
+   "content_hash": "b8161edd5c0a9cd8827f4dd2f063f358fa6c7808018d90e8809169f517f884cf",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Entrepot port concept, standard CBT-style recall. Distractors A, C and D are obviously implausible, so the key is easy to find by elimination."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Entrepot (free trade) port as a re-export hub: standard trade concept, wordy options. Distractors A, C and D are obviously wrong, so discrimination is weak."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Entrepot port concept, direct recall of a trade term. Options C and D are absurd, so only A and B compete; discrimination is weak. No route."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "6058a713-6989-4b72-91c1-147c612e6766": {
+   "question_id": "6058a713-6989-4b72-91c1-147c612e6766",
+   "batch": "geography__international-trade__01",
+   "db_chapter": "International Trade",
+   "content_hash": "c9a32e2aa5e9c4bc487e50c950f33220fb5ad71f5bc46100cf93a34a96ffece9",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Current versus capital account classification of BoP; the three distractors are real capital-account misconceptions. Direct recall at CBT level, no route claimed."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "CBT staple: current versus capital account classification, a standard BoP item. Remittances are current transfers; distractors are plausible capital items."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Current account of BoP is economics accounting, peripheral to the geography trade syllabus. Options are good misconceptions (capital items). Syllabus 1 caps at 6."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    10,
+    6
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "cbdf008d-dd34-4185-a357-24899fb208d3": {
+   "question_id": "cbdf008d-dd34-4185-a357-24899fb208d3",
+   "batch": "geography__international-trade__01",
+   "db_chapter": "International Trade",
+   "content_hash": "1c2eca3f36b162945838ff3a1a77c65046331f47432d95a857a68e8e25285822",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 47,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Core definition of trade scope, but options are long sentences and the key is the longest, wordiest option, so it is cued by form. Wordier than real CUET items."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 47,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Scope-of-trade definition. The key is the longest, most complete option, a length cue; wordy key, and 'factor incomes' is loose for trade."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 47,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Core definition of the scope of trade. Options are much wordier than real items and the correct one is the longest, a mild cue. No route."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "fd3d8ffe-7b83-4edf-b638-d70d1c9c971b": {
+   "question_id": "fd3d8ffe-7b83-4edf-b638-d70d1c9c971b",
+   "batch": "geography__international-trade__01",
+   "db_chapter": "International Trade",
+   "content_hash": "f22d99ea7dad9d8097d13ef942443665795b25fba92af6165f17a62c025e04d0",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Visible versus invisible trade, a central chapter idea; four-entry match with plausible mappings. Lists run on in one line, not laid out as a real List-I/List-II table, so format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Visible versus invisible trade match. Four-entry List I against two-entry List II, inline layout; mappings are clear and distractors plausible."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "International Trade",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Visible vs invisible trade, four clear entries and mappings. Lists are run inline rather than printed separately, so format is 2. No route."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Transport, Communication and Trade",
+   "unit_votes": null,
+   "chapter": "International Trade",
    "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
@@ -1547,11 +2328,26 @@
      "unit": "Resources and Development",
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 43,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Iron and steel as basic or feeder industry supplying machinery, tools and construction: a standard CBT recall staple. One idea, direct."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 43,
      "fit_score": 9,
      "fit_flags": [],
-     "note": "Standard NCERT idea of iron and steel as a basic or feeder industry. Key is clear; distractors A and D are weak, C is plausible. No authenticated Geography PYQ."
+     "note": "Iron and steel as basic input for machinery and construction is central to the chapter. Direct why-recall; options match misconceptions (raw material, employment). No route claimed."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1565,10 +2361,11 @@
    "ten_route": null,
    "fit_scores": [
     10,
+    10,
     9
    ],
-   "fit_median": 9.5,
-   "fit_median_raw": 9.5,
+   "fit_median": 9,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1608,7 +2405,22 @@
      "est_seconds": 57,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Footloose-industry concept applied to a policy framing; A (raw material proximity) is clearly least relevant. Policy framing is contrived for CUET, so format 2."
+     "note": "Footloose concept is central to location of industry. Policy-framed stem ('If an industrial policy aims...') is wordier than real CUET items, so no 9."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Footloose concept is core, short application. Stem framed as an industrial-policy scenario, wordier than CUET style (format 2 caps at 8). Options B-D are also plausible for footloose firms."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1621,6 +2433,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -1662,10 +2475,25 @@
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 42,
-     "fit_score": 8,
+     "est_seconds": 60,
+     "fit_score": 6,
      "fit_flags": [],
-     "note": "Sugar shift to peninsular India on sucrose content and longer crushing season is NCERT agro-industry content. Distractors are weak, so discrimination 1."
+     "note": "'Analyze ... what are the contributing factors' is not CUET stem style. Key is the only compound factor, a cue. Format 1 caps at 6. No flag: options are given."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Sugar shift is a supporting example. Stem 'Analyze ... What are the contributing factors?' is an essay prompt, unusual for CUET MCQ (format 1, cap 6). No flag raised."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1679,10 +2507,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    8
+    6,
+    6
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 6,
+   "fit_median_raw": 6,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1719,10 +2548,25 @@
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 84,
+     "est_seconds": 66,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Statement 3 (per capita steel below world average) is false, so key A holds. Statement 2 is contestable: only some integrated plants (Jamshedpur, Bokaro, Rourkela) lie in Chotanagpur. Format 2."
+     "note": "Normal three-statement CUET shape on iron and steel. Statement 2 ('most integrated plants in Chotanagpur') is contestable (Bhilai, Vizag), so 8 not 9."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Three numbered statements with combination options, standard CUET statement shape. Basic industry, Chotanagpur plants, per capita steel all NCERT-level. Key A checks out. No route claimed."
     }
    ],
    "cuet_type": "statement_based",
@@ -1736,10 +2580,11 @@
    "ten_route": null,
    "fit_scores": [
     9,
-    8
+    8,
+    9
    ],
-   "fit_median": 8.5,
-   "fit_median_raw": 8.5,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1762,9 +2607,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 57,
-     "fit_score": 7,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Percent-change arithmetic on migrant count; migration context is thin and the calculation is not a typical geography item. Option letter prefixes cap format at 2."
+     "note": "One-step percent-change numerical (10,000 of 200,000). Fair and in the People unit, but a calculation is less typical of Geography papers."
     },
     {
      "judge": "h2",
@@ -1776,10 +2621,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 35,
-     "fit_score": 3,
+     "est_seconds": 57,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Percent-increase arithmetic (10,000 / 200,000) inside a migration item. Geography papers test concepts, not calculation; far below CBT level. Stray letter prefix in every option text."
+     "note": "Percent-increase arithmetic on migrants; routine application with a weak geography link. Format 2 caps it at 8."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percent-change calculation (two steps). Numericals are unusual in this paper; options repeat the key letter as a prefix."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1792,11 +2652,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
-    3
+    8,
+    8,
+    8
    ],
-   "fit_median": 5,
-   "fit_median_raw": 5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1817,11 +2678,11 @@
      "unit": "People",
      "chapter": "Migration",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 38,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Core push and pull concept; distractors are obviously wrong, so discrimination is low. Option letter prefixes cap format at 2."
+     "note": "Pull factor recall, a standard CBT staple. Distractors are push factors, so the key needs the concept."
     },
     {
      "judge": "h2",
@@ -1832,11 +2693,26 @@
      "unit": "People",
      "chapter": "Migration",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 25,
-     "fit_score": 5,
+     "ten_route": "key_aspect",
+     "est_seconds": 38,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Push and pull factors are core NCERT Migration content, but the distractors are obviously wrong and the item is very easy. Not claimed as a CBT staple: difficulty too low for a 10. Stray letter prefix"
+     "note": "Pull factor vs push distractors: core Migration concept, short clean recall. Key-aspect route to 10."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 38,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Push and pull factor recall is a CBT staple; the distractors are push factors, a real confusion."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1847,13 +2723,14 @@
    "chapter": "Migration",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    8,
-    5
+    10,
+    10,
+    10
    ],
-   "fit_median": 6.5,
-   "fit_median_raw": 6.5,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1878,7 +2755,7 @@
      "est_seconds": 43,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Migration versus circulation definition; plausible distractors (seasonal, temporary) give fair discrimination. Option prefixes cap format at 2."
+     "note": "Migration vs circulation is a definitional item, but the stem and four long options are wordier than exam items. D is close to the key."
     },
     {
      "judge": "h2",
@@ -1890,10 +2767,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 40,
-     "fit_score": 6,
+     "est_seconds": 43,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Migration versus circulation (change of usual residence) is a standard Migration concept. Distinction is clear. Stray letter prefix in options."
+     "note": "Migration vs circulation definition is core, but options are wordy (A long). Format 2, no route."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 43,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Defining feature of migration (change of usual residence) is the chapter's key aspect; clean one-idea recall."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1907,10 +2799,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    6
+    8,
+    10
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1935,7 +2828,7 @@
      "est_seconds": 42,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Chain migration mechanism; medium level and fair distractors, but format capped at 2 by option prefixes so the nine gate fails. No route claimed."
+     "note": "Chain migration is a supporting term rather than NCERT core. Clean definition with clear distractors, but long option wording."
     },
     {
      "judge": "h2",
@@ -1947,10 +2840,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 50,
-     "fit_score": 5,
+     "est_seconds": 42,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Chain migration is a migration-studies term that is not clearly in the NCERT Migration text, so syllabus fit is partial. Definition-style item at medium level. Stray letter prefix in options."
+     "note": "Chain migration mechanism: a supporting term rather than a core one; long option sentences. Format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Chain migration is a supporting concept rather than core NCERT wording; standard four-option recall format."
     }
    ],
    "cuet_type": "single_mcq",
@@ -1964,10 +2872,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    5
+    8,
+    9
    ],
-   "fit_median": 6.5,
-   "fit_median_raw": 6.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -1988,11 +2897,11 @@
      "unit": "People",
      "chapter": "Migration",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 55,
-     "fit_score": 8,
+     "ten_route": "cbt_staple",
+     "est_seconds": 37,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Net migration subtraction; a demography arithmetic item, not a typical CUET geography item. Sign-based distractor gives some discrimination."
+     "note": "Net migration as immigrants minus emigrants: a core formula and a CBT staple. Distractors test the sign and the total."
     },
     {
      "judge": "h2",
@@ -2004,10 +2913,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 35,
-     "fit_score": 3,
+     "est_seconds": 55,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Net migration arithmetic (800 minus 300). Same problem as the percent item: calculation-led, easy, not a geography concept test. Stray letter prefix in options."
+     "note": "Net migration subtraction: clean but a bare arithmetic item, not a typical geography paper item. Format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One subtraction beyond recall; a numerical of this kind is unusual in Geography, so format is only 2."
     }
    ],
    "cuet_type": "single_mcq",
@@ -2020,11 +2944,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    10,
     8,
-    3
+    8
    ],
-   "fit_median": 5.5,
-   "fit_median_raw": 5.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2047,9 +2972,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 42,
-     "fit_score": 8,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Brain drain definition is a core recall item; distractors are clearly unrelated. Option prefixes cap format at 2."
+     "note": "Brain drain is a core term and the stem is clean. The other options are other migration types, so guessing is easy. No route."
     },
     {
      "judge": "h2",
@@ -2061,10 +2986,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 30,
-     "fit_score": 7,
+     "est_seconds": 42,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Brain drain is a named consequence of migration in the Migration chapter and a common CUET-style concept. Not claimed as a 10: definition-level, no PYQ anchor, and the option wording is easy. Stray le"
+     "note": "Brain drain definition is core Migration content; option A is wordy and the item is not a route to 10."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Brain drain is a core term; three distractors are not about skilled people, so the stem word gives it away."
     }
    ],
    "cuet_type": "single_mcq",
@@ -2077,11 +3017,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
     8,
-    7
+    9
    ],
-   "fit_median": 7.5,
-   "fit_median_raw": 7.5,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2103,10 +3044,10 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 83,
+     "est_seconds": 65,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Short case stem on quota effects on remittances; reasonable reasoning, but the case frame is outside the usual geography single-item pattern. Format capped at 2."
+     "note": "Short application on remittances after quotas. Self-contained, not a passage set, but the 'Case:' prefix and two-clause stem are wordier than CUET items."
     },
     {
      "judge": "h2",
@@ -2118,10 +3059,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 60,
-     "fit_score": 6,
+     "est_seconds": 65,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Scenario (quota on emigration, remittance effect) that reasons from remittances in the Migration chapter. Valid consequence reasoning and a reasonable discriminator. Case-frame wording is slightly unl"
+     "note": "Case-labelled one-scenario item on remittances: answerable and in syllabus but not standard CUET style. Format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Case written inside a single stem with no passage row; two-step remittance chain. Real case items come as sets."
     }
    ],
    "cuet_type": "single_mcq",
@@ -2135,10 +3091,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    6
+    8,
+    8
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2160,10 +3117,10 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 85,
+     "est_seconds": 67,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Push factors matched to political, environmental and economic categories; three-entry list and option prefixes keep format at 2. Key matches the explanation."
+     "note": "Three-entry push-factor match with List I and II inline in one stem. Key checks out, but the layout is less clean than exam items."
     },
     {
      "judge": "h2",
@@ -2175,10 +3132,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 60,
-     "fit_score": 6,
+     "est_seconds": 85,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Matches push factors to political, environmental and economic categories. Key A (1-b, 2-a, 3-c) checks out. Standard match format, but it is a three-row classification that is easier than the paper no"
+     "note": "Push factors matched to political, environmental and economic: valid inline match with mapping options. Format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Push-factor categories; key 1-b, 2-a, 3-c checks out. Lists sit inline in one paragraph, not the List I/II layout of real papers."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2192,10 +3164,11 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    6
+    8,
+    8
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2217,10 +3190,10 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 112,
+     "est_seconds": 76,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four migration types matched to examples; reading load of 106 words puts it in the 90 to 150 second band. Key matches the explanation."
+     "note": "Four-entry migration-type match on core types. List II clauses are long and inline, so it is wordier than a real four-entry match."
     },
     {
      "judge": "h2",
@@ -2232,10 +3205,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 65,
+     "est_seconds": 94,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-row match of migration types (chain, return, forced, circular) to examples. Tests a key aspect of the chapter and the key (1-a, 2-b, 3-c, 4-d) is correct. Not a 10: no PYQ anchor, and the item is"
+     "note": "Four migration types matched to long List II sentences (about 94 s). Correct key runs a-b-c-d in order, a visible pattern cue."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four-entry match of migration types, a core topic; List II descriptions run to about 106 words, wordier than real matches."
     }
    ],
    "cuet_type": "match_the_following",
@@ -2248,6 +3236,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
     8,
     8
    ],
@@ -2277,7 +3266,7 @@
      "est_seconds": 67,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Urban strain from rapid migration with an explaining reason; the blueprint allows assertion_reason but the paper profile shows none, so the item is accepted without a flag."
+     "note": "AR is allowed by the blueprint (0 to 2 per paper) but absent from the 2025 Geography paper. The reason largely restates the assertion."
     },
     {
      "judge": "h2",
@@ -2289,12 +3278,25 @@
      "chapter": "Migration",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 55,
-     "fit_score": 4,
-     "fit_flags": [
-      "off_pattern_for_subject"
-     ],
-     "note": "Assertion-reason item. The geography paper profile sets assertion_reason at 0 per paper (range 0-2) and the 2025 paper had none, so the format is off-pattern for this subject. The content (rural-urban"
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason on urban strain: allowed but rare for geography (profile target 0-2). Reason largely restates the cause. Format 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is rare in Geography papers (0 to 2 per paper). Reason correctly explains the assertion, so two statements to judge."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -2308,14 +3310,13 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    4
+    8,
+    8
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
-   "fit_flags": {
-    "off_pattern_for_subject": 1
-   },
-   "flagged_by": 1,
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
    "blocking": false
   },
   "03edf1eb-c3cc-4715-a35b-e433a3f5d9d5": {
@@ -2325,6 +3326,36 @@
    "content_hash": "1ababcd6b3184db9cf26e3ab046ae017ee6751a0c2cad9d18ef22111d1c163cc",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Chapter moved to Manufacturing Industries (SME estates, clustering). Options B and C are absurd, so discrimination is 1."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Industrial-estate benefit belongs to Manufacturing Industries, so chapter corrected. Three absurd distractors make it guessable (discrimination 0). Option text repeats the key letter."
+    },
     {
      "judge": "h3",
      "model": "claude-haiku-5-5",
@@ -2341,22 +3372,18 @@
      "note": "Supporting idea (clustering benefit for SMEs). B, C and D are absurd absolutes, so A is found with little knowledge: discrimination 1."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Manufacturing Industries",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    6,
     8
    ],
    "fit_median": 8,
@@ -2373,6 +3400,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Conservation vs management is a standard planning distinction. Options B and C are absurd, so discrimination is 1."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Conservation vs management is core, but B, C and D are absurd, so the key is the only sensible option (discrimination 0). Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2388,26 +3445,22 @@
      "note": "Key aspect: conservation (protect/limit) vs management (regulated sustainable use). D is a plausible living/non-living slip."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    6,
     10
    ],
-   "fit_median": 9,
-   "fit_median_raw": 10,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2419,6 +3472,36 @@
    "content_hash": "121a65c91ca36958ccad2504141b9da65d2203f249e12b57ab359ad0e8b30627",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Case is given inside the stem (no passage row), one-step application. Format 2 for the case label. B to D are plausible misconceptions."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Case set in the stem (no missing passage). Deeper borewells and water-hungry crops are real misconceptions. Option text repeats the key letter."
+    },
     {
      "judge": "h3",
      "model": "claude-haiku-5-5",
@@ -2435,22 +3518,18 @@
      "note": "Case is inside the stem (no passage needed), so single_mcq. Local groundwater measure, two steps. Wordier than exemplars: format 2, no 9."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -2467,6 +3546,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Standard statement item on non-renewable dependence. B and D are plausible misconceptions; the framing is recognisable CBT style."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Planning implication of non-renewable dependence. B, C and D are absurd, so the key is guessable (discrimination 0). Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2482,22 +3591,18 @@
      "note": "Normal four-option statement item on post-extraction diversification. B and D are plausible planning misconceptions; C is weak."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    6,
     9
    ],
    "fit_median": 9,
@@ -2514,6 +3619,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two-step numerical (480 vs 400 tonnes) with a trivial comparison; geography rarely asks numericals, so format 2. Key checked: correct."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sustainable-yield one-step check (480 vs 400 regeneration); key verified. Renewable-cannot-be-exhausted and stabilise-by-itself are real misconceptions. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2529,26 +3664,22 @@
      "note": "Key aspect: harvest above regeneration is unsustainable. B (renewables cannot be exhausted) and D are real misconceptions."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     10
    ],
-   "fit_median": 9,
-   "fit_median_raw": 10,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -2560,6 +3691,36 @@
    "content_hash": "83bb821a3a5c41abe2768457dc3d1677b7ab5b5be20584767bfded9c90bc3b14",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 46,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "CBT staple: perishable processing near raw material and markets. Chapter moved to Manufacturing Industries. Route lift applies."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Industry location principle belongs to Manufacturing Industries, so chapter corrected. Labour-orientation distractor is a real misconception. Option text repeats the key letter."
+    },
     {
      "judge": "h3",
      "model": "claude-haiku-5-5",
@@ -2576,22 +3737,18 @@
      "note": "Chapter corrected to Manufacturing Industries (industry location). Asks for a principle but options are descriptions, not named principles: format 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Manufacturing Industries": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Manufacturing Industries",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    10,
+    8,
     8
    ],
    "fit_median": 8,
@@ -2608,6 +3765,36 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Case given inside the stem (no passage row). Shared effluent treatment as the immediate measure is standard; format 2 for the case label."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Case set in the stem. Shared CETP is the standard collective answer, but a plant is not 'immediate', so the wording is loose. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2623,22 +3810,18 @@
      "note": "Three-constraint case, longer than exemplars (level 2). 'Most effective immediate action' is contestable since a CETP takes time to build."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -2655,6 +3838,36 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Four-pair match of industries to location needs; key A checks out. Chapter moved to Manufacturing Industries. No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Manufacturing Industries",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Industry-location match, chapter corrected to Manufacturing Industries. Key checked: 1-A, 2-B, 3-C, 4-D; the other codes fail. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2670,22 +3883,18 @@
      "note": "Chapter corrected to Manufacturing Industries (industry location factors). Four clean pairs, unique key, standard CBT match layout."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Manufacturing Industries": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Manufacturing Industries",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    8,
     9
    ],
    "fit_median": 9,
@@ -2702,6 +3911,36 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Four-pair match of planning tools to objectives; key A checks out (zoning, EIA, master plan, carrying capacity). No route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Planning-tool match. Key checked: 1-C, 2-B, 3-A, 4-D; the other three codes fail. Four-entry list is a normal CUET shape. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2717,22 +3956,18 @@
      "note": "Planning tools against objectives: four clean pairs, each distractor a plausible mismatch. Central to the chapter, standard match layout."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    8,
     9
    ],
    "fit_median": 9,
@@ -2749,6 +3984,36 @@
    "engine_type_guess": "assertion_reason",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is rare in geography papers (format 2). Level 2: combines sustainability with decoupling. Assertion is contested (relative vs absolute); not flagged."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is allowed for geography but rare in the paper. The reason restates the assertion's term, so the key is nearly given. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2764,22 +4029,18 @@
      "note": "Assertion-reason is in the blueprint but rare (0 per paper). Decoupling is a supporting idea, and the reason restates it: format 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -2796,6 +4057,36 @@
    "engine_type_guess": "assertion_reason",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Zoning is core content. The reason restates the assertion, and assertion-reason is rare in geography papers, so format 2 and no 9."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason on zoning. The reason restates the assertion, so the key is nearly given. Option text repeats the key letter."
+    },
+    {
      "judge": "h3",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -2811,22 +4102,18 @@
      "note": "Assertion-reason (rare in the blueprint). Zoning as a planning tool is a supporting idea; the reason restates the mechanism: format 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "Resources and Development": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Planning & Sustainable Development": 1
-   },
+   "unit": "Resources and Development",
+   "unit_votes": null,
+   "chapter": "Planning & Sustainable Development",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -2856,27 +4143,53 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Arithmetic density is the chapter's core measure. Distractors: farmers per arable land, growth rate. Key A checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 40,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Arithmetic density definition: a yearly CBT staple, direct recall. No PYQ anchor (geography has none). Options B and C are real density confusions."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 40,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core definition of arithmetic density (total population per sq km of land); cleanly tests a key chapter aspect. No geography PYQ anchors."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "key_aspect",
    "fit_scores": [
+    10,
+    10,
     10
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -2903,24 +4216,50 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "One-formula physiological density numerical, all inputs given. Options are plausible slips. Key D checks out (30,000,000 / 150,000 = 200)."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Physiological density, one division on round numbers. Standard numerical, central level. No route claimed; the clean calculation is not a distinct staple."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Physiological density as a one-formula numerical with plausible distractors; exam-pattern item. No route claimed."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    9,
     9
    ],
    "fit_median": 9,
@@ -2950,27 +4289,53 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Natural increase = CBR minus CDR, a CBT staple formula. Distractors: CDR, sum, sign flip. Key B checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 59,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Natural increase = CBR minus CDR: a classic CBT staple. Distractors cover CDR, sum and sign reversal, which are real slips."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Natural increase = CBR minus CDR, one subtraction; sum and sign-reversal distractors are real slips. No route claimed."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    10
+    10,
+    10,
+    9
    ],
-   "fit_median": 9,
+   "fit_median": 10,
    "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
@@ -2997,24 +4362,50 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "Linear settlement along a river is a core distribution pattern. Clustered and dispersed are fair confusions. Key D checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Linear settlement along a river as a distribution pattern. Exam-normal recall; clustered is a plausible confusion. No route claimed."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Linear settlement pattern along a river, direct recall. The stem gives a strong cue, so discrimination kept at 2. No route claimed."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    9,
     9
    ],
    "fit_median": 9,
@@ -3044,24 +4435,50 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "One-formula arithmetic density numerical. Distractors are slips (1 million for 5 million, 8 million for 5 million). Key C checks out (5,000,000 / 20,000 = 250)."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Arithmetic density, one division. Standard numerical; overlaps the physiological item in concept. No route claimed."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Arithmetic density numerical, one formula, same shape as the physiological item. No route claimed."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "single_mcq": 1
-   },
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    9,
+    9,
     9
    ],
    "fit_median": 9,
@@ -3091,24 +4508,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Three-entry match on relief, climate and industry effects. Lists run inline in one paragraph, not set out: format 2 caps at 8. Key A checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Factors to distribution effects. Lists run inline in the stem with three entries, not the usual four-entry layout. Otherwise fair."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three-entry factor-to-effect match laid out inline in one line, not a printed list; format 2 caps the score at 8."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -3138,24 +4581,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Three density types matched cleanly; options show real confusions. Lists run inline, so format 2 keeps it at 8. Key A checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Types of density to descriptions. Inline lists with three entries; the physiological and agricultural confusion is a real trap. Key checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three density types matched to descriptions, laid out inline with permuted options; format 2 caps at 8. Key 1-B, 2-C, 3-A checks out."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "match_the_following": 1
-   },
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Population — Distribution, Density, Growth",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -3185,24 +4654,50 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "A true (economic disparity drives migration); R false because 'always' overstates the birth-rate effect. AR is rare in geography papers. Key C checks out."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Content is internal migration, so chapter moved to Migration. Assertion-reason is allowed here but rare; reason is a false claim. Key C checks out."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion true, reason false ('always' raises birth rate). Content is internal migration, so chapter set to Migration. Wordy stem: format 2."
     }
    ],
-   "cuet_type": null,
-   "cuet_type_votes": {
-    "assertion_reason": 1
-   },
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
    "passage_skill": null,
-   "unit": null,
-   "unit_votes": {
-    "People": 1
-   },
-   "chapter": null,
-   "chapter_votes": {
-    "Population — Distribution, Density, Growth": 1
-   },
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Migration",
+   "chapter_votes": null,
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
+    8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -3229,11 +4724,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 80,
-     "fit_score": 4,
-     "fit_flags": [
-      "off_pattern_for_subject"
-     ],
-     "note": "Per-worker productivity ratio is a numeric calculation. CUET geography papers do not test this kind of arithmetic, so the item is off pattern for the subject. Key A checks out (0.30 vs 2.05, ratio abo"
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Two-step ratio of percentages (agri vs non-agri productivity) on an invented district: unusual for a Geography paper, format 1 caps at 6."
     },
     {
      "judge": "h2",
@@ -3261,9 +4754,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 80,
-     "fit_score": 8,
+     "fit_score": 6,
      "fit_flags": [],
-     "note": "Arithmetic checks: 0.30 vs 2.05, ratio 6.83, key A right. Economics-style productivity calc, loosely tied to the chapter. Option text repeats the key letter."
+     "note": "Sectoral productivity ratio from shares; a multi-step percentage calculation is unusual for a geography paper. Format 1 caps at 6."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3276,16 +4769,14 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    4,
+    6,
     8,
-    8
+    6
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {
-    "off_pattern_for_subject": 1
-   },
-   "flagged_by": 1,
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
    "blocking": false
   },
   "14220516-31cf-495a-a091-e8dfaf21dd3d": {
@@ -3304,11 +4795,11 @@
      "unit": "Human Activities",
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 25,
-     "fit_score": 8,
+     "ten_route": "cbt_staple",
+     "est_seconds": 42,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Core definition of primary activities, standard CBT format. Level is very easy and distractors are weak (urban-only option is obviously wrong), so discrimination is low. Key A checks out."
+     "note": "Defining primary activities as direct extraction from nature: core definition, a CBT staple; options cleanly separate the three sectors."
     },
     {
      "judge": "h2",
@@ -3334,11 +4825,11 @@
      "unit": "Human Activities",
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 42,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Core chapter definition, direct recall. Key A correct; distractors clearly wrong. Option text repeats the key letter, a display defect."
+     "note": "Core definition of primary activity (extraction from nature); a standard CBT staple, with secondary and tertiary misconceptions as distractors."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3349,14 +4840,14 @@
    "chapter": "Primary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    8,
     10,
-    8
+    10,
+    10
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3377,11 +4868,11 @@
      "unit": "Human Activities",
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 30,
-     "fit_score": 9,
+     "ten_route": "cbt_staple",
+     "est_seconds": 34,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "NOT-type question on the primary/secondary boundary, a common CBT pattern. Weaving is a manufacturing activity, the other three are extractive. Strong syllabus fit. Not a 10 because the odd-one-out is"
+     "note": "Which is NOT primary: a classic CBT classification item; hand weaving is secondary, and mining, hunting and timber are primary."
     },
     {
      "judge": "h2",
@@ -3407,11 +4898,11 @@
      "unit": "Human Activities",
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 34,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "NOT-question: hand weaving is manufacturing, the other three are extraction. Key A is the only correct answer. Option text repeats the key letter."
+     "note": "Which-is-NOT classification of primary versus secondary activity; a predictable CBT staple with three valid primary distractors."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3422,14 +4913,14 @@
    "chapter": "Primary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    9,
     10,
-    8
+    10,
+    10
    ],
-   "fit_median": 9,
-   "fit_median_raw": 9,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3451,10 +4942,10 @@
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 40,
-     "fit_score": 7,
+     "est_seconds": 42,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Fishing and overfishing is in the primary activities chapter, but the trawling link is more general than the NCERT text. The wrong options are easy to exclude. Key A checks out."
+     "note": "Trawling and overfishing of nearshore stocks: a sustainability point within primary fishing, one-step application, standard CUET stem."
     },
     {
      "judge": "h2",
@@ -3482,9 +4973,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 42,
-     "fit_score": 8,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Bottom trawling as the main driver of overfishing; key A is the clearest answer and the decoys are low-impact methods. Option text repeats the key letter."
+     "note": "Trawling as the most damaging fishing practice; standard CUET recognition item in fishing. Supporting idea, no route."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3497,12 +4988,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
+    9,
     8,
-    8
+    9
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 9,
+   "fit_median_raw": 9,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3524,10 +5015,10 @@
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 45,
-     "fit_score": 6,
+     "est_seconds": 37,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Irrigation versus rainfall dependence is an agriculture policy point. Crop insurance and seeds are weak distractors, so the answer is close to guessable. Key A checks out. Level is easy."
+     "note": "Irrigation against crop insurance for rainfall dependence: fair one-step application, but the most directly phrasing is a little judgement-based."
     },
     {
      "judge": "h2",
@@ -3557,7 +5048,7 @@
      "est_seconds": 37,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Irrigation removes rainfall dependence directly; crop insurance is a weaker rival (it cushions risk, not dependence). Key A defensible. Option text repeats the key letter."
+     "note": "Irrigation versus insurance and seeds; judgement-style 'single intervention' stem, wordier than recall items. Key holds."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3570,7 +5061,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    6,
+    8,
     8,
     8
    ],
@@ -3597,10 +5088,10 @@
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 70,
+     "est_seconds": 71,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-item match of subsectors to geographic constraints, a standard CUET match format. Each pairing is clean (agriculture to soil and rainfall, fishing to shelf, forestry to forest cover, mining to de"
+     "note": "Four-entry match of subsectors to physical constraints; List II phrases are wordy, so format 2 keeps it at 8 without a route."
     },
     {
      "judge": "h2",
@@ -3630,7 +5121,7 @@
      "est_seconds": 71,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-pair match checked: 1-C, 2-B, 3-D, 4-A are all correct and only option A holds. Option text repeats the key letter."
+     "note": "Four-entry resource-constraint match; key verified. Inline lists and 'Choose the correct matching' are wordier than the CUET ending, so format 2."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3669,11 +5160,11 @@
      "unit": "Human Activities",
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 65,
-     "fit_score": 10,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Plantation, terrace, jhum and nomadic pastoralism matched to their defining features. This is a highly predictable CBT staple testing a key aspect of the chapter, and the level is easy rather than har"
+     "note": "Four farming types matched to characteristics: core content of the chapter; descriptive List II phrases are wordy, so format 2 caps it at 8."
     },
     {
      "judge": "h2",
@@ -3703,7 +5194,7 @@
      "est_seconds": 73,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Plantation, terrace, jhum and pastoralism pairs verified: 1-C, 2-A, 3-D, 4-B; only option A holds. Option text repeats the key letter."
+     "note": "Farming types matched to characteristics; core NCERT content, key verified. Inline lists are wordier than CUET style, so format 2."
     }
    ],
    "cuet_type": "match_the_following",
@@ -3716,12 +5207,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    10,
+    8,
     10,
     8
    ],
-   "fit_median": 9,
-   "fit_median_raw": 10,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3743,10 +5234,10 @@
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 45,
-     "fit_score": 6,
+     "est_seconds": 46,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Fragmented holdings and low productivity are in-syllabus agriculture content, but the link is a plain causal statement. Assertion-reason is rare in geography papers (blueprint target 0 per paper). Lab"
+     "note": "Assertion-reason on small landholdings and productivity: standard textbook causal pair in the standard four options; blueprint allows 0 to 2 per paper."
     },
     {
      "judge": "h2",
@@ -3774,9 +5265,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 64,
-     "fit_score": 7,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Assertion is contestable: small holdings often give higher yield per hectare, so low productivity is disputed. Labelled hard; it is a recall-level AR."
+     "note": "Valid four-option assertion-reason on fragmented holdings; the geography paper has 0-2 such items, and the two claims are combined, so level 2."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -3789,12 +5280,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    6,
+    9,
     8,
-    7
+    8
    ],
-   "fit_median": 7,
-   "fit_median_raw": 7,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -3816,10 +5307,10 @@
      "chapter": "Primary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 50,
-     "fit_score": 7,
+     "est_seconds": 46,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Shifting cultivation and fallow length is a core primary activities point, so syllabus fit is strong. Assertion-reason format is rare in geography papers, which lowers format fit. Key A checks out."
+     "note": "Assertion-reason on shortened jhum fallows: clean causal pair in the standard four options; blueprint allows 0 to 2 per paper."
     },
     {
      "judge": "h2",
@@ -3849,7 +5340,7 @@
      "est_seconds": 64,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Short fallow and regeneration link is sound; both statements true and R explains A, key A correct. Labelled hard, closer to medium. Option text repeats the key letter."
+     "note": "Fallow length and fertility in shifting cultivation is central to jhum; valid AR shape but rare on this paper, and the cause-effect link is combined, so level 2."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -3862,7 +5353,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
+    9,
     8,
     8
    ],
@@ -3889,10 +5380,10 @@
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 35,
-     "fit_score": 7,
+     "est_seconds": 63,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Factors of industrial location (bulky raw materials and water transport favour heavy industry). Standard location question, a little easy. The case lead-in is a light wrapper. No PYQ anchor for this s"
+     "note": "Industry location by bulk and river-port transport cost. Format 2: inline 'Case:' stem prefix. Chapter moved to Manufacturing Industries."
     },
     {
      "judge": "h2",
@@ -3904,10 +5395,10 @@
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 45,
+     "est_seconds": 63,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Tests industrial location and transport cost for bulky industries, a key chapter idea. Stem nearly gives the answer; the two absurd distractors are easy to eliminate."
+     "note": "Industry location by river-port transport cost. Short case-style stem, no passage needed. Distractors A, C, D are implausible for bulky industry."
     },
     {
      "judge": "h3",
@@ -3922,7 +5413,7 @@
      "est_seconds": 63,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Industrial location by transport cost, NCERT-level. Labelled Case but has no passage, so format 2. Only B fits the bulk-industry idea, so weak distractors."
+     "note": "Industry location by transport cost (bulky inputs near river port). Core concept; one-line case stem is wordier than real items."
     }
    ],
    "cuet_type": "single_mcq",
@@ -3935,7 +5426,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    7,
+    8,
     8,
     8
    ],
@@ -3961,11 +5452,11 @@
      "unit": "Human Activities",
      "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 25,
-     "fit_score": 8,
+     "ten_route": "cbt_staple",
+     "est_seconds": 38,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Recall of the quaternary sector (knowledge services). Core NCERT definition and a likely CBT item, but too easy to be a 10. Chapter corrected from Resources & Development to Tertiary & Quaternary Acti"
+     "note": "Quaternary activity as R&D and knowledge services: a classic CBT staple within tertiary-quaternary classification. Chapter moved to Tertiary & Quaternary Activities."
     },
     {
      "judge": "h2",
@@ -3976,11 +5467,11 @@
      "unit": "Human Activities",
      "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 38,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Standard NCERT recall of the quaternary sector; the other three options are tertiary services that a student must separate from it. Level is a notch easy."
+     "note": "Quaternary activity (R&D, knowledge services) against tertiary distractors. Chapter corrected from Resources & Development. Staple CBT classification item."
     },
     {
      "judge": "h3",
@@ -3991,11 +5482,11 @@
      "unit": "Human Activities",
      "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 38,
-     "fit_score": 9,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Direct NCERT recall: R&D and knowledge services are quaternary. Other options are plainly tertiary, so the answer is easy to reach by elimination."
+     "note": "Quaternary = R&D and knowledge services; a standard CBT classification item asked year after year. Banking/hotel distractors are tertiary."
     }
    ],
    "cuet_type": "single_mcq",
@@ -4006,14 +5497,14 @@
    "chapter": "Tertiary & Quaternary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    8,
-    8,
-    9
+    10,
+    10,
+    10
    ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4035,10 +5526,10 @@
      "chapter": "Transport & Communication",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 50,
-     "fit_score": 6,
+     "est_seconds": 59,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Percentage-share arithmetic on freight data (350 of 1000). Transport content is in scope, but the item is a maths exercise rather than a geography reasoning item. Only a weak CUET format match. Chapte"
+     "note": "One-step percentage share from freight data. A numerical that is unusual for geography, so format 2 and the score is capped at 8."
     },
     {
      "judge": "h2",
@@ -4050,12 +5541,12 @@
      "chapter": "Transport & Communication",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 41,
+     "est_seconds": 59,
      "fit_score": 4,
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Pure arithmetic on a freight table (350 of 1000). Not a geography reasoning item and not a pattern seen in the paper profile; the 50% distractor is a road-share confusion."
+     "note": "Pure percentage arithmetic on invented freight data; no geography knowledge needed and not a Geography paper item. Chapter corrected to Transport & Communication."
     },
     {
      "judge": "h3",
@@ -4068,9 +5559,11 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 59,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "One-step freight-share numerical with a hypothetical table. Arithmetic is easy; geography numericals of this kind are not a common CUET shape, so format 2. Road 50% is a plausible trap."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Pure percentage arithmetic with no geographic concept; geography papers ask no numericals and no calculator is allowed. Flag caps at 4."
     }
    ],
    "cuet_type": "single_mcq",
@@ -4083,17 +5576,17 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    6,
+    8,
     4,
-    8
+    4
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 2
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 2,
+   "blocking": true
   },
   "a2654dfe-cd08-4812-a496-a4be377def6f": {
    "question_id": "a2654dfe-cd08-4812-a496-a4be377def6f",
@@ -4115,7 +5608,7 @@
      "est_seconds": 70,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-pair match of service types (personal, producer, public, trade and transport). Key checked: 1-B, 2-A, 3-C, 4-D is correct, option A. Matches the CUET match-the-following format (about 5 per paper"
+     "note": "Four-entry service-type match, all mappings correct. Inline List I/II layout is wordier than real items, so format 2. Chapter moved to Tertiary & Quaternary Activities."
     },
     {
      "judge": "h2",
@@ -4126,11 +5619,11 @@
      "unit": "Human Activities",
      "chapter": "Tertiary & Quaternary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 70,
-     "fit_score": 8,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Authentic CUET match format on classes of services (personal, producer, public, trade and transport). Key is verified: 1-B, 2-A, 3-C, 4-D. Pairs are fairly easy."
+     "note": "Classification of services (personal, producer, public, trade and transport), four clear entries. Key 1-B, 2-A, 3-C, 4-D checked. Chapter corrected."
     },
     {
      "judge": "h3",
@@ -4143,9 +5636,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 88,
-     "fit_score": 9,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-pair service classification (personal, producer, public, trade and transport) in parallel lists, CUET match format. Each pair needs one recall step. No route claimed."
+     "note": "Four-entry service classification match, core NCERT tertiary content. Lists are inline in the stem, not set out separately as in real match items."
     }
    ],
    "cuet_type": "match_the_following",
@@ -4159,8 +5652,8 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    8,
-    9
+    10,
+    8
    ],
    "fit_median": 8,
    "fit_median_raw": 8,
@@ -4185,10 +5678,10 @@
      "chapter": "Manufacturing Industries",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 55,
-     "fit_score": 6,
+     "est_seconds": 66,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Assertion-reason on industrial location (bulk-reducing industries). Both statements are true and R explains A, so option A is correct. Within the paper profile (0 to 2 assertion items), but the reason"
+     "note": "Assertion-reason on bulk-reducing industry location. Allowed by the blueprint but rare in this paper (0 in 2025), so format 2. Chapter moved to Manufacturing Industries."
     },
     {
      "judge": "h2",
@@ -4201,9 +5694,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 66,
-     "fit_score": 6,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Weber raw-material orientation is a key idea. The reason restates the mechanism that the assertion needs, so a reader can pick A without the concept; discrimination 0, capped at 6."
+     "note": "Weight-reducing industries near raw materials; reason explains assertion. Valid AR format but rare for Geography (blueprint 0-2). Reason is slightly wordy."
     },
     {
      "judge": "h3",
@@ -4218,7 +5711,7 @@
      "est_seconds": 66,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Correct NCERT content (bulk-reducing industries sit near raw material). R restates the rule A asserts, so the stem signals the answer. Assertion-reason is 0 in the paper profile, so format 2."
+     "note": "Weight-losing industries near raw material. Core idea, but assertion-reason is allowed (0-2) and rare in the geography paper profile; no route."
     }
    ],
    "cuet_type": "assertion_reason",
@@ -4231,12 +5724,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    6,
-    6,
+    8,
+    8,
     8
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4258,10 +5751,10 @@
      "chapter": "Resources & Development",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 63,
-     "fit_score": 9,
+     "est_seconds": 45,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Stock vs flow resource classification is a standard NCERT Resources and Development concept; clean 4-option conceptual item."
+     "note": "Stock vs flow resources is core Resources & Development, not Secondary Activities (chapter corrected). Long sentence options make it wordier than real items."
     },
     {
      "judge": "h2",
@@ -4276,7 +5769,7 @@
      "est_seconds": 45,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Stock vs flow resource classification is NCERT Resources and Development content. Stem framing 'in the context of industry' is odd, so format 2."
+     "note": "Stock vs flow resources is a core Resources & Development idea, so chapter moved from Secondary Activities. Options are wordy and carry duplicated letter labels (A A)."
     },
     {
      "judge": "h3",
@@ -4304,12 +5797,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    9,
+    8,
     8,
     10
    ],
-   "fit_median": 9,
-   "fit_median_raw": 9,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4330,11 +5823,11 @@
      "unit": "Human Activities",
      "chapter": "Secondary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 36,
-     "fit_score": 9,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Raw-material oriented industry definition, core Secondary Activities location concept; one-step recall, typical CBT item."
+     "note": "Raw-material-oriented industry: a standard NCERT location-type definition CBT papers ask yearly; one-line stem, plausible market and footloose distractors."
     },
     {
      "judge": "h2",
@@ -4345,11 +5838,11 @@
      "unit": "Human Activities",
      "chapter": "Secondary Activities",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 36,
-     "fit_score": 9,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Standard NCERT location-factor recall (weight-losing raw-material oriented industry) in CUET single-MCQ form. No ten_route claimed: recall-level item, cap 9."
+     "note": "Raw-material oriented industry definition: a standard NCERT Secondary Activities staple, one-step recall, with plausible market and footloose distractors."
     },
     {
      "judge": "h3",
@@ -4375,14 +5868,14 @@
    "chapter": "Secondary Activities",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    9,
-    9,
+    10,
+    10,
     10
    ],
-   "fit_median": 9,
-   "fit_median_raw": 9,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4400,8 +5893,8 @@
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Manufacturing Industries",
+     "unit": "Human Activities",
+     "chapter": "Secondary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 59,
@@ -4409,7 +5902,7 @@
      "fit_flags": [
       "off_pattern_for_subject"
      ],
-     "note": "Energy-per-unit division is not a Geography syllabus objective or CUET geography item; flagged off-pattern for subject."
+     "note": "Energy-per-unit division: a numerical outside the geography paper profile (rankings, chronology, concepts, case passages). Off pattern."
     },
     {
      "judge": "h2",
@@ -4422,9 +5915,11 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 59,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Energy-intensity division is not an NCERT Geography concept and is peripheral to a Geography paper, so syllabus 2 and format 2. Simple arithmetic, no flag."
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Bare energy-per-unit division with no geography content; peripheral to the syllabus and not a geography paper item. Key A is correct."
     },
     {
      "judge": "h3",
@@ -4453,16 +5948,16 @@
    "ten_route": null,
    "fit_scores": [
     4,
-    8,
+    4,
     6
    ],
-   "fit_median": 6,
-   "fit_median_raw": 6,
+   "fit_median": 4,
+   "fit_median_raw": 4,
    "fit_flags": {
-    "off_pattern_for_subject": 1
+    "off_pattern_for_subject": 2
    },
-   "flagged_by": 1,
-   "blocking": false
+   "flagged_by": 2,
+   "blocking": true
   },
   "28e356a2-f36b-4581-b70c-f6b69d688c40": {
    "question_id": "28e356a2-f36b-4581-b70c-f6b69d688c40",
@@ -4477,14 +5972,14 @@
      "date": "2026-10-13",
      "cuet_type": "match_the_following",
      "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Manufacturing Industries",
+     "unit": "Human Activities",
+     "chapter": "Secondary Activities",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 87,
+     "est_seconds": 69,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Parallel 4x4 industry-input-output match in CUET match format; linkage detail slightly beyond core NCERT, so level 2."
+     "note": "Four-entry linkage match in inline lists with compound entries; backward/forward linkage is not a usual NCERT match item."
     },
     {
      "judge": "h2",
@@ -4499,7 +5994,7 @@
      "est_seconds": 87,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Four-by-four match list in CUET form, key verified (1-C, 2-A, 3-B, 4-D). 'Backward/forward linkage' wording is not NCERT terminology and List II entries are crude, so format 2."
+     "note": "Four-pair industry linkage match; backward/forward linkage wording is not NCERT style and the stem is wordy. All four pairs are keyed correctly."
     },
     {
      "judge": "h3",
@@ -4557,7 +6052,7 @@
      "est_seconds": 67,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Primary vs secondary classification is core syllabus, but List II has only two repeated options, unlike the usual CUET match layout."
+     "note": "Primary vs secondary classification is core Human Activities; List II has only two entries, not a standard four-entry match."
     },
     {
      "judge": "h2",
@@ -4570,9 +6065,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 85,
-     "fit_score": 8,
+     "fit_score": 6,
      "fit_flags": [],
-     "note": "Primary vs secondary definition is a key chapter aspect, key 1-B 2-A 3-A 4-A verified. Only two response categories, so low discrimination and format 2."
+     "note": "Sorts four items into two categories; List II has only two entries, an unusual match layout for CUET. Key checks out, so it is answerable."
     },
     {
      "judge": "h3",
@@ -4601,7 +6096,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
-    8,
+    6,
     8
    ],
    "fit_median": 8,
@@ -4628,9 +6123,9 @@
      "pyq_closeness": 0,
      "ten_route": null,
      "est_seconds": 67,
-     "fit_score": 8,
+     "fit_score": 9,
      "fit_flags": [],
-     "note": "Zoning is urban planning content at the edge of the Settlements chapter; AR is within the 0-2 blueprint allowance but rare in geography papers."
+     "note": "Zoning belongs to Human Settlements (chapter corrected). Standard AR format; reason explains assertion. AR is rare in geography (target 0-2)."
     },
     {
      "judge": "h2",
@@ -4642,10 +6137,10 @@
      "chapter": "Human Settlements",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 85,
+     "est_seconds": 67,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Zoning and land-use conflict is urban planning, not Secondary Activities, so reassigned to Human Settlements. AR is 0 in the geography paper profile, but within the allowed 0-2 range, so no flag."
+     "note": "Zoning assertion-reason moved to Human Settlements. AR is allowed for Geography (0-2 per paper), but the reason is a generic definition, so the link is shallow."
     },
     {
      "judge": "h3",
@@ -4675,7 +6170,7 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    8,
+    9,
     8,
     4
    ],
@@ -4687,6 +6182,371 @@
    "flagged_by": 1,
    "blocking": false
   },
+  "ad871150-d0eb-43b5-9450-e943289ee116": {
+   "question_id": "ad871150-d0eb-43b5-9450-e943289ee116",
+   "batch": "geography__tertiary-and-quaternary-activities__01",
+   "db_chapter": "Tertiary & Quaternary Activities",
+   "content_hash": "2164eb4c40dbd8540e0531277490b4e9c6aa3435034c925d1c93736f052909c7",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Settlement-change terms (sprawl, gentrification, conurbation) fit Human Settlements, not tertiary; List II outcomes are wordy and loosely linked. Chapter corrected."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Urban-change terms, so chapter moved to Human Settlements. Mapping is reasoned, not a standard NCERT pair; List I is wordy. Clean key."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Row chapter moved from Tertiary to Human Settlements: settlement processes. Four-entry match, but List II outcomes are wordy paraphrases. No route."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Human Settlements",
+   "unit_votes": null,
+   "chapter": "Human Settlements",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "eb0a8089-b253-4812-9cef-2f4c591d3216": {
+   "question_id": "eb0a8089-b253-4812-9cef-2f4c591d3216",
+   "batch": "geography__tertiary-and-quaternary-activities__01",
+   "db_chapter": "Tertiary & Quaternary Activities",
+   "content_hash": "2cbdf5ef60b120621b5465a3ee50efc2a725ffaa3c84a903a243b8e76d66ea3d",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 67,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Quaternary research and formal/informal/retail tertiary classification: a standard CBT staple; clean four-entry match, no flags."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 67,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Tertiary vs quaternary classification is a standard CBT staple; clean four-entry match. Category labels slightly overlap (retail vs formal)."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Short four-entry classification match, real shape. Retail vs formal tertiary overlap (bank, grocery) makes the key depend on an unstated scheme. No route."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Human Activities",
+   "unit_votes": null,
+   "chapter": "Tertiary & Quaternary Activities",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": "cbt_staple",
+   "fit_scores": [
+    10,
+    10,
+    8
+   ],
+   "fit_median": 10,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "28e39c87-dac1-43a0-9051-653e88c23bec": {
+   "question_id": "28e39c87-dac1-43a0-9051-653e88c23bec",
+   "batch": "geography__tertiary-and-quaternary-activities__01",
+   "db_chapter": "Tertiary & Quaternary Activities",
+   "content_hash": "6e7f9e0d2993b864e0d80c740f08e7827672bd0d5f16f85c1e90eb195d57d065",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Knowledge-based quaternary idea, sound and explained. AR form is rare for Geography (blueprint allows 0-2), so format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is not in the geography paper profile (0 per paper), so format is 2. Reason restates the assertion, so it is guessable."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason is an allowed type but rare for geography (paper target 0 to 2). Skilled labour and research explain quaternary location. No route."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Human Activities",
+   "unit_votes": null,
+   "chapter": "Tertiary & Quaternary Activities",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "8e4eab09-03b3-4aa9-87d4-305943fd1b4e": {
+   "question_id": "8e4eab09-03b3-4aa9-87d4-305943fd1b4e",
+   "batch": "geography__tertiary-and-quaternary-activities__01",
+   "db_chapter": "Tertiary & Quaternary Activities",
+   "content_hash": "cf2fef42227cb707be34ad88c71250982b1df91f4256e4c0e31512321449f2c8",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Brain drain and remittances belong to Migration, so chapter corrected. R's absolute 'always' makes it false; AR form is rare for Geography, so format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Brain drain and remittances belong to Migration, so chapter moved there. AR format is outside the paper profile. Key C holds: the reason's 'always' is false."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Migration",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Row chapter moved from Tertiary to Migration: skilled emigration and remittances. The word 'always' makes R false. Rare AR type for geography. No route."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "People",
+   "unit_votes": null,
+   "chapter": "Migration",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "dd2e0a17-444b-40ff-bdc3-1e60ee3d0e1a": {
+   "question_id": "dd2e0a17-444b-40ff-bdc3-1e60ee3d0e1a",
+   "batch": "geography__tertiary-and-quaternary-activities__01",
+   "db_chapter": "Tertiary & Quaternary Activities",
+   "content_hash": "e1db8cab0ee1f5c5590495ce8ecc6876e2b26617c273954aa3fbac08b813a75e",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Retail and personal services in suburbs: tertiary idea; the transport reason is plausible and obvious, so no route. AR form is rare for Geography, format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Suburban retail and services follow transport and commuting, but AR format is outside the paper profile. Reason restates the assertion; options are guessable."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Tertiary & Quaternary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason, rare for geography. R explains A only loosely (commuting does not itself create amenity demand), so option B is a live rival. No route."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Human Activities",
+   "unit_votes": null,
+   "chapter": "Tertiary & Quaternary Activities",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
   "50550af3-bc74-413c-b551-7523ffc8579b": {
    "question_id": "50550af3-bc74-413c-b551-7523ffc8579b",
    "batch": "geography__transport-and-communication__01",
@@ -4694,6 +6554,21 @@
    "content_hash": "0dcfb5656c9803ea1678758b90889130a250d19226a707a9d07c45540e808044",
    "engine_type_guess": "single_mcq",
    "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 52,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One-step decadal growth formula. Options hit real slips (10%, 16.7% wrong base). Numerical is rare in this paper; format 2. Chapter moved from Transport to Population."
+    },
     {
      "judge": "h2",
      "model": "claude-haiku-5-5",
@@ -4707,7 +6582,7 @@
      "est_seconds": 52,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Moved from Transport & Communication: this is a population growth item. Decadal growth formula is NCERT, but a numerical item is thin for CUET 313, so format 2 caps it at 8."
+     "note": "Decadal growth numerical, a bare percent calculation with no geographic framing. Chapter moved from Transport to Population. No PYQ anchor."
     },
     {
      "judge": "h3",
@@ -4736,6 +6611,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -4752,6 +6628,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Growth = natural increase plus net migration, then rate: two ideas combined, wordy stem, numerical rare in this paper. Chapter moved from Transport to Population."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4764,7 +6655,7 @@
      "est_seconds": 80,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Moved from Transport & Communication to Population growth. Key 3.5 checks out. Numerical form is outside the usual 313 paper, so format 2 caps it at 8."
+     "note": "Growth from natural increase plus net migration: two calculations in a wordy stem. Chapter moved to Population. No PYQ anchor."
     },
     {
      "judge": "h3",
@@ -4793,6 +6684,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
+    8,
     8
    ],
    "fit_median": 8,
@@ -4809,7 +6701,7 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
@@ -4818,10 +6710,25 @@
      "chapter": "Population — Distribution, Density, Growth",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 35,
+     "est_seconds": 53,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Moved from Transport & Communication. Key C (500) checks out by one division. One-step calculation with little discrimination; numerical form caps format at 2, so score 8."
+     "note": "Density = population / area, one step. Option 800 is the multiply-instead-of-divide slip. Numerical is rare in this paper; format 2. Chapter moved to Population."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 53,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Density = population / area, a plain one-step formula CBT papers repeat. Chapter moved from Transport to Population."
     },
     {
      "judge": "h3",
@@ -4850,6 +6757,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
+    10,
     8
    ],
    "fit_median": 8,
@@ -4866,7 +6774,7 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
-     "judge": "h2",
+     "judge": "h1",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
      "cuet_type": "single_mcq",
@@ -4878,7 +6786,22 @@
      "est_seconds": 54,
      "fit_score": 8,
      "fit_flags": [],
-     "note": "Moved from Transport & Communication. Key D (500 = 150,000 / 300) checks out and the rearrangement of density gives some discrimination. Numerical form caps format at 2, so score 8."
+     "note": "Density formula rearranged for area: routine application of a core formula. Numerical is rare in this paper; format 2. Chapter moved to Population."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Rearranged density formula (area = population / density). Distractor 300 is the density itself. One notch harder than the density staple, so no route."
     },
     {
      "judge": "h3",
@@ -4907,6 +6830,7 @@
    "ten_route": null,
    "fit_scores": [
     8,
+    9,
     8
    ],
    "fit_median": 8,
@@ -4923,6 +6847,21 @@
    "engine_type_guess": "single_mcq",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 39,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core definition of population density, a CBT staple. Distractors are the usual confusions (urban share, crude birth rate, dependency ratio). Chapter moved to Population."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4931,11 +6870,11 @@
      "unit": "People",
      "chapter": "Population — Distribution, Density, Growth",
      "pyq_closeness": 0,
-     "ten_route": null,
+     "ten_route": "cbt_staple",
      "est_seconds": 39,
-     "fit_score": 9,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Moved from Transport & Communication. Direct NCERT definition recall, the form CUET 313 uses. Key A correct; distractors fair. No 10 route: plain definition, not PYQ or board-only."
+     "note": "Definition of population density, a CBT staple. Distractors are urban percentage, crude birth rate and dependency ratio, all real confusions. Chapter moved to Population."
     },
     {
      "judge": "h3",
@@ -4961,13 +6900,14 @@
    "chapter": "Population — Distribution, Density, Growth",
    "chapter_votes": null,
    "pyq_closeness": 0,
-   "ten_route": null,
+   "ten_route": "cbt_staple",
    "fit_scores": [
-    9,
+    10,
+    10,
     10
    ],
-   "fit_median": 9.5,
-   "fit_median_raw": 9.5,
+   "fit_median": 10,
+   "fit_median_raw": 10,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
@@ -4980,6 +6920,21 @@
    "engine_type_guess": "match_the_following",
    "judges": [
     {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "Transport & Communication",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four transport-to-settlement pairings, each needs working out. Key matches the stated pairings. Lists are inline, not two-column; format 2. Stays in Transport chapter."
+    },
+    {
      "judge": "h2",
      "model": "claude-haiku-5-5",
      "date": "2026-10-13",
@@ -4989,10 +6944,10 @@
      "chapter": "Transport & Communication",
      "pyq_closeness": 0,
      "ten_route": null,
-     "est_seconds": 108,
-     "fit_score": 6,
+     "est_seconds": 90,
+     "fit_score": 8,
      "fit_flags": [],
-     "note": "Match format is CUET-like, but the framing most direct effect on population distribution is not an NCERT link. Railways-A and highways-C are arguable, so discrimination is low. Scores 6."
+     "note": "Transport modes matched to settlement effects. Mapping is interpretive rather than textbook fact, and List II is wordy. Level 2 caps the score at 8."
     },
     {
      "judge": "h3",
@@ -5020,11 +6975,12 @@
    "pyq_closeness": 0,
    "ten_route": null,
    "fit_scores": [
-    6,
+    8,
+    8,
     7
    ],
-   "fit_median": 6.5,
-   "fit_median_raw": 6.5,
+   "fit_median": 8,
+   "fit_median_raw": 8,
    "fit_flags": {},
    "flagged_by": 0,
    "blocking": false
