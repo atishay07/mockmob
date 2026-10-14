@@ -428,16 +428,16 @@ test('the committed tables (merged 14 Oct) admit all 475 through the engine defa
   assert.deepEqual([coverage.agent.bound, coverage.fit.checked, coverage.fit.bound], [475, true, 475]);
 });
 
-test('wave 1 as first built (479 candidates, original judges): admit gives 460 and names the 19 content refusals', () => {
+test('wave 1 as first built (479 candidates, original judges): admit gives 463 and names the 16 content refusals (r5.2: the 3 sign-only option sets are no longer refused)', () => {
   const { report, agentDir, fitDir } = mergedWave1('admit', FIRST_BUILD_ARGS);
   assert.equal(report.planned, 479);
   assert.equal(report.hashChangedByRepair, 60);
   assert.equal(report.heldForFreshPass, 0);
   assert.equal(report.fitGate.pass, 479);
-  assert.equal(report.engineEligible, 460);
-  assert.equal(report.engineIneligible, 19);
+  assert.equal(report.engineEligible, 463);
+  assert.equal(report.engineIneligible, 16);
   assert.deepEqual(report.engineIneligibleReasons, {
-    answer_guard_options_invalid: 3, answer_guard_near_duplicate_options: 3, options_invalid: 3, wording_corrupted_connective: 1, orphan_passage_question: 15,
+    wording_corrupted_connective: 1, orphan_passage_question: 15,
   });
   assert.equal(report.passageSets.servable, 12);
   const rows = planPublication(firstBuild()).rows;
@@ -451,7 +451,7 @@ test('wave 1 as first built, hold: the 60 repaired-text questions stay out of th
   assert.equal(report.heldForFreshPass, 60);
   assert.equal(report.engineIneligibleReasons.question_changed_since_scored, 60);
   assert.equal(report.fitGate.reasons.fit_question_changed, 60);
-  assert.equal(report.engineEligible, 402);
+  assert.equal(report.engineEligible, 405);
   assert.equal(report.passageSets.servable < 12, true, 'English sets lose children');
   const rows = planPublication(firstBuild()).rows;
   const coverage = scoreCoverage(rows, { fitDir: path.join(agentDir, '..', 'no-fit'), agentScores: agentTablesFrom(agentDir) });

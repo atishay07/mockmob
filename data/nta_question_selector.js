@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { isValidTopSyllabusPair } from './canonical_syllabus.js';
 import { toInternalSubjectId } from './cuet_controls.js';
+import { normalizeOptionComparable } from './option_compare.js';
 import { assembleNtaPaper, longestPassageRun } from './nta_paper_pattern.js';
 import {
   ANSWER_LOCAL_CONFIDENCE_THRESHOLD,
@@ -304,8 +305,8 @@ function resolveCorrectIndex(row, options) {
     if (numeric >= 1 && numeric <= options.length) return numeric - 1;
   }
 
-  const comparable = normalizeComparable(raw);
-  return options.findIndex((option) => normalizeComparable(option.text) === comparable);
+  const comparable = normalizeOptionComparable(raw);
+  return options.findIndex((option) => normalizeOptionComparable(option.text) === comparable);
 }
 
 function hasMalformedText(text) {
@@ -321,7 +322,7 @@ function optionsAreUsable(options) {
   const texts = options.map((option) => option.text);
   if (texts.some((text) => !text || text.length > 240)) return false;
   if (texts.some((text) => /^(option\s*)?[a-d]$/i.test(text) || hasPlaceholderText(text))) return false;
-  return new Set(texts.map(normalizeComparable)).size === texts.length;
+  return new Set(texts.map(normalizeOptionComparable)).size === texts.length;
 }
 
 function jaccardSimilarity(a, b) {
@@ -336,7 +337,7 @@ function jaccardSimilarity(a, b) {
 }
 
 function optionFingerprint(options) {
-  return options.map((option) => normalizeComparable(option.text)).sort().join('|');
+  return options.map((option) => normalizeOptionComparable(option.text)).sort().join('|');
 }
 
 function explanationText(row) {

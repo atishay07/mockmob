@@ -48,7 +48,7 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.14-r5.1';
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.14-r5.2';
 // The CUET-fit bar (data/nta_fit_scores.js): eligibility needs the quality gate above AND the median of
 // the three fit judges at or above this, with fewer than two judges raising a fit flag.
 export { NTA_MIN_FIT_SCORE };

@@ -1,4 +1,5 @@
 import { toInternalSubjectId } from './cuet_controls.js';
+import { normalizeOptionComparable } from './option_compare.js';
 
 export const TOP_15_ANSWER_GUARD_SUBJECTS = Object.freeze([
   'english',
@@ -62,12 +63,8 @@ function normalizeComparable(value) {
   if (scalar && !(scalar[1] && scalar[3]) && groupingValid && Number.isFinite(numeric)) {
     return `scalar:${scalar[2]}:${numeric}:${scalar[5]}`;
   }
-  return textValue(value)
-    .toLowerCase()
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  // Symbols, brackets, superscripts and non-Latin letters are significant (data/option_compare.js, engine r5.2).
+  return normalizeOptionComparable(value);
 }
 
 function tokensForSimilarity(value) {
