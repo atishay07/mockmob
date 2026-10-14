@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../copy.dart';
-import '../data/mistake_index.dart';
 
 /// A section heading on Review: the title in the Bricolage title cut, an optional quiet count
 /// on the right.
@@ -81,41 +79,6 @@ class SubjectMark extends StatelessWidget {
               ArtImage(object, height: size * 0.86, width: size * 0.86)
             else
               Bubble(state: BubbleState.wrong, size: size * 0.36, animate: false),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// A stage word with its bubble, so the stage never rests on colour alone.
-class StageChip extends StatelessWidget {
-  const StageChip(this.stage, {super.key});
-
-  final MistakeStage stage;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final (label, bubble) = switch (stage) {
-      MistakeStage.found => (ReviewCopy.found, BubbleState.wrong),
-      MistakeStage.reviewed => (ReviewCopy.reviewed, BubbleState.marked),
-      MistakeStage.repaired => (ReviewCopy.repaired, BubbleState.filled),
-      MistakeStage.setAside => (ReviewCopy.setAside, BubbleState.blank),
-    };
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        shape: StadiumBorder(side: BorderSide(color: colors.line)),
-        color: colors.isNight ? colors.raised2 : colors.raised,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Bubble(state: bubble, size: 12, animate: false),
-            const SizedBox(width: 6),
-            Text(label, style: context.mmType.caption.copyWith(color: colors.ink2)),
           ],
         ),
       ),

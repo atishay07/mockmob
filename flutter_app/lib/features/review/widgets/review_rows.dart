@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -10,23 +12,28 @@ import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import 'answer_sheet.dart';
-import 'review_bits.dart' show SolidPanel;
+import 'collapsible.dart';
 
 /// The quiet group of skipped questions (spec 5.8): never a repair key, only the answer and a
 /// try that is not recorded. One collapsed panel with the count: skipped questions are not
 /// mistakes, so 47 of them never push the repair record and the past results off the tab.
-class NotAttemptedGroup extends StatefulWidget {
+class NotAttemptedGroup extends ConsumerStatefulWidget {
   const NotAttemptedGroup({super.key, required this.group, this.initiallyExpanded = false});
 
   final BlankGroup group;
   final bool initiallyExpanded;
 
   @override
-  State<NotAttemptedGroup> createState() => _NotAttemptedGroupState();
+  ConsumerState<NotAttemptedGroup> createState() => _NotAttemptedGroupState();
 }
 
-class _NotAttemptedGroupState extends State<NotAttemptedGroup> {
+class _NotAttemptedGroupState extends ConsumerState<NotAttemptedGroup> {
   late bool _expanded = widget.initiallyExpanded;
+
+  void _toggle() {
+    ref.read(hapticsProvider).tick();
+    setState(() => _expanded = !_expanded);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +41,34 @@ class _NotAttemptedGroupState extends State<NotAttemptedGroup> {
     final type = context.mmType;
     final group = widget.group;
     final heading = ReviewCopy.notAttemptedHeading(group.source, group.items.length);
-    return SolidPanel(
-      padding: EdgeInsets.zero,
+    // The same family as a map row: open on the ground, lifting onto a raised fill when opened.
+    return AnimatedContainer(
+      duration: Motion.of(context, Motion.card),
+      curve: Motion.glide,
+      decoration: ShapeDecoration(
+        color: _expanded ? colors.raised : colors.raised.withValues(alpha: 0),
+        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: _expanded ? colors.line : colors.line.withValues(alpha: 0))),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MmPressable(
-            onTap: () => setState(() => _expanded = !_expanded),
+            onTap: _toggle,
             pressedScale: 0.985,
             focusRadius: MmRadius.panelAll,
             semanticsLabel: '$heading. ${ReviewCopy.notAttemptedNote} ${ReviewCopy.groupExpandHint(_expanded)}',
             builder: (context, pressed, _) => ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: MmTarget.min),
+              constraints: const BoxConstraints(minHeight: 64),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
                 child: Row(
                   children: [
+                    // The skipped sheet: a dashed ring, the same mark the answer sheet uses.
+                    SizedBox.square(
+                      dimension: 40,
+                      child: Center(child: Bubble(state: BubbleState.blank, size: 24, animate: false)),
+                    ),
+                    const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,8 +82,8 @@ class _NotAttemptedGroupState extends State<NotAttemptedGroup> {
                     const SizedBox(width: MmSpace.s8),
                     AnimatedRotation(
                       turns: _expanded ? 0.5 : 0,
-                      duration: Motion.of(context, Motion.ui),
-                      curve: Motion.glide,
+                      duration: Motion.of(context, Motion.card),
+                      curve: Motion.emphasized,
                       child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
                     ),
                   ],
@@ -72,19 +91,12 @@ class _NotAttemptedGroupState extends State<NotAttemptedGroup> {
               ),
             ),
           ),
-          // The size snaps (no layout animation inside a scrolling list); the rows fade in.
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.card),
-            switchInCurve: Motion.glide,
-            switchOutCurve: Motion.exit,
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [?current]),
-            child: !_expanded
-                ? const SizedBox(key: ValueKey('closed'), width: double.infinity)
-                : Column(
-                    key: const ValueKey('open'),
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [for (final item in group.items) _BlankRow(item: item)],
-                  ),
+          MmCollapsible(
+            expanded: _expanded,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [for (final item in group.items) _BlankRow(item: item), const SizedBox(height: MmSpace.s8)],
+            ),
           ),
         ],
       ),
@@ -291,6 +303,11 @@ class PastResultRow extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if (attempt.maxMarks > 0) ...[
+                      const SizedBox(width: MmSpace.s12),
+                      _MarksBar(fraction: attempt.marks / attempt.maxMarks),
+                    ],
+                    const SizedBox(width: MmSpace.s8),
                     Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
                   ],
                 ),
@@ -299,6 +316,35 @@ class PastResultRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// The paper's marks over its maximum as a hairline bar: the same number the line says, drawn.
+class _MarksBar extends StatelessWidget {
+  const _MarksBar({required this.fraction});
+
+  final double fraction;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final f = fraction.isNaN ? 0.0 : fraction.clamp(0.0, 1.0);
+    return ExcludeSemantics(
+      child: SizedBox(
+        width: 48,
+        height: 4,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(2),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: colors.line),
+              Align(alignment: Alignment.centerLeft, child: FractionallySizedBox(widthFactor: f, heightFactor: 1, child: ColoredBox(color: colors.ink2))),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

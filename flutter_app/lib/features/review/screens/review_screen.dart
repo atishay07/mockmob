@@ -13,7 +13,7 @@ import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
-import '../widgets/chapter_group_card.dart';
+import '../widgets/mistake_map.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
@@ -147,8 +147,6 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       for (final (id, label) in unopened.take(1))
         gutter(UnopenedResultRow(label: label, onOpen: () => context.push(AppRoutes.resultSealed(id))), top: 0),
       if (unopened.isNotEmpty) const SizedBox(height: MmSpace.s16),
-      if (index.foundCount > 0) gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount), top: 0),
-      if (index.foundCount > 0) const SizedBox(height: MmSpace.s12),
       if (tonight != null)
         gutter(
           TonightCard(
@@ -163,13 +161,13 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         gutter(_noTonight(index, groups, inputs))
       else if (index.hasAnyMistake || index.attempts.isNotEmpty)
         // Only when nothing is open: a set-aside question is not a repaired one.
-        gutter(_AllClear(setAside: index.setAsideCount)),
+        gutter(_AllClear(setAside: index.setAsideCount, repaired: index.repairedCount)),
       if (groups.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mistakesSummaryOf(index)), top: MmSpace.group),
-        for (final g in groups.take(tabChapterLimit)) ...[
-          gutter(ChapterGroupCard(group: g, clock: clock, onOpen: _openRepair)),
-          const SizedBox(height: MmSpace.s12),
-        ],
+        // The progress line and its bar teach the colours of the map under it.
+        gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount)),
+        const SizedBox(height: MmSpace.s12),
+        gutter(MistakeMap(groups: groups.take(tabChapterLimit).toList(), scaleTo: mapScaleOf(groups), clock: clock, onOpen: _openRepair)),
         if (groups.length > tabChapterLimit)
           gutter(
             Align(
@@ -267,35 +265,69 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   }
 }
 
-/// No open mistakes: Mobi reading, and the truth about what comes next.
+/// No open mistakes: the hero becomes a quiet all-clear. Mobi reading at the right, the title as the
+/// headline, the truth about what comes next, and the number of mistakes repaired so far as the
+/// figure (only when there are some: a set-aside question is not a repaired one).
 class _AllClear extends StatelessWidget {
-  const _AllClear({this.setAside = 0});
+  const _AllClear({this.setAside = 0, this.repaired = 0});
 
   /// Questions waiting on an answer-key check: they are not repaired, so the card says so.
   final int setAside;
+  final int repaired;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return FakeGlass(
-      child: Padding(
-        padding: const EdgeInsets.all(MmSpace.cardPadding),
-        child: Row(
-          children: [
-            const Mobi(pose: MobiPose.read, size: 72, motion: MobiMotion.settle),
-            const SizedBox(width: MmSpace.s16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.cardTitle)),
-                  const SizedBox(height: MmSpace.s4),
-                  Text(setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage, style: type.small.copyWith(color: colors.ink2)),
-                ],
+    return LitEdge(
+      child: MmClip(
+        borderRadius: MmRadius.panelAll,
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: colors.raised, boxShadow: colors.cardShadow),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: IgnorePointer(child: LightField.lamp(context, strength: 1.1, center: const Alignment(0.9, -0.9))),
               ),
-            ),
-          ],
+              Positioned.fill(
+                child: IgnorePointer(child: Grain(opacity: colors.grain * 0.7)),
+              ),
+              const Positioned(
+                right: 8,
+                top: 12,
+                child: Mobi(pose: MobiPose.read, size: 104, motion: MobiMotion.settle),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 96),
+                      child: Semantics(
+                        header: true,
+                        child: Text(ReviewCopy.allClearTitle, style: type.headline.copyWith(fontSize: 26, height: 29 / 26)),
+                      ),
+                    ),
+                    if (repaired > 0) ...[
+                      const SizedBox(height: MmSpace.s16),
+                      MonumentalNumber(
+                        value: '$repaired',
+                        unit: 'repaired',
+                        style: type.figure.copyWith(fontSize: 64, height: 58 / 64),
+                        semanticsLabel: '$repaired ${ReviewCopy.endingUnit(repaired)}',
+                      ),
+                    ],
+                    const SizedBox(height: MmSpace.s12),
+                    Text(
+                      setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage,
+                      style: type.body.copyWith(color: colors.ink2),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -310,17 +342,24 @@ class _ReviewSkeleton extends StatelessWidget {
     return const SkeletonGroup(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Skeleton(height: 280, radius: MmRadius.panel),
-            SizedBox(height: MmSpace.group),
-            Skeleton.line(width: 180, height: 20),
-            SizedBox(height: MmSpace.s12),
-            Skeleton(height: 104, radius: MmRadius.panel),
-            SizedBox(height: MmSpace.s12),
-            Skeleton(height: 104, radius: MmRadius.panel),
-          ],
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Skeleton(height: 430, radius: MmRadius.panel),
+              SizedBox(height: MmSpace.group),
+              Skeleton.line(width: 200, height: 22),
+              SizedBox(height: MmSpace.s8),
+              Skeleton.line(width: 150, height: 14),
+              SizedBox(height: MmSpace.s20),
+              Skeleton(height: 72, radius: MmRadius.key),
+              SizedBox(height: MmSpace.s12),
+              Skeleton(height: 72, radius: MmRadius.key),
+              SizedBox(height: MmSpace.s12),
+              Skeleton(height: 72, radius: MmRadius.key),
+            ],
+          ),
         ),
       ),
     );

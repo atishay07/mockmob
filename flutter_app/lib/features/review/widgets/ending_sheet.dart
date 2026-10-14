@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/models/attempt.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -54,6 +55,8 @@ class EndingSheet extends StatelessWidget {
           // The lamp catching the sheet from the upper left.
           const Positioned.fill(child: LampScene(strength: 0.9)),
           Positioned.fill(child: Grain(opacity: colors.grain)),
+          // One soft band of light crossing the sheet as the last ring closes.
+          Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: _SweepPainter(progress: progress, light: colors.lamp, night: colors.isNight)))),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 18, 20, 22),
             child: Column(
@@ -161,4 +164,40 @@ class _SheetPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SheetPainter old) => old.colors != colors || old.progress != progress || !identical(old.cells, cells);
+}
+
+/// A soft diagonal band of lamp light that crosses the handed-back sheet while the last third of
+/// [progress] runs, once. Nothing is drawn at rest (progress 0 or 1), so reduced motion and a
+/// settled sheet are unchanged.
+class _SweepPainter extends CustomPainter {
+  _SweepPainter({required this.progress, required this.light, required this.night}) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final Color light;
+  final bool night;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = progress.value;
+    if (p <= 0.6 || p >= 1 || size.isEmpty) return;
+    final t = Motion.sweepCurve.transform((p - 0.6) / 0.4);
+    final w = size.width * 0.5;
+    final x = -w + (size.width + 2 * w) * t;
+    final edge = (night ? 0.16 : 0.2) * math.sin(math.pi * t);
+    canvas.save();
+    canvas.translate(x, 0);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, w, size.height),
+      Paint()
+        ..shader = LinearGradient(
+          begin: const Alignment(-1, -0.4),
+          end: const Alignment(1, 0.4),
+          colors: [light.withValues(alpha: 0), light.withValues(alpha: edge), light.withValues(alpha: 0)],
+        ).createShader(Rect.fromLTWH(0, 0, w, size.height)),
+    );
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_SweepPainter old) => old.progress != progress || old.light != light || old.night != night;
 }

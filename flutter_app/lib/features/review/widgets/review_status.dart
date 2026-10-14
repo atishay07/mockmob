@@ -5,48 +5,66 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import 'mistake_map.dart' show MistakeBar;
 import 'review_bits.dart';
 
 /// "3 of 12 repaired": how many of the mistakes found so far are repaired, read from the index
-/// and nothing else. A quiet neutral bar, no Mobi, no volt: the volt belongs to the repair key.
-class RepairsProgress extends StatelessWidget {
-  const RepairsProgress({super.key, required this.repaired, required this.found});
+/// and nothing else. The bar beside it is the map's own: one segment per mistake, volt where
+/// repaired, coral where open, a ring where set aside, so it teaches the bars below it. It fills
+/// in over 520 ms on the emphasized curve when the tab opens.
+class RepairsProgress extends StatefulWidget {
+  const RepairsProgress({super.key, required this.repaired, required this.found, this.setAside = 0});
 
   final int repaired;
   final int found;
+  final int setAside;
+
+  @override
+  State<RepairsProgress> createState() => _RepairsProgressState();
+}
+
+class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 520));
+  late final CurvedAnimation _grow = CurvedAnimation(parent: _c, curve: Motion.emphasized);
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _c.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _grow.dispose();
+    _c.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final fraction = found <= 0 ? 0.0 : (repaired / found).clamp(0.0, 1.0);
+    final found = widget.found;
+    final open = (found - widget.repaired - widget.setAside).clamp(0, found);
     return Semantics(
-      label: ReviewCopy.repairsProgressSemantics(repaired, found),
+      label: ReviewCopy.repairsProgressSemantics(widget.repaired, found),
       excludeSemantics: true,
       child: Row(
         children: [
-          Text(ReviewCopy.repairsProgress(repaired, found), style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+          Text(
+            ReviewCopy.repairsProgress(widget.repaired, found),
+            style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(2),
-              child: SizedBox(
-                height: 4,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    ColoredBox(color: colors.line),
-                    TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0, end: fraction),
-                      duration: Motion.of(context, Motion.card),
-                      curve: Motion.glide,
-                      builder: (context, value, _) =>
-                          Align(alignment: Alignment.centerLeft, child: FractionallySizedBox(widthFactor: value, child: ColoredBox(color: colors.ink2))),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: MistakeBar(open: open, repaired: widget.repaired, setAside: widget.setAside, scale: found, grow: _grow, height: 6),
           ),
         ],
       ),

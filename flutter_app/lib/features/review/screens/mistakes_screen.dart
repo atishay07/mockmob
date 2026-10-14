@@ -9,10 +9,11 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
-import '../widgets/chapter_group_card.dart';
+import '../widgets/mistake_map.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
+import '../widgets/review_status.dart';
 
 /// `/review/mistakes`: every chapter with mistakes, open ones first, then the skipped questions.
 /// Opened from "See all" and from the quick-start sheet's "Repair the next mistake".
@@ -65,22 +66,21 @@ class MistakesScreen extends ConsumerWidget {
           if (inputs.attempts.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s12)],
           if (open.isNotEmpty) ...[
             SectionHeading(ReviewCopy.mistakesHeading, caption: mistakesSummaryOf(index)),
-            for (var i = 0; i < open.length; i++) ...[
-              ChapterGroupCard(group: open[i], clock: clock, onOpen: openRepair, initiallyExpanded: i == 0),
-              const SizedBox(height: MmSpace.s12),
-            ],
+            RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
+            const SizedBox(height: MmSpace.s12),
+            MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0),
           ],
           if (repaired.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.group),
             const SectionHeading(ReviewCopy.repaired),
-            for (final g in repaired) ...[ChapterGroupCard(group: g, clock: clock, onOpen: openRepair), const SizedBox(height: MmSpace.s12)],
+            MistakeMap(groups: repaired, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups)),
           ],
           if (setAside.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.group),
             const SectionHeading(ReviewCopy.setAsideHeading),
-            for (final g in setAside) ...[ChapterGroupCard(group: g, clock: clock, onOpen: openRepair), const SizedBox(height: MmSpace.s12)],
+            MistakeMap(groups: setAside, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups)),
           ],
-          if (index.blanks case final blanks?) ...[const SizedBox(height: MmSpace.s20), NotAttemptedGroup(group: blanks)],
+          if (index.blanks case final blanks?) ...[const SizedBox(height: MmSpace.s24), NotAttemptedGroup(group: blanks)],
         ],
       );
     }

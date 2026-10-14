@@ -26,6 +26,13 @@ abstract final class ReviewCopy {
     return '$head ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
   }
 
+  /// The line beside the hero's number, which already says how many: where they come from.
+  static String tonightSource(String source, int n, int chapterOpen) {
+    final rest = chapterOpen - n;
+    if (rest <= 0) return 'From $source. You can stop after any one.';
+    return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
+  }
+
   static String tonightKey(int n, int? minutes) =>
       minutes == null ? 'Repair ${plural(n, 'mistake')}' : 'Repair ${plural(n, 'mistake')}, about $minutes minutes';
 
@@ -121,6 +128,8 @@ abstract final class ReviewCopy {
 
   static String entryLead(int n, int? minutes) =>
       '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
+  /// The line under the entry's number, which already says how many.
+  static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
   static String creditLine(int balance) => 'Uses 1 explanation credit for each mistake. You have $balance.';
   static String shortfallLine(int needed, int balance) =>
       'This repair needs $needed explanation credits. You have $balance. '
