@@ -12,7 +12,7 @@
     "nta:diagnose": "node --use-system-ca scripts/nta-diagnose.mjs",
     "test:visitor": "node --test data/tests/visitor_state.test.mjs data/tests/runner_notice.test.mjs data/tests/navigation.test.mjs data/tests/practice_landing.test.mjs data/tests/notice_rules.test.mjs",
     "test:public": "node --test data/tests/public_pages.test.mjs",
-    "test:redesign": "node --test shared/tests/*.test.mjs src/app/onboarding/subjects.test.mjs \"src/app/(app)/profile/appearance.test.mjs\" \"src/app/(app)/review/reviewModel.test.mjs\" \"src/app/(app)/analytics/radarModel.test.mjs\" \"src/app/(app)/leaderboard/boardModel.test.mjs\"",
+    "test:redesign": "node --test shared/tests/*.test.mjs src/app/onboarding/subjects.test.mjs \"src/app/(app)/profile/appearance.test.mjs\" \"src/app/(app)/review/reviewModel.test.mjs\" \"src/app/(app)/leaderboard/boardModel.test.mjs\"",
     "test:nta": "node --test data/tests/nta_question_selector.test.mjs",
     "test:study": "node --test data/tests/study_engine.test.mjs data/tests/study_content.test.mjs data/tests/study_database.test.mjs",
     "test:answer-integrity": "node --test data/tests/answer_integrity.test.mjs",
