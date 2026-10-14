@@ -48,12 +48,12 @@ abstract final class MobiDetails {
     c.save();
     c.clipRRect(MobiGeo.visorRect.deflate(1.2));
     final base = MobiGeo.visor + Offset(rig.lookX * MobiGeo.lookTravel.dx, MobiGeo.eyeDrop + rig.lookY * MobiGeo.lookTravel.dy);
-    _eye(c, base + const Offset(-MobiGeo.eyeSpread, 0), rig.eyeL);
-    _eye(c, base + const Offset(MobiGeo.eyeSpread, 0), rig.eyeR);
+    _eye(c, base + const Offset(-MobiGeo.eyeSpread, 0), rig.eyeL, -1);
+    _eye(c, base + const Offset(MobiGeo.eyeSpread, 0), rig.eyeR, 1);
     c.restore();
   }
 
-  static void _eye(Canvas c, Offset center, MobiEye e) {
+  static void _eye(Canvas c, Offset center, MobiEye e, double side) {
     final w = MobiGeo.eyeSize.width;
     final fullH = MobiGeo.eyeSize.height;
     // The oval closes as the smiling arc comes in, like a blink into a smile, so the two shapes
@@ -94,13 +94,28 @@ abstract final class MobiDetails {
       final h = math.max(2.4, fullH * e.open.clamp(0.0, 1.2) * closing);
       final rect = Rect.fromCenter(center: center + Offset(0, (fullH - h) * 0.18), width: w, height: h);
       c.save();
-      if (e.lid > 0.01) {
+      if (e.lid > 0.01 && e.slant.abs() <= 0.01) {
         // A heavy lid that sags in the middle: drowsy, never cross.
         final y = rect.top + rect.height * e.lid.clamp(0.0, 0.92);
         final sag = rect.height * 0.22 * e.lid;
         c.clipPath(Path()
           ..moveTo(rect.left - 2, y - sag)
           ..quadraticBezierTo(rect.center.dx, y + sag, rect.right + 2, y - sag)
+          ..lineTo(rect.right + 2, rect.bottom + 2)
+          ..lineTo(rect.left - 2, rect.bottom + 2)
+          ..close());
+      } else if (e.slant.abs() > 0.01) {
+        // A sloped lid (the mood's brow): lower at the outer corner, so the eye reads soft and
+        // sympathetic. It stays gentle (at most about a third of the eye) so it is never sad.
+        final s = e.slant.clamp(-1.0, 1.0);
+        final base = rect.top + rect.height * e.lid.clamp(0.0, 0.92);
+        final outer = base + rect.height * 0.34 * s;
+        final inner = base - rect.height * 0.04 * s;
+        final yLeft = side < 0 ? outer : inner;
+        final yRight = side < 0 ? inner : outer;
+        c.clipPath(Path()
+          ..moveTo(rect.left - 2, yLeft)
+          ..quadraticBezierTo(rect.center.dx, (yLeft + yRight) / 2 + rect.height * 0.05 * e.lid, rect.right + 2, yRight)
           ..lineTo(rect.right + 2, rect.bottom + 2)
           ..lineTo(rect.left - 2, rect.bottom + 2)
           ..close());
@@ -118,7 +133,7 @@ abstract final class MobiDetails {
                   MobiPalette.eyeShade.withValues(alpha: alpha),
                 ], const [0, 0.55, 1]),
       );
-      if (h > 6 && e.lid < 0.4) {
+      if (h > 6 && e.lid < 0.4 && e.slant < 0.5) {
         c.drawOval(
           Rect.fromCenter(center: rect.topCenter + Offset(-w * 0.12, h * 0.24), width: w * 0.34, height: h * 0.16),
           Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.9 * alpha),

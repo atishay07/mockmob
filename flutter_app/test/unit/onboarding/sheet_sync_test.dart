@@ -43,9 +43,9 @@ class _FakeAuth extends AuthController {
   void become(AuthSnapshot next) => state = next;
 }
 
-const _newAccount = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com');
-const _existing = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com', subjects: ['english']);
-const _otherWithPlan = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com', subjects: ['english']);
+const _newAccount = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com', profileFresh: true);
+const _existing = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com', subjects: ['english'], profileFresh: true);
+const _otherWithPlan = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com', subjects: ['english'], profileFresh: true);
 
 final _sealed = OnboardingAnswers(
   stage: Stage.classTwelve,
@@ -179,6 +179,21 @@ void main() {
     expect(writes().map((r) => r.path), isNot(contains('/api/users/u1')));
     expect(writes().map((r) => r.path), isNot(contains('/api/me/goal')));
     expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')), reason: 'their consent stays as it is');
+  });
+
+  test('a profile still cached on the phone waits: nothing is asked or written until the server profile arrives', () async {
+    const cached = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com');
+    final c = start(auth: cached);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
+    expect(http.requests, isEmpty, reason: 'a cached copy cannot say the account is new');
+
+    (c.read(authSnapshotProvider.notifier) as _FakeAuth).become(_newAccount);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+    expect(writes().map((r) => r.path), contains('/api/users/u1'));
   });
 
   // ROBUSTNESS onboarding-01: a profile cached on the phone while the account had no subjects
@@ -395,7 +410,7 @@ void main() {
   });
 
   group('another account on the same phone', () {
-    const other = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com');
+    const other = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com', profileFresh: true);
     _FakeAuth auth(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
 
     test('signing out on purpose takes the saved sheet off the phone', () async {
@@ -597,5 +612,5 @@ void main() {
 }
 
 extension on AuthSnapshot {
-  AuthSnapshot copyWithId(String id) => AuthSnapshot(status: status, userId: id, email: email);
+  AuthSnapshot copyWithId(String id) => AuthSnapshot(status: status, userId: id, email: email, profileFresh: true);
 }

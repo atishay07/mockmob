@@ -44,7 +44,8 @@ void main() {
     await openSheet(tester);
     await tester.enterText(scoreField, '720');
     await tester.pump();
-    final done = find.widgetWithText(KeyButton, ToolsCopy.done);
+    // With a score typed the key says what it will show: "Show 38 programmes".
+    final done = find.byWidgetPredicate((w) => w is KeyButton && w.label.startsWith('Show ') && w.label.endsWith('programmes'));
     expect(done, findsOneWidget);
     await tester.tap(done);
     await tester.pumpAndSettle();

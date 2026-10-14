@@ -159,8 +159,9 @@ class _ToolsFadingScrollerState extends State<ToolsFadingScroller> {
 }
 
 /// A progress ring: [fraction] of a full turn in volt over a quiet track, with [child] (a
-/// number) in the middle. The arc sweeps in once when the card arrives; under reduced motion it
-/// is simply drawn.
+/// number) in the middle. The arc sweeps in once when the card arrives, and afterwards travels
+/// from where it was to the new fraction whenever [fraction] changes; under reduced motion it is
+/// simply drawn.
 class ToolsRing extends StatelessWidget {
   const ToolsRing({super.key, required this.fraction, required this.child, this.size = 112, this.stroke = 8});
 
@@ -174,21 +175,23 @@ class ToolsRing extends StatelessWidget {
     final colors = context.mmColors;
     final reduced = MediaQuery.disableAnimationsOf(context);
     final target = fraction.clamp(0.0, 1.0);
-    Widget ring(double t) => CustomPaint(
+    Widget ring(double f) => CustomPaint(
           painter: _RingPainter(
-            fraction: target * t,
+            fraction: f,
             track: colors.lineStrong,
             arc: colors.isNight ? colors.volt : colors.accentText,
             stroke: stroke,
           ),
           child: SizedBox.square(dimension: size, child: Padding(padding: EdgeInsets.all(stroke + 6), child: Center(child: child))),
         );
-    if (reduced) return ring(1);
+    if (reduced) return ring(target);
+    // A tween whose end moves starts its next run from the value on screen: the first run
+    // sweeps 0 to the fraction, a later one goes from the previous fraction to the new one.
     return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
+      tween: Tween(begin: 0, end: target),
       duration: const Duration(milliseconds: 700),
       curve: const Cubic(0.45, 0, 0.55, 1),
-      builder: (context, t, _) => ring(t),
+      builder: (context, f, _) => ring(f),
     );
   }
 }

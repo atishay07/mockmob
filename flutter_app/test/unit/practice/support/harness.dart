@@ -12,7 +12,7 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkRestoredProvider;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/models.dart';
-import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftSummaryProvider;
+import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftAnsweredProvider, draftSummaryProvider;
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
 import 'package:mockmob/features/learn/models/learn_catalog.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
@@ -304,6 +304,8 @@ List<Override> practiceOverrides({
     draftSummaryProvider(draft.sessionId).overrideWith(
       (ref) async => answered == null ? null : DraftSummary(answered: answered, acknowledgedAnswered: answered, total: draft.count),
     ),
+  // The painted sheet on the resume card inks exactly the questions that have an answer.
+  if (draft != null) draftAnsweredProvider(draft.sessionId).overrideWith((ref) async => answered == null ? null : [for (var i = 0; i < draft.count; i++) i < answered]),
   hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
   savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),

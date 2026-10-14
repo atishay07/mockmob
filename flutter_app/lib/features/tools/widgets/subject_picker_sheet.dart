@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -85,8 +86,13 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
   final _finder = TextEditingController();
   String _query = '';
 
+  /// Bumped when a tap on a subject is refused because the limit is reached: the line that says
+  /// why shakes once, with the warn haptic.
+  final ValueNotifier<int> _refused = ValueNotifier(0);
+
   @override
   void dispose() {
+    _refused.dispose();
     _finder.dispose();
     super.dispose();
   }
@@ -113,7 +119,12 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
 
     Widget chip(DuPick pick, String label) {
       final on = picked.contains(pick);
-      return MmChip(label: label, selected: on, onTap: !on && full ? null : () => widget.onToggle(pick));
+      final refused = !on && full;
+      final chip = MmChip(label: label, selected: on, onTap: refused ? null : () => widget.onToggle(pick));
+      // A disabled chip that answers nothing feels dead: a tap on it shakes the limit line.
+      return refused && widget.limitNote != null
+          ? GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => _refused.value++, child: chip)
+          : chip;
     }
 
     Widget group(String title, String? note, List<Widget> chips) => Padding(
@@ -163,7 +174,7 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
         if (full && widget.limitNote != null)
           Padding(
             padding: const EdgeInsets.only(top: MmSpace.s12),
-            child: InlineBanner(message: widget.limitNote!, compact: true),
+            child: MmShake(pulse: _refused, child: InlineBanner(message: widget.limitNote!, compact: true)),
           ),
         if (searching && langs.isEmpty && doms.isEmpty && !showGat)
           Padding(

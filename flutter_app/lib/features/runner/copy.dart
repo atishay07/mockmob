@@ -14,13 +14,7 @@ abstract final class RunnerCopy {
   /// The one name a paper carries on the submit page and the receipt (finding 25). A practice is
   /// "Accountancy practice", with its chapter after a comma when it was started for one: the same
   /// words the practice result opens with. A mock is "Mock 7, Accountancy".
-  static String paperName({
-    required bool isMock,
-    required String mode,
-    required String subject,
-    int? mockNumber,
-    String? chapter,
-  }) {
+  static String paperName({required bool isMock, required String mode, required String subject, int? mockNumber, String? chapter}) {
     final name = subjectDisplayName(subject);
     if (isMock) return '${sessionLabel(isMock: true, mode: mode, mockNumber: mockNumber)}, $name';
     return chapter == null || chapter.isEmpty ? '$name practice' : '$name practice, $chapter';
@@ -72,7 +66,23 @@ abstract final class RunnerCopy {
   // The question.
   static const String passage = 'Passage';
   static String passageRange(int from, int to) => 'Questions $from to $to use this passage.';
-  static String optionSemantics(String key, String text) => 'Option $key, $text';
+  static const String passageHide = 'Hide passage';
+  static const String passageShow = 'Show passage';
+  static String optionSemantics(String key, String text, {bool crossedOut = false}) =>
+      crossedOut ? 'Option $key, $text, crossed out' : 'Option $key, $text';
+
+  /// Practice only, after 90 s untouched on one question: the real time spent, as a plain fact.
+  static String onThisQuestion(Duration d) {
+    final m = d.inMinutes;
+    final sec = (d.inSeconds % 60).toString().padLeft(2, '0');
+    return 'On this question for $m:$sec';
+  }
+
+  static const String strikeHint = 'Press and hold an option to cross it out.';
+  static const String strikeAction = 'Cross out';
+  static const String unstrikeAction = 'Bring back';
+  static const String answerCleared = 'Answer cleared.';
+  static const String undo = 'Undo';
   static const String clearAnswer = 'Clear my answer';
   static const String mark = 'Mark for review';
   static const String marked = 'Marked for review';
@@ -113,8 +123,13 @@ abstract final class RunnerCopy {
   static const String notAnswered = 'Not answered';
   static const String notVisited = 'Not visited';
   static const String markedShort = 'Marked';
-  static String legendSummary({required int answered, required int notAnswered, required int notVisited, required int marked, required int total}) =>
-      '$answered answered, $notAnswered not answered, $notVisited not visited, $marked marked for review, of $total';
+  static String legendSummary({
+    required int answered,
+    required int notAnswered,
+    required int notVisited,
+    required int marked,
+    required int total,
+  }) => '$answered answered, $notAnswered not answered, $notVisited not visited, $marked marked for review, of $total';
   static String cellSemantics({
     required int number,
     required bool answered,
@@ -159,6 +174,20 @@ abstract final class RunnerCopy {
   static const String stillSending = 'Still sending. Your answers are safe on this phone.';
   static String received(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
   static String openResult(bool isMock) => isMock ? 'Open your sheet' : 'See your answers';
+
+  /// Mobi's one line on a practice's submit page: plain facts from the sheet, nothing more.
+  static String sheetMobiLine({
+    required int total,
+    required int notAnswered,
+    required int firstOpen,
+    required int marked,
+    required int firstMarked,
+  }) {
+    if (notAnswered > 0) return '$notAnswered not answered. Go to ${firstOpen + 1}?';
+    if (marked > 0) return '$marked marked for review. Go to ${firstMarked + 1}?';
+    return 'All $total answered.';
+  }
+
   /// One honest line for answers the server does not have yet: where they are, and that they go
   /// by themselves (the engine retries when the phone is back online; "Try again" asks at once).
   static const String pendingBody = 'Saved on this phone, not on the server yet. We send it when you are online.';
@@ -184,6 +213,7 @@ abstract final class RunnerCopy {
   static const String badPaperTitle = 'This paper is not complete.';
   static String badPaperBody(int count) =>
       'NTA mode needs all 50 questions and this paper has $count, so it was not opened and no clock is running on this phone. Start it again from Practice.';
+
   /// After 8 seconds of opening: what is slow, and that nothing is lost.
   static const String stillOpening = 'Still opening your session. Your answers are safe on this phone.';
   static const String failedTitle = 'This session did not open.';

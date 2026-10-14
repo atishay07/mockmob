@@ -18,6 +18,7 @@ import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
 import 'package:mockmob/features/today/widgets/today_entrance.dart';
+import 'package:mockmob/features/today/widgets/week_ledger.dart';
 
 import '../../golden/today/today_golden_support.dart';
 import '../../helpers/fonts.dart';
@@ -124,34 +125,67 @@ void main() {
     });
   });
 
-  group("the header Mobi's line never covers the greeting (22 Oct finding 22)", () {
+  group("the header Mobi's line never covers the greeting (22 Oct finding 22, round 3)", () {
     setUp(() {
       MobiRation.reset();
       HeaderMobi.resetGreeting();
     });
     tearDown(MobiRation.reset);
 
-    /// The opacity of the date line and greeting column beside Mobi.
-    double greetingOpacity(WidgetTester tester) => tester
-        .widget<AnimatedOpacity>(find.ancestor(of: find.text('Good evening, Asha'), matching: find.byType(AnimatedOpacity)).first)
-        .opacity;
+    /// Pumps Today at [width] dp and [scale] text scale, in either theme.
+    Future<void> pumpAt(WidgetTester tester, double width, double scale, {Brightness brightness = Brightness.light}) =>
+        pumpMockmob(
+          tester,
+          TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
+          size: Size(width, 1900),
+          textScale: scale,
+          brightness: brightness,
+          overrides: [auth],
+        );
 
     testWidgets('nothing is said at first paint or in the first 3 s', (tester) async {
       await pumpToday(tester);
       await wait(tester, const Duration(seconds: 3));
       expect(find.byType(MobiBubble), findsNothing, reason: 'the 4 s idle rule decides when he speaks, not the first paint');
-      expect(greetingOpacity(tester), 1);
+      expect(find.text('Good evening, Asha'), findsOneWidget);
     });
 
-    testWidgets('after 4 s idle he says his line, and the greeting steps back while it shows, then returns', (tester) async {
+    testWidgets('after 4 s idle he says his line, the greeting stays, and the line goes after a while', (tester) async {
       await pumpToday(tester);
       await wait(tester, const Duration(seconds: 5));
       expect(find.byType(MobiBubble), findsOneWidget);
-      expect(greetingOpacity(tester), 0, reason: 'a bubble never sits on readable text');
+      expect(find.text('Good evening, Asha'), findsOneWidget);
       await wait(tester, const Duration(seconds: 8));
       expect(find.byType(MobiBubble), findsNothing);
-      expect(greetingOpacity(tester), 1);
     });
+
+    for (final brightness in [Brightness.dark, Brightness.light]) {
+      for (final width in [320.0, 360.0, 411.0]) {
+        for (final scale in [1.0, 1.3]) {
+          testWidgets('the line sits below the header text and never over it at $width dp, ${scale}x, ${brightness.name}',
+              (tester) async {
+            await pumpAt(tester, width, scale, brightness: brightness);
+            await wait(tester, const Duration(seconds: 3));
+            expect(find.byType(MobiBubble), findsNothing, reason: 'nothing at first paint, nothing before 4 s idle');
+            await wait(tester, const Duration(seconds: 2));
+            expect(find.byType(MobiBubble), findsOneWidget);
+            final bubble = tester.getRect(find.byType(MobiBubble));
+            final greeting = tester.getRect(find.text('Good evening, Asha'));
+            final date = tester.getRect(find.text(buildToday(ashaInputs()).header.dateLine));
+            final mobi = tester.getRect(find.byType(HeaderMobi));
+            final week = tester.getRect(find.byType(WeekLedger));
+            expect(bubble.overlaps(greeting), isFalse, reason: 'bubble $bubble vs greeting $greeting');
+            expect(bubble.overlaps(date), isFalse, reason: 'bubble $bubble vs date $date');
+            expect(bubble.overlaps(mobi), isFalse, reason: 'the bubble is below Mobi, not on him');
+            expect(bubble.overlaps(week), isFalse, reason: 'the week steps down; the bubble never sits on it');
+            expect(bubble.left, greaterThanOrEqualTo(0));
+            expect(bubble.right, lessThanOrEqualTo(width));
+            await wait(tester, const Duration(seconds: 8));
+            expect(find.byType(MobiBubble), findsNothing);
+          });
+        }
+      }
+    }
 
     testWidgets('a touch before 4 s means he stays quiet, and the greeting is never dimmed', (tester) async {
       await pumpToday(tester);
@@ -160,14 +194,12 @@ void main() {
       await gesture.up();
       await wait(tester, const Duration(seconds: 8));
       expect(find.byType(MobiBubble), findsNothing);
-      expect(greetingOpacity(tester), 1);
     });
 
     testWidgets('under reduced motion he never speaks on his own', (tester) async {
       await pumpToday(tester, reduced: true);
       await wait(tester, const Duration(seconds: 8));
       expect(find.byType(MobiBubble), findsNothing);
-      expect(greetingOpacity(tester), 1);
     });
 
     testWidgets('while the opening still covers the app (tickers muted) his clock does not run', (tester) async {

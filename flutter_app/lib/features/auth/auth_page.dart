@@ -278,7 +278,7 @@ class _StatusBand extends StatelessWidget {
         child: Align(alignment: Alignment.topCenter, child: lines),
       );
     }
-    return AnimatedSize(
+    return MmSizeEase(
       duration: Motion.of(context, Motion.ui),
       curve: Motion.out,
       alignment: Alignment.topCenter,

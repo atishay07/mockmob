@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/question.dart';
 import '../../../core/motion/motion.dart';
@@ -14,25 +15,52 @@ import '../data/repair_state.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';
 import 'question_panel.dart';
+import 'repair_mobi.dart';
+import 'review_bits.dart' show FlushKey;
 import 'run_track.dart';
 
 /// Callbacks of the per-mistake screen.
 class MistakeActions {
-  const MistakeActions({required this.onNext, required this.onFinishForNow, required this.onRetry, required this.onReadKey});
+  const MistakeActions({required this.onNext, required this.onFinishForNow, required this.onRetry, required this.onReadKey, this.onGoTo});
 
   final VoidCallback onNext;
   final VoidCallback onFinishForNow;
   final VoidCallback onRetry;
   final VoidCallback onReadKey;
+
+  /// Shows a step already reached (the run track, a swipe). Returns whether it moved. Null: the
+  /// track is a picture only.
+  final bool Function(int index)? onGoTo;
+}
+
+/// "You also missed this question in Mock 3 on 12 October.", from the student's own record, with
+/// the key that opens that result.
+class EarlierMiss {
+  const EarlierMiss({required this.line, required this.onOpen});
+
+  final String line;
+  final VoidCallback onOpen;
 }
 
 /// One mistake in the calm panel (spec 5.8 step 2): solid ground, no art, nothing moving.
 /// The question with the student's answer, then the correct answer once the server says it,
 /// what happened, the worked explanation and the optional retry.
 class MistakeView extends StatelessWidget {
-  const MistakeView({super.key, required this.run, required this.question, required this.actions, this.detail, this.renewDate});
+  const MistakeView({
+    super.key,
+    required this.run,
+    required this.question,
+    required this.actions,
+    this.detail,
+    this.renewDate,
+    this.scheme,
+    this.earlier,
+  });
 
   final RepairRunState run;
+
+  /// The same question missed in another paper, or null (never guessed).
+  final EarlierMiss? earlier;
 
   /// The question from the attempt snapshot, or null when it is missing.
   final SnapshotQuestion? question;
@@ -44,6 +72,28 @@ class MistakeView extends StatelessWidget {
   /// When the explanation credits renew ("1 November"), for the used-up credits line.
   final String? renewDate;
   final MistakeActions actions;
+
+  /// The paper's marking scheme, for the free marks line. Null hides the line.
+  final MarkingScheme? scheme;
+
+  /// The letter of option [i] of the question ("B"), or null.
+  String? _letter(int? i) {
+    final q = question;
+    if (q == null || i == null || i < 0 || i >= q.options.length) return null;
+    return q.options[i].key;
+  }
+
+  /// "This answer cost 6 marks in this session: 5 not earned and 1 penalty.", or null when the
+  /// scheme is unknown or the key of this answer was corrected (its marks then changed).
+  String? _marksLine(String questionId) {
+    if (detail?.answerReviews[questionId]?.isCorrected ?? false) return null;
+    return marksAtStake(scheme)?.line;
+  }
+
+  Widget? _marks(BuildContext context) {
+    final line = _marksLine(run.current!.item.questionId);
+    return line == null ? null : MarksLine(text: line);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,21 +116,49 @@ class MistakeView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _TopBar(run: run, onFinishForNow: actions.onFinishForNow),
+        _TopBar(run: run, onFinishForNow: actions.onFinishForNow, onGoTo: actions.onGoTo),
         Expanded(
-          child: Stack(
+          child: _SwipeSteps(
+            run: run,
+            onGoTo: actions.onGoTo,
+            child: Stack(
             children: [
               ListView(
                 key: PageStorageKey(step.item.key),
                 padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
                 children: [
                   Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
+                  if (earlier case final e?) _EarlierLine(miss: e),
                   const SizedBox(height: MmSpace.s8),
                   if (question == null)
                     Text(ReviewCopy.notFound, style: type.body.copyWith(color: colors.ink2))
+                  else if (outcome is OutcomeExplained)
+                    // Once explained the paid part leads: the question folds to one line, and the
+                    // key reveals itself on it (a stored repair paints it final).
+                    KeyReveal(
+                      key: ValueKey('fold-reveal-${step.item.key}'),
+                      keyShown: true,
+                      animate: !outcome.reopened,
+                      // The acknowledgement already gave the light haptic.
+                      haptic: false,
+                      builder: (context, reveal) => FoldedQuestion(
+                        key: ValueKey('fold-${step.item.key}'),
+                        line: ReviewCopy.foldedQuestion(step.item.number, _letter(chosen), _letter(keyIndex)),
+                        number: step.item.number,
+                        pick: _letter(chosen),
+                        answer: _letter(keyIndex),
+                        reveal: reveal,
+                        panel: QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
+                      ),
+                    )
                   else
-                    QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
-                  ..._outcome(context, outcome),
+                    KeyReveal(
+                      key: ValueKey('reveal-${step.item.key}'),
+                      keyShown: keyIndex != null,
+                      builder: (context, reveal) => QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, reveal: reveal),
+                    ),
+                  RepairMobi(stepKey: step.item.key, outcome: outcome),
+                  ..._outcome(context, outcome, chosenLetter: _letter(chosen)),
                 ],
               ),
               // The words run under the key: a short fade into the ground says there is more, in
@@ -103,6 +181,7 @@ class MistakeView extends StatelessWidget {
                 ),
               ),
             ],
+          ),
           ),
         ),
         ColoredBox(
@@ -128,7 +207,7 @@ class MistakeView extends StatelessWidget {
     );
   }
 
-  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome) {
+  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter}) {
     final colors = context.mmColors;
     final type = context.mmType;
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
@@ -149,7 +228,8 @@ class MistakeView extends StatelessWidget {
       case OutcomeExplained(:final response):
         return [
           StageMoment(repaired: run.current?.countsAsRepaired ?? false),
-          if (response.explanation != null) WorkedExplanation(explanation: response.explanation!),
+          if (response.explanation != null) WorkedExplanation(explanation: response.explanation!, chosenLetter: chosenLetter),
+          ?_marks(context),
           ConceptRow(chapter: run.chapter),
           RetryCard(subjectId: run.subjectId, chapter: run.chapter),
         ];
@@ -184,8 +264,357 @@ class MistakeView extends StatelessWidget {
           if (reason == KeyReviewReason.outOfCredits) NoticePanel(message: ReviewCopy.creditsUsedLine(renewDate)),
           if (reason == KeyReviewReason.paused) const NoticePanel(message: ReviewCopy.paused),
           _KeyReview(detail: detail, questionId: run.current!.item.questionId),
+          ?_marks(context),
         ];
     }
+  }
+}
+
+/// The free marks line: what this answer cost in its session, from the scheme alone.
+class MarksLine extends StatelessWidget {
+  const MarksLine({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(LucideIcons.scale, size: 16, color: colors.ink3),
+          ),
+          const SizedBox(width: MmSpace.s8),
+          Expanded(child: Text(text, style: type.small.copyWith(color: colors.ink2))),
+        ],
+      ),
+    );
+  }
+}
+
+/// The question once the repair is on screen: one line, "Q7. Your pick B. Key C.", with "Show the
+/// question" to open it again. The two states cross-fade on top of each other (no size animation
+/// inside the scrolling list); the height settles when the fade ends.
+class FoldedQuestion extends StatefulWidget {
+  const FoldedQuestion({super.key, required this.line, required this.panel, this.number, this.pick, this.answer, this.reveal});
+
+  /// What the line says, for TalkBack ("Q7. Your pick B. Key C.").
+  final String line;
+  final Widget panel;
+
+  /// The question number and the two letters drawn as bubbles. Without a [number] the line is
+  /// plain text.
+  final int? number;
+  final String? pick;
+  final String? answer;
+
+  /// The key reveal's clock, or null for the final state.
+  final Animation<double>? reveal;
+
+  @override
+  State<FoldedQuestion> createState() => _FoldedQuestionState();
+}
+
+class _FoldedQuestionState extends State<FoldedQuestion> {
+  bool _open = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final folded = Column(
+      key: const ValueKey('folded'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        DecoratedBox(
+          decoration: ShapeDecoration(
+            color: colors.sunken,
+            shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+            child: widget.number == null
+                ? Text(widget.line, style: type.labelLarge.copyWith(color: colors.ink))
+                : FoldLine(line: widget.line, number: widget.number!, pick: widget.pick, answer: widget.answer, reveal: widget.reveal),
+          ),
+        ),
+        FlushKey(label: ReviewCopy.showQuestion, onPressed: () => setState(() => _open = true)),
+      ],
+    );
+    final open = Column(
+      key: const ValueKey('open'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        widget.panel,
+        FlushKey(label: ReviewCopy.hideQuestion, onPressed: () => setState(() => _open = false)),
+      ],
+    );
+    return AnimatedSwitcher(
+      duration: Motion.of(context, Motion.crossFade),
+      switchInCurve: Motion.out,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      child: _open ? open : folded,
+    );
+  }
+}
+
+/// "Q7 (B) Your answer (C) Correct answer": the folded question as bubbles (the website's
+/// FoldLine). On the reveal's clock the pick settles and its word fades in, then the key's ring
+/// draws round, fills, and its word fades in. TalkBack hears the one plain sentence.
+class FoldLine extends StatelessWidget {
+  const FoldLine({super.key, required this.line, required this.number, this.pick, this.answer, this.reveal});
+
+  final String line;
+  final int number;
+  final String? pick;
+  final String? answer;
+  final Animation<double>? reveal;
+
+  @override
+  Widget build(BuildContext context) {
+    final r = reveal;
+    return Semantics(
+      label: line,
+      excludeSemantics: true,
+      child: r == null ? _paint(context, 1) : AnimatedBuilder(animation: r, builder: (context, _) => _paint(context, r.value)),
+    );
+  }
+
+  Widget _paint(BuildContext context, double t) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final settle = KeyRevealTiming.window(t, 0, KeyRevealTiming.settleEnd);
+    final ring = KeyRevealTiming.window(t, KeyRevealTiming.strokeStart, KeyRevealTiming.strokeEnd);
+    final fill = KeyRevealTiming.window(t, KeyRevealTiming.strokeEnd, KeyRevealTiming.keyWordStart);
+    return Wrap(
+      spacing: MmSpace.s16,
+      runSpacing: MmSpace.s8,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text('Q$number', style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+        if (pick != null)
+          Transform.translate(
+            offset: Offset(0, -KeyRevealTiming.settle * (1 - Motion.out.transform(settle))),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _LetterBubble(letter: pick!, mine: true),
+                const SizedBox(width: MmSpace.s8),
+                Opacity(
+                  opacity: KeyRevealTiming.window(t, KeyRevealTiming.yourWordStart, KeyRevealTiming.yourWordEnd),
+                  child: Text(ReviewCopy.yourAnswer, style: type.label.copyWith(color: colors.badText)),
+                ),
+              ],
+            ),
+          ),
+        if (answer != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _LetterBubble(letter: answer!, mine: false, ring: ring, fill: fill),
+              const SizedBox(width: MmSpace.s8),
+              Opacity(
+                opacity: KeyRevealTiming.window(t, KeyRevealTiming.keyWordStart, 1),
+                child: Text(ReviewCopy.correctAnswer, style: type.label.copyWith(color: colors.ink)),
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+/// A 28 dp bubble with its letter: your pick ringed in coral, or the key, whose ring draws round
+/// ([ring], 0 to 1) and then fills volt ([fill]).
+class _LetterBubble extends StatelessWidget {
+  const _LetterBubble({required this.letter, required this.mine, this.ring = 1, this.fill = 1});
+
+  final String letter;
+  final bool mine;
+  final double ring;
+  final double fill;
+
+  static const double size = 28;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final ink = mine ? colors.badText : Color.lerp(colors.ink, colors.voltInk, fill)!;
+    return SizedBox.square(
+      dimension: size,
+      child: CustomPaint(
+        painter: _LetterBubblePainter(
+          mine: mine,
+          ring: ring,
+          fill: fill,
+          coral: colors.badText,
+          volt: colors.volt,
+          rim: colors.isNight ? colors.volt : colors.voltEdge,
+        ),
+        child: Center(
+          child: Text(letter, style: type.label.copyWith(fontSize: 13, height: 1, fontWeight: FontWeight.w700, color: ink)),
+        ),
+      ),
+    );
+  }
+}
+
+class _LetterBubblePainter extends CustomPainter {
+  const _LetterBubblePainter({required this.mine, required this.ring, required this.fill, required this.coral, required this.volt, required this.rim});
+
+  final bool mine;
+  final double ring;
+  final double fill;
+  final Color coral;
+  final Color volt;
+  final Color rim;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    final r = size.shortestSide / 2 - 1;
+    if (mine) {
+      canvas.drawCircle(c, r, Paint()..color = coral.withValues(alpha: 0.10));
+      canvas.drawCircle(
+        c,
+        r,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5
+          ..color = coral,
+      );
+      return;
+    }
+    if (fill > 0) canvas.drawCircle(c, r, Paint()..color = volt.withValues(alpha: fill));
+    if (ring > 0) {
+      canvas.drawPath(
+        mmPathPrefix(MmPaths.ring(Rect.fromCircle(center: c, radius: r)), Motion.inOut.transform(ring)),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5
+          ..strokeCap = StrokeCap.round
+          ..color = rim,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_LetterBubblePainter old) =>
+      old.mine != mine || old.ring != ring || old.fill != fill || old.coral != coral || old.volt != volt || old.rim != rim;
+}
+
+/// The free line under the question's caption when the same question was missed in another paper:
+/// a doubled bubble, the sentence, and a quiet key that opens that result.
+class _EarlierLine extends StatelessWidget {
+  const _EarlierLine({required this.miss});
+
+  final EarlierMiss miss;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: MmPressable(
+        onTap: miss.onOpen,
+        pressedScale: 0.985,
+        focusRadius: MmRadius.keyAll,
+        haptic: MmPressHaptic.selection,
+        semanticsLabel: '${miss.line} ${ReviewCopy.openThatResult}',
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Row(
+            children: [
+              const MissedTwiceGlyph(),
+              const SizedBox(width: MmSpace.s8),
+              Expanded(child: Text(miss.line, style: type.small.copyWith(color: colors.ink))),
+              const SizedBox(width: MmSpace.s8),
+              Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Two overlapping coral bubbles: the same question missed more than once.
+class MissedTwiceGlyph extends StatelessWidget {
+  const MissedTwiceGlyph({super.key, this.size = 14});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final coral = context.mmColors.badText;
+    return ExcludeSemantics(
+      child: SizedBox(
+        width: size * 1.6,
+        height: size,
+        child: CustomPaint(painter: _TwiceGlyphPainter(coral)),
+      ),
+    );
+  }
+}
+
+class _TwiceGlyphPainter extends CustomPainter {
+  const _TwiceGlyphPainter(this.color);
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = size.height / 2 - 0.75;
+    final stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5
+      ..color = color;
+    canvas.drawCircle(Offset(r + 0.75, size.height / 2), r, stroke);
+    canvas.drawCircle(Offset(size.width - r - 0.75, size.height / 2), r, Paint()..color = color.withValues(alpha: 0.18));
+    canvas.drawCircle(Offset(size.width - r - 0.75, size.height / 2), r, stroke);
+  }
+
+  @override
+  bool shouldRepaint(_TwiceGlyphPainter old) => old.color != color;
+}
+
+/// A horizontal swipe on the mistake goes back to the one before it (and forward again to one
+/// already reached). Only steps already reached: a swipe never starts a new repair call.
+class _SwipeSteps extends StatelessWidget {
+  const _SwipeSteps({required this.run, required this.onGoTo, required this.child});
+
+  final RepairRunState run;
+  final bool Function(int index)? onGoTo;
+  final Widget child;
+
+  /// The fling speed that counts as a swipe.
+  static const double minVelocity = 320;
+
+  @override
+  Widget build(BuildContext context) {
+    final go = onGoTo;
+    if (go == null) return child;
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onHorizontalDragEnd: (d) {
+        final v = d.primaryVelocity ?? 0;
+        if (v.abs() < minVelocity) return;
+        final target = v > 0 ? run.index - 1 : run.index + 1;
+        if (run.canGoTo(target)) go(target);
+      },
+      child: child,
+    );
   }
 }
 
@@ -238,10 +667,11 @@ class _KeyReview extends StatelessWidget {
 
 /// Progress in real work ("1 of 3 mistakes") as the run track, and "Finish for now" always in reach.
 class _TopBar extends StatelessWidget {
-  const _TopBar({required this.run, required this.onFinishForNow});
+  const _TopBar({required this.run, required this.onFinishForNow, this.onGoTo});
 
   final RepairRunState run;
   final VoidCallback onFinishForNow;
+  final bool Function(int index)? onGoTo;
 
   RunSegmentState _segment(int i) {
     final s = run.steps[i];
@@ -249,7 +679,7 @@ class _TopBar extends StatelessWidget {
     return switch (s.outcome) {
       OutcomeKeyReview() => RunSegmentState.reviewed,
       OutcomeSetAside() => RunSegmentState.setAside,
-      _ => i == run.index ? RunSegmentState.current : RunSegmentState.upcoming,
+      _ => i == run.index ? RunSegmentState.current : (i <= run.furthest ? RunSegmentState.seen : RunSegmentState.upcoming),
     };
   }
 
@@ -257,8 +687,10 @@ class _TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     final n = run.steps.length;
+    final go = onGoTo;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.s4, MmSpace.s8),
+      // A track you can tap is a 48 dp row of its own, so it needs no padding under it.
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.s4, go == null ? MmSpace.s8 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -272,7 +704,11 @@ class _TopBar extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(right: MmSpace.s12),
-            child: RunTrack(segments: [for (var i = 0; i < n; i++) _segment(i)]),
+            child: RunTrack(
+              segments: [for (var i = 0; i < n; i++) _segment(i)],
+              onTap: go == null ? null : (i) => go(i),
+              canTap: run.canGoTo,
+            ),
           ),
         ],
       ),

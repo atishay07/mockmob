@@ -134,14 +134,7 @@ class NtaWarningOverlay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // Mobi reacts to the card, never to the paper: a shrug at a warning,
-                                // sitting down once the session has ended.
-                                Center(
-                                  child: ExcludeSemantics(
-                                    child: MobiCharacter(size: 84, entrance: ended ? MobiAct.rest : MobiAct.oops, seed: 17 + n),
-                                  ),
-                                ),
-                                const SizedBox(height: MmSpace.s8),
+                                // No Mobi here: the NTA paper is exam-faithful, and this card shows while the clock runs.
                                 Row(
                                   children: [
                                     Icon(LucideIcons.shieldAlert, size: 22, color: n >= 2 ? colors.badText : colors.warnText),

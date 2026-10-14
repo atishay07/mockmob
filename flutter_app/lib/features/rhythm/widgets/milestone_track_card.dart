@@ -7,6 +7,8 @@
 // streak pressure, nothing expires. A step that landed since the last visit is the one T3 moment
 // of the screen, played once in order: the token settles, then the step's medal settles with one
 // band of light across it, then Mobi stands proud beside the token (he acts after it lands).
+// Every step row opens a sheet (`showStepSheet`); the next coin draws its real progress as a volt
+// arc where the app can count it exactly.
 //
 // Sizes (SPACING.md RH2): the header token is 48 dp with 12 to its words, the rail coins are 36 dp
 // centred on the same 48 dp column, so the path name and the steps share one text edge.
@@ -26,6 +28,7 @@ import 'medal.dart';
 import 'proud_mobi.dart';
 import 'rhythm_layout.dart' show FillBar;
 import 'rhythm_page.dart' show FlushQuietKey;
+import 'step_sheet.dart';
 
 /// What is engraved on the coin of each step: nine steps, nine different faces.
 ({IconData? icon, String? text}) engravingOf(String stepId) => switch (stepId) {
@@ -62,6 +65,7 @@ class MilestoneTrackCard extends StatefulWidget {
     this.progress = const {},
     this.freshIds = const {},
     this.onOpen,
+    this.onAction,
   });
 
   final TrackView track;
@@ -71,6 +75,9 @@ class MilestoneTrackCard extends StatefulWidget {
   final Map<String, int> progress;
   final Set<String> freshIds;
   final VoidCallback? onOpen;
+
+  /// The key of a step's sheet: told where it goes. Null pushes the location.
+  final ValueChanged<String>? onAction;
 
   @override
   State<MilestoneTrackCard> createState() => _MilestoneTrackCardState();
@@ -177,6 +184,14 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
             fresh: widget.freshIds.contains(track.steps[i].step.id),
             count: track.steps[i].status == StepStatus.next ? count : null,
             target: track.steps[i].status == StepStatus.next ? target : null,
+            onTap: () => showStepSheet(
+              context,
+              view: track.steps[i],
+              dateOf: widget.dateOf,
+              previous: i > 0 ? track.steps[i - 1] : null,
+              count: track.steps[i].status == StepStatus.next ? count : null,
+              onAction: widget.onAction,
+            ),
           ),
         if (next == null)
           Padding(
@@ -284,6 +299,7 @@ class _TrailStep extends StatelessWidget {
     required this.nextLanded,
     required this.dateOf,
     required this.fresh,
+    required this.onTap,
     this.count,
     this.target,
   });
@@ -301,6 +317,7 @@ class _TrailStep extends StatelessWidget {
   final bool nextLanded;
   final String Function(DateTime) dateOf;
   final bool fresh;
+  final VoidCallback onTap;
   final int? count;
   final int? target;
 
@@ -345,11 +362,13 @@ class _TrailStep extends StatelessWidget {
       ),
     );
 
-    Widget step = Semantics(
-      container: true,
-      label: label,
-      excludeSemantics: true,
-      child: ConstrainedBox(
+    Widget step = MmPressable(
+      onTap: onTap,
+      semanticsLabel: label,
+      highlight: true,
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, focused) => ConstrainedBox(
         // Coin (36 plus its 4 dp of air) plus the line between coins, so a one-line step still
         // leaves room for the line.
         constraints: BoxConstraints(minHeight: last ? _coinTop + _coin : 64),
@@ -385,6 +404,7 @@ class _TrailStep extends StatelessWidget {
                         size: _coin,
                         animateLanding: fresh,
                         delay: _medalDelay,
+                        arc: status == StepStatus.next && count != null ? milestoneFraction(view.step.id, {view.step.id: count!}) : null,
                       ),
                     ),
                   ),

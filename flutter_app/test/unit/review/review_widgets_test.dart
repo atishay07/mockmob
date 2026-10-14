@@ -7,6 +7,7 @@ import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/features/review/widgets/question_panel.dart' show MarkedOption;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationSlot;
 
 import '../../golden/review/review_golden_support.dart';
@@ -93,16 +94,56 @@ void main() {
     expect(find.text('Correct answer'), findsNothing, reason: 'the key shows only with the server answer');
   });
 
-  testWidgets('an explained mistake shows the correct answer and the worked explanation', (tester) async {
+  testWidgets('an explained mistake folds the question to one line and shows the worked explanation', (tester) async {
     await pump(
       tester,
       const RepairScreen(attemptId: 'm7', questionId: 'm7-q0'),
       run: runOf(outcomes: [explained]),
     );
+    // The paid part leads: the question is one line until it is asked for.
+    // The folded line draws the pick and the key as bubbles; TalkBack hears the one sentence.
+    expect(find.bySemanticsLabel('Q1. Your pick A. Key B.'), findsOneWidget);
+    expect(find.byType(MarkedOption), findsNothing, reason: 'the options stay folded');
+    expect(find.text('What happened here'), findsOneWidget);
+    expect(find.text('This answer cost 6 marks in this session: 5 not earned and 1 penalty.'), findsOneWidget);
+    expect(find.text('Practise 5 on Partnership'), findsOneWidget);
+    await tester.tap(find.text('Show the question'));
+    await tester.pumpAndSettle();
+    expect(find.byType(MarkedOption), findsNWidgets(4));
     expect(find.text('Correct answer'), findsOneWidget);
     expect(find.text('Your answer'), findsOneWidget);
-    expect(find.text('What happened here'), findsOneWidget);
-    expect(find.text('Practise 5 on Partnership'), findsOneWidget);
+    expect(find.bySemanticsLabel('Q1. Your pick A. Key B.'), findsNothing);
+  });
+
+  testWidgets('a v2 repair leads with the trap, then the rule to keep', (tester) async {
+    final v2 = OutcomeExplained(
+      RepairResponse.fromJson({
+        'status': 'explained',
+        'repair': {
+          'trap_type': 'partly_true',
+          'trap': 'A names the right total sacrifice.',
+          'why_wrong': 'It takes the whole sacrifice from each partner.',
+          'another_way': 'Split the sacrifice first, then subtract.',
+          'contrast': 'If C took 1/5 from A alone, A would be right. Here both give, so B.',
+          'rule': 'Split the sacrifice before you subtract.',
+        },
+        'chosenIndex': 0,
+        'keyIndex': 1,
+      }),
+      ackedAt: DateTime.utc(2026, 10, 12, 17, 30),
+      requestId: 'req-v2',
+    );
+    await pump(tester, const RepairScreen(attemptId: 'm7', questionId: 'm7-q0'), run: runOf(outcomes: [v2]));
+    expect(find.text('A partly true option'), findsOneWidget);
+    expect(find.text('Why A looked right'), findsOneWidget);
+    expect(find.text('Where it breaks'), findsOneWidget);
+    expect(find.text('Another way to see it'), findsOneWidget);
+    expect(find.text('Keep this'), findsOneWidget);
+    expect(find.text('Split the sacrifice before you subtract.'), findsOneWidget);
+    expect(find.text('What happened here'), findsNothing);
+    final trapY = tester.getTopLeft(find.text('A partly true option')).dy;
+    final ruleY = tester.getTopLeft(find.text('Keep this')).dy;
+    expect(trapY, lessThan(ruleY));
   });
 
   testWidgets('the ending receipt is the last acknowledgement, in the student zone', (tester) async {
@@ -176,17 +217,20 @@ void main() {
     });
   });
 
-  testWidgets('nothing repaired: a hero with Mobi and one large word, no number, no receipt, and Try again', (tester) async {
+  testWidgets('nothing repaired: a hero with Mobi and one large word, no number, no receipt, and the same mistakes again', (tester) async {
     await pump(
       tester,
       const RepairEndingScreen(attemptId: 'm7'),
       run: runOf(phase: RepairPhase.ending, outcomes: [const OutcomeSetAside(heldByServer: true)]),
     );
     expect(find.text('Nothing repaired this time'), findsOneWidget);
-    expect(find.byType(MobiCharacter), findsOneWidget);
+    final mobi = tester.widget<MobiCharacter>(find.byType(MobiCharacter));
+    expect(mobi.interactive, isTrue, reason: 'the ending Mobi answers a tap');
+    expect(mobi.tapCycle, MobiTapCycle.standard);
     expect(find.byType(ReceiptLine), findsNothing);
     expect(find.byType(MonumentalNumber), findsNothing);
-    expect(find.widgetWithText(KeyButton, 'Try again'), findsOneWidget, reason: 'the key says what it does');
+    expect(find.widgetWithText(KeyButton, 'Try the same mistakes again'), findsOneWidget, reason: 'the key says what it does');
+    expect(find.text('3 mistakes, Partnership'), findsOneWidget, reason: 'the run held three mistakes and all are still open');
     expect(find.widgetWithText(KeyButton, 'Repair 1 more mistake'), findsNothing);
   });
 

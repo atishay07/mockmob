@@ -107,7 +107,7 @@ void main() {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
     final week = find.bySemanticsLabel(RegExp('^1 of 4 study days'));
     expect(week, findsOneWidget);
-    await tester.tap(find.byType(WeekLedger));
+    await tester.tap(find.descendant(of: find.byType(WeekLedger), matching: find.textContaining('study days')));
     await tester.pump();
     expect(events, contains('week'));
   });

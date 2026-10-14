@@ -1,4 +1,7 @@
 import '../../core/copy/formatters.dart';
+import '../../core/domain/domain.dart' show MarkBreakdown, RepairCandidates, RepairKeyScope, shortChapterName;
+import 'widgets/marks_bar.dart' show MarkPart;
+import '../../core/widgets/bubbles/bubble_painter.dart' show BubbleState;
 
 /// Every line of the result feature (spec 5.6 and 5.7, Night Sheet brief sections 1.1 and 8).
 /// Sentence case, no middle dots, no exclamation marks, no arrows, 12-hour times. "Saved" only
@@ -21,6 +24,7 @@ abstract final class ResultCopy {
   static const answerSheet = 'Answer sheet';
   static const answers = 'Answers';
   static String range(int n) => '1 to $n';
+  static const mapHint = 'Tap a bubble to open that answer.';
 
   // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
 
@@ -67,7 +71,18 @@ abstract final class ResultCopy {
   // ---- Story bar --------------------------------------------------------------------------
 
   static String cardOf(int card, int count) => 'Card $card of $count';
+
+  /// "Card 2 of 4: Where the marks went" for a story-bar segment.
+  static String cardNamed(int card, int count, String name) => 'Card $card of $count: $name';
+  static const nextCard = 'Next card';
+
+  /// The names of the four cards, by card number.
+  static const cardNames = <int, String>{1: 'Your result', 2: nextMarks, 3: sectionFirstFix, 4: 'What is recorded'};
   static const skip = 'Skip to full result';
+
+  /// What the story bar's key shows: short, so the four segments keep a 48 dp width beside it. A
+  /// screen reader still hears [skip].
+  static const skipShort = 'Skip';
   static const previousCard = 'Previous card';
 
   // ---- Evidence behind a claim --------------------------------------------------------
@@ -117,6 +132,23 @@ abstract final class ResultCopy {
   static String breakdownLead(int wrong, int onWrong, int onBlank) => wrong > 0 && onWrong >= onBlank
       ? '$onWrong went on answers you got wrong.'
       : '$onBlank went on questions left blank.';
+  /// The one line under the flow for the ribbon the student picked: "15 wrong answers, 75 marks
+  /// not earned."
+  static String flowSentence(MarkPart part, MarkBreakdown b) => switch (part) {
+    MarkPart.scored => '${plural(b.correct, 'correct answer')}, ${marksValue(b.scored)} scored.',
+    MarkPart.takenOff => '${plural(b.wrong, 'wrong answer')}, ${marksValue(b.takenOff)} taken off.',
+    MarkPart.notEarnedWrong => '${plural(b.wrong, 'wrong answer')}, ${marksValue(b.notEarnedOnWrong)} not earned.',
+    MarkPart.notEarnedBlank => '${b.unattempted} not attempted, ${marksValue(b.notEarnedOnBlank)} not earned.',
+  };
+
+  /// The state of a bubble in words, for a tile's TalkBack label.
+  static String stateWord(BubbleState s) => switch (s) {
+    BubbleState.filled => statusCorrect.toLowerCase(),
+    BubbleState.wrong => statusWrong.toLowerCase(),
+    BubbleState.marked => statusHeld.toLowerCase(),
+    _ => statusBlank.toLowerCase(),
+  };
+
   static const showArithmetic = 'Show the arithmetic';
   static const hideArithmetic = 'Hide the arithmetic';
   static String arithmetic(int correct, int wrong, int scored) => '$correct × 5 $minusSign $wrong = ${formatSignedNumber(scored)}';
@@ -174,9 +206,30 @@ abstract final class ResultCopy {
   static const tryAgain = 'Try again';
   static String chip(int minutes) => '$minutes min';
   static String chipLabel(int minutes, int mistakes) => '$minutes minutes, ${plural(mistakes, 'mistake')}';
+  /// The repair key, saying exactly what opens. The run is one chapter of the paper: when it holds
+  /// all the paper's mistakes the key gives their count and the time ("Repair 5 mistakes, about 10
+  /// min"); when other chapters are left in Review it names the chapter ("Repair Principles of
+  /// management, 1 mistake").
+  static String repairKey(RepairKeyScope scope, int minutes) {
+    if (scope.othersInPaper <= 0 || !scope.hasNamedChapter) return '${RepairCandidates.keyLabel(scope)}, about $minutes min';
+    return 'Repair ${shortChapterName(scope.chapter)}, ${plural(scope.count, 'mistake')}';
+  }
+
+  /// What a screen reader hears for the key: the key and where the rest of the paper's mistakes are.
+  static String repairKeySpoken(RepairKeyScope scope, int minutes) => '${repairKey(scope, minutes)}. ${repairScopeLine(scope, minutes)}';
+
+  /// Under the lengths: "Principles of management, about 10 minutes. The other 4 are in Review."
+  static String repairScopeLine(RepairKeyScope scope, int minutes) {
+    final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
+    final rest = scope.othersInPaper <= 0 ? '' : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
+    return '$where, about $minutes minutes.$rest';
+  }
+
   static String startRepair(int minutes) => 'Start $minutes-minute repair';
   static const chooseElse = 'Choose something else';
   static const finishForNow = 'Finish for now';
+  static const continueToToday = 'Continue to Today';
+  static const goodnight = 'Goodnight';
   static const more = 'More';
   static const reminderAsk = 'Want a reminder when your repair is due? You choose the time.';
   static const setReminder = 'Set a reminder';
@@ -210,6 +263,17 @@ abstract final class ResultCopy {
   static const sectionFirstFix = 'The first thing to fix';
   static const sectionAnswers = 'Answer by answer';
   static String groupWrong(int n) => 'Wrong answers ($n)';
+  /// A long press on a bubble of the answer map: "Q12, Accountancy: wrong".
+  static String bubbleTip(int number, String subject, BubbleState state) {
+    final word = switch (state) {
+      BubbleState.filled => 'correct',
+      BubbleState.wrong => 'wrong',
+      BubbleState.marked => 'being checked',
+      _ => 'not attempted',
+    };
+    return 'Q$number, $subject: $word';
+  }
+
   static String groupBlank(int n) => 'Not attempted ($n)';
 
   /// The "Not attempted" header for TalkBack: it shows or hides the rows.

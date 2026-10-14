@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart' show SpringSimulation;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,6 +14,11 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 import 'subject_accent.dart';
+
+/// Where the ticket's stub is in the Start sequence. [lifted]: the start request is out and the
+/// stub's corner has come up a little (tension). [torn]: the server confirmed, the stub tears off
+/// and goes. Back to [rest] when the start failed: the stub drops back with a spring.
+enum TicketTear { rest, lifted, torn }
 
 /// The head of the confirm step, a ticket: a card with a half-round notch cut into its top and
 /// bottom edge where the stub tears off, a dashed perforation between the notches, the subject's
@@ -29,7 +35,11 @@ class ComposerTicket extends StatelessWidget {
     required this.count,
     required this.semanticsLabel,
     this.heroTag,
+    this.tear = TicketTear.rest,
   });
+
+  /// The Start sequence (see [TicketTear]).
+  final TicketTear tear;
 
   final String subjectId;
   final String eyebrow;
@@ -73,7 +83,7 @@ class ComposerTicket extends StatelessWidget {
     );
 
     final tag = heroTag;
-    final ticket = Semantics(
+    final card = Semantics(
       header: true,
       label: semanticsLabel,
       excludeSemantics: true,
@@ -171,9 +181,126 @@ class ComposerTicket extends StatelessWidget {
         ),
       ),
     );
+    final ticket = _TearStage(tear: tear, stub: stubWidth, child: card);
     if (tag == null) return ticket;
     return Hero(tag: tag, child: Material(type: MaterialType.transparency, child: ticket));
   }
+}
+
+/// Plays the Start sequence on the ticket without ever remounting it: the ticket always sits in
+/// the same place in the tree, clipped to the left of the perforation only while the stub is
+/// away. The stub is a second, clipped copy of the same ticket that lifts, tears off (slides
+/// right and fades, 220 ms) or drops back on a spring. Transform and opacity only.
+class _TearStage extends StatefulWidget {
+  const _TearStage({required this.tear, required this.stub, required this.child});
+
+  final TicketTear tear;
+  final double stub;
+  final Widget child;
+
+  /// The controller value at which the stub is lifted; 1 is torn off.
+  static const double liftedAt = 0.35;
+
+  /// Lift (0..1, may dip below 0 on the spring back) and tear (0..1) progress at [v] (pure).
+  static (double lift, double torn) progressAt(double v) => ((v / liftedAt).clamp(-0.4, 1.0), ((v - liftedAt) / (1 - liftedAt)).clamp(0.0, 1.0));
+
+  @override
+  State<_TearStage> createState() => _TearStageState();
+}
+
+class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController.unbounded(vsync: this, value: 0);
+
+  @override
+  void didUpdateWidget(_TearStage old) {
+    super.didUpdateWidget(old);
+    if (old.tear == widget.tear) return;
+    final reduced = Motion.reduced(context);
+    switch (widget.tear) {
+      case TicketTear.rest:
+        if (reduced || _c.value == 0) {
+          _c.value = 0;
+        } else {
+          // The stub drops back and settles on a spring: a little give, no bounce show.
+          _c.animateWith(SpringSimulation(Springs.smooth, _c.value, 0, 0));
+        }
+      case TicketTear.lifted:
+        if (reduced) return;
+        _c.animateTo(_TearStage.liftedAt, duration: const Duration(milliseconds: 160), curve: Motion.out);
+      case TicketTear.torn:
+        if (reduced) {
+          _c.value = 1;
+        } else {
+          _c.animateTo(1, duration: const Duration(milliseconds: 220), curve: Curves.easeIn);
+        }
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final stub = widget.stub;
+    return AnimatedBuilder(
+      animation: _c,
+      child: widget.child,
+      builder: (context, child) {
+        final active = _c.value.abs() > 0.003 || _c.isAnimating;
+        final (lift, torn) = _TearStage.progressAt(_c.value);
+        // Once the stub is away the ticket is cut at the perforation; at rest nothing clips.
+        final cut = active && lift > 0.05;
+        return Stack(
+          children: [
+            ClipRect(
+              clipBehavior: cut ? Clip.hardEdge : Clip.none,
+              clipper: cut ? _SplitClipper(stub: stub, keepStub: false) : null,
+              child: child,
+            ),
+            if (cut)
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: ExcludeSemantics(
+                    child: LayoutBuilder(
+                      builder: (context, box) => Opacity(
+                        opacity: (1 - Curves.easeIn.transform(torn)).clamp(0.0, 1.0),
+                        child: Transform(
+                          alignment: Alignment((box.maxWidth - stub) / box.maxWidth * 2 - 1, 1),
+                          transform: Matrix4.identity()
+                            ..translateByDouble(torn * stub * 0.95, -4 * lift - 8 * torn, 0, 1)
+                            ..rotateZ(0.035 * lift + 0.16 * torn),
+                          child: ClipRect(clipper: _SplitClipper(stub: stub, keepStub: true), child: child),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// Keeps one side of the perforation, with room above, below and outward for the shadow.
+class _SplitClipper extends CustomClipper<Rect> {
+  const _SplitClipper({required this.stub, required this.keepStub});
+
+  final double stub;
+  final bool keepStub;
+
+  @override
+  Rect getClip(Size size) {
+    final x = size.width - stub;
+    return keepStub ? Rect.fromLTRB(x, -48, size.width + 48, size.height + 48) : Rect.fromLTRB(-48, -48, x, size.height + 48);
+  }
+
+  @override
+  bool shouldReclip(_SplitClipper old) => old.stub != stub || old.keepStub != keepStub;
 }
 
 /// [style] for a subject name in [width], stepped down (never below 14) until its longest word

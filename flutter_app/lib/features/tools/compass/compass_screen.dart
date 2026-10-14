@@ -4,15 +4,19 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/connectivity/connectivity.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/du_repository.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
+import '../domain/du_models.dart' show DuPick;
 import '../tools_paths.dart';
 import '../widgets/action_chip.dart';
+import '../widgets/chip_flight.dart';
 import '../widgets/load_states.dart';
+import '../widgets/ranked_reveal.dart';
 import '../widgets/sort_key.dart';
 import '../widgets/sources_sheet.dart';
 import '../widgets/tools_card.dart';
@@ -23,6 +27,7 @@ import 'compass_hero.dart';
 import 'compass_practise.dart';
 import 'programme_rows.dart';
 import '../pro/compass_pro_section.dart';
+import '../widgets/size_reveal.dart';
 
 enum CompassSort { colleges, cutoff, name }
 
@@ -57,6 +62,12 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   /// Streams the student has opened to the full list.
   final Set<String> _openStreams = {};
 
+  /// False until the results have been drawn once and a frame has passed: rows on screen as the
+  /// page opens do not play their arrival (the page's own entrance did); rows that come later,
+  /// from a filter, a sort, a stream, a category or new subjects, do.
+  bool _readyOnce = false;
+  bool _settled = false;
+
   @override
   void dispose() {
     _search.dispose();
@@ -85,6 +96,13 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   }
 
   List<Widget> _ready(BuildContext context, CompassState s) {
+    if (!_readyOnce) {
+      _readyOnce = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _settled = true);
+    }
+    // A change of order, stream, category or the could-clear switch replays the arrival of the
+    // rows that stay (a search does not: new rows arrive, the rest hold still).
+    final replay = '${_sort.name}|$_stream|${s.category}|$_onlyClearing';
     final score = s.score;
     final q = _query.trim().toLowerCase();
     bool matches(DuVerdict r) => (_stream == ToolsCopy.all || r.group.stream == _stream) && (q.isEmpty || r.group.name.toLowerCase().contains(q));
@@ -160,7 +178,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                 top: MmSpace.s20,
                 trailing: Padding(
                   padding: const EdgeInsets.only(right: MmSpace.gutter),
-                  child: Text('${rows.length}', style: context.mmType.caption.copyWith(color: context.mmColors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
+                  child: _SlidingCount(count: rows.length),
                 ),
               ),
             ),
@@ -173,7 +191,20 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                   final shown = collapsible && !all ? rows.take(_streamFirst).toList() : rows;
                   return ToolsPanel(
                     children: [
-                      for (final r in shown) ProgrammeRow(verdict: r, category: s.category, score: score, onTap: () => open(r.group.id)),
+                      for (final (i, r) in shown.indexed)
+                        RankedReveal(
+                          key: ValueKey('row-${r.group.id}'),
+                          index: i,
+                          replayKey: replay,
+                          animateOnMount: _settled,
+                          child: ProgrammeRow(
+                            verdict: r,
+                            category: s.category,
+                            score: score,
+                            couldClear: score != null && s.couldClear(r.group),
+                            onTap: () => open(r.group.id),
+                          ),
+                        ),
                       if (collapsible)
                         ToolsRowFrame(
                           onTap: () => setState(() => all ? _openStreams.remove(st) : _openStreams.add(st)),
@@ -250,8 +281,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   }
 }
 
-/// The zero state: Mobi thinking and one line of action, not a paragraph. The subjects that
-/// would open something follow directly below, each with the number of programmes it opens.
+/// The zero state: one line of action, not a paragraph (Mobi is already thinking in the hero card
+/// above; one Mobi per screen). The subjects that would open something follow directly below,
+/// each with the number of programmes it opens.
 class _NoneOpen extends StatelessWidget {
   const _NoneOpen({required this.hasUnlocks});
 
@@ -262,51 +294,147 @@ class _NoneOpen extends StatelessWidget {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
-      child: Row(
-        children: [
-          const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Text(
-              hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
-              style: type.title.copyWith(fontSize: 18, height: 24 / 18),
-            ),
-          ),
-        ],
+      child: Text(
+        hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
+        style: type.title.copyWith(fontSize: 18, height: 24 / 18),
       ),
     );
   }
 }
 
-class _Unlocks extends ConsumerWidget {
+/// A group's count ("12"): when it changes the old figure slides out and the new one in (a half
+/// line, 200 ms); still under reduced motion.
+class _SlidingCount extends StatelessWidget {
+  const _SlidingCount({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = context.mmType.caption.copyWith(color: context.mmColors.ink3, fontFeatures: const [FontFeature.tabularFigures()]);
+    final reduced = Motion.reduced(context);
+    return AnimatedSwitcher(
+      duration: reduced ? Duration.zero : Motion.crossFade,
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      transitionBuilder: (child, animation) {
+        final incoming = child.key == ValueKey(count);
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween(begin: Offset(0, incoming ? 0.5 : -0.5), end: Offset.zero).animate(animation),
+            child: child,
+          ),
+        );
+      },
+      child: Text('$count', key: ValueKey(count), style: style),
+    );
+  }
+}
+
+/// The subjects that would open more. A tap previews what one would open (the first two
+/// programme names and how many more) with a key to add it, so nothing is added by a stray tap;
+/// adding flies the chip into the subject list on the card above.
+class _Unlocks extends ConsumerStatefulWidget {
   const _Unlocks({required this.state});
 
   final CompassState state;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(compassControllerProvider.notifier);
+  ConsumerState<_Unlocks> createState() => _UnlocksState();
+}
+
+class _UnlocksState extends ConsumerState<_Unlocks> {
+  String? _preview;
+  final Map<String, GlobalKey> _keys = {};
+
+  void _commit(DuPick pick) {
+    final at = _keys[pick.key]?.currentContext;
+    final rect = at == null ? null : ChipFlight.rectOf(at);
+    if (rect != null) ChipFlight.launch(pick.key, rect);
+    setState(() => _preview = null);
+    ref.read(compassControllerProvider.notifier).toggle(pick);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = widget.state;
+    final reduced = Motion.reduced(context);
+    final previewed = [for (final u in state.unlocks) if (u.pick.key == _preview) u].firstOrNull;
     // One row that scrolls (with its edge fade), so the chips never stagger into a ragged block.
-    return ToolsFadingScroller(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-      child: Row(
-        children: [
-          for (final u in state.unlocks) ...[
-            Semantics(
-              label: ToolsCopy.unlockSemantics(u.name, u.unlocks),
-              excludeSemantics: true,
-              button: true,
-              child: ToolsActionChip(
-                label: u.pick.name(state.catalog, short: true),
-                trailing: ToolsCopy.unlockValue(u.unlocks),
-                icon: LucideIcons.plus,
-                onTap: () => controller.toggle(u.pick),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ToolsFadingScroller(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: Row(
+            children: [
+              for (final u in state.unlocks) ...[
+                Semantics(
+                  label: ToolsCopy.unlockSemantics(u.name, u.unlocks),
+                  excludeSemantics: true,
+                  button: true,
+                  selected: u.pick.key == _preview,
+                  child: KeyedSubtree(
+                    key: _keys.putIfAbsent(u.pick.key, GlobalKey.new),
+                    child: ToolsActionChip(
+                      label: u.pick.name(state.catalog, short: true),
+                      trailing: ToolsCopy.unlockValue(u.unlocks),
+                      icon: LucideIcons.plus,
+                      active: u.pick.key == _preview,
+                      onTap: () => setState(() => _preview = u.pick.key == _preview ? null : u.pick.key),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+              ],
+            ],
+          ),
+        ),
+        SizeReveal(
+          child: AnimatedSwitcher(
+            duration: reduced ? Duration.zero : Motion.crossFade,
+            switchInCurve: Motion.glide,
+            switchOutCurve: Motion.exit,
+            layoutBuilder: (current, previous) => Stack(
+              alignment: Alignment.topCenter,
+              children: [...previous.map((w) => Positioned(left: 0, right: 0, top: 0, child: w)), ?current],
             ),
-            const SizedBox(width: MmSpace.s8),
-          ],
-        ],
-      ),
+            child: previewed == null
+                ? const SizedBox(key: ValueKey('no-preview'), width: double.infinity)
+                : Padding(
+                    key: ValueKey('preview-${previewed.pick.key}'),
+                    padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          ToolsCopy.unlockPreview(previewed.programmes.take(2).toList(), previewed.unlocks),
+                          style: context.mmType.body.copyWith(color: context.mmColors.ink2),
+                        ),
+                        const SizedBox(height: MmSpace.s12),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: KeyButton(
+                                label: ToolsCopy.unlockAdd(previewed.pick.name(state.catalog, short: true)),
+                                onPressed: () => _commit(previewed.pick),
+                              ),
+                            ),
+                            const SizedBox(width: MmSpace.s8),
+                            Expanded(
+                              flex: 2,
+                              child: KeyButton.quiet(label: ToolsCopy.unlockNotNow, onPressed: () => setState(() => _preview = null)),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }

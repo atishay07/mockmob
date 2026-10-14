@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
+import '../../../core/settings/settings_switch.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show MmPressHaptic, MmPressable, Skeleton, SkeletonGroup;
+import '../../you/widgets/you_motion.dart' show YouSizeEase;
 import '../copy.dart';
 
 /// A group heading in the Bricolage title cut, on the gutter (the same left edge as the cards),
@@ -225,25 +228,42 @@ class ChannelRow extends ConsumerWidget {
                       Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: dimmed ? colors.ink2 : colors.ink)),
                       const SizedBox(height: MmSpace.s2),
                       Text(body, style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2)),
-                      if (note != null) ...[
-                        const SizedBox(height: MmSpace.s4),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (noteIsWarning)
-                              Padding(
-                                padding: const EdgeInsets.only(top: MmSpace.s2, right: MmSpace.s8),
-                                child: Icon(LucideIcons.triangleAlert, size: 16, color: colors.warnText),
-                              ),
-                            Expanded(
-                              child: Text(
-                                note!,
-                                style: type.small.copyWith(color: noteIsWarning ? colors.warnText : colors.ink3),
-                              ),
-                            ),
-                          ],
+                      // A held reminder's note ("Paused until Mon 19 Oct.") fades in and out with
+                      // the state it describes, and the row's height eases with it.
+                      YouSizeEase(
+                        alignment: Alignment.topLeft,
+                        child: AnimatedSwitcher(
+                          duration: Motion.of(context, Motion.crossFade),
+                          switchInCurve: Motion.glide,
+                          switchOutCurve: Motion.exit,
+                          layoutBuilder: (current, previous) => Stack(
+                            alignment: AlignmentDirectional.topStart,
+                            children: [...previous, ?current],
+                          ),
+                          child: note == null
+                              ? const SizedBox(key: ValueKey('no-note'), width: double.infinity)
+                              : Padding(
+                                  key: ValueKey(note),
+                                  padding: const EdgeInsets.only(top: MmSpace.s4),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (noteIsWarning)
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: MmSpace.s2, right: MmSpace.s8),
+                                          child: Icon(LucideIcons.triangleAlert, size: 16, color: colors.warnText),
+                                        ),
+                                      Expanded(
+                                        child: Text(
+                                          note!,
+                                          style: type.small.copyWith(color: noteIsWarning ? colors.warnText : colors.ink3),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
@@ -258,9 +278,7 @@ class ChannelRow extends ConsumerWidget {
                     ),
                   )
                 else
-                  IgnorePointer(
-                    child: Switch(value: value, onChanged: enabled && !dimmed ? (_) {} : null),
-                  ),
+                  SettingsSwitch(value: value, held: dimmed && value, enabled: !dimmed || value),
               ],
             ),
           ),

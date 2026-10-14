@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
 /// One example of a notification: a round glyph, the channel name and the exact words. It is
@@ -48,7 +49,18 @@ class NotificationPreview extends StatelessWidget {
                 children: [
                   Text(channel, style: type.label.copyWith(color: colors.ink3)),
                   const SizedBox(height: 2),
-                  Text(body, style: type.small.copyWith(color: colors.ink)),
+                  // The words follow the time the student picks: the old line fades out as the new
+                  // one fades in (instant under reduced motion).
+                  AnimatedSwitcher(
+                    duration: Motion.of(context, Motion.crossFade),
+                    switchInCurve: Motion.glide,
+                    switchOutCurve: Motion.exit,
+                    layoutBuilder: (current, previous) => Stack(
+                      alignment: AlignmentDirectional.topStart,
+                      children: [...previous, ?current],
+                    ),
+                    child: Text(body, key: ValueKey(body), style: type.small.copyWith(color: colors.ink)),
+                  ),
                 ],
               ),
             ),

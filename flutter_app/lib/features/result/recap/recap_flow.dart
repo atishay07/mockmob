@@ -13,15 +13,18 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/widgets/late_night_line.dart';
+import '../../rhythm/rhythm.dart' show celebrationModeProvider;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/recap_model.dart';
+import '../model/recap_variant.dart';
 import '../result_nav.dart';
 import '../widgets/result_space.dart';
 import 'breakdown_card.dart';
+import 'card_drag.dart';
 import 'first_fix_card.dart';
 import 'recap_room.dart';
+import 'recap_finish.dart';
 import 'record_card.dart';
 import 'sheet_stage.dart';
 import 'story_bar.dart';
@@ -56,7 +59,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   /// Coming back to card 1 shows the sheet as it was left: no second roll.
   late bool _visitedOtherCard = widget.initialCard > 1;
   bool _hintShown = false;
-  Timer? _leave;
+  RecapReaction? _finishReaction;
   Timer? _reviewAsk;
 
   RecapModel get m => widget.model;
@@ -93,7 +96,6 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
 
   @override
   void dispose() {
-    _leave?.cancel();
     _reviewAsk?.cancel();
     super.dispose();
   }
@@ -152,11 +154,15 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   void _finish() {
     _actions.track(AnalyticsEvents.finishForNow, {'screen': 'recap'});
     _actions.saveProgress(m.attemptId, RecapFlow.cardCount);
+    // Mobi answers the result with the act the one reaction table gives it (nothing at all in
+    // NTA mode); the finish screen waits for that act to end, then Today takes over.
+    _finishReaction = recapReaction(
+      variant: m.variant,
+      mode: ref.read(celebrationModeProvider),
+      isNta: m.isNta,
+      hour: MobiRation.now().hour,
+    );
     setState(() => _finished = true);
-    // One plain line, long enough to read, then Today takes over.
-    _leave = Timer(const Duration(milliseconds: 2200), () {
-      if (mounted) context.go(AppRoutes.today);
-    });
   }
 
   Widget _cardFor(int card) {
@@ -224,23 +230,12 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   @override
   Widget build(BuildContext context) {
     if (_finished) {
-      return RecapRoom(
-        subjectId: m.subjectId,
-        child: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(MmSpace.s24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Semantics(liveRegion: true, child: ReceiptLine(text: ResultCopy.finishLine(m.mockLabel, m.candidates.length))),
-                  const LateNightLine(),
-                ],
-              ),
-            ),
-          ),
-        ),
+      return RecapFinish(
+        model: m,
+        reaction: _finishReaction,
+        onDone: () {
+          if (mounted) context.go(AppRoutes.today);
+        },
       );
     }
 
@@ -271,18 +266,27 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
                           count: _order.length,
                           onSkip: _skip,
                           onBack: _order.indexOf(_card) > 0 ? _back : null,
+                          titles: [for (final c in _order) ResultCopy.cardNames[c] ?? ''],
+                          onJump: (i) => _go(_order[i]),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: AnimatedSwitcher(
+                    child: CardDrag(
+                      // The sealed sheet is not a card yet: its sideways drags are its own.
+                      enabled: _opened,
+                      onNext: _order.indexOf(_card) < _order.length - 1 ? _next : null,
+                      onBack: _order.indexOf(_card) > 0 ? _back : null,
+                      onThreshold: () => unawaited(ref.read(hapticsProvider).tick()),
+                      child: AnimatedSwitcher(
                       duration: Motion.reduced(context) ? Motion.reducedFade : Motion.emphasizedDuration,
                       switchInCurve: Curves.linear,
                       switchOutCurve: Curves.linear,
                       transitionBuilder: _transition,
                       layoutBuilder: (current, previous) => Stack(fit: StackFit.expand, children: [...previous, ?current]),
                       child: KeyedSubtree(key: ValueKey('card-$_card'), child: _cardFor(_card)),
+                      ),
                     ),
                   ),
                 ],
@@ -319,6 +323,22 @@ class RecapPlaceholder extends StatefulWidget {
 class _RecapPlaceholderState extends State<RecapPlaceholder> {
   Timer? _timer;
   bool _slow = false;
+  bool _retried = false;
+
+  /// Mobi waits below the skeleton, at 60%: a quiet loading loop, never a second thing to read.
+  /// It is pinned under the skeleton's own box, so it never lands on a placeholder block and
+  /// never pushes the skeleton off a short screen: it is left out where there is no room.
+  static const Widget _waiting = Padding(
+    padding: EdgeInsets.symmetric(vertical: MmSpace.s12),
+    child: Center(
+      child: Opacity(opacity: 0.6, child: Mobi(pose: MobiPose.loading, size: 56)),
+    ),
+  );
+
+  /// The shortest area (dp) that still holds the skeleton and Mobi under it: the full result's
+  /// skeleton scrolls out of view and clips, the sealed sheet's cannot give way.
+  static const double _roomPage = 480;
+  static const double _roomSealed = 620;
 
   @override
   void initState() {
@@ -334,6 +354,7 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
   }
 
   void _retry() {
+    _retried = true;
     setState(() => _slow = false);
     _arm();
     widget.onRetry();
@@ -342,6 +363,10 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
   @override
   void dispose() {
     _timer?.cancel();
+    // A retry that ended in the result being here settles Mobi: the next failure is a new run and
+    // may shrug again (the state view's own gate). Leaving while the error is still on screen is
+    // not a recovery.
+    if (_retried && widget.data.error == null) MobiRation.recovered('state-view');
     super.dispose();
   }
 
@@ -350,10 +375,13 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
     final data = widget.data;
     final page = widget.page;
     final error = data.error;
-    final Widget body;
+    Widget body;
     if (error == null && _slow) {
+      // Mobi in the state's own slot, thinking quietly: it is waiting with the student, not
+      // reacting to a failure.
       body = StateView(
         kind: StateViewKind.error,
+        pose: MobiPose.think,
         title: ResultCopy.slowTitle,
         message: ResultCopy.slowBody,
         primary: StateAction(ResultCopy.tryAgain, _retry),
@@ -437,6 +465,21 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
         title: error.kind == ApiErrorKind.notFound ? ResultCopy.notFound : ResultCopy.loadFailed,
         primary: StateAction(ResultCopy.tryAgain, _retry),
         secondary: StateAction(ResultCopy.backToReview, () => context.go(AppRoutes.review)),
+      );
+    }
+    if (error == null && !_slow) {
+      final skeleton = body;
+      // Mobi waits only when the paper is known not to be an NTA mock: NTA results are exam-faithful,
+      // with no Mobi at all, and the mode is not known until the attempt is.
+      final mode = data.attempt?.mode;
+      final mobiOk = mode != null && mode != 'nta';
+      body = LayoutBuilder(
+        builder: (context, c) => Column(
+          children: [
+            Expanded(child: skeleton),
+            if (mobiOk && c.maxHeight >= (page ? _roomPage : _roomSealed)) _waiting,
+          ],
+        ),
       );
     }
     return RecapRoom(child: SafeArea(child: body));

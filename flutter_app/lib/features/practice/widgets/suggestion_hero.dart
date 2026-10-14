@@ -8,20 +8,55 @@ import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/storage/storage_providers.dart';
+import '../../../core/sync/session/session_journal.dart';
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 import '../data/suggestion.dart';
 import '../model/practice_selection.dart';
 import 'confirm_sheet.dart';
+import 'resume_sheet.dart';
 import 'suggestion_card.dart';
 
-/// Answer counts of one stored session, read from its journal.
+/// The draft of [sessionId] as the Practice card should read it: the live latest draft when it is
+/// this session's (the one the bar's Resume capsule and Today read, written again each time the
+/// paper is left or acknowledged), otherwise the stored one. Watching the live draft is what keeps
+/// the card's count in step with the capsule: a count read once, while the paper was opening,
+/// would show "0 of 10" after leaving it with ten answered (FINDINGS 28).
+Future<SessionDraft?> _draftOf(Ref ref, SessionDraftRepository drafts, String sessionId) {
+  final live = ref.watch(latestSessionDraftProvider).value;
+  if (live != null && live.sessionId == sessionId) return Future.value(live);
+  return drafts.bySessionId(sessionId);
+}
+
+/// Answer counts of one stored session, read from its journal by the same call the capsule uses
+/// ([SessionDraftRepository.summaryOf]), and read again whenever the draft is written again.
 final draftSummaryProvider = FutureProvider.autoDispose.family<DraftSummary?, String>((ref, sessionId) async {
   final drafts = ref.watch(sessionDraftRepositoryProvider);
-  final draft = await drafts.bySessionId(sessionId);
+  final draft = await _draftOf(ref, drafts, sessionId);
   return draft == null ? null : drafts.summaryOf(draft);
 });
+
+/// Which questions of one stored session have an answer now, in the paper's order, read from its
+/// journal (the painted sheet on the resume card inks exactly these). Null when it cannot be read.
+final draftAnsweredProvider = FutureProvider.autoDispose.family<List<bool>?, String>((ref, sessionId) async {
+  final drafts = ref.watch(sessionDraftRepositoryProvider);
+  final db = ref.watch(appDatabaseProvider);
+  final draft = await _draftOf(ref, drafts, sessionId);
+  if (draft == null) return null;
+  final journal = await SessionJournal.open(db, userId: draft.userId, sessionId: draft.sessionId);
+  final answers = journal.answers;
+  return [for (final q in draft.view.questions) answers.containsKey(q.id)];
+});
+
+/// Whether the painted sheet may show beside the printed count: while either is still being read
+/// it holds its place, and once both are known it shows only if they agree. They come from the same
+/// journal, so they do in the app; if a source ever disagrees the sheet is left out rather than
+/// inking bubbles the number does not back up (truthful data only).
+@visibleForTesting
+bool sheetAgrees({required List<bool>? flags, required int? answered}) =>
+    flags == null || answered == null || flags.where((v) => v).length == answered;
 
 /// True when [draft] can still be continued right now.
 bool canContinue(SessionDraft? draft, DateTime now) =>
@@ -33,7 +68,10 @@ String evidenceLocation(Attempt attempt) => attempt.isMock ? AppRoutes.result(at
 /// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card. It follows
 /// the subject picked on the tiles, and its Start opens the confirm sheet in that same subject.
 class SuggestionHero extends ConsumerWidget {
-  const SuggestionHero({super.key});
+  const SuggestionHero({super.key, this.actionKey});
+
+  /// Marks the card's Start key (Mobi points at it).
+  final GlobalKey? actionKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +89,11 @@ class SuggestionHero extends ConsumerWidget {
     switch (suggestion) {
       case ResumeSuggestion(:final draft):
         final total = draft.view.questions.length;
-        final answered = ref.watch(draftSummaryProvider(draft.sessionId)).value?.answered ?? 0;
+        final summary = ref.watch(draftSummaryProvider(draft.sessionId)).value;
+        final answered = summary?.answered ?? 0;
+        final flagsRead = ref.watch(draftAnsweredProvider(draft.sessionId));
+        final flags = flagsRead.value;
+        final showSheet = (flagsRead.isLoading || flags != null) && sheetAgrees(flags: flags, answered: summary?.answered);
         return SuggestionCard(
           subjectId: draft.subject,
           overline: PracticeCopy.resumeOverline,
@@ -65,6 +107,8 @@ class SuggestionHero extends ConsumerWidget {
               : PracticeCopy.resumePracticeReason,
           actionLabel: PracticeCopy.resumeKey,
           onAction: () => context.go(AppRoutes.run(draft.sessionId)),
+          actionKey: actionKey,
+          sheet: showSheet ? ResumeSheet(total: total, answered: flags) : null,
         );
       case ChapterSuggestion():
         final s = suggestion;
@@ -82,6 +126,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
       case SubjectSuggestion():
         final s = suggestion;
@@ -97,6 +142,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
       case StartingSuggestion():
         final s = suggestion;
@@ -113,6 +159,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
     }
   }

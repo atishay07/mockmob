@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -9,6 +12,7 @@ import '../domain/du_combos.dart' show duDefaultMaxPapers;
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
 import '../widgets/action_chip.dart';
+import '../widgets/chip_flight.dart';
 import '../widgets/subject_picker_sheet.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_parts.dart';
@@ -27,22 +31,109 @@ Future<void> openCompassPicker(BuildContext context, WidgetRef ref, DuCatalog ca
   );
 }
 
+/// How the hero's Mobi answers a change in what the subjects open, and the figure the delta chip
+/// shows. Pure, so the choices are tested without a screen.
+abstract final class CompassReaction {
+  /// The eligible count the hero shows: nothing ticked is 0.
+  static int openOf(CompassState s) => s.selection.isEmpty ? 0 : s.eligible.length;
+
+  /// More open: correct. Fewer: encourage. Nothing open now: think. A first non-zero count from
+  /// nothing: hello. No change: null (he stays as he is).
+  static MobiAct? actFor({required int before, required int after}) {
+    if (before == after) return null;
+    if (after == 0) return MobiAct.think;
+    if (before == 0) return MobiAct.hello;
+    return after > before ? MobiAct.correct : MobiAct.encourage;
+  }
+
+  /// "+12" or "-4"; null when nothing changed (or there was no count before to compare with).
+  static String? deltaText({required int before, required int after}) {
+    final d = after - before;
+    if (d == 0 || before == 0) return null;
+    return d > 0 ? '+$d' : '$d';
+  }
+}
+
 /// The focal pane of Compass: how many DU programmes the ticked subjects open (out of all of
 /// them), the subjects themselves as inked chips (tap one to take it off), and the key to edit.
 /// With nothing ticked it becomes the starting point: the rule of thumb and the presets.
-class CompassHero extends ConsumerWidget {
+///
+/// With subjects ticked the count rolls from the old value to the new, the ring travels from the
+/// previous fraction, a small "+12" or "-4" chip rises beside the figure for a couple of seconds,
+/// and a 56 dp Mobi reacts to the direction (more: a right-answer nod; fewer: encouragement; none
+/// open: thinking; the first non-zero count: hello). Every figure is the real count.
+class CompassHero extends ConsumerStatefulWidget {
   const CompassHero({super.key, required this.state});
 
   final CompassState state;
 
+  /// How long the delta chip stays.
+  static const Duration deltaHold = Duration(milliseconds: 2400);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CompassHero> createState() => _CompassHeroState();
+}
+
+class _CompassHeroState extends ConsumerState<CompassHero> {
+  final MobiController _mobi = MobiController();
+  String? _delta;
+  int _deltaId = 0;
+  Timer? _deltaTimer;
+
+  /// False while the page is opening: chips drawn then are simply there; a chip added after it
+  /// springs in (or flies in from the unlock chip that was committed).
+  bool _settled = false;
+
+  /// How Mobi came in when this card was made (thinking when nothing is open, hello otherwise).
+  /// Fixed for as long as the card lives, so later changes are his reactions, never a second
+  /// entrance on top of them; reset when the selection is emptied and the card is new again.
+  MobiAct? _entrance;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _settled = true);
+  }
+
+  @override
+  void didUpdateWidget(CompassHero old) {
+    super.didUpdateWidget(old);
+    final before = CompassReaction.openOf(old.state);
+    final after = CompassReaction.openOf(widget.state);
+    if (before == after) return;
+    final act = CompassReaction.actFor(before: before, after: after);
+    // From an empty selection the card is new and Mobi greets in his entrance; once he is there,
+    // every change of the count (a first one after "none open" too) is answered by an act.
+    if (act != null && !old.state.selection.isEmpty) _mobi.react(act, key: 'compass-hero', gap: const Duration(milliseconds: 600));
+    final text = CompassReaction.deltaText(before: before, after: after);
+    _deltaTimer?.cancel();
+    if (text == null || after == 0) {
+      _delta = null;
+      return;
+    }
+    _delta = text;
+    _deltaId++;
+    _deltaTimer = Timer(CompassHero.deltaHold, () {
+      if (mounted) setState(() => _delta = null);
+    });
+  }
+
+  @override
+  void dispose() {
+    _deltaTimer?.cancel();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final s = state;
+    final s = widget.state;
     final controller = ref.read(compassControllerProvider.notifier);
 
     if (s.selection.isEmpty) {
+      _entrance = null;
       return ToolsCard(
         lit: true,
         child: Column(
@@ -69,32 +160,64 @@ class CompassHero extends ConsumerWidget {
     }
 
     final open = s.eligible.length;
+    final fraction = s.total == 0 ? 0.0 : open / s.total;
+    final entrance = _entrance ??= open == 0 ? MobiAct.think : MobiAct.hello;
     return ToolsCard(
       lit: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MergeSemantics(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ToolsNumber(value: '$open', unit: 'of ${s.total}', semanticsLabel: '$open of ${s.total}'),
-                const SizedBox(height: MmSpace.s8),
-                Text(ToolsCopy.programmesOpen, style: type.labelLarge),
-                const SizedBox(height: 2),
-                Text(ToolsCopy.rulesLine, style: type.caption.copyWith(color: colors.ink3)),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: MergeSemantics(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(child: ToolsNumber(value: '$open', unit: 'of ${s.total}', semanticsLabel: '$open of ${s.total}')),
+                          const SizedBox(width: MmSpace.s8),
+                          _DeltaSlot(delta: _delta, id: _deltaId),
+                        ],
+                      ),
+                      const SizedBox(height: MmSpace.s8),
+                      Text(ToolsCopy.programmesOpen, style: type.labelLarge),
+                      const SizedBox(height: 2),
+                      Text(ToolsCopy.rulesLine, style: type.caption.copyWith(color: colors.ink3)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              ExcludeSemantics(
+                child: ToolsRing(
+                  key: const ValueKey('compass-ring'),
+                  fraction: fraction,
+                  size: 64,
+                  stroke: 6,
+                  child: Icon(LucideIcons.compass, size: 20, color: colors.ink3),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: MmSpace.s16),
           Wrap(
             spacing: MmSpace.s8,
             children: [
               for (final pick in s.selection.picks)
-                MmChip(
+                FlyInChip(
+                  key: ValueKey('subject-${pick.key}'),
+                  id: pick.key,
                   label: pick.name(s.catalog, short: true),
-                  selected: true,
-                  onTap: () => controller.toggle(pick),
+                  arrives: _settled,
+                  child: MmChip(
+                    label: pick.name(s.catalog, short: true),
+                    selected: true,
+                    onTap: () => controller.toggle(pick),
+                  ),
                 ),
             ],
           ),
@@ -111,16 +234,82 @@ class CompassHero extends ConsumerWidget {
             InlineBanner(message: ToolsCopy.overLimit(s.selection.count, duDefaultMaxPapers), tone: BannerTone.warning),
           ],
           const SizedBox(height: MmSpace.s4),
-          Transform.translate(
-            offset: const Offset(-MmSpace.s8, 0),
-            child: ToolsInlineAction(
-              label: ToolsCopy.editSubjects,
-              icon: LucideIcons.pencilLine,
-              onTap: () => openCompassPicker(context, ref, s.catalog),
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Transform.translate(
+                offset: const Offset(-MmSpace.s8, 0),
+                child: ToolsInlineAction(
+                  label: ToolsCopy.editSubjects,
+                  icon: LucideIcons.pencilLine,
+                  onTap: () => openCompassPicker(context, ref, s.catalog),
+                ),
+              ),
+              const Spacer(),
+              // The one Mobi on the page: he weighs the count with the student, thinking when
+              // nothing is open, and answers each change of it.
+              Mobi(
+                key: const ValueKey('compass-mobi'),
+                pose: entrance == MobiAct.think ? MobiPose.think : MobiPose.greeting,
+                size: 56,
+                controller: _mobi,
+                entrance: entrance,
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The "+12" or "-4" chip: it fades up beside the figure and goes after [CompassHero.deltaHold].
+/// A new change swaps it in place. The slot keeps its height, so the figure never shifts.
+class _DeltaSlot extends StatelessWidget {
+  const _DeltaSlot({required this.delta, required this.id});
+
+  final String? delta;
+  final int id;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final reduced = Motion.reduced(context);
+    final text = delta;
+    final more = text != null && text.startsWith('+');
+    return AnimatedSwitcher(
+      duration: reduced ? Duration.zero : Motion.crossFade,
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: SlideTransition(position: Tween(begin: const Offset(0, 0.5), end: Offset.zero).animate(animation), child: child),
+      ),
+      child: text == null
+          ? const SizedBox(key: ValueKey('no-delta'), height: 24)
+          : Semantics(
+              key: ValueKey('delta-$id'),
+              label: more ? '${text.substring(1)} more open than before' : '${text.substring(1)} fewer open than before',
+              excludeSemantics: true,
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  shape: const StadiumBorder(),
+                  color: more ? (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.16) : colors.raised2,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 2),
+                  child: Text(
+                    text,
+                    style: type.caption.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: more ? colors.accentText : colors.ink2,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ),
+              ),
+            ),
     );
   }
 }

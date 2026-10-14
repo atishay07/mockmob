@@ -75,7 +75,12 @@ abstract final class ReminderActions {
   static const start = 'start';
   static const notTonight = 'not_tonight';
   static const mute = 'mute_7d';
+  static const resume = 'resume';
 }
+
+/// Task ids of the silent answers to Not tonight and Mute for 7 days. A tap on one opens its screen
+/// and is never counted as a response to a reminder.
+const String ackTaskPrefix = 'ack:';
 
 String _dayKey(tz.TZDateTime t) =>
     '${t.year}-${t.month.toString().padLeft(2, '0')}-${t.day.toString().padLeft(2, '0')}';

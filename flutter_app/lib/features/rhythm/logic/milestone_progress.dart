@@ -28,3 +28,12 @@ Map<String, int> milestoneProgress({List<Attempt>? attempts, Rhythm? rhythm}) {
   out.removeWhere((id, n) => earned.contains(id) || n >= (milestoneTargets[id] ?? 1 << 30) || n < 0);
   return out;
 }
+
+/// How far along [stepId] is, 0 to 1, only where [progress] holds an exact count (see
+/// [milestoneProgress]); null for a step the app cannot count, so no arc is ever drawn on a guess.
+double? milestoneFraction(String stepId, Map<String, int> progress) {
+  final count = progress[stepId];
+  final target = milestoneTargets[stepId];
+  if (count == null || target == null || target <= 0) return null;
+  return (count / target).clamp(0.0, 1.0);
+}

@@ -8,10 +8,11 @@ import '../../../core/copy/copy.dart';
 import '../../../core/models/consent.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/settings/appearance_settings.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/you_motion.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
@@ -32,6 +33,8 @@ class ProgressPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.target,
+          motion: YouIconMotion.ping,
+          changeKey: ChangedRowKeys.rhythm,
           title: YouCopy.rowRhythm,
           note: rhythmNote(goal?.daysPerWeek, goal?.pausedUntil),
           onTap: () => context.push(AppRoutes.youRhythm),
@@ -75,10 +78,19 @@ class SettingsPanel extends ConsumerWidget {
       flat: true,
       inset: _flatInset,
       children: [
-        YouRow(flat: true, icon: LucideIcons.bell, title: YouCopy.rowNotifications, onTap: () => context.push(AppRoutes.youNotifications)),
+        YouRow(
+          flat: true,
+          icon: LucideIcons.bell,
+          motion: YouIconMotion.swing,
+          changeKey: ChangedRowKeys.notifications,
+          title: YouCopy.rowNotifications,
+          onTap: () => context.push(AppRoutes.youNotifications),
+        ),
         YouRow(
           flat: true,
           icon: LucideIcons.moonStar,
+          motion: YouIconMotion.tilt,
+          changeKey: ChangedRowKeys.appearance,
           title: YouCopy.rowAppearance,
           value: themeName(mode),
           onTap: () => context.push(AppRoutes.youAppearance),
@@ -86,6 +98,9 @@ class SettingsPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.shieldCheck,
+          motion: YouIconMotion.tick,
+          tickIcon: LucideIcons.shield,
+          changeKey: ChangedRowKeys.privacy,
           title: YouCopy.rowPrivacy,
           note: privacyNote(consent),
           onTap: () => context.push(AppRoutes.youPrivacy),
@@ -93,11 +108,13 @@ class SettingsPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.user,
+          motion: YouIconMotion.hop,
+          changeKey: ChangedRowKeys.account,
           title: YouCopy.rowAccount,
           value: pro ? YouCopy.accountPro : credits == null ? null : YouCopy.accountCredits(credits),
           onTap: () => context.push(AppRoutes.youAccount),
         ),
-        YouRow(flat: true, icon: LucideIcons.lifeBuoy, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
+        YouRow(flat: true, icon: LucideIcons.lifeBuoy, motion: YouIconMotion.turn, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
       ],
     );
   }
@@ -134,7 +151,8 @@ class ToolsPanel extends StatelessWidget {
   }
 }
 
-/// The quiet sign-off at the foot of You: Mobi resting and the version.
+/// The quiet sign-off at the foot of You: the version. Mobi is not here a second time: the sheet
+/// at the top has him (one Mobi per screen).
 class HubFooter extends ConsumerWidget {
   const HubFooter({super.key});
 
@@ -142,19 +160,10 @@ class HubFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final version = ref.watch(appVersionProvider).value;
+    if (version == null) return const SizedBox(height: MmSpace.s24);
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s40),
-      child: Column(
-        children: [
-          // Mobi sits at the foot of the page; a tap makes him hop.
-          const Mobi(pose: MobiPose.rest, size: 64, interactive: true),
-          // No wordmark under him: its o is Mobi too, so the pair read as two Mobis stacked.
-          if (version != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            Text(YouCopy.helpVersion(version), style: context.mmType.caption.copyWith(color: colors.ink3)),
-          ],
-        ],
-      ),
+      padding: const EdgeInsets.only(top: MmSpace.s32),
+      child: Center(child: Text(YouCopy.helpVersion(version), style: context.mmType.caption.copyWith(color: colors.ink3))),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ import '../widgets/plan_sheet.dart';
 /// setting: Full stamps the seal with one ring wave and a firm tap, and Mobi celebrates after it
 /// lands; Quiet stamps it with no wave and a selection tick; Off just shows the seal and says so.
 class PlanStep extends ConsumerStatefulWidget {
-  const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false, this.moment});
+  const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false, this.moment, this.mobi});
 
   final OnboardingAnswers answers;
   final VoidCallback onNext;
@@ -46,6 +47,12 @@ class PlanStep extends ConsumerStatefulWidget {
   /// painted answer sheet up behind the card and presses the volt seal into its impression;
   /// without it (a plan step on its own) the seal stamps on the card's corner as before.
   final PlanSealMoment? moment;
+
+  /// The guide Mobi of the flow's top bar. Given, he follows the hold: he looks at the seal when
+  /// it starts, braces as it charges (at each third), breathes out with "Still yours to seal."
+  /// when it is let go early, and nods when it strikes under Quiet. The full celebration at the
+  /// stamp is the flow's own. Never an obstacle: the hold works the same without him.
+  final MobiController? mobi;
 
   @override
   ConsumerState<PlanStep> createState() => _PlanStepState();
@@ -68,8 +75,12 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
   bool _landed = false;
   bool _ticked = false;
 
-  /// The thirds of the hold already ticked (a selection tick at one third and two thirds).
+  /// The thirds of the hold Mobi has braced for, and the quarters already ticked (a selection tick
+  /// at each quarter of the hold).
   int _thirds = 0;
+  int _quarters = 0;
+  Timer? _hush;
+  final GlobalKey _holdKey = GlobalKey();
 
   static const Duration _flipTime = Duration(milliseconds: 640);
 
@@ -92,10 +103,18 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
       _burst.addListener(_sync);
     }
     _hold.addListener(() {
-      final third = (_hold.value * 3).floor().clamp(0, 2);
-      if (_hold.status == AnimationStatus.forward && !_struck && third > _thirds) {
-        _thirds = third;
+      if (_hold.status != AnimationStatus.forward || _struck) return;
+      // A selection tick at each quarter of the hold: the finger counts the seal coming down.
+      final quarter = (_hold.value * 4).floor().clamp(0, 3);
+      if (quarter > _quarters) {
+        _quarters = quarter;
         ref.read(hapticsProvider).selection();
+      }
+      // Mobi braces as the thirds pass.
+      final third = (_hold.value * 3).floor().clamp(0, 2);
+      if (third > _thirds) {
+        _thirds = third;
+        widget.mobi?.react(MobiAct.brace);
       }
     });
     _flip.addStatusListener((s) {
@@ -159,6 +178,30 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// Mobi looks at the seal while it is held: the one on the sheet in the moment, else the pill.
+  void _watchSeal() {
+    final mobi = widget.mobi;
+    if (mobi == null) return;
+    if (_momentOn) {
+      mobi.lookAt(SealGeometry.of(MediaQuery.sizeOf(context)).centre);
+    } else {
+      mobi.lookAtWidget(_holdKey);
+    }
+  }
+
+  /// The hold was let go before the seal struck: he breathes out and says the plan is still
+  /// the student's to seal. A touch that barely started says nothing.
+  void _released(double held) {
+    final mobi = widget.mobi;
+    if (mobi == null) return;
+    mobi.lookAt(null);
+    if (held < 0.08 || held >= 1) return;
+    mobi.react(MobiAct.relief);
+    mobi.say(OnboardingCopy.mobiStillYours);
+    _hush?.cancel();
+    _hush = Timer(Duration(milliseconds: (MobiTyping.duration(OnboardingCopy.mobiStillYours) * 1000).round() + 2200), mobi.hush);
+  }
+
   /// The seal has been struck: setting the hold to full below completes it, which asks to seal
   /// again before the sheet's new state has reached this widget.
   bool _struck = false;
@@ -200,12 +243,22 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     } else {
       _stamp.forward(from: 0);
     }
-    if (_momentOn && mode == CelebrationMode.full && !reduced) _burst.forward(from: 0);
+    if (_momentOn && mode == CelebrationMode.full && !reduced) {
+      _burst.forward(from: 0);
+      // The afterglow's ring leaves the rim with the strike; the lamp surge and the sheet settle
+      // follow the stamp itself (Quiet gets those two, Off and reduced motion none).
+      widget.moment?.set(ring: true);
+    }
+    // He stops watching the seal. Quiet answers with a nod; the Full celebration is the flow's,
+    // timed to this stamp; Off keeps him still.
+    widget.mobi?.lookAt(null);
+    if (mode == CelebrationMode.quiet) widget.mobi?.react(MobiMoments.act(MobiEvent.saveConfirmed));
     _sync();
   }
 
   @override
   void dispose() {
+    _hush?.cancel();
     _flip.dispose();
     _hold.dispose();
     _stamp.dispose();
@@ -453,16 +506,21 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                     // One dominant control: hold the pill (the ceremony). Anyone who cannot hold
                     // steadily taps the link under it; TalkBack's double tap on the pill seals too.
                     HoldToSeal(
+                      key: _holdKey,
                       progress: _hold,
                       onHoldStart: () {
                         if (_struck) return;
                         ref.read(hapticsProvider).selection();
                         _hold.forward();
+                        _watchSeal();
                       },
                       onHoldEnd: () {
                         if (_struck) return;
+                        final held = _hold.value;
                         if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
                         _thirds = 0;
+                        _quarters = 0;
+                        _released(held);
                       },
                       onSeal: _seal,
                     ),

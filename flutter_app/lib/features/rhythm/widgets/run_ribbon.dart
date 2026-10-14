@@ -6,6 +6,11 @@
 // a veil washes it, a selection tick fires) and says the week in words. Every capsule is a number
 // the server sent. Capsules grow in left to right once, the whole ribbon drawing in over
 // `Motion.drawIn` (450 ms); reduced motion draws them settled.
+//
+// Hold and slide along it to read each week (`MmScrub`): the capsule under the finger lifts and
+// swells a little, its neighbours dim, and the caption cross-fades to that week in words. Under
+// consecutive weeks that met their goal a short volt line joins their capsules, drawn with the
+// same grow as the capsules; an unmet or paused week breaks it.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -127,6 +132,9 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
   bool _started = false;
   int? _selected;
 
+  /// The week under a held finger (a scrub), or null.
+  int? _scrubbed;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -179,6 +187,7 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
     }
     _curves = _makeCurves(widget.weeks.length);
     _selected = null;
+    _scrubbed = null;
   }
 
   @override
@@ -186,13 +195,20 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
     final colors = context.mmColors;
     final type = context.mmType;
     final weeks = widget.weeks;
-    final picked = _selected == null ? null : weeks[_selected!];
+    final shown = _scrubbed ?? _selected;
+    final picked = shown == null || shown >= weeks.length ? null : weeks[shown];
     final summary = ribbonSummary(weeks);
     final caption = picked?.words ?? summary;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(
+        MmScrub(
+          count: weeks.length,
+          // The week under the finger: the slots are 44 dp each, in the list's own scrolled space.
+          indexFor: (x, width) => (((x + (_scroll.hasClients ? _scroll.offset : 0)) / RunRibbon.slot).floor()).clamp(0, weeks.length - 1),
+          onIndex: (i) => setState(() => _scrubbed = i),
+          onEnd: () => setState(() => _scrubbed = null),
+          child: SizedBox(
           height: RunRibbon.height + 8 + 18 + (widget.showCounts ? 14 : 0),
           child: ListView.builder(
             controller: _scroll,
@@ -202,6 +218,9 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
             itemBuilder: (context, i) {
               final w = weeks[i];
               final selected = _selected == i;
+              final lifted = _scrubbed == i;
+              final dimmed = _scrubbed != null && !lifted;
+              final glide = Motion.of(context, const Duration(milliseconds: 180));
               return MmPressable(
                 onTap: () => _pick(i),
                 semanticsLabel: w.words,
@@ -217,14 +236,46 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
                     child: Column(
                       children: [
                         const SizedBox(height: 4),
-                        RepaintBoundary(
-                          child: SizedBox(
-                            width: RunRibbon.slot,
-                            height: RunRibbon.height,
-                            child: CustomPaint(painter: _CapsulePainter(colors: colors, week: w, grow: _curves[i])),
+                        // The held week lifts 6 dp and swells; the others dim. Transforms and opacity only.
+                        AnimatedOpacity(
+                          opacity: dimmed ? 0.5 : 1,
+                          duration: glide,
+                          child: AnimatedSlide(
+                            offset: lifted ? const Offset(0, -0.08) : Offset.zero,
+                            duration: glide,
+                            curve: Motion.emphasized,
+                            child: AnimatedScale(
+                              scale: lifted ? 1.1 : 1,
+                              duration: glide,
+                              curve: Motion.emphasized,
+                              child: RepaintBoundary(
+                                child: SizedBox(
+                                  width: RunRibbon.slot,
+                                  height: RunRibbon.height,
+                                  child: CustomPaint(painter: _CapsulePainter(colors: colors, week: w, grow: _curves[i])),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        // The run: a volt line to the next capsule when both weeks met their goal.
+                        SizedBox(
+                          width: RunRibbon.slot,
+                          height: 6,
+                          child: RepaintBoundary(
+                            child: CustomPaint(
+                              painter: _LinkPainter(
+                                colors: colors,
+                                linked: i + 1 < weeks.length && _met(w) && _met(weeks[i + 1]),
+                                // Only the first and last link of a run are rounded off; the ones
+                                // between meet end to end, so a run reads as one line.
+                                startsRun: i == 0 || !_met(weeks[i - 1]),
+                                endsRun: i + 2 >= weeks.length || !_met(weeks[i + 2]),
+                                grow: _curves[i],
+                              ),
+                            ),
+                          ),
+                        ),
                         Text(
                           w.label,
                           maxLines: 1,
@@ -245,6 +296,7 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
             },
           ),
         ),
+        ),
         if (caption != null) ...[
           const SizedBox(height: MmSpace.s8),
           Semantics(
@@ -259,6 +311,9 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
       ],
     );
   }
+
+  /// A week that met its goal and was not paused: the only kind a run line joins.
+  static bool _met(RibbonWeek w) => w.met && !w.paused;
 
   /// The selection tick is the press's own (`MmPressHaptic.selection`).
   void _pick(int i) => setState(() => _selected = _selected == i ? null : i);
@@ -340,4 +395,48 @@ class _CapsulePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CapsulePainter old) => old.colors != colors || old.week != week;
+}
+
+/// The volt line between two capsules of consecutive met weeks, from this capsule's centre to the
+/// next one's, drawn in as the ribbon grows. Nothing for a week that ends the run.
+class _LinkPainter extends CustomPainter {
+  _LinkPainter({required this.colors, required this.linked, required this.startsRun, required this.endsRun, required this.grow})
+      : super(repaint: grow);
+
+  final MmColors colors;
+  final bool linked;
+
+  /// This link opens a run of met weeks / closes it: that end is rounded, the others are flat.
+  final bool startsRun;
+  final bool endsRun;
+  final Animation<double> grow;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (!linked || grow.value <= 0) return;
+    final y = size.height / 2;
+    final from = Offset(size.width / 2, y);
+    // To the next capsule's centre: one slot on. The next slot's own capsule is where it ends.
+    final to = Offset(size.width / 2 + RunRibbon.slot * grow.value, y);
+    void line(double width, Color color) {
+      canvas.drawLine(
+        from,
+        to,
+        Paint()
+          ..strokeWidth = width
+          ..strokeCap = StrokeCap.butt
+          ..color = color,
+      );
+      final dot = Paint()..color = color;
+      if (startsRun) canvas.drawCircle(from, width / 2, dot);
+      if (endsRun) canvas.drawCircle(to, width / 2, dot);
+    }
+
+    if (!colors.isNight) line(4, colors.voltEdge);
+    line(2.5, colors.volt);
+  }
+
+  @override
+  bool shouldRepaint(_LinkPainter old) =>
+      old.colors != colors || old.linked != linked || old.startsRun != startsRun || old.endsRun != endsRun;
 }

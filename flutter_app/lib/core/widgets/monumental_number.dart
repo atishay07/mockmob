@@ -21,6 +21,7 @@ class MonumentalNumber extends StatefulWidget {
     this.color,
     this.unitColor,
     this.roll = true,
+    this.fromZeroOnFirstBuild = true,
     this.semanticsLabel,
     this.delay = Duration.zero,
     this.onLanded,
@@ -39,8 +40,13 @@ class MonumentalNumber extends StatefulWidget {
   /// Defaults to ink 2.
   final Color? unitColor;
 
-  /// False shows the final value without rolling.
+  /// False shows the final value without rolling, on first build and on every change.
   final bool roll;
+
+  /// True (the default) rolls every slot up from 0 when the number first appears. False shows the
+  /// first value as it is and rolls only on changes, from the value shown: for a number that was
+  /// already on screen before a rebuild (a list row scrolled back into view, a tab revisited).
+  final bool fromZeroOnFirstBuild;
   final String? semanticsLabel;
 
   /// Waits this long before rolling (the first roll and every change).
@@ -96,6 +102,10 @@ class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerPr
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
+    if (!widget.fromZeroOnFirstBuild) {
+      _roll.value = 1;
+      return;
+    }
     _start();
   }
 

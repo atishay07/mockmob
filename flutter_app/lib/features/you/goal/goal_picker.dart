@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -10,7 +13,11 @@ import '../copy.dart';
 /// bubbles 1 to 4 ink (study days, the ink spreading from the finger) and the rest stay open
 /// rings (rest days), with a bracket underneath that names the split. The picture is the
 /// explanation. State is the fill, the ring and the words, never colour alone.
-class GoalPicker extends ConsumerWidget {
+///
+/// The circles answer a pick in order: raising the goal fills the new circles left to right, one
+/// every 40 ms; lowering it empties them right to left on the same beat. Under reduced motion
+/// they change together.
+class GoalPicker extends ConsumerStatefulWidget {
   const GoalPicker({super.key, required this.value, required this.onChanged});
 
   final int value;
@@ -20,8 +27,36 @@ class GoalPicker extends ConsumerWidget {
 
   static const double bubble = 36;
 
+  /// The beat between one circle and the next when a pick fills or empties several.
+  static const Duration stagger = Duration(milliseconds: 40);
+
+  /// How long circle [day] waits to change when the goal moves from [from] to [to]. Raising it
+  /// fills left to right; lowering it empties right to left; circles that do not change wait
+  /// for nothing.
+  static Duration delayFor(int day, {required int from, required int to}) {
+    if (to > from && day > from && day <= to) return stagger * (day - from - 1);
+    if (to < from && day > to && day <= from) return stagger * (from - day);
+    return Duration.zero;
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GoalPicker> createState() => _GoalPickerState();
+}
+
+class _GoalPickerState extends ConsumerState<GoalPicker> {
+  late int _from = widget.value;
+
+  @override
+  void didUpdateWidget(GoalPicker old) {
+    super.didUpdateWidget(old);
+    if (old.value != widget.value) _from = old.value;
+  }
+
+  int get value => widget.value;
+  ValueChanged<int>? get onChanged => widget.onChanged;
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     // The numerals sit in a fixed bubble, so they stop growing at 1.3x. The words below scale.
@@ -50,7 +85,9 @@ class GoalPicker extends ConsumerWidget {
                     onTap: onChanged == null ? null : () => _pick(ref, day),
                     child: SizedBox(
                       height: MmTarget.min,
-                      child: Center(child: _DayBubble(day: day, filled: day <= value, current: day == value, scaler: numeralScaler)),
+                      child: Center(
+                        child: _DayBubble(day: day, filled: day <= value, current: day == value, scaler: numeralScaler, delay: GoalPicker.delayFor(day, from: _from, to: value)),
+                      ),
                     ),
                   ),
                   ),
@@ -92,18 +129,52 @@ class GoalPicker extends ConsumerWidget {
   }
 }
 
-class _DayBubble extends StatelessWidget {
-  const _DayBubble({required this.day, required this.filled, required this.current, required this.scaler});
+class _DayBubble extends StatefulWidget {
+  const _DayBubble({required this.day, required this.filled, required this.current, required this.scaler, this.delay = Duration.zero});
 
   final int day;
   final bool filled;
   final bool current;
   final TextScaler scaler;
 
+  /// How long to wait before showing a change of [filled] (the left to right stagger).
+  final Duration delay;
+
+  @override
+  State<_DayBubble> createState() => _DayBubbleState();
+}
+
+class _DayBubbleState extends State<_DayBubble> {
+  late bool _shown = widget.filled;
+  Timer? _wait;
+
+  @override
+  void didUpdateWidget(_DayBubble old) {
+    super.didUpdateWidget(old);
+    if (old.filled == widget.filled) return;
+    _wait?.cancel();
+    if (widget.delay == Duration.zero || Motion.reduced(context)) {
+      _shown = widget.filled;
+      return;
+    }
+    _wait = Timer(widget.delay, () {
+      if (mounted) setState(() => _shown = widget.filled);
+    });
+  }
+
+  @override
+  void dispose() {
+    _wait?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final filled = _shown;
+    final day = widget.day;
+    final scaler = widget.scaler;
     return Stack(
       alignment: Alignment.center,
       children: [

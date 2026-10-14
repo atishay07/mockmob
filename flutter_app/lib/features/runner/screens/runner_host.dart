@@ -123,8 +123,19 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   Future<void> select(String qid, int? option) async {
     if (!session.canAnswer) return;
     if (option != null && session.answerFor(qid) != option) unawaited(ref.read(hapticsProvider).tick());
+    // Picking a crossed-out option brings it back.
+    if (option != null) session.strikes.restore(qid, option);
     session.dismissAway();
     await session.selectAnswer(qid, option);
+  }
+
+  /// A long press on an option: crosses it out or brings it back. In memory only; it never
+  /// reaches the server and never touches the answer.
+  void strike(String qid, int option) {
+    if (!session.canAnswer || session.answerFor(qid) == option) return;
+    unawaited(ref.read(hapticsProvider).tick());
+    session.dismissAway();
+    session.strikes.toggle(qid, option);
   }
 
   void goTo(int index) {

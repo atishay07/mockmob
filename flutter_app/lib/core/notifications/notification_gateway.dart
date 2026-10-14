@@ -62,6 +62,9 @@ class LaunchTapLatch {
 AndroidNotificationAction androidActionFor(NotificationActionSpec spec) =>
     AndroidNotificationAction(spec.id, spec.label, showsUserInterface: true);
 
+/// The expanded style of a notification: the whole [body] wraps instead of truncating.
+BigTextStyleInformation bigTextFor(String body) => BigTextStyleInformation(body);
+
 /// The slice of the local notifications plugin the engine uses, so scheduling logic is tested
 /// with a fake and the plugin stays replaceable.
 abstract class LocalNotificationsGateway {
@@ -139,7 +142,13 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
     );
   }
 
-  NotificationDetails _details(NotificationChannelSpec c, {required bool silent, bool ongoing = false, List<NotificationActionSpec> actions = const []}) =>
+  NotificationDetails _details(
+    NotificationChannelSpec c, {
+    required bool silent,
+    bool ongoing = false,
+    List<NotificationActionSpec> actions = const [],
+    String? body,
+  }) =>
       NotificationDetails(
         android: AndroidNotificationDetails(
           c.id,
@@ -152,6 +161,9 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
           silent: silent || c.silent,
           ongoing: ongoing,
           autoCancel: !ongoing,
+          // The whole body shows when the notification is expanded: a repair line such as "Your
+          // repair is ready: 3 mistakes, about 12 minutes." no longer ends in an ellipsis.
+          styleInformation: ongoing || body == null || body.isEmpty ? null : bigTextFor(body),
           actions: [for (final a in actions) androidActionFor(a)],
         ),
       );
@@ -170,7 +182,7 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
       _plugin.zonedSchedule(
         id: id,
         scheduledDate: at,
-        notificationDetails: _details(channel, silent: silent, actions: actions),
+        notificationDetails: _details(channel, silent: silent, actions: actions, body: body),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         title: title,
         body: body,
@@ -192,7 +204,7 @@ class FlutterLocalNotificationsGateway implements LocalNotificationsGateway {
         id: id,
         title: title,
         body: body,
-        notificationDetails: _details(channel, silent: silent, ongoing: ongoing, actions: actions),
+        notificationDetails: _details(channel, silent: silent, ongoing: ongoing, actions: actions, body: body),
         payload: payload,
       );
 

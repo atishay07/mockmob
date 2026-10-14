@@ -353,6 +353,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       youInitial: initial,
       quality: quality,
       startResumeLabel: resume == null ? null : 'Resume ${resume.paper}',
+      startResumeId: resume?.sessionId,
       onStartResume: resume == null ? null : () => unawaited(GoRouter.of(context).push<void>(AppRoutes.run(resume.sessionId))),
     );
 

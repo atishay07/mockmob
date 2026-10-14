@@ -6,6 +6,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../models/learn_catalog.dart';
+import 'lesson_ring.dart';
 import 'subject_mark.dart';
 
 /// One subject's lessons: the subject's own drawn emblem and name with its lesson count, one
@@ -19,7 +20,15 @@ class SubjectLessons extends StatelessWidget {
     required this.onOpen,
     this.onReadChapter,
     this.upNext,
+    this.onPhone = const {},
+    this.offline = false,
   });
+
+  /// Ids of the lessons kept on this phone: their rows say so.
+  final Set<String> onPhone;
+
+  /// The phone has no connection: a lesson that is not kept says it needs one.
+  final bool offline;
 
   final LearnSubject subject;
   final List<LearnUnit> units;
@@ -83,12 +92,22 @@ class SubjectLessons extends StatelessWidget {
     final status = minutes == null ? word : '$word, $minutes';
     final next = upNext != null && upNext!.id == unit.id;
     final reason = next ? upNext!.reason : null;
+    // Whether the lesson can be opened without a connection, said only when it is true: kept on
+    // this phone, or (when there is no connection) not kept.
+    final where = onPhone.contains(unit.id) ? LearnCopy.onThisPhone : (offline ? LearnCopy.needsConnection : null);
     return MmRow(
       title: unit.title,
-      subtitle: next ? ['${LearnCopy.upNext}. $status', ?reason].join('\n') : status,
-      subtitleLines: next ? 4 : 2,
-      semanticsLabel: [if (next) LearnCopy.upNext, unit.title, word, ?minutes, ?reason].join('. '),
-      trailing: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+      subtitle: ['${next ? '${LearnCopy.upNext}. ' : ''}$status', ?reason, ?where].join('\n'),
+      subtitleLines: next ? 5 : 3,
+      semanticsLabel: [if (next) LearnCopy.upNext, unit.title, word, ?minutes, ?reason, ?where].join('. '),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LessonStateRing(key: ValueKey('ring-${unit.id}'), state: LessonRingState.of(unit)),
+          const SizedBox(width: MmSpace.s8),
+          Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+        ],
+      ),
       onTap: () => onOpen(unit),
     );
   }

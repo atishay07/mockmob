@@ -209,6 +209,7 @@ class MilestoneTimeline extends StatelessWidget {
                 progress: progress,
                 freshIds: freshIds,
                 onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+                onAction: onOpen,
               ),
             ),
           ],

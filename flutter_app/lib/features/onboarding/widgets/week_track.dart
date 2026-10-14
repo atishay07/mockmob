@@ -1,5 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
+import '../../../core/mascot/mascot.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
@@ -7,8 +10,10 @@ import '../copy.dart';
 /// The road to CUET, one tick per week from today: a marker where the May 2027 window opens and
 /// one for May 2028. Choosing a stage lights the ticks up to its window, so the student sees how
 /// much road they have, not only a number. Drawn in one paint; the light travels in 520 ms (at
-/// once under reduced motion). Decorative: each tile already says its weeks to TalkBack.
-class WeekTrack extends StatelessWidget {
+/// once under reduced motion). A small Mobi (28 dp) stands at Today and walks the road to the chosen
+/// window in the same 520 ms, then answers on arrival: a hop at the near window, a look ahead at
+/// the far one. Decorative: each tile already says its weeks to TalkBack.
+class WeekTrack extends StatefulWidget {
   const WeekTrack({super.key, required this.nearWeeks, required this.farWeeks, required this.litWeeks});
 
   /// Weeks to the closer window (May 2027), and to the next one (May 2028).
@@ -20,6 +25,41 @@ class WeekTrack extends StatelessWidget {
 
   static const double height = 58;
 
+  /// Mobi's height on the road, and how long his walk takes (the light's own 520 ms).
+  static const double walker = 28;
+  static const Duration walk = Duration(milliseconds: 520);
+
+  @override
+  State<WeekTrack> createState() => _WeekTrackState();
+}
+
+class _WeekTrackState extends State<WeekTrack> {
+  /// The window he stood at before the latest choice (null: he stands at Today).
+  int? _from;
+
+  int get nearWeeks => widget.nearWeeks;
+  int get farWeeks => widget.farWeeks;
+  int? get litWeeks => widget.litWeeks;
+
+  @override
+  void didUpdateWidget(WeekTrack old) {
+    super.didUpdateWidget(old);
+    if (old.litWeeks != widget.litWeeks) _from = old.litWeeks;
+  }
+
+  /// He answers on arrival: a small hop at the near window, a look ahead along the road at the far
+  /// one, nothing elsewhere. The Class 11 note under the road is the step's own words.
+  void _arrived(MobiController mobi) {
+    final lit = litWeeks;
+    if (lit == null) return;
+    if (lit == nearWeeks) {
+      mobi.react(MobiMoments.act(MobiEvent.answerRight));
+    } else if (lit == farWeeks) {
+      final box = context.findRenderObject();
+      if (box is RenderBox && box.hasSize) mobi.glance(box.localToGlobal(Offset(box.size.width + 240, 0)), hold: const Duration(milliseconds: 1400));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -30,11 +70,16 @@ class WeekTrack extends StatelessWidget {
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5);
     return ExcludeSemantics(
       child: SizedBox(
-        height: height,
+        height: WeekTrack.height,
         child: LayoutBuilder(
           builder: (context, box) {
             final w = box.maxWidth;
             final nearX = (w - 2) * (nearWeeks / farWeeks) + 1;
+            double xOf(int? weeks) => weeks == null ? 0 : (w - 2) * (weeks / farWeeks) + 1;
+            final mobiW = MobiFigure.widthFor(WeekTrack.walker);
+            // His box's left edge: just before a window's tick (so its marker stays in view), kept
+            // inside the road.
+            double leftFor(int? weeks) => (xOf(weeks) - mobiW - 2).clamp(0.0, math.max(0.0, w - mobiW));
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -56,6 +101,23 @@ class WeekTrack extends StatelessWidget {
                         rim: colors.isNight ? null : colors.accentText,
                         ground: colors.ground,
                       ),
+                    ),
+                  ),
+                ),
+                // He stands on the road line (the road is drawn 34 dp down), over the ticks. A new
+                // walker per choice, so each walk starts where the last one ended.
+                Positioned(
+                  left: 0,
+                  top: 34 + 3 - WeekTrack.walker,
+                  child: IgnorePointer(
+                    child: MobiWalker(
+                      key: ValueKey(litWeeks),
+                      size: WeekTrack.walker,
+                      fromX: leftFor(_from),
+                      toX: leftFor(litWeeks),
+                      duration: WeekTrack.walk,
+                      seed: 3,
+                      onArrive: _arrived,
                     ),
                   ),
                 ),

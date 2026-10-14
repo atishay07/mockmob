@@ -15,6 +15,7 @@ export 'bubbles/bubble_row.dart';
 export 'bubbles/week_bubbles.dart';
 export 'controls/chip.dart';
 export 'controls/glass_quality_picker.dart';
+export 'controls/mm_switch.dart';
 export 'controls/segmented.dart';
 export 'controls/select_row.dart';
 export 'controls/selection_style.dart';

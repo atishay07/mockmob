@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
-import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -21,7 +19,7 @@ import 'subject_accent.dart';
 ///
 /// The chosen tile is always in view: a subject picked elsewhere (Compass, a link, the quick
 /// start) opens the strip already scrolled to it, and a later choice glides it into view.
-class SubjectTiles extends ConsumerStatefulWidget {
+class SubjectTiles extends StatefulWidget {
   const SubjectTiles({
     super.key,
     required this.choices,
@@ -29,8 +27,12 @@ class SubjectTiles extends ConsumerStatefulWidget {
     required this.onSelected,
     this.onMore,
     this.countFor,
+    this.onPickedAt,
     this.gutter = MmSpace.gutter,
   });
+
+  /// Called with the centre of the tile just tapped (screen coordinates), so Mobi can look at it.
+  final ValueChanged<Offset>? onPickedAt;
 
   final List<SubjectChoice> choices;
 
@@ -78,10 +80,10 @@ class SubjectTiles extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<SubjectTiles> createState() => _SubjectTilesState();
+  State<SubjectTiles> createState() => _SubjectTilesState();
 }
 
-class _SubjectTilesState extends ConsumerState<SubjectTiles> {
+class _SubjectTilesState extends State<SubjectTiles> {
   ScrollController? _controller;
   double _viewport = 0;
 
@@ -163,11 +165,13 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
                   name: c.name,
                   questions: widget.countFor?.call(c.id),
                   selected: c.id == widget.selectedId,
+                  // The pick's own touch (the object's give) carries the light haptic, so no second
+                  // tick is added here.
                   onTap: () {
                     if (c.id == widget.selectedId) return;
-                    ref.read(hapticsProvider).selection();
                     widget.onSelected(c.id);
                   },
+                  onPickedAt: widget.onPickedAt,
                 );
               },
               ),
@@ -179,8 +183,8 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
   }
 }
 
-class SubjectTile extends StatelessWidget {
-  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions});
+class SubjectTile extends StatefulWidget {
+  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions, this.onPickedAt});
 
   final String id;
   final String name;
@@ -188,15 +192,48 @@ class SubjectTile extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
+  /// Called with this tile's centre (screen coordinates) when it is tapped to be picked.
+  final ValueChanged<Offset>? onPickedAt;
+
+  @override
+  State<SubjectTile> createState() => _SubjectTileState();
+}
+
+class _SubjectTileState extends State<SubjectTile> {
+  /// Bumped by the tap that picks this tile: the object answers it ([MmObjectReact]: it gives under
+  /// the finger and springs back, with its subject light's sparkle). Never by a rebuild, so a
+  /// subject chosen elsewhere does not squash a tile nobody touched.
+  final ValueNotifier<int> _pick = ValueNotifier(0);
+
+  @override
+  void dispose() {
+    _pick.dispose();
+    super.dispose();
+  }
+
+  void _tapped() {
+    if (!widget.selected) {
+      final box = context.findRenderObject();
+      if (box is RenderBox && box.hasSize && box.attached) widget.onPickedAt?.call(box.localToGlobal(box.size.center(Offset.zero)));
+      _pick.value++;
+    }
+    widget.onTap();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final id = widget.id;
+    final name = widget.name;
+    final questions = widget.questions;
+    final selected = widget.selected;
+    final onTap = _tapped;
     final colors = context.mmColors;
     final type = context.mmType;
     final light = SubjectLight.forSubject(id);
     final accent = context.subjectAccentOf(id);
     final reduced = Motion.reduced(context);
     return MmPressable(
-      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions!)}',
+      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions)}',
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.keyAll,
@@ -244,11 +281,15 @@ class SubjectTile extends StatelessWidget {
                             duration: reduced ? Duration.zero : Motion.ui,
                             curve: Motion.out,
                             alignment: Alignment.topLeft,
+                            // The pick lands on the object itself: it gives and springs back with a
+                            // light sparkle, once per pick (nothing moves under reduced motion; the
+                            // ring says it).
                             child: SubjectEmblem(
                               subject: id,
                               size: SubjectTiles.emblemSize(questions != null),
                               framed: false,
                               marked: selected,
+                              reaction: _pick,
                             ),
                           ),
                         ),
@@ -286,9 +327,11 @@ class SubjectTile extends StatelessWidget {
                               ),
                             ),
                             if (questions != null)
-                              Text(
-                                PracticeCopy.questionsAvailable(questions!),
-                                maxLines: 1,
+                              // Rolls from what it showed when a pull brings a new count.
+                              MmCountUp(
+                                value: questions,
+                                from: questions,
+                                format: (v) => PracticeCopy.questionsAvailable(v.round()),
                                 style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
                               ),
                           ],

@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
 /// Rises into place once, when it is first built: a fade and a short translate (transform and
@@ -261,4 +264,99 @@ class _CountOnViewState extends State<CountOnView> with AutomaticKeepAliveClient
       ),
     );
   }
+}
+
+/// A soft band of light that crosses its child once each time [tick] changes (the lead finding's
+/// key, after Mobi has pointed at it). Transform-free: a painter over the child inside a
+/// RepaintBoundary, clipped to the key's own radius, 700 ms on the sweep curve. Not under reduced
+/// motion. Never intercepts a touch, and the child's own sweep colour comes from [MmLight], so
+/// Daylight gets its 14% volt band.
+class KeySweep extends StatefulWidget {
+  const KeySweep({super.key, required this.tick, required this.child, this.radius = MmRadius.key});
+
+  final ValueListenable<int> tick;
+  final Widget child;
+  final double radius;
+
+  @override
+  State<KeySweep> createState() => _KeySweepState();
+}
+
+class _KeySweepState extends State<KeySweep> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: Motion.sweep, value: 1);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.tick.addListener(_go);
+  }
+
+  @override
+  void didUpdateWidget(KeySweep old) {
+    super.didUpdateWidget(old);
+    if (old.tick != widget.tick) {
+      old.tick.removeListener(_go);
+      widget.tick.addListener(_go);
+    }
+  }
+
+  void _go() {
+    if (!mounted || Motion.reduced(context)) return;
+    _c.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    widget.tick.removeListener(_go);
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final color = MmLight.sweepColor(context);
+    return Stack(
+      children: [
+        widget.child,
+        Positioned.fill(
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(widget.radius),
+                child: AnimatedBuilder(
+                  animation: _c,
+                  builder: (context, _) => _c.value >= 1 ? const SizedBox.shrink() : CustomPaint(painter: SweepPainter(progress: Motion.sweepCurve.transform(_c.value), color: color)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A slanted band of [color] travelling left to right across its box as [progress] runs 0 to 1.
+class SweepPainter extends CustomPainter {
+  SweepPainter({required this.progress, required this.color});
+
+  final double progress;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final band = size.width * 0.34;
+    final x = -band + (size.width + band * 2) * progress;
+    final rect = Rect.fromLTWH(x - band / 2, 0, band, size.height);
+    canvas.save();
+    canvas.clipRect(Offset.zero & size);
+    canvas.drawRect(
+      rect,
+      Paint()..shader = LinearGradient(colors: [color.withValues(alpha: 0), color, color.withValues(alpha: 0)]).createShader(rect),
+    );
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(SweepPainter old) => old.progress != progress || old.color != color;
 }

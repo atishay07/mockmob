@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 // The sheet's own wording, so the row rotates with the same ask count. The notifications module
@@ -67,6 +68,7 @@ class RepairPanel extends StatelessWidget {
     required this.options,
     required this.onMinutes,
     required this.onRetryKeys,
+    this.scope,
     this.shortfall,
     this.blanksInReview = false,
   });
@@ -79,13 +81,15 @@ class RepairPanel extends StatelessWidget {
   final VoidCallback onRetryKeys;
   final RepairWalletShortfall? shortfall;
 
+  /// What the key opens, for the line under the lengths; null before there are candidates.
+  final RepairKeyScope? scope;
+
   /// Review keeps the blanks of the newest paper that has any; true when that is this one.
   final bool blanksInReview;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final m = model;
     final n = m.candidates.length;
     final tonight = m.tonight;
@@ -128,7 +132,7 @@ class RepairPanel extends StatelessWidget {
             child: _LengthRow(options: options, minutes: minutes, onMinutes: onMinutes),
           ),
           const SizedBox(height: MmSpace.s8),
-          Text(ResultCopy.chipLabel(minutes, mistakes), style: type.caption.copyWith(color: colors.ink3)),
+          _ScopeLine(text: scope == null ? ResultCopy.chipLabel(minutes, mistakes) : ResultCopy.repairScopeLine(scope!, minutes)),
         ],
       ],
     );
@@ -361,6 +365,35 @@ class MoreKey extends StatelessWidget {
       builder: (context, pressed, _) => SizedBox.square(
         dimension: MmTarget.min,
         child: Center(child: Icon(LucideIcons.ellipsis, size: 22, color: pressed ? colors.ink2 : colors.ink)),
+      ),
+    );
+  }
+}
+
+/// The line under the length chips: which chapter the repair opens on, and what waits in Review.
+/// A fixed height (two lines at the student's text size), so choosing another length changes the
+/// words and never moves the key below; the words cross-fade.
+class _ScopeLine extends StatelessWidget {
+  const _ScopeLine({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink3);
+    final lineHeight = MediaQuery.textScalerOf(context).scale(style.fontSize ?? 12) * (style.height ?? 1.3);
+    return SizedBox(
+      height: (lineHeight * 2).ceilToDouble(),
+      width: double.infinity,
+      child: AnimatedSwitcher(
+        duration: Motion.of(context, Motion.ui),
+        layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+        child: Align(
+          key: ValueKey(text),
+          alignment: Alignment.topLeft,
+          child: Text(text, style: style, maxLines: 2, overflow: TextOverflow.ellipsis),
+        ),
       ),
     );
   }

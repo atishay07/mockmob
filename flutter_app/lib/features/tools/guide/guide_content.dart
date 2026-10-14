@@ -68,6 +68,46 @@ final List<GuideMilestone> guideTimeline = [
   ),
 ];
 
+/// Whole days from [now] until [end], rounded up (the last day counts as 1), or null once it has
+/// passed.
+int? guideDaysLeft(DateTime now, DateTime end) {
+  final left = end.difference(now);
+  if (left.isNegative || left == Duration.zero) return null;
+  return (left.inHours / 24).ceil();
+}
+
+/// The "N days left" chip for [m]: only for the window the student is in, and only when its
+/// dates are the app's own plan, never a date NTA has not announced.
+String? guideDaysLeftChip(GuideMilestone m, DateTime now) {
+  if (m.expected || now.isBefore(m.start) || !now.isBefore(m.end)) return null;
+  final days = guideDaysLeft(now, m.end);
+  if (days == null) return null;
+  return days == 1 ? '1 day left' : '$days days left';
+}
+
+/// What Mobi says when a plan milestone is within a week: one that starts soon, or the current one
+/// ending soon. Unconfirmed (expected) dates never count: nothing is said about a date nobody has
+/// announced. Null when nothing is that close.
+({String line, GuideMilestone milestone, int days})? guideNudge(DateTime now, {List<GuideMilestone>? timeline}) {
+  const window = 7;
+  final list = timeline ?? guideTimeline;
+  for (final m in list) {
+    if (m.expected) continue;
+    if (now.isBefore(m.start)) {
+      final days = guideDaysLeft(now, m.start);
+      if (days != null && days <= window) {
+        return (line: '${m.title} starts in ${days == 1 ? '1 day' : '$days days'}.', milestone: m, days: days);
+      }
+    } else if (now.isBefore(m.end)) {
+      final days = guideDaysLeft(now, m.end);
+      if (days != null && days <= window) {
+        return (line: '${m.title} ends in ${days == 1 ? '1 day' : '$days days'}.', milestone: m, days: days);
+      }
+    }
+  }
+  return null;
+}
+
 class GuideSection {
   const GuideSection(this.heading, this.body);
 

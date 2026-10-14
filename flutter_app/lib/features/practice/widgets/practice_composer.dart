@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/models/practice_quote.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -61,6 +64,10 @@ class ComposerController extends ChangeNotifier {
   bool _closed = false;
 
   bool starting = false;
+
+  /// The ticket's stub in the Start sequence: lifted while the start request is out, torn off
+  /// only once the server confirmed it, dropped back when it failed.
+  TicketTear tear = TicketTear.rest;
   StartFailureView? failure;
   String? costNote;
 
@@ -307,6 +314,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         semanticsLabel: PracticeCopy.confirmTitle(eyebrow, subject),
         // On the setup page the paper flies on into the start screen (and back from it).
         heroTag: widget.pinKey ? ComposerTicket.pageHeroTag : null,
+        tear: _c.tear,
       ),
       const SizedBox(height: MmSpace.s16),
       if (widget.showSubjects) ...[
@@ -314,7 +322,17 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         const SizedBox(height: MmSpace.s24),
       ],
       if (mode == PracticeMode.chapter) ...[
-        ChapterField(chapters: _selection.chapters, onTap: _pickChapter),
+        ChapterField(
+          chapters: _selection.chapters,
+          onTap: _pickChapter,
+          onRemove: (name) {
+            ref.read(hapticsProvider).selection();
+            _c.change(_selection.copyWith(chapters: [
+              for (final c in _selection.chapters)
+                if (c != name) c,
+            ]));
+          },
+        ),
         const SizedBox(height: MmSpace.s16),
       ],
       if (mode.usesCount) ...[
@@ -423,12 +441,16 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     _c.change(PracticeSelection(mode: s.mode == PracticeMode.smart ? PracticeMode.quick : PracticeMode.full, subjectId: s.subjectId));
   }
 
+  /// How long the sheet holds after the stub tears (the tear is 220 ms, the check 120 ms).
+  static const Duration tearHold = Duration(milliseconds: 260);
+
   Future<void> _start(PracticeQuote quote) async {
     if (_c.starting) return;
     final selection = _c.selection;
     final query = _c.query;
     _c.update(() {
       _c.starting = true;
+      _c.tear = TicketTear.lifted;
       _c.failure = null;
       _c.costNote = null;
     });
@@ -436,21 +458,30 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     if (!mounted) return;
     switch (result) {
       case LaunchStarted(:final sessionId):
-        if (selection.mode.isMock) ref.read(hapticsProvider).medium();
+        // Only now, with the server's yes: the stub tears off, the key inks to a check, and the
+        // sheet lets go once that has been seen (nothing waits under reduced motion).
+        ref.read(hapticsProvider).medium();
+        _c.update(() => _c.tear = TicketTear.torn);
+        if (!Motion.reduced(context)) await Future<void>.delayed(tearHold);
+        if (!mounted) return;
         widget.exits.run(sessionId);
       case LaunchNeedsLook(:final quote, :final costChanged):
         _c.update(() {
           _c.starting = false;
+          _c.tear = TicketTear.rest;
           _c.costNote = costChanged ? PracticeCopy.costChanged(costLineText(quote)) : null;
         });
         ref.invalidate(practiceQuoteProvider(query));
       case LaunchFailed(:final failure, :final message):
         _c.update(() {
           _c.starting = false;
+          _c.tear = TicketTear.rest;
           _c.failure = StartFailureView(failure, message: message);
         });
     }
   }
+
+  static void _noop() {}
 
   String get _startLabel => switch (_c.selection.mode) {
     PracticeMode.quick || PracticeMode.smart => PracticeCopy.startPractice,
@@ -465,6 +496,7 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     final loaded = start.loaded;
     final mode = _c.selection.mode;
     final starting = _c.starting;
+    final torn = _c.tear == TicketTear.torn;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -476,11 +508,21 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
         ],
         if (_c.failure != null) ...[PlainNotice(message: _c.failure!.text, tone: BannerTone.error), const SizedBox(height: MmSpace.s12)],
         KeyButton(
-          // A Pro-gated mode has nothing to start: the one action is the open alternative.
-          label: start.gated ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead) : _startLabel,
-          loading: starting,
+          // A Pro-gated mode has nothing to start: the one action is the open alternative. Once
+          // the server has said yes the key inks to a check and says "Starting".
+          label: torn
+              ? PracticeCopy.startingNow
+              : start.gated
+                  ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead)
+                  : _startLabel,
+          leading: torn ? const _InkedCheck() : null,
+          loading: starting && !torn,
           disabledReason: start.disabledReason,
-          onPressed: start.gated ? _takeOpen : (start.canStart && !starting && loaded != null ? () => _start(loaded) : null),
+          onPressed: torn
+              ? _noop
+              : start.gated
+                  ? _takeOpen
+                  : (start.canStart && !starting && loaded != null ? () => _start(loaded) : null),
         ),
         if (widget.exits.close != null) ...[
           const SizedBox(height: MmSpace.s4),
@@ -489,6 +531,23 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// The check the Start key inks when the server has confirmed: it scales in over 120 ms (shown
+/// at once under reduced motion).
+class _InkedCheck extends StatelessWidget {
+  const _InkedCheck();
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.4, end: 1),
+      duration: Motion.of(context, const Duration(milliseconds: 120)),
+      curve: Curves.easeOutBack,
+      builder: (context, t, child) => Opacity(opacity: t.clamp(0.0, 1.0), child: Transform.scale(scale: t, child: child)),
+      child: const Icon(LucideIcons.check, size: 18),
     );
   }
 }

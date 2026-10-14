@@ -202,6 +202,19 @@ class ReviewIndex {
     return null;
   }
 
+  /// The other papers in which the question of [item] was also answered wrong, newest first.
+  /// Only real records: the same question id marked wrong in another attempt on this account.
+  /// Empty when the question was missed once (or when nothing else is known).
+  List<MistakeItem> missedElsewhere(MistakeItem item) {
+    final all = _byQuestion[this] ??= _questionMap(groups);
+    final same = all[item.questionId];
+    if (same == null || same.length < 2) return const [];
+    return [
+      for (final i in same)
+        if (i.attemptId != item.attemptId) i,
+    ];
+  }
+
   /// The open mistakes of [attemptId] in [chapter], by question number.
   List<MistakeItem> openIn(String attemptId, String chapter) {
     final out = <MistakeItem>[];
@@ -232,6 +245,22 @@ class ReviewIndex {
 
     return pick(true) ?? pick(false);
   }
+}
+
+/// Each index's mistakes by question id (built once, on first use).
+final Expando<Map<String, List<MistakeItem>>> _byQuestion = Expando('mistakesByQuestion');
+
+Map<String, List<MistakeItem>> _questionMap(List<ChapterGroup> groups) {
+  final out = <String, List<MistakeItem>>{};
+  for (final g in groups) {
+    for (final i in g.items) {
+      out.putIfAbsent(i.questionId, () => []).add(i);
+    }
+  }
+  for (final list in out.values) {
+    list.sort((a, b) => b.foundAt.compareTo(a.foundAt));
+  }
+  return out;
 }
 
 /// "Mock 7" for a full or NTA-style mock, otherwise "Quick practice".

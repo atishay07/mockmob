@@ -78,6 +78,35 @@ enum MobiAct {
   /// Woken (a tap on a sleeping Mobi, the first open after a night): a start with wide eyes and
   /// a little hop, a quick look round, then a happy blink and standing. Plays once.
   wake,
+
+  // ---- Added 15 Oct 2026 (emotions) ---------------------------------------------------------
+
+  /// A small "got it" nod: two dips of the head, eyes smiling. For a save the server confirmed.
+  /// Returns to the stance it was played from.
+  nod,
+
+  /// A curious head tilt: the body leans to one side, eyes a little wider, the antenna lagging
+  /// after. Returns to the stance it was played from.
+  tilt,
+
+  /// Goodbye: the right mitten is up in 320 ms, three easy waves, a small bow. Ends standing.
+  wave,
+
+  /// Ticklish: a quick jolt with wide eyes and flung mittens, then a giggling wiggle with happy
+  /// eyes. Returns to the stance it was played from.
+  startle,
+
+  /// Anticipation: a dip with the fists drawn in and the eyes wide, held for a beat before
+  /// something lands (a result about to show). Returns to the stance it was played from.
+  brace,
+
+  /// An exhale after an early release: a breath in, then the shoulders drop, the eyes close
+  /// softly and open warm. Returns to the stance it was played from.
+  relief,
+
+  /// Stepping in place with a bob, boots and mittens swinging in turn: travel. Play it for the
+  /// length of the trip (`MobiController.playFor`); `MobiWalker` moves him along. Ends standing.
+  walk,
 }
 
 /// How Mobi stands between acts.
@@ -106,8 +135,26 @@ abstract final class MobiMoves {
         MobiAct.proud ||
         MobiAct.wake =>
           MobiStance.stand,
-        MobiAct.talk => null,
+        MobiAct.wave || MobiAct.walk => MobiStance.stand,
+        MobiAct.talk || MobiAct.nod || MobiAct.tilt || MobiAct.startle || MobiAct.brace || MobiAct.relief => null,
       };
+
+  static const Set<MobiAct> _celebrates = {MobiAct.cheer, MobiAct.celebrate, MobiAct.proud, MobiAct.hello};
+
+  /// Acts that answer a moment and then give way: under reduced motion their still pose shows
+  /// for the act's length, then the stance again.
+  static const Set<MobiAct> reactions = {
+    MobiAct.correct,
+    MobiAct.encourage,
+    MobiAct.wake,
+    MobiAct.nod,
+    MobiAct.tilt,
+    MobiAct.wave,
+    MobiAct.startle,
+    MobiAct.brace,
+    MobiAct.relief,
+    MobiAct.walk,
+  };
 
   /// How long an act runs, in seconds ([MobiAct.talk] runs as long as its line).
   static double duration(MobiAct act) => switch (act) {
@@ -131,6 +178,13 @@ abstract final class MobiMoves {
         MobiAct.proud => 2.2,
         MobiAct.listen => 0.55,
         MobiAct.wake => 1.2,
+        MobiAct.nod => 0.8,
+        MobiAct.tilt => 1.1,
+        MobiAct.wave => 1.5,
+        MobiAct.startle => 0.95,
+        MobiAct.brace => 0.9,
+        MobiAct.relief => 1.4,
+        MobiAct.walk => 1.0,
       };
 
   /// How long, and with what curve, Mobi moves into [s].
@@ -330,6 +384,13 @@ abstract final class MobiMoves {
         MobiAct.proud => _proud(t, base),
         MobiAct.listen => base.copyWith(y: base.y + 1.6 * bump(t, 0.1, 0.5), lookY: base.lookY + 0.25 * bump(t, 0.1, 0.5), tilt: base.tilt - 0.03 * bump(t, 0.05, 0.5)),
         MobiAct.wake => _wake(t, base),
+        MobiAct.nod => _nod(t, base),
+        MobiAct.tilt => _tilt(t, base),
+        MobiAct.wave => _wave(t, base),
+        MobiAct.startle => _startle(t, base),
+        MobiAct.brace => _brace(t, base),
+        MobiAct.relief => _relief(t, base),
+        MobiAct.walk => walk(t, base, duration(MobiAct.walk)),
       };
 
   static MobiRig _appear(double t, MobiRig b) {
@@ -621,6 +682,179 @@ abstract final class MobiMoves {
     return _spread(_withBoots(r, air * 0.85, bump(t, 0.06, 0.34)), land);
   }
 
+  // ---- Emotions (15 Oct 2026) --------------------------------------------------------------
+
+  /// Two small dips of the head, the second smaller, eyes smiling: "got it".
+  static MobiRig _nod(double t, MobiRig b) {
+    final nods = bump(t, 0.04, 0.34) + 0.6 * bump(t, 0.34, 0.62);
+    final warm = ease(t, 0, 0.16) * (1 - ease(t, 0.55, 0.8));
+    return b.copyWith(
+      y: b.y + 2.4 * nods,
+      squash: b.squash - 0.03 * nods,
+      tilt: b.tilt + 0.012 * nods,
+      lookY: b.lookY * (1 - warm) + 0.38 * nods,
+      lookX: b.lookX * (1 - warm),
+      eyeL: _eye(b.eyeL, smile: 0.7 * warm),
+      eyeR: _eye(b.eyeR, smile: 0.7 * warm),
+      antenna: b.antenna - 0.08 * nods,
+    );
+  }
+
+  /// A curious tilt: the lean comes in on an overshoot, holds, and eases back.
+  static MobiRig _tilt(double t, MobiRig b) {
+    final side = b.lookX < -0.1 ? -1.0 : 1.0;
+    final lean = ease(t, 0, 0.32, Curves.easeOutBack) * (1 - ease(t, 0.78, 1.1));
+    final wide = ease(t, 0.04, 0.2) * (1 - ease(t, 0.8, 1.05));
+    return b.copyWith(
+      tilt: b.tilt + 0.15 * side * lean,
+      x: b.x + 2.5 * side * lean,
+      y: b.y - 0.8 * lean,
+      eyeL: b.eyeL.copyWith(open: b.eyeL.open * (1 + 0.1 * wide), lid: b.eyeL.lid * (1 - wide)),
+      eyeR: b.eyeR.copyWith(open: b.eyeR.open * (1 + 0.16 * wide), lid: b.eyeR.lid * (1 - wide)),
+      lookX: b.lookX + 0.25 * side * lean,
+      lookY: b.lookY - 0.3 * lean,
+      antenna: b.antenna - 0.12 * side * lean,
+      armL: b.armL.copyWith(angle: b.armL.angle + 0.08 * lean),
+      armR: b.armR.copyWith(angle: b.armR.angle + 0.08 * lean),
+    );
+  }
+
+  /// Goodbye: the right mitten is up in 320 ms, three easy waves, a small bow, and down.
+  static MobiRig _wave(double t, MobiRig b) {
+    final up = ease(t, 0, 0.32, Curves.easeOutCubic);
+    final down = ease(t, 1.12, 1.5, Curves.easeInOutSine);
+    final w = up * (1 - down);
+    final waveEnv = ease(t, 0.26, 0.4) * (1 - ease(t, 0.98, 1.16));
+    final osc = math.sin((t - 0.26) * math.pi * 2 * 2.6) * waveEnv;
+    const wave = MobiArm(angle: 2.7, bend: -1.2, reach: 1.34);
+    final stretch = math.pow(w, 2.6).toDouble();
+    final arm = MobiArm.lerp(b.armR, wave, w).copyWith(reach: b.armR.reach + (wave.reach - b.armR.reach) * stretch - swingDip(w, 0.3));
+    final bow = bump(t, 0.95, 1.4);
+    final warm = ease(t, 0.1, 0.3) * (1 - ease(t, 1.2, 1.5));
+    return b.copyWith(
+      armR: arm.copyWith(angle: arm.angle - 0.14 * osc, twist: arm.twist - 0.6 * osc),
+      // The weight eases left as the right arm goes up, so the wave stays inside the paint box.
+      x: b.x - 6 * math.min(1.0, w * 1.4),
+      tilt: b.tilt - 0.06 * w - 0.018 * osc,
+      y: b.y + 2.2 * bow,
+      squash: b.squash - 0.02 * bow,
+      lookX: b.lookX * (1 - w),
+      lookY: b.lookY * (1 - w) + 0.3 * bow,
+      eyeL: _eye(b.eyeL, smile: 0.75 * warm),
+      eyeR: _eye(b.eyeR, smile: 0.75 * warm),
+    );
+  }
+
+  /// Ticklish: a jolt with wide eyes and flung mittens, then a giggling wiggle, happy eyes.
+  static MobiRig _startle(double t, MobiRig b) {
+    final jolt = ease(t, 0, 0.06, Curves.easeOut) * (1 - ease(t, 0.2, 0.38));
+    final air = hop(t, 0.02, 0.26, 7);
+    final land = bump(t, 0.24, 0.38);
+    final fling = ease(t, 0, 0.08, Curves.easeOut) * (1 - ease(t, 0.24, 0.5, Curves.easeOutBack));
+    final giggle = math.sin((t - 0.34) * math.pi * 2 * 4.2) * ease(t, 0.34, 0.42) * (1 - ease(t, 0.72, 0.92));
+    final happy = ease(t, 0.3, 0.4) * (1 - ease(t, 0.76, 0.95));
+    MobiEye eye(MobiEye e) {
+      final wide = e.copyWith(open: e.open + (1.26 - e.open) * jolt, lid: e.lid * (1 - jolt));
+      return _eye(wide, happy: happy);
+    }
+
+    const flung = MobiArm(angle: 1.05, bend: -0.5, reach: 1.1, twist: -0.6);
+    final r = b.copyWith(
+      y: b.y + air + 1.8 * land,
+      squash: b.squash + 0.07 * bump(t, 0, 0.16) - 0.06 * land - 0.015 * giggle.abs(),
+      tilt: b.tilt + 0.05 * giggle,
+      x: b.x + 1.2 * giggle,
+      armL: MobiArm.lerp(b.armL, flung, fling),
+      armR: MobiArm.lerp(b.armR, flung, fling),
+      eyeL: eye(b.eyeL),
+      eyeR: eye(b.eyeR),
+      lookY: b.lookY * (1 - jolt) - 0.2 * jolt,
+      glow: b.glow + 0.7 * bump(t, 0, 0.4),
+    );
+    return _spread(_withBoots(r, air * 0.85, bump(t, 0.02, 0.26)), land);
+  }
+
+  /// Anticipation: a dip with fists drawn in and wide eyes, held, then a small rise back.
+  static MobiRig _brace(double t, MobiRig b) {
+    final dip = ease(t, 0, 0.22, Curves.easeOutCubic) * (1 - ease(t, 0.66, 0.9));
+    final shiver = math.sin(t * math.pi * 2 * 7) * bump(t, 0.24, 0.66);
+    const tucked = MobiArm(angle: -0.4, bend: 1.1, front: 1, reach: 0.86, twist: -0.4);
+    return b.copyWith(
+      y: b.y + 3.2 * dip,
+      squash: b.squash - 0.06 * dip,
+      tilt: b.tilt + 0.006 * shiver,
+      armL: MobiArm.lerp(b.armL, tucked, dip),
+      armR: MobiArm.lerp(b.armR, tucked, dip),
+      eyeL: b.eyeL.copyWith(open: b.eyeL.open * (1 + 0.18 * dip), lid: b.eyeL.lid * (1 - dip)),
+      eyeR: b.eyeR.copyWith(open: b.eyeR.open * (1 + 0.18 * dip), lid: b.eyeR.lid * (1 - dip)),
+      lookX: b.lookX * (1 - dip),
+      lookY: b.lookY * (1 - dip) - 0.15 * dip,
+      antenna: b.antenna + 0.05 * shiver,
+      glow: b.glow + 0.25 * dip,
+    );
+  }
+
+  /// An exhale: a breath in (taller), then the shoulders drop, the eyes close softly, and they
+  /// open warm.
+  static MobiRig _relief(double t, MobiRig b) {
+    final inhale = bump(t, 0, 0.42);
+    final sag = ease(t, 0.36, 0.62, Curves.easeOutCubic) * (1 - ease(t, 0.95, 1.4));
+    final soft = ease(t, 0.38, 0.58) * (1 - ease(t, 0.86, 1.1));
+    final warm = ease(t, 0.86, 1.04) * (1 - ease(t, 1.2, 1.4));
+    MobiArm loose(MobiArm a) => a.copyWith(angle: a.angle - 0.12 * sag + 0.12 * inhale, bend: a.bend - 0.1 * sag);
+    MobiEye eye(MobiEye e) => _eye(e.copyWith(open: e.open * (1 - 0.82 * soft)), smile: 0.8 * warm);
+    return b.copyWith(
+      y: b.y - 1.6 * inhale + 2.4 * sag,
+      squash: b.squash + 0.04 * inhale - 0.05 * sag,
+      tilt: b.tilt - 0.02 * sag,
+      armL: loose(b.armL),
+      armR: loose(b.armR),
+      eyeL: eye(b.eyeL),
+      eyeR: eye(b.eyeR),
+      lookY: b.lookY - 0.3 * inhale + 0.3 * sag,
+      antenna: b.antenna + 0.22 * sag,
+    );
+  }
+
+  /// One step of the walk, in seconds.
+  static const double stepLength = 0.36;
+
+  /// Walking at [t] of a trip lasting [length] seconds: a bob on every step, the boots lifting in
+  /// turn, the mittens swinging against them. It eases in and out, so it starts and ends standing.
+  static MobiRig walk(double t, MobiRig b, double length) {
+    final w = ease(t, 0, 0.18) * (1 - ease(t, math.max(0.2, length - 0.2), math.max(0.21, length)));
+    final step = math.sin(t * math.pi / stepLength);
+    final bob = step.abs();
+    final liftL = math.max(0.0, step) * w;
+    final liftR = math.max(0.0, -step) * w;
+    return b.copyWith(
+      y: b.y - 2.6 * bob * w,
+      squash: b.squash + 0.02 * bob * w - 0.015 * (1 - bob) * w,
+      tilt: b.tilt + 0.03 * step * w,
+      bootL: b.bootL.copyWith(dy: b.bootL.dy - 4.0 * liftL, rot: b.bootL.rot + 0.22 * liftL),
+      bootR: b.bootR.copyWith(dy: b.bootR.dy - 4.0 * liftR, rot: b.bootR.rot + 0.22 * liftR),
+      armL: b.armL.copyWith(angle: b.armL.angle + 0.32 * step * w),
+      armR: b.armR.copyWith(angle: b.armR.angle - 0.32 * step * w),
+      antenna: b.antenna - 0.1 * step * w,
+    );
+  }
+
+  /// How long a micro-fidget lasts, in seconds.
+  static const double microLength = 0.8;
+
+  /// A small idle beat between the longer fidgets: 0 a quick glance aside and back, 1 an antenna
+  /// twitch with a flick of the bulb.
+  static MobiRig micro(int kind, double t, MobiRig b) {
+    if (kind == 0) {
+      final w = ease(t, 0, 0.1, Curves.easeOut) * (1 - ease(t, 0.55, 0.7, Curves.easeOut));
+      return b.copyWith(lookX: b.lookX + (0.6 - b.lookX) * w, lookY: b.lookY + (-0.1 - b.lookY) * w, tilt: b.tilt + 0.012 * w);
+    }
+    return b.copyWith(
+      antenna: b.antenna + 0.3 * bump(t, 0, 0.22) - 0.16 * bump(t, 0.22, 0.46) + 0.06 * bump(t, 0.46, 0.66),
+      glow: b.glow + 0.35 * bump(t, 0.04, 0.5),
+    );
+  }
+
   // ---- Held stance motion ------------------------------------------------------------------
 
   /// The loading scan at [t] seconds into the stance with strength [w] (0 to 1): eyes sweep
@@ -707,8 +941,8 @@ abstract final class MobiMoves {
   }
 
   /// A representative still frame of [act] for reduced motion and previews.
-  static MobiRig keyPose(MobiAct act, {double pointAngle = 1.5, double pointSide = 1}) {
-    final after = stanceAfter(act) ?? MobiStance.stand;
+  static MobiRig keyPose(MobiAct act, {double pointAngle = 1.5, double pointSide = 1, MobiStance from = MobiStance.stand}) {
+    final after = stanceAfter(act) ?? from;
     final base = stance(after, pointAngle: pointAngle, pointSide: pointSide);
     return switch (act) {
       MobiAct.hello => _hello(0.62, base).copyWith(tilt: 0.05, y: 0, squash: 0, glint: -1),
@@ -723,7 +957,33 @@ abstract final class MobiMoves {
       MobiAct.nudge => _nudge(0.47, base),
       MobiAct.proud => _proud(1.0, base).copyWith(glint: -1),
       MobiAct.wake => _wake(0.2, base).copyWith(y: -5),
+      MobiAct.nod => _nod(0.19, base),
+      MobiAct.tilt => _tilt(0.55, base),
+      MobiAct.wave => _wave(0.5, base),
+      MobiAct.startle => _startle(0.1, base),
+      MobiAct.brace => _brace(0.45, base),
+      MobiAct.relief => _relief(0.95, base),
+      MobiAct.walk => walk(stepLength / 2, base, 10),
       _ => base,
     };
+  }
+
+  /// The still pose for [act] under reduced motion, played from stance [from]: the act's key pose
+  /// with no travel (no hop, no step off its spot, no effects in flight), so the information is
+  /// there without movement. A held act gives its stance.
+  static MobiRig settledPose(MobiAct act, {MobiStance from = MobiStance.stand, double pointAngle = 1.5, double pointSide = 1}) {
+    final k = keyPose(act, pointAngle: pointAngle, pointSide: pointSide, from: from);
+    if (!reactions.contains(act) && !_celebrates.contains(act)) return k;
+    final base = stance(stanceAfter(act) ?? from, pointAngle: pointAngle, pointSide: pointSide);
+    return k.copyWith(
+      x: base.x,
+      y: base.y,
+      squash: base.squash,
+      bootL: base.bootL,
+      bootR: base.bootR,
+      burst: -1,
+      sparkle: -1,
+      glint: -1,
+    );
   }
 }

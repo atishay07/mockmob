@@ -7,6 +7,8 @@
 // on rhythm while off (the plan and the pause are hidden then). Everything sits on the 16 dp page
 // gutter; the sections under the week are typeset (32 dp, a hairline, 16 dp, the heading) and the
 // lists are plain cards with one row padding (SPACING.md 3.1 and 4.3).
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,12 +24,14 @@ import '../../you/widgets/you_row.dart' show RowFrame;
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
+import '../logic/week_mobi.dart';
+import '../logic/week_outlook.dart';
 import '../logic/week_view.dart';
 import 'rhythm_layout.dart';
 import 'rhythm_page.dart';
 import '../logic/plan_week.dart';
 import 'plan_week_strip.dart';
-import 'proud_mobi.dart';
+import 'week_mobi_slot.dart';
 import 'run_ribbon.dart';
 import 'week_dial.dart';
 
@@ -112,7 +116,14 @@ class RhythmBody extends StatelessWidget {
               index: 0,
               child: rhythmOff
                   ? _OffBlock(onTurnOn: onTurnOn)
-                  : WeekHero(week: week, plan: plan, onResume: busy ? null : onResume, busy: busy),
+                  : WeekHero(
+                      week: week,
+                      plan: plan,
+                      onResume: busy ? null : onResume,
+                      busy: busy,
+                      stale: snapshot.stale,
+                      returning: rhythm.returning,
+                    ),
             ),
             // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
             // a run there is one plain line (never a zero).
@@ -159,14 +170,27 @@ class RhythmBody extends StatelessWidget {
                 ),
               ),
               // A paused week already has its one key (Resume, under the ring), so the pause options
-              // wait until the week is running again.
-              if (!paused) ...[
-                const SectionBreak(),
-                MmStaggerItem(
-                  index: 3,
-                  child: _PauseGroup(busy: busy, onThisWeek: onPauseThisWeek, onTwoWeeks: onPauseTwoWeeks, onUntilOn: onPauseUntilOn),
+              // wait until the week is running again: they fold away, and unfold on resume, as the
+              // ring changes (a calm change of state, never a jump).
+              MmStaggerItem(
+                index: 3,
+                child: _Reveal(
+                  show: !paused,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SectionBreak(),
+                      _PauseGroup(
+                        week: week,
+                        busy: busy,
+                        onThisWeek: onPauseThisWeek,
+                        onTwoWeeks: onPauseTwoWeeks,
+                        onUntilOn: onPauseUntilOn,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ],
             const SectionBreak(),
             MmStaggerItem(
@@ -195,11 +219,17 @@ class RhythmBody extends StatelessWidget {
 /// This week, lit: the ring on the ground in a pool of lamp light (one segment inked per study day,
 /// the count in the middle), the dates and one plain line, then the planned week in the room's one
 /// lit pane (counted, planned, rest, not yet). The counted days ink in one after another when the
-/// screen opens, and each day answers a tap with a light tick and its name in words. Mobi cheers
-/// beside the ring when the week is met and rests while it is paused; otherwise he stays out of it.
-/// A paused week carries the screen's one volt key, Resume rhythm, right under its status line.
+/// screen opens, and each day answers a tap with a light tick and its name in words.
+///
+/// Mobi stands in one fixed slot beside the ring and reacts to what the week is (`mobiForWeek`):
+/// proud when it is met, resting while it is paused, asleep late at night, nudging when one day is
+/// left and today is planned, encouraging when the goal is out of reach. A day counted while the
+/// screen is open answers in the ring itself (only the new segment inks, with a lamp pulse), in
+/// the number (it rolls one step) and in Mobi (one small hop for 1.2 s). Nothing of that plays on
+/// first load, on a stale cache or under reduced motion. A paused week carries the screen's one
+/// volt key, Resume rhythm, right under its status line.
 class WeekHero extends ConsumerStatefulWidget {
-  const WeekHero({super.key, required this.week, this.plan, this.onResume, this.busy = false});
+  const WeekHero({super.key, required this.week, this.plan, this.onResume, this.busy = false, this.stale = false, this.returning = false});
 
   final WeekView week;
   final Set<int>? plan;
@@ -210,6 +240,12 @@ class WeekHero extends ConsumerStatefulWidget {
   /// A write is in flight: the Resume key waits.
   final bool busy;
 
+  /// The week comes from an old cache: no live reaction is played for a change of it.
+  final bool stale;
+
+  /// The server says the student has been away for 3 or more days: Mobi greets once a day.
+  final bool returning;
+
   @override
   ConsumerState<WeekHero> createState() => _WeekHeroState();
 }
@@ -217,11 +253,102 @@ class WeekHero extends ConsumerStatefulWidget {
 class _WeekHeroState extends ConsumerState<WeekHero> {
   int? _selected;
 
+  /// Goes up each time a day is counted on the open screen (Mobi's small hop).
+  int _reaction = 0;
+
+  /// The closing light runs only in the build that follows the counted day that met the goal.
+  bool _sweep = false;
+
+  /// The last change of the week happened while this screen was open on a fresh week; the ring
+  /// inks the new day only then, and the number ticks only then (or on its first roll).
+  bool _live = true;
+  bool _tick = true;
+  Duration _proudDelay = Duration.zero;
+
+  /// Mobi's greeting for a returning student is spent once a day, when this screen first stands.
+  late final bool _greet = widget.returning && MobiRation.helloToday('rhythm-week');
+
+  WeekMobi _mobi = WeekMobi.none;
+  String? _line;
+  Timer? _hello;
+
   String _status(WeekView week) => switch (week.status) {
         WeekStatus.open => RhythmCopy.toGo((week.goal - week.studyDays).clamp(1, 7)),
         WeekStatus.met => RhythmCopy.weekDoneSentence,
         WeekStatus.extra || WeekStatus.paused => week.label,
       };
+
+  WeekOutlook? _outlook(WeekView week) {
+    final todayIndex = week.days.indexWhere((d) => d.isToday);
+    return weekOutlook(
+      studied: [for (final d in week.days) d.studyDay],
+      todayIndex: todayIndex < 0 ? null : todayIndex,
+      goal: week.goal,
+      paused: week.status == WeekStatus.paused,
+      planned: widget.plan,
+    );
+  }
+
+  /// Picks who stands beside the ring. His line is said once per kind per run (a paused week's
+  /// line is the state itself, so it always shows).
+  void _syncMobi({bool resumed = false}) {
+    final week = widget.week;
+    var next = mobiForWeek(week, _outlook(week), MobiRation.now(), returning: _greet);
+    if (resumed && next.kind == WeekMobiKind.none) {
+      // Resume reverses the pause: he waves hello, and goes when the moment has passed.
+      next = const WeekMobi(WeekMobiKind.hello, MobiAct.hello, line: RhythmCopy.mobiResumed);
+      _hello?.cancel();
+      _hello = Timer(const Duration(seconds: 4), () {
+        if (!mounted) return;
+        setState(_syncMobi);
+      });
+    }
+    if (next.kind != _mobi.kind) {
+      _line = null;
+      final line = next.line;
+      if (line != null && (next.lineIsState || resumed || MobiRation.speakOnce('rhythm-week:${next.kind.name}'))) _line = line;
+    }
+    _mobi = next;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _syncMobi();
+  }
+
+  @override
+  void didUpdateWidget(WeekHero old) {
+    super.didUpdateWidget(old);
+    final was = old.week;
+    final now = widget.week;
+    _sweep = false;
+    final sameWeek = was.days.first.date == now.days.first.date;
+    final live = sameWeek && !widget.stale && !old.stale && !Motion.reduced(context);
+    _live = live;
+    if (was.studyDays != now.studyDays) _tick = live;
+    final paused = now.status == WeekStatus.paused;
+    final counted = live && !paused && was.status != WeekStatus.paused && was.goal == now.goal && now.studyDays > was.studyDays;
+    if (counted) {
+      _reaction++;
+      if (now.met && !was.met) {
+        // The segment that meets the goal hands over to the closing sweep and a proud Mobi, who
+        // waits for the ring to finish.
+        _sweep = true;
+        _proudDelay = WeekDial.settleAfter(done: now.studyDays, goal: now.goal, sweep: true, from: was.studyDays);
+      }
+    }
+    final resumed = sameWeek && was.status == WeekStatus.paused && !paused;
+    if (widget.plan != old.plan || was != now || widget.returning != old.returning || resumed) {
+      _syncMobi(resumed: resumed && !Motion.reduced(context));
+    }
+  }
+
+  @override
+  void dispose() {
+    _hello?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +365,7 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
     );
     final picked = _selected == null ? null : days[_selected!];
     final monday = week.days.first.date;
+    final line = _line;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -270,16 +398,23 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
                   goal: week.goal,
                   size: 188,
                   paused: paused,
-                  onLanded: () => ref.read(hapticsProvider).selection(),
+                  sweep: _sweep,
+                  live: _live,
+                  onLanded: () {
+                    if (_tick) ref.read(hapticsProvider).selection();
+                  },
                 ),
-                if (week.met)
-                  // He cheers once the ring has inked in, never before.
-                  Align(
-                    alignment: const Alignment(1, 0.95),
-                    child: ProudMobi(size: 76, delay: WeekDial.settleAfter(done: week.studyDays, goal: week.goal)),
-                  )
-                else if (paused)
-                  const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.rest, size: 72)),
+                // Mobi's one place: the same 76 dp box for every standing, so nothing moves when
+                // he arrives. A proud Mobi cheers once the ring has inked in, never before.
+                Align(
+                  alignment: const Alignment(1, 0.95),
+                  child: WeekMobiSlot(
+                    mobi: _mobi,
+                    reaction: _reaction,
+                    proudDelay: _proudDelay > Duration.zero ? _proudDelay : WeekDial.settleAfter(done: week.studyDays, goal: week.goal),
+                    onWake: () => setState(() => _line = RhythmCopy.mobiSleep),
+                  ),
+                ),
               ],
             ),
           ),
@@ -292,15 +427,32 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
           liveRegion: true,
           child: Text(_status(week), textAlign: TextAlign.center, style: type.subhead),
         ),
-        if (paused) ...[
-          const SizedBox(height: MmSpace.s4),
-          Text(RhythmCopy.pausedKeepsRun, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
-          if (widget.onResume != null || widget.busy) ...[
-            const SizedBox(height: MmSpace.s16),
-            // The one dominant action of a paused screen.
-            KeyButton(label: RhythmCopy.resume, onPressed: widget.busy ? null : widget.onResume),
-          ],
-        ],
+        // Mobi's one line, in its own slot under the status: it fades in and out, and the card
+        // grows to hold it instead of covering anything.
+        _GrowIn(
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, const Duration(milliseconds: 300)),
+            child: line == null
+                ? const SizedBox(key: ValueKey('no-line'), width: double.infinity)
+                : Padding(
+                    key: ValueKey(line),
+                    padding: const EdgeInsets.only(top: MmSpace.s4),
+                    child: Semantics(
+                      liveRegion: true,
+                      child: Text(line, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+                    ),
+                  ),
+          ),
+        ),
+        // The one dominant action of a paused screen; it unfolds as the pause lands and folds
+        // away as the run resumes.
+        _Reveal(
+          show: paused && (widget.onResume != null || widget.busy),
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s16),
+            child: KeyButton(label: RhythmCopy.resume, onPressed: widget.busy ? null : widget.onResume),
+          ),
+        ),
         const SizedBox(height: MmSpace.s24),
         LitEdge(
           child: FakeGlass(
@@ -358,6 +510,49 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
   static String _sentence(PlanDay day) {
     final text = day.describe();
     return '${text[0].toUpperCase()}${text.substring(1)}.';
+  }
+}
+
+/// Shows [child], or nothing: it fades out and then folds its space away (and, coming back,
+/// unfolds while it fades in), so pausing and resuming change the page calmly instead of making it
+/// jump. Under reduced motion the change is at once.
+class _Reveal extends StatelessWidget {
+  const _Reveal({required this.show, required this.child});
+
+  final bool show;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final duration = Motion.of(context, const Duration(milliseconds: 280));
+    return MmSizeEase(
+      duration: duration,
+      curve: Motion.emphasized,
+      alignment: Alignment.topCenter,
+      child: AnimatedSwitcher(
+        duration: duration,
+        layoutBuilder: (current, previous) => Stack(
+          fit: StackFit.passthrough,
+          alignment: Alignment.topCenter,
+          children: [...previous, ?current],
+        ),
+        child: show ? KeyedSubtree(key: const ValueKey('shown'), child: child) : const SizedBox(key: ValueKey('hidden'), width: double.infinity),
+      ),
+    );
+  }
+}
+
+/// Lets the card grow to hold Mobi's line (200 ms) instead of jumping; under reduced motion it is
+/// the child alone (an animated size with no time to run mutates its own layout).
+class _GrowIn extends StatelessWidget {
+  const _GrowIn({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduced(context)) return child;
+    return AnimatedSize(duration: const Duration(milliseconds: 200), curve: Motion.emphasized, alignment: Alignment.topCenter, child: child);
   }
 }
 
@@ -523,30 +718,42 @@ class _InsetPanel extends StatelessWidget {
   }
 }
 
-/// Pause: three full-width rows in one panel, so the long option never wraps into a ragged chip row.
-class _PauseGroup extends StatelessWidget {
-  const _PauseGroup({required this.busy, required this.onThisWeek, required this.onTwoWeeks, required this.onUntilOn});
+/// Pause: three chips in one segmented control (a thumb glides to the chosen one), the day the run
+/// comes back in words under it, and one key that does it. Nothing is written until the key, and
+/// the week changes only after the server has acknowledged it.
+class _PauseGroup extends StatefulWidget {
+  const _PauseGroup({required this.week, required this.busy, required this.onThisWeek, required this.onTwoWeeks, required this.onUntilOn});
 
+  final WeekView week;
   final bool busy;
   final VoidCallback onThisWeek;
   final VoidCallback onTwoWeeks;
   final VoidCallback onUntilOn;
 
   @override
+  State<_PauseGroup> createState() => _PauseGroupState();
+}
+
+class _PauseGroupState extends State<_PauseGroup> {
+  PauseOption _option = PauseOption.thisWeek;
+
+  static String _label(PauseOption o) => switch (o) {
+        PauseOption.thisWeek => RhythmCopy.pauseThisWeek,
+        PauseOption.twoWeeks => RhythmCopy.pauseTwoWeeks,
+        PauseOption.threeMonths => RhythmCopy.pauseThreeMonths,
+      };
+
+  void _pause() => switch (_option) {
+        PauseOption.thisWeek => widget.onThisWeek(),
+        PauseOption.twoWeeks => widget.onTwoWeeks(),
+        PauseOption.threeMonths => widget.onUntilOn(),
+      };
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    Widget row(String label, VoidCallback onTap) => RowFrame(
-          onTap: busy ? null : onTap,
-          semanticsLabel: '${RhythmCopy.pauseTitle}, $label',
-          child: Row(
-            children: [
-              Expanded(child: Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: busy ? colors.ink3 : colors.ink))),
-              const SizedBox(width: MmSpace.s12),
-              Icon(LucideIcons.pause, size: 16, color: colors.ink3),
-            ],
-          ),
-        );
+    final back = pauseBackOn(_option, widget.week);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -556,13 +763,36 @@ class _PauseGroup extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: MmSpace.s12),
           child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
         ),
-        _InsetPanel(
-          children: [
-            row(RhythmCopy.pauseThisWeek, onThisWeek),
-            row(RhythmCopy.pauseTwoWeeks, onTwoWeeks),
-            row(RhythmCopy.pauseUntilOn, onUntilOn),
-          ],
+        MmSegmented<PauseOption>(
+          semanticsLabel: RhythmCopy.pauseTitle,
+          segments: [for (final o in PauseOption.values) MmSegment(o, _label(o))],
+          value: _option,
+          onChanged: widget.busy ? null : (o) => setState(() => _option = o),
         ),
+        // One slot for the date, so a change of chip never moves the key: the new date cross-fades
+        // in over the old one.
+        Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s8),
+          child: SizedBox(
+            height: MmSpace.s20,
+            child: AnimatedSwitcher(
+              duration: Motion.of(context, const Duration(milliseconds: 160)),
+              layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+              child: back == null
+                  ? const SizedBox.shrink(key: ValueKey('no-date'))
+                  : Align(
+                      key: ValueKey(back),
+                      alignment: Alignment.centerLeft,
+                      child: Semantics(
+                        liveRegion: true,
+                        child: Text(RhythmCopy.backOn(formatDayMonthShort(back)), style: type.caption.copyWith(color: colors.ink2)),
+                      ),
+                    ),
+            ),
+          ),
+        ),
+        const SizedBox(height: MmSpace.s8),
+        KeyButton.secondary(label: RhythmCopy.pauseKey, onPressed: widget.busy ? null : _pause),
       ],
     );
   }

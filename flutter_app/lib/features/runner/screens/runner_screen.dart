@@ -8,6 +8,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
@@ -43,8 +44,16 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
   @override
   void dispose() {
     disposeHost();
+    _filter.dispose();
     super.dispose();
   }
+
+  /// The palette's legend filter, kept for this sitting so the "Go to question N" key walks the
+  /// matches across openings.
+  final ValueNotifier<SheetFilter?> _filter = ValueNotifier<SheetFilter?>(null);
+
+  /// Mobi on the leave guard and the palette, unless Celebrations are Off.
+  bool get _mobiOn => ref.read(celebrationModeProvider) != CelebrationMode.off;
 
   Future<void> _confirmLeave() async {
     if (session.submitState.value.stage != SubmitStage.idle) return;
@@ -52,13 +61,14 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
     final leave = await showRunnerSheet<bool>(
       context: context,
       title: RunnerCopy.leaveTitle(session.isMock),
-      builder: (_) => LeaveSheet(isMock: session.isMock, until: session.endsAt),
+      builder: (_) => LeaveSheet(isMock: session.isMock, until: session.endsAt, showMobi: _mobiOn),
     );
     // Leaving lands on Practice; the session stays resumable there and on Today.
     if (leave == true && mounted) context.go(AppRoutes.practice);
   }
 
   Future<void> _openPalette() async {
+    final showMobi = _mobiOn;
     final jump = await showRunnerSheet<int>(
       context: context,
       title: RunnerCopy.paletteTitle,
@@ -66,12 +76,15 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
       footer: (sheetContext) =>
           KeyButton(label: RunnerCopy.reviewAndSubmit, onPressed: () => Navigator.of(sheetContext).pop(-1), hapticOnCommit: false),
       builder: (sheetContext) => ListenableBuilder(
-        listenable: session,
+        listenable: Listenable.merge([session, _filter]),
         builder: (context, _) => PaletteSheet(
           cells: sheetCellsOf(session),
           onJump: (i) => Navigator.of(sheetContext).pop(i),
           onReview: () => Navigator.of(sheetContext).pop(-1),
           showSubmit: false,
+          filter: _filter.value,
+          onFilter: (f) => _filter.value = f,
+          showMobi: showMobi,
         ),
       ),
     );
@@ -108,6 +121,8 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
           onLeave: () => unawaited(_confirmLeave()),
           onQuestions: () => unawaited(_openPalette()),
           onSelect: (qid, option) => unawaited(select(qid, option)),
+          onStrike: strike,
+          onReady: () => unawaited(ref.read(hapticsProvider).tick()),
           onPrevious: previous,
           onNext: next,
           onJump: _jump,

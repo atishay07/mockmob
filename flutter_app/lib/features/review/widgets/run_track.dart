@@ -4,11 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../copy.dart';
 
 /// Where one mistake of the run stands, as a segment of the run track.
 enum RunSegmentState {
   /// Not reached yet.
   upcoming,
+
+  /// Reached before and left with nothing settled (a failure, a call still out): it can be shown
+  /// again, so its track is drawn a step brighter than one not reached.
+  seen,
 
   /// The mistake on screen.
   current,
@@ -27,27 +32,88 @@ enum RunSegmentState {
 /// volt from its left edge over 420 ms on the emphasized curve and ticks once; the mistake on
 /// screen is lifted by a brighter track and a taller bar. It is drawn only from the run's real
 /// outcomes, and it sits under a live-region count, so it is never the only carrier of progress.
+///
+/// With [onTap], every segment already reached ([canTap]) is a key: a 48 dp tall target (the
+/// painted bar stays thin, centred in it) that shows that mistake again without a new call.
 class RunTrack extends StatelessWidget {
-  const RunTrack({super.key, required this.segments});
+  const RunTrack({super.key, required this.segments, this.onTap, this.canTap});
 
   final List<RunSegmentState> segments;
+
+  /// Shows mistake i (0-based). Null: the track is a picture only.
+  final ValueChanged<int>? onTap;
+
+  /// Whether segment i can be shown. Null with [onTap]: none.
+  final bool Function(int i)? canTap;
 
   static const double _height = 6;
   static const double _gap = 6;
 
+  /// The touch target of a segment.
+  static const double target = 48;
+
+  static String _word(RunSegmentState s) => switch (s) {
+    RunSegmentState.current => ReviewCopy.trackOnScreen,
+    RunSegmentState.done => ReviewCopy.trackRepaired,
+    RunSegmentState.reviewed => ReviewCopy.trackReviewed,
+    RunSegmentState.setAside => ReviewCopy.trackSetAside,
+    RunSegmentState.seen => ReviewCopy.trackSeen,
+    RunSegmentState.upcoming => ReviewCopy.trackAhead,
+  };
+
   @override
   Widget build(BuildContext context) {
-    return ExcludeSemantics(
-      child: SizedBox(
-        height: 12,
-        child: Row(
-          children: [
-            for (var i = 0; i < segments.length; i++) ...[
-              if (i > 0) const SizedBox(width: _gap),
-              Expanded(child: _Segment(state: segments[i])),
+    final n = segments.length;
+    final interactive = onTap != null;
+    if (!interactive) {
+      return ExcludeSemantics(
+        child: SizedBox(
+          height: 12,
+          child: Row(
+            children: [
+              for (var i = 0; i < n; i++) ...[
+                if (i > 0) const SizedBox(width: _gap),
+                Expanded(child: _Segment(state: segments[i])),
+              ],
             ],
-          ],
+          ),
         ),
+      );
+    }
+    // The gap is inside each target (half on each side), so a finger between two segments still
+    // lands on one of them.
+    return SizedBox(
+      height: target,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < n; i++)
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                  final tappable = canTap?.call(i) ?? false;
+                  final current = segments[i] == RunSegmentState.current;
+                  return Semantics(
+                    container: true,
+                    button: tappable,
+                    selected: current,
+                    label: ReviewCopy.trackSegment(i + 1, n, _word(segments[i])),
+                    onTapHint: tappable ? ReviewCopy.trackGoHint : null,
+                    onTap: tappable ? () => onTap!(i) : null,
+                    excludeSemantics: true,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: tappable ? () => onTap!(i) : null,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: i == 0 ? 0 : _gap / 2, right: i == n - 1 ? 0 : _gap / 2),
+                        child: Center(child: SizedBox(height: 12, width: double.infinity, child: _Segment(state: segments[i]))),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -101,7 +167,7 @@ class _SegmentState extends ConsumerState<_Segment> with SingleTickerProviderSta
         painter: _SegmentPainter(
           state: widget.state,
           fill: _curve,
-          track: widget.state == RunSegmentState.current ? colors.lineStrong : colors.line,
+          track: widget.state == RunSegmentState.current || widget.state == RunSegmentState.seen ? colors.lineStrong : colors.line,
           // Volt fill in both themes, with a 1 dp olive rim in Day so it reads on paper.
           done: colors.volt,
           rim: colors.isNight ? null : colors.accentText,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/controls/mm_switch.dart';
 import 'package:mockmob/core/analytics/event_allowlist.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
@@ -19,9 +20,9 @@ Future<void> _pump(WidgetTester tester, FakeConsent consent) => pumpMockmob(
       overrides: youOverrides(consent: consent),
     );
 
-Finder get _switch => find.byType(Switch);
+Finder get _switch => find.byType(MmSwitch);
 
-bool _on(WidgetTester tester) => tester.widget<Switch>(_switch).value;
+bool _on(WidgetTester tester) => tester.widget<MmSwitch>(_switch).value;
 
 const _withdrawn = 'Usage data is off and earlier data was deleted.';
 

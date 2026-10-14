@@ -5,14 +5,15 @@ import '../theme/theme.dart';
 import 'mobi_controller.dart';
 
 /// Which way the bubble's tail points (toward Mobi).
-/// Where the bubble's tail points: down at Mobi below it, or sideways at Mobi beside it.
-enum MobiTail { down, left, right }
+/// Where the bubble's tail points: down at Mobi below it, up at Mobi above it, or sideways at Mobi
+/// beside it.
+enum MobiTail { down, up, left, right }
 
 /// Mobi's speech bubble. The line types in character by character (laid out in full from the
 /// start, so nothing reflows), the bubble grows out of its tail, and TalkBack reads the whole
 /// line once. Under reduced motion the line is simply there.
 class MobiBubble extends StatefulWidget {
-  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18, this.boxed = true});
+  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18, this.boxed = true, this.tailInset});
 
   final MobiSpeech speech;
   final MobiTail tail;
@@ -24,6 +25,10 @@ class MobiBubble extends StatefulWidget {
   /// Draw the card (fill, edge, tail and a soft shadow). When false the line sits on the screen
   /// as plain text with no box, for threads (Ask) where a card per line is too heavy.
   final bool boxed;
+
+  /// For [MobiTail.up] and [MobiTail.down]: how far the tail's tip sits from the bubble's right
+  /// edge, so it can point at a Mobi who is not centred under the bubble. Null centres it.
+  final double? tailInset;
 
   @override
   State<MobiBubble> createState() => _MobiBubbleState();
@@ -103,6 +108,7 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
         ? EdgeInsets.zero
         : switch (widget.tail) {
             MobiTail.down => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12 + _BubblePainter.tailSize),
+            MobiTail.up => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12 + _BubblePainter.tailSize, MmSpace.s16, MmSpace.s12),
             MobiTail.left => const EdgeInsets.fromLTRB(MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12, MmSpace.s16, MmSpace.s12),
             MobiTail.right => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12),
           };
@@ -133,6 +139,7 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
             scale: 0.86 + 0.14 * land,
             alignment: switch (widget.tail) {
               MobiTail.down => Alignment.bottomCenter,
+              MobiTail.up => Alignment.topRight,
               MobiTail.left => Alignment.centerLeft,
               MobiTail.right => Alignment.centerRight,
             },
@@ -144,6 +151,7 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
                       lamp: colors.isNight ? colors.lamp.withValues(alpha: 0.35) : const Color(0x00000000),
                       shadow: colors.isNight ? const Color(0x4D000000) : const Color(0x1A3B2A12),
                       tail: widget.tail,
+                      tailInset: widget.tailInset,
                     ),
                     child: Padding(padding: pad, child: line),
                   )
@@ -165,7 +173,7 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
 }
 
 class _BubblePainter extends CustomPainter {
-  const _BubblePainter({required this.fill, required this.edge, required this.lamp, required this.shadow, required this.tail});
+  const _BubblePainter({required this.fill, required this.edge, required this.lamp, required this.shadow, required this.tail, this.tailInset});
 
   static const double tailSize = 9;
   final Color fill;
@@ -173,24 +181,34 @@ class _BubblePainter extends CustomPainter {
   final Color lamp;
   final Color shadow;
   final MobiTail tail;
+  final double? tailInset;
 
   Path _shape(Size size) {
     const r = Radius.circular(18);
-    final down = tail == MobiTail.down;
+    final vertical = tail == MobiTail.down || tail == MobiTail.up;
     final body = switch (tail) {
       MobiTail.down => Rect.fromLTWH(0, 0, size.width, size.height - _BubblePainter.tailSize),
+      MobiTail.up => Rect.fromLTWH(0, _BubblePainter.tailSize, size.width, size.height - _BubblePainter.tailSize),
       MobiTail.left => Rect.fromLTWH(_BubblePainter.tailSize, 0, size.width - _BubblePainter.tailSize, size.height),
       MobiTail.right => Rect.fromLTWH(0, 0, size.width - _BubblePainter.tailSize, size.height),
     };
     final path = Path()..addRRect(RRect.fromRectAndRadius(body, r));
     final tip = Path();
-    if (down) {
-      final x = size.width / 2;
-      tip
-        ..moveTo(x - 9, body.bottom - 1)
-        ..quadraticBezierTo(x - 2, body.bottom + 2, x - 1, size.height)
-        ..quadraticBezierTo(x + 3, body.bottom + 3, x + 10, body.bottom - 1)
-        ..close();
+    if (vertical) {
+      final x = tailInset == null ? size.width / 2 : (size.width - tailInset!).clamp(20.0, size.width - 20);
+      if (tail == MobiTail.up) {
+        tip
+          ..moveTo(x - 9, body.top + 1)
+          ..quadraticBezierTo(x - 2, body.top - 2, x - 1, 0)
+          ..quadraticBezierTo(x + 3, body.top - 3, x + 10, body.top + 1)
+          ..close();
+      } else {
+        tip
+          ..moveTo(x - 9, body.bottom - 1)
+          ..quadraticBezierTo(x - 2, body.bottom + 2, x - 1, size.height)
+          ..quadraticBezierTo(x + 3, body.bottom + 3, x + 10, body.bottom - 1)
+          ..close();
+      }
     } else if (tail == MobiTail.right) {
       const y = 22.0;
       tip
@@ -245,5 +263,5 @@ class _BubblePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_BubblePainter old) =>
-      old.fill != fill || old.edge != edge || old.tail != tail || old.lamp != lamp || old.shadow != shadow;
+      old.fill != fill || old.edge != edge || old.tail != tail || old.tailInset != tailInset || old.lamp != lamp || old.shadow != shadow;
 }

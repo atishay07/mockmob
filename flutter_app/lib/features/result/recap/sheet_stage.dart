@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart' show MobiPose;
+import '../../../core/widgets/widgets.dart' show MobiAct, MobiMood, MobiPose, MobiRation;
 import '../../rhythm/rhythm.dart' show celebrationModeProvider;
 import '../copy.dart';
 import '../model/recap_model.dart';
@@ -432,7 +432,15 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                 // after the figure lands, only for a higher result; never after a lower or held
                 // one). Left out where the sheet needs the space. The sheet keeps its place in the
                 // tree either way, so opening never rebuilds it.
-                final showMobi = _opened && room >= 70 && m.variant.celebratory;
+                // The reaction table decides whether Mobi is here at all (never on an NTA result, never
+                // after a lower or held one) and whether it cheers.
+                final reaction = recapReaction(
+                  variant: m.variant,
+                  mode: ref.read(celebrationModeProvider),
+                  isNta: m.isNta,
+                  hour: MobiRation.now().hour,
+                );
+                final showMobi = _opened && room >= 70 && m.variant.celebratory && reaction != null;
                 // No clip: the sheet's desk shadow falls below the sheet, past this box (a clipped
                 // shadow drew a hard strip on Daylight, audit X2).
                 return Stack(
@@ -481,9 +489,16 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                           delay: _calm ? Duration.zero : const Duration(milliseconds: 500),
                           rise: 20,
                           child: RecapMobi(
-                            pose: MobiPose.read,
+                            // Late at night it reads half asleep, the same sleepy it is on the last card.
+                            pose: reaction.act == MobiAct.sleepy ? MobiPose.sleepy : MobiPose.read,
                             size: _mobiSize,
-                            cheerAfter: _lights ? const Duration(milliseconds: 1500) : null,
+                            // The figure has landed: a higher result cheers once, a first mock stands
+                            // proud once (the table's act, so every screen agrees).
+                            actAfter: _lights && (reaction.act == MobiAct.cheer || reaction.act == MobiAct.proud)
+                                ? const Duration(milliseconds: 1500)
+                                : null,
+                            afterAct: reaction.act,
+                            mood: reaction.act == MobiAct.sleepy ? MobiMood.sleepy : null,
                           ),
                         ),
                       ),

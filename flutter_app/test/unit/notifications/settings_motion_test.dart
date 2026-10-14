@@ -72,9 +72,9 @@ void main() {
   }
 
   Finder rowSwitch(String title) =>
-      find.descendant(of: find.widgetWithText(ChannelRow, title), matching: find.byType(Switch));
+      find.descendant(of: find.widgetWithText(ChannelRow, title), matching: find.byType(MmSwitch));
 
-  bool switchOn(WidgetTester tester, String title) => tester.widget<Switch>(rowSwitch(title)).value;
+  bool switchOn(WidgetTester tester, String title) => tester.widget<MmSwitch>(rowSwitch(title)).value;
 
   Future<void> release(WidgetTester tester, int index) async {
     repo.gates[index].complete();

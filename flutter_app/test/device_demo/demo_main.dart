@@ -49,6 +49,7 @@ import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart' show finishFreshProvider, resultReceivedAtProvider;
+import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftAnsweredProvider;
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
@@ -238,6 +239,15 @@ List<Override> _overrides() {
     // resume hero and Start's Resume row all show it, with its answers counted from the session.
     latestSessionDraftProvider.overrideWith((ref) => demoDrafts.watch()),
     sessionDraftRepositoryProvider.overrideWith((ref) => DemoDraftRepository(ref.watch(localScopeProvider))),
+    // The resume card's painted sheet inks the demo session's own answers (the real provider reads
+    // the journal, which demo sessions do not write), read again whenever the draft is written.
+    draftAnsweredProvider.overrideWith((ref, sessionId) async {
+      final changes = demoDrafts.watch().skip(1).listen((_) => ref.invalidateSelf());
+      ref.onDispose(changes.cancel);
+      final session = demoSessions[sessionId];
+      if (session == null) return null;
+      return [for (final q in session.questions) session.answers.containsKey(q.id)];
+    }),
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     // The receipt says when this run's submit was acknowledged.

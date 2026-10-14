@@ -20,6 +20,7 @@ import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/repair_run.dart';
+import '../data/repair_state.dart';
 import '../data/review_providers.dart';
 import '../widgets/ending_sheet.dart';
 import '../widgets/foil_burst.dart';
@@ -161,13 +162,23 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
 
   void _finish() => context.go(AppRoutes.review);
 
+  /// "Try the same mistakes again": a fresh run over exactly [questionIds] (those still open),
+  /// opened at its entry, so the plan and the wallet are said again before anything is spent.
+  void _tryAgain(List<String> questionIds) {
+    final first = ref.read(repairRunProvider(widget.attemptId).notifier).prepareRetry(questionIds);
+    if (first == null) return _finish();
+    context.pushReplacement(AppRoutes.reviewRepair(widget.attemptId, first));
+  }
+
   /// The number has landed: the burst opens behind it, it swells a little and Mobi stands proud.
   /// Once: a later change of the count rolls the digits but does not celebrate again.
   void _landed() {
     if (!mounted || !_celebrating || _beat) return;
     setState(() => _beat = true);
     _pop.forward(from: 0);
-    _mobi.play(MobiAct.proud);
+    // The repair the server acknowledged lands: Mobi stands proud (calmed under Quiet).
+    _mobi.setMood(MobiMood.proud);
+    _mobi.react(MobiMoments.act(MobiEvent.milestone), key: 'repairEnding:milestone');
   }
 
   @override
@@ -188,9 +199,18 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final nothing = model.repaired == 0;
     // What is still open in this chapter: in this paper (what the run covered) and in other papers,
     // said apart so the line never contradicts the entry's count.
-    final open = chapterOpenSplit(index, attemptId: widget.attemptId, chapter: model.chapter, subjectId: model.subjectId);
-    // After nothing was repaired, the same mistakes can be tried again: the first one still open.
-    final retry = nothing && index != null ? index.openIn(widget.attemptId, model.chapter) : const <MistakeItem>[];
+    final open = chapterOpenSplit(
+      index,
+      attemptId: widget.attemptId,
+      chapter: model.chapter,
+      subjectId: model.subjectId,
+      resolved: model.resolvedKeys,
+    );
+    // The same mistakes again: after nothing was repaired, the run's own mistakes still open; after
+    // a run with misses (a failed call, one the server could not explain), those misses. Only
+    // mistakes Review still has open, from the run itself.
+    final run = ref.read(repairRunProvider(widget.attemptId));
+    final retry = retryQuestionIds(run, index);
     // The fired moment takes the receipt's place and, for a first repair, says so with its own
     // sentence and Mobi hop; the screen then leaves those out rather than say them twice.
     final scope = CelebrationScope.repair(widget.attemptId);
@@ -224,14 +244,14 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
         children: [
           if (retry.isNotEmpty) ...[
             KeyButton(
-              label: ReviewCopy.tryAgainKey,
-              semanticsLabel: '${ReviewCopy.tryAgainKey}. ${ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length))}',
-              onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(widget.attemptId, retry.first.questionId)),
+              label: ReviewCopy.trySameAgain,
+              semanticsLabel: '${ReviewCopy.trySameAgain}. ${ReviewCopy.trySameAgainLine(retry.length, model.chapter)}',
+              onPressed: () => _tryAgain(retry),
             ),
             const SizedBox(height: MmSpace.s4),
             ExcludeSemantics(
               child: Text(
-                ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length)),
+                ReviewCopy.trySameAgainLine(retry.length, model.chapter),
                 style: type.caption.copyWith(color: colors.ink2),
                 textAlign: TextAlign.center,
               ),
@@ -302,6 +322,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                         title: ReviewCopy.nothingRepairedTitle,
                         line: ReviewCopy.nothingRepaired(model.setAside, model.reviewed),
                         showMobi: full,
+                        mobi: _mobi,
                       ),
                     ] else ...[
                       const SizedBox(height: MmSpace.s32),
@@ -320,6 +341,10 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                                 // celebration off or motion reduced, proud at once.
                                 entrance: _celebrating ? MobiAct.rest : MobiAct.proud,
                                 seed: 19,
+                                // A tap is answered (a hello, a tilt, a hop), never a new claim.
+                                interactive: true,
+                                tapCycle: MobiTapCycle.standard,
+                                semanticLabel: ReviewCopy.mobiEndingRepaired,
                               )
                             : null,
                       ),
@@ -371,6 +396,18 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
       ),
     );
   }
+}
+
+/// The question ids "Try the same mistakes again" opens, in the run's order: with nothing
+/// repaired, every step of the run; otherwise only the run's misses ([RepairRunState.missed]).
+/// Only those Review still has open. Empty when there is nothing to try again (or no run).
+List<String> retryQuestionIds(RepairRunState? run, ReviewIndex? index) {
+  if (run == null || index == null) return const [];
+  final steps = run.repairedCount == 0 ? run.steps : run.missed;
+  return [
+    for (final s in steps)
+      if (index.item(run.attemptId, s.item.questionId)?.stage.isOpen ?? false) s.item.questionId,
+  ];
 }
 
 /// The count as the hero: the digits and their unit, with Mobi at the right. On the beat the
@@ -471,11 +508,12 @@ class _NumberHero extends StatelessWidget {
 /// Nothing was repaired: the same hero grammar as the other endings (the sheet above, Mobi at the
 /// right, one large word), calm and short. Mobi leans in, never sad.
 class _NothingHero extends StatelessWidget {
-  const _NothingHero({required this.title, required this.line, required this.showMobi});
+  const _NothingHero({required this.title, required this.line, required this.showMobi, required this.mobi});
 
   final String title;
   final String line;
   final bool showMobi;
+  final MobiController mobi;
 
   @override
   Widget build(BuildContext context) {
@@ -495,7 +533,16 @@ class _NothingHero extends StatelessWidget {
             ),
             if (showMobi) ...[
               const SizedBox(width: MmSpace.s8),
-              const Mobi(pose: MobiPose.encourage, size: 140, motion: MobiMotion.settle),
+              // Leans in to encourage (never sad), and answers a tap.
+              MobiCharacter(
+                size: 140,
+                controller: mobi,
+                entrance: MobiAct.encourage,
+                seed: 19,
+                interactive: true,
+                tapCycle: MobiTapCycle.standard,
+                semanticLabel: ReviewCopy.mobiEndingNothing,
+              ),
             ],
           ],
         ),

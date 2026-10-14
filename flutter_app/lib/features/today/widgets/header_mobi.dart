@@ -6,9 +6,10 @@
 // neither touched nor scrolled for 4 s (never under reduced motion; never while the opening still
 // covers the app), and says one short line when tapped. After that line, or at once when he has
 // already said it, he nudges toward the card once (two short jabs), once a day at most
-// (MOTION.md 1.3: sooner reads as nagging). While his line is up the greeting beside him steps
-// back (see [HeaderMobi.speaking]), so a bubble never sits on top of text. When the hero already has Mobi (day one, coming back, late night) the
-// header leaves him out, so there is never a second Mobi on the screen.
+// (MOTION.md 1.3: sooner reads as nagging). His line is not drawn here: it goes to
+// [HeaderMobi.speech], and the header sets it in its own space under the greeting row, below Mobi,
+// so a bubble never sits on top of text. When the hero already has Mobi (day one, coming back,
+// late night) the header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
@@ -19,18 +20,21 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 
 class HeaderMobi extends StatefulWidget {
-  const HeaderMobi({super.key, required this.cue, this.aim, this.speaking});
+  const HeaderMobi({super.key, required this.cue, this.aim, this.speech});
 
   final HeaderMobiCue cue;
 
-  /// True while his line is on screen. The header dims the greeting and date line then: the
-  /// line floats where they are, and must never cover readable text.
-  final ValueNotifier<bool>? speaking;
+  /// His line while it is on screen (null otherwise). The header draws it under the greeting row,
+  /// where it can never cover the greeting or the date.
+  final ValueNotifier<MobiSpeech?>? speech;
 
   /// The move card's key: where Mobi points when the cue is [HeaderMobiKind.point].
   final GlobalKey? aim;
 
   static const double size = 56;
+
+  /// How far Mobi's centre sits from the row's right edge: where the bubble's tail points.
+  static double get tailInset => MobiFigure.widthFor(size) / 2;
 
   /// Whether he has already said his line about a ready move in this app run.
   static bool _greeted = false;
@@ -56,6 +60,7 @@ class HeaderMobi extends StatefulWidget {
 class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   final MobiController _mobi = MobiController();
   Timer? _hush;
+  Timer? _settle;
 
   /// The one nudge on this screen: armed when he first points, cancelled by any touch.
   Timer? _nudge;
@@ -89,7 +94,13 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _reaim();
   }
 
-  void _syncSpeaking() => widget.speaking?.value = _mobi.speech.value != null;
+  void _syncSpeaking() {
+    widget.speech?.value = _mobi.speech.value;
+    // The line's room opens and closes under the row, moving the card: aim again once it has.
+    _reaim();
+    _settle?.cancel();
+    _settle = Timer(const Duration(milliseconds: 400), _reaim);
+  }
 
   @override
   void didChangeDependencies() {
@@ -130,6 +141,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _mobi.speech.removeListener(_syncSpeaking);
     _position?.removeListener(_reaim);
     _hush?.cancel();
+    _settle?.cancel();
     _nudge?.cancel();
     _talking?.cancel();
     _stopListening();
@@ -260,17 +272,6 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
                 right: 0,
                 bottom: 0,
                 child: MobiCharacter(controller: _mobi, size: HeaderMobi.size, entrance: _entrance, seed: 23),
-              ),
-              // The line floats to the left of Mobi, over the greeting, and goes after a moment.
-              Positioned(
-                right: width + 4,
-                top: -2,
-                child: ValueListenableBuilder<MobiSpeech?>(
-                  valueListenable: _mobi.speech,
-                  builder: (context, speech, _) => speech == null
-                      ? const SizedBox.shrink()
-                      : MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.right, maxWidth: 236),
-                ),
               ),
             ],
           ),

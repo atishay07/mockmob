@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/router/router.dart' show intendedRouteProvider;
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/auth/after_sign_in.dart' show signInPendingMaxAge;
 import 'package:mockmob/features/auth/sign_in_controller.dart';
 import 'package:mockmob/features/auth/sign_in_state.dart';
 
@@ -14,13 +16,33 @@ ProviderContainer _container(
   FakeGateway gateway, {
   MemoryPrefsStore? prefs,
   TestClock? clock,
+  List<Override> extra = const [],
 }) {
   final c = ProviderContainer(
-    overrides: authOverrides(gateway: gateway, prefs: prefs, clock: clock),
+    overrides: [
+      ...authOverrides(gateway: gateway, prefs: prefs, clock: clock),
+      ...extra,
+    ],
   );
   addTearDown(c.dispose);
   return c;
 }
+
+class _FakeAuth extends AuthController {
+  _FakeAuth(this.snapshot);
+
+  final AuthSnapshot snapshot;
+
+  @override
+  AuthSnapshot build() => snapshot;
+
+  void become(AuthSnapshot next) => state = next;
+}
+
+const _signedInAuth = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'a@b.co');
+const _signedOutAuth = AuthSnapshot(status: AuthStatus.signedOut);
+
+Override _auth(AuthSnapshot s) => authSnapshotProvider.overrideWith(() => _FakeAuth(s));
 
 void main() {
   group('email validation', () {
@@ -566,6 +588,93 @@ void main() {
       final notifier = c.read(signInControllerProvider.notifier);
       await notifier.signInWithGoogle();
       await notifier.signedInFromAuth();
+      expect(gateway.sheetLaunches, 0);
+    });
+  });
+
+  group('the process died during sign-in and restarted signed in (onboarding-05)', () {
+    const pendingKey = 'auth_sign_in_pending_at';
+
+    test('starting a sign-in is kept on the phone, and the decision forgets it', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway();
+      final clock = TestClock();
+      final c = _container(gateway, prefs: prefs, clock: clock);
+      final notifier = c.read(signInControllerProvider.notifier)..setEmail('asha@example.com');
+      final hold = gateway.verifyHold = Completer<void>();
+      final verifying = notifier.verify('12345678');
+      await Future<void>.delayed(Duration.zero);
+      expect(prefs.values[pendingKey], clock.value.millisecondsSinceEpoch);
+      hold.complete();
+      await verifying;
+      await Future<void>.delayed(Duration.zero);
+      expect(prefs.values.containsKey(pendingKey), isFalse);
+    });
+
+    test('a restarted app that finds the account signed in offers the sheet once, with no sign-in screen', () async {
+      final clock = TestClock();
+      final prefs = MemoryPrefsStore()
+        ..values[pendingKey] = clock.value.subtract(const Duration(minutes: 5)).millisecondsSinceEpoch;
+      final gateway = FakeGateway()..signsInAs = 'u1';
+      await gateway.verifyCode('a@b.co', '12345678');
+      final c = _container(gateway, prefs: prefs, clock: clock, extra: [_auth(_signedInAuth)]);
+      c.read(resumeSignInSheetProvider);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 1);
+      expect(prefs.values.containsKey(pendingKey), isFalse, reason: 'consumed');
+      expect(await prefs.getBool('auth_before_you_start_offered'), isTrue);
+    });
+
+    test('signing in after the restart (account still loading) offers it when the account turns signed in', () async {
+      final clock = TestClock();
+      final prefs = MemoryPrefsStore()..values[pendingKey] = clock.value.millisecondsSinceEpoch;
+      final gateway = FakeGateway();
+      await gateway.verifyCode('a@b.co', '12345678');
+      final c = _container(gateway, prefs: prefs, clock: clock, extra: [_auth(_signedOutAuth)]);
+      c.read(resumeSignInSheetProvider);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 0);
+      (c.read(authSnapshotProvider.notifier) as _FakeAuth).become(_signedInAuth);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 1);
+      (c.read(authSnapshotProvider.notifier) as _FakeAuth).become(_signedOutAuth);
+      (c.read(authSnapshotProvider.notifier) as _FakeAuth).become(_signedInAuth);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 1, reason: 'consumed exactly once');
+    });
+
+    test('a stale record offers nothing and is dropped', () async {
+      final clock = TestClock();
+      final prefs = MemoryPrefsStore()
+        ..values[pendingKey] = clock.value.subtract(signInPendingMaxAge + const Duration(minutes: 1)).millisecondsSinceEpoch;
+      final gateway = FakeGateway();
+      await gateway.verifyCode('a@b.co', '12345678');
+      final c = _container(gateway, prefs: prefs, clock: clock, extra: [_auth(_signedInAuth)]);
+      c.read(resumeSignInSheetProvider);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 0);
+      expect(prefs.values.containsKey(pendingKey), isFalse);
+    });
+
+    test('with nothing pending, being signed in offers nothing', () async {
+      final gateway = FakeGateway();
+      await gateway.verifyCode('a@b.co', '12345678');
+      final c = _container(gateway, extra: [_auth(_signedInAuth)]);
+      c.read(resumeSignInSheetProvider);
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 0);
+    });
+
+    test('a remembered deep link restored from the phone still wins over the sheet', () async {
+      final clock = TestClock();
+      final prefs = MemoryPrefsStore()
+        ..values[pendingKey] = clock.value.millisecondsSinceEpoch;
+      final gateway = FakeGateway();
+      await gateway.verifyCode('a@b.co', '12345678');
+      final c = _container(gateway, prefs: prefs, clock: clock, extra: [_auth(_signedInAuth)]);
+      c.read(intendedRouteProvider).remember('/result/abc', userId: 'u1');
+      c.read(resumeSignInSheetProvider);
+      await pumpEventQueue();
       expect(gateway.sheetLaunches, 0);
     });
   });

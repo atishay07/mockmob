@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
@@ -117,6 +119,7 @@ class MmBottomBar extends ConsumerStatefulWidget {
     this.youInitial,
     this.startResumeLabel,
     this.onStartResume,
+    this.startResumeId,
     this.quality,
   });
 
@@ -148,6 +151,16 @@ class MmBottomBar extends ConsumerStatefulWidget {
   /// Start's TalkBack shortcut ("Resume Accountancy mock"), with [onStartResume].
   final String? startResumeLabel;
   final VoidCallback? onStartResume;
+
+  /// The open session's id. The first time one shows (once per session in this app run), Start's
+  /// label slides to Resume and back. Null: it never does.
+  final String? startResumeId;
+
+  /// Sessions whose Resume slide has played in this app run.
+  static final Set<String> _resumeSlid = <String>{};
+
+  /// Forgets which sessions have slid (tests).
+  static void resetResumeSlide() => _resumeSlid.clear();
 
   /// Overrides the inherited glass tier (goldens).
   final GlassQuality? quality;
@@ -184,6 +197,12 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   late final AnimationController _enter = AnimationController(vsync: this, duration: MmBottomBar.entranceDuration, value: 1);
   late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 360), value: 1);
 
+  /// The release overshoot (0 to 1, then rests at 1), and the drag's stretch (0 to 1, springs back
+  /// through a little squash), and the Start-to-Resume label slide (0 Start, 1 Resume).
+  late final AnimationController _overshoot = AnimationController(vsync: this, duration: const Duration(milliseconds: 280), value: 1);
+  late final AnimationController _stretch = AnimationController.unbounded(vsync: this);
+  late final AnimationController _label = AnimationController(vsync: this, duration: const Duration(milliseconds: 2200));
+
   /// Each tab's icon, 0 outlined to 1 filled (and its label, ink 2 to ink).
   late final List<AnimationController> _on = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: MmBottomBar.iconIn, reverseDuration: MmBottomBar.iconOut)];
   late final List<AnimationController> _settle = [for (var i = 0; i < 4; i++) AnimationController.unbounded(vsync: this, value: 1)];
@@ -216,7 +235,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     super.initState();
     // Create every controller now, never lazily in dispose (a deactivated element cannot look
     // up its TickerMode): the entrance ones exist only when touched otherwise.
-    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._settle]) {
+    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, _overshoot, _stretch, _label, ..._settle]) {
       assert(!c.isAnimating);
     }
     _shown = widget.currentBranch;
@@ -225,6 +244,34 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     }
     _edges.addListener(_watchEdges);
     widget.compact?.addListener(_compactChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeSlideResume());
+  }
+
+  /// Once per open session in this app run: "Start" slides up to "Resume", holds, and slides back.
+  void _maybeSlideResume() {
+    final id = widget.startResumeId;
+    if (!mounted || id == null || _reduced || MmBottomBar._resumeSlid.contains(id)) return;
+    // Not while a finger is on the key; and not while the bar is still arriving: it slides once
+    // the bar has landed (otherwise the entrance would use up the one slide this session gets).
+    if (_dragging) return;
+    if (_enter.isAnimating) {
+      if (!_slideWaiting) {
+        _slideWaiting = true;
+        _enter.addStatusListener(_slideWhenLanded);
+      }
+      return;
+    }
+    MmBottomBar._resumeSlid.add(id);
+    _label.forward(from: 0);
+  }
+
+  bool _slideWaiting = false;
+
+  void _slideWhenLanded(AnimationStatus status) {
+    if (status != AnimationStatus.completed && status != AnimationStatus.dismissed) return;
+    _enter.removeStatusListener(_slideWhenLanded);
+    _slideWaiting = false;
+    _maybeSlideResume();
   }
 
   @override
@@ -266,13 +313,29 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _compactChanged();
     }
     if (!_scrubbing && widget.currentBranch != _shown) _select(widget.currentBranch);
+    if (oldWidget.startResumeId != widget.startResumeId) {
+      if (widget.startResumeId == null) {
+        _label.value = 0;
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _maybeSlideResume());
+      }
+    }
+  }
+
+  /// The label's slide as 0 (Start) to 1 (Resume): in over the first 14%, held, out over the last 18%.
+  double get _labelShift {
+    final t = _label.value;
+    if (t <= 0 || t >= 1) return 0;
+    if (t < 0.14) return Motion.glide.transform(t / 0.14);
+    if (t > 0.82) return 1 - Motion.glide.transform((t - 0.82) / 0.18);
+    return 1;
   }
 
   @override
   void dispose() {
     widget.compact?.removeListener(_compactChanged);
     _edges.removeListener(_watchEdges);
-    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._on, ..._settle]) {
+    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, _overshoot, _stretch, _label, ..._on, ..._settle]) {
       c.dispose();
     }
     super.dispose();
@@ -514,6 +577,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _dragging = true;
       _pastOpen = false;
       _drag = 0;
+      _label.value = 0;
+      _stretch.stop();
       ref.read(hapticsProvider).light();
       target.begin(_startRect());
     }
@@ -522,12 +587,26 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final past = progress >= 0.35;
     if (past != _pastOpen) {
       _pastOpen = past;
-      if (past) ref.read(hapticsProvider).selection();
+      if (past) {
+        ref.read(hapticsProvider).selection();
+        // The ink ring fires as the sheet reaches the point where letting go opens it.
+        if (!_reduced) _ripple.forward(from: 0);
+      }
     }
+    if (!_reduced) _stretch.value = progress.clamp(0.0, 1.0);
     target.update(progress);
   }
 
   double _drag = 0;
+
+  /// The key lets go of its stretch: it springs back through a little squash.
+  void _releaseStretch() {
+    if (_reduced || _stretch.value == 0) {
+      _stretch.value = 0;
+      return;
+    }
+    _stretch.animateWith(Motion.spring(Springs.smooth, _stretch.value, 0));
+  }
 
   void _startDragEnd(DragEndDetails d) {
     final target = widget.startDrag;
@@ -535,6 +614,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     if (!_dragging || target == null) return;
     _dragging = false;
     final velocity = d.velocity.pixelsPerSecond.dy;
+    _releaseStretch();
     target.end(open: _drag / _openDistance >= 0.35 || velocity < -700);
   }
 
@@ -771,9 +851,12 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final resume = widget.startResumeLabel;
     final onResume = widget.onStartResume;
     final face = AnimatedBuilder(
-      animation: Listenable.merge([_press, _ripple, _dip, _pop]),
+      animation: Listenable.merge([_press, _ripple, _dip, _pop, _overshoot, _stretch, _label]),
       builder: (context, _) {
-        final pressed = widget.startPressed ? 1.0 : Motion.out.transform(_press.value);
+        // Pressed deepens to 1; on release it overshoots a little (a negative press) and rests.
+        final o = _overshoot.value;
+        final bump = o >= 1 || _press.value > 0 ? 0.0 : 0.7 * math.sin(math.pi * o) * (1 - o);
+        final pressed = widget.startPressed ? 1.0 : Motion.out.transform(_press.value) - bump;
         // The lens slides under Start; Start dips to 0.97 while it is there.
         final dip = 1 - 0.03 * _dip.value;
         // The first appearance's pop: 1, 1.05, 1.
@@ -781,7 +864,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         final pop = p >= 1 ? 1.0 : 1 + 0.05 * (p < 0.4 ? Motion.out.transform(p / 0.4) : 1 - Motion.out.transform((p - 0.4) / 0.6));
         return Transform.scale(
           scale: dip * pop,
-          child: StartKeyFace(collapse: _collapse, pressed: pressed, ripple: _ripple.value),
+          child: StartKeyFace(collapse: _collapse, pressed: pressed, ripple: _ripple.value, stretch: _stretch.value, labelShift: _labelShift),
         );
       },
     );
@@ -800,7 +883,15 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
           child: Listener(
             // The press shows the moment a finger lands, before the tap is decided.
             onPointerDown: (_) => _reduced ? _press.value = 1 : _press.forward(),
-            onPointerUp: (_) => _reduced ? _press.value = 0 : _press.reverse(),
+            onPointerUp: (_) {
+              if (_reduced) {
+                _press.value = 0;
+                return;
+              }
+              _press.reverse();
+              // The key lets go with a small overshoot (not after a drag, which springs back).
+              if (!_dragging) _overshoot.forward(from: 0);
+            },
             onPointerCancel: (_) => _reduced ? _press.value = 0 : _press.reverse(),
             child: GestureDetector(
               key: _startKey,

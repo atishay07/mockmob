@@ -1,7 +1,10 @@
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 import 'package:mockmob/features/runner/copy.dart';
 import 'package:mockmob/features/runner/widgets/question_stage.dart';
+import 'package:mockmob/features/runner/widgets/runner_motion.dart';
 
 import '../../helpers/fonts.dart';
 import 'support/fake_session.dart';
@@ -9,6 +12,21 @@ import 'support/harness.dart';
 
 /// In-use findings 6, 7, 25 and 27 (14 Oct recordings): every Previous and Next tap counts, a
 /// switch is never a blank frame, one paper carries one name, and the submit page is a moment.
+/// The opacity a piece of text is painted at: every opacity above it, multiplied.
+double _paintedOpacity(Element e) {
+  var o = 1.0;
+  RenderObject? r = e.renderObject;
+  while (r != null) {
+    if (r is RenderOpacity) o *= r.opacity;
+    if (r is RenderAnimatedOpacity) o *= r.opacity.value;
+    r = r.parent;
+  }
+  return o;
+}
+
+/// The summed painted opacity of every copy of [text] on screen (0 when none is built).
+double _textOpacity(String text) => find.text(text).evaluate().fold(0.0, (sum, e) => sum + _paintedOpacity(e));
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -70,6 +88,53 @@ void main() {
   });
 
   group('a switch never blanks the question region (finding 7)', () {
+    test('the question text and the line under it arrive from 0.35; the options from nothing', () {
+      expect(RunnerMotion.enterOpacity(0, 0), closeTo(0.35, 1e-9));
+      expect(RunnerMotion.enterOpacity(1, 0), closeTo(0.35, 1e-9));
+      expect(RunnerMotion.enterOpacity(2, 0), 0);
+      expect(RunnerMotion.enterOpacity(0, 1), 1);
+      expect(RunnerMotion.ghostFade, const Duration(milliseconds: 90));
+      expect(RunnerMotion.crossFade, RunnerMotion.ghostHold + RunnerMotion.ghostFade);
+    });
+
+    for (final back in [false, true]) {
+      testWidgets('${back ? 'Previous' : 'Next'}: the two question texts together never drop below 0.7', (tester) async {
+        final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null, currentIndex: back ? 2 : 0);
+        await pumpRunner(tester, session: s);
+        await settle(tester);
+        final from = s.questions[s.currentIndex].question;
+        final to = s.questions[s.currentIndex + (back ? -1 : 1)].question;
+        await tester.tap(find.text(back ? 'Previous' : 'Next').last);
+        var lowest = 2.0;
+        var ghostFadedBeforeHalf = false;
+        for (var ms = 0; ms <= 400; ms += 4) {
+          await tester.pump(const Duration(milliseconds: 4));
+          final leaving = _textOpacity(from);
+          final arriving = _textOpacity(to);
+          if (leaving + arriving < lowest) lowest = leaving + arriving;
+          if (leaving > 0 && leaving < 0.999 && arriving < 0.5 - 1e-6) ghostFadedBeforeHalf = true;
+        }
+        expect(lowest, greaterThanOrEqualTo(0.7), reason: 'summed text opacity of the leaving and arriving question');
+        expect(ghostFadedBeforeHalf, isFalse, reason: 'the leaving text holds at 1 until the arriving text is half visible');
+        expect(_textOpacity(from), 0, reason: 'the leaving question is gone once the switch is done');
+        expect(_textOpacity(to), closeTo(1, 1e-6));
+      });
+    }
+
+    testWidgets('both layers paint in their own repaint boundary', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
+      await pumpRunner(tester, session: s);
+      await settle(tester);
+      await tester.tap(find.text('Next'));
+      await tester.pump(const Duration(milliseconds: 8));
+      for (final i in [0, 1]) {
+        final boundary = find.ancestor(of: find.text(s.questions[i].question), matching: find.byType(RepaintBoundary));
+        final insideStage = find.descendant(of: find.byType(QuestionStage), matching: boundary);
+        expect(insideStage, findsWidgets, reason: 'question ${i + 1} is in a layer boundary');
+      }
+      await settle(tester);
+    });
+
     testWidgets('the question just left stays under the arriving one, then goes', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
       await pumpRunner(tester, session: s);
@@ -105,7 +170,17 @@ void main() {
       await tester.tap(ghost, warnIfMissed: false);
       await tester.pump();
       expect(s.answers.containsKey('q1'), isFalse, reason: 'the question just left cannot be answered');
-      expect(find.bySemanticsLabel(RunnerCopy.optionSemantics('C', optionsOf(s, 0)[2])), findsNothing);
+      // The live semantics tree, not a render object's last node: the picture keeps its render
+      // objects (so it stays still), and ExcludeSemantics drops them from the tree.
+      final labels = <String>[];
+      bool visit(SemanticsNode node) {
+        labels.add(node.label);
+        node.visitChildren(visit);
+        return true;
+      }
+
+      visit(tester.binding.renderViews.first.owner!.semanticsOwner!.rootSemanticsNode!);
+      expect(labels, isNot(contains(RunnerCopy.optionSemantics('C', optionsOf(s, 0)[2]))));
       await settle(tester);
       handle.dispose();
     });

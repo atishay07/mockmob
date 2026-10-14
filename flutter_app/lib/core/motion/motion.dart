@@ -5,10 +5,17 @@ import 'package:flutter/widgets.dart';
 
 import 'reduced_motion.dart';
 
+export 'draw.dart';
+export 'drag_commit.dart';
 export 'entrance.dart';
+export 'fold_exit.dart';
 export 'launch_rect.dart';
+export 'object_react.dart';
 export 'pull_refresh.dart';
 export 'scroll_effects.dart';
+export 'scrub.dart';
+export 'shake.dart';
+export 'size_ease.dart';
 export 'springs.dart';
 
 /// Motion tokens (Night Sheet brief, section 7). Only opacity and transform animate, inside a
@@ -151,4 +158,213 @@ abstract final class Motion {
   /// A [SpringSimulation] from [from] to [to] with [spring], keeping [velocity].
   static SpringSimulation spring(SpringDescription spring, double from, double to, {double velocity = 0}) =>
       SpringSimulation(spring, from, to, velocity);
+}
+
+/// The default for any keyed content swap (a tab's body, a filter's list, a loaded state replacing
+/// its skeleton): it never shows a blank frame between the two.
+///
+/// When [child] changes key, the incoming layer fades in over [duration] on [Motion.glide] while
+/// the outgoing layer holds at full strength; only once the incoming layer is half visible does the
+/// outgoing one fade, over [outDuration] (90 ms). The two layers' summed opacity never drops below
+/// [floor] (0.7), so the ground never shows through. Both layers sit in their own
+/// `RepaintBoundary`; the outgoing one ignores touches and is hidden from TalkBack. A swap in the
+/// middle of a swap holds what is showing and starts again from there.
+///
+/// Prefer it to a bare `AnimatedSwitcher`, whose default cross-fade dips to about half strength in
+/// the middle and reads as a flash on the dark ground. It is the default for every keyed content
+/// swap in the app (`MmSkeletonSwitcher` is built on it).
+///
+/// Under reduced motion it stays a fade (opacity only, nothing travels) but a short one: the
+/// incoming layer arrives over [Motion.reducedFade].
+class MmOverlapSwitcher extends StatefulWidget {
+  const MmOverlapSwitcher({
+    super.key,
+    required this.child,
+    this.duration = Motion.fadeThroughIn,
+    this.outDuration = const Duration(milliseconds: 90),
+    this.alignment = Alignment.topCenter,
+    this.animateFirst = false,
+    this.fit = StackFit.loose,
+  });
+
+  final Widget child;
+  final Duration duration;
+  final Duration outDuration;
+  final AlignmentGeometry alignment;
+
+  /// How the two layers are sized in their stack. [StackFit.passthrough] hands both the parent's
+  /// constraints unchanged (a full-width skeleton and its content).
+  final StackFit fit;
+
+  /// Fades the first child in as well (off: it is simply there).
+  final bool animateFirst;
+
+  /// The incoming opacity at which the outgoing layer starts to go.
+  static const double releaseAt = 0.5;
+
+  /// The least summed opacity of the two layers.
+  static const double floor = 0.7;
+
+  /// The opacity of an outgoing layer whose own fade is at [own], which held at [heldFrom] when it
+  /// started leaving, while the incoming layer shows at [incoming]. It never rises above where it
+  /// held, and never lets the sum of the two fall under [floor].
+  static double outgoingOpacity(double own, double incoming, {double heldFrom = 1}) =>
+      math.max(own, math.min(heldFrom, floor - incoming)).clamp(0.0, 1.0);
+
+  @override
+  State<MmOverlapSwitcher> createState() => _MmOverlapSwitcherState();
+}
+
+class _OverlapLayer {
+  _OverlapLayer(this.id, this.child, this.fade);
+
+  final int id;
+  Widget child;
+  final AnimationController fade;
+  double heldFrom = 1;
+  bool leaving = false;
+}
+
+class _MmOverlapSwitcherState extends State<MmOverlapSwitcher> with TickerProviderStateMixin {
+  int _ids = 0;
+  late _OverlapLayer _current;
+  final List<_OverlapLayer> _outgoing = [];
+
+  double _incomingOpacity() => Motion.glide.transform(_current.fade.value.clamp(0.0, 1.0));
+  bool _begun = false;
+
+  /// The incoming fade: [MmOverlapSwitcher.duration], or the short reduced-motion fade.
+  Duration get _inDuration => Motion.reduced(context) ? Motion.reducedFade : widget.duration;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = _layer(widget.child, value: widget.animateFirst ? 0 : 1);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_begun) return;
+    _begun = true;
+    // The first fade starts here, where reduced motion can be read.
+    if (widget.animateFirst) {
+      _current.fade
+        ..duration = _inDuration
+        ..forward();
+    }
+  }
+
+  _OverlapLayer _layer(Widget child, {required double value, Duration? duration}) {
+    final c = AnimationController(vsync: this, duration: duration ?? widget.duration, value: value);
+    final layer = _OverlapLayer(_ids++, child, c);
+    c
+      ..addListener(() => _onIncoming(layer))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) _landed(layer);
+      });
+    return layer;
+  }
+
+  /// The incoming layer has landed at full strength on top: the swap is over, and any layer still
+  /// leaving goes now (on real frames they have already faded; a long frame must not leave the old
+  /// content behind the new).
+  void _landed(_OverlapLayer layer) {
+    if (!mounted || !identical(layer, _current) || _outgoing.isEmpty) return;
+    final gone = List<_OverlapLayer>.of(_outgoing);
+    setState(_outgoing.clear);
+    for (final out in gone) {
+      out.fade.dispose();
+    }
+  }
+
+  void _onIncoming(_OverlapLayer layer) {
+    if (!identical(layer, _current) || _outgoing.isEmpty) return;
+    if (_incomingOpacity() < MmOverlapSwitcher.releaseAt) return;
+    for (final out in _outgoing) {
+      if (out.leaving) continue;
+      out.leaving = true;
+      out.fade
+        ..duration = widget.outDuration
+        ..animateTo(0, duration: widget.outDuration, curve: Curves.linear).whenCompleteOrCancel(() => _drop(out));
+    }
+  }
+
+  void _drop(_OverlapLayer layer) {
+    if (!mounted || !_outgoing.contains(layer) || layer.fade.value > 0) return;
+    setState(() => _outgoing.remove(layer));
+    layer.fade.dispose();
+  }
+
+  @override
+  void didUpdateWidget(MmOverlapSwitcher old) {
+    super.didUpdateWidget(old);
+    if (Widget.canUpdate(_current.child, widget.child)) {
+      _current.child = widget.child;
+      return;
+    }
+    // The showing layer holds where it is and becomes the outgoing one.
+    final held = _current;
+    held.fade.stop();
+    held.heldFrom = _incomingOpacityOf(held);
+    held.fade.value = held.heldFrom;
+    for (final out in _outgoing) {
+      // Older leavers keep fading; one that had not started holds until this swap releases it.
+      out.heldFrom = math.min(out.heldFrom, out.fade.value);
+    }
+    _outgoing.add(held);
+    while (_outgoing.length > 2) {
+      _outgoing.removeAt(0).fade.dispose();
+    }
+    _current = _layer(widget.child, value: 0, duration: _inDuration);
+    _current.fade.forward();
+  }
+
+  /// The opacity a layer shows as the incoming one (its controller runs 0 to 1 on glide).
+  double _incomingOpacityOf(_OverlapLayer layer) => Motion.glide.transform(layer.fade.value.clamp(0.0, 1.0));
+
+  @override
+  void dispose() {
+    _current.fade.dispose();
+    for (final out in _outgoing) {
+      out.fade.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final current = _current;
+    // One structure for both roles, so the showing layer keeps its state when it becomes the
+    // outgoing one.
+    Widget layer(_OverlapLayer l, {required bool leaving}) => KeyedSubtree(
+          key: ValueKey<int>(l.id),
+          child: IgnorePointer(
+            ignoring: leaving,
+            child: ExcludeSemantics(
+              excluding: leaving,
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: leaving ? Listenable.merge([l.fade, current.fade]) : l.fade,
+                  builder: (context, child) => Opacity(
+                    opacity: leaving
+                        ? MmOverlapSwitcher.outgoingOpacity(l.fade.value, _incomingOpacity(), heldFrom: l.heldFrom)
+                        : _incomingOpacityOf(l),
+                    child: child,
+                  ),
+                  child: l.child,
+                ),
+              ),
+            ),
+          ),
+        );
+    return Stack(
+      alignment: widget.alignment,
+      fit: widget.fit,
+      children: [
+        for (final out in _outgoing) layer(out, leaving: true),
+        layer(current, leaving: false),
+      ],
+    );
+  }
 }

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/mascot/mascot.dart' show MobiBubble, MobiSpeech, MobiTail;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../logic/today_model.dart';
@@ -27,13 +28,13 @@ class TodayHeader extends StatefulWidget {
 }
 
 class _TodayHeaderState extends State<TodayHeader> {
-  /// True while the header Mobi's line is up: it floats over the greeting, so the greeting steps
-  /// back for those seconds instead of being read through a bubble.
-  final ValueNotifier<bool> _speaking = ValueNotifier<bool>(false);
+  /// The header Mobi's line while it is up. It is set in its own room under the greeting row (never
+  /// over the greeting or the date), growing from Mobi and closing when the line goes.
+  final ValueNotifier<MobiSpeech?> _speech = ValueNotifier<MobiSpeech?>(null);
 
   @override
   void dispose() {
-    _speaking.dispose();
+    _speech.dispose();
     super.dispose();
   }
 
@@ -56,12 +57,12 @@ class _TodayHeaderState extends State<TodayHeader> {
             dateLine: header.dateLine,
             updatedLine: header.updatedLine,
             greeting: header.greeting,
-            speaking: _speaking,
             trailing: header.mobi == null
                 ? null
-                : HeaderMobi(cue: header.mobi!, aim: aim, speaking: _speaking),
+                : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
           ),
         ),
+        if (header.mobi != null) _SpeechRoom(speech: _speech),
         if (week != null) ...[
           // Header to the week: 12 (SPACING.md 3.1, audit T3).
           const SizedBox(height: MmSpace.s12),
@@ -82,13 +83,9 @@ class _GreetingRow extends StatelessWidget {
   const _GreetingRow({
     required this.dateLine,
     required this.greeting,
-    required this.speaking,
     this.updatedLine,
     this.trailing,
   });
-
-  /// Mobi's line is up: the words beside him step back (never a bubble over readable text).
-  final ValueListenable<bool> speaking;
 
   final String dateLine;
 
@@ -107,15 +104,7 @@ class _GreetingRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: ValueListenableBuilder<bool>(
-              valueListenable: speaking,
-              builder: (context, hushed, child) => AnimatedOpacity(
-                opacity: hushed ? 0 : 1,
-                duration: Motion.of(context, Motion.crossFade),
-                curve: Motion.out,
-                child: child,
-              ),
-              child: Column(
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -170,13 +159,48 @@ class _GreetingRow extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
           ),
           if (trailing != null) ...[
             const SizedBox(width: MmSpace.s12),
             trailing!,
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// The room for Mobi's line, under the greeting row and below Mobi at the right: it opens while he
+/// speaks and closes after, so the line never covers the greeting, the date or the week (MOTION.md
+/// 1.3: a bubble never covers text). Under reduced motion it simply is or is not there.
+class _SpeechRoom extends StatelessWidget {
+  const _SpeechRoom({required this.speech});
+
+  final ValueListenable<MobiSpeech?> speech;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<MobiSpeech?>(
+      valueListenable: speech,
+      builder: (context, line, _) => MmSizeEase(
+        duration: Motion.of(context, Motion.crossFade),
+        curve: Motion.out,
+        alignment: Alignment.topRight,
+        child: line == null
+            ? const SizedBox(width: double.infinity)
+            : Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: MmSpace.s4),
+                  child: MobiBubble(
+                    key: ValueKey(line.id),
+                    speech: line,
+                    tail: MobiTail.up,
+                    tailInset: HeaderMobi.tailInset,
+                    maxWidth: 236,
+                  ),
+                ),
+              ),
       ),
     );
   }

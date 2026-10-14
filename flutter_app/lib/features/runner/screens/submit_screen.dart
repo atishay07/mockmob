@@ -15,6 +15,7 @@ import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/runner_effects.dart';
 import '../data/runner_session.dart';
+import '../logic/sheet_cells.dart';
 import '../nta/nta_action_bar.dart';
 import '../nta/nta_copy.dart';
 import '../nta/nta_header.dart';
@@ -47,6 +48,13 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
   RunnerSession get _s => widget.session;
   Timer? _handOff;
   bool _left = false;
+
+  /// Practice only: the sheet and its "not answered" row, for Mobi to read and point at.
+  final GlobalKey _sheetKey = GlobalKey();
+  final GlobalKey _openRowKey = GlobalKey();
+
+  /// The "not answered" row has had its one pulse (Mobi pointed at it).
+  bool _pulseOpen = false;
 
   @override
   void initState() {
@@ -213,7 +221,10 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                                 builder: (context, _) => nta
                                     ? NtaSubmitSummary(session: _s, showConfirm: idle)
                                     : SubmitSheetCard(
+                                        key: _sheetKey,
                                         session: _s,
+                                        openRowKey: _openRowKey,
+                                        pulseOpen: _pulseOpen,
                                         lit: state.stage.index <= SubmitStage.received.index,
                                         phase: _phaseOf(state.stage),
                                         animateInk: celebrations != CelebrationMode.off,
@@ -228,7 +239,20 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                             // Mobi is there for the hand-in only, once the server holds the sheet. His
                             // slot is held from the first stage, so the centred block never shifts when
                             // he lands.
-                            if (!nta && celebrations == CelebrationMode.full) _HandInMobi(active: state.stage == SubmitStage.received),
+                            // In a practice (never a mock, never NTA) Mobi reads the sheet with the
+                            // student from the start, in the same held slot.
+                            if (!nta && !_s.isMock && celebrations != CelebrationMode.off)
+                              _PracticeSheetMobi(
+                                session: _s,
+                                stage: state.stage,
+                                sheetKey: _sheetKey,
+                                openRowKey: _openRowKey,
+                                onPulse: () {
+                                  if (mounted) setState(() => _pulseOpen = true);
+                                },
+                              )
+                            else if (!nta && celebrations == CelebrationMode.full)
+                              _HandInMobi(active: state.stage == SubmitStage.received),
                           ],
                         ),
                       ),
@@ -241,33 +265,33 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                     child: _HoldHeight(
                       hold: !nta,
                       child: SubmitStageView(
-                      state: state,
-                      isMock: _s.isMock,
-                      timedOut: timeUp,
-                      onSubmit: () => unawaited(_s.submit()),
-                      onKeepWorking: _keepWorking,
-                      onOpenResult: _openResult,
-                      onGoToday: () => _go(AppRoutes.today),
-                      onGoPractice: () => _go(AppRoutes.practice),
-                      submitLabel: nta ? NtaCopy.submitTestShort : null,
-                      arriveReceipt: !nta && celebrations != CelebrationMode.off,
-                      note: nta
-                          ? null
-                          : Text(
-                              RunnerCopy.cannotChange,
-                              style: type.body.copyWith(color: colors.ink2),
-                              textAlign: TextAlign.center,
-                            ),
-                      submitKey: nta
-                          ? SizedBox(
-                              height: 52,
-                              child: NtaKey(
-                                label: NtaCopy.submitTestShort,
-                                tone: NtaKeyTone.green,
-                                onPressed: () => unawaited(_s.submit()),
+                        state: state,
+                        isMock: _s.isMock,
+                        timedOut: timeUp,
+                        onSubmit: () => unawaited(_s.submit()),
+                        onKeepWorking: _keepWorking,
+                        onOpenResult: _openResult,
+                        onGoToday: () => _go(AppRoutes.today),
+                        onGoPractice: () => _go(AppRoutes.practice),
+                        submitLabel: nta ? NtaCopy.submitTestShort : null,
+                        arriveReceipt: !nta && celebrations != CelebrationMode.off,
+                        note: nta
+                            ? null
+                            : Text(
+                                RunnerCopy.cannotChange,
+                                style: type.body.copyWith(color: colors.ink2),
+                                textAlign: TextAlign.center,
                               ),
-                            )
-                          : null,
+                        submitKey: nta
+                            ? SizedBox(
+                                height: 52,
+                                child: NtaKey(
+                                  label: NtaCopy.submitTestShort,
+                                  tone: NtaKeyTone.green,
+                                  onPressed: () => unawaited(_s.submit()),
+                                ),
+                              )
+                            : null,
                       ),
                     ),
                   ),
@@ -374,6 +398,160 @@ class _HandInMobiState extends State<_HandInMobi> {
   }
 }
 
+/// Mobi on a practice's submit page, in the hand-in slot from the start. He reads the sheet with
+/// the student and says one line of plain facts from it ("3 not answered. Go to 7?"), then acts
+/// on it: a nod for a full sheet, a point at the "not answered" row (which pulses once) for
+/// blanks, a tilt for marks. He hushes when the student submits, and hops once only after the
+/// server holds the sheet. Never in a mock, never in NTA mode, never about marks.
+class _PracticeSheetMobi extends StatefulWidget {
+  const _PracticeSheetMobi({
+    required this.session,
+    required this.stage,
+    required this.sheetKey,
+    required this.openRowKey,
+    required this.onPulse,
+  });
+
+  final RunnerSession session;
+  final SubmitStage stage;
+  final GlobalKey sheetKey;
+  final GlobalKey openRowKey;
+
+  /// Mobi points at the "not answered" row: it pulses once.
+  final VoidCallback onPulse;
+
+  /// Mobi's size in the slot.
+  static const double size = 112;
+
+  @override
+  State<_PracticeSheetMobi> createState() => _PracticeSheetMobiState();
+}
+
+class _PracticeSheetMobiState extends State<_PracticeSheetMobi> {
+  final MobiController _mobi = MobiController();
+  final Set<Timer> _timers = {};
+  bool _cued = false;
+  bool _handedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.stage == SubmitStage.idle) {
+      // After the page's own entrance: a glance along the sheet, then the line.
+      _later(const Duration(milliseconds: 600), _read);
+    } else {
+      // Opened on a later stage (a restart): after the first frame, when the context can be read.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _onStage();
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(_PracticeSheetMobi old) {
+    super.didUpdateWidget(old);
+    if (old.stage != widget.stage) _onStage();
+  }
+
+  void _later(Duration after, VoidCallback run) {
+    late final Timer timer;
+    timer = Timer(after, () {
+      _timers.remove(timer);
+      if (mounted) run();
+    });
+    _timers.add(timer);
+  }
+
+  void _read() {
+    if (widget.stage != SubmitStage.idle) return;
+    final cells = sheetCellsOf(widget.session);
+    final counts = sheetCountsOf(cells);
+    final line = RunnerCopy.sheetMobiLine(
+      total: counts.total,
+      notAnswered: counts.notAnswered,
+      firstOpen: cells.indexWhere((c) => !c.answered),
+      marked: counts.marked,
+      firstMarked: cells.indexWhere((c) => c.marked),
+    );
+    _mobi.glanceAtWidget(widget.sheetKey, hold: const Duration(milliseconds: 900));
+    _later(const Duration(milliseconds: 500), () {
+      if (widget.stage != SubmitStage.idle) return;
+      _mobi.say(line);
+      // The act lands once the line has typed in.
+      _later(Duration(milliseconds: (MobiTyping.duration(line) * 1000).round() + 250), () => _cue(counts));
+    });
+  }
+
+  void _cue(SheetCounts counts) {
+    if (_cued || widget.stage != SubmitStage.idle) return;
+    _cued = true;
+    switch (sheetMobiCue(counts)) {
+      case SheetMobiCue.nod:
+        _mobi.react(MobiAct.nod, key: 'submit:allAnswered');
+      case SheetMobiCue.tilt:
+        _mobi.react(MobiAct.tilt, key: 'submit:marked');
+      case SheetMobiCue.pointAtBlank:
+        _mobi.pointAtWidget(widget.openRowKey);
+        widget.onPulse();
+    }
+  }
+
+  void _onStage() {
+    if (widget.stage == SubmitStage.idle) return;
+    // Submit: he hushes and stops pointing; nothing more until the server answers.
+    for (final t in _timers) {
+      t.cancel();
+    }
+    _timers.clear();
+    _mobi.hush();
+    if (widget.stage == SubmitStage.sending) _mobi.play(MobiAct.idle);
+    if (widget.stage == SubmitStage.received && !_handedIn) {
+      _handedIn = true;
+      // The hand-in hop, as the last bubble inks (a nod under Quiet).
+      _later(Motion.reduced(context) ? Duration.zero : RunnerMotion.inkInOrder, () {
+        _mobi.react(MobiMoments.act(MobiEvent.sessionDone), key: 'submit:received');
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final t in _timers) {
+      t.cancel();
+    }
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: SizedBox(
+        height: _HandInMobi.size + 2 * _HandInMobi.air,
+        child: Row(
+          children: [
+            MobiCharacter(controller: _mobi, size: _PracticeSheetMobi.size, entrance: MobiAct.read, seed: 31),
+            const SizedBox(width: MmSpace.s12),
+            // The line sits beside him, never over the sheet.
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ValueListenableBuilder<MobiSpeech?>(
+                  valueListenable: _mobi.speech,
+                  builder: (context, speech, _) => speech == null
+                      ? const SizedBox.shrink()
+                      : MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 220),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// The scrolling body of the submit page. [centred] lays the content block out as a moment
 /// (SPACING.md 7): it rests at the optical centre of the room above the keys (the air above and below
 /// in the ratio 2 to 3), and scrolls from the top when the block is taller than the room.
@@ -398,7 +576,10 @@ class _Body extends StatelessWidget {
           constraints: BoxConstraints(minHeight: (box.maxHeight - padding.vertical).clamp(0.0, double.infinity)),
           // The block keeps the height of its tallest stage (the confirm page shows a way back under
           // each count that the later stages drop), so it never steps when the stage changes.
-          child: Align(alignment: optical, child: _HoldHeight(hold: true, child: child)),
+          child: Align(
+            alignment: optical,
+            child: _HoldHeight(hold: true, child: child),
+          ),
         ),
       ),
     );
@@ -434,7 +615,10 @@ class _HoldHeightState extends State<_HoldHeight> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _measure());
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: _held),
-      child: Align(alignment: Alignment.topCenter, child: KeyedSubtree(key: _inner, child: widget.child)),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: KeyedSubtree(key: _inner, child: widget.child),
+      ),
     );
   }
 }

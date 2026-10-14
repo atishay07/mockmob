@@ -14,6 +14,20 @@ abstract final class InsightsCopy {
   static String ledgerRight(int n, int marks) => '$n right';
   static String ledgerWrong(int n) => '$n wrong';
   static String ledgerBlank(int n) => '$n blank';
+  static String sheetScrubRight(int n, int answered) => 'Right, $n of $answered answered';
+  static String sheetScrubWrong(int n, int answered) => 'Wrong, $n of $answered answered';
+  static String sheetScrubBlank(int n, int questions) => 'Left blank, $n of $questions questions';
+  static String sinceLastLook(int change) {
+    final n = change.abs();
+    return '${change > 0 ? 'Up' : 'Down'} $n ${n == 1 ? 'point' : 'points'} since your last look';
+  }
+  /// The chip over the trend chart while a finger drags along it.
+  static String trendScrub(int marks, int max, String day, int? delta) {
+    final base = '${marks < 0 ? '−${-marks}' : marks} of $max on $day';
+    if (delta == null) return base;
+    if (delta == 0) return '$base, level with the session before';
+    return '$base, ${delta.abs()} ${delta > 0 ? 'up' : 'down'} on the session before';
+  }
   static String sheetScale(int per) => 'Each bubble stands for about $per questions.';
   static const kindLeak = 'Where marks leak';
   static const kindGood = 'Working';
@@ -171,6 +185,12 @@ abstract final class InsightsCopy {
   static const removedFromSaved = 'Removed from saved';
   static const undo = 'Undo';
   static const removing = 'Removing';
+  static const swipePractise = 'Practise';
+  static const swipeRemove = 'Remove';
+  static const practiseThisAction = 'Practise this question';
+  static const removeThisAction = 'Remove from saved';
+  static const allSubjects = 'All';
+  static String slotsLabel(int n, int limit) => '$n of $limit free save slots used';
 
   // ---- Stream ------------------------------------------------------------------------------
   static const streamTitle = 'Question stream';

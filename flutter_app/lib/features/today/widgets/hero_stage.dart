@@ -3,6 +3,8 @@
 // prop; warm grain; the screen's one lit edge along the top, which a single band of light
 // crosses once when the stage opens. Everything a student reads sits on the calm, darker lower
 // left (brief section 5: no art behind text that is read). The only raised panel on Today.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart';
@@ -43,8 +45,55 @@ const double heroParallax = 0.05;
 /// panel's right edge: the box's visible part plus 12 dp of air (156 - 10 + 12).
 const double heroArtClear = heroArtWidth - heroArtBleedRight + MmSpace.s12;
 
+/// How the hero's object and the stage's light answer a touch or a changed duration chip. The
+/// object itself moves through [MmObjectReact] (full amplitude on a tap, 60% on a chip change,
+/// timed with the number's roll); the stage's subject light swells up to 20% of its strength
+/// with it and eases back. [fire] takes the amplitude: 1 for a tap on the object, below 1 for a
+/// chip. A transform and a painter's strength only; nothing here lays out again.
+class HeroReact extends ChangeNotifier {
+  HeroReact({required TickerProvider vsync}) : _c = AnimationController(vsync: vsync, duration: length) {
+    _c.addListener(notifyListeners);
+  }
+
+  static const Duration length = Duration(milliseconds: 620);
+
+  /// Amplitude of the object's reaction to a chip change.
+  static const double chipAmplitude = 0.6;
+
+  final AnimationController _c;
+  double _amp = 1;
+
+  /// Each change plays the object's full reaction once (a tap on it).
+  final ValueNotifier<int> tapPulse = ValueNotifier(0);
+
+  /// Each change plays the object's 60% reaction once (a chip changed).
+  final ValueNotifier<int> chipPulse = ValueNotifier(0);
+
+  /// Plays one reaction at [amplitude] (1 is full): the object's, and the light's with it.
+  void fire(double amplitude, {bool animate = true}) {
+    _amp = amplitude;
+    if (animate) _c.forward(from: 0);
+    if (amplitude >= 1) {
+      tapPulse.value++;
+    } else {
+      chipPulse.value++;
+    }
+  }
+
+  /// How much the stage's subject light is stronger than at rest: up to 0.2 at full amplitude.
+  double get light => 0.2 * math.sin(math.pi * _c.value.clamp(0.0, 1.0)) * _amp;
+
+  @override
+  void dispose() {
+    _c.dispose();
+    tapPulse.dispose();
+    chipPulse.dispose();
+    super.dispose();
+  }
+}
+
 class HeroStage extends StatelessWidget {
-  const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = heroArtWidth, this.lit = true, this.lampStrength = 1});
+  const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = heroArtWidth, this.lit = true, this.lampStrength = 1, this.react});
 
   final Widget child;
   final String? subjectId;
@@ -59,6 +108,9 @@ class HeroStage extends StatelessWidget {
   final bool lit;
   final double lampStrength;
 
+  /// Swells the subject light with the hero object's reaction (see [HeroReact]).
+  final HeroReact? react;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -66,23 +118,33 @@ class HeroStage extends StatelessWidget {
     final subject = SubjectLight.forSubject(subjectId);
     final surface = colors.isNight ? Color.lerp(colors.raised, colors.ground, 0.25)! : colors.raised;
 
-    final pools = <LightPool>[
-      if (subject != null)
-        LightPool(color: subject.of(brightness), center: const Alignment(0.78, -0.78), radius: 0.78, strength: colors.isNight ? 1.15 : 0.95),
-      LightPool(
-        color: colors.lamp.withValues(alpha: (colors.isNight ? 0.2 : 0.13) * lampStrength),
-        center: const Alignment(-1.05, -1.1),
-        radius: 0.75,
-        aspect: 1.3,
-      ),
-    ];
+    List<LightPool> poolsAt(double swell) => <LightPool>[
+          if (subject != null)
+            LightPool(
+              color: subject.of(brightness),
+              center: const Alignment(0.78, -0.78),
+              radius: 0.78,
+              strength: (colors.isNight ? 1.15 : 0.95) * (1 + swell),
+            ),
+          LightPool(
+            color: colors.lamp.withValues(alpha: (colors.isNight ? 0.2 : 0.13) * lampStrength),
+            center: const Alignment(-1.05, -1.1),
+            radius: 0.75,
+            aspect: 1.3,
+          ),
+        ];
+    final reaction = react;
 
     final panel = MmClip(
       borderRadius: heroBorderRadius,
       child: Stack(
         children: [
           Positioned.fill(child: ColoredBox(color: surface)),
-          Positioned.fill(child: LightField(pools: pools)),
+          Positioned.fill(
+            child: reaction == null
+                ? LightField(pools: poolsAt(0))
+                : ListenableBuilder(listenable: reaction, builder: (context, _) => LightField(pools: poolsAt(reaction.light))),
+          ),
           Positioned.fill(child: Grain(opacity: colors.grain)),
           if (art != null)
             Positioned(top: heroArtTop, right: -heroArtBleedRight, width: artWidth, height: heroArtHeight, child: art!),
@@ -214,9 +276,15 @@ class _SweepPainter extends CustomPainter {
 /// After that it never moves except for a slight parallax. Reduced motion shows it in place.
 /// Mobi is not drawn here: at a human moment Mobi stands in the card itself (see MoveHeroCard).
 class HeroArtView extends StatelessWidget {
-  const HeroArtView({super.key, required this.art});
+  const HeroArtView({super.key, required this.art, this.react, this.onTap});
 
   final HeroArt art;
+
+  /// The reaction that moves the object (see [HeroReact]); none leaves it still.
+  final HeroReact? react;
+
+  /// A touch on the object. It is a decoration, not a control, so it has no semantics of its own.
+  final VoidCallback? onTap;
 
   static MobiPose poseFor(MmArt? art) => switch (art) {
         MmArt.mobiSleepy => MobiPose.sleepy,
@@ -241,6 +309,18 @@ class HeroArtView extends StatelessWidget {
               child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
             ),
           );
-    return RepaintBoundary(child: EmblemArrive(child: image));
+    Widget out = RepaintBoundary(child: EmblemArrive(child: image));
+    final reaction = react;
+    if (reaction != null && !art.isMobi) {
+      // The object answers touch through the shared object reaction: a tap at full amplitude, a
+      // chip change at 60%. Each is a transform on its own layer; the picture is never repainted.
+      out = MmObjectReact(
+        pulse: reaction.tapPulse,
+        child: MmObjectReact(pulse: reaction.chipPulse, amplitude: HeroReact.chipAmplitude, haptic: false, child: out),
+      );
+    }
+    final tap = onTap;
+    if (tap != null && !art.isMobi) out = GestureDetector(behavior: HitTestBehavior.translucent, onTap: tap, child: out);
+    return out;
   }
 }

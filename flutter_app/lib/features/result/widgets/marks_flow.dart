@@ -17,13 +17,30 @@ import 'marks_bar.dart';
 /// [grow] (0 to 1) draws it: the column fills downward, the ribbons run left to right one after
 /// another, and each row's words arrive with their ribbon. Null draws it at rest.
 class MarksFlow extends StatelessWidget {
-  const MarksFlow({super.key, required this.breakdown, required this.rows, this.grow});
+  const MarksFlow({super.key, required this.breakdown, required this.rows, this.grow, this.selected, this.focus, this.onSelect});
 
   final MarkBreakdown breakdown;
 
   /// Part, label, value ("115 marks") and detail ("5 for each of 15"), from the feature's copy.
   final List<(MarkPart, String, String, String?)> rows;
   final Animation<double>? grow;
+
+  /// The row (index into [rows]) the student picked, or null. Its ribbon stays at full strength
+  /// and the others dim to [dimTo].
+  final int? selected;
+
+  /// 0 to 1: how far the dimming has gone, so picking a ribbon eases rather than snaps.
+  final Animation<double>? focus;
+
+  /// A row was tapped: its index, and the screen point of the middle of its ribbon (for Mobi to
+  /// glance at). Null leaves the flow as a plain picture. Rows with no marks are not offered.
+  final void Function(int row, Offset ribbonGlobal)? onSelect;
+
+  /// The strength the ribbons and words that were not picked fall to.
+  static const double dimTo = 0.35;
+
+  /// The strength of row [i] while [selected] is picked, [focus] of the way there.
+  static double strengthOf(int i, int? selected, double focus) => selected == null || selected == i ? 1.0 : 1 - (1 - dimTo) * focus;
 
   /// The height the whole paper's marks take in the column.
   static const double columnHeight = 168;
@@ -96,6 +113,26 @@ class MarksFlow extends StatelessWidget {
         final columnTop = (total - columnHeight) / 2;
 
         final g = grow;
+        // The middle of row [i]'s ribbon on screen, and the pick.
+        void pick(int i) {
+          final cb = onSelect;
+          if (cb == null || layout[i].amount <= 0) return;
+          final box = context.findRenderObject();
+          var at = Offset.zero;
+          if (box is RenderBox && box.hasSize) {
+            const x0 = scaleWidth + columnWidth;
+            at = box.localToGlobal(Offset((x0 + ribbonEnd) / 2, layout[i].top + 2 + layout[i].height / 2));
+          }
+          cb(i, at);
+        }
+
+        int? rowAt(double dy) {
+          for (var i = 0; i < layout.length; i++) {
+            if (dy < layout[i].top + layout[i].slot + rowGap / 2) return layout[i].amount > 0 ? i : null;
+          }
+          return null;
+        }
+
         Widget words(int i) {
           final (_, label, value, detail) = rows[i];
           final split = value.indexOf(' ');
@@ -142,6 +179,24 @@ class MarksFlow extends StatelessWidget {
               },
             );
           }
+          final pickable = onSelect != null && layout[i].amount > 0;
+          final picked = selected == i;
+          final f = focus;
+          w = f == null
+              ? w
+              : AnimatedBuilder(
+                  animation: f,
+                  child: w,
+                  builder: (context, child) => Opacity(opacity: strengthOf(i, selected, f.value), child: child),
+                );
+          if (pickable) {
+            w = Semantics(
+              button: true,
+              selected: picked,
+              onTap: () => pick(i),
+              child: w,
+            );
+          }
           return Positioned(left: textLeft, top: layout[i].top, width: textWidth, child: w);
         }
 
@@ -152,16 +207,27 @@ class MarksFlow extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               Positioned.fill(
-                child: ExcludeSemantics(
-                  child: RepaintBoundary(
-                    child: CustomPaint(
-                      painter: _FlowPainter(
-                        rows: layout,
-                        colors: colors,
-                        columnTop: columnTop,
-                        ribbonEnd: ribbonEnd,
-                        max: max,
-                        grow: g,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapUp: onSelect == null
+                      ? null
+                      : (d) {
+                          final row = rowAt(d.localPosition.dy);
+                          if (row != null) pick(row);
+                        },
+                  child: ExcludeSemantics(
+                    child: RepaintBoundary(
+                      child: CustomPaint(
+                        painter: _FlowPainter(
+                          rows: layout,
+                          colors: colors,
+                          columnTop: columnTop,
+                          ribbonEnd: ribbonEnd,
+                          max: max,
+                          grow: g,
+                          selected: selected,
+                          focus: focus,
+                        ),
                       ),
                     ),
                   ),
@@ -262,8 +328,16 @@ class _FlowRow {
 }
 
 class _FlowPainter extends CustomPainter {
-  _FlowPainter({required this.rows, required this.colors, required this.columnTop, required this.ribbonEnd, required this.max, this.grow})
-    : super(repaint: grow);
+  _FlowPainter({
+    required this.rows,
+    required this.colors,
+    required this.columnTop,
+    required this.ribbonEnd,
+    required this.max,
+    this.grow,
+    this.selected,
+    this.focus,
+  }) : super(repaint: Listenable.merge([?grow, ?focus]));
 
   final List<_FlowRow> rows;
   final MmColors colors;
@@ -271,6 +345,8 @@ class _FlowPainter extends CustomPainter {
   final double ribbonEnd;
   final int max;
   final Animation<double>? grow;
+  final int? selected;
+  final Animation<double>? focus;
 
   /// One language for the whole flow: solid colour bands, lime for what was scored, coral for
   /// what wrong answers cost, grey for blanks. "Not earned" is the same hue, lighter, with a
@@ -353,6 +429,10 @@ class _FlowPainter extends CustomPainter {
         continue;
       }
       if (p <= 0) continue;
+      final strength = MarksFlow.strengthOf(i, selected, focus?.value ?? 1);
+      if (strength < 1) {
+        canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint()..color = Color.fromRGBO(0, 0, 0, strength));
+      }
       final s0 = sources[i];
       final s1 = s0 + r.source;
       final d0 = blockTop;
@@ -404,12 +484,13 @@ class _FlowPainter extends CustomPainter {
         _paintBand(canvas, block, r.part);
         canvas.restore();
       }
+      if (strength < 1) canvas.restore();
     }
   }
 
   @override
   bool shouldRepaint(_FlowPainter old) =>
-      old.grow != grow || old.colors != colors || old.columnTop != columnTop || old.ribbonEnd != ribbonEnd || old.max != max || !_sameRows(old.rows);
+      old.grow != grow || old.selected != selected || old.focus != focus || old.colors != colors || old.columnTop != columnTop || old.ribbonEnd != ribbonEnd || old.max != max || !_sameRows(old.rows);
 
   bool _sameRows(List<_FlowRow> o) {
     if (o.length != rows.length) return false;

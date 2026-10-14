@@ -1,0 +1,286 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/domain/domain.dart';
+import 'package:mockmob/core/mascot/mascot.dart';
+import 'package:mockmob/core/widgets/bubbles/bubble_painter.dart';
+import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
+import 'package:mockmob/features/result/copy.dart';
+import 'package:mockmob/features/result/model/answer_items.dart';
+import 'package:mockmob/features/result/model/recap_variant.dart';
+import 'package:mockmob/features/result/recap/card_drag.dart';
+import 'package:mockmob/features/result/recap/first_fix_card.dart' show RulerTimeline;
+import 'package:mockmob/features/result/recap/recap_mobi.dart';
+import 'package:mockmob/features/result/widgets/answer_map.dart';
+import 'package:mockmob/features/result/widgets/answer_reactor.dart';
+import 'package:mockmob/features/result/widgets/breakdown_section.dart' show PickedKind;
+import 'package:mockmob/features/result/widgets/marks_bar.dart' show MarkPart;
+import 'package:mockmob/features/result/widgets/marks_flow.dart';
+
+/// A Mobi that records what it is asked to do.
+class _Host implements MobiHost {
+  final List<MobiAct> plays = [];
+
+  @override
+  void play(MobiAct act, {double? seconds}) => plays.add(act);
+
+  @override
+  void lookAtGlobal(Offset? point) {}
+
+  @override
+  void pointAtGlobal(Offset point) {}
+}
+
+void main() {
+  group('the reaction table', () {
+    RecapReaction? at(RecapVariant v, {CelebrationMode mode = CelebrationMode.full, bool nta = false, int hour = 14}) =>
+        recapReaction(variant: v, mode: mode, isNta: nta, hour: hour);
+
+    test('the first mock stands proud, a higher result cheers, a lower or held result is encouraged, a standard one rests', () {
+      expect(at(RecapVariant.firstMock)?.act, MobiAct.proud);
+      expect(at(RecapVariant.higher)?.act, MobiAct.cheer);
+      expect(at(RecapVariant.lower)?.act, MobiAct.encourage);
+      expect(at(RecapVariant.held)?.act, MobiAct.encourage);
+      expect(at(RecapVariant.standard)?.act, MobiAct.rest);
+      expect(at(RecapVariant.standard)?.line, isNull);
+    });
+
+    test('NTA mode gets nothing, for every variant and every hour', () {
+      for (final v in RecapVariant.values) {
+        for (final h in [0, 3, 12, 23]) {
+          expect(at(v, nta: true, hour: h), isNull, reason: '$v at $h');
+        }
+      }
+    });
+
+    test('Quiet and Off turn proud and cheer into a rest; encouragement stays', () {
+      for (final mode in [CelebrationMode.quiet, CelebrationMode.off]) {
+        expect(at(RecapVariant.firstMock, mode: mode)?.act, MobiAct.rest);
+        expect(at(RecapVariant.higher, mode: mode)?.act, MobiAct.rest);
+        expect(at(RecapVariant.lower, mode: mode)?.act, MobiAct.encourage);
+      }
+    });
+
+    test('late at night (11 PM to 5 AM) it is sleepy and says Goodnight, whatever the result', () {
+      for (final v in RecapVariant.values) {
+        for (final h in [23, 0, 1, 4]) {
+          expect(at(v, hour: h), const RecapReaction(MobiAct.sleepy, line: RecapLineId.goodnight), reason: '$v at $h');
+        }
+        expect(at(v, hour: 5)?.line, isNull, reason: '5 AM is morning');
+        expect(at(v, hour: 22)?.line, isNull, reason: '10 PM is not late');
+      }
+      expect(ResultCopy.goodnight, 'Goodnight');
+    });
+
+    test('a lower or held result is never met with a celebration, at any hour or setting', () {
+      for (final v in [RecapVariant.lower, RecapVariant.held]) {
+        for (final mode in CelebrationMode.values) {
+          for (var h = 0; h < 24; h++) {
+            final act = at(v, mode: mode, hour: h)!.act;
+            expect(act, isNot(anyOf(MobiAct.cheer, MobiAct.celebrate, MobiAct.proud)));
+          }
+        }
+      }
+    });
+
+    test('every reaction maps to a Mobi pose that plays the same act', () {
+      for (final v in RecapVariant.values) {
+        final r = at(v)!;
+        expect(RecapMobi.poseFor(r.act).act, r.act, reason: '$v');
+      }
+      expect(RecapMobi.poseOf(null), isNull);
+    });
+  });
+
+  group('how long the finish screen holds', () {
+    test('the act plus 900 ms, never under 2 seconds', () {
+      expect(recapFinishHold(const RecapReaction(MobiAct.proud), reduced: false), const Duration(milliseconds: 3100));
+      expect(recapFinishHold(const RecapReaction(MobiAct.cheer), reduced: false), const Duration(milliseconds: 2100));
+      expect(recapFinishHold(const RecapReaction(MobiAct.encourage), reduced: false), const Duration(milliseconds: 2350));
+      expect(recapFinishHold(const RecapReaction(MobiAct.rest), reduced: false), const Duration(milliseconds: 2000));
+      expect(recapFinishHold(const RecapReaction(MobiAct.sleepy), reduced: false), const Duration(milliseconds: 3100));
+    });
+
+    test('no Mobi (NTA) or a held pose (reduced motion) waits the plain 2.2 seconds', () {
+      expect(recapFinishHold(null, reduced: false), const Duration(milliseconds: 2200));
+      expect(recapFinishHold(const RecapReaction(MobiAct.proud), reduced: true), const Duration(milliseconds: 2200));
+    });
+  });
+
+  group('the answer reactor', () {
+    var clock = DateTime(2026, 10, 15, 12);
+    late MobiController controller;
+    late _Host host;
+    late AnswerReactor reactor;
+
+    setUp(() {
+      clock = DateTime(2026, 10, 15, 12);
+      controller = MobiController();
+      host = _Host();
+      controller.attach(host);
+      reactor = AnswerReactor(controller, now: () => clock);
+    });
+
+    tearDown(() {
+      reactor.dispose();
+      controller.dispose();
+    });
+
+    test('a wrong or blank answer is met with encouragement; a right one with the hop', () {
+      expect(reactor.react(Verdict.wrong), isTrue);
+      expect(host.plays, [MobiAct.encourage]);
+      clock = clock.add(const Duration(seconds: 3));
+      expect(reactor.react(Verdict.blank), isTrue);
+      clock = clock.add(const Duration(seconds: 3));
+      expect(reactor.react(Verdict.correct), isTrue);
+      expect(host.plays, [MobiAct.encourage, MobiAct.encourage, MobiAct.correct]);
+    });
+
+    test('one act per 2.5 seconds', () {
+      expect(reactor.react(Verdict.wrong), isTrue);
+      clock = clock.add(const Duration(milliseconds: 2400));
+      expect(reactor.react(Verdict.correct), isFalse);
+      clock = clock.add(const Duration(milliseconds: 100));
+      expect(reactor.react(Verdict.correct), isTrue);
+      expect(host.plays, [MobiAct.encourage, MobiAct.correct]);
+    });
+
+    test('a held answer, or a Mobi that is not allowed to act, plays nothing and uses up no turn', () {
+      expect(reactor.react(Verdict.held), isFalse);
+      expect(reactor.react(Verdict.wrong, allowed: false), isFalse);
+      expect(host.plays, isEmpty);
+      expect(reactor.react(Verdict.wrong), isTrue, reason: 'the refused ones did not start the clock');
+    });
+
+    testWidgets('after the hop Mobi goes back to reading the sheet', (tester) async {
+      var now = DateTime(2026, 10, 15, 12);
+      final c = MobiController();
+      final h = _Host();
+      c.attach(h);
+      final r = AnswerReactor(c, now: () => now);
+      expect(r.react(Verdict.correct), isTrue);
+      await tester.pump(const Duration(milliseconds: 1300));
+      expect(h.plays, [MobiAct.correct, MobiAct.read]);
+      r.dispose();
+      c.dispose();
+      now = now.add(const Duration(seconds: 1));
+    });
+  });
+
+  group('the answer map', () {
+    test('the two coral pulses land on the first wrong answer, and nothing pulses without one', () {
+      final cells = [BubbleState.filled, BubbleState.blank, BubbleState.wrong, BubbleState.wrong, BubbleState.filled];
+      expect(AnswerMap.firstWrong(cells), 2);
+      expect(AnswerMap.firstWrong([BubbleState.filled, BubbleState.blank]), isNull);
+    });
+
+    test('a long press says the question, the subject and the verdict', () {
+      expect(AnswerMap.tip(12, 'Accountancy', BubbleState.wrong), 'Q12, Accountancy: wrong');
+      expect(AnswerMap.tip(3, 'Accountancy', BubbleState.filled), 'Q3, Accountancy: correct');
+      expect(AnswerMap.tip(4, 'Accountancy', BubbleState.blank), 'Q4, Accountancy: not attempted');
+      expect(AnswerMap.tip(5, 'Accountancy', BubbleState.marked), 'Q5, Accountancy: being checked');
+    });
+
+    test('the arrival finishes with the second pulse inside its length', () {
+      const end = AnswerMap.pulseStart + AnswerMap.pulseGap + AnswerMap.pulseLife;
+      expect(end, lessThanOrEqualTo(AnswerMap.total.inMilliseconds));
+      expect(AnswerMap.rippleSpan + AnswerMap.ringLife, lessThanOrEqualTo(AnswerMap.pulseStart + 40));
+    });
+  });
+
+  group('the marks flow picks', () {
+    test('the picked ribbon stays at full strength and the others fall to 35%', () {
+      expect(MarksFlow.strengthOf(1, null, 1), 1);
+      expect(MarksFlow.strengthOf(1, 1, 1), 1);
+      expect(MarksFlow.strengthOf(0, 1, 1), closeTo(0.35, 1e-9));
+      expect(MarksFlow.strengthOf(0, 1, 0), 1);
+      expect(MarksFlow.strengthOf(0, 1, 0.5), closeTo(0.675, 1e-9));
+    });
+
+    test('each kind opens the answers it is about, in paper order', () {
+      final cells = [
+        BubbleState.filled,
+        BubbleState.wrong,
+        BubbleState.blank,
+        BubbleState.filled,
+        BubbleState.wrong,
+      ];
+      expect(PickedKind.numbersFor(MarkPart.scored, cells), [1, 4]);
+      expect(PickedKind.numbersFor(MarkPart.takenOff, cells), [2, 5]);
+      expect(PickedKind.numbersFor(MarkPart.notEarnedWrong, cells), [2, 5]);
+      expect(PickedKind.numbersFor(MarkPart.notEarnedBlank, cells), [3]);
+    });
+
+    test('one sentence of count and marks for each kind', () {
+      final b = markBreakdown(26, 15, 9);
+      expect(ResultCopy.flowSentence(MarkPart.scored, b), '26 correct answers, 115 marks scored.');
+      expect(ResultCopy.flowSentence(MarkPart.takenOff, b), '15 wrong answers, 15 marks taken off.');
+      expect(ResultCopy.flowSentence(MarkPart.notEarnedWrong, b), '15 wrong answers, 75 marks not earned.');
+      expect(ResultCopy.flowSentence(MarkPart.notEarnedBlank, b), '9 not attempted, 45 marks not earned.');
+    });
+  });
+
+  group('the ruler on card 3', () {
+    test('the stems rise in paper order and the chips follow their stems', () {
+      const n = 6;
+      for (var i = 1; i < n; i++) {
+        expect(RulerTimeline.stemStart(i, n), greaterThan(RulerTimeline.stemStart(i - 1, n)));
+        expect(RulerTimeline.chip(RulerTimeline.stemStart(i, n).toDouble(), i, n), 0, reason: 'a chip waits for its stem');
+      }
+      for (var i = 0; i < n; i++) {
+        final end = RulerTimeline.total(n).toDouble();
+        expect(RulerTimeline.stem(end, i, n), 1);
+        expect(RulerTimeline.chip(end, i, n), 1);
+      }
+      expect(RulerTimeline.baseline(0), 0);
+      expect(RulerTimeline.baseline(RulerTimeline.baselineMs.toDouble()), 1);
+    });
+
+    test('Mobi points as the last stem lands', () {
+      for (final n in [1, 3, 12, 40]) {
+        final land = RulerTimeline.start + RulerTimeline.stemEnd(n - 1, n);
+        expect(RulerTimeline.pointAt(n).inMilliseconds, land);
+        expect(RulerTimeline.total(n), greaterThanOrEqualTo(RulerTimeline.stemEnd(n - 1, n)));
+      }
+    });
+
+    test('a long ruler does not drag', () {
+      expect(RulerTimeline.total(40), lessThan(2200));
+    });
+  });
+
+  group('the card drag', () {
+    test('the card follows at 0.35, and a sixth of that toward a card that is not there', () {
+      expect(CardDrag.shiftFor(-100, hasNext: true, hasBack: true), closeTo(-35, 1e-9));
+      expect(CardDrag.shiftFor(100, hasNext: true, hasBack: true), closeTo(35, 1e-9));
+      expect(CardDrag.shiftFor(-100, hasNext: false, hasBack: true), closeTo(-35 / 6, 1e-9));
+      expect(CardDrag.shiftFor(100, hasNext: true, hasBack: false), closeTo(35 / 6, 1e-9));
+      expect(CardDrag.shiftFor(-2000, hasNext: true, hasBack: true), -CardDrag.maxShift);
+    });
+
+    test('past 72 dp or a flick turns the card; short of that it springs back', () {
+      expect(CardDrag.decide(-80, 0, hasNext: true, hasBack: true), -1);
+      expect(CardDrag.decide(80, 0, hasNext: true, hasBack: true), 1);
+      expect(CardDrag.decide(-40, 0, hasNext: true, hasBack: true), 0);
+      expect(CardDrag.decide(-40, -900, hasNext: true, hasBack: true), -1, reason: 'a flick');
+      expect(CardDrag.decide(-40, 900, hasNext: true, hasBack: true), 0, reason: 'a flick the other way is not a commit');
+      expect(CardDrag.decide(-120, 0, hasNext: false, hasBack: true), 0, reason: 'no next card');
+      expect(CardDrag.decide(120, 0, hasNext: true, hasBack: false), 0, reason: 'no previous card');
+    });
+  });
+
+  group('the words', () {
+    test('the story bar names its cards', () {
+      expect(ResultCopy.cardNamed(2, 4, ResultCopy.cardNames[2]!), 'Card 2 of 4: Where the marks went');
+      expect([for (var c = 1; c <= 4; c++) ResultCopy.cardNames[c]], everyElement(isNotNull));
+    });
+
+    test('the repair key says what opens', () {
+      const all = RepairKeyScope(chapter: 'Principles of management', firstQuestionId: 'q1', count: 5, othersInPaper: 0);
+      expect(ResultCopy.repairKey(all, 10), 'Repair 5 mistakes, about 10 min');
+      const some = RepairKeyScope(chapter: 'Principles of management: planning', firstQuestionId: 'q2', count: 1, othersInPaper: 4);
+      expect(ResultCopy.repairKey(some, 5), 'Repair Principles of management, 1 mistake');
+      expect(ResultCopy.repairScopeLine(some, 5), 'Principles of management, about 5 minutes. The other 4 are in Review.');
+      const none = RepairKeyScope(chapter: 'Other questions', firstQuestionId: 'q3', count: 2, othersInPaper: 3);
+      expect(ResultCopy.repairKey(none, 10), 'Repair 2 mistakes, about 10 min');
+    });
+  });
+}

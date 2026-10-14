@@ -13,10 +13,13 @@ import 'study_api.dart';
 /// phone, and how much each one uses. A lesson is only ever fetched when the student opens it
 /// (the server records that as a study exposure), so "kept" means opened lessons stay.
 class OfflineLearnState {
-  const OfflineLearnState({this.kept = const {}, this.sizes = const {}});
+  const OfflineLearnState({this.kept = const {}, this.sizes = const {}, this.lessons = const {}});
 
   final Set<String> kept;
   final Map<String, int> sizes;
+
+  /// The ids of the lessons actually on this phone.
+  final Set<String> lessons;
 
   int sizeOf(String subject) => sizes[subject] ?? 0;
 }
@@ -26,7 +29,8 @@ class OfflineLearn extends AsyncNotifier<OfflineLearnState> {
   Future<OfflineLearnState> build() async {
     final kept = await ref.read(appPrefsProvider).offlineLearnSubjects();
     final sizes = await ref.read(learnStoreProvider).sizeBySubject();
-    return OfflineLearnState(kept: kept, sizes: sizes);
+    final lessons = await ref.read(learnStoreProvider).keptLessonIds();
+    return OfflineLearnState(kept: kept, sizes: sizes, lessons: lessons);
   }
 
   Future<void> setKept(String subject, {required bool keep}) async {
@@ -43,6 +47,22 @@ class OfflineLearn extends AsyncNotifier<OfflineLearnState> {
       OfflineLearnState(
         kept: kept,
         sizes: await ref.read(learnStoreProvider).sizeBySubject(),
+        lessons: await ref.read(learnStoreProvider).keptLessonIds(),
+      ),
+    );
+  }
+
+  /// Takes the lessons kept for [subject] off this phone, leaving the switch as it is (new
+  /// lessons the student opens are kept again). The pack's Remove, after its Undo window.
+  Future<void> removeKept(String subject) async {
+    final current = state.value ?? const OfflineLearnState();
+    await ref.read(learnStoreProvider).dropSubject(subject);
+    if (!ref.mounted) return;
+    state = AsyncData(
+      OfflineLearnState(
+        kept: current.kept,
+        sizes: await ref.read(learnStoreProvider).sizeBySubject(),
+        lessons: await ref.read(learnStoreProvider).keptLessonIds(),
       ),
     );
   }
@@ -51,8 +71,9 @@ class OfflineLearn extends AsyncNotifier<OfflineLearnState> {
     final current = state.value;
     if (current == null || !ref.mounted) return;
     final sizes = await ref.read(learnStoreProvider).sizeBySubject();
+    final lessons = await ref.read(learnStoreProvider).keptLessonIds();
     if (ref.mounted) {
-      state = AsyncData(OfflineLearnState(kept: current.kept, sizes: sizes));
+      state = AsyncData(OfflineLearnState(kept: current.kept, sizes: sizes, lessons: lessons));
     }
   }
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import 'runner_motion.dart';
 
-/// Plays a question's arrival (runner.md 3.4): each [EnterItem] below it rises 10 dp and fades in,
+/// Plays a question's arrival (runner.md 3.4): each [EnterItem] below it rises 10 dp and fades in
+/// (the question text and the line under it from 0.35, so the question is readable at once),
 /// travelling from the side the student came from, one step later than the item above. It plays
 /// once, when this widget is first built (the runner keys it by question), so choosing an answer
 /// on the same question never replays it. Under reduced motion everything is simply there.
@@ -88,7 +89,7 @@ class EnterItem extends StatelessWidget {
         final t = interval.transform(controller.value);
         // Screen readers meet the question at once; only the picture eases in.
         return Opacity(
-          opacity: t,
+          opacity: RunnerMotion.enterOpacity(order, t),
           alwaysIncludeSemantics: true,
           child: Transform.translate(
             offset: Offset(scope.direction * RunnerMotion.enterShift * (1 - t), RunnerMotion.enterRise * (1 - t)),

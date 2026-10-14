@@ -14,29 +14,43 @@ import '../../../core/widgets/art/scene_art.dart';
 /// - [press]: 0 to 1, the seal coming down onto the sheet while the student holds.
 /// - [land]: 0 to 1, the seal striking (a press past the sheet and back).
 /// - [burst]: 0 to 1, the foil flecks thrown from the rim once (Full celebrations only).
+/// - [ring]: the strike sends one expanding volt ring out of the seal along [land] (Full only).
+///
+/// The strike's afterglow reads [surge]: 0 to 1 and back over the 420 ms of [land], the lamp
+/// swelling from 0.85 to 1.0 and back, the sheet settling 2 dp. It is 0 when the strike is shown
+/// at once (reduced motion, Off), so nothing plays there.
 class PlanSealMoment extends ChangeNotifier {
   double _reveal = 0, _press = 0, _land = 0, _burst = 0;
+  bool _ring = false;
 
   double get reveal => _reveal;
   double get press => _press;
   double get land => _land;
   double get burst => _burst;
+  bool get ring => _ring;
 
-  void set({double? reveal, double? press, double? land, double? burst}) {
-    final r = reveal ?? _reveal, p = press ?? _press, l = land ?? _land, b = burst ?? _burst;
-    if (r == _reveal && p == _press && l == _land && b == _burst) return;
+  /// 0 to 1 to 0 across the strike; 0 before it and once it has settled.
+  double get surge => _land <= 0 || _land >= 1 ? 0 : math.sin(math.pi * _land);
+
+  void set({double? reveal, double? press, double? land, double? burst, bool? ring}) {
+    final r = reveal ?? _reveal, p = press ?? _press, l = land ?? _land, b = burst ?? _burst, g = ring ?? _ring;
+    if (r == _reveal && p == _press && l == _land && b == _burst && g == _ring) return;
     _reveal = r;
     _press = p;
     _land = l;
     _burst = b;
+    _ring = g;
     notifyListeners();
   }
 
-  void reset() => set(reveal: 0, press: 0, land: 0, burst: 0);
+  void reset() => set(reveal: 0, press: 0, land: 0, burst: 0, ring: false);
 
   /// Back to dark without telling listeners: for a step being torn down, when the tree is locked.
   /// The room is rebuilt from these values the next time it is shown.
-  void clear() => _reveal = _press = _land = _burst = 0;
+  void clear() {
+    _reveal = _press = _land = _burst = 0;
+    _ring = false;
+  }
 }
 
 /// Where the seal sits on a screen of [screen]: the painted sheet (`scene-plan-seal-night`,
@@ -103,7 +117,8 @@ class PlanSealBackdrop extends StatelessWidget {
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    Opacity(opacity: r.clamp(0.0, 1.0), child: child),
+                    // The strike settles the sheet 2 dp (down and back with the stamp).
+                    Transform.translate(offset: Offset(0, 2 * moment.surge), child: Opacity(opacity: r.clamp(0.0, 1.0), child: child)),
                     RepaintBoundary(
                       child: CustomPaint(
                         painter: SealPainter(
@@ -287,6 +302,7 @@ class SealPainter extends CustomPainter {
         ).createShader(Rect.fromCircle(center: so, radius: sr)),
     );
 
+    _ring(canvas, c);
     _flecks(canvas, c);
 
     canvas.save();
@@ -294,14 +310,18 @@ class SealPainter extends CustomPainter {
     canvas.scale(s);
     canvas.translate(-c.dx, -c.dy);
     final base = geo.teeth;
-    final pale = Color.lerp(volt, const Color(0xFFFFFDE8), 0.5)!;
+    // The teeth heat while the hold charges: the volt warms toward a pale gold as the seal comes
+    // down, and cools as it strikes.
+    final heat = land > 0 ? 0.0 : Motion.out.transform(press.clamp(0.0, 1.0));
+    final hot = Color.lerp(volt, const Color(0xFFFFEE88), 0.45 * heat)!;
+    final pale = Color.lerp(hot, const Color(0xFFFFFDE8), 0.5)!;
     final teeth = teethPath(c, base, base * 0.9);
     canvas.drawPath(
       teeth,
       Paint()
         ..shader = SweepGradient(
           transform: const GradientRotation(-math.pi / 3),
-          colors: [volt, pale, volt, Color.lerp(volt, edge, 0.35)!, volt, pale, volt],
+          colors: [hot, pale, hot, Color.lerp(hot, edge, 0.35)!, hot, pale, hot],
         ).createShader(Rect.fromCircle(center: c, radius: base))
         ..color = Color.fromRGBO(0, 0, 0, appear),
     );
@@ -358,6 +378,35 @@ class SealPainter extends CustomPainter {
         ..color = ink.withValues(alpha: 0.86 * appear),
     );
     canvas.restore();
+  }
+
+  /// The afterglow of the strike: one thin ring leaves the rim and widens, fading by the end of
+  /// the 420 ms. Volt on Night; on paper it carries a 1 dp olive rim so it reads (MOTION.md 1.4).
+  void _ring(Canvas canvas, Offset c) {
+    final l = moment.land;
+    if (!moment.ring || l <= 0 || l >= 1) return;
+    final t = Motion.out.transform(l);
+    final fade = 1 - Curves.easeIn.transform(l);
+    final radius = geo.teeth * (1.02 + 0.95 * t);
+    final width = math.max(1.5, geo.teeth * 0.035 * (1 - 0.5 * t));
+    if (!night) {
+      canvas.drawCircle(
+        c,
+        radius,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = width + 2
+          ..color = edge.withValues(alpha: 0.85 * fade),
+      );
+    }
+    canvas.drawCircle(
+      c,
+      radius,
+      Paint()
+        ..style = PaintingStyle.stroke
+      ..strokeWidth = width
+        ..color = volt.withValues(alpha: fade),
+    );
   }
 
   /// 18 foil flecks thrown out from the rim and falling back, fading by the end.

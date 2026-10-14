@@ -9,7 +9,7 @@ import '../../../core/widgets/pressable.dart';
 /// has no answer bubble: it is not a choice that stays chosen, so it must not look like one.
 /// 40 dp visual inside a 48 dp target; `selectionClick` on tap.
 class ToolsActionChip extends ConsumerWidget {
-  const ToolsActionChip({super.key, required this.label, required this.icon, required this.onTap, this.trailing, this.semanticsLabel});
+  const ToolsActionChip({super.key, required this.label, required this.icon, required this.onTap, this.trailing, this.semanticsLabel, this.active = false});
 
   final String label;
   final IconData icon;
@@ -18,6 +18,9 @@ class ToolsActionChip extends ConsumerWidget {
   /// A short figure after the label, such as "+6".
   final String? trailing;
   final String? semanticsLabel;
+
+  /// The chip being looked at (an unlock whose preview is open): a volt rim and a tinted fill.
+  final bool active;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,8 +40,8 @@ class ToolsActionChip extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: DecoratedBox(
           decoration: ShapeDecoration(
-            color: pressed ? colors.raised2 : colors.raised,
-            shape: StadiumBorder(side: BorderSide(color: colors.line)),
+            color: pressed ? colors.raised2 : (active ? Color.alphaBlend(colors.accentText.withValues(alpha: 0.1), colors.raised) : colors.raised),
+            shape: StadiumBorder(side: BorderSide(color: active ? colors.accentText : colors.line, width: active ? 1.5 : 1)),
           ),
           child: SizedBox(
             height: 40,

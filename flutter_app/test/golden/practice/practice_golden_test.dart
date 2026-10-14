@@ -14,6 +14,7 @@ import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/practice/practice_start_screen.dart';
 import 'package:mockmob/features/runner/runner_routes.dart' show ntaInstructionsScreen;
 
 import '../../helpers/fonts.dart';
@@ -270,6 +271,9 @@ void main() {
         await _shot(tester, 'start_ready', b);
         starter.hold!.complete();
         await tester.pump();
+        // The nod and the paper opening run on two short timers; let them finish before teardown.
+        await tester.pump(const Duration(milliseconds: 190));
+        await tester.pump(PracticeStartScreen.nodHold);
       });
 
       testWidgets('result, mixed', (tester) async {

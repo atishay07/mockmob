@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -68,11 +70,55 @@ class WelcomeView extends StatefulWidget {
 
 class _WelcomeViewState extends State<WelcomeView> {
   final MobiController _mobi = MobiController();
+  final GlobalKey _keyKey = GlobalKey();
+  final GlobalKey _heroKey = GlobalKey();
+
+  /// Mobi points at Build my plan once, after this long with no touch.
+  static const Duration idleNudge = Duration(seconds: 7);
+  Timer? _idle;
+  bool _nudged = false;
 
   /// A tap woke a sleeping Mobi, so he says his line now.
   bool _woken = false;
 
   bool get _asleep => widget.entrance == MobiAct.sleep && !_woken;
+
+  @override
+  void initState() {
+    super.initState();
+    _armIdle();
+  }
+
+  void _armIdle() {
+    _idle?.cancel();
+    if (_nudged) return;
+    _idle = Timer(idleNudge, _nudge);
+  }
+
+  /// Seven quiet seconds: he points at the one key, with two short jabs, and holds the point.
+  void _nudge() {
+    if (!mounted || _nudged || _asleep || widget.pending || Motion.reduced(context)) return;
+    _nudged = true;
+    _mobi.pointAtWidget(_keyKey);
+    _mobi.react(MobiMoments.act(MobiEvent.showAction));
+  }
+
+  /// Any touch: the nudge timer starts over, and a held point lets go.
+  void _touched() {
+    if (_nudged) {
+      _nudged = false;
+      _mobi.lookAt(null);
+      _mobi.play(MobiAct.idle);
+    }
+    _armIdle();
+  }
+
+  /// The lamp flicked: he glances up at it, then back.
+  void _lampFlicked(Offset local) {
+    final box = _heroKey.currentContext?.findRenderObject();
+    if (box is! RenderBox || !box.hasSize || _asleep) return;
+    _mobi.glance(box.localToGlobal(local));
+  }
 
   @override
   void didUpdateWidget(WelcomeView old) {
@@ -86,6 +132,7 @@ class _WelcomeViewState extends State<WelcomeView> {
 
   @override
   void dispose() {
+    _idle?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -159,7 +206,7 @@ class _WelcomeViewState extends State<WelcomeView> {
               top: 0,
               width: size.width,
               height: size.height,
-              child: IgnorePointer(child: WelcomeHero(layout: layout, animate: widget.animate)),
+              child: IgnorePointer(key: _heroKey, child: WelcomeHero(layout: layout, animate: widget.animate, onFlick: _lampFlicked)),
             ),
             if (mobiSize >= 80)
               Positioned(
@@ -175,6 +222,10 @@ class _WelcomeViewState extends State<WelcomeView> {
                     entrance: widget.entrance,
                     lamp: false,
                     bubble: false,
+                    // His eyes follow the finger; repeated taps play the little escalating game
+                    // (hello, a tilt, a hop, ticklish).
+                    followPointer: true,
+                    tapCycle: MobiTapCycle.standard,
                     semanticLabel: switch (widget.entrance) {
                       MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
                       MobiAct.sleepy => OnboardingCopy.mobiSleepy,
@@ -262,10 +313,28 @@ class _WelcomeViewState extends State<WelcomeView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                KeyButton(
-                  label: widget.retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
-                  onPressed: widget.onStart,
-                  loading: widget.pending,
+                // He leans toward the key while it is pressed.
+                Listener(
+                  onPointerDown: (_) {
+                    if (_asleep) return;
+                    _mobi.lookAtWidget(_keyKey);
+                    _mobi.react(MobiMoments.act(MobiEvent.choiceWitnessed));
+                  },
+                  // Let go: he straightens up again (a held lean would outlast the touch).
+                  onPointerUp: (_) {
+                    _mobi.lookAt(null);
+                    if (!_asleep) _mobi.play(MobiAct.idle);
+                  },
+                  onPointerCancel: (_) {
+                    _mobi.lookAt(null);
+                    _mobi.play(MobiAct.idle);
+                  },
+                  child: KeyButton(
+                    key: _keyKey,
+                    label: widget.retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
+                    onPressed: widget.onStart,
+                    loading: widget.pending,
+                  ),
                 ),
                 const SizedBox(height: MmSpace.s4),
                 if (widget.onStartOver != null)
@@ -287,7 +356,11 @@ class _WelcomeViewState extends State<WelcomeView> {
       ),
     );
 
-    return ColoredBox(
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (_) => _touched(),
+      onPointerMove: (_) => _touched(),
+      child: ColoredBox(
       color: colors.ground,
       child: Stack(
         children: [
@@ -313,6 +386,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             child: Wordmark(height: 26, color: colors.ink),
           ),
         ],
+      ),
       ),
     );
   }

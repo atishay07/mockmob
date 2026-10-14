@@ -9,11 +9,11 @@ import 'emblem_painter.dart';
 import 'emblem_palette.dart';
 import 'subject_identity.dart';
 
-/// A subject's photo-real object: the lamp-lit render in `assets/art/obj-*.webp` (a red ledger
-/// tied with string for Accountancy, a brass stamp for Business Studies, a scale with an onion for
-/// Economics, ...). Fifteen subjects have their own; the CUET language papers share the open
-/// notebook. A subject the art does not know has none and keeps its initials card, never a wrong
-/// object.
+/// A subject's photo-real object: the lamp-lit render in `assets/art/obj-*.webp` (a desk calculator
+/// on a ledger page for Accountancy, a brass stamp for Business Studies, a scale with an onion for
+/// Economics, a laptop showing code for Computer Science, ...). Fifteen subjects have their own;
+/// the CUET language papers share the open notebook. A subject the art does not know has none and
+/// keeps its initials card, never a wrong object.
 ///
 /// Each entry knows its pixel size (so the box is laid out before the file is decoded and nothing
 /// shifts when it arrives) and where its foot stands, so the contact shadow sits under the object
@@ -75,7 +75,7 @@ class SubjectRender {
 
   // Sizes are the files' own; feet were measured from each file's alpha (the lowest opaque rows),
   // widened a little for the objects drawn in three-quarter view, whose foot is a slanted plane.
-  static const accountancy = SubjectRender._('accountancy', 512, 338, footX: 0.53, footWidth: 0.80, ground: 0.90);
+  static const accountancy = SubjectRender._('accountancy', 512, 335, footX: 0.54, footWidth: 0.80, ground: 0.92);
   static const business = SubjectRender._('business', 456, 512, footX: 0.50, footWidth: 0.88, ground: 0.955);
   static const economics = SubjectRender._('economics', 403, 512, footX: 0.50, footWidth: 0.88, ground: 0.96);
   static const english = SubjectRender._('english', 512, 316, footX: 0.48, footWidth: 0.80, ground: 0.88);
@@ -89,7 +89,7 @@ class SubjectRender {
   static const geography = SubjectRender._('geography', 363, 512, footX: 0.50, footWidth: 0.58, ground: 0.955);
   static const psychology = SubjectRender._('psychology', 512, 509, footX: 0.53, footWidth: 0.72, ground: 0.955);
   static const sociology = SubjectRender._('sociology', 512, 410, footX: 0.50, footWidth: 0.90, ground: 0.945);
-  static const computerScience = SubjectRender._('computerscience', 512, 389, footX: 0.52, footWidth: 0.80, ground: 0.90);
+  static const computerScience = SubjectRender._('computerscience', 512, 408, footX: 0.50, footWidth: 0.80, ground: 0.92);
   static const language = SubjectRender._('language', 512, 300, footX: 0.56, footWidth: 0.74, ground: 0.90);
 
   /// Every render, one per file.

@@ -116,6 +116,19 @@ abstract final class YouCopy {
   static const celebrationsFullNote = 'A mark on your sheet, a short sweep and a tap when something is finished.';
   static const celebrationsQuietNote = 'The same moments as plain text, with no motion or tap.';
   static const celebrationsOffNote = 'Nothing extra. Your record still updates.';
+  static const previewFull = 'A jump and a spark when something is finished.';
+  static const previewQuiet = 'A small nod when something is finished.';
+  static const previewOff = 'No animation, the result just appears.';
+  static String previewLabel(String line) => 'Preview. $line Tap to see it again.';
+  static const glassPreviewFull = 'Full glass: the blur follows what moves behind it.';
+  static const glassPreviewLite = 'Lite glass: the tint and edge light, no blur.';
+  static const glassPreviewOff = 'Glass off: a solid surface.';
+  static const glassPreviewLabel = 'Glass preview';
+  static const themeMobiLabel = 'Mobi';
+
+  // Hub Mobi: the real week, read once a day.
+  static String goalMetLine(int done, int goal) =>
+      done == goal ? 'Goal met. ${_word(done)} of ${_word(goal).toLowerCase()}.' : 'Goal met. ${_word(done)} days against ${_word(goal).toLowerCase()}.';
 
   // Privacy and usage data.
   static const privacyTitle = 'Usage data';
@@ -242,6 +255,17 @@ abstract final class YouCopy {
   static String helpVersion(String version) => 'Version $version';
   static const supportMailSubject = 'MockMob app help';
 }
+
+String _word(int n) => switch (n) {
+      1 => 'One',
+      2 => 'Two',
+      3 => 'Three',
+      4 => 'Four',
+      5 => 'Five',
+      6 => 'Six',
+      7 => 'Seven',
+      _ => '$n',
+    };
 
 /// Display names for the public subject ids, so the sheet never prints a raw id.
 String subjectDisplayName(String id) => switch (id) {

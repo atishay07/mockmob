@@ -1,6 +1,7 @@
 // rhythm-notifications-03: the app root keeps the milestone watcher alive, so a milestone in a
 // fresh rhythm read gets its moment without Today's week row (or the week sheet) ever being built.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/app.dart';
@@ -12,6 +13,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/widgets/brand/brand_opening.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
@@ -72,6 +74,27 @@ class _QuietDriver implements HapticDriver {
   Future<void> selectionClick() async {}
 }
 
+/// The opening asks Android's splash to fade off the "mo" and waits for the answer (or four
+/// seconds): with no platform here, answer at once, and tell it a frame has been drawn (a widget
+/// test rasterizes none), so the hand-off runs and no timer is left behind.
+void openingWithoutAndroid() {
+  OpeningGlass.debugFirstFrameDrawn = true;
+  const channel = MethodChannel('in.mockmob.app/splash');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (call) async => true);
+  addTearDown(() {
+    OpeningGlass.debugFirstFrameDrawn = false;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
+  });
+}
+
+/// The welcome room breathes (its lamp and dust loop), so it never "settles": give the opening and
+/// the hand-off a few seconds of frames instead.
+Future<void> pumpAlive(WidgetTester tester) async {
+  for (var i = 0; i < 20; i++) {
+    await tester.pump(const Duration(milliseconds: 250));
+  }
+}
+
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -79,6 +102,7 @@ void main() {
   });
 
   testWidgets('a fresh milestone is celebrated from the app root, with Today never opened', (tester) async {
+    openingWithoutAndroid();
     final seen = _MemorySeen();
     await tester.pumpWidget(
       ProviderScope(
@@ -93,7 +117,7 @@ void main() {
         child: const MockMobApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    await pumpAlive(tester);
 
     expect(find.text('I already have an account'), findsOneWidget, reason: 'the welcome screen, not Today');
     expect(find.byType(WeekStripSection), findsNothing);
@@ -102,5 +126,30 @@ void main() {
     final shown = container.read(celebrationControllerProvider).byScope[CelebrationScope.today];
     expect(shown?.id, 'first_repair');
     expect(seen.celebrated, contains('first_repair'));
+  });
+
+  testWidgets('the app-lifetime services are not built in the first frame, and start once the opening has handed off', (tester) async {
+    var built = 0;
+    openingWithoutAndroid();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authSnapshotProvider.overrideWith(_SignedOut.new),
+          rhythmRepositoryProvider.overrideWith(() {
+            built++;
+            return _FreshRhythm();
+          }),
+          rhythmSeenRepositoryProvider.overrideWithValue(_MemorySeen()),
+          rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+          hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: _QuietDriver())),
+          nowProvider.overrideWithValue(() => _at),
+        ],
+        child: const MockMobApp(),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(built, 0, reason: 'the milestone watcher (and Today data) is not part of the first frames');
+    await pumpAlive(tester);
+    expect(built, greaterThan(0));
   });
 }

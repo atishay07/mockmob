@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/domain.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -54,11 +55,48 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   int? _chosen;
   bool _reminderDismissed = false;
 
+  /// Drives the card's Mobi: it listens when the shortest length is chosen and hops when the
+  /// longest is (an ask taken on, not a celebration).
+  final MobiController _mobi = MobiController();
+
   RecapModel get m => widget.model;
 
   /// The repair length in force: the student's choice while it is still one of the options,
   /// else the model's default as it is now, never 0 while there is something to repair.
   int get _minutes => effectiveRepairMinutes(m, _chosen);
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  /// A length was chosen. Mobi leans in for the shortest ("a little, then") and hops for the
+  /// longest; the ones between are quiet. Under reduced motion it holds its pose.
+  void _chooseMinutes(int v) {
+    setState(() => _chosen = v);
+    if (Motion.reduced(context) || m.isNta || !_mobiShown) return;
+    final all = [for (final o in repairDurationOptions(m.tonightCount)) o.minutes];
+    if (all.length < 2) return;
+    final lo = all.reduce((a, b) => a < b ? a : b);
+    final hi = all.reduce((a, b) => a > b ? a : b);
+    // One act per 2.5 s however fast the chips are tapped, calmed under the Celebrations setting.
+    if (v == lo) _mobi.react(MobiMoments.act(MobiEvent.choiceWitnessed), key: 'recap-record:length');
+    if (v == hi) _mobi.react(MobiMoments.act(MobiEvent.answerRight), key: 'recap-record:length');
+  }
+
+  /// What the repair key opens, said exactly: the run is one chapter of this paper, so the key
+  /// names its count (and the chapter when other mistakes are left for Review). A shorter length
+  /// opens fewer than the chapter holds, and the ones it leaves are in Review too, so the count
+  /// of "the others" is everything the run does not hold.
+  RepairKeyScope? get _scope {
+    final s = RepairCandidates.scopeOf(m.candidates, limit: _mistakes);
+    if (s == null) return null;
+    return RepairKeyScope(chapter: s.chapter, firstQuestionId: s.firstQuestionId, count: s.count, othersInPaper: m.candidates.length - s.count);
+  }
+
+  /// Whether Mobi is on the card now (not at large text, not on an NTA result).
+  bool _mobiShown = false;
 
   @override
   void initState() {
@@ -75,17 +113,15 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return ResultCopy.effort(m.monthMockCount, firstInSubject: false, subject: m.subjectName);
   }
 
-  /// The first full mock is a milestone the server has marked: Mobi stands proud (stretches tall,
-  /// mittens on hips, three glints). A higher result cheers. A lower or held result gets the
-  /// encouraging nod, never a frown and never a celebration.
-  /// With Celebrations on Quiet or Off he does not act out a celebration: he rests.
-  MobiPose _mobiPose(CelebrationMode mode) => switch (m.variant) {
-    RecapVariant.firstMock || RecapVariant.higher when mode != CelebrationMode.full => MobiPose.rest,
-    RecapVariant.firstMock => MobiPose.proud,
-    RecapVariant.higher => MobiPose.cheer,
-    RecapVariant.standard => MobiPose.rest,
-    RecapVariant.lower || RecapVariant.held => MobiPose.encourage,
-  };
+  /// What Mobi does here, from the one reaction table (a milestone stands proud, a higher result
+  /// cheers, a lower or held result gets the encouraging nod, late at night it is sleepy, and an
+  /// NTA result gets no Mobi at all).
+  RecapReaction? _reaction(CelebrationMode mode) => recapReaction(
+    variant: m.variant,
+    mode: mode,
+    isNta: m.isNta,
+    hour: MobiRation.now().hour,
+  );
 
   int get _mistakes {
     for (final o in repairDurationOptions(m.tonightCount)) {
@@ -138,6 +174,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
       ],
     );
     final effort = _effortLine;
+    final reaction = _reaction(ref.watch(celebrationModeProvider));
+    final mobiPose = RecapMobi.poseOf(reaction);
+    _mobiShown = !largeText && mobiPose != null;
     final receipt = ResultCopy.receiptLine(m.receivedAt);
 
     return RecapCardPage(
@@ -148,8 +187,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (hasRepair)
-            KeyButton(
-              label: ResultCopy.startRepair(_minutes),
+            _RepairKey(
+              label: _scope == null ? ResultCopy.startRepair(_minutes) : ResultCopy.repairKey(_scope!, _minutes),
+              spoken: _scope == null ? null : ResultCopy.repairKeySpoken(_scope!, _minutes),
               onPressed: () => context.go(ResultNav.repair(m, minutes: _minutes)),
             )
           else if (next != null)
@@ -181,9 +221,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
                 ],
               ),
             ),
-            if (!largeText) ...[
+            if (!largeText && mobiPose != null) ...[
               const SizedBox(width: MmSpace.s12),
-              RecapMobi(pose: _mobiPose(ref.watch(celebrationModeProvider)), size: ResultSpace.mobi),
+              RecapMobi(pose: mobiPose, size: ResultSpace.mobi, mood: recapMood(m.variant, reaction), controller: _mobi),
             ],
           ],
         ),
@@ -199,7 +239,8 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           minutes: _minutes,
           shortfall: shortfall,
           options: options,
-          onMinutes: (v) => setState(() => _chosen = v),
+          scope: _scope,
+          onMinutes: _chooseMinutes,
           onRetryKeys: widget.onRetryKeys,
         ),
         if (askReminder) ...[
@@ -235,4 +276,26 @@ int effectiveRepairMinutes(RecapModel m, int? chosen) {
   final d = m.defaultRepairMinutes;
   if (d > 0 || m.candidates.isEmpty) return d;
   return repairMinutes(m.candidates.length) ?? repairMinutesPerMistake;
+}
+
+/// The repair key. When its words change (a different length was chosen) the new label fades in
+/// over the old one, which holds until it is covered, so the key never flickers.
+class _RepairKey extends StatelessWidget {
+  const _RepairKey({required this.label, required this.onPressed, this.spoken});
+
+  final String label;
+  final String? spoken;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final key = ValueKey(label);
+    return AnimatedSwitcher(
+      duration: Motion.of(context, Motion.ui),
+      switchInCurve: Motion.glide,
+      transitionBuilder: (child, animation) => child.key == key ? FadeTransition(opacity: animation, child: child) : child,
+      layoutBuilder: (current, previous) => Stack(alignment: Alignment.center, children: [...previous, ?current]),
+      child: KeyButton(key: key, label: label, semanticsLabel: spoken, onPressed: onPressed),
+    );
+  }
 }

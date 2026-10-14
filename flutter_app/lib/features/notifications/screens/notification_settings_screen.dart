@@ -13,6 +13,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -90,6 +91,12 @@ class _NotificationSettingsScreenState
   _Save _save = _Save.idle;
   DateTime? _savedAt;
 
+  /// The header Mobi. He cheers once, when a switch has just turned on and its save receipt
+  /// confirmed it.
+  final MobiController _mobi = MobiController();
+  bool _cheerPending = false;
+  bool _cheered = false;
+
   /// The last save was kept on this phone only.
   bool _savedLocal = false;
   AppLifecycleListener? _lifecycle;
@@ -126,6 +133,7 @@ class _NotificationSettingsScreenState
   @override
   void dispose() {
     _lifecycle?.dispose();
+    _mobi.dispose();
     super.dispose();
   }
 
@@ -194,6 +202,13 @@ class _NotificationSettingsScreenState
         _savedLocal = local;
         _savedAt = ref.read(nowProvider)();
       });
+      ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.notifications);
+      // The save receipt is on screen: only now may Mobi cheer, and only once per visit.
+      if (_cheerPending && !_cheered) {
+        _cheered = true;
+        _mobi.react(MobiMoments.act(MobiEvent.sessionDone));
+      }
+      _cheerPending = false;
     } else {
       setState(() {});
     }
@@ -243,6 +258,7 @@ class _NotificationSettingsScreenState
   );
 
   Future<void> _setChannel(String key, bool on) {
+    if (on) _cheerPending = true;
     // Turning a stopped reminder on starts its count again, and says so at once.
     ReminderState resumed(ReminderState s) => on ? s.withCategory(key, const CategoryStatus()) : s;
     // Repair ready has no key on the server: its switch is kept on this phone.
@@ -510,6 +526,10 @@ class _NotificationSettingsScreenState
               cap: cap,
               freshChecksOpen: freshOpen,
               actions: _actions,
+              next: ref.watch(nextReminderProvider),
+              mobi: _mobi,
+              now: now,
+              onNextTap: () => unawaited(_pickWindow(start: true)),
               // Room under the last row for the notice, while it is up.
               footerClearance: _save == _Save.failed ? 96 : 0,
             ),

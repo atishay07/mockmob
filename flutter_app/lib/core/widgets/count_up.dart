@@ -18,6 +18,8 @@ class MmCountUp extends StatefulWidget {
     this.duration = Motion.countUp,
     this.delay = Duration.zero,
     this.animate = true,
+    this.roll = true,
+    this.fromZeroOnFirstBuild = true,
     this.onLanded,
     this.semanticsLabel,
     this.textAlign,
@@ -35,6 +37,14 @@ class MmCountUp extends StatefulWidget {
   final Duration duration;
   final Duration delay;
   final bool animate;
+
+  /// False shows each value as it is, never counting (the same as [animate] false; kept to match
+  /// `MonumentalNumber.roll`).
+  final bool roll;
+
+  /// True (the default) counts from [from] when the figure first appears. False shows the first
+  /// value as it is and counts only on changes, from the value shown.
+  final bool fromZeroOnFirstBuild;
 
   /// Called once a count has landed (not when the value is shown at once).
   final VoidCallback? onLanded;
@@ -60,7 +70,7 @@ class _MmCountUpState extends State<MmCountUp> with SingleTickerProviderStateMix
   }
 
   void _run() {
-    if (!widget.animate || Motion.reduced(context) || _start == _target) {
+    if (!widget.animate || !widget.roll || Motion.reduced(context) || _start == _target) {
       _counting = false;
       _t.value = 1;
       return;
@@ -75,6 +85,7 @@ class _MmCountUpState extends State<MmCountUp> with SingleTickerProviderStateMix
     super.didChangeDependencies();
     if (_begun) return;
     _begun = true;
+    if (!widget.fromZeroOnFirstBuild) _start = _target;
     _run();
   }
 

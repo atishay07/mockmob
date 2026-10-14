@@ -35,9 +35,9 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
 }
 
 /// Where the marks went: the same flow as recap card 2, at rest.
-Widget whereSection(BuildContext context, RecapModel m) => MmSection(
+Widget whereSection(BuildContext context, RecapModel m, {ValueChanged<int>? onOpenQuestion}) => MmSection(
   title: ResultCopy.sectionWhere,
-  child: BreakdownSection(breakdown: m.breakdown, flow: true),
+  child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
 );
 
 /// The first thing to fix, from the observed chapter breakdown, with the repair key. Null when
@@ -63,12 +63,17 @@ Widget? firstFixSection(BuildContext context, RecapModel m) {
           ),
         ] else
           Text(ResultCopy.wrongByNumber(m.chapters.wrongNumbers.length), style: type.body.copyWith(color: colors.ink2)),
-        if (m.candidates.isNotEmpty) ...[
+        if (RepairCandidates.scopeOf(m.candidates) case final scope?) ...[
           const SizedBox(height: MmSpace.s16),
+          // The key says exactly what opens: the count, the chapter and the time of the run the link
+          // starts (the same words as the recap's last card and Today).
           KeyButton(
-            label: '${ResultCopy.repairN(m.tonightCount)}, about ${repairMinutes(m.tonightCount)} minutes',
+            label: RepairCandidates.keyLabel(scope),
+            semanticsLabel: RepairCandidates.spoken(scope),
             onPressed: () => context.go(ResultNav.repair(m)),
           ),
+          const SizedBox(height: MmSpace.s8),
+          Text(RepairCandidates.describe(scope), style: type.small.copyWith(color: colors.ink2)),
         ],
       ],
     ),
@@ -86,6 +91,7 @@ Widget answersSection(
   required RecapModel model,
   bool blankOpen = false,
   VoidCallback? onToggleBlank,
+  ValueChanged<AnswerItem>? onOpened,
 }) {
   final colors = context.mmColors;
   List<Widget> group(String title, List<AnswerItem> items, {bool titled = true}) {
@@ -105,6 +111,7 @@ Widget answersSection(
             expanded: isOpen(items[i].qid),
             onToggle: () => onToggle(items[i].qid),
             keysOff: keysOff,
+            onOpened: onOpened == null ? null : () => onOpened(items[i]),
             onRepair: items[i].repairable
                 ? () => context.go(
                     Uri(path: AppRoutes.reviewRepair(model.attemptId, items[i].qid), queryParameters: const {'count': '1'}).toString(),
@@ -185,7 +192,7 @@ class BlankGroup extends StatelessWidget {
             ),
           ),
         ),
-        AnimatedSize(
+        MmSizeEase(
           duration: Motion.of(context, Motion.card),
           curve: Motion.out,
           alignment: Alignment.topCenter,

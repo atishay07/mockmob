@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../compass/compass_controller.dart';
@@ -12,23 +13,57 @@ import '../domain/du_eligibility.dart';
 import '../domain/du_models.dart';
 import '../tools_paths.dart';
 import '../widgets/tools_card.dart';
+import '../widgets/size_reveal.dart';
 
 /// One ranked combination: the papers, numbered (what goes on the form), how many of the
 /// targets and of all DU programmes it opens, what each missed target still needs, and the way
 /// into Compass with exactly these subjects.
-class ComboCard extends ConsumerWidget {
-  const ComboCard({super.key, required this.combo, required this.rank, required this.catalog, required this.targetCount, this.inked = true});
+///
+/// Tap the header to open how it compares: the best fit says how the ranking works, every other
+/// card says, from the real counts, what it opens more or fewer of than the best.
+class ComboCard extends ConsumerStatefulWidget {
+  const ComboCard({super.key, required this.combo, required this.rank, required this.catalog, required this.targetCount, this.best, this.inked = true});
 
   final DuCombo combo;
   final int rank;
   final DuCatalog catalog;
   final int targetCount;
 
+  /// The top-ranked combination, for the "Compared with best" line; null on the best card itself.
+  final DuCombo? best;
+
   /// False draws the card's answer bubble hollow, so it can ink in as the card lands.
   final bool inked;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ComboCard> createState() => _ComboCardState();
+}
+
+class _ComboCardState extends ConsumerState<ComboCard> {
+  bool _expanded = false;
+
+  DuCombo get combo => widget.combo;
+  int get rank => widget.rank;
+  DuCatalog get catalog => widget.catalog;
+  int get targetCount => widget.targetCount;
+  bool get inked => widget.inked;
+
+  String get _detail {
+    final best = widget.best;
+    if (best == null || rank == 0) return targetCount > 0 ? ComboWords.rankRule : ComboWords.rankRuleNoTargets;
+    return ComboWords.comparedWithBest(
+      targetsMet: combo.met.length,
+      bestTargetsMet: best.met.length,
+      programmes: combo.unlocked,
+      bestProgrammes: best.unlocked,
+      papers: combo.items.length,
+      bestPapers: best.items.length,
+      hasTargets: targetCount > 0,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final best = rank == 0;
@@ -37,34 +72,61 @@ class ComboCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              // The bubble is a state: inked when this combination reaches every target.
-              if (targetCount > 0) ...[
-                Bubble(
-                  state: inked && combo.missed.isEmpty ? BubbleState.filled : BubbleState.hollow,
-                  size: 14,
-                  semanticsLabel: combo.missed.isEmpty ? ToolsCopy.meetsEvery : ToolsCopy.missesATarget,
+          Semantics(
+            button: true,
+            expanded: _expanded,
+            label: _expanded ? ComboWords.collapse : ComboWords.expand,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => setState(() => _expanded = !_expanded),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: MmTarget.min),
+                child: Row(
+                  children: [
+                    // The bubble is a state: inked when this combination reaches every target.
+                    if (targetCount > 0) ...[
+                      Bubble(
+                        state: inked && combo.missed.isEmpty ? BubbleState.filled : BubbleState.hollow,
+                        size: 14,
+                        semanticsLabel: combo.missed.isEmpty ? ToolsCopy.meetsEvery : ToolsCopy.missesATarget,
+                      ),
+                      const SizedBox(width: MmSpace.s8),
+                    ],
+                    Expanded(
+                      child: best
+                          // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
+                                  child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
+                                ),
+                              ),
+                            )
+                          : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
+                    ),
+                    Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),
+                    const SizedBox(width: MmSpace.s8),
+                    AnimatedRotation(
+                      turns: _expanded ? 0.5 : 0,
+                      duration: Motion.of(context, Motion.ui),
+                      curve: Motion.glide,
+                      child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink3),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: MmSpace.s8),
-              ],
-              Expanded(
-                child: best
-                    // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
-                    ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
-                            child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
-                          ),
-                        ),
-                      )
-                    : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
               ),
-              Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),
-            ],
+            ),
+          ),
+          SizeReveal(
+            child: _expanded
+                ? Padding(
+                    padding: const EdgeInsets.only(top: MmSpace.s4),
+                    child: Text(_detail, style: type.caption.copyWith(color: colors.ink2)),
+                  )
+                : const SizedBox(width: double.infinity),
           ),
           const SizedBox(height: MmSpace.s12),
           // The papers in form order, numbered: the number is the paper count, not decoration.
@@ -148,6 +210,8 @@ class ComboCard extends ConsumerWidget {
   }
 }
 
+/// "3 of 6" with the first figure rolling up from 0 and a 4 dp bar filling to the same share
+/// (450 ms on Emphasized). Both are the real counts; under reduced motion they are simply drawn.
 class _Figure extends StatelessWidget {
   const _Figure({required this.label, required this.a, required this.b});
 
@@ -159,6 +223,9 @@ class _Figure extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final share = b <= 0 ? 0.0 : (a / b).clamp(0.0, 1.0);
+    final reduced = Motion.reduced(context);
+    final figure = type.figureCompact.copyWith(fontSize: 44, height: 1);
     return MergeSemantics(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,12 +234,51 @@ class _Figure extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Text.rich(
             TextSpan(children: [
-              TextSpan(text: '$a', style: type.figureCompact.copyWith(fontSize: 44, height: 1)),
+              WidgetSpan(
+                alignment: PlaceholderAlignment.baseline,
+                baseline: TextBaseline.alphabetic,
+                child: reduced ? Text('$a', style: figure) : MmCountUp(value: a, style: figure, semanticsLabel: '$a'),
+              ),
               TextSpan(text: ' of $b', style: type.labelLarge.copyWith(color: colors.ink2)),
             ]),
           ),
+          const SizedBox(height: MmSpace.s8),
+          ExcludeSemantics(child: _FigureBar(share: share, reduced: reduced)),
         ],
       ),
+    );
+  }
+}
+
+class _FigureBar extends StatelessWidget {
+  const _FigureBar({required this.share, required this.reduced});
+
+  final double share;
+  final bool reduced;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final fill = colors.isNight ? colors.volt : colors.accentText;
+    Widget bar(double f) => SizedBox(
+          height: 4,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(2),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ColoredBox(color: colors.lineStrong),
+                FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: f.clamp(0.0, 1.0), child: ColoredBox(color: fill)),
+              ],
+            ),
+          ),
+        );
+    if (reduced) return bar(share);
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: share),
+      duration: Motion.drawIn,
+      curve: Motion.emphasized,
+      builder: (context, f, _) => bar(f),
     );
   }
 }

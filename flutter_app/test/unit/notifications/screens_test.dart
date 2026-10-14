@@ -350,7 +350,7 @@ void main() {
     testWidgets('blocked: no toggle reads as working, and Open Android settings is the volt key', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.denied);
       // The on choices say Blocked and the off ones say Off, in words, in place of a switch.
-      expect(find.byType(Switch), findsNothing);
+      expect(find.byType(MmSwitch), findsNothing);
       expect(_text('Blocked'), findsWidgets);
       expect(_text('Off'), findsWidgets);
       final open = tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Open Android settings'));

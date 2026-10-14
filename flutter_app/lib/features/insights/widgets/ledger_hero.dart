@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/models/attempt.dart';
 import '../copy.dart';
 import '../data/insights_models.dart';
+import '../data/last_look.dart';
 import 'answer_sheet.dart';
 import 'evidence.dart';
 import 'insights_bits.dart';
+import 'motion_bits.dart';
 
 /// The record's anchor: the share answered right as one monumental number with its likely
 /// range, then the student's answer sheet: one bubble for every question in the record, inked for
@@ -20,7 +26,13 @@ import 'insights_bits.dart';
 ///
 /// While the share right is not known (nothing answered yet), a sparse card stands in for the
 /// figure: summed net marks over papers of different lengths are never the headline.
-class LedgerHero extends StatelessWidget {
+///
+/// It reacts to a real change in the share right (a refresh landing while it is open, or a new
+/// record since the last look this run): the figure rolls from the old to the new, only the
+/// bubbles whose kind changed ink again, and for 4 s one line says how far it moved ("Up 3 points
+/// since your last look"). A rise of 5 points or more also earns a small Mobi hop beside the line.
+/// Nothing is said when there was no earlier look, and nothing is invented.
+class LedgerHero extends ConsumerStatefulWidget {
   const LedgerHero({super.key, required this.insights, this.evidence});
 
   final PrepInsights insights;
@@ -28,8 +40,123 @@ class LedgerHero extends StatelessWidget {
   /// The sessions behind the ledger, newest first; null while they load (no Show me yet).
   final List<Attempt>? evidence;
 
+  /// How long the change line stays.
+  static const Duration noteFor = Duration(seconds: 4);
+
+  @override
+  ConsumerState<LedgerHero> createState() => _LedgerHeroState();
+}
+
+class _LedgerHeroState extends ConsumerState<LedgerHero> {
+  final AnswerSheetController _sheet = AnswerSheetController();
+  final MobiController _mobi = MobiController();
+  late final LastLookStore _store = ref.read(lastLookProvider.notifier);
+  Timer? _hide;
+  int? _delta;
+  bool _hop = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // The look before this one, if the student has had one this run.
+    final before = ref.read(lastLookProvider)?.pct;
+    _react(before, widget.insights.accuracy.pct);
+    _remember();
+  }
+
+  @override
+  void didUpdateWidget(LedgerHero old) {
+    super.didUpdateWidget(old);
+    _react(old.insights.accuracy.pct, widget.insights.accuracy.pct);
+    _remember();
+  }
+
+  void _remember() {
+    final pct = widget.insights.accuracy.pct;
+    if (pct == null) return;
+    // After the frame: a provider is never written while the tree is building.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _store.remember(pct));
+  }
+
+  /// Says what moved between [from] and [to], once, for [LedgerHero.noteFor].
+  void _react(int? from, int? to) {
+    final change = shareChange(from, to);
+    if (change == null) return;
+    _delta = change;
+    _hop = change >= hopRise;
+    _hide?.cancel();
+    _hide = Timer(LedgerHero.noteFor, () {
+      if (mounted) {
+        setState(() {
+          _delta = null;
+          _hop = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _hide?.cancel();
+    _mobi.dispose();
+    _sheet.dispose();
+    super.dispose();
+  }
+
+  Widget _note(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final change = _delta;
+    final reduced = Motion.reduced(context);
+    Widget child = const SizedBox(width: double.infinity, key: ValueKey('no-change'));
+    if (change != null) {
+      final up = change > 0;
+      final text = InsightsCopy.sinceLastLook(change);
+      child = Padding(
+        key: const ValueKey('change'),
+        padding: const EdgeInsets.only(top: MmSpace.s8),
+        child: Semantics(
+          liveRegion: true,
+          label: text,
+          excludeSemantics: true,
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  text,
+                  key: const ValueKey('since-last-look'),
+                  style: type.small.copyWith(fontWeight: FontWeight.w600, color: up ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink2),
+                ),
+              ),
+              if (_hop) ...[
+                const SizedBox(width: MmSpace.s8),
+                SizedBox(
+                  width: MobiFigure.widthFor(40),
+                  height: 40,
+                  // A small hop for a real rise, then he stands beside the line until it goes.
+                  child: MobiCharacter(controller: _mobi, size: 40, entrance: MobiAct.correct, seed: 41, watchTaps: false, shadow: false),
+                ),
+              ],
+            ],
+          ),
+        ),
+      );
+    }
+    return MmSizeEase(
+      duration: reduced ? Duration.zero : Motion.ui,
+      curve: Motion.out,
+      alignment: Alignment.topLeft,
+      child: AnimatedSwitcher(
+        duration: reduced ? Duration.zero : Motion.ui,
+        child: child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final insights = widget.insights;
+    final evidence = widget.evidence;
     final colors = context.mmColors;
     final type = context.mmType;
     final l = insights.ledger;
@@ -72,8 +199,9 @@ class LedgerHero extends StatelessWidget {
                     const SizedBox(height: MmSpace.s4),
                     Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(color: colors.ink2)),
                   ],
+                  _note(context),
                   const SizedBox(height: MmSpace.s20),
-                  if (counts.cells > 0) AnswerSheet(right: l.right, wrong: l.wrong, blank: l.blank),
+                  if (counts.cells > 0) AnswerSheet(right: l.right, wrong: l.wrong, blank: l.blank, controller: _sheet),
                   if (counts.perBubble > 1) ...[
                     const SizedBox(height: MmSpace.s8),
                     Text(InsightsCopy.sheetScale(counts.perBubble), style: type.caption.copyWith(color: colors.ink3)),
@@ -83,16 +211,16 @@ class LedgerHero extends StatelessWidget {
                   // lit dot reads as an unfinished state, not a fact.
                   Wrap(
                     spacing: MmSpace.s16,
-                    runSpacing: MmSpace.s8,
+                    runSpacing: 0,
                     children: [
-                      if (a.known || l.right > 0) LegendItem(state: BubbleState.filled, text: InsightsCopy.ledgerRight(l.right, l.gained)),
-                      if (a.known || l.wrong > 0) LegendItem(state: BubbleState.wrong, text: InsightsCopy.ledgerWrong(l.wrong)),
-                      LegendItem(state: BubbleState.blank, text: InsightsCopy.ledgerBlank(l.blank)),
+                      if (a.known || l.right > 0) LegendItem(state: BubbleState.filled, text: InsightsCopy.ledgerRight(l.right, l.gained), onTap: () => _sheet.ripple(SheetKind.right)),
+                      if (a.known || l.wrong > 0) LegendItem(state: BubbleState.wrong, text: InsightsCopy.ledgerWrong(l.wrong), onTap: () => _sheet.ripple(SheetKind.wrong)),
+                      LegendItem(state: BubbleState.blank, text: InsightsCopy.ledgerBlank(l.blank), onTap: () => _sheet.ripple(SheetKind.blank)),
                     ],
                   ),
-                  if (evidence != null && evidence!.isNotEmpty) ...[
+                  if (evidence != null && evidence.isNotEmpty) ...[
                     const SizedBox(height: MmSpace.s4),
-                    EvidencePill(attempts: evidence!, what: InsightsCopy.behindLedger),
+                    EvidencePill(attempts: evidence, what: InsightsCopy.behindLedger),
                   ],
                   if (a.known) ...[
                     const SizedBox(height: MmSpace.s4),
@@ -224,7 +352,12 @@ class FindingsPanel extends StatelessWidget {
 
 /// The strongest finding: a plain card with its headline, what it rests on and the one thing to
 /// do about it. No glow of its own, so the hero above stays the page's one lit element.
-class _LeadFinding extends StatelessWidget {
+///
+/// A small Mobi (34 dp) sits at the card's corner and reacts once per visit, when the card comes
+/// into view, to what kind of finding it is: a leak points at the action key and then the key
+/// sweeps once; something working gets a small hop; a note makes him think. He holds still under
+/// reduced motion. Scrolling away and back does not play it again.
+class _LeadFinding extends StatefulWidget {
   const _LeadFinding({required this.finding, required this.onAction, required this.evidence});
 
   final Finding finding;
@@ -232,10 +365,57 @@ class _LeadFinding extends StatelessWidget {
   final List<Attempt> evidence;
 
   @override
+  State<_LeadFinding> createState() => _LeadFindingState();
+}
+
+class _LeadFindingState extends State<_LeadFinding> with AutomaticKeepAliveClientMixin {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _key = GlobalKey(debugLabel: 'lead-finding-key');
+  final ValueNotifier<int> _sweep = ValueNotifier(0);
+  Timer? _later;
+  bool _reacted = false;
+
+  @override
+  bool get wantKeepAlive => _reacted;
+
+  @override
+  void dispose() {
+    _later?.cancel();
+    _mobi.dispose();
+    _sweep.dispose();
+    super.dispose();
+  }
+
+  /// The card is in view: Mobi answers it, once.
+  void _react() {
+    if (!mounted || _reacted) return;
+    _reacted = true;
+    updateKeepAlive();
+    if (Motion.reduced(context)) return;
+    final f = widget.finding;
+    final hasKey = widget.onAction != null && f.actionLabel != null;
+    if (f.isLeak && hasKey) {
+      _mobi.pointAtWidget(_key);
+      // The finger has landed; the key answers with one pass of light.
+      _later = Timer(const Duration(milliseconds: 650), () {
+        if (mounted) _sweep.value++;
+      });
+    } else if (f.isLeak) {
+      _mobi.play(MobiAct.encourage);
+    } else if (f.isGood) {
+      _mobi.play(MobiAct.correct);
+    } else {
+      _mobi.play(MobiAct.think);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final colors = context.mmColors;
     final type = context.mmType;
-    final f = finding;
+    final f = widget.finding;
+    final onAction = widget.onAction;
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.raised,
@@ -246,25 +426,41 @@ class _LeadFinding extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Bubble(state: f.isLeak ? BubbleState.wrong : (f.isGood ? BubbleState.filled : BubbleState.marked), size: 22, animate: false),
-                const SizedBox(width: MmSpace.s8),
-                Text(
-                  f.isLeak ? InsightsCopy.kindLeak : (f.isGood ? InsightsCopy.kindGood : InsightsCopy.kindNote),
-                  style: type.label.copyWith(color: colors.ink2),
-                ),
-              ],
+            WhenInView(
+              onVisible: _react,
+              child: Row(
+                children: [
+                  Bubble(state: f.isLeak ? BubbleState.wrong : (f.isGood ? BubbleState.filled : BubbleState.marked), size: 22, animate: false),
+                  const SizedBox(width: MmSpace.s8),
+                  Expanded(
+                    child: Text(
+                      f.isLeak ? InsightsCopy.kindLeak : (f.isGood ? InsightsCopy.kindGood : InsightsCopy.kindNote),
+                      style: type.label.copyWith(color: colors.ink2),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MobiFigure.widthFor(34),
+                    height: 34,
+                    child: MobiCharacter(controller: _mobi, size: 34, entrance: MobiAct.idle, seed: 53, watchTaps: false, shadow: false),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: MmSpace.s16),
             Text(f.headline, style: type.title.copyWith(fontSize: 22, height: 26 / 22)),
             const SizedBox(height: MmSpace.s12),
             Text(f.detail, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s12),
-            BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
+            BasisLink(text: InsightsCopy.basedOn(f.n), attempts: widget.evidence, what: InsightsCopy.behindFinding),
             if (onAction != null && f.actionLabel != null) ...[
               const SizedBox(height: MmSpace.s4),
-              KeyButton(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onPressed: onAction),
+              KeyedSubtree(
+                key: _key,
+                child: KeySweep(
+                  tick: _sweep,
+                  child: KeyButton(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onPressed: onAction),
+                ),
+              ),
               const SizedBox(height: MmSpace.s12),
             ] else
               const SizedBox(height: MmSpace.s8),

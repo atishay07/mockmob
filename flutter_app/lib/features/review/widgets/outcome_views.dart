@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/models/repair.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -45,23 +47,172 @@ class ExplanationBlock extends StatelessWidget {
   }
 }
 
-/// The worked explanation of an `explained` or `stored` repair: what happened, the idea, next
-/// time. Observed patterns, never a statement about the student.
+/// The worked explanation of an `explained` or `stored` repair. Observed patterns about the
+/// option, never a statement about the student.
+///
+/// A v2 repair leads with the trap's name, then "Why B looked right" and "Where it breaks",
+/// "Another way to see it" with its worked contrast pulled out, the rule as a raised card to keep,
+/// and the next step. A v1 repair (stored before v2) keeps its three blocks. The blocks rise
+/// 60 ms apart as the explanation lands; the rule's rail draws last. Under reduced motion every
+/// block is simply there.
 class WorkedExplanation extends StatelessWidget {
-  const WorkedExplanation({super.key, required this.explanation});
+  const WorkedExplanation({super.key, required this.explanation, this.chosenLetter});
 
   final RepairExplanation explanation;
+
+  /// The letter of the option the student picked ("B"), for "Why B looked right".
+  final String? chosenLetter;
+
+  /// The beat between blocks.
+  static const step = Duration(milliseconds: 60);
 
   @override
   Widget build(BuildContext context) {
     final e = explanation;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+    if (!e.isV2) {
+      final blocks = <Widget>[
         ExplanationBlock(label: ReviewCopy.whatHappened, paragraphs: [e.whyTempting ?? '', e.whyWrong ?? '']),
         ExplanationBlock(label: ReviewCopy.theIdea, paragraphs: [e.keyIdea]),
         ExplanationBlock(label: ReviewCopy.nextTime, paragraphs: [e.nextStep ?? '']),
+      ];
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [for (var i = 0; i < blocks.length; i++) MmEntrance(delay: step * i, child: blocks[i])],
+      );
+    }
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final blocks = <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s24),
+        child: Semantics(header: true, child: Text(e.trapHeading!, style: type.cardTitle)),
+      ),
+      if (e.whyTempting != null) ExplanationBlock(label: ReviewCopy.whyLookedRight(chosenLetter), paragraphs: [e.whyTempting!]),
+      if (e.whyWrong != null) ExplanationBlock(label: ReviewCopy.whereItBreaks, paragraphs: [e.whyWrong!]),
+      if (e.anotherWay != null || e.contrast != null)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ExplanationBlock(label: ReviewCopy.anotherWay, paragraphs: [e.anotherWay ?? '']),
+            if (e.contrast != null) _ContrastPull(text: e.contrast!, colors: colors, type: type),
+          ],
+        ),
+    ];
+    final ruleDelay = step * (blocks.length + 1);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < blocks.length; i++) MmEntrance(delay: step * i, child: blocks[i]),
+        MmEntrance(delay: step * blocks.length, child: RuleCard(rule: e.rule!, railDelay: ruleDelay + Motion.enterDuration ~/ 2)),
+        if (e.nextStep != null)
+          MmEntrance(
+            delay: step * (blocks.length + 1),
+            child: ExplanationBlock(label: ReviewCopy.nextTime, paragraphs: [e.nextStep!]),
+          ),
       ],
+    );
+  }
+}
+
+/// The worked contrast, pulled out of the paragraph on a sunken ground with a hairline at its
+/// leading edge, so "if X then B; here Y, so C" reads as its own small proof.
+class _ContrastPull extends StatelessWidget {
+  const _ContrastPull({required this.text, required this.colors, required this.type});
+
+  final String text;
+  final MmColors colors;
+  final MmType type;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s12),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: colors.sunken, shape: mmShapeBorder(MmRadius.smallAll)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+          child: Text(text, style: type.body.copyWith(color: colors.ink)),
+        ),
+      ),
+    );
+  }
+}
+
+/// The rule to keep, given weight: a raised card, "Keep this" over the rule, and Copy. Its leading
+/// rail draws in last, after the blocks above have landed. The rule never moves once shown.
+class RuleCard extends StatefulWidget {
+  const RuleCard({super.key, required this.rule, this.railDelay = Duration.zero});
+
+  final String rule;
+  final Duration railDelay;
+
+  @override
+  State<RuleCard> createState() => _RuleCardState();
+}
+
+class _RuleCardState extends State<RuleCard> {
+  bool _copied = false;
+
+  static Path _rail(Size size) => Path()
+    ..moveTo(size.width / 2, 0)
+    ..lineTo(size.width / 2, size.height);
+
+  Future<void> _copy() async {
+    await Clipboard.setData(ClipboardData(text: widget.rule));
+    if (!mounted) return;
+    setState(() => _copied = true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s24),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: colors.raised,
+          shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s16, MmSpace.s4, MmSpace.s8),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  width: 4,
+                  child: RepaintBoundary(
+                    child: MmStrokeDraw(path: _rail, color: colors.volt, strokeWidth: 3, delay: widget.railDelay),
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Semantics(header: true, child: Text(ReviewCopy.keepThis, style: type.label.copyWith(color: colors.ink2))),
+                      const SizedBox(height: MmSpace.s8),
+                      Padding(
+                        padding: const EdgeInsets.only(right: MmSpace.s12),
+                        child: Text(widget.rule, style: type.cardTitle),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: KeyButton.quiet(
+                          label: _copied ? ReviewCopy.copiedRule : ReviewCopy.copyRule,
+                          semanticsLabel: _copied ? ReviewCopy.copiedRule : ReviewCopy.copyRuleSpoken,
+                          onPressed: _copy,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/auth/auth.dart';
 import 'core/home_widget/home_widget_sync.dart' show homeWidgetSyncProvider;
+import 'core/mascot/mascot.dart' show MobiCelebrationLevel, MobiCelebrations;
 import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
@@ -14,7 +15,7 @@ import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
-import 'features/rhythm/rhythm.dart' show rhythmWatcherProvider;
+import 'features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider, rhythmWatcherProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
 class MockMobApp extends ConsumerWidget {
@@ -22,21 +23,37 @@ class MockMobApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Reading the snapshot starts auth (Supabase, the stored session, /me) after the first frame.
+    // Reading the snapshot starts auth (Supabase, the stored session, /me); it runs async and the
+    // opening never waits for it (the router shows the launch screen until it is known).
     ref.watch(authSnapshotProvider);
     ref.watch(savedSettingsProvider);
-    // Keeps the guest carry-over alive and starts reminder planning and tap handling.
-    ref.watch(sampleImportProvider);
-    ref.watch(notificationsRuntimeProvider);
-    // Milestones that arrive in any fresh rhythm read get their moment, whichever screen is open.
-    ref.watch(rhythmWatcherProvider);
-    // Launcher shortcuts, the quiet Play update and the first-run mark for the review prompt.
-    ref.watch(nativeTouchesProvider);
-    ref.watch(homeWidgetSyncProvider); // The home-screen widget follows Today (core/home_widget).
+    // The services that read the database and the network (guest carry-over, reminders, milestones,
+    // launcher shortcuts and the Play update, the home-screen widget) are not watched here: that
+    // would build Today's data in the first frame, the one the system splash waits for. They start
+    // when the opening has handed off ([_AppServices]).
     // Steps glass down to Lite once if the raster thread keeps missing its budget.
     ref.watch(glassPerformanceWatchProvider);
 
     return const ReducedMotionScope(child: _AppView());
+  }
+}
+
+/// Starts what must run for the whole life of the app, once the brand opening has handed off:
+/// keeps the guest carry-over alive and starts reminder planning and tap handling; milestones that
+/// arrive in any fresh rhythm read get their moment, whichever screen is open; launcher shortcuts,
+/// the quiet Play update and the first-run mark for the review prompt; the home-screen widget
+/// follows Today (core/home_widget). None of it is needed to draw the first screen.
+class _AppServices extends ConsumerWidget {
+  const _AppServices();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(sampleImportProvider);
+    ref.watch(notificationsRuntimeProvider);
+    ref.watch(rhythmWatcherProvider);
+    ref.watch(nativeTouchesProvider);
+    ref.watch(homeWidgetSyncProvider);
+    return const SizedBox.shrink();
   }
 }
 
@@ -81,12 +98,36 @@ class _AppView extends ConsumerWidget {
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
               // The brand opening covers the app on every cold start, then removes itself.
-              child: BrandOpeningHost(child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink()))),
+              child: BrandOpeningHost(
+                afterOpening: const _AppServices(),
+                child: _Celebrations(
+                  child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink())),
+                ),
+              ),
             ),
           ),
         );
       },
     );
+  }
+}
+
+/// The student's Celebrations setting reaches every Mobi in the app: Quiet calms his proud, cheer
+/// and celebrate to a nod, Off keeps him still. The setting is read from the phone's own
+/// preferences (no network), so watching it here costs nothing on a cold start.
+class _Celebrations extends ConsumerWidget {
+  const _Celebrations({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final level = switch (ref.watch(celebrationModeProvider)) {
+      CelebrationMode.full => MobiCelebrationLevel.full,
+      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
+      CelebrationMode.off => MobiCelebrationLevel.off,
+    };
+    return MobiCelebrations(level: level, child: child);
   }
 }
 
@@ -120,15 +161,17 @@ class _StatusBarScrim extends StatelessWidget {
               child: ValueListenableBuilder<Color?>(
                 valueListenable: statusTintColor,
                 builder: (context, tint, _) => tint != null
-                    ? Align(alignment: Alignment.topCenter, child: SizedBox(height: top, width: double.infinity, child: ColoredBox(color: tint)))
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: top,
+                          width: double.infinity,
+                          child: ColoredBox(color: tint),
+                        ),
+                      )
                     : DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0, top / (top + fade), 1],
-                            colors: [ground, ground, ground.withValues(alpha: 0)],
-                          ),
+                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0, top / (top + fade), 1], colors: [ground, ground, ground.withValues(alpha: 0)]),
                         ),
                       ),
               ),

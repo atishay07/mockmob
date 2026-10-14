@@ -20,6 +20,7 @@ abstract class RunnerSession implements Listenable {
   /// `full`, `nta` or `quick` (chapter practice runs as `quick`).
   String get mode;
   String get subject;
+
   /// The chapter a chapter practice was started for; null for a mixed paper (the question's own
   /// chapter then shows in the runner's header, never in the paper's name).
   String? get chapter;
@@ -48,6 +49,10 @@ abstract class RunnerSession implements Listenable {
   ValueListenable<SubmitUiState> get submitState;
   ValueListenable<AwayInfo?> get away;
   Stream<SessionWarning> get warnings;
+
+  /// Options the student has crossed out. Kept in memory for this sitting only: never saved,
+  /// never sent to the server, never part of the answer.
+  StrikeBook get strikes;
 
   Future<bool> selectAnswer(String qid, int? option);
   Future<void> goTo(int index);
@@ -131,6 +136,8 @@ class EngineRunnerSession implements RunnerSession {
   ValueListenable<AwayInfo?> get away => engine.away;
   @override
   Stream<SessionWarning> get warnings => engine.warnings;
+  @override
+  final StrikeBook strikes = StrikeBook();
 
   @override
   Future<bool> selectAnswer(String qid, int? option) => engine.selectAnswer(qid, option);
@@ -152,6 +159,7 @@ class EngineRunnerSession implements RunnerSession {
       await _writeDraft();
     }
   }
+
   @override
   Future<void> onResumed() => engine.onResumed();
   @override
@@ -175,7 +183,10 @@ class EngineRunnerSession implements RunnerSession {
   /// the server short), so a new session with the same selection never starts while an older one is
   /// still about to write its draft (ROBUSTNESS practice-02). Returns at once when none is closing.
   static Future<void> closedUnderKey(String draftKey) async {
-    final waiting = [for (final c in _closing.values) if (c.draftKey == draftKey) c];
+    final waiting = [
+      for (final c in _closing.values)
+        if (c.draftKey == draftKey) c,
+    ];
     for (final closing in waiting) {
       if (!closing.hurry.isCompleted) closing.hurry.complete();
     }
@@ -252,4 +263,32 @@ class _Closing {
   final String draftKey;
   final Completer<void> hurry = Completer<void>();
   final Completer<void> done = Completer<void>();
+}
+
+/// The options crossed out on each question, in memory only (a scratch mark on the paper, not an
+/// answer): it is never saved, never synced and never reaches the server.
+class StrikeBook extends ChangeNotifier {
+  final Map<String, Set<int>> _struck = {};
+  bool _used = false;
+
+  /// True once the student has crossed anything out in this sitting (the hint then goes).
+  bool get used => _used;
+
+  bool isStruck(String qid, int option) => _struck[qid]?.contains(option) ?? false;
+
+  /// The options crossed out on [qid], in order.
+  List<int> struckOn(String qid) => (_struck[qid]?.toList() ?? [])..sort();
+
+  /// Crosses [option] out, or brings it back when it is already crossed out.
+  void toggle(String qid, int option) {
+    final set = _struck.putIfAbsent(qid, () => <int>{});
+    if (!set.remove(option)) set.add(option);
+    _used = true;
+    notifyListeners();
+  }
+
+  /// Brings [option] back (picking a crossed-out option un-crosses it).
+  void restore(String qid, int option) {
+    if (_struck[qid]?.remove(option) ?? false) notifyListeners();
+  }
 }

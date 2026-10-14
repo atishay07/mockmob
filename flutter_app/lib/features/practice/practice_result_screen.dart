@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/analytics/analytics.dart';
+import '../../core/domain/repair_candidates.dart' show RepairCandidates, RepairKeyScope;
 import '../../core/models/models.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/attempts_repository.dart';
@@ -14,7 +15,6 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../insights/data/saved_repository.dart'
     show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
-import '../review/copy.dart' show ReviewCopy;
 import '../review/data/repair_key_plan.dart';
 import '../review/data/review_providers.dart' show reviewIndexProvider;
 import 'copy.dart';
@@ -228,11 +228,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
         path: AppRoutes.reviewRepair(attempt.id, plan.firstQid),
         queryParameters: {'count': '${plan.count}'},
       ).toString();
-      return ResultFootAction(
-        PracticeCopy.repairThese(plan.count),
-        () => context.push(location),
-        note: plan.others > 0 ? ReviewCopy.repairKeyNote(plan.chapter, plan.others) : null,
-      );
+      // The key says what it opens in the words every other repair key uses (count, chapter,
+      // minutes, and what stays in Review): one sentence for one run.
+      final scope = RepairKeyScope(chapter: plan.chapter, firstQuestionId: plan.firstQid, count: plan.count, othersInPaper: plan.others);
+      return ResultFootAction(RepairCandidates.keyLabel(scope), () => context.push(location), note: RepairCandidates.describe(scope));
     }
     if (model.blank.isNotEmpty) {
       return ResultFootAction(PracticeCopy.tryTheBlanks, () => _jumpTo(model.blank.first));
@@ -268,7 +267,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
 
     if (_finished) {
       return ResultClosing(
-        text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal()),
+        text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal(), chapter: chapter),
         cells: model.cells,
         marks: FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total),
       );

@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -35,10 +36,21 @@ WarmupQuestion warmupQuestionFor(OnboardingAnswers answers) {
 /// shows the measured time; a wrong one shows the trap and the ten-second fix. Nothing buzzes on
 /// a wrong answer.
 class QuestionStep extends ConsumerStatefulWidget {
-  const QuestionStep({super.key, required this.answers, required this.onNext});
+  const QuestionStep({super.key, required this.answers, required this.onNext, this.mobi});
 
   final OnboardingAnswers answers;
   final VoidCallback onNext;
+
+  /// The guide Mobi of the top bar. Given, he thinks it over when the question has been open for
+  /// 20 seconds, and after a wrong answer he points down at the ten-second fix (the flow plays the
+  /// right and wrong reactions themselves).
+  final MobiController? mobi;
+
+  /// How long the question waits before Mobi thinks beside the student.
+  static const Duration thinkAfter = Duration(seconds: 20);
+
+  /// How long after a wrong answer he waits to point at the fix: the encouraging nod finishes first.
+  static const Duration pointAfter = Duration(milliseconds: 1500);
 
   @override
   ConsumerState<QuestionStep> createState() => _QuestionStepState();
@@ -49,11 +61,41 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
   // Set when the question first shows (a lazy initializer would only run at the first tap,
   // so every answer read as "about a second").
   late final DateTime _shownAt;
+  Timer? _think;
+  Timer? _point;
+  final GlobalKey _fixKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     _shownAt = ref.read(nowProvider)();
+    if (widget.answers.warmup == null) {
+      _think = Timer(QuestionStep.thinkAfter, () {
+        if (mounted && widget.answers.warmup == null && !Motion.reduced(context)) widget.mobi?.react(MobiAct.think);
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(QuestionStep old) {
+    super.didUpdateWidget(old);
+    final was = old.answers.warmup, now = widget.answers.warmup;
+    if (was == null && now != null) {
+      _think?.cancel();
+      // A wrong answer: after his nod, he points at the fix. No shake, no buzz.
+      if (!now.correct) {
+        _point = Timer(QuestionStep.pointAfter, () {
+          if (mounted && !Motion.reduced(context)) widget.mobi?.pointAtWidget(_fixKey);
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _think?.cancel();
+    _point?.cancel();
+    super.dispose();
   }
 
   void _choose(int i) {
@@ -136,6 +178,7 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
             if (!result.correct) ...[
               const SizedBox(height: MmSpace.s8),
               DecoratedBox(
+                key: _fixKey,
                 decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line))),
                 child: Padding(padding: const EdgeInsets.all(MmSpace.s16), child: Text(_q.fix, style: type.small.copyWith(color: colors.ink))),
               ),

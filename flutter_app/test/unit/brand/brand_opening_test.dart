@@ -440,7 +440,9 @@ void main() {
 
     testWidgets('the host removes the opening and hides the app from screen readers until then', (tester) async {
       final handle = tester.ensureSemantics();
-      final auth = _Auth(const AuthSnapshot(status: AuthStatus.unknown));
+      // The first screen is known (a session that is still unknown paints the launch screen later,
+      // see cold_start_timing_test.dart).
+      final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
       await _pump(
         tester,
         BrandOpeningHost(shown: _onGlass(), child: const Scaffold(body: Center(child: Text('First screen')))),
@@ -448,21 +450,19 @@ void main() {
       );
       expect(find.byType(BrandOpening), findsOneWidget);
       expect(find.bySemanticsLabel('First screen'), findsNothing);
-      await tester.pump(const Duration(milliseconds: 1500));
-      expect(find.byType(BrandOpening), findsOneWidget, reason: 'waits for auth');
       // Built and routed underneath, but not painted (and its tickers muted) while covered.
+      await tester.pump(const Duration(milliseconds: 500));
       expect(find.text('First screen', skipOffstage: false), findsOneWidget);
       expect(find.text('First screen'), findsNothing);
-      auth.become(AuthStatus.signedOut);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 20));
-      // Painted under the opaque opening, tickers still muted, before the fade.
+      // Painted under the opaque opening, tickers still muted, before the fade (850 ms).
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('First screen'), findsOneWidget);
       final ticking = tester.widget<TickerMode>(
         find.ancestor(of: find.text('First screen'), matching: find.byType(TickerMode)).first,
       );
       expect(ticking.enabled, isFalse);
-      await tester.pump(const Duration(milliseconds: 150));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.byType(BrandOpening), findsNothing);
       expect(find.bySemanticsLabel('First screen'), findsOneWidget);
@@ -471,6 +471,55 @@ void main() {
       final hit = tester.hitTestOnBinding(tester.getCenter(find.text('First screen')));
       expect(hit.path.any((entry) => entry.target == text), isTrue);
       handle.dispose();
+    });
+
+    testWidgets('a slow or unknown auth never holds the opening: it unfolds and hands off on its own clock', (tester) async {
+      // Auth never resolves (the stored session is still being read, or the network is slow).
+      final auth = _Auth(const AuthSnapshot(status: AuthStatus.unknown));
+      final haptics = _CountingHaptics();
+      await _pump(
+        tester,
+        BrandOpeningHost(shown: _onGlass(), child: const Scaffold(body: Center(child: Text('First screen')))),
+        haptics: haptics,
+        overrides: [authSnapshotProvider.overrideWith(() => auth)],
+      );
+      var inkAt = -1;
+      var handedOffAt = -1;
+      for (var ms = 0; ms <= 1800; ms += 10) {
+        await tester.pump(const Duration(milliseconds: 10));
+        if (inkAt < 0 && haptics.light > 0) inkAt = ms;
+        if (handedOffAt < 0 && find.byType(BrandOpening).evaluate().isEmpty) handedOffAt = ms;
+      }
+      expect(inkAt, inInclusiveRange(OpeningTimeline.hapticAt - 20, OpeningTimeline.hapticAt + 40));
+      // Unfolded by 1.0 s; the hand-off waits only the grace for the session (a late answer then
+      // lands on the first screen directly), then the opening is gone about 0.28 s later, to a
+      // frame or two, with auth still unknown (the launch screen is up, not an endless opening).
+      const goAt = OpeningTimeline.settledAt + OpeningTimeline.authGraceMs;
+      expect(handedOffAt, inInclusiveRange(goAt + OpeningTimeline.fadeMs - 20, goAt + OpeningTimeline.fadeMs + 60));
+      expect(find.text('First screen'), findsOneWidget, reason: 'the first screen, not an endless opening');
+    });
+
+    testWidgets('services that read the database and the network start after the hand-off, not before', (tester) async {
+      final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
+      var started = 0;
+      final services = Consumer(builder: (context, ref, _) {
+        started++;
+        return const SizedBox.shrink();
+      });
+      await _pump(
+        tester,
+        BrandOpeningHost(shown: _onGlass(), afterOpening: services, child: const Scaffold(body: Center(child: Text('First screen')))),
+        overrides: [authSnapshotProvider.overrideWith(() => auth)],
+      );
+      for (var ms = 0; ms < 1000; ms += 16) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(started, 0, reason: 'nothing of them sits in the frames the opening plays in');
+      for (var ms = 0; ms < 600; ms += 16) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(find.byType(BrandOpening), findsNothing);
+      expect(started, greaterThan(0));
     });
 
     group('the app is built under the opening, not in front of it (cold start, finding 24)', () {

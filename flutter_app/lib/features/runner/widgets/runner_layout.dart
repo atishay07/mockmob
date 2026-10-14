@@ -37,6 +37,8 @@ class RunnerLayout extends StatefulWidget {
     required this.onNext,
     this.onJump,
     this.onRetrySave,
+    this.onStrike,
+    this.onReady,
   });
 
   final RunnerSession session;
@@ -53,6 +55,12 @@ class RunnerLayout extends StatefulWidget {
   /// A tap on "Not saved yet. Tap to retry".
   final VoidCallback? onRetrySave;
 
+  /// A long press on an option: cross it out or bring it back (in memory only).
+  final void Function(String qid, int option)? onStrike;
+
+  /// The paper has just become complete and its last save is acknowledged (the soft haptic).
+  final VoidCallback? onReady;
+
   @override
   State<RunnerLayout> createState() => _RunnerLayoutState();
 }
@@ -67,11 +75,55 @@ class _RunnerLayoutState extends State<RunnerLayout> {
 
   RunnerSession get _session => widget.session;
 
+  /// Practice only: how long the question on show has gone untouched. Measured on the session's
+  /// own clock (the time left, which the engine ticks every second), so there is no timer of its
+  /// own: the time left at the last touch or switch, minus the time left now. From [stallAfter]
+  /// the meta line says so; any touch and every switch start the count again.
+  static const Duration stallAfter = Duration(seconds: 90);
+  late Duration _touchedAt = _session.remaining.value;
+  final ValueNotifier<Duration?> _stall = ValueNotifier<Duration?>(null);
+
+  void _touched() {
+    _touchedAt = _session.remaining.value;
+    _stall.value = null;
+  }
+
+  void _onRemaining() {
+    if (_session.isMock || !_session.canAnswer) {
+      _stall.value = null;
+      return;
+    }
+    final still = _touchedAt - _session.remaining.value;
+    _stall.value = still >= stallAfter ? still : null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _session.remaining.addListener(_onRemaining);
+  }
+
+  @override
+  void didUpdateWidget(RunnerLayout old) {
+    super.didUpdateWidget(old);
+    if (old.session != widget.session) {
+      old.session.remaining.removeListener(_onRemaining);
+      widget.session.remaining.addListener(_onRemaining);
+      _touched();
+    }
+  }
+
+  /// Where the student is in each passage (folded or open, how far down), per passage group, so
+  /// moving between the questions of one passage keeps the place. In memory only.
+  final Map<String, PassageRead> _passages = {};
+
   /// The mock's cells waiting for their option's wash to arrive (one per quick answer).
   final Set<Timer> _inkTimers = {};
 
   @override
   void dispose() {
+    _session.remaining.removeListener(_onRemaining);
+    _stall.dispose();
     for (final t in _inkTimers) {
       t.cancel();
     }
@@ -115,6 +167,8 @@ class _RunnerLayoutState extends State<RunnerLayout> {
     if (index != _lastIndex) {
       if (arriving) _direction = index >= _lastIndex ? 1 : -1;
       _lastIndex = index;
+      // A new question starts its own count (the tap that moved here has already cleared the line).
+      _touchedAt = s.remaining.value;
     }
     final q = s.questions[index];
     final top = MediaQuery.viewPaddingOf(context).top;
@@ -123,11 +177,15 @@ class _RunnerLayoutState extends State<RunnerLayout> {
     final trackHeight = TimingTrack.heightFor(cells.length, MediaQuery.sizeOf(context).width - 2 * MmSpace.gutter);
     final onJump = widget.onJump;
     final onRetrySave = widget.onRetrySave;
+    final onStrike = widget.onStrike;
 
     // A tap anywhere sends the away strip off; the tap itself still lands where it was aimed.
     return Listener(
       behavior: HitTestBehavior.translucent,
-      onPointerDown: (_) => s.dismissAway(),
+      onPointerDown: (_) {
+        s.dismissAway();
+        _touched();
+      },
       child: ColoredBox(
         color: colors.ground,
         child: Stack(
@@ -163,13 +221,17 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         // it, so nothing is covered and nothing below it moves).
                         child: _AwayLine(
                           session: s,
-                          builder: (context, notice) => RunnerMetaRow(
-                            subjectLine: RunnerCopy.subjectLine(s.subject, s.chapter ?? q.chapter),
-                            save: s.saveState,
-                            showSave: s.answeredCount > 0,
-                            warning: widget.warning,
-                            notice: notice,
-                            onRetrySave: onRetrySave,
+                          builder: (context, notice) => ValueListenableBuilder<Duration?>(
+                            valueListenable: _stall,
+                            builder: (context, stall, _) => RunnerMetaRow(
+                              subjectLine: RunnerCopy.subjectLine(s.subject, s.chapter ?? q.chapter),
+                              save: s.saveState,
+                              showSave: s.answeredCount > 0,
+                              warning: widget.warning,
+                              notice: notice,
+                              stall: stall == null || s.isMock ? null : RunnerCopy.onThisQuestion(stall),
+                              onRetrySave: onRetrySave,
+                            ),
                           ),
                         ),
                       ),
@@ -185,9 +247,11 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                       Widget layer(int at, {required bool ghost}) {
                         final question = s.questions[at];
                         return SingleChildScrollView(
-                          // The leaving question is a still picture: it never shares the primary
-                          // scroll controller and never scrolls.
-                          primary: ghost ? false : null,
+                          // Never the primary scroll controller, for either layer: the leaving picture
+                          // must not share it, and the tree must be the same shape for both, or the
+                          // layer that turns into the picture is rebuilt and replays its entrance (the
+                          // root of finding 7's blank frame). Kept, it stays still at its own scroll.
+                          primary: false,
                           physics: ghost ? const NeverScrollableScrollPhysics() : null,
                           padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
                           child: Align(
@@ -201,16 +265,22 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                               child: QuestionEnter(
                                 direction: _direction,
                                 animate: arriving,
-                                child: QuestionView(
-                                  question: question,
-                                  selected: s.answerFor(question.id),
-                                  marked: s.marked.contains(question.id),
-                                  canAnswer: s.canAnswer,
-                                  onSelect: (option) => widget.onSelect(question.id, option),
-                                  onMark: (value) => s.setMarked(question.id, value),
-                                  onLock: _lockFrom,
-                                  passageRange: passageRangeOf(s, at),
-                                  note: !s.isMock && at == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                                child: ListenableBuilder(
+                                  listenable: s.strikes,
+                                  builder: (context, _) => QuestionView(
+                                    question: question,
+                                    selected: s.answerFor(question.id),
+                                    marked: s.marked.contains(question.id),
+                                    canAnswer: s.canAnswer,
+                                    onSelect: (option) => widget.onSelect(question.id, option),
+                                    onMark: (value) => s.setMarked(question.id, value),
+                                    onLock: _lockFrom,
+                                    passageRange: passageRangeOf(s, at),
+                                    isStruck: (option) => s.strikes.isStruck(question.id, option),
+                                    passageRead: _passages.putIfAbsent(question.passageGroupId ?? question.id, PassageRead.new),
+                                    onStrike: onStrike == null ? null : (option) => onStrike(question.id, option),
+                                    note: _noteFor(s, at, strikable: onStrike != null),
+                                  ),
                                 ),
                               ),
                             ),
@@ -218,7 +288,17 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         );
                       }
 
-                      return _ScrollFade(child: QuestionStage(index: index, layer: layer));
+                      return _ScrollFade(
+                        // A sideways swipe moves between questions; past the last it opens the
+                        // submit page, the same as the Next key there.
+                        child: QuestionStage(
+                          index: index,
+                          layer: layer,
+                          onSwipe: (step) => step > 0 ? widget.onNext() : widget.onPrevious(),
+                          hasPrevious: index > 0,
+                          hasNext: index < s.questions.length - 1,
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -226,6 +306,8 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                   isFirst: index == 0,
                   isLast: index == s.questions.length - 1,
                   allAnswered: s.answeredCount == s.questions.length,
+                  save: s.saveState,
+                  onReady: widget.onReady,
                   onPrevious: widget.onPrevious,
                   onNext: widget.onNext,
                 ),
@@ -266,16 +348,27 @@ class _AwayLine extends StatelessWidget {
   }
 }
 
+/// The one quiet line on question 1: the practice note until the first answer, then (practice or
+/// mock) how to cross an option out, until the student has done it once.
+Widget? _noteFor(RunnerSession s, int at, {required bool strikable}) {
+  if (at != 0) return null;
+  if (!s.isMock && s.answeredCount == 0) return const _PracticeNote();
+  if (strikable && !s.strikes.used) return const _PracticeNote(text: RunnerCopy.strikeHint);
+  return null;
+}
+
 /// The practice skin's one line at the start: no feedback while answering. Plain words on the
 /// gutter, no icon to indent them.
 class _PracticeNote extends StatelessWidget {
-  const _PracticeNote();
+  const _PracticeNote({this.text = RunnerCopy.practiceNote});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Text(RunnerCopy.practiceNote, style: type.caption.copyWith(color: colors.ink2));
+    return Text(text, style: type.caption.copyWith(color: colors.ink2));
   }
 }
 

@@ -7,6 +7,7 @@ import 'mobi_character.dart';
 import 'mobi_controller.dart';
 import 'mobi_figure.dart';
 import 'mobi_palette.dart';
+import 'mobi_tap_cycle.dart';
 
 /// Mobi for the welcome and the big moments: the character on a soft pool of lamp light, with
 /// its speech bubble above. Pass [say] for a line said on arrival, or drive it with [controller]
@@ -25,7 +26,15 @@ class MobiStage extends StatefulWidget {
     this.semanticLabel,
     this.seed = 7,
     this.bubble = true,
+    this.tapCycle,
+    this.followPointer = false,
   });
+
+  /// What repeated taps play (see [MobiCharacter.tapCycle]).
+  final MobiTapCycle? tapCycle;
+
+  /// The eyes follow the finger or pointer (see [MobiCharacter.followPointer]).
+  final bool followPointer;
 
   final MobiController? controller;
 
@@ -88,6 +97,8 @@ class _MobiStageState extends State<MobiStage> {
       semanticLabel: widget.semanticLabel,
       interactive: widget.interactive,
       seed: widget.seed,
+      tapCycle: widget.tapCycle,
+      followPointer: widget.followPointer,
     );
 
     return Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
@@ -17,7 +18,12 @@ void main() {
     await tester.pump();
     expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget);
 
+    // A tap previews what the subject would open; nothing is added until the key says so.
     await tester.tap(find.textContaining('Mathematics').first);
+    await tester.pumpAndSettle();
+    expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget, reason: 'previewing adds nothing');
+    expect(prefs.values['mm.tools.compass.v1'] as String, isNot(contains('mathematics')));
+    await tester.tap(find.widgetWithText(KeyButton, ToolsCopy.unlockAdd('Mathematics')));
     await tester.pumpAndSettle();
     expect(find.text('41 open to you'), findsOneWidget);
     expect(prefs.values['mm.tools.compass.v1'] as String, contains('mathematics'));

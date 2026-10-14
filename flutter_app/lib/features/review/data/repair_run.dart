@@ -50,10 +50,14 @@ class RepairRun extends Notifier<RepairRunState?> {
         current.current?.item.questionId == questionId) {
       return true;
     }
+    // The ending's "Try the same mistakes again" prepared exactly these steps.
+    if (current != null && current.retry && current.phase == RepairPhase.entry && current.steps.firstOrNull?.item.questionId == questionId) {
+      return true;
+    }
     final index = ref.read(reviewIndexProvider);
     final item = index?.item(attemptId, questionId);
     if (index == null || item == null) return false;
-    var items = item.stage.isOpen ? [item, ...index.openIn(attemptId, item.chapter).where((i) => i.questionId != questionId)] : [item];
+    var items = item.stage.isOpen ? [item, ...orderRepeatsFirst(index, index.openIn(attemptId, item.chapter).where((i) => i.questionId != questionId))] : [item];
     if (count != null && count > 0 && count < items.length) items = items.sublist(0, count);
     final records = ref.read(reviewInputsProvider).records;
     state = RepairRunState(
@@ -104,7 +108,43 @@ class RepairRun extends Notifier<RepairRunState?> {
     if (s == null || s.phase != RepairPhase.working) return;
     if (s.isLast) return finish();
     state = s.copyWith(index: s.index + 1);
-    unawaited(_loadCurrent());
+    // A step reached before keeps what it has (an explanation, a failure with its own "Try
+    // again"); only a step never opened calls the repair.
+    if (state!.current?.outcome == null) unawaited(_loadCurrent());
+  }
+
+  /// The run track and the swipe: shows step [i] if it was already reached. Never a new repair
+  /// call: a reached step shows what it has, and one whose call is still out shows it working
+  /// until the answer lands on it.
+  bool goTo(int i) {
+    final s = state;
+    if (s == null || !s.canGoTo(i)) return false;
+    state = s.copyWith(index: i);
+    return true;
+  }
+
+  /// Prepares "Try the same mistakes again" on the ending: a fresh run over [questionIds] (those
+  /// still open, in this order), at its entry, which the repair screen then opens as it is.
+  /// Returns the first question id, or null when none of them is open any more.
+  String? prepareRetry(List<String> questionIds) {
+    final s = state;
+    final index = ref.read(reviewIndexProvider);
+    if (s == null || index == null) return null;
+    final items = [
+      for (final q in questionIds)
+        if (index.item(attemptId, q) case final i? when i.stage.isOpen) i,
+    ];
+    if (items.isEmpty) return null;
+    state = RepairRunState(
+      attemptId: attemptId,
+      chapter: s.chapter,
+      subjectId: s.subjectId,
+      source: s.source,
+      steps: [for (final i in items) RepairStep(i)],
+      repairedBefore: _repairedBefore(ref.read(reviewInputsProvider).records),
+      retry: true,
+    );
+    return items.first.questionId;
   }
 
   /// "Finish for now" or the last mistake: go to the ending.
@@ -184,6 +224,27 @@ class RepairRun extends Notifier<RepairRunState?> {
         final next = [...s.steps];
         next[at] = next[at].withOutcome(outcome);
         state = s.copyWith(steps: next);
+      }
+    } else if (s != null && s.phase == RepairPhase.working) {
+      // The student went back along the track while this call was out: the answer lands on its
+      // own step, so going forward again shows it (and never calls a second time).
+      final at = s.steps.indexWhere((x) => x.item.key == step.item.key);
+      if (at >= 0 && s.steps[at].outcome is OutcomeLoading) {
+        if (outcome == null) {
+          state = s.without(at);
+          if (state!.steps.isEmpty) finish();
+        } else {
+          final next = [...s.steps];
+          next[at] = next[at].withOutcome(outcome);
+          state = s.copyWith(steps: next, keyOnly: outcome is OutcomeKeyReview ? true : null);
+          if (outcome is OutcomeKeyReview && step.item.stage.isOpen) {
+            unawaited(
+              _repo
+                  .recordOutcome(attemptId: attemptId, questionId: step.item.questionId, status: RepairLocalStatus.reviewed, acknowledged: false)
+                  .catchError((Object _) {}),
+            );
+          }
+        }
       }
     }
     if (counted) {
@@ -319,16 +380,23 @@ class RepairRun extends Notifier<RepairRunState?> {
 
   void _dropCurrent() {
     final s = state!;
-    final steps = [...s.steps]..removeAt(s.index);
-    if (steps.isEmpty) {
-      state = s.copyWith(steps: steps, index: 0);
-      return finish();
-    }
-    final index = s.index >= steps.length ? steps.length - 1 : s.index;
-    state = s.copyWith(steps: steps, index: index);
-    if (s.index >= steps.length) return finish();
-    unawaited(_loadCurrent());
+    final wasLast = s.index >= s.steps.length - 1;
+    state = s.without(s.index);
+    if (state!.steps.isEmpty || wasLast) return finish();
+    if (state!.current?.outcome == null) unawaited(_loadCurrent());
   }
+}
+
+/// [items] with the questions also missed in another paper first (a repeat miss is the one most
+/// worth repairing), each part keeping its own order.
+List<MistakeItem> orderRepeatsFirst(ReviewIndex index, Iterable<MistakeItem> items) {
+  final list = items.toList();
+  final repeats = [
+    for (final i in list)
+      if (index.missedElsewhere(i).isNotEmpty) i,
+  ];
+  if (repeats.isEmpty) return list;
+  return [...repeats, ...list.where((i) => !repeats.contains(i))];
 }
 
 /// "1 November": the first day of the month after [now] on the Indian calendar, when the monthly

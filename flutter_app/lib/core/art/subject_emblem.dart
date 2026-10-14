@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'emblem_painter.dart';
+import 'emblem_sparkle.dart';
 import 'emblem_palette.dart';
 import 'emblem_sizes.dart';
 import 'emblem_subjects.dart';
@@ -55,7 +57,18 @@ class SubjectEmblem extends StatefulWidget {
     this.framed = true,
     this.brightness,
     this.semanticLabel,
+    this.reaction,
+    this.sparkle = true,
   });
+
+  /// Each change of this value makes the object answer a touch ([MmObjectReact]: it gives, springs
+  /// past rest and settles, with a light haptic) and, with [sparkle], its subject light blooms
+  /// once behind it with four glints ([EmblemSparkle]). Bump it from the tap that touched the
+  /// object, never on a timer. Null: the emblem does not react.
+  final ValueListenable<int>? reaction;
+
+  /// The one-shot light with each [reaction].
+  final bool sparkle;
 
   /// Any subject id the app meets (`accountancy`, `business_studies`, `gat`, `hindi`, ...).
   final String? subject;
@@ -254,6 +267,19 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
   }
 
   Widget _withSemantics(Widget boxed) {
+    final pulse = widget.reaction;
+    if (pulse != null) {
+      final amplitude = (widget.size / EmblemSizes.hero).clamp(0.5, 1.0);
+      boxed = MmObjectReact(pulse: pulse, amplitude: amplitude, alignment: Alignment.bottomCenter, child: boxed);
+      if (widget.sparkle) {
+        boxed = EmblemSparkle(
+          pulse: pulse,
+          light: SubjectLight.forSubject(widget.subject),
+          brightness: widget.brightness ?? Theme.of(context).brightness,
+          child: boxed,
+        );
+      }
+    }
     final label = widget.semanticLabel;
     if (label == null) return ExcludeSemantics(child: boxed);
     return Semantics(

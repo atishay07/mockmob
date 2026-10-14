@@ -117,7 +117,7 @@ void main() {
 
   // ---- Your record ----
   insightsGolden('record_top', () => const InsightsScreen());
-  insightsGolden('record_full_free', () => const InsightsScreen(), size: const Size(384, 3000));
+  insightsGolden('record_full_free', () => const InsightsScreen(), size: const Size(384, 3200));
   insightsGolden('record_full_pro', () => const InsightsScreen(), size: const Size(384, 3300), overrides: () => insightsOverrides(pro: true));
   // The lower half of the page (pace, week, subjects), which the 3300 px frame above ends before.
   insightsGolden(

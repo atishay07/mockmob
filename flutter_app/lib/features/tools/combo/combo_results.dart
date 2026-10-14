@@ -8,8 +8,10 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../domain/du_combos.dart';
+import '../domain/du_eligibility.dart' show duDescribeGap;
 import '../domain/du_models.dart';
 import 'combo_card.dart';
+import '../widgets/size_reveal.dart';
 
 /// The ranked combinations. While a new plan is being checked Mobi waits (the loading pose) in place of the old
 /// list (after a short beat, so a quick answer never flashes it). When the plan lands the cards
@@ -29,9 +31,42 @@ class ComboResults extends StatefulWidget {
   State<ComboResults> createState() => _ComboResultsState();
 }
 
+/// What Mobi does and says once a plan lands, from the best combination's real result.
+@immutable
+class ComboOutcome {
+  const ComboOutcome(this.act, this.line);
+
+  final MobiAct act;
+  final String line;
+
+  /// How long the reaction stays before it collapses.
+  static const Duration hold = Duration(milliseconds: 2400);
+
+  /// All targets met: a small cheer. Some met: a nudge at the missed one. None: encouragement,
+  /// with what the nearest combination still needs. Null when there are no targets to judge.
+  static ComboOutcome? of(List<DuCombo> ranked, int targets, DuCatalog catalog) {
+    if (ranked.isEmpty || targets <= 0) return null;
+    final best = ranked.first;
+    final met = best.met.length;
+    final missed = best.missed.isEmpty ? null : best.missed.first;
+    final needs = missed?.nearest == null
+        ? null
+        : [for (final g in missed!.nearest!.gaps) duDescribeGap(g, catalog).replaceFirst('Add ', '')].join(', ');
+    final line = ComboWords.reaction(met: met, targets: targets, missedName: missed?.name, needs: needs);
+    final act = met >= targets
+        ? MobiAct.cheer
+        : met > 0
+            ? MobiAct.nudge
+            : MobiAct.encourage;
+    return ComboOutcome(act, line);
+  }
+}
+
 class _ComboResultsState extends State<ComboResults> {
   Timer? _timer;
+  Timer? _reactTimer;
   bool _slow = false;
+  ComboOutcome? _outcome;
 
   @override
   void initState() {
@@ -44,9 +79,21 @@ class _ComboResultsState extends State<ComboResults> {
     super.didUpdateWidget(old);
     if (widget.checking && !old.checking) {
       _startBeat();
+      _reactTimer?.cancel();
+      _outcome = null;
     } else if (!widget.checking) {
       _timer?.cancel();
       _slow = false;
+      // A plan has just landed after a check: one reaction, from the real result, then it goes.
+      if (old.checking) {
+        _outcome = ComboOutcome.of(widget.ranked, widget.targetCount, widget.catalog);
+        _reactTimer?.cancel();
+        if (_outcome != null) {
+          _reactTimer = Timer(ComboOutcome.hold, () {
+            if (mounted) setState(() => _outcome = null);
+          });
+        }
+      }
     }
   }
 
@@ -60,6 +107,7 @@ class _ComboResultsState extends State<ComboResults> {
   @override
   void dispose() {
     _timer?.cancel();
+    _reactTimer?.cancel();
     super.dispose();
   }
 
@@ -70,9 +118,13 @@ class _ComboResultsState extends State<ComboResults> {
   Widget build(BuildContext context) {
     if (widget.checking && (_slow || widget.ranked.isEmpty)) return const _Checking();
     final sig = _signature;
+    final outcome = _outcome;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizeReveal(
+          child: outcome == null ? const SizedBox(width: double.infinity) : _Reaction(key: ValueKey(outcome.line), outcome: outcome),
+        ),
         for (var i = 0; i < widget.ranked.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: MmSpace.s16),
@@ -84,11 +136,40 @@ class _ComboResultsState extends State<ComboResults> {
                 rank: i,
                 catalog: widget.catalog,
                 targetCount: widget.targetCount,
+                best: i == 0 ? null : widget.ranked.first,
                 inked: inked,
               ),
             ),
           ),
       ],
+    );
+  }
+}
+
+/// Mobi's one reaction to a landed plan: 56 dp, an act from the result, one line. It collapses
+/// after [ComboOutcome.hold]; the line is the same information under reduced motion.
+class _Reaction extends StatelessWidget {
+  const _Reaction({super.key, required this.outcome});
+
+  final ComboOutcome outcome;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    return Semantics(
+      liveRegion: true,
+      label: outcome.line,
+      excludeSemantics: true,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
+        child: Row(
+          children: [
+            Mobi(pose: MobiPose.think, size: 56, entrance: outcome.act),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(child: Text(outcome.line, style: type.labelLarge)),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
+import '../model/recap_variant.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -14,9 +15,9 @@ import '../../../core/widgets/widgets.dart';
 ///    points at the printed strip of answers);
 ///  * says a [line] as a plain line of text beside it, bobbing while the line arrives.
 ///
-/// It cheers only when [pose] is a cheer, which the card chooses only for a higher result; it
-/// stands proud only for a milestone (the first full mock) and nods encouragement after a lower
-/// or held result. Under reduced motion Mobi holds its pose and the line is simply there.
+/// It cheers only when the reaction table says a higher result cheers; it stands proud only for a
+/// milestone (the first full mock) and nods encouragement after a lower or held result. Under
+/// reduced motion Mobi holds its pose and the line is simply there.
 class RecapMobi extends StatefulWidget {
   const RecapMobi({
     super.key,
@@ -25,7 +26,10 @@ class RecapMobi extends StatefulWidget {
     this.line,
     this.lookAt,
     this.thinkFor = const Duration(milliseconds: 1500),
-    this.cheerAfter,
+    this.actAfter,
+    this.afterAct = MobiAct.cheer,
+    this.mood,
+    this.controller,
   });
 
   final MobiPose pose;
@@ -38,9 +42,32 @@ class RecapMobi extends StatefulWidget {
   final GlobalKey? lookAt;
   final Duration thinkFor;
 
-  /// Plays one cheer after this long (a higher result, once the figure has landed). Never under
-  /// reduced motion.
-  final Duration? cheerAfter;
+  /// Plays one [afterAct] after this long (a higher result cheers, a first mock stands proud, once
+  /// the figure has landed). It goes through the reaction gate, so Quiet and Off calm it, and it
+  /// never plays under reduced motion.
+  final Duration? actAfter;
+  final MobiAct afterAct;
+
+  /// The face under the acts (see [recapMood]); null leaves the default face.
+  final MobiMood? mood;
+
+  /// Drives this Mobi from outside (card 2 glances at the ribbon the student picks). When given,
+  /// the caller owns it and disposes it.
+  final MobiController? controller;
+
+  /// The pose that plays [act] when Mobi appears. The reaction table speaks in acts, the Mobi
+  /// widget in poses.
+  static MobiPose poseFor(MobiAct act) => switch (act) {
+    MobiAct.proud => MobiPose.proud,
+    MobiAct.cheer || MobiAct.celebrate => MobiPose.cheer,
+    MobiAct.encourage => MobiPose.encourage,
+    MobiAct.sleepy => MobiPose.sleepy,
+    MobiAct.sleep => MobiPose.sleepy,
+    _ => MobiPose.rest,
+  };
+
+  /// The pose for [reaction], null (no Mobi) when there is none.
+  static MobiPose? poseOf(RecapReaction? reaction) => reaction == null ? null : poseFor(reaction.act);
 
   @override
   State<RecapMobi> createState() => _RecapMobiState();
@@ -50,7 +77,7 @@ class _RecapMobiState extends State<RecapMobi> {
   /// The earliest Mobi starts talking its line.
   static const Duration _talkAfter = Duration(milliseconds: 650);
 
-  final MobiController _controller = MobiController();
+  late final MobiController _controller = widget.controller ?? MobiController();
   Timer? _beat;
   bool _started = false;
 
@@ -60,12 +87,14 @@ class _RecapMobiState extends State<RecapMobi> {
     if (_started) return;
     _started = true;
     final reduced = Motion.reduced(context);
+    final mood = widget.mood;
+    if (mood != null && mood != MobiMood.calm) _controller.setMood(mood);
     if (widget.lookAt != null) {
       // Thinking first; a held pose under reduced motion goes straight to the point.
       _beat = Timer(reduced ? const Duration(milliseconds: 80) : widget.thinkFor, _point);
-    } else if (widget.cheerAfter != null && !reduced) {
-      _beat = Timer(widget.cheerAfter!, () {
-        if (mounted) _controller.play(MobiAct.cheer);
+    } else if (widget.actAfter != null && !reduced) {
+      _beat = Timer(widget.actAfter!, () {
+        if (mounted) _controller.react(widget.afterAct, key: 'recap:after-act');
       });
     } else if (widget.line != null && !reduced) {
       // Mobi finishes its arrival act first (a proud stretch or an encouraging nod is the
@@ -86,7 +115,7 @@ class _RecapMobiState extends State<RecapMobi> {
   @override
   void dispose() {
     _beat?.cancel();
-    _controller.dispose();
+    if (widget.controller == null) _controller.dispose();
     super.dispose();
   }
 

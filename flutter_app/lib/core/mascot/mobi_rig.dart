@@ -4,23 +4,31 @@ double _l(double a, double b, double t) => lerpDouble(a, b, t)!;
 
 /// One eye on the visor. [open] scales it vertically (1 open, 0 a closed line), [happy] morphs
 /// the oval into a smiling arc, [lid] lowers a flat upper lid (sleepy, squint), [smile] raises a
-/// curved lower lid (warm, smiling eyes that stay open).
+/// curved lower lid (warm, smiling eyes that stay open), [slant] tips the upper lid down toward
+/// the outer corner (0 level, 1 a soft, sympathetic slope; Mobi's brow, since he has none).
 class MobiEye {
-  const MobiEye({this.open = 1, this.happy = 0, this.lid = 0, this.smile = 0});
+  const MobiEye({this.open = 1, this.happy = 0, this.lid = 0, this.smile = 0, this.slant = 0});
 
   final double open;
   final double happy;
   final double lid;
   final double smile;
+  final double slant;
 
-  MobiEye copyWith({double? open, double? happy, double? lid, double? smile}) =>
-      MobiEye(open: open ?? this.open, happy: happy ?? this.happy, lid: lid ?? this.lid, smile: smile ?? this.smile);
+  MobiEye copyWith({double? open, double? happy, double? lid, double? smile, double? slant}) => MobiEye(
+        open: open ?? this.open,
+        happy: happy ?? this.happy,
+        lid: lid ?? this.lid,
+        smile: smile ?? this.smile,
+        slant: slant ?? this.slant,
+      );
 
   static MobiEye lerp(MobiEye a, MobiEye b, double t) => MobiEye(
         open: _l(a.open, b.open, t),
         happy: _l(a.happy, b.happy, t),
         lid: _l(a.lid, b.lid, t),
         smile: _l(a.smile, b.smile, t),
+        slant: _l(a.slant, b.slant, t),
       );
 }
 

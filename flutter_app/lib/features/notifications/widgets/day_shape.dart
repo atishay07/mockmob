@@ -40,7 +40,12 @@ class DayShape extends StatefulWidget {
     required this.quietStart,
     required this.quietEnd,
     this.window,
+    this.nextMinute,
   });
+
+  /// The minute of the day (0 to 1439) the next reminder lands on: a dot on the bar. Null draws
+  /// no dot (nothing is scheduled, or the scheduler has not planned yet).
+  final int? nextMinute;
 
   final ClockTime quietStart;
   final ClockTime quietEnd;
@@ -139,12 +144,16 @@ class _DayShapeState extends State<DayShape>
         : daySpans(window.start, window.end);
     final clash = overlapOf(quiet, study).isNotEmpty;
 
+    final nextMinute = widget.nextMinute;
+    final nextText = nextMinute == null ? null : '${NotificationsCopy.dayNext} ${formatClock(ClockTime(nextMinute ~/ 60, nextMinute % 60))}';
+
     final description = [
       quiet.isEmpty
           ? NotificationsCopy.dayQuietOff
           : '${NotificationsCopy.dayQuiet} ${formatClock(widget.quietStart)} to ${formatClock(widget.quietEnd)}',
       if (window != null)
         '${NotificationsCopy.dayStudy} ${formatClock(window.start)} to ${formatClock(window.end)}',
+      ?nextText,
     ].join('. ');
 
     final labelHeight = MediaQuery.textScalerOf(context).scale(13 * 1.3);
@@ -181,6 +190,8 @@ class _DayShapeState extends State<DayShape>
                     studyRim: colors.isNight ? null : colors.accentText,
                     clash: _ClashInk.of(colors),
                     ground: colors.ground,
+                    nextFraction: widget.nextMinute == null ? null : widget.nextMinute! / 1440.0,
+                    dot: colors.ink,
                   ),
                 );
               },
@@ -228,6 +239,11 @@ class _DayShapeState extends State<DayShape>
                     '${NotificationsCopy.dayStudy} ${formatClock(window.start)} to ${formatClock(window.end)}',
               ),
             ],
+            // The dot on the bar, named: where the next reminder will land.
+            if (nextText != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              _LegendLine(swatch: _Swatch.next, text: nextText),
+            ],
           ],
         ),
       ),
@@ -235,7 +251,7 @@ class _DayShapeState extends State<DayShape>
   }
 }
 
-enum _Swatch { quiet, study, clash }
+enum _Swatch { quiet, study, clash, next }
 
 /// The overlap mark: amber, hatched, so it reads even where it is narrow, and never by colour
 /// alone. The same pair of colours paints the bar and its legend swatch.
@@ -282,24 +298,25 @@ class _LegendLine extends StatelessWidget {
       _Swatch.quiet => colors.isNight ? colors.lineStrong : colors.ink4,
       _Swatch.study => colors.volt,
       _Swatch.clash => colors.warnText,
+      _Swatch.next => colors.ink,
     };
     // The same Day rim as the bar's study mark.
     final rim = swatch == _Swatch.study && !colors.isNight ? colors.accentText : null;
+    final Widget mark = switch (swatch) {
+      _Swatch.clash => CustomPaint(painter: _HatchSwatchPainter(_ClashInk.of(colors))),
+      // The same dot the bar carries.
+      _Swatch.next => Center(child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: color), child: const SizedBox.square(dimension: 8))),
+      _ => DecoratedBox(
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: MmRadius.pillAll,
+            border: rim == null ? null : Border.all(color: rim),
+          ),
+        ),
+    };
     return Row(
       children: [
-        SizedBox(
-          width: 20,
-          height: 8,
-          child: swatch == _Swatch.clash
-              ? CustomPaint(painter: _HatchSwatchPainter(_ClashInk.of(colors)))
-              : DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: MmRadius.pillAll,
-                    border: rim == null ? null : Border.all(color: rim),
-                  ),
-                ),
-        ),
+        SizedBox(width: 20, height: 8, child: mark),
         const SizedBox(width: MmSpace.s8),
         Expanded(
           child: Text(
@@ -337,7 +354,13 @@ class _DayPainter extends CustomPainter {
     this.studyRim,
     required this.clash,
     required this.ground,
+    this.nextFraction,
+    this.dot,
   });
+
+  /// Where the next reminder lands, as a fraction of the day, and the ink of its dot.
+  final double? nextFraction;
+  final Color? dot;
 
   final _Marks marks;
   final bool hasQuiet;
@@ -455,6 +478,17 @@ class _DayPainter extends CustomPainter {
         ..strokeWidth = 1
         ..color = trackBorder,
     );
+
+    // The next reminder: an ink dot with a ring of ground round it, so it reads over the study
+    // mark, the quiet band and the bare track alike.
+    final f = nextFraction;
+    final ink = dot;
+    if (f != null && ink != null) {
+      final x = (size.width * f).clamp(barHeight / 2, size.width - barHeight / 2).toDouble();
+      final centre = Offset(x, barTop + barHeight / 2);
+      canvas.drawCircle(centre, 6, Paint()..color = ground);
+      canvas.drawCircle(centre, 4, Paint()..color = ink);
+    }
   }
 
   @override
@@ -469,5 +503,7 @@ class _DayPainter extends CustomPainter {
       old.studyRim != studyRim ||
       old.quiet != quiet ||
       old.track != track ||
-      old.clash.fill != clash.fill;
+      old.clash.fill != clash.fill ||
+      old.nextFraction != nextFraction ||
+      old.dot != dot;
 }

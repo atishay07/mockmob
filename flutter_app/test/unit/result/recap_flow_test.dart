@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' show Brightness, ConstrainedBox;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/result/recap/card_drag.dart' show CardDrag;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/platform/review_prompt.dart' show ReviewMoment;
@@ -10,6 +11,7 @@ import 'package:mockmob/features/result/copy.dart' show ResultCopy;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
 import 'package:mockmob/features/result/recap/card_page.dart' show RecapCardPage;
+import 'package:mockmob/features/result/recap/recap_mobi.dart' show RecapMobi;
 import 'package:mockmob/features/result/recap/record_card.dart';
 import 'package:mockmob/features/result/widgets/evidence_link.dart';
 import 'package:mockmob/features/result/widgets/result_space.dart';
@@ -198,7 +200,7 @@ void main() {
       final router = await pump(tester, '/result/a7/recap/2');
       await _run(tester, 1000);
       expect(find.text('Where the other 135 marks went'), findsOneWidget);
-      expect(find.bySemanticsLabel('Card 2 of 4'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'^Card 2 of 4')), findsOneWidget);
       // The card scrolls to its end first (its body is taller than the screen here); the swipe that
       // carries on past the end turns to the next card.
       for (var i = 0; i < 3 && find.text('Start with Admission of a partner').evaluate().isEmpty; i++) {
@@ -206,7 +208,7 @@ void main() {
         await tester.pumpAndSettle();
       }
       expect(find.text('Start with Admission of a partner'), findsOneWidget);
-      await tester.tap(find.text('Skip to full result'));
+      await tester.tap(find.bySemanticsLabel('Skip to full result'));
       await tester.pumpAndSettle();
       expect(_at(router), '/result/a7');
       expect(actions.events.map((e) => e.$1), contains('recap_skipped'));
@@ -241,7 +243,7 @@ void main() {
       expect(find.bySemanticsLabel('115 out of 250 marks'), findsNothing);
       await tester.tap(find.text('The first thing to fix'));
       await tester.pumpAndSettle();
-      expect(find.bySemanticsLabel('Card 2 of 3'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'^Card 2 of 3')), findsOneWidget);
       expect(find.textContaining('Start with'), findsOneWidget);
     });
 
@@ -254,8 +256,8 @@ void main() {
       expect(find.text('Fresh check: not available yet.'), findsNothing);
       await tester.tap(find.text('5 min'));
       await tester.pump();
-      expect(find.text('Start 5-minute repair'), findsOneWidget);
-      await tester.tap(find.text('Start 5-minute repair'));
+      expect(find.text('Repair Admission of a partner, 2 mistakes'), findsOneWidget);
+      await tester.tap(find.text('Repair Admission of a partner, 2 mistakes'));
       await tester.pumpAndSettle();
       expect(_at(router), startsWith('/review/repair/a7/'));
       expect(_at(router), contains('count=2'));
@@ -271,10 +273,87 @@ void main() {
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 100);
       expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Review.'), findsOneWidget);
-      await _run(tester, 3000);
+      // Mobi's act plus 900 ms (3.1 s at the longest), then the fade: Today takes over.
+      await _run(tester, 4000);
       await tester.pumpAndSettle();
       expect(_at(router), '/today');
       expect(actions.progress, contains(4));
+    });
+
+    testWidgets('an NTA result has no Mobi on card 4 and none on the finish screen, only the plain line', (tester) async {
+      final d = detail(attemptBody: attemptJson(mode: 'nta'));
+      final router = await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: d), d: d);
+      await _run(tester, 1000);
+      expect(find.byType(RecapMobi), findsNothing);
+      await tester.tap(find.bySemanticsLabel('More'));
+      await _run(tester, 700);
+      await tester.tap(find.text('Finish for now'));
+      await _run(tester, 300);
+      expect(find.byType(RecapMobi), findsNothing);
+      expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Review.'), findsOneWidget);
+      await _run(tester, 2600);
+      await tester.pumpAndSettle();
+      expect(_at(router), '/today', reason: 'no Mobi act to wait for: the plain 2.2 seconds');
+    });
+
+    testWidgets('a tap on the finish screen leaves at once, and the quiet key waits until 1.2 s', (tester) async {
+      final router = await pump(tester, '/result/a7/recap/4');
+      await _run(tester, 1000);
+      await tester.tap(find.bySemanticsLabel('More'));
+      await _run(tester, 700);
+      await tester.tap(find.text('Finish for now'));
+      await _run(tester, 100);
+      expect(find.bySemanticsLabel('Continue to Today'), findsNothing, reason: 'not announced before it appears');
+      await _run(tester, 1300);
+      expect(find.bySemanticsLabel('Continue to Today'), findsOneWidget);
+      expect(_at(router), isNot('/today'));
+      await tester.tap(find.text('Continue to Today'));
+      await _run(tester, 500);
+      await tester.pumpAndSettle();
+      expect(_at(router), '/today');
+    });
+
+    testWidgets('a tap anywhere on the finish screen leaves before the act has ended', (tester) async {
+      final router = await pump(tester, '/result/a7/recap/4');
+      await _run(tester, 1000);
+      await tester.tap(find.bySemanticsLabel('More'));
+      await _run(tester, 700);
+      await tester.tap(find.text('Finish for now'));
+      await _run(tester, 400);
+      await tester.tapAt(const Offset(40, 300));
+      await _run(tester, 400);
+      await tester.pumpAndSettle();
+      expect(_at(router), '/today');
+    });
+
+    testWidgets('a story bar segment is a 48 dp target that jumps to its card, and it names the card', (tester) async {
+      await pump(tester, '/result/a7/recap/2');
+      await _run(tester, 1000);
+      final fourth = find.bySemanticsLabel('Card 4 of 4: What is recorded');
+      expect(fourth, findsOneWidget);
+      expect(tester.getSize(fourth).height, greaterThanOrEqualTo(48));
+      expect(tester.getSize(fourth).width, greaterThanOrEqualTo(48), reason: 'a segment is as wide as 48 dp too');
+      expect(find.bySemanticsLabel('Card 2 of 4: Where the marks went'), findsOneWidget);
+      await tester.tap(fourth);
+      await _run(tester, 900);
+      expect(find.text('Mock 7 is in your record.'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Card 2 of 4: Where the marks went'));
+      await _run(tester, 900);
+      expect(find.text('Where the other 135 marks went'), findsOneWidget);
+    });
+
+    testWidgets('dragging a card sideways past the threshold turns it; a short drag springs back', (tester) async {
+      await pump(tester, '/result/a7/recap/2');
+      await _run(tester, 1000);
+      await tester.drag(find.byType(CardDrag), const Offset(-30, 0));
+      await _run(tester, 600);
+      expect(find.text('Where the other 135 marks went'), findsOneWidget, reason: '30 dp is short of the 72 dp it takes');
+      await tester.drag(find.byType(CardDrag), const Offset(-200, 0));
+      await _run(tester, 900);
+      expect(find.text('Start with Admission of a partner'), findsOneWidget);
+      await tester.drag(find.byType(CardDrag), const Offset(200, 0));
+      await _run(tester, 900);
+      expect(find.text('Where the other 135 marks went'), findsOneWidget);
     });
 
     testWidgets('system back from a card lands on the full result', (tester) async {
@@ -300,7 +379,7 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Previous card'));
       await _run(tester, 800);
       expect(find.bySemanticsLabel('Previous card'), findsNothing);
-      expect(find.bySemanticsLabel('Card 1 of 4'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'^Card 1 of 4')), findsOneWidget);
     });
 
     testWidgets('card 2 and card 3 carry a text link that opens the evidence (result-05)', (tester) async {

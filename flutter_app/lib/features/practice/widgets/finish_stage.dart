@@ -43,7 +43,12 @@ class FinishStage extends ConsumerStatefulWidget {
     this.chapter,
     this.onCellTap,
     this.onSettled,
+    this.onStampReplay,
   });
+
+  /// Called each time a tap on the settled figure plays the gentle stamp again (tests).
+  @visibleForTesting
+  final VoidCallback? onStampReplay;
 
   final FinishMarks marks;
   final List<QuestionCell> cells;
@@ -102,6 +107,11 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   final MobiController _mobi = MobiController();
   final GlobalKey _sheetKey = GlobalKey();
   bool _reacted = false;
+
+  /// The stamp is being played again by a tap on the settled figure: gentle, with no ring or
+  /// shards (those belong to the first landing).
+  bool _replay = false;
+  Timer? _hushTimer;
 
   /// The marks bar fills a beat after Mobi's line starts, so it never shows washed out under an
   /// empty bubble.
@@ -175,11 +185,40 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     }
   }
 
+  /// A tap on the settled figure: it stamps again, gently (a light haptic, no ring, no shards).
+  /// While the moment is still playing the tap skips it instead. Nothing under reduced motion or
+  /// with Celebrations off, where the figure holds still.
+  void _tapFigure() {
+    if (_c.isAnimating || _stamp.isAnimating) {
+      _skip();
+      return;
+    }
+    if (!_reacted || Motion.reduced(context) || _mode == CelebrationMode.off) return;
+    setState(() => _replay = true);
+    unawaited(ref.read(hapticsProvider).light());
+    widget.onStampReplay?.call();
+    _stamp.forward(from: 0);
+  }
+
+  /// A long press on a bubble of the sheet: Mobi points at it and says what it was, in his own
+  /// bubble ("Question 7: wrong"). The line goes after 3 s.
+  void _cellSays(int index) {
+    if (index < 0 || index >= widget.cells.length) return;
+    _pointAtCell(index);
+    _mobi.say(PracticeCopy.cellSays(index + 1, widget.cells[index]), live: true);
+    _hushTimer?.cancel();
+    _hushTimer = Timer(const Duration(milliseconds: 3600), () {
+      if (mounted) _mobi.hush();
+    });
+  }
+
   void _skip() {
     if (_c.isAnimating) {
-      // Straight to the end: no stamp left to watch.
+      // Straight to the end: no stamp left to watch. Mobi still gives his act for the tone
+      // (on Full): the skip saves the student the wait, not the reaction.
       _landed = true;
       _c.value = 1;
+      if (_celebrates && !Motion.reduced(context)) unawaited(ref.read(hapticsProvider).success());
       _react();
     } else if (_stamp.isAnimating) {
       _stamp.value = 1;
@@ -195,7 +234,10 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   void _react() {
     if (_reacted) return;
     _reacted = true;
-    if (_mode == CelebrationMode.full) _mobi.play(widget.tone.act);
+    // Through react: a still pose with no travel under reduced motion, and never twice in a hurry.
+    // His face follows the tone once the number has landed (Full and Quiet; Off is words only).
+    if (_mode != CelebrationMode.off) _mobi.setMood(widget.tone.mood);
+    if (_mode == CelebrationMode.full) _mobi.react(widget.tone.act, key: 'practice-finish');
     _mobi.say(PracticeCopy.finishLine(widget.tone, widget.marks));
     if (_still) {
       _marksOn = true;
@@ -214,12 +256,17 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
 
   void _pointAtFirstWrong() {
     final first = widget.cells.indexOf(QuestionCell.wrong);
+    if (first >= 0) _pointAtCell(first);
+  }
+
+  /// Aims Mobi at bubble [index] of the sheet.
+  void _pointAtCell(int index) {
     final box = _sheetKey.currentContext?.findRenderObject();
-    if (first < 0 || box is! RenderBox || !box.hasSize || !mounted) return;
+    if (box is! RenderBox || !box.hasSize || !mounted) return;
     final g = NumberedSheet.geometry(widget.cells.length, box.size.width);
     final local = Offset(
-      g.left + (first % g.columns) * (g.cell + g.gap) + g.cell / 2,
-      (first ~/ g.columns) * (g.cell + g.gap) + g.cell / 2,
+      g.left + (index % g.columns) * (g.cell + g.gap) + g.cell / 2,
+      (index ~/ g.columns) * (g.cell + g.gap) + g.cell / 2,
     );
     _mobi.pointAt(box.localToGlobal(local));
   }
@@ -227,6 +274,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   @override
   void dispose() {
     _marksTimer?.cancel();
+    _hushTimer?.cancel();
     _reactTimer?.cancel();
     _c.dispose();
     _stamp.dispose();
@@ -267,19 +315,25 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             header: true,
             label: PracticeCopy.figureSemantics(m.correct, m.total),
             excludeSemantics: true,
-            child: StampedFigure(
-              stamp: _stamp,
-              burst: _burst,
-              digits: '${m.correct}'.length,
-              child: AnimatedBuilder(
-                animation: _c,
-                builder: (context, _) =>
-                    // The thin spaces keep "of 10" clear of the digit it follows.
-                    MonumentalNumber(
-                      value: PracticeCopy.figureNumber(_tally()),
-                      unit: '\u2009\u2009${PracticeCopy.figureUnit(m.total)}',
-                      roll: false,
-                    ),
+            // A tap on the settled figure stamps it again, gently.
+            child: GestureDetector(
+              key: const ValueKey('finish-figure'),
+              behavior: HitTestBehavior.opaque,
+              onTap: _tapFigure,
+              child: StampedFigure(
+                stamp: _stamp,
+                burst: _burst && !_replay,
+                digits: '${m.correct}'.length,
+                child: AnimatedBuilder(
+                  animation: _c,
+                  builder: (context, _) =>
+                      // The thin spaces keep "of 10" clear of the digit it follows.
+                      MonumentalNumber(
+                        value: PracticeCopy.figureNumber(_tally()),
+                        unit: '\u2009\u2009${PracticeCopy.figureUnit(m.total)}',
+                        roll: false,
+                      ),
+                ),
               ),
             ),
           ),
@@ -294,7 +348,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
           ),
           if (widget.cells.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s16),
-            _InkSheet(cells: widget.cells, reveal: _ink, onCellTap: widget.onCellTap, stripKey: _sheetKey),
+            _InkSheet(cells: widget.cells, reveal: _ink, onCellTap: widget.onCellTap, onCellLongPress: _cellSays, stripKey: _sheetKey),
           ],
           const SizedBox(height: MmSpace.s8),
           // Mobi sits under the sheet, reading it while it inks, then turns and says one line.
@@ -321,7 +375,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
           ),
           const SizedBox(height: MmSpace.s12),
           // The line keeps its height while the acknowledgement time is read, so nothing jumps.
-          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!))),
+          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!, chapter: widget.chapter))),
           // After a calm or good set only: after a mixed one the next step is Repair, not a nudge
           // to stop.
           if (_celebrates) const LateNightLine(),
@@ -352,11 +406,12 @@ class _MobiSays extends StatelessWidget {
 /// The student's sheet on a solid card: one bubble per question, inking in order. Each bubble
 /// is a verdict, and a tap opens that question below (the rows are the accessible path).
 class _InkSheet extends StatelessWidget {
-  const _InkSheet({required this.cells, required this.reveal, this.onCellTap, this.stripKey});
+  const _InkSheet({required this.cells, required this.reveal, this.onCellTap, this.onCellLongPress, this.stripKey});
 
   final List<QuestionCell> cells;
   final Animation<double> reveal;
   final ValueChanged<int>? onCellTap;
+  final ValueChanged<int>? onCellLongPress;
   final Key? stripKey;
 
   @override
@@ -372,7 +427,7 @@ class _InkSheet extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(MmSpace.s16),
-        child: NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, stripKey: stripKey),
+        child: NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, onCellLongPress: onCellLongPress, stripKey: stripKey),
       ),
     );
   }

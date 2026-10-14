@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/router/router_redirect.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 
 const _loadFailed = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
 const _signedIn = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1');
@@ -204,6 +205,24 @@ void main() {
       intended.remember('/b');
       intended.clear();
       expect(intended.location, isNull);
+    });
+
+    // ROBUSTNESS onboarding-05: the process died while the student read the code in the mail app.
+    test('a link restored after process death is used once when sign-in lands, then gone from the phone', () async {
+      final store = MemoryPrefsStore();
+      IntendedRoute(store: store).remember('/practice/subject/english', userId: 'u1');
+      await pumpEventQueue();
+
+      // The restarted process: the link is back before the account has loaded.
+      final restored = await IntendedRoute.restored(store);
+      expect(_redirect(const AuthSnapshot(status: AuthStatus.unknown), '/splash', restored), isNull);
+      expect(restored.location, '/practice/subject/english');
+
+      expect(_redirect(_signedIn, '/splash', restored), '/practice/subject/english');
+      await pumpEventQueue();
+      expect(_redirect(_signedIn, '/splash', restored), '/today', reason: 'consumed exactly once');
+      expect(store.values.containsKey(IntendedRoute.storeKey), isFalse);
+      expect((await IntendedRoute.restored(store)).location, isNull, reason: 'a third start finds nothing');
     });
   });
 }

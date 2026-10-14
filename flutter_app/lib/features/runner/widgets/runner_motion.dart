@@ -12,9 +12,40 @@ abstract final class RunnerMotion {
   static const Duration enter = Duration(milliseconds: 260);
   static const Duration stagger = Duration(milliseconds: 35);
 
-  /// The question that was just left stays under the arriving one and fades out over this, holding
-  /// fully visible for its first quarter, so a switch is never a blank frame (the two overlap).
-  static const Duration crossFade = Duration(milliseconds: 110);
+  /// The question that was just left stays fully visible under the arriving one until the arriving
+  /// question's text is half visible ([ghostHold]), then fades out over [ghostFade], so a switch is
+  /// never a blank frame: the two texts together never drop below 0.7 (finding 7).
+  static const Duration ghostFade = Duration(milliseconds: 90);
+
+  /// The first two staggered items (the question text and the line under it) start from this
+  /// opacity, not from nothing, so the arriving question is readable from its first frame.
+  static const double enterFloor = 0.35;
+
+  /// How long the arriving question's text (order 0) takes to reach 0.5 opacity.
+  static final Duration ghostHold = _timeToReach(0.5);
+
+  /// The whole cross-fade: the hold, then the fade.
+  static Duration get crossFade => ghostHold + ghostFade;
+
+  static Duration _timeToReach(double opacity) {
+    final target = (opacity - enterFloor) / (1 - enterFloor);
+    var lo = 0.0, hi = 1.0;
+    for (var i = 0; i < 30; i++) {
+      final mid = (lo + hi) / 2;
+      if (Motion.glide.transform(mid) < target) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    return Duration(microseconds: (hi * enter.inMicroseconds).ceil());
+  }
+
+  /// The opacity of an arriving item of [order] at its own progress [t] (0 to 1).
+  static double enterOpacity(int order, double t) {
+    final floor = order <= 1 ? enterFloor : 0.0;
+    return floor + (1 - floor) * t;
+  }
 
   /// The count "19 of 20" changing.
   static const Duration countFlip = Duration(milliseconds: 220);
@@ -29,6 +60,9 @@ abstract final class RunnerMotion {
   /// A volt wash bleeding out of the chosen option's bubble.
   static const Duration wash = Duration(milliseconds: 320);
   static const Duration washOut = Duration(milliseconds: 140);
+
+  /// Changing the answer from one option to another: the wash slides from the old row to the new.
+  static const Duration washGlide = Duration(milliseconds: 240);
 
   /// A light band crossing a surface once.
   static const Duration sweep = Duration(milliseconds: 700);

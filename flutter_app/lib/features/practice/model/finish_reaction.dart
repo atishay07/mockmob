@@ -1,3 +1,4 @@
+import '../../../core/mascot/mascot.dart' show MobiMood;
 import '../../../core/widgets/mobi.dart' show MobiAct;
 
 /// How Mobi meets a finished practice. Chosen from the server's counts only, and never sad at
@@ -29,6 +30,18 @@ enum FinishTone {
     mixed => MobiAct.point,
     blank => MobiAct.read,
     low => MobiAct.encourage,
+  };
+
+  /// His face under the act, set with it and kept while the result is open (it blends over 300 ms):
+  /// proud and happy for a good run, curious while he looks at the first slip, calm over a mostly
+  /// blank sheet, and the soft "that did not go to plan, and that is fine" face for a set with
+  /// nothing right. Never sad, never at the student.
+  MobiMood get mood => switch (this) {
+    great => MobiMood.proud,
+    good => MobiMood.happy,
+    mixed => MobiMood.curious,
+    blank => MobiMood.calm,
+    low => MobiMood.concerned,
   };
 
   /// Mobi points at the first wrong answer on the sheet.

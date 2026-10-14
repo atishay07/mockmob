@@ -152,6 +152,8 @@ Every motion golden is rendered in both themes. That is mostly true already; the
 
 The same information is always present in text. Each screen entry below states its fallback only where it differs from this.
 
+A size animation is never given a zero duration: `AnimatedSize` with `Duration.zero` re-dirties its own layout and asserts in debug. Use `MmSizeEase` (`core/motion/size_ease.dart`), which is the child itself under reduced motion or a zero duration, and pass it the same `Motion.of(context, d)` duration.
+
 ### 1.6 Haptics (one map; the Touch feedback switch turns all of them off)
 
 | Verb | Use |
@@ -191,6 +193,11 @@ Changes to what exists:
 | Add `Springs.celebrate` (520 ms, bounce 0.22). | Only for a T3 stamp and Mobi. Nothing else may use it. |
 | Keep everything else. | The vocabulary is good. The problem is adoption and rationing, not tokens. |
 
+Kit defaults (motion-kit packet, 15 Oct), in `lib/core/motion/**` and `lib/core/widgets/**`:
+- **`MmOverlapSwitcher` is the default for any keyed content swap** (a message line, a figure, a label). The outgoing layer holds until the incoming is at 0.5, then fades over 90 ms; the summed opacity never drops below 0.7, so there is no blank frame. Under reduced motion it is a short fade. Use it instead of a bare `AnimatedSwitcher`. Tests: the old words stay until the new ones land, so pump about 400 ms before expecting them gone.
+- **`MmDragCommit`** follows the finger 1:1 by default. `follow` below 1 moves the child less than the finger (the recap card leans at 0.35) while thresholds count the finger's travel; `commitShare` sets the commit distance as a share of the width; `onRelease` gives an `MmDragRelease` (side, offset at release, velocity) so the next content continues the finger's motion. For the runner, recap and saved-row swipes.
+- **`MmSizeEase`** for any height change (see 1.5).
+
 ---
 
 ## 3. Connective motion (app-wide transitions)
@@ -226,7 +233,8 @@ Each entry gives the status, then:
 - **Mobi:** blinks and glances at the word (exists).
 - **Haptics:** a light tap at the ink (400 ms).
 - **Reduced:** the "mo" fades to the word.
-- **Cost:** L. The `_warmUp` comment is false (OVERNIGHT-AUDIT); remove it or make it real.
+- **Hand-off rule (cold-start packet, 15 Oct):** the opening never waits for data. If the first screen is known when the word is composed, it hands off straight to it. If the session is still being read, the word holds for `OpeningTimeline.authGraceMs` (300 ms) more, then hands off to the router's launch screen, which is the same word with Mobi's idle blink, so nothing moves; the first screen replaces it when known. The app's services (`_AppServices` in `lib/app.dart`) start only through `BrandOpeningHost.afterOpening`. Target on the emulator: the unfold by 1.0 s of timeline after the "mo" is on the glass, the hand-off by about 1.3 s.
+- **Cost:** L. (The old `_warmUp` method is gone.)
 
 ### 4.2 Onboarding steps and the plan seal
 - **Status:**

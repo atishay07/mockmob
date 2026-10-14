@@ -13,7 +13,9 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
+import '../data/review_seen.dart';
 import 'collapsible.dart';
+import 'mistake_view.dart' show MissedTwiceGlyph;
 
 /// "12 mistakes across 4 chapters".
 String mistakesSummaryOf(ReviewIndex index) => ReviewCopy.mistakesSummary(index.openCount, index.openGroups.length);
@@ -53,9 +55,20 @@ class MistakeMap extends ConsumerStatefulWidget {
     this.scaleTo,
     this.showSubject,
     this.leadKeyPrimary = false,
+    this.changes = const {},
+    this.index,
   });
 
+  /// The whole index, so a mistake whose question was also missed in another paper says so on
+  /// its row ("Missed twice"). Null: rows say nothing about other papers.
+  final ReviewIndex? index;
+
   final List<ChapterGroup> groups;
+
+  /// What changed since the student last looked ([ReviewSeen.look]), by [chapterSeenKey]. A
+  /// changed row rolls its number from the old count and carries one quiet mark; the map keeps
+  /// a mark for as long as it is on screen.
+  final Map<String, ChapterChange> changes;
   final ReviewClock clock;
 
   /// Opens the repair at a mistake.
@@ -89,6 +102,9 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
   String? _open;
   bool _started = false;
 
+  /// The marks on screen: each change as it was first seen, kept while the map stays up.
+  late final Map<String, ChapterChange> _marks = {...widget.changes};
+
   static Duration _total(int rows) => _draw + _step * (rows > 0 ? rows - 1 : 0);
 
   static String keyOf(ChapterGroup g) => '${g.subjectId}|${g.chapter}';
@@ -112,6 +128,18 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
   }
 
   @override
+  void didUpdateWidget(MistakeMap old) {
+    super.didUpdateWidget(old);
+    if (!identical(old.changes, widget.changes) && widget.changes.isNotEmpty) {
+      widget.changes.forEach((key, change) {
+        // A second change while the map is up rolls on from what the row last showed.
+        final had = _marks[key];
+        _marks[key] = had == null ? change : ChapterChange(from: had.from, to: change.to);
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _enter.dispose();
     super.dispose();
@@ -125,6 +153,12 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
   void _toggle(ChapterGroup g) {
     ref.read(hapticsProvider).tick();
     setState(() => _open = _open == keyOf(g) ? null : keyOf(g));
+  }
+
+  /// How many papers the question of a mistake was answered wrong in (1 when only this one).
+  int _repeats(MistakeItem item) {
+    final index = widget.index;
+    return index == null ? 1 : index.missedElsewhere(item).length + 1;
   }
 
   @override
@@ -154,6 +188,8 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
             nameSubject: i == 0 || groups[i].subjectId != groups[i - 1].subjectId,
             open: _open == keyOf(groups[i]),
             leadKeyPrimary: widget.leadKeyPrimary,
+            change: _marks[chapterSeenKey(groups[i])],
+            repeats: _repeats,
             // Rows grow in one after another: the bar of row i starts 45 ms after the one above it.
             grow: _enter.drive(CurveTween(curve: _interval(i, groups.length))),
             onToggle: () => _toggle(groups[i]),
@@ -177,9 +213,17 @@ class _ChapterRow extends StatelessWidget {
     required this.grow,
     required this.onToggle,
     required this.onOpen,
+    this.change,
+    this.repeats,
   });
 
   final ChapterGroup group;
+
+  /// What changed since the last look, or null.
+  final ChapterChange? change;
+
+  /// Papers the question of a mistake was missed in.
+  final int Function(MistakeItem item)? repeats;
   final ReviewClock clock;
   final int scale;
   final bool showSubject;
@@ -205,6 +249,16 @@ class _ChapterRow extends StatelessWidget {
     return Align(
       child: KeyButton.quiet(label: label, onPressed: go),
     );
+  }
+
+  /// The one quiet mark of a changed row: "New", "2 new" or "2 fewer". Null when nothing changed.
+  String? get _markWord {
+    final c = change;
+    if (c == null) return null;
+    if (c.isNew) return ReviewCopy.changedNew;
+    if (c.delta > 0) return ReviewCopy.changedMore(c.delta);
+    if (c.delta < 0) return ReviewCopy.changedFewer(-c.delta);
+    return null;
   }
 
   List<MistakeItem> get _ordered {
@@ -269,7 +323,7 @@ class _ChapterRow extends StatelessWidget {
           onTap: onToggle,
           pressedScale: 0.985,
           focusRadius: MmRadius.panelAll,
-          semanticsLabel: '${g.chapter}. $summary. ${ReviewCopy.groupExpandHint(open)}',
+          semanticsLabel: '${g.chapter}. $summary.${_markWord == null ? '' : ' ${ReviewCopy.changedSpoken(_markWord!)}.'} ${ReviewCopy.groupExpandHint(open)}',
           builder: (context, pressed, _) => Padding(
             padding: const EdgeInsets.all(MmSpace.s12),
             child: Column(
@@ -298,7 +352,7 @@ class _ChapterRow extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: MmSpace.s8),
-                    _Count(group: g),
+                    _Count(key: ValueKey('count-${change?.from}-${change?.to}'), group: g, from: change?.from, mark: _markWord),
                   ],
                 ),
                 const SizedBox(height: MmSpace.s12),
@@ -336,7 +390,7 @@ class _ChapterRow extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                child: _Thread(items: _ordered, clock: clock, onOpen: onOpen),
+                child: _Thread(items: _ordered, clock: clock, onOpen: onOpen, repeats: repeats),
               ),
               // One key per paper: a run covers one chapter of one paper, so the number on the
               // key is the number of mistakes the run holds. The first is the one filled key
@@ -364,9 +418,15 @@ class _ChapterRow extends StatelessWidget {
 /// The chapter's number at the right of its row: what is still open, or what has been repaired
 /// when nothing is.
 class _Count extends StatelessWidget {
-  const _Count({required this.group});
+  const _Count({super.key, required this.group, this.from, this.mark});
 
   final ChapterGroup group;
+
+  /// The open count at the last look: the number rolls from it. Null shows the number as it is.
+  final int? from;
+
+  /// The quiet mark under the word, or null.
+  final String? mark;
 
   @override
   Widget build(BuildContext context) {
@@ -382,10 +442,45 @@ class _Count extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // A change rolls on from the number it showed (a repair finished), never from zero.
-          MmCountUp(value: n, from: n, style: type.figureCompact.copyWith(fontSize: 28, height: 1.05, color: color)),
+          // A change rolls on from the number it showed (a repair finished), never from zero; a
+          // change since the last look rolls from that look's number.
+          MmCountUp(
+            value: n,
+            from: g.openCount > 0 && from != null ? from! : n,
+            style: type.figureCompact.copyWith(fontSize: 28, height: 1.05, color: color),
+          ),
           Text(word, style: type.caption.copyWith(fontSize: 11, height: 1.2, color: colors.ink2)),
+          if (mark != null) ...[const SizedBox(height: MmSpace.s4), _ChangeMark(text: mark!)],
         ],
+      ),
+    );
+  }
+}
+
+/// The one quiet mark of a chapter that changed since the last look: a small outlined tag that
+/// fades in once (instant under reduced motion) and then stays still.
+class _ChangeMark extends StatelessWidget {
+  const _ChangeMark({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Motion.of(context, Motion.result),
+      curve: Motion.out,
+      builder: (context, t, child) => Opacity(opacity: t, child: child),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          shape: StadiumBorder(side: BorderSide(color: colors.isNight ? colors.volt.withValues(alpha: 0.5) : colors.voltEdge)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 1),
+          child: Text(text, style: type.caption.copyWith(fontSize: 11, height: 1.3, fontWeight: FontWeight.w600, color: colors.accentText)),
+        ),
       ),
     );
   }
@@ -529,11 +624,12 @@ class _BarPainter extends CustomPainter {
 /// The chapter's mistakes as a vertical thread: a rail under the row's glyph, one bubble per
 /// mistake in its stage, the question and where it was found, the stage in words.
 class _Thread extends StatelessWidget {
-  const _Thread({required this.items, required this.clock, required this.onOpen});
+  const _Thread({required this.items, required this.clock, required this.onOpen, this.repeats});
 
   final List<MistakeItem> items;
   final ReviewClock clock;
   final ValueChanged<MistakeItem> onOpen;
+  final int Function(MistakeItem item)? repeats;
 
   @override
   Widget build(BuildContext context) {
@@ -543,7 +639,14 @@ class _Thread extends StatelessWidget {
         for (var i = 0; i < items.length; i++)
           ThreadRowIn(
             index: i,
-            child: MistakeRow(item: items[i], clock: clock, first: i == 0, last: i == items.length - 1, onTap: () => onOpen(items[i])),
+            child: MistakeRow(
+              item: items[i],
+              clock: clock,
+              first: i == 0,
+              last: i == items.length - 1,
+              missedTimes: repeats?.call(items[i]) ?? 1,
+              onTap: () => onOpen(items[i]),
+            ),
           ),
       ],
     );
@@ -557,9 +660,21 @@ class MistakeRow extends StatelessWidget {
   /// the row's left edge (the card text edge E1), so the text begins on E2.
   static const double railWidth = 64;
 
-  const MistakeRow({super.key, required this.item, required this.clock, required this.onTap, this.first = true, this.last = true});
+  const MistakeRow({
+    super.key,
+    required this.item,
+    required this.clock,
+    required this.onTap,
+    this.first = true,
+    this.last = true,
+    this.missedTimes = 1,
+  });
 
   final MistakeItem item;
+
+  /// How many papers this question was answered wrong in, from the student's own attempts. Two or
+  /// more adds "Missed twice" with a doubled bubble.
+  final int missedTimes;
   final ReviewClock clock;
   final VoidCallback onTap;
   final bool first;
@@ -571,7 +686,8 @@ class MistakeRow extends StatelessWidget {
     final type = context.mmType;
     final found = ReviewCopy.foundIn(item.source, formatDayMonth(clock.local(item.foundAt)));
     final tappable = item.stage != MistakeStage.setAside;
-    final label = '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found. ${_stageWord(item.stage)}.';
+    final repeat = missedTimes >= 2 ? ReviewCopy.missedTimes(missedTimes) : null;
+    final label = '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found.${repeat == null ? '' : ' $repeat.'} ${_stageWord(item.stage)}.';
     // The bubble carries the stage's colour; the word beside it stays quiet, so red crosses and
     // volt text do not compete.
     final bubble = switch (item.stage) {
@@ -621,6 +737,16 @@ class MistakeRow extends StatelessWidget {
                       Text(ReviewCopy.questionLabel(item.number), style: type.labelLarge),
                       const SizedBox(height: MmSpace.s2),
                       Text(found, style: type.caption.copyWith(color: colors.ink2)),
+                      if (repeat != null) ...[
+                        const SizedBox(height: MmSpace.s4),
+                        Row(
+                          children: [
+                            const MissedTwiceGlyph(size: 12),
+                            const SizedBox(width: MmSpace.s4),
+                            Flexible(child: Text(repeat, style: type.caption.copyWith(color: colors.badText))),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),

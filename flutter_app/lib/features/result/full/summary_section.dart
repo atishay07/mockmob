@@ -8,14 +8,31 @@ import '../copy.dart';
 import '../model/recap_model.dart';
 import '../sheet/flap_faces.dart' show MarksMeter;
 import '../sheet/sheet_geometry.dart';
+import '../widgets/answer_map.dart';
 import '../widgets/result_space.dart';
 
 /// The top of the full result (spec 5.7, Lab order): the figure with its denominator, the counts
 /// with theirs, the arithmetic, and the answer sheet itself, flat and settled.
 class SummarySection extends StatelessWidget {
-  const SummarySection({super.key, required this.model});
+  const SummarySection({super.key, required this.model, this.mobi, this.mobiPose = MobiPose.read, this.onOpenQuestion, this.arrival = false, this.onPeek});
 
   final RecapModel model;
+
+  /// Drives the reader Mobi beside the answers heading; null leaves Mobi out (an NTA result).
+  final MobiController? mobi;
+
+  /// How that Mobi stands: reading the sheet, or sleepy late at night.
+  final MobiPose mobiPose;
+
+  /// A bubble of the answer map was tapped (1-based). Null leaves the grid plain.
+  final ValueChanged<int>? onOpenQuestion;
+
+  /// The result has just been opened: the map plays its one arrival ripple.
+  final bool arrival;
+  final ValueChanged<int>? onPeek;
+
+  /// The reader Mobi's height.
+  static const double mobiSize = 56;
 
   /// The subject emblem's side beside the figure: the tile size of the emblem scale (audit X5).
   static const double emblemSize = ResultSpace.emblem;
@@ -78,53 +95,85 @@ class SummarySection extends StatelessWidget {
           Text('${ResultCopy.arithmetic(m.correct, m.wrong, m.marks)}. ${ResultCopy.scheme}', style: type.small.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s24),
-        _AnswersGrid(cells: m.cells),
+        _AnswersMap(model: m, mobi: mobi, mobiPose: mobiPose, onOpen: onOpenQuestion, arrival: arrival, onPeek: onPeek),
       ],
     );
   }
 }
 
-/// The paper's answers as one grid on the page itself, ten to a row and numbered like the sheet in
+/// The paper's answers as one map on the page itself, ten to a row and numbered like the sheet in
 /// the exam hall: no dark panel, so on Daylight it is ink on the warm page and on Night it is
-/// bubbles on the ground. The recap's printed sheet is the object; here the result is simply read.
-class _AnswersGrid extends StatelessWidget {
-  const _AnswersGrid({required this.cells});
+/// bubbles on the ground. The recap's printed sheet is the object; here the result is simply read
+/// and every bubble opens its question. Mobi, when it is there (never on an NTA result), reads
+/// beside the heading and turns to whichever answer is opened.
+class _AnswersMap extends StatelessWidget {
+  const _AnswersMap({required this.model, required this.mobi, required this.mobiPose, required this.onOpen, required this.arrival, this.onPeek});
 
-  final List<BubbleState> cells;
+  final RecapModel model;
+  final MobiController? mobi;
+  final MobiPose mobiPose;
+  final ValueChanged<int>? onOpen;
+  final bool arrival;
+  final ValueChanged<int>? onPeek;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final label = type.small.copyWith(color: colors.ink3);
+    final cells = model.cells;
+    final mobi = this.mobi;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(ResultCopy.answers, style: label),
-            const Spacer(),
-            Text(ResultCopy.range(cells.length), style: label),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(ResultCopy.answers, style: label),
+                      const SizedBox(width: MmSpace.s8),
+                      Text(ResultCopy.range(cells.length), style: label),
+                    ],
+                  ),
+                  if (onOpen != null) ...[
+                    const SizedBox(height: MmSpace.s4),
+                    Text(ResultCopy.mapHint, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ],
+              ),
+            ),
+            if (mobi != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              Mobi(pose: mobiPose, size: SummarySection.mobiSize, controller: mobi),
+            ],
           ],
         ),
         const SizedBox(height: MmSpace.s12),
-        LayoutBuilder(
-          builder: (context, c) {
-            final g = SheetGeometry.fit(maxWidth: c.maxWidth, maxHeight: 2000, questions: cells.length);
-            return Center(
-              child: BubbleGrid(
-                states: cells,
-                columns: g.columns,
-                bubbleSize: g.bubble,
-                minGap: 4,
-                maxGap: 18,
-                rowGap: SheetGeometry.rowGap,
-                numbers: true,
-                sealed: false,
-              ),
-            );
-          },
-        ),
+        if (onOpen == null)
+          LayoutBuilder(
+            builder: (context, c) {
+              final g = SheetGeometry.fit(maxWidth: c.maxWidth, maxHeight: 2000, questions: cells.length);
+              return Center(
+                child: BubbleGrid(
+                  states: cells,
+                  columns: g.columns,
+                  bubbleSize: g.bubble,
+                  minGap: 4,
+                  maxGap: 18,
+                  rowGap: SheetGeometry.rowGap,
+                  numbers: true,
+                  sealed: false,
+                ),
+              );
+            },
+          )
+        else
+          AnswerMap(cells: cells, subject: model.subjectName, onOpen: onOpen!, arrival: arrival, onPeek: onPeek),
       ],
     );
   }
