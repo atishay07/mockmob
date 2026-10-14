@@ -38,6 +38,18 @@ This is the handover from session cc0bf1af (Opus 5.5, account support@mockmob.in
 
 **Disk:** C: had filled to 0 GB. 39.5 GB was cleared, and `flutter_locked.sh` now sweeps leftovers older than 6 h (memory `disk-hygiene.md`).
 
+## Update 00:55 IST: round 2 complete, v2 APK delivered
+- Round 2 (wf_113e84d6-978) finished. Analyze is clean, and unit tests pass: 487 + 743 + 1636. Not run: account_access, art, art_scenes, home_widget, platform, tools.
+- ui/phase2 5a5e7852 was merged into feat/app-and-web as 156ab495.
+- Release APK v2 built in mockmob-next (obfuscated) and delivered as tmp/apk/MockMob-v2-release.zip (apk MockMob-v2-156ab495.apk, sha1 f9fe1e2c).
+- Still open after round 2:
+  - the Practice goldens (practice_golden_test, practice_finish_golden_test) and possibly some core goldens are stale: regenerate them and look;
+  - the 3.3 s cold-start hold (splash_screen.dart);
+  - onboarding-05 (deep link lost on process death);
+  - emblem size snapping;
+  - the Mobi greeting bubble overlap (check the audit fixer's report in the journal);
+  - an emulator check of fast Previous/Next.
+
 ## In flight or next
 
 1. **Round 2:** workflow wf_113e84d6-978 (script `tmp/workflows/app-phase-2-round2.js`). Its last fixer (audit+onboarding: welcome overflow, clipped-icon audit, Mobi bubble covering the greeting, 3.3 s cold-start hold) and check-2 were still running.
