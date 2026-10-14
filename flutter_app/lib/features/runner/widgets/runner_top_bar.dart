@@ -4,9 +4,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'drain_bar.dart';
 import 'runner_controls.dart';
+import 'runner_count.dart';
 
 /// The runner's top bar (spec 5.5): leave, "12 of 50", the timer and the Questions key. The
 /// count and the timer are the only condensed type on the screen; neither moves.
@@ -52,10 +53,9 @@ class RunnerTopBar extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: MonumentalNumber(
-                    value: '$current',
-                    unit: 'of $total',
-                    roll: false,
+                  child: RunnerCount(
+                    current: current,
+                    total: total,
                     style: figure,
                     unitColor: colors.ink3,
                     semanticsLabel: RunnerCopy.countSemantics(current, total),
@@ -81,6 +81,9 @@ class RunnerTimer extends StatelessWidget {
   final ValueListenable<Duration> remaining;
   final TextStyle style;
 
+  /// Under this the timer takes the warning colour and its drain bar (five minutes).
+  static const int lowSeconds = 5 * 60;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -88,11 +91,33 @@ class RunnerTimer extends StatelessWidget {
       child: ValueListenableBuilder<Duration>(
         valueListenable: remaining,
         builder: (context, left, _) {
-          final low = left.inSeconds <= 5 * 60;
+          final low = left.inSeconds <= RunnerTimer.lowSeconds;
+          final text = Text(formatTimer(left), style: style.copyWith(color: low ? colors.warnText : colors.ink));
           return Semantics(
             label: RunnerCopy.timerSemantics(left),
             excludeSemantics: true,
-            child: Text(formatTimer(left), style: style.copyWith(color: low ? colors.warnText : colors.ink)),
+            // The last five minutes are a span of known length, so a thin bar under the digits
+            // drains across exactly that span. It hangs below the text and takes no room.
+            child: !low
+                ? text
+                : Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.center,
+                    children: [
+                      text,
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: -5,
+                        height: 3,
+                        child: DrainBar(
+                          fraction: left.inSeconds / RunnerTimer.lowSeconds,
+                          track: colors.line,
+                          fill: left.inSeconds <= 60 ? colors.badText : colors.warnText,
+                        ),
+                      ),
+                    ],
+                  ),
           );
         },
       ),

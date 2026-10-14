@@ -18,6 +18,7 @@ import '../nta/nta_action_bar.dart';
 import '../nta/nta_copy.dart';
 import '../nta/nta_header.dart';
 import '../nta/nta_submit_summary.dart';
+import '../widgets/answer_sheet_view.dart';
 import '../widgets/runner_controls.dart';
 import '../widgets/runner_top_bar.dart';
 import '../widgets/submit_sheet_card.dart';
@@ -88,6 +89,20 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
   void _keepWorking() {
     if (_s.submitState.value.stage == SubmitStage.idle) Navigator.of(context).maybePop();
   }
+
+  /// A count on the sheet card takes the student back to the first question it counts.
+  void _goToQuestion(int index) {
+    if (_s.submitState.value.stage != SubmitStage.idle) return;
+    unawaited(_s.goTo(index));
+    _keepWorking();
+  }
+
+  static SheetPhase _phaseOf(SubmitStage stage) => switch (stage) {
+    SubmitStage.idle => SheetPhase.review,
+    SubmitStage.sending => SheetPhase.sending,
+    SubmitStage.received => SheetPhase.inked,
+    SubmitStage.pending || SubmitStage.windowClosed || SubmitStage.rejected => SheetPhase.held,
+  };
 
   void _onBack() {
     switch (_s.submitState.value.stage) {
@@ -177,12 +192,19 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                             listenable: _s,
                             builder: (context, _) => nta
                                 ? NtaSubmitSummary(session: _s, showConfirm: idle)
-                                : SubmitSheetCard(session: _s, lit: state.stage.index <= SubmitStage.received.index),
+                                : SubmitSheetCard(
+                                    session: _s,
+                                    lit: state.stage.index <= SubmitStage.received.index,
+                                    phase: _phaseOf(state.stage),
+                                    onGoTo: idle ? _goToQuestion : null,
+                                  ),
                           ),
-                          if (idle) ...[
+                          if (idle && nta) ...[
                             const SizedBox(height: MmSpace.s16),
                             Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2)),
                           ],
+                          // Mobi is there for the hand-in only, once the server holds the sheet.
+                          if (!nta && state.stage == SubmitStage.received) const _HandInMobi(),
                         ],
                       ),
                     ),
@@ -199,6 +221,8 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       onGoToday: () => _go(AppRoutes.today),
                       onGoPractice: () => _go(AppRoutes.practice),
                       submitLabel: nta ? NtaCopy.submitTestShort : null,
+                      arriveReceipt: !nta,
+                      note: nta ? null : Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
                       submitKey: nta
                           ? SizedBox(
                               height: 52,
@@ -223,6 +247,20 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
           },
         ),
       ),
+    );
+  }
+}
+
+/// Mobi under the inked sheet: one hop for the hand-in (a living vector Mobi playing its cheer).
+/// It says nothing and is never about the student's marks. Present only on the received stage.
+class _HandInMobi extends StatelessWidget {
+  const _HandInMobi();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(top: MmSpace.s16),
+      child: Center(child: Mobi(pose: MobiPose.cheer, size: 112)),
     );
   }
 }

@@ -72,14 +72,18 @@ void main() {
       testWidgets('20 questions at ${width.toInt()} dp', (tester) async {
         for (var current = 0; current < 20; current++) {
           await _pump(tester, _cells(20, current, answered: {for (var i = 0; i < current; i++) i}), width);
+          // The ring glides to its cell on a spring: let it land before reading the painting.
+          await tester.pump(const Duration(seconds: 1));
           final g = TrackGeometry(count: 20, width: width);
           final y = TimingTrack.tappableHeight / 2;
-          // Every cell has a ring; the current one is the thicker paper-white ring.
+          // Every other cell has its ring; the current one is the thicker paper-white ring, drawn
+          // last because it is the ring that glides between cells (settled, it sits on its cell).
           final pattern = paints;
           for (var i = 0; i < 20; i++) {
             if (i < current) pattern.circle(x: g.centerX(i), y: y, style: PaintingStyle.fill);
-            pattern.circle(x: g.centerX(i), y: y, style: PaintingStyle.stroke, strokeWidth: i == current ? 1.5 : 1.0);
+            if (i != current) pattern.circle(x: g.centerX(i), y: y, style: PaintingStyle.stroke, strokeWidth: 1.0);
           }
+          pattern.circle(x: g.centerX(current), y: y, style: PaintingStyle.stroke, strokeWidth: 1.5);
           expect(_paintBox(tester), pattern, reason: 'all 20 cells drawn with Q${current + 1} current');
         }
       });

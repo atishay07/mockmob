@@ -6,16 +6,26 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
+import 'answer_sheet_view.dart';
 
 /// The whole answer sheet on the submit page: the answered count, every bubble as it will be
 /// handed in, and the two counts that matter before letting go. The one lit edge on the page.
+///
+/// While the student can still change their mind ([onGoTo] given) each count is also a way back:
+/// "5 not answered" takes them to question 9, the first without an answer.
 class SubmitSheetCard extends StatelessWidget {
-  const SubmitSheetCard({super.key, required this.session, this.lit = true});
+  const SubmitSheetCard({super.key, required this.session, this.lit = true, this.phase = SheetPhase.review, this.onGoTo});
 
   final RunnerSession session;
 
   /// The volt edge; off once the sheet could not be handed in.
   final bool lit;
+
+  /// What the sheet is showing: pencil marks, the scan while sending, or the ink once received.
+  final SheetPhase phase;
+
+  /// Zero-based question to go back to; null while the page is no longer a review.
+  final ValueChanged<int>? onGoTo;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +33,8 @@ class SubmitSheetCard extends StatelessWidget {
     final type = context.mmType;
     final cells = sheetCellsOf(session);
     final counts = sheetCountsOf(cells);
-    final states = [
-      for (final c in cells)
-        c.answered
-            ? BubbleState.filled
-            : c.marked
-            ? BubbleState.marked
-            : BubbleState.blank,
-    ];
+    final firstOpen = cells.indexWhere((c) => !c.answered);
+    final firstMarked = cells.indexWhere((c) => c.marked);
     final title = RunnerCopy.sessionLabel(isMock: session.isMock, mode: session.mode, mockNumber: session.mockNumber);
 
     final card = DecoratedBox(
@@ -63,24 +67,28 @@ class SubmitSheetCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: MmSpace.s20),
-            BubbleGrid(
-              states: states,
+            AnswerSheetView(
+              cells: cells,
+              phase: phase,
               bubbleSize: 17,
               semanticsLabel: RunnerCopy.sheetSummary(answered: counts.answered, notAnswered: counts.notAnswered, marked: counts.marked),
             ),
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s16),
             Divider(height: 1, thickness: 1, color: colors.line),
-            const SizedBox(height: MmSpace.s12),
+            const SizedBox(height: MmSpace.s8),
             if (counts.marked > 0) ...[
               _CountRow(
                 glyph: Icon(LucideIcons.flag, size: 15, color: colors.ink),
                 text: RunnerCopy.markedCount(counts.marked),
+                goTo: onGoTo == null || firstMarked < 0 ? null : () => onGoTo!(firstMarked),
+                goToLabel: firstMarked < 0 ? null : RunnerCopy.goToQuestion(firstMarked + 1),
               ),
-              const SizedBox(height: MmSpace.s8),
             ],
             _CountRow(
               glyph: const Bubble(state: BubbleState.blank, size: 15, animate: false),
               text: RunnerCopy.notAnsweredCount(counts.notAnswered),
+              goTo: onGoTo == null || firstOpen < 0 ? null : () => onGoTo!(firstOpen),
+              goToLabel: firstOpen < 0 ? null : RunnerCopy.goToQuestion(firstOpen + 1),
             ),
           ],
         ),
@@ -90,23 +98,31 @@ class SubmitSheetCard extends StatelessWidget {
   }
 }
 
+/// One count with the way back to its first question on the right, as a quiet 48 dp key.
 class _CountRow extends StatelessWidget {
-  const _CountRow({required this.glyph, required this.text});
+  const _CountRow({required this.glyph, required this.text, this.goTo, this.goToLabel});
 
   final Widget glyph;
   final String text;
+  final VoidCallback? goTo;
+  final String? goToLabel;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Row(
-      children: [
-        SizedBox.square(dimension: 20, child: Center(child: glyph)),
-        const SizedBox(width: MmSpace.s8),
-        Expanded(
-          child: Text(text, style: context.mmType.labelLarge.copyWith(color: colors.ink)),
-        ),
-      ],
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: MmTarget.min),
+      child: Row(
+        children: [
+          SizedBox.square(dimension: 20, child: Center(child: glyph)),
+          const SizedBox(width: MmSpace.s8),
+          Expanded(
+            child: Text(text, style: context.mmType.labelLarge.copyWith(color: colors.ink)),
+          ),
+          if (goTo != null && goToLabel != null)
+            KeyButton.quiet(label: goToLabel!, onPressed: goTo, hapticOnCommit: false),
+        ],
+      ),
     );
   }
 }

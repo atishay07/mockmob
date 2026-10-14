@@ -6,10 +6,12 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import 'answer_option.dart';
+import 'question_enter.dart';
 import 'runner_controls.dart';
 
-/// The question region (spec 5.5): the passage in its own scrolling well, the question, then
-/// the options. Solid surfaces only; nothing here animates except the chosen bubble's ink.
+/// The question region (spec 5.5, runner.md 3.4 and 3.5): the passage in its own scrolling well,
+/// the question, then the options. Solid surfaces only. The pieces arrive together when the
+/// question does (see [QuestionEnter]) and then nothing moves except the chosen option's ink.
 class QuestionView extends StatelessWidget {
   const QuestionView({
     super.key,
@@ -22,6 +24,7 @@ class QuestionView extends StatelessWidget {
     this.passageRange,
     this.leading,
     this.note,
+    this.onLock,
   });
 
   final SessionQuestion question;
@@ -44,6 +47,15 @@ class QuestionView extends StatelessWidget {
   /// One quiet line beside the mark toggle (the practice skin's note).
   final Widget? note;
 
+  /// The global centre of the bubble an answer is about to be chosen on (the lock-in flight).
+  final ValueChanged<Offset>? onLock;
+
+  /// The question itself is the hero of the screen: 19/28 at weight 600.
+  static TextStyle questionStyle(BuildContext context) {
+    final style = context.mmType.question;
+    return style.copyWith(fontSize: 19, height: 28 / 19, fontWeight: FontWeight.w600, color: context.mmColors.ink);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -55,34 +67,45 @@ class QuestionView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...?leading,
-        Row(
-          children: [
-            Expanded(child: note ?? const SizedBox.shrink()),
-            const SizedBox(width: MmSpace.s8),
-            MarkToggle(marked: marked, onChanged: onMark),
-          ],
+        EnterItem(
+          order: 0,
+          child: Row(
+            children: [
+              Expanded(child: note ?? const SizedBox.shrink()),
+              const SizedBox(width: MmSpace.s8),
+              MarkToggle(marked: marked, onChanged: onMark),
+            ],
+          ),
         ),
         if (passage != null && passage.isNotEmpty) ...[
-          _PassageWell(text: passage, range: passageRange),
+          EnterItem(order: 1, child: _PassageWell(text: passage, range: passageRange)),
           const SizedBox(height: MmSpace.s20),
         ] else
           const SizedBox(height: MmSpace.s4),
-        Semantics(
-          header: true,
-          child: Text(question.question, style: type.question.copyWith(color: colors.ink)),
+        EnterItem(
+          order: 1,
+          child: Semantics(
+            header: true,
+            child: Text(question.question, style: questionStyle(context)),
+          ),
         ),
         if (body != null && body.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s12),
-          Text(body, style: type.body.copyWith(color: colors.ink)),
+          EnterItem(order: 2, child: Text(body, style: type.body.copyWith(color: colors.ink))),
         ],
         const SizedBox(height: MmSpace.s24),
         for (var i = 0; i < question.options.length; i++) ...[
           if (i > 0) const SizedBox(height: 10),
-          AnswerOption(
-            letter: question.options[i].key,
-            text: question.options[i].text,
-            selected: selected == i,
-            onSelect: canAnswer ? () => onSelect(i) : null,
+          EnterItem(
+            order: 2 + i,
+            child: AnswerOption(
+              letter: question.options[i].key,
+              text: question.options[i].text,
+              selected: selected == i,
+              quiet: selected != null && selected != i,
+              onSelect: canAnswer ? () => onSelect(i) : null,
+              onLock: onLock,
+            ),
           ),
         ],
         // Reserve the clear key's height so nothing below jumps when an answer appears.
