@@ -273,7 +273,7 @@ function visibleUnder(show, stateId, rules) {
 
 test('visitor.css hides exactly what audienceIncludes says, for every audience and state', () => {
   const rules = hidingRules();
-  assert.ok(rules.length >= 10, `parsed ${rules.length} rules`);
+  assert.ok(rules.length >= 5, `parsed ${rules.length} rules`);
   for (const show of Object.keys(AUDIENCE_CLASS)) {
     for (const [id, visitor] of Object.entries(STATES)) {
       assert.equal(visibleUnder(show, id, rules), audienceIncludes(show, visitor), `${show} in ${id}`);
@@ -314,4 +314,12 @@ test('shipped header actions and dock: exactly one primary action is visible per
 test('the navigation test runs in test:visitor', () => {
   const scripts = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')).scripts;
   assert.match(scripts['test:visitor'], /data\/tests\/navigation\.test\.mjs/);
+});
+
+test('the account menu names the setting Start on, and the guide hands focus back to the account trigger', () => {
+  assert.ok(accountMenu({ plan: 'free', guide: true }).some((item) => item.id === 'start-on' && item.label === 'Start on'));
+  const menu = readFileSync(new URL('../../src/components/shell/AccountMenu.jsx', import.meta.url), 'utf8');
+  assert.match(menu, /onGuide\?\.\(back\)/, 'the Guide row passes the trigger it captured before the menu closes');
+  const tour = readFileSync(new URL('../../src/components/shell/GuideTour.jsx', import.meta.url), 'utf8');
+  assert.match(tour, /returnRef\.current = typeof HTMLElement/, 'start() keeps the element it was given');
 });

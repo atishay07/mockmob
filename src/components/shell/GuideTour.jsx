@@ -12,7 +12,7 @@ export const TOUR_STEPS = [
   { title: 'Practice', target: 'nav-dashboard', body: 'Pick a subject and how many questions, then start a timed session. Every answer is marked on the server.' },
   { title: 'Today', target: 'nav-today', body: 'Your next useful step: what to practise now and what is due for another look.' },
   { title: 'Review', target: 'nav-review', body: 'Go back over the questions you missed, then check them again on fresh questions.' },
-  { title: 'Everything else', target: ['nav-more', 'nav-tools'], body: 'Weak chapters, DU Compass, saved questions and the rest are under More. Your account is the circle at the top.' },
+  { title: 'Everything else', target: ['nav-more', 'nav-tools'], body: 'Weak chapters and DU Compass are under Plan. Saved questions and Progress are under Study tools. Leaderboard and Contribute are under More. Your account is the circle at the top.' },
 ];
 // Mobi guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
@@ -35,6 +35,9 @@ function visibleTarget(targets) {
 export function useGuideTour({ userId, ready }) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
+  // What to hand focus back to when the guide closes. The account menu unmounts its Guide row as it
+  // opens the guide, so it passes its trigger here; the tour that opens by itself has none.
+  const returnRef = useRef(null);
 
   // Once, for a new member, after the shell is on screen.
   useEffect(() => {
@@ -53,34 +56,38 @@ export function useGuideTour({ userId, ready }) {
     return () => { alive = false; };
   }, [ready, userId]);
 
-  const start = useCallback(() => { setStep(0); setOpen(true); }, []);
+  const start = useCallback((returnTo) => {
+    returnRef.current = typeof HTMLElement !== 'undefined' && returnTo instanceof HTMLElement ? returnTo : null;
+    setStep(0);
+    setOpen(true);
+  }, []);
   const close = useCallback(() => {
     setOpen(false);
     setStep(0);
     if (!userId) return;
     try { window.localStorage.setItem(seenKey(userId), 'true'); } catch { /* storage is optional */ }
   }, [userId]);
-  return useMemo(() => ({ open, step, setStep, start, close }), [open, step, start, close]);
+  return useMemo(() => ({ open, step, setStep, start, close, returnRef }), [open, step, start, close]);
 }
 
 export function GuideTour({ tour }) {
-  const { open, step, setStep, close } = tour;
+  const { open, step, setStep, close, returnRef } = tour;
   const [rect, setRect] = useState(null);
   const headingRef = useRef(null);
-  const returnRef = useRef(null);
 
   // Focus: the dialog takes focus when it opens (the step heading, so a screen reader reads the
   // step) and gives it back to whatever opened it when it closes. The page stays reachable behind
   // the veils (they are click-through), so the dialog is non-modal and does not trap Tab.
   useEffect(() => {
     if (!open) return undefined;
-    returnRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    // Whatever opened the guide, else whatever had focus (the account menu passes its trigger).
+    if (!returnRef.current) returnRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     return () => {
       const back = returnRef.current;
       returnRef.current = null;
       if (back && back.isConnected) back.focus({ preventScroll: true });
     };
-  }, [open]);
+  }, [open, returnRef]);
   useEffect(() => {
     if (open) headingRef.current?.focus({ preventScroll: true });
   }, [open, step]);

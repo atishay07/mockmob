@@ -314,7 +314,7 @@ export function accountMenu({ plan = 'free', guide = false } = {}) {
     { id: 'account', label: 'Account', href: '/profile' },
     { id: 'plan', label: pro ? 'Plan status' : 'Plan and credits', href: PLAN_HREF },
     ...(pro ? [] : [{ id: 'upgrade', label: 'Go Pro', href: '/pricing' }]),
-    { id: 'start-on', label: 'Start page', href: START_ON_HREF },
+    { id: 'start-on', label: 'Start on', href: START_ON_HREF },
     ...(guide ? [{ id: 'guide', label: 'Guide', action: 'guide' }] : []),
     { id: 'help', label: 'Help', href: HELP_HREF },
   ];

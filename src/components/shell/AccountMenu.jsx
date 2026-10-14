@@ -8,7 +8,7 @@ import { useDismiss } from './useDismiss';
 import { LogOut } from 'lucide-react';
 import './shell.css';
 
-// The account menu (plan section 5.2 and 5.3): the one place Account, plan, Start page, Theme,
+// The account menu (plan section 5.2 and 5.3): the one place Account, plan, Start on, Theme,
 // Guide, Help and Sign out live. Used by the signed-in top bar and the public header.
 //
 // Before the session is confirmed the trigger shows a blank avatar and no name, and the menu shows
@@ -66,7 +66,7 @@ export function AccountMenu({ user = null, confirmed = false, onGuide = null, on
             {items.map((item) => (
               <li key={item.id}>
                 {item.action === 'guide' ? (
-                  <button type="button" className="acct__row" onClick={() => { close(); onGuide?.(); }}>{item.label}</button>
+                  <button type="button" className="acct__row" onClick={() => { const back = triggerRef.current; close(); onGuide?.(back); }}>{item.label}</button>
                 ) : (
                   <Link href={item.href} className="acct__row" data-emphasis={item.id === 'upgrade' ? 'true' : undefined} onClick={close}>{item.label}</Link>
                 )}
