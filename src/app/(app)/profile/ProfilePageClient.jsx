@@ -274,7 +274,7 @@ export default function ProfilePageClient() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-4">
+        <section id="plan" className="flex flex-col gap-4" style={{ scrollMarginTop: 96 }}>
           <PlanCard />
 
           <div className="grid grid-cols-2 gap-3">

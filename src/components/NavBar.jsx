@@ -1,32 +1,76 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
 import { Logo } from './Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
+import { useResumableTest } from '@/components/VisitorSync';
+import { AccountMenu } from '@/components/shell/AccountMenu';
+import { useDismiss } from '@/components/shell/useDismiss';
+import { PUBLIC_NAV, audienceClass, renderedHeaderActions } from '@/lib/navigation';
+import './nav/public-nav.css';
 
-const LINKS = [
-  { label: 'Free mock test', href: '/cuet-mock-test-free' },
-  { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator' },
-  { label: 'Your prep tools', href: '/#your-prep' },
-  { label: 'CUET PYQs', href: '/cuet-previous-year-questions' },
-  { label: 'Pricing', href: '/pricing' },
-];
+// The public header (plan section 5.2). Items, labels and who sees them come from
+// src/lib/navigation.js. Every state's version is rendered and <html data-visitor> picks one
+// before first paint, so the server HTML is the same for everyone and nothing flashes while the
+// sign-in check runs.
+
+const pathOf = (href) => String(href).split(/[?#]/)[0];
+
+// A labelled group (DU cutoffs and eligibility, Resources): a button that opens a short list.
+function NavDisclosure({ item, pathname }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  const panelRef = useRef(null);
+  const panelId = useId();
+  const close = useCallback(() => setOpen(false), []);
+  useDismiss(open, close, { rootRef, triggerRef, panelRef });
+  const holdsCurrent = item.items.some((link) => pathOf(link.href) === pathname);
+  return (
+    <div ref={rootRef} className={`mm-disc ${audienceClass(item.show)}`.trim()}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className="mm-nav__link mm-disc__trigger"
+        aria-expanded={open}
+        aria-controls={open ? panelId : undefined}
+        data-current={holdsCurrent ? 'true' : undefined}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {item.label}
+        <ChevronDown className="mm-disc__chev" size={16} strokeWidth={2} aria-hidden="true" />
+      </button>
+      {open ? (
+        <ul ref={panelRef} id={panelId} className="mm-disc__panel">
+          {item.items.map((link) => (
+            <li key={link.id}>
+              <Link href={link.href} aria-current={pathOf(link.href) === pathname ? 'page' : undefined} onClick={close}>{link.label}</Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 
 export function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated, status, signOut } = useAuth();
+  const { user, status, signOut } = useAuth();
+  const resume = useResumableTest();
   const [menuOpen, setMenuOpen] = useState(false);
   const [stuck, setStuck] = useState(false);
   const navRef = useRef(null);
   const toggleRef = useRef(null);
 
   const closeMenu = () => setMenuOpen(false);
-  const authSettled = status === 'authenticated' || status === 'unauthenticated';
+  const confirmed = status === 'authenticated';
+  const handleSignOut = useCallback(async () => { await signOut(); router.refresh(); }, [signOut, router]);
 
   // Hairline only appears once the page has actually moved, so the top of the
   // page reads as one uninterrupted sheet of paper.
@@ -59,36 +103,36 @@ export function NavBar() {
   }, [menuOpen]);
 
   return (
-    <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
+    <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'} aria-label="Main">
       <div className="mm-wrap mm-nav__row">
         <Logo />
 
         <div className="mm-nav__links">
-          {LINKS.map((link) => (
+          {PUBLIC_NAV.map((item) => (item.items ? (
+            <NavDisclosure key={item.id} item={item} pathname={pathname} />
+          ) : (
             <Link
-              key={link.href}
-              href={link.href}
-              className="mm-nav__link"
-              aria-current={pathname === link.href ? 'page' : undefined}
+              key={item.id}
+              href={item.href}
+              className={`mm-nav__link ${audienceClass(item.show)}`.trim()}
+              aria-current={pathname === pathOf(item.href) && !item.href.includes('#') ? 'page' : undefined}
             >
-              {link.label}
+              {item.label}
             </Link>
-          ))}
+          )))}
         </div>
 
         <div className="mm-nav__end">
           <ThemeToggle hint />
-          {/* Both sets are rendered; <html data-visitor> picks one before first paint, so a signed-in
-              student does not see Log in flash first. */}
-          <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta vs-member-only">
-            My Arena
-          </Link>
-          <Link href="/login" className="mm-nav__link mm-nav__login vs-guest-only">
-            Log in
-          </Link>
-          <Link href="/signup" className="mm-btn mm-btn--primary mm-nav__cta vs-guest-only">
-            Start free
-          </Link>
+          {renderedHeaderActions(resume).map((action) => {
+            const className = action.variant === 'primary'
+              ? `mm-btn mm-btn--primary mm-nav__cta ${audienceClass(action.show)}`
+              : `mm-nav__link mm-nav__login ${audienceClass(action.show)}`;
+            return (
+              <Link key={action.id} href={action.href} className={className}>{action.label}</Link>
+            );
+          })}
+          <AccountMenu user={user} confirmed={confirmed} onSignOut={handleSignOut} className="vs-member-only mm-nav__acct" />
 
           <button
             ref={toggleRef}
@@ -119,44 +163,18 @@ export function NavBar() {
             <span>Theme</span>
             <ThemeToggle />
           </div>
-          {LINKS.map((link) => (
-            <Link key={link.href} href={link.href} onClick={closeMenu}>
-              {link.label}
-              <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-            </Link>
-          ))}
-          <Link href="/about" onClick={closeMenu}>
-            About
-            <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-          </Link>
-          {!authSettled ? (
-            // The check is still running (or MockMob could not be reached): say neither "Log in" nor
-            // "Sign out" yet. A row of the same height keeps everything where it will land.
-            <div className="mm-nav__sheet-pending" aria-hidden="true"><span /></div>
-          ) : isAuthenticated ? (
-            <>
-              <Link href="/profile" onClick={closeMenu}>
-                Profile
-                <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-              </Link>
-              <button
-                type="button"
-                className="mm-nav__signout"
-                onClick={async () => {
-                  setMenuOpen(false);
-                  await signOut();
-                  router.refresh();
-                }}
-              >
-                Sign out
-              </button>
-            </>
+          {/* The same items in the same order as the bar, with both groups open inline. */}
+          {PUBLIC_NAV.map((item) => (item.items ? (
+            <div key={item.id} className={`mm-nav__sheet-group ${audienceClass(item.show)}`.trim()} role="group" aria-labelledby={`mm-sheet-${item.id}`}>
+              <p id={`mm-sheet-${item.id}`} className="mm-nav__sheet-label">{item.label}</p>
+              {item.items.map((link) => (
+                <Link key={link.id} href={link.href} onClick={closeMenu}>{link.label}</Link>
+              ))}
+            </div>
           ) : (
-            <Link href="/login" onClick={closeMenu}>
-              Log in
-              <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-            </Link>
-          )}
+            <Link key={item.id} href={item.href} className={audienceClass(item.show) || undefined} onClick={closeMenu}>{item.label}</Link>
+          )))}
+          <Link href="/login" className="vs-guest-only" onClick={closeMenu}>Log in</Link>
         </div>
       ) : null}
     </nav>
