@@ -1,72 +1,25 @@
 import React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { cva } from 'class-variance-authority';
+import { buttonClass, withoutTrailingArrow } from './Button';
 
-const liquidGlassButtonVariants = cva(
-  [
-    'group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl border',
-    'font-display font-bold uppercase tracking-[0.08em] transition-all duration-300',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-volt/50',
-    'disabled:pointer-events-none disabled:opacity-50',
-    "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit] before:content-['']",
-    'before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-60',
-    "after:pointer-events-none after:absolute after:inset-y-[-120%] after:left-[-40%] after:z-0 after:w-[45%] after:rotate-12 after:content-['']",
-    'after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent',
-    'after:transition-transform after:duration-500 group-hover:after:translate-x-[220%]',
-  ].join(' '),
-  {
-    variants: {
-      variant: {
-        volt: 'border-volt/45 bg-[rgba(210,240,0,0.14)] text-volt hover:bg-[rgba(210,240,0,0.2)] hover:border-volt/70',
-        ghost:
-          'border-white/15 bg-[rgba(255,255,255,0.03)] text-white hover:bg-[rgba(255,255,255,0.08)] hover:border-white/35',
-      },
-      size: {
-        sm: 'min-h-11 px-4 py-2.5 text-[11px]',
-        md: 'min-h-11 px-5 py-2.5 text-xs',
-        lg: 'min-h-12 px-6 py-3 text-[13px]',
-      },
-    },
-    defaultVariants: {
-      variant: 'volt',
-      size: 'md',
-    },
-  }
-);
+// Kept for its callers (PrepOS pricing and the credit purchase button). It used to be a glass
+// pill with an uppercase label and a sweeping sheen; glass belongs to chrome only (owner D6), so
+// it now renders the brand buttons: variant 'volt' is the primary pill, 'ghost' the secondary.
+const VARIANT = { volt: 'primary', ghost: 'secondary' };
+const SIZE = { sm: 'sm', md: 'md', lg: 'lg' };
 
-export function LiquidGlassButton({
-  asChild = false,
-  variant,
-  size,
-  className = '',
-  children,
-  ...props
-}) {
-  const Comp = asChild ? Slot : 'button';
-  const classes = `${liquidGlassButtonVariants({ variant, size })} ${className}`.trim();
-
+export function LiquidGlassButton({ asChild = false, variant = 'volt', size = 'md', className = '', children, ...props }) {
+  const classes = buttonClass({ variant: VARIANT[variant] || 'primary', size: SIZE[size] || 'md', className });
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
-      children,
-      {
-        ...props,
-        className: `${classes} ${children.props.className || ''}`.trim(),
-      },
-      <span className="relative z-10 inline-flex items-center gap-2">{children.props.children}</span>
-    );
+    return React.cloneElement(children, {
+      ...props,
+      className: `${classes} ${children.props.className || ''}`.trim(),
+    }, <span className="ui-btn__label">{withoutTrailingArrow(children.props.children)}</span>);
   }
-
-  if (asChild) {
-    return (
-      <Comp className={classes} {...props}>
-        {children}
-      </Comp>
-    );
-  }
-
+  const Comp = asChild ? Slot : 'button';
   return (
-    <Comp className={classes} {...props}>
-      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
+    <Comp className={classes} {...(asChild ? {} : { type: 'button' })} {...props}>
+      <span className="ui-btn__label">{withoutTrailingArrow(children)}</span>
     </Comp>
   );
 }

@@ -1,0 +1,23 @@
+/* Layout of the development UI kit page only (src/app/preview/ui-kit). */
+.kit { min-height: 100dvh; background: var(--mm-ground); color: var(--mm-ink); font-family: var(--mm-font-body); }
+.kit__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; }
+.kit__brand { font: 700 22px/1 var(--mm-font-display); font-stretch: 80%; letter-spacing: -0.02em; }
+.kit__switches { display: flex; flex-wrap: wrap; gap: 16px; }
+.kit__main { max-width: 1080px; margin: 0 auto; padding: 32px 16px 96px; }
+.kit__section { display: grid; gap: 16px; padding-block: 32px; border-top: 1px solid var(--mm-line); }
+.kit__section h2 { margin: 0; }
+.kit__section p { margin: 0; }
+.kit__muted { color: var(--mm-ink-3); }
+.kit__type { display: grid; gap: 14px; }
+.kit__type-row { display: grid; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.kit__swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.kit__swatches li { display: flex; align-items: center; gap: 8px; }
+.kit__swatch { width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; border: 1px solid var(--mm-line-strong); }
+.kit__row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.kit__narrow { max-width: 360px; }
+.kit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: start; }
+.kit__sheet { position: fixed; z-index: 50; left: 16px; right: 16px; bottom: 16px; display: grid; gap: 8px; max-width: 420px; margin-inline: auto; padding: 16px; }
+.kit__sheet-row { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; min-height: 56px; padding: 8px 12px; border: 0; border-radius: var(--mm-radius-small); background: transparent; color: inherit; font: 600 15px/1.3 var(--mm-font-body); text-align: left; cursor: pointer; }
+.kit__sheet-row > span { grid-column: 2; }
+.kit__sheet-row:hover { background: var(--mm-hover); }
+.kit__sheet-row:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; }
