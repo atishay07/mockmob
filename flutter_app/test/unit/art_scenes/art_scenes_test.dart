@@ -9,7 +9,6 @@ import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
-import 'package:mockmob/features/onboarding/screens/welcome_view.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
 import 'package:mockmob/features/onboarding/widgets/plan_seal_moment.dart';
