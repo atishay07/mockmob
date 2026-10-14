@@ -16,7 +16,7 @@ import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../da
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
 import './practice-run.css';
-import { Mascot } from '@/components/brand/Mascot';
+import MobiReact from '@/components/brand/MobiReact';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -168,9 +168,8 @@ const rubberBand = (dx) => Math.sign(dx) * 64 * (1 - 1 / (Math.abs(dx) / 160 + 1
 
 // Mobi on the practice submit sheet (never a mock, never NTA): reads the sheet, then one gesture.
 function SheetMobi({ act }) {
-  const pose = act === 'nod' ? 'encouraging' : act === 'point' ? 'pointing' : 'thinking';
   const alt = act === 'reading' ? 'Mobi reading your answer sheet.' : act === 'nod' ? 'Mobi nodding: every question is answered.' : act === 'point' ? 'Mobi pointing at the first question not answered.' : 'Mobi tilting its head at the questions marked for review.';
-  return <div className="pr-mobi" data-act={act} key={act}><Mascot pose={pose} facing="right" eager alt={alt} /></div>;
+  return <div className="pr-mobi"><MobiReact act={act === 'reading' ? 'read' : act} size={60} label={alt} /></div>;
 }
 
 function resolveRunnerDurationSec(mode, questions) {

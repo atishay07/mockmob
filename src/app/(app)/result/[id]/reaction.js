@@ -1,16 +1,18 @@
 // Result page helpers shared with the app's rules (pure, no I/O).
 //
+// `act` is the shared MobiReact act (src/components/brand/MobiReact.jsx), which also honours the
+// student's Reduce motion and Celebrations settings.
 // Mobi's reaction follows the server's recap tone (src/lib/server/recap.js), the same table as the
 // app (flutter_app lib/features/result/model/recap_variant.dart): proud on a first mock, a cheer when
 // higher, encouragement when lower or held, a standard settle otherwise, and no Mobi in NTA mode.
 // The repair key counts the same candidates the app does (lib/core/domain/repair_candidates.dart).
 
 const REACTIONS = {
-  first_mock: { act: 'proud', pose: 'celebrating', alt: 'Mobi, proud of your first mock in this subject.' },
-  higher: { act: 'cheer', pose: 'celebrating', alt: 'Mobi cheering a higher result than last time.' },
-  lower: { act: 'encourage', pose: 'encouraging', alt: 'Mobi encouraging you after a lower result.' },
-  held: { act: 'encourage', pose: 'encouraging', alt: 'Mobi waiting with you while some answer keys are checked.' },
-  default: { act: 'standard', pose: 'greeting', alt: 'Mobi beside your recorded result.' },
+  first_mock: { act: 'proud', alt: 'Mobi, proud of your first mock in this subject.' },
+  higher: { act: 'cheer', alt: 'Mobi cheering a higher result than last time.' },
+  lower: { act: 'encourage', alt: 'Mobi encouraging you after a lower result.' },
+  held: { act: 'encourage', alt: 'Mobi waiting with you while some answer keys are checked.' },
+  default: { act: 'nod', alt: 'Mobi beside your recorded result.' },
 };
 
 export function mobiReaction(attempt) {

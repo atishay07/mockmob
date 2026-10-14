@@ -13,7 +13,7 @@ import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
-import { Mascot } from '@/components/brand/Mascot';
+import MobiReact from '@/components/brand/MobiReact';
 import '@/components/recovery/result.css';
 import { plainOptionTexts } from '@/../data/option_text';
 import { mobiReaction, repairKeyLabel, repairCandidates, verdictWord } from './reaction';
@@ -188,7 +188,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp pb-20">
       {/* ---------- 1. Summary ---------- */}
       <header className="rp-hero" data-mobi={reaction ? undefined : 'none'}>
-        {reaction ? <div className="rp-hero__pip pip-drill-result" data-react={reaction.act}><Mascot pose={reaction.pose} alt={reaction.alt} /></div> : null}
+        {reaction ? <div className="rp-hero__pip pip-drill-result"><MobiReact act={reaction.act} size={84} label={reaction.alt} /></div> : null}
         <div className="rp-hero__main">
           <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
           <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>
@@ -292,7 +292,7 @@ export default function ResultPageClient({ previewId = null }) {
                     ) : null}
                     {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
                     <div className="rp-q__foot">
-                      {reaction && reading === q.id ? <span className="rp-reader" key={`reader-${q.id}`}><Mascot pose="thinking" facing="left" alt="" /></span> : null}
+                      {reaction && reading === q.id ? <span className="rp-reader" key={`reader-${q.id}`}><MobiReact act="read" size={34} /></span> : null}
                       <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
                         {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
                       </button>

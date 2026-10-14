@@ -289,24 +289,14 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 @keyframes rp-ring { 0% { opacity: 0; } 12% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
 .rp-q__foot { align-items: center; gap: 10px; }
 .rp-reader { width: 34px; margin-right: auto; display: block; transform-origin: 50% 90%; }
-.rp-reader img { width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) { .rp-q__ring { animation: none; opacity: 1; } .rp-strip button::before { transition: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  .rp-hero__pip[data-react] img { transform-origin: 50% 92%; animation: 700ms var(--a-ease, ease) 900ms both; }
-  .rp-hero__pip[data-react='proud'] img { animation-name: rp-proud; }
-  .rp-hero__pip[data-react='cheer'] img { animation-name: rp-cheer; animation-timing-function: cubic-bezier(.34, 1.5, .5, 1); }
-  .rp-hero__pip[data-react='encourage'] img { animation-name: rp-lean; }
-  .rp-hero__pip[data-react='standard'] img { animation-name: rp-settle; }
   .rp-strip button[data-ripple] { animation: rp-ripple 360ms var(--a-ease, ease) both; animation-delay: calc(560ms + var(--i, 0) * var(--rp-step, 35ms)); }
   .rp-strip button[data-ripple='end'] { animation-name: rp-ripple-end; animation-duration: 900ms; }
   .rp-reader { animation: rp-glance 1100ms var(--a-ease, ease) both; }
   .rp-repair-key { transition: transform 160ms var(--a-ease, ease); }
   .rp-repair-key:active { transform: scale(.98); }
 }
-@keyframes rp-proud { 0% { transform: none; } 40% { transform: scale(1.06) translateY(-2px); } 100% { transform: none; } }
-@keyframes rp-cheer { 0% { transform: none; } 35% { transform: translateY(-12px) rotate(-3deg); } 60% { transform: translateY(0) scale(1.03, .97); } 100% { transform: none; } }
-@keyframes rp-lean { 0% { transform: none; } 50% { transform: rotate(4deg) translateX(3px); } 100% { transform: rotate(2deg) translateX(2px); } }
-@keyframes rp-settle { 0% { transform: translateY(-3px); } 100% { transform: none; } }
 @keyframes rp-ripple { 0% { transform: none; } 45% { transform: scale(1.14); } 100% { transform: none; } }
 @keyframes rp-ripple-end { 0% { transform: none; box-shadow: 0 0 0 0 transparent; } 30% { transform: scale(1.16); box-shadow: 0 0 0 3px var(--a-bad-text, #ff9d92); } 100% { transform: none; box-shadow: 0 0 0 0 transparent; } }
 @keyframes rp-glance { 0% { opacity: 0; transform: translateX(-6px); } 25% { opacity: 1; transform: none; } 55% { transform: rotate(-8deg); } 80% { transform: rotate(-8deg); } 100% { transform: none; } }
