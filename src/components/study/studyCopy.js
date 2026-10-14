@@ -1,6 +1,8 @@
 // Shared student-facing language for Learn, lessons and review. One word per concept:
 // "lesson" (understand), "lock in" (first recall of a lesson), "review" (scheduled recall),
 // "practise" (exam-style questions with marks), "mock" (full timed paper).
+import { runMood } from '../../lib/mobiMoments.js';
+
 export const SUBJECTS = [['english', 'English'], ['accountancy', 'Accountancy'], ['business_studies', 'Business Studies'], ['economics', 'Economics']];
 export const subjectName = id => SUBJECTS.find(s => s[0] === id)?.[1] || id;
 
@@ -51,12 +53,16 @@ export function friendlyError(error) {
 }
 
 /**
- * How Mobi meets the end of a run, from the real counts only. Nothing is invented: right and
- * total come from the saved answers. "That one stuck." is said only when every answer was right.
+ * How Mobi meets the end of a run, from the real counts only (the app's runMood, learn/screens/
+ * run_done_screen.dart, in lib/mobiMoments.js): `kept` cards or checks stuck out of `total`.
+ * A single one that stuck is `correct`; celebrate only when all of at least five stuck; a third
+ * or more that did not is `encourage`; otherwise `cheer`. Nothing is invented: "That one stuck."
+ * is said only when every one was right.
  */
-export function doneReaction(right, total) {
-  if (!(total > 0)) return { act: 'nod', line: '' };
-  if (right >= total) return { act: 'celebrate', line: 'That one stuck.' };
-  if (right / total >= 0.5) return { act: 'cheer', line: 'Most of it stuck. The rest comes back in review.' };
-  return { act: 'encourage', line: 'Some of it needs another pass. Review brings it back.' };
+export function doneReaction(kept, total) {
+  if (!(total > 0)) return { act: runMood(0, 0), line: '' };
+  const act = runMood(kept, total);
+  if (kept >= total) return { act, line: 'That one stuck.' };
+  if (act === 'encourage') return { act, line: 'Some of it needs another pass. Review brings it back.' };
+  return { act, line: 'Most of it stuck. The rest comes back in review.' };
 }

@@ -48,7 +48,7 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
       </dl>
       {change ? (
         <p className="pp-look" data-dir={change.delta > 0 ? 'up' : 'down'} role="status">
-          {change.delta >= 5 ? <MobiReact act="cheer" size={40} /> : null}
+          {change.delta >= 5 ? <MobiReact act="correct" size={40} /> : null}
           <span className="pp-look__arrow" aria-hidden="true">{change.delta > 0 ? '↑' : '↓'}</span>
           <b>{change.text}</b>
           <i>Accuracy was {from}%.</i>

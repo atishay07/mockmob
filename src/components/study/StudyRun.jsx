@@ -137,7 +137,8 @@ function ReviewDone({ run }) {
   const forgot = reviewed.filter(r => r.rating === 1);
   const focus = run.focus?.chapter ? run.focus : null;
   const units = run.units || [];
-  const mood = doneReaction(reviewed.length - forgot.length, reviewed.length);
+  // Hard and Forgot both come back sooner, so only Got it and Easy count as stuck (the app's rule).
+  const mood = doneReaction(reviewed.filter(r => r.rating >= 3).length, reviewed.length);
   return <section className="sx-done">
     <div className="sx-done__top">
       <MobiReact act={mood.act} size={92} label={mood.line || 'Review complete'} />

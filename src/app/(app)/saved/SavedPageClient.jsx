@@ -18,6 +18,9 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { setQuestionBookmark } from '@/lib/services/questionService';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
+import { mobiMoment } from '@/lib/mobiMoments';
+import { NUDGE_AFTER_MS, nudgeToday } from '@/lib/mobiRation';
+import { useShrug } from '@/lib/mobiHooks';
 import { foldExit, useSwipeCommit } from '@/lib/motion';
 import { SUBJECTS } from '@/../data/subjects';
 import './saved.css';
@@ -215,11 +218,13 @@ export default function SavedPageClient() {
 
   // Mobi reads, then points at the way to Explore. Reduced motion goes straight to the pointing pose.
   const [emptyAct, setEmptyAct] = useState('read');
+  const shrug = useShrug(status === 'error', 'saved'); // a failed load shrugs once per run
   useEffect(() => {
     if (status !== 'ready' || questions.length) return undefined;
     if (prefs.reduced) { setEmptyAct('point'); return undefined; }
     setEmptyAct('read');
-    const timer = window.setTimeout(() => setEmptyAct('point'), 1700);
+    // He reads, and only after a few quiet seconds points at the way to Explore (once a day).
+    const timer = window.setTimeout(() => { if (nudgeToday('saved')) setEmptyAct('nudge'); }, NUDGE_AFTER_MS);
     return () => window.clearTimeout(timer);
   }, [status, questions.length, prefs.reduced]);
 
@@ -241,7 +246,7 @@ export default function SavedPageClient() {
     return (
       <div className="student-page student-page--saved">
         <div className="sv-fail" role="alert">
-          <MobiReact act="oops" size={84} />
+          <MobiReact act={shrug ? mobiMoment('setback') : 'idle'} size={84} />
           <div>
             <b>Your saved questions did not load</b>
             <p>{error || 'Check your connection and try again.'} Nothing was removed.</p>
@@ -263,7 +268,7 @@ export default function SavedPageClient() {
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
 
       {firstSave && questions.length ? (
-        <p className="sv-first" role="status"><MobiReact act="cheer" size={44} onDone={() => setFirstSave(false)} /><span>Your first saved question. It stays here until you remove it.</span></p>
+        <p className="sv-first" role="status"><MobiReact act={mobiMoment('saveConfirmed')} size={44} onDone={() => window.setTimeout(() => setFirstSave(false), 5000)} /><span>Your first saved question. It stays here until you remove it.</span></p>
       ) : null}
 
       {questions.length === 0 ? (
@@ -273,7 +278,7 @@ export default function SavedPageClient() {
             <span className="ui-state__eyebrow">Nothing saved</span>
             <b>Save questions from Explore</b>
             <p>Tap Save on any question in the stream and it will wait for you here.</p>
-            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' ? 'true' : 'false'}>Open the question stream <Icon name="radar" /></Link>
+            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open the question stream <Icon name="radar" /></Link>
           </div>
         </div>
       ) : (

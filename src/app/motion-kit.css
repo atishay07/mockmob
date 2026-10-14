@@ -96,8 +96,45 @@ html[data-theme='light'] .mobi-react {
   --mm-edge: rgba(16, 20, 14, 0.55); --mm-accent: #6f8700; --mm-dots: #56624f;
   --mm-pill: #ffffff; --mm-shadow: rgba(40, 48, 20, 0.2);
 }
-.mobi-react__breath, .mobi-react__body, .mobi-react__lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.mobi-react__breath, .mobi-react__look, .mobi-react__body, .mobi-react__lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
 .mobi-react .pip-image { width: 100%; height: 100%; }
+.mobi-react__pose { position: absolute; inset: 0; }
+.mobi-react__pose--in { animation: mr-pose-in 240ms var(--mk-settle) both; }
+.mobi-react__pose--out { animation: mr-pose-out 240ms ease-out both; }
+@keyframes mr-pose-in { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes mr-pose-out { from { opacity: 1; } to { opacity: 0; } }
+/* The head leans a little toward the pointer (follow) and lets go. */
+.mobi-react__look { transition: transform 420ms var(--mk-settle); transform: translate3d(calc(var(--mr-follow, 0) * 1.8%), 0, 0) rotate(calc(var(--mr-follow, 0) * 2.8deg)); }
+/* Lids: drawn in the visor colour over the baked eyes. A blink is quick, every few seconds, at a
+   different moment for each Mobi. Heavy lids (sleepy) are held at --mr-lid. */
+.mobi-react__lids { position: absolute; inset: 0; pointer-events: none; }
+.mobi-react__lids i { position: absolute; border-radius: 45%; background: rgb(30, 35, 33); transform: scaleY(0); transform-origin: 50% 0; }
+.mobi-react[data-live='true'] .mobi-react__lids i { animation: mr-blink 5200ms ease-in-out var(--mr-blink, 0ms) infinite; }
+.mobi-react[data-lids='true']:not([data-live='true']) .mobi-react__lids i { transform: scaleY(var(--mr-lid, 0)); }
+.mobi-react[data-live='true']:is([data-act='sleepy'], [data-mood='sleepy']) .mobi-react__lids i { animation: mr-lids-heavy 5200ms ease-in-out var(--mr-blink, 0ms) infinite; }
+@keyframes mr-blink { 0%, 92%, 100% { transform: scaleY(var(--mr-lid, 0)); } 95% { transform: scaleY(1); } 96.5% { transform: scaleY(var(--mr-lid, 0)); } 98% { transform: scaleY(1); } }
+@keyframes mr-lids-heavy { 0%, 100% { transform: scaleY(var(--mr-lid, 0.5)); } 40% { transform: scaleY(calc(var(--mr-lid, 0.5) + 0.2)); } 52% { transform: scaleY(1); } 60% { transform: scaleY(calc(var(--mr-lid, 0.5) + 0.12)); } }
+
+/* Interactive: the art is a 44 px target at least; a light squash when the tap cycle is spent. */
+.mobi-react[data-interactive='true'] { pointer-events: auto; }
+.mobi-react__hit { position: absolute; inset: 0; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 18%; -webkit-tap-highlight-color: transparent; }
+.mobi-react__hit::before { content: ''; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: max(100%, 44px); translate: -50% -50%; }
+.mobi-react__hit:focus-visible { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 2px; }
+.mobi-react[data-squash='true'] .mobi-react__breath { animation: mr-squash 260ms var(--mk-spring) both !important; }
+@keyframes mr-squash { 0% { transform: none; } 35% { transform: scale(1.05, 0.93); } 100% { transform: none; } }
+
+/* Mood: a face under the act. A lean, a lift, a warmth at the antenna. Raster eyes cannot move, so
+   it is posture. Every mood is light enough for an act to read over it. */
+.mobi-react__lean { transition: translate 300ms var(--mk-settle), scale 300ms var(--mk-settle), rotate 300ms var(--mk-settle); }
+.mobi-react[data-mood='happy'] .mobi-react__lean { translate: 0 -1%; }
+.mobi-react[data-mood='proud'] .mobi-react__lean { scale: 0.992 1.03; rotate: calc(-1.6deg * var(--mr-dir, 1)); }
+.mobi-react[data-mood='curious'] .mobi-react__lean { rotate: calc(3.5deg * var(--mr-dir, 1)); }
+.mobi-react[data-mood='sleepy'] .mobi-react__lean { translate: 0 1.4%; scale: 1.01 0.975; }
+.mobi-react[data-mood='concerned'] .mobi-react__lean { rotate: calc(-2.2deg * var(--mr-dir, 1)); translate: 0 0.5%; }
+.mm-glint { fill: var(--mm-fill); opacity: 0.32; }
+.mm-glint[data-mood='proud'] { opacity: 0.4; }
+.mobi-react[data-live='true'] .mm-glint { animation: mm-glint 2800ms ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes mm-glint { 0%, 100% { opacity: 0.22; transform: scale(0.9); } 50% { opacity: 0.5; transform: scale(1.12); } }
 .mobi-react__shadow {
   position: absolute; left: 14%; right: 14%; bottom: -3%; height: 7%; border-radius: 50%;
   background: radial-gradient(closest-side, var(--mm-shadow), transparent);
@@ -123,15 +160,18 @@ html[data-theme='light'] .mobi-react {
 .mm-query path { fill: none; stroke: var(--mm-dots); stroke-width: 2; stroke-linecap: round; }
 .mm-query__dot { fill: var(--mm-dots); }
 .mm-chev path, .mm-arcs path, .mm-pump path { fill: none; stroke: var(--mm-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mm-hear path { fill: none; stroke: var(--mm-accent); stroke-width: 2.2; stroke-linecap: round; }
+.mm-burst path { fill: none; stroke: var(--mm-accent); stroke-width: 1.8; stroke-linecap: round; }
+.mm-puff circle { fill: var(--mm-dots); opacity: 0.8; }
 .mm-zed path { fill: none; stroke: var(--mm-dots); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
 /* The held pose: marks that carry no information are hidden; the rest stay, finished. */
-.mobi-react[data-live='false'] :is(.mm-spark, .mm-bit, .mm-arcs, .mm-pump) { display: none; }
+.mobi-react[data-live='false'] :is(.mm-spark, .mm-bit, .mm-arcs, .mm-pump, .mm-burst, .mm-puff) { display: none; }
 .mobi-react[data-live='false'] .mm-zed:nth-child(n + 2) { display: none; }
 
 /* ---------- Live: breath, always under everything ---------- */
 .mobi-react[data-live='true'] .mobi-react__breath { animation: mr-breath 4.4s ease-in-out infinite; }
-.mobi-react[data-live='true']:is([data-act='sleepy'], [data-act='rest']) .mobi-react__breath { animation: mr-breath-deep 5.8s ease-in-out infinite; }
+.mobi-react[data-live='true']:is([data-act='sleepy'], [data-act='rest'], [data-act='sleep']) .mobi-react__breath { animation: mr-breath-deep 5.8s ease-in-out infinite; }
 @keyframes mr-breath { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(0.996, 1.014); } }
 @keyframes mr-breath-deep { 0%, 100% { transform: scale(1.004, 0.99); } 50% { transform: scale(0.99, 1.02); } }
 
@@ -141,8 +181,8 @@ html[data-theme='light'] .mobi-react {
 /* hello and wave: a rock toward the waving arm, three swings */
 .mobi-react[data-live='true'][data-act='hello'] .mobi-react__body { animation: mr-hello-body 1850ms; }
 .mobi-react[data-live='true'][data-act='hello'] .mobi-react__lean { animation: mr-hello-lean 1850ms; }
-.mobi-react[data-live='true'][data-act='wave'] .mobi-react__body { animation: mr-hello-body 1250ms; }
-.mobi-react[data-live='true'][data-act='wave'] .mobi-react__lean { animation: mr-wave-lean 1250ms; }
+.mobi-react[data-live='true'][data-act='wave'] .mobi-react__body { animation: mr-hello-body 1500ms; }
+.mobi-react[data-live='true'][data-act='wave'] .mobi-react__lean { animation: mr-wave-lean 1500ms; }
 @keyframes mr-hello-body {
   0% { transform: translate3d(0, 5%, 0) scale(0.97, 1.03); }
   14% { transform: translate3d(0, -3%, 0) scale(1.02, 0.98); }
@@ -220,12 +260,12 @@ html[data-theme='light'] .mobi-react {
 @keyframes mr-oops-lean { 0%, 6% { transform: none; } 16% { transform: rotate(4deg); } 30% { transform: rotate(-3deg); } 46% { transform: rotate(2deg); } 64%, 100% { transform: none; } }
 
 /* nod: two small dips. tilt: a curious lean and back. */
-.mobi-react[data-live='true'][data-act='nod'] .mobi-react__body { animation: mr-nod-body 640ms; }
-.mobi-react[data-live='true'][data-act='nod'] .mobi-react__lean { animation: mr-nod-lean 640ms; }
+.mobi-react[data-live='true'][data-act='nod'] .mobi-react__body { animation: mr-nod-body 800ms; }
+.mobi-react[data-live='true'][data-act='nod'] .mobi-react__lean { animation: mr-nod-lean 800ms; }
 @keyframes mr-nod-body { 0% { transform: none; } 25% { transform: translate3d(0, 3%, 0) scale(1.02, 0.96); } 50% { transform: none; } 72% { transform: translate3d(0, 2%, 0) scale(1.015, 0.97); } 100% { transform: none; } }
 @keyframes mr-nod-lean { 0% { transform: none; } 25% { transform: rotate(3deg); } 50% { transform: none; } 72% { transform: rotate(2deg); } 100% { transform: none; } }
-.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__body { animation: mr-tilt-body 900ms; }
-.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__lean { animation: mr-tilt-lean 900ms; }
+.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__body { animation: mr-tilt-body 1100ms; }
+.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__lean { animation: mr-tilt-lean 1100ms; }
 @keyframes mr-tilt-body { 0%, 100% { transform: none; } 30%, 70% { transform: translate3d(0, -1%, 0); } }
 @keyframes mr-tilt-lean { 0% { transform: none; } 30%, 70% { transform: rotate(calc(-8deg * var(--mr-dir, 1))); } 100% { transform: none; } }
 
@@ -252,6 +292,60 @@ html[data-theme='light'] .mobi-react {
 @keyframes mr-sleepy-body { 0% { transform: none; } 30% { transform: translate3d(0, 1%, 0) scale(1.02, 0.96); } 55% { transform: scale(0.98, 1.05); } 80% { transform: translate3d(0, 2%, 0) scale(1.02, 0.97); } 100% { transform: translate3d(0, 1.5%, 0) scale(1.01, 0.98); } }
 .mobi-react[data-live='true'][data-act='rest'] .mobi-react__body { animation: mr-rest-body 900ms var(--mk-spring) both; }
 @keyframes mr-rest-body { 0% { transform: translate3d(0, -6%, 0); } 100% { transform: none; } }
+
+/* appear: rises into place and settles with a small overshoot */
+.mobi-react[data-live='true'][data-act='appear'] .mobi-react__body { animation: mr-appear-body 750ms; }
+@keyframes mr-appear-body {
+  0% { transform: translate3d(0, 12%, 0) scale(0.94, 1.04); opacity: 0; } 45% { opacity: 1; transform: translate3d(0, -3%, 0) scale(0.99, 1.02); }
+  70% { transform: translate3d(0, 1%, 0) scale(1.02, 0.98); } 100% { transform: none; opacity: 1; }
+}
+/* talk: a small bob while a line types in */
+.mobi-react[data-live='true'][data-act='talk'] .mobi-react__body { animation: mr-talk-body 1600ms; }
+.mobi-react[data-live='true'][data-act='talk'] .mobi-react__lean { animation: mr-talk-lean 1600ms; }
+@keyframes mr-talk-body { 0%, 100% { transform: none; } 12%, 48%, 84% { transform: translate3d(0, -1.4%, 0); } 24%, 60% { transform: translate3d(0, 0.4%, 0) scale(1.01, 0.99); } }
+@keyframes mr-talk-lean { 0%, 100% { transform: none; } 25% { transform: rotate(calc(1.6deg * var(--mr-dir, 1))); } 55% { transform: rotate(calc(-1deg * var(--mr-dir, 1))); } 80% { transform: rotate(calc(1.2deg * var(--mr-dir, 1))); } }
+
+/* listen (held): leans in toward the student, a slow nod now and then */
+.mobi-react[data-live='true'][data-act='listen'] .mobi-react__lean { animation: mr-listen-lean 3800ms ease-in-out infinite both; }
+@keyframes mr-listen-lean { 0%, 100% { transform: rotate(calc(3deg * var(--mr-dir, 1))); } 12% { transform: rotate(calc(3deg * var(--mr-dir, 1))) translate3d(0, 1.2%, 0); } 22% { transform: rotate(calc(3.4deg * var(--mr-dir, 1))); } 60% { transform: rotate(calc(2.4deg * var(--mr-dir, 1))); } }
+.mobi-react[data-live='false'][data-act='listen'] .mobi-react__lean { transform: rotate(calc(3deg * var(--mr-dir, 1))); }
+.mobi-react[data-live='true'] .mm-hear { opacity: 1; animation: none; }
+.mobi-react[data-live='true'] .mm-hear path { transform-box: fill-box; transform-origin: center; animation: mm-hear 1100ms ease-in-out infinite both; }
+.mobi-react[data-live='true'] .mm-hear path:nth-child(2) { animation-delay: 160ms; }
+.mobi-react[data-live='true'] .mm-hear path:nth-child(3) { animation-delay: 320ms; }
+@keyframes mm-hear { 0%, 100% { transform: scaleY(0.55); opacity: 0.6; } 40% { transform: scaleY(1.15); opacity: 1; } }
+
+/* sleep (held): the head settles, slow deep breaths, a little dimmer, z's. Asleep, the eyes are shut in the art. */
+.mobi-react[data-act='sleep'] .mobi-react__pose { filter: brightness(0.94) saturate(0.9); }
+.mobi-react[data-live='true'][data-act='sleep'] .mobi-react__body { animation: mr-sleep-body 1700ms ease-in-out both; }
+.mobi-react[data-live='false'][data-act='sleep'] .mobi-react__body { transform: translate3d(0, 1.5%, 0) scale(1.01, 0.98); }
+@keyframes mr-sleep-body { 0% { transform: none; } 100% { transform: translate3d(0, 1.5%, 0) scale(1.01, 0.98); } }
+.mobi-react[data-live='true'][data-act='sleep'] .mobi-react__lean { animation: mr-sleep-lean 6400ms ease-in-out infinite both; }
+@keyframes mr-sleep-lean { 0%, 100% { transform: rotate(calc(2deg * var(--mr-dir, 1))); } 50% { transform: rotate(calc(3.2deg * var(--mr-dir, 1))); } }
+
+/* wake: a start with a little hop, a quick look round, then standing */
+.mobi-react[data-live='true'][data-act='wake'] .mobi-react__body { animation: mr-wake-body 1200ms; }
+.mobi-react[data-live='true'][data-act='wake'] .mobi-react__lean { animation: mr-wake-lean 1200ms; }
+@keyframes mr-wake-body { 0% { transform: translate3d(0, 1.5%, 0) scale(1.01, 0.98); } 10% { transform: translate3d(0, -12%, 0) scale(0.95, 1.07); } 28% { transform: translate3d(0, 0, 0) scale(1.05, 0.94); } 40% { transform: translate3d(0, -2.5%, 0); } 52%, 100% { transform: none; } }
+@keyframes mr-wake-lean { 0%, 6% { transform: rotate(0); } 14% { transform: rotate(-5deg); } 44% { transform: rotate(5deg); } 64% { transform: rotate(-3deg); } 80%, 100% { transform: none; } }
+/* startle: ticklish. A jolt with flung arms, then a giggling wiggle. */
+.mobi-react[data-live='true'][data-act='startle'] .mobi-react__body { animation: mr-startle-body 950ms; }
+.mobi-react[data-live='true'][data-act='startle'] .mobi-react__lean { animation: mr-startle-lean 950ms; }
+@keyframes mr-startle-body { 0% { transform: none; } 12% { transform: translate3d(0, -8%, 0) scale(0.96, 1.06); } 28% { transform: translate3d(0, 1%, 0) scale(1.03, 0.97); } 100% { transform: none; } }
+@keyframes mr-startle-lean { 0% { transform: none; } 12% { transform: rotate(-4deg); } 34% { transform: rotate(3.5deg); } 48% { transform: rotate(-3deg); } 62% { transform: rotate(2.5deg); } 76% { transform: rotate(-1.5deg); } 100% { transform: none; } }
+/* brace: anticipation. A dip, held for a beat, before something lands. */
+.mobi-react[data-live='true'][data-act='brace'] .mobi-react__body { animation: mr-brace-body 900ms; }
+@keyframes mr-brace-body { 0% { transform: none; } 30%, 70% { transform: translate3d(0, 2.5%, 0) scale(1.04, 0.94); } 100% { transform: none; } }
+/* relief: a breath in, then the shoulders drop */
+.mobi-react[data-live='true'][data-act='relief'] .mobi-react__body { animation: mr-relief-body 1400ms; }
+.mobi-react[data-live='true'][data-act='relief'] .mobi-react__lean { animation: mr-relief-lean 1400ms; }
+@keyframes mr-relief-body { 0% { transform: none; } 34% { transform: scale(0.985, 1.045); } 52% { transform: translate3d(0, 2.5%, 0) scale(1.03, 0.95); } 78% { transform: translate3d(0, 0.6%, 0); } 100% { transform: none; } }
+@keyframes mr-relief-lean { 0%, 40% { transform: none; } 56% { transform: rotate(calc(-3deg * var(--mr-dir, 1))); } 100% { transform: none; } }
+/* walk: stepping in place with a bob, for the length of a trip */
+.mobi-react[data-live='true'][data-act='walk'] .mobi-react__body { animation: mr-walk-body 500ms ease-in-out 2; }
+.mobi-react[data-live='true'][data-act='walk'] .mobi-react__lean { animation: mr-walk-lean 1000ms ease-in-out; }
+@keyframes mr-walk-body { 0%, 100% { transform: none; } 25% { transform: translate3d(0, -3%, 0) scale(0.99, 1.02); } 50% { transform: none; } 75% { transform: translate3d(0, -3%, 0) scale(0.99, 1.02); } }
+@keyframes mr-walk-lean { 0%, 100% { transform: none; } 25% { transform: rotate(calc(2deg * var(--mr-dir, 1))); } 75% { transform: rotate(calc(-2deg * var(--mr-dir, 1))); } }
 
 /* ---------- Live: the marks ---------- */
 .mobi-react[data-live='true'] .mm-mark { opacity: 0; animation-fill-mode: both; }
@@ -305,9 +399,13 @@ html[data-theme='light'] .mobi-react {
 @keyframes mm-zed { 0% { opacity: 0; transform: translate(0, 4px) scale(calc(var(--s, 1) * 0.5)); } 25% { opacity: 0.95; } 100% { opacity: 0; transform: translate(9px, -16px) scale(var(--s, 1)); } }
 
 .mobi-react[data-live='true'] .mm-arcs { animation: mm-arcs 1850ms ease-in-out both; }
-.mobi-react[data-live='true'][data-act='wave'] .mm-arcs { animation-duration: 1250ms; }
+.mobi-react[data-live='true'][data-act='wave'] .mm-arcs { animation-duration: 1500ms; }
 @keyframes mm-arcs { 0%, 12% { opacity: 0; } 24%, 36% { opacity: 0.95; } 48% { opacity: 0.3; } 60%, 72% { opacity: 0.95; } 84%, 100% { opacity: 0; } }
 .mobi-react[data-live='true'] .mm-pump { animation: mm-pump 1450ms ease-out both; }
+.mobi-react[data-live='true'] .mm-burst { animation: mm-burst 700ms ease-out both; }
+@keyframes mm-burst { 0% { opacity: 0; transform: scale(0.6); } 25% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.2); } }
+.mobi-react[data-live='true'] .mm-puff { animation: mm-puff 1400ms ease-out 560ms both; }
+@keyframes mm-puff { 0% { opacity: 0; transform: translate(-3px, 2px) scale(0.5); } 35% { opacity: 0.85; } 100% { opacity: 0; transform: translate(5px, -5px) scale(1.2); } }
 @keyframes mm-pump { 0%, 38% { opacity: 0; transform: scale(0.6); } 50%, 62% { opacity: 1; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(1.15); } }
 
 /* ---------- Theme tiles: an animated rim that inks round the chosen tile once ---------- */
@@ -330,3 +428,10 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
 /* Buttons: the spring press beats the old 150 ms transform transition. */
 .mk-press:is(.btn-volt, .btn-outline, .btn-ghost) { transition: transform 420ms var(--mk-spring), background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease; }
 .mk-press:is(.btn-volt, .btn-outline, .btn-ghost):active:not(:disabled):not([aria-disabled='true']) { transition-duration: 90ms, 150ms, 150ms, 150ms, 150ms; }
+
+/* ---------- Mobi beside a verdict (Explore feedback): the words first, Mobi at the end of the row ---------- */
+.ex-feedback__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+.ex-feedback__row > b { min-width: 0; }
+
+/* ---------- Landing: the guide's head leans toward the pointer (PipGuide sets --pip-follow, -0.85 to 0.85) ---------- */
+.pip-seat__art > .pip-image, .pip-actor { rotate: calc(var(--pip-follow, 0) * 2.6deg); transition: rotate 420ms var(--mk-settle); }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
 import { Mascot } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
+import { mobiMoment, runMood } from '@/lib/mobiMoments';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
 // onboarding: the drill opens already on question 1 so the first thing a
@@ -101,7 +102,7 @@ export function DemoDrill() {
     if (answered) return;
     focusNext.current = 'next';
     setPicked(optionIndex);
-    if (event.detail > 0) pipReact('hero', optionIndex === question.correct ? 'celebrate' : 'encourage');
+    if (event.detail > 0) pipReact('hero', mobiMoment(optionIndex === question.correct ? 'rightAnswer' : 'wrongAnswer'));
     if (optionIndex === question.correct) {
       setScore((s) => s + 1);
     } else {
@@ -113,7 +114,9 @@ export function DemoDrill() {
     if (index + 1 >= DRILL.length) {
       focusNext.current = 'result';
       setDone(true);
-      if (event.detail > 0) pipReact('hero', 'celebrate');
+      // The end of the drill is proportional, like a finished run in the app: all five right celebrates,
+      // most right is a cheer, and a third or more missed gets encouragement.
+      if (event.detail > 0) pipReact('hero', runMood(score, DRILL.length));
       return;
     }
     focusNext.current = 'options';
@@ -138,7 +141,7 @@ export function DemoDrill() {
           <span className="mm-drill__timer mm-measure">5 / 5</span>
         </div>
         <div className="mm-screen__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Drill complete. You scored ${score} out of 5.`}>
-          <div className="pip-drill-result"><Mascot pose="celebrating" /></div>
+          <div className="pip-drill-result"><Mascot pose={runMood(score, DRILL.length) === 'encourage' ? 'encouraging' : 'celebrating'} /></div>
           <p className="mm-drill__score mm-measure">
             {score}
             <span>/5</span>

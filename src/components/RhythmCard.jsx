@@ -6,6 +6,11 @@
 // Compact form (Today): the ring, the seven days and one line.
 // Nothing shows, and Mobi does not react, until the server has answered. A day is "counted" only
 // when the server listed it; a week is "met" only when the server said so.
+// Mobi is the app's week Mobi (lib/mobiMoments.js weekMobi, the same rules as the app's
+// rhythm/logic/week_mobi.dart): paused rests, a met week gets proud once, late at night he is
+// asleep (a tap wakes him), a welcome-back is a hello once a day, a week that can no longer reach
+// the goal gets encouragement, and an on-track week gets nobody. The compact card (Today) has no
+// Mobi: that screen already has one.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
@@ -13,6 +18,8 @@ import MobiReact from '@/components/brand/MobiReact';
 import { useCountUp } from '@/lib/motion/useCountUp';
 import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
+import { weekMobi } from '@/lib/mobiMoments';
+import { helloToday, speakOnce } from '@/lib/mobiRation';
 import { buildPaths, buildRibbon, buildWeek, dayKeyNow, weekStatus } from '@/lib/rhythmView';
 
 const R = 46;
@@ -152,9 +159,35 @@ function Paths({ paths, armed }) {
   );
 }
 
-export default function RhythmCard({ compact = false }) {
+/**
+ * Which Mobi, what he does and what he says, once, when the week arrives from the server. The gates
+ * (hello once a day, a line once a run) are asked here, in the fetch callback, never in render.
+ */
+function pickMobi(rhythm, { cheered, hello, counted, hour }) {
+  const today = dayKeyNow(rhythm.timeZone);
+  const week = buildWeek(rhythm, today);
+  const todayIndex = week.findIndex((d) => d.isToday);
+  const met = rhythm.metThisWeek;
+  // Days from today to Sunday that are not counted yet. The plan's chosen study days are not in this
+  // response, so "one short and today is planned" (the app's nudge) cannot be said truthfully: no nudge.
+  const daysLeft = todayIndex >= 0 ? week.filter((d, i) => i >= todayIndex && d.state !== 'counted').length : null;
+  const found = weekMobi(
+    { status: rhythm.paused ? 'paused' : met ? 'met' : 'open', studyDays: rhythm.studyDays, goal: rhythm.daysGoal, daysLeft, todayPlanned: false },
+    { hour, returning: hello },
+  );
+  if (!found && !counted) return null;
+  if (!found) return { kind: 'counted', act: 'correct', mood: 'happy', line: '', wakeLine: '' };
+  // A met week is proud once; after that he just stands there, proud in his posture.
+  const act = found.kind === 'proud' && cheered ? 'idle' : found.act;
+  const mood = found.kind === 'proud' ? 'proud' : found.kind === 'sleep' ? 'sleepy' : 'calm';
+  const line = found.line && (found.lineIsState || speakOnce(`rhythm:${found.kind}`)) ? found.line : '';
+  return { kind: found.kind, act, mood, line, wakeLine: found.wakeLine || '' };
+}
+
+export default function RhythmCard({ compact = false, mobi = !compact }) {
   const { reduced } = useMobiPrefs();
-  const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true });
+  const [wakeLine, setWakeLine] = useState('');
+  const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
   const [attempt, setAttempt] = useState(0);
   const [picked, setPicked] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.25 });
@@ -167,11 +200,19 @@ export default function RhythmCard({ compact = false }) {
         // Has Mobi already cheered for this week on this device? Storage may be blocked: then he cheers again.
         let cheered = false;
         try { cheered = window.localStorage.getItem(`mm:rhythm-cheer:${rhythm.weekStart}`) === '1'; } catch { cheered = false; }
-        setState({ status: 'ready', rhythm, cheered });
+        // A welcome-back hello once a day. A study day counted since he last looked is a small hop.
+        const hello = Boolean(mobi && rhythm.returning && rhythm.studyDays === 0 && !rhythm.metThisWeek && helloToday('rhythm'));
+        let counted = false;
+        try {
+          const seen = window.localStorage.getItem(`mm:rhythm-days:${rhythm.weekStart}`);
+          counted = seen != null && rhythm.studyDays > Number(seen);
+          window.localStorage.setItem(`mm:rhythm-days:${rhythm.weekStart}`, String(rhythm.studyDays));
+        } catch { counted = false; }
+        setState({ status: 'ready', rhythm, cheered, pick: mobi ? pickMobi(rhythm, { cheered, hello, counted, hour: new Date().getHours() }) : null });
       })
-      .catch(() => { if (alive) setState({ status: 'error', rhythm: null, cheered: true }); });
+      .catch(() => { if (alive) setState({ status: 'error', rhythm: null, cheered: true, pick: null }); });
     return () => { alive = false; };
-  }, [attempt]);
+  }, [attempt, mobi]);
 
   const rhythm = state.rhythm;
   const cheered = state.cheered;
@@ -191,7 +232,7 @@ export default function RhythmCard({ compact = false }) {
     return (
       <section className="rc rc--note" aria-label="Your weekly rhythm">
         <p role="alert">Your weekly rhythm could not be loaded. Your saved sessions are still in Review.</p>
-        <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true }); setAttempt((n) => n + 1); }}>Try again</button>
+        <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true, pick: null }); setAttempt((n) => n + 1); }}>Try again</button>
       </section>
     );
   }
@@ -204,7 +245,7 @@ export default function RhythmCard({ compact = false }) {
   const shownIndex = picked != null ? picked : todayIndex;
   const chip = shownIndex >= 0 ? week[shownIndex].chip : '';
   const met = rhythm.metThisWeek;
-  const act = met ? (!cheered ? 'cheer' : 'idle') : (rhythm.returning && rhythm.studyDays === 0 ? 'hello' : 'idle');
+  const pick = state.pick;
   const status = weekStatus(rhythm);
   const streak = rhythm.weeksMetStreak;
 
@@ -214,8 +255,9 @@ export default function RhythmCard({ compact = false }) {
         <div>
           <h2 className="rc__title">{compact ? 'This week' : 'Your weekly rhythm'}</h2>
           <p className="rc__status">{status}</p>
+          {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
-        <MobiReact act={act} size={compact ? 56 : 76} onDone={met && !cheered ? markCheered : undefined} />
+        {pick ? <MobiReact act={pick.act} size={compact ? 56 : 76} mood={pick.mood} interactive={!compact} label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
       </header>
 
       <div className="rc__top">

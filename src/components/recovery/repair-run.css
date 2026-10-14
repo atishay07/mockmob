@@ -1,0 +1,171 @@
+/* The repair run: the track above the answers and the ending. Arena tokens, so Night and Day both read.
+   Every animation answers an action or shows a state. Reduce motion (the device, or the student's own
+   switch mirrored as html[data-motion='reduced']) shows the final state at once. */
+
+.rt-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- The track ---------- */
+.rt-bar {
+  position: sticky; top: 72px; z-index: 5; margin: 0 0 12px; padding: 0 14px;
+  border-radius: 16px; border: 1px solid var(--a-line, #253026);
+  background: color-mix(in oklab, var(--a-raised, #131a16) 94%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: var(--a-shadow-1, none);
+}
+.rt { display: grid; gap: 0; }
+/* A mistake the track opens lands below it, never under it. */
+.rp-review:has(.rt-bar) .rp-q { scroll-margin-top: 188px; }
+.rt__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; }
+.rt__count { margin: 0; font: 650 14px/1.3 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.rt__finish {
+  min-height: 44px; padding: 0 10px; margin-right: -10px; border: 0; background: transparent; cursor: pointer;
+  font: 650 13px/1.2 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); text-decoration: underline; text-underline-offset: 3px;
+}
+.rt__finish:hover { color: var(--a-ink, #f2f4ec); }
+.rt__track { list-style: none; margin: 0; padding: 0; display: flex; }
+.rt__track li { flex: 1 1 0; min-width: 0; }
+.rt__seg {
+  position: relative; display: block; width: 100%; height: 44px; padding: 0 3px; border: 0; background: transparent; cursor: pointer;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.rt__seg[aria-disabled='true'] { cursor: default; }
+.rt__seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: -2px; border-radius: 10px; }
+.rt__bar {
+  position: absolute; left: 3px; right: 3px; top: 50%; height: 4px; margin-top: -2px; border-radius: 3px; overflow: hidden;
+  background: var(--a-line, #253026); transition: height 160ms var(--ease-out, ease), margin-top 160ms var(--ease-out, ease), background-color 160ms ease;
+}
+.rt__bar::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--a-volt-fill, #d2f000);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform 420ms var(--ease-out, ease);
+}
+.rt__seg[data-current] .rt__bar { height: 6px; margin-top: -3px; }
+.rt__seg[data-current]:not([data-state='done']) .rt__bar::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; border-radius: inherit; background: var(--a-ink, #f2f4ec); z-index: 1;
+}
+.rt__seg[data-state='seen'] .rt__bar, .rt__seg[data-state='current'] .rt__bar { background: var(--a-line-strong, #384736); }
+.rt__seg[data-state='done'] .rt__bar { box-shadow: inset 0 0 0 1px transparent; }
+.rt__seg[data-state='done'] .rt__bar::after { transform: scaleX(1); }
+html[data-theme='light'] .rt__seg[data-state='done'] .rt__bar { box-shadow: inset 0 0 0 1px var(--a-accent-text, #6f8700); }
+.rt__seg[data-state='setAside'] .rt__bar { background: repeating-linear-gradient(90deg, var(--a-ink-3, #93a08f) 0 5px, transparent 5px 9px); }
+.rt__seg[data-state='upcoming'] .rt__bar { background: color-mix(in oklab, var(--a-line, #253026) 70%, transparent); }
+@media (hover: hover) { .rt__seg:not([aria-disabled='true']):not([data-current]):hover .rt__bar { height: 6px; margin-top: -3px; } }
+
+/* A mistake the track brought back: the panel rises in over 160 ms while the one leaving holds (it is
+   already on the page, so no frame is ever blank). Two names alternate so the same row can replay. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mr-shell[data-handover='a'] { animation: rt-in-a 160ms var(--ease-out, ease) both; }
+  :root:not([data-motion='reduced']) .mr-shell[data-handover='b'] { animation: rt-in-b 160ms var(--ease-out, ease) both; }
+}
+@keyframes rt-in-a { from { opacity: .35; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes rt-in-b { from { opacity: .35; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Missed before ---------- */
+.mr-earlier { display: flex; align-items: center; gap: 8px; min-height: 44px; margin: 0; padding: 0; background: none; border: 0; text-align: left; cursor: pointer; color: var(--a-ink, #f2f4ec); font: 500 14px/1.45 var(--font-body, inherit); }
+.mr-earlier:hover .mr-earlier__text { text-decoration: underline; text-underline-offset: 3px; }
+.mr-earlier:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 8px; }
+.mr-earlier__glyph { flex: none; width: 20px; height: 14px; }
+.mr-earlier__glyph circle { fill: none; stroke: var(--a-bad-text, #ff9d92); stroke-width: 1.6; }
+.mr-earlier__text { min-width: 0; }
+.mr-earlier__chev { flex: none; width: 8px; height: 8px; border-right: 2px solid var(--a-ink-3, #93a08f); border-top: 2px solid var(--a-ink-3, #93a08f); transform: rotate(45deg); margin-left: auto; }
+.rp-q__meta [data-kind='twice'] { color: var(--a-bad-text, #ff9d92); font-weight: 650; }
+
+/* ---------- The ending ---------- */
+.re {
+  width: min(560px, 100vw); max-width: 100vw; height: auto; max-height: 100dvh; margin: auto; padding: 0; border: 1px solid var(--a-line, #253026);
+  border-radius: 24px; background: var(--a-bg, #0b100e); color: var(--a-ink, #f2f4ec); overflow: hidden;
+}
+.re[open] { display: flex; flex-direction: column; min-height: min(640px, 100dvh); }
+.re::backdrop { background: rgba(6, 9, 7, .72); }
+html[data-theme='light'] .re::backdrop { background: rgba(32, 38, 24, .42); }
+html:has(dialog.re[open]) { overflow: hidden; }
+.re__scroll { flex: 1 1 auto; overflow-y: auto; display: grid; align-content: center; padding: 28px 24px 12px; }
+/* One block, centred in the room above the keys. */
+.re__group { display: grid; gap: 14px; margin-block: auto; }
+.re__sheet { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.re__bubble { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font: 700 13px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; border: 1.5px solid var(--a-bad-text, #ff9d92); color: var(--a-bad-text, #ff9d92); background: color-mix(in oklab, var(--a-bad-text, #ff9d92) 10%, transparent); }
+.re__bubble svg { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); overflow: visible; transform: rotate(-90deg); pointer-events: none; }
+.re__bubble circle { fill: none; stroke: var(--a-select, #d2f000); stroke-width: 1.5; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.re__bubble > span { position: relative; }
+.re__bubble:not([data-kind='now']):not([data-kind='earlier']) svg { display: none; }
+.re__bubble[data-kind='now'], .re__bubble[data-kind='earlier'] { border-color: var(--a-select, #d2f000); background: var(--a-select, #d2f000); color: #10140e; }
+.re__bubble[data-kind='now'] circle, .re__bubble[data-kind='earlier'] circle { stroke-dashoffset: 0; }
+.re__bubble[data-kind='aside'] { border-style: dashed; border-color: var(--a-ink-3, #93a08f); color: var(--a-ink-2, #bcc5b9); background: transparent; }
+.re__bubble[data-kind='open'] { border-color: var(--a-line-strong, #384736); color: var(--a-ink-2, #bcc5b9); background: transparent; }
+
+.re__hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.re__hero--nothing { align-items: flex-end; }
+.re__count { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; min-width: 0; position: relative; }
+.re__count::before { content: ''; position: absolute; left: 0; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -10px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in oklab, var(--a-select, #d2f000) 40%, transparent), transparent); opacity: 0; transform: scale(.6); pointer-events: none; z-index: 0; }
+.re__num { position: relative; z-index: 1; font: 800 clamp(72px, 22vw, 112px)/.95 var(--font-display, inherit); letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec); transform-origin: 0 60%; }
+.re__unit { position: relative; z-index: 1; font: 650 18px/1.2 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); }
+.re__title { margin: 0; font: 800 clamp(34px, 9vw, 44px)/1.05 var(--font-display, inherit); letter-spacing: -.02em; min-width: 0; }
+.re__sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.re__mobi { flex: none; display: block; padding: 0; border: 0; background: none; cursor: pointer; min-width: 44px; min-height: 44px; border-radius: 16px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; }
+.re__mobi:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; }
+.re__mobi:active { transform: scale(.97); }
+.re__fact { margin: 0; font-size: 17px; line-height: 1.5; color: var(--a-ink, #f2f4ec); max-width: 44ch; }
+.re__later { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.re__receipt { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3, #93a08f); }
+
+/* The thread: Found is lit, the line draws to Repaired, Checked and Holds stay open. */
+.re__life { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
+.re__life li { position: relative; padding-top: 22px; text-align: left; }
+.re__life li::before { content: ''; position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; border: 2px dashed var(--a-ink-3, #93a08f); box-sizing: border-box; background: var(--a-bg, #0b100e); z-index: 1; }
+.re__life li::after { content: ''; position: absolute; left: 14px; right: 2px; top: 5px; height: 2px; background: var(--a-line-strong, #384736); transform-origin: 0 50%; }
+.re__life li:last-child::after { display: none; }
+.re__life li[data-lit] { color: var(--a-ink, #f2f4ec); }
+.re__life li[data-lit]::before { border-style: solid; border-color: var(--a-select, #d2f000); background: var(--a-select, #d2f000); }
+.re__life li:nth-child(1)::after { background: var(--a-select, #d2f000); }
+.re__life li:nth-child(2):not([data-inked])::before { border-style: dashed; background: var(--a-bg, #0b100e); border-color: var(--a-ink-3, #93a08f); }
+.re__life li:nth-child(2):not([data-inked]) { color: var(--a-ink-3, #93a08f); }
+
+/* Pinned: the one volt key and the quiet one under it. */
+.re__band { flex: none; display: grid; gap: 4px; justify-items: stretch; padding: 10px 24px max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--a-line, #253026); background: var(--a-bg, #0b100e); }
+.re__key {
+  min-height: 52px; padding: 0 20px; border: 0; border-radius: 14px; cursor: pointer; background: #d2f000; color: #10140e;
+  font: 750 16px/1.2 var(--font-display, inherit); box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .18);
+}
+.re__key:focus-visible, .re__quiet:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; }
+.re__key:active { transform: scale(.985); }
+.re__caption { margin: 0; text-align: center; font-size: 13px; line-height: 1.4; color: var(--a-ink-2, #bcc5b9); }
+.re__quiet {
+  justify-self: center; display: inline-flex; align-items: center; min-height: 48px; padding: 0 16px; border: 0; background: transparent; cursor: pointer;
+  font: 650 15px/1.2 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); text-decoration: underline; text-underline-offset: 3px;
+}
+.re__quiet:hover { color: var(--a-ink, #f2f4ec); }
+@media (max-width: 560px) {
+  .re { width: 100vw; height: 100dvh; max-height: 100dvh; border-radius: 0; border: 0; }
+  .re[open] { min-height: 100dvh; }
+  .re__scroll { padding: 24px 20px 8px; }
+  .re__band { padding-inline: 20px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .re[open] { animation: re-arrive 320ms var(--ease-out, ease) both; }
+  :root:not([data-motion='reduced']) .re[open]::backdrop { animation: re-fade 320ms ease both; }
+  /* The beat: rings one by one, the thread to Repaired, the number holds then rolls and lands with a soft bloom behind it. */
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__bubble[data-kind='now'] { background: color-mix(in oklab, var(--a-bad-text, #ff9d92) 10%, transparent); border-color: var(--a-bad-text, #ff9d92); color: var(--a-bad-text, #ff9d92); animation: re-fillin 200ms var(--ease-out, ease) calc(var(--re-d, 200ms) + 300ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__bubble[data-kind='now'] circle { stroke-dashoffset: 100; animation: re-ring 380ms var(--ease-in-out, ease) var(--re-d, 200ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(2) { color: var(--a-ink-3, #93a08f); animation: re-lit 200ms ease calc(var(--re-d, 600ms) + 380ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(2)::before { border-style: dashed; background: var(--a-bg, #0b100e); border-color: var(--a-ink-3, #93a08f); animation: re-node 240ms var(--ease-out, ease) calc(var(--re-d, 600ms) + 380ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(1)::after { transform: scaleX(0); background: var(--a-select, #d2f000); animation: re-line 360ms var(--ease-in-out, ease) calc(var(--re-d, 600ms) + 20ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero[data-landed] .re__num { animation: re-pop 360ms var(--ease-out, ease); }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero[data-landed] .re__count::before { animation: re-bloom 600ms var(--ease-out, ease) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero:not([data-landed]) .re__unit { opacity: 0; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero[data-landed] .re__unit { animation: re-fade 240ms ease both; }
+  :root:not([data-motion='reduced']) .re__group > :is(.re__fact, .re__later, .re__receipt, .re__life) { animation: re-rise 360ms var(--ease-out, ease) both; }
+  :root:not([data-motion='reduced']) .re__group > .re__fact { animation-delay: 700ms; }
+  :root:not([data-motion='reduced']) .re__group > .re__life { animation-delay: 780ms; }
+  :root:not([data-motion='reduced']) .re__group > .re__later { animation-delay: 860ms; }
+  :root:not([data-motion='reduced']) .re__group > .re__receipt { animation-delay: 920ms; }
+}
+@keyframes re-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes re-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes re-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes re-ring { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes re-fillin { to { background-color: var(--a-select, #d2f000); border-color: var(--a-select, #d2f000); color: #10140e; } }
+@keyframes re-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes re-lit { to { color: var(--a-ink, #f2f4ec); } }
+@keyframes re-node { to { border-style: solid; border-color: var(--a-select, #d2f000); background: var(--a-select, #d2f000); } }
+@keyframes re-pop { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes re-bloom { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(1.7); } }

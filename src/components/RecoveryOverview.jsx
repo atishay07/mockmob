@@ -2,14 +2,16 @@
 // Review and Progress: the student's saved sessions and recovery evidence, in the same Arena
 // language as Practice. Claims stay as before: reviewing an explanation is not evidence of
 // understanding, and ordinary scores cannot certify a recovery episode.
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import { ArrowRight } from 'lucide-react';
 import LearningNextAction from './LearningNextAction';
 import ArenaHead, { ArenaStats } from './arena/ArenaHead';
 import { AppIcon, StatusIcon, SubjectIcon } from './ui/Glyph';
-import ArenaCompanion from './brand/ArenaCompanion';
+import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
+import { useWaitStage } from '@/lib/mobiHooks';
+import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
 import { reviewChanges } from './recovery/reviewChanges';
 import './recovery/review-changes.css';
@@ -60,15 +62,18 @@ function SessionCard({ a, fresh = false, index = 0 }) {
 export default function RecoveryOverview({ view }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
   const [changes, setChanges] = useState(null);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) setError('Your recovery record could not be loaded. Please try again.'); }); return () => { alive = false; }; }, [retryCount, view]);
+  const [shrug, setShrug] = useState(false); // a failed read shrugs once per run, not on every retry
+  const wait = useWaitStage(!data && !error);
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your recovery record could not be loaded. Please try again.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
   const retry = () => { setData(null); setError(''); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
 
+  const Mobis = view === 'progress' ? OneMobi : Fragment;
   return (
-    <section className="pr ov">
+    <section className="pr ov"><Mobis>
       {view === 'review' ? (
         <ArenaHead eyebrow="Review" title="Review what mattered." lede="Open a session to read the explanation for every question you missed or left blank. Reading an explanation is review, not proof you have fixed it." />
       ) : (
@@ -77,8 +82,8 @@ export default function RecoveryOverview({ view }) {
 
       {error ? <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
       {!data && !error ? <div className="na__skeleton" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
-      {!data ? <ArenaCompanion compact pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
-      {data && review.length > 0 ? <ArenaCompanion compact pose="attentive" title="Practice, recorded.">Your saved sessions are ready to revisit. A recorded session is a step taken, not proof of mastery.</ArenaCompanion> : null}
+      {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
+      {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title="Practice, recorded.">Your saved sessions are ready to revisit. A recorded session is a step taken, not proof of mastery.</ArenaCompanion> : null}
       {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => <div key={m.kind}><b>{m.title}</b><p>{m.detail} <Link className="pr-link" href={m.href}>Open record</Link></p></div>)}</section> : null}
 
       {data && view === 'review' ? (
@@ -95,7 +100,7 @@ export default function RecoveryOverview({ view }) {
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
             {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (
-              <div className="ov-empty"><ArenaCompanion pose="attentive" title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
+              <div className="ov-empty"><ArenaCompanion act="read" pose="attentive" title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
             )}
           </section>
         </>
@@ -126,6 +131,6 @@ export default function RecoveryOverview({ view }) {
           {data.note ? <p className="na__note">{data.note}</p> : null}
         </>
       ) : null}
-    </section>
+    </Mobis></section>
   );
 }

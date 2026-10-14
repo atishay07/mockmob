@@ -16,6 +16,7 @@ import { answerFromInsights } from '../../../data/prepos_insights';
 import RecordView from './RecordView';
 import ArenaHead from '@/components/arena/ArenaHead';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
+import { useShrug } from '@/lib/mobiHooks';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { useInsights } from './useInsights';
 import './prepos.css';
@@ -46,6 +47,9 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   const wanted = variant === 'page' && requestedTab ? requestedTab : initialTab;
   const [section, setSection] = useState(SECTIONS.some((s) => s.id === wanted) ? wanted : wanted === 'guide' ? 'tools' : 'plan');
   const insightsState = useInsights(user?.id);
+  // The one Mobi of the hub reads the record; a failed read is one shrug per run.
+  const shrug = useShrug(insightsState.status === 'error', 'hub');
+  const planMobi = shrug ? 'oops' : insightsState.status === 'ready' || insightsState.status === 'empty' ? 'read' : 'idle';
   const [wallet, setWallet] = useState(null);
   const walletSequence = useRef(0);
   const readWallet = useCallback(async () => {
@@ -104,7 +108,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
       </nav>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6">
-        {section === 'plan' ? <div className="pp-handover"><ArenaCompanion compact pose="attentive" title="Read it. Then decide.">Your sessions tell the story. Choose one useful step.</ArenaCompanion></div> : null}
+        {section === 'plan' ? <div className="pp-handover"><ArenaCompanion compact act={planMobi} pose="attentive" title="Read it. Then decide.">Your sessions tell the story. Choose one useful step.</ArenaCompanion></div> : null}
         {!isAuthenticated ? (
           <SignedOut onNavigate={navigate} />
         ) : section === 'plan' ? (

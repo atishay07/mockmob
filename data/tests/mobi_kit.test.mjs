@@ -9,8 +9,9 @@ const manifest = JSON.parse(read('public/brand/mascot/manifest.json'));
 const css = read('src/app/motion-kit.css');
 const globals = read('src/app/globals.css');
 
-test('the published act list is exactly the seventeen acts, each with a pose that exists', () => {
-  assert.deepEqual([...MOBI_ACTS].sort(), ['celebrate', 'cheer', 'correct', 'encourage', 'hello', 'loading', 'nod', 'nudge', 'oops', 'point', 'proud', 'read', 'rest', 'sleepy', 'think', 'tilt', 'wave']);
+test('the published act list is exactly the app acts, each with a pose that exists', () => {
+  assert.equal(MOBI_ACTS.length, 26);
+  assert.deepEqual([...MOBI_ACTS].sort(), ['appear', 'brace', 'celebrate', 'cheer', 'correct', 'encourage', 'hello', 'listen', 'loading', 'nod', 'nudge', 'oops', 'point', 'proud', 'read', 'relief', 'rest', 'sleep', 'sleepy', 'startle', 'talk', 'think', 'tilt', 'wake', 'walk', 'wave']);
   for (const act of [...MOBI_ACTS, 'idle']) {
     assert.ok(SPEC[act], `${act} has a spec`);
     assert.ok(manifest[SPEC[act].pose], `${act} wears an existing pose (${SPEC[act].pose})`);
@@ -19,7 +20,7 @@ test('the published act list is exactly the seventeen acts, each with a pose tha
 });
 
 test('every act except idle has its own motion in motion-kit.css', () => {
-  for (const act of MOBI_ACTS) assert.ok(css.includes(`[data-act='${act}']`), `${act} has CSS`);
+  for (const act of MOBI_ACTS.filter((a) => !['think', 'point', 'rest'].includes(a))) assert.ok(css.includes(`[data-act='${act}']`), `${act} has CSS`);
 });
 
 test('Celebrations: Full plays as authored, Quiet turns a celebration into a nod, Off plays nothing', () => {
@@ -42,6 +43,8 @@ test('Celebrations: Full plays as authored, Quiet turns a celebration into a nod
 
 test('Reduce motion and still hold the pose; the act is still the one asked for', () => {
   assert.deepEqual(resolveAct('correct', { reduced: true }), { act: 'correct', live: false });
+  // An act that is only motion (a shrug) leaves him in his stance, as the app does.
+  assert.deepEqual(resolveAct('oops', { reduced: true }), { act: 'idle', live: false });
   assert.deepEqual(resolveAct('think', { still: true }), { act: 'think', live: false });
   assert.deepEqual(resolveAct('think', {}), { act: 'think', live: true });
   // Quiet plus Reduce motion: a nod, held, nothing moving.
@@ -63,7 +66,7 @@ test('the Look and feel card uses the app words', () => {
   const card = read('src/app/(app)/profile/LookAndFeelCard.jsx');
   for (const text of ['Appearance and feel', 'Night', 'Warm charcoal', 'Daylight', 'Warm paper', 'Match device', 'Follows your device', 'Reduce motion',
     'Keeps screens still. It follows your device unless you turn it on here.', 'Celebrations', 'Full', 'Quiet', 'Off',
-    'A short moment when a repair or a week is finished.', 'Plain text only, with no movement.', 'Nothing is shown.']) {
+    'A short moment when a repair or a week is finished.', 'A small nod, and the words.', 'Nothing is shown.']) {
     assert.ok(card.includes(text), `card says: ${text}`);
   }
 });

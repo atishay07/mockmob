@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { StatusIcon } from './Glyph';
-import MobiReact from '@/components/brand/MobiReact';
+import { WaitingMobi, FailedMobi, RefusedMobi, EmptyMobi } from './StateMobi';
 
 /**
  * Minimal skeleton primitives. All use a single shimmer animation defined in globals.css.
@@ -36,7 +36,7 @@ export function PageSpinner({ label = 'Loading…' }) {
   return (
     <div className="flex items-center justify-center py-24 text-zinc-500">
       <div className="flex items-center gap-3">
-        <div className="pip-state"><MobiReact act="loading" size={74} /></div>
+        <WaitingMobi />
         <span className="mono-label" role="status">{label}</span>
       </div>
     </div>
@@ -47,7 +47,7 @@ export function PageSpinner({ label = 'Loading…' }) {
 export function ErrorState({ message = 'Check your connection and try again.', onRetry, title = 'This did not load', mascot = false }) {
   return (
     <div className="ui-state ui-state--error" role="alert">
-      {mascot ? <div className="pip-state"><MobiReact act="oops" size={74} /></div> : <StatusIcon kind="error" size={20} />}
+      {mascot ? <FailedMobi /> : <StatusIcon kind="error" size={20} />}
       <div>
         <b>{title}</b>
         <p>{message}</p>
@@ -67,7 +67,7 @@ export function NoticeState({ title, message, actions = null, mascot = true, hea
   const titleId = useId();
   return (
     <section className="ui-state ui-state--notice" role="status" aria-labelledby={titleId}>
-      {mascot ? <div className="pip-state"><MobiReact act="nod" size={74} /></div> : null}
+      {mascot ? <RefusedMobi /> : null}
       <div>
         <Heading id={titleId} className="ui-state__title">{title}</Heading>
         <p>{message}</p>
@@ -84,10 +84,11 @@ export function EmptyState({
   actionLabel,
   onAction,
   mascot = true,
+  mobiAct = 'read',
 }) {
   return (
     <div className="ui-state ui-state--empty">
-      {mascot && <div className="pip-state"><MobiReact act="tilt" size={74} /></div>}
+      {mascot && <EmptyMobi act={mobiAct} />}
       {eyebrow && !eyebrow.startsWith('//') ? <span className="ui-state__eyebrow">{eyebrow}</span> : null}
       <b>{title}</b>
       <p>{message}</p>

@@ -16,7 +16,10 @@ const Star = ({ x, y, s = 1, delay = 0, slow = false }) => (
   <g transform={`translate(${x} ${y})`}><g className="mm-mark mm-spark" data-slow={slow || undefined} style={{ '--d': `${delay}ms`, '--s': s * 1.35 }}><path d={STAR} /></g></g>
 );
 
-export function MobiMarks({ act }) {
+// A short burst of lines round the head: he was startled, or woken.
+const BURST = [[-26, -8], [-18, -24], [-6, -32], [8, -32], [20, -24], [28, -8]];
+
+export function MobiMarks({ act, mood = 'calm' }) {
   let body = null;
   switch (act) {
     case 'celebrate':
@@ -78,6 +81,7 @@ export function MobiMarks({ act }) {
       body = <g transform="translate(97 46)"><g className="mm-mark mm-chev"><path d="M0 -4 L4 0 L0 4" /><path d="M7 -4 L11 0 L7 4" /></g></g>;
       break;
     case 'sleepy':
+    case 'sleep':
     case 'rest':
       body = (
         <g transform="translate(72 18)">
@@ -87,13 +91,41 @@ export function MobiMarks({ act }) {
       break;
     case 'hello':
     case 'wave':
+    case 'talk':
       body = <g transform="translate(10 46)"><g className="mm-mark mm-arcs"><path d="M-2 -6 Q-6 0 -2 6" /><path d="M-7 -9 Q-13 0 -7 9" /></g></g>;
       break;
     case 'encourage':
       body = <g transform="translate(10 46)"><g className="mm-mark mm-pump"><path d="M-3 -8 L-5.5 -12" /><path d="M-6 -3 L-10 -5.5" /><path d="M-6 3 L-10 5.5" /></g></g>;
       break;
+    case 'listen':
+      body = (
+        <g transform="translate(9 48)"><g className="mm-mark mm-hear">
+          <path d="M0 -3 V3" /><path d="M5 -7 V7" /><path d="M10 -4 V4" />
+        </g></g>
+      );
+      break;
+    case 'wake':
+    case 'startle':
+      body = (
+        <g transform="translate(50 30)"><g className="mm-mark mm-burst">
+          {BURST.map(([x, y], i) => <path key={i} d={`M${x} ${y} L${(x * 1.35).toFixed(1)} ${(y * 1.35).toFixed(1)}`} style={{ '--d': `${i * 18}ms` }} />)}
+        </g></g>
+      );
+      break;
+    case 'relief':
+      body = (
+        <g transform="translate(76 40)"><g className="mm-mark mm-puff">
+          <circle cx="0" cy="0" r="3" /><circle cx="7" cy="-3" r="2.2" /><circle cx="12" cy="-6" r="1.5" />
+        </g></g>
+      );
+      break;
     default:
-      return null;
+      break;
   }
-  return <svg className="mobi-react__marks" viewBox="0 0 100 100" aria-hidden="true" focusable="false">{body}</svg>;
+  // The antenna glint of a mood that is warm: lit a little for happy, more for proud. It stays in
+  // the held pose (it is the mood, not a moment).
+  const glint = mood === 'happy' || mood === 'proud'
+    ? <g transform="translate(75 5)"><circle className="mm-glint" data-mood={mood} r={mood === 'proud' ? 7 : 5} /></g> : null;
+  if (!body && !glint) return null;
+  return <svg className="mobi-react__marks" viewBox="0 0 100 100" aria-hidden="true" focusable="false">{glint}{body}</svg>;
 }

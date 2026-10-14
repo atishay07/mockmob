@@ -4,11 +4,13 @@
 // Daylight, Match device), Feel (Reduce motion) and Celebrations (Full, Quiet, Off). Each choice
 // takes effect straight away and is remembered on this device. Mobi previews a change once, and
 // only when the student made it: opening the page plays nothing.
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MobiReact from '@/components/brand/MobiReact';
 import { Switch } from '@/components/ui/Switch';
 import { setThemeMode, useDeviceThemeSync, useThemeMode } from '@/components/ThemeToggle';
 import { setCelebrations, setReduceMotion, useMobiPrefs } from '@/lib/mobiPrefs';
+import { useInView } from '@/lib/motion/useInView';
+import { setLookMobiActive } from '@/components/profile/lookMobiStore';
 import './look-and-feel.css';
 
 const THEMES = [
@@ -18,7 +20,7 @@ const THEMES = [
 ];
 const LEVELS = [
   { id: 'full', name: 'Full', hint: 'A short moment when a repair or a week is finished.' },
-  { id: 'quiet', name: 'Quiet', hint: 'Plain text only, with no movement.' },
+  { id: 'quiet', name: 'Quiet', hint: 'A small nod, and the words.' },
   { id: 'off', name: 'Off', hint: 'Nothing is shown.' },
 ];
 
@@ -59,6 +61,9 @@ export default function LookAndFeelCard() {
   const [said, setSaid] = useState('');
   const themeRefs = useRef([]);
   const levelRefs = useRef([]);
+  // While this card is on screen the one Mobi on Profile is the one in it (see lookMobiStore.js).
+  const [cardRef, cardInView] = useInView({ once: false, threshold: 0.2 });
+  useEffect(() => { setLookMobiActive(cardInView); return () => setLookMobiActive(false); }, [cardInView]);
 
   const react = (act, message) => { setPreview((p) => ({ act, n: p.n + 1 })); setSaid(message); };
   const pickTheme = (id, element) => {
@@ -91,13 +96,13 @@ export default function LookAndFeelCard() {
   const motionOn = prefs.reduced;
 
   return (
-    <section className="glass p-6 lf" aria-labelledby="lf-title">
+    <section ref={cardRef} className="glass p-6 lf" aria-labelledby="lf-title">
       <header className="lf__head">
         <div>
           <div className="mono-label mb-2">Look and feel</div>
           <h2 id="lf-title">Appearance and feel</h2>
         </div>
-        <MobiReact key={preview.n} act={preview.act} size={72} onDone={() => setPreview((p) => (p.act === 'idle' ? p : { act: 'idle', n: p.n }))} />
+        <MobiReact key={preview.n} act={preview.act} size={72} interactive onDone={() => setPreview((p) => (p.act === 'idle' ? p : { act: 'idle', n: p.n }))} />
       </header>
 
       <div className="lf__group">

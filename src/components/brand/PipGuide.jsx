@@ -5,17 +5,47 @@ import { PipActor } from './PipActor';
 import { stationIndex, clamp } from './pipJourney';
 import { guideFacing, guidePose } from './pipIntent';
 import { getMobiPrefs, initMobiPrefs } from '@/lib/mobiPrefs';
+import { FOLLOW } from '@/lib/mobiMoments';
+// The same acts as the app's table (lib/mobiMoments.js), with the app's lengths: a right answer is
+// `correct` (a small hop), a wrong one is `encourage` (the warm pose and a lean in), a finished
+// drill is `cheer` or `celebrate` by how it went. Reduced motion turns the guide off entirely.
 const REACTIONS = {
-  celebrate: { pose: 'celebrating', motion: 'hop', ms: 1700 },
-  encourage: { pose: 'attentive', motion: 'nod', ms: 650 },
+  correct: { pose: 'celebrating', motion: 'hop', ms: 1150 },
+  cheer: { pose: 'celebrating', motion: 'hop', ms: 1200 },
+  celebrate: { pose: 'celebrating', motion: 'hop', ms: 2000 },
+  encourage: { pose: 'encouraging', motion: 'nod', ms: 1450 },
   eureka: { pose: 'celebrating', motion: 'jump', ms: 1900 },
-  nod: { pose: null, motion: 'nod', ms: 420 },
+  nod: { pose: null, motion: 'nod', ms: 800 },
 };
 // Celebrations setting: Quiet turns a celebration into a nod, Off plays nothing.
 function calmMood(kind) {
-  if (kind !== 'celebrate' && kind !== 'eureka') return kind;
+  if (kind !== 'celebrate' && kind !== 'eureka' && kind !== 'cheer') return kind;
   const { celebrations } = getMobiPrefs();
   return celebrations === 'full' ? kind : celebrations === 'quiet' ? 'nod' : null;
+}
+// The head leans a little toward the pointer while it moves and lets go after 1.2 s (the app's
+// follow-pointer, lib/mobiMoments.js FOLLOW). One CSS variable on the root; motion-kit.css turns it
+// into a 2 degree lean of whichever Mobi is showing. Mouse and pen only; off under Reduce motion.
+function usePointerLean() {
+  useEffect(() => {
+    const root = document.documentElement;
+    let raf = 0;
+    let release = 0;
+    const onMove = (event) => {
+      if (event.pointerType === 'touch' || raf) return;
+      if (root.dataset.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const x = event.clientX;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const v = Math.min(FOLLOW.clampX, Math.max(-FOLLOW.clampX, (x - innerWidth / 2) / (innerWidth * 0.35)));
+        root.style.setProperty('--pip-follow', v.toFixed(3));
+        clearTimeout(release);
+        release = setTimeout(() => root.style.setProperty('--pip-follow', '0'), FOLLOW.releaseAfterMs);
+      });
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => { window.removeEventListener('pointermove', onMove); cancelAnimationFrame(raf); clearTimeout(release); root.style.removeProperty('--pip-follow'); };
+  }, []);
 }
 /** One actor and one scheduled frame. The reserved desktop lane never covers the
  * reading canvas. Mobile arrivals stay within their own art box. */
@@ -24,6 +54,7 @@ export default function PipGuide() {
   const peakPlayed = useRef(false);
   const [actor, setActor] = useState(null);
   const [blink, setBlink] = useState(0);
+  usePointerLean();
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const root0 = document.documentElement;

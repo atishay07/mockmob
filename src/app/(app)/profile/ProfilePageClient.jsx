@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
 import MobiReact from '@/components/brand/MobiReact';
+import { mobiMoment } from '@/lib/mobiMoments';
+import { WAIT_LONG_MS, greeting, oopsRun } from '@/lib/mobiRation';
 import LookAndFeelCard from './LookAndFeelCard';
+import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
 import { useCountUp } from '@/lib/motion';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
@@ -140,7 +143,6 @@ function DeleteAccountSection() {
   );
 }
 
-const HELLO_KEY = 'mm:mobi-hello:profile';
 const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
 
 // A count that rolls to its real value. The caption carries the truth when there is nothing to count.
@@ -160,6 +162,8 @@ export default function ProfilePageClient() {
   const [isSaving, setIsSaving] = useState(false);
   const [mobi, setMobi] = useState({ act: 'idle', n: 0 });
   const greeted = useRef(false);
+  const waitTimer = useRef(0);
+  const lookMobi = useSyncExternalStore(subscribeLookMobi, lookMobiActive, lookMobiServer);
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -190,12 +194,10 @@ export default function ProfilePageClient() {
     const id = window.setTimeout(() => {
       if (greeted.current) return;
       greeted.current = true;
-      const today = new Date().toLocaleDateString('en-CA');
-      try {
-        if (window.localStorage.getItem(HELLO_KEY) === today) return;
-        window.localStorage.setItem(HELLO_KEY, today);
-      } catch { /* Without storage he greets on every visit; that is harmless. */ }
-      setMobi((m) => ({ act: 'hello', n: m.n + 1 }));
+      // A hello the first time each day; asleep or sleepy late at night (a tap wakes him); the
+      // rest of the time he is simply there. The gates are Mobi's ration (lib/mobiRation.js).
+      const act = greeting('profile');
+      if (act !== 'idle') setMobi((m) => ({ act, n: m.n + 1 }));
     }, 450);
     return () => window.clearTimeout(id);
   }, [pageStatus, user?.id]);
@@ -213,20 +215,23 @@ export default function ProfilePageClient() {
   async function saveName() {
     setIsSaving(true);
     setSaveState({ type: null, message: '' });
-    setMobi((m) => ({ act: 'loading', n: m.n + 1 }));
+    // A save is quick: he only shows he is waiting when it goes on past two seconds.
+    window.clearTimeout(waitTimer.current);
+    waitTimer.current = window.setTimeout(() => setMobi((m) => ({ act: mobiMoment('waitLong'), n: m.n + 1 })), WAIT_LONG_MS);
     try {
       await apiPatch(`/api/users/${user.id}`, { name: trimmed });
       await refreshSession({ silent: true });
       setDraftName(null);
       setSaveState({ type: 'success', message: 'Saved. Your name is updated.' });
       toast.success('Saved. Your name is updated.');
-      setMobi((m) => ({ act: 'hello', n: m.n + 1 }));
+      setMobi((m) => ({ act: mobiMoment('saveConfirmed'), n: m.n + 1 }));
     } catch (e) {
       const message = e.message || 'Your name did not save. Try again.';
       setSaveState({ type: 'error', message });
       toast.error(message);
-      setMobi((m) => ({ act: 'oops', n: m.n + 1 }));
+      setMobi((m) => ({ act: oopsRun('profile') ? mobiMoment('saveFailed') : 'idle', n: m.n + 1 }));
     } finally {
+      window.clearTimeout(waitTimer.current);
       setIsSaving(false);
     }
   }
@@ -258,7 +263,7 @@ export default function ProfilePageClient() {
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
         <section className="glass p-6" aria-labelledby="profile-identity">
           <div className="profile-identity">
-            <MobiReact key={mobi.n} act={mobi.act} size={72} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} />
+            <span className="profile-identity__mobi" style={{ visibility: lookMobi ? 'hidden' : 'visible' }}><MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} /></span>
             <div className="profile-identity__text">
               <h2 id="profile-identity">{hi ? `Hi, ${hi}.` : 'Hi.'}</h2>
               <p>{user?.email}</p>
