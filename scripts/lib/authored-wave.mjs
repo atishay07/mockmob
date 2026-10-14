@@ -214,7 +214,8 @@ export function validateCandidates(candidates) {
 // ---------------------------------------------------------------------------------------------
 
 const sha256 = (value) => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
-export const sha256OfFile = (buffer) => createHash('sha256').update(buffer).digest('hex');
+// Line endings are normalised first: a Windows checkout with autocrlf turns the committed LF files into CRLF, and the hash must not change with it.
+export const sha256OfFile = (buffer) => createHash('sha256').update(Buffer.from(buffer).toString('utf8').replace(/\r\n/g, '\n')).digest('hex');
 
 /** Sets with fewer children than the English blueprint's minimum: [{ setId, groupId, children, ntaMinimum }]. Warnings, not errors. */
 export function smallSets(candidates) {

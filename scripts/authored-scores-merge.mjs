@@ -133,7 +133,7 @@ export function runEntries(args, { write = true } = {}) {
     built_at: args.now || new Date().toISOString(), date: args.date, models: args.models,
     models_note: 'Supplied on the command line when the entries were built: the raw judge files do not record which model judged. Confirm it before the tables are merged (the agent threshold was calibrated on claude-haiku-5-5).',
     note: 'One record per question from the raw judge files (untracked scratch under tmp/authored). The tables in data/ are built from this file by scripts/authored-scores-merge.mjs.',
-    candidates_file: args.candidates, candidates_sha256: sha(args.candidates),
+    candidates_file: args.candidates, candidates_sha256: sha(args.candidates, { normalizeEol: true }),
     fresh_passes: args.fresh.map((dir) => path.relative(process.cwd(), dir)),
     counts,
   };
@@ -156,7 +156,7 @@ export function runCheck(args) {
   const file = readJson(args.entries);
   if (file.kind !== 'authored_score_entries' || file.version !== SCORES_VERSION) throw new Error(`${args.entries} is not an authored_score_entries file of version ${SCORES_VERSION}`);
   const candidates = readJson(args.candidates);
-  if (sha(args.candidates) !== file.candidates_sha256) throw new Error('the candidates file is not the one the entries were built from (sha256 differs); rebuild the entries');
+  if (sha(args.candidates, { normalizeEol: true }) !== file.candidates_sha256) throw new Error('the candidates file is not the one the entries were built from (sha256 differs); rebuild the entries');
   const plan = planPublication(candidates);
   if (plan.problems.length) throw new Error(`candidates do not validate: ${JSON.stringify(plan.problems.slice(0, 5))}`);
   const positions = positionsOf(plan.rows);

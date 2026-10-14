@@ -10,7 +10,7 @@ What is being published: the **475 final candidates** of `docs/brain/reports/aut
 | Judge files to score entries (pure) | `scripts/lib/authored-scores.mjs` |
 | Publish, with dry-run, apply, restore | `scripts/question-publish-authored.mjs` |
 | Offline candidates, score merge and engine check | `scripts/authored-scores-merge.mjs` |
-| Tests (no network, 53 tests) | `data/tests/authored_publish.test.mjs`, `npm run test:authored-publish` |
+| Tests (no network, 54 tests) | `data/tests/authored_publish.test.mjs`, `npm run test:authored-publish` |
 | Final candidates, and the 4 dropped with their reasons | `wave1-candidates-final-2026-10-14.json`, `wave1-dropped-2026-10-14.json` |
 | Judge records, durable (the raw `tmp/authored` files are untracked) | `wave1-score-entries-final-2026-10-14.json` |
 | Offline engine check of the final set | `wave1-score-check-final-2026-10-14.json` |
@@ -45,7 +45,7 @@ For history, the first build (479 candidates, original judges) gave 460 admitted
 npm run test:authored-publish
 ```
 
-Expected: 53 tests, 0 failures. They need no network and no `.env`. One test compares the fit-gate mirror with `data/nta_fit_scores.js` and skips itself unless a checkout that has it exists (`../mockmob-fit`, or set `NTA_FIT_CHECKOUT`).
+Expected: 54 tests, 0 failures. They need no network and no `.env`. One test compares the fit-gate mirror with `data/nta_fit_scores.js` and skips itself unless a checkout that has it exists (`../mockmob-fit`, or set `NTA_FIT_CHECKOUT`).
 
 ## 2. Candidates and entries (already built and committed; rebuild only if `tmp/authored` changes)
 

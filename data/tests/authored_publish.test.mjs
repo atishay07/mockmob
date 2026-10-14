@@ -1103,3 +1103,20 @@ test('a fresh pass holding two wordings of one question uses the one that is the
     assert.equal(counts.staleFreshResultsIgnored, 5, 'the five results on the older wording are ignored, and counted once');
   }
 });
+
+test('the candidates hash does not change with the line endings of the checkout', () => {
+  const dir = tmpDir('crlf-');
+  const lf = path.join(dir, 'lf.json');
+  const crlf = path.join(dir, 'crlf.json');
+  const body = `${JSON.stringify(wave1().slice(0, 3), null, 2)}\n`;
+  fs.writeFileSync(lf, body);
+  fs.writeFileSync(crlf, body.replace(/\n/g, '\r\n'));
+  assert.equal(loadCandidates(crlf).sha256, loadCandidates(lf).sha256);
+  assert.equal(loadCandidates(CANDIDATES_FILE).sha256, JSON.parse(fs.readFileSync(ENTRIES_FILE, 'utf8')).candidates_sha256);
+  // The merge script agrees: its check accepts the entries built from the LF file when the candidates file is CRLF.
+  const converted = path.join(dir, 'final-crlf.json');
+  fs.writeFileSync(converted, fs.readFileSync(CANDIDATES_FILE, 'utf8').replace(/\r?\n/g, '\r\n'));
+  const out = tmpDir('crlf-tables-');
+  const args = parseMergeArgs(['--repaired-text=admit', `--candidates=${converted}`, `--fit-base=${path.join(out, 'fit')}`, '--now=2026-10-14T00:00:00.000Z']);
+  assert.equal(runCheck(args).report.engineEligible, 475);
+});
