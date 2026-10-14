@@ -5,15 +5,19 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
+import 'reveal_tally.dart';
 
-/// Under the open sheet on card 1: the three counts as the sheet's legend (each led by its own
-/// bubble, so state is never colour alone), the sum, one comparison line when the server sent
+/// Under the open sheet on card 1: the sheet's tally (each count led by its own bubble, so state
+/// is never colour alone, counting up with the ink), one comparison line when the server sent
 /// one, and the key naming what comes next.
 class MarksFooter extends StatelessWidget {
-  const MarksFooter({super.key, required this.model, required this.onNext, required this.onFirstFix});
+  const MarksFooter({super.key, required this.model, required this.onNext, required this.onFirstFix, this.ink});
 
   final RecapModel model;
   final VoidCallback onNext;
+
+  /// The ink's progress through the paper while the reader passes; null when complete.
+  final Animation<double>? ink;
 
   /// The lower variant's extra quiet key, which jumps to card 3.
   final VoidCallback onFirstFix;
@@ -51,17 +55,8 @@ class MarksFooter extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Wrap(
-                spacing: MmSpace.s16,
-                runSpacing: MmSpace.s6,
-                children: [
-                  _Count(state: BubbleState.filled, text: ResultCopy.correct(m.correct)),
-                  _Count(state: BubbleState.wrong, text: ResultCopy.wrong(m.wrong)),
-                  _Count(state: BubbleState.blank, text: ResultCopy.notAttempted(m.unattempted)),
-                  if (m.heldCount > 0) _Count(state: BubbleState.marked, text: ResultCopy.heldCell(m.heldCount)),
-                ],
-              ),
-              if (line != null) ...[const SizedBox(height: MmSpace.s8), Text(line, style: type.small.copyWith(color: colors.ink2))],
+              RevealTally(cells: m.cells, ink: ink),
+              if (line != null) ...[const SizedBox(height: MmSpace.s12), Text(line, style: type.small.copyWith(color: colors.ink2))],
             ],
           ),
           const SizedBox(height: MmSpace.s16),
@@ -72,25 +67,6 @@ class MarksFooter extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-}
-
-class _Count extends StatelessWidget {
-  const _Count({required this.state, required this.text});
-
-  final BubbleState state;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Bubble(state: state, size: 14, animate: false),
-        const SizedBox(width: MmSpace.s6),
-        Text(text, style: context.mmType.labelLarge),
-      ],
     );
   }
 }

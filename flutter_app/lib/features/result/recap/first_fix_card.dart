@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/domain.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../result_nav.dart';
+import '../sheet/paper.dart';
 import 'card_page.dart';
 
 /// Card 3 (spec 5.6.3): one chapter to start with, from the observed chapter breakdown of this
@@ -32,11 +36,15 @@ class FirstFixCard extends StatelessWidget {
     final List<(int, BubbleState)> tiles;
     if (leader != null && blanksOnly) {
       title = ResultCopy.startWithBlanks(leader.chapter);
-      evidence = [_Line(ResultCopy.blanksEvidence(leader.unattempted, leader.questions))];
+      evidence = [
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost), const SizedBox(height: MmSpace.s16)],
+        _Line(ResultCopy.blanksEvidence(leader.unattempted, leader.questions)),
+      ];
       tiles = [for (final n in leader.blankNumbers) (n, BubbleState.blank)];
     } else if (leader != null) {
       title = ResultCopy.startWith(leader.chapter);
       evidence = [
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost), const SizedBox(height: MmSpace.s16)],
         _Line(ResultCopy.costMost),
         const SizedBox(height: MmSpace.s12),
         _Counts(stat: leader),
@@ -122,20 +130,36 @@ class FirstFixCard extends StatelessWidget {
           // 360 dp phone), because the tile is the control that opens that exact answer.
           LayoutBuilder(
             builder: (context, constraints) {
-              final columns = firstFixTileColumns(constraints.maxWidth);
-              final width = (constraints.maxWidth - (columns - 1) * MmSpace.s8) / columns;
-              return Wrap(
-                spacing: MmSpace.s8,
-                runSpacing: MmSpace.s8,
-                children: [
-                  for (final (n, s) in tiles)
-                    _QuestionTile(
-                      number: n,
-                      state: s,
-                      width: width,
-                      onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
+              // The chapter's own strip of the answer sheet: its question numbers over their
+              // bubbles, printed on the same charcoal paper as the sheet on card 1.
+              final inner = constraints.maxWidth - 2 * _stripPad;
+              final columns = firstFixTileColumns(inner);
+              final width = (inner - (columns - 1) * MmSpace.s8) / columns;
+              return NightObject(
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [BoxShadow(color: Color(0x4D000000), blurRadius: 22, offset: Offset(4, 10), spreadRadius: -8)],
+                  ),
+                  child: PaperFace(
+                    child: Padding(
+                      padding: const EdgeInsets.all(_stripPad),
+                      child: Wrap(
+                        spacing: MmSpace.s8,
+                        runSpacing: MmSpace.s4,
+                        children: [
+                          for (final (n, s) in tiles)
+                            _QuestionTile(
+                              number: n,
+                              state: s,
+                              width: width,
+                              onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
+                            ),
+                        ],
+                      ),
                     ),
-                ],
+                  ),
+                ),
               );
             },
           ),
@@ -247,6 +271,10 @@ int firstFixTileColumns(double maxWidth) {
   return 1;
 }
 
+const double _stripPad = 12;
+
+/// One question on the chapter strip: its number over its bubble, 64 dp tall and at least 48 dp
+/// wide, opening that exact answer.
 class _QuestionTile extends StatelessWidget {
   const _QuestionTile({required this.number, required this.state, required this.onTap, this.width = 52});
 
@@ -264,25 +292,145 @@ class _QuestionTile extends StatelessWidget {
       onTap: onTap,
       focusRadius: MmRadius.smallAll,
       semanticsLabel: ResultCopy.questionTile(number, word),
-      builder: (context, pressed, _) => Container(
+      builder: (context, pressed, _) => AnimatedContainer(
+        duration: Motion.of(context, Motion.press),
         width: width,
-        height: 60,
-        decoration: ShapeDecoration(
-          color: pressed ? colors.raised2 : colors.raised,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: MmRadius.smallAll,
-            side: BorderSide(color: colors.line),
-          ),
+        height: 64,
+        decoration: BoxDecoration(
+          color: pressed ? colors.raised2 : const Color(0x00000000),
+          borderRadius: MmRadius.smallAll,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Bubble(state: state, size: 16, animate: false),
-            const SizedBox(height: 4),
-            Text('$number', style: type.label.copyWith(color: colors.ink2)),
+            Text('$number', style: type.caption.copyWith(color: colors.ink3, fontWeight: FontWeight.w600, height: 1.1)),
+            const SizedBox(height: 5),
+            Bubble(state: state, size: 28, animate: false),
           ],
         ),
       ),
     );
   }
+}
+
+/// How much this chapter cost, against everything missed in the mock: the chapter's marks below
+/// full (wrong x 6 + blank x 5, the rule "Why this?" explains) beside the mock's missed marks,
+/// and a meter of the missed marks with this chapter's share lit. Both observed, never a forecast.
+class _Cost extends StatefulWidget {
+  const _Cost({required this.stat, required this.missed});
+
+  final ChapterStat stat;
+  final int missed;
+
+  @override
+  State<_Cost> createState() => _CostState();
+}
+
+class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
+  late final AnimationController _fill = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
+  late final Animation<double> _curve = CurvedAnimation(parent: _fill, curve: Motion.emphasized);
+  Timer? _wait;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _fill.value = 1;
+    } else {
+      _wait = Timer(const Duration(milliseconds: 260), () {
+        if (mounted) _fill.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _wait?.cancel();
+    _fill.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final cost = widget.stat.marksLost;
+    final missed = widget.missed;
+    final share = missed <= 0 ? 0.0 : (cost / missed).clamp(0.0, 1.0);
+    final blanks = widget.stat.wrong == 0;
+    return Semantics(
+      container: true,
+      label: ResultCopy.costLabel(cost, missed),
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: MonumentalNumber(value: '$cost', unit: ResultCopy.costUnit(missed), style: type.figure, roll: false),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          RepaintBoundary(
+            child: SizedBox(
+              height: 8,
+              width: double.infinity,
+              child: CustomPaint(
+                painter: _SharePainter(share: share, fill: _curve, colors: colors, blanks: blanks),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SharePainter extends CustomPainter {
+  _SharePainter({required this.share, required this.fill, required this.colors, required this.blanks}) : super(repaint: fill);
+
+  final double share;
+  final Animation<double> fill;
+  final MmColors colors;
+  final bool blanks;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = Radius.circular(size.height / 2);
+    final whole = RRect.fromRectAndRadius(Offset.zero & size, r);
+    canvas.drawRRect(whole, Paint()..color = colors.sunken);
+    canvas.drawRRect(
+      whole.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = colors.line,
+    );
+    final w = size.width * share * fill.value;
+    if (w <= 0.5) return;
+    final rect = Rect.fromLTWH(0, 0, w, size.height);
+    canvas.save();
+    canvas.clipRRect(RRect.fromRectAndRadius(rect, r));
+    if (blanks) {
+      canvas.drawRect(rect, Paint()..color = colors.ink3.withValues(alpha: 0.35));
+      final dot = Paint()..color = colors.ink2;
+      for (var x = 3.0; x < w; x += 5) {
+        canvas.drawCircle(Offset(x, size.height / 2), 1, dot);
+      }
+    } else {
+      canvas.drawRect(
+        rect,
+        Paint()..shader = LinearGradient(colors: [Color.lerp(colors.wrongMark, Colors.black, 0.2)!, colors.wrongMark]).createShader(rect),
+      );
+    }
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_SharePainter old) => old.share != share || old.fill != fill || old.colors != colors || old.blanks != blanks;
 }

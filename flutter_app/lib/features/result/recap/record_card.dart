@@ -20,6 +20,7 @@ import '../model/recap_variant.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
 import 'record_parts.dart';
+import 'sheet_share.dart';
 
 /// Card 4 (spec 5.6.3): what was recorded, and the next ask sized to the time the student has.
 class RecordCard extends ConsumerStatefulWidget {
@@ -177,8 +178,16 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           onMinutes: (v) => setState(() => _minutes = v),
           onRetryKeys: widget.onRetryKeys,
         ),
+        // The sheet, to keep: a share card with no marks on it, previewed before anything leaves.
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Transform.translate(
+            offset: const Offset(-16, 0),
+            child: KeyButton.quiet(label: ResultCopy.shareSheet, onPressed: () => showSheetShare(context, model: m)),
+          ),
+        ),
         if (askReminder) ...[
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s12),
           ReminderRow(
             text: reminderRowLine(asks),
             onSet: () => context.push(AppRoutes.permissionsNotifications),

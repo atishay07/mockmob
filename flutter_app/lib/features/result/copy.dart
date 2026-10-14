@@ -31,6 +31,9 @@ abstract final class ResultCopy {
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';
 
+  /// Above the open sheet: "Mock 7 is marked." A first mock is acknowledged, never celebrated.
+  static String markedLine(String mock, {bool first = false}) => first ? '$mock is marked. Here is your map.' : '$mock is marked.';
+
   /// "Mock 7 result, sealed."
   static String sealedLabel(String mock) => '$mock result, sealed.';
 
@@ -122,6 +125,7 @@ abstract final class ResultCopy {
   static String arithmetic(int correct, int wrong, int scored) => '$correct × 5 $minusSign $wrong = ${formatSignedNumber(scored)}';
   static const nextFix = 'The first thing to fix';
   static const barLabelStart = '0';
+  static String flowSource(int max) => 'All $max marks on the paper';
 
   // ---- Card 3, the first thing to fix -------------------------------------------------------
 
@@ -130,6 +134,10 @@ abstract final class ResultCopy {
   static const startWithWrong = 'Start with your wrong answers';
   static const nothingToFix = 'Nothing to repair in this mock.';
   static const costMost = 'This chapter cost the most marks in this mock.';
+
+  /// Beside the chapter's cost figure: "of 135 missed".
+  static String costUnit(int missed) => 'of $missed missed';
+  static String costLabel(int cost, int missed) => '$cost of the $missed marks you missed were in this chapter.';
   static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';
   static String blanksEvidence(int u, int q) => 'You did not attempt $u of $q questions here. Blank answers are not mistakes to repair.';
   static String wrongByNumber(int n) =>
@@ -176,6 +184,18 @@ abstract final class ResultCopy {
   static const setReminder = 'Set a reminder';
   static const notNow = 'Not now';
   static const skipHint = 'Prefer to skip the reveal? Change it in You.';
+
+  // ---- Your sheet, to keep (card 4) ----------------------------------------------------------
+
+  static const shareSheet = 'Share your sheet';
+  static const shareTitle = 'Share your sheet';
+  static const share = 'Share';
+  static const addSubject = 'Add the subject';
+  static const shareFailed = 'Could not make the card. Try again.';
+  static String answeredOf(int n, int of) => '$n of $of answered';
+  static String shareText(String mock) => '$mock done on MockMob.';
+  static String shareCardLabel(String mock, int n, int of, DateTime day, String? subject) =>
+      '$mock${subject == null ? '' : ', $subject'}. ${answeredOf(n, of)}. ${formatDayMonth(day)}.';
   static String firstMockToken(DateTime at) => 'First full mock. Recorded on ${formatDayMonth(at)}.';
   static String finishLine(String mock, int mistakes) => mistakes == 0
       ? '$mock is in your record.'

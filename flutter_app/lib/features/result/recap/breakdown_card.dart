@@ -7,6 +7,7 @@ import '../../../core/domain/domain.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../widgets/breakdown_section.dart';
+import '../widgets/marks_flow.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
 
@@ -23,7 +24,7 @@ class BreakdownCard extends StatefulWidget {
 }
 
 class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _grow = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+  late final AnimationController _grow = AnimationController(vsync: this, duration: MarksFlow.duration);
 
   @override
   void didChangeDependencies() {
@@ -89,8 +90,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
           const SizedBox(height: MmSpace.s4),
         ],
         Text(widget.model.title, style: type.small.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s32),
-        BreakdownSection(breakdown: b, grow: _grow, caption: false),
+        const SizedBox(height: MmSpace.s24),
+        BreakdownSection(breakdown: b, grow: _grow, caption: false, flow: true),
       ],
     );
   }

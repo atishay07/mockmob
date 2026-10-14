@@ -40,7 +40,7 @@ class SummarySection extends StatelessWidget {
                 child: MonumentalNumber(
                   value: formatSignedNumber(m.marks),
                   unit: ResultCopy.outOf(m.maxMarks),
-                  style: type.figure,
+                  style: type.figureHero,
                   roll: false,
                   semanticsLabel: ResultCopy.figureLabel(m.marks, m.maxMarks),
                 ),

@@ -5,6 +5,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import 'marks_bar.dart';
+import 'marks_flow.dart';
 
 /// The rows of "where the marks went", every number from [markBreakdown]. Observed loss only,
 /// never a forecast.
@@ -28,7 +29,10 @@ List<(MarkPart, String, String, String?)> breakdownLabels(MarkBreakdown b) => [
 /// The bar, its scale, the rows, the caption that adds them up and the arithmetic toggle.
 /// Shared by recap card 2 and the full result.
 class BreakdownSection extends StatefulWidget {
-  const BreakdownSection({super.key, required this.breakdown, this.grow, this.caption = true});
+  const BreakdownSection({super.key, required this.breakdown, this.grow, this.caption = true, this.flow = false});
+
+  /// The flow (column, ribbons and rows) instead of the stacked bar and its list.
+  final bool flow;
 
   /// The full sentence of the arithmetic (the full result); the recap card leaves it to "Show the arithmetic".
   final bool caption;
@@ -52,20 +56,27 @@ class _BreakdownSectionState extends State<BreakdownSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        MarksBar(breakdown: b, grow: widget.grow),
-        const SizedBox(height: MmSpace.s6),
-        ExcludeSemantics(
-          child: Row(
-            children: [
-              Text(ResultCopy.barLabelStart, style: scale),
-              const Spacer(),
-              Text('${b.max}', style: scale),
-            ],
+        if (widget.flow) ...[
+          FlowSourceLine(max: b.max),
+          const SizedBox(height: MmSpace.s12),
+          MarksFlow(breakdown: b, rows: breakdownLabels(b), grow: widget.grow),
+          const SizedBox(height: MmSpace.s12),
+        ] else ...[
+          MarksBar(breakdown: b, grow: widget.grow),
+          const SizedBox(height: MmSpace.s6),
+          ExcludeSemantics(
+            child: Row(
+              children: [
+                Text(ResultCopy.barLabelStart, style: scale),
+                const Spacer(),
+                Text('${b.max}', style: scale),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: MmSpace.s8),
-        MarksRows(breakdown: b, labels: breakdownLabels(b)),
-        Divider(height: 1, thickness: 1, color: colors.line),
+          const SizedBox(height: MmSpace.s8),
+          MarksRows(breakdown: b, labels: breakdownLabels(b)),
+          Divider(height: 1, thickness: 1, color: colors.line),
+        ],
         if (widget.caption) ...[
           const SizedBox(height: MmSpace.s12),
           Text(

@@ -41,7 +41,7 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
 
 List<Widget> whereSection(BuildContext context, RecapModel m) => [
   _sectionTitle(context, ResultCopy.sectionWhere),
-  BreakdownSection(breakdown: m.breakdown),
+  BreakdownSection(breakdown: m.breakdown, flow: true),
 ];
 
 /// The first thing to fix, from the observed chapter breakdown, with the repair key.

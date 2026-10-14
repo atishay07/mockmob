@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/copy/formatters.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -56,7 +59,6 @@ class FlapOutside extends StatelessWidget {
                       style: type.caption.copyWith(color: colors.ink2),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -66,7 +68,7 @@ class FlapOutside extends StatelessWidget {
         Positioned(
           right: geometry.width * 0.24 - sealSize / 2,
           bottom: -sealSize * 0.42,
-          child: const _Seal(size: sealSize),
+          child: const _StampedSeal(child: _Seal(size: sealSize)),
         ),
       ],
     );
@@ -112,6 +114,66 @@ class _Seal extends StatelessWidget {
   }
 }
 
+/// The foil seal is pressed onto the sheet as it is set down: it lands from 1.22x out of a small
+/// turn, 360 ms on the emphasized curve, 380 ms after the sheet arrives. Reduced motion: still.
+class _StampedSeal extends StatefulWidget {
+  const _StampedSeal({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_StampedSeal> createState() => _StampedSealState();
+}
+
+class _StampedSealState extends State<_StampedSeal> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
+  Timer? _wait;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _wait = Timer(const Duration(milliseconds: 380), () {
+        if (mounted) _c.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _wait?.cancel();
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _c,
+      child: widget.child,
+      builder: (context, child) {
+        final v = _c.value;
+        if (v >= 1) return child!;
+        final t = Motion.emphasized.transform(v);
+        final s = 1.22 - 0.22 * t;
+        return Opacity(
+          opacity: (v / 0.35).clamp(0.0, 1.0),
+          child: Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.rotationZ(-0.35 * (1 - t))..scaleByDouble(s, s, 1, 1),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+}
+
 /// If the foil art is missing: a code-drawn volt disc with an engraved ring.
 class _CodeSeal extends StatelessWidget {
   const _CodeSeal({required this.size});
@@ -137,10 +199,13 @@ class _CodeSeal extends StatelessWidget {
 
 /// The inside of the flap: the marks box of the answer sheet, where the figure lands.
 class FlapInside extends StatelessWidget {
-  const FlapInside({super.key, required this.model, required this.geometry, required this.showFigure, this.rollFigure = true});
+  const FlapInside({super.key, required this.model, required this.geometry, required this.showFigure, this.rollFigure = true, this.meter});
 
   final RecapModel model;
   final SheetGeometry geometry;
+
+  /// The marks meter's fill (0 to 1 of its final length); null draws it full.
+  final Animation<double>? meter;
 
   /// The figure mounts (and rolls) once the sheet is open.
   final bool showFigure;
@@ -177,6 +242,10 @@ class FlapInside extends StatelessWidget {
             Expanded(
               child: model.isHeld ? _Held(model: model) : _Figure(model: model, geometry: geometry, show: showFigure, roll: rollFigure),
             ),
+            if (!model.isHeld) ...[
+              MarksMeter(marks: model.marks, max: model.maxMarks, progress: meter),
+              const SizedBox(height: SheetGeometry.meterGap),
+            ],
             if (!model.isHeld)
               Text(
                 ResultCopy.scheme,
@@ -247,4 +316,59 @@ class _Held extends StatelessWidget {
       ],
     );
   }
+}
+
+/// The marks as a share of the paper: a 4 dp hairline track with the scored part inked in volt,
+/// filling once as the figure lands. Negative marks show an empty track.
+class MarksMeter extends StatelessWidget {
+  const MarksMeter({super.key, required this.marks, required this.max, this.progress});
+
+  final int marks;
+  final int max;
+  final Animation<double>? progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final share = max <= 0 ? 0.0 : (marks / max).clamp(0.0, 1.0);
+    return ExcludeSemantics(
+      child: RepaintBoundary(
+        child: SizedBox(
+          height: SheetGeometry.meterHeight,
+          width: double.infinity,
+          child: CustomPaint(
+            painter: _MeterPainter(share: share, progress: progress, volt: colors.volt, track: colors.lineStrong),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MeterPainter extends CustomPainter {
+  _MeterPainter({required this.share, required this.progress, required this.volt, required this.track}) : super(repaint: progress);
+
+  final double share;
+  final Animation<double>? progress;
+  final Color volt;
+  final Color track;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final h = size.height;
+    final r = Radius.circular(h / 2);
+    canvas.drawRRect(RRect.fromRectAndRadius(Offset.zero & size, r), Paint()..color = track.withValues(alpha: 0.7));
+    final w = size.width * share * (progress?.value ?? 1).clamp(0.0, 1.0);
+    if (w <= 0.5) return;
+    final rect = Rect.fromLTWH(0, 0, w, h);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, r),
+      Paint()..shader = LinearGradient(colors: [Color.lerp(volt, Colors.black, 0.18)!, volt]).createShader(rect),
+    );
+    // The leading edge catches the lamp.
+    canvas.drawCircle(Offset(w - h / 2, h / 2), h * 0.42, Paint()..color = Color.lerp(volt, Colors.white, 0.45)!);
+  }
+
+  @override
+  bool shouldRepaint(_MeterPainter old) => old.share != share || old.progress != progress || old.volt != volt || old.track != track;
 }
