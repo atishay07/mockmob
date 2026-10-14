@@ -27,6 +27,9 @@ FamApp). Code-drawn only. Scope: `lib/core/mascot/**`, `test/golden/mascot`, `te
   (110 ms); 20 % doubles; a blink also fires on any glance wider than 0.6 (saccade blink).
 - Glances: every 4 to 9 s with no target, the eyes flick (stiff spring, 120 ms) to a random
   point, hold 0.6 to 1.4 s, return; sometimes a small weight shift (tilt 0.02 rad) with it.
+- Fidgets (standing at ease only): every 12 to 22 s one small beat of personality, 1.3 s: a smile
+  at the student (eyes come to the middle and warm, a small nod), a weight shift with a toe tap,
+  or an antenna flick (a dip, the bulb flashes, a look up at it). Own random stream, scheduled.
 - Attention: an on-screen tap anywhere makes Mobi glance at it for 1.1 s (global pointer route,
   no rebuilds, opt out with `watchTaps: false`). `MobiController.glance` does the same for
   content (a new row, the next button).
@@ -42,6 +45,7 @@ FamApp). Code-drawn only. Scope: `lib/core/mascot/**`, `test/golden/mascot`, `te
 | `nudge` | pointing at the primary action | point stance, then two short jabs with overshoot and a lean toward the target | 1.0 s, then holds the point |
 | `proud` | milestone, weekly goal met, first full mock | stretches tall (anticipation dip), mittens on hips, chin up, smiling eyes, three glints sparkle around the head | 2.2 s |
 | `listen` | Ask while the student types, any input field (held) | leans 0.06 rad toward the speaker, head tilt, slightly wider eyes, a slow nod every few seconds | held |
+| `wake` | a tap on a sleeping or sleepy Mobi; first open of the morning | eyes snap open wide (70 ms), a startled 9 du hop with mittens flung out and the bulb flashing, landing squash, a quick look left and right, a happy blink | 1.2 s |
 
 ### Upgrades to existing acts
 - `appear`: eyes blink on (closed for 160 ms, then open), rises with stretch and lands with a
@@ -50,9 +54,13 @@ FamApp). Code-drawn only. Scope: `lib/core/mascot/**`, `test/golden/mascot`, `te
   with body sway, follow-through on the drop (arm bounces past rest and settles).
 - `celebrate`: visor glint sweep at the top of the jump, landing squash with boot spread.
 - Tap: a "boop" (squash toward the touch, eyes look at the finger, happy blink) plus a light
-  haptic; the third quick tap plays `cheer`; tapping a sleeping Mobi wakes it with a startle.
+  haptic; the third quick tap plays `cheer`; tapping a sleeping Mobi plays `wake`.
+- `think` and `loading`: the mitten now really sits under the visor (hand to chin), not on the belly.
 
 ### Expression and material
+- Shut eyes (asleep, the peak of a blink, before the eyes blink on) draw a soft lid line curving
+  down, never a slit. Warm eyes (`smile`) are a round dome with a lower lid curving up into it and
+  blunt, rounded horns: a smile with volume, distinct from the thin `happy` arc.
 - `MobiEye.smile` (raised lower lid, 0 to 1) for warm looks; `MobiRig.glow` (antenna bulb light),
   `glint` (visor light sweep), `sparkle` (proud glints), `bubble` (the inked answer bubble).
 - Lite paint at heights under 72 dp: one stroke per limb, cached shaders, no rim detail.
@@ -62,7 +70,9 @@ FamApp). Code-drawn only. Scope: `lib/core/mascot/**`, `test/golden/mascot`, `te
 ### Motion rules
 Anticipation 80 to 160 ms, action on `easeOutBack` or ballistic arcs, follow-through 150 to 300 ms;
 squash never beyond 12 % (the paper body must not look rubbery). Reduced motion: every act has a
-still key pose and nothing ticks. One RepaintBoundary per Mobi; no rebuilds per frame.
+still key pose and nothing ticks; the quick per-answer reactions (`correct`, `encourage`, `wake`)
+show their key pose for the act's length and then return to the stance (a timer, no frames), the
+bigger moments hold their pose until the next act as before. One RepaintBoundary per Mobi; no rebuilds per frame.
 
 ### Haptics
 Mobi itself only fires `selectionClick` on a tap (honours the Touch feedback switch). Moment
@@ -75,8 +85,11 @@ haptics (success after acknowledgement) stay with the screens.
 
 ## For the merge (where each act goes)
 
-All additions are in `lib/core/mascot`; nothing outside it changed. `MobiMoments.act(moment)`
-maps a moment to its act so screens stay consistent.
+All additions are in `lib/core/mascot`; nothing outside it changed. `MobiMoments.act(event)`
+maps a `MobiEvent` (rightAnswer, wrongAnswer, waiting, typing, milestone, sessionDone,
+showAction, allClear, setback, arrive) to its act so screens stay consistent. The enum is
+`MobiEvent`, not `MobiMoment`: that name is already the Today widget
+(`features/today/widgets/mobi_moment.dart`) and the clash broke `move_hero.dart`.
 
 | Where | What to call |
 | --- | --- |
@@ -90,6 +103,7 @@ maps a moment to its act so screens stay consistent.
 | Session finished (after ack) | `MobiAct.cheer`; full result above the last one: `MobiAct.celebrate` |
 | Welcome, return after a gap | `MobiAct.hello` (now with anticipation and follow-through) |
 | Any entrance at night | `entrance: MobiMoments.entranceAt(DateTime.now())` (sleepy from 11 PM, asleep 1 to 5 AM; a tap wakes it) |
+| Morning: first open after a sleeping Mobi was shown, or a tap on it | `play(MobiAct.wake)` (taps do this by themselves on an `interactive` Mobi) |
 | Lists, small headers, rows | `MobiFace` (head only, lite) or `MobiCharacter(lite: true)` / `Mobi` at under 72 dp |
 
 Notes:
@@ -99,5 +113,22 @@ Notes:
   with a loading Mobi on screen take 12 s of fake time; that is expected.
 - `widgets/mobi.dart` (not owned here) may add `MobiPose.proud/encourage/listen` mapping to the
   new acts and pass `lite: size < 72`; the `Mobi` wrapper still compiles unchanged.
+- `core/widgets/lab/lab_mobi.dart` lists `MobiAct.values` as chips, so the lab golden
+  (`test/golden/core/mobi_states_golden_test.dart`: `mobi_*`, `state_error_*`) gains eight chips
+  and shifts; regenerate it at the merge. Its tests otherwise pass.
+- Goldens elsewhere that show a think Mobi now show the mitten under the visor.
 - Goldens elsewhere that show a hello, cheer, think or celebrate Mobi will shift slightly (glow
   on the bulb when thinking or cheering, new eye transitions); regenerate them at the merge.
+
+## Status (14 Oct, ui/mobi)
+
+Done and verified: every act above, fidgets, attention, boop and wake, `MobiFace`, lite paint,
+`MobiEvent`/`MobiMoments`. `flutter analyze lib` clean; `test/unit/mascot` and
+`test/golden/mascot` pass (77 tests); the Mobi-using unit tests elsewhere (core_ui, onboarding,
+practice, review) pass. Contact sheets: `test/golden/mascot/goldens/mobi_new_acts_*`,
+`mobi_close_ups_*`, `mobi_expressions_*`, `mobi_faces_*`, `mobi_frames_*` (correct, encourage,
+proud, nudge then loading then sleep, wake, appear then hello, fidgets).
+
+Not mine, seen while verifying: `flutter analyze test` reports errors in tests from the earlier
+round-2 WIP commit (`api_client_test.dart`, `sheet_sync_test.dart`, fakes missing the new
+`expectUserId` parameter in notifications, rhythm and you tests).
