@@ -92,11 +92,14 @@ function settled() {
 /** Fetch the plan once per key at a time; saves it for `userId` when known. */
 export function fetchLearningPlan({ userId, minutes, fetcher = getJson } = {}) {
   const path = planPath(minutes);
-  if (inflight.has(path)) return inflight.get(path);
+  // Keyed by student too: a request made before sign-in (and so answered 401) must never be
+  // handed to the signed-in caller.
+  const key = `${userId || ''}|${path}`;
+  if (inflight.has(key)) return inflight.get(key);
   const request = fetcher(path)
     .then(plan => { writeCachedPlan({ userId, minutes, plan }); return plan; })
-    .finally(() => { inflight.delete(path); settled(); });
-  inflight.set(path, request);
+    .finally(() => { inflight.delete(key); settled(); });
+  inflight.set(key, request);
   return request;
 }
 

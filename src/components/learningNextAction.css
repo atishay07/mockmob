@@ -27,3 +27,6 @@
   .app-shell .na-sk i { animation: na-sk-pulse 1.4s ease-in-out infinite; }
 }
 @keyframes na-sk-pulse { 50% { opacity: 0.55; } }
+
+/* Time buttons stay focusable while a save or refresh runs (aria-disabled, not disabled). */
+.app-shell .na__seg button[aria-disabled="true"] { opacity: 0.6; cursor: default; }

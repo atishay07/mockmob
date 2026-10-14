@@ -55,8 +55,16 @@ export default function LearningNextAction({ compact = false }) {
     Promise.resolve().then(() => {
       if (!alive) return;
       setNow(Date.now());
+      // No student yet: nothing to ask for. While the session is being confirmed the skeleton
+      // stays; once it is known that nobody is signed in (or auth is down) say so instead of
+      // leaving a skeleton that never ends.
+      if (!userId) {
+        if (status === 'loading') return;
+        setLoading(false); setPendingMinutes(null); setError(LOAD_ERROR);
+        return;
+      }
       if (saved) show({ plan: saved.plan, savedAt: saved.savedAt, current: isFresh(saved) });
-      if (saved && isFresh(saved) && (retryCount === 0 || saved === reuse)) { setLoading(false); setError(''); setRefreshFailed(false); return; }
+      if (saved && isFresh(saved) && (retryCount === 0 || saved === reuse)) { setLoading(false); setError(''); setRefreshFailed(false); setPendingMinutes(null); return; }
       setLoading(true);
       fetchLearningPlan({ userId, minutes })
         .then(p => {
@@ -68,8 +76,8 @@ export default function LearningNextAction({ compact = false }) {
         })
         .catch(err => {
           if (!alive) return;
-          // Before the session is confirmed a 401 is not a failure yet: this runs again once it is.
-          if (err?.status === 401 && status !== 'authenticated') return;
+          // While the session is still being confirmed a 401 is not a failure yet: this runs again once it is.
+          if (err?.status === 401 && status === 'loading') return;
           setPendingMinutes(null);
           if (saved) setRefreshFailed(true); else setError(LOAD_ERROR);
         })
@@ -87,9 +95,11 @@ export default function LearningNextAction({ compact = false }) {
 
   const retry = useCallback(() => { setError(''); setRefreshFailed(false); setRetryCount(n => n + 1); }, []);
   const chooseTime = async n => {
-    if (choosing || loading || n === (minutes ?? plan?.minutes)) return;
-    setError(''); setRefreshFailed(false);
-    if (!plan?.study?.preferences) { setView(null); setMinutes(n); return; }
+    // aria-disabled (not disabled) keeps keyboard focus on the button while this runs.
+    if (choosing || loading || refreshFailed || n === (minutes ?? plan?.minutes)) return;
+    setError('');
+    // Without a saved preference the plan stays on screen while the new time loads.
+    if (!plan?.study?.preferences) { setPendingMinutes(n); setMinutes(n); return; }
     setChoosing(true); setPendingMinutes(n);
     try {
       const prefs = plan.study.preferences;
@@ -97,7 +107,7 @@ export default function LearningNextAction({ compact = false }) {
       if (prefs.premium && prefs.weeklyPlan) input.weeklyPlan = prefs.weeklyPlan.map((day, index) => index === plan.study.weekday ? { ...day, minutes: n } : day);
       await api('/api/study/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
       // The saved plan was built for the old time; forget it and load the new one in place.
-      clearCachedPlans({ userId, minutes: null });
+      clearCachedPlans({ userId });
       setMinutes(null); setRetryCount(value => value + 1);
     } catch { setPendingMinutes(null); setError('Your time preference could not be saved. Reload your plan and try again.'); } finally { setChoosing(false); }
   };
@@ -138,7 +148,7 @@ export default function LearningNextAction({ compact = false }) {
         <fieldset className="na__time">
           <legend className="sr-only">Time for practice</legend>
           <div className="na__seg" role="group" aria-label="Time for practice">
-            {TIMES.map(n => <button type="button" key={n} aria-pressed={shownMinutes === n} disabled={choosing || loading} onClick={() => chooseTime(n)}>{n} min</button>)}
+            {TIMES.map(n => <button type="button" key={n} aria-pressed={shownMinutes === n} aria-disabled={choosing || loading || refreshFailed || undefined} onClick={() => chooseTime(n)}>{n} min</button>)}
           </div>
         </fieldset>
       </div>

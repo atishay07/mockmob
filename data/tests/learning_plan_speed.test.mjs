@@ -334,6 +334,22 @@ test('two callers share one request; the settle wait opens when it ends', async 
   assert.equal(calls, 1);
 });
 
+test('a request made before sign-in is never handed to the signed-in student', async () => {
+  resetPlanCacheMemory();
+  let release, calls = 0;
+  const early = fetchLearningPlan({ fetcher: () => { calls += 1; return new Promise((_, reject) => { release = () => reject(Object.assign(new Error('Unauthorized'), { status: 401 })); }); } });
+  const signedIn = fetchLearningPlan({ userId: 'u-1', fetcher: () => { calls += 1; return Promise.resolve(PLAN); } });
+  assert.notEqual(early, signedIn);
+  assert.deepEqual(await signedIn, PLAN);
+  release();
+  await assert.rejects(early, e => e.status === 401);
+  assert.equal(calls, 2);
+  // Same student still shares.
+  resetPlanCacheMemory();
+  const fetcher = () => { calls += 1; return Promise.resolve(PLAN); };
+  assert.equal(fetchLearningPlan({ userId: 'u-1', fetcher }), fetchLearningPlan({ userId: 'u-1', fetcher }));
+});
+
 test('a failed request is shared too, and the next call tries again', async () => {
   resetPlanCacheMemory();
   let calls = 0;
