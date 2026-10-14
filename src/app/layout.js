@@ -72,7 +72,7 @@ export default function RootLayout({ children }) {
       className={`${gabarito.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{document.documentElement.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced'})()` }} />
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">

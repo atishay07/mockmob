@@ -143,6 +143,7 @@ export default function ResultPageClient({ previewId = null }) {
   const toggle = (qid) => { if (!open.has(qid)) setReading(qid); setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
   // Mobi's reaction follows the server's recap tone, the same table as the app; none in NTA mode.
   const reaction = mobiReaction(attempt);
+  const isNtaAttempt = attempt.selectionMeta?.mode === 'nta';
   const candidates = repairCandidates(analysis, handled, attempt.answerReviews);
   const repairKey = repairKeyLabel(candidates);
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
@@ -286,7 +287,7 @@ export default function ResultPageClient({ previewId = null }) {
                       ) : <div className="rp-expl rp-expl--open"><span>Explanation</span><p>{displayValue(q.explanation)}</p></div>
                     ) : null}
                     {isWrong && Number.isInteger(given) ? (
-                      <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
+                      <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
                         autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
                         next={(() => { const n = analysis.mistakes.find(m => m.number > number && !handled.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
                     ) : null}
