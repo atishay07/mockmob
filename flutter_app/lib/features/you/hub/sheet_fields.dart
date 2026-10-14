@@ -3,6 +3,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/copy.dart' show RhythmCopy;
 import '../copy.dart';
 import '../widgets/subject_art.dart';
 import '../widgets/you_page.dart' show PillKey;
@@ -12,7 +13,7 @@ import '../../rhythm/widgets/plan_week_strip.dart';
 /// One field of the sheet card, ruled off like the header boxes of an answer sheet: a hairline
 /// above, a small label, then the value.
 class SheetField extends StatelessWidget {
-  const SheetField({super.key, required this.label, required this.child, this.trailing});
+  const SheetField({super.key, required this.label, required this.child, this.trailing, this.first = false});
 
   final String label;
   final Widget child;
@@ -20,14 +21,17 @@ class SheetField extends StatelessWidget {
   /// Sits at the end of the label line ("2 of 4 study days").
   final Widget? trailing;
 
+  /// The first field under the hero has no hairline above it.
+  final bool first;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     return DecoratedBox(
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
+      decoration: BoxDecoration(border: first ? null : Border(top: BorderSide(color: colors.line))),
       child: Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s12 + 2),
+        padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -103,7 +107,8 @@ class _RankRing extends StatelessWidget {
   }
 }
 
-/// The chosen subjects, each beside its small lamp-lit object.
+/// The chosen subjects as an equal two-column grid, each beside its coloured glyph tile. Every
+/// cell is the same width, so two names never sit at unequal widths on one row.
 class SubjectList extends StatelessWidget {
   const SubjectList({super.key, required this.subjects});
 
@@ -111,23 +116,40 @@ class SubjectList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
-    return Wrap(
-      spacing: MmSpace.s16,
-      runSpacing: MmSpace.s8,
-      children: [
-        for (final id in subjects)
-          Row(
-            mainAxisSize: MainAxisSize.min,
+    final rows = <Widget>[];
+    for (var i = 0; i < subjects.length; i += 2) {
+      rows.add(
+        Padding(
+          padding: EdgeInsets.only(top: i == 0 ? 0 : MmSpace.s12),
+          child: Row(
             children: [
-              SizedBox.square(
-                dimension: 26,
-                child: SubjectArt(id, size: 26),
-              ),
-              const SizedBox(width: MmSpace.s6),
-              Text(subjectDisplayName(id), style: type.labelLarge.copyWith(fontSize: 14)),
+              Expanded(child: _SubjectCell(subjects[i])),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(child: i + 1 < subjects.length ? _SubjectCell(subjects[i + 1]) : const SizedBox.shrink()),
             ],
           ),
+        ),
+      );
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
+  }
+}
+
+class _SubjectCell extends StatelessWidget {
+  const _SubjectCell(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    return Row(
+      children: [
+        SubjectArt(id, size: 36),
+        const SizedBox(width: MmSpace.s12),
+        Expanded(
+          child: Text(subjectDisplayName(id), style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+        ),
       ],
     );
   }
@@ -136,15 +158,17 @@ class SubjectList extends StatelessWidget {
 /// The subjects field: the chosen subjects with their objects, and Edit at the end of the
 /// label line. The whole field opens the subjects editor.
 class SubjectsField extends StatelessWidget {
-  const SubjectsField({super.key, required this.subjects, this.onEdit});
+  const SubjectsField({super.key, required this.subjects, this.onEdit, this.first = false});
 
   final List<String> subjects;
   final VoidCallback? onEdit;
+  final bool first;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final field = SheetField(
+      first: first,
       label: YouCopy.fieldSubjects,
       trailing: onEdit == null
           ? null
@@ -180,7 +204,9 @@ class SheetWeek {
         description = null,
         planDays = null,
         onShowMe = null,
-        onRetry = null;
+        onRetry = null,
+        done = null,
+        goal = null;
 
   const SheetWeek.failed(this.onRetry)
       : state = SheetWeekState.failed,
@@ -189,7 +215,9 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
-        onShowMe = null;
+        onShowMe = null,
+        done = null,
+        goal = null;
 
   const SheetWeek.off()
       : state = SheetWeekState.off,
@@ -199,10 +227,20 @@ class SheetWeek {
         description = null,
         planDays = null,
         onShowMe = null,
-        onRetry = null;
+        onRetry = null,
+        done = null,
+        goal = null;
 
-  const SheetWeek.ready({required this.days, required this.count, required this.description, this.note, this.planDays, this.onShowMe})
-      : state = SheetWeekState.ready,
+  const SheetWeek.ready({
+    required this.days,
+    required this.count,
+    required this.description,
+    this.note,
+    this.planDays,
+    this.onShowMe,
+    this.done,
+    this.goal,
+  })  : state = SheetWeekState.ready,
         onRetry = null;
 
   final SheetWeekState state;
@@ -214,6 +252,10 @@ class SheetWeek {
 
   /// "2 of 4 study days".
   final String? count;
+
+  /// The two numbers behind [count], for the monumental figure. Null falls back to the words.
+  final int? done;
+  final int? goal;
 
   /// "Weeks in rhythm: 3", or the pause.
   final String? note;
@@ -227,8 +269,8 @@ class SheetWeek {
   final VoidCallback? onRetry;
 }
 
-/// The rhythm field: this week as seven bubbles with the count beside the label. The field
-/// opens the rhythm screen.
+/// The rhythm field: this week in the room's one lit pane. The count stands as a monumental
+/// number over the seven answer bubbles. The pane opens the rhythm screen.
 class WeekField extends StatelessWidget {
   const WeekField({super.key, required this.week, required this.onOpen});
 
@@ -239,6 +281,7 @@ class WeekField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final ready = week.state == SheetWeekState.ready;
     final Widget body = switch (week.state) {
       SheetWeekState.loading => const SkeletonGroup(
           label: 'Loading this week',
@@ -255,11 +298,25 @@ class WeekField extends StatelessWidget {
       SheetWeekState.ready => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (week.done != null && week.goal != null) ...[
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: ExcludeSemantics(
+                  child: MonumentalNumber(
+                    value: '${week.done}',
+                    unit: RhythmCopy.ofGoal(week.goal!),
+                    style: type.figure.copyWith(fontSize: 56, height: 52 / 56),
+                  ),
+                ),
+              ),
+              const SizedBox(height: MmSpace.s8),
+            ],
             // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
             // from the rhythm's own words, and the marks are named in a one-line key.
             if (week.planDays != null) ...[
-              PlanWeekStrip(days: week.planDays!, bubble: 20, daySemantics: true),
-              const SizedBox(height: MmSpace.s8),
+              PlanWeekStrip(days: week.planDays!, bubble: 22, daySemantics: true, animateIn: true),
+              const SizedBox(height: MmSpace.s4),
               PlanWeekKey(days: week.planDays!),
             ] else
               WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
@@ -275,25 +332,32 @@ class WeekField extends StatelessWidget {
         ),
     };
 
-    final field = SheetField(
-      label: YouCopy.fieldWeek,
-      trailing: week.state == SheetWeekState.ready
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(week.count!, style: type.labelLarge.copyWith(fontSize: 14)),
-                const SizedBox(width: MmSpace.s4),
-                Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
-              ],
-            )
-          : null,
-      child: body,
+    final pane = LitEdge(
+      child: FakeGlass(
+        opacity: colors.isNight ? 0.5 : 0.72,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Expanded(child: Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2))),
+                  if (ready) Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+                ],
+              ),
+              const SizedBox(height: MmSpace.s8),
+              body,
+            ],
+          ),
+        ),
+      ),
     );
-    if (week.state != SheetWeekState.ready && week.state != SheetWeekState.off) return field;
+    if (week.state != SheetWeekState.ready && week.state != SheetWeekState.off) return pane;
     return Semantics(
       button: true,
       label: [YouCopy.rowRhythm, ?week.count, ?week.note].join('. '),
-      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onOpen, child: field),
+      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onOpen, child: pane),
     );
   }
 }

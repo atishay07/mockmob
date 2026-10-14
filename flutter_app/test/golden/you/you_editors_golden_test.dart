@@ -40,7 +40,7 @@ const _freeUser = AuthSnapshot(
 
 MockApi _patchApi({Object? error}) {
   final api = MockApi();
-  when(() => api.patch(any(), body: any(named: 'body'))).thenAnswer((invocation) async {
+  when(() => api.patch(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((invocation) async {
     if (error != null) throw error;
     final body = invocation.namedArguments[#body] as Map<String, Object?>;
     return ApiResponse(200, {'id': 'u1', ...body});

@@ -17,6 +17,7 @@ import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmT
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/token_shelf.dart';
 import 'copy.dart';
+import 'edit_copy.dart';
 import 'data/student_target.dart';
 import 'hub/hub_sections.dart';
 import 'hub/sheet_card.dart';
@@ -122,6 +123,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
       ),
       days: days,
       count: count,
+      done: week.studyDays,
+      goal: week.goal,
       note: note,
       description: [count, study.isEmpty ? 'No study days yet this week' : 'Studied ${joinWithAnd(study)}'].join('. '),
       // "Show me" only when there is a study day behind the count.
@@ -165,7 +168,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                       child: Row(
                         children: [
                           const BackKey(),
-                          Expanded(child: Align(alignment: Alignment.centerRight, child: _greeting(auth.name))),
+                          const Spacer(),
+                          KeyButton.quiet(label: EditCopy.editSheet, semanticsLabel: EditCopy.editSheetLabel, onPressed: () => openYouPage(context, YouPaths.sheet)),
                         ],
                       ),
                     ),
@@ -203,18 +207,6 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
           ),
         ],
       ),
-    );
-  }
-
-  /// Mobi greets the student by first name. A line only when the profile has a name; Mobi holds
-  /// still under reduced motion.
-  Widget _greeting(String? name) {
-    final first = name?.trim().split(RegExp(r'\s+')).first ?? '';
-    return Mobi(
-      pose: MobiPose.greet,
-      size: 56,
-      say: first.isEmpty ? null : YouCopy.hubGreeting(first),
-      interactive: true,
     );
   }
 

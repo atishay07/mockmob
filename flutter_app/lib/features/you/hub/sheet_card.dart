@@ -4,16 +4,17 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/student_target.dart';
-import '../edit_copy.dart';
 import '../widgets/you_page.dart' show PillKey;
 import 'sheet_fields.dart';
 
-/// The student's sheet for the season (brief section 12, You): the identity card at the top of
-/// You. Smoked glass with the room's one lit edge along its top. It prints only what is known:
-/// the name, where the student is, the course and colleges, the subjects and this week's rhythm.
-/// A field with nothing in it is left off rather than shown as unknown, and the card says what
-/// is missing with one way to fill it. Edit opens the sheet editor; the subjects field opens
-/// the subjects editor.
+/// The student's sheet for the season (brief section 12, You): the identity at the top of You.
+///
+/// It is a hero, not a card. Mobi waves at the top right in the lamp light, the name stands at
+/// display size on the ground, and under it this week sits in the room's one lit pane. The
+/// course, colleges and subjects follow as ruled fields like the header boxes of an answer
+/// sheet: hairlines, no outer card, no box inside a box. It prints only what is known; a field
+/// with nothing in it is left off, and the sheet says what is missing with one way to fill it.
+/// The Edit key lives in the page's top row; the subjects field opens the subjects editor.
 class SheetCard extends StatelessWidget {
   const SheetCard({
     super.key,
@@ -38,7 +39,7 @@ class SheetCard extends StatelessWidget {
   final SheetWeek week;
   final VoidCallback onOpenRhythm;
 
-  /// Opens the sheet editor. Null hides the key.
+  /// Opens the sheet editor. Used by the finish prompt; the page's top row carries the Edit key.
   final VoidCallback? onEdit;
 
   /// Opens the subjects editor.
@@ -52,53 +53,62 @@ class SheetCard extends StatelessWidget {
     final title = trimmed == null || trimmed.isEmpty ? YouCopy.sheetNameFallback : trimmed;
     final year = target.stage?.cuetYear ?? 2027;
     final missingTarget = target.course == null && target.colleges.isEmpty;
+    const fieldInset = EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4);
 
-    final fields = <Widget>[
-      if (target.course != null) SheetField(label: YouCopy.fieldCourse, child: Text(target.course!, style: type.labelLarge.copyWith(fontSize: 17))),
-      if (target.colleges.isNotEmpty) SheetField(label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
-      if (subjects.isNotEmpty) SubjectsField(subjects: subjects, onEdit: onEditSubjects),
-      WeekField(week: week, onOpen: onOpenRhythm),
-      if (missingTarget && onEdit != null) _FinishPrompt(onTap: onEdit!),
-    ];
-
-    return LitEdge(
-      child: FakeGlass(
-        opacity: colors.isNight ? 0.5 : 0.72,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s8, MmSpace.s8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s4, MmSpace.s12, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  Expanded(child: Text(YouCopy.sheetOverlineFor(year), style: type.caption.copyWith(color: colors.ink2))),
-                  if (onEdit != null)
-                    KeyButton.quiet(label: EditCopy.editSheet, semanticsLabel: EditCopy.editSheetLabel, onPressed: onEdit),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: MmSpace.s12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Semantics(header: true, child: Text(title, style: type.headline)),
-                    if (target.stage != null) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      Text(target.stage!.sheetLine, style: type.small.copyWith(color: colors.ink2)),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(YouCopy.sheetOverlineFor(year), style: type.caption.copyWith(color: colors.ink2)),
+                      const SizedBox(height: MmSpace.s8),
+                      Semantics(header: true, child: Text(title, style: type.display, maxLines: 3, overflow: TextOverflow.ellipsis)),
+                      if (target.stage != null) ...[
+                        const SizedBox(height: MmSpace.s8),
+                        Text(target.stage!.sheetLine, style: type.small.copyWith(color: colors.ink2)),
+                      ],
+                      if (email != null) ...[
+                        const SizedBox(height: MmSpace.s4),
+                        Text(email!, style: type.caption.copyWith(color: colors.ink3), maxLines: 2, overflow: TextOverflow.ellipsis),
+                      ],
                     ],
-                    if (email != null) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      Text(email!, style: type.caption.copyWith(color: colors.ink3), maxLines: 2),
-                    ],
-                    const SizedBox(height: MmSpace.s12),
-                    ...fields,
-                  ],
+                  ),
                 ),
               ),
+              const SizedBox(width: MmSpace.s8),
+              // Mobi waves once when You opens, then breathes and blinks. A tap makes it react.
+              const Mobi(pose: MobiPose.greet, size: 112, interactive: true),
             ],
           ),
         ),
-      ),
+        const SizedBox(height: MmSpace.s16),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: WeekField(week: week, onOpen: onOpenRhythm)),
+        const SizedBox(height: MmSpace.s8),
+        Padding(
+          padding: fieldInset,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (target.course != null)
+                SheetField(first: true, label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
+              if (target.colleges.isNotEmpty)
+                SheetField(first: target.course == null, label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
+              if (subjects.isNotEmpty)
+                SubjectsField(subjects: subjects, onEdit: onEditSubjects, first: target.course == null && target.colleges.isEmpty),
+              if (missingTarget && onEdit != null) _FinishPrompt(onTap: onEdit!),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

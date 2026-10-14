@@ -123,7 +123,7 @@ class FakeGoal extends GoalRepository {
   Future<void> refresh({bool force = false}) async => refreshes++;
 
   @override
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async {
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async {
     saves.add((daysPerWeek, pausedUntil));
     if (saveError != null) throw saveError!;
     final goal = Goal(daysPerWeek: daysPerWeek, pausedUntil: pausedUntil);
@@ -187,7 +187,7 @@ class FakeConsent extends ConsentRepository {
   Future<void> load() async => loads++;
 
   @override
-  Future<Consent> setAnalyticsAllowed(bool allowed) async {
+  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) async {
     allowedCalls.add(allowed);
     final band = allowed ? AgeBand.adult : state.consent.ageBand;
     if (!allowed) {
@@ -201,7 +201,7 @@ class FakeConsent extends ConsentRepository {
   }
 
   @override
-  Future<Consent> setAgeBand(AgeBand band) async {
+  Future<Consent> setAgeBand(AgeBand band, {String? expectUserId}) async {
     ageCalls.add(band);
     if (failWith != null) throw failWith!;
     final next = Consent(ageBand: band, decidedAt: DateTime(2026, 10, 12));

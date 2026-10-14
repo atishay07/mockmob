@@ -79,7 +79,7 @@ class FakeGoalRepo extends GoalRepository {
   Future<void> refresh({bool force = false}) async {}
 
   @override
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async {
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async {
     saved.add(daysPerWeek);
     savedPause.add(pausedUntil);
     final goal = Goal(daysPerWeek: daysPerWeek, pausedUntil: pausedUntil);

@@ -59,7 +59,7 @@ class _Goal extends GoalRepository {
   }
 
   @override
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async {
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async {
     saves.add((days: daysPerWeek, pausedUntil: pausedUntil));
     final goal = Goal(daysPerWeek: daysPerWeek, pausedUntil: pausedUntil);
     state = RemoteState(value: goal, fetchedAt: DateTime.utc(2026, 10, 12));

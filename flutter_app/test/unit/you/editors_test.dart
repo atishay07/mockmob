@@ -32,7 +32,7 @@ const _user = AuthSnapshot(
 
 MockApi _api({Object? error}) {
   final api = MockApi();
-  when(() => api.patch(any(), body: any(named: 'body'))).thenAnswer((invocation) async {
+  when(() => api.patch(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((invocation) async {
     if (error != null) throw error;
     final body = invocation.namedArguments[#body] as Map<String, Object?>;
     return ApiResponse(200, {'id': 'u1', ...body});
@@ -74,6 +74,7 @@ void main() {
 
     testWidgets('the account row shows the credit balance', (tester) async {
       await _pump(tester, const YouHubScreen());
+      await tester.dragUntilVisible(find.text('40 credits'), find.byType(ListView), const Offset(0, -300));
       expect(find.text('40 credits'), findsOneWidget);
     });
 
@@ -126,7 +127,7 @@ void main() {
       await tester.tap(find.text('Save subjects'));
       await tester.pump();
       await tester.pump();
-      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'), expectUserId: any(named: 'expectUserId'))).captured.single as Map;
       expect(body['subjects'], ['accountancy', 'business_studies', 'economics', 'english', 'general_test']);
       expect(auth.reloads, 1);
       expect(find.textContaining('Subjects saved at 10:39 PM'), findsOneWidget);
@@ -170,7 +171,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.text('Save name'));
       await tester.pumpAndSettle();
-      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'), expectUserId: any(named: 'expectUserId'))).captured.single as Map;
       expect(body, {'name': 'Asha V.'});
       expect(find.text('Name saved at 10:39 PM.'), findsOneWidget);
     });

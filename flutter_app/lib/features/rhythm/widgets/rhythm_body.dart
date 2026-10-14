@@ -3,9 +3,12 @@
 // Celebrations setting, and the quiet Turn off rhythm. Stateless: the screen passes the state and
 // the callbacks, and goldens render it directly.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
+import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -87,23 +90,27 @@ class RhythmBody extends StatelessWidget {
           Padding(padding: const EdgeInsets.only(left: 4), child: ReceiptLine(text: savedText!)),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan, onSetDays: busy ? null : onEditGoal),
+        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan),
+        const SizedBox(height: MmSpace.s32),
+        // The run is two numbers on the ground, not a list inside a card: weeks in rhythm and the
+        // best run. Without a run there is one plain line (never a zero).
+        _RunStats(rhythm: rhythm, note: note),
         const SizedBox(height: MmSpace.s24),
+        // One row per setting, each a 56 dp row with its value and a chevron on the right.
         YouPanel(
           margin: EdgeInsets.zero,
+          inset: MmSpace.gutter,
           children: [
-            _Line(text: note ?? weeksInRhythmText(rhythm)),
-            // The new-run note already says the best, so the Best run row would repeat it.
-            if (rhythm.bestRun > 0 && note == null) _Line(text: RhythmCopy.bestRun(rhythm.bestRun)),
-            _Line(
-              text: RhythmCopy.goalRow(goal),
-              trailing: KeyButton.quiet(label: RhythmCopy.editGoal, onPressed: busy ? null : onEditGoal),
+            _SettingRow(label: RhythmCopy.goalLabel, value: RhythmCopy.goalValue(goal), onTap: busy ? null : onEditGoal),
+            _SettingRow(
+              label: RhythmCopy.studyDaysLabel,
+              value: plan == null || plan!.isEmpty
+                  ? RhythmCopy.studyDaysNotSet
+                  : plan!.length == 7
+                      ? RhythmCopy.everyDay
+                      : joinWithAnd([for (final d in plan!.toList()..sort()) weekdayNames[d].substring(0, 3)]),
+              onTap: busy ? null : onEditGoal,
             ),
-            if (plan != null)
-              _Line(
-                text: RhythmCopy.studyDaysRow([for (final d in plan!.toList()..sort()) weekdayNames[d]]),
-                trailing: KeyButton.quiet(label: RhythmCopy.editStudyDays, onPressed: busy ? null : onEditGoal),
-              ),
           ],
         ),
         if (!rhythmOff) ...[
@@ -138,29 +145,45 @@ class RhythmBody extends StatelessWidget {
 }
 
 /// This week, lit: the count as a monumental number, the planned week (the same strip as Today
-/// and the week sheet: counted, planned, rest, not yet), and one plain line.
-class WeekHero extends StatelessWidget {
-  const WeekHero({super.key, required this.week, this.plan, this.onSetDays});
+/// and the week sheet: counted, planned, rest, not yet) and one plain line. The counted days ink
+/// in one after another when the screen opens, and each day answers a tap with a light tick and
+/// its name in words.
+class WeekHero extends ConsumerStatefulWidget {
+  const WeekHero({super.key, required this.week, this.plan});
 
   final WeekView week;
   final Set<int>? plan;
 
-  /// Opens the study days editor; offered under the strip while there is no plan.
-  final VoidCallback? onSetDays;
+  @override
+  ConsumerState<WeekHero> createState() => _WeekHeroState();
+}
+
+class _WeekHeroState extends ConsumerState<WeekHero> {
+  int? _selected;
+
+  String _status(WeekView week) => switch (week.status) {
+        WeekStatus.open => RhythmCopy.toGo((week.goal - week.studyDays).clamp(1, 7)),
+        WeekStatus.met => RhythmCopy.weekDoneSentence,
+        WeekStatus.extra || WeekStatus.paused => week.label,
+      };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final status = switch (week.status) {
-      WeekStatus.open => RhythmCopy.goalSentence(week.goal, hasPlan: plan != null && plan!.isNotEmpty),
-      WeekStatus.met => RhythmCopy.weekDoneSentence,
-      WeekStatus.extra || WeekStatus.paused => week.label,
-    };
+    final week = widget.week;
+    final todayIndex = week.days.indexWhere((d) => d.isToday);
+    final days = planWeek(
+      studied: [for (final d in week.days) d.studyDay],
+      todayIndex: todayIndex < 0 ? null : todayIndex,
+      planned: widget.plan,
+      dates: [for (final d in week.days) d.date?.day],
+    );
+    final picked = _selected == null ? null : days[_selected!];
     return LitEdge(
       child: FakeGlass(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -177,34 +200,137 @@ class WeekHero extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: MmSpace.s16),
-              Builder(
-                builder: (context) {
-                  final todayIndex = week.days.indexWhere((d) => d.isToday);
-                  final days = planWeek(
-                    studied: [for (final d in week.days) d.studyDay],
-                    todayIndex: todayIndex < 0 ? null : todayIndex,
-                    planned: plan,
-                    dates: [for (final d in week.days) d.date?.day],
-                  );
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      PlanWeekStrip(days: days, bubble: 28, showDates: true, daySemantics: true),
-                      const SizedBox(height: MmSpace.s4),
-                      PlanWeekKey(days: days),
-                    ],
-                  );
+              PlanWeekStrip(
+                days: days,
+                bubble: 28,
+                showDates: true,
+                daySemantics: true,
+                animateIn: true,
+                selected: _selected,
+                onDay: (d) {
+                  ref.read(hapticsProvider).tick();
+                  setState(() => _selected = _selected == d.index ? null : d.index);
                 },
               ),
+              const SizedBox(height: MmSpace.s4),
+              PlanWeekKey(days: days),
               const SizedBox(height: MmSpace.s12),
-              Text(status, style: type.small.copyWith(color: colors.ink2)),
-              if (plan == null && onSetDays != null && week.status != WeekStatus.paused) ...[
-                const SizedBox(height: MmSpace.s4),
-                FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onSetDays),
-              ],
+              Semantics(
+                liveRegion: true,
+                child: AnimatedSwitcher(
+                  duration: Motion.of(context, const Duration(milliseconds: 160)),
+                  child: Text(
+                    picked == null ? _status(week) : _sentence(picked),
+                    key: ValueKey(picked?.index ?? -1),
+                    style: type.small.copyWith(color: colors.ink2),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// "Wednesday, today, planned study day" as a sentence.
+  static String _sentence(PlanDay day) {
+    final text = day.describe();
+    return '${text[0].toUpperCase()}${text.substring(1)}.';
+  }
+}
+
+/// The run as two monumental numbers side by side on the ground. A student with no run gets one
+/// plain line instead (never "0 weeks").
+class _RunStats extends StatelessWidget {
+  const _RunStats({required this.rhythm, required this.note});
+
+  final Rhythm rhythm;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final streak = rhythm.weeksMetStreak;
+    if (streak <= 0) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 4),
+        child: Text(note ?? weeksInRhythmText(rhythm), style: type.body.copyWith(color: colors.ink)),
+      );
+    }
+    final best = rhythm.bestRun;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: _Stat(value: '$streak', label: RhythmCopy.statWeeks(streak), semantics: weeksInRhythmText(rhythm))),
+        if (best > 0) Expanded(child: _Stat(value: '$best', label: RhythmCopy.statBest, semantics: RhythmCopy.bestRun(best))),
+      ],
+    );
+  }
+}
+
+class _Stat extends StatelessWidget {
+  const _Stat({required this.value, required this.label, required this.semantics});
+
+  final String value;
+  final String label;
+  final String semantics;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      label: semantics,
+      excludeSemantics: true,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(value, style: type.figure.copyWith(fontSize: 56, height: 54 / 56)),
+            const SizedBox(height: MmSpace.s4),
+            Text(label, style: type.caption.copyWith(color: colors.ink2)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A setting: its name on the left, its value and a chevron on the right, the whole row a target.
+class _SettingRow extends StatelessWidget {
+  const _SettingRow({required this.label, required this.value, required this.onTap});
+
+  final String label;
+  final String value;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return RowFrame(
+      onTap: onTap,
+      semanticsLabel: '$label. $value',
+      child: Row(
+        children: [
+          Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: onTap == null ? colors.ink3 : colors.ink)),
+          const SizedBox(width: MmSpace.s12),
+          Expanded(
+            child: Text(
+              value,
+              style: type.small.copyWith(color: colors.ink2),
+              textAlign: TextAlign.end,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: MmSpace.s8),
+          Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+        ],
       ),
     );
   }
@@ -236,30 +362,6 @@ class _OffPanel extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-/// One line of the run panel, with an optional key at its end.
-class _Line extends StatelessWidget {
-  const _Line({required this.text, this.trailing});
-
-  final String text;
-  final Widget? trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 56),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
-        child: Row(
-          children: [
-            Expanded(child: Text(text, style: context.mmType.labelLarge.copyWith(fontSize: 16))),
-            ?trailing,
-          ],
-        ),
-      ),
     );
   }
 }

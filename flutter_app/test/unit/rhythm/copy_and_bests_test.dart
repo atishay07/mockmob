@@ -18,6 +18,11 @@ void main() {
       RhythmCopy.goalSentence(4),
       RhythmCopy.goalSentence(4, hasPlan: true),
       RhythmCopy.goalSentence(7),
+      RhythmCopy.toGo(1),
+      RhythmCopy.toGo(3),
+      RhythmCopy.goalValue(4),
+      RhythmCopy.statWeeks(3),
+      RhythmCopy.statBest,
       RhythmCopy.weeksInRhythm(3),
       RhythmCopy.weeksInRhythmNone,
       RhythmCopy.bestRun(6),
@@ -100,7 +105,9 @@ void main() {
 
     test('the rest-day line is said only when the student has a plan', () {
       expect(RhythmCopy.goalSentence(4), 'Your goal is 4 study days.');
-      expect(RhythmCopy.goalSentence(4, hasPlan: true), 'Your goal is 4 study days. The other days are rest days.');
+      expect(RhythmCopy.goalSentence(4, hasPlan: true), 'Your goal is 4 study days.');
+      expect(RhythmCopy.toGo(1), '1 more study day to reach your goal.');
+      expect(RhythmCopy.toGo(2), '2 more study days to reach your goal.');
       expect(RhythmCopy.goalSentence(7, hasPlan: true), 'Your goal is 7 study days.');
     });
 
