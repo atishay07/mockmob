@@ -253,7 +253,7 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    final title = Semantics(header: true, child: Text(text, style: type.title));
+    final title = Semantics(header: true, child: Text(text, style: type.title.copyWith(fontSize: 24, height: 28 / 24)));
     return Padding(
       padding: padding ?? EdgeInsets.fromLTRB(4, 0, 0, bottom),
       child: trailing == null ? title : Row(children: [Expanded(child: title), trailing!]),

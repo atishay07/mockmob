@@ -137,13 +137,11 @@ class MilestoneTimeline extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _Summary(tracks: tracks, landed: landed, total: total),
-        Padding(
-          padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
-          child: Text(
-            asOf == null ? RhythmCopy.milestonesIntro : '${RhythmCopy.asOf(asOf!)}. ${RhythmCopy.milestonesIntro}',
-            style: type.caption.copyWith(color: colors.ink3),
+        if (asOf != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
+            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
           ),
-        ),
         if (mobiLine != null)
           Padding(
             padding: const EdgeInsets.only(top: MmSpace.s16),
@@ -190,7 +188,6 @@ class _Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    final colors = context.mmColors;
     return Padding(
       padding: const EdgeInsets.only(left: 4),
       child: Column(
@@ -203,17 +200,27 @@ class _Summary extends StatelessWidget {
             semanticsLabel: RhythmCopy.landedSummary(landed, total),
           ),
           const SizedBox(height: MmSpace.s16),
+          // Nine coins, as large as the width allows (up to 30 dp), grouped 3 | 4 | 2 with a plain gap.
           ExcludeSemantics(
-            child: Row(
-              children: [
-                for (var k = 0; k < tracks.length; k++) ...[
-                  if (k > 0) SizedBox(width: MmSpace.s20, child: Center(child: SizedBox(width: 1, height: 14, child: ColoredBox(color: colors.lineStrong)))),
-                  for (var i = 0; i < tracks[k].steps.length; i++) ...[
-                    if (i > 0) const SizedBox(width: 6),
-                    Medal.plain(status: tracks[k].steps[i].status == StepStatus.earned ? MedalStatus.landed : MedalStatus.later, size: 22),
+            child: LayoutBuilder(
+              builder: (context, box) {
+                const gap = 6.0;
+                const groupGap = 20.0;
+                final steps = tracks.fold<int>(0, (n, t) => n + t.steps.length);
+                final fixed = gap * (steps - tracks.length) + groupGap * (tracks.length - 1);
+                final coin = ((box.maxWidth - 4 - fixed) / steps).clamp(16.0, 30.0);
+                return Row(
+                  children: [
+                    for (var k = 0; k < tracks.length; k++) ...[
+                      if (k > 0) const SizedBox(width: groupGap),
+                      for (var i = 0; i < tracks[k].steps.length; i++) ...[
+                        if (i > 0) const SizedBox(width: gap),
+                        Medal.plain(status: tracks[k].steps[i].status == StepStatus.earned ? MedalStatus.landed : MedalStatus.later, size: coin),
+                      ],
+                    ],
                   ],
-                ],
-              ],
+                );
+              },
             ),
           ),
         ],

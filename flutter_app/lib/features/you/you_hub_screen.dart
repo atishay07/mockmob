@@ -130,8 +130,6 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
       paused: paused,
       note: note,
       description: [count, study.isEmpty ? 'No study days yet this week' : 'Studied ${joinWithAnd(study)}'].join('. '),
-      // "Show me" only when there is a study day behind the count.
-      onShowMe: week.studyDays > 0 ? () => context.push(AppRoutes.youRhythm) : null,
     );
   }
 

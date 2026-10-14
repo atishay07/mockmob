@@ -293,7 +293,6 @@ abstract final class RhythmCopy {
   static const String condRepairs25 = 'Lands with your 25th finished repair.';
   static const String condFirstWeek = 'Lands when a week reaches your goal.';
   static const String condFourWeeks = 'Lands when a fourth week reaches its goal. They need not be in a row.';
-  static const String nextLabel = 'Next';
   static const String trackComplete = 'Every step on this path has landed.';
   static String trackCount(int earned, int total) => earned == 0 ? 'Nothing landed yet' : '$earned of $total landed';
   static String soFar(int count, int target) => '$count of $target so far';
@@ -303,7 +302,6 @@ abstract final class RhythmCopy {
   static String trackCountOf(int landed, int total) => '$landed of $total landed';
   static String ofLanded(int total) => 'of $total landed';
   static String landedSummary(int landed, int total) => '$landed of $total milestones landed';
-  static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
 
   // Mobi on the milestones screen.
   static const String milestonesMobiEmpty = 'Your first lands with a scored set.';

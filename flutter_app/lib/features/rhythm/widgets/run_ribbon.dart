@@ -1,7 +1,7 @@
 // The run as a ribbon (you-rhythm spec 2.2): one capsule per week, oldest to newest, the height of
 // each is the study days of that week out of seven, and a short tick across it marks that week's
 // own goal. A week that met its goal is volt, one that did not is a quiet grey, a paused week is
-// dashed, this week is outlined until it is met. The ribbon scrolls (40 dp a week, so every week is
+// dashed, this week is outlined until it is met. The ribbon scrolls (44 dp a week, so every week is
 // a full-size target) and opens at this week; tapping a week says it in words and ticks. Every
 // capsule is a number the server sent. Capsules grow in left to right once; reduced motion draws
 // them settled.
@@ -109,8 +109,8 @@ class RunRibbon extends ConsumerStatefulWidget {
   final List<RibbonWeek> weeks;
   final bool animate;
 
-  static const double slot = 40;
-  static const double capsule = 14;
+  static const double slot = 44;
+  static const double capsule = 24;
   static const double height = 76;
 
   @override
@@ -270,7 +270,7 @@ class _CapsulePainter extends CustomPainter {
     final x = (size.width - w) / 2;
     final body = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, w, size.height), Radius.circular(w / 2));
     final night = colors.isNight;
-    canvas.drawRRect(body, Paint()..color = colors.line.withValues(alpha: night ? 0.85 : 1));
+    canvas.drawRRect(body, Paint()..color = colors.ink.withValues(alpha: night ? 0.14 : 0.10));
 
     if (week.paused) {
       final dash = Paint()
@@ -307,14 +307,25 @@ class _CapsulePainter extends CustomPainter {
       );
     }
     if (week.goal > 0 && week.goal <= 7) {
+      // The goal tick: a ground-coloured keyline under an ink bar, so it reads on volt, on grey
+      // and on the empty track alike.
       final y = size.height - size.height * (week.goal / 7);
+      final from = Offset(x - 5, y), to = Offset(x + w + 5, y);
       canvas.drawLine(
-        Offset(x - 4, y),
-        Offset(x + w + 4, y),
+        from,
+        to,
         Paint()
-          ..strokeWidth = 1.5
+          ..strokeWidth = 4.5
           ..strokeCap = StrokeCap.round
-          ..color = colors.ink.withValues(alpha: night ? 0.75 : 0.7),
+          ..color = colors.ground,
+      );
+      canvas.drawLine(
+        from.translate(1, 0),
+        to.translate(-1, 0),
+        Paint()
+          ..strokeWidth = 2.5
+          ..strokeCap = StrokeCap.round
+          ..color = colors.ink,
       );
     }
   }

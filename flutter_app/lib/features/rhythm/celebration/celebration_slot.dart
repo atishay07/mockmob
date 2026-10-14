@@ -15,6 +15,8 @@ import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../widgets/rhythm_page.dart' show FlushQuietKey;
 import 'celebration_controller.dart';
+import 'celebration_event.dart' show CelebrationLevel;
+import '../widgets/week_dial.dart';
 import 'ring_sweep.dart';
 
 /// Shows the celebration of [scope], if one fired. Place it on the ground, not inside a card.
@@ -33,8 +35,11 @@ class CelebrationSlot extends ConsumerWidget {
   }
 }
 
-/// The moment itself: ring or Mobi, one sentence, the receipt line. Fades in over 240 ms; the
-/// ring sweeps once over 500 ms and Mobi hops once. Quiet mode is the same words with no motion.
+/// The moment itself. A first (L2) stands on the ground with no box: Mobi at 104 dp in his own
+/// pool of lamp light, the sentence in Bricolage 22, and for a met week the week dial with the
+/// real counts. A plain L1 is one compact glass line. Everything fades in over 240 ms; the lamp
+/// pool blooms once over 700 ms, the dial closes its own ring, Mobi hops once. Quiet mode is the
+/// same words with no motion.
 class CelebrationMoment extends StatefulWidget {
   const CelebrationMoment({super.key, required this.celebration});
 
@@ -47,8 +52,8 @@ class CelebrationMoment extends StatefulWidget {
 class _CelebrationMomentState extends State<CelebrationMoment> with TickerProviderStateMixin {
   late final AnimationController _fade = AnimationController(vsync: this, duration: Motion.card);
 
-  /// The light band that crosses the pane once (700 ms) when a first or a week lands.
-  late final AnimationController _sweep = AnimationController(vsync: this, duration: const Duration(milliseconds: 860));
+  /// The lamp pool behind Mobi blooms once (700 ms) when a first lands.
+  late final AnimationController _bloom = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
   bool _started = false;
 
   @override
@@ -58,18 +63,17 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     _started = true;
     if (Motion.reduced(context) || widget.celebration.textOnly) {
       _fade.value = 1;
+      _bloom.value = 1;
     } else {
       _fade.forward();
-      if (widget.celebration.mobiHop || widget.celebration.ring) {
-        _sweep.forward();
-      }
+      _bloom.forward();
     }
   }
 
   @override
   void dispose() {
     _fade.dispose();
-    _sweep.dispose();
+    _bloom.dispose();
     super.dispose();
   }
 
@@ -79,6 +83,8 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     final colors = context.mmColors;
     final type = context.mmType;
     final label = [if (c.sentence != null) c.sentence!, if (c.receipt != null) c.receipt!].join(' ');
+    final first = c.level == CelebrationLevel.l2;
+    final counted = c.ring && c.studyDays != null && c.goal != null;
 
     final link = c.link;
     final text = Column(
@@ -94,8 +100,8 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (c.sentence != null) Text(c.sentence!, style: type.subhead),
-              if (c.sentence != null && c.receipt != null) const SizedBox(height: MmSpace.s4),
+              if (c.sentence != null) Text(c.sentence!, style: first ? type.headline.copyWith(fontSize: 22, height: 26 / 22) : type.subhead),
+              if (c.sentence != null && c.receipt != null) SizedBox(height: first ? MmSpace.s8 : MmSpace.s4),
               if (c.receipt != null) ReceiptLine(text: c.receipt!),
             ],
           ),
@@ -109,72 +115,83 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
       ],
     );
 
-    final row = Padding(
-      padding: const EdgeInsets.all(MmSpace.s16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+    final Widget body;
+    if (first) {
+      final mobiSize = c.mobiHop ? 104.0 : 0.0;
+      final lead = counted
+          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 88, showWords: false, animate: !c.textOnly)
+          : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 64) : null);
+      body = Stack(
+        clipBehavior: Clip.none,
         children: [
-          if (c.ring) ...[const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52), const SizedBox(width: MmSpace.s16)],
-          Expanded(child: text),
-          if (c.mobiHop) ...[
-            const SizedBox(width: MmSpace.s12),
-            const Mobi(pose: MobiPose.celebrating, size: 76, motion: MobiMotion.hop),
-          ],
-        ],
-      ),
-    );
-    final body = SizedBox(
-      width: double.infinity,
-      child: LitEdge(
-        child: FakeGlass(
-          lamp: true,
-          child: Stack(
-            children: [
-              row,
-              Positioned.fill(
-                child: IgnorePointer(
-                  child: CustomPaint(painter: _SweepPainter(progress: _sweep, color: colors.volt, night: colors.isNight)),
+          if (c.mobiHop)
+            Positioned(
+              right: -28,
+              top: -30,
+              width: 220,
+              height: 220,
+              child: IgnorePointer(
+                child: FadeTransition(
+                  opacity: CurvedAnimation(parent: _bloom, curve: Motion.out),
+                  child: ScaleTransition(
+                    scale: Tween<double>(begin: 0.7, end: 1).animate(CurvedAnimation(parent: _bloom, curve: Motion.out)),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(colors: [colors.lamp.withValues(alpha: colors.isNight ? 0.24 : 0.20), colors.lamp.withValues(alpha: 0)]),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ],
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (lead != null) ...[lead, const SizedBox(height: MmSpace.s12)],
+                      text,
+                    ],
+                  ),
+                ),
+                if (c.mobiHop) ...[
+                  const SizedBox(width: MmSpace.s8),
+                  Mobi(pose: MobiPose.celebrating, size: mobiSize, motion: MobiMotion.hop),
+                ],
+              ],
+            ),
           ),
+        ],
+      );
+    } else {
+      // A plain L1: one compact glass line, the week dial small when a week was met.
+      final row = Padding(
+        padding: const EdgeInsets.all(MmSpace.s16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (c.ring) ...[
+              if (counted)
+                WeekDial(done: c.studyDays!, goal: c.goal!, size: 64, showWords: false, animate: !c.textOnly)
+              else
+                const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52),
+              const SizedBox(width: MmSpace.s16),
+            ],
+            Expanded(child: text),
+          ],
         ),
-      ),
-    );
+      );
+      body = SizedBox(
+        width: double.infinity,
+        child: LitEdge(child: FakeGlass(lamp: true, child: row)),
+      );
+    }
 
     return FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body);
   }
-}
-
-/// One soft diagonal band of light crossing the moment from left to right, once.
-class _SweepPainter extends CustomPainter {
-  _SweepPainter({required this.progress, required this.color, required this.night}) : super(repaint: progress);
-
-  final Animation<double> progress;
-  final Color color;
-  final bool night;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // 160 ms of lead so the pane is up before the light crosses it, then 700 ms.
-    final t = Motion.sweepCurve.transform(((progress.value * 860 - 160) / 700).clamp(0.0, 1.0));
-    if (t <= 0 || t >= 1) return;
-    final w = size.width * 0.34;
-    final x = -w + (size.width + 2 * w) * t;
-    canvas.save();
-    canvas.translate(x, 0);
-    final rect = Rect.fromLTWH(0, -8, w, size.height + 16);
-    canvas.transform(Matrix4.skewX(-0.35).storage);
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = LinearGradient(
-          colors: [color.withValues(alpha: 0), color.withValues(alpha: night ? 0.20 : 0.28), color.withValues(alpha: 0)],
-        ).createShader(rect),
-    );
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_SweepPainter old) => old.color != color || old.night != night;
 }

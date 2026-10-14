@@ -40,6 +40,8 @@ class CelebrationEvent {
     this.sentence,
     this.receipt,
     this.ring = false,
+    this.studyDays,
+    this.goal,
     this.extraIds = const [],
     this.suppressedBy,
     this.linkLabel,
@@ -85,6 +87,8 @@ class CelebrationEvent {
         sentence: firstEver ? RhythmCopy.firstWeekSentence : RhythmCopy.weekDoneSentence,
         receipt: RhythmCopy.weekReceipt(studyDays, goal),
         ring: true,
+        studyDays: studyDays,
+        goal: goal,
         extraIds: firstEver ? const ['first_week_met'] : const [],
       );
 
@@ -151,8 +155,13 @@ class CelebrationEvent {
   /// The receipt line. Only given for something the server acknowledged.
   final String? receipt;
 
-  /// The 500 ms ring sweep of a met week.
+  /// The ring of a met week.
   final bool ring;
+
+  /// The counts behind the ring, when the caller has them: the moment then draws the week dial
+  /// with the real numbers instead of a bare ring.
+  final int? studyDays;
+  final int? goal;
 
   /// Other ids that fire with this one and are consumed with it.
   final List<String> extraIds;

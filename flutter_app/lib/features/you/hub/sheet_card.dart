@@ -10,7 +10,7 @@ import 'sheet_fields.dart';
 /// The student's sheet for the season (brief section 12, You): the identity at the top of You.
 ///
 /// It is a hero, not a card. Mobi waves at the top right in the lamp light, the name stands at
-/// display size on the ground, and under it this week sits in the room's one lit pane. The
+/// display size on the ground, and under it this week stands on the ground in the lamp light. The
 /// course, colleges and subjects follow as ruled fields like the header boxes of an answer
 /// sheet: hairlines, no outer card, no box inside a box. It prints only what is known; a field
 /// with nothing in it is left off, and the sheet says what is missing with one way to fill it.
@@ -91,23 +91,22 @@ class SheetCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: WeekField(week: week, onOpen: onOpenRhythm)),
-        const SizedBox(height: MmSpace.s8),
+        WeekField(week: week, onOpen: onOpenRhythm),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (target.course != null)
               Padding(
                 padding: fieldInset,
-                child: SheetField(first: true, label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
+                child: SheetField(label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
               ),
             if (target.colleges.isNotEmpty)
               Padding(
                 padding: fieldInset,
-                child: SheetField(first: target.course == null, label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
+                child: SheetField(label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
               ),
             if (subjects.isNotEmpty)
-              SubjectsField(subjects: subjects, onEdit: onEditSubjects, first: target.course == null && target.colleges.isEmpty),
+              SubjectsField(subjects: subjects, onEdit: onEditSubjects),
             if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit!)),
           ],
         ),

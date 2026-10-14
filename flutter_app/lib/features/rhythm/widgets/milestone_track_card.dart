@@ -262,17 +262,11 @@ class _TrailStep extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (status == StepStatus.next) ...[
-            Text(
-              RhythmCopy.nextLabel,
-              style: type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w700, color: colors.accentText),
-            ),
-          ],
           Text(
             name,
             style: type.labelLarge.copyWith(
-              fontSize: 16,
-              fontWeight: status == StepStatus.later ? FontWeight.w500 : FontWeight.w600,
+              fontSize: status == StepStatus.next ? 17 : 16,
+              fontWeight: status == StepStatus.later ? FontWeight.w500 : (status == StepStatus.next ? FontWeight.w700 : FontWeight.w600),
               color: status == StepStatus.later ? colors.ink3 : colors.ink,
             ),
           ),

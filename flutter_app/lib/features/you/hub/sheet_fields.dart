@@ -184,6 +184,7 @@ class SubjectTile extends StatelessWidget {
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
                           style: type.label.copyWith(fontSize: 13, height: 16 / 13, color: colors.ink),
                         ),
                       ),
@@ -264,7 +265,6 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
-        onShowMe = null,
         onRetry = null,
         done = null,
         goal = null,
@@ -277,7 +277,6 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
-        onShowMe = null,
         done = null,
         goal = null,
         paused = false;
@@ -289,7 +288,6 @@ class SheetWeek {
         note = null,
         description = null,
         planDays = null,
-        onShowMe = null,
         onRetry = null,
         done = null,
         goal = null,
@@ -301,7 +299,6 @@ class SheetWeek {
     required this.description,
     this.note,
     this.planDays,
-    this.onShowMe,
     this.done,
     this.goal,
     this.paused = false,
@@ -331,15 +328,12 @@ class SheetWeek {
   /// The whole week in words for TalkBack.
   final String? description;
 
-  /// Opens the study days behind the count ("Show me"). Null when there are none yet: a claim
-  /// with no evidence shows no key.
-  final VoidCallback? onShowMe;
   final VoidCallback? onRetry;
 }
 
-/// The rhythm field: this week in the room's one lit pane. The ring (one segment inked per study
+/// The rhythm field: this week on the ground, in the lamp light. The ring (one segment inked per study
 /// day, the count in the middle) sits beside the plain words, with the planned week beneath. The
-/// pane opens the rhythm screen.
+/// whole field opens the rhythm screen, where the key and the study days live.
 class WeekField extends StatelessWidget {
   const WeekField({super.key, required this.week, required this.onOpen});
 
@@ -382,11 +376,26 @@ class WeekField extends StatelessWidget {
       SheetWeekState.ready => _ready(context),
     };
 
-    final pane = LitEdge(
-      child: FakeGlass(
-        opacity: colors.isNight ? 0.5 : 0.72,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s12),
+    // No container: the ring stands on the ground in a pool of lamp light, and the week strip
+    // below it is plain columns between two hairlines.
+    final pane = Stack(
+      children: [
+        if (ready)
+          Positioned(
+            left: -MmSpace.s24,
+            top: -MmSpace.s24,
+            width: 200,
+            height: 200,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(colors: [colors.lamp.withValues(alpha: colors.isNight ? 0.16 : 0.12), colors.lamp.withValues(alpha: 0)]),
+                ),
+              ),
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s4, MmSpace.gutter + 4, MmSpace.s12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -398,7 +407,7 @@ class WeekField extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ],
     );
     if (week.state != SheetWeekState.ready && week.state != SheetWeekState.off) return pane;
     return Semantics(
@@ -448,18 +457,23 @@ class WeekField extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s12),
         // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
-        // from the rhythm's own words, and the marks are named in a one-line key.
+        // from the rhythm's own words. The key to the marks lives on Rhythm.
         if (week.planDays != null) ...[
+          _Hairline(color: colors.line),
+          const SizedBox(height: MmSpace.s12),
           PlanWeekStrip(days: week.planDays!, bubble: 22, daySemantics: true, animateIn: true),
-          const SizedBox(height: MmSpace.s4),
-          PlanWeekKey(days: week.planDays!),
         ] else
           WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
-        if (week.onShowMe != null) ...[
-          const SizedBox(height: MmSpace.s4),
-          ShowMePill(onTap: week.onShowMe!, semanticsLabel: YouCopy.showMeWeek),
-        ],
       ],
     );
   }
+}
+
+class _Hairline extends StatelessWidget {
+  const _Hairline({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(height: 1, child: ColoredBox(color: color));
 }

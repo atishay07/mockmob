@@ -30,6 +30,8 @@ class Celebration {
     this.sentence,
     this.receipt,
     this.ring = false,
+    this.studyDays,
+    this.goal,
     this.mobiHop = false,
     this.textOnly = false,
     this.linkLabel,
@@ -45,6 +47,10 @@ class Celebration {
 
   /// The 500 ms ring sweep (a met week). Never in Quiet.
   final bool ring;
+
+  /// The counts behind the ring (see `CelebrationEvent.studyDays`).
+  final int? studyDays;
+  final int? goal;
 
   /// One Mobi hop (L2 only). Never in Quiet.
   final bool mobiHop;
@@ -114,6 +120,8 @@ class CelebrationController extends Notifier<CelebrationState> {
       sentence: event.sentence,
       receipt: event.receipt,
       ring: event.ring && !quiet,
+      studyDays: event.studyDays,
+      goal: event.goal,
       mobiHop: event.level == CelebrationLevel.l2 && !quiet,
       textOnly: quiet,
       linkLabel: event.linkLabel,
