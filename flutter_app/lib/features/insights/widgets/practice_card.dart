@@ -301,7 +301,7 @@ class _PassageState extends State<_Passage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(InsightsCopy.passage, style: type.label.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s6),
+                  const SizedBox(height: MmSpace.s4),
                   body,
                   if (overflows)
                     ConstrainedBox(

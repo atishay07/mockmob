@@ -482,7 +482,7 @@ class _OffBlock extends StatelessWidget {
   }
 }
 
-/// A section title on the screen's one 20 dp inset (the body already insets, so no extra left).
+/// A section title on the screen gutter (the body already insets, so no extra left).
 class _Title extends StatelessWidget {
   const _Title(this.text, {this.bottom = MmSpace.s12});
 

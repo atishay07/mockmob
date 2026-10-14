@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -84,7 +85,7 @@ void main() {
   });
 
   group('the page header', () {
-    testWidgets('the back disc is 44 dp with its edge on the gutter, inside a 48 dp target, and answers a press', (tester) async {
+    testWidgets('is the app's one page header: the back arrow on the gutter, a 48 dp reach, and it goes back', (tester) async {
       var back = 0;
       await pumpMockmob(
         tester,
@@ -92,17 +93,12 @@ void main() {
         brightness: Brightness.dark,
         wrapInScaffold: true,
       );
-      final disc = tester.getRect(find.byType(FakeGlass).first);
-      expect(disc.left, 16);
-      expect(disc.size, const Size(44, 44));
-      expect(tester.getSize(find.byType(MmPressable).first), const Size(48, 48));
-      final press = await tester.startGesture(tester.getCenter(find.byType(FakeGlass).first));
-      await tester.pump(); // the spring's first frame
-      await tester.pump(const Duration(milliseconds: 80));
-      final scale = tester.widget<Transform>(find.descendant(of: find.byType(MmPressable), matching: find.byType(Transform)).first).transform.getMaxScaleOnAxis();
-      expect(scale, lessThan(1), reason: 'the disc sinks on the next frames of the touch');
-      await press.up();
-      expect(back, 1);
+      expect(find.byType(MmPageHeader), findsOneWidget);
+      final arrow = tester.getRect(find.byIcon(LucideIcons.arrowLeft));
+      expect(arrow.left, 16, reason: 'the glyph sits on the gutter');
+      expect(tester.getTopLeft(find.text(LearnCopy.title)).dx, 56, reason: 'the title follows the arrow at 16 dp');
+      await tester.tapAt(Offset(arrow.left - 12, arrow.center.dy));
+      expect(back, 1, reason: 'the target reaches past the glyph');
     });
   });
 

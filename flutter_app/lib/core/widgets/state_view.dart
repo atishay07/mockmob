@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
@@ -45,6 +47,12 @@ class StateView extends StatefulWidget {
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
 
+  /// How long the main action runs before the screen says so in words (MOTION.md P1-7).
+  static const Duration slowAfter = Duration(seconds: 12);
+
+  /// What the message line says once a retry has run long.
+  static const String slowWords = 'Still trying. This can take a moment on a slow connection.';
+
   @override
   State<StateView> createState() => _StateViewState();
 }
@@ -70,10 +78,36 @@ class _StateViewState extends State<StateView> {
         if (mounted) _mobi.lookAtWidget(_action);
       });
     }
+    if (widget.primary?.loading ?? false) {
+      _slowTimer = Timer(StateView.slowAfter, () {
+        if (mounted) setState(() => _slow = true);
+      });
+    }
+  }
+
+  Timer? _slowTimer;
+  bool _slow = false;
+
+  @override
+  void didUpdateWidget(StateView old) {
+    super.didUpdateWidget(old);
+    final was = old.primary?.loading ?? false;
+    final now = widget.primary?.loading ?? false;
+    if (was == now) return;
+    _slowTimer?.cancel();
+    _slowTimer = null;
+    if (now) {
+      _slowTimer = Timer(StateView.slowAfter, () {
+        if (mounted) setState(() => _slow = true);
+      });
+    } else if (_slow) {
+      _slow = false;
+    }
   }
 
   @override
   void dispose() {
+    _slowTimer?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -176,7 +210,9 @@ class _StateViewState extends State<StateView> {
                   const SizedBox(height: MmSpace.s8),
                   MmStaggerItem(
                     index: 2,
-                    child: Text(message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                    // A retry that runs long says so in words; the line swaps in place (the message
+                    // is already reserved, so nothing moves).
+                    child: Text(_slow ? StateView.slowWords : message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
                   ),
                 ],
                 if (primary != null) ...[

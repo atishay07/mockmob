@@ -96,7 +96,7 @@ void main() {
       expect(tester.getTopLeft(find.text('Quick 10')).dy, quickTop);
     });
 
-    testWidgets('no draft: Quick 10 is lit and Ask Mobi about your marks is offered', (tester) async {
+    testWidgets('no draft: Quick 10 is lit; Ask is not offered (it lives in Review)', (tester) async {
       await tester.pumpWidget(_app(
         const SingleChildScrollView(child: QuickStartSheet()),
         overrides: [
@@ -107,8 +107,8 @@ void main() {
       await _pumpFor(tester, const Duration(milliseconds: 500));
       expect(find.textContaining('Resume'), findsNothing);
       expect(find.ancestor(of: find.text('Quick 10'), matching: find.byType(LitEdge)), findsOneWidget);
-      expect(find.text('Ask Mobi about your marks'), findsOneWidget);
-      expect(find.text('Ask Mobi'), findsNothing);
+      expect(find.text('Ask Mobi about your marks'), findsNothing, reason: 'DOCK.md 6: Ask moves to Review');
+      expect(find.text('Choose your own in Practice'), findsOneWidget);
       expect(find.byType(MobiCharacter), findsOneWidget, reason: 'Mobi sits in the sheet header (navigation-08)');
     });
 
@@ -209,14 +209,16 @@ void main() {
     testWidgets('the Start key sinks to 0.94 while held and returns to 1 (DOCK.md 5.2)', (tester) async {
       await tester.pumpWidget(_app(Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}))));
       final word = find.text('Start');
+      // Relative to rest: the word may also be fitted to the key (the test font is wide).
+      final rest = _scaleOf(tester, word);
       final gesture = await tester.startGesture(tester.getCenter(word));
       await _pumpFor(tester, const Duration(milliseconds: 400));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(1, 0.001));
-      expect(_scaleOf(tester, word), closeTo(0.94, 0.002));
+      expect(_scaleOf(tester, word) / rest, closeTo(0.94, 0.002));
       await gesture.up();
       await _pumpFor(tester, const Duration(milliseconds: 600));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(0, 0.001));
-      expect(_scaleOf(tester, word), closeTo(1, 0.002));
+      expect(_scaleOf(tester, word) / rest, closeTo(1, 0.002));
     });
 
     testWidgets('under reduced motion the press is instant', (tester) async {
@@ -254,11 +256,16 @@ void main() {
     });
 
     testWidgets('mounted while compact with motion: compact from the first frame', (tester) async {
+      final expanded = ValueNotifier(false);
+      addTearDown(expanded.dispose);
+      await tester.pumpWidget(_app(bar(expanded)));
+      final rest = _scaleOf(tester, find.text('Start'));
       final compact = ValueNotifier(true);
       addTearDown(compact.dispose);
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpWidget(_app(bar(compact)));
       expect(labelOpacity(tester), 0);
-      expect(_scaleOf(tester, find.text('Start')), closeTo(14 / 15, 0.002), reason: 'the word goes from 15 to 14 with the key');
+      expect(_scaleOf(tester, find.text('Start')) / rest, closeTo(14 / 15, 0.002), reason: 'the word goes from 15 to 14 with the key');
     });
 
     testWidgets('collapses over 240 ms and expands over 300 ms, labels first out', (tester) async {

@@ -30,6 +30,8 @@ Future<void> _start() async {
   SkeletonGroup.shimmerByDefault = true;
   // Animated subject emblems drift in the app; tests keep the static default so screens settle.
   SubjectEmblem.idleEnabled = true;
+  // Subjects wear their photo-real objects from 40 dp up; tests keep the drawn emblems.
+  SubjectEmblem.objectArt = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   // The saved glass quality, so a saved Lite or Off is right on the first frame.
   final glass = await GlassBoot.read(AppPrefs(SharedPrefsStore()));

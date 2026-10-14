@@ -50,7 +50,7 @@ class LearnSummaryScreen extends ConsumerWidget {
                 onBack: () => _leave(context),
                 backLabel: LearnCopy.backToLearn,
                 trailing: summary != null && summary.lessons.isNotEmpty
-                    ? GlassIconKey(
+                    ? IconTap(
                         icon: LucideIcons.share,
                         label: LearnCopy.shareAsText,
                         onTap: () => unawaited(

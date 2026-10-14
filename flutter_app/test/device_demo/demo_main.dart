@@ -305,6 +305,8 @@ void main() {
   SkeletonGroup.shimmerByDefault = true;
   // Animated subject emblems drift in the app, as in main.dart.
   SubjectEmblem.idleEnabled = true;
+  // And wear their photo-real objects from 40 dp up, as in main.dart.
+  SubjectEmblem.objectArt = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   runApp(ProviderScope(overrides: _overrides(), child: const MockMobApp()));
 }

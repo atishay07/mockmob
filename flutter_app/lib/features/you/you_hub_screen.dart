@@ -221,6 +221,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       zone: snapshot.timezone,
                       now: now,
                       loading: snapshot.isInitialLoading,
+                      freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
                     ),
                   ),
                 ],

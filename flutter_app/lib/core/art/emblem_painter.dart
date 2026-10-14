@@ -229,9 +229,10 @@ void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
 
 /// The picked state of a framed tile: a volt ring around the sheet with a soft light on Night, and
 /// on Daylight a dark hairline under it so the volt holds on paper. [k] is 0 to 1 as it inks.
-void paintSelectionRing(Canvas canvas, EmblemPalette p, EmblemDetail d, double k) {
+/// [shape] rings another tile outline in the same 100 unit space (the object art's plain well).
+void paintSelectionRing(Canvas canvas, EmblemPalette p, EmblemDetail d, double k, {Path? shape}) {
   if (k <= 0) return;
-  final path = _sheetPath(d);
+  final path = shape ?? _sheetPath(d);
   final glyph = d == EmblemDetail.glyph;
   final w = glyph ? 5.0 : 3.4;
   if (p.isNight) {

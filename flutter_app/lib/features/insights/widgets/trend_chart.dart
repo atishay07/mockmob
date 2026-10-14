@@ -508,7 +508,7 @@ class _DeltaChip extends StatelessWidget {
       child: DecoratedBox(
         decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: tint.withValues(alpha: 0.6)))),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,

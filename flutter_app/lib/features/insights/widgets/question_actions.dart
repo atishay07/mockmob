@@ -178,7 +178,7 @@ class _ActionKey extends StatelessWidget {
                 SizedBox.square(dimension: 18, child: MmSpinner(color: colors.ink2))
               else
                 Icon(icon, size: 20, color: active ? colors.accentText : ink),
-              const SizedBox(width: MmSpace.s6),
+              const SizedBox(width: MmSpace.s4),
               Text(label, style: type.label.copyWith(color: ink, fontFeatures: const [FontFeature.tabularFigures()])),
             ],
           ),

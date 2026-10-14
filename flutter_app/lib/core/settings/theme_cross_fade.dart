@@ -30,11 +30,17 @@ class ThemeCrossFade extends ConsumerStatefulWidget {
 
 class _ThemeCrossFadeState extends ConsumerState<ThemeCrossFade> with SingleTickerProviderStateMixin {
   final GlobalKey _boundary = GlobalKey();
-  late final AnimationController _fade = AnimationController(vsync: this, duration: ThemeCrossFade.duration)
-    ..addStatusListener((status) {
-      if (status == AnimationStatus.completed) _release();
-    });
+  late final AnimationController _fade;
   ui.Image? _snapshot;
+
+  @override
+  void initState() {
+    super.initState();
+    _fade = AnimationController(vsync: this, duration: ThemeCrossFade.duration)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) _release();
+      });
+  }
 
   @override
   void dispose() {

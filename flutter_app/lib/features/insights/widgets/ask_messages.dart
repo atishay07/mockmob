@@ -305,7 +305,7 @@ class _SourceStrip extends StatelessWidget {
       excludeSemantics: true,
       child: Wrap(
         spacing: MmSpace.s8,
-        runSpacing: MmSpace.s6,
+        runSpacing: MmSpace.s8,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           FakeGlass(
@@ -320,7 +320,7 @@ class _SourceStrip extends StatelessWidget {
                     Icon(LucideIcons.sparkles, size: 13, color: colors.ink2)
                   else
                     const Bubble(state: BubbleState.filled, size: 11, animate: false),
-                  const SizedBox(width: MmSpace.s6),
+                  const SizedBox(width: MmSpace.s4),
                   Text(label, style: type.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.ink)),
                 ],
               ),
@@ -426,7 +426,7 @@ class _ReportKey extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(LucideIcons.flag, size: 16, color: pressed ? colors.ink : colors.ink2),
-            const SizedBox(width: MmSpace.s6),
+            const SizedBox(width: MmSpace.s4),
             Text(InsightsCopy.reportReply, style: type.label.copyWith(color: pressed ? colors.ink : colors.ink2)),
           ],
         ),

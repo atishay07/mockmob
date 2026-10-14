@@ -212,6 +212,11 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   @override
   void initState() {
     super.initState();
+    // Create every controller now, never lazily in dispose (a deactivated element cannot look
+    // up its TickerMode): the entrance ones exist only when touched otherwise.
+    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._tick, ..._settle]) {
+      assert(!c.isAnimating);
+    }
     _shown = widget.currentBranch;
     for (var i = 0; i < 4; i++) {
       final active = i == _shown;

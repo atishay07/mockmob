@@ -200,7 +200,7 @@ class _PlaybookRow extends StatelessWidget {
                 ),
                 const SizedBox(height: MmSpace.s4),
                 Text(reason, style: type.small.copyWith(color: entry.reflection.isEmpty ? colors.ink3 : colors.ink2)),
-                const SizedBox(height: MmSpace.s6),
+                const SizedBox(height: MmSpace.s8),
                 Text(InsightsCopy.playbookEvidence, style: type.caption.copyWith(color: colors.ink3)),
               ],
             ),

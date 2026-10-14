@@ -2,7 +2,7 @@
 // stand-downs, dismissal, badges, insets, semantics and the accessibility guidelines. Plus the
 // Start sheet robustness fixes (today-01, today-03) and the morph's content timing (C8).
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart' show SemanticsAction;
+import 'package:flutter/semantics.dart' show DebugSemanticsDumpOrder, SemanticsAction, SemanticsNode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -306,10 +306,9 @@ void main() {
       final labels = <String>[];
       void walk(SemanticsNode node) {
         if (node.label.isNotEmpty) labels.add(node.label);
-        node.visitChildren((child) {
+        for (final child in node.debugListChildrenInOrder(DebugSemanticsDumpOrder.traversalOrder)) {
           walk(child);
-          return true;
-        });
+        }
       }
 
       walk(tester.getSemantics(find.byType(MmBottomBar)));

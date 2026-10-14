@@ -70,7 +70,7 @@ class LedgerHero extends StatelessWidget {
                     _SparseCard(answered: l.right + l.wrong, blank: l.blank),
                   if (a.known && a.low != null && a.high != null) ...[
                     const SizedBox(height: MmSpace.s4),
-                    Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(fontSize: 15, color: colors.ink2)),
+                    Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(color: colors.ink2)),
                   ],
                   const SizedBox(height: MmSpace.s20),
                   if (counts.cells > 0) AnswerSheet(right: l.right, wrong: l.wrong, blank: l.blank),
@@ -259,7 +259,7 @@ class _LeadFinding extends StatelessWidget {
             const SizedBox(height: MmSpace.s16),
             Text(f.headline, style: type.title.copyWith(fontSize: 22, height: 26 / 22)),
             const SizedBox(height: MmSpace.s12),
-            Text(f.detail, style: type.small.copyWith(color: colors.ink2, fontSize: 15, height: 22 / 15)),
+            Text(f.detail, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s12),
             BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
             if (onAction != null && f.actionLabel != null) ...[
@@ -306,7 +306,7 @@ class _FindingRow extends StatelessWidget {
                   Text(f.headline, style: type.cardTitle),
                   const SizedBox(height: MmSpace.s4),
                   Text(f.detail, style: type.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s6),
+                  const SizedBox(height: MmSpace.s8),
                   BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
                   if (onAction != null && f.actionLabel != null)
                     ActionLink(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onTap: onAction!)

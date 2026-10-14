@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -410,7 +411,7 @@ class _SecondsBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: type.caption.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s6),
+          const SizedBox(height: MmSpace.s4),
           Row(
             children: [
               Expanded(
@@ -656,7 +657,7 @@ class _SubjectPlate extends StatelessWidget {
             children: [
               // The subject's object, then its name on the full width: a long name wraps at a
               // word and is never cut.
-              SubjectThumb(subject: l.subject, size: 60),
+              SubjectThumb(subject: l.subject, size: EmblemSizes.tile),
               const SizedBox(height: MmSpace.s8),
               Text(name, style: type.labelLarge),
               const SizedBox(height: MmSpace.s4),

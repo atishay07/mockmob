@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -123,7 +124,7 @@ class SubjectHeader extends StatelessWidget {
     final type = context.mmType;
     return Row(
       children: [
-        SubjectMark(subjectId: subject.id, name: subject.title, size: 56),
+        SubjectMark(subjectId: subject.id, name: subject.title, size: EmblemSizes.tile),
         const SizedBox(width: MmSpace.s12),
         Expanded(
           child: Column(

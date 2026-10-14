@@ -130,46 +130,6 @@ class IconTap extends StatelessWidget {
   }
 }
 
-/// A 44 dp glass disc with an icon inside a 48 dp target: the back key and the share key of a
-/// page header. Answers a touch on the next frame (press spring, brighter edge, veil).
-class GlassIconKey extends StatelessWidget {
-  const GlassIconKey({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return MmPressable(
-      semanticsLabel: label,
-      onTap: onTap,
-      highlight: true,
-      builder: (context, pressed, _) => SizedBox.square(
-        dimension: MmTarget.min,
-        child: Center(
-          child: SizedBox.square(
-            dimension: 44,
-            child: FakeGlass(
-              borderRadius: MmRadius.pillAll,
-              pressed: pressed,
-              grain: false,
-              child: Center(
-                child: Icon(icon, size: 20, color: context.mmColors.ink),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 /// Between two sections of a screen: 32 dp of air, a 1 dp hairline, then 16 dp before the next
 /// heading (SPACING.md 3.1).
 class SectionBreak extends StatelessWidget {
@@ -187,10 +147,10 @@ class SectionBreak extends StatelessWidget {
   }
 }
 
-/// The top bar of every Concepts page (one pattern, SPACING.md section 9): a 44 dp glass back
-/// disc on the gutter inside a 48 dp target, then the title in the screen-title cut, and an
-/// optional trailing disc on the other gutter. The row is 56 dp. Without a [title] the bar
-/// carries only the back key (a page whose title is its content).
+/// The top bar of every Concepts page: the app's one page header ([MmPageHeader], SPACING.md
+/// section 9), the back arrow on the gutter, the title in the screen-title cut, an optional
+/// trailing key. Without a [title] the bar carries only the back key (a page whose title is its
+/// content).
 class LearnPageHeader extends StatelessWidget {
   const LearnPageHeader({
     super.key,
@@ -207,43 +167,11 @@ class LearnPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      // The 44 dp disc sits 2 dp inside its 48 dp target, so the target starts 2 dp left of the
-      // gutter and the disc's edge is exactly on it.
-      padding: const EdgeInsets.fromLTRB(
-        MmSpace.gutter - MmSpace.s2,
-        MmSpace.s8,
-        MmSpace.gutter - MmSpace.s2,
-        0,
-      ),
-      child: SizedBox(
-        height: 56,
-        child: Row(
-          children: [
-            GlassIconKey(
-              icon: LucideIcons.arrowLeft,
-              label: backLabel,
-              onTap: onBack,
-            ),
-            if (title != null) ...[
-              const SizedBox(width: MmSpace.s8),
-              Expanded(
-                child: Semantics(
-                  header: true,
-                  child: Text(
-                    title!,
-                    style: context.mmType.screenTitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ] else
-              const Spacer(),
-            ?trailing,
-          ],
-        ),
-      ),
+    return MmPageHeader(
+      title: title ?? '',
+      onBack: onBack,
+      backLabel: backLabel,
+      trailing: trailing,
     );
   }
 }

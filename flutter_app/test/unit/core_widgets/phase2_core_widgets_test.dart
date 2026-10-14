@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/art/art.dart';
 import 'package:mockmob/core/motion/mm_light.dart';
 import 'package:mockmob/core/settings/appearance_settings.dart';
 import 'package:mockmob/core/settings/theme_cross_fade.dart';
@@ -226,6 +227,70 @@ void main() {
       await tester.tapAt(Offset(10, tester.getCenter(find.byType(MmPageHeader)).dy));
       await tester.pumpAndSettle();
       expect(find.text('today screen'), findsOneWidget);
+    });
+  });
+
+  group('StateView: a retry that runs long says so (MOTION.md P1-7)', () {
+    testWidgets('after 12 seconds the message line says it is still trying, and returns when the retry ends', (tester) async {
+      final loading = ValueNotifier(false);
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<bool>(
+          valueListenable: loading,
+          builder: (context, value, _) => StateView(
+            kind: StateViewKind.error,
+            title: 'Could not load',
+            message: 'Check your connection.',
+            primary: StateAction('Try again', () {}, loading: value),
+          ),
+        ),
+      );
+      loading.value = true;
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 11));
+      expect(find.text('Check your connection.'), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 2));
+      expect(find.text(StateView.slowWords), findsOneWidget);
+      expect(find.text('Check your connection.'), findsNothing);
+
+      loading.value = false;
+      await tester.pump();
+      expect(find.text('Check your connection.'), findsOneWidget);
+    });
+  });
+
+  group('SubjectPlate: the one subject tile (G12)', () {
+    testWidgets('shows the subject name, the emblem at the tile size, and answers a tap', (tester) async {
+      var taps = 0;
+      await pumpMockmob(
+        tester,
+        Center(
+          child: SizedBox(width: 160, child: SubjectPlate(subject: 'accountancy', onTap: () => taps++)),
+        ),
+      );
+      expect(find.text('Accountancy'), findsOneWidget);
+      final emblem = tester.widget<SubjectEmblem>(find.byType(SubjectEmblem));
+      expect(emblem.size, EmblemSizes.tile);
+      expect(emblem.framed, isFalse, reason: 'the emblem sits unframed on the plate field');
+      await tester.tap(find.byType(SubjectPlate));
+      expect(taps, 1);
+    });
+
+    testWidgets('selected is a 2 dp ink border on both themes', (tester) async {
+      for (final brightness in [Brightness.dark, Brightness.light]) {
+        await pumpMockmob(
+          tester,
+          const Center(child: SizedBox(width: 160, child: SubjectPlate(subject: 'economics', selected: true))),
+          brightness: brightness,
+        );
+        final decorated = tester.widgetList<DecoratedBox>(find.descendant(of: find.byType(SubjectPlate), matching: find.byType(DecoratedBox))).first;
+        final shape = (decorated.decoration as ShapeDecoration).shape as OutlinedBorder;
+        expect(shape.side.width, 2);
+        final colors = brightness == Brightness.dark ? MmColors.dark : MmColors.light;
+        expect(shape.side.color, colors.ink);
+        expect((decorated.decoration as ShapeDecoration).color, colors.selectedSurface);
+      }
     });
   });
 

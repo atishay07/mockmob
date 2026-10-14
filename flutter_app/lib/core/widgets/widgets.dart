@@ -61,3 +61,4 @@ export 'show_me_pill.dart';
 export 'bubbles/sheet_glyph.dart';
 export 'moment_scaffold.dart';
 export 'page_header.dart';
+export 'subject_plate.dart';

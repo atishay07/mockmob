@@ -43,14 +43,18 @@ class LiveCapsule extends ConsumerStatefulWidget {
 }
 
 class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderStateMixin {
-  late final AnimationController _present = AnimationController(vsync: this, value: widget.live == null ? 0 : 1);
-  late final AnimationController _swipe = AnimationController.unbounded(vsync: this);
+  // Made in initState, never lazily: a capsule that never showed must not create a ticker in
+  // dispose (a deactivated element cannot look up its TickerMode).
+  late final AnimationController _present;
+  late final AnimationController _swipe;
   BarLive? _shown;
   bool _leaving = false;
 
   @override
   void initState() {
     super.initState();
+    _present = AnimationController(vsync: this, value: widget.live == null ? 0 : 1);
+    _swipe = AnimationController.unbounded(vsync: this);
     _shown = widget.live;
   }
 
@@ -281,6 +285,7 @@ class _CapsuleGlyphState extends State<_CapsuleGlyph> with SingleTickerProviderS
   @override
   void initState() {
     super.initState();
+    _pass.value = 1;
     if (widget.live.kind == BarLiveKind.sending) _start();
   }
 

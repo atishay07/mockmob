@@ -228,7 +228,7 @@ class YouRow extends StatelessWidget {
 
 /// A switch row. The whole row toggles; the switch is drawn by the theme (volt on, with a
 /// check glyph) so state never depends on colour alone. [flat] sits the row on the ground at the
-/// page's 20 dp margin and draws the switch without the glyph (the thumb's side and the words
+/// page's 16 dp gutter and draws the switch without the glyph (the thumb's side and the words
 /// carry the state).
 class YouSwitchRow extends StatelessWidget {
   const YouSwitchRow({

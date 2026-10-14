@@ -22,14 +22,16 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('the lock-in flight', () {
-    testWidgets('a practice has the flight layer, a timed mock has none', (tester) async {
+    testWidgets('a practice has the flight layer', (tester) async {
       await pumpRunner(
         tester,
         session: FakeRunnerSession(questions: accountancyQuestions(20), mode: 'quick', mockNumber: null, currentIndex: 5),
       );
       await settle(tester);
       expect(find.byType(LockFlightLayer), findsOneWidget);
+    });
 
+    testWidgets('a timed mock has none', (tester) async {
       await pumpRunner(tester, session: FakeRunnerSession(questions: accountancyQuestions(20), mode: 'full', currentIndex: 5));
       await settle(tester);
       expect(find.byType(LockFlightLayer), findsNothing, reason: 'no flight in a timed paper');

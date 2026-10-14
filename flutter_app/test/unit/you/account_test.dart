@@ -199,8 +199,10 @@ void main() {
       expect(auth.signOutCalls, 0, reason: 'sign-out is a separate step after the request is recorded');
 
       await tester.tap(find.text('Sign out'));
-      await tester.pump();
-      await tester.pump();
+      // The onboarding sheet is discarded first (it reads the stored sheet), then the auth
+      // controller signs out: give the store's real asynchrony a moment.
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+      await tester.pumpAndSettle();
       expect(auth.signOutCalls, 1);
     });
 
