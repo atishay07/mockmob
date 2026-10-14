@@ -74,6 +74,14 @@ abstract final class PracticeCopy {
   static const List<String> ntaChips = ['${NtaRules.questions} questions', '${NtaRules.minutes} minutes', 'Question palette', 'Mark for review'];
   static const String proTag = 'Pro';
 
+  /// The band that holds the exam-shaped modes.
+  static const String examBandTitle = 'Exam conditions';
+
+  /// The line over the modes naming the subject they start in.
+  static String subjectLine(String subject) => 'In $subject';
+  static String subjectLineSemantics(String subject, int? questions) =>
+      questions == null ? 'Practice in $subject' : 'Practice in $subject, ${questionsAvailable(questions)}';
+
   // Confirm sheet and setup page.
   static String confirmTitle(String mode, String subject) => '$mode, $subject';
   static String mockTitle(String? mockLabel, String subject) => '${mockLabel ?? 'Full mock'}, $subject';

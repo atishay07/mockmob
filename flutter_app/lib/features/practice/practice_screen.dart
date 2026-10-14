@@ -18,6 +18,8 @@ import 'model/practice_selection.dart';
 import 'widgets/chapter_picker.dart';
 import 'widgets/concepts_shelf.dart';
 import 'widgets/confirm_sheet.dart';
+import 'widgets/choice_deck.dart';
+import 'widgets/choice_glyphs.dart';
 import 'widgets/mode_list.dart';
 import 'widgets/more_rows.dart';
 import 'widgets/other_subjects_sheet.dart';
@@ -65,6 +67,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     if (id != null) ref.read(practiceSubjectProvider.notifier).select(id);
   }
 
+  /// Full mock and NTA mode side by side; a Full mock alone across the band when the exam-day
+  /// layout is not offered.
+  ChoiceRow _examRow({required ChoiceOption full, ChoiceOption? nta}) => nta == null ? ChoiceRow.wide(full) : ChoiceRow.pair(full, nta);
+
   @override
   Widget build(BuildContext context) {
     ref.listen(tabReselectProvider, (_, event) {
@@ -82,8 +88,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
 
     // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
-    final full = _lastFull = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value ?? _lastFull;
-    final nta = _lastNta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value ?? _lastNta;
+    final full = _lastFull =
+        ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value ?? _lastFull;
+    final nta = _lastNta =
+        ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value ?? _lastNta;
     final showNta = nta != null && quoteOffersMode(nta);
     final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
     final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
@@ -112,14 +120,23 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                   controller: _scroll,
                   padding: EdgeInsets.only(top: MmSpace.s8, bottom: bottom + MmSpace.s32),
                   children: [
-                    const Padding(padding: gutter, child: TabRootHeader(title: PracticeCopy.tabTitle)),
+                    const Padding(
+                      padding: gutter,
+                      child: TabRootHeader(title: PracticeCopy.tabTitle),
+                    ),
                     const SizedBox(height: MmSpace.s16),
                     if (offline) ...[
-                      const Padding(padding: gutter, child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline)),
+                      const Padding(
+                        padding: gutter,
+                        child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
+                      ),
                       const SizedBox(height: MmSpace.s16),
                     ],
                     if (stale.isNotEmpty) ...[
-                      Padding(padding: gutter, child: StaleSubjectsBanner(entries: stale)),
+                      Padding(
+                        padding: gutter,
+                        child: StaleSubjectsBanner(entries: stale),
+                      ),
                       const SizedBox(height: MmSpace.s16),
                     ],
                     const Padding(padding: gutter, child: SuggestionHero()),
@@ -141,51 +158,88 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                       onMore: others.isEmpty ? null : () => _pickOther(others),
                     ),
                     const SizedBox(height: MmSpace.s16),
+                    // One list entry for the subject line and the modes, so the modes are built
+                    // with the subject line even when the page is long (large text, short phone).
                     Padding(
                       padding: gutter,
-                      child: ModeList(
-                        choices: [
-                          ModeChoice(
-                            icon: ModeIcons.quick,
-                            title: PracticeCopy.quickTitle,
-                            line: PracticeCopy.quickLine,
-                            onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _SubjectLine(
+                            subjectId: subject,
+                            name: subjectNameFor(subject, catalog),
+                            questions: counts?[internalSubjectFor(subject, catalog)],
                           ),
-                          ModeChoice(
-                            icon: ModeIcons.chapter,
-                            title: PracticeCopy.chapterTitle,
-                            line: PracticeCopy.chapterLine,
-                            onTap: () => _chapter(subject),
+                          const SizedBox(height: MmSpace.s12),
+                          ChoiceDeck(
+                            // Keyed by subject, so a new subject's deck rises in again: the modes
+                            // below visibly belong to the subject just picked.
+                            key: ValueKey('modes-$subject'),
+                            bleed: MmSpace.gutter,
+                            rows: [
+                              ChoiceRow.pair(
+                                ChoiceOption(
+                                  id: 'quick',
+                                  glyph: ChoiceGlyphKind.quick,
+                                  title: PracticeCopy.quickTitle,
+                                  note: PracticeCopy.quickLine,
+                                  onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                                ),
+                                ChoiceOption(
+                                  id: 'chapter',
+                                  glyph: ChoiceGlyphKind.chapter,
+                                  title: PracticeCopy.chapterTitle,
+                                  note: PracticeCopy.chapterLine,
+                                  onTap: () => _chapter(subject),
+                                ),
+                              ),
+                              if (showSmart)
+                                ChoiceRow.wide(
+                                  ChoiceOption(
+                                    id: 'smart',
+                                    glyph: ChoiceGlyphKind.smart,
+                                    title: PracticeCopy.smartTitle,
+                                    tag: smartGated ? PracticeCopy.proTag : null,
+                                    note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
+                                    onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
+                                  ),
+                                ),
+                              ChoiceRow.band(
+                                title: PracticeCopy.examBandTitle,
+
+                                rows: [
+                                  _examRow(
+                                    full: ChoiceOption(
+                                      id: 'full',
+                                      glyph: ChoiceGlyphKind.mock,
+                                      title: PracticeCopy.fullMockTitle,
+                                      note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
+                                      onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                                    ),
+                                    nta: showNta
+                                        ? ChoiceOption(
+                                            id: 'nta',
+                                            glyph: ChoiceGlyphKind.nta,
+                                            title: PracticeCopy.ntaTitle,
+                                            tag: ntaGated ? PracticeCopy.proTag : null,
+                                            note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
+                                            // The exam's own instructions page: the clock starts only after it.
+                                            onTap: () => context.push(NtaRoutes.location(subject)),
+                                          )
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          if (showSmart)
-                            ModeChoice(
-                              icon: ModeIcons.smart,
-                              title: PracticeCopy.smartTitle,
-                              tag: smartGated ? PracticeCopy.proTag : null,
-                              line: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
-                              onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
-                            ),
-                          ModeChoice(
-                            icon: ModeIcons.full,
-                            title: PracticeCopy.fullMockTitle,
-                            line: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
-                            onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
-                          ),
-                          if (showNta)
-                            ModeChoice(
-                              icon: ModeIcons.nta,
-                              title: PracticeCopy.ntaTitle,
-                              tag: ntaGated ? PracticeCopy.proTag : null,
-                              line: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
-                              chips: PracticeCopy.ntaChips,
-                              // The exam's own instructions page: the clock starts only after it.
-                              onTap: () => context.push(NtaRoutes.location(subject)),
-                            ),
                         ],
                       ),
                     ),
                     const SizedBox(height: MmSpace.group),
-                    Padding(padding: gutter, child: PracticeMoreRows(subject: subject)),
+                    Padding(
+                      padding: gutter,
+                      child: PracticeMoreRows(subject: subject),
+                    ),
                     const ConceptsShelf(),
                   ],
                 ),
@@ -193,6 +247,46 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The line over the modes that says which subject they start in: the subject's glyph on its
+/// own light, "In Business Studies", and how many questions it has when that is known. It
+/// cross-fades when the subject changes, so the choice is seen where the modes are.
+class _SubjectLine extends StatelessWidget {
+  const _SubjectLine({required this.subjectId, required this.name, this.questions});
+
+  final String subjectId;
+  final String name;
+  final int? questions;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return AnimatedSwitcher(
+      duration: Motion.of(context, Motion.ui),
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+      child: Semantics(
+        key: ValueKey(subjectId),
+        container: true,
+        label: PracticeCopy.subjectLineSemantics(name, questions),
+        excludeSemantics: true,
+        child: Row(
+          children: [
+            SubjectGlyphTile(subjectId, size: 28),
+            const SizedBox(width: MmSpace.s8),
+            Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge)),
+            if (questions != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              Text(PracticeCopy.questionsAvailable(questions!), style: type.caption.copyWith(color: colors.ink3)),
+            ],
+          ],
+        ),
       ),
     );
   }

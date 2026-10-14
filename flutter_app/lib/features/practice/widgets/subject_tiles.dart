@@ -11,6 +11,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
+import 'subject_accent.dart';
 
 /// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
 /// below. Chosen and not chosen follow the shared answer-sheet selection ([MmSelection]). A last
@@ -181,63 +182,94 @@ class SubjectTile extends StatelessWidget {
     final type = context.mmType;
     final light = SubjectLight.forSubject(id);
     final art = MmArt.subjectObject(id);
+    final accent = context.subjectAccentOf(id);
+    final reduced = Motion.reduced(context);
     return MmPressable(
       semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions!)}',
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.keyAll,
       onTap: onTap,
-      builder: (context, pressed, _) => SizedBox(
-        width: SubjectTiles.width,
-        height: SubjectTiles.height,
-        child: DecoratedBox(
-          position: DecorationPosition.foreground,
-          decoration: ShapeDecoration(
-            shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
-          ),
-          child: MmClip(
-            borderRadius: MmRadius.keyAll,
-            child: ColoredBox(
-              color: MmSelection.fill(colors, selected: selected, pressed: pressed),
-              child: Stack(
-                children: [
-                  if (light != null)
-                    Positioned.fill(
-                      child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: selected ? 1 : 0.7),
-                    ),
-                  if (art != null)
-                    Positioned(
-                      left: 16,
-                      right: 12,
-                      top: 18,
-                      bottom: questions == null ? 40 : 52,
-                      child: ArtImage(art, width: SubjectTiles.width - 28, opacity: selected ? 1 : 0.86),
-                    ),
-                  Positioned(
-                    left: 10,
-                    right: 8,
-                    bottom: 10,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // A long name ("Political Science") shrinks a little rather than losing letters.
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
+      builder: (context, pressed, _) => TweenAnimationBuilder<double>(
+        // 0 at rest, 1 chosen: the tile lifts, its object grows into its light and the identity
+        // bar under the name lengthens. One emphasized landing, no loop.
+        tween: Tween(end: selected ? 1 : 0),
+        duration: reduced ? Duration.zero : Motion.emphasizedDuration,
+        curve: Motion.emphasized,
+        builder: (context, t, _) => Transform.translate(
+          offset: Offset(0, -3 * t),
+          child: SizedBox(
+            width: SubjectTiles.width,
+            height: SubjectTiles.height,
+            child: DecoratedBox(
+              position: DecorationPosition.foreground,
+              decoration: ShapeDecoration(
+                shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
+              ),
+              child: MmClip(
+                borderRadius: MmRadius.keyAll,
+                child: ColoredBox(
+                  color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+                  child: Stack(
+                    children: [
+                      if (light != null)
+                        Positioned.fill(
+                          child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: 0.7 + 0.3 * t),
                         ),
-                        if (questions != null)
-                          Text(
-                            PracticeCopy.questionsAvailable(questions!),
-                            maxLines: 1,
-                            style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
+                      if (art != null)
+                        Positioned(
+                          left: 16,
+                          right: 12,
+                          top: 18,
+                          bottom: questions == null ? 44 : 56,
+                          child: AnimatedScale(
+                            // The object dips under the finger and settles larger once chosen.
+                            scale: (pressed ? 0.94 : 1) * (1 + 0.07 * t),
+                            duration: reduced ? Duration.zero : Motion.ui,
+                            curve: Motion.out,
+                            child: ArtImage(art, width: SubjectTiles.width - 28, opacity: 0.86 + 0.14 * t),
                           ),
-                      ],
-                    ),
+                        ),
+                      Positioned(
+                        left: 10,
+                        right: 8,
+                        bottom: 10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // The subject's identity mark: its own hue, longer when chosen.
+                            DecoratedBox(
+                              decoration: ShapeDecoration(
+                                color: accent.withValues(alpha: 0.55 + 0.45 * t),
+                                shape: const StadiumBorder(),
+                              ),
+                              child: SizedBox(width: 14 + 14 * t, height: 3),
+                            ),
+                            const SizedBox(height: MmSpace.s6),
+                            // A long name ("Political Science") shrinks a little rather than losing letters.
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                name,
+                                maxLines: 1,
+                                style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, t)),
+                              ),
+                            ),
+                            if (questions != null)
+                              Text(
+                                PracticeCopy.questionsAvailable(questions!),
+                                maxLines: 1,
+                                style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),
+                    ],
                   ),
-                  Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),
-                ],
+                ),
               ),
             ),
           ),

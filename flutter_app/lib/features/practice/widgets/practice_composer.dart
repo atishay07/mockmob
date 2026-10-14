@@ -18,19 +18,14 @@ import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
 import 'chapter_picker.dart';
 import 'composer_parts.dart';
+import 'composer_ticket.dart';
 import 'failure_copy.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
-import 'subject_tiles.dart';
 
 /// Where the composer sends the student. The host decides how (a sheet pops first).
 class ComposerExits {
-  const ComposerExits({
-    required this.run,
-    required this.concepts,
-    required this.review,
-    this.close,
-  });
+  const ComposerExits({required this.run, required this.concepts, required this.review, this.close});
 
   /// Opens the runner for a started (or earlier, unsent) session.
   final ValueChanged<String> run;
@@ -53,10 +48,7 @@ String composerModeTitle(PracticeMode mode, {int? mocksDone}) => switch (mode) {
 /// The state of one confirm step, shared by its body and its keys. The confirm sheet pins the
 /// keys in the sheet's footer, apart from the scrolling body, so both read and write this.
 class ComposerController extends ChangeNotifier {
-  ComposerController(PracticeSelection initial, {this.askedCount})
-    : _selection = initial,
-      _query = initial.quoteQuery,
-      _initial = initial;
+  ComposerController(PracticeSelection initial, {this.askedCount}) : _selection = initial, _query = initial.quoteQuery, _initial = initial;
 
   /// The length a link asked for, when it named one.
   final int? askedCount;
@@ -279,19 +271,18 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
     final isPro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
     final lengthNote = _c.lengthNote;
 
+    final difficulty = DifficultyPicker(
+      value: _selection.difficulty,
+      isPro: isPro,
+      onChanged: (d) => _c.change(_selection.copyWith(difficulty: d)),
+    );
     final children = <Widget>[
-      Semantics(
-        header: true,
-        label: PracticeCopy.confirmTitle(eyebrow, subject),
-        excludeSemantics: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(eyebrow, style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
-            const SizedBox(height: 2),
-            Text(subject, style: type.screenTitle.copyWith(fontSize: 24)),
-          ],
-        ),
+      ComposerTicket(
+        subjectId: _selection.subjectId,
+        eyebrow: eyebrow,
+        subject: subject,
+        count: mode.usesCount ? _selection.count : mockQuestionCount,
+        semanticsLabel: PracticeCopy.confirmTitle(eyebrow, subject),
       ),
       const SizedBox(height: MmSpace.s20),
       if (widget.showSubjects) ...[
@@ -303,17 +294,23 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         const SizedBox(height: MmSpace.s20),
       ],
       if (mode.usesCount) ...[
-        LengthPicker(count: _selection.count, counts: mode.counts, onChanged: (c) => _c.change(_selection.copyWith(count: c))),
+        LengthPicker(
+          count: _selection.count,
+          counts: mode.counts,
+          onChanged: (c) => _c.change(_selection.copyWith(count: c)),
+        ),
         if (lengthNote != null) ...[
           const SizedBox(height: MmSpace.s8),
-          Semantics(liveRegion: true, child: Text(lengthNote, style: type.small.copyWith(color: colors.ink))),
+          Semantics(
+            liveRegion: true,
+            child: Text(lengthNote, style: type.small.copyWith(color: colors.ink)),
+          ),
         ],
         const SizedBox(height: MmSpace.s20),
       ],
-      if (mode.allowsDifficulty && !start.gated) ...[
-        DifficultyPicker(value: _selection.difficulty, isPro: isPro, onChanged: (d) => _c.change(_selection.copyWith(difficulty: d))),
-        const SizedBox(height: MmSpace.s20),
-      ],
+      // On a mock the level is an aside to what you get and what it costs, so it follows them
+      // instead of sitting between the ticket and the numbers.
+      if (mode.allowsDifficulty && !start.gated && !mode.isMock) ...[difficulty, const SizedBox(height: MmSpace.s20)],
       GetPanel(
         selection: _selection,
         subjectName: subject,
@@ -326,6 +323,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         onOpenConcepts: widget.exits.concepts,
         onOpenReview: widget.exits.review,
       ),
+      if (mode.allowsDifficulty && !start.gated && mode.isMock) ...[const SizedBox(height: MmSpace.s20), difficulty],
       if (mode.isMock && !start.gated) ...[
         const SizedBox(height: MmSpace.s16),
         MockLines(noLength: loaded != null && loaded.launchable && start.mockMinutes == null),
@@ -345,7 +343,10 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         // With a shared controller the host's footer draws the keys.
-        children: [...children, if (widget.controller == null) ...[const SizedBox(height: MmSpace.s24), keys]],
+        children: [
+          ...children,
+          if (widget.controller == null) ...[const SizedBox(height: MmSpace.s24), keys],
+        ],
       );
     }
     return PopScope(canPop: !_c.starting, child: layout);
@@ -449,10 +450,7 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
           Semantics(liveRegion: true, child: Text(_c.costNote!, style: type.body)),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (_c.failure != null) ...[
-          InlineBanner(message: _c.failure!.text, tone: BannerTone.error),
-          const SizedBox(height: MmSpace.s12),
-        ],
+        if (_c.failure != null) ...[InlineBanner(message: _c.failure!.text, tone: BannerTone.error), const SizedBox(height: MmSpace.s12)],
         KeyButton(
           // A Pro-gated mode has nothing to start: the one action is the open alternative.
           label: start.gated ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead) : _startLabel,
@@ -462,7 +460,9 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
         ),
         if (widget.exits.close != null) ...[
           const SizedBox(height: MmSpace.s4),
-          Align(child: KeyButton.quiet(label: PracticeCopy.notNow, onPressed: starting ? null : widget.exits.close)),
+          Align(
+            child: KeyButton.quiet(label: PracticeCopy.notNow, onPressed: starting ? null : widget.exits.close),
+          ),
         ],
       ],
     );
@@ -482,13 +482,7 @@ class _SubjectPicker extends ConsumerWidget {
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final choices = subjectChoices(chosen: auth.subjects, selected: selected, catalog: catalog);
     final others = otherSubjects(shown: choices, catalog: catalog);
-    return SubjectTiles(
-      gutter: 0,
-      choices: choices,
-      selectedId: selected,
-      onSelected: onPick,
-      onMore: others.isEmpty ? null : () => onOther(others),
-    );
+    return SubjectChips(choices: choices, selectedId: selected, onSelected: onPick, onMore: others.isEmpty ? null : () => onOther(others));
   }
 }
 

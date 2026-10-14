@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -266,7 +267,7 @@ void main() {
       expect(router.state.uri.path, '/practice/setup/smart');
       expect(find.text('Smart practice starts at 10. You asked for 5.'), findsOneWidget);
       // Choosing a length themselves answers it.
-      await tester.tap(find.descendant(of: find.byType(MmSegmented<int>), matching: find.text('15')));
+      await tester.tap(find.descendant(of: find.byType(LengthDial), matching: find.text('15')));
       await _settle(tester);
       expect(find.text('Smart practice starts at 10. You asked for 5.'), findsNothing);
     });
