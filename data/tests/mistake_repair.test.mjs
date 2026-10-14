@@ -164,3 +164,16 @@ test('the response filter still blocks real claims: predicted marks, scores, ran
     'You will beat the cutoff for your college.',
   ]) assert.equal(teach(claim).kind, 'unusable', claim);
 });
+
+test('NTA shuffled options with a distractor reworded after the session: the recorded shuffle order maps the live key', () => {
+  // "Debit the capital" (stored index 2) had a typo fixed, so the option lists are no longer the same set.
+  const live = { ...ntaLive, options: ntaLive.options.map((o, i) => (i === 2 ? { ...o, text: 'Debit the capital account' } : o)) };
+  assert.equal(eligible(live).ok, true, 'stored key B is still the option served at position 3');
+  assert.equal(eligible({ ...live, correct_answer: 'A' }).code, 'key_changed', 'a key that moved to another stored option is still refused');
+  // Without the recorded order there is nothing to map through, so the old positional rule decides.
+  const noOrder = { ...ntaAttempt, questionsSnapshot: [{ ...ntaSnapshot, optionOrder: undefined }] };
+  assert.equal(eligible(live, noOrder).code, 'key_changed');
+  // An order that is not a permutation of the options is ignored rather than trusted.
+  const broken = { ...ntaAttempt, questionsSnapshot: [{ ...ntaSnapshot, optionOrder: [0, 0, 1, 2] }] };
+  assert.equal(eligible(live, broken).code, 'key_changed');
+});

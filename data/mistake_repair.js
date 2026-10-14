@@ -57,7 +57,7 @@ export function repairEligibility({ attempt, questionId, userId, current }) {
   const currentKey = correctIndexOf(current);
   // By option identity, not position: an NTA paper serves its options shuffled, so the snapshot's key index can
   // legitimately differ from the live row's while pointing at the same option (data/option_compare.js).
-  if (!sameKeyOption(q.options, keyIndex, current.options, currentKey)) return { ok: false, code: 'key_changed', http: 409, message: 'This question’s answer was corrected after your session, so the old result is not explained.' };
+  if (!sameKeyOption(q.options, keyIndex, current.options, currentKey, q.optionOrder ?? q.nta_option_order ?? q.option_order)) return { ok: false, code: 'key_changed', http: 409, message: 'This question’s answer was corrected after your session, so the old result is not explained.' };
   return { ok: true, question: q, chosenIndex: d.givenIndex, keyIndex };
 }
 

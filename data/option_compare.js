@@ -126,12 +126,21 @@ export function alignOptions(from, to) {
   return map.every((index) => index !== undefined) ? map : null;
 }
 
+const isPermutation = (order, n) => Array.isArray(order) && order.length === n && [...order].sort((x, y) => x - y).every((value, i) => value === i);
+
 /**
- * Is the key of `current` still the option the snapshot scored as correct? By identity when the two lists
- * are the same options in some order; when the options were edited the old positional rule applies.
+ * Is the key of `current` still the option the snapshot scored as correct?
+ *   1. By identity when the two lists are the same options in some order.
+ *   2. When an option was also edited (a typo fixed after the session) and the snapshot says how the paper was
+ *      shuffled (`optionOrder`: served position i shows stored option optionOrder[i]), through that order: the live
+ *      row still holds the stored order, so its key index is a stored index.
+ *   3. Otherwise the old positional rule.
  */
-export function sameKeyOption(snapshotOptions, snapshotKey, currentOptions, currentKey) {
+export function sameKeyOption(snapshotOptions, snapshotKey, currentOptions, currentKey, optionOrder = null) {
   if (!Number.isInteger(snapshotKey) || !Number.isInteger(currentKey)) return false;
   const map = alignOptions(snapshotOptions, currentOptions);
-  return map ? map[snapshotKey] === currentKey : currentKey === snapshotKey;
+  if (map) return map[snapshotKey] === currentKey;
+  const n = Array.isArray(snapshotOptions) ? snapshotOptions.length : 0;
+  if (n > 0 && Array.isArray(currentOptions) && currentOptions.length === n && isPermutation(optionOrder, n)) return optionOrder[snapshotKey] === currentKey;
+  return currentKey === snapshotKey;
 }
