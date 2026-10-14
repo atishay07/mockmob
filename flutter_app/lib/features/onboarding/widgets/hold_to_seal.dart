@@ -98,7 +98,7 @@ class _HoldPainter extends CustomPainter {
     final rrect = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(size.height / 2));
     // The rim is a stroke on the ground: volt Night, olive Day. The wash and the fill are fills:
     // volt in both themes (SPACING.md 8.3).
-    final accent = colors.isNight ? colors.volt : colors.accentText;
+    final accent = colors.accentText;
     // A soft volt glow under the pill at rest on Night (the owner's glass-and-light direction),
     // so the one key on the screen is the one the eye lands on; it gives way to the fill as it is
     // held. No glow in Daylight (MOTION.md 1.4): the olive rim carries it on paper.
@@ -110,7 +110,7 @@ class _HoldPainter extends CustomPainter {
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14),
       );
     }
-    canvas.drawRRect(rrect, Paint()..color = colors.isNight ? colors.raised2 : colors.raised);
+    canvas.drawRRect(rrect, Paint()..color = colors.selectedSurface);
     // A wash of volt over the pill at rest, so it reads as the key; the fill grows over it.
     canvas.drawRRect(rrect, Paint()..color = colors.volt.withValues(alpha: colors.isNight ? 0.14 : 0.16));
     // The volt rim says this is the action; the fill grows inside it.

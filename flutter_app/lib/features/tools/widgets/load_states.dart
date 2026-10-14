@@ -20,7 +20,7 @@ class ToolsLoading extends StatelessWidget {
     return SkeletonGroup(
       label: label,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

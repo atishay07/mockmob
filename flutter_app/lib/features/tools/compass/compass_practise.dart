@@ -33,7 +33,7 @@ class CompassPractise extends ConsumerWidget {
       children: [
         const ToolsHeading(ToolsCopy.practiseHeading, note: 'A cutoff is the target. Practice is the part you control.'),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: Wrap(
             spacing: MmSpace.s8,
             children: [

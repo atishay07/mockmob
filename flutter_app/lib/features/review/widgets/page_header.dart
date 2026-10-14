@@ -4,7 +4,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 
 /// "Offline. Showing last loaded data." as a legible 14 sp line with its glyph, living inside a
 /// header row that is already tall enough for it: it adds no height, so nothing below it moves
@@ -35,7 +34,7 @@ class HeaderNotice extends StatelessWidget {
   }
 }
 
-/// The top row of the Review tab: the avatar that opens You, the title, and, when the data on
+/// The top row of the Review tab: the title (You is a place on the bar now) and, when the data on
 /// screen is the last loaded copy, the offline line under the title. The row keeps the 56 dp every
 /// tab root has, so the line costs no height.
 class ReviewTabHeader extends StatelessWidget {
@@ -51,8 +50,6 @@ class ReviewTabHeader extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          const YouAvatarButton(),
-          const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

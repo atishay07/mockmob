@@ -32,7 +32,7 @@ class CategoryScorePanel extends ConsumerStatefulWidget {
   const CategoryScorePanel({
     super.key,
     required this.state,
-    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
     this.onDone,
   });
 

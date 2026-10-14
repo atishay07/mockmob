@@ -23,8 +23,11 @@ class WarmupOption extends StatelessWidget {
     final type = context.mmType;
     final wrong = state == WarmupOptionState.wrong;
     final right = state == WarmupOptionState.right;
-    final fill = wrong ? colors.wrongSurface : (right ? colors.raised2 : colors.raised);
-    final border = wrong ? colors.wrongBorder : (right ? colors.lineStrong : colors.line);
+    // The right answer is the strongest card on the page in both themes: the selected surface
+    // with a 2 px ink border, never Day's darker raised2, which would read as switched off
+    // (SPACING.md 8.1). Volt stays in the bubble.
+    final fill = wrong ? colors.wrongSurface : (right ? colors.selectedSurface : colors.raised);
+    final border = wrong ? BorderSide(color: colors.wrongBorder) : (right ? BorderSide(color: colors.ink, width: 2) : BorderSide(color: colors.line));
     final ink = wrong ? colors.wrongText : (state == WarmupOptionState.dimmed ? colors.ink3 : colors.ink);
     final suffix = switch (state) {
       WarmupOptionState.right => ', the right answer',
@@ -32,15 +35,15 @@ class WarmupOption extends StatelessWidget {
       _ => '',
     };
 
-    Widget option = MmPressable(
+    final option = MmPressable(
       semanticsLabel: '${OnboardingCopy.optionSemantics(letter, text)}$suffix',
       pressedScale: 0.98,
       focusRadius: MmRadius.keyAll,
       onTap: onTap,
       builder: (context, pressed, _) => DecoratedBox(
         decoration: ShapeDecoration(
-          color: pressed ? colors.raised2 : fill,
-          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: border)),
+          color: pressed ? (colors.isNight ? colors.raised2 : colors.sunken) : fill,
+          shape: mmShapeBorder(MmRadius.keyAll, side: border),
         ),
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: state == WarmupOptionState.dimmed ? 40 : 56),
@@ -80,7 +83,6 @@ class WarmupOption extends StatelessWidget {
         ),
       ),
     );
-    if (right) option = LitEdge(borderRadius: MmRadius.keyAll, child: option);
     return option;
   }
 }

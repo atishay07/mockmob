@@ -331,7 +331,7 @@ class _TrackBubbleState extends State<_TrackBubble> with SingleTickerProviderSta
     final colors = context.mmColors;
     return CustomPaint(
       // A stroke on the ground: volt Night, olive Day (SPACING.md 8.3).
-      foregroundPainter: _BurstPainter(progress: _burst, color: colors.isNight ? colors.volt : colors.accentText),
+      foregroundPainter: _BurstPainter(progress: _burst, color: colors.accentText),
       child: Bubble(state: widget.state, size: 22, emphasis: widget.emphasis, inkOrigin: const Offset(-1, 0), animate: widget.animate),
     );
   }

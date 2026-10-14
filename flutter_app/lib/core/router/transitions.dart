@@ -287,9 +287,11 @@ class MmPageTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
-/// The tab switch (DOCK.md section 5.4): the outgoing branch fades out in 90 ms, then the
-/// incoming branch fades in over 200 ms on glide, sliding 10 dp in from the side the bar's lens
-/// travelled toward (a transform only). The branches stay mounted, like an `IndexedStack`, so
+/// The tab switch (DOCK.md section 5.4, MOTION.md C1): the outgoing branch fades out in 90 ms on
+/// exit, drifting 6 dp against the travel; then the incoming branch fades in over 200 ms on
+/// glide, sliding 10 dp in from the side the bar's lens travelled toward (transforms only). The
+/// bar's visual order (Today, Practice, Start, Review, You) keeps branch order, so the branch
+/// index gives the direction. The branches stay mounted, like an `IndexedStack`, so
 /// each keeps its own navigation state; only the two involved are painted, and only for the
 /// switch. Under reduced motion it is a 120 ms fade.
 class FadingBranchContainer extends StatefulWidget {
@@ -303,6 +305,9 @@ class FadingBranchContainer extends StatefulWidget {
 
   /// How far the incoming branch slides.
   static const double slide = 10;
+
+  /// How far the outgoing branch drifts, against the travel.
+  static const double drift = 6;
 
   @override
   State<FadingBranchContainer> createState() => _FadingBranchContainerState();
@@ -368,12 +373,21 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
                       : i == previous
                       ? (reduced ? ReverseAnimation(_controller) : _out)
                       : kAlwaysCompleteAnimation,
-                  // Always the same wrapper, so a branch never remounts; only the incoming
-                  // branch is offset.
+                  // Always the same wrapper, so a branch never remounts; only the two branches
+                  // in the switch are offset.
                   child: AnimatedBuilder(
-                    animation: _in,
+                    animation: _controller,
                     builder: (context, child) => Transform.translate(
-                      offset: Offset(i == widget.currentIndex && !reduced ? FadingBranchContainer.slide * _side * (1 - _in.value) : 0, 0),
+                      offset: Offset(
+                        reduced
+                            ? 0
+                            : i == widget.currentIndex
+                            ? FadingBranchContainer.slide * _side * (1 - _in.value)
+                            : i == previous && _controller.isAnimating
+                            ? -FadingBranchContainer.drift * _side * (1 - _out.value)
+                            : 0,
+                        0,
+                      ),
                       child: child,
                     ),
                     child: widget.children[i],

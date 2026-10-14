@@ -85,7 +85,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
       _Step(title: ToolsCopy.targetsHeading, note: ToolsCopy.targetsHint(duMaxTargets, s.targets.length), top: 0),
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: Wrap(
             spacing: MmSpace.s8,
             children: [
@@ -145,7 +145,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
       _Step(title: ToolsCopy.poolHeading, note: ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)),
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -195,7 +195,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
       if (result.keep.isNotEmpty && s.pool.isNotEmpty && !plan.isLoading)
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s16),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
             child: Text(
               ToolsCopy.keep([for (final k in result.keep) k.name(s.catalog, short: true)].join(', '), result.keep.length),
               style: type.body,

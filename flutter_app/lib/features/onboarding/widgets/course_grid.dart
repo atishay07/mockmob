@@ -93,7 +93,7 @@ class CourseTile extends StatelessWidget {
             color: colors.ink3,
             // A 4 dp bar reads as a stroke on the tile, so it takes the text accent (olive on Day,
             // where a volt bar on white would vanish). SPACING.md 8.3.
-            accent: selected ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink2,
+            accent: selected ? colors.accentText : colors.ink2,
           ),
           const SizedBox(height: MmSpace.s12),
           Text(course.short, style: type.labelLarge.copyWith(height: 20 / 15)),

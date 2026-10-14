@@ -132,11 +132,3 @@ abstract final class MmBar {
   /// The Start slot's width on a screen [screenWidth] wide.
   static double startSlotFor(double screenWidth) => screenWidth < 360 ? startSlotNarrow : startSlot;
 }
-
-/// The old split dock's measures, kept only so screens that still read them compile. They now
-/// describe the bar. New code reads [MmBar] or `MmBarInsets`.
-abstract final class MmDock {
-  static const double height = MmBar.height;
-  static const double lift = MmBar.lift;
-  static const double clearanceAbove = MmBar.clearanceAbove;
-}

@@ -217,7 +217,7 @@ class _Section extends StatelessWidget {
         ToolsHeading(section.heading),
         for (final p in section.body)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
             child: Text(p, style: type.body.copyWith(color: context.mmColors.ink2)),
           ),
       ],

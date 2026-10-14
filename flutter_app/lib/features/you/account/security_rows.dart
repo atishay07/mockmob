@@ -109,7 +109,7 @@ class _SignOutOthersRowState extends ConsumerState<SignOutOthersRow> {
         ),
         if (_problem != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(4, 0, 4, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, MmSpace.s12),
             child: Semantics(
               liveRegion: true,
               container: true,

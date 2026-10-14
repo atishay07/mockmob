@@ -383,6 +383,13 @@ class _GlyphPainter extends CustomPainter {
               ..color = accent,
           );
         }
+      case BarMove():
+        // Today's low sun: a volt answer bubble resting on a ruled line, two short rays.
+        canvas.drawLine(const Offset(3.5, 18.5), const Offset(20.5, 18.5), line);
+        canvas.drawCircle(const Offset(12, 13), 4.25, Paint()..color = accent);
+        canvas.drawLine(const Offset(12, 4), const Offset(12, 5.5), line);
+        canvas.drawLine(const Offset(5.6, 7.2), const Offset(6.7, 8.3), line);
+        canvas.drawLine(const Offset(18.4, 7.2), const Offset(17.3, 8.3), line);
       case BarOffline():
         // A cloud with a slash.
         final cloud = Path()

@@ -79,7 +79,7 @@ class _Day extends StatelessWidget {
     // ring, so rest reads as chosen rather than switched off. The fill is volt in both themes
     // (as on Today's week ledger), with a 1 dp olive rim on Day so it holds on paper; the ring is
     // a stroke on the ground, so it takes the text accent (volt Night, olive Day). SPACING.md 8.3.
-    final ring = colors.isNight ? colors.volt : colors.accentText;
+    final ring = colors.accentText;
     final Widget mark = study
         ? DecoratedBox(
             decoration: BoxDecoration(

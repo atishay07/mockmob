@@ -5,7 +5,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// The frame of a You screen: a lit glass back key, a large Bricolage title and a scrolling body
+/// The frame of a You screen: a lit glass back key, an inline Bricolage title and a scrolling body
 /// at most 600 dp wide on the warm ground. A faint desk lamp sits up and to the left of the
 /// header, so the settings pages share the room's light without putting it behind the rows.
 class YouPage extends StatelessWidget {
@@ -128,38 +128,50 @@ class _Footer extends StatelessWidget {
   }
 }
 
-/// The header every You and Rhythm screen shares: the lit back key, then the title in Bricolage.
-/// One widget so the two feature areas, and both themes, never drift apart.
+/// The header every You, Rhythm and Tools sub-page shares (SPACING.md 9): the lit back key at the
+/// gutter, 12 dp, then the title inline in the `screenTitle` cut, in a 56 dp row; an optional
+/// [trailing] action sits at the far end. One widget, so the screens and both themes never drift.
+/// The stacked large headline is for moment screens only, so [large] is kept for callers but no
+/// longer changes the layout.
 class YouHeader extends StatelessWidget {
-  const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack});
+  const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack, this.trailing});
 
   final String title;
   final bool showBack;
 
-  /// The 28 sp moment headline (default) or the 22 sp title for a long, quiet page.
+  /// Kept so existing callers compile; the inline title is the same size for every page.
   final bool large;
 
   /// Replaces the pop (a screen that may be the first page goes to You instead).
   final VoidCallback? onBack;
 
+  /// An action at the end of the row (a 48 dp target).
+  final Widget? trailing;
+
+  /// The back key is a 44 dp disc in a 48 dp target: this much of the target sits left of the
+  /// disc, so the disc's edge lands on the gutter.
+  static const double _targetSlop = (MmTarget.min - 44) / 2;
+
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: showBack ? BackKey(onTap: onBack) : const SizedBox(height: MmTarget.min),
-          ),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(showBack ? MmSpace.gutter - _targetSlop : MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s8),
+        child: Row(
+          children: [
+            if (showBack) ...[BackKey(onTap: onBack), const SizedBox(width: MmSpace.s12 - _targetSlop)],
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(title, style: type.screenTitle, maxLines: 2, overflow: TextOverflow.ellipsis),
+              ),
+            ),
+            if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
-          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -248,8 +260,8 @@ class GlassDisc extends StatelessWidget {
 const EdgeInsets youGutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
 
 /// Where the words of a You screen start: the one page margin every section, heading and row
-/// aligns to (20 dp), so left edges never zigzag down a page.
-const double youText = MmSpace.gutter + 4;
+/// aligns to (16 dp), so left edges never zigzag down a page.
+const double youText = MmSpace.gutter;
 
 /// A short sentence-case heading above a group, with an optional trailing action.
 class GroupHeading extends StatelessWidget {
@@ -263,7 +275,7 @@ class GroupHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, top, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
       child: Row(
         children: [
           Expanded(

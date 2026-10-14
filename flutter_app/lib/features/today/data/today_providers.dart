@@ -119,6 +119,9 @@ class TodayClock extends Notifier<int> {
   void refresh() {
     state = ++_ticks;
     _arm();
+    // An ended mock the server had not recorded (or could not be asked about) is asked again:
+    // its answers may have reached it in the background since (ROBUSTNESS today-04).
+    ref.read(endedRecheckProvider.notifier).bump();
     // The week strip reads the student's date too: it samples it again, and reads the week from
     // the server when a new one has begun.
     ref.read(rhythmClockProvider.notifier).resample();
@@ -136,22 +139,39 @@ final todayDismissalsProvider = StreamProvider<Set<DismissalKey>>((ref) {
   return ref.watch(dismissalRepositoryProvider).watchActive();
 });
 
+/// Counts the moments an unrecorded ended mock should be asked about again: the app came back to
+/// the front, or Today's clock ticked. [TodayClock.refresh] bumps it.
+class EndedRecheck extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void bump() => state++;
+}
+
+final endedRecheckProvider = NotifierProvider<EndedRecheck, int>(EndedRecheck.new);
+
 /// After a mock's deadline: does the attempt exist on the server? True on 200, false on 404,
 /// null when the read failed (offline): Today then says it is still checking.
 ///
 /// A read that failed is asked again when the network comes back, so "Checking what reached the
-/// server" does not outlive the outage that caused it.
+/// server" does not outlive the outage that caused it. Only a true answer is final: a 404 or a
+/// failure is asked again on the next resume or clock tick ([endedRecheckProvider]), because a
+/// submit still in flight may land after it (ROBUSTNESS today-04).
 final endedAttemptExistsProvider = FutureProvider.family<bool?, String>((ref, attemptId) async {
   var failed = false;
+  bool? answer;
   ref.listen(networkStatusProvider, (previous, next) {
     if (failed && next == NetworkStatus.online && previous != NetworkStatus.online) ref.invalidateSelf();
   });
+  ref.listen(endedRecheckProvider, (previous, next) {
+    if (answer != true) ref.invalidateSelf();
+  });
   try {
     await ref.read(apiClientProvider).get('/api/attempts/${Uri.encodeComponent(attemptId)}');
-    return true;
+    return answer = true;
   } on ApiError catch (e) {
     failed = e.kind != ApiErrorKind.notFound;
-    return failed ? null : false;
+    return answer = failed ? null : false;
   }
 });
 

@@ -26,7 +26,7 @@ class WeekTrack extends StatelessWidget {
     final type = context.mmType;
     // Lit ticks are strokes on the ground: the text accent (volt Night, olive Day). The chosen
     // window's bubble is a fill: volt in both themes, rimmed olive on Day (SPACING.md 8.3).
-    final accent = colors.isNight ? colors.volt : colors.accentText;
+    final accent = colors.accentText;
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5);
     return ExcludeSemantics(
       child: SizedBox(

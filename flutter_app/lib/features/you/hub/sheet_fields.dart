@@ -214,7 +214,7 @@ class SubjectsField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const side = MmSpace.gutter + 4;
+    const side = MmSpace.gutter;
     final field = Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s16),
       child: Column(

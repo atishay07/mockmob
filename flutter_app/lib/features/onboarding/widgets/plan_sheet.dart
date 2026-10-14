@@ -139,7 +139,7 @@ class PlanSheet extends StatelessWidget {
     // The glass card is cached in its own layer, so the edge light, the lamp sweep and the sink
     // under the finger repaint only themselves, never the card.
     return CustomPaint(
-      foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText),
+      foregroundPainter: _SealTrace(progress: seal, color: colors.accentText),
       child: RepaintBoundary(child: card),
     );
   }
@@ -329,7 +329,7 @@ class _StampedSeal extends StatelessWidget {
         final scale = 1.35 - 0.35 * _land.transform(t);
         return CustomPaint(
           // A stroke on the ground: volt Night, olive Day (SPACING.md 8.3).
-          foregroundPainter: wave ? _WavePainter(t: t, color: colors.isNight ? colors.volt : colors.accentText) : null,
+          foregroundPainter: wave ? _WavePainter(t: t, color: colors.accentText) : null,
           child: Opacity(opacity: (t * 4).clamp(0.0, 1.0), child: Transform.scale(scale: scale, child: child)),
         );
       },

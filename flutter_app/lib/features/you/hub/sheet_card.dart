@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/mascot/mascot.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -59,7 +60,7 @@ class SheetCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s4, MmSpace.s12, 0),
+          padding: const EdgeInsets.fromLTRB(youText, 0, MmSpace.s12, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -85,8 +86,9 @@ class SheetCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: MmSpace.s8),
-              // Mobi waves once when You opens, then breathes and blinks. A tap makes it react.
-              const Mobi(pose: MobiPose.greet, size: 120, interactive: true),
+              // Mobi waves the first time You opens each day (sleepy late at night), then he is
+              // simply there: he breathes and blinks, and a tap makes him react.
+              const _YouMobi(),
             ],
           ),
         ),
@@ -113,6 +115,22 @@ class SheetCard extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Mobi at the top right of the sheet. His wave is asked for once, when the screen is first built,
+/// so it plays on the first open of the day and never again (MOTION.md 4.13).
+class _YouMobi extends StatefulWidget {
+  const _YouMobi();
+
+  @override
+  State<_YouMobi> createState() => _YouMobiState();
+}
+
+class _YouMobiState extends State<_YouMobi> {
+  late final MobiAct _entrance = MobiRation.greeting('you');
+
+  @override
+  Widget build(BuildContext context) => Mobi(pose: MobiPose.greet, size: 120, interactive: true, entrance: _entrance);
 }
 
 /// Shown when the sheet has no course or colleges yet: one line and the one volt key that fills

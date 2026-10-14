@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollDirection;
+import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -63,6 +64,9 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMixin implements StartDragTarget {
   final ValueNotifier<bool> _compact = ValueNotifier(false);
+
+  /// Tonight's move, published by Today while its hero key is off-screen.
+  final ValueNotifier<BarMove?> _tonightMove = ValueNotifier(null);
   double _down = 0;
   double _up = 0;
   String? _location;
@@ -92,6 +96,20 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     _entrance = !AppShell.entrancePlayed;
     AppShell.entrancePlayed = true;
     _compact.addListener(_compactChanged);
+    _tonightMove.addListener(_moveChanged);
+  }
+
+  /// Today publishes from a post-frame callback (safe to rebuild at once) and clears its move
+  /// when it is disposed, mid-frame; that change waits for the frame to end.
+  void _moveChanged() {
+    if (!mounted) return;
+    if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {});
+      });
+    } else {
+      setState(() {});
+    }
   }
 
   void _compactChanged() {
@@ -129,6 +147,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   @override
   void dispose() {
     _compact.dispose();
+    _tonightMove.dispose();
     _collapse.dispose();
     _keyboard.dispose();
     _transientTimer?.cancel();
@@ -275,6 +294,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
         unawaited(router.push<void>(AppRoutes.resultSealed(attemptId)));
       case BarResume(:final sessionId):
         unawaited(router.push<void>(AppRoutes.run(sessionId)));
+      case BarMove(:final onStart):
+        onStart();
       case BarSending() || BarSaved() || BarOffline() || BarSynced():
         break;
     }
@@ -294,6 +315,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       dismissed: ref.watch(barDismissalsProvider),
       todayCovers: ref.watch(todayHeroCoversProvider),
       onToday: shell.currentIndex == 0,
+      move: _tonightMove.value,
     );
     final capsuleUp = live != null;
     final keyboard = media.viewInsets.bottom > 0;
@@ -302,6 +324,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     final content = MmBarInsets(
       showing: !keyboard,
       capsule: capsuleUp,
+      tonightMove: _tonightMove,
       child: MediaQuery(
         data: media.copyWith(
           padding: media.padding.copyWith(bottom: media.padding.bottom + clearance),

@@ -9,9 +9,10 @@ import '../../theme/theme.dart';
 import '../materials/glass_surface.dart';
 
 /// A container transform from the bar's Start key into a glass sheet at the bottom of the
-/// screen (DOCK.md section 5.4): the glass grows out of [origin] in 420 ms while the
-/// sheet's content comes up with it, scaling out of the origin from the first fifth of the
-/// morph, so the growing shape is never an empty slab. Back,
+/// screen (DOCK.md section 5.4, MOTION.md C8): the glass grows out of [origin] in 420 ms. The
+/// glass, its tint and the lamp rim carry the first third alone; the content arrives over 38% to
+/// 78% of the morph, scaling from 0.94 about the origin, so no text is ever laid out at full
+/// size and cut by a shape still under 80% of its width. Back,
 /// the scrim and a drag down close it the same way: the sheet follows the finger, closes past
 /// [closeFraction] of its height or on a flick faster than [closeVelocity], and springs back
 /// otherwise. TalkBack gets a "Close" action. Under reduced motion it is a 200 ms fade.
@@ -142,7 +143,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                 final closing = animation.status == AnimationStatus.reverse;
                 final clipper = _MorphClipper(
                   origin: origin,
-                  progress: closing ? 1 - closeCurve.transform(1 - animation.value) : _growCurve.transform(animation.value),
+                  progress: closing ? 1 - closeCurve.transform(1 - animation.value) : morphGrowCurve.transform(animation.value),
                   screen: media.size,
                   bottom: bottom,
                   margin: margin,
@@ -185,7 +186,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                   role: GlassRole.sheet,
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   // Thin at the start (the page shows through), resting density at 55% of the
-                  // morph, when the content (arriving from 12%) is mostly in.
+                  // morph, before the content (arriving from 38%) is legible.
                   sheetTintAlpha: reduced ? null : _tintAlpha(animation.value),
                   child: content!,
                 ),
@@ -219,7 +220,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
 /// How the shape grows: fast off the button, then settling. Softer at the start than
 /// [Motion.emphasized] (which has already covered most of the way by 50 ms), so the rectangle
 /// is seen coming out of the button instead of appearing beside it.
-const Cubic _growCurve = Cubic(0.3, 0.55, 0.2, 1);
+const Cubic morphGrowCurve = Cubic(0.3, 0.55, 0.2, 1);
 
 /// The sheet's tint strength through the morph: 45% at the first frame (the page still shows
 /// through the growing glass), the resting 98.5% from 55% of the way, by when the content is
@@ -356,9 +357,11 @@ class _DragToCloseState extends State<_DragToClose> with SingleTickerProviderSta
   }
 }
 
-/// The sheet's content riding the growing glass: it fades in over 12% to 62% of the morph and
-/// scales up from 0.5 with the glass, out of the origin (the button), so the shape is never an empty slab and
-/// the text seems to come out of the button with it. Closing, it leaves over the first half.
+/// The sheet's content arriving once the glass has its shape (MOTION.md C8): it fades in over
+/// [contentIn] (38% to 78% of the morph), scaling from 0.94 about the origin, so it seems to come
+/// out of the key without ever being laid out at full size inside a shape that is still growing.
+/// At 38% the shape is past 80% of its width. Closing, it is gone by [contentOutBy] of the way
+/// back (the first 55% of the close), while the shape is still over 80% of its width.
 class _ContentReveal extends StatelessWidget {
   const _ContentReveal({required this.animation, required this.reduced, required this.anchor, required this.child});
 
@@ -370,21 +373,34 @@ class _ContentReveal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (reduced) return child;
-    final fade = CurvedAnimation(parent: animation, curve: const Interval(0.12, 0.62, curve: Motion.glide), reverseCurve: const Interval(0.4, 1));
+    final fade = CurvedAnimation(parent: animation, curve: MorphSheetContent.contentIn, reverseCurve: Interval(MorphSheetContent.contentOutBy, 1));
     return FadeTransition(
       opacity: fade,
       child: AnimatedBuilder(
-        animation: animation,
-        builder: (context, child) => Transform.translate(
-          offset: Offset(0, 14 * (1 - fade.value)),
-          // The content grows with the glass (half size at the first frame), so it sits inside
-          // the rising shape and is not cropped by its left edge: it comes out of the button.
-          child: Transform.scale(scale: 0.5 + 0.5 * _growCurve.transform(animation.value.clamp(0.0, 1.0)), alignment: anchor, child: child),
-        ),
+        animation: fade,
+        builder: (context, child) => Transform.scale(scale: 0.94 + 0.06 * fade.value, alignment: anchor, child: child),
         child: child,
       ),
     );
   }
+}
+
+/// When the Start sheet's content shows during the morph (goldens and tests read these).
+abstract final class MorphSheetContent {
+  /// Opening: the content's opacity runs over this part of the morph.
+  static const Interval contentIn = Interval(0.38, 0.78, curve: Motion.glide);
+
+  /// Closing: the content is gone by this value of the route's animation (1 open, 0 closed).
+  static const double contentOutBy = 0.45;
+
+  /// The growing shape's width as a share of the sheet's, at [t] of an opening morph from a key
+  /// [originWidth] wide into a sheet [sheetWidth] wide.
+  static double openWidthShare(double t, {required double originWidth, required double sheetWidth}) =>
+      (originWidth + (sheetWidth - originWidth) * morphGrowCurve.transform(t)) / sheetWidth;
+
+  /// The same while closing, at [t] of the route's animation (1 open, 0 closed).
+  static double closeWidthShare(double t, {required double originWidth, required double sheetWidth}) =>
+      (originWidth + (sheetWidth - originWidth) * (1 - MorphSheetRoute.closeCurve.transform(1 - t))) / sheetWidth;
 }
 
 /// Clips the sheet to a rounded rectangle that grows from the origin circle to the full sheet.

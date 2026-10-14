@@ -11,6 +11,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/copy/formatters.dart' show formatDayMonthShort;
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
@@ -39,7 +40,7 @@ class RoadTimeline extends StatelessWidget {
   Widget _drawn(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final draw = todayEnterValue(context, delay: const Duration(milliseconds: 80), length: const Duration(milliseconds: 620));
+    final draw = todayEnterValue(context, delay: const Duration(milliseconds: 80), length: Motion.drawIn);
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
     final small = type.micro.copyWith(height: 1, fontWeight: FontWeight.w600, color: colors.ink3);
     return Semantics(

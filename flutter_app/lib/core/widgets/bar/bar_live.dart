@@ -1,12 +1,14 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../copy/formatters.dart' show formatTime12;
 
 /// What the live capsule above the bar can say (DOCK.md section 5.3). One at most, built only
 /// from real state, highest priority first: [BarSending] (and [BarSaved] after the server's
-/// 200), [BarMarked], [BarResume], [BarOffline] (and [BarSynced] once the queue drains).
-enum BarLiveKind { sending, saved, marked, resume, offline, synced }
+/// 200), [BarMarked], [BarResume], [BarOffline] (and [BarSynced] once the queue drains), and
+/// last [BarMove]: tonight's move, on Today only, while the hero's own key is off-screen
+/// (MOTION.md 5.1, which retires the old sticky move bar so one thing floats above the bar).
+enum BarLiveKind { sending, saved, marked, resume, offline, synced, move }
 
 @immutable
 sealed class BarLive {
@@ -188,6 +190,39 @@ class BarSynced extends BarLive {
   String get identity => 'synced';
 }
 
+/// Tonight's move, standing in for Today's hero key while that key is off-screen ("Accountancy
+/// repair, 15 min  Start"). Today publishes it through `MmBarInsets.tonightMove`; the shell
+/// shows it only on Today and only when nothing above it applies.
+class BarMove extends BarLive {
+  const BarMove({required this.title, this.detail, required this.onStart, this.label});
+
+  @override
+  final String title;
+  @override
+  final String? detail;
+
+  /// Starts the move: the same action as the hero's primary key.
+  final VoidCallback onStart;
+
+  /// The hero key's full words ("Start repair, 15 min"), for TalkBack.
+  final String? label;
+
+  @override
+  BarLiveKind get kind => BarLiveKind.move;
+  @override
+  String? get action => 'Start';
+  @override
+  String get identity => 'move:$title';
+  @override
+  String get semanticsLabel => "Tonight's move, ${super.semanticsLabel}";
+
+  @override
+  bool operator ==(Object other) => other is BarMove && other.title == title && other.detail == detail && other.label == label;
+
+  @override
+  int get hashCode => Object.hash(title, detail, label);
+}
+
 // Inputs. Each defaults to "nothing", so a shell under test never opens the session journal,
 // the database or the network; `main.dart` wires them to the real sources.
 
@@ -255,10 +290,18 @@ class BarDismissals extends Notifier<Set<String>> {
 final barDismissalsProvider = NotifierProvider<BarDismissals, Set<String>>(BarDismissals.new);
 
 /// What the capsule shows, from the steady state: null when Today's hero already shows it (on
-/// Today) or the student dismissed it.
-BarLive? visibleLive(BarLive? live, {required Set<String> dismissed, required Set<BarLiveKind> todayCovers, required bool onToday}) {
-  if (live == null) return null;
-  if (dismissed.contains(live.identity)) return null;
-  if (onToday && todayCovers.contains(live.kind)) return null;
-  return live;
+/// Today) or the student dismissed it. Tonight's [move] is the lowest priority and shows only on
+/// Today, when nothing above it would show.
+BarLive? visibleLive(
+  BarLive? live, {
+  required Set<String> dismissed,
+  required Set<BarLiveKind> todayCovers,
+  required bool onToday,
+  BarMove? move,
+}) {
+  BarLive? shown = live;
+  if (shown != null && dismissed.contains(shown.identity)) shown = null;
+  if (shown != null && onToday && todayCovers.contains(shown.kind)) shown = null;
+  if (shown == null && onToday && move != null && !dismissed.contains(move.identity)) return move;
+  return shown;
 }

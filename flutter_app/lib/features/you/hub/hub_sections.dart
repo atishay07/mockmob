@@ -16,7 +16,7 @@ import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
 /// Hairlines of a flat list on the ground start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
-const double _flatInset = 4 + 28 + MmSpace.s16;
+const double _flatInset = 28 + MmSpace.s16;
 
 /// Weekly goal and rhythm, the repair record and personal bests.
 class ProgressPanel extends ConsumerWidget {

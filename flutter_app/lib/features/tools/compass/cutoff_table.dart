@@ -96,7 +96,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
           ),
         ),
       _ => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: SkeletonGroup(
             label: ToolsCopy.loadingCutoffs,
             child: Column(
@@ -135,7 +135,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
       children: [
         if (clearing != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
             child: Semantics(
               liveRegion: true,
               child: Text(ToolsCopy.clearing(duFormatScore(score), clearing, seats.length), style: type.body),

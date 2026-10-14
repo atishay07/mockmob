@@ -136,7 +136,7 @@ class LabSubjects extends StatelessWidget {
                   center: const Alignment(0.2, 0),
                   child: Stack(
                     children: [
-                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: Align(alignment: Alignment.centerRight, child: SubjectEmblem(subject: subject, size: 96, framed: false))),
+                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: Align(alignment: Alignment.centerRight, child: SubjectEmblem(subject: subject, size: EmblemSizes.tile, framed: false))),
                       Positioned(left: 10, bottom: 8, child: Text(name, style: context.mmType.caption)),
                     ],
                   ),

@@ -92,7 +92,7 @@ class ChoiceTile extends ConsumerWidget {
         if (flat) {
           fill = pressed ? colors.raised : Colors.transparent;
         } else if (selected) {
-          fill = colors.isNight ? colors.raised2 : colors.raised;
+          fill = colors.selectedSurface;
         } else {
           fill = Color.lerp(colors.raised, colors.isNight ? colors.raised2 : colors.sunken, pressed ? 0.7 : 0)!;
         }
@@ -211,7 +211,7 @@ class GlyphMedallion extends StatelessWidget {
             ],
           ),
           border: Border.all(
-            color: lit ? (colors.isNight ? colors.volt.withValues(alpha: 0.55) : colors.accentText.withValues(alpha: 0.5)) : colors.line,
+            color: lit ? colors.accentText.withValues(alpha: colors.isNight ? 0.55 : 0.5) : colors.line,
             width: 1,
           ),
         ),

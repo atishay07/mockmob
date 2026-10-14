@@ -209,7 +209,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
               GroupHeading(group.label, top: MmSpace.s24),
               YouPanel(
                 flat: true,
-                inset: 4 + 40 + MmSpace.s12,
+                inset: 40 + MmSpace.s12,
                 children: [
                   for (final o in loaded.inGroup(group))
                     SubjectChoiceRow(
@@ -241,7 +241,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
       const GroupHeading(EditCopy.staleHeading, top: MmSpace.s24),
       YouPanel(
         flat: true,
-        inset: 4 + 40 + MmSpace.s12,
+        inset: 40 + MmSpace.s12,
         children: [
           for (final o in stale)
             StaleSubjectRow(id: o.id, name: o.name, reason: o.reason, onRemove: _saving ? null : () => _toggle(o.id)),

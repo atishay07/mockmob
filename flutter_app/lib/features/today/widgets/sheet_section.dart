@@ -11,6 +11,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart' show minusSign;
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -32,8 +33,8 @@ class SheetSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Heading to its content: 12, which is the first row's own top padding (SPACING.md 3.1).
         TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length)),
-        const SizedBox(height: MmSpace.s4),
         for (var k = 0; k < rows.length; k++) ...[
           if (k > 0) Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),
           _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
@@ -68,8 +69,10 @@ class _PaperRow extends ConsumerWidget {
       },
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
+      // The row grows into the result it opens (MOTION.md C4).
+      captureLaunch: true,
       builder: (context, pressed, _) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -192,7 +195,7 @@ class _Spine extends StatelessWidget {
                   wrong: sealed ? 0 : wrong,
                   blank: sealed ? 0 : blank,
                   colors: context.mmColors,
-                  draw: todayEnterValue(context, delay: const Duration(milliseconds: 40), length: const Duration(milliseconds: 560)),
+                  draw: todayEnterValue(context, delay: const Duration(milliseconds: 40), length: Motion.drawIn),
                 ),
               ),
             ),

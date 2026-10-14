@@ -17,7 +17,8 @@ import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
-import 'package:mockmob/core/widgets/dock/dock_pill.dart';
+import 'package:mockmob/core/widgets/bar/bar_badges.dart';
+import 'package:mockmob/core/widgets/bar/mm_bar.dart';
 import 'package:mockmob/features/account_access/access_routes.dart';
 import 'package:mockmob/features/account_access/screens/forgot_password_screen.dart';
 import 'package:mockmob/features/account_access/screens/password_sign_in_screen.dart';
@@ -108,7 +109,7 @@ Future<void> _settle(WidgetTester tester) async {
 
 GoRouter _router(ProviderContainer container) => container.read(routerProvider);
 
-Finder _tab(String label) => find.descendant(of: find.byType(DockPill), matching: find.text(label));
+Finder _tab(String label) => find.descendant(of: find.byType(MmBottomBar), matching: find.text(label));
 
 String _location(ProviderContainer container) => _router(container).routerDelegate.currentConfiguration.uri.toString();
 
@@ -139,32 +140,48 @@ void _test(String name, Future<void> Function(WidgetTester tester) body) {
 void main() {
   setUp(() => SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.empty());
 
-  _test('cold start with a known signed-in user lands on Today with the dock', (tester) async {
+  _test('cold start with a known signed-in user lands on Today with the bar', (tester) async {
     final container = await _pump(tester);
     expect(_location(container), '/today');
-    expect(find.byType(DockPill), findsOneWidget);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+    expect(_tab('Today'), findsOneWidget);
     expect(_tab('Practice'), findsOneWidget);
+    expect(_tab('Start'), findsOneWidget, reason: 'the volt key in the middle slot');
     expect(_tab('Review'), findsOneWidget);
+    expect(_tab('You'), findsOneWidget, reason: 'You is a place on the bar (DOCK.md option A)');
     expect(_tab('Learn'), findsNothing, reason: 'Learn is no longer a tab');
-    expect(_tab('You'), findsNothing, reason: 'You opens from the avatar');
   });
 
-  _test('You and Learn open over the shell, without the dock', (tester) async {
+  _test('/you builds inside the shell with the bar; its pages and Learn cover it', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
     router.go(AppRoutes.you);
     await _settle(tester);
     expect(_location(container), '/you');
-    expect(find.byType(DockPill), findsNothing);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+
+    await tester.tap(_tab('Today'));
+    await _settle(tester);
+    expect(_location(container), '/today');
+    await tester.tap(_tab('You'));
+    await _settle(tester);
+    expect(_location(container), '/you', reason: 'the You tab opens the You root');
+
+    for (final page in ['/you/goal', '/you/account', '/you/appearance', '/you/milestones']) {
+      router.go(page);
+      await _settle(tester);
+      expect(_location(container), page);
+      expect(find.byType(MmBottomBar), findsNothing, reason: '$page is a root page over the bar');
+    }
 
     router.go(AppRoutes.learn);
     await _settle(tester);
     expect(_location(container), '/learn');
-    expect(find.byType(DockPill), findsNothing);
+    expect(find.byType(MmBottomBar), findsNothing);
 
     router.go(AppRoutes.today);
     await _settle(tester);
-    expect(find.byType(DockPill), findsOneWidget);
+    expect(find.byType(MmBottomBar), findsOneWidget);
   });
 
   _test('unknown auth shows the splash, signed out shows welcome', (tester) async {
@@ -235,11 +252,11 @@ void main() {
     final container = await _pump(tester);
     _router(container).go('/practice/setup/full');
     await _settle(tester);
-    expect(find.byType(DockPill), findsNothing);
+    expect(find.byType(MmBottomBar), findsNothing);
 
     _router(container).go('/practice');
     await _settle(tester);
-    expect(find.byType(DockPill), findsOneWidget);
+    expect(find.byType(MmBottomBar), findsOneWidget);
   });
 
   _test('re-tapping a tab pops to its root, then asks the screen to scroll to top', (tester) async {
@@ -340,12 +357,31 @@ void main() {
     expect(_location(container), '/result/att9');
   });
 
-  _test('the Review dot follows its provider', (tester) async {
+  _test('the tabs count to four and carry no badge by default', (tester) async {
     final container = await _pump(tester);
     final handle = tester.ensureSemantics();
-    expect(find.bySemanticsLabel('Review, tab 3 of 3'), findsOneWidget);
+    expect(find.bySemanticsLabel('Review, tab 3 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel('You, tab 4 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel(MmBottomBar.startSemanticsLabel), findsOneWidget);
     handle.dispose();
-    expect(container.read(reviewDotProvider), isFalse);
+    expect(container.read(barBadgesProvider), BarBadges.none);
+  });
+
+  _test('the runner, result, repair, setup and NTA paths build with no bar', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    for (final template in ['/run/s1', '/result/att1', AppRoutes.practiceSetup('full')]) {
+      router.go(_sample(template));
+      await _settle(tester);
+      expect(find.byType(MmBottomBar), findsNothing, reason: template);
+      expect(tester.takeException(), isNull, reason: template);
+    }
+    for (final template in AppRoutes.templates.where((t) => t.contains('repair/') || t.contains('nta'))) {
+      router.go(_sample(template));
+      await _settle(tester);
+      expect(find.byType(MmBottomBar), findsNothing, reason: template);
+      expect(tester.takeException(), isNull, reason: template);
+    }
   });
 
   _test('an unknown page on our domain opens in a Custom Tab and keeps the current screen', (tester) async {
@@ -398,7 +434,7 @@ void main() {
         await _settle(tester);
         expect(_location(container), path, reason: path);
         expect(find.byType(screen), findsOneWidget, reason: path);
-        expect(find.byType(DockPill), findsNothing, reason: '$path is a root page');
+        expect(find.byType(MmBottomBar), findsNothing, reason: '$path is a root page');
         expect(tester.takeException(), isNull, reason: path);
       }
     });
@@ -452,7 +488,7 @@ void main() {
       expect(tester.takeException(), isNull, reason: 'the shell is not built a second time');
       expect(top(container), fromCompass);
       expect(find.byType(PracticeSetupScreen), findsOneWidget);
-      expect(find.byType(DockPill), findsNothing);
+      expect(find.byType(MmBottomBar), findsNothing);
 
       await tester.binding.handlePopRoute();
       await _settle(tester);
@@ -467,7 +503,7 @@ void main() {
       await tester.binding.handlePopRoute();
       await _settle(tester);
       expect(top(container), AppRoutes.practice);
-      expect(find.byType(DockPill), findsOneWidget);
+      expect(find.byType(MmBottomBar), findsOneWidget);
     });
 
     _test('Compass opened by a link: Practise and Back work the same', (tester) async {
@@ -496,13 +532,13 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(top(container), '/practice/setup/quick?count=10');
       expect(find.byType(PracticeSetupScreen), findsOneWidget);
-      expect(find.byType(DockPill), findsNothing);
+      expect(find.byType(MmBottomBar), findsNothing);
 
       await tester.binding.handlePopRoute();
       await _settle(tester);
       expect(topPath(container), AppRoutes.practice);
       expect(find.byType(PracticeSetupScreen), findsNothing);
-      expect(find.byType(DockPill), findsOneWidget);
+      expect(find.byType(MmBottomBar), findsOneWidget);
     });
 
     _test('Today (push from the tab): Back returns to Today', (tester) async {
@@ -515,13 +551,13 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(top(container), '/practice/setup/full?subject=accountancy');
       expect(find.byType(PracticeSetupScreen), findsOneWidget);
-      expect(find.byType(DockPill), findsNothing);
+      expect(find.byType(MmBottomBar), findsNothing);
 
       await tester.binding.handlePopRoute();
       await _settle(tester);
       expect(top(container), AppRoutes.today);
       expect(find.byType(PracticeSetupScreen), findsNothing);
-      expect(find.byType(DockPill), findsOneWidget);
+      expect(find.byType(MmBottomBar), findsOneWidget);
     });
 
     _test('a website link through ActionRouter opens setup, Back to Practice', (tester) async {

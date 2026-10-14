@@ -268,7 +268,7 @@ class _Slot extends StatelessWidget {
     final night = colors.isNight;
 
     final Color fill = filled
-        ? (night ? colors.raised2 : colors.raised)
+        ? colors.selectedSurface
         : (night ? colors.raised : colors.sunken);
     final Color edge = hasError
         ? colors.badText

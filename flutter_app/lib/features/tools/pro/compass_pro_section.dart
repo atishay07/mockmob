@@ -69,7 +69,7 @@ class _CompassProSectionState extends ConsumerState<CompassProSection> {
       }
       if (remote.loading) {
         return const Padding(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmRhythm.section, MmSpace.gutter + 4, 0),
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.section, MmSpace.gutter, 0),
           child: SkeletonGroup(
             label: ToolsCopy.proReading,
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Skeleton.line(width: 200), SizedBox(height: MmSpace.s12), Skeleton(width: 120, height: 48)]),

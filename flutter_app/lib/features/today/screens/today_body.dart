@@ -10,7 +10,6 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 import '../widgets/also_slots.dart';
 import '../widgets/move_hero.dart';
-import '../widgets/move_keys.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/road_section.dart';
 import '../widgets/sealed_hero.dart';
@@ -45,7 +44,6 @@ class TodayBody extends StatefulWidget {
     required this.view,
     required this.callbacks,
     this.controller,
-    this.avatar = const YouAvatarButton(),
     this.weeklyEnding,
     this.insights,
     this.roadFooter,
@@ -57,7 +55,6 @@ class TodayBody extends StatefulWidget {
   final TodayView view;
   final TodayCallbacks callbacks;
   final ScrollController? controller;
-  final Widget avatar;
 
   /// The rhythm module's weekly ending card, hosted under the hero when it has one to show.
   final Widget? weeklyEnding;
@@ -85,26 +82,23 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
   /// The move card's primary key and the stack that holds the page, to tell whether that key is
-  /// out of view (under the dock or below the fold) and the pinned bar should stand in for it.
+  /// out of view (under the bar or below the fold). While it is, tonight's move stands in for it
+  /// as the bar's live capsule (MOTION.md 5.1): one thing floats above the bar, never two.
   final GlobalKey _primaryKey = GlobalKey(debugLabel: 'today-primary');
   final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
-  final ValueNotifier<bool> _pinned = ValueNotifier(false);
   ScrollController? _ownScroll;
   bool _measureQueued = false;
 
-  /// The tab root's dock clearance, set by the shell. Without it (no dock) nothing is pinned.
-  double _dockTop = 0;
-  bool _hasDock = false;
+  /// The shell's bar, or null outside it (then nothing is published).
+  MmBarInsets? _bar;
+
+  /// The bar's top edge above the screen's bottom, measured from the expanded bar.
+  double _barTop = 0;
+
+  /// The move this page published to the capsule, so it clears only its own.
+  BarMove? _published;
 
   ScrollController get _scroll => widget.controller ?? (_ownScroll ??= ScrollController());
-
-  /// How far above the dock's top edge the shell's ground fade (`DockScrim`) reaches. The bar
-  /// rests on the fade's top edge: under it, the fade would wash the key out.
-  static const double _scrimRise = 48;
-
-  /// Ground kept under the key, down to the dock: the card's own key and its chips pass under
-  /// the bar, and the shell's fade alone would leave them half-seen between bar and dock.
-  static const double _barPad = _scrimRise;
 
   /// Today's one page-load moment (ui-blitz/today.md 2.6). It runs only when the first build
   /// already has data (the usual open, painted from cache); a page that loads behind the
@@ -143,7 +137,7 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   void dispose() {
     _scroll.removeListener(_queueMeasure);
     _ownScroll?.dispose();
-    _pinned.dispose();
+    _publish(null);
     _entrance.dispose();
     super.dispose();
   }
@@ -157,18 +151,50 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
     });
   }
 
-  /// Pinned when the card's primary key is not wholly above the bar's resting place: partly under
-  /// the dock, or past the fold. Where the key's bottom meets that line the bar and the key are
-  /// in the same place, so the hand-over does not jump.
+  /// The move goes to the capsule when the card's primary key is not wholly above the place the
+  /// capsule takes over the bar: partly under the bar or the capsule, or past the fold. The line
+  /// is measured from the bar, not from the capsule, so the capsule arriving never moves it.
   void _measure() {
+    final hero = widget.view.hero;
     final key = _primaryKey.currentContext?.findRenderObject();
     final stack = _stackKey.currentContext?.findRenderObject();
-    var pinned = false;
-    if (_hasDock && key is RenderBox && stack is RenderBox && key.attached && key.hasSize && stack.attached && stack.hasSize) {
+    var off = false;
+    if (_bar != null && _pinnable(hero) && key is RenderBox && stack is RenderBox && key.attached && key.hasSize && stack.attached && stack.hasSize) {
       final bottom = key.localToGlobal(Offset(0, key.size.height), ancestor: stack).dy;
-      pinned = bottom > stack.size.height - _dockTop - _scrimRise + 0.5;
+      off = bottom > stack.size.height - _barTop - MmBar.capsuleClearance + 0.5;
     }
-    if (_pinned.value != pinned) _pinned.value = pinned;
+    _publish(off && hero is MoveHero ? _moveOf(hero) : null);
+  }
+
+  bool _pinnable(TodayHero? hero) =>
+      hero is MoveHero && !(widget.view.offline && hero.primary.startsSession) && !(widget.retrying && hero.primary.target is RetryLoad);
+
+  /// "Accountancy repair, 15 min", starting the same action as the card's key.
+  BarMove _moveOf(MoveHero hero) {
+    final kind = hero.primary.actionType;
+    final subject = hero.subjectLine;
+    final title = subject != null && kind != null && kind != 'resume' ? '$subject $kind' : hero.summary;
+    final minutes = hero.selectedMinutes ?? (hero.durations.isEmpty ? null : hero.durations.first.minutes);
+    final primary = hero.primary;
+    return BarMove(
+      title: title,
+      detail: minutes == null ? null : '$minutes min',
+      label: primary.label,
+      onStart: () => widget.callbacks.onAction(primary),
+    );
+  }
+
+  void _publish(BarMove? move) {
+    final slot = _bar?.tonightMove;
+    if (slot == null) return;
+    if (move == null) {
+      if (_published != null && identical(slot.value, _published)) slot.value = null;
+      _published = null;
+      return;
+    }
+    if (_published == move && identical(slot.value, _published)) return;
+    _published = move;
+    slot.value = move;
   }
 
   Widget _hero() {
@@ -183,8 +209,6 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
           retrying: widget.retrying,
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
-          // Only when the pinned bar can stand in for the card's keys.
-          keysCovered: _hasDock && !(widget.view.offline && hero.primary.startsSession) ? _pinned : null,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
@@ -215,12 +239,10 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
     final callbacks = widget.callbacks;
     final insights = widget.insights;
     final roadFooter = widget.roadFooter;
-    // The shell lifts a tab root's bottom padding by the dock's clearance; the dock's own top
-    // edge is 24 dp lower than that padding (the rest is air for the last row).
-    _hasDock = padding.bottom >= MmDock.clearanceAbove;
-    _dockTop = padding.bottom - (MmDock.clearanceAbove - MmDock.height - MmDock.lift);
-    final hero = view.hero;
-    final pinnable = hero is MoveHero && !(view.offline && hero.primary.startsSession);
+    // The shell lifts a tab root's bottom padding by the bar's clearance (MmBarInsets).
+    final bar = MmBarInsets.maybeOf(context);
+    _bar = bar != null && bar.showing ? bar : null;
+    _barTop = bar == null ? 0 : bar.barTopAbove(padding.bottom);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _measure();
     });
@@ -228,10 +250,11 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
       TodayHeader(
         header: view.header,
         onWeek: callbacks.onWeek,
-        avatar: widget.avatar,
         aim: view.hero is MoveHero ? _moveKey : null,
       ),
-      const SizedBox(height: MmSpace.s24),
+      // Header to the first block (SPACING.md 3.1, audit T3): the hero starts high enough that its
+      // key is above the bar on a 640 dp phone.
+      const SizedBox(height: MmSpace.s16),
       TodayEnter(delay: const Duration(milliseconds: 120), rise: 20, child: _hero()),
       if (view.also.isNotEmpty)
         TodayEnter(
@@ -240,12 +263,13 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
         ),
       if (insights != null) ...[const SizedBox(height: MmSpace.s16), TodayEnter(delay: const Duration(milliseconds: 220), child: insights)],
       ?widget.weeklyEnding,
+      // Section to section: 32, then the section's own hairline rule and heading (audit T8).
       if (view.sheet.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.s40),
+        const SizedBox(height: MmSpace.group),
         TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, onOpen: callbacks.onTarget)),
       ],
       if (view.road != null) ...[
-        SizedBox(height: view.sheet.isEmpty ? MmSpace.s40 : MmSpace.s32),
+        const SizedBox(height: MmSpace.group),
         TodayEnter(
           delay: const Duration(milliseconds: 300),
           child: RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
@@ -256,13 +280,15 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
 
     final scroll = CustomScrollView(
       controller: _scroll,
-      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+      // The content never moves on a pull (MOTION.md C10): the platform's clamping physics, with
+      // the pull drawn as a ring under the status bar.
+      physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            MmSpace.cardGutter,
+            MmSpace.gutter,
             padding.top + MmSpace.s8,
-            MmSpace.cardGutter,
+            MmSpace.gutter,
             padding.bottom + MmSpace.s32,
           ),
           sliver: TodayEntranceScope(progress: _entrance, child: SliverList.list(children: children)),
@@ -283,96 +309,14 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
               constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
               child: refresh == null
                   ? scroll
-                  : RefreshIndicator(
-                      onRefresh: refresh,
-                      color: colors.ink,
-                      backgroundColor: colors.raised2,
-                      edgeOffset: padding.top,
-                      child: scroll,
-                    ),
+                  // The app's own pull (C10): changed numbers roll from the values they showed, and
+                  // the page's entrance never replays (it belongs to the page, not to the data).
+                  : MmPullRefresh(onRefresh: refresh, child: scroll),
             ),
           ),
-          if (_hasDock && pinnable)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: _dockTop,
-              child: ValueListenableBuilder<bool>(
-                valueListenable: _pinned,
-                builder: (context, pinned, _) => StickyMoveHost(
-                  pinned: pinned,
-                  builder: (context) => Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                      child: _StickyScrim(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, 0, MmSpace.cardGutter, _barPad),
-                          child: StickyMoveBar(move: hero, onAction: callbacks.onAction, retrying: widget.retrying),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );
   }
 
-}
-
-/// Ground behind the pinned bar: a short fade in above it, then solid down to the dock. The
-/// card's own key (still moving under it) and text scrolling by never read around the bar.
-///
-/// The ground only paints: it ignores touches, so a drag that starts on the fade or in the air
-/// under the keys still scrolls the page. Only the keys themselves take hits.
-class _StickyScrim extends StatelessWidget {
-  const _StickyScrim({required this.child});
-
-  /// How far above the key the ground fades in. Eased in, so the chips just above the key stay
-  /// legible while the card's last lines dissolve into the bar (a cue that the card goes on)
-  /// instead of being cut hard against it.
-  static const double _fade = MmSpace.s24;
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final ground = context.mmColors.ground;
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: _fade,
-                  width: double.infinity,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.12), ground],
-                        stops: const [0, 0.5, 1],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(child: ColoredBox(color: ground, child: const SizedBox(width: double.infinity))),
-              ],
-            ),
-          ),
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: _fade, width: double.infinity),
-            SizedBox(width: double.infinity, child: child),
-          ],
-        ),
-      ],
-    );
-  }
 }

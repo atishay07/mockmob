@@ -30,7 +30,7 @@ class SubjectChoiceRow extends StatelessWidget {
       child: RowFrame(
         onTap: onTap,
         semanticsLabel: EditCopy.chosenLabel(name, chosen),
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s8),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s8),
         child: Row(
           children: [
             SubjectArt(id, size: 40),
@@ -70,7 +70,7 @@ class StaleSubjectRow extends StatelessWidget {
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4, MmSpace.s12, 0, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(0, MmSpace.s12, 0, MmSpace.s12),
       child: Row(
         children: [
           _StaleTile(id),

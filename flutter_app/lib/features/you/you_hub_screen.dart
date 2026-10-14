@@ -17,6 +17,7 @@ import '../rhythm/logic/milestone_tracks.dart';
 import '../rhythm/logic/tokens.dart';
 import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
+import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
 import '../rhythm/widgets/token_shelf.dart';
 import 'copy.dart';
 import 'edit_copy.dart';
@@ -29,7 +30,7 @@ import 'you_routes.dart';
 
 /// You (brief section 12): identity first, settings second. The student's sheet for the season
 /// sits in the lamp light at the top, the brass milestone tokens stand on their shelf beneath it,
-/// and the calm settings panels follow. Opened from the avatar on every tab root.
+/// and the calm settings panels follow. The fourth tab on the bar.
 class YouHubScreen extends ConsumerStatefulWidget {
   const YouHubScreen({super.key, this.tools});
 
@@ -91,6 +92,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final off = prefs.loaded && prefs.hidden;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
 
+    // You is the fourth tab on the bar (DOCK.md 9.1): it uses the tab-root recipe of Practice and
+    // Review. The shell has already added the bar's clearance to the bottom padding, so the list
+    // clears the bar with 32 dp of air and no number of its own.
     return Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
@@ -111,21 +115,19 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                 child: MmStagger(
                   driver: MmStaggerDriver.route,
                   child: ListView(
-                    padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
+                    padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: MmSpace.s32 + bottom),
                     children: [
+                      // The shared tab header (SPACING.md 9): the title on the gutter, no avatar,
+                      // and the one side action as a 48 dp glass pill at the far end.
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, youText, MmSpace.s8),
-                        child: Row(
-                          children: [
-                            const BackKey(),
-                            const Spacer(),
-                            // A 48 dp glass pill, so the way to the editor has a shape and a full target.
-                            PillKey(
-                              label: EditCopy.editSheet,
-                              semanticsLabel: EditCopy.editSheetLabel,
-                              onPressed: () => openYouPage(context, YouPaths.sheet),
-                            ),
-                          ],
+                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+                        child: TabRootHeader(
+                          title: YouCopy.hubTitle,
+                          trailing: PillKey(
+                            label: EditCopy.editSheet,
+                            semanticsLabel: EditCopy.editSheetLabel,
+                            onPressed: () => openYouPage(context, YouPaths.sheet),
+                          ),
                         ),
                       ),
                       const _ExpiredWorkNotice(),
@@ -134,6 +136,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
                           child: InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
                         ),
+                      const SizedBox(height: MmSpace.s16),
                       MmStaggerItem(
                         index: 0,
                         child: SheetCard(
@@ -148,23 +151,17 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         ),
                       ),
                       MmStaggerItem(index: 1, child: _shelf(snapshot, now)),
-                      MmStaggerItem(
+                      const MmStaggerItem(
                         index: 2,
-                        child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubProgress), ProgressPanel()]),
+                        child: _HubSection(title: YouCopy.hubProgress, child: ProgressPanel()),
                       ),
-                      MmStaggerItem(
+                      const MmStaggerItem(
                         index: 3,
-                        child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubSettings), SettingsPanel()]),
+                        child: _HubSection(title: YouCopy.hubSettings, child: SettingsPanel()),
                       ),
                       MmStaggerItem(
                         index: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const _HubTitle(YouCopy.hubTools),
-                            widget.tools ?? ToolsPanel(onOpen: _openTool),
-                          ],
-                        ),
+                        child: _HubSection(title: YouCopy.hubTools, child: widget.tools ?? ToolsPanel(onOpen: _openTool)),
                       ),
                       const HubFooter(),
                     ],
@@ -185,71 +182,76 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final tracks = milestoneTracks(snapshot.rhythm?.milestones ?? const []);
     final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
     final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _HubTitle(
-          YouCopy.shelfTitle,
-          trailing: KeyButton.quiet(label: YouCopy.shelfSeeAll, onPressed: () => context.push(AppRoutes.youMilestones)),
-        ),
-        // How many of the nine steps the server has dated, only once the rhythm has loaded.
-        if (snapshot.hasData && landed > 0)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter, MmSpace.s8),
-            child: Text(RhythmCopy.trackCountOf(landed, total), style: type.small.copyWith(color: colors.ink2)),
-          ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: youText),
-          child: failed
-              // One pill on the screen retries the rhythm (the week's); this one is a quiet link,
-              // so a failed hub reads as one problem with one way out, not two stacked alarms.
-              ? Row(
-                  children: [
-                    Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
-                    const SizedBox(width: MmSpace.s8),
-                    KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TokenShelf(
+    return _HubSection(
+      title: YouCopy.shelfTitle,
+      trailing: KeyButton.quiet(label: YouCopy.shelfSeeAll, onPressed: () => context.push(AppRoutes.youMilestones)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        child: failed
+            // One pill on the screen retries the rhythm (the week's); this one is a quiet link,
+            // so a failed hub reads as one problem with one way out, not two stacked alarms.
+            ? Row(
+                children: [
+                  Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+                  const SizedBox(width: MmSpace.s8),
+                  KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // How many of the nine steps the server has dated, only once the rhythm has loaded.
+                  if (snapshot.hasData && landed > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                      child: Text(RhythmCopy.trackCountOf(landed, total), style: type.small.copyWith(color: colors.ink2)),
+                    ),
+                  // The shelf is the way in to Milestones: the page grows out of it (container
+                  // transform, MOTION.md C4) and shrinks back into it on back.
+                  MmPressable(
+                    onTap: () => context.push(AppRoutes.youMilestones),
+                    captureLaunch: true,
+                    haptic: MmPressHaptic.selection,
+                    pressedScale: 0.99,
+                    focusRadius: MmRadius.smallAll,
+                    semanticsLabel: YouCopy.showMeMilestones,
+                    builder: (context, pressed, focused) => TokenShelf(
                       slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
                       zone: snapshot.timezone,
                       now: now,
                       loading: snapshot.isInitialLoading,
                     ),
-                    // "Show me" only when a milestone has been earned.
-                    if ((snapshot.rhythm?.milestones ?? const []).any((m) => m.achievedAt != null)) ...[
-                      const SizedBox(height: MmSpace.s8),
-                      PillKey(
-                        label: YouCopy.showMe,
-                        semanticsLabel: YouCopy.showMeMilestones,
-                        onPressed: () => context.push(AppRoutes.youMilestones),
-                      ),
-                    ],
-                  ],
-                ),
-        ),
-      ],
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
 
-/// A section title of the hub: Bricolage 22 with 40 dp of air above it, the same inset as the
-/// sheet's words.
-class _HubTitle extends StatelessWidget {
-  const _HubTitle(this.text, {this.trailing});
+/// A typeset section of the hub (SPACING.md 3.1): 32 dp of air, a hairline rule, 16 dp, the title
+/// in Bricolage 24 with its optional action at the far end, 12 dp, then [child]. The title sits on
+/// the gutter exactly under the edge of the sheet above it.
+class _HubSection extends StatelessWidget {
+  const _HubSection({required this.title, required this.child, this.trailing});
 
-  final String text;
+  final String title;
+  final Widget child;
   final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
-    return SectionTitle(
-      text,
-      trailing: trailing,
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmRhythm.section, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: SectionBreak()),
+        SectionTitle(
+          title,
+          trailing: trailing,
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, trailing == null ? MmSpace.gutter : 0, MmSpace.s12),
+        ),
+        child,
+      ],
     );
   }
 }

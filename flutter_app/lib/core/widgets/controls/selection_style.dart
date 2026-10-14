@@ -9,7 +9,9 @@ import '../bubbles/bubble.dart';
 /// hollow bubble. Volt appears only as the ink in the bubble, so it stays the light of actions.
 abstract final class MmSelection {
   static Color fill(MmColors c, {required bool selected, bool pressed = false}) {
-    if (selected) return c.isNight ? c.raised2 : c.raised;
+    // `selectedSurface`: Night's `raised2`, Day's `raised` (Day's `raised2` is darker than the ground
+    // and reads as disabled); the paper-ink rim carries the state on both.
+    if (selected) return c.selectedSurface;
     return Color.lerp(c.raised, c.raised2, pressed ? 0.7 : 0)!;
   }
 
@@ -45,7 +47,9 @@ class LetterBubble extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final reduced = Motion.reduced(context);
-    final fill = colors.isNight ? colors.volt : colors.accentText;
+    // A filled mark is volt on both themes with voltInk on it (SPACING.md 8.3); on Day the 1 dp olive
+    // rim keeps it readable on paper, like the bubble painter's inked bubble.
+    final fill = colors.markFill;
     return ExcludeSemantics(
       child: SizedBox.square(
         dimension: size,
@@ -65,7 +69,11 @@ class LetterBubble extends StatelessWidget {
                 duration: reduced ? Duration.zero : Motion.ink,
                 curve: Motion.glide,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: fill, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: fill,
+                    shape: BoxShape.circle,
+                    border: colors.isNight ? null : Border.all(color: colors.accentText.withValues(alpha: 0.55)),
+                  ),
                   child: const SizedBox.expand(),
                 ),
               ),
@@ -77,7 +85,7 @@ class LetterBubble extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 height: 1,
-                color: selected ? (colors.isNight ? colors.voltInk : colors.raised) : colors.ink2,
+                color: selected ? colors.voltInk : colors.ink2,
               ),
             ),
           ],

@@ -9,6 +9,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -143,7 +144,7 @@ class _Scale extends StatelessWidget {
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
     // The spread inks along the groove, then the picks rise onto their scores.
-    final rise = todayEnterValue(context, delay: const Duration(milliseconds: 60), length: const Duration(milliseconds: 520));
+    final rise = todayEnterValue(context, delay: const Duration(milliseconds: 60), length: Motion.drawIn);
     return ExcludeSemantics(
       child: RepaintBoundary(
         child: LayoutBuilder(

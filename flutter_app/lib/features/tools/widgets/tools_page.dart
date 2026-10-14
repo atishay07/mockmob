@@ -83,32 +83,20 @@ class ToolsPage extends StatelessWidget {
                   controller: controller,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   slivers: [
-                    const SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-                        child: Row(children: [BackKey()]),
-                      ),
-                    ),
                     SliverToBoxAdapter(
-                      child: MmStaggerItem(
-                        index: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
-                          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
-                        ),
-                      ),
+                      child: MmStaggerItem(index: 0, child: YouHeader(title: title, large: large)),
                     ),
                     if (lead != null)
                       SliverToBoxAdapter(
                         child: MmStaggerItem(
                           index: 1,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter + 4, 0),
+                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, 0),
                             child: Text(lead!, style: type.body.copyWith(color: colors.ink2)),
                           ),
                         ),
                       ),
-                    const SliverToBoxAdapter(child: SizedBox(height: MmRhythm.group)),
+                    SliverToBoxAdapter(child: SizedBox(height: lead != null ? MmRhythm.group : MmSpace.s16)),
                     ..._entering(slivers),
                     SliverToBoxAdapter(child: SizedBox(height: MmSpace.s48 + MediaQuery.viewPaddingOf(context).bottom)),
                   ],
@@ -175,7 +163,7 @@ class ToolsNote extends StatelessWidget {
     final colors = context.mmColors;
     final style = context.mmType.caption.copyWith(color: colors.ink3);
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, top, MmSpace.gutter + 4, 0),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, MmSpace.gutter, 0),
       child: icon == null
           ? Text(text, style: style)
           : Row(

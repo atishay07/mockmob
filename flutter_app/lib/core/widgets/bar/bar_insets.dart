@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme.dart';
+import 'bar_live.dart';
 
 /// How much of the bottom of the screen the bar holds, for the tab roots under it (DOCK.md
 /// section 3.4). The shell adds [clearance] to the `MediaQuery` bottom padding of its tab roots,
@@ -10,13 +11,22 @@ import '../../theme/theme.dart';
 /// The value changes only when the capsule appears or goes, never while the bar collapses, so
 /// scrolling never relayouts.
 class MmBarInsets extends InheritedWidget {
-  const MmBarInsets({super.key, required this.showing, required this.capsule, required super.child});
+  const MmBarInsets({super.key, required this.showing, required this.capsule, this.tonightMove, required super.child});
 
   /// Whether the bar is on screen at all (it is not over a pushed page or the keyboard).
   final bool showing;
 
   /// Whether the live capsule is up.
   final bool capsule;
+
+  /// Where Today publishes tonight's move while its hero key is off-screen (null when it is in
+  /// view). The capsule shows it as its lowest-priority state, on Today only. Null outside the
+  /// shell.
+  final ValueNotifier<BarMove?>? tonightMove;
+
+  /// The bar's top edge above the screen's bottom, for a page under the shell whose bottom
+  /// padding is [paddingBottom] (the gesture inset plus [clearance]).
+  double barTopAbove(double paddingBottom) => paddingBottom - clearance + barTop;
 
   /// What the bar adds above the gesture inset: lift, bar and gap, plus the capsule.
   double get clearance => !showing ? 0 : clearanceFor(capsule: capsule);
@@ -33,7 +43,8 @@ class MmBarInsets extends InheritedWidget {
   static double clearanceOf(BuildContext context) => maybeOf(context)?.clearance ?? 0;
 
   @override
-  bool updateShouldNotify(MmBarInsets oldWidget) => showing != oldWidget.showing || capsule != oldWidget.capsule;
+  bool updateShouldNotify(MmBarInsets oldWidget) =>
+      showing != oldWidget.showing || capsule != oldWidget.capsule || tonightMove != oldWidget.tonightMove;
 }
 
 /// The ground fading in behind the bar (replaces the old `DockScrim`). It runs from 40 dp above

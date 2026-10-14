@@ -4,6 +4,7 @@
 // (a reveal never withholds a result).
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -42,7 +43,15 @@ class SealedHeroCard extends StatelessWidget {
               Text(sealed.moreLine!, style: type.caption.copyWith(color: colors.ink3)),
             ],
             const SizedBox(height: MmSpace.s20),
-            KeyButton(label: TodayCopy.openSheet, onPressed: onOpen),
+            // The card grows into the sheet it opens (MOTION.md C4).
+            KeyButton(
+              label: TodayCopy.openSheet,
+              onPressed: () {
+                MmLaunchRect.capture(context);
+                onOpen();
+              },
+            ),
+            const SizedBox(height: MmSpace.s4),
             Center(child: KeyButton.quiet(label: TodayCopy.openDirectly, onPressed: onOpenDirectly)),
           ],
         ),

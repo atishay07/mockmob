@@ -24,7 +24,7 @@ import 'package:mockmob/core/repositories/notification_prefs_repository.dart' sh
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule;
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/data/study_days.dart';
@@ -32,7 +32,6 @@ import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
-import 'package:mockmob/features/today/widgets/move_keys.dart';
 
 import '../../golden/today/today_golden_support.dart' show PhoneFrame, todayOverrides;
 import '../../helpers/fonts.dart';
@@ -210,7 +209,7 @@ void main() {
     });
   });
 
-  group('the pinned bar lets drags through (today-new-r2-04)', () {
+  group('the move capsule leaves the page scrollable (today-new-r2-04)', () {
     Future<ScrollController> pumpPinned(WidgetTester tester) async {
       final controller = ScrollController();
       addTearDown(controller.dispose);
@@ -230,28 +229,27 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
-      expect(find.byType(StickyMoveBar), findsOneWidget);
+      expect(capsule(), findsOneWidget);
       return controller;
     }
 
-    testWidgets('a drag that starts in the air under the key scrolls the page', (tester) async {
+    testWidgets('a drag that starts just above the capsule scrolls the page: no ground slab sits over it', (tester) async {
       final controller = await pumpPinned(tester);
-      final key = tester.getRect(find.descendant(of: find.byType(StickyMoveBar), matching: find.byType(KeyButton)).first);
-      // The dock's top edge is 90 dp above the bottom (walkthrough_r3_test); the strip under the
-      // key runs from its bottom down to there.
-      final y = (key.bottom + (800 - 90)) / 2;
-      expect(y, greaterThan(key.bottom + 4));
-      await tester.dragFrom(Offset(180, y), const Offset(0, -120));
+      final rect = tester.getRect(capsule());
+      await tester.dragFrom(Offset(180, rect.top - 8), const Offset(0, -120));
       await tester.pump();
-      expect(controller.offset, greaterThan(0), reason: 'the strip under the key is not a dead zone');
+      expect(controller.offset, greaterThan(0));
     });
 
-    testWidgets('a drag that starts in the fade above the key scrolls too', (tester) async {
+    testWidgets('a drag that starts beside the capsule scrolls too', (tester) async {
       final controller = await pumpPinned(tester);
-      final key = tester.getRect(find.descendant(of: find.byType(StickyMoveBar), matching: find.byType(KeyButton)).first);
-      await tester.dragFrom(Offset(180, key.top - 8), const Offset(0, -120));
+      final rect = tester.getRect(capsule());
+      await tester.dragFrom(Offset(rect.left / 2, rect.center.dy), const Offset(0, -120));
       await tester.pump();
       expect(controller.offset, greaterThan(0));
     });
   });
 }
+
+/// Tonight's move as the bar's live capsule.
+Finder capsule() => find.byWidgetPredicate((w) => w is LiveCapsule && w.live is BarMove);

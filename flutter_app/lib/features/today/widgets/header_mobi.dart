@@ -3,9 +3,9 @@
 // result improved or held, waves for any other submission, yawns after 11 PM, points at the move
 // card when one is ready (aimed at the card itself, again after layout and scroll) and says his
 // short line about it the first time the move is ready in an app run (never under reduced
-// motion), and says one short line when tapped. If the student has not touched the screen 1.2 s
-// after he first points, he nudges toward the card once (two short jabs), never again on that
-// screen (ui-blitz/mobi.md, the one action). When the hero already has Mobi (day one, coming back, late night) the
+// motion), and says one short line when tapped. If the student has neither touched nor scrolled the screen for 4 s
+// after he first points, he nudges toward the card once (two short jabs), once a day at most
+// (MOTION.md 1.3: sooner reads as nagging). When the hero already has Mobi (day one, coming back, late night) the
 // header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
 
@@ -29,8 +29,11 @@ class HeaderMobi extends StatefulWidget {
   /// Whether he has already said his line about a ready move in this app run.
   static bool _greeted = false;
 
-  /// How long he waits after first pointing, with no touch on the screen, before he nudges.
-  static const Duration nudgeAfter = Duration(milliseconds: 1200);
+  /// How long he waits after first pointing, with no touch and no scroll, before he nudges.
+  static const Duration nudgeAfter = MobiRation.nudgeAfter;
+
+  /// The screen's name for Mobi's once-a-day gates.
+  static const String screen = 'today';
 
   /// Called each time he nudges (tests only: the act itself is drawn, not read back).
   @visibleForTesting
@@ -84,7 +87,9 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     final position = Scrollable.maybeOf(context)?.position;
     if (position == _position) return;
     _position?.removeListener(_reaim);
+    _position?.removeListener(_onScrolled);
     _position = position?..addListener(_reaim);
+    if (_nudge?.isActive ?? false) _position?.addListener(_onScrolled);
   }
 
   @override
@@ -139,8 +144,9 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _armNudge();
   }
 
-  /// After the first point: if no finger lands on the screen within [HeaderMobi.nudgeAfter], he
-  /// nudges toward the card once. Any touch (a tap, the start of a scroll) cancels it for good.
+  /// After the first point: if no finger lands on the screen and the page does not scroll within
+  /// [HeaderMobi.nudgeAfter], he nudges toward the card once. Any touch or scroll cancels it for
+  /// this screen. Once a day at most ([MobiRation.nudgeToday], asked only when he would nudge).
   /// Not under reduced motion, where he holds a still pose.
   void _armNudge() {
     if (_nudgeArmed || Motion.reduced(context)) return;
@@ -148,16 +154,24 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     GestureBinding.instance.pointerRouter.addGlobalRoute(_onPointer);
     _listening = true;
     _nudge = Timer(HeaderMobi.nudgeAfter, _nudgeNow);
+    _position?.addListener(_onScrolled);
   }
 
-  void _onPointer(PointerEvent event) {
-    if (event is! PointerDownEvent) return;
+  /// A scroll (a fling, the tab-reselect glide) counts as attention: no nudge after it.
+  void _onScrolled() => _cancelNudge();
+
+  void _cancelNudge() {
     _nudge?.cancel();
     _nudgeAfterTalk = false;
     _stopListening();
   }
 
+  void _onPointer(PointerEvent event) {
+    if (event is PointerDownEvent) _cancelNudge();
+  }
+
   void _stopListening() {
+    _position?.removeListener(_onScrolled);
     if (!_listening) return;
     _listening = false;
     GestureBinding.instance.pointerRouter.removeGlobalRoute(_onPointer);
@@ -174,6 +188,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
       return;
     }
     _stopListening();
+    if (!MobiRation.nudgeToday(HeaderMobi.screen)) return;
     _mobi.play(MobiAct.nudge);
     HeaderMobi.debugOnNudge?.call();
   }

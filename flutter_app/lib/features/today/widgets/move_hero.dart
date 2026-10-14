@@ -47,17 +47,14 @@ class MoveHeroCard extends StatelessWidget {
   /// Lets the screen make Mobi react later (a tap on a chip, coming back to the tab).
   final MobiController? mobiController;
 
-  /// On the primary key, so the screen can tell whether it is in view (see [StickyMoveBar]).
+  /// On the primary key, so the screen can tell whether it is in view (when it is not, the bar's
+  /// capsule carries tonight's move).
   final GlobalKey? primaryKey;
 
   /// True while the pinned bar stands in for the card's keys: what sits under the primary key
   /// (the quiet alternative and its caption) is then under the bar's ground, so it takes no
   /// touches and is not announced; the bar carries both keys.
   final ValueListenable<bool>? keysCovered;
-
-  /// Extra room the subject title leaves before the object's near edge, so even at large text its
-  /// last letters stand clear of the art.
-  static const double _titleAirBesideArt = 16;
 
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
@@ -90,13 +87,10 @@ class MoveHeroCard extends StatelessWidget {
         if (m.overline.isNotEmpty)
           _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
         if (m.subjectLine != null) ...[
-          if (m.overline.isNotEmpty) const SizedBox(height: 2),
-          // The subject is the stage's title: headline size, one line. Beside the object it
-          // also keeps clear of the book's edge (it scales down rather than run into it).
-          Padding(
-            padding: EdgeInsets.only(right: mobi ? 0 : _titleAirBesideArt),
-            child: _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
-          ),
+          if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s4),
+          // The subject is the stage's title: headline size, one line. Beside the object it keeps
+          // the art's 12 dp of air (heroArtClear) and scales down rather than run into it.
+          _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
         ],
       ],
     );
@@ -115,7 +109,7 @@ class MoveHeroCard extends StatelessWidget {
           ),
         ],
         if (m.number != null) ...[
-          SizedBox(height: mobi ? MmSpace.s12 : MmSpace.s8),
+          const SizedBox(height: MmSpace.s12),
           // The number stands clear of the object; its meaning goes beside it only when both
           // fit that column, otherwise under it on one line (where the object has ended).
           LayoutBuilder(
@@ -127,12 +121,13 @@ class MoveHeroCard extends StatelessWidget {
 
     final evidence = m.evidenceId != null && onShowMe != null;
     final content = Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s8),
+      // The card's own rhythm (SPACING.md 3.2): 20 at the top and 20 at the bottom.
+      padding: const EdgeInsets.all(MmSpace.cardPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           lines,
-          SizedBox(height: mobi ? MmSpace.s16 : MmSpace.s12),
+          SizedBox(height: mobi ? MmSpace.s12 : MmSpace.s8),
           // First the number, then the details (Revolut's staging): the evidence rises in after.
           TodayEnter(
             delay: const Duration(milliseconds: 260),
@@ -150,7 +145,7 @@ class MoveHeroCard extends StatelessWidget {
                   Text(m.headline!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
                 if (m.basisLine != null || evidence) ...[
-                  const SizedBox(height: MmSpace.s12),
+                  const SizedBox(height: MmSpace.s8),
                   Row(
                     children: [
                       if (evidence) ...[ShowMeTag(onTap: onShowMe!, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
@@ -176,7 +171,7 @@ class MoveHeroCard extends StatelessWidget {
               onChanged: onMinutes,
             ),
           ],
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           // Offline, the reason stands above the key where the eye is, not under it (that part
           // of the card sits behind the dock at rest).
           if (blocked) ...[const _NeedsConnection(), const SizedBox(height: MmSpace.s8)],
@@ -185,7 +180,14 @@ class MoveHeroCard extends StatelessWidget {
             builder: (context, box) => KeyButton(
               label: fitKeyLabel(context, m.primary, box.maxWidth),
               semanticsLabel: m.primary.label,
-              onPressed: blocked ? null : () => onAction(m.primary),
+              onPressed: blocked
+                  ? null
+                  : () {
+                      // The card grows into the page it opens (MOTION.md C4): the router's
+                      // container pages take this rect; any other page ignores it.
+                      if (m.primary.target is GoTo) MmLaunchRect.capture(context);
+                      onAction(m.primary);
+                    },
               loading: retrying && m.primary.target is RetryLoad,
             ),
           ),
@@ -195,20 +197,22 @@ class MoveHeroCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (m.secondary != null)
+                if (m.secondary != null) ...[
+                  const SizedBox(height: MmSpace.s4),
                   Center(
                     child: KeyButton.quiet(
                       label: m.secondary!.label,
                       onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
                     ),
                   ),
+                ],
                 if (m.caption != null || m.dismissedLine != null) ...[
+                  const SizedBox(height: MmSpace.s4),
                   Text(
                     m.dismissedLine ?? m.caption!,
                     textAlign: TextAlign.center,
                     style: type.caption.copyWith(color: colors.ink3),
                   ),
-                  const SizedBox(height: MmSpace.s8),
                 ],
               ],
             ),

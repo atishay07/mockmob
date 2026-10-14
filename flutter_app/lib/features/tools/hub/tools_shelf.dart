@@ -11,7 +11,7 @@ import '../copy.dart';
 import '../tools_paths.dart';
 
 /// Where the hairlines of a flat list start: past the 4 dp edge, the 28 dp bare icon and 16 dp.
-const double _flatInset = 4 + 28 + MmSpace.s16;
+const double _flatInset = 28 + MmSpace.s16;
 
 /// The CUET tools group for You (replaces the two Custom Tab rows): Compass with what the
 /// student's subjects open once known, the Combo planner and the 2027 guide, all native. Place

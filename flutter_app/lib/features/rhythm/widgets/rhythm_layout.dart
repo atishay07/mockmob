@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../you/widgets/you_page.dart' show BackKey;
+import '../../you/widgets/you_page.dart' show YouHeader;
 
-/// The header of a rhythm page: the back key at the gutter, then the title inline on the same
-/// 56 dp row. Back key 44 dp inside its 48 dp target, 12 dp to the title, which sits on the
-/// `screenTitle` style (SPACING.md 9). Every left edge below it is the gutter, so the title never
-/// starts on a line of its own.
+/// The header of a rhythm page: the shared You header (the back key at the gutter, then the title
+/// inline in the `screenTitle` cut on one 56 dp row, SPACING.md 9). A wrapper so the rhythm screens
+/// and the You screens cannot drift. Every left edge below it is the gutter.
 class RhythmHeader extends StatelessWidget {
   const RhythmHeader({super.key, required this.title, required this.onBack});
 
@@ -21,25 +20,7 @@ class RhythmHeader extends StatelessWidget {
   static const double height = 56;
 
   @override
-  Widget build(BuildContext context) {
-    final type = context.mmType;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: height),
-      child: Padding(
-        // The key's 48 dp target holds a 44 dp disc, 2 dp in: so the disc, not the target, sits on
-        // the gutter, exactly under the edge of the cards below.
-        padding: const EdgeInsets.only(left: MmSpace.gutter - 2, right: MmSpace.gutter),
-        child: Row(
-          children: [
-            BackKey(onTap: onBack),
-            // 44 dp disc, then 12 dp: the target already gives 2 dp on this side.
-            const SizedBox(width: MmSpace.s12 - 2),
-            Expanded(child: Semantics(header: true, child: Text(title, style: type.screenTitle))),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => YouHeader(title: title, onBack: onBack);
 }
 
 /// The break between two sections of a typeset page: 32 dp of air, a 1 dp hairline, then 16 dp

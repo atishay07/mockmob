@@ -159,7 +159,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                 st,
                 top: MmSpace.s20,
                 trailing: Padding(
-                  padding: const EdgeInsets.only(right: MmSpace.gutter + 4),
+                  padding: const EdgeInsets.only(right: MmSpace.gutter),
                   child: Text('${rows.length}', style: context.mmType.caption.copyWith(color: context.mmColors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
                 ),
               ),
@@ -261,7 +261,7 @@ class _NoneOpen extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s24, MmSpace.gutter + 4, 0),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
       child: Row(
         children: [
           const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
@@ -288,7 +288,7 @@ class _Unlocks extends ConsumerWidget {
     final controller = ref.read(compassControllerProvider.notifier);
     // One row that scrolls (with its edge fade), so the chips never stagger into a ragged block.
     return ToolsFadingScroller(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
       child: Row(
         children: [
           for (final u in state.unlocks) ...[

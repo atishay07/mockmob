@@ -34,7 +34,7 @@ class UsageDataSwitchCard extends ConsumerWidget {
       children: [
         YouPanel(
           flat: true,
-          inset: 4,
+          inset: 0,
           children: [
             YouSwitchRow(
               flat: true,
@@ -100,7 +100,7 @@ class _Status extends StatelessWidget {
 
   Widget _line(MmType type, MmColors colors, String text, {bool spinner = false}) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: EdgeInsets.zero,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

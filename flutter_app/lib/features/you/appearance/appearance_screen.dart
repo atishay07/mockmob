@@ -40,7 +40,7 @@ class AppearanceScreen extends ConsumerWidget {
         const GroupHeading(YouCopy.glassHeading),
         const Padding(padding: EdgeInsets.symmetric(horizontal: youText), child: GlassQualityPicker()),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
           child: Text(
             autoLite ? GlassQualityPicker.autoNote : YouCopy.glassNote,
             style: type.caption.copyWith(color: colors.ink2),
@@ -49,7 +49,7 @@ class AppearanceScreen extends ConsumerWidget {
         const GroupHeading(YouCopy.feelHeading),
         YouPanel(
           flat: true,
-          inset: 4,
+          inset: 0,
           children: [
             // When the phone already removes animations there is nothing to switch here, so the
             // row says so in words instead of showing a dimmed switch that looks broken.
@@ -109,7 +109,7 @@ class AppearanceScreen extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
           child: Semantics(
             liveRegion: true,
             child: Text(_celebrationNote(celebrations), style: type.caption.copyWith(color: colors.ink2)),
