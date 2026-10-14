@@ -152,9 +152,21 @@ test('the strip never shows build talk from the plan', () => {
   for (const text of [stripReason(ordinary), stripReason(other)]) assert.doesNotMatch(text, /awaiting|calibration|source|pathway/i);
 });
 
-test('an expired Pro end date reads as active, not as a past date', () => {
+test('an expired Pro end date reads as ended, never as active', () => {
   const status = accessSummary({ isPremium: true, premiumUntil: '2026-01-01T00:00:00.000Z', now: Date.parse('2026-10-14') }).status;
-  assert.equal(status, 'Pro is active.');
+  assert.match(status, /^Pro ended on /);
+  assert.doesNotMatch(status, /active/);
+});
+
+test('a missing correct or total count is left out, not shown as 0', () => {
+  assert.equal(sessionTally({ correct: null, total: 10 }), '');
+  assert.equal(sessionTally({ correct: undefined, total: 10 }), '');
+  assert.equal(sessionTally({ correct: 4, total: null }), '');
+});
+
+test('plan reasons that talk about the build are not shown to students', () => {
+  assert.equal(stripReason({ href: '/learn/x', reason: 'This uses an unseen family of questions.' }), '');
+  assert.equal(stripReason({ href: '/learn/x', reason: 'Do this unassisted.' }), '');
 });
 
 // Notes: the Pro date assertions rely on Node's ICU data for en-IN (full-icu, the default since Node 13).

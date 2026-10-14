@@ -26,6 +26,13 @@ export default function DashboardPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const resume = useResumableTest();
+  // The saved-test lookup settles a tick after mount. Until then the plan is not fetched and the
+  // strip stays hidden, so a student with a saved test never triggers a wasted request or a flash.
+  const [resumeChecked, setResumeChecked] = useState(false);
+  useEffect(() => {
+    const id = window.setTimeout(() => setResumeChecked(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   const [subjects, setSubjects] = useState([]);
   const [attempts, setAttempts] = useState([]);
@@ -154,7 +161,7 @@ export default function DashboardPageClient() {
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
   const arrived = arrivedWithSetup(searchParams);
-  const planWanted = status === 'ready' && attempts.length > 0 && !resume && !arrived;
+  const planWanted = status === 'ready' && resumeChecked && attempts.length > 0 && !resume && !arrived;
   const planRead = usePracticePlan(planWanted, user?.id);
   const lead = status === 'ready'
     ? practiceLead({ attempts, resume, plan: planRead.plan, planState: planRead.state === 'idle' ? 'loading' : planRead.state, arrivedWithSetup: arrived, touched })
@@ -300,7 +307,7 @@ export default function DashboardPageClient() {
 
       {lead && mySubs.length > 0 ? (
         <NextStepStrip
-          strip={lead.strip}
+          strip={resumeChecked ? lead.strip : 'hidden'}
           plan={planRead.plan}
           dominant={!lead.setupDominant}
           setupMatches={setupMatches}
@@ -489,7 +496,7 @@ export default function DashboardPageClient() {
               }}>
               <AppIcon name="practice" size={18} />{startLabel}
             </Button>
-            <p className="pr-summary__reason" role="status" aria-live="polite">
+            <p className="pr-summary__reason">
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
               {quoteStatus === 'ready' && quoteMatches && quote.reason}
@@ -512,7 +519,8 @@ export default function DashboardPageClient() {
                 const subject = subjects.find((entry) => entry.id === attempt.subject);
                 const tone = attempt.score >= 70 ? 'good' : attempt.score >= 40 ? 'mid' : 'low';
                 const tally = sessionTally(attempt);
-                const day = Number.isFinite(Date.parse(attempt.completedAt)) ? new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
+                const when = new Date(attempt.completedAt);
+                const day = Number.isFinite(when.getTime()) ? when.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
                 return (
                   <li key={attempt.id}>
                     <Link href={`/result/${attempt.id}`}>

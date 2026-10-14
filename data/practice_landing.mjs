@@ -56,7 +56,7 @@ export function practiceLead({ attempts, resume, plan, planState = 'loading', ar
 }
 
 // Words that mean the plan is talking about the build, not the student's next step.
-const BUILD_TALK = /awaiting|calibration|release check|source and|pathway|supported concept/i;
+const BUILD_TALK = /awaiting|calibration|release check|source and|pathway|supported concept|family|unassisted/i;
 
 /**
  * The one line the next-step strip shows under a plan step. Ordinary practice gets a fixed student
@@ -128,7 +128,8 @@ export function accessSummary({ isPremium, premiumUntil, creditBalance, now = Da
     const ends = Date.parse(premiumUntil);
     const daysLeft = Number.isFinite(ends) ? Math.ceil((ends - now) / DAY_MS) : null;
     let status;
-    if (!until || (ends < now)) status = 'Pro is active.';
+    if (!until) status = 'Pro is active.';
+    else if (ends < now) status = `Pro ended on ${until}.`;
     else if (daysLeft !== null && daysLeft >= 0 && daysLeft <= 7) status = daysLeft <= 1 ? `Pro ends on ${until}.` : `Pro ends in ${daysLeft} days, on ${until}.`;
     else status = `Pro until ${until}.`;
     return {
@@ -157,8 +158,9 @@ export function accessSummary({ isPremium, premiumUntil, creditBalance, now = Da
 
 /** "6 of 10 correct" for a recent session row; unknown counts are left out, never shown as 0. */
 export function sessionTally(attempt) {
-  const correct = Number(attempt?.correct);
-  const total = Number(attempt?.total);
+  if (attempt?.correct == null || attempt?.total == null) return '';
+  const correct = Number(attempt.correct);
+  const total = Number(attempt.total);
   if (!Number.isFinite(correct) || !Number.isFinite(total) || total <= 0) return '';
   return `${correct} of ${total} correct`;
 }
