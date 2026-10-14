@@ -6,8 +6,10 @@ import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import ComboPlanner from '@/components/du/ComboPlanner';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import { PageClose } from '@/components/PublicPage';
 import '@/app/landing.css';
 import '@/components/du/du.css';
+import '@/app/cuet-cutoff-calculator/du-page.css';
 import './combo-planner.css';
 
 export const metadata = seoMetadata({
@@ -44,13 +46,7 @@ export default function ComboPlannerPage() {
       <NavBar />
       <main id="main-content">
         <section className="du-hero">
-          <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
-            <div className="lp-bg__grid" />
-            <div className="lp-bg__dots" />
-          </div>
           <div className="mm-wrap du-hero__inner">
-            <p className="cp-new">New · Combo Planner</p>
             <h1 className="du-title">
               Pick the CUET subjects that open the most DU doors.
               <span> Before you fill the form.</span>
@@ -76,7 +72,7 @@ export default function ComboPlannerPage() {
         <section className="du-info" aria-labelledby="cp-faq">
           <div className="mm-wrap mm-wrap--tight">
             <h2 id="cp-faq" className="lp-h2">Questions students ask</h2>
-            <div className="mm-faqs">
+            <div className="mm-faqs pp-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
                   <summary>{question}</summary>
@@ -90,6 +86,13 @@ export default function ComboPlannerPage() {
             </p>
           </div>
         </section>
+
+        <PageClose
+          title="Now practise the subjects you picked."
+          body="Create a free account and sit a timed mock on your subjects. No card needed."
+          memberTitle="Practise the subjects you picked."
+          memberBody="A timed set on your own subjects shows where your marks are, before you register."
+        />
       </main>
       <MarketingFooter />
       <MobileDock note="Free. No signup." label="Try a CUET question" href="/#try-practice" />

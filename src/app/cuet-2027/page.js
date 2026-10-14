@@ -11,13 +11,12 @@ export const metadata = seoMetadata({
 // Cornerstone page for the 2027 cycle. Facts below reflect the CUET UG 2026
 // pattern (the latest NTA has conducted); anything not yet announced for 2027
 // is labelled expected. Update this page the day NTA publishes the 2027
-// bulletin — announcement weeks are when this page earns links.
+// bulletin: announcement weeks are when this page earns links.
 const page = {
   slug: 'cuet-2027',
   path: '/cuet-2027',
-  breadcrumb: 'CUET 2027 Guide',
-  eyebrow: '// CUET 2027',
-  h1: 'CUET 2027: Pattern, Expected Dates, and a Plan That Works',
+  breadcrumb: 'CUET 2027 guide',
+  h1: 'CUET 2027: pattern, expected dates, and a plan that works',
   intro:
     'A planning guide for CUET UG 2027. NTA has not announced the 2027 bulletin, so dates, paper rules, and marking details remain provisional until the official notice is published.',
   description:

@@ -1,14 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
-import { Button } from '@/components/ui/Button';
-import { DotPattern } from '@/components/ui/dot-pattern';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
+import { Surface } from '@/components/ui/Card';
+import { PublicHero, HeroActions, PageClose } from '@/components/PublicPage';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
-import '@/app/public-polish.css';
 
 export const metadata = seoMetadata({
   title: 'CUET Practice Features, Analytics & Admission Compass | MockMob',
@@ -16,25 +14,33 @@ export const metadata = seoMetadata({
   path: '/features',
 });
 
-export default function FeaturesPage() {
-  const allFeatures = [
-    { t: 'CUET question practice', d: 'Explore available CUET-style practice, review explanations, and save questions that deserve another look.', icon: 'users', highlight: true },
-    { t: 'Practice Radar', d: 'Review attempts by subject and chapter, with deeper practice signals available where your history supports them.', icon: 'radar' },
-    { t: 'Live Leaderboards', d: 'Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.', icon: 'trend' },
-    { t: 'Saved Question Bank', d: 'Bookmark tough questions from Explore and build your personal revision stack for repeat practice.', icon: 'book' },
-    { t: 'Exam Tracks', d: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.', icon: 'route' },
-    { t: 'PrepOS study plan', d: 'See a shared next step based on available practice history. Core planning does not depend on a paid model reply.', icon: 'spark', highlight: true },
-    { t: 'Admission Compass', d: 'Check programme eligibility and compare sourced DU historical cutoffs by year, round, and category. Free for everyone.', icon: 'target', highlight: true },
-    { t: 'Pro practice access', d: 'Unlock available practice modes, the difficulty selector, and deeper Radar details. Access follows the current offer and inventory.', icon: 'zap' },
-  ];
-  const proof = [
-    ['Practise', 'Timed mocks, focused drills, and question review'],
-    ['Review', 'Saved questions and practice history by chapter'],
-    ['Plan', 'A next step grounded in available study history'],
-  ];
+// Plain name first, the brand name beside it (owner decision D10). Every feature stays listed.
+const FEATURES = [
+  { name: 'CUET question practice', icon: 'users', body: 'Explore available CUET-style practice, review explanations, and save questions that deserve another look.' },
+  { name: 'Weak chapters', by: 'Radar', icon: 'radar', body: 'Review attempts by subject and chapter, with deeper practice signals available where your history supports them.' },
+  { name: 'Leaderboard', icon: 'trend', body: 'Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.' },
+  { name: 'Saved questions', icon: 'book', body: 'Bookmark tough questions from Explore and build your personal revision stack for repeat practice.' },
+  { name: 'Exam tracks', icon: 'route', body: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.' },
+  { name: 'Study plan', by: 'PrepOS', icon: 'spark', body: 'See a shared next step based on available practice history. Core planning does not depend on a paid model reply.' },
+  { name: 'DU Compass', by: 'Admission Compass', icon: 'target', body: 'Check programme eligibility and compare sourced DU historical cutoffs by year, round, and category. Free for everyone.' },
+  { name: 'Pro access', icon: 'zap', body: 'Unlock available practice modes, the difficulty selector, and deeper weak-chapter details. Access follows the current offer and inventory.' },
+];
 
+const LOOP = [
+  ['Practise', 'Timed mocks, focused drills, and question review'],
+  ['Review', 'Saved questions and practice history by chapter'],
+  ['Plan', 'A next step grounded in available study history'],
+];
+
+const COMPASS_ROWS = [
+  ['Eligibility', 'Programme-specific subjects', 'Official bulletin'],
+  ['Cutoffs', 'Category and round', 'Published history'],
+  ['2027', 'Rules pending publication', 'Provisional'],
+];
+
+export default function FeaturesPage() {
   return (
-    <div className="mm public-features">
+    <div className="mm">
       <JsonLd
         id="features-breadcrumb-json-ld"
         data={breadcrumbJsonLd([
@@ -43,325 +49,98 @@ export default function FeaturesPage() {
         ])}
       />
       <NavBar />
-      
-      {/* HEADER */}
-      <section className="px-5 pt-10 pb-16 relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(210,240,0,0.07)_0%,transparent_48%)] pointer-events-none" />
-        <DotPattern width={26} height={26} cx={1} cy={1} cr={1.2} className="text-volt/20 opacity-40" glow={true} />
-        <div className="container-narrow text-center relative z-10">
-          <div className="eyebrow mb-4">{'// The Arsenal'}</div>
-          <h1 className="display-lg mb-6">Every feature should make your <span className="text-volt italic">next step clearer.</span></h1>
-          <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
-            MockMob is not a notes app. It is a CUET practice engine with PrepOS on top: find the right questions, save the painful ones, ask for the next move, and come back sharper.
-          </p>
-        </div>
-      </section>
 
-      <section className="px-5 mb-10">
-        <div className="container-std">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {proof.map(([title, body], index) => (
-              <div key={title} className="glass p-5 flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-volt text-black flex items-center justify-center font-display font-bold shrink-0">{index + 1}</div>
-                <div>
-                  <h2 className="heading text-lg mb-1">{title}</h2>
-                  <p className="text-sm text-zinc-400 leading-relaxed">{body}</p>
-                </div>
-              </div>
-            ))}
+      <main id="main-content">
+        <PublicHero
+          enter
+          title="Every feature should make your next step clearer."
+          lead="MockMob is not a notes app. It is a CUET practice engine: find the right questions, save the painful ones, see your next move, and come back sharper."
+        >
+          <HeroActions />
+        </PublicHero>
+
+        <section className="pp-section" style={{ paddingTop: 0 }} aria-label="How the pieces fit">
+          <div className="mm-wrap">
+            <ul className="pp-steps">
+              {LOOP.map(([title, body]) => (
+                <li key={title} className="pp-step">
+                  <h2 className="pp-h3">{title}</h2>
+                  <p>{body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* DETAILED GRID */}
-      <section className="px-5 mb-20 relative">
-        <div className="container-std">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {allFeatures.map((f, i) => (
-              <div key={i} className="feature-card glass p-6 md:p-8 relative overflow-hidden md:min-h-[260px]" style={{ borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
-                <div
-                  className="feature-dot-layer pointer-events-none"
-                  style={{ position: 'absolute', inset: 0, zIndex: 0 }}
-                >
-                  <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.highlight ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 70%)' }} />
-                </div>
-                
-                <div className="relative z-10">
-                  <div className="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: f.highlight ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.highlight ? '#000' : '#a1a1aa' }}>
-                    <Icon name={f.icon} style={{ width: '24px', height: '24px' }} />
-                  </div>
-                  <h3 className="heading text-xl mb-3">{f.t}</h3>
-                  <p className="text-zinc-400 leading-relaxed text-sm">{f.d}</p>
-                </div>
-              </div>
-            ))}
+        <section className="pp-section pp-section--sunken" aria-labelledby="features-all">
+          <div className="mm-wrap">
+            <h2 id="features-all" className="pp-h2" style={{ marginBottom: 'clamp(1.5rem, 4vw, 2.5rem)' }}>Everything in one place.</h2>
+            <ul className="pp-features">
+              {FEATURES.map((feature) => (
+                <li key={feature.name} className="pp-feature">
+                  <span className="pp-feature__icon" aria-hidden="true"><Icon name={feature.icon} /></span>
+                  <h3>
+                    {feature.name}
+                    {feature.by ? <span className="pp-feature__by"> ({feature.by})</span> : null}
+                  </h3>
+                  <p>{feature.body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-5 mb-20">
-        <div className="container-std">
-          <div className="glass features-prepos-card relative overflow-hidden border-volt/20 p-6 md:p-8">
-            <div className="features-prepos-grid">
-              <div className="features-prepos-orb">
-                <PrepOSOrb size={86} active label="AI" />
-              </div>
-              <div>
-                <div className="eyebrow mb-3">{'// PrepOS layer'}</div>
-                <h2 className="display-md mb-3">The feature that ties the rest together.</h2>
-                <p className="max-w-2xl text-zinc-400 leading-relaxed">
-                  Radar finds the weakness. Saved questions hold the evidence. Compass shows the DU path. PrepOS turns all of it into a simple instruction: what to solve next, why it matters, and when to re-benchmark.
+        <section className="pp-section" aria-labelledby="features-plan">
+          <div className="mm-wrap">
+            <div className="pp-split">
+              <div className="pp-split__head">
+                <h2 id="features-plan" className="pp-h2">The study plan ties the rest together.</h2>
+                <p className="pp-body">
+                  Weak chapters find the weakness. Saved questions hold the evidence. DU Compass shows the DU path. The study plan (PrepOS) turns all of it into a simple instruction: what to solve next, why it matters, and when to check again.
                 </p>
+                <ul className="pp-tags" style={{ marginTop: 0 }}>
+                  {['Set daily mission', 'Replay weakest trap', 'Replan after mock'].map((step) => (
+                    <li key={step} className="ui-tag">{step}</li>
+                  ))}
+                </ul>
               </div>
-              <div className="features-prepos-steps">
-                {['Set daily mission', 'Replay weakest trap', 'Replan after mock'].map((step) => (
-                  <span key={step}>{step}</span>
-                ))}
-              </div>
+
+              <Surface level="raised" className="pp-demo" aria-labelledby="features-compass">
+                <div className="pp-demo__top">
+                  <h3 id="features-compass" className="pp-demo__title">DU<span>historical reference</span></h3>
+                  <span className="ui-tag">Illustrative example, not a prediction</span>
+                </div>
+                <dl className="pp-demo__facts">
+                  <div><dt>Eligibility</dt><dd>5 of 5 subjects fit</dd></div>
+                  <div><dt>Next move</dt><dd>Attack Economics</dd></div>
+                </dl>
+                <ul className="pp-demo__rows">
+                  {COMPASS_ROWS.map(([name, detail, status]) => (
+                    <li key={name}>
+                      <div>
+                        <b>{name}</b>
+                        <span>{detail}</span>
+                      </div>
+                      <em>{status}</em>
+                    </li>
+                  ))}
+                </ul>
+                <p className="pp-demo__caption">Use available mocks and weak chapters to understand your practice. The free DU calculator checks programme eligibility and historical cutoffs separately.</p>
+              </Surface>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-5 mb-28">
-        <div className="container-std">
-          <div className="glass premium-feature-card p-5 md:p-6 grid grid-cols-1 lg:grid-cols-[minmax(360px,0.95fr)_minmax(0,1fr)] gap-6 items-stretch relative overflow-hidden border-volt/20">
-            <div className="pointer-events-none opacity-45" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-              <DotPattern width={22} height={22} cx={1} cy={1} cr={1.2} className="text-volt/20" glow={true} style={{ maskImage: 'radial-gradient(ellipse at right, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at right, white, transparent 70%)' }} />
-            </div>
-            <div className="relative z-10 feature-compass-shot">
-              <div className="shot-top">
-                <div>
-                  <div className="mono-label">Admission Compass</div>
-                  <div className="shot-score">DU<span>historical reference</span></div>
-                </div>
-                <span className="pill volt">Illustrative target · not a prediction</span>
-              </div>
-              <div className="shot-bars" hidden>
-                {['Accountancy', 'Economics', 'Maths', 'English', 'Business'].map((item, index) => (
-                  <div key={item}>
-                    <div className="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                      <span>{item}</span>
-                      <span>{[184, 172, 166, 178, 172][index]}/200</span>
-                    </div>
-                    <div className="bar"><div className="fill fill-volt" style={{ width: `${[92, 86, 83, 89, 86][index]}%` }} /></div>
-                  </div>
-                ))}
-              </div>
-              <div className="shot-insights">
-                <div>
-                  <span>Eligibility</span>
-                  <strong>5/5 subjects fit</strong>
-                </div>
-                <div>
-                  <span>Next move</span>
-                  <strong>Attack Economics</strong>
-                </div>
-              </div>
-              <div className="shot-list">
-                {[
-                  ['Eligibility', 'Programme-specific subjects', 'Official bulletin'],
-                  ['Cutoffs', 'Category and round', 'Published history'],
-                  ['2027', 'Rules pending publication', 'Provisional'],
-                ].map(([college, course, chance]) => (
-                  <div key={`${college}-${course}`} className="shot-row">
-                    <div>
-                      <b>{college}</b>
-                      <span>{course}</span>
-                    </div>
-                    <em>{chance}</em>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative z-10 premium-copy">
-              <div className="eyebrow mb-3">{'// Premium loop'}</div>
-              <h2 className="display-md mb-3">Keep your practice and admission planning grounded.</h2>
-              <p className="text-zinc-400 leading-relaxed max-w-xl">
-                Use available mocks and Radar to understand your practice. The free DU calculator checks programme eligibility and historical cutoffs separately.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {['Programme eligibility', 'Official history', 'Category and round', '2027 provisional'].map((item) => (
-                  <span key={item} className="pill volt">{item}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-5 mb-24 relative py-12 text-center">
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(210,240,0,0.08)_0%,transparent_60%)] pointer-events-none" />
-        <div className="relative z-10 flex flex-col items-center">
-          <h2 className="display-md mb-4">Ready to test these features?</h2>
-          <p className="text-zinc-400 mb-8 max-w-sm mx-auto">Create a free account and start building your question history today.</p>
-          <Link href="/signup">
-            <Button variant="volt" size="lg">Join the Mob <Icon name="arrow" /></Button>
-          </Link>
-        </div>
-      </section>
+        <PageClose
+          title="Try it on your own questions."
+          body="Create a free account and start building your question history today."
+          memberTitle="Keep building your record."
+          memberBody="Every set you sit adds to your weak chapters and your next step."
+        />
+      </main>
 
       <MarketingFooter />
-      <style>{`
-        .features-prepos-card {
-          background:
-            radial-gradient(circle at 8% 20%, rgba(210,240,0,.12), transparent 34%),
-            radial-gradient(circle at 92% 76%, rgba(85,255,197,.07), transparent 38%),
-            rgba(255,255,255,.015);
-        }
-        .features-prepos-card::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background-image: radial-gradient(rgba(210,240,0,.2) 1px, transparent 1px);
-          background-size: 22px 22px;
-          mask-image: radial-gradient(ellipse at center, black, transparent 74%);
-          opacity: .42;
-        }
-        .features-prepos-grid {
-          position: relative;
-          z-index: 1;
-          display: grid;
-          grid-template-columns: 1fr;
-          align-items: center;
-          gap: 22px;
-        }
-        @media (min-width: 860px) {
-          .features-prepos-grid {
-            grid-template-columns: auto minmax(0, 1fr) minmax(220px, .5fr);
-          }
-        }
-        .features-prepos-orb {
-          display: flex;
-          align-items: center;
-        }
-        .features-prepos-steps {
-          display: grid;
-          gap: 10px;
-        }
-        .features-prepos-steps span {
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 999px;
-          background: rgba(0,0,0,.25);
-          padding: 10px 13px;
-          color: #e4e4e7;
-          font-size: 12px;
-          font-weight: 800;
-        }
-        .premium-feature-card {
-          min-height: 0;
-        }
-        .premium-copy {
-          align-self: center;
-          padding: clamp(4px, 1vw, 14px);
-        }
-        .feature-compass-shot {
-          border: 1px solid rgba(255,255,255,.09);
-          border-radius: 14px;
-          background: rgba(0,0,0,.34);
-          padding: 18px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-          align-self: stretch;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .shot-top {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 16px;
-          margin-bottom: 18px;
-        }
-        .shot-score {
-          font-family: var(--font-display);
-          font-weight: 900;
-          font-size: clamp(42px, 6vw, 68px);
-          line-height: .9;
-          color: var(--volt);
-          font-variant-numeric: tabular-nums;
-        }
-        .shot-score span {
-          color: #71717a;
-          font-size: 18px;
-        }
-        .shot-bars {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-        .shot-insights {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 10px;
-          margin-bottom: 14px;
-        }
-        .shot-insights div {
-          border: 1px solid rgba(255,255,255,.07);
-          border-radius: 10px;
-          background: rgba(255,255,255,.025);
-          padding: 10px;
-        }
-        .shot-insights span,
-        .shot-insights strong {
-          display: block;
-        }
-        .shot-insights span {
-          color: #71717a;
-          font-family: var(--font-mono);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-        }
-        .shot-insights strong {
-          color: #f4f4f5;
-          font-size: 12px;
-          margin-top: 5px;
-        }
-        .shot-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 12px 0;
-          border-top: 1px solid rgba(255,255,255,.06);
-        }
-        .shot-row b,
-        .shot-row span {
-          display: block;
-        }
-        .shot-row b {
-          font-family: var(--font-display);
-          color: #fff;
-        }
-        .shot-row span {
-          color: #71717a;
-          font-size: 12px;
-        }
-        .shot-row em {
-          color: var(--volt);
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 800;
-        }
-        @media (max-width: 640px) {
-          .shot-top,
-          .shot-row {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-          .shot-bars {
-            grid-template-columns: 1fr;
-          }
-          .shot-insights {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+      <MobileDock note="Free to start. No card." />
     </div>
   );
 }

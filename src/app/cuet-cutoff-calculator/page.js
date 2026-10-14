@@ -2,11 +2,14 @@ import Link from 'next/link';
 import { Check, ExternalLink } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
+import { PageClose } from '@/components/PublicPage';
 import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import '@/app/landing.css';
+import './du-page.css';
 
 export const metadata = seoMetadata({
   title: 'DU Eligibility & Cutoff Calculator for CUET | MockMob',
@@ -60,11 +63,6 @@ export default function CutoffCalculatorPage() {
       <NavBar />
       <main id="main-content">
         <section className="du-hero">
-          <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
-            <div className="lp-bg__grid" />
-            <div className="lp-bg__dots" />
-          </div>
           <div className="mm-wrap du-hero__inner">
             <h1 className="du-title">
               Which DU courses can you get?
@@ -151,7 +149,7 @@ export default function CutoffCalculatorPage() {
         <section className="du-info" aria-labelledby="du-faq">
           <div className="mm-wrap mm-wrap--tight">
             <h2 id="du-faq" className="lp-h2">Questions students ask</h2>
-            <div className="mm-faqs">
+            <div className="mm-faqs pp-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
                   <summary>{question}</summary>
@@ -165,8 +163,16 @@ export default function CutoffCalculatorPage() {
             </p>
           </div>
         </section>
+
+        <PageClose
+          title="Now practise for the score."
+          body="Cutoffs show the target. Create a free account and sit a timed mock on your subjects to see how far you are from it."
+          memberTitle="Practise for the score."
+          memberBody="Cutoffs show the target. A timed set on your own subjects shows how far you are from it."
+        />
       </main>
       <MarketingFooter />
+      <MobileDock note="Free. No signup." label="Try a CUET question" href="/#try-practice" />
     </div>
   );
 }

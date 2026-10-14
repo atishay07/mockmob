@@ -7,12 +7,15 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
+import { PublicHero } from '@/components/PublicPage';
+import { MemberAction } from '@/components/PublicCta';
 import { Icon } from '@/components/ui/Icons';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import './pricing.css';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -32,10 +35,10 @@ const buildPlans = (offer) => [
     price: '₹0',
     cycle: 'forever',
     description: 'Enough to find out whether MockMob is for you, with no card involved.',
-    ctaLabel: 'Create a free account',
+    ctaLabel: 'Start free',
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick Practice, 5 to 20 questions — credit-gated',
-      'Full Mock, 50 questions in 60 minutes — credit-gated',
+      'Quick practice, 5 to 20 questions, uses credits',
+      'Full mock, 50 questions in 60 minutes, uses credits',
       'Weekly progress tracking',
       '25 saved questions',
       'Community leaderboard',
@@ -57,10 +60,10 @@ const buildPlans = (offer) => [
       ? 'Auto-renews monthly. Cancel in Account; access continues to the end of the paid month.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
-      'Unlimited Quick Practice and Full Mocks',
-      'NTA Mode — 2026-format baseline, 50 Q / 60 min; 2027 rules provisional',
-      'Smart Practice — adaptive, targets your weak chapters',
-      'Full Radar: every ranked chapter, pace and changed-answer detail',
+      'Unlimited quick practice and full mocks',
+      'NTA mode: 2026-format baseline, 50 questions in 60 minutes; 2027 rules provisional',
+      'Smart practice: adaptive, targets your weak chapters',
+      'Full weak chapters (Radar): every ranked chapter, pace and changed-answer detail',
       'Compass Pro: your practice projected paper by paper, against your DU shortlist',
       'Compass Pro next move: the paper and chapter that can move your total most',
       'Free DU eligibility and sourced historical cutoffs',
@@ -74,8 +77,8 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited with Pro'],
-      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited with Pro'],
+      ['Quick practice (5 to 20 questions)', 'Uses credits, 10 each', 'Unlimited with Pro'],
+      ['Full mock (50 questions, 60 minutes)', 'Uses credits, 50 each', 'Unlimited with Pro'],
     ],
   },
   {
@@ -92,39 +95,16 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
       ['DU eligibility and historical cutoffs', true, true],
       ['Compass Pro: practice projection, DU shortlist and next move', false, true, 'popular'],
       ['Difficulty selector', false, 'Easy, medium, hard, auto'],
-      ['Radar: marks ledger, top three chapters, weekly summary', true, true],
-      ['Radar: every ranked chapter, pace and changed-answer detail', false, true],
+      ['Weak chapters (Radar): marks ledger, top three chapters, weekly summary', true, true],
+      ['Weak chapters (Radar): every ranked chapter, pace and changed-answer detail', false, true],
     ],
   },
   {
     heading: 'Advanced test modes',
     rows: [
-      ['Smart Practice — adaptive', false, 'Unlimited'],
-      ['NTA Mode — CUET exam simulation', false, 'Unlimited'],
+      ['Smart practice: adaptive', false, 'Unlimited'],
+      ['NTA mode: CUET exam simulation', false, 'Unlimited'],
     ],
-  },
-];
-
-const AI_PACKS = [
-  {
-    name: 'AI Boost',
-    price: '₹10',
-    credits: '50 AI credits',
-    desc: 'New purchases paused. Existing credit balances are preserved.',
-  },
-  {
-    name: 'Prep Pack',
-    price: '₹20',
-    credits: '150 AI credits',
-    desc: 'Shared learning plans and core recovery do not require paid model calls.',
-  },
-  {
-    name: 'Power Pack',
-    price: '₹50',
-    credits: '400 AI credits',
-    desc: 'Paid AI remains gated on durable spending and wallet checks.',
-    popular: true,
-    flag: 'Most credits per rupee',
   },
 ];
 
@@ -195,19 +175,16 @@ export default async function PricingPage() {
       />
       <NavBar />
 
-      <main>
-        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
-          <div className="mm-wrap">
-            <h1 className="mm-h1">{offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}</h1>
-            <p className="mm-lead" style={{ marginTop: '1rem' }}>
-              {offer.purchasable === 'monthly'
-                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and the full Radar. Cancel any month.'
-                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon, and nobody who paid now loses a day.`}
-            </p>
-          </div>
-        </section>
+      <main id="main-content" className="pp-pricing">
+        <PublicHero
+          enter
+          title={offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}
+          lead={offer.purchasable === 'monthly'
+            ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and the full weak-chapters view (Radar). Cancel any month.'
+            : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon, and nobody who paid now loses a day.`}
+        />
 
-        <section className="mm-section">
+        <section className="pp-section" style={{ paddingTop: 0 }} aria-label="Plans">
           <div className="mm-wrap">
             <div className="mm-plans">
               {PLANS.map((plan) => (
@@ -223,7 +200,13 @@ export default async function PricingPage() {
                         billing={plan.billing}
                         initialIsPremium={isCurrentUserPremium}
                       />
-                    ) : null
+                    ) : (
+                      // The free plan's action follows the visitor: Start free for a guest, their own action for a student.
+                      <>
+                        <Link href="/signup" className="mm-btn mm-btn--secondary vs-guest-only">{plan.ctaLabel}</Link>
+                        <MemberAction variant="secondary" size="lg" className="mm-btn" />
+                      </>
+                    )
                   }
                 />
               ))}
@@ -231,10 +214,10 @@ export default async function PricingPage() {
           </div>
         </section>
 
-        <section className="mm-section mm-section--sunken">
+        <section className="pp-section pp-section--sunken" aria-labelledby="pricing-compare">
           <div className="mm-wrap">
-            <h2 className="mm-h2">Free and Pro, line by line.</h2>
-            <p className="mm-body mm-section__intro">
+            <h2 id="pricing-compare" className="pp-h2">Free and Pro, line by line.</h2>
+            <p className="pp-body" style={{ marginTop: '1rem' }}>
               Free is genuinely usable: credits gate how often you can generate, not what you can
               see.
             </p>
@@ -266,29 +249,42 @@ export default async function PricingPage() {
                 </React.Fragment>
               ))}
             </div>
+
+            <div className="pp-stack" style={{ marginTop: '1.5rem' }}>
+              <p className="pp-small">Unlimited access covers available content and reattempts. It does not promise unlimited unique questions.</p>
+              {CAPABILITIES.recovery.state !== 'available' ? (
+                <p className="pp-small">Recovery is still in development. {CAPABILITIES.recovery.reason} Planned recovery capabilities are excluded from the live paid comparison.</p>
+              ) : null}
+            </div>
           </div>
         </section>
 
-        <section className="mm-section">
-          <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">PrepOS, and its own credits.</h2>
-            <p className="mm-body mm-section__intro">
-              PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
-            </p>
-            <p className="mm-body">
-              Optional model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, never mixed with practice credits.
-              Those replies are switched off while spending checks finish, so no credits are being used, and purchased credits you already hold are preserved.
-            </p>
-            <p style={{ marginTop: '1rem' }}>
-              <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
-            </p>
+        <section className="pp-section" aria-labelledby="pricing-prepos">
+          <div className="mm-wrap">
+            <div className="pp-split">
+              <div className="pp-split__head">
+                <h2 id="pricing-prepos" className="pp-h2">PrepOS has its own credits.</h2>
+              </div>
+              <div className="pp-stack">
+                <p className="pp-body">
+                  PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
+                </p>
+                <p className="pp-body">
+                  Optional model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, never mixed with practice credits.
+                  Those replies are switched off while spending checks finish, so no credits are being used, and purchased credits you already hold are preserved.
+                </p>
+                <div className="pp-actions">
+                  <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="mm-section mm-section--sunken">
+        <section className="pp-section pp-section--sunken" aria-labelledby="pricing-faq">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">Questions people actually ask.</h2>
-            <div className="mm-faqs">
+            <h2 id="pricing-faq" className="pp-h2">Questions people actually ask.</h2>
+            <div className="mm-faqs pp-faqs">
               {FAQS.map((faq) => (
                 <details key={faq.q} className="mm-faq">
                   <summary>{faq.q}</summary>
@@ -296,10 +292,10 @@ export default async function PricingPage() {
                 </details>
               ))}
             </div>
-            <p className="mm-small" style={{ marginTop: '2rem' }}>
+            <p className="pp-small" style={{ marginTop: '2rem' }}>
               Need team or institute pricing?{' '}
               <a
-                className="mm-link"
+                className="pp-link"
                 href="mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing"
               >
                 Email us
@@ -311,8 +307,6 @@ export default async function PricingPage() {
       </main>
 
       <MarketingFooter />
-      {CAPABILITIES.recovery.state !== 'available' && <section className="container-std px-5 pb-12"><h2 className="display-md">Recovery is still in development</h2><p>{CAPABILITIES.recovery.reason} Planned recovery capabilities are excluded from the live paid comparison.</p></section>}
-      <p className="container-std px-5 pb-8">Unlimited access covers available content and reattempts. It does not promise unlimited unique questions.</p>
       <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label="Start free" href="/signup" />
     </div>
   );

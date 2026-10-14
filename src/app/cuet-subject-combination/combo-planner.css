@@ -1,10 +1,11 @@
-/* CUET subject combination planner. Inherits Night Arena tokens and the calculator's chips. */
-.cp-new { display: inline-flex; margin: 0 0 0.75rem; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.45)); color: var(--accent-text); font: 700 0.78rem var(--font-body); }
+/* CUET subject combination planner. Night Sheet tokens (web redesign W2.2): no kicker, no numbered
+   step badges, no gradient wash, and no card inside a card. The chips come from components/du/du.css. */
 .cp { display: grid; gap: 1.25rem; }
 @media (min-width: 1100px) { .cp { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } .cp-out { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 5rem; } }
 .cp-step { display: grid; gap: 0.85rem; min-width: 0; padding: clamp(1rem, 3vw, 1.5rem); border-radius: var(--r-3, 20px); border: 1px solid var(--line); background: var(--paper-raised); }
-.cp-step__title { display: flex; align-items: center; gap: 0.6rem; margin: 0; font: 800 clamp(1.15rem, 2.4vw, 1.4rem) / 1.2 var(--font-display); letter-spacing: -0.015em; color: var(--ink); }
-.cp-step__title span { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 8px; border: 1px solid var(--line-strong); font: 600 0.8rem var(--font-mono, monospace); color: var(--accent-text); }
+.cp-step__title { display: flex; align-items: center; gap: 0.6rem; margin: 0; font: 650 clamp(1.15rem, 2.4vw, 1.4rem) / 1.2 var(--mm-font-display); letter-spacing: -0.015em; color: var(--ink); }
+.cp-step__title span { display: none; }
+.cp-out.cp-step { padding: 0; border: 0; background: transparent; }
 .cp-step__hint { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.5; }
 .cp-group { margin: 0.35rem 0 0; font: 700 0.85rem var(--font-display); color: var(--ink-2); }
 .cp-search { margin: 0; }
@@ -26,7 +27,7 @@
 .cp-keep b { color: var(--ink); }
 .cp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
 .cp-combo { display: grid; gap: 0.7rem; padding: 1rem; border-radius: 16px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.02); }
-.cp-combo[data-best] { border-color: var(--accent-line, rgba(210, 240, 0, 0.5)); background: linear-gradient(180deg, var(--accent-wash, rgba(210, 240, 0, 0.06)), transparent 70%); }
+.cp-combo[data-best] { border-color: var(--accent-line, rgba(210, 240, 0, 0.5)); background: var(--accent-wash, rgba(210, 240, 0, 0.06)); }
 .cp-combo__head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .cp-combo__rank { font: 800 0.95rem var(--font-display); color: var(--ink); }
 .cp-combo[data-best] .cp-combo__rank { color: var(--accent-text); }
