@@ -43,11 +43,11 @@ class Skeleton extends StatelessWidget {
           : _ShimmerBlock(
               shape: resolved,
               base: colors.raised2,
-              // A band the eye can follow on the ground: warm paper light on Night (24%), white on
-              // Daylight (70%).
+              // A band the eye can follow on the ground: warm paper light on Night (36%), white on
+              // Daylight (90%).
               band: colors.isNight
-                  ? Color.lerp(colors.ink, colors.lamp, 0.35)!.withValues(alpha: 0.24)
-                  : const Color(0xFFFFFFFF).withValues(alpha: 0.7),
+                  ? Color.lerp(colors.ink, colors.lamp, 0.35)!.withValues(alpha: 0.36)
+                  : const Color(0xFFFFFFFF).withValues(alpha: 0.9),
               progress: scope.progress,
               group: scope.group,
             ),
@@ -231,7 +231,9 @@ class _RenderShimmerBlock extends RenderBox {
     final groupBox = group();
     final origin = groupBox == null || !groupBox.attached ? Offset.zero : localToGlobal(Offset.zero, ancestor: groupBox);
     final width = groupBox?.size.width ?? size.width;
-    final half = (width * 0.35).clamp(80.0, 220.0);
+    // A wide band (nearly the group's width in all, was 70%): it is on screen for most of the
+    // sweep, not a thin line that is mostly off to one side.
+    final half = (width * 0.45).clamp(110.0, 300.0);
     final centre = -half + (width + 2 * half) * t;
     // The band in this block's coordinates: the same light crosses every block at once.
     final left = offset.dx + centre - half - origin.dx;

@@ -147,6 +147,11 @@ abstract final class MobiMoves {
   static const MobiArm hip = MobiArm(angle: 0.5, bend: -0.7, reach: 0.95);
   static const MobiArm akimbo = MobiArm(angle: 0.16, bend: 1.75, reach: 0.86, twist: 0.7);
 
+  /// The pointing arm's reach, and the free arm's hip, kept tight so the finger stays inside the
+  /// paint box (140 design units wide) even in the nudge's jab.
+  static const double pointReach = 0.9;
+  static const MobiArm pointHip = MobiArm(angle: 0.3, bend: -0.6, reach: 0.88);
+
   /// Fists up at the chest ("you've got this").
   static const MobiArm fist = MobiArm(angle: -0.72, bend: 1.2, front: 1, reach: 0.9, twist: -0.45);
 
@@ -159,13 +164,13 @@ abstract final class MobiMoves {
       case MobiStance.stand:
         return const MobiRig();
       case MobiStance.point:
-        final pointing = MobiArm(angle: pointAngle, bend: 0.06, point: 1, reach: 1.12);
+        final pointing = MobiArm(angle: pointAngle, bend: 0.06, point: 1, reach: pointReach);
         return MobiRig(
-          armR: pointSide > 0 ? pointing : hip,
-          armL: pointSide > 0 ? hip : pointing,
+          armR: pointSide > 0 ? pointing : pointHip,
+          armL: pointSide > 0 ? pointHip : pointing,
           // Weight shifted away from the finger, so the reach stays inside the paint box.
-          x: -6.5 * pointSide,
-          tilt: 0.05 * pointSide,
+          x: pointSide > 0 ? -11 : 8.5,
+          tilt: 0.035 * pointSide,
           lookX: 0.75 * pointSide,
           lookY: (math.cos(pointAngle) * 0.9).clamp(-1.0, 1.0),
         );
@@ -241,7 +246,7 @@ abstract final class MobiMoves {
         // unmistakably someone listening, not someone standing.
         return const MobiRig(
           tilt: -0.12,
-          x: -2,
+          x: 2.5,
           y: 0.5,
           eyeL: MobiEye(open: 1.1, smile: 0.2),
           eyeR: MobiEye(open: 1.1, smile: 0.2),
@@ -347,11 +352,13 @@ abstract final class MobiMoves {
     final w = up * (1 - down);
     final waveEnv = ease(t, 0.3, 0.44) * (1 - ease(t, 1.24, 1.42));
     final osc = math.sin((t - 0.3) * math.pi * 2 * 2.4) * waveEnv;
-    final arm = MobiArm.lerp(b.armL, const MobiArm(angle: 2.4, bend: -1.25, reach: 1.55), w);
+    final arm = MobiArm.lerp(b.armL, const MobiArm(angle: 2.7, bend: -1.2, reach: 1.38), w);
     final happy = ease(t, 0.16, 0.36) * (1 - ease(t, 1.34, 1.7));
     final rise = math.max(0.0, w);
     return b.copyWith(
-      armL: arm.copyWith(angle: arm.angle + 0.16 * osc, twist: arm.twist + 0.6 * osc),
+      armL: arm.copyWith(angle: arm.angle + 0.13 * osc, twist: arm.twist + 0.6 * osc),
+      // The weight eases to the right as the left arm goes up and out, so the wave stays in the box.
+      x: b.x + 5.5 * rise,
       tilt: b.tilt + 0.06 * rise - 0.03 * antic + 0.018 * osc,
       y: b.y + 1.4 * antic - 1.6 * bump(t, 0.16, 0.56),
       squash: b.squash - 0.035 * antic + 0.02 * bump(t, 0.18, 0.5),
@@ -425,7 +432,7 @@ abstract final class MobiMoves {
   static MobiRig _oops(double t, MobiRig b) {
     final s = ease(t, 0, 0.26, Curves.easeOutBack) * (1 - ease(t, 0.95, 1.3));
     final droop = ease(t, 0.15, 0.35) * (1 - ease(t, 0.8, 1.15));
-    const shrug = MobiArm(angle: 1.0, bend: -0.55, reach: 1.05, twist: -1.3);
+    const shrug = MobiArm(angle: 0.85, bend: -0.55, reach: 1.0, twist: -1.3);
     return b.copyWith(
       armL: MobiArm.lerp(b.armL, shrug, s),
       armR: MobiArm.lerp(b.armR, shrug, s),
@@ -439,20 +446,25 @@ abstract final class MobiMoves {
     );
   }
 
+  /// A lazy stretch: the mittens drift up and out (a wide, loose reach, never a cheer's fists),
+  /// the eyes sink shut at the top of it, and the arms are already coming down, easing in step
+  /// with the lids, by the time the head nods off.
+  static const MobiArm _stretch = MobiArm(angle: 2.1, bend: -0.5, reach: 1.28, twist: 0.2);
+
   static MobiRig _yawn(double t, MobiRig b) {
-    final s = ease(t, 0.05, 0.55) * (1 - ease(t, 1.25, 1.9));
-    final shut = ease(t, 0.2, 0.4) * (1 - ease(t, 1.3, 1.6));
-    var r = _armsUp(b, s * 0.85);
-    r = r.copyWith(
-      squash: b.squash + 0.07 * s,
-      y: b.y - 2.5 * s,
+    final s = ease(t, 0.05, 0.42) * (1 - ease(t, 0.5, 1.25));
+    final shut = ease(t, 0.26, 0.5) * (1 - ease(t, 1.35, 1.8));
+    MobiArm lift(MobiArm a) => MobiArm.lerp(a, _stretch, s * 0.85);
+    return b.copyWith(
+      armL: lift(b.armL),
+      armR: lift(b.armR),
+      squash: b.squash + 0.06 * s,
+      y: b.y - 2.2 * s,
       tilt: b.tilt - 0.04 * s,
       eyeL: b.eyeL.copyWith(open: b.eyeL.open * (1 - 0.9 * shut)),
       eyeR: b.eyeR.copyWith(open: b.eyeR.open * (1 - 0.9 * shut)),
-    );
-    return _withBoots(r, 0, 0).copyWith(
-      bootL: b.bootL.copyWith(rot: b.bootL.rot - 0.12 * s),
-      bootR: b.bootR.copyWith(rot: b.bootR.rot - 0.12 * s),
+      bootL: b.bootL.copyWith(rot: b.bootL.rot - 0.1 * s),
+      bootR: b.bootR.copyWith(rot: b.bootR.rot - 0.1 * s),
     );
   }
 
@@ -469,7 +481,7 @@ abstract final class MobiMoves {
       y: b.y + 2.4 * crouch + air + 1.8 * land + 1.5 * nod,
       squash: b.squash - 0.07 * crouch + 0.06 * bump(t, 0.12, 0.3) - 0.06 * land - 0.02 * nod,
       tilt: b.tilt + 0.04 * pump,
-      armR: MobiArm.lerp(b.armR, const MobiArm(angle: 2.05, bend: -1.05, reach: 1.25, twist: 0.15), pump),
+      armR: MobiArm.lerp(b.armR, const MobiArm(angle: 2.3, bend: -0.9, reach: 1.15, twist: 0.15), pump),
       eyeL: _eye(b.eyeL, happy: happy),
       eyeR: _eye(b.eyeR, happy: happy),
       lookX: b.lookX * (1 - happy),
@@ -528,12 +540,13 @@ abstract final class MobiMoves {
     final pullBack = bump(t, 0.28, 0.4);
     final jab = bump(t, 0.38, 0.56) + 0.8 * bump(t, 0.6, 0.78);
     final smile = ease(t, 0.3, 0.45) * (1 - ease(t, 0.85, 1.05));
-    MobiArm push(MobiArm a) => a.point < 0.5 ? a : a.copyWith(reach: a.reach - 0.1 * pullBack + 0.14 * jab, bend: a.bend - 0.1 * jab);
+    // The jab is short (and the body gives way to it) so the finger never leaves the paint box.
+    MobiArm push(MobiArm a) => a.point < 0.5 ? a : a.copyWith(reach: a.reach - 0.06 * pullBack + 0.05 * jab, bend: a.bend - 0.1 * jab);
     return b.copyWith(
       armL: push(b.armL),
       armR: push(b.armR),
-      tilt: b.tilt + side * (0.05 * jab - 0.02 * pullBack),
-      x: b.x + side * 1.6 * jab,
+      tilt: b.tilt + side * (0.045 * jab - 0.02 * pullBack),
+      x: b.x - side * 1.2 * jab,
       eyeL: _eye(b.eyeL, smile: 0.75 * smile),
       eyeR: _eye(b.eyeR, smile: 0.75 * smile),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -119,12 +120,12 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
           ),
           const SizedBox(height: _orGap),
         ],
-        MmSegmented<SignInMethod>(
+        _MethodTabs(
           semanticsLabel: AccessCopy.methodsLabel,
-          segments: const [
-            MmSegment(SignInMethod.emailCode, AccessCopy.methodCode),
-            MmSegment(SignInMethod.password, AccessCopy.methodPassword),
-          ],
+          labels: const {
+            SignInMethod.emailCode: AccessCopy.methodCode,
+            SignInMethod.password: AccessCopy.methodPassword,
+          },
           value: _method,
           onChanged: _otherBusy || widget.busy ? null : (m) => setState(() => _method = m),
         ),
@@ -152,6 +153,94 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// Two ways in as two plain tabs: the labels sit on one hairline and a volt bar glides under
+/// the chosen one (a thicker label and the bar both say which, so it never rests on colour
+/// alone). Unlike a pill inside a track there is one surface, not two. Changing the tab gives a
+/// selection tick; the bar jumps under reduced motion. Each tab is a full-width 48 dp target.
+class _MethodTabs extends ConsumerWidget {
+  const _MethodTabs({required this.labels, required this.value, required this.onChanged, this.semanticsLabel});
+
+  final Map<SignInMethod, String> labels;
+  final SignInMethod value;
+
+  /// Null holds the tabs (a method is working).
+  final ValueChanged<SignInMethod>? onChanged;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final entries = labels.entries.toList();
+    final n = entries.length;
+    final index = entries.indexWhere((e) => e.key == value).clamp(0, n - 1);
+    final held = onChanged == null;
+
+    return Semantics(
+      container: true,
+      label: semanticsLabel,
+      child: Opacity(
+        opacity: held ? 0.6 : 1,
+        child: SizedBox(
+          height: MmTarget.min,
+          child: Stack(
+            children: [
+              Positioned(left: 0, right: 0, bottom: 0, child: Divider(height: 1, thickness: 1, color: colors.line)),
+              AnimatedAlign(
+                alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 1),
+                duration: Motion.of(context, Motion.glideDuration),
+                curve: Motion.emphasized,
+                child: FractionallySizedBox(
+                  widthFactor: 1 / n,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: colors.accentText, borderRadius: MmRadius.pillAll),
+                      child: const SizedBox(height: 3),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  for (var i = 0; i < n; i++)
+                    Expanded(
+                      child: Semantics(
+                        button: true,
+                        selected: i == index,
+                        inMutuallyExclusiveGroup: true,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: held || i == index
+                              ? null
+                              : () {
+                                  ref.read(hapticsProvider).selection();
+                                  onChanged!(entries[i].key);
+                                },
+                          child: Center(
+                            child: AnimatedDefaultTextStyle(
+                              duration: Motion.of(context, Motion.ui),
+                              style: type.labelLarge.copyWith(
+                                fontSize: 15,
+                                fontWeight: i == index ? FontWeight.w700 : FontWeight.w500,
+                                color: i == index ? colors.ink : colors.ink2,
+                              ),
+                              child: Text(entries[i].value, maxLines: 1, overflow: TextOverflow.ellipsis),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

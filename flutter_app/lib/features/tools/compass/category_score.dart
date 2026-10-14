@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../domain/du_eligibility.dart';
-import '../domain/du_helpers.dart';
+import '../widgets/tools_sheet.dart';
 import 'compass_controller.dart';
 
 /// Opens the category and score in a sheet, live against Compass's state.
-Future<void> showCategoryScoreSheet(BuildContext context) => showMmSheet<void>(
+Future<void> showCategoryScoreSheet(BuildContext context) => showToolsSheet<void>(
       context: context,
       title: ToolsCopy.categoryHeading,
       builder: (sheet) => Consumer(
@@ -96,31 +97,28 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
           const SizedBox(height: MmSpace.s20),
           Text(ToolsCopy.scoreLabel, style: type.caption.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s8),
-          SizedBox(
-            width: 200,
-            child: TextField(
-              controller: _score,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]')), LengthLimitingTextInputFormatter(7)],
-              onChanged: controller.setScore,
-              textInputAction: TextInputAction.done,
-              onSubmitted: (_) {
-                if (!ref.read(compassControllerProvider).requireValue.scoreInvalid) widget.onDone?.call();
-              },
-              style: type.timer.copyWith(fontSize: 22),
-              decoration: InputDecoration(
-                hintText: ToolsCopy.scoreHint,
-                isDense: true,
-                errorText: s.scoreInvalid ? ToolsCopy.scoreInvalid : null,
-                errorMaxLines: 2,
-              ),
+          TextField(
+            controller: _score,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]')), LengthLimitingTextInputFormatter(7)],
+            onChanged: controller.setScore,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) {
+              if (!ref.read(compassControllerProvider).requireValue.scoreInvalid) widget.onDone?.call();
+            },
+            style: type.figureCompact.copyWith(fontSize: 32, height: 1.1),
+            decoration: InputDecoration(
+              hintText: ToolsCopy.scoreHint,
+              isDense: true,
+              filled: true,
+              fillColor: colors.isNight ? colors.raised2 : colors.sunken,
+              contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 14),
+              errorText: s.scoreInvalid ? ToolsCopy.scoreInvalid : null,
+              errorMaxLines: 2,
             ),
           ),
           const SizedBox(height: MmSpace.s8),
-          Text(
-            ToolsCopy.scoreHelp(duFormatScore(s.catalog.meta.scoreMax)),
-            style: type.caption.copyWith(color: colors.ink2),
-          ),
+          Text(ToolsCopy.scoreHelp, style: type.caption.copyWith(color: colors.ink2)),
           if (widget.onDone != null) ...[
             const SizedBox(height: MmSpace.s20),
             KeyButton(label: ToolsCopy.done, onPressed: s.scoreInvalid ? null : widget.onDone),
@@ -148,6 +146,66 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
               },
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// The way into category and score: the one tinted bar of Compass, so the two things that turn
+/// a list of programmes into the student's own cutoffs are easy to find. Opens the sheet.
+class CategoryScoreBar extends StatelessWidget {
+  const CategoryScoreBar({super.key, required this.summary, required this.onTap});
+
+  final String summary;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final edge = colors.isNight ? colors.volt : colors.accentText;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+      child: MmPressable(
+        semanticsLabel: '${ToolsCopy.categoryHeading}. $summary',
+        onTap: onTap,
+        haptic: MmPressHaptic.selection,
+        focusRadius: BorderRadius.circular(20),
+        builder: (context, pressed, _) => DecoratedBox(
+          decoration: ShapeDecoration(
+            color: Color.alphaBlend(edge.withValues(alpha: pressed ? 0.16 : 0.09), colors.raised),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: edge.withValues(alpha: 0.4))),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 72),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+              child: Row(
+                children: [
+                  ExcludeSemantics(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: edge.withValues(alpha: 0.18)),
+                      child: SizedBox.square(dimension: 40, child: Icon(LucideIcons.slidersHorizontal, size: 20, color: colors.isNight ? colors.volt : colors.accentText)),
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(ToolsCopy.categoryHeading, style: type.labelLarge.copyWith(fontSize: 16)),
+                        const SizedBox(height: 2),
+                        Text(summary, style: type.caption.copyWith(color: colors.ink2)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

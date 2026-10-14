@@ -45,8 +45,8 @@ class SubjectRow extends ConsumerWidget {
     );
 
     // On the sheet: a flat wash of the lamp's light under the name and the confidence bubbles, no
-    // border and no box inside a box. Off the sheet: bare on the ground. A hairline, inset to the
-    // name, separates one subject from the next.
+    // border and no box inside a box. Off the sheet: bare on the ground. Each subject is its own
+    // item with 8 dp of ground between it and the next, so no two washes touch at their corners.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -65,7 +65,8 @@ class SubjectRow extends ConsumerWidget {
               _Grow(
                 child: included
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 52, bottom: MmSpace.s8),
+                        // Under the name (the 44 dp object and the 12 dp gap come first).
+                        padding: const EdgeInsets.only(left: 56, bottom: MmSpace.s4),
                         // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
                         child: ConfidenceBubbles(
                           subject: subject.label,
@@ -78,7 +79,7 @@ class SubjectRow extends ConsumerWidget {
             ],
           ),
         ),
-        Container(height: 1, margin: const EdgeInsets.only(left: 64, right: MmSpace.s4), color: colors.line),
+        const SizedBox(height: MmSpace.s8),
       ],
     );
   }
@@ -98,7 +99,7 @@ class _Grow extends StatelessWidget {
   }
 }
 
-/// The 56 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
+/// The 52 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
 /// bubble at the end. Shared by the step and the picker.
 class SubjectLine extends StatelessWidget {
   const SubjectLine({
@@ -125,7 +126,7 @@ class SubjectLine extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 56),
+      constraints: const BoxConstraints(minHeight: 52),
       child: Row(
         children: [
           SubjectObject(id: subject.id, size: 44, marked: chosen),

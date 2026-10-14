@@ -92,16 +92,17 @@ class PermissionPanel extends StatelessWidget {
         ],
         if (blocked && onOpenSettings != null) ...[
           const SizedBox(height: MmRhythm.group),
-          KeyButton.secondary(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
+          // The one thing to fix, so it is the volt key (as Turn on is when notifications are off).
+          KeyButton(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
         ],
       ],
     );
-    // The focal pane of the screen is the one with something to do: lit (volt edge) when
+    // The only boxed status on the screen is the one with something to do: lit (volt edge) when
     // reminders can be turned on, a hero without the edge when Android blocks them. When all is
-    // well it is a plain pane and the day below takes the eye.
+    // well it is a plain row on the ground (no box) and the day below takes the eye.
     final pane = canAsk || blocked
         ? MmSurface.hero(lit: canAsk, padding: const EdgeInsets.all(MmRhythm.plainPad), child: content)
-        : MmSurface.plain(child: content);
+        : Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: content);
     return Semantics(container: true, child: pane);
   }
 }
@@ -218,6 +219,65 @@ class MuteSection extends StatelessWidget {
           onPressed: onMute,
         ),
       ],
+    );
+  }
+}
+
+/// Reminders are muted: one slim row on the ground, the end date on one line and a plain
+/// Unmute beside it. It is a state, not a card, so it never competes with the one boxed status
+/// above the day (Turn on, Open Android settings).
+class MutedRow extends StatelessWidget {
+  const MutedRow({super.key, required this.message, required this.onUnmute});
+
+  final String message;
+  final VoidCallback onUnmute;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Row(
+          children: [
+            ExcludeSemantics(child: Icon(LucideIcons.bellOff, size: 18, color: colors.ink2)),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Text(message, style: type.labelLarge.copyWith(color: colors.ink)),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            Semantics(
+              button: true,
+              label: NotificationsCopy.unmute,
+              onTap: onUnmute,
+              excludeSemantics: true,
+              child: MmPressable(
+                onTap: onUnmute,
+                haptic: MmPressHaptic.selection,
+                builder: (context, pressed, _) => ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
+                    child: Center(
+                      widthFactor: 1,
+                      child: Text(
+                        NotificationsCopy.unmute,
+                        style: type.button.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.accentText.withValues(alpha: pressed ? 0.7 : 1),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

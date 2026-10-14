@@ -104,10 +104,13 @@ String? ribbonSummary(List<RibbonWeek> weeks) {
 }
 
 class RunRibbon extends ConsumerStatefulWidget {
-  const RunRibbon({super.key, required this.weeks, this.animate = true});
+  const RunRibbon({super.key, required this.weeks, this.animate = true, this.showCounts = false});
 
   final List<RibbonWeek> weeks;
   final bool animate;
+
+  /// Prints each week's count under its date ("4 of 4"), for a host that has no tap to say it.
+  final bool showCounts;
 
   static const double slot = 44;
   static const double capsule = 24;
@@ -187,7 +190,7 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
-          height: RunRibbon.height + 8 + 18,
+          height: RunRibbon.height + 8 + 18 + (widget.showCounts ? 14 : 0),
           child: ListView.builder(
             controller: _scroll,
             scrollDirection: Axis.horizontal,
@@ -228,6 +231,13 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
                           textScaler: TextScaler.noScaling,
                           style: type.caption.copyWith(fontSize: 11, height: 14 / 11, color: w.current || selected ? colors.ink : colors.ink3),
                         ),
+                        if (widget.showCounts)
+                          Text(
+                            w.paused ? RhythmCopy.outlookPausedShort : '${w.studyDays} of ${w.goal}',
+                            maxLines: 1,
+                            textScaler: TextScaler.noScaling,
+                            style: type.caption.copyWith(fontSize: 11, height: 14 / 11, fontWeight: FontWeight.w600, color: w.met ? colors.ink : colors.ink2),
+                          ),
                       ],
                     ),
                   ),

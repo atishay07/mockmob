@@ -214,11 +214,15 @@ class EndedHero extends TodayHero {
 
 /// A compact row under the hero for anything that did not win the hero.
 class AlsoSlot {
-  const AlsoSlot({required this.title, required this.line, required this.action});
+  const AlsoSlot({required this.title, required this.line, required this.action, this.lead = false});
 
   final String title;
   final String line;
   final TodayAction action;
+
+  /// This row holds the screen's one volt key: the hero above it only offers a way out (an
+  /// ended mock that could not be recorded), so the real next move leads.
+  final bool lead;
 }
 
 /// One recent paper: its marks, where they went (right, wrong, blank as one bar) and the change

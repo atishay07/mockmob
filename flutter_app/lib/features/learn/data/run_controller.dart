@@ -73,16 +73,15 @@ class RunUiState {
     RunNotice? notice,
     DateTime? ackedAt,
     List<StudyUnitView>? replacements,
-  }) =>
-      RunUiState(
-        load: load ?? this.load,
-        run: run ?? this.run,
-        pending: clearPending ? null : (pending ?? this.pending),
-        sending: sending ?? this.sending,
-        notice: notice ?? this.notice,
-        ackedAt: ackedAt ?? this.ackedAt,
-        replacements: replacements ?? this.replacements,
-      );
+  }) => RunUiState(
+    load: load ?? this.load,
+    run: run ?? this.run,
+    pending: clearPending ? null : (pending ?? this.pending),
+    sending: sending ?? this.sending,
+    notice: notice ?? this.notice,
+    ackedAt: ackedAt ?? this.ackedAt,
+    replacements: replacements ?? this.replacements,
+  );
 }
 
 /// One study run on screen. Every step is written to the phone before it is sent and reused
@@ -100,7 +99,12 @@ class RunController extends Notifier<RunUiState> {
 
   /// Waits between automatic sends of a stuck event: a weak signal never reports offline, so
   /// nothing else would send it again.
-  static List<Duration> retryBackoff = [Duration(seconds: 4), Duration(seconds: 10), Duration(seconds: 30), Duration(seconds: 60)];
+  static List<Duration> retryBackoff = [
+    Duration(seconds: 4),
+    Duration(seconds: 10),
+    Duration(seconds: 30),
+    Duration(seconds: 60),
+  ];
 
   // Read once so a send that outlives the screen can still finish and clear its pending event.
   late StudyApi _api;
@@ -142,7 +146,10 @@ class RunController extends Notifier<RunUiState> {
       _stopRetry();
       return;
     }
-    final stuck = !next.sending && (next.notice == RunNotice.queuedOffline || next.notice == RunNotice.sendFailed);
+    final stuck =
+        !next.sending &&
+        (next.notice == RunNotice.queuedOffline ||
+            next.notice == RunNotice.sendFailed);
     if (stuck && !(_retryTimer?.isActive ?? false)) _scheduleRetry();
   }
 
@@ -164,7 +171,8 @@ class RunController extends Notifier<RunUiState> {
     final stored = await _store.pending(runId);
     if (!ref.mounted) return;
     final cached = cachedJson == null ? null : StudyRun.fromJson(cachedJson);
-    if (cached != null) state = RunUiState(load: RunLoad.ready, run: cached, pending: stored);
+    if (cached != null)
+      state = RunUiState(load: RunLoad.ready, run: cached, pending: stored);
     try {
       final fresh = await _api.run(runId);
       if (!ref.mounted) return;
@@ -174,7 +182,9 @@ class RunController extends Notifier<RunUiState> {
       if (e.hasCode(ApiCodes.studyContentChanged)) {
         await _settleChanged(const []);
       } else if (cached != null && e.isRetryable) {
-        state = state.copyWith(notice: stored == null ? RunNotice.none : RunNotice.queuedOffline);
+        state = state.copyWith(
+          notice: stored == null ? RunNotice.none : RunNotice.queuedOffline,
+        );
       } else if (e.isOffline) {
         state = state.copyWith(load: RunLoad.offlineMissing);
       } else {
@@ -190,12 +200,18 @@ class RunController extends Notifier<RunUiState> {
     }
     var pending = stored;
     // A pending event aimed at an older revision was already applied (or overtaken): drop it.
-    if (pending != null && (pending.expectedRevision != fresh.revision || !fresh.isActive)) {
+    if (pending != null &&
+        (pending.expectedRevision != fresh.revision || !fresh.isActive)) {
       await _store.clearPending(runId);
       pending = null;
     }
     await _cacheRun(fresh);
-    state = RunUiState(load: RunLoad.ready, run: fresh, pending: pending, ackedAt: state.ackedAt);
+    state = RunUiState(
+      load: RunLoad.ready,
+      run: fresh,
+      pending: pending,
+      ackedAt: state.ackedAt,
+    );
     if (pending != null) unawaited(_send(pending));
   }
 
@@ -210,14 +226,16 @@ class RunController extends Notifier<RunUiState> {
   Future<void> _settleChanged(List<StudyUnitView> units) async {
     await _store.clearPending(runId);
     await _store.dropRun(runId);
-    if (ref.mounted) state = RunUiState(load: RunLoad.changed, replacements: units);
+    if (ref.mounted)
+      state = RunUiState(load: RunLoad.changed, replacements: units);
   }
 
   // What the student does.
 
   Future<void> reveal() => _act('reveal');
 
-  Future<void> answer(Object value, {bool assisted = false}) => _act('answer', value: value, assisted: assisted);
+  Future<void> answer(Object value, {bool assisted = false}) =>
+      _act('answer', value: value, assisted: assisted);
 
   Future<void> rate(int rating) => _act('rate', rating: rating);
 
@@ -230,10 +248,20 @@ class RunController extends Notifier<RunUiState> {
     if (pending != null && !_busy) await _send(pending);
   }
 
-  Future<void> _act(String type, {Object? value, int? rating, bool assisted = false}) async {
+  Future<void> _act(
+    String type, {
+    Object? value,
+    int? rating,
+    bool assisted = false,
+  }) async {
     final run = state.run;
     final item = run?.currentItem;
-    if (run == null || item == null || !run.isActive || state.pending != null || _busy) return;
+    if (run == null ||
+        item == null ||
+        !run.isActive ||
+        state.pending != null ||
+        _busy)
+      return;
     final event = PendingEvent.create(
       expectedRevision: run.revision,
       itemId: item.id,
@@ -242,8 +270,13 @@ class RunController extends Notifier<RunUiState> {
       rating: rating,
       assisted: assisted,
     );
-    if (!event.canWaitOffline && ref.read(networkStatusProvider) == NetworkStatus.offline) {
-      state = state.copyWith(notice: type == 'reveal' ? RunNotice.connectToReveal : RunNotice.connectToCheck);
+    if (!event.canWaitOffline &&
+        ref.read(networkStatusProvider) == NetworkStatus.offline) {
+      state = state.copyWith(
+        notice: type == 'reveal'
+            ? RunNotice.connectToReveal
+            : RunNotice.connectToCheck,
+      );
       return;
     }
     _conflictRetried = false;
@@ -265,7 +298,11 @@ class RunController extends Notifier<RunUiState> {
         await _settleChanged(run.units);
         return;
       }
-      state = RunUiState(load: RunLoad.ready, run: run, ackedAt: ref.read(nowProvider)());
+      state = RunUiState(
+        load: RunLoad.ready,
+        run: run,
+        ackedAt: ref.read(nowProvider)(),
+      );
     } on ApiError catch (e) {
       if (ref.mounted) await _onSendError(event, e);
     } finally {
@@ -278,7 +315,8 @@ class RunController extends Notifier<RunUiState> {
       await _settleChanged(const []);
       return;
     }
-    final drifted = e.hasCode(ApiCodes.revisionConflict) ||
+    final drifted =
+        e.hasCode(ApiCodes.revisionConflict) ||
         e.hasCode(ApiCodes.stepConflict) ||
         e.hasCode(ApiCodes.idempotencyConflict) ||
         e.kind == ApiErrorKind.validation;
@@ -288,7 +326,10 @@ class RunController extends Notifier<RunUiState> {
     }
     if (event.canWaitOffline) {
       // Kept on the phone and sent again later with the same key.
-      state = state.copyWith(sending: false, notice: e.isOffline ? RunNotice.queuedOffline : RunNotice.sendFailed);
+      state = state.copyWith(
+        sending: false,
+        notice: e.isOffline ? RunNotice.queuedOffline : RunNotice.sendFailed,
+      );
       return;
     }
     await _store.clearPending(runId);
@@ -296,7 +337,9 @@ class RunController extends Notifier<RunUiState> {
       sending: false,
       clearPending: true,
       notice: e.isOffline
-          ? (event.type == 'reveal' ? RunNotice.connectToReveal : RunNotice.connectToCheck)
+          ? (event.type == 'reveal'
+                ? RunNotice.connectToReveal
+                : RunNotice.connectToCheck)
           : RunNotice.sendFailed,
     );
   }
@@ -334,7 +377,10 @@ class RunController extends Notifier<RunUiState> {
       );
     } on ApiError catch (e) {
       if (!ref.mounted) return;
-      state = state.copyWith(sending: false, notice: e.isOffline ? RunNotice.queuedOffline : RunNotice.sendFailed);
+      state = state.copyWith(
+        sending: false,
+        notice: e.isOffline ? RunNotice.queuedOffline : RunNotice.sendFailed,
+      );
     }
   }
 
@@ -345,10 +391,14 @@ class RunController extends Notifier<RunUiState> {
       'reveal' => !run.revealed && item.isSelfRated,
       'answer' => !run.revealed && item.isChecked,
       'rate' => run.revealed && item.isSelfRated,
-      'continue' => (run.revealed && !item.isSelfRated) || (run.isLearn && item.isReading) || item.type == RunItemType.unknown,
+      'continue' =>
+        (run.revealed && !item.isSelfRated) ||
+            (run.isLearn && item.isReading) ||
+            item.type == RunItemType.unknown,
       _ => false,
     };
   }
 }
 
-final runControllerProvider = NotifierProvider.autoDispose.family<RunController, RunUiState, String>(RunController.new);
+final runControllerProvider = NotifierProvider.autoDispose
+    .family<RunController, RunUiState, String>(RunController.new);

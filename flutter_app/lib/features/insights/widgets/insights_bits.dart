@@ -402,7 +402,8 @@ class _Monogram extends StatelessWidget {
 
 
 /// The way into Ask from the record: Mobi's mark, what it can do with this record, an arrow. A
-/// glass strip, 64 dp tall, so the record's one dominant action stays the chapter to practise.
+/// plain row on the ground (no box, no glass), so the hero stays the page's one lit element and
+/// the chapter to practise its one dominant action.
 class AskMobiStrip extends StatelessWidget {
   const AskMobiStrip({super.key, required this.onTap});
 
@@ -414,33 +415,30 @@ class AskMobiStrip extends StatelessWidget {
     final type = context.mmType;
     return MmPressable(
       semanticsLabel: '${InsightsCopy.askKey}. ${InsightsCopy.askStripNote}',
-      focusRadius: MmRadius.keyAll,
+      focusRadius: MmRadius.smallAll,
       haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.99,
       onTap: onTap,
-      builder: (context, pressed, _) => FakeGlass(
-        borderRadius: MmRadius.keyAll,
-        pressed: pressed,
-        grain: false,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 64),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-            child: Row(
-              children: [
-                const MobiFace(size: 34, watchTaps: false),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(InsightsCopy.askKey, style: type.cardTitle.copyWith(fontSize: 16)),
-                      Text(InsightsCopy.askStripNote, style: type.caption.copyWith(color: colors.ink2)),
-                    ],
-                  ),
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 64),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+          child: Row(
+            children: [
+              const MobiFace(size: 34, watchTaps: false),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(InsightsCopy.askKey, style: type.cardTitle.copyWith(fontSize: 16)),
+                    Text(InsightsCopy.askStripNote, style: type.caption.copyWith(color: colors.ink2)),
+                  ],
                 ),
-                Icon(LucideIcons.arrowRight, size: 18, color: colors.ink2),
-              ],
-            ),
+              ),
+              Icon(LucideIcons.arrowRight, size: 18, color: colors.ink2),
+            ],
           ),
         ),
       ),

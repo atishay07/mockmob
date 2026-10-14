@@ -6,7 +6,6 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
-import 'life_row.dart';
 
 /// The record's entries: every mistake that moved past Found, newest first. Reviewed entries
 /// have no server time and come last.
@@ -26,10 +25,10 @@ List<MistakeItem> recordEntries(ReviewIndex index) {
   return out;
 }
 
-/// "12 October, 11:08 PM".
+/// "12 Oct, 11:08 PM", with the time held together so "11:08 PM" never splits across two lines.
 String whenText(ReviewClock clock, DateTime t) {
   final local = clock.local(t);
-  return '${formatDayMonth(local)}, ${formatTime12(local)}';
+  return '${formatDayMonthShort(local)}, ${ReviewCopy.bindTime(formatTime12(local))}';
 }
 
 /// One mistake on the record's thread (spec 5.8 and 6.4): its node on a vertical 2 dp thread,
@@ -47,12 +46,11 @@ class RecordEntry extends StatelessWidget {
     return [
       ReviewCopy.foundOn(whenText(clock, item.foundAt), item.source),
       switch (item.stage) {
-        MistakeStage.repaired => at == null ? '${ReviewCopy.repaired}.' : ReviewCopy.repairedOn(whenText(clock, at)),
-        MistakeStage.reviewed => ReviewCopy.reviewedOn(at == null ? 'this phone' : whenText(clock, at)),
-        MistakeStage.setAside => ReviewCopy.setAsideOn(at == null ? 'this phone' : whenText(clock, at)),
+        MistakeStage.repaired => at == null ? ReviewCopy.repaired : ReviewCopy.repairedOn(whenText(clock, at)),
+        MistakeStage.reviewed => ReviewCopy.reviewedOn(at == null ? 'on this phone' : whenText(clock, at)),
+        MistakeStage.setAside => ReviewCopy.setAsideOn(at == null ? 'on this phone' : whenText(clock, at)),
         MistakeStage.found => '',
       },
-      if (item.stage == MistakeStage.repaired) ReviewCopy.checkedNotYet,
     ].where((l) => l.isNotEmpty).toList();
   }
 
@@ -67,9 +65,15 @@ class RecordEntry extends StatelessWidget {
       MistakeStage.reviewed => BubbleState.marked,
       _ => BubbleState.blank,
     };
+    final (chip, chipColor) = switch (item.stage) {
+      MistakeStage.repaired => (ReviewCopy.repaired, colors.accentText),
+      MistakeStage.reviewed => (ReviewCopy.reviewed, colors.ink2),
+      MistakeStage.setAside => (ReviewCopy.setAside, colors.ink2),
+      MistakeStage.found => (ReviewCopy.found, colors.badText),
+    };
     return Semantics(
       container: true,
-      label: '$title. ${lines.join(' ')}',
+      label: '$title. $chip. ${lines.join('. ')}.',
       excludeSemantics: true,
       child: IntrinsicHeight(
         child: Row(
@@ -101,11 +105,20 @@ class RecordEntry extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: type.labelLarge),
-                    const SizedBox(height: MmSpace.s12),
-                    LifeRow(stage: item.stage, bubbleSize: 14, animate: false),
-                    const SizedBox(height: MmSpace.s12),
-                    for (final l in lines) ...[Text(l, style: type.small.copyWith(color: colors.ink2)), const SizedBox(height: 2)],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text(title, style: type.labelLarge)),
+                        const SizedBox(width: MmSpace.s12),
+                        // The stage, said in words: the legend on the record page explains the thread.
+                        Padding(
+                          padding: const EdgeInsets.only(top: 1),
+                          child: Text(chip, style: type.caption.copyWith(color: chipColor, fontWeight: FontWeight.w700)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: MmSpace.s4),
+                    for (final l in lines) Text(l, style: type.small.copyWith(color: colors.ink2)),
                   ],
                 ),
               ),

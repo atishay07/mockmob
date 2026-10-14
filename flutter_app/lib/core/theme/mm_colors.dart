@@ -210,6 +210,12 @@ class MmColors extends ThemeExtension<MmColors> {
   /// True for Night.
   bool get isNight => ground.computeLuminance() < 0.2;
 
+  /// The dim behind a sheet (the quick-start morph and every glass sheet). Lighter than [scrim],
+  /// which still covers whole pages: the page behind a sheet stays readable, and the sheet sits in
+  /// the same palette as the page instead of on a grey slab. Night is a warm black at 45%; Day is
+  /// a warm sepia at 26%, so cream stays cream (the old ink scrim at 40% turned it muddy grey).
+  Color get sheetScrim => isNight ? const Color(0x73080705) : const Color(0x425A4528);
+
   /// The one colour of a wrong mark (a wrong bubble, the wrong part of a marks bar), the same on
   /// every screen of a theme.
   Color get wrongMark => isNight ? Color.lerp(wrongBorder, wrongText, 0.5)! : wrongBorder;

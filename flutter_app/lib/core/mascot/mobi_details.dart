@@ -149,7 +149,7 @@ abstract final class MobiDetails {
     final ry = 8.8 - 2 * point;
     final palm = Rect.fromCenter(center: Offset(0, 8.6 - 1.4 * point), width: rx * 2, height: ry * 2);
     if (point > 0.02) {
-      final len = 11.5 * point;
+      final len = 9 * point;
       final finger = RRect.fromLTRBR(-2.5, 9, 2.5, 9 + len, const Radius.circular(2.5));
       c.drawRRect(finger, fill);
       c.drawRRect(finger.deflate(0.4), _stroke(p.rim.withValues(alpha: p.rimAlpha * 0.6), 0.8));
@@ -194,8 +194,8 @@ abstract final class MobiDetails {
       final g = glow.clamp(0.0, 1.0);
       c.save();
       c.translate(tip.dx, tip.dy);
-      c.scale(r * (2.2 + 3.4 * g));
-      c.drawCircle(Offset.zero, 1, Paint()..shader = _haloShader(g * (p.night ? 0.7 : 0.55)));
+      c.scale(r * (2.2 + (p.night ? 3.4 : 4.0) * g));
+      c.drawCircle(Offset.zero, 1, Paint()..shader = _haloShader(g * (p.night ? 0.7 : 0.8), p.night));
       c.restore();
     }
     c.drawCircle(
@@ -214,41 +214,62 @@ abstract final class MobiDetails {
     c.drawCircle(tip + const Offset(-1.9, -2.1), 1.3, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.8));
   }
 
-  static final Map<int, Shader> _halos = {};
+  static final Map<(bool, int), Shader> _halos = {};
 
-  static Shader _newHalo(int q) {
+  /// The bulb's halo on a unit circle. At Night it is a pale volt glow; on the cream Day ground
+  /// pale volt vanishes, so the halo is a deeper, warmer volt that still reads as light.
+  static Shader _newHalo(bool night, int q) {
     final a = q / 255;
+    final inner = night ? MobiPalette.limeHi : MobiPalette.limeLight;
+    final mid = night ? MobiPalette.lime : MobiPalette.limeMid;
     return Gradient.radial(Offset.zero, 1, [
-      MobiPalette.limeHi.withValues(alpha: a),
-      MobiPalette.lime.withValues(alpha: a * 0.35),
-      MobiPalette.lime.withValues(alpha: 0),
+      inner.withValues(alpha: a),
+      mid.withValues(alpha: a * (night ? 0.35 : 0.5)),
+      mid.withValues(alpha: 0),
     ], const [0, 0.45, 1]);
   }
 
-  static Shader _haloShader(double alpha) {
+  static Shader _haloShader(double alpha, bool night) {
     final q = (alpha.clamp(0.0, 1.0) * 255).round();
-    if (!cacheShaders) return _newHalo(q);
-    return _halos.putIfAbsent(q, () => _newHalo(q));
+    if (!cacheShaders) return _newHalo(night, q);
+    return _halos.putIfAbsent((night, q), () => _newHalo(night, q));
   }
 
   // ---- Visor glint -------------------------------------------------------------------------
 
-  /// A band of lamp light sweeping across the visor, left to right, at [progress] 0 to 1.
-  static void glint(Canvas c, double progress) {
+  /// A soft band of lamp light sweeping across the visor glass, left to right, at [progress] 0 to
+  /// 1. It is a reflection, so it fades in and out at its edges (no hard line), is painted under
+  /// the eyes (the eyes are lit, they are never crossed by it) and is stronger the more the head
+  /// [tilt]s toward the lamp.
+  static void glint(Canvas c, double progress, {double tilt = 0}) {
     if (progress < 0 || progress > 1) return;
     final rect = MobiGeo.visorRect.outerRect;
-    final x = rect.left - 18 + (rect.width + 36) * Curves.easeInOut.transform(progress);
-    final a = math.sin(math.pi * progress);
+    final x = rect.left - 22 + (rect.width + 44) * Curves.easeInOut.transform(progress);
+    final lean = 0.5 + 0.5 * (tilt.abs() / 0.06).clamp(0.0, 1.0);
+    final a = math.sin(math.pi * progress) * lean;
     c.save();
     c.clipRRect(MobiGeo.visorRect.deflate(0.8));
-    Path band(double x0, double w) => Path()
-      ..moveTo(x0 + 7, rect.top)
-      ..lineTo(x0 + 7 + w, rect.top)
-      ..lineTo(x0 - 7 + w, rect.bottom)
-      ..lineTo(x0 - 7, rect.bottom)
-      ..close();
-    c.drawPath(band(x, 9), Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.16 * a));
-    c.drawPath(band(x + 12, 3.5), Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.22 * a));
+    void band(double x0, double w, double alpha) {
+      final path = Path()
+        ..moveTo(x0 + 7, rect.top)
+        ..lineTo(x0 + 7 + w, rect.top)
+        ..lineTo(x0 - 7 + w, rect.bottom)
+        ..lineTo(x0 - 7, rect.bottom)
+        ..close();
+      const white = Color(0xFFFFFFFF);
+      c.drawPath(
+        path,
+        Paint()
+          ..shader = Gradient.linear(Offset(x0 - 7, 0), Offset(x0 + 7 + w, 0), [
+            white.withValues(alpha: 0),
+            white.withValues(alpha: alpha),
+            white.withValues(alpha: 0),
+          ], const [0, 0.5, 1]),
+      );
+    }
+
+    band(x, 16, 0.14 * a);
+    band(x + 14, 6, 0.1 * a);
     c.restore();
   }
 
@@ -293,19 +314,22 @@ abstract final class MobiDetails {
   /// Radius of the bubble body in design units (about 40 dp across at the usual 160 dp Mobi).
   static const double bubbleRadius = 13;
 
-  /// A real answer bubble beside the head: a volt disc with a tail toward Mobi, inked in, and an
-  /// ink tick that draws itself. It pops in (scale 0.9 to 1 with a fade), holds, then lifts and
-  /// fades. [progress] 0 to 1.
+  /// A real answer bubble beside the head: a bright volt disc with a tail toward Mobi, inked in,
+  /// and an ink tick that draws itself. It pops in from a smaller disc (scale 0.3 to 1 with a
+  /// small overshoot), holds, then shrinks away and lifts. The disc is solid volt for its whole
+  /// life, only fading in the last few frames: a half-faded volt disc over charcoal turns olive,
+  /// so it leaves by scale, not by a slow fade. [progress] 0 to 1.
   static void answerBubble(Canvas c, double progress, MobiPalette p) {
     if (progress < 0 || progress > 1) return;
     const r = bubbleRadius;
-    final inT = _smooth(0, 0.16, progress);
+    final inT = _smooth(0, 0.07, progress);
+    final popT = _smooth(0, 0.18, progress);
     final outT = _smooth(0.8, 1, progress);
-    final alpha = (inT * (1 - outT)).clamp(0.0, 1.0);
+    final alpha = (inT * (1 - _smooth(0.94, 1, progress))).clamp(0.0, 1.0);
     if (alpha <= 0.01) return;
     final lift = 9 * outT;
-    final scale = 0.9 + 0.1 * Curves.easeOutCubic.transform(inT);
-    final tick = _smooth(0.14, 0.38, progress);
+    final scale = (0.3 + 0.7 * Curves.easeOutBack.transform(popT)) * (1 - Curves.easeInCubic.transform(outT) * 0.9);
+    final tick = _smooth(0.1, 0.3, progress);
     const ink = Color(0xFF17150F);
 
     c.save();
@@ -319,8 +343,16 @@ abstract final class MobiDetails {
       ..quadraticBezierTo(-r * 0.78, r * 1.46, -r * 0.18, r * 0.98)
       ..close();
     final shape = Path.combine(PathOperation.union, Path()..addOval(Rect.fromCircle(center: Offset.zero, radius: r)), tail);
-    c.drawPath(shape, Paint()..color = MobiPalette.lime.withValues(alpha: alpha));
-    c.drawPath(shape, _stroke((p.night ? MobiPalette.limeDeep : ink).withValues(alpha: alpha), 1.6));
+    c.drawPath(
+      shape,
+      Paint()
+        ..shader = Gradient.radial(Offset(-r * 0.3, -r * 0.35), r * 1.7, [
+          MobiPalette.limeLight.withValues(alpha: alpha),
+          MobiPalette.lime.withValues(alpha: alpha),
+          MobiPalette.lime.withValues(alpha: alpha),
+        ], const [0, 0.45, 1]),
+    );
+    c.drawPath(shape, _stroke((p.night ? MobiPalette.limeLight : ink).withValues(alpha: alpha), p.night ? 1.0 : 1.6));
     c.drawCircle(Offset(-r * 0.4, -r * 0.42), r * 0.18, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.7 * alpha));
 
     // The tick, drawn from its short stroke to its long one.
@@ -345,18 +377,24 @@ abstract final class MobiDetails {
 
   // ---- Celebration bubbles -----------------------------------------------------------------
 
+  /// Confetti: angle from the body centre (screen angles, up is negative), how far it flies, and
+  /// its radius. All of it lands outside the head (at least 74 units out), and none of it flies
+  /// along the antenna (up and to the right, about -1.17 rad), so the face and the bulb stay clear.
   static const List<(double angle, double dist, double radius)> _bubbles = [
-    (-2.55, 70, 5.4),
-    (-2.05, 82, 4.2),
-    (-1.7, 66, 6.2),
-    (-1.35, 86, 4.6),
-    (-0.95, 72, 5.8),
-    (-0.6, 64, 4.4),
-    (-2.9, 52, 3.8),
-    (-0.25, 50, 4),
+    (-2.85, 76, 4.6),
+    (-2.45, 90, 4.0),
+    (-2.05, 74, 5.8),
+    (-1.68, 94, 4.2),
+    (-0.72, 78, 5.6),
+    (-0.42, 92, 4.2),
+    (-3.05, 88, 3.8),
+    (-0.12, 84, 4.0),
   ];
 
-  static void burst(Canvas c, double progress, Offset origin) {
+  /// Volt confetti bursting out behind Mobi at [progress] 0 to 1 from [origin]. Each piece is a
+  /// bubble that grows, flies and ends in a solid shockwave ring that widens and fades. On the
+  /// cream Day ground the pieces carry a dark olive rim so they hold their shape.
+  static void burst(Canvas c, double progress, Offset origin, MobiPalette p) {
     if (progress < 0) return;
     for (var i = 0; i < _bubbles.length; i++) {
       final (angle, dist, radius) = _bubbles[i];
@@ -367,19 +405,43 @@ abstract final class MobiDetails {
       if (q < 0.74) {
         final grow = _smooth(0, 0.2, q);
         final r = radius * (0.4 + 0.6 * grow);
-        c.drawCircle(pos, r, Paint()..color = MobiPalette.lime);
-        c.drawCircle(pos, r, _stroke(MobiPalette.limeDeep, 0.9));
+        c.drawCircle(
+          pos,
+          r,
+          Paint()
+            ..shader = Gradient.radial(pos + Offset(-r * 0.3, -r * 0.3), r * 1.6, [
+              MobiPalette.limeHi,
+              MobiPalette.lime,
+              p.night ? MobiPalette.limeLo : MobiPalette.limeMid,
+            ], const [0, 0.5, 1]),
+        );
+        c.drawCircle(pos, r, _stroke(p.night ? MobiPalette.limeDeep : MobiPalette.limeShade, p.night ? 0.9 : 1.3));
         c.drawCircle(pos + Offset(-r * 0.32, -r * 0.32), r * 0.28, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.75));
       } else {
+        // The pop: a solid ring that widens and thins as it fades. No loose dots.
         final pop = (q - 0.74) / 0.26;
         final fade = 1 - pop;
-        c.drawCircle(pos, radius * (1 + pop * 0.9), _stroke(MobiPalette.lime.withValues(alpha: fade), 1.6 * fade + 0.3));
-        for (var k = 0; k < 4; k++) {
-          final a = angle + k * math.pi / 2 + 0.4;
-          final d = radius * (1.2 + pop * 1.4);
-          c.drawCircle(pos + Offset(math.cos(a), math.sin(a)) * d, 1.3 * fade, Paint()..color = MobiPalette.lime.withValues(alpha: fade));
-        }
+        final ringR = radius * (1 + pop * 1.4);
+        if (!p.night) c.drawCircle(pos, ringR, _stroke(MobiPalette.limeShade.withValues(alpha: 0.6 * fade), 2.6 * fade + 0.9));
+        c.drawCircle(pos, ringR, _stroke((p.night ? MobiPalette.limeHi : MobiPalette.lime).withValues(alpha: fade), 1.9 * fade + 0.4));
       }
+    }
+  }
+
+  /// The shockwaves a landing sends along the floor (celebrate's two landings), drawn flat on
+  /// the ground at [center] from the burst's [progress]: solid volt rings that widen and fade.
+  static void landRings(Canvas c, double progress, Offset center, MobiPalette p) {
+    if (progress < 0) return;
+    for (final (start, length, scale) in const [(0.40, 0.4, 1.0), (0.69, 0.3, 0.55)]) {
+      final q = (progress - start) / length;
+      if (q <= 0 || q >= 1) continue;
+      final out = 1 - math.pow(1 - q, 3).toDouble();
+      final fade = math.pow(1 - q, 1.4).toDouble();
+      final rx = (20 + 44 * out) * scale;
+      final rect = Rect.fromCenter(center: center, width: rx * 2, height: rx * 2 * 0.16);
+      final width = (2.8 * fade + 0.5) * (0.6 + 0.4 * scale);
+      if (!p.night) c.drawOval(rect, _stroke(MobiPalette.limeShade.withValues(alpha: 0.55 * fade), width + 1.1));
+      c.drawOval(rect, _stroke((p.night ? MobiPalette.limeHi : MobiPalette.lime).withValues(alpha: 0.95 * fade), width));
     }
   }
 
@@ -392,13 +454,16 @@ abstract final class MobiDetails {
     _halos.clear();
   }
 
+  /// The sleepy z's, rising from [from] (the top left of the head).
   static void zzz(Canvas c, double progress, Offset from, MobiPalette p) {
     if (progress < 0) return;
     for (var i = 0; i < 2; i++) {
       final q = (progress + i * 0.5) % 1;
       final alpha = math.min(1.0, math.sin(math.pi * q) * 1.5);
       final s = 7 + 4.5 * q + 1.5 * i;
-      final o = from + Offset(9 * q + i * 4, -26 * q);
+      // Drifting up and away to the left of the head, where the antenna and its bulb never are
+      // (the antenna leans right when sleepy, and a z on the right ran into the bulb).
+      final o = from + Offset(-8 * q - i * 4, -24 * q);
       final path = Path()
         ..moveTo(o.dx - s / 2, o.dy - s / 2)
         ..lineTo(o.dx + s / 2, o.dy - s / 2)

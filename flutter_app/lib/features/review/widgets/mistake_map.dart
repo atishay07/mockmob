@@ -38,10 +38,11 @@ int mapScaleOf(Iterable<ChapterGroup> groups) => groups.fold(1, (m, g) => math.m
 /// The mistake map: where the marks went, chapter by chapter (Review brief 12).
 ///
 /// An open list on the ground, one row per chapter, hairlines between them and no card around
-/// any of them. Each row carries a bar with one segment per mistake (coral open, volt repaired,
+/// any of them, open or shut. Each row carries a bar with one segment per mistake (coral open, volt repaired,
 /// a ring for set aside), left-aligned and drawn at the same scale on every row, so a longer bar
 /// means more mistakes and chapters compare at a glance. A row opens (one at a time) into the
-/// mistakes as a vertical thread, with a key to repair them.
+/// mistakes as a vertical thread, with a key to repair them: one filled key for the paper to start
+/// with when [leadKeyPrimary], the others as plain text links.
 class MistakeMap extends ConsumerStatefulWidget {
   const MistakeMap({
     super.key,
@@ -51,6 +52,7 @@ class MistakeMap extends ConsumerStatefulWidget {
     this.initialOpen = -1,
     this.scaleTo,
     this.showSubject,
+    this.leadKeyPrimary = false,
   });
 
   final List<ChapterGroup> groups;
@@ -69,6 +71,10 @@ class MistakeMap extends ConsumerStatefulWidget {
   /// Whether each row carries its subject's mark and name. Null: only when [groups] span more
   /// than one subject (one subject is said once in the section's caption).
   final bool? showSubject;
+
+  /// The first paper's key is the one filled (volt) key of an opened chapter. Off where the screen
+  /// already has its own volt key (the tab's hero), so there is one dominant action per screen.
+  final bool leadKeyPrimary;
 
   @override
   ConsumerState<MistakeMap> createState() => _MistakeMapState();
@@ -136,6 +142,7 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
             showSubject: showSubject,
             nameSubject: i == 0 || groups[i].subjectId != groups[i - 1].subjectId,
             open: _open == keyOf(groups[i]),
+            leadKeyPrimary: widget.leadKeyPrimary,
             // Rows grow in one after another: the bar of row i starts at i * 0.07 of the run.
             grow: _enter.drive(
               CurveTween(curve: Interval((i * 0.07).clamp(0.0, 0.5), (i * 0.07 + 0.55).clamp(0.2, 1.0), curve: Motion.emphasized)),
@@ -157,6 +164,7 @@ class _ChapterRow extends StatelessWidget {
     required this.showSubject,
     required this.nameSubject,
     required this.open,
+    required this.leadKeyPrimary,
     required this.grow,
     required this.onToggle,
     required this.onOpen,
@@ -171,11 +179,22 @@ class _ChapterRow extends StatelessWidget {
   /// from the row above, so a run of one subject says it once.
   final bool nameSubject;
   final bool open;
+  final bool leadKeyPrimary;
   final Animation<double> grow;
   final VoidCallback onToggle;
   final ValueChanged<MistakeItem> onOpen;
 
   static const _stripGlyph = 40.0;
+
+  Widget _paperKey(List<PaperOpen> papers, int i) {
+    final label = papers.length == 1
+        ? ReviewCopy.repairGroupKey(papers[i].items.length)
+        : ReviewCopy.repairGroupFromKey(papers[i].items.length, papers[i].source);
+    void go() => onOpen(papers[i].items.first);
+    if (i == 0 && leadKeyPrimary) return KeyButton(label: label, onPressed: go);
+    if (i == 0) return KeyButton.secondary(label: label, onPressed: go);
+    return Align(child: KeyButton.quiet(label: label, onPressed: go));
+  }
 
   List<MistakeItem> get _ordered {
     int rank(MistakeItem i) => i.stage.isOpen ? 0 : (i.stage == MistakeStage.repaired ? 1 : 2);
@@ -204,14 +223,8 @@ class _ChapterRow extends StatelessWidget {
     ].join(', ');
     final indent = showSubject ? _stripGlyph + MmSpace.s12 : 0.0;
 
-    return AnimatedContainer(
-      duration: Motion.of(context, Motion.card),
-      curve: Motion.glide,
-      decoration: ShapeDecoration(
-        color: open ? colors.raised : colors.raised.withValues(alpha: 0),
-        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: open ? colors.line : colors.line.withValues(alpha: 0))),
-      ),
-      child: Column(
+    // No surface under the row, open or shut: the thread and its keys sit on the ground.
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MmPressable(
@@ -274,7 +287,8 @@ class _ChapterRow extends StatelessWidget {
                   child: _Thread(items: _ordered, clock: clock, onOpen: onOpen),
                 ),
                 // One key per paper: a run covers one chapter of one paper, so the number on the
-                // key is the number of mistakes the run holds.
+                // key is the number of mistakes the run holds. The first is the one filled key
+                // (when the screen has no volt key of its own); the others are plain links.
                 if (papers.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s12, MmSpace.s12),
@@ -282,13 +296,8 @@ class _ChapterRow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         for (var i = 0; i < papers.length; i++) ...[
-                          if (i > 0) const SizedBox(height: MmSpace.s8),
-                          KeyButton.secondary(
-                            label: papers.length == 1
-                                ? ReviewCopy.repairGroupKey(papers[i].items.length)
-                                : ReviewCopy.repairGroupFromKey(papers[i].items.length, papers[i].source),
-                            onPressed: () => onOpen(papers[i].items.first),
-                          ),
+                          if (i > 0) const SizedBox(height: MmSpace.s4),
+                          _paperKey(papers, i),
                         ],
                       ],
                     ),
@@ -299,7 +308,6 @@ class _ChapterRow extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }
@@ -343,7 +351,7 @@ class MistakeBar extends StatelessWidget {
     required this.setAside,
     required this.scale,
     this.grow = const AlwaysStoppedAnimation(1),
-    this.height = 14,
+    this.height = 10,
   });
 
   final int open;
@@ -366,7 +374,8 @@ class MistakeBar extends StatelessWidget {
             setAside: setAside,
             scale: scale,
             grow: grow,
-            wrong: colors.wrongMark,
+            // Night: a cooler, deeper coral than the bubble's, so a long bar does not shout.
+            wrong: colors.isNight ? Color.lerp(colors.wrongBorder, colors.wrongMark, 0.72)! : colors.wrongMark,
             volt: colors.volt,
             voltEdge: colors.isNight ? null : colors.voltEdge,
             ring: colors.ink3,
@@ -506,11 +515,13 @@ class MistakeRow extends StatelessWidget {
     final found = ReviewCopy.foundIn(item.source, formatDayMonth(clock.local(item.foundAt)));
     final tappable = item.stage != MistakeStage.setAside;
     final label = '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found. ${_stageWord(item.stage)}.';
-    final (bubble, tone) = switch (item.stage) {
-      MistakeStage.found => (BubbleState.wrong, colors.badText),
-      MistakeStage.reviewed => (BubbleState.marked, colors.ink2),
-      MistakeStage.repaired => (BubbleState.filled, colors.accentText),
-      MistakeStage.setAside => (BubbleState.blank, colors.ink3),
+    // The bubble carries the stage's colour; the word beside it stays quiet, so red crosses and
+    // volt text do not compete.
+    final bubble = switch (item.stage) {
+      MistakeStage.found => BubbleState.wrong,
+      MistakeStage.reviewed => BubbleState.marked,
+      MistakeStage.repaired => BubbleState.filled,
+      MistakeStage.setAside => BubbleState.blank,
     };
     return MmPressable(
       onTap: tappable ? onTap : null,
@@ -532,7 +543,7 @@ class MistakeRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.center,
                     child: DecoratedBox(
-                      decoration: BoxDecoration(color: colors.raised, shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: colors.ground, shape: BoxShape.circle),
                       child: Padding(padding: const EdgeInsets.all(4), child: Bubble(state: bubble, size: 14, animate: false)),
                     ),
                   ),
@@ -555,7 +566,7 @@ class MistakeRow extends StatelessWidget {
               const SizedBox(width: MmSpace.s8),
               Align(
                 alignment: Alignment.centerRight,
-                child: Text(_stageWord(item.stage), style: type.caption.copyWith(color: tone, fontWeight: FontWeight.w600)),
+                child: Text(_stageWord(item.stage), style: type.caption.copyWith(color: colors.ink2)),
               ),
               SizedBox(width: 28, child: tappable ? Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3) : null),
             ],

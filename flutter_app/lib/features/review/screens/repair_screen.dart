@@ -15,6 +15,7 @@ import '../data/repair_state.dart';
 import '../data/review_providers.dart';
 import '../widgets/mistake_view.dart';
 import '../widgets/repair_entry_view.dart';
+import '../widgets/review_state_view.dart';
 
 /// `/review/repair/:attemptId/:questionId`: the repair flow (spec 5.8). Full screen, no dock,
 /// no art: the work layer is calm and solid. Entry, then one mistake at a time, then the
@@ -76,7 +77,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
 
     Widget body;
     if (_missing) {
-      body = StateView(
+      body = ReviewStateView(
         kind: StateViewKind.empty,
         pose: MobiPose.read,
         title: ReviewCopy.notFound,
@@ -143,7 +144,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       run: run,
       question: questionIn(index?.attempt(widget.attemptId), run.current!.item.questionId),
       detail: detail,
-      renewLine: reset == null ? null : ReviewCopy.renewsOn(formatDayMonth(clock.local(reset))),
+      renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
       actions: MistakeActions(onNext: _run.next, onFinishForNow: () => _finishForNow(run), onRetry: _run.retry, onReadKey: _run.readKey),
     );
   }

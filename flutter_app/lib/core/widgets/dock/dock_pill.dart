@@ -417,15 +417,19 @@ class _DockTabState extends State<_DockTab> with TickerProviderStateMixin {
             const SizedBox(height: 4),
             // Shrinks rather than clips on narrow phones with large text. The pill and its volt
             // arc mark the active tab; the label carries no dot of its own.
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: MediaQuery.withClampedTextScaling(
-                maxScaleFactor: 1.2,
-                child: Text(
-                  tab.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink2, fontWeight: active ? FontWeight.w600 : null),
+            // 4 dp each side, so a long label at large text never touches the pill's edge.
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: MediaQuery.withClampedTextScaling(
+                  maxScaleFactor: 1.2,
+                  child: Text(
+                    tab.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink2, fontWeight: active ? FontWeight.w600 : null),
+                  ),
                 ),
               ),
             ),

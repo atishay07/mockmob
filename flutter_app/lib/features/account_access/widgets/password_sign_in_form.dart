@@ -11,6 +11,7 @@ import '../access_copy.dart';
 import '../access_gateway.dart';
 import '../state/password_hints.dart';
 import 'access_field.dart';
+import 'volt_key.dart';
 
 /// Email and password. Signing in hands the session to the core auth state and the router
 /// moves on; the form only shows the working and failed states. A successful sign-in tells the
@@ -154,7 +155,7 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
             AccessProblemLine(message: _problem!),
           ],
           const SizedBox(height: MmSpace.s20),
-          KeyButton(
+          VoltKey(
             label: _working ? AccessCopy.signingIn : AccessCopy.signIn,
             loading: _working,
             onPressed: enabled ? _submit : null,

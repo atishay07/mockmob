@@ -10,6 +10,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_page.dart' show SectionTitle;
 import '../../you/copy.dart' show subjectDisplayName;
 import '../copy.dart';
 import '../data/bests.dart';
@@ -130,94 +131,149 @@ class BestsList extends StatelessWidget {
     return RhythmCopy.bestDates(formatDayMonth(studentDate(bestAt, zone)), formatDayMonth(studentDate(latestAt, zone)));
   }
 
+  /// The best mark as a share of its own paper's full marks: the strongest leads the page.
+  static double _share(PersonalBest b) => b.best.max <= 0 ? 0 : b.best.marks / b.best.max;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // One entrance as the page arrives: the focal panel first, then the rest in reading order.
+    // The strongest best is the hero, on the page itself; the other mock types are plain rows.
+    final ordered = [...mocks]..sort((a, b) => _share(b).compareTo(_share(a)));
+    final hero = ordered.first;
+    final others = ordered.skip(1).toList();
+    // One entrance as the page arrives: the hero first, then the rest in reading order.
     return MmStagger(
       driver: MmStaggerDriver.route,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (asOf != null) ...[
-            Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-              child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
-            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (asOf != null) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+              ),
+            ],
+            MmStaggerItem(index: 0, child: _BestHero(best: hero, dates: _dates(hero))),
+            if (others.isNotEmpty) ...[
+              const SizedBox(height: MmRhythm.section),
+              MmStaggerItem(
+                index: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SectionTitle(RhythmCopy.otherBests, padding: const EdgeInsets.only(bottom: MmSpace.s8)),
+                    for (var i = 0; i < others.length; i++) _BestRow(best: others[i], first: i == 0),
+                  ],
+                ),
+              ),
+            ],
+            const SizedBox(height: MmRhythm.group),
+            Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
           ],
-          for (var i = 0; i < mocks.length; i++) ...[
-            if (i > 0) const SizedBox(height: MmRhythm.item + 4),
-            MmStaggerItem(index: i, child: _BestPanel(best: mocks[i], dates: _dates(mocks[i]), lit: i == 0)),
-          ],
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, MmRhythm.group, 0, 0),
-            child: Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-/// One comparable mock type: its name, the best marks as a monumental number with the
-/// denominator beside it, and the latest beneath when there are two or more.
-class _BestPanel extends ConsumerWidget {
-  const _BestPanel({required this.best, required this.dates, required this.lit});
+/// The strongest best of the student's mock types: its name, the best marks as a hero number with
+/// the denominator beside it, and (with two or more mocks) best and latest as bars with their
+/// marks at the end. On the page, no card.
+class _BestHero extends ConsumerWidget {
+  const _BestHero({required this.best, required this.dates});
 
   final PersonalBest best;
   final String? dates;
-
-  /// The first panel carries the screen's lit edge.
-  final bool lit;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final title = RhythmCopy.bestFormat(modeLabel(best.mode), subjectDisplayName(best.subject), best.questions);
-    final content = Semantics(
-          container: true,
-          label: [title, bestBody(best), ?dates].join(' '),
-          excludeSemantics: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
-              const SizedBox(height: MmSpace.s12),
-              MonumentalNumber(
-                value: formatSignedNumber(best.best.marks),
-                unit: RhythmCopy.outOf(best.best.max),
-                style: type.figure,
-                delay: Motion.enterDuration,
-                onLanded: () => ref.read(hapticsProvider).selection(),
-              ),
-              if (best.attempts >= 2) ...[
-                const SizedBox(height: MmSpace.s16),
-                _MarksBar(label: RhythmCopy.barBest, marks: best.best.marks, max: best.best.max, best: true),
-                const SizedBox(height: MmSpace.s8),
-                _MarksBar(label: RhythmCopy.barLatest, marks: best.latest.marks, max: best.latest.max, best: false),
-              ],
-              const SizedBox(height: MmSpace.s12),
-              Text(
-                best.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(best.mode)) : RhythmCopy.latestLine(marksText(best.latest)),
-                style: type.small.copyWith(color: colors.ink2),
-              ),
-              if (dates != null) ...[
-                const SizedBox(height: MmSpace.s4),
-                Text(dates!, style: type.caption.copyWith(color: colors.ink3)),
-              ],
-            ],
+    return Semantics(
+      container: true,
+      label: [title, bestBody(best), ?dates].join(' '),
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink2)),
+          const SizedBox(height: MmSpace.s8),
+          MonumentalNumber(
+            value: formatSignedNumber(best.best.marks),
+            unit: RhythmCopy.outOf(best.best.max),
+            style: type.figureHero,
+            delay: Motion.enterDuration,
+            onLanded: () => ref.read(hapticsProvider).selection(),
           ),
+          if (best.attempts >= 2) ...[
+            const SizedBox(height: MmSpace.s20),
+            _MarksBar(label: RhythmCopy.barBest, marks: best.best.marks, max: best.best.max, best: true),
+            const SizedBox(height: MmSpace.s12),
+            _MarksBar(label: RhythmCopy.barLatest, marks: best.latest.marks, max: best.latest.max, best: false),
+          ],
+          const SizedBox(height: MmSpace.s16),
+          Text(
+            best.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(best.mode)) : RhythmCopy.latestLine(marksText(best.latest)),
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+          if (dates != null) ...[
+            const SizedBox(height: MmSpace.s4),
+            Text(dates!, style: type.caption.copyWith(color: colors.ink3)),
+          ],
+        ],
+      ),
     );
-    // The first panel is the screen's one focal surface; the others are plain cards.
-    return lit ? MmSurface.hero(lit: true, child: content) : MmSurface.plain(child: content);
   }
 }
 
-/// Best or latest marks as a bar out of the paper's full marks, so two mocks of the same type can
-/// be read against each other at a glance. The bar is the observed marks over the maximum; a
-/// negative mark draws nothing.
+/// Another mock type as one plain row: its name and what it says, the best marks at the end.
+class _BestRow extends StatelessWidget {
+  const _BestRow({required this.best, required this.first});
+
+  final PersonalBest best;
+  final bool first;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final title = RhythmCopy.bestFormat(modeLabel(best.mode), subjectDisplayName(best.subject), best.questions);
+    final line = best.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(best.mode)) : RhythmCopy.latestLine(marksText(best.latest));
+    return Semantics(
+      container: true,
+      label: [title, bestBody(best)].join(' '),
+      excludeSemantics: true,
+      child: HairlineRow(
+        first: first,
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(formatSignedNumber(best.best.marks), style: type.figureCompact.copyWith(fontSize: 32, height: 1)),
+            Text(RhythmCopy.outOf(best.best.max), style: type.caption.copyWith(color: colors.ink2)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
+            const SizedBox(height: MmSpace.s2),
+            Text(line, style: type.small.copyWith(color: colors.ink2)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Best or latest marks as a bar out of the paper's full marks, with the marks at the end, so two
+/// mocks of the same type can be read against each other at a glance. The bar is the observed
+/// marks over the maximum; a negative mark draws nothing.
 class _MarksBar extends StatelessWidget {
   const _MarksBar({required this.label, required this.marks, required this.max, required this.best});
 
@@ -238,7 +294,7 @@ class _MarksBar extends StatelessWidget {
           child: ClipRRect(
             borderRadius: MmRadius.pillAll,
             child: SizedBox(
-              height: 8,
+              height: 10,
               child: Stack(
                 children: [
                   Positioned.fill(child: ColoredBox(color: colors.ink.withValues(alpha: 0.10))),
@@ -252,6 +308,15 @@ class _MarksBar extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
+        const SizedBox(width: MmSpace.s12),
+        SizedBox(
+          width: 44,
+          child: Text(
+            formatSignedNumber(marks.toInt()),
+            textAlign: TextAlign.end,
+            style: type.small.copyWith(color: best ? colors.ink : colors.ink2, fontWeight: FontWeight.w700),
           ),
         ),
       ],

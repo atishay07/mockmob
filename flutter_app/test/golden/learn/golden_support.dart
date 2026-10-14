@@ -73,6 +73,14 @@ List<Override> learnOverrides({
       for (final e in runs.entries) runControllerProvider(e.key).overrideWithBuild((ref, notifier) => e.value),
     ];
 
+/// Lets Mobi finish speaking: the bubble types its line in character by character, and a golden
+/// taken mid-line would commit half a sentence.
+Future<void> settleSpeech(WidgetTester tester, {Duration total = const Duration(seconds: 6)}) async {
+  for (var elapsed = Duration.zero; elapsed < total; elapsed += const Duration(milliseconds: 100)) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}
+
 /// Pumps a screen with its own Scaffold at the golden size and brightness.
 Future<void> pumpScreen(
   WidgetTester tester,

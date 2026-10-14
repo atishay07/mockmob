@@ -168,7 +168,6 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
           firstEver: widget.ritual.firstEver,
           onOpened: _onOpened,
           onNext: _next,
-          onFirstFix: () => _go(3),
           onWithoutReveal: _withoutReveal,
         );
       case 2:
@@ -313,26 +312,76 @@ class RecapPlaceholder extends StatelessWidget {
     final error = data.error;
     final Widget body;
     if (error == null && page) {
-      body = const SkeletonGroup(
+      // The shape of the result: the date, the big figure beside the subject's emblem, its meter,
+      // the two lines under it, the answers as rows of bubbles, then a section heading and rows.
+      // One soft light sweeps across it where the app lights its skeletons.
+      body = SkeletonGroup(
         label: ResultCopy.loading,
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, 0),
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MmSkeletonCard(),
-              SizedBox(height: MmRhythm.group),
-              Center(child: Skeleton(width: 320, height: 220, radius: 10)),
-              SizedBox(height: MmRhythm.section),
-              MmSkeletonRows(rows: 4),
+              const Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Skeleton.line(width: 190, height: 12),
+                        SizedBox(height: MmSpace.s16),
+                        Skeleton(width: 210, height: 84, radius: 10),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: MmSpace.s8),
+                  Skeleton.circle(size: 96),
+                ],
+              ),
+              const SizedBox(height: MmSpace.s12),
+              const Skeleton(height: 4, radius: 2),
+              const SizedBox(height: MmSpace.s16),
+              const Skeleton.line(width: 260, height: 16),
+              const SizedBox(height: MmSpace.s8),
+              const Skeleton.line(width: 230, height: 12),
+              const SizedBox(height: MmSpace.s24),
+              for (var r = 0; r < 5; r++) ...[
+                if (r > 0) const SizedBox(height: MmSpace.s12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [for (var c = 0; c < 10; c++) const Skeleton.circle(size: 22)],
+                ),
+              ],
+              const SizedBox(height: MmRhythm.section),
+              const Skeleton.line(width: 200, height: 22),
+              const SizedBox(height: MmSpace.s16),
+              const MmSkeletonRows(rows: 3),
             ],
           ),
         ),
       );
     } else if (error == null) {
-      body = const Center(
-        child: SkeletonGroup(label: ResultCopy.loading, child: Skeleton(width: 320, height: 420, radius: 12)),
+      // The sealed screen's shape: the headline lines at the top, the sheet resting low, and the
+      // key under it.
+      body = const SkeletonGroup(
+        label: ResultCopy.loading,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s24 + 56, MmSpace.cardGutter, MmSpace.s32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Skeleton(width: 250, height: 34, radius: 8),
+              SizedBox(height: MmSpace.s12),
+              Skeleton.line(width: 160, height: 14),
+              Spacer(),
+              Skeleton(height: 300, radius: 10),
+              SizedBox(height: MmSpace.s24),
+              Skeleton(height: 56, radius: 28),
+            ],
+          ),
+        ),
       );
     } else {
       body = StateView(

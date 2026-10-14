@@ -198,7 +198,12 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
           resume: hero,
           onContinue: () => cb.onAction(TodayAction('', GoTo(AppRoutes.run(hero.sessionId)), actionType: 'resume')),
         ),
-      EndedHero() => EndedHeroCard(ended: hero, onAction: cb.onAction, retrying: widget.retrying),
+      EndedHero() => EndedHeroCard(
+          ended: hero,
+          onAction: cb.onAction,
+          retrying: widget.retrying,
+          demoteAction: widget.view.also.any((s) => s.lead),
+        ),
     };
   }
 
@@ -325,6 +330,11 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
 class _StickyScrim extends StatelessWidget {
   const _StickyScrim({required this.child});
 
+  /// How far above the key the ground fades in. Eased in, so the chips just above the key stay
+  /// legible while the card's last lines dissolve into the bar (a cue that the card goes on)
+  /// instead of being cut hard against it.
+  static const double _fade = MmSpace.s24;
+
   final Widget child;
 
   @override
@@ -337,11 +347,16 @@ class _StickyScrim extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: MmSpace.s16,
+                  height: _fade,
                   width: double.infinity,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [ground.withValues(alpha: 0), ground]),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.12), ground],
+                        stops: const [0, 0.5, 1],
+                      ),
                     ),
                   ),
                 ),
@@ -353,7 +368,7 @@ class _StickyScrim extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: MmSpace.s16, width: double.infinity),
+            const SizedBox(height: _fade, width: double.infinity),
             SizedBox(width: double.infinity, child: child),
           ],
         ),

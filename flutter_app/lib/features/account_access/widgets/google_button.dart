@@ -55,6 +55,9 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
 
   /// How long to wait after coming back from the browser for the callback link before saying
   /// the sign-in did not finish. The link normally lands before the app is even visible.
+  static const double _glyphSize = 20;
+  static const double _glyphGap = MmSpace.s12;
+
   static const _returnGrace = Duration(seconds: 3);
 
   /// How long to wait for the session once the callback link arrived. The exchange is a network
@@ -164,6 +167,15 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
       _ => AccessCopy.continueWithGoogle,
     };
 
+    final labelPainter = TextPainter(
+      text: TextSpan(text: label, style: type.button),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final labelWidth = labelPainter.width;
+    labelPainter.dispose();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -174,22 +186,24 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
               loading: working,
               onPressed: widget.busy || _phase != GooglePhase.idle ? null : _continue,
             ),
-            // Google's "G" at the left edge of the pill; the label stays centred.
-            Positioned(
-              left: MmSpace.s24,
-              top: 0,
-              bottom: 0,
-              child: ExcludeSemantics(
-                child: IgnorePointer(
-                  child: Center(
-                    child: Opacity(
-                      opacity: widget.busy || _phase != GooglePhase.idle ? 0.5 : 1,
-                      child: const GoogleMark(),
+            // Google's "G" sits just before the label, so the two read as one centred group
+            // (the working spinner takes its place while Google opens).
+            if (!working)
+              Positioned.fill(
+                child: ExcludeSemantics(
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Transform.translate(
+                        offset: Offset(-(labelWidth / 2 + _glyphGap + _glyphSize / 2), 0),
+                        child: Opacity(
+                          opacity: widget.busy || _phase != GooglePhase.idle ? 0.5 : 1,
+                          child: const GoogleMark(size: _glyphSize),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
         if (_phase == GooglePhase.inBrowser) ...[

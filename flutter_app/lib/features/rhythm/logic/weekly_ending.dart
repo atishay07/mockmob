@@ -69,7 +69,7 @@ WeeklyEndingData? weeklyEndingFor(Rhythm rhythm, {required Set<String> dismissed
   final keys = <EndingKey>[EndingKey(EndingAction.keep, RhythmCopy.keep(goalNow), goal: goalNow)];
   if (closed.met) {
     if (goalNow < 7) keys.add(EndingKey(EndingAction.raise, RhythmCopy.tryMore(goalNow + 1), goal: goalNow + 1));
-    if (goalNow > 1) keys.add(const EndingKey(EndingAction.lighter, RhythmCopy.lighterWeek));
+    if (goalNow > 1) keys.add(EndingKey(EndingAction.lighter, RhythmCopy.lighterWeek(goalNow - 1), goal: goalNow - 1));
   } else {
     final lower = closed.studyDays.clamp(1, 7);
     if (lower < goalNow) keys.add(EndingKey(EndingAction.lower, RhythmCopy.makeIt(lower), goal: lower));

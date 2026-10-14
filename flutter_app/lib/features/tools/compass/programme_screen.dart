@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -73,19 +74,10 @@ class ProgrammeScreen extends ConsumerWidget {
     return [
       SliverToBoxAdapter(child: _VerdictCard(state: s, verdict: verdict)),
       const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.rulesHeading)),
-      SliverToBoxAdapter(child: ToolsCard(child: RulesList(rows: rules))),
-      SliverToBoxAdapter(
-        child: ToolsHeading(
-          ToolsCopy.cutoffsHeading,
-          note: '${ToolsCopy.categoryNow(s.category)}${s.score != null ? ', score ${duFormatScore(s.score)}' : ''}',
-          trailing: group.hasCutoffs ? KeyButton.quiet(label: ToolsCopy.change, onPressed: () => showCategoryScoreSheet(context)) : null,
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: group.hasCutoffs
-            ? CutoffTable(group: group, state: s)
-            : const ToolsNote(ToolsCopy.noCutoffsBody, top: 0),
-      ),
+      SliverToBoxAdapter(child: ToolsCard(child: RulesList(rows: rules, skipMissingFor: verdict.eligible ? null : verdict.nearest?.label))),
+      // A programme the subjects do not open: its cutoffs are folded, not laid out as if the
+      // student could act on them.
+      SliverToBoxAdapter(child: _Cutoffs(group: group, state: s, folded: !s.selection.isEmpty && !verdict.eligible)),
       if (group.eligibility.notes.isNotEmpty) ...[
         const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.notesHeading)),
         SliverToBoxAdapter(
@@ -108,6 +100,61 @@ class ProgrammeScreen extends ConsumerWidget {
   }
 }
 
+/// The college cutoffs of one programme: open by default; folded under "See cutoffs anyway" when
+/// the student's subjects do not open the programme.
+class _Cutoffs extends StatefulWidget {
+  const _Cutoffs({required this.group, required this.state, required this.folded});
+
+  final DuGroup group;
+  final CompassState state;
+  final bool folded;
+
+  @override
+  State<_Cutoffs> createState() => _CutoffsState();
+}
+
+class _CutoffsState extends State<_Cutoffs> {
+  bool _shown = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = widget.state;
+    final group = widget.group;
+    final open = !widget.folded || _shown;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ToolsHeading(
+          ToolsCopy.cutoffsHeading,
+          note: open
+              ? '${ToolsCopy.categoryNow(s.category)}${s.score != null ? ', score ${duFormatScore(s.score)}' : ''}'
+              : ToolsCopy.cutoffsNotOpenNote,
+          trailing: open && group.hasCutoffs
+              ? ToolsInlineAction(label: ToolsCopy.change, icon: LucideIcons.pencilLine, onTap: () => showCategoryScoreSheet(context))
+              : null,
+        ),
+        if (widget.folded)
+          ToolsPanel(
+            children: [
+              ToolsRowFrame(
+                onTap: () => setState(() => _shown = !_shown),
+                semanticsLabel: _shown ? ToolsCopy.hideCutoffs : ToolsCopy.seeCutoffsAnyway,
+                child: Row(
+                  children: [
+                    Expanded(child: Text(_shown ? ToolsCopy.hideCutoffs : ToolsCopy.seeCutoffsAnyway, style: context.mmType.labelLarge)),
+                    Icon(_shown ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: context.mmColors.ink3),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        if (widget.folded && _shown) const SizedBox(height: MmSpace.s16),
+        if (open) group.hasCutoffs ? CutoffTable(group: group, state: s) : const ToolsNote(ToolsCopy.noCutoffsBody, top: 0),
+      ],
+    );
+  }
+}
+
 /// The answer to "can I apply?": an inked bubble and the combination that opens it, or an empty
 /// one with what the nearest combination still needs and the key to change subjects.
 class _VerdictCard extends ConsumerWidget {
@@ -123,6 +170,7 @@ class _VerdictCard extends ConsumerWidget {
     final v = verdict;
     final r1 = roundOneVerdict(v.group, state.category, state.score);
     final gaps = [for (final g in v.nearest?.gaps ?? const <DuGap>[]) duDescribeGap(g, state.catalog)];
+    final empty = state.selection.isEmpty;
     return ToolsCard(
       lit: v.eligible,
       child: Column(
@@ -142,18 +190,19 @@ class _VerdictCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.selection.isEmpty
+                        empty
                             ? ToolsCopy.emptyHeroTitle
                             : v.eligible
-                                ? ToolsCopy.eligibleVia(v.matched!.label)
+                                ? ToolsCopy.eligibleTitle
                                 : ToolsCopy.notEligible,
                         style: type.cardTitle,
                       ),
-                      const SizedBox(height: MmSpace.s4),
-                      if (v.eligible)
-                        Text(v.matched!.text, style: type.small.copyWith(color: colors.ink2))
-                      else if (gaps.isNotEmpty)
-                        Text(gaps.join(', '), style: type.small.copyWith(color: colors.ink2)),
+                      // Which combination opens it is the rule list's job, once, just below. A
+                      // programme not open yet says here what one more subject changes.
+                      if (!v.eligible && gaps.isNotEmpty) ...[
+                        const SizedBox(height: MmSpace.s4),
+                        Text(gaps.join(', '), style: type.small.copyWith(color: colors.warnText)),
+                      ],
                       if (v.secondary) ...[
                         const SizedBox(height: MmSpace.s4),
                         Text(ToolsCopy.secondaryNote, style: type.caption.copyWith(color: colors.warnText)),
@@ -173,10 +222,9 @@ class _VerdictCard extends ConsumerWidget {
             ToolTag(r1.$1, tone: r1.$2),
           ],
           if (!v.eligible) ...[
-            const SizedBox(height: MmSpace.s16),
-            KeyButton.secondary(
-              label: state.selection.isEmpty ? ToolsCopy.pickSubjects : ToolsCopy.editSubjects,
-              expanded: false,
+            const SizedBox(height: MmSpace.s20),
+            KeyButton(
+              label: empty ? ToolsCopy.pickSubjects : ToolsCopy.editSubjects,
               onPressed: () => openCompassPicker(context, ref, state.catalog),
             ),
           ],

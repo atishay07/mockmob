@@ -105,7 +105,8 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.paused)
-          Icon(Icons.pause_rounded, size: s * 0.26, color: colors.ink3)
+          // Drawn, not an icon font glyph, so the sheet and the screen always show the same two bars.
+          PauseBars(height: s * 0.24, color: colors.ink)
         else
           MonumentalNumber(
             value: '${widget.done}',
@@ -143,6 +144,33 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
       ),
     );
     return ExcludeSemantics(child: dial);
+  }
+}
+
+/// The two bars of a pause: the same glyph on the full screen, in the sheet and on the You hub.
+class PauseBars extends StatelessWidget {
+  const PauseBars({super.key, required this.height, required this.color});
+
+  final double height;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final bar = height * 0.3;
+    return SizedBox(
+      width: height * 0.84,
+      height: height,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (var i = 0; i < 2; i++)
+            DecoratedBox(
+              decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(bar / 2)),
+              child: SizedBox(width: bar, height: height),
+            ),
+        ],
+      ),
+    );
   }
 }
 
@@ -215,7 +243,7 @@ class _DialPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = stroke * 0.5
         ..strokeCap = StrokeCap.round
-        ..color = colors.ink3;
+        ..color = colors.ink2;
       for (var i = 0; i < goal; i++) {
         final a0 = start0 + i * (sweep + gap);
         const dashes = 5;

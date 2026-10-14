@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
 import '../../../core/motion/motion.dart';
@@ -11,15 +12,15 @@ import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../result_nav.dart';
-import '../sheet/paper.dart';
 import '../widgets/evidence_link.dart';
 import 'card_page.dart';
 import 'recap_mobi.dart';
 
 /// Card 3 (spec 5.6.3): one chapter to start with, from the observed chapter breakdown of this
 /// mock (never from a forecast). Every claim carries its evidence: the cost figure, and the
-/// printed strip of the answer sheet whose tiles open those exact answers. Mobi thinks about it
-/// and then points at the strip.
+/// ruler of the paper with this chapter's answers under it, each opening that exact answer. Mobi
+/// thinks about it beside the two links, then points down at the ruler. The ruler and its answers
+/// sit on the card itself: no panel.
 class FirstFixCard extends StatefulWidget {
   const FirstFixCard({super.key, required this.model, required this.onNext, required this.onBack});
 
@@ -97,6 +98,9 @@ class _FirstFixCardState extends State<FirstFixCard> {
     };
 
     final showWhy = leader != null && !blanksOnly;
+    // Mobi shares the row of links, on the right, where it can point down at the ruler. At large
+    // text the row needs the width, so Mobi leaves (nothing ever sits under the keys for it).
+    final largeText = MediaQuery.textScalerOf(context).scale(14) / 14 > 1.15;
     return RecapCardPage(
       onNext: onNext,
       onBack: widget.onBack,
@@ -111,23 +115,32 @@ class _FirstFixCardState extends State<FirstFixCard> {
                 Wrap(alignment: WrapAlignment.center, children: [practise]),
               ],
             ),
-      // Mobi thinks about the chapter and then points at the strip above it. Not when there is
-      // nothing to point at.
-      anchored: tiles.isEmpty ? null : RecapMobi(pose: MobiPose.think, size: 104, lookAt: _strip),
       children: [
         _Header(subjectId: m.subjectId),
         Semantics(header: true, child: Text(title, style: context.mmType.moment)),
         const SizedBox(height: MmSpace.s4),
         if (tiles.isNotEmpty)
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EvidenceLink(
-                label: ResultCopy.seeQuestions(tiles.length),
-                onTap: () => ResultNav.toFullResult(context, m.attemptId, question: tiles.first.$1),
+              // Both links are flush with the 20 dp gutter and 48 dp tall, in the same slot at
+              // every text size.
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    EvidenceLink(
+                      label: ResultCopy.seeQuestions(tiles.length),
+                      onTap: () => ResultNav.toFullResult(context, m.attemptId, question: tiles.first.$1),
+                    ),
+                    if (showWhy) EvidenceLink(label: ResultCopy.whyThis, icon: LucideIcons.info, onTap: () => _why(context, leader)),
+                  ],
+                ),
               ),
-              if (showWhy) KeyButton.quiet(label: ResultCopy.whyThis, onPressed: () => _why(context, leader)),
+              if (!largeText) ...[
+                const SizedBox(width: MmSpace.s12),
+                RecapMobi(pose: MobiPose.think, size: 76, lookAt: _strip),
+              ],
             ],
           )
         else
@@ -135,15 +148,13 @@ class _FirstFixCardState extends State<FirstFixCard> {
         const SizedBox(height: MmSpace.s4),
         ...evidence,
         if (tiles.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s20),
-          RecapBleed(
-            child: _AnswerStrip(
-              key: _strip,
-              label: leader == null ? ResultCopy.yourWrongAnswers : ResultCopy.yourAnswersHere,
-              questions: m.cells.length,
-              tiles: tiles,
-              onOpen: (n) => ResultNav.toFullResult(context, m.attemptId, question: n),
-            ),
+          const SizedBox(height: MmSpace.s24),
+          _AnswerRuler(
+            key: _strip,
+            label: leader == null ? ResultCopy.yourWrongAnswers : ResultCopy.yourAnswersHere,
+            questions: m.cells.length,
+            tiles: tiles,
+            onOpen: (n) => ResultNav.toFullResult(context, m.attemptId, question: n),
           ),
         ],
       ],
@@ -163,7 +174,8 @@ class _FirstFixCardState extends State<FirstFixCard> {
 }
 
 /// The subject's light, pooled softly behind the top of the card: environment only, no object
-/// (the book belongs to Today). The headline starts 24 dp under the story bar.
+/// (the book belongs to Today). The headline starts 24 dp under the story bar (8 of padding and
+/// 16 here), the same line as on every other card.
 class _Header extends StatelessWidget {
   const _Header({required this.subjectId});
 
@@ -173,7 +185,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final light = SubjectLight.forSubject(subjectId == 'gat' ? 'general_test' : subjectId);
     return SizedBox(
-      height: MmSpace.s24,
+      height: MmSpace.s16,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -213,136 +225,184 @@ int firstFixTileColumns(double maxWidth) {
   return 1;
 }
 
-const double _stripPad = 14;
 const double _tileGap = 4;
 
-/// The chapter's own strip of the answer sheet, the card's hero: printed charcoal paper running
-/// nearly edge to edge, the whole paper as a map of ticks on top, and under it this chapter's
-/// answers to look at, each its number over a 40 dp bubble that opens that exact answer.
-class _AnswerStrip extends StatelessWidget {
-  const _AnswerStrip({super.key, required this.label, required this.questions, required this.tiles, required this.onOpen});
+/// Where the answer chips stand, one under each stem of the ruler. Each wants to be centred under
+/// its own stem; the stems of neighbouring questions are closer together than a 48 dp target is
+/// wide, so the chips are eased apart (never closer than [gap] between centres) and kept inside
+/// [minX]..[maxX]. Null when they cannot all fit on one line: the caller wraps them instead.
+List<double>? chipCenters(List<double> desired, {required double minX, required double maxX, double gap = 50}) {
+  if (desired.isEmpty) return const [];
+  final c = [...desired];
+  c[0] = c[0].clamp(minX, maxX);
+  for (var i = 1; i < c.length; i++) {
+    if (c[i] < c[i - 1] + gap) c[i] = c[i - 1] + gap;
+  }
+  if (c.last > maxX) c[c.length - 1] = maxX;
+  for (var i = c.length - 2; i >= 0; i--) {
+    if (c[i] > c[i + 1] - gap) c[i] = c[i + 1] - gap;
+  }
+  return c.first < minX - 0.01 ? null : c;
+}
+
+/// The chapter's answers on the card itself, no panel: the whole paper as one ruler (question 1 at
+/// the left, the last at the right) with this chapter's answers standing on it, wrong in coral and
+/// blank as an open dash, so the student sees whether they cluster or spread. Under it, one chip
+/// per answer, number over bubble, each under its own stem on a thin leader and each opening that
+/// exact answer. Observed positions only. When there are too many to stand in one line the chips
+/// wrap into rows instead (and the leaders go).
+class _AnswerRuler extends StatelessWidget {
+  const _AnswerRuler({super.key, required this.label, required this.questions, required this.tiles, required this.onOpen});
 
   final String label;
   final int questions;
   final List<(int, BubbleState)> tiles;
   final ValueChanged<int> onOpen;
 
+  static const double _inset = 6;
+  static const double _chip = 48;
+  static const double _rulerHeight = _mapHeight + 26;
+  static const double _chipHeight = 72;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return NightObject(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          // Six to a row across the full width, so no number is left alone on a row of its own
-          // unless the count says so. Fewer when six would leave a tile under 48 dp wide (a
-          // 360 dp phone), because the tile is the control that opens that exact answer.
-          final inner = constraints.maxWidth - 2 * _stripPad;
-          final columns = firstFixTileColumns(inner);
-          final width = (inner - (columns - 1) * _tileGap) / columns;
-          return DecoratedBox(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [BoxShadow(color: Color(0x66000000), blurRadius: 28, offset: Offset(4, 12), spreadRadius: -8)],
-            ),
-            child: PaperFace(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(_stripPad, MmSpace.s16, _stripPad, MmSpace.s12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                      child: Text(label, style: type.caption.copyWith(color: colors.ink3, fontSize: 11.5, letterSpacing: 0.4)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // The label is real text at a readable contrast, with the paper's extent on the right.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Expanded(child: Text(label, style: type.small.copyWith(color: colors.ink2))),
+            const SizedBox(width: MmSpace.s12),
+            ExcludeSemantics(child: Text(ResultCopy.range(questions), style: type.caption.copyWith(color: colors.ink3))),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s12),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth;
+            double x(int n) => questions <= 1 ? width / 2 : _inset + (n - 1) * (width - 2 * _inset) / (questions - 1);
+            final centers = chipCenters(
+              [for (final (n, _) in tiles) x(n)],
+              minX: _chip / 2,
+              maxX: width - _chip / 2,
+              gap: _chip + 2,
+            );
+            if (centers == null) return _Wrapped(width: width, questions: questions, tiles: tiles, onOpen: onOpen);
+            return SizedBox(
+              height: _rulerHeight + _chipHeight,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    height: _rulerHeight,
+                    child: ExcludeSemantics(
+                      child: RepaintBoundary(
+                        child: CustomPaint(
+                          painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: centers, colors: colors, inset: _inset),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: MmSpace.s12),
-                    // Where these answers sit on the whole paper, before the answers themselves.
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
-                      child: PaperMap(questions: questions, marks: tiles),
+                  ),
+                  for (var i = 0; i < tiles.length; i++)
+                    Positioned(
+                      left: centers[i] - _chip / 2,
+                      top: _rulerHeight,
+                      width: _chip,
+                      height: _chipHeight,
+                      child: _QuestionTile(number: tiles[i].$1, state: tiles[i].$2, width: _chip, onTap: () => onOpen(tiles[i].$1)),
                     ),
-                    const SizedBox(height: MmSpace.s12),
-                    Wrap(
-                      spacing: _tileGap,
-                      runSpacing: MmSpace.s4,
-                      children: [
-                        for (final (n, s) in tiles) _QuestionTile(number: n, state: s, width: width, onTap: () => onOpen(n)),
-                      ],
-                    ),
-                  ],
-                ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+/// The fallback: the ruler alone, then the chips wrapped six to a row (fewer where six would leave
+/// a chip under 48 dp wide).
+class _Wrapped extends StatelessWidget {
+  const _Wrapped({required this.width, required this.questions, required this.tiles, required this.onOpen});
+
+  final double width;
+  final int questions;
+  final List<(int, BubbleState)> tiles;
+  final ValueChanged<int> onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final columns = firstFixTileColumns(width);
+    final tile = (width - (columns - 1) * _tileGap) / columns;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: _mapHeight,
+          child: ExcludeSemantics(
+            child: RepaintBoundary(
+              child: CustomPaint(
+                painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: null, colors: context.mmColors, inset: _AnswerRuler._inset),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        ),
+        const SizedBox(height: MmSpace.s12),
+        Wrap(
+          spacing: _tileGap,
+          runSpacing: MmSpace.s4,
+          children: [
+            for (final (n, s) in tiles) _QuestionTile(number: n, state: s, width: tile, onTap: () => onOpen(n)),
+          ],
+        ),
+      ],
     );
   }
 }
 
 const double _mapHeight = 44;
 
-/// The whole paper as one line of ticks, question 1 at the left and the last at the right, with
-/// the chapter's answers to look at raised and inked (wrong in coral, blank as an open dash), so
-/// the student sees whether they cluster or are spread through the paper. Observed positions only.
-class PaperMap extends StatelessWidget {
-  const PaperMap({super.key, required this.questions, required this.marks});
+class _RulerPainter extends CustomPainter {
+  _RulerPainter({required this.questions, required this.marks, required this.chipCenters, required this.colors, required this.inset});
 
   final int questions;
   final List<(int, BubbleState)> marks;
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final scale = type.caption.copyWith(color: colors.ink3, fontSize: 11, height: 1.2);
-    return ExcludeSemantics(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          RepaintBoundary(
-            child: SizedBox(
-              height: _mapHeight,
-              child: CustomPaint(painter: _PaperMapPainter(questions: questions, marks: marks, colors: colors)),
-            ),
-          ),
-          const SizedBox(height: MmSpace.s4),
-          Row(
-            children: [
-              Text('1', style: scale),
-              const Spacer(),
-              Text('$questions', style: scale),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PaperMapPainter extends CustomPainter {
-  _PaperMapPainter({required this.questions, required this.marks, required this.colors});
-
-  final int questions;
-  final List<(int, BubbleState)> marks;
+  /// Where each mark's chip stands (same order as [marks]), for the leaders; null draws none.
+  final List<double>? chipCenters;
   final MmColors colors;
+  final double inset;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (questions <= 0) return;
-    final base = size.height - 1;
-    final step = questions == 1 ? 0.0 : size.width / (questions - 1);
-    double x(int n) => questions == 1 ? size.width / 2 : (n - 1) * step;
-    canvas.drawRect(Rect.fromLTWH(0, base - 0.5, size.width, 1), Paint()..color = colors.line);
+    final base = _mapHeight - 1;
+    final span = size.width - 2 * inset;
+    final step = questions == 1 ? 0.0 : span / (questions - 1);
+    double x(int n) => questions == 1 ? size.width / 2 : inset + (n - 1) * step;
+    canvas.drawRect(Rect.fromLTWH(inset, base - 0.5, span, 1), Paint()..color = colors.line);
     final tick = Paint()..color = colors.ink4;
     for (var n = 1; n <= questions; n++) {
       canvas.drawRect(Rect.fromLTWH(x(n) - 0.5, base - 7, 1, 7), tick);
     }
     const head = 5.0;
-    for (final (n, s) in marks) {
+    final leaders = chipCenters;
+    for (var i = 0; i < marks.length; i++) {
+      final (n, s) = marks[i];
       if (n < 1 || n > questions) continue;
       final cx = x(n);
-      if (s == BubbleState.wrong) {
+      final wrong = s == BubbleState.wrong;
+      final ink = wrong ? colors.wrongMark : colors.ink2;
+      if (wrong) {
         canvas.drawRRect(
           RRect.fromRectAndRadius(Rect.fromLTWH(cx - 1.5, head, 3, base - head), const Radius.circular(1.5)),
           Paint()..color = colors.wrongMark,
@@ -363,14 +423,29 @@ class _PaperMapPainter extends CustomPainter {
             ..color = colors.ink2,
         );
       }
+      if (leaders != null) {
+        // From the foot of the stem to the chip's number: one thin line that eases sideways.
+        const end = _AnswerRuler._rulerHeight + 4;
+        const mid = (_mapHeight + end) / 2;
+        canvas.drawPath(
+          Path()
+            ..moveTo(cx, base + 1)
+            ..cubicTo(cx, mid, leaders[i], mid, leaders[i], end),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1
+            ..color = ink.withValues(alpha: 0.55),
+        );
+      }
     }
   }
 
   @override
-  bool shouldRepaint(_PaperMapPainter old) => old.questions != questions || old.colors != colors || old.marks != marks;
+  bool shouldRepaint(_RulerPainter old) =>
+      old.questions != questions || old.colors != colors || old.marks != marks || old.chipCenters != chipCenters || old.inset != inset;
 }
 
-/// One question on the chapter strip: its number over its bubble, 84 dp tall and at least 48 dp
+/// One question on the chapter's ruler: its number over its bubble, 72 dp tall and at least 48 dp
 /// wide, opening that exact answer.
 class _QuestionTile extends StatelessWidget {
   const _QuestionTile({required this.number, required this.state, required this.onTap, this.width = 52});
@@ -393,7 +468,7 @@ class _QuestionTile extends StatelessWidget {
       builder: (context, pressed, _) => AnimatedContainer(
         duration: Motion.of(context, Motion.press),
         width: width,
-        height: 84,
+        height: 72,
         decoration: BoxDecoration(
           color: pressed ? colors.raised2 : const Color(0x00000000),
           borderRadius: MmRadius.smallAll,

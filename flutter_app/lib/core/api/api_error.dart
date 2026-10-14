@@ -113,7 +113,7 @@ class ApiError implements Exception {
   /// A fixed, plain fallback sentence for places that have nothing more specific to say.
   /// Screens normally map [code] to their own copy.
   String get message => switch (kind) {
-        ApiErrorKind.network => 'You are offline.',
+        ApiErrorKind.network => "You're offline.",
         ApiErrorKind.timeout => 'The connection is slow. Try again.',
         ApiErrorKind.unauthorized => 'Please sign in again.',
         ApiErrorKind.forbidden => 'This is not available for your account.',

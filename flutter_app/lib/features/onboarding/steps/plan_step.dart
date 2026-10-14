@@ -22,8 +22,8 @@ import '../widgets/plan_sheet.dart';
 /// Step 9, the climax: the sheet flips over (600 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
-/// (1.2 s, a firm tap when it lands); "Seal it" beside the hold seals at once, and so does
-/// TalkBack's double tap on the hold.
+/// (1.2 s, a firm tap when it lands); the "Tap to seal instead" link under the hold seals at
+/// once, and so does TalkBack's double tap on the hold.
 class PlanStep extends ConsumerStatefulWidget {
   const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false});
 
@@ -226,6 +226,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           child: LayoutBuilder(
             builder: (context, box) {
               final compact = box.maxHeight < _compactBelow;
+              final top = compact ? MmSpace.s12 : MmSpace.s24;
               return NotificationListener<ScrollMetricsNotification>(
                 onNotification: (n) {
                   final more = n.metrics.extentAfter > 1;
@@ -242,10 +243,16 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                     children: [
                       Positioned.fill(
                         child: SingleChildScrollView(
-                          padding: EdgeInsets.only(top: compact ? MmSpace.s12 : MmSpace.s32, bottom: MmSpace.s16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [card(compact)],
+                          padding: EdgeInsets.only(top: top, bottom: MmSpace.s16),
+                          // The sheet sits in the middle of the room it has, so a tall phone
+                          // gets an even margin above and below it, not a gap under it only.
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(minHeight: math.max(0, box.maxHeight - top - MmSpace.s16)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [card(compact)],
+                            ),
                           ),
                         ),
                       ),
@@ -291,37 +298,30 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Two ways in one row: hold the pill (the ceremony), or tap Seal it for
-                    // anyone who cannot hold steadily. TalkBack's double tap on the pill seals too.
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: HoldToSeal(
-                            progress: _hold,
-                            onHoldStart: () {
-                              ref.read(hapticsProvider).selection();
-                              _hold.forward();
-                            },
-                            onHoldEnd: () {
-                              if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
-                              _thirds = 0;
-                            },
-                            onSeal: _seal,
-                          ),
-                        ),
-                        const SizedBox(width: MmSpace.s8),
-                        Expanded(
-                          child: KeyButton.secondary(
-                            label: OnboardingCopy.sealIt,
-                            onPressed: _seal,
-                            minHeight: MmTarget.primaryKey,
-                          ),
-                        ),
-                      ],
+                    // One dominant control: hold the pill (the ceremony). Anyone who cannot hold
+                    // steadily taps the link under it; TalkBack's double tap on the pill seals too.
+                    HoldToSeal(
+                      progress: _hold,
+                      onHoldStart: () {
+                        ref.read(hapticsProvider).selection();
+                        _hold.forward();
+                      },
+                      onHoldEnd: () {
+                        if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
+                        _thirds = 0;
+                      },
+                      onSeal: _seal,
                     ),
                     const SizedBox(height: MmSpace.s4),
-                    Center(child: KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change)),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: MmSpace.s8,
+                      children: [
+                        KeyButton.quiet(label: OnboardingCopy.sealIt, onPressed: _seal),
+                        KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change),
+                      ],
+                    ),
                   ],
                 ),
         ),

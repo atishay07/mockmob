@@ -9,6 +9,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/insights_models.dart';
+import 'edge_fade.dart';
 
 /// What a prompt asks about. Record intents are answered on the phone from the student's own
 /// sessions (free); the others go to the AI through the server's budget guard (1 credit).
@@ -90,7 +91,9 @@ List<AskPrompt> openPrompts(PrepInsights? v) {
   ];
 }
 
-/// A small group label: a hollow bubble and a quiet line.
+/// A small group label: the group's name and, beside it or under it when there is no room (large
+/// text), a quiet line on what that group costs. No bullet: a hollow circle reads as an unchecked
+/// radio.
 class AskEyebrow extends StatelessWidget {
   const AskEyebrow(this.label, {super.key, this.note});
 
@@ -103,15 +106,13 @@ class AskEyebrow extends StatelessWidget {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.only(bottom: MmSpace.s12),
-      child: Row(
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: MmSpace.s8,
+        runSpacing: 2,
         children: [
-          const Bubble(state: BubbleState.hollow, size: 10, animate: false),
-          const SizedBox(width: MmSpace.s8),
           Semantics(header: true, child: Text(label, style: type.label.copyWith(color: colors.ink, letterSpacing: 0.2))),
-          if (note != null) ...[
-            const SizedBox(width: MmSpace.s8),
-            Flexible(child: Text(note!, style: type.caption.copyWith(color: colors.ink3))),
-          ],
+          if (note != null) Text(note!, style: type.caption.copyWith(color: colors.ink3)),
         ],
       ),
     );
@@ -119,18 +120,26 @@ class AskEyebrow extends StatelessWidget {
 }
 
 /// A rich prompt: a small drawing of what the question is about, the question, one live line from
-/// the student's record. Its cost is said once, on the group. Taps send it. [lead] gives the one lit edge of the screen.
+/// the student's record. Its cost is said once, on the group. Taps send it.
+///
+/// [lead] is the screen's first prompt: full width, larger type and the one lit edge, so there is
+/// a plain place to start. [wide] lays a full-width tile out in a row (drawing, then the words).
 class PromptTile extends ConsumerWidget {
-  const PromptTile({super.key, required this.prompt, required this.onTap, this.lead = false});
+  const PromptTile({super.key, required this.prompt, required this.onTap, this.lead = false, this.wide = false});
 
   final AskPrompt prompt;
   final VoidCallback onTap;
   final bool lead;
+  final bool wide;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final preview = Text(
+      prompt.preview ?? prompt.fallbackPreview,
+      style: type.caption.copyWith(color: colors.ink3, fontSize: 12.5, height: 17 / 12.5),
+    );
     return MmPressable(
       semanticsLabel: 'Ask: ${prompt.text}',
       focusRadius: MmRadius.panelAll,
@@ -143,27 +152,44 @@ class PromptTile extends ConsumerWidget {
           pressed: pressed,
           lamp: lead,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s12, MmSpace.s12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PromptGlyph(intent: prompt.intent),
-                  ],
-                ),
-                const SizedBox(height: MmSpace.s12),
-                Text(prompt.text, style: type.labelLarge.copyWith(height: 20 / 15), maxLines: 3),
-                const Spacer(),
-                const SizedBox(height: MmSpace.s8),
-                Padding(
-                  padding: const EdgeInsets.only(right: MmSpace.s4),
-                  // The whole line, wrapped: a chapter name is never cut.
-                  child: Text(prompt.preview ?? prompt.fallbackPreview, style: type.caption.copyWith(color: colors.ink3, fontSize: 12.5, height: 17 / 12.5)),
-                ),
-              ],
-            ),
+            padding: EdgeInsets.fromLTRB(MmSpace.s16, lead ? MmSpace.s20 : MmSpace.s16, MmSpace.s16, lead ? MmSpace.s16 : MmSpace.s12),
+            child: wide
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PromptGlyph(intent: prompt.intent),
+                      const SizedBox(width: MmSpace.s16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(prompt.text, style: type.labelLarge.copyWith(height: 20 / 15)),
+                            const SizedBox(height: MmSpace.s4),
+                            preview,
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PromptGlyph(intent: prompt.intent),
+                      SizedBox(height: lead ? MmSpace.s16 : MmSpace.s12),
+                      Text(
+                        prompt.text,
+                        style: lead ? type.cardTitle.copyWith(fontSize: 20, height: 25 / 20) : type.labelLarge.copyWith(height: 20 / 15),
+                        maxLines: 3,
+                      ),
+                      if (lead) const SizedBox(height: MmSpace.s8) else const Spacer(),
+                      if (!lead) const SizedBox(height: MmSpace.s8),
+                      Padding(
+                        padding: const EdgeInsets.only(right: MmSpace.s4),
+                        // The whole line, wrapped: a chapter name is never cut.
+                        child: preview,
+                      ),
+                    ],
+                  ),
           ),
         );
         if (lead) face = LitEdge(child: face);
@@ -231,7 +257,8 @@ class FollowUpRail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return SizedBox(
+    return EdgeFade(
+      child: SizedBox(
       height: MmTarget.min,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -268,6 +295,7 @@ class FollowUpRail extends ConsumerWidget {
             ),
           );
         },
+      ),
       ),
     );
   }

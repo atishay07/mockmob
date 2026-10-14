@@ -59,11 +59,12 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     if (token != null) ref.read(resultActionsProvider).acknowledgeFirstMock(m.attemptId, token);
   }
 
-  /// Effort once, and only when the result allows it; the next step otherwise.
-  String? get _mobiLine {
-    if (!m.variant.allowsTokens) return ResultCopy.nextStepLine;
-    if (m.monthMockCount <= 0) return null;
-    return ResultCopy.effort(m.monthMockCount, firstInSubject: m.variant == RecapVariant.firstMock, subject: m.subjectName);
+  /// Effort, once, and only when the result allows it ("Third full paper this month."), folded
+  /// into the receipt line it belongs to. Never on the first mock (the token row already says
+  /// so), and never after a lower or held result.
+  String? get _effortLine {
+    if (!m.variant.allowsTokens || m.variant == RecapVariant.firstMock || m.monthMockCount <= 0) return null;
+    return ResultCopy.effort(m.monthMockCount, firstInSubject: false, subject: m.subjectName);
   }
 
   /// The first full mock is a milestone the server has marked: Mobi stands proud (stretches tall,
@@ -110,29 +111,28 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     final asks = askReminder ? (ref.watch(reminderAskCountProvider).value ?? 0) : 0;
     final token = m.variant.allowsTokens ? m.firstMockTokenAt : null;
 
-    // Side by side when they fit. At large text they would stack and take a quarter of the screen
-    // (the length chips fell under the scroll edge), so they close the scrolling card instead and
-    // only the primary key stays pinned.
+    // At large text the headline needs the whole width, so Mobi steps out; nothing is ever laid
+    // under the keys for it.
     final largeText = MediaQuery.textScalerOf(context).scale(14) / 14 > 1.15;
     // The primary key names the one thing to do next: the repair, else Today's own next move, else
-    // "Finish for now" (a key that promises nothing the app cannot do). "Choose something else"
-    // is always one quiet key away, and "Finish for now" is quiet whenever it is not the primary.
+    // "Finish for now" (a key that promises nothing the app cannot do). One quiet key sits under
+    // it, "Choose something else"; "Finish for now" waits behind "More" whenever it is not the
+    // primary, so the card has one dominant action and one secondary one.
     final next = hasRepair ? null : ref.watch(todayNextActionProvider);
     final finishIsPrimary = !hasRepair && next == null;
-    final quietKeys = Wrap(
-      alignment: WrapAlignment.center,
+    final quietKeys = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
-        if (!finishIsPrimary) KeyButton.quiet(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
+        Flexible(child: KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives))),
+        if (!finishIsPrimary) MoreKey(onFinish: widget.onFinish),
       ],
     );
+    final effort = _effortLine;
+    final receipt = ResultCopy.receiptLine(m.receivedAt);
 
     return RecapCardPage(
       onNext: null,
       onBack: widget.onBack,
-      // Mobi has the floor of the card, above the keys: it settles into its pose, breathes and
-      // blinks, says its one line as plain text and, for a higher result only, cheers.
-      anchored: RecapMobi(pose: _mobiPose, size: 120, line: _mobiLine),
       footer: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -152,14 +152,31 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             )
           else
             KeyButton(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
-          if (!largeText) quietKeys,
+          quietKeys,
         ],
       ),
       children: [
         const SizedBox(height: MmSpace.s16),
-        Semantics(header: true, child: Text(ResultCopy.inRecord(m.mockLabel), style: type.moment)),
-        const SizedBox(height: MmSpace.s12),
-        ReceiptLine(text: ResultCopy.receiptLine(m.receivedAt)),
+        // The headline and its receipt line, with Mobi beside them in the same place as on card 1.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(header: true, child: Text(ResultCopy.inRecord(m.mockLabel), style: type.moment)),
+                  const SizedBox(height: MmSpace.s12),
+                  ReceiptLine(text: effort == null ? receipt : '$receipt $effort'),
+                ],
+              ),
+            ),
+            if (!largeText) ...[
+              const SizedBox(width: MmSpace.s12),
+              RecapMobi(pose: _mobiPose, size: 76),
+            ],
+          ],
+        ),
         // Any moment the rhythm module fires for this result lands here, on the ground. It takes
         // no space when nothing fired.
         CelebrationSlot(scope: CelebrationScope.result(m.attemptId)),
@@ -175,11 +192,8 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           onMinutes: (v) => setState(() => _minutes = v),
           onRetryKeys: widget.onRetryKeys,
         ),
-        // The sheet, to keep: a share card with no marks on it, previewed before anything leaves.
-        const SizedBox(height: MmSpace.s20),
-        SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
         if (askReminder) ...[
-          const SizedBox(height: MmSpace.s12),
+          const SizedBox(height: MmSpace.s20),
           ReminderRow(
             text: reminderRowLine(asks),
             onSet: () => context.push(AppRoutes.permissionsNotifications),
@@ -189,11 +203,14 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             },
           ),
         ],
+        // The sheet, to keep: a quiet row, previewed as a card with no marks on it before anything
+        // leaves.
+        const SizedBox(height: MmSpace.s8),
+        SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
         if (widget.showSkipHint) ...[
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.skipHint, style: type.small.copyWith(color: colors.ink3)),
         ],
-        if (largeText) ...[const SizedBox(height: MmSpace.s12), quietKeys],
       ],
     );
   }

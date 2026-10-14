@@ -17,7 +17,8 @@ import 'screens/unit_screen.dart';
 
 export 'learn_paths.dart';
 
-Widget learnScreen(BuildContext context, GoRouterState state) => const LearnScreen();
+Widget learnScreen(BuildContext context, GoRouterState state) =>
+    const LearnScreen();
 
 Widget learnUnitScreen(BuildContext context, GoRouterState state) =>
     LearnUnitScreen(unitId: state.pathParameters['unitId'] ?? '');
@@ -29,7 +30,8 @@ Widget learnRunDoneScreen(BuildContext context, GoRouterState state) =>
     LearnRunDoneScreen(runId: state.pathParameters['runId'] ?? '');
 
 /// `/learn/summary/:subject/:chapter`: the chapter reader.
-Widget learnSummaryScreen(BuildContext context, GoRouterState state) => LearnSummaryScreen(
+Widget learnSummaryScreen(BuildContext context, GoRouterState state) =>
+    LearnSummaryScreen(
       subject: state.pathParameters['subject'] ?? '',
       chapter: state.pathParameters['chapter'] ?? '',
     );

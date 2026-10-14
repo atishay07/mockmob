@@ -59,8 +59,8 @@ class StepLayout extends StatelessWidget {
 
     final content = scroll
         ? SingleChildScrollView(
-            // Clear of the 32 dp fade above the pinned key, so the last choice never sits under it.
-            padding: const EdgeInsets.only(bottom: MmSpace.s40),
+            // Clear of the fade above the pinned key, so the last choice never sits under it.
+            padding: const EdgeInsets.only(bottom: MmSpace.s48),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);
@@ -75,20 +75,25 @@ class StepLayout extends StatelessWidget {
               : Stack(
                   children: [
                     Positioned.fill(child: content),
-                    // A short fade into the ground above the pinned key, so a long list never
-                    // runs under it with a hard edge.
+                    // A fade into the ground above the pinned key (eased, 48 dp), so a long list
+                    // never runs under it with a hard edge and a half-row reads as scrolling.
                     Positioned(
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      height: 32,
+                      height: 48,
                       child: IgnorePointer(
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [colors.ground.withValues(alpha: 0), colors.ground],
+                              colors: [
+                                colors.ground.withValues(alpha: 0),
+                                colors.ground.withValues(alpha: 0.7),
+                                colors.ground,
+                              ],
+                              stops: const [0, 0.55, 1],
                             ),
                           ),
                         ),

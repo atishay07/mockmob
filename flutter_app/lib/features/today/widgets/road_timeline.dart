@@ -6,6 +6,8 @@
 // next stop with how long that is. Under it, the stops as a vertical timeline: each with its
 // mark, its real dates, its note and how far it is, the next one ahead marked "Next". Every
 // mark is a date; nothing here predicts marks or chances.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/copy/formatters.dart' show formatDayMonthShort;
@@ -217,15 +219,35 @@ class _RoadPainter extends CustomPainter {
           name.paint(canvas, Offset(lx, y - name.height / 2));
         case RoadStopKind.exam:
           final block = RRect.fromRectAndRadius(Rect.fromLTRB(a, _trackY - 10, b, _trackY + 10), const Radius.circular(10));
-          // The flag: the exam's name at the right of the first lane, a hairline down to it.
+          // The flag: the exam's name at the right of the first lane, and its own hairline down
+          // from the middle of that name to the block (never a line the name does not stand on).
           final name = _tp(TodayCopy.laneExam, exam);
           final nx = (b - name.width).clamp(0.0, size.width - name.width);
           name.paint(canvas, Offset(nx, _laneTop - name.height / 2));
-          final fx = (a + b) / 2;
+          final fx = (nx + name.width / 2).clamp(a + 3, b - 3);
           canvas.drawRect(Rect.fromLTWH(fx - 0.5, _laneTop + 9, 1, _trackY - 10 - _laneTop - 11), Paint()..color = color.withValues(alpha: 0.45));
-          // A soft halo under the one volt mark at night, then the block.
-          if (colors.isNight) canvas.drawRRect(block.inflate(4), Paint()..color = color.withValues(alpha: 0.14));
-          canvas.drawRRect(block, Paint()..color = color);
+          // One fill rule in both themes: the window is a tinted block with a thin edge; only the
+          // part that has gone by is solid, so with the window open the fill stops at Now.
+          final open = !today.isBefore(s.start) && n > a;
+          if (open) {
+            canvas.drawRRect(block, Paint()..color = color.withValues(alpha: 0.22));
+            canvas.drawRRect(
+              block.deflate(0.5),
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 1
+                ..color = color.withValues(alpha: 0.7),
+            );
+            final gone = a + (math.min(n, b) - a) * t;
+            if (gone > a + 1) {
+              canvas.save();
+              canvas.clipRRect(block);
+              canvas.drawRect(Rect.fromLTRB(a, _trackY - 10, gone, _trackY + 10), Paint()..color = color);
+              canvas.restore();
+            }
+          } else {
+            canvas.drawRRect(block, Paint()..color = color);
+          }
       }
     }
 
@@ -261,8 +283,10 @@ class _RoadPainter extends CustomPainter {
       }
     }
 
-    // Travelled: ink from the start of the month up to Now, drawn in on open.
-    final reached = inset + (n - inset) * t;
+    // Travelled: ink from the start of the month up to Now, drawn in on open. With the window
+    // open, the stretch inside it is the window's own solid fill, so the ink stops where it starts.
+    final inkEnd = windowStart != null && !today.isBefore(windowStart) ? math.min(n, x(windowStart)) : n;
+    final reached = inset + (inkEnd - inset) * t;
     if (reached > inset + 1) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(Rect.fromLTRB(inset, _trackY - _track / 2, reached, _trackY + _track / 2), const Radius.circular(_track / 2)),

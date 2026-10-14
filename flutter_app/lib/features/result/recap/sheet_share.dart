@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/platform/share_image.dart';
@@ -126,8 +127,9 @@ class SheetShareCard extends StatelessWidget {
   }
 }
 
-/// On card 4: the student's sheet in miniature (answered inked, blanks open) as the way to the
-/// share preview. A quiet row, never the card's focal element.
+/// "Share your sheet" on card 4: a quiet row of text on the card itself (an icon, the words, and
+/// one line saying no marks are on it), 56 dp tall. The preview it opens shows the card exactly as
+/// it would be shared, so nothing about the row needs to be a picture.
 class SheetKeepsakeRow extends StatelessWidget {
   const SheetKeepsakeRow({super.key, required this.model, required this.onTap});
 
@@ -138,59 +140,26 @@ class SheetKeepsakeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final cells = SheetShareCard.answeredCells(model.cells);
     return MmPressable(
       onTap: onTap,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
       haptic: MmPressHaptic.selection,
-      highlight: true,
       semanticsLabel: ResultCopy.shareSheet,
       builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 124),
+        constraints: const BoxConstraints(minHeight: 56),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
-              Transform.rotate(
-                angle: -0.05,
-                child: NightObject(
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      boxShadow: [BoxShadow(color: Color(0x80000000), blurRadius: 20, offset: Offset(4, 10), spreadRadius: -6)],
-                    ),
-                    child: SizedBox(
-                      width: 116,
-                      height: 108,
-                      child: PaperFace(
-                        child: Padding(
-                          padding: const EdgeInsets.all(11),
-                          child: Center(
-                            child: BubbleGrid(
-                              states: cells,
-                              columns: 10,
-                              bubbleSize: 7,
-                              minGap: 1.6,
-                              maxGap: 2.2,
-                              rowGap: 3,
-                              numbers: false,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: MmSpace.s16),
+              Icon(LucideIcons.share, size: 20, color: pressed ? colors.ink2 : colors.ink),
+              const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(ResultCopy.shareSheet, style: type.title.copyWith(fontSize: 20)),
-                    const SizedBox(height: MmSpace.s4),
-                    Text(ResultCopy.shareSheetHint, style: type.small.copyWith(color: colors.ink2)),
+                    Text(ResultCopy.shareSheet, style: type.labelLarge.copyWith(color: pressed ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600)),
+                    Text(ResultCopy.shareSheetHint, style: type.small.copyWith(color: colors.ink3)),
                   ],
                 ),
               ),

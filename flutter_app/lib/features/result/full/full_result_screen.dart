@@ -16,6 +16,7 @@ import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
 import '../recap/recap_flow.dart' show RecapPlaceholder;
+import '../widgets/evidence_link.dart';
 import 'full_sections.dart';
 import 'summary_section.dart';
 
@@ -36,6 +37,10 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   final Set<String> _open = {};
   final Map<String, GlobalKey> _keys = {};
   bool _seeded = false;
+
+  /// True once the page has scrolled under the bar: a hairline then marks the bar's lower edge,
+  /// so a heading that scrolls up to it never sits flush on the title.
+  bool _scrolled = false;
 
   /// The "Not attempted" group is folded until opened (or until a link lands inside it).
   bool _blankOpen = false;
@@ -113,7 +118,14 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       var turn = 0;
       Widget item(Widget child) => MmStaggerItem(index: turn++, child: child);
       // Built in full (not lazily), so a linked question can be scrolled into view.
-      body = SingleChildScrollView(
+      body = NotificationListener<ScrollNotification>(
+        onNotification: (n) {
+          if (n.depth != 0) return false;
+          final scrolled = n.metrics.pixels > 4;
+          if (scrolled != _scrolled) setState(() => _scrolled = scrolled);
+          return false;
+        },
+        child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s48),
         child: MmStagger(
           driver: MmStaggerDriver.route,
@@ -125,15 +137,16 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmRhythm.item),
               ],
               if (progress != null) ...[
+                // A quiet text link, flush with the page's gutter: the score leads, this only says
+                // where the recap was left.
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: KeyButton.secondary(
+                  child: EvidenceLink(
                     label: ResultCopy.continueRecap(progress),
-                    expanded: false,
-                    onPressed: () => context.go(AppRoutes.resultRecap(id, progress)),
+                    onTap: () => context.go(AppRoutes.resultRecap(id, progress)),
                   ),
                 ),
-                const SizedBox(height: MmSpace.s16),
+                const SizedBox(height: MmSpace.s8),
               ],
               if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
                 // A moment the rhythm module fired for this result; nothing is reserved without one.
@@ -161,6 +174,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
             ],
           ),
         ),
+      ),
       );
     }
 
@@ -182,6 +196,11 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                     onBack: _back,
                     // One way back into the recap: "Continue" while it is unfinished, "Replay" once it is done.
                     onReplay: model == null || progress != null ? null : () => context.go(AppRoutes.resultRecap(id, 1)),
+                  ),
+                  AnimatedOpacity(
+                    opacity: _scrolled ? 1 : 0,
+                    duration: Motion.of(context, const Duration(milliseconds: 160)),
+                    child: Divider(height: 1, thickness: 1, color: colors.line),
                   ),
                   Expanded(child: body),
                 ],

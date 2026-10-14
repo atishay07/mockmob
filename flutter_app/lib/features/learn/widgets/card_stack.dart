@@ -6,7 +6,11 @@ import '../../../core/theme/theme.dart';
 /// are due (one, two or three layers), a quiet picture of the count and never a meter. The top
 /// card carries a folded corner, the same notch Mobi's folded sheet has.
 class CardStackMark extends StatelessWidget {
-  const CardStackMark({super.key, required this.count, this.size = const Size(72, 64)});
+  const CardStackMark({
+    super.key,
+    required this.count,
+    this.size = const Size(72, 64),
+  });
 
   final int count;
   final Size size;
@@ -34,7 +38,13 @@ class CardStackMark extends StatelessWidget {
 }
 
 class _StackPainter extends CustomPainter {
-  const _StackPainter({required this.layers, required this.top, required this.under, required this.edge, required this.notch});
+  const _StackPainter({
+    required this.layers,
+    required this.top,
+    required this.under,
+    required this.edge,
+    required this.notch,
+  });
 
   final int layers;
   final Color top;
@@ -56,8 +66,16 @@ class _StackPainter extends CustomPainter {
     // Back cards peek out above the top card, a little narrower each.
     for (var i = layers - 1; i >= 0; i--) {
       final shrink = i * 6.0;
-      final rect = Rect.fromLTWH(shrink, inset - i * _lift, size.width - shrink * 2, cardHeight);
-      final rrect = RRect.fromRectAndRadius(rect, const Radius.circular(_radius));
+      final rect = Rect.fromLTWH(
+        shrink,
+        inset - i * _lift,
+        size.width - shrink * 2,
+        cardHeight,
+      );
+      final rrect = RRect.fromRectAndRadius(
+        rect,
+        const Radius.circular(_radius),
+      );
       canvas.drawRRect(rrect, Paint()..color = i == 0 ? top : under);
       canvas.drawRRect(rrect, stroke);
       if (i == 0) _foldedCorner(canvas, rect);
@@ -84,5 +102,9 @@ class _StackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_StackPainter old) =>
-      old.layers != layers || old.top != top || old.under != under || old.edge != edge || old.notch != notch;
+      old.layers != layers ||
+      old.top != top ||
+      old.under != under ||
+      old.edge != edge ||
+      old.notch != notch;
 }

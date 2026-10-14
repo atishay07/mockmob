@@ -171,7 +171,7 @@ class LabStates extends StatelessWidget {
           height: 380,
           child: StateView(
             kind: StateViewKind.offline,
-            title: 'You are offline',
+            title: "You're offline",
             message: 'Your answers stay on this phone and go when you are back.',
             primary: StateAction('Try again', () {}),
           ),
@@ -202,7 +202,7 @@ class LabStates extends StatelessWidget {
             onPressed: () => showMmSheet<void>(
               context: context,
               title: 'This week',
-              builder: (context) => Text('Three study days so far. Rest days keep the light.', style: context.mmType.body),
+              builder: (context) => Text('Three study days so far. Rest days still count.', style: context.mmType.body),
             ),
           ),
         ),

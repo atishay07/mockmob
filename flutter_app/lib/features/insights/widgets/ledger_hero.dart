@@ -60,18 +60,14 @@ class LedgerHero extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: MonumentalNumber(
-                        value: '${a.pct}',
-                        unit: '%',
-                        style: type.figureHero,
-                        semanticsLabel: '${a.pct} percent of answered questions right',
+                      child: _ShareFigure(
+                        pct: a.pct!,
                         // The roll lands after the page has arrived, with one tick.
-                        delay: const Duration(milliseconds: 260),
                         onLanded: () => haptics?.selection(),
                       ),
                     )
                   else
-                    _SparseCard(answered: l.right + l.wrong),
+                    _SparseCard(answered: l.right + l.wrong, blank: l.blank),
                   if (a.known && a.low != null && a.high != null) ...[
                     const SizedBox(height: MmSpace.s4),
                     Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(fontSize: 15, color: colors.ink2)),
@@ -83,18 +79,23 @@ class LedgerHero extends StatelessWidget {
                     Text(InsightsCopy.sheetScale(counts.perBubble), style: type.caption.copyWith(color: colors.ink3)),
                   ],
                   const SizedBox(height: MmSpace.s16),
+                  // Until a share is known, a kind with no answers is left out: "0 right" beside a
+                  // lit dot reads as an unfinished state, not a fact.
                   Wrap(
                     spacing: MmSpace.s16,
                     runSpacing: MmSpace.s8,
                     children: [
-                      LegendItem(state: BubbleState.filled, text: InsightsCopy.ledgerRight(l.right, l.gained)),
-                      LegendItem(state: BubbleState.wrong, text: InsightsCopy.ledgerWrong(l.wrong)),
+                      if (a.known || l.right > 0) LegendItem(state: BubbleState.filled, text: InsightsCopy.ledgerRight(l.right, l.gained)),
+                      if (a.known || l.wrong > 0) LegendItem(state: BubbleState.wrong, text: InsightsCopy.ledgerWrong(l.wrong)),
                       LegendItem(state: BubbleState.blank, text: InsightsCopy.ledgerBlank(l.blank)),
                     ],
                   ),
-                  if (evidence != null && evidence!.isNotEmpty) EvidencePill(attempts: evidence!, what: InsightsCopy.behindLedger),
+                  if (evidence != null && evidence!.isNotEmpty) ...[
+                    const SizedBox(height: MmSpace.s4),
+                    EvidencePill(attempts: evidence!, what: InsightsCopy.behindLedger),
+                  ],
                   if (a.known) ...[
-                    const SizedBox(height: MmSpace.s8),
+                    const SizedBox(height: MmSpace.s4),
                     Text(InsightsCopy.netOver(net, insights.questions * 5, insights.sessions), style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
                   ],
                   const SizedBox(height: MmSpace.s12),
@@ -110,12 +111,54 @@ class LedgerHero extends StatelessWidget {
   }
 }
 
+/// The share right as one monumental number with its percent sign set tight beside it on the
+/// digits' baseline (at 60% of their size), never raised and floating off to the side.
+class _ShareFigure extends StatelessWidget {
+  const _ShareFigure({required this.pct, this.onLanded});
+
+  final int pct;
+  final VoidCallback? onLanded;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.figureHero;
+    // The same size the digits are drawn at (the number scales with large text itself).
+    final size = MediaQuery.textScalerOf(context).scale(style.fontSize ?? 96);
+    final sign = size * 0.6;
+    return Semantics(
+      label: '$pct percent of answered questions right',
+      excludeSemantics: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          ExcludeSemantics(
+            child: MonumentalNumber(value: '$pct', style: style, delay: const Duration(milliseconds: 260), onLanded: onLanded),
+          ),
+          Padding(
+            // The sign's baseline sits on the digits' baseline: both lines are set tight, so the
+            // gap below each baseline is a fixed share of its own size.
+            padding: EdgeInsets.only(left: size * 0.02, bottom: size * 0.202 - sign * 0.225),
+            child: Text(
+              '%',
+              textScaler: TextScaler.noScaling,
+              style: style.copyWith(fontSize: sign, height: 1, letterSpacing: 0, color: colors.ink2),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// Stands in for the share right until there is something to share: one bubble per answered
 /// question of the first ten (inked when answered), and the plain next step.
 class _SparseCard extends StatelessWidget {
-  const _SparseCard({required this.answered});
+  const _SparseCard({required this.answered, required this.blank});
 
   final int answered;
+  final int blank;
 
   static const int _goal = 10;
 
@@ -136,7 +179,7 @@ class _SparseCard extends StatelessWidget {
           semanticsLabel: '$inked of $_goal answered',
         ),
         const SizedBox(height: MmSpace.s8),
-        Text(InsightsCopy.sparseLine(answered), style: type.small.copyWith(color: colors.ink2)),
+        Text(InsightsCopy.sparseLine(answered, blank: blank), style: type.small.copyWith(color: colors.ink2)),
       ],
     );
   }
@@ -180,7 +223,8 @@ class FindingsPanel extends StatelessWidget {
   }
 }
 
-/// The strongest finding, large.
+/// The strongest finding: a plain card with its headline, what it rests on and the one thing to
+/// do about it. No glow of its own, so the hero above stays the page's one lit element.
 class _LeadFinding extends StatelessWidget {
   const _LeadFinding({required this.finding, required this.onAction, required this.evidence});
 
@@ -193,60 +237,38 @@ class _LeadFinding extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final f = finding;
-    final tint = f.isLeak ? colors.wrongMark : (f.isGood ? colors.volt : colors.ink3);
-    return ClipPath(
-      clipper: ShapeBorderClipper(shape: mmShapeBorder(MmRadius.panelAll)),
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
-        ),
-        child: Stack(
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: colors.raised,
+        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // The kind of finding as a pool of light behind its mark, never behind the words.
-            Positioned(
-              right: -40,
-              top: -40,
-              width: 200,
-              height: 200,
-              child: IgnorePointer(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(colors: [tint.withValues(alpha: colors.isNight ? 0.2 : 0.16), tint.withValues(alpha: 0)]),
-                  ),
+            Row(
+              children: [
+                Bubble(state: f.isLeak ? BubbleState.wrong : (f.isGood ? BubbleState.filled : BubbleState.marked), size: 22, animate: false),
+                const SizedBox(width: MmSpace.s8),
+                Text(
+                  f.isLeak ? InsightsCopy.kindLeak : (f.isGood ? InsightsCopy.kindGood : InsightsCopy.kindNote),
+                  style: type.label.copyWith(color: colors.ink2),
                 ),
-              ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Bubble(state: f.isLeak ? BubbleState.wrong : (f.isGood ? BubbleState.filled : BubbleState.marked), size: 22, animate: false),
-                      const SizedBox(width: MmSpace.s8),
-                      Text(
-                        f.isLeak ? InsightsCopy.kindLeak : (f.isGood ? InsightsCopy.kindGood : InsightsCopy.kindNote),
-                        style: type.label.copyWith(color: colors.ink2),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: MmSpace.s16),
-                  Text(f.headline, style: type.title.copyWith(fontSize: 24, height: 28 / 24)),
-                  const SizedBox(height: MmSpace.s12),
-                  Text(f.detail, style: type.small.copyWith(color: colors.ink2, fontSize: 15, height: 22 / 15)),
-                  const SizedBox(height: MmSpace.s12),
-                  BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
-                  if (onAction != null && f.actionLabel != null) ...[
-                    const SizedBox(height: MmSpace.s4),
-                    KeyButton(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onPressed: onAction),
-                    const SizedBox(height: MmSpace.s12),
-                  ] else
-                    const SizedBox(height: MmSpace.s8),
-                ],
-              ),
-            ),
+            const SizedBox(height: MmSpace.s16),
+            Text(f.headline, style: type.title.copyWith(fontSize: 22, height: 26 / 22)),
+            const SizedBox(height: MmSpace.s12),
+            Text(f.detail, style: type.small.copyWith(color: colors.ink2, fontSize: 15, height: 22 / 15)),
+            const SizedBox(height: MmSpace.s12),
+            BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
+            if (onAction != null && f.actionLabel != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              KeyButton(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onPressed: onAction),
+              const SizedBox(height: MmSpace.s12),
+            ] else
+              const SizedBox(height: MmSpace.s8),
           ],
         ),
       ),

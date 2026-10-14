@@ -69,7 +69,8 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     await ref.read(learnCatalogProvider.notifier).refresh(force: true);
     if (!mounted) return;
     final state = ref.read(learnCatalogProvider);
-    if (state.error == null && state.value != null) setState(() => _dueFresh = true);
+    if (state.error == null && state.value != null)
+      setState(() => _dueFresh = true);
   }
 
   void _backToLearn() => context.go(AppRoutes.learn);
@@ -119,7 +120,12 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
           kind: StateViewKind.offline,
           title: LearnCopy.runOfflineTitle,
           message: LearnCopy.runOfflineMessage,
-          primary: StateAction(LearnCopy.tryAgain, () => unawaited(ref.read(runControllerProvider(widget.runId).notifier).load())),
+          primary: StateAction(
+            LearnCopy.tryAgain,
+            () => unawaited(
+              ref.read(runControllerProvider(widget.runId).notifier).load(),
+            ),
+          ),
           secondary: StateAction(LearnCopy.backToLearn, _backToLearn),
         );
       case RunLoad.unavailable:
@@ -137,8 +143,14 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
             KeyButton(
               label: LearnCopy.doneOpenNew,
               onPressed: () {
-                final unit = ui.replacements.isEmpty ? null : ui.replacements.first.id;
-                context.go(unit == null || unit.isEmpty ? AppRoutes.learn : AppRoutes.learnUnit(unit));
+                final unit = ui.replacements.isEmpty
+                    ? null
+                    : ui.replacements.first.id;
+                context.go(
+                  unit == null || unit.isEmpty
+                      ? AppRoutes.learn
+                      : AppRoutes.learnUnit(unit),
+                );
               },
             ),
           ],
@@ -150,7 +162,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         if (run.state == 'set_aside') {
           return _ended(
             line: LearnCopy.doneSetAside,
-            keys: [KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn)],
+            keys: [
+              KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn),
+            ],
           );
         }
         return _finished(run, ui);
@@ -160,14 +174,27 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// The run is not finished (a deep link, or an event is still on this phone).
   Widget _stillActive(StudyRun run, RunUiState ui) {
     return _ended(
-      line: ui.pending != null ? Receipts.notRecordedYet : LearnCopy.stillActive,
+      line: ui.pending != null
+          ? Receipts.notRecordedYet
+          : LearnCopy.stillActive,
       pending: ui.pending != null,
       keys: [
         if (ui.pending != null)
-          KeyButton(label: LearnCopy.doneRetry, onPressed: () => unawaited(ref.read(runControllerProvider(widget.runId).notifier).flush())),
-        KeyButton.secondary(label: LearnCopy.resumeKey, onPressed: () => context.go(AppRoutes.learnRun(run.id))),
+          KeyButton(
+            label: LearnCopy.doneRetry,
+            onPressed: () => unawaited(
+              ref.read(runControllerProvider(widget.runId).notifier).flush(),
+            ),
+          ),
+        KeyButton.secondary(
+          label: LearnCopy.resumeKey,
+          onPressed: () => context.go(AppRoutes.learnRun(run.id)),
+        ),
         Center(
-          child: KeyButton.quiet(label: LearnCopy.doneBack, onPressed: _backToLearn),
+          child: KeyButton.quiet(
+            label: LearnCopy.doneBack,
+            onPressed: _backToLearn,
+          ),
         ),
       ],
     );
@@ -178,7 +205,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     final colors = context.mmColors;
     final at = _recordedAt(run, ui);
     final line = run.isLearn
-        ? LearnCopy.lessonFinished(run.lessonTitles.isEmpty ? run.title : run.lessonTitles.first)
+        ? LearnCopy.lessonFinished(
+            run.lessonTitles.isEmpty ? run.title : run.lessonTitles.first,
+          )
         : LearnCopy.recallFinished(run.total, lessons: run.lessonTitles);
     final due = ref.watch(learnCatalogProvider).value?.queue.dueCount ?? 0;
     final again = run.againCards;
@@ -190,7 +219,10 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
       keys: [
         KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn),
         Center(
-          child: KeyButton.quiet(label: LearnCopy.doneFinish, onPressed: () => context.go(AppRoutes.today)),
+          child: KeyButton.quiet(
+            label: LearnCopy.doneFinish,
+            onPressed: () => context.go(AppRoutes.today),
+          ),
         ),
       ],
       children: [
@@ -199,13 +231,20 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
           height: _mobiSize,
           child: Align(
             alignment: Alignment.bottomLeft,
-            child: settled || reduced ? _mobiFor(pointAtList) : const SizedBox.shrink(),
+            child: settled || reduced
+                ? _mobiFor(pointAtList)
+                : const SizedBox.shrink(),
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        if (run.total > 0) SettlingPips(total: run.total, onSettled: _onSettled),
+        if (run.total > 0)
+          SettlingPips(total: run.total, onSettled: _onSettled),
         const SizedBox(height: MmSpace.s24),
-        Semantics(header: true, liveRegion: true, child: Text(line, style: type.title)),
+        Semantics(
+          header: true,
+          liveRegion: true,
+          child: Text(line, style: type.title),
+        ),
         if (at != null) ...[
           const SizedBox(height: MmSpace.s8),
           AnimatedOpacity(
@@ -217,31 +256,33 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         ],
         if (_dueFresh && due > 0) ...[
           const SizedBox(height: MmSpace.s12),
-          Text(LearnCopy.stillDue(due), style: type.body.copyWith(color: colors.ink2)),
+          Text(
+            LearnCopy.stillDue(due),
+            style: type.body.copyWith(color: colors.ink2),
+          ),
         ],
         if (again.isNotEmpty) ...[
           const SizedBox(height: MmSpace.group),
-          Semantics(header: true, child: Text(LearnCopy.doneAgainHeading, style: type.subhead)),
+          Semantics(
+            header: true,
+            child: Text(LearnCopy.doneAgainHeading, style: type.subhead),
+          ),
           const SizedBox(height: MmSpace.s8),
-          DecoratedBox(
+          // Plain rows on the ground, not a box: each says how it came back (Forgot or Hard), so
+          // the list has an order of urgency instead of five identical lines.
+          Column(
             key: _firstAgain,
-            decoration: BoxDecoration(
-              color: colors.raised,
-              borderRadius: MmRadius.panelAll,
-              border: Border.all(color: colors.line),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (var i = 0; i < again.length && i < _againShown; i++) ...[
-                    if (i > 0) Divider(height: MmSpace.s24, thickness: 1, color: colors.line),
-                    Text(again[i].title!, style: type.body),
-                  ],
-                ],
-              ),
-            ),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < again.length && i < _againShown; i++) ...[
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: colors.line.withValues(alpha: i == 0 ? 0.0 : 0.8),
+                ),
+                _AgainRow(card: again[i]),
+              ],
+            ],
           ),
           if (again.length > _againShown) _moreAgain(again),
         ],
@@ -255,7 +296,11 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// Mobi for a finished run: a cheer, or pointing at the list when most cards came back Forgot.
   Widget _mobiFor(bool pointAtList) {
     if (!pointAtList) {
-      return const Mobi(pose: MobiPose.cheer, size: _mobiSize, motion: MobiMotion.hop);
+      return const Mobi(
+        pose: MobiPose.cheer,
+        size: _mobiSize,
+        motion: MobiMotion.hop,
+      );
     }
     if (!_pointed) {
       _pointed = true;
@@ -263,45 +308,69 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         if (mounted) _mobi.pointAtWidget(_firstAgain);
       });
     }
-    return Mobi(pose: MobiPose.point, size: _mobiSize, controller: _mobi, say: LearnCopy.doneMostlyForgot);
+    return Mobi(
+      pose: MobiPose.point,
+      size: _mobiSize,
+      controller: _mobi,
+      say: LearnCopy.doneMostlyForgot,
+    );
   }
 
   /// "and 3 more to see again", opening the lesson the first hidden card came from.
   Widget _moreAgain(List<ReviewedCard> again) {
     final type = context.mmType;
-    final colors = context.mmColors;
     final hidden = again.length - _againShown;
-    final unitId = again.skip(_againShown).map((c) => c.unitId).firstWhere((id) => id != null && id.isNotEmpty, orElse: () => null);
+    final unitId = again
+        .skip(_againShown)
+        .map((c) => c.unitId)
+        .firstWhere((id) => id != null && id.isNotEmpty, orElse: () => null);
     final text = LearnCopy.againMore(hidden);
-    return MmPressable(
-      semanticsLabel: '$text. ${unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson}',
-      focusRadius: MmRadius.panelAll,
-      onTap: () => context.go(unitId == null ? AppRoutes.learn : AppRoutes.learnUnit(unitId)),
-      builder: (context, pressed, _) => SizedBox(
-        height: MmTarget.min,
-        child: Row(
-          children: [
-            Expanded(child: Text(text, style: type.body.copyWith(color: colors.ink2))),
-            Text(
-              unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson,
-              style: type.label.copyWith(color: colors.ink, decoration: TextDecoration.underline, decorationColor: colors.lineStrong),
+    final colors = context.mmColors;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(text, style: type.body.copyWith(color: colors.ink2)),
+          ),
+          KeyButton.quiet(
+            label: unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson,
+            semanticsLabel:
+                '$text. ${unitId == null ? LearnCopy.doneBack : LearnCopy.openLesson}',
+            onPressed: () => context.go(
+              unitId == null ? AppRoutes.learn : AppRoutes.learnUnit(unitId),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   /// A plain ending with one line, used for runs that did not finish normally.
-  Widget _ended({required String line, String? extra, bool pending = false, required List<Widget> keys}) {
+  Widget _ended({
+    required String line,
+    String? extra,
+    bool pending = false,
+    required List<Widget> keys,
+  }) {
     final type = context.mmType;
     final colors = context.mmColors;
     return _frame(
       keys: keys,
       children: [
         const SizedBox(height: MmSpace.s24),
-        if (pending) const ReceiptLine.pending() else Semantics(header: true, liveRegion: true, child: Text(line, style: type.title)),
-        if (extra != null) ...[const SizedBox(height: MmSpace.s12), Text(extra, style: type.body.copyWith(color: colors.ink2))],
+        if (pending)
+          const ReceiptLine.pending()
+        else
+          Semantics(
+            header: true,
+            liveRegion: true,
+            child: Text(line, style: type.title),
+          ),
+        if (extra != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(extra, style: type.body.copyWith(color: colors.ink2)),
+        ],
       ],
     );
   }
@@ -311,12 +380,22 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
       children: [
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, MmSpace.s24),
+            padding: const EdgeInsets.fromLTRB(
+              MmSpace.gutter,
+              MmSpace.s32,
+              MmSpace.gutter,
+              MmSpace.s24,
+            ),
             children: [
               Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
+                  constraints: const BoxConstraints(
+                    maxWidth: MmSpace.contentMaxWidth,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: children,
+                  ),
                 ),
               ),
             ],
@@ -324,6 +403,39 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         ),
         PinnedActions(children: keys),
       ],
+    );
+  }
+}
+
+/// One card that came back Forgot or Hard: its title and, to the right, which of the two.
+class _AgainRow extends StatelessWidget {
+  const _AgainRow({required this.card});
+
+  final ReviewedCard card;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    final word = card.rating == 1 ? LearnCopy.forgot : LearnCopy.hard;
+    return Semantics(
+      container: true,
+      label: '${card.title}. $word',
+      excludeSemantics: true,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: Text(card.title!, style: type.body)),
+              const SizedBox(width: MmSpace.s12),
+              Text(word, style: type.small.copyWith(color: colors.ink2)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

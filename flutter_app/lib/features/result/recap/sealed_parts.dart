@@ -6,8 +6,8 @@ import '../copy.dart';
 import '../model/recap_model.dart';
 import '../sheet/open_tab.dart';
 
-/// The words above the folded sheet. They sit where the flap will land, so the flap sweeps over
-/// them as it opens. The effort line is said once, by Mobi on card 4.
+/// The words at the top of the sealed screen, on the same line as the open sheet's headline (so
+/// the headline does not move when the sheet opens). They fade as the flap lifts.
 class SealedHeadline extends StatelessWidget {
   const SealedHeadline({super.key, required this.model});
 
@@ -19,7 +19,6 @@ class SealedHeadline extends StatelessWidget {
     final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(ResultCopy.sheetBack, style: type.moment, maxLines: 2),
         const SizedBox(height: MmSpace.s8),
@@ -41,24 +40,28 @@ class SealedControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // The tab's lower edge sits 96 dp above the screen's bottom edge, clear of the gesture bar.
-      padding: EdgeInsets.only(bottom: (96 - MmTarget.min - 4 - bottomInset).clamp(0.0, 96.0)),
+      // The tab's lower edge sits 96 dp above the screen's bottom edge, clear of the gesture bar,
+      // and it runs the full width of the card's gutters like the key on every other card.
+      padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, 0, MmSpace.cardGutter, (96 - MmTarget.min - 4 - bottomInset).clamp(0.0, 96.0)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           AnimatedBuilder(
             animation: open,
             builder: (context, child) {
+              // It fades and sinks a little as the flap lifts, away from the sheet: it never
+              // travels up over the sheet's lower edge.
               final p = open.value;
               return Transform.translate(
-                offset: Offset(0, -(p * 180).clamp(0.0, 24.0)),
-                child: Opacity(opacity: (1 - p * 1.8).clamp(0.0, 1.0), child: child),
+                offset: Offset(0, (p * 180).clamp(0.0, 10.0)),
+                child: Opacity(opacity: (1 - p * 3).clamp(0.0, 1.0), child: child),
               );
             },
             child: OpenTab(onTap: onOpen),
           ),
           const SizedBox(height: MmSpace.s4),
-          KeyButton.quiet(label: ResultCopy.openWithoutReveal, onPressed: onWithoutReveal),
+          Align(child: KeyButton.quiet(label: ResultCopy.openWithoutReveal, onPressed: onWithoutReveal)),
         ],
       ),
     );

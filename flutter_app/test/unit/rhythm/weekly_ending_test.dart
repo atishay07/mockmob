@@ -13,7 +13,7 @@ void main() {
     test('met week: exact words and the three keys', () {
       final data = weeklyEndingFor(rhythmFixture(goal: 4, lastClosed: _closed()), dismissed: {})!;
       expect(data.body, 'You finished 4 study days last week. That met your goal.');
-      expect([for (final k in data.keys) k.label], ['Keep 4', 'Try 5', 'Take a lighter week']);
+      expect([for (final k in data.keys) k.label], ['Keep 4 days a week', 'Aim for 5 days', 'Aim for 3 days']);
       expect(data.keys[1].goal, 5);
       expect(data.keys[2].goal, 3);
       expect(data.weekId, '2026-10-05');
@@ -21,20 +21,20 @@ void main() {
       expect(data.dismissId, 'week-card:2026-10-05');
     });
 
-    test('unmet week: nothing is lost, keys are Keep, Make it, Take a rest week', () {
+    test('unmet week: nothing is lost, keys are Keep, Aim for, Take a rest week', () {
       final data = weeklyEndingFor(
         rhythmFixture(goal: 4, streak: 0, best: 6, lastClosed: _closed(days: 2, met: false)),
         dismissed: {},
       )!;
       expect(data.body, 'You finished 2 of 4 study days. Nothing is lost. Your record is as you left it.');
-      expect([for (final k in data.keys) k.label], ['Keep 4', 'Make it 2', 'Take a rest week']);
+      expect([for (final k in data.keys) k.label], ['Keep 4 days a week', 'Aim for 2 days', 'Take a rest week']);
       expect(data.runNote, 'A new run starts this week. Your best is still 6 weeks.');
       expect(data.restUntil, '2026-10-18');
     });
 
     test('goal limits hide impossible keys', () {
       final seven = weeklyEndingFor(rhythmFixture(goal: 7, lastClosed: _closed(days: 7, goal: 7)), dismissed: {})!;
-      expect([for (final k in seven.keys) k.label], ['Keep 7', 'Take a lighter week']);
+      expect([for (final k in seven.keys) k.label], ['Keep 7 days a week', 'Aim for 6 days']);
       final one = weeklyEndingFor(rhythmFixture(goal: 1, lastClosed: _closed(days: 1, goal: 1)), dismissed: {})!;
       expect([for (final k in one.keys) k.label], ['Keep 1', 'Try 2']);
     });

@@ -109,7 +109,7 @@ void main() {
     )),
   );
 
-  todayGolden('today_returning', () => _view(ashaInputs(returning: true, now: now.add(const Duration(days: 4)))));
+  todayGolden('today_returning', () => _view(ashaInputs(returning: true, now: now.add(const Duration(days: 4)), week: saturdayWeek)));
   todayGolden('today_late_night', () => _view(ashaInputs(now: tuesdayLate)));
   // A 360 by 780 phone: the card's key is under the dock at rest, so the pinned bar holds it.
   todayGolden('today_late_night_short', () => _view(ashaInputs(now: tuesdayLate)), size: const Size(360, 780));

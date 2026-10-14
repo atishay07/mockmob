@@ -67,7 +67,7 @@ class GoalPicker extends ConsumerWidget {
                   child: _Bracket(
                     label: YouCopy.goalStudy,
                     color: colors.isNight ? colors.volt : colors.accentText,
-                    textStyle: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                    textStyle: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
                   ),
                 ),
                 if (value < 7) ...[
@@ -110,7 +110,7 @@ class _DayBubble extends StatelessWidget {
         Bubble(
           state: filled ? BubbleState.filled : BubbleState.hollow,
           size: GoalPicker.bubble,
-          emphasis: current,
+          emphasis: false,
           inkOrigin: const Offset(-0.5, -0.5),
         ),
         Text(

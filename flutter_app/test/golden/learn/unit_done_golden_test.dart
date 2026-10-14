@@ -142,6 +142,8 @@ void main() {
         overrides: learnOverrides(catalog: catalog(due: 4), runs: {'run-1': RunUiState(load: RunLoad.ready, run: r)}),
       );
       await settleImages(tester);
+      // The pips ink first, then Mobi appears and types its line: wait for the whole sentence.
+      await settleSpeech(tester);
       await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/done_forgot_$n.png'));
     });
 

@@ -36,7 +36,7 @@ void _sheet(BuildContext context) {
     builder: (context) => Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Three study days so far. Rest days keep the light.', style: context.mmType.body.copyWith(color: context.mmColors.ink2)),
+        Text('Three study days so far. Rest days still count.', style: context.mmType.body.copyWith(color: context.mmColors.ink2)),
         const SizedBox(height: 16),
         WeekBubbles(days: const [
           WeekBubbleDay(mark: WeekDayMark.done),
@@ -58,7 +58,7 @@ void _quickStart(BuildContext context) {
   Navigator.of(context).push(
     MorphSheetRoute<void>(
       origin: const Rect.fromLTWH(300, 760, 60, 60),
-      scrim: context.mmColors.scrim,
+      scrim: context.mmColors.sheetScrim,
       reduced: false,
       builder: (context) => const QuickStartSheet(),
     ),

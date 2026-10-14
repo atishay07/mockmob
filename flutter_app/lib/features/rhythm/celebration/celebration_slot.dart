@@ -12,7 +12,7 @@ import '../../../core/widgets/materials/lit_edge.dart';
 import '../../../core/widgets/receipt_line.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
-import '../widgets/rhythm_page.dart' show FlushQuietKey;
+import '../widgets/rhythm_page.dart' show BalancedText, FlushQuietKey;
 import 'celebration_controller.dart';
 import 'celebration_event.dart' show CelebrationLevel;
 import '../widgets/proud_mobi.dart';
@@ -87,47 +87,52 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     final counted = c.ring && c.studyDays != null && c.goal != null;
 
     final link = c.link;
-    final text = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Semantics(
+    final headStyle = first ? type.headline.copyWith(fontSize: 22, height: 26 / 22) : type.subhead;
+    // A wrapped headline is balanced: no single word hangs alone on its last line.
+    final headline = c.sentence == null ? null : BalancedText(c.sentence!, style: headStyle);
+    final receipt = c.receipt == null ? null : ReceiptLine(text: c.receipt!);
+    final linkKey = c.linkLabel != null && link != null
+        ? FlushQuietKey(chevron: true, label: c.linkLabel!, onPressed: () => GoRouter.maybeOf(context)?.push(link))
+        : null;
+    Widget said(List<Widget> children) => Semantics(
           container: true,
           liveRegion: true,
           label: label,
           excludeSemantics: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (c.sentence != null) Text(c.sentence!, style: first ? type.headline.copyWith(fontSize: 22, height: 26 / 22) : type.subhead),
-              if (c.sentence != null && c.receipt != null) SizedBox(height: first ? MmSpace.s8 : MmSpace.s4),
-              if (c.receipt != null) ReceiptLine(text: c.receipt!),
-            ],
-          ),
-        ),
-        if (c.linkLabel != null && link != null)
-          FlushQuietKey(
-            chevron: true,
-            label: c.linkLabel!,
-            onPressed: () => GoRouter.maybeOf(context)?.push(link),
-          ),
-      ],
-    );
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: children),
+        );
 
     final Widget body;
     if (first) {
-      final mobiSize = c.mobiHop ? 104.0 : 0.0;
+      final mobi = c.mobiHop;
       final lead = counted
-          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 88, showWords: false, animate: !c.textOnly)
-          : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 64) : null);
+          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 104, showWords: false, animate: !c.textOnly)
+          : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 72) : null);
+      // The words get the full width. Mobi sits with the ring (or beside the headline when there
+      // is no ring) instead of squeezing the text into a column beside him.
+      final Widget top = lead != null
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [lead, if (mobi) ...[const SizedBox(width: MmSpace.s8), const ProudMobi(size: 104)]],
+            )
+          : (mobi
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [Expanded(child: headline ?? const SizedBox.shrink()), const SizedBox(width: MmSpace.s8), const ProudMobi(size: 96)],
+                )
+              : (headline ?? const SizedBox.shrink()));
+      final below = <Widget>[
+        if (lead != null && headline != null) ...[const SizedBox(height: MmSpace.s12), headline],
+        if (receipt != null) ...[SizedBox(height: first ? MmSpace.s8 : MmSpace.s4), receipt],
+      ];
       body = Stack(
         clipBehavior: Clip.none,
         children: [
-          if (c.mobiHop)
+          if (mobi)
             Positioned(
-              right: -28,
-              top: -30,
+              left: lead != null ? 24 : null,
+              right: lead != null ? null : -28,
+              top: lead != null ? -24 : -30,
               width: 220,
               height: 220,
               child: IgnorePointer(
@@ -146,23 +151,12 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
             ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (lead != null) ...[lead, const SizedBox(height: MmSpace.s12)],
-                      text,
-                    ],
-                  ),
-                ),
-                if (c.mobiHop) ...[
-                  const SizedBox(width: MmSpace.s8),
-                  ProudMobi(size: mobiSize),
-                ],
+                said([top, ...below]),
+                ?linkKey,
               ],
             ),
           ),
@@ -177,12 +171,25 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
           children: [
             if (c.ring) ...[
               if (counted)
-                WeekDial(done: c.studyDays!, goal: c.goal!, size: 64, showWords: false, animate: !c.textOnly)
+                WeekDial(done: c.studyDays!, goal: c.goal!, size: 72, showWords: false, animate: !c.textOnly)
               else
                 const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52),
               const SizedBox(width: MmSpace.s16),
             ],
-            Expanded(child: text),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  said([
+                    ?headline,
+                    if (headline != null && receipt != null) const SizedBox(height: MmSpace.s4),
+                    ?receipt,
+                  ]),
+                  ?linkKey,
+                ],
+              ),
+            ),
           ],
         ),
       );

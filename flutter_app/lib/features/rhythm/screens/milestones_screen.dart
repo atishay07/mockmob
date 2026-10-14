@@ -13,6 +13,7 @@ import '../../../core/models/rhythm.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../celebration/celebration_controller.dart';
@@ -111,6 +112,7 @@ class MilestoneTimeline extends StatelessWidget {
     this.freshIds = const {},
     this.asOf,
     this.onOpen,
+    this.onStart,
   });
 
   final List<RhythmMilestone> milestones;
@@ -124,6 +126,10 @@ class MilestoneTimeline extends StatelessWidget {
 
   /// Opens the record behind a path; defaults to pushing its location.
   final ValueChanged<String>? onOpen;
+
+  /// The volt key of a student with nothing landed yet ("Start a scored set"); defaults to
+  /// opening Practice.
+  final VoidCallback? onStart;
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +162,15 @@ class MilestoneTimeline extends StatelessWidget {
                 child: all
                     ? ProudMobi(size: 72, say: mobiLine)
                     : Mobi(pose: MobiPose.pointing, size: 72, motion: MobiMotion.settle, say: mobiLine),
+              ),
+            ),
+          // Before the first step the one thing to do is a scored set, so it is the one volt key.
+          if (none)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s20),
+              child: KeyButton(
+                label: RhythmCopy.startSet,
+                onPressed: onStart ?? () => GoRouter.maybeOf(context)?.push(AppRoutes.practiceStart),
               ),
             ),
           for (var k = 0; k < tracks.length; k++) ...[
@@ -196,7 +211,7 @@ class _Summary extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -209,16 +224,18 @@ class _Summary extends ConsumerWidget {
             onLanded: () => ref.read(hapticsProvider).selection(),
           ),
           const SizedBox(height: MmSpace.s16),
-          // Nine coins, as large as the width allows (up to 30 dp), grouped 3 | 4 | 2 with a plain gap.
+          // Nine coins grouped 3 | 4 | 2. One even gap inside a group and exactly double between
+          // groups, and the coins are sized so the row runs the whole width, edge to edge.
           ExcludeSemantics(
             child: LayoutBuilder(
               builder: (context, box) {
-                const gap = 6.0;
-                const groupGap = 20.0;
+                const gap = 8.0;
+                const groupGap = gap * 2;
                 final steps = tracks.fold<int>(0, (n, t) => n + t.steps.length);
                 final fixed = gap * (steps - tracks.length) + groupGap * (tracks.length - 1);
-                final coin = ((box.maxWidth - 4 - fixed) / steps).clamp(16.0, 30.0);
+                final coin = ((box.maxWidth - fixed) / steps).clamp(16.0, 30.0);
                 return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     for (var k = 0; k < tracks.length; k++) ...[
                       if (k > 0) const SizedBox(width: groupGap),

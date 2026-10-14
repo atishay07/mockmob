@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/copy/formatters.dart';
@@ -10,15 +9,14 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
-import 'life_row.dart';
 import 'mistake_run.dart';
 
 /// Tonight's repair: the one lit element on Review and the hero of the tab. One surface, nothing
 /// boxed inside it. The subject's light pools in the upper right and its object leans out of the
 /// corner; the chapter is the headline; the number of mistakes is the monumental figure; the
-/// mistakes are written out as the wrong bubbles of the sheet with their question numbers; the
-/// thread every mistake walks (Found, Repaired, Checked, Holds) sits above the one volt key; the
-/// evidence tag and Mobi pointing at the key close it.
+/// mistakes are written out as the wrong bubbles of the sheet with their question numbers, with
+/// "Show me" at the end of that row; Mobi pointing at the one volt key closes it. The four-step
+/// thread lives on the record and the repair entry, not here.
 class TonightCard extends StatefulWidget {
   const TonightCard({
     super.key,
@@ -36,7 +34,7 @@ class TonightCard extends StatefulWidget {
   /// The student's clock, for "tonight" or "today".
   final DateTime now;
 
-  /// After 11 PM: sleepy Mobi says one line.
+  /// After 11 PM: sleepy Mobi, and the source line becomes "Repair a little, then sleep." Nothing moves.
   final bool lateNight;
 
   @override
@@ -176,7 +174,11 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
                 semanticsLabel: '${plural(n, 'mistake')} to repair',
               ),
               const SizedBox(height: MmSpace.s8),
-              Text(ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen), style: type.small.copyWith(color: colors.ink2)),
+              // After 11 PM the same line says it is fine to stop: the layout stays the day layout.
+              Text(
+                widget.lateNight ? ReviewCopy.lateNight : ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen),
+                style: type.small.copyWith(color: colors.ink2),
+              ),
               const SizedBox(height: MmSpace.s20),
               // The questions are the evidence; "Show me" opens them. No second control beside it.
               Row(
@@ -190,36 +192,30 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
                   ),
                 ],
               ),
-              const SizedBox(height: MmSpace.s20),
-              const LifeRow(stage: MistakeStage.found, bubbleSize: 16, animate: false),
               const SizedBox(height: MmSpace.s24),
-              if (widget.lateNight) ...[
-                // Asleep on his feet after 11 PM: one line, then the key.
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Mobi(pose: MobiPose.sleepy, size: 88, motion: MobiMotion.settle, say: ReviewCopy.lateNight),
-                ),
-                const SizedBox(height: MmSpace.s12),
-                KeyButton(label: ReviewCopy.tonightKey(minutes), semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes), onPressed: widget.onRepair),
-              ] else
-                // Mobi stands at the left of the key and points at it.
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Mobi(pose: MobiPose.point, size: 96, motion: MobiMotion.tilt),
-                    const SizedBox(width: MmSpace.s8),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                        child: KeyButton(
-                          label: ReviewCopy.tonightKey(minutes),
-                          semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
-                          onPressed: widget.onRepair,
-                        ),
+              // Mobi stands at the left of the key and points at it (asleep on his feet after 11 PM,
+              // in the same place). The key sits at the same height every time of day.
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Mobi(
+                    pose: widget.lateNight ? MobiPose.sleepy : MobiPose.point,
+                    size: large ? 72 : 96,
+                    motion: widget.lateNight ? MobiMotion.settle : MobiMotion.tilt,
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                      child: KeyButton(
+                        label: ReviewCopy.tonightKey(minutes),
+                        semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
+                        onPressed: widget.onRepair,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
               const SizedBox(height: MmSpace.s4),
             ],
           ),
@@ -254,9 +250,7 @@ class _ShowMeLink extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(ReviewCopy.showMe, style: type.label.copyWith(color: colors.accentText)),
-            const SizedBox(width: MmSpace.s4),
-            Icon(LucideIcons.arrowRight, size: 16, color: colors.accentText),
+            Text(ReviewCopy.showMe, style: type.labelLarge.copyWith(color: colors.accentText)),
           ],
         ),
       ),

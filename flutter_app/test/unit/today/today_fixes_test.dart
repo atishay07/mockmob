@@ -222,4 +222,50 @@ void main() {
       expect(offered(TodayInputs(now: now, attemptsFailed: true)), isNull);
     });
   });
+
+  group('the week strip and the header share one clock (review: returning frame)', () {
+    test('Saturday 17 October marks Saturday, whatever column the week said was today', () {
+      final view = buildToday(ashaInputs(now: now.add(const Duration(days: 4)), week: saturdayWeek, returning: true));
+      expect(view.header.dateLine, startsWith('Saturday, 17 October'));
+      expect([for (final d in view.header.week!.days) d.isToday], [false, false, false, false, false, true, false]);
+    });
+
+    test('a stale week that still says Tuesday is today is corrected from the header clock', () {
+      final view = buildToday(ashaInputs(now: now.add(const Duration(days: 4))));
+      expect(view.header.dateLine, startsWith('Saturday, 17 October'));
+      expect(view.header.week!.days.indexWhere((d) => d.isToday), 5);
+    });
+
+    test('a week from another set of dates marks nothing as today', () {
+      final view = buildToday(ashaInputs(now: now.add(const Duration(days: 9))));
+      expect(view.header.week!.days.any((d) => d.isToday), isFalse);
+    });
+  });
+
+  group('the window-closed ended card (review: box-in-box)', () {
+    test("tonight's move leads with the one volt key; the picker steps back", () {
+      final view = buildToday(
+        ashaInputs(
+          draft: TodayDraft(
+            sessionId: 's8',
+            subject: 'accountancy',
+            isMock: true,
+            mockNumber: 8,
+            total: 50,
+            answered: 31,
+            acknowledgedAnswered: 31,
+            endsAt: now.subtract(const Duration(hours: 3)),
+            resumable: false,
+            attemptExists: false,
+          ),
+        ),
+      );
+      expect(view.hero, isA<EndedHero>());
+      expect(view.also.single.lead, isTrue);
+    });
+
+    test('a move that is not under it does not lead', () {
+      expect(buildToday(ashaInputs()).also, isEmpty);
+    });
+  });
 }

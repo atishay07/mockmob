@@ -18,6 +18,8 @@ import '../widgets/mistake_map.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
+import '../widgets/page_header.dart';
+import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
 import '../widgets/tonight_card.dart';
 
@@ -59,16 +61,17 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final attempts = inputs.attempts;
     final pad = MediaQuery.paddingOf(context);
 
+    // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16),
-      child: const TabRootHeader(title: ReviewCopy.title),
+      child: ReviewTabHeader(title: ReviewCopy.title, notice: attempts.isStale ? HeaderNotice.offline : null),
     );
 
     Widget body;
     if (index == null) {
       if (attempts.isFailedEmpty) {
         final offline = attempts.error?.isOffline ?? false;
-        body = StateView(
+        body = ReviewStateView(
           kind: offline ? StateViewKind.offline : StateViewKind.error,
           title: offline ? ReviewCopy.offlineTitle : ReviewCopy.loadErrorTitle,
           message: offline ? ReviewCopy.offlineMessage : ReviewCopy.loadErrorMessage,
@@ -108,7 +111,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 child: ListView(
                   controller: _scroll,
                   padding: EdgeInsets.only(bottom: pad.bottom + MmSpace.s32),
-                  children: [header, if (attempts.isStale) const InlineBanner.offlineStrip(), ..._content(context, index, inputs)],
+                  children: [header, ..._content(context, index, inputs)],
                 ),
               ),
             ),
@@ -136,8 +139,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     if (index.attempts.isEmpty && unopened.isEmpty) {
       return [
         SizedBox(
-          height: 520,
-          child: StateView(
+          height: 560,
+          child: ReviewStateView(
             kind: StateViewKind.empty,
             pose: MobiPose.read,
             title: ReviewCopy.emptyTitle,
@@ -178,7 +181,16 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         item(heroAt, gutter(_noTonight(index, groups, inputs)))
       else if (index.hasAnyMistake || index.attempts.isNotEmpty)
         // Only when nothing is open: a set-aside question is not a repaired one.
-        item(heroAt, gutter(_AllClear(setAside: index.setAsideCount, repaired: index.repairedCount))),
+        item(
+          heroAt,
+          gutter(
+            _AllClear(
+              setAside: index.setAsideCount,
+              repaired: index.repairedCount,
+              onStart: () => context.push(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
+            ),
+          ),
+        ),
       if (groups.isNotEmpty) ...[
         item(mapAt, gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: MmRhythm.section)),
         // The progress line and its bar teach the colours of the map under it.
@@ -293,65 +305,101 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   }
 }
 
-/// No open mistakes: the hero becomes a quiet all-clear. Mobi reading at the right, the title as the
-/// headline, the truth about what comes next, and the number of mistakes repaired so far as the
-/// figure (only when there are some: a set-aside question is not a repaired one).
+/// No open mistakes: the hero is still one field of light on the ground, not a card. The number of
+/// mistakes repaired so far is the figure (only when there are some: a set-aside question is not a
+/// repaired one), the title is its small caption, Mobi reads at its right, and the one volt key
+/// starts the next Quick 10, because that is the next step.
 class _AllClear extends StatelessWidget {
-  const _AllClear({this.setAside = 0, this.repaired = 0});
+  const _AllClear({this.setAside = 0, this.repaired = 0, required this.onStart});
 
-  /// Questions waiting on an answer-key check: they are not repaired, so the card says so.
+  /// Questions waiting on an answer-key check: they are not repaired, so the hero says so.
   final int setAside;
   final int repaired;
+  final VoidCallback onStart;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // The tab's one hero when nothing is open: the lamp, the grain and the lit volt edge come
-    // from the shared hero surface; Mobi reads at its right.
-    return MmSurface.hero(
-      lit: true,
-      padding: EdgeInsets.zero,
-      child: Stack(
-        children: [
-          const Positioned(
-            right: 8,
-            top: 12,
-            child: Mobi(pose: MobiPose.read, size: 104, motion: MobiMotion.settle),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 96),
-                  child: Semantics(
-                    header: true,
-                    child: Text(ReviewCopy.allClearTitle, style: type.headline.copyWith(fontSize: 26, height: 29 / 26)),
-                  ),
-                ),
-                if (repaired > 0) ...[
-                  const SizedBox(height: MmRhythm.group),
-                  MonumentalNumber(
-                    value: '$repaired',
-                    unit: 'repaired',
-                    style: type.figure.copyWith(fontSize: 64, height: 58 / 64),
-                    delay: Motion.enterDuration,
-                    onLanded: () => mmHapticsOf(context)?.selection(),
-                    semanticsLabel: '$repaired ${ReviewCopy.endingUnit(repaired)}',
-                  ),
-                ],
-                const SizedBox(height: MmRhythm.item),
-                Text(
-                  setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage,
-                  style: type.body.copyWith(color: colors.ink2),
-                ),
+    final lit = colors.isNight ? colors.volt : colors.accentText;
+    const bleed = MmSpace.gutter;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: -bleed,
+          right: -bleed,
+          top: -MmSpace.s20,
+          height: 360,
+          child: IgnorePointer(
+            child: LightField(
+              pools: [
+                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(0.7, -0.5), radius: 0.7, aspect: 1.4),
+                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.12 : 0.1), center: const Alignment(-1.1, -1.1), radius: 0.7),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          left: -bleed,
+          right: -bleed,
+          top: 0,
+          height: 3,
+          child: IgnorePointer(
+            child: CustomPaint(painter: LitEdgePainter(color: lit, radius: 0, width: 1.5)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (repaired > 0) ...[
+                Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.caption.copyWith(color: colors.ink2))),
+                const SizedBox(height: MmSpace.s8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: MonumentalNumber(
+                          value: '$repaired',
+                          unit: 'repaired',
+                          style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
+                          delay: Motion.enterDuration,
+                          onLanded: () => mmHapticsOf(context)?.selection(),
+                          semanticsLabel: '$repaired ${ReviewCopy.endingUnit(repaired)}',
+                        ),
+                      ),
+                    ),
+                    const Mobi(pose: MobiPose.read, size: 112, motion: MobiMotion.settle),
+                  ],
+                ),
+              ] else
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.headline)),
+                    ),
+                    const SizedBox(width: MmSpace.s8),
+                    const Mobi(pose: MobiPose.read, size: 112, motion: MobiMotion.settle),
+                  ],
+                ),
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage,
+                style: type.lead.copyWith(color: colors.ink2),
+              ),
+              const SizedBox(height: MmSpace.s24),
+              KeyButton(label: ReviewCopy.allClearAction, onPressed: onStart),
+              const SizedBox(height: MmSpace.s4),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

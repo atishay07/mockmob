@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/copy/formatters.dart' show categoryWords;
+import '../../../core/copy/formatters.dart' show categoryWordsTitle;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -278,12 +278,52 @@ class CategoryChip extends StatelessWidget {
   }
 }
 
+/// The course chip above the ladder ("B.Com (Hons)" with a pencil), which goes back to the
+/// course tiles. Same chip as [CategoryChip], a 48 dp target.
+class CourseChip extends StatelessWidget {
+  const CourseChip({super.key, required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: '$label. ${OnboardingCopy.changeCourse}',
+      haptic: MmPressHaptic.selection,
+      onTap: onTap,
+      builder: (context, pressed, _) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            color: pressed ? colors.raised2 : colors.raised,
+            shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+          ),
+          child: SizedBox(
+            height: 40,
+            child: Padding(
+              padding: const EdgeInsets.only(left: MmSpace.s16, right: MmSpace.s12),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14))),
+                  const SizedBox(width: MmSpace.s8),
+                  Icon(LucideIcons.pencil, size: 14, color: colors.ink2),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// A category as a chip says it: the student's words, capitalised ("Unreserved", "OBC"). The
 /// sheet still returns the code.
-String categoryChipLabel(String category) {
-  final words = categoryWords(category);
-  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
-}
+String categoryChipLabel(String category) => categoryWordsTitle(category);
 
 /// The category list, in a glass sheet. Returns the chosen category (the code).
 Future<String?> showCategorySheet(BuildContext context, String current) {

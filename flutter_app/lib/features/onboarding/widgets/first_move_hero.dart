@@ -7,8 +7,8 @@ import '../model/plan.dart';
 
 /// The first move as a hero (brief section 11, step 11): the subject's light field, "10
 /// questions to your starting point" (or "10 questions in Physics" for plain practice) in
-/// monumental figures, the volt start key and the later option at equal footing below it. No
-/// object art: the step's Mobi points at the start key.
+/// monumental figures and the volt start key. The later option is a plain link under the card,
+/// not a second button inside it. No object art: the step's Mobi points at the start key.
 class FirstMoveHero extends StatelessWidget {
   const FirstMoveHero({
     super.key,
@@ -46,7 +46,7 @@ class FirstMoveHero extends StatelessWidget {
 
     // The app's one hero surface (lamp, the subject's light, grain, edge light, volt lit edge),
     // the same tier the student meets on Today next.
-    return MmSurface.hero(
+    final card = MmSurface.hero(
       lit: true,
       light: light.of(Theme.of(context).brightness),
       child: Column(
@@ -79,23 +79,30 @@ class FirstMoveHero extends StatelessWidget {
           Text(move.framing, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s20),
           KeyedSubtree(key: startKey, child: KeyButton(label: move.startLabel, onPressed: onStart)),
-          const SizedBox(height: MmSpace.s8),
-          if (laterChosen)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-              child: Semantics(
-                liveRegion: true,
-                child: Text(
-                  OnboardingCopy.setFor(later),
-                  style: type.small.copyWith(color: colors.ink),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            )
-          else
-            KeyButton.secondary(label: later, onPressed: onLater),
         ],
       ),
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        card,
+        const SizedBox(height: MmSpace.s8),
+        if (laterChosen)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s12, horizontal: MmSpace.s4),
+            child: Semantics(
+              liveRegion: true,
+              child: Text(
+                OnboardingCopy.setFor(later),
+                style: type.small.copyWith(color: colors.ink),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        else
+          Center(child: KeyButton.quiet(label: later, onPressed: onLater)),
+      ],
     );
   }
 }

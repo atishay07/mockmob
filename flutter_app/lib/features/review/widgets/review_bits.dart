@@ -57,3 +57,22 @@ class ShowMeTag extends StatelessWidget {
     );
   }
 }
+
+/// A quiet text key whose label starts on the screen's gutter, in line with the text above it. The
+/// key keeps its full 48 dp target; only its 16 dp of side padding hangs out into the gutter.
+class FlushKey extends StatelessWidget {
+  const FlushKey({super.key, required this.label, required this.onPressed, this.semanticsLabel});
+
+  final String label;
+  final VoidCallback? onPressed;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) => Align(
+    alignment: Alignment.centerLeft,
+    child: Transform.translate(
+      offset: const Offset(-MmSpace.s16, 0),
+      child: KeyButton.quiet(label: label, onPressed: onPressed, semanticsLabel: semanticsLabel),
+    ),
+  );
+}

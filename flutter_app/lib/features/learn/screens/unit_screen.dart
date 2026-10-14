@@ -61,7 +61,9 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
       _starting = true;
       _message = null;
     });
-    final result = await ref.read(runStarterProvider).start(mode: mode, unitId: widget.unitId);
+    final result = await ref
+        .read(runStarterProvider)
+        .start(mode: mode, unitId: widget.unitId);
     if (!mounted) return;
     setState(() {
       _starting = false;
@@ -91,8 +93,16 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              Align(alignment: Alignment.centerLeft, child: IconTap(icon: LucideIcons.arrowLeft, label: LearnCopy.backToLearn, onTap: _leave)),
-              if (load.value?.fromPhone ?? false) const InlineBanner.offlineStrip(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconTap(
+                  icon: LucideIcons.arrowLeft,
+                  label: LearnCopy.backToLearn,
+                  onTap: _leave,
+                ),
+              ),
+              if (load.value?.fromPhone ?? false)
+                const InlineBanner.offlineStrip(),
               Expanded(
                 child: load.when(
                   loading: () => const _UnitSkeleton(),
@@ -122,7 +132,10 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
         kind: StateViewKind.offline,
         title: LearnCopy.unitOfflineTitle,
         message: LearnCopy.unitOfflineMessage,
-        primary: StateAction(LearnCopy.tryAgain, () => ref.invalidate(lessonProvider(widget.unitId))),
+        primary: StateAction(
+          LearnCopy.tryAgain,
+          () => ref.invalidate(lessonProvider(widget.unitId)),
+        ),
         secondary: StateAction(LearnCopy.backToLearn, _leave),
       );
     }
@@ -130,7 +143,10 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
       kind: StateViewKind.error,
       title: LearnCopy.unitMissingTitle,
       message: LearnCopy.loadFailedMessage,
-      primary: StateAction(LearnCopy.tryAgain, () => ref.invalidate(lessonProvider(widget.unitId))),
+      primary: StateAction(
+        LearnCopy.tryAgain,
+        () => ref.invalidate(lessonProvider(widget.unitId)),
+      ),
       secondary: StateAction(LearnCopy.backToLearn, _leave),
     );
   }
@@ -144,12 +160,17 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
     var read = asBool(progress['read']) ?? false;
     var runId = asString(asJson(progress['inProgress'])['runId']);
     if (_ranHere) {
-      final units = ref.watch(learnCatalogProvider).value?.units ?? const <LearnUnit>[];
+      final units =
+          ref.watch(learnCatalogProvider).value?.units ?? const <LearnUnit>[];
       final fresh = units.where((u) => u.id == widget.unitId).firstOrNull;
       if (fresh != null) {
         status = fresh.status;
         runId = fresh.runId;
-        read = read || fresh.status == StudyUnitStatus.lockIn || fresh.status == StudyUnitStatus.due || fresh.status == StudyUnitStatus.learned;
+        read =
+            read ||
+            fresh.status == StudyUnitStatus.lockIn ||
+            fresh.status == StudyUnitStatus.due ||
+            fresh.status == StudyUnitStatus.learned;
       }
     }
     final cards = unit.recallAvailable;
@@ -158,48 +179,87 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
         if (asString(b['type']) == 'reading') b,
     ];
     final minutes = unit.estimatedMinutes;
-    final meta = [LearnCopy.statusWord(status), ?(minutes == null ? null : LearnCopy.minutes(minutes))].join(', ');
+    final meta = [
+      LearnCopy.statusWord(status),
+      ?(minutes == null ? null : LearnCopy.minutes(minutes)),
+    ].join(', ');
 
     final reviewFirst = read && cards > 0;
-    final lessonLabel = runId != null ? LearnCopy.continueLesson : (read ? LearnCopy.lessonAgain : LearnCopy.startLesson);
-    VoidCallback? lessonTap() => _starting ? null : () => unawaited(_start('learn', resumeRunId: runId));
-    VoidCallback? reviewTap() => _starting ? null : () => unawaited(_start('recall'));
+    final lessonLabel = runId != null
+        ? LearnCopy.continueLesson
+        : (read ? LearnCopy.lessonAgain : LearnCopy.startLesson);
+    VoidCallback? lessonTap() =>
+        _starting ? null : () => unawaited(_start('learn', resumeRunId: runId));
+    VoidCallback? reviewTap() =>
+        _starting ? null : () => unawaited(_start('recall'));
 
     return Column(
       children: [
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+            padding: const EdgeInsets.fromLTRB(
+              MmSpace.gutter,
+              MmSpace.s8,
+              MmSpace.gutter,
+              MmSpace.s24,
+            ),
             children: [
               Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                  constraints: const BoxConstraints(
+                    maxWidth: MmSpace.contentMaxWidth,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Semantics(header: true, child: Text(unit.title, style: type.headline)),
+                      Semantics(
+                        header: true,
+                        child: Text(unit.title, style: type.headline),
+                      ),
                       const SizedBox(height: MmSpace.s8),
-                      Text(meta, style: type.small.copyWith(color: colors.ink2)),
+                      Text(
+                        meta,
+                        style: type.small.copyWith(color: colors.ink2),
+                      ),
                       if (unit.summary != null) ...[
                         const SizedBox(height: MmSpace.s12),
                         Text(unit.summary!, style: type.lead),
                       ],
                       if (unit.objectives.isNotEmpty) ...[
                         const SizedBox(height: MmSpace.s24),
-                        Semantics(header: true, child: Text(LearnCopy.unitObjectives, style: type.subhead)),
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            LearnCopy.unitObjectives,
+                            style: type.subhead,
+                          ),
+                        ),
                         const SizedBox(height: MmSpace.s8),
-                        for (var i = 0; i < unit.objectives.length; i++) IdeaLine(number: i + 1, text: unit.objectives[i]),
+                        for (var i = 0; i < unit.objectives.length; i++)
+                          IdeaLine(number: i + 1, text: unit.objectives[i]),
                       ],
                       if (blocks.isNotEmpty) ...[
                         const SizedBox(height: MmSpace.group),
-                        Semantics(header: true, child: Text(LearnCopy.unitLesson, style: type.title)),
+                        Semantics(
+                          header: true,
+                          child: Text(LearnCopy.unitLesson, style: type.title),
+                        ),
                         const SizedBox(height: MmSpace.s16),
-                        for (final b in blocks) ...[LessonBlock(block: b), const SizedBox(height: MmSpace.s24)],
+                        for (final b in blocks) ...[
+                          LessonBlock(block: b),
+                          const SizedBox(height: MmSpace.s24),
+                        ],
                       ],
-                      if (unit.subject != null && unit.chapter != null && unit.chapter!.isNotEmpty)
+                      if (unit.subject != null &&
+                          unit.chapter != null &&
+                          unit.chapter!.isNotEmpty)
                         ChapterSummaryRow(
                           chapter: unit.chapter!,
-                          onTap: () => unawaited(context.push<void>(LearnPaths.summary(unit.subject!, unit.chapter!))),
+                          onTap: () => unawaited(
+                            context.push<void>(
+                              LearnPaths.summary(unit.subject!, unit.chapter!),
+                            ),
+                          ),
                         ),
                     ],
                   ),
@@ -212,10 +272,18 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
           message: _message,
           children: [
             if (reviewFirst) ...[
-              KeyButton(label: LearnCopy.reviewLessonCards(cards), onPressed: reviewTap(), loading: _starting),
+              KeyButton(
+                label: LearnCopy.reviewLessonCards(cards),
+                onPressed: reviewTap(),
+                loading: _starting,
+              ),
               KeyButton.secondary(label: lessonLabel, onPressed: lessonTap()),
             ] else
-              KeyButton(label: lessonLabel, onPressed: lessonTap(), loading: _starting),
+              KeyButton(
+                label: lessonLabel,
+                onPressed: lessonTap(),
+                loading: _starting,
+              ),
           ],
         ),
       ],
@@ -230,7 +298,12 @@ class _UnitSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SkeletonGroup(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+        padding: EdgeInsets.fromLTRB(
+          MmSpace.gutter,
+          MmSpace.s16,
+          MmSpace.gutter,
+          0,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

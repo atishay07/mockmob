@@ -206,6 +206,25 @@ void main() {
         await _shoot(tester, 'prompt_ask_again_study', b);
       });
 
+      // The ask about a repair shows the repair reminder alone.
+      testWidgets('ask again, repair', (tester) async {
+        final rig = Rig();
+        await rig.store.update((s) => s.copyWith(prePromptNotNowCount: 2));
+        await _openSheet(
+          tester,
+          b,
+          sheet: _promptBody,
+          footer: _promptKeys,
+          overrides: featureOverrides(
+            rig: rig,
+            repo: FakePrefsRepo(NotificationPrefs.defaults),
+            permission: FakePermissionRequester(NotificationPermission.notAsked),
+            repair: const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25),
+          ),
+        );
+        await _shoot(tester, 'prompt_ask_again_repair', b);
+      });
+
       // Android no longer shows its question: the main key opens Android settings.
       testWidgets('ask again, open settings', (tester) async {
         final rig = Rig();
@@ -230,7 +249,7 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const TimeSheetBody(initial: ClockTime(23, 0)),
+          sheet: (_) => const TimeSheetBody(label: 'Quiet hours start', initial: ClockTime(23, 0)),
           overrides: const [],
         );
         await _shoot(tester, 'time_sheet', b);
@@ -261,6 +280,16 @@ void main() {
           scrollTo: 330,
         );
         await _shoot(tester, 'settings_conflict', b);
+      });
+
+      // Reminders on, muted: one slim row at the top, nothing else competing.
+      testWidgets('muted, notifications on', (tester) async {
+        await _settings(
+          tester,
+          b,
+          reminder: ReminderState(mutedUntil: kolkata(2026, 10, 19, 18).toUtc()),
+        );
+        await _shoot(tester, 'settings_muted', b);
       });
 
       testWidgets('not asked, paused after 3 unopened, muted', (tester) async {

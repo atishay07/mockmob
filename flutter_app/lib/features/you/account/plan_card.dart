@@ -6,6 +6,7 @@ import '../../../core/copy/copy.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../edit_copy.dart';
+import '../widgets/you_page.dart' show PillKey, youText;
 
 /// The plan as the server reports it (WEB-PARITY F3): Free or Pro, the practice credit balance
 /// (or unlimited practice on Pro) and when Pro access ends. Read-only: the app never sells, so
@@ -47,31 +48,26 @@ class _PlanCardState extends ConsumerState<PlanCard> {
 
     final Widget figure;
     if (pro) {
-      figure = Text(EditCopy.unlimited, style: type.title);
+      figure = Text(EditCopy.unlimited, style: type.display);
     } else if (balance != null) {
+      // The credit balance is the hero of the screen: a monumental number on the ground, no card.
       figure = Semantics(
         container: true,
         label: EditCopy.credits(balance),
         excludeSemantics: true,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            MonumentalNumber(value: '$balance', style: type.figure),
-            const SizedBox(width: MmSpace.s8),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                child: Text(balance == 1 ? EditCopy.creditUnitOne : EditCopy.creditUnit, style: type.body.copyWith(color: colors.ink2)),
-              ),
-            ),
-          ],
+        child: MonumentalNumber(
+          value: '$balance',
+          unit: balance == 1 ? EditCopy.creditUnitOne : EditCopy.creditUnit,
+          style: type.figureHero,
         ),
       );
     } else {
-      figure = Row(
+      figure = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Text(EditCopy.creditsUnknown, style: type.body.copyWith(color: colors.ink2))),
-          KeyButton.quiet(
+          Text(EditCopy.creditsUnknown, style: type.title),
+          const SizedBox(height: MmSpace.s12),
+          PillKey(
             label: _retrying ? EditCopy.creditsRetrying : EditCopy.creditsRetry,
             onPressed: _retrying ? null : _retry,
           ),
@@ -79,32 +75,27 @@ class _PlanCardState extends ConsumerState<PlanCard> {
       );
     }
 
-    return LitEdge(
-      child: FakeGlass(
-        opacity: colors.isNight ? 0.5 : 0.72,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(child: Text(EditCopy.planOverline, style: type.caption.copyWith(color: colors.ink2))),
-                  _PlanTag(pro: pro),
-                ],
-              ),
-              const SizedBox(height: MmSpace.s12),
-              figure,
-              if (pro) ...[
-                const SizedBox(height: MmSpace.s4),
-                Text(
-                  until == null ? EditCopy.proActive : EditCopy.proUntil('${formatDayMonth(until)} ${until.year}'),
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
-              ],
+              Expanded(child: Text(EditCopy.planOverline, style: type.caption.copyWith(color: colors.ink2))),
+              _PlanTag(pro: pro),
             ],
           ),
-        ),
+          const SizedBox(height: MmSpace.s12),
+          figure,
+          if (pro) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(
+              until == null ? EditCopy.proActive : EditCopy.proUntil('${formatDayMonth(until)} ${until.year}'),
+              style: type.small.copyWith(color: colors.ink2),
+            ),
+          ],
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
@@ -17,7 +18,13 @@ import 'screen_bits.dart';
 
 /// What the student can do on a step. The run screen wires these to the run controller.
 class RunStepActions {
-  const RunStepActions({required this.reveal, required this.answer, required this.rate, required this.advance, required this.retry});
+  const RunStepActions({
+    required this.reveal,
+    required this.answer,
+    required this.rate,
+    required this.advance,
+    required this.retry,
+  });
 
   final VoidCallback reveal;
   final void Function(Object value, {bool assisted}) answer;
@@ -30,7 +37,12 @@ class RunStepActions {
 /// Local input (the chosen option, typed text, hint shown) lives here and resets with each
 /// step because the run screen keys this widget by the step.
 class RunStep extends ConsumerStatefulWidget {
-  const RunStep({super.key, required this.ui, required this.actions, required this.isLast});
+  const RunStep({
+    super.key,
+    required this.ui,
+    required this.actions,
+    required this.isLast,
+  });
 
   final RunUiState ui;
   final RunStepActions actions;
@@ -68,7 +80,11 @@ class _RunStepState extends ConsumerState<RunStep> {
   /// waiting on a failed send is not "sending": it gets a Try again key instead of a spinner.
   bool get _sending => _ui.sending || (_ui.pending != null && !_stuck);
 
-  bool get _stuck => _ui.pending != null && !_ui.sending && (_ui.notice == RunNotice.queuedOffline || _ui.notice == RunNotice.sendFailed);
+  bool get _stuck =>
+      _ui.pending != null &&
+      !_ui.sending &&
+      (_ui.notice == RunNotice.queuedOffline ||
+          _ui.notice == RunNotice.sendFailed);
 
   void _submitText([String? _]) {
     final value = _text.text.trim();
@@ -88,15 +104,25 @@ class _RunStepState extends ConsumerState<RunStep> {
       children: [
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, MmSpace.s24),
+            padding: const EdgeInsets.fromLTRB(
+              MmSpace.gutter,
+              MmSpace.s16,
+              MmSpace.gutter,
+              MmSpace.s24,
+            ),
             children: [
               Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                  constraints: const BoxConstraints(
+                    maxWidth: MmSpace.contentMaxWidth,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (superseded) ...[const _SupersededLine(), const SizedBox(height: MmSpace.s12)],
+                      if (superseded) ...[
+                        const _SupersededLine(),
+                        const SizedBox(height: MmSpace.s12),
+                      ],
                       ..._content(item, feedback, revealed),
                     ],
                   ),
@@ -117,12 +143,22 @@ class _RunStepState extends ConsumerState<RunStep> {
       return [LessonBlock(block: item.raw)];
     }
     if (item.type == RunItemType.unknown) {
+      // The newer-version message is the point of the screen; the card it could not open is
+      // only named, quietly, underneath.
+      final named = item.prompt ?? item.title;
       return [
-        if ((item.prompt ?? item.title) != null) ...[
-          PromptCard(prompt: item.prompt, objective: item.title),
-          const SizedBox(height: MmSpace.s16),
+        const SizedBox(height: MmSpace.s16),
+        Semantics(
+          liveRegion: true,
+          header: true,
+          child: Text(LearnCopy.unknownStep, style: type.title),
+        ),
+        const SizedBox(height: MmSpace.s8),
+        Text(LearnCopy.skipNote, style: type.body.copyWith(color: colors.ink2)),
+        if (named != null) ...[
+          const SizedBox(height: MmSpace.s32),
+          Text(named, style: type.small.copyWith(color: colors.ink3)),
         ],
-        Semantics(liveRegion: true, child: Text(LearnCopy.unknownStep, style: type.body.copyWith(color: colors.ink2))),
       ];
     }
     final notice = switch (_ui.notice) {
@@ -130,7 +166,11 @@ class _RunStepState extends ConsumerState<RunStep> {
       RunNotice.connectToCheck => LearnCopy.connectToCheck,
       _ => null,
     };
-    final prompt = PromptCard(prompt: item.prompt, sentence: item.context, objective: item.objective ?? item.title);
+    final prompt = PromptCard(
+      prompt: item.prompt,
+      sentence: item.context,
+      objective: item.objective ?? item.title,
+    );
 
     if (item.isSelfRated) {
       return [
@@ -146,6 +186,7 @@ class _RunStepState extends ConsumerState<RunStep> {
                   },
             loading: _sending,
             note: notice,
+            announce: false,
           )
         else
           RevealIn(
@@ -159,13 +200,19 @@ class _RunStepState extends ConsumerState<RunStep> {
     }
 
     if (item.isChecked) {
-      final chosen = feedback?.chosen == null ? null : item.options.indexOf(feedback!.chosen!);
+      final chosen = feedback?.chosen == null
+          ? null
+          : item.options.indexOf(feedback!.chosen!);
       return [
         prompt,
         const SizedBox(height: MmSpace.s16),
         if (item.type == RunItemType.choice)
           revealed
-              ? ResultOptions(options: item.options, correct: item.answerIndex, chosen: chosen == -1 ? null : chosen)
+              ? ResultOptions(
+                  options: item.options,
+                  correct: item.answerIndex,
+                  chosen: chosen == -1 ? null : chosen,
+                )
               : LiveOptions(
                   options: item.options,
                   selected: _selected,
@@ -185,7 +232,10 @@ class _RunStepState extends ConsumerState<RunStep> {
           ),
           if (_hintShown && item.hint != null && !revealed) ...[
             const SizedBox(height: MmSpace.s8),
-            Text('${LearnCopy.hintLabel}: ${item.hint!}', style: type.small.copyWith(color: colors.ink2)),
+            Text(
+              '${LearnCopy.hintLabel}: ${item.hint!}',
+              style: type.small.copyWith(color: colors.ink2),
+            ),
           ],
         ],
         if (notice != null && !revealed) ...[
@@ -194,7 +244,9 @@ class _RunStepState extends ConsumerState<RunStep> {
         ],
         if (revealed && feedback != null) ...[
           const SizedBox(height: MmSpace.s16),
-          RevealIn(child: FeedbackPanel(feedback: feedback, item: item)),
+          RevealIn(
+            child: FeedbackPanel(feedback: feedback, item: item),
+          ),
         ],
       ];
     }
@@ -207,47 +259,127 @@ class _RunStepState extends ConsumerState<RunStep> {
 
     // Waiting on the phone: say so plainly and always offer the send again.
     if (pending != null && _stuck) {
-      final failed = _ui.notice == RunNotice.sendFailed || !pending.canWaitOffline;
-      // The failed line can be long: it wraps as the message, not inside the pill.
+      final failed =
+          _ui.notice == RunNotice.sendFailed || !pending.canWaitOffline;
+      // A real failure says so and offers Try again as the one volt key. A rating that is safely
+      // queued is calm news instead: the pill, one line saying where it is kept, and Send now
+      // for a weak signal (it also sends by itself when the phone is online).
+      if (failed) {
+        return PinnedActions(
+          message: LearnCopy.sendFailed,
+          children: [KeyButton(label: LearnCopy.tryAgain, onPressed: a.retry)],
+        );
+      }
+      final kept = switch (pending.type) {
+        'rate' => LearnCopy.ratingOnPhone,
+        'answer' => LearnCopy.answerOnPhone,
+        _ => LearnCopy.progressOnPhone,
+      };
       return PinnedActions(
-        message: failed ? LearnCopy.sendFailed : null,
         children: [
-          if (!failed) const Align(child: SavePill(state: SaveState.onThisPhone, label: LearnCopy.reviewedOffline)),
-          KeyButton.secondary(label: LearnCopy.tryAgain, onPressed: a.retry),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SavePill(
+                state: SaveState.onThisPhone,
+                label: LearnCopy.reviewedOffline,
+              ),
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                kept,
+                style: context.mmType.small.copyWith(
+                  color: context.mmColors.ink2,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          KeyButton(label: LearnCopy.sendNow, onPressed: a.retry),
         ],
       );
     }
 
     if (item.type == RunItemType.unknown) {
       return PinnedActions(
-        message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
-        children: [KeyButton(label: LearnCopy.skipStep, onPressed: _sending ? null : a.advance, loading: _sending)],
+        message: _ui.notice == RunNotice.sendFailed
+            ? LearnCopy.sendFailed
+            : null,
+        children: [
+          KeyButton(
+            label: LearnCopy.skipStep,
+            onPressed: _sending ? null : a.advance,
+            loading: _sending,
+          ),
+        ],
       );
     }
 
     if (item.isReading) {
       return PinnedActions(
-        message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
-        children: [KeyButton(label: _closing, onPressed: _sending ? null : a.advance, loading: _sending)],
+        message: _ui.notice == RunNotice.sendFailed
+            ? LearnCopy.sendFailed
+            : null,
+        children: [
+          KeyButton(
+            label: _closing,
+            onPressed: _sending ? null : a.advance,
+            loading: _sending,
+          ),
+        ],
       );
     }
 
     if (item.isSelfRated) {
       if (!revealed) {
+        // The one volt key of the card: the answer is a tap away, in the same place as every
+        // other step's key. The tile above it stays tappable too.
         return _ui.notice == RunNotice.sendFailed
-            ? PinnedActions(message: LearnCopy.sendFailed, children: [KeyButton.secondary(label: LearnCopy.tryAgain, onPressed: a.retry)])
-            : const SizedBox.shrink();
+            ? PinnedActions(
+                message: LearnCopy.sendFailed,
+                children: [
+                  KeyButton(label: LearnCopy.tryAgain, onPressed: a.retry),
+                ],
+              )
+            : PinnedActions(
+                children: [
+                  KeyButton(
+                    label: LearnCopy.showAnswer,
+                    loading: _sending,
+                    onPressed: _sending
+                        ? null
+                        : () {
+                            ref.read(hapticsProvider).tick();
+                            a.reveal();
+                          },
+                  ),
+                ],
+              );
       }
       return PinnedActions(
-        message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
-        children: [RatingKeys(onRate: a.rate, sending: pending?.type == 'rate' ? pending?.rating : null)],
+        message: _ui.notice == RunNotice.sendFailed
+            ? LearnCopy.sendFailed
+            : null,
+        children: [
+          RatingKeys(
+            onRate: a.rate,
+            sending: pending?.type == 'rate' ? pending?.rating : null,
+          ),
+        ],
       );
     }
 
     if (revealed) {
       return PinnedActions(
-        message: _ui.notice == RunNotice.sendFailed ? LearnCopy.sendFailed : null,
-        children: [KeyButton(label: _closing, onPressed: _sending ? null : a.advance, loading: _sending)],
+        message: _ui.notice == RunNotice.sendFailed
+            ? LearnCopy.sendFailed
+            : null,
+        children: [
+          KeyButton(
+            label: _closing,
+            onPressed: _sending ? null : a.advance,
+            loading: _sending,
+          ),
+        ],
       );
     }
 
@@ -259,13 +391,17 @@ class _RunStepState extends ConsumerState<RunStep> {
         ListenableBuilder(
           listenable: _text,
           builder: (context, _) {
-            final ready = isChoice ? _selected != null : _text.text.trim().isNotEmpty;
+            final ready = isChoice
+                ? _selected != null
+                : _text.text.trim().isNotEmpty;
             return KeyButton(
               label: LearnCopy.checkAnswer,
               loading: _sending,
               onPressed: !ready || _sending
                   ? null
-                  : () => isChoice ? a.answer(_selected!, assisted: false) : _submitText(),
+                  : () => isChoice
+                        ? a.answer(_selected!, assisted: false)
+                        : _submitText(),
             );
           },
         ),
@@ -273,10 +409,17 @@ class _RunStepState extends ConsumerState<RunStep> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (!isChoice && item.hint != null && !_hintShown)
-              KeyButton.quiet(label: LearnCopy.showHint, onPressed: _sending ? null : () => setState(() => _hintShown = true)),
+              KeyButton.quiet(
+                label: LearnCopy.showHint,
+                onPressed: _sending
+                    ? null
+                    : () => setState(() => _hintShown = true),
+              ),
             KeyButton.quiet(
               label: LearnCopy.dontKnow,
-              onPressed: _sending ? null : () => a.answer(isChoice ? -1 : '', assisted: false),
+              onPressed: _sending
+                  ? null
+                  : () => a.answer(isChoice ? -1 : '', assisted: false),
             ),
           ],
         ),
@@ -286,13 +429,15 @@ class _RunStepState extends ConsumerState<RunStep> {
 
   String get _closing {
     final run = _ui.run!;
-    if (!widget.isLast) return run.isLearn ? LearnCopy.continueKey : LearnCopy.nextCard;
+    if (!widget.isLast)
+      return run.isLearn ? LearnCopy.continueKey : LearnCopy.nextCard;
     return run.isLearn ? LearnCopy.finishLesson : LearnCopy.finishRun;
   }
 }
 
-/// One plain line when the step the student answered had already been answered on another
-/// device: their tap was not recorded, and the step on screen is the current one.
+/// One quiet line when the step the student answered had already been answered on another
+/// device: their tap was not recorded, and the step on screen is the current one. An icon and
+/// small type keep it a status, well under the question in weight.
 class _SupersededLine extends StatelessWidget {
   const _SupersededLine();
 
@@ -302,7 +447,27 @@ class _SupersededLine extends StatelessWidget {
     final colors = context.mmColors;
     return Semantics(
       liveRegion: true,
-      child: Text(LearnCopy.supersededElsewhere, style: type.body.copyWith(color: colors.ink2)),
+      container: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(
+              LucideIcons.monitorSmartphone,
+              size: 16,
+              color: colors.ink2,
+            ),
+          ),
+          const SizedBox(width: MmSpace.s8),
+          Expanded(
+            child: Text(
+              LearnCopy.supersededElsewhere,
+              style: type.small.copyWith(color: colors.ink2),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

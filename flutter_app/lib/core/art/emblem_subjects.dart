@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui show Gradient;
 import 'dart:ui' show PathMetric;
 
 import 'package:flutter/widgets.dart';
@@ -71,6 +72,19 @@ abstract class EmblemArt {
 
   /// Half width of the contact shadow.
   double get shadowRx => 30;
+
+  /// The colours that carry this object's silhouette at 24 dp, for the contrast check against the
+  /// glyph plate ([EmblemPalette.glyphField]). Empty where the object is light paper on a plate
+  /// that has no other dark to compare with.
+  List<Color> glyphInks(EmblemPalette p) => const [];
+
+  /// True where the widget lays text over the drawing (the initials card). The object then holds
+  /// still and is not scaled, so the text and the card never drift apart.
+  bool get overlaysText => false;
+
+  /// The fallback for a subject with no object: a printed card for its initials, with the one volt
+  /// tick inked underneath.
+  static const EmblemArt monogram = _Monogram();
 
   static EmblemArt? forKind(EmblemKind kind) => switch (kind) {
         EmblemKind.accountancy => const _Accountancy(),
@@ -505,14 +519,14 @@ class _Physics extends EmblemArt {
       final o = Path()..addOval(Rect.fromCenter(center: _c, width: 70, height: 25));
       orbits.add(rotatedPath(o, _c, deg));
     }
-    metric = orbits.first.computeMetrics().first;
+    metrics = [for (final o in orbits) o.computeMetrics().first];
   }
 
   static final _Physics instance = _Physics._();
   static const _c = Offset(50, 50);
 
   final List<Path> orbits = [];
-  late final PathMetric metric;
+  late final List<PathMetric> metrics;
 
   @override
   double get groundY => 86;
@@ -520,45 +534,73 @@ class _Physics extends EmblemArt {
   @override
   double get shadowRx => 22;
 
+  /// How far the atom has swept at idle phase [t]: one full turn per cycle, slow at the ends and
+  /// quick in the middle (the speed is 1 - cos, so it is zero at t = 0 and t = 1 and the loop
+  /// closes without a jolt).
+  static double sweepDegrees(double t) => 360 * (t - math.sin(2 * math.pi * t) / (2 * math.pi));
+
   @override
-  void object(Sketch s) {
-    final p = s.p;
-    final w = s.fine ? 3.0 : 4.2;
-    for (final o in orbits) {
-      s.stroke(o.shift(const Offset(0.6, 1.6)), p.isNight ? p.deep : p.shade, w);
-    }
-    for (var i = 0; i < orbits.length; i++) {
-      s.stroke(orbits[i], i == 0 ? (p.isNight ? p.lit : Color.lerp(p.lit, p.mid, 0.3)!) : Color.lerp(p.lit, p.mid, p.isNight ? 0.35 : 0.6)!, w);
-    }
-    if (s.fine) {
-      for (final (i, f) in const [(1, 0.18), (2, 0.62)]) {
-        final m = orbits[i].computeMetrics().first;
-        final pos = m.getTangentForOffset(m.length * f)!.position;
-        s.circle(pos + const Offset(0.4, 1), 3, p.deep.withValues(alpha: 0.6));
-        s.circle(pos, 3, p.mid);
-      }
-    }
+  void object(Sketch s) {}
+
+  Offset _at(int orbit, double f) {
+    final m = metrics[orbit];
+    return m.getTangentForOffset(m.length * (f % 1.0))!.position;
   }
 
   @override
   void live(Sketch s, double t) {
     final p = s.p;
-    final m = metric;
-    final length = m.length;
-    final f = ((t * 2) + 0.36) % 1.0;
-    if (s.plate) {
-      for (var k = 3; k >= 1; k--) {
-        final pos = m.getTangentForOffset(length * ((f - k * 0.018) % 1.0))!.position;
-        s.circle(pos, 3.2 - k * 0.55, p.lit.withValues(alpha: 0.18 * (4 - k)));
+    final c = s.canvas;
+    final w = s.fine ? 3.0 : 4.2;
+    final orbitInk = [
+      p.isNight ? p.lit : Color.lerp(p.lit, p.mid, 0.3)!,
+      Color.lerp(p.lit, p.mid, p.isNight ? 0.35 : 0.6)!,
+      Color.lerp(p.lit, p.mid, p.isNight ? 0.35 : 0.6)!,
+    ];
+    final sweep = sweepDegrees(t) * math.pi / 180;
+
+    // The orbits, turning as one: their shadow first (the lamp stays where it is), then the rings.
+    c.save();
+    c.translate(0.6, 1.6);
+    c.translate(_c.dx, _c.dy);
+    c.rotate(sweep);
+    c.translate(-_c.dx, -_c.dy);
+    for (final o in orbits) {
+      s.stroke(o, p.isNight ? p.deep : p.shade, w);
+    }
+    c.restore();
+    c.save();
+    c.translate(_c.dx, _c.dy);
+    c.rotate(sweep);
+    c.translate(-_c.dx, -_c.dy);
+    for (var i = 0; i < orbits.length; i++) {
+      s.stroke(orbits[i], orbitInk[i], w);
+    }
+    // The electrons ride their own orbits; the lit one is quick and leaves a tail.
+    if (s.fine) {
+      for (final (i, f, k) in const [(1, 0.18, -1.0), (2, 0.62, 1.0)]) {
+        final pos = _at(i, f + k * t);
+        s.circle(pos + const Offset(0.4, 1), 3.2, p.deep.withValues(alpha: 0.6));
+        s.circle(pos, 3.2, p.mid);
       }
     }
-    final pos = m.getTangentForOffset(length * f)!.position;
-    s.circle(pos + const Offset(0.4, 1), s.fine ? 3.4 : 4.4, p.deep.withValues(alpha: 0.7));
-    s.circle(pos, s.fine ? 3.4 : 4.4, p.lit);
+    final main = (t * 2 + 0.36) % 1.0;
+    if (s.fine) {
+      for (var k = 5; k >= 1; k--) {
+        final pos = _at(0, main - k * 0.022);
+        s.circle(pos, 4.2 - k * 0.55, p.lit.withValues(alpha: (s.plate ? 0.2 : 0.16) * (6 - k)));
+      }
+    }
+    final pos = _at(0, main);
+    final r = s.fine ? 4.0 : 5.0;
+    s.circle(pos + const Offset(0.4, 1), r, p.deep.withValues(alpha: 0.7));
+    s.circle(pos, r, p.lit);
+    c.restore();
   }
 
+  /// The nucleus beats twice a cycle.
   @override
-  EmblemMark mark(double t) => const EmblemMark(_c, 7.4);
+  EmblemMark mark(double t) => EmblemMark(_c, 7.4 * (1 + 0.1 * (1 - math.cos(t * 4 * math.pi)) / 2));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -578,13 +620,11 @@ class _Chemistry extends EmblemArt {
       ..lineTo(57.5, 40)
       ..close();
     flask = Path.combine(PathOperation.union, neck, body);
-    liquid = Path.combine(PathOperation.intersect, flask, Path()..addRect(const Rect.fromLTRB(0, 57, 100, 100)));
   }
 
   static final _Chemistry instance = _Chemistry._();
 
   late final Path flask;
-  late final Path liquid;
 
   static final _rightHalf = Path()..addRect(const Rect.fromLTRB(50, 0, 100, 100));
 
@@ -593,30 +633,63 @@ class _Chemistry extends EmblemArt {
     final p = s.p;
     s.fill(flask.shift(const Offset(1.4, 2)), p.deep.withValues(alpha: p.isNight ? 1 : 0.45));
     s.folded(flask, _rightHalf, p.lit, Color.lerp(p.lit, p.shade, 0.7)!);
-    s.folded(liquid, _rightHalf, p.mid, p.midShade);
-    s.line(const Offset(32.5, 57), const Offset(67.5, 57), Color.lerp(p.mid, p.lit, 0.5)!, 1.6, cap: StrokeCap.butt);
     s.rrect(const Rect.fromLTRB(39.5, 16.5, 60.5, 22.5), 2, p.midShade);
     if (s.fine) {
       for (final y in const [27.0, 32.0, 37.0]) {
         s.line(Offset(44.5, y), Offset(y == 32 ? 49 : 47.5, y), p.deep.withValues(alpha: 0.7), 1);
       }
-      for (final y in const [50.0, 62.0, 70.0]) {
+      s.line(const Offset(46.5, 50), const Offset(50.5, 50), p.deep.withValues(alpha: 0.6), 1);
+    }
+  }
+
+  /// The liquid slops with a travelling wave (two swells a cycle), and bubbles rise through it.
+  @override
+  void live(Sketch s, double t) {
+    final p = s.p;
+    final c = s.canvas;
+    final amp = s.fine ? 2.6 : 3.4;
+    double surface(double x) => 57 + amp * math.sin((x - 20) / 60 * 2 * math.pi + t * 4 * math.pi);
+
+    final top = Path()..moveTo(14, surface(14));
+    for (var x = 16.0; x <= 86; x += 2) {
+      top.lineTo(x, surface(x));
+    }
+    final liquid = Path.from(top)
+      ..lineTo(86, 100)
+      ..lineTo(14, 100)
+      ..close();
+
+    c.save();
+    c.clipPath(flask);
+    s.fill(liquid, p.mid);
+    c.save();
+    c.clipPath(_rightHalf);
+    s.fill(liquid, p.midShade);
+    c.restore();
+    s.stroke(top, Color.lerp(p.mid, p.lit, 0.55)!, 1.7, cap: StrokeCap.butt);
+    if (s.fine) {
+      for (final y in const [62.0, 70.0]) {
         final x = 42.5 - (y - 44) * 0.72 + 2.5;
         s.line(Offset(x, y), Offset(x + 4, y), p.deep.withValues(alpha: 0.6), 1);
       }
-      s.ring(const Offset(38, 71), 2.2, Color.lerp(p.mid, p.lit, 0.6)!, 1);
-      s.ring(const Offset(60, 66), 1.6, Color.lerp(p.mid, p.lit, 0.6)!, 1);
-      s.ring(const Offset(48, 75), 1.2, Color.lerp(p.mid, p.lit, 0.6)!, 0.9);
+      for (final (x, off, r) in const [(38.0, 0.0, 2.2), (62.0, 0.5, 1.7), (47.0, 0.75, 1.3)]) {
+        final u = (t * 3 + off) % 1.0;
+        final y = 77 - u * 18;
+        final fade = math.min(1.0, math.min(u / 0.14, (1 - u) / 0.2));
+        final rr = r * (0.7 + 0.5 * u) * (s.fine ? 1 : 1.35);
+        s.ring(Offset(x + math.sin(u * math.pi * 2 + off * 6) * 1.2, y), rr, Color.lerp(p.mid, p.lit, 0.8)!.withValues(alpha: fade), s.fine ? 1.1 : 1.6);
+      }
     }
+    c.restore();
     s.sheen(flask);
   }
 
   @override
   EmblemMark mark(double t) {
     final u = (t * 3 + 0.42) % 1.0;
-    final y = 64 - u * 36;
+    final y = 70 - u * 44;
     final grow = u < 0.12 ? u / 0.12 : (u > 0.9 ? (1 - u) / 0.1 : 1.0);
-    final sway = math.sin(u * math.pi * 3) * 1.2;
+    final sway = math.sin(u * math.pi * 3) * 2.0 * (1 - u * 0.5);
     return EmblemMark(Offset(50 + sway, y), 4.4 * (0.35 + 0.65 * grow));
   }
 }
@@ -905,6 +978,8 @@ class _Psychology extends EmblemArt {
     final p = s.p;
     s.fill(head.shift(const Offset(1.4, 2)), p.deep.withValues(alpha: p.isNight ? 1 : 0.4));
     s.folded(head, back, p.lit, Color.lerp(p.lit, p.shade, 0.75)!);
+    // Daylight: lit paper on a pale plate needs a printed rim to hold its profile.
+    if (!p.isNight) s.stroke(head, p.deep.withValues(alpha: 0.85), s.fine ? 1.2 : 1.8);
     if (s.fine) {
       s.stroke(
         Path()
@@ -918,12 +993,15 @@ class _Psychology extends EmblemArt {
   }
 
   @override
+  List<Color> glyphInks(EmblemPalette p) => [p.isNight ? p.lit : p.deep];
+
+  @override
   void live(Sketch s, double t) {
     final c = s.canvas;
     c.save();
     c.translate(_mind.dx, _mind.dy);
     c.rotate(t * 2 * math.pi);
-    s.stroke(spiral, s.p.mid, s.fine ? 2.3 : 3.2);
+    s.stroke(spiral, s.p.isNight ? s.p.mid : s.p.deep, s.fine ? 2.3 : 3.2);
     c.restore();
   }
 
@@ -941,44 +1019,65 @@ class _Sociology extends EmblemArt {
     ..addRRect(RRect.fromLTRBAndCorners(cx - halfWidth, top, cx + halfWidth, base,
         topLeft: Radius.circular(halfWidth), topRight: Radius.circular(halfWidth)));
 
+  /// The two figures behind. Dark ink on Daylight (a tan figure on a tan plate disappears), the
+  /// lit tan on Night.
+  static Color sideLit(EmblemPalette p) => p.isNight ? p.shade : Color.lerp(p.mid, p.deep, 0.62)!;
+  static Color sideShade(EmblemPalette p) => p.isNight ? p.midShade : p.deep;
+
+  /// How far a head rises at its nod. The bodies follow at about half.
+  static double amplitude(EmblemDetail d) => d == EmblemDetail.glyph ? 5.6 : 4.4;
+
+  static double _nod(double t, double offset) => (1 - math.cos((t * 2 + offset) * 2 * math.pi)) / 2;
+
   @override
-  void object(Sketch s) {
-    final p = s.p;
-    for (final cx in const [29.0, 71.0]) {
-      final body = _body(cx, 52, 11.5, 78);
-      s.fill(body.shift(const Offset(1, 1.8)), p.deep.withValues(alpha: p.isNight ? 1 : 0.4));
-      s.folded(body, Path()..addRect(Rect.fromLTRB(cx, 0, 100, 100)), p.shade, p.midShade);
-    }
-    final front = _body(50, 51, 15, 81);
-    s.fill(front.shift(const Offset(1.2, 2)), p.deep.withValues(alpha: p.isNight ? 1 : 0.4));
-    s.folded(front, Path()..addRect(const Rect.fromLTRB(50, 0, 100, 100)), p.lit, Color.lerp(p.lit, p.shade, 0.6)!);
-    if (s.fine) {
-      s.poly(const [Offset(45, 51.6), Offset(50, 59), Offset(55, 51.6)], p.mid);
-    }
-    s.sheen(front);
-  }
+  void object(Sketch s) {}
+
+  @override
+  List<Color> glyphInks(EmblemPalette p) => [sideLit(p), sideShade(p)];
 
   @override
   void live(Sketch s, double t) {
     final p = s.p;
-    final amp = s.fine ? 1.4 : 3.4;
+    final c = s.canvas;
+    final amp = amplitude(s.detail);
+    final shadowInk = p.deep.withValues(alpha: p.isNight ? 1 : 0.4);
+
     for (final (cx, offset) in const [(29.0, 0.0), (71.0, 0.33)]) {
-      final nod = (1 - math.cos((t * 2 + offset) * 2 * math.pi)) / 2;
+      final nod = _nod(t, offset);
+      c.save();
+      c.translate(0, -nod * amp * 0.5);
+      final body = _body(cx, 52, 11.5, 78);
+      s.fill(body.shift(const Offset(1, 1.8)), shadowInk);
+      s.folded(body, Path()..addRect(Rect.fromLTRB(cx, 0, 100, 100)), sideLit(p), sideShade(p));
+      c.restore();
       final center = Offset(cx, 41 - nod * amp);
-      s.circle(center + const Offset(0.6, 1.2), 7, p.deep.withValues(alpha: p.isNight ? 0.9 : 0.3));
+      s.circle(center + const Offset(0.6, 1.2), 7, p.deep.withValues(alpha: p.isNight ? 0.9 : 0.4));
       s.circle(center, 7, p.lit);
-      s.ring(center, 7 - 0.7, p.ring, s.fine ? 1.4 : 1.8);
+      s.ring(center, 7 - 0.7, p.isNight ? p.ring : p.deep, s.fine ? 1.4 : 1.8);
     }
+
+    // The front figure: its head is the one inked bubble (the mark).
+    final nod = _nod(t, 0.66);
+    c.save();
+    c.translate(0, -nod * amp * 0.5);
+    final front = _body(50, 51, 15, 81);
+    s.fill(front.shift(const Offset(1.2, 2)), shadowInk);
+    s.folded(front, Path()..addRect(const Rect.fromLTRB(50, 0, 100, 100)), p.lit, Color.lerp(p.lit, p.shade, 0.6)!);
+    if (!p.isNight) {
+      s.stroke(front, p.deep.withValues(alpha: 0.7), s.fine ? 1.1 : 1.5);
+    }
+    if (s.fine) {
+      s.poly(const [Offset(45, 51.6), Offset(50, 59), Offset(55, 51.6)], p.mid);
+    }
+    s.sheen(front);
+    c.restore();
   }
 
   @override
   EmblemMark mark(double t) => markAt(t, EmblemDetail.tile);
 
   @override
-  EmblemMark markAt(double t, EmblemDetail detail) {
-    final nod = (1 - math.cos((t * 2 + 0.66) * 2 * math.pi)) / 2;
-    return EmblemMark(Offset(50, 37 - nod * (detail == EmblemDetail.glyph ? 3.4 : 1.4)), 8.6);
-  }
+  EmblemMark markAt(double t, EmblemDetail detail) => EmblemMark(Offset(50, 37 - _nod(t, 0.66) * amplitude(detail)), 8.6);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1010,11 +1109,46 @@ class _Code extends EmblemArt {
     s.sheen(window);
   }
 
+  static final _body = Path()..addRRect(RRect.fromLTRBAndCorners(15, 36, 85, 77, bottomLeft: const Radius.circular(7), bottomRight: const Radius.circular(7)));
+
+  /// The scan: a lit band sweeps the code from the title bar to the last line and back, easing
+  /// at each end (a cosine, so the loop closes). Behind it a line types itself out under a steady
+  /// cursor and is deleted again; the cursor blinks eight times a cycle while it rests.
   @override
   void live(Sketch s, double t) {
+    final p = s.p;
+    final c = s.canvas;
+    final sweep = (1 - math.cos(t * 2 * math.pi)) / 2;
+    final bandH = s.fine ? 11.0 : 13.0;
+    final y = 36 - bandH * 0.4 + sweep * (41 + bandH * 0.4);
+    c.save();
+    c.clipPath(_body);
+    final band = Rect.fromLTRB(15, y, 85, y + bandH);
+    c.drawRect(
+      band,
+      Paint()
+        ..shader = ui.Gradient.linear(
+          band.topCenter,
+          band.bottomCenter,
+          [p.mid.withValues(alpha: 0), p.mid.withValues(alpha: p.isNight ? 0.5 : 0.42), p.mid.withValues(alpha: 0)],
+          const [0, 0.55, 1],
+        ),
+    );
+    c.drawLine(Offset(15, y + bandH * 0.55), Offset(85, y + bandH * 0.55), Paint()
+      ..strokeWidth = s.fine ? 1.2 : 1.6
+      ..color = p.isNight ? p.lit.withValues(alpha: 0.9) : p.deep.withValues(alpha: 0.85));
+    c.restore();
     if (!s.fine) return;
-    final on = ((t * 7.2 / 1.06).floor()).isEven;
-    if (on) s.rect(const Rect.fromLTRB(58, 66.5, 61.6, 72.5), s.p.deep);
+    double smooth(double a, double b) {
+      final x = ((t - a) / (b - a)).clamp(0.0, 1.0);
+      return x * x * (3 - 2 * x);
+    }
+
+    final typed = 22 * (smooth(0.05, 0.55) - smooth(0.88, 1.0));
+    if (typed > 0.3) s.rrect(Rect.fromLTRB(58, 68.5, 58 + typed, 71), 1.2, p.mid.withValues(alpha: 0.8));
+    final typing = typed > 0.3 && typed < 21.7;
+    final blink = (t * 8).floor().isEven;
+    if (typing || blink) s.rect(Rect.fromLTRB(59 + typed, 65.5, 62.4 + typed, 73.5), p.deep);
   }
 
   @override
@@ -1048,4 +1182,30 @@ class _Language extends EmblemArt {
 
   @override
   EmblemMark mark(double t) => const EmblemMark(Offset(60, 29.5), 3.1, style: MarkStyle.row);
+}
+
+// ---------------------------------------------------------------------------------------------
+// A subject the art does not know: a printed card for its initials with the one volt tick inked
+// under them. The initials are set by the widget (they are text); this draws everything else.
+
+class _Monogram extends EmblemArt {
+  const _Monogram();
+
+  @override
+  bool get overlaysText => true;
+
+  @override
+  void object(Sketch s) {
+    final p = s.p;
+    final card = Path()..addRRect(RRect.fromLTRBR(19, 20, 81, 76, const Radius.circular(10)));
+    s.slab(card, const Offset(0, 3), p.lit, p.deep.withValues(alpha: p.isNight ? 1 : 0.5));
+    if (s.fine) {
+      s.fill(Path.combine(PathOperation.intersect, card, Path()..addPolygon(const [Offset(100, 0), Offset(100, 100), Offset(0, 100)], true)),
+          p.shade.withValues(alpha: 0.3));
+    }
+    s.sheen(card);
+  }
+
+  @override
+  EmblemMark mark(double t) => const EmblemMark(Offset(50, 64), 3.6, style: MarkStyle.pill);
 }

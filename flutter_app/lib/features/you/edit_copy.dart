@@ -7,15 +7,12 @@ import '../../core/copy/copy.dart';
 
 /// A category as a row or option title: the words a student says, first letter capitalised
 /// ("Unreserved", "Sikh minority"). The stored value stays the portal code.
-String categoryTitle(String? category) {
-  final words = categoryWords(category);
-  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
-}
+String categoryTitle(String? category) => categoryWordsTitle(category);
 
 abstract final class EditCopy {
   // Subjects editor (WEB-PARITY F1).
   static const subjectsTitle = 'Your subjects';
-  static const subjectsMobi = 'Five at most, like the exam. Pick the papers you will write.';
+  static const subjectsHint = 'Up to five, like the exam.';
   static String subjectsCount(int n) => '$n of 5 chosen';
   static const subjectsCap = 'Five is the most. Remove one to add another.';
   static const subjectsNeedOne = 'Keep at least one subject.';
@@ -36,7 +33,7 @@ abstract final class EditCopy {
 
   // The sheet editor.
   static const sheetTitle = 'Your sheet';
-  static const sheetIntro = 'This is what you told me in setup. Change anything and Today plans from it.';
+  static const sheetIntro = 'Change anything. Today plans from it.';
   static const editSheet = 'Edit';
   static const editSheetLabel = 'Edit your sheet';
   static const groupAbout = 'About you';
@@ -85,6 +82,7 @@ abstract final class EditCopy {
 
   // The week.
   static const weekDays = 'Study days';
+  static String weekDaysCount(int n) => n == 1 ? '1 day a week' : '$n days a week';
   static const weekTime = 'Time of day';
   static const weekLength = 'Usual length';
   static String minutesLabel(int m) => '$m min';
@@ -117,10 +115,11 @@ abstract final class EditCopy {
   static const planFree = 'Free';
   static const planPro = 'Pro';
   static String credits(int n) => n == 1 ? '1 practice credit' : '$n practice credits';
-  static const creditsUnknown = 'We could not load your credit balance.';
+  static const creditsUnknown = 'Credits did not load.';
   static const creditsRetry = 'Try again';
   static const creditsRetrying = 'Trying again';
   static const unlimited = 'Unlimited practice';
+  static const otherDevicesNote = 'Ends MockMob on other phones and the website. You stay signed in here.';
   static const planOverline = 'Your plan';
   static const creditUnit = 'practice credits';
   static const creditUnitOne = 'practice credit';

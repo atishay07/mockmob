@@ -66,7 +66,7 @@ void main() {
       expect(find.textContaining('shorter practice'), findsOneWidget);
       // The list below still holds them, and the one key offered is the run that really exists.
       expect(find.text('Mistakes to repair'), findsOneWidget);
-      expect(find.text('Repair these 2 from Quick practice'), findsOneWidget);
+      expect(find.text('Repair 2 from Quick practice'), findsOneWidget);
     });
 
     testWidgets('with nothing open the all-clear shows', (tester) async {
@@ -107,8 +107,8 @@ void main() {
 
     testWidgets('the Mistakes page shows one key per paper, each with its own count', (tester) async {
       await _pump(tester, const MistakesScreen(), attempts: [mock7, mock6]);
-      expect(find.text('Repair these 3 from Mock 2'), findsOneWidget);
-      expect(find.text('Repair these 2 from Mock 1'), findsOneWidget);
+      expect(find.text('Repair 3 from Mock 2'), findsOneWidget);
+      expect(find.text('Repair 2 from Mock 1'), findsOneWidget);
       expect(find.text('Repair these 5'), findsNothing);
     });
 

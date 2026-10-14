@@ -9,7 +9,12 @@ import '../models/learn_catalog.dart';
 /// fetched when the student opens them (the server records that as an exposure), so the switch
 /// keeps opened lessons on the phone and says plainly when nothing is kept yet.
 class OfflinePacks extends StatelessWidget {
-  const OfflinePacks({super.key, required this.subjects, required this.state, required this.onChanged});
+  const OfflinePacks({
+    super.key,
+    required this.subjects,
+    required this.state,
+    required this.onChanged,
+  });
 
   final List<LearnSubject> subjects;
   final OfflineLearnState state;
@@ -24,7 +29,10 @@ class OfflinePacks extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: MmSpace.s8, left: MmSpace.s4),
-          child: Semantics(header: true, child: Text(LearnCopy.offlineHeading, style: type.subhead)),
+          child: Semantics(
+            header: true,
+            child: Text(LearnCopy.offlineHeading, style: type.subhead),
+          ),
         ),
         DecoratedBox(
           decoration: BoxDecoration(
@@ -52,7 +60,12 @@ class OfflinePacks extends StatelessWidget {
 }
 
 class _PackRow extends StatelessWidget {
-  const _PackRow({required this.subject, required this.kept, required this.bytes, required this.onChanged});
+  const _PackRow({
+    required this.subject,
+    required this.kept,
+    required this.bytes,
+    required this.onChanged,
+  });
 
   final LearnSubject subject;
   final bool kept;
@@ -63,21 +76,38 @@ class _PackRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final detail = kept ? (bytes > 0 ? LearnCopy.keepSize(LearnCopy.bytes(bytes)) : LearnCopy.keepNothingYet) : null;
+    final detail = kept
+        ? (bytes > 0
+              ? LearnCopy.keepSize(LearnCopy.bytes(bytes))
+              : LearnCopy.keepNothingYet)
+        : null;
     return MergeSemantics(
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: MmSpace.s16,
+            vertical: MmSpace.s8,
+          ),
           child: Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(subject.title, style: type.body.copyWith(fontWeight: FontWeight.w500)),
-                    Text(LearnCopy.keepForOffline, style: type.small.copyWith(color: colors.ink2)),
-                    if (detail != null) Text(detail, style: type.small.copyWith(color: colors.ink2)),
+                    Text(
+                      subject.title,
+                      style: type.body.copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      LearnCopy.keepForOffline,
+                      style: type.small.copyWith(color: colors.ink2),
+                    ),
+                    if (detail != null)
+                      Text(
+                        detail,
+                        style: type.small.copyWith(color: colors.ink2),
+                      ),
                   ],
                 ),
               ),

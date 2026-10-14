@@ -88,7 +88,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('once there is a conversation the stage is gone and the header Mobi is the one that listens', (tester) async {
+    testWidgets('once there is a conversation Mobi stays at the head of the thread and is still the one that listens', (tester) async {
       await pumpMockmob(
         tester,
         const AskScreen(),
@@ -97,7 +97,7 @@ void main() {
         overrides: insightsOverrides(ask: const AskState(messages: [AskMessage.student('How is my week going?'), AskMessage.reply('Three sessions.', origin: AskOrigin.phone)])),
         wrapInScaffold: false,
       );
-      expect(find.byType(MobiStage), findsNothing);
+      expect(find.byType(MobiStage), findsOneWidget);
       await tester.tap(find.byType(TextField));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));

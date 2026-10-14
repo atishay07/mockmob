@@ -33,8 +33,11 @@ class UsageDataSwitchCard extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         YouPanel(
+          flat: true,
+          inset: 4,
           children: [
             YouSwitchRow(
+              flat: true,
               title: usageDataConsentLabel,
               value: consent.analyticsActive,
               onChanged: ui.busy ? null : controller.setAllowed,
@@ -43,7 +46,7 @@ class UsageDataSwitchCard extends ConsumerWidget {
         ),
         _Status(ui: ui, onRetry: () => controller.setAllowed(false)),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s16, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s16, youText, 0),
           child: Text(YouCopy.consentExplanation, style: type.body.copyWith(color: colors.ink2)),
         ),
         const SeeEventsKey(),
@@ -59,11 +62,8 @@ class SeeEventsKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: PillKey(label: YouCopy.seeEvents, onPressed: () => showEventListSheet(context)),
-      ),
+      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s20, youText, 0),
+      child: KeyButton.secondary(label: YouCopy.seeEvents, onPressed: () => showEventListSheet(context)),
     );
   }
 }
@@ -93,7 +93,7 @@ class _Status extends StatelessWidget {
     };
     if (body == null) return const SizedBox.shrink();
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
+      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, youText, 0),
       child: Semantics(liveRegion: true, container: true, child: body),
     );
   }
@@ -116,7 +116,8 @@ class _Status extends StatelessWidget {
   }
 }
 
-/// The plain statement for a minor or an unknown age: off, and why, on its own panel.
+/// The plain statement for a minor or an unknown age: off, and why. It is the hero of the page,
+/// on the ground: a lit shield, the state in display type, and the one-line reason.
 class OffForAccountPanel extends StatelessWidget {
   const OffForAccountPanel({super.key});
 
@@ -124,29 +125,27 @@ class OffForAccountPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return YouPanel(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(MmSpace.gutter),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const IconWell(LucideIcons.shieldCheck),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(liveRegion: true, child: Text(YouCopy.offForAccount, style: type.labelLarge.copyWith(fontSize: 16))),
-                    const SizedBox(height: MmSpace.s4),
-                    Text(YouCopy.offForAccountNote, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s16, youText, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ExcludeSemantics(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colors.isNight ? colors.raised2 : colors.sunken,
+                border: Border.all(color: colors.line),
               ),
-            ],
+              child: SizedBox.square(dimension: 72, child: Icon(LucideIcons.shieldCheck, size: 32, color: colors.ink)),
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: MmSpace.s20),
+          Semantics(liveRegion: true, child: Text(YouCopy.offForAccount, style: type.display)),
+          const SizedBox(height: MmSpace.s8),
+          Text(YouCopy.offForAccountNote, style: type.body.copyWith(color: colors.ink2)),
+        ],
+      ),
     );
   }
 }

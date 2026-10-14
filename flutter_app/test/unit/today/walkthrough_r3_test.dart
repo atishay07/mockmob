@@ -221,12 +221,11 @@ void main() {
       return tester.getSize(key.first).height;
     }
 
-    testWidgets('at 1.0x the long label shows; at 1.3x the short one, on one line', (tester) async {
+    testWidgets('the key says the same words at 1.0x and at 1.3x, on one line', (tester) async {
       final normal = await keyHeight(tester, scale: 1);
       expect(find.text(TodayCopy.startRepair(5)), findsOneWidget);
       final large = await keyHeight(tester, scale: 1.3);
-      expect(find.text(TodayCopy.startRepair(5)), findsNothing);
-      expect(find.text(TodayCopy.startRepairShort(5)), findsOneWidget);
+      expect(find.text(TodayCopy.startRepair(5)), findsOneWidget);
       expect(large, lessThan(normal * 1.3 + 8), reason: 'one line of text, so the key only grows with its text size');
     });
 

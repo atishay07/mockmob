@@ -100,7 +100,7 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text('Week one starts with Partnership.'), findsOneWidget);
-    // Hold to seal (Seal it beside it is the plain alternative).
+    // Hold to seal (the tap-to-seal link under it is the plain alternative).
     final hold = await tester.startGesture(tester.getCenter(find.byType(HoldToSeal)));
     for (var i = 0; i < 16; i++) {
       await tester.pump(const Duration(milliseconds: 100));
@@ -196,14 +196,15 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('Seal it seals at once, beside the hold, at a full touch target', (tester) async {
+  testWidgets('Tap to seal instead seals at once, under the one full-width hold, at a full touch target', (tester) async {
     final c = await _pump(tester, answers: studentUpTo(Steps.rhythm, step: Steps.plan));
     await _tap(tester, OnboardingCopy.continuePlan);
     final seal = find.byWidgetPredicate((w) => w is KeyButton && w.label == OnboardingCopy.sealIt);
     expect(seal, findsOneWidget);
-    expect(find.byType(HoldToSeal), findsOneWidget, reason: 'the hold stays');
+    expect(find.byType(HoldToSeal), findsOneWidget, reason: 'the hold stays, as the one dominant control');
     expect(tester.getSize(seal).height, greaterThanOrEqualTo(48));
-    expect(tester.getCenter(seal).dy, moreOrLessEquals(tester.getCenter(find.byType(HoldToSeal)).dy, epsilon: 1), reason: 'one row');
+    expect(tester.getTopLeft(seal).dy, greaterThan(tester.getBottomLeft(find.byType(HoldToSeal)).dy - 1), reason: 'the link sits under the hold');
+    expect(tester.getSize(find.byType(HoldToSeal)).width, greaterThan(300), reason: 'the hold takes the full width');
     await tester.tap(seal);
     await _settle(tester);
     expect(c.read(onboardingAnswersProvider).value!.sealed, isTrue);

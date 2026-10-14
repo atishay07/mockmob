@@ -52,7 +52,15 @@ class YouPage extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                 child: Column(
                   children: [
-                    Expanded(child: _scroll(context, type)),
+                    // The list fades out above a pinned footer instead of being cut by a rule.
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          Positioned.fill(child: _scroll(context, type)),
+                          if (footer != null) Positioned(left: 0, right: 0, bottom: 0, height: 28, child: _FooterFade(color: colors.ground)),
+                        ],
+                      ),
+                    ),
                     if (footer != null) _Footer(child: footer!),
                   ],
                 ),
@@ -82,6 +90,25 @@ class YouPage extends StatelessWidget {
   }
 }
 
+/// A functional scrim: the ground colour fading in over the last 28 dp of the list, so a row
+/// that scrolls under the footer dissolves instead of being cut.
+class _FooterFade extends StatelessWidget {
+  const _FooterFade({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [color.withValues(alpha: 0), color]),
+        ),
+      ),
+    );
+  }
+}
+
 class _Footer extends StatelessWidget {
   const _Footer({required this.child});
 
@@ -92,9 +119,9 @@ class _Footer extends StatelessWidget {
     final colors = context.mmColors;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.ground, border: Border(top: BorderSide(color: colors.line))),
+      decoration: BoxDecoration(color: colors.ground),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s12 + bottom),
+        padding: EdgeInsets.fromLTRB(youText, MmSpace.s4, youText, MmSpace.s12 + bottom),
         child: child,
       ),
     );
@@ -219,6 +246,10 @@ class GlassDisc extends StatelessWidget {
 
 /// Horizontal padding every body block of a You screen shares.
 const EdgeInsets youGutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
+
+/// Where the words of a You screen start: the one page margin every section, heading and row
+/// aligns to (20 dp), so left edges never zigzag down a page.
+const double youText = MmSpace.gutter + 4;
 
 /// A short sentence-case heading above a group, with an optional trailing action.
 class GroupHeading extends StatelessWidget {

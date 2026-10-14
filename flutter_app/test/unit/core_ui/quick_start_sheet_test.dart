@@ -92,9 +92,9 @@ void main() {
     expect(find.text('Resume Accountancy mock'), findsOneWidget);
   });
 
-  testWidgets('Ask your record opens over the tab, so Back returns to it', (tester) async {
+  testWidgets('Ask Mobi about your marks opens over the tab, so Back returns to it', (tester) async {
     final router = await _pump(tester);
-    await tester.tap(find.text('Ask your record'));
+    await tester.tap(find.text('Ask Mobi about your marks'));
     await tester.pumpAndSettle();
     expect(find.text('ask screen'), findsOneWidget);
     expect(router.canPop(), isTrue, reason: 'there is a screen to go back to');

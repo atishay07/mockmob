@@ -100,7 +100,17 @@ class ChoiceTile extends ConsumerWidget {
         return AnimatedContainer(
           duration: Motion.of(context, Motion.ui),
           curve: Motion.glide,
-          decoration: ShapeDecoration(color: fill, shape: mmShapeBorder(radius, side: BorderSide.none)),
+          // A chosen tile (not a flat rung) is edged in volt, so the choice is plain at a glance
+          // and the same in Night and Daylight; the bubble and the wash still say it too.
+          decoration: ShapeDecoration(
+            color: fill,
+            shape: mmShapeBorder(
+              radius,
+              side: selected && !flat
+                  ? BorderSide(color: colors.isNight ? colors.volt.withValues(alpha: 0.85) : colors.accentText, width: 1.5)
+                  : BorderSide.none,
+            ),
+          ),
           child: CustomPaint(
             foregroundPainter: flat || selected
                 ? null

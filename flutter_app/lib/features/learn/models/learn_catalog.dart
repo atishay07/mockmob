@@ -61,7 +61,11 @@ class LearnUnit {
 }
 
 class LearnSubject {
-  const LearnSubject({required this.id, required this.title, this.chapters = const []});
+  const LearnSubject({
+    required this.id,
+    required this.title,
+    this.chapters = const [],
+  });
 
   final String id;
   final String title;
@@ -74,8 +78,11 @@ class LearnSubject {
 class NextLesson {
   const NextLesson({required this.id, required this.title, this.reason});
 
-  factory NextLesson.fromJson(Json j) =>
-      NextLesson(id: asStringOr(j['id'], ''), title: asStringOr(j['title'], ''), reason: asString(j['reason']));
+  factory NextLesson.fromJson(Json j) => NextLesson(
+    id: asStringOr(j['id'], ''),
+    title: asStringOr(j['title'], ''),
+    reason: asString(j['reason']),
+  );
 
   final String id;
   final String title;
@@ -101,16 +108,22 @@ class LearnCatalog {
             title: asStringOr(s['title'], asString(s['subject'])!),
             chapters: [
               for (final c in asJsonList(s['chapters']))
-                if (asString(c['title']) != null && asString(c['title'])!.trim().isNotEmpty) asString(c['title'])!.trim(),
+                if (asString(c['title']) != null &&
+                    asString(c['title'])!.trim().isNotEmpty)
+                  asString(c['title'])!.trim(),
             ],
           ),
     ];
-    final units = [for (final u in asJsonList(j['units'])) LearnUnit.fromJson(u)]..sort((a, b) => a.order.compareTo(b.order));
+    final units = [
+      for (final u in asJsonList(j['units'])) LearnUnit.fromJson(u),
+    ]..sort((a, b) => a.order.compareTo(b.order));
     return LearnCatalog(
       core: core,
       subjects: subjects,
       units: units,
-      next: j['nextUnit'] is Map ? NextLesson.fromJson(asJson(j['nextUnit'])) : null,
+      next: j['nextUnit'] is Map
+          ? NextLesson.fromJson(asJson(j['nextUnit']))
+          : null,
     );
   }
 
@@ -126,21 +139,32 @@ class LearnCatalog {
   /// Subjects that have at least one lesson, in syllabus order.
   List<LearnSubject> get subjectsWithLessons {
     final present = {for (final u in units) u.subject};
-    final known = [for (final s in subjects) if (present.contains(s.id)) s];
+    final known = [
+      for (final s in subjects)
+        if (present.contains(s.id)) s,
+    ];
     final knownIds = {for (final s in known) s.id};
     return [
       ...known,
       for (final id in present)
-        if (!knownIds.contains(id)) LearnSubject(id: id, title: LearnCopy.subjectLabel(id)),
+        if (!knownIds.contains(id))
+          LearnSubject(id: id, title: LearnCopy.subjectLabel(id)),
     ];
   }
 
   /// Syllabus chapters of [subject] with no published lesson yet, in syllabus order. Practice is
   /// open for them; their lessons come later.
   List<String> untaughtOf(String subject) {
-    final taught = {for (final u in units) if (u.subject == subject && u.chapter != null) u.chapter!.trim()};
+    final taught = {
+      for (final u in units)
+        if (u.subject == subject && u.chapter != null) u.chapter!.trim(),
+    };
     for (final s in subjects) {
-      if (s.id == subject) return [for (final c in s.chapters) if (!taught.contains(c)) c];
+      if (s.id == subject)
+        return [
+          for (final c in s.chapters)
+            if (!taught.contains(c)) c,
+        ];
     }
     return const [];
   }
@@ -157,7 +181,10 @@ class LearnCatalog {
     ];
   }
 
-  List<LearnUnit> unitsOf(String subject) => [for (final u in units) if (u.subject == subject) u];
+  List<LearnUnit> unitsOf(String subject) => [
+    for (final u in units)
+      if (u.subject == subject) u,
+  ];
 
   LearnUnit? unitById(String id) {
     for (final u in units) {

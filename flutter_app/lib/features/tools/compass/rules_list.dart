@@ -9,9 +9,12 @@ import '../domain/du_eligibility.dart';
 /// bubble: inked when the student's subjects meet it, an empty ring when they do not, with what
 /// is missing in words. Nothing is hidden or summarised away.
 class RulesList extends StatelessWidget {
-  const RulesList({super.key, required this.rows});
+  const RulesList({super.key, required this.rows, this.skipMissingFor});
 
   final List<DuRuleCheck> rows;
+
+  /// The label of a combination whose missing subjects are already said in the card above (said once).
+  final String? skipMissingFor;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class RulesList extends StatelessWidget {
         for (var i = 0; i < rows.length; i++)
           () {
             final r = rows[i];
-            final status = r.ok ? (r.secondary ? ToolsCopy.youMeetSecondary : ToolsCopy.youMeetThis) : r.missing.join(', ');
+            final status = r.ok ? (r.secondary ? ToolsCopy.youMeetSecondary : ToolsCopy.youMeetThis) : (r.label == skipMissingFor ? '' : r.missing.join(', '));
             return MergeSemantics(
               child: Padding(
                 padding: EdgeInsets.only(top: i == 0 ? 0 : MmSpace.s16),

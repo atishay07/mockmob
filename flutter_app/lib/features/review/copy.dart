@@ -3,6 +3,9 @@ import '../../core/copy/formatters.dart';
 /// Every line the Review feature shows (spec 5.8, Night Sheet brief sections 8 and 10). The
 /// mistake vocabulary is Found, Repaired, Checked and Holds; never "fixed" or "mastered".
 abstract final class ReviewCopy {
+  /// Holds "11:08 PM" together: a no-break space before AM or PM, so the time never splits.
+  static String bindTime(String text) => text.replaceAllMapped(RegExp(r' (AM|PM)'), (m) => ' ${m[1]}');
+
   // ---- The tab --------------------------------------------------------------------------
 
   static const title = 'Review';
@@ -30,11 +33,11 @@ abstract final class ReviewCopy {
   static String tonightSource(String source, int n, int chapterOpen) {
     final rest = chapterOpen - n;
     if (rest <= 0) return 'From $source. You can stop after any one.';
-    return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
+    return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} from earlier papers.';
   }
 
   /// The hero's key: the number of mistakes is the figure above it, so the key carries the time.
-  static String tonightKey(int? minutes) => minutes == null ? 'Start repairing' : 'Start, about $minutes minutes';
+  static String tonightKey(int? minutes) => minutes == null ? 'Start repairing' : 'Start, $minutes minutes';
 
   /// What a screen reader says for the same key: it does say how many.
   static String tonightKeySpoken(int n, int? minutes) =>
@@ -49,8 +52,8 @@ abstract final class ReviewCopy {
     return head.isEmpty ? chapter : head;
   }
 
-  /// Mobi's line under tonight's card after 11 PM: any one repair is a fine place to stop. One line
-  /// in his bubble.
+  /// After 11 PM the hero's own line says it: any one repair is a fine place to stop. It takes the
+  /// place of the source line, so the layout stays the day layout.
   static const lateNight = 'Repair a little, then sleep.';
 
   static String unopened(String label) => '$label was received. Your result is ready.';
@@ -73,7 +76,7 @@ abstract final class ReviewCopy {
 
   /// A chapter whose open mistakes sit in several papers gets one key per paper, so the number
   /// on the key is the number of steps the run holds.
-  static String repairGroupFromKey(int n, String source) => '${repairGroupKey(n)} from $source';
+  static String repairGroupFromKey(int n, String source) => 'Repair $n from $source';
   static String groupExpandHint(bool expanded) => expanded ? 'Hide the questions' : 'Show the questions';
 
   static String questionLabel(int number) => 'Question $number';
@@ -112,10 +115,11 @@ abstract final class ReviewCopy {
   // ---- Empty, error, offline ------------------------------------------------------------
 
   static const emptyTitle = 'Your mistakes gather here';
-  static const emptyMessage = 'Finish a mock or a practice and every wrong answer lands here, grouped by chapter, ready to repair.';
+  static const emptyMessage = 'Every wrong answer lands here, grouped by chapter.';
   static const emptyAction = 'Start practice';
   static const allClearTitle = 'Nothing waiting to repair';
-  static const allClearMessage = "Every mistake you've found is repaired. A Quick 10 finds the next one.";
+  static const allClearMessage = "Every mistake you've found is repaired.";
+  static const allClearAction = 'Start a Quick 10';
   static String allClearSetAside(int n) =>
       'Nothing is open. ${plural(n, 'question')} ${n == 1 ? 'is' : 'are'} set aside while the answer key is checked.';
 
@@ -129,9 +133,9 @@ abstract final class ReviewCopy {
   static String repairsProgress(int repaired, int found) => '$repaired of $found repaired';
   static String repairsProgressSemantics(int repaired, int found) => '$repaired of ${plural(found, 'mistake')} found so far repaired';
   static const loadErrorTitle = 'We could not load your mistakes';
-  static const loadErrorMessage = 'Check the connection and try again.';
+  static const loadErrorMessage = 'Check your connection and try again.';
   static const offlineTitle = 'You are offline';
-  static const offlineMessage = 'Your mistakes load once you are back online.';
+  static const offlineMessage = 'Your mistakes load when you are back online.';
   static const tryAgainKey = 'Try again';
 
   // ---- Repair entry ---------------------------------------------------------------------
@@ -140,18 +144,20 @@ abstract final class ReviewCopy {
       '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
   /// The line under the entry's number, which already says how many.
   static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
-  static String creditLine(int balance) => 'Uses 1 explanation credit for each mistake. You have $balance.';
-  static String shortfallLine(int needed, int balance) =>
-      'This repair needs $needed explanation credits. You have $balance. '
-      '${balance > 0 ? 'Start with ${plural(balance, 'mistake')}, or read the key explanations.' : 'You can read the key explanations instead.'}';
+  static String creditLine(int balance) => 'Uses 1 credit per mistake. You have $balance.';
+
+  /// The headline when the wallet covers fewer mistakes than the repair holds.
+  static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
   static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
   static const readKeys = 'Read the key explanations';
   static const readKey = 'Read the key explanation';
-  static const pausedLine = 'Explanations are paused right now. The key explanations still work.';
+  static const pausedHeadline = 'Explanations are paused right now';
+  static const pausedLine = 'The key explanations still work.';
+  static const outOfCreditsHeadline = "You have used this month's explanation credits";
   static String renewsOn(String date) => 'Explanation credits renew on $date.';
-  static const lifeCaption = 'Each mistake moves from Found to Repaired. Checked and Holds come from fresh questions later.';
+  static const lifeCaption = 'Checked and Holds come later, from fresh questions.';
 
   // ---- Per mistake ----------------------------------------------------------------------
 
@@ -172,10 +178,12 @@ abstract final class ReviewCopy {
   static const noKeyExplanation = 'There is no written explanation for this question yet.';
   static const reviewedNote = 'Reviewed on this phone. It keeps its place in Review for a repair.';
 
-  static const heldForRecheck = "We are checking this question's answer key. It is set aside for now and you were not charged.";
-  static const setAsideCheck = 'This question is being checked. It is set aside for now, and nothing was charged.';
+  static const heldForRecheck = 'Answer key under check. You were not charged.';
+  static const setAsideCheck = 'Answer key under check. Nothing was charged.';
   static const notExplained = 'We could not explain this one. You were not charged. Try another.';
   static const outOfCredits = "You have used this month's explanation credits.";
+  /// One line, no box: used up, and when they come back.
+  static String creditsUsedLine(String? renewDate) => renewDate == null ? 'Credits used up for this month.' : 'Credits used up. They renew on $renewDate.';
   static const paused = 'Explanations are paused right now.';
   static const couldNotMake = 'The explanation could not be made. Try again.';
   static const waitAMinute = 'Please wait a minute.';
@@ -196,32 +204,31 @@ abstract final class ReviewCopy {
   // ---- Ending ---------------------------------------------------------------------------
 
   static String endingUnit(int n) => n == 1 ? 'mistake repaired' : 'mistakes repaired';
-  static String endingLine(String chapter, int repaired, int total, {required DateTime now, int setAside = 0, int reviewed = 0}) {
-    final when = tonightOrToday(now);
-    final head = repaired == total
-        ? '${shortChapter(chapter)}: ${repaired == 1 ? 'the mistake' : 'all $repaired'} repaired $when.'
-        : '${shortChapter(chapter)}: $repaired of $total repaired $when.';
+  /// The one fact the hero's number does not carry: what is left in the chapter, and anything set
+  /// aside or read with the key. [left] is null when the open count is not known.
+  static String endingFact(String chapter, int? left, {int setAside = 0, int reviewed = 0}) {
+    final name = shortChapter(chapter);
     return [
-      head,
+      if (left != null) (left == 0 ? 'Nothing left in $name.' : '$left left in $name.'),
       if (setAside > 0) '$setAside set aside while ${setAside == 1 ? 'its key is' : 'their keys are'} checked.',
       if (reviewed > 0) '$reviewed read with the key explanation.',
     ].join(' ');
   }
 
-  static const checkedLater = "Checked comes later, on questions you haven't seen. That's how we know it holds.";
+  static const checkedLater = 'Checked comes later, on fresh questions.';
   static const firstRepair = 'This is your first repair.';
   static String goodPlaceToStop(DateTime now) => 'That is a good place to stop for ${tonightOrToday(now)}.';
   static String repairMore(int n) => 'Repair ${plural(n, 'more mistake')}';
   static String repairMoreLine(String chapter, int? minutes) => minutes == null ? chapter : '$chapter, about $minutes minutes';
   static String finishFor(DateTime now) => 'Finish for ${tonightOrToday(now)}';
-  static const nothingRepairedTitle = 'Nothing was repaired this time';
+  static const nothingRepairedTitle = 'Nothing repaired this time';
   static String nothingRepaired(int setAside, int reviewed) {
     final parts = <String>[
-      if (setAside > 0) '${plural(setAside, 'question')} set aside while the key is checked.',
-      if (reviewed > 0) '${plural(reviewed, 'question')} read with the key explanation.',
+      if (setAside > 0) '$setAside set aside',
+      if (reviewed > 0) '$reviewed read with the key',
     ];
-    if (parts.isEmpty) return 'Nothing was charged. Your mistakes stay in Review for another go.';
-    return '${parts.join(' ')} They stay in Review for another go.';
+    if (parts.isEmpty) return 'Nothing was charged. Your mistakes stay in Review.';
+    return '${parts.join(', ')}. They stay in Review.';
   }
 
   // ---- Record ---------------------------------------------------------------------------
@@ -230,10 +237,10 @@ abstract final class ReviewCopy {
   static const onThisPhone = 'This record is on this phone only. Repairs made on another phone are not shown here.';
   static const checksGate = 'Fresh checks are not available yet, so Checked and Holds stay open.';
   static String recordTitleLine(int number, String chapter) => 'Question $number, $chapter';
-  static String foundOn(String when, String source) => 'Found on $when in $source.';
-  static String repairedOn(String when) => 'Repaired on $when.';
-  static String reviewedOn(String when) => 'Reviewed with the key explanation on $when. Not a repair yet.';
-  static String setAsideOn(String when) => 'Set aside on $when while the answer key is checked.';
+  static String foundOn(String when, String source) => 'Found $when, $source';
+  static String repairedOn(String when) => 'Repaired $when';
+  static String reviewedOn(String when) => 'Read with the key $when, not repaired yet';
+  static String setAsideOn(String when) => 'Set aside $when, answer key under check';
   static const checkedNotYet = 'Checked on fresh questions: not available yet.';
   static const recordEmptyTitle = 'Nothing repaired yet';
   static const recordEmptyAction = 'See your mistakes';

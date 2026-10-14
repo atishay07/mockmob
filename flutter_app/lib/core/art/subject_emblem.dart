@@ -12,16 +12,20 @@ import 'subject_identity.dart';
 /// equilibrium point, the nucleus, the ballot's choice).
 ///
 /// - [size] is the side in dp, legible from 24 to 160. Detail follows size (see [EmblemDetail]).
-/// - [animate] turns on the idle drift (7.2 s, phase-shifted per subject) and the subject's live
-///   detail. Off under reduced motion (system or in-app), off by default, paused while the subtree
-///   is under `TickerMode(enabled: false)` (an offstage route or tab), and off everywhere until
-///   [idleEnabled] is set (the app sets it in `main()`; tests keep it off so `pumpAndSettle`
-///   settles).
+/// - [animate] turns on the idle cycle (7.2 s, phase-shifted per subject): a float on every object
+///   and one signature motion per subject (the atom's orbit sweep, the flask's bubbles, the
+///   code window's scan, the heads' nod). Off under reduced motion (system or in-app), off by
+///   default, paused while the subtree is under `TickerMode(enabled: false)` (an offstage route or
+///   tab), and off everywhere until [idleEnabled] is set (the app sets it in `main()`; tests keep
+///   it off so `pumpAndSettle` settles).
 /// - [marked] inks the volt mark and is off by default, so a row that is not a choice never shows
 ///   a pick. Changing it inks or clears it in 260 ms (snaps under reduced motion). The caller owns
 ///   the haptic (`HapticFeedback.selectionClick`). Pair a picked state with a visible check or ring
 ///   on the card: the ink alone is colour.
-/// - [selectable] adds the selected state to the semantics node (needs [semanticLabel]).
+/// - [selectable] marks the emblem as a choice (a picker tile). Unmarked it sits slightly small and
+///   dimmed; marked it lifts to full size, a framed tile shows a volt ring and a tick in its lower
+///   right corner, and the mark is inked. The semantics node reports selected or not (needs
+///   [semanticLabel]). Without it [marked] only inks the mark.
 /// - The volt mark takes a different form per subject: a key, a clasp, a ring, an ink drop, a swept
 ///   angle. All of them are the one mark.
 /// - [framed] false drops the tile, for an emblem standing on its own light field.
@@ -129,7 +133,8 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
     final identity = SubjectIdentity.of(widget.subject) ?? SubjectIdentity.of('other')!;
     final palette = EmblemPalette.of(identity, brightness);
     final detail = EmblemDetail.forSize(widget.size);
-    final art = EmblemArt.forKind(identity.kind);
+    final known = EmblemArt.forKind(identity.kind);
+    final art = known ?? EmblemArt.monogram;
 
     Widget emblem = CustomPaint(
       size: Size.square(widget.size),
@@ -147,24 +152,41 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
         ink: _ink,
         inking: () => _ink.isAnimating && _ink.velocity > 0,
         phase: identity.phase,
+        selectable: widget.selectable,
       ),
     );
-    if (art == null) {
+    if (known == null) {
+      // Initials on the printed card: heavy, set in the deep ink with a lit edge under them.
+      final glyph = detail == EmblemDetail.glyph;
+      final fontSize = widget.size * (glyph ? 0.37 : 0.34);
+      final letters = SubjectIdentity.monogram(widget.subject);
+      Widget letterBox(double k) => Opacity(
+            opacity: widget.selectable ? 0.6 + 0.4 * k : 1,
+            child: Transform.scale(
+              scale: widget.selectable ? (widget.framed ? 0.92 + 0.06 * k : 0.94 + 0.08 * k) : 1,
+              child: Align(
+                alignment: Alignment(0, (0.42 - 0.5) * 2),
+                child: Text(
+                  letters,
+                  textScaler: TextScaler.noScaling,
+                  maxLines: 1,
+                  style: context.mmType.labelLarge.copyWith(
+                    fontFamily: 'BricolageTitle',
+                    fontSize: fontSize,
+                    height: 1,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -fontSize * 0.02,
+                    color: palette.deep,
+                  ),
+                ),
+              ),
+            ),
+          );
       emblem = Stack(
         alignment: Alignment.center,
         children: [
           emblem,
-          Text(
-            SubjectIdentity.monogram(widget.subject),
-            textScaler: TextScaler.noScaling,
-            style: context.mmType.labelLarge.copyWith(
-              fontFamily: 'BricolageTitle',
-              fontSize: widget.size * 0.36,
-              height: 1,
-              fontWeight: FontWeight.w600,
-              color: palette.isNight ? palette.lit : palette.deep,
-            ),
-          ),
+          if (widget.selectable) AnimatedBuilder(animation: _ink, builder: (_, _) => letterBox(_ink.value.clamp(0.0, 1.0))) else letterBox(0),
         ],
       );
     }

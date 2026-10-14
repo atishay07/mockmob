@@ -24,6 +24,7 @@ class AnswerSheetCard extends StatelessWidget {
     required this.now,
     this.current,
     this.compact = false,
+    this.slim = false,
     this.full = false,
     this.sealedLine,
     this.animate = true,
@@ -39,6 +40,12 @@ class AnswerSheetCard extends StatelessWidget {
   /// The step on screen; its bubble is ringed.
   final String? current;
   final bool compact;
+
+  /// A one-line progress strip (the bubbles and "3 of 7", no title, labels or engraved line):
+  /// steps 2 to 7, so the question under it keeps the room. The full card stays on the first
+  /// step and wherever the sheet itself is the point (the save step). TalkBack still reads the
+  /// whole sheet.
+  final bool slim;
 
   /// Every engraved line, not just the newest: the sealed sheet the student is keeping.
   final bool full;
@@ -76,7 +83,38 @@ class AnswerSheetCard extends StatelessWidget {
     final keep = short ? 0 : (full ? lines.length : (compact ? 1 : 2));
     final shown = lines.length <= keep ? lines : lines.sublist(lines.length - keep);
 
-    return Semantics(
+    if (slim) {
+      return _Grow(
+        child: Semantics(
+        container: true,
+        label: '${OnboardingCopy.sheetTitle}, $done of ${steps.length} filled. ${lines.join('. ')}',
+        excludeSemantics: true,
+        child: LitEdge(
+          glow: true,
+          borderRadius: radius,
+          child: FakeGlass(
+            borderRadius: radius,
+            opacity: colors.isNight ? 0.62 : 0.78,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s8, MmSpace.s20, MmSpace.s8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate, labels: false),
+                  ),
+                  const SizedBox(width: MmSpace.s12),
+                  Text('$done of ${steps.length}', style: type.caption.copyWith(color: colors.ink2)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      );
+    }
+
+    return _Grow(
+      child: Semantics(
       container: true,
       label: '${OnboardingCopy.sheetTitle}, $done of ${steps.length} filled. ${lines.join('. ')}',
       excludeSemantics: true,
@@ -158,6 +196,7 @@ class AnswerSheetCard extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -178,21 +217,32 @@ class _Grow extends StatelessWidget {
 
 /// One column of the answer sheet per step: a 22 dp bubble (inked when answered, dashed when
 /// skipped, ringed for the step on screen) in a fixed 30 dp box, so the ring never pushes its
-/// label down, and the step's label beneath ("2 of 7" above already counts). Labels grow with
-/// the text size up to 1.3x and shrink rather than clip.
+/// label down, and the step's label beneath ("2 of 7" above already counts). Every label has
+/// the same fixed style (the column is about 44 dp, so a label that grew with the text size would
+/// run into its neighbour); a long one ("Subjects") is centred on its column and runs a hair
+/// past it, never shrinking, so the labels stay the same size as each other. The count beside
+/// them, and the step's own headline, do follow the text size.
 class _BubbleTrack extends StatelessWidget {
-  const _BubbleTrack({super.key, required this.steps, required this.answers, required this.current, required this.animate});
+  const _BubbleTrack({
+    super.key,
+    required this.steps,
+    required this.answers,
+    required this.current,
+    required this.animate,
+    this.labels = true,
+  });
 
   final List<DeckStep> steps;
   final OnboardingAnswers answers;
   final String? current;
   final bool animate;
+  final bool labels;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
+    const scaler = TextScaler.noScaling;
     final label = type.caption.copyWith(fontSize: 11.5, height: 1.15, fontWeight: FontWeight.w600);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,17 +263,22 @@ class _BubbleTrack extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    steps[i].bubble,
-                    maxLines: 1,
-                    softWrap: false,
-                    textScaler: scaler,
-                    style: label.copyWith(color: steps[i].id == current || answers.isDone(steps[i].id) ? colors.ink : colors.ink2),
+                if (labels) ...[
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: scaler.scale(11.5 * 1.15),
+                    child: OverflowBox(
+                      maxWidth: double.infinity,
+                      child: Text(
+                        steps[i].bubble,
+                        maxLines: 1,
+                        softWrap: false,
+                        textScaler: scaler,
+                        style: label.copyWith(color: steps[i].id == current || answers.isDone(steps[i].id) ? colors.ink : colors.ink2),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

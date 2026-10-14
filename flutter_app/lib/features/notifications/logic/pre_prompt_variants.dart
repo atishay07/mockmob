@@ -1,11 +1,17 @@
 import '../copy.dart';
 
-/// One way the sheet asks: its title and the line under it.
+/// Which example reminders an ask shows: all three kinds, or just the one its wording is about.
+enum PrePromptFocus { all, study, repair, result, weekly }
+
+/// One way the sheet asks: its title, the line under it, and which examples back it up.
 class PrePromptVariant {
-  const PrePromptVariant({required this.title, required this.line});
+  const PrePromptVariant({required this.title, required this.line, this.focus = PrePromptFocus.all});
 
   final String title;
   final String line;
+
+  /// The ask about a repair shows the repair reminder, not all three: one ask, one example.
+  final PrePromptFocus focus;
 }
 
 /// How many different ways the sheet asks before it starts over.
@@ -28,18 +34,22 @@ PrePromptVariant prePromptVariantFor(int asks, {String? studyTime}) {
       line: studyTime == null
           ? NotificationsCopy.promptStudyLine
           : NotificationsCopy.promptStudyLineAt(studyTime),
+      focus: PrePromptFocus.study,
     ),
     2 => const PrePromptVariant(
       title: NotificationsCopy.promptRepairTitle,
       line: NotificationsCopy.promptRepairLine,
+      focus: PrePromptFocus.repair,
     ),
     3 => const PrePromptVariant(
       title: NotificationsCopy.promptResultTitle,
       line: NotificationsCopy.promptResultLine,
+      focus: PrePromptFocus.result,
     ),
     4 => const PrePromptVariant(
       title: NotificationsCopy.promptWeeklyTitle,
       line: NotificationsCopy.promptWeeklyLine,
+      focus: PrePromptFocus.weekly,
     ),
     5 => const PrePromptVariant(
       title: NotificationsCopy.promptOptionalTitle,

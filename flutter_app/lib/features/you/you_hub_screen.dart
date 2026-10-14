@@ -114,12 +114,13 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                     padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, youText, MmSpace.s8),
                         child: Row(
                           children: [
                             const BackKey(),
                             const Spacer(),
-                            KeyButton.quiet(
+                            // A 48 dp glass pill, so the way to the editor has a shape and a full target.
+                            PillKey(
                               label: EditCopy.editSheet,
                               semanticsLabel: EditCopy.editSheetLabel,
                               onPressed: () => openYouPage(context, YouPaths.sheet),
@@ -135,18 +136,15 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         ),
                       MmStaggerItem(
                         index: 0,
-                        child: Padding(
-                          padding: youGutter,
-                          child: SheetCard(
-                            name: auth.name,
-                            email: auth.email,
-                            target: target,
-                            subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
-                            week: _week(snapshot, off),
-                            onOpenRhythm: () => context.push(AppRoutes.youRhythm),
-                            onEdit: () => openYouPage(context, YouPaths.sheet),
-                            onEditSubjects: () => openYouPage(context, YouPaths.subjects),
-                          ),
+                        child: SheetCard(
+                          name: auth.name,
+                          email: auth.email,
+                          target: target,
+                          subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
+                          week: _week(snapshot, off),
+                          onOpenRhythm: () => context.push(AppRoutes.youRhythm),
+                          onEdit: () => openYouPage(context, YouPaths.sheet),
+                          onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
                       MmStaggerItem(index: 1, child: _shelf(snapshot, now)),
@@ -201,20 +199,16 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
             child: Text(RhythmCopy.trackCountOf(landed, total), style: type.small.copyWith(color: colors.ink2)),
           ),
         Padding(
-          padding: youGutter,
+          padding: const EdgeInsets.symmetric(horizontal: youText),
           child: failed
-              ? Padding(
-                  // Under the heading: the words start where "Milestones" starts.
-                  padding: const EdgeInsets.only(left: MmSpace.s4),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2)),
-                      ),
-                      const SizedBox(width: MmSpace.s8),
-                      PillKey(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
-                    ],
-                  ),
+              // One pill on the screen retries the rhythm (the week's); this one is a quiet link,
+              // so a failed hub reads as one problem with one way out, not two stacked alarms.
+              ? Row(
+                  children: [
+                    Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+                    const SizedBox(width: MmSpace.s8),
+                    KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
+                  ],
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,8 +221,12 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                     ),
                     // "Show me" only when a milestone has been earned.
                     if ((snapshot.rhythm?.milestones ?? const []).any((m) => m.achievedAt != null)) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      ShowMePill(onTap: () => context.push(AppRoutes.youMilestones), semanticsLabel: YouCopy.showMeMilestones),
+                      const SizedBox(height: MmSpace.s8),
+                      PillKey(
+                        label: YouCopy.showMe,
+                        semanticsLabel: YouCopy.showMeMilestones,
+                        onPressed: () => context.push(AppRoutes.youMilestones),
+                      ),
                     ],
                   ],
                 ),

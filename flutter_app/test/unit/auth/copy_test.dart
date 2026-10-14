@@ -27,6 +27,12 @@ void main() {
     expect(AuthCopy.resendIn(5), 'Resend code in 0:05');
   });
 
+  test('the sign-in wait reads as one plain line', () {
+    expect(AuthCopy.sendNewIn(48), 'Send a new code in 0:48');
+    expect(AuthCopy.sendNewInSpoken(48), 'A new code can be sent in about 50 seconds');
+    expect(AuthCopy.enterSentCode, 'Enter the code we sent');
+  });
+
   test('the spoken countdown moves in steps of ten seconds', () {
     expect(
       AuthCopy.resendInSpoken(60),
@@ -58,7 +64,9 @@ void main() {
       AuthCopy.emailLabel,
       AuthCopy.sendCode,
       AuthCopy.continueWithGoogle,
-      AuthCopy.alreadyHaveCode,
+      AuthCopy.enterSentCode,
+      AuthCopy.sendNewCode,
+      AuthCopy.sendNewIn(48),
       AuthCopy.codeTitle,
       AuthCopy.codeSpamHint,
       AuthCopy.verify,

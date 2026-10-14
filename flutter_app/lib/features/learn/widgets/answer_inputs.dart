@@ -20,11 +20,19 @@ class OptionLetter extends StatelessWidget {
     final colors = context.mmColors;
     return ExcludeSemantics(
       child: DecoratedBox(
-        decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: colors.lineStrong)),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: colors.lineStrong),
+        ),
         child: SizedBox(
           width: 28,
           height: 28,
-          child: Center(child: Text(letter, style: context.mmType.label.copyWith(color: colors.ink2))),
+          child: Center(
+            child: Text(
+              letter,
+              style: context.mmType.label.copyWith(color: colors.ink2),
+            ),
+          ),
         ),
       ),
     );
@@ -33,7 +41,12 @@ class OptionLetter extends StatelessWidget {
 
 /// Answer options before the student answers: one is selected, nothing is decided yet.
 class LiveOptions extends StatelessWidget {
-  const LiveOptions({super.key, required this.options, required this.selected, required this.onSelect});
+  const LiveOptions({
+    super.key,
+    required this.options,
+    required this.selected,
+    required this.onSelect,
+  });
 
   final List<String> options;
   final int? selected;
@@ -65,7 +78,12 @@ class LiveOptions extends StatelessWidget {
 /// Answer options after feedback: the right one carries a check and an ink border, a wrong
 /// choice carries a cross, "Your answer" and the wrong colours. Never colour alone.
 class ResultOptions extends StatelessWidget {
-  const ResultOptions({super.key, required this.options, required this.correct, required this.chosen});
+  const ResultOptions({
+    super.key,
+    required this.options,
+    required this.correct,
+    required this.chosen,
+  });
 
   final List<String> options;
   final int? correct;
@@ -80,58 +98,91 @@ class ResultOptions extends StatelessWidget {
       children: [
         for (var i = 0; i < options.length; i++) ...[
           if (i > 0) const SizedBox(height: MmSpace.s12),
-          Builder(builder: (context) {
-            final isCorrect = i == correct;
-            final isWrongPick = i == chosen && !isCorrect;
-            final words = isCorrect
-                ? (i == chosen ? LearnCopy.yourAnswer : LearnCopy.correctAnswer)
-                : (isWrongPick ? LearnCopy.yourAnswer : null);
-            return Semantics(
-              container: true,
-              label: 'Option ${_letter(i)}, ${options[i]}${words == null ? '' : '. $words'}',
-              excludeSemantics: true,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: isWrongPick ? colors.wrongSurface : colors.raised,
-                  borderRadius: MmRadius.keyAll,
-                  border: Border.all(
-                    color: isCorrect ? colors.ink : (isWrongPick ? colors.wrongBorder : colors.line),
-                    width: isCorrect || isWrongPick ? 2 : 1,
+          Builder(
+            builder: (context) {
+              final isCorrect = i == correct;
+              final isWrongPick = i == chosen && !isCorrect;
+              final words = isCorrect
+                  ? (i == chosen
+                        ? LearnCopy.yourAnswer
+                        : LearnCopy.correctAnswer)
+                  : (isWrongPick ? LearnCopy.yourAnswer : null);
+              return Semantics(
+                container: true,
+                label:
+                    'Option ${_letter(i)}, ${options[i]}${words == null ? '' : '. $words'}',
+                excludeSemantics: true,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: isWrongPick ? colors.wrongSurface : colors.raised,
+                    borderRadius: MmRadius.keyAll,
+                    border: Border.all(
+                      color: isCorrect
+                          ? colors.ink
+                          : (isWrongPick ? colors.wrongBorder : colors.line),
+                      width: isCorrect || isWrongPick ? 2 : 1,
+                    ),
                   ),
-                ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: MmTarget.option),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
-                    child: Row(
-                      children: [
-                        OptionLetter(_letter(i)),
-                        const SizedBox(width: MmSpace.s12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                options[i],
-                                style: type.body.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: isWrongPick ? colors.wrongText : (isCorrect ? colors.ink : colors.ink2),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: MmTarget.option,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: MmSpace.s20,
+                        vertical: MmSpace.s12,
+                      ),
+                      child: Row(
+                        children: [
+                          OptionLetter(_letter(i)),
+                          const SizedBox(width: MmSpace.s12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  options[i],
+                                  style: type.body.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: isWrongPick
+                                        ? colors.wrongText
+                                        : (isCorrect
+                                              ? colors.ink
+                                              : colors.ink2),
+                                  ),
                                 ),
-                              ),
-                              if (words != null)
-                                Text(words, style: type.small.copyWith(color: isWrongPick ? colors.wrongText : colors.ink2)),
-                            ],
+                                if (words != null)
+                                  Text(
+                                    words,
+                                    style: type.small.copyWith(
+                                      color: isWrongPick
+                                          ? colors.wrongText
+                                          : colors.ink2,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                        if (isCorrect) Icon(LucideIcons.check, size: 20, color: colors.ink),
-                        if (isWrongPick) Icon(LucideIcons.x, size: 20, color: colors.wrongText),
-                      ],
+                          if (isCorrect)
+                            Icon(
+                              LucideIcons.check,
+                              size: 20,
+                              color: colors.ink,
+                            ),
+                          if (isWrongPick)
+                            Icon(
+                              LucideIcons.x,
+                              size: 20,
+                              color: colors.wrongText,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
         ],
       ],
     );
@@ -140,7 +191,13 @@ class ResultOptions extends StatelessWidget {
 
 /// A text, numeric or ratio answer. Spelling and gap tasks must not be auto-corrected.
 class AnswerField extends StatelessWidget {
-  const AnswerField({super.key, required this.controller, required this.hintText, required this.onSubmitted, this.enabled = true});
+  const AnswerField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.onSubmitted,
+    this.enabled = true,
+  });
 
   final TextEditingController controller;
   final String hintText;
@@ -151,8 +208,10 @@ class AnswerField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    OutlineInputBorder border(Color c, double w) =>
-        OutlineInputBorder(borderRadius: MmRadius.keyAll, borderSide: BorderSide(color: c, width: w));
+    OutlineInputBorder border(Color c, double w) => OutlineInputBorder(
+      borderRadius: MmRadius.keyAll,
+      borderSide: BorderSide(color: c, width: w),
+    );
     return TextField(
       controller: controller,
       enabled: enabled,
@@ -167,7 +226,10 @@ class AnswerField extends StatelessWidget {
         hintStyle: type.body.copyWith(color: colors.ink3),
         filled: true,
         fillColor: colors.raised,
-        contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: MmSpace.s20,
+          vertical: MmSpace.s16,
+        ),
         enabledBorder: border(colors.lineStrong, 1),
         disabledBorder: border(colors.line, 1),
         focusedBorder: border(colors.ink, 2),
@@ -189,9 +251,16 @@ class FeedbackPanel extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final right = feedback.correct == true;
-    final headline = feedback.skipped ? LearnCopy.skipped : (right ? LearnCopy.correct : LearnCopy.notQuite);
-    final showGiven = !right && !feedback.skipped && item.type != RunItemType.choice && feedback.given != null;
-    final showAnswer = !right && feedback.answer != null && item.type != RunItemType.choice;
+    final headline = feedback.skipped
+        ? LearnCopy.skipped
+        : (right ? LearnCopy.correct : LearnCopy.notQuite);
+    final showGiven =
+        !right &&
+        !feedback.skipped &&
+        item.type != RunItemType.choice &&
+        feedback.given != null;
+    final showAnswer =
+        !right && feedback.answer != null && item.type != RunItemType.choice;
     return Semantics(
       liveRegion: true,
       container: true,
@@ -199,7 +268,10 @@ class FeedbackPanel extends StatelessWidget {
         decoration: BoxDecoration(
           color: right ? colors.raised2 : colors.wrongSurface,
           borderRadius: MmRadius.panelAll,
-          border: Border.all(color: right ? colors.lineStrong : colors.wrongBorder, width: right ? 1 : 1.5),
+          border: Border.all(
+            color: right ? colors.lineStrong : colors.wrongBorder,
+            width: right ? 1 : 1.5,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.cardPadding),
@@ -208,20 +280,38 @@ class FeedbackPanel extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(right ? LucideIcons.check : LucideIcons.circleAlert, size: 20, color: right ? colors.ink : colors.wrongText),
+                  Icon(
+                    right ? LucideIcons.check : LucideIcons.circleAlert,
+                    size: 20,
+                    color: right ? colors.ink : colors.wrongText,
+                  ),
                   const SizedBox(width: MmSpace.s8),
-                  Text(headline, style: type.subhead.copyWith(color: right ? colors.ink : colors.wrongText)),
+                  Text(
+                    headline,
+                    style: type.subhead.copyWith(
+                      color: right ? colors.ink : colors.wrongText,
+                    ),
+                  ),
                 ],
               ),
               if (showGiven) ...[
                 const SizedBox(height: MmSpace.s12),
-                Text(LearnCopy.yourAnswer, style: type.label.copyWith(color: colors.ink2)),
+                Text(
+                  LearnCopy.yourAnswer,
+                  style: type.label.copyWith(color: colors.ink2),
+                ),
                 Text(feedback.given!, style: type.body),
               ],
               if (showAnswer) ...[
                 const SizedBox(height: MmSpace.s12),
-                Text(LearnCopy.correctAnswer, style: type.label.copyWith(color: colors.ink2)),
-                Text(feedback.answer!, style: type.body.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  LearnCopy.correctAnswer,
+                  style: type.label.copyWith(color: colors.ink2),
+                ),
+                Text(
+                  feedback.answer!,
+                  style: type.body.copyWith(fontWeight: FontWeight.w600),
+                ),
               ],
               if (feedback.whyChosen != null) ...[
                 const SizedBox(height: MmSpace.s12),
@@ -229,11 +319,17 @@ class FeedbackPanel extends StatelessWidget {
               ],
               if (feedback.explanation != null) ...[
                 const SizedBox(height: MmSpace.s12),
-                Text(feedback.explanation!, style: type.body.copyWith(color: colors.ink2)),
+                Text(
+                  feedback.explanation!,
+                  style: type.body.copyWith(color: colors.ink2),
+                ),
               ],
               if (feedback.cue != null) ...[
                 const SizedBox(height: MmSpace.s12),
-                Text(LearnCopy.memoryCue, style: type.label.copyWith(color: colors.ink2)),
+                Text(
+                  LearnCopy.memoryCue,
+                  style: type.label.copyWith(color: colors.ink2),
+                ),
                 Text(feedback.cue!, style: type.body),
               ],
             ],

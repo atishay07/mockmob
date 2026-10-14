@@ -381,7 +381,7 @@ void main() {
 
     test('the window closed', () {
       final hero = buildToday(ashaInputs(draft: ended(exists: false))).hero! as EndedHero;
-      expect(hero.line, startsWith('The submission window for Mock 8 has ended'));
+      expect(hero.line, startsWith('Mock 8 ended at'));
       expect(hero.action.target, isA<OpenAlternatives>());
     });
 

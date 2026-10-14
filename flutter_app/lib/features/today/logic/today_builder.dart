@@ -43,9 +43,12 @@ TodayView buildToday(TodayInputs i) {
     updatedLine: plain.updatedLine,
     mobi: _headerMobi(i, hero),
   );
+  // An ended mock that could not be recorded only offers a picker; tonight's move under it is
+  // then the one volt key and the picker steps back to a text key.
+  final moveLeads = hero is EndedHero && hero.action.target is OpenAlternatives && move.primary.target is GoTo;
   final also = <AlsoSlot>[
     for (final h in heroes.skip(1)) _slotFor(h),
-    if (hero is! MoveHero) _moveSlot(move),
+    if (hero is! MoveHero) _moveSlot(move, lead: moveLeads),
   ];
   return TodayView(
     header: header,
@@ -92,15 +95,28 @@ HeaderModel buildHeader(TodayInputs i) {
   );
 }
 
+/// Which column of the week is today, from the same clock as the date line. The rhythm module's
+/// own flag is kept only when it agrees: a week read before midnight (or on another week's
+/// dates) never marks yesterday as today under a header that says today's date. Without the
+/// week's dates there is nothing to check against and the module's flag stands.
+int? _todayIndex(TodayInputs i, TodayWeek w) {
+  final dates = w.dates;
+  if (dates == null || dates.length != 7) return w.todayIndex;
+  final clock = i.clock();
+  final column = clock.weekday - 1;
+  return dates[column] == clock.day ? column : null;
+}
+
 WeekModel _week(TodayInputs i, TodayWeek w) {
   // Without a plan saved in the rhythm module, the onboarding's rest days still draw the plan.
   final rest = i.profile?.restWeekdays ?? const <int>{};
   final planned = w.planned ?? (rest.isEmpty ? null : {for (var d = 0; d < 7; d++) if (!rest.contains(d + 1)) d});
+  final today = _todayIndex(i, w);
   final outlook = w.goal == null
       ? null
-      : weekOutlook(studied: w.studied, todayIndex: w.todayIndex, goal: w.goal!, paused: w.paused, planned: planned);
+      : weekOutlook(studied: w.studied, todayIndex: today, goal: w.goal!, paused: w.paused, planned: planned);
   return WeekModel(
-    days: planWeek(studied: w.studied, todayIndex: w.todayIndex, planned: planned, dates: w.dates),
+    days: planWeek(studied: w.studied, todayIndex: today, planned: planned, dates: w.dates),
     count: w.goal == null || w.paused ? w.label : '${w.studied.where((d) => d).length} of ${plural(w.goal!, 'study day')}',
     outlook: outlook?.short,
     met: outlook?.kind == OutlookKind.met || w.met,
@@ -209,7 +225,7 @@ AlsoSlot _slotFor(TodayHero h) => switch (h) {
       MoveHero() => _moveSlot(h),
     };
 
-AlsoSlot _moveSlot(MoveHero m) {
+AlsoSlot _moveSlot(MoveHero m, {bool lead = false}) {
   // The slot's key is short: "Start repair, about 10 minutes" becomes "Start repair".
   final p = m.primary;
   final short = p.label.split(',').first;
@@ -217,6 +233,7 @@ AlsoSlot _moveSlot(MoveHero m) {
     title: m.overline,
     line: m.summary,
     action: TodayAction(short, p.target, startsSession: p.startsSession, actionType: p.actionType),
+    lead: lead,
   );
 }
 

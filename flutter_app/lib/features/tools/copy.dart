@@ -1,13 +1,10 @@
 // Every string the CUET tools show. Labels that come from the website's DU tools are verbatim.
 
-import '../../core/copy/copy.dart' show categoryWords;
+import '../../core/copy/copy.dart' show categoryWords, categoryWordsTitle;
 
 /// A category in the words a student says, for the start of a line or a chip: "Unreserved",
 /// "OBC", "Single girl child". One mapping with the rest of the app (`categoryWords`).
-String categoryLabel(String? category) {
-  final words = categoryWords(category);
-  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
-}
+String categoryLabel(String? category) => categoryWordsTitle(category);
 
 abstract final class ToolsCopy {
   // Hub.
@@ -29,8 +26,8 @@ abstract final class ToolsCopy {
   /// The one source line the tools keep: where every rule and cutoff comes from.
   static const dataLine = 'DU data: CSAS 2026 and the UG Bulletin 2026-27.';
 
-  static String hubOpens(int subjects) =>
-      'DU programmes your $subjects ${subjects == 1 ? 'subject opens' : 'subjects open'} under the 2026-27 rules.';
+  static String hubOfTotal(int total) => 'of $total DU programmes';
+  static String hubOpens(int subjects) => 'open to your $subjects ${subjects == 1 ? 'subject' : 'subjects'} under the 2026-27 rules.';
 
   // Compass.
   static const compassLead = 'Tick your CUET subjects.';
@@ -39,6 +36,9 @@ abstract final class ToolsCopy {
   static const pickSubjects = 'Choose subjects';
   static const editSubjects = 'Edit subjects';
   static const quickStart = 'Quick start';
+  static const subjectsTapToRemove = 'Tap a subject to take it off.';
+  static String showMoreRows(int n) => 'Show $n more';
+  static const showFewerRows = 'Show fewer';
   static const clearAll = 'Clear all';
   static const emptyHeroTitle = 'Start with your subjects';
   static const emptyHeroBody =
@@ -55,8 +55,7 @@ abstract final class ToolsCopy {
   static const otherQuota = 'Other quota';
   static const otherQuotaNote = 'Sikh, PwBD, KM, SGC, orphan';
   static const scoreLabel = 'Your programme-specific CUET score';
-  static String scoreHelp(String max) =>
-      'DU shows this per programme on your CSAS dashboard after results. Before results, enter a target. DU’s 2026 lists run up to $max.';
+  static const scoreHelp = 'From your CSAS dashboard, or enter a target.';
   static const scoreInvalid = 'Enter a number between 0 and 1000.';
   static const scoreHint = 'Out of 1000';
 
@@ -95,7 +94,9 @@ abstract final class ToolsCopy {
   static const errorTitle = 'We could not load the DU data';
   static const errorBody = 'Check your connection and try again.';
   static const offlineTitle = 'You are offline';
-  static const offlineBody = 'Connect to continue.';
+  static const offlineBody = 'Connect to continue. Your subjects are saved on this phone.';
+  static const staleOffline = 'You are offline. This is the last DU data this phone loaded.';
+  static const staleError = 'We could not refresh the DU data. This is the last copy this phone loaded.';
   static const tryAgain = 'Try again';
 
   // Programme.
@@ -103,9 +104,12 @@ abstract final class ToolsCopy {
   static const youMeetThis = 'You meet this.';
   static const youMeetSecondary = 'You meet this. Considered only if seats remain after Combinations I and II.';
   static const extraLanguage = 'The Bulletin also requires at least one language from List A.';
-  static String eligibleVia(String label) => 'Open to you through $label';
+  static const eligibleTitle = 'Open to you';
   static const notEligible = 'Not open to these subjects yet';
   static const cutoffsHeading = 'College cutoffs, CSAS 2026';
+  static const seeCutoffsAnyway = 'See cutoffs anyway';
+  static const hideCutoffs = 'Hide cutoffs';
+  static const cutoffsNotOpenNote = 'For reference. These subjects do not open this programme yet.';
   static const noCutoffsBody =
       'DU did not publish a CUET cutoff list for this programme in 2026. Its merit combines your CUET score with a separate test.';
   static const notesHeading = 'Notes from the DU Bulletin';
@@ -209,6 +213,7 @@ abstract final class ToolsCopy {
   static const guideNow = 'Now';
   static const guideExpected = 'Expected';
   static const guideComingUp = 'Coming up';
+  static const guideBasis = 'Dates after Now are expected, based on the 2026 cycle.';
 
   // Sources.
   static const sourcesLead = 'Every eligibility rule and cutoff in Compass comes from these University of Delhi documents.';

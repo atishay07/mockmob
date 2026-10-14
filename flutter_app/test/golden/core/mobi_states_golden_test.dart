@@ -9,7 +9,7 @@ Widget _state(StateViewKind kind) => StateView(
       title: switch (kind) {
         StateViewKind.empty => 'Nothing to repair',
         StateViewKind.error => 'We could not load this week',
-        StateViewKind.offline => 'You are offline',
+        StateViewKind.offline => "You're offline",
       },
       message: switch (kind) {
         StateViewKind.empty => "Every mistake you've found is repaired. A Quick 10 finds the next one.",

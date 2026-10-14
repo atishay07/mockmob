@@ -5,12 +5,11 @@ import '../core/night_support.dart';
 import 'mascot_support.dart';
 
 void main() {
-  nightGolden(
+  mobiSheetGolden(
     'mobi_states',
-    () => MobiSheet(
-      title: 'Mobi, every state',
-      size: 136,
-      frames: [
+    'Mobi, every state',
+    size: 136,
+    [
         ('idle', MobiMoves.keyPose(MobiAct.idle)),
         ('hello', MobiMoves.keyPose(MobiAct.hello)),
         ('talk', MobiMoves.keyPose(MobiAct.talk)),
@@ -23,8 +22,7 @@ void main() {
         ('oops', MobiMoves.keyPose(MobiAct.oops)),
         ('rest', MobiMoves.keyPose(MobiAct.rest)),
         ('read', MobiMoves.keyPose(MobiAct.read)),
-      ],
-    ),
+    ],
   );
 
   nightGolden(

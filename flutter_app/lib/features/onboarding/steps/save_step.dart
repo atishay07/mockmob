@@ -154,15 +154,20 @@ class SaveView extends StatelessWidget {
             onPressed: offline || busy || googleInBrowser ? null : onGoogle,
           ),
           if (googleInBrowser) ...[
-            const SizedBox(height: MmSpace.s12),
-            Semantics(
-              liveRegion: true,
-              child: Text(AuthCopy.googleInBrowser, style: type.small.copyWith(color: colors.ink2)),
-            ),
-            const SizedBox(height: MmSpace.s4),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: KeyButton.quiet(label: OnboardingCopy.cancelBrowser, onPressed: onCancelBrowser),
+            const SizedBox(height: MmSpace.s8),
+            // What to do in the browser, and the way to stop waiting, on one line.
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Semantics(
+                    liveRegion: true,
+                    child: Text(AuthCopy.googleInBrowser, style: type.small.copyWith(color: colors.ink2)),
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                KeyButton.quiet(label: OnboardingCopy.cancelBrowser, onPressed: onCancelBrowser),
+              ],
             ),
           ],
           const SizedBox(height: MmSpace.s12),

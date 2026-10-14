@@ -15,7 +15,12 @@ class RatingKeys extends StatelessWidget {
   /// The rating in flight, or null when nothing is being sent.
   final int? sending;
 
-  static const _labels = [LearnCopy.forgot, LearnCopy.hard, LearnCopy.gotIt, LearnCopy.easy];
+  static const _labels = [
+    LearnCopy.forgot,
+    LearnCopy.hard,
+    LearnCopy.gotIt,
+    LearnCopy.easy,
+  ];
 
   Widget _key(int rating) {
     final inFlight = sending != null;
@@ -40,12 +45,28 @@ class RatingKeys extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: MmSpace.s8),
           child: Semantics(
             header: true,
-            child: Text(LearnCopy.howWell, style: context.mmType.label.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+            child: Text(
+              LearnCopy.howWell,
+              style: context.mmType.label.copyWith(color: colors.ink2),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-        Row(children: [_key(1), const SizedBox(width: MmSpace.s8), _key(2)]),
+        Row(
+          children: [
+            _key(1),
+            const SizedBox(width: MmSpace.s8),
+            _key(2),
+          ],
+        ),
         const SizedBox(height: MmSpace.s8),
-        Row(children: [_key(3), const SizedBox(width: MmSpace.s8), _key(4)]),
+        Row(
+          children: [
+            _key(3),
+            const SizedBox(width: MmSpace.s8),
+            _key(4),
+          ],
+        ),
       ],
     );
   }

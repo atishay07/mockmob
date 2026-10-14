@@ -113,7 +113,9 @@ class QuickStartSheet extends ConsumerStatefulWidget {
   static Color titleBandFor(MmColors colors, GlassQuality quality) =>
       quality == GlassQuality.off ? colors.raised : colors.glassTint.withValues(alpha: 1);
 
-  static String titleFor(DateTime now) => isEvening(now) ? "What's it going to be tonight?" : "Pick today's work";
+  /// One short line, so the heading never wraps beside Mobi and the hero starts higher. It follows
+  /// the clock ("tonight" from 4 PM, "today" before), never a fixed word.
+  static String titleFor(DateTime now) => "Pick ${tonightOrToday(now)}'s work";
 
   @override
   ConsumerState<QuickStartSheet> createState() => _QuickStartSheetState();
@@ -235,22 +237,22 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: MmSpace.s12),
+                    const SizedBox(height: MmSpace.s8),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                              child: Semantics(header: true, child: Text(QuickStartSheet.titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
+                            child: Semantics(
+                              header: true,
+                              child: Text(QuickStartSheet.titleFor(now), style: type.screenTitle.copyWith(fontSize: 24), maxLines: 2, overflow: TextOverflow.ellipsis),
                             ),
                           ),
                           const SizedBox(width: MmSpace.s8),
                           // Mobi weighs the choice with the student, then points at the recommended one; it never
-                          // sits in the dock itself.
-                          _SettleIn(child: Mobi(pose: MobiPose.think, size: 64, controller: _mobi)),
+                          // sits in the dock itself. Small: the Quick 10 play disc is the sheet's one focal point.
+                          _SettleIn(child: Mobi(pose: MobiPose.think, size: 44, controller: _mobi)),
                         ],
                       ),
                     ),
@@ -262,8 +264,8 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s16, MmSpace.s12),
                 child: SingleChildScrollView(
-                  // The choices arrive with the sheet, in order, after the glass has opened; a
-                  // sheet that is already up never moves them.
+                  // The choices arrive with the sheet, in order, while the glass opens; a sheet
+                  // that is already up never moves them.
                   child: Listener(
                     behavior: HitTestBehavior.translucent,
                     onPointerDown: (e) => _mobi.lookAt(e.position),
@@ -271,8 +273,11 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                     onPointerCancel: (_) => _pointAtHero(),
                     child: MmStagger(
                       driver: MmStaggerDriver.route,
-                      routeStart: 0.32,
-                      routeStep: 0.07,
+                      // The choices come up with the growing glass (from 12% of the morph), so the
+                      // shape is never an empty slab on its way up.
+                      routeStart: 0.12,
+                      routeStep: 0.06,
+                      routeLength: 0.4,
                       // The choices as a deck (practice track): the first leads as a hero with its
                       // lit object, the next pair up as tiles, Ask closes as a quiet row.
                       child: MmStaggerItem(
@@ -319,7 +324,7 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                                 id: 'nta',
                                 glyph: QuickStartDeck.glyphFor('nta'),
                                 title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
-                                note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
+                                note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}, as on the day.',
                                 onTap: () => go(nta.location),
                               ),
                             if (repair != null)
@@ -335,8 +340,8 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                               ChoiceOption(
                                 id: QuickStartDeck.askId,
                                 glyph: QuickStartDeck.glyphFor(QuickStartDeck.askId),
-                                title: 'Ask your record',
-                                note: 'Questions about your marks and chapters, answered from what you have done.',
+                                title: 'Ask Mobi about your marks',
+                                note: 'Answered from your own record.',
                                 onTap: () => go(AppRoutes.ask),
                               ),
                           ],

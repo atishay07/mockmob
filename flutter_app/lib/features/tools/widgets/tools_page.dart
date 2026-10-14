@@ -6,9 +6,11 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart' show IconWell;
+import 'tools_parts.dart';
 
 export '../../you/widgets/you_page.dart' show BackKey, GlassDisc, GroupHeading, youGutter;
 export '../../you/widgets/you_row.dart' show IconWell;
+export 'tools_parts.dart';
 
 /// The frame of a tools screen, matching You (the tools live behind it): the lit back key, a
 /// Bricolage title, an optional lead line, then [slivers], at most 600 dp wide, with the desk
@@ -136,7 +138,8 @@ class ToolTag extends StatelessWidget {
     final colors = context.mmColors;
     final (color, icon) = switch (tone) {
       ToolTone.good => (colors.goodText, LucideIcons.check),
-      ToolTone.mid => (colors.warnText, LucideIcons.minus),
+      // Inside the range: a fact, not a warning. Neutral ink and a between-marker, never amber.
+      ToolTone.mid => (colors.ink, LucideIcons.chevronsUpDown),
       ToolTone.low => (colors.ink2, LucideIcons.arrowDown),
       ToolTone.quiet => (colors.ink2, null),
     };
@@ -261,6 +264,7 @@ class ToolsLinkRow extends StatelessWidget {
     this.note,
     this.value,
     this.external = false,
+    this.flat = false,
   });
 
   final IconData icon;
@@ -272,6 +276,9 @@ class ToolsLinkRow extends StatelessWidget {
   final bool external;
   final VoidCallback onTap;
 
+  /// A row of a [ToolsFlatList]: on the ground, with a 44 dp icon tile.
+  final bool flat;
+
   /// Where a [ToolsPanel]'s hairlines start for these rows.
   static const double dividerIndent = 64;
 
@@ -279,6 +286,40 @@ class ToolsLinkRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    if (flat) {
+      return ToolsRowFrame(
+        onTap: onTap,
+        semanticsLabel: [title, ?note, ?value].join('. '),
+        padding: const EdgeInsets.symmetric(horizontal: ToolsFlatList.edge, vertical: MmSpace.s12),
+        child: Row(
+          children: [
+            ToolsIconTile(icon),
+            const SizedBox(width: MmSpace.s16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
+                  if (note != null) ...[
+                    const SizedBox(height: 2),
+                    Text(note!, style: type.caption.copyWith(color: colors.ink2)),
+                  ],
+                ],
+              ),
+            ),
+            if (value != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 120),
+                child: Text(value!, style: type.caption.copyWith(color: colors.ink2), textAlign: TextAlign.end),
+              ),
+            ],
+            const SizedBox(width: MmSpace.s8),
+            Icon(external ? LucideIcons.externalLink : LucideIcons.chevronRight, size: 16, color: colors.ink3),
+          ],
+        ),
+      );
+    }
     return MmRow(
       title: title,
       subtitle: note,

@@ -4,20 +4,22 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/api/api.dart' show nowProvider;
+import '../../core/motion/motion.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
-import '../../core/widgets/widgets.dart';
+import '../../core/widgets/widgets.dart' show MobiAct;
+import '../account_access/widgets/volt_key.dart';
 import 'auth_page.dart';
 import 'code_slots.dart';
 import 'copy.dart';
-import 'quiet_action.dart';
 import 'resend_row.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
 /// The code screen (spec 5.2): "Enter the 8-digit code we emailed to <address>". Eight digits
 /// sign in on their own; the key is there for anyone who prefers it. Nothing typed is lost to
-/// an error, and back returns to the email field with the address kept.
+/// an error, and the back arrow returns to the email field with the address kept (it is the one
+/// way back, so it is named for what it does).
 class SignInCodeScreen extends ConsumerStatefulWidget {
   const SignInCodeScreen({super.key, this.email, this.autofocus = true});
 
@@ -107,15 +109,22 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
     return AuthPage(
       step: SignInStep.code,
       onBack: _back,
+      backLabel: AuthCopy.differentEmail,
+      entrance: MobiAct.appear,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Semantics(
             header: true,
-            child: Text(AuthCopy.codeTitle, style: type.headline),
+            child: Text(
+              AuthCopy.codeTitle,
+              textAlign: TextAlign.center,
+              style: type.display,
+            ),
           ),
           const SizedBox(height: MmSpace.s8),
           Text.rich(
+            textAlign: TextAlign.center,
             TextSpan(
               style: type.lead.copyWith(color: colors.ink2),
               children: [
@@ -144,9 +153,9 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
             },
             onCompleted: _verify,
           ),
-          const SizedBox(height: MmSpace.s12),
+          const SizedBox(height: MmSpace.s8),
           if (problemText != null)
-            ProblemLine(message: problemText)
+            ProblemLine(message: problemText, centered: true)
           else if (showResentNotice)
             const _Notice(message: AuthCopy.codeResent)
           else
@@ -160,11 +169,12 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
               maintainSemantics: false,
               child: Text(
                 AuthCopy.codeSpamHint,
+                textAlign: TextAlign.center,
                 style: type.small.copyWith(color: colors.ink3),
               ),
             ),
           const SizedBox(height: MmSpace.s20),
-          KeyButton(
+          VoltKey(
             label: verifying ? AuthCopy.verifying : AuthCopy.verify,
             loading: verifying,
             // Checking keeps the volt key with its spinner (a loading key ignores taps) rather
@@ -185,18 +195,14 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
               if (mounted) setState(() {});
             },
           ),
-          QuietAction(
-            label: AuthCopy.differentEmail,
-            icon: LucideIcons.arrowLeft,
-            onPressed: _back,
-          ),
         ],
       ),
     );
   }
 }
 
-/// A calm confirmation: a check glyph and the words. Read out when it appears.
+/// A calm confirmation: a volt tick that pulses once as it lands, and the words in full ink.
+/// Read out when it appears. Under reduced motion the tick is simply there.
 class _Notice extends StatelessWidget {
   const _Notice({required this.message});
 
@@ -205,19 +211,74 @@ class _Notice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final reduced = Motion.reduced(context);
     return Semantics(
       liveRegion: true,
       container: true,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ExcludeSemantics(
-            child: Icon(LucideIcons.check, size: 16, color: colors.ink2),
+            child: SizedBox.square(
+              dimension: 24,
+              child: TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: reduced ? Duration.zero : Motion.emphasizedDuration,
+                curve: Curves.linear,
+                builder: (context, raw, _) {
+                  final t = reduced ? 1.0 : raw;
+                  // The tick settles from 0.6 with a small overshoot; a ring of volt widens from
+                  // it and fades, once.
+                  final settle = Motion.emphasized.transform(t);
+                  final scale = 0.6 + 0.4 * settle + 0.12 * (1 - (2 * t - 1).abs());
+                  return Stack(
+                    alignment: Alignment.center,
+                    clipBehavior: Clip.none,
+                    children: [
+                      if (t < 1)
+                        Container(
+                          width: 18 + 14 * t,
+                          height: 18 + 14 * t,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: colors.volt.withValues(alpha: 0.7 * (1 - t)),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                      Transform.scale(
+                        scale: scale,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colors.volt,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SizedBox.square(
+                            dimension: 20,
+                            child: Icon(
+                              LucideIcons.check,
+                              size: 14,
+                              color: colors.voltInk,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
           const SizedBox(width: MmSpace.s8),
-          Expanded(
+          Flexible(
             child: Text(
               message,
-              style: context.mmType.small.copyWith(color: colors.ink),
+              textAlign: TextAlign.center,
+              style: context.mmType.small.copyWith(
+                color: colors.ink,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

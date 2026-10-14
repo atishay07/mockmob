@@ -18,7 +18,11 @@ class StudyApi {
   Future<ApiResponse> catalog() => _client.get('/api/study/catalog');
 
   /// `POST /api/study/runs`. [unitId] focuses one lesson; leave it out for "everything due".
-  Future<StudyRun> startRun({required String requestKey, required String mode, String? unitId}) async {
+  Future<StudyRun> startRun({
+    required String requestKey,
+    required String mode,
+    String? unitId,
+  }) async {
     final response = await _client.post(
       '/api/study/runs',
       body: {'requestKey': requestKey, 'mode': mode, 'unitId': ?unitId},
@@ -27,8 +31,9 @@ class StudyApi {
     return StudyRun.fromJson(response.map);
   }
 
-  Future<StudyRun> run(String runId) async =>
-      StudyRun.fromJson((await _client.get('/api/study/runs/${Uri.encodeComponent(runId)}')).map);
+  Future<StudyRun> run(String runId) async => StudyRun.fromJson(
+    (await _client.get('/api/study/runs/${Uri.encodeComponent(runId)}')).map,
+  );
 
   Future<StudyRun> sendEvent(String runId, PendingEvent event) async {
     final response = await _client.post(
@@ -42,11 +47,17 @@ class StudyApi {
   /// `GET /api/study/summary?subject&chapter`: the published lessons of one chapter. The server
   /// records an exposure for each, so call it only when the student opens the reader.
   Future<Json> summary(String subject, String chapter) async =>
-      (await _client.get('/api/study/summary', query: {'subject': subject, 'chapter': chapter})).map;
+      (await _client.get(
+        '/api/study/summary',
+        query: {'subject': subject, 'chapter': chapter},
+      )).map;
 
   /// `GET /api/study/units/{id}`. The server records an exposure, so call it only when the
   /// student opens the lesson, never to prefetch.
-  Future<Json> unit(String id) async => (await _client.get('/api/study/units/${Uri.encodeComponent(id)}')).map;
+  Future<Json> unit(String id) async =>
+      (await _client.get('/api/study/units/${Uri.encodeComponent(id)}')).map;
 }
 
-final studyApiProvider = Provider<StudyApi>((ref) => StudyApi(ref.watch(apiClientProvider)));
+final studyApiProvider = Provider<StudyApi>(
+  (ref) => StudyApi(ref.watch(apiClientProvider)),
+);

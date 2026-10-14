@@ -10,7 +10,12 @@ import '../copy.dart';
 /// without a lesson yet"). Open, each chapter has only a Practise key: practice is ready for it,
 /// the lesson comes later.
 class UntaughtChapters extends StatefulWidget {
-  const UntaughtChapters({super.key, required this.chapters, required this.onPractise, this.initiallyOpen = false});
+  const UntaughtChapters({
+    super.key,
+    required this.chapters,
+    required this.onPractise,
+    this.initiallyOpen = false,
+  });
 
   final List<String> chapters;
   final ValueChanged<String> onPractise;
@@ -32,7 +37,8 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         MmPressable(
-          semanticsLabel: '${LearnCopy.untaughtHeading}. ${LearnCopy.untaughtCount(widget.chapters.length)}. '
+          semanticsLabel:
+              '${LearnCopy.untaughtHeading}. ${LearnCopy.untaughtCount(widget.chapters.length)}. '
               '${_open ? LearnCopy.hideChapters : LearnCopy.showChapters}',
           focusRadius: MmRadius.panelAll,
           haptic: MmPressHaptic.selection,
@@ -41,15 +47,26 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
           builder: (context, pressed, _) => ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: MmSpace.s4,
+                vertical: MmSpace.s8,
+              ),
               child: Row(
                 children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(LearnCopy.untaughtHeading, style: type.body.copyWith(fontWeight: FontWeight.w500)),
-                        Text(LearnCopy.untaughtCount(widget.chapters.length), style: type.small.copyWith(color: colors.ink2)),
+                        Text(
+                          LearnCopy.untaughtHeading,
+                          style: type.body.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          LearnCopy.untaughtCount(widget.chapters.length),
+                          style: type.small.copyWith(color: colors.ink2),
+                        ),
                       ],
                     ),
                   ),
@@ -57,7 +74,11 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
                     turns: _open ? 0.5 : 0,
                     duration: Motion.of(context, Motion.ui),
                     curve: Motion.out,
-                    child: Icon(LucideIcons.chevronDown, size: 18, color: colors.ink3),
+                    child: Icon(
+                      LucideIcons.chevronDown,
+                      size: 18,
+                      color: colors.ink3,
+                    ),
                   ),
                 ],
               ),
@@ -71,11 +92,17 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
           child: !_open
               ? const SizedBox(width: double.infinity)
               : Padding(
-                  padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s8),
+                  padding: const EdgeInsets.only(
+                    left: MmSpace.s4,
+                    bottom: MmSpace.s8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(LearnCopy.untaughtNote, style: type.small.copyWith(color: colors.ink2)),
+                      Text(
+                        LearnCopy.untaughtNote,
+                        style: type.small.copyWith(color: colors.ink2),
+                      ),
                       const SizedBox(height: MmSpace.s4),
                       for (final c in widget.chapters)
                         Row(

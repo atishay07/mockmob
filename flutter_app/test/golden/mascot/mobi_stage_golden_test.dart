@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../core/night_support.dart';
+import 'mascot_support.dart';
 
 const _hello = "Hi, I'm Mobi. Let's find where your marks go.";
 
@@ -23,5 +24,8 @@ void main() {
   nightGolden('mobi_stage_still', _welcome);
   // Live: 640 ms in, mid-wave with the line typing.
   nightGolden('mobi_stage_live', _welcome, disableAnimations: false);
+  // Live, settled: the same stage once the whole line has typed in (the bubble keeps the size
+  // of the full line while it types, so nothing reflows, and this is the state it ends in).
+  settledGolden('mobi_stage_live_settled', _welcome);
   nightGolden('mobi_lines', _lines);
 }

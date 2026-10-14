@@ -227,7 +227,9 @@ class YouRow extends StatelessWidget {
 }
 
 /// A switch row. The whole row toggles; the switch is drawn by the theme (volt on, with a
-/// check glyph) so state never depends on colour alone.
+/// check glyph) so state never depends on colour alone. [flat] sits the row on the ground at the
+/// page's 20 dp margin and draws the switch without the glyph (the thumb's side and the words
+/// carry the state).
 class YouSwitchRow extends StatelessWidget {
   const YouSwitchRow({
     super.key,
@@ -236,6 +238,7 @@ class YouSwitchRow extends StatelessWidget {
     required this.onChanged,
     this.note,
     this.hairline = false,
+    this.flat = false,
   });
 
   final String title;
@@ -245,18 +248,21 @@ class YouSwitchRow extends StatelessWidget {
   /// Null disables the row.
   final ValueChanged<bool>? onChanged;
   final bool hairline;
+  final bool flat;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final enabled = onChanged != null;
+    final toggle = IgnorePointer(child: Switch(value: value, onChanged: enabled ? (_) {} : null));
     return RowFrame(
       onTap: enabled ? () => onChanged!(!value) : null,
       toggled: value,
       hairline: hairline,
       tick: false,
       semanticsLabel: note == null ? title : '$title. $note',
+      padding: flat ? const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
       child: Row(
         children: [
           Expanded(
@@ -272,7 +278,80 @@ class YouSwitchRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: MmSpace.s16),
-          ExcludeSemantics(child: IgnorePointer(child: Switch(value: value, onChanged: enabled ? (_) {} : null))),
+          ExcludeSemantics(child: flat ? _CleanSwitch(child: toggle) : toggle),
+        ],
+      ),
+    );
+  }
+}
+
+/// The theme's switch without the glyph inside the thumb.
+class _CleanSwitch extends StatelessWidget {
+  const _CleanSwitch({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final base = Theme.of(context);
+    final t = base.switchTheme;
+    return Theme(
+      data: base.copyWith(
+        switchTheme: SwitchThemeData(
+          trackColor: t.trackColor,
+          trackOutlineColor: t.trackOutlineColor,
+          thumbColor: t.thumbColor,
+          overlayColor: t.overlayColor,
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+/// A read-only row on the ground: an optional bare icon, a title, a note and a value on the
+/// right, with no chevron because nothing opens. Aligned with [YouRow] (flat).
+class YouFactRow extends StatelessWidget {
+  const YouFactRow({super.key, required this.title, this.icon, this.note, this.value, this.semanticsLabel});
+
+  final IconData? icon;
+  final String title;
+  final String? note;
+  final String? value;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return RowFrame(
+      semanticsLabel: semanticsLabel ?? [title, ?note, ?value].join('. '),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12),
+      child: Row(
+        children: [
+          if (icon != null) ...[
+            SizedBox.square(dimension: 28, child: Icon(icon, size: 22, color: colors.ink)),
+            const SizedBox(width: MmSpace.s16),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
+                if (note != null) ...[
+                  const SizedBox(height: 2),
+                  Text(note!, style: type.caption.copyWith(color: colors.ink2)),
+                ],
+              ],
+            ),
+          ),
+          if (value != null) ...[
+            const SizedBox(width: MmSpace.s8),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 160),
+              child: Text(value!, style: type.small.copyWith(color: colors.ink2), textAlign: TextAlign.end),
+            ),
+          ],
         ],
       ),
     );

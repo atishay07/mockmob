@@ -13,6 +13,7 @@ import '../celebration/rhythm_watcher.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
+import 'rhythm_page.dart' show QuietPill;
 
 class WeekStripSection extends ConsumerWidget {
   const WeekStripSection({super.key, this.onOpen});
@@ -73,22 +74,19 @@ class WeekStripBody extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: _rowHeight),
         child: Row(
           children: [
-            Expanded(child: Text(RhythmCopy.weekLoadFailed, style: type.label.copyWith(color: colors.ink))),
+            Expanded(child: Text(RhythmCopy.weekLoadFailed, style: type.small.copyWith(color: colors.ink2))),
             const SizedBox(width: MmSpace.s12),
-            // A pill with its own edge, so the retry reads as a key.
-            KeyButton.secondary(label: RhythmCopy.tryAgain, expanded: false, minHeight: _rowHeight, onPressed: onRetry),
+            // A quiet pill with its own edge, so the retry reads as a key without outweighing the line.
+            IntrinsicWidth(child: QuietPill(label: RhythmCopy.tryAgain, onPressed: onRetry)),
           ],
         ),
       );
     }
     final week = snapshot.week!;
-    final strip = WeekStrip(days: week.stripDays, label: week.label, onTap: onOpen);
-    final asOf = snapshot.stale && snapshot.fetchedAt != null ? RhythmCopy.asOf(snapshot.fetchedAt!) : null;
-    if (asOf == null) return strip;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [strip, Text(asOf, style: type.small.copyWith(color: colors.ink3))],
-    );
+    // A cached copy says so in the count line itself ("2 of 4 study days, as of 3:45 PM"), so the
+    // time is part of the sentence it qualifies and never a faint line floating under the strip.
+    final fetchedAt = snapshot.stale ? snapshot.fetchedAt : null;
+    final label = fetchedAt == null ? week.label : RhythmCopy.countAsOf(week.label, fetchedAt);
+    return WeekStrip(days: week.stripDays, label: label, onTap: onOpen);
   }
 }

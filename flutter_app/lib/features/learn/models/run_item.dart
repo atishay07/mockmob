@@ -13,14 +13,14 @@ enum RunItemType {
   unknown;
 
   static RunItemType fromWire(String? s) => switch (s) {
-        'reveal' => reveal,
-        'choice' => choice,
-        'text' => text,
-        'numeric' => numeric,
-        'ratio' => ratio,
-        'reading' => reading,
-        _ => unknown,
-      };
+    'reveal' => reveal,
+    'choice' => choice,
+    'text' => text,
+    'numeric' => numeric,
+    'ratio' => ratio,
+    'reading' => reading,
+    _ => unknown,
+  };
 }
 
 /// One step of a study run (`item` of `publicRun`). The server withholds answers until the
@@ -87,7 +87,10 @@ class RunItem {
   bool get isReading => type == RunItemType.reading;
   bool get isSelfRated => type == RunItemType.reveal;
   bool get isChecked =>
-      type == RunItemType.choice || type == RunItemType.text || type == RunItemType.numeric || type == RunItemType.ratio;
+      type == RunItemType.choice ||
+      type == RunItemType.text ||
+      type == RunItemType.numeric ||
+      type == RunItemType.ratio;
 }
 
 /// The server's feedback after a reveal or an answer.
@@ -104,15 +107,15 @@ class RunFeedback {
   });
 
   factory RunFeedback.fromJson(Json j) => RunFeedback(
-        correct: asBool(j['correct']),
-        answer: asString(j['answer']),
-        explanation: asString(j['explanation']),
-        cue: asString(j['cue']),
-        given: asString(j['given']),
-        chosen: asString(j['chosen']),
-        whyChosen: asString(j['whyChosen']),
-        skipped: asBool(j['skipped']) ?? false,
-      );
+    correct: asBool(j['correct']),
+    answer: asString(j['answer']),
+    explanation: asString(j['explanation']),
+    cue: asString(j['cue']),
+    given: asString(j['given']),
+    chosen: asString(j['chosen']),
+    whyChosen: asString(j['whyChosen']),
+    skipped: asBool(j['skipped']) ?? false,
+  );
 
   final bool? correct;
   final String? answer;
@@ -128,7 +131,8 @@ class RunFeedback {
 extension StudyRunView on StudyRun {
   RunItem? get currentItem => item == null ? null : RunItem.fromJson(item!);
 
-  RunFeedback? get currentFeedback => feedback == null ? null : RunFeedback.fromJson(feedback!);
+  RunFeedback? get currentFeedback =>
+      feedback == null ? null : RunFeedback.fromJson(feedback!);
 
   bool get isLearn => mode == 'learn';
 
@@ -142,12 +146,19 @@ extension StudyRunView on StudyRun {
     return [
       for (final r in reviewed)
         if (r is Map && asInt(r['rating']) != null)
-          ReviewedCard(title: asString(r['title']), rating: asInt(r['rating'])!, unitId: asString(r['unitId'])),
+          ReviewedCard(
+            title: asString(r['title']),
+            rating: asInt(r['rating'])!,
+            unitId: asString(r['unitId']),
+          ),
     ];
   }
 
   /// Cards the student rated Forgot or Hard, with their titles.
-  List<ReviewedCard> get againCards => [for (final c in reviewedCards) if (c.seeAgain && c.title != null) c];
+  List<ReviewedCard> get againCards => [
+    for (final c in reviewedCards)
+      if (c.seeAgain && c.title != null) c,
+  ];
 
   /// Titles of the cards rated Forgot or Hard.
   List<String> get cardsToSeeAgain => [for (final c in againCards) c.title!];
@@ -160,7 +171,10 @@ extension StudyRunView on StudyRun {
   }
 
   /// Titles of the lessons this run drew from (`units`), for the ending line.
-  List<String> get lessonTitles => [for (final u in units) if (u.title.trim().isNotEmpty) u.title.trim()];
+  List<String> get lessonTitles => [
+    for (final u in units)
+      if (u.title.trim().isNotEmpty) u.title.trim(),
+  ];
 }
 
 /// One rated card of a run: Forgot is 1, Hard 2, Got it 3, Easy 4.

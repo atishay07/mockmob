@@ -19,7 +19,10 @@ class RevealIn extends StatelessWidget {
       child: child,
       builder: (context, t, child) => Opacity(
         opacity: t,
-        child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - t)), child: child),
+        child: Transform.translate(
+          offset: Offset(0, reduced ? 0 : 8 * (1 - t)),
+          child: child,
+        ),
       ),
     );
   }

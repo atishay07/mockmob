@@ -71,18 +71,26 @@ class WeekLedger extends ConsumerWidget {
                       runSpacing: 2,
                       children: [
                         _Count(count: week.count),
-                        if (week.outlook != null)
-                          Text(
-                            week.outlook!,
-                            style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
+                        // The chevron travels with the outlook, so a wrapped line keeps its
+                        // arrow beside it instead of leaving one orphaned at the edge.
+                        if (week.outlook != null || tap != null)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (week.outlook != null)
+                                Text(
+                                  week.outlook!,
+                                  style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
+                                ),
+                              if (tap != null) ...[
+                                if (week.outlook != null) const SizedBox(width: MmSpace.s4),
+                                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                              ],
+                            ],
                           ),
                       ],
                     ),
                   ),
-                  if (tap != null) ...[
-                    const SizedBox(width: MmSpace.s4),
-                    Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
-                  ],
                 ],
               ),
             ),

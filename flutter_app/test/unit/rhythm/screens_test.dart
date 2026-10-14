@@ -16,6 +16,7 @@ import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/screens/rhythm_screen.dart';
 import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
+import 'package:mockmob/features/rhythm/widgets/rhythm_page.dart' show QuietPill;
 import 'package:mockmob/features/rhythm/widgets/week_strip_section.dart';
 import 'package:mockmob/features/rhythm/widgets/weekly_ending_card.dart';
 
@@ -172,10 +173,10 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('2 weeks'));
       await settle(tester);
-      await tester.scrollUntilVisible(find.text('Pause for about 3 months'), 200, scrollable: find.byType(Scrollable).first);
-      await tester.ensureVisible(find.text('Pause for about 3 months'));
+      await tester.scrollUntilVisible(find.text('About 3 months'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(find.text('About 3 months'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Pause for about 3 months'));
+      await tester.tap(find.text('About 3 months'));
       await settle(tester);
       expect(goalRepo.savedPause, ['2026-10-25', '2027-01-22']);
     });
@@ -250,8 +251,8 @@ void main() {
       );
       await pumpMockmob(tester, WeekStripBody(snapshot: snapshot, onOpen: () {}, onRetry: () => retried++), overrides: overrides(rhythmFixture()));
       expect(find.text('We could not load this week.'), findsOneWidget);
-      expect(tester.getSize(find.byType(KeyButton)).height, greaterThanOrEqualTo(48));
-      await tester.tap(find.byType(KeyButton));
+      expect(tester.getSize(find.byType(QuietPill)).height, greaterThanOrEqualTo(48));
+      await tester.tap(find.byType(QuietPill));
       expect(retried, 1);
     });
   });
@@ -281,7 +282,7 @@ void main() {
       await pumpMockmob(tester, const SingleChildScrollView(child: WeeklyEndingSection()), overrides: overrides(closedMet));
       await settle(tester);
       expect(find.text('You finished 4 study days last week. That met your goal.'), findsOneWidget);
-      await tester.tap(find.text('Try 5'));
+      await tester.tap(find.text('Aim for 5 days'));
       await settle(tester);
       expect(goalRepo.saved, [5]);
       expect(find.text('Goal is now 5 days a week.'), findsOneWidget);
@@ -302,7 +303,7 @@ void main() {
     testWidgets('Keep 4 only dismisses: the goal is untouched', (tester) async {
       await pumpMockmob(tester, const SingleChildScrollView(child: WeeklyEndingSection()), overrides: overrides(closedMet));
       await settle(tester);
-      await tester.tap(find.text('Keep 4'));
+      await tester.tap(find.text('Keep 4 days a week'));
       await settle(tester);
       expect(goalRepo.saved, isEmpty);
       expect(find.byType(WeeklyEndingCard), findsNothing);
@@ -333,7 +334,7 @@ void main() {
         ],
       );
       await settle(tester);
-      await tester.tap(find.text('Try 5'));
+      await tester.tap(find.text('Aim for 5 days'));
       await settle(tester);
       expect(goalRepo.saved, [5]);
       expect(find.text('Goal is now 5 days a week.'), findsOneWidget);
@@ -353,7 +354,7 @@ void main() {
       );
       await settle(tester);
       expect(find.byType(WeeklyEndingCard), findsOneWidget);
-      await tester.tap(find.text('Keep 4'));
+      await tester.tap(find.text('Keep 4 days a week'));
       await settle(tester);
       expect(goalRepo.saved, isEmpty);
       expect(find.byType(WeeklyEndingCard), findsNothing);

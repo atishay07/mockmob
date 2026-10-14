@@ -15,6 +15,9 @@ abstract final class RhythmCopy {
 
   static String asOf(DateTime fetchedAt) => 'As of ${formatTime12(fetchedAt)}';
 
+  /// "2 of 4 study days, as of 3:45 PM": the count line of a cached week.
+  static String countAsOf(String count, DateTime fetchedAt) => '$count, as of ${formatTime12(fetchedAt)}';
+
   // Screen-reader labels of the loading states and the ring.
   static const String loadingWeek = 'Loading this week';
   static const String loadingRhythm = 'Loading your rhythm';
@@ -99,7 +102,7 @@ abstract final class RhythmCopy {
   static const String pauseThisWeek = 'This week';
   static const String pauseTwoWeeks = '2 weeks';
   /// The longest pause the server accepts is 100 days, so the row says so plainly.
-  static const String pauseUntilOn = 'Pause for about 3 months';
+  static const String pauseUntilOn = 'About 3 months';
   static const String resume = 'Resume rhythm';
   static const String pauseFailed = 'We could not change the pause. Try again.';
 
@@ -165,6 +168,7 @@ abstract final class RhythmCopy {
 
   // Personal bests.
   static const String bestsTitle = 'Personal bests';
+  static const String otherBests = 'Other mock types';
   static const String bestsEmptyTitle = 'Nothing to compare yet';
   static const String bestsEmptyBody =
       'Once a full mock is saved on the server, its marks show here. A second one of the same type shows your change.';
@@ -197,10 +201,13 @@ abstract final class RhythmCopy {
       'You finished $days of $goal study days. Nothing is lost. Your record is as you left it.';
 
   static const String endingTitle = 'Last week';
-  static String keep(int goal) => 'Keep $goal';
-  static String tryMore(int goal) => 'Try $goal';
-  static const String lighterWeek = 'Take a lighter week';
-  static String makeIt(int goal) => 'Make it $goal';
+  static String keep(int goal) => 'Keep ${plural(goal, 'day')} a week';
+
+  /// The goal-changing keys say what changes: the new number of days, not a verb.
+  static String aimFor(int goal) => 'Aim for ${plural(goal, 'day')}';
+  static String tryMore(int goal) => aimFor(goal);
+  static String lighterWeek(int goal) => aimFor(goal);
+  static String makeIt(int goal) => aimFor(goal);
   static const String restWeek = 'Take a rest week';
   static const String shareWeek = 'Share this week';
   static const String dismiss = 'Dismiss';
@@ -209,8 +216,9 @@ abstract final class RhythmCopy {
   static String endingRestWeek(String untilDate) => 'Rhythm is paused until $untilDate.';
 
   // Returning (6.7).
-  static const String welcomeBack = 'Welcome back. Pick up with a small next step.';
+  static const String welcomeBack = 'Welcome back.';
   static const String nothingLost = 'Nothing was lost.';
+  static String reviewMistakes(int n) => n == 1 ? 'Review your mistake' : 'Review your $n mistakes';
 
   static String lastNight(int repaired, int waiting) =>
       'Last night: ${plural(repaired, 'mistake')} repaired. $waiting ${pluralWord(waiting, 'is', pluralForm: 'are')} waiting.';
@@ -239,6 +247,7 @@ abstract final class RhythmCopy {
   static const String outOfReach =
       'This week cannot reach your goal now, and that is all right. Every study day still counts, '
       'and pausing the week keeps your run.';
+  static const String howDayCounts = 'How a day counts';
   static const String studyDayRule = 'A day counts when you finish a scored set of 5 or more answers, or a repair.';
   static String weekRange(DateTime monday) {
     final sunday = monday.add(const Duration(days: 6));
@@ -304,9 +313,14 @@ abstract final class RhythmCopy {
   static String landedSummary(int landed, int total) => '$landed of $total milestones landed';
 
   // Mobi on the milestones screen.
-  static const String milestonesMobiEmpty = 'Your first lands with a scored set.';
+  static const String milestonesMobiEmpty = 'Your first one lands with a scored set.';
+  static const String startSet = 'Start a scored set';
   static const String milestonesMobiComplete = 'Every path has landed. They stay dated here for good.';
   static String stepJustLanded(String name) => '$name just landed.';
+
+  /// The small volt line under the achievement headline of a path that just landed a step.
+  static const String justLanded = 'Just landed';
+  static String trackLanded(String track, int earned, int total) => '$track, $earned of $total landed';
 
   // The receipt for milestones that landed while the app was away (more than 48 hours ago).
   static const String seeMilestones = 'See your milestones';

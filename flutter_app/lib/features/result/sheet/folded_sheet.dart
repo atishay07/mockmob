@@ -165,12 +165,13 @@ class FoldedSheet extends StatelessWidget {
   }
 }
 
-/// Clips to the sheet's width only; the flap may still rise above or below its slot.
+/// Clips to the sheet's width plus a margin for the fold's perspective (the flap's free edge
+/// comes toward the viewer and grows a little); the flap may still rise above or below its slot.
 class _SheetWidth extends CustomClipper<Rect> {
   const _SheetWidth();
 
   @override
-  Rect getClip(Size size) => Rect.fromLTRB(0, -size.height * 2, size.width, size.height * 3);
+  Rect getClip(Size size) => Rect.fromLTRB(-24, -size.height * 2, size.width + 24, size.height * 3);
 
   @override
   bool shouldReclip(_SheetWidth oldClipper) => false;
@@ -188,8 +189,8 @@ class _DeskShadow extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: [
-          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.45 * strength), blurRadius: 30, offset: const Offset(6, 18), spreadRadius: -6),
-          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25 * strength), blurRadius: 3, offset: const Offset(0, 1)),
+          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.4 * strength), blurRadius: 40, offset: const Offset(0, 16), spreadRadius: -8),
+          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.16 * strength), blurRadius: 6, offset: const Offset(0, 1)),
         ],
       ),
     );

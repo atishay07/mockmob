@@ -14,8 +14,7 @@ abstract final class AuthCopy {
   static const String sendingCode = 'Sending a code';
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
-  static const String alreadyHaveCode = 'I already have a code';
-  static String codeSentTo(String email) => 'Code sent to $email.';
+  static const String enterSentCode = 'Enter the code we sent';
   static const String googleInBrowser =
       'Finish signing in with Google in your browser, then come back.';
   static const String sessionExpired =
@@ -39,6 +38,7 @@ abstract final class AuthCopy {
   static const String resend = 'Resend code';
   static const String resending = 'Sending a code';
   static const String codeResent = 'A new code is on its way.';
+  /// What a screen reader hears for the code screen's back arrow.
   static const String differentEmail = 'Use a different email';
   static const String back = 'Back';
 
@@ -50,6 +50,16 @@ abstract final class AuthCopy {
     final rounded = ((seconds + 9) ~/ 10) * 10;
     return 'Resend code available in about $rounded seconds';
   }
+
+  /// The sign-in screen's wait while a code is already out: "Send a new code in 0:48".
+  static String sendNewIn(int seconds) => 'Send a new code in ${clock(seconds)}';
+
+  static String sendNewInSpoken(int seconds) {
+    final rounded = ((seconds + 9) ~/ 10) * 10;
+    return 'A new code can be sent in about $rounded seconds';
+  }
+
+  static const String sendNewCode = 'Send a new code';
 
   /// "0:30", "1:00".
   static String clock(int seconds) {

@@ -264,7 +264,7 @@ class _Passage extends StatefulWidget {
 class _PassageState extends State<_Passage> {
   bool _open = false;
 
-  static const int _foldedLines = 5;
+  static const int _foldedLines = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -289,29 +289,18 @@ class _PassageState extends State<_Passage> {
               )..layout(maxWidth: box.maxWidth);
               final overflows = probe.didExceedMaxLines;
               probe.dispose();
-              final body = Text(widget.text, style: type.body, maxLines: _open || !overflows ? null : _foldedLines, overflow: TextOverflow.clip);
+              // Folded and long: the cut falls at the end of a whole line with an ellipsis, never
+              // mid-line under a fade, so "Read all" is plainly the way to the rest.
+              final body = Text(widget.text, style: type.body, maxLines: _open || !overflows ? null : _foldedLines, overflow: TextOverflow.ellipsis);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(InsightsCopy.passage, style: type.label.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s6),
-                  // Folded and long: the last lines fade out so the cut reads as "more below".
-                  if (overflows && !_open)
-                    ShaderMask(
-                      blendMode: BlendMode.dstIn,
-                      shaderCallback: (rect) => const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF), Color(0x00FFFFFF)],
-                        stops: [0, 0.6, 1],
-                      ).createShader(rect),
-                      child: body,
-                    )
-                  else
-                    body,
+                  body,
                   if (overflows)
                     ConstrainedBox(
-                      constraints: const BoxConstraints(minHeight: 32),
+                      constraints: const BoxConstraints(minHeight: MmTarget.min),
                       child: Row(
                         children: [
                           Text(_open ? InsightsCopy.passageFold : InsightsCopy.passageReadAll, style: type.label.copyWith(color: colors.ink)),

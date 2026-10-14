@@ -5,6 +5,7 @@
 // reshapes the task in place without moving the pill.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
 import '../../../core/motion/motion.dart';
@@ -54,6 +55,10 @@ class MoveHeroCard extends StatelessWidget {
   /// touches and is not announced; the bar carries both keys.
   final ValueListenable<bool>? keysCovered;
 
+  /// Extra room the subject title leaves before the object's near edge, so even at large text its
+  /// last letters stand clear of the art.
+  static const double _titleAirBesideArt = 16;
+
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
       m.mobiLine ??
@@ -81,11 +86,17 @@ class MoveHeroCard extends StatelessWidget {
     final top = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
+        // A failed read has no overline: the bubble and the line under it already say so.
+        if (m.overline.isNotEmpty)
+          _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
         if (m.subjectLine != null) ...[
-          const SizedBox(height: 2),
-          // The subject is the stage's title: headline size, one line.
-          _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
+          if (m.overline.isNotEmpty) const SizedBox(height: 2),
+          // The subject is the stage's title: headline size, one line. Beside the object it
+          // also keeps clear of the book's edge (it scales down rather than run into it).
+          Padding(
+            padding: EdgeInsets.only(right: mobi ? 0 : _titleAirBesideArt),
+            child: _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
+          ),
         ],
       ],
     );
@@ -166,6 +177,9 @@ class MoveHeroCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: MmSpace.s20),
+          // Offline, the reason stands above the key where the eye is, not under it (that part
+          // of the card sits behind the dock at rest).
+          if (blocked) ...[const _NeedsConnection(), const SizedBox(height: MmSpace.s8)],
           LayoutBuilder(
             key: primaryKey,
             builder: (context, box) => KeyButton(
@@ -173,7 +187,6 @@ class MoveHeroCard extends StatelessWidget {
               semanticsLabel: m.primary.label,
               onPressed: blocked ? null : () => onAction(m.primary),
               loading: retrying && m.primary.target is RetryLoad,
-              disabledReason: blocked ? TodayCopy.connectToStart : null,
             ),
           ),
           _UnderBar(
@@ -208,6 +221,24 @@ class MoveHeroCard extends StatelessWidget {
       subjectId: m.subjectId,
       art: mobi ? null : HeroArtView(art: m.art),
       child: content,
+    );
+  }
+}
+
+/// Why the key is off while the phone is offline: one quiet line with the offline mark.
+class _NeedsConnection extends StatelessWidget {
+  const _NeedsConnection();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(LucideIcons.wifiOff, size: 14, color: colors.ink2),
+        const SizedBox(width: MmSpace.s6),
+        Flexible(child: Text(TodayCopy.connectToStart, style: context.mmType.small.copyWith(color: colors.ink2), textAlign: TextAlign.center)),
+      ],
     );
   }
 }

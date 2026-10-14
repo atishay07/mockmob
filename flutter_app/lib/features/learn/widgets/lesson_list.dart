@@ -17,6 +17,7 @@ class SubjectLessons extends StatelessWidget {
     required this.units,
     required this.onOpen,
     this.onReadChapter,
+    this.upNext,
   });
 
   final LearnSubject subject;
@@ -26,9 +27,14 @@ class SubjectLessons extends StatelessWidget {
   /// Opens the chapter reader; null hides the chapter rows.
   final ValueChanged<String>? onReadChapter;
 
+  /// The lesson the server suggests next, when it sits in this list: its row says so (with the
+  /// server's reason) instead of a second card above repeating it.
+  final NextLesson? upNext;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
     final chapters = <String>{
       for (final u in units)
         if (u.chapter != null && u.chapter!.trim().isNotEmpty) u.chapter!.trim(),
@@ -43,15 +49,19 @@ class SubjectLessons extends StatelessWidget {
           children: [for (final unit in units) _lessonRow(colors, unit)],
         ),
         if (onReadChapter != null && chapters.isNotEmpty) ...[
-          const SizedBox(height: MmRhythm.item),
+          const SizedBox(height: MmRhythm.group),
+          Padding(
+            padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s8),
+            child: Semantics(header: true, child: Text(LearnCopy.chapterSummariesHeading, style: type.label.copyWith(color: colors.ink2))),
+          ),
           MmRowGroup(
             dividerIndent: 64,
             children: [
               for (final c in chapters)
                 MmRow(
                   leading: Icon(LucideIcons.bookOpenText, size: 20, color: colors.ink2),
-                  title: LearnCopy.readSummary,
-                  subtitle: c,
+                  title: c,
+                  subtitle: LearnCopy.readSummary,
                   semanticsLabel: '${LearnCopy.readSummary}. $c',
                   trailing: Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
                   onTap: () => onReadChapter!(c),
@@ -68,10 +78,14 @@ class SubjectLessons extends StatelessWidget {
   Widget _lessonRow(MmColors colors, LearnUnit unit) {
     final word = LearnCopy.statusWord(unit.status);
     final minutes = unit.estimatedMinutes == null ? null : LearnCopy.minutes(unit.estimatedMinutes!);
+    final status = minutes == null ? word : '$word, $minutes';
+    final next = upNext != null && upNext!.id == unit.id;
+    final reason = next ? upNext!.reason : null;
     return MmRow(
       title: unit.title,
-      subtitle: minutes == null ? word : '$word, $minutes',
-      semanticsLabel: [unit.title, word, ?minutes].join('. '),
+      subtitle: next ? ['${LearnCopy.upNext}. $status', ?reason].join('\n') : status,
+      subtitleLines: next ? 4 : 2,
+      semanticsLabel: [if (next) LearnCopy.upNext, unit.title, word, ?minutes, ?reason].join('. '),
       trailing: Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
       onTap: () => onOpen(unit),
     );

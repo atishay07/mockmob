@@ -23,26 +23,25 @@ class PendingEvent {
     Object? value,
     int? rating,
     bool assisted = false,
-  }) =>
-      PendingEvent(
-        requestKey: newRequestKey(),
-        expectedRevision: expectedRevision,
-        itemId: itemId,
-        type: type,
-        value: value,
-        rating: rating,
-        assisted: assisted,
-      );
+  }) => PendingEvent(
+    requestKey: newRequestKey(),
+    expectedRevision: expectedRevision,
+    itemId: itemId,
+    type: type,
+    value: value,
+    rating: rating,
+    assisted: assisted,
+  );
 
   factory PendingEvent.fromJson(Json j) => PendingEvent(
-        requestKey: asStringOr(j['requestKey'], ''),
-        expectedRevision: asInt(j['expectedRevision']) ?? 0,
-        itemId: asStringOr(j['itemId'], ''),
-        type: asStringOr(j['type'], ''),
-        value: j['value'],
-        rating: asInt(j['rating']),
-        assisted: asBool(j['assisted']) ?? false,
-      );
+    requestKey: asStringOr(j['requestKey'], ''),
+    expectedRevision: asInt(j['expectedRevision']) ?? 0,
+    itemId: asStringOr(j['itemId'], ''),
+    type: asStringOr(j['type'], ''),
+    value: j['value'],
+    rating: asInt(j['rating']),
+    assisted: asBool(j['assisted']) ?? false,
+  );
 
   /// `/^[a-zA-Z0-9_-]{12,100}$/`: 32 hex characters.
   static String newRequestKey() => const Uuid().v4().replaceAll('-', '');
@@ -62,25 +61,25 @@ class PendingEvent {
   bool get canWaitOffline => type == 'rate' || type == 'continue';
 
   Json toJson() => {
-        'requestKey': requestKey,
-        'expectedRevision': expectedRevision,
-        'itemId': itemId,
-        'type': type,
-        if (value != null) 'value': value,
-        if (rating != null) 'rating': rating,
-        'assisted': assisted,
-      };
+    'requestKey': requestKey,
+    'expectedRevision': expectedRevision,
+    'itemId': itemId,
+    'type': type,
+    if (value != null) 'value': value,
+    if (rating != null) 'rating': rating,
+    'assisted': assisted,
+  };
 
   /// The request body of `POST /api/study/runs/{id}/events`.
   Json toBody() => toJson();
 
   PendingEvent withFreshKey(int revision) => PendingEvent(
-        requestKey: newRequestKey(),
-        expectedRevision: revision,
-        itemId: itemId,
-        type: type,
-        value: value,
-        rating: rating,
-        assisted: assisted,
-      );
+    requestKey: newRequestKey(),
+    expectedRevision: revision,
+    itemId: itemId,
+    type: type,
+    value: value,
+    rating: rating,
+    assisted: assisted,
+  );
 }

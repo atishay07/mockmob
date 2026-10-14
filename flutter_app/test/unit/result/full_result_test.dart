@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
+import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
+import 'package:mockmob/features/result/full/full_sections.dart' show BlankGroup;
 import 'package:mockmob/features/result/model/recap_model.dart';
 
 import '../../helpers/fonts.dart';
@@ -57,13 +59,13 @@ void main() {
     await tester.scrollUntilVisible(find.text('Repair this mistake').last, 300);
     expect(find.text('Correct answer'), findsWidgets);
     // The not attempted rows are folded under one header until it is tapped.
-    expect(find.textContaining(', Not attempted'), findsNothing);
+    final blankRows = find.descendant(of: find.byType(BlankGroup), matching: find.byType(AnswerRow));
+    expect(blankRows, findsNothing);
     await tester.scrollUntilVisible(find.text('Not attempted (9)'), 300);
     await tester.tap(find.text('Not attempted (9)'));
     await tester.pumpAndSettle();
-    final blankHeader = find.textContaining(', Not attempted');
-    await tester.scrollUntilVisible(blankHeader.first, 300);
-    await tester.tap(blankHeader.first);
+    await tester.scrollUntilVisible(blankRows.first, 300);
+    await tester.tap(blankRows.first);
     await tester.pump();
     expect(find.text('You did not answer this question.'), findsOneWidget);
     expect(find.text('Repair this mistake'), findsNWidgets(2)); // one key: its label plus its width reserve
@@ -78,7 +80,9 @@ void main() {
     );
     await pump(tester, data: withDetail(d), location: '/result/a7?q=6');
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Question 6, Being checked'), findsOneWidget);
+    // The row names its question; the group header ("Being checked") and the bubble say why.
+    expect(find.text('Question 6'), findsOneWidget);
+    expect(find.text('Being checked (1)'), findsOneWidget);
     expect(find.text('The answer for this question is being checked, so it is not shown yet.'), findsOneWidget);
   });
 

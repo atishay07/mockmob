@@ -195,7 +195,9 @@ class _PickRow extends ConsumerWidget {
       },
       builder: (context, pressed, _) => DecoratedBox(
         decoration: ShapeDecoration(
-          color: pressed ? MmSelection.fill(colors, selected: chosen, pressed: true) : (chosen ? MmSelection.fill(colors, selected: true) : Colors.transparent),
+          // One surface for every row, chosen or not: the volt radio at the end is the only
+          // thing that says a subject is on the sheet. A press wash is the only fill.
+          color: pressed ? colors.raised : Colors.transparent,
           shape: mmShapeBorder(MmRadius.keyAll),
         ),
         child: Padding(
@@ -236,7 +238,7 @@ class _UnofferedBlock extends StatelessWidget {
               children: [
                 for (final n in names)
                   DecoratedBox(
-                    decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.line))),
+                    decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       child: Text(n, style: type.caption.copyWith(color: colors.ink3)),

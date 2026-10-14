@@ -2,6 +2,10 @@
 // monumental number over seven answer bubbles), the run, the goal, pause, closed weeks, the
 // Celebrations setting, and the quiet Turn off rhythm. Stateless: the screen passes the state and
 // the callbacks, and goldens render it directly.
+//
+// One dominant volt key per state: Resume rhythm while paused (right under the status line), Turn
+// on rhythm while off (the plan and the pause are hidden then). Everything sits on one 20 dp
+// inset: the page gutter of 16 plus 4.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,8 +16,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../you/widgets/you_page.dart' show PillKey, SectionTitle;
-import '../../you/widgets/you_row.dart' show RowFrame, YouPanel;
+import '../../you/widgets/you_page.dart' show SectionTitle;
+import '../../you/widgets/you_row.dart' show RowFrame;
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
@@ -24,6 +28,9 @@ import 'plan_week_strip.dart';
 import 'proud_mobi.dart';
 import 'run_ribbon.dart';
 import 'week_dial.dart';
+
+/// The page gutter is 16; everything on this screen sits 4 further in, on one 20 dp line.
+const double _inset = 4;
 
 class RhythmBody extends StatelessWidget {
   const RhythmBody({
@@ -76,102 +83,114 @@ class RhythmBody extends StatelessWidget {
     final note = runNote(rhythm);
     final ribbon = ribbonWeeks(rhythm, week);
     final goal = snapshot.goal?.daysPerWeek ?? rhythm.daysGoal;
+    final paused = week.status == WeekStatus.paused;
+    // While rhythm is off the one thing to do is turn it on: the plan and the pause are hidden, and
+    // the run shows only when there is a record behind it.
+    final showRun = !rhythmOff || rhythm.weeksMetStreak > 0 || rhythm.bestRun > 0;
 
     // One authored entrance as the page arrives (route driver): this week first, then the run,
     // the plan, the pause and the celebrations in reading order. Nothing moves once it is up.
-    return MmStagger(
-      driver: MmStaggerDriver.route,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (snapshot.stale && snapshot.fetchedAt != null) ...[
-            Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-              child: Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.caption.copyWith(color: colors.ink3)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: _inset),
+      child: MmStagger(
+        driver: MmStaggerDriver.route,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (snapshot.stale && snapshot.fetchedAt != null) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                child: Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.caption.copyWith(color: colors.ink3)),
+              ),
+            ],
+            if (errorText != null) ...[
+              InlineBanner(message: errorText!, tone: BannerTone.error),
+              const SizedBox(height: MmRhythm.item),
+            ],
+            if (savedText != null) ...[
+              ReceiptLine(text: savedText!),
+              const SizedBox(height: MmRhythm.item),
+            ],
+            MmStaggerItem(
+              index: 0,
+              child: rhythmOff
+                  ? _OffBlock(onTurnOn: onTurnOn)
+                  : WeekHero(week: week, plan: plan, onResume: busy ? null : onResume, busy: busy),
             ),
-          ],
-          if (errorText != null) ...[
-            InlineBanner(message: errorText!, tone: BannerTone.error),
-            const SizedBox(height: MmRhythm.item),
-          ],
-          if (savedText != null) ...[
-            Padding(padding: const EdgeInsets.only(left: 4), child: ReceiptLine(text: savedText!)),
-            const SizedBox(height: MmRhythm.item),
-          ],
-          MmStaggerItem(index: 0, child: rhythmOff ? _OffPanel(onTurnOn: onTurnOn) : WeekHero(week: week, plan: plan)),
-          const SizedBox(height: MmRhythm.section),
-          // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
-          // a run there is one plain line (never a zero).
-          MmStaggerItem(
-            index: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SectionTitle(RhythmCopy.runTitle),
-                _RunStats(rhythm: rhythm, note: note),
-                if (ribbon.isNotEmpty) ...[
-                  const SizedBox(height: MmSpace.s16),
-                  RunRibbon(weeks: ribbon),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(height: MmRhythm.section),
-          MmStaggerItem(
-            index: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SectionTitle(RhythmCopy.planTitle),
-                YouPanel(
-                  margin: EdgeInsets.zero,
-                  inset: MmSpace.gutter,
+            // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
+            // a run there is one plain line (never a zero).
+            if (showRun) ...[
+              const SizedBox(height: MmRhythm.section),
+              MmStaggerItem(
+                index: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _SettingRow(label: RhythmCopy.goalLabel, value: RhythmCopy.goalValue(goal), onTap: busy ? null : onEditGoal),
-                    _SettingRow(
-                      label: RhythmCopy.studyDaysLabel,
-                      value: plan == null || plan!.isEmpty
-                          ? RhythmCopy.studyDaysNotSet
-                          : plan!.length == 7
-                              ? RhythmCopy.everyDay
-                              : joinWithAnd([for (final d in plan!.toList()..sort()) weekdayNames[d].substring(0, 3)]),
-                      onTap: busy ? null : onEditGoal,
+                    const _Title(RhythmCopy.runTitle),
+                    _RunStats(rhythm: rhythm, note: note),
+                    if (ribbon.isNotEmpty) ...[
+                      const SizedBox(height: MmSpace.s16),
+                      RunRibbon(weeks: ribbon),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+            if (!rhythmOff) ...[
+              const SizedBox(height: MmRhythm.section),
+              MmStaggerItem(
+                index: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const _Title(RhythmCopy.planTitle),
+                    _InsetPanel(
+                      children: [
+                        _SettingRow(label: RhythmCopy.goalLabel, value: RhythmCopy.goalValue(goal), onTap: busy ? null : onEditGoal),
+                        _SettingRow(
+                          label: RhythmCopy.studyDaysLabel,
+                          value: plan == null || plan!.isEmpty
+                              ? RhythmCopy.studyDaysNotSet
+                              : plan!.length == 7
+                                  ? RhythmCopy.everyDay
+                                  : joinWithAnd([for (final d in plan!.toList()..sort()) weekdayNames[d].substring(0, 3)]),
+                          onTap: busy ? null : onEditGoal,
+                        ),
+                      ],
                     ),
                   ],
                 ),
+              ),
+              // A paused week already has its one key (Resume, under the ring), so the pause options
+              // wait until the week is running again.
+              if (!paused) ...[
+                const SizedBox(height: MmRhythm.section),
+                MmStaggerItem(
+                  index: 3,
+                  child: _PauseGroup(busy: busy, onThisWeek: onPauseThisWeek, onTwoWeeks: onPauseTwoWeeks, onUntilOn: onPauseUntilOn),
+                ),
               ],
-            ),
-          ),
-          if (!rhythmOff) ...[
+            ],
             const SizedBox(height: MmRhythm.section),
             MmStaggerItem(
-              index: 3,
-              child: _PauseGroup(
-                paused: week.status == WeekStatus.paused,
-                busy: busy,
-                onThisWeek: onPauseThisWeek,
-                onTwoWeeks: onPauseTwoWeeks,
-                onUntilOn: onPauseUntilOn,
-                onResume: onResume,
+              index: 4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const _Title(RhythmCopy.celebrationsTitle),
+                  CelebrationsPicker(mode: mode, onMode: onMode),
+                  if (!rhythmOff) ...[
+                    const SizedBox(height: MmRhythm.section),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IntrinsicWidth(child: QuietPill(label: RhythmCopy.turnOff, danger: true, onPressed: busy ? null : onTurnOff)),
+                    ),
+                  ],
+                ],
               ),
             ),
           ],
-          const SizedBox(height: MmRhythm.section),
-          MmStaggerItem(
-            index: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SectionTitle(RhythmCopy.celebrationsTitle),
-                CelebrationsPicker(mode: mode, onMode: onMode),
-                if (!rhythmOff) ...[
-                  const SizedBox(height: MmRhythm.group),
-                  FlushQuietKey(label: RhythmCopy.turnOff, onPressed: onTurnOff),
-                ],
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -182,11 +201,18 @@ class RhythmBody extends StatelessWidget {
 /// lit pane (counted, planned, rest, not yet). The counted days ink in one after another when the
 /// screen opens, and each day answers a tap with a light tick and its name in words. Mobi cheers
 /// beside the ring when the week is met and rests while it is paused; otherwise he stays out of it.
+/// A paused week carries the screen's one volt key, Resume rhythm, right under its status line.
 class WeekHero extends ConsumerStatefulWidget {
-  const WeekHero({super.key, required this.week, this.plan});
+  const WeekHero({super.key, required this.week, this.plan, this.onResume, this.busy = false});
 
   final WeekView week;
   final Set<int>? plan;
+
+  /// The Resume rhythm key shown under the status line while the week is paused. Null hides it.
+  final VoidCallback? onResume;
+
+  /// A write is in flight: the Resume key waits.
+  final bool busy;
 
   @override
   ConsumerState<WeekHero> createState() => _WeekHeroState();
@@ -258,6 +284,15 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
           liveRegion: true,
           child: Text(_status(week), textAlign: TextAlign.center, style: type.subhead),
         ),
+        if (paused) ...[
+          const SizedBox(height: MmSpace.s4),
+          Text(RhythmCopy.pausedKeepsRun, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+          if (widget.onResume != null || widget.busy) ...[
+            const SizedBox(height: MmSpace.s20),
+            // The one dominant action of a paused screen.
+            KeyButton(label: RhythmCopy.resume, onPressed: widget.busy ? null : widget.onResume),
+          ],
+        ],
         const SizedBox(height: MmSpace.s24),
         LitEdge(
           child: FakeGlass(
@@ -324,10 +359,7 @@ class _RunStats extends StatelessWidget {
     final type = context.mmType;
     final streak = rhythm.weeksMetStreak;
     if (streak <= 0) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 4),
-        child: Text(note ?? weeksInRhythmText(rhythm), style: type.body.copyWith(color: colors.ink)),
-      );
+      return Text(note ?? weeksInRhythmText(rhythm), style: type.body.copyWith(color: colors.ink));
     }
     final best = rhythm.bestRun;
     return Row(
@@ -355,22 +387,19 @@ class _Stat extends ConsumerWidget {
       container: true,
       label: semantics,
       excludeSemantics: true,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Rolls in after the screen has arrived and ticks once where it lands.
-            MonumentalNumber(
-              value: value,
-              style: type.figure.copyWith(fontSize: 56, height: 54 / 56),
-              delay: Motion.enterDuration,
-              onLanded: () => ref.read(hapticsProvider).selection(),
-            ),
-            const SizedBox(height: MmSpace.s4),
-            Text(label, style: type.caption.copyWith(color: colors.ink2)),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Rolls in after the screen has arrived and ticks once where it lands.
+          MonumentalNumber(
+            value: value,
+            style: type.figure.copyWith(fontSize: 56, height: 54 / 56),
+            delay: Motion.enterDuration,
+            onLanded: () => ref.read(hapticsProvider).selection(),
+          ),
+          const SizedBox(height: MmSpace.s4),
+          Text(label, style: type.caption.copyWith(color: colors.ink2)),
+        ],
       ),
     );
   }
@@ -412,8 +441,10 @@ class _SettingRow extends StatelessWidget {
   }
 }
 
-class _OffPanel extends StatelessWidget {
-  const _OffPanel({required this.onTurnOn});
+/// Rhythm turned off: a heading, one plain line and the one volt key, on the page itself (no card
+/// round it). Everything else on the screen waits behind this.
+class _OffBlock extends StatelessWidget {
+  const _OffBlock({required this.onTurnOn});
 
   final VoidCallback onTurnOn;
 
@@ -421,70 +452,103 @@ class _OffPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return YouPanel(
-      margin: EdgeInsets.zero,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(MmSpace.s20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(RhythmCopy.rhythmOffTitle, style: type.title),
-              const SizedBox(height: MmSpace.s4),
-              Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s16),
-              KeyButton.secondary(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
-            ],
-          ),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(header: true, child: Text(RhythmCopy.rhythmOffTitle, style: type.headline)),
+          const SizedBox(height: MmSpace.s8),
+          Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s24),
+          KeyButton(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
+        ],
+      ),
     );
   }
 }
 
-class _PauseGroup extends StatelessWidget {
-  const _PauseGroup({
-    required this.paused,
-    required this.busy,
-    required this.onThisWeek,
-    required this.onTwoWeeks,
-    required this.onUntilOn,
-    required this.onResume,
-  });
+/// A section title on the screen's one 20 dp inset (the body already insets, so no extra left).
+class _Title extends StatelessWidget {
+  const _Title(this.text, {this.bottom = MmSpace.s12});
 
-  final bool paused;
+  final String text;
+  final double bottom;
+
+  @override
+  Widget build(BuildContext context) => SectionTitle(text, padding: EdgeInsets.only(bottom: bottom));
+}
+
+/// Rows on one raised surface with hairlines inset on both sides, so a divider never runs into the
+/// card's edge. Never nest a panel in a panel.
+class _InsetPanel extends StatelessWidget {
+  const _InsetPanel({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final rows = <Widget>[];
+    for (var i = 0; i < children.length; i++) {
+      if (i > 0) {
+        rows.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: SizedBox(height: 1, child: ColoredBox(color: colors.line)),
+        ));
+      }
+      rows.add(children[i]);
+    }
+    return MmSurface.plain(
+      padding: EdgeInsets.zero,
+      child: MmClip(
+        borderRadius: BorderRadius.circular(MmRhythm.plainRadius),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows),
+      ),
+    );
+  }
+}
+
+/// Pause: three full-width rows in one panel, so the long option never wraps into a ragged chip row.
+class _PauseGroup extends StatelessWidget {
+  const _PauseGroup({required this.busy, required this.onThisWeek, required this.onTwoWeeks, required this.onUntilOn});
 
   final bool busy;
   final VoidCallback onThisWeek;
   final VoidCallback onTwoWeeks;
   final VoidCallback onUntilOn;
-  final VoidCallback onResume;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    Widget row(String label, VoidCallback onTap) => RowFrame(
+          onTap: busy ? null : onTap,
+          semanticsLabel: '${RhythmCopy.pauseTitle}, $label',
+          child: Row(
+            children: [
+              Expanded(child: Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: busy ? colors.ink3 : colors.ink))),
+              const SizedBox(width: MmSpace.s12),
+              Icon(LucideIcons.pause, size: 16, color: colors.ink3),
+            ],
+          ),
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SectionTitle(RhythmCopy.pauseTitle, bottom: MmSpace.s4),
+        const _Title(RhythmCopy.pauseTitle, bottom: MmSpace.s4),
         // The date is in the week above; this says only what pausing does to the run.
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
+          padding: const EdgeInsets.only(bottom: MmSpace.s12),
           child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
         ),
-        if (paused)
-          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume)
-        else
-          Wrap(
-            spacing: MmSpace.s8,
-            runSpacing: MmSpace.s8,
-            children: [
-              PillKey(label: RhythmCopy.pauseThisWeek, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseThisWeek}', onPressed: busy ? null : onThisWeek),
-              PillKey(label: RhythmCopy.pauseTwoWeeks, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseTwoWeeks}', onPressed: busy ? null : onTwoWeeks),
-              PillKey(label: RhythmCopy.pauseUntilOn, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseUntilOn}', onPressed: busy ? null : onUntilOn),
-            ],
-          ),
+        _InsetPanel(
+          children: [
+            row(RhythmCopy.pauseThisWeek, onThisWeek),
+            row(RhythmCopy.pauseTwoWeeks, onTwoWeeks),
+            row(RhythmCopy.pauseUntilOn, onUntilOn),
+          ],
+        ),
       ],
     );
   }
@@ -521,7 +585,7 @@ class CelebrationsPicker extends StatelessWidget {
           onChanged: onMode,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 4, top: MmSpace.s8),
+          padding: const EdgeInsets.only(top: MmSpace.s8),
           child: Text(hint(mode), style: context.mmType.caption.copyWith(color: context.mmColors.ink2)),
         ),
       ],

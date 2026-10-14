@@ -128,8 +128,10 @@ void main() {
       await drag(tester, 160);
       expect(haptics.calls, ['medium']);
       await _run(tester, 1000);
-      expect(find.text('Your result is ready. Start with one repeated pattern.'), findsOneWidget);
-      expect(find.text('Show me the first thing to fix'), findsOneWidget);
+      // One key, one way on: no filler line and no second link to the same place.
+      expect(find.text('Your result is ready. Start with one repeated pattern.'), findsNothing);
+      expect(find.text('Show me the first thing to fix'), findsNothing);
+      expect(find.text('Where the marks went'), findsOneWidget);
     });
 
     testWidgets('Open without the reveal goes straight to the full result', (tester) async {
@@ -241,9 +243,9 @@ void main() {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
       expect(find.text('Mock 7 is in your record.'), findsOneWidget);
-      expect(find.text('Saved to your record at 10:44 PM.'), findsOneWidget);
+      // The effort sentence belongs to the receipt line: one status line, not a caption by Mobi.
+      expect(find.text('Saved to your record at 10:44 PM. Third full paper this month.'), findsOneWidget);
       expect(find.text('Fresh check: not available yet.'), findsNothing);
-      expect(find.text('Third full paper this month.'), findsOneWidget);
       await tester.tap(find.text('5 min'));
       await tester.pump();
       expect(find.text('Start 5-minute repair'), findsOneWidget);
@@ -256,6 +258,10 @@ void main() {
     testWidgets('Finish for now ends with one line, then Today', (tester) async {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
+      // With a repair to start, "Finish for now" waits behind the card's More key.
+      expect(find.text('Finish for now'), findsNothing);
+      await tester.tap(find.bySemanticsLabel('More'));
+      await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 100);
       expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Review.'), findsOneWidget);
@@ -301,8 +307,9 @@ void main() {
 
       final router3 = await pump(tester, '/result/a7/recap/3');
       await _run(tester, 1000);
-      expect(find.byType(EvidenceLink), findsOneWidget);
-      await tester.tap(find.byType(EvidenceLink));
+      // "See the 6 questions" and the quiet "Why this?" are both text links in the same slot.
+      expect(find.byType(EvidenceLink), findsNWidgets(2));
+      await tester.tap(find.widgetWithText(EvidenceLink, 'See the 6 questions'));
       await tester.pumpAndSettle();
       expect(_at(router3), startsWith('/result/a7?q='));
     });

@@ -85,8 +85,9 @@ class StageStep extends ConsumerWidget {
   }
 }
 
-/// A stage as a tall tile: the weeks to its CUET in condensed figures with the unit at 55%, the
-/// choice in the student's words beneath, the answer bubble in the corner.
+/// A stage as a tile: the choice in the student's words, and when that CUET is. The weeks to it
+/// are said once, on the ruler above and on the sheet, so no tile repeats a figure that is the
+/// same on three of four; a spoken label still carries them.
 class _StageTile extends StatelessWidget {
   const _StageTile({required this.stage, required this.weeks, required this.selected, required this.onTap});
 
@@ -100,38 +101,23 @@ class _StageTile extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final w = weeks;
-    final figure = type.figureCompact.copyWith(fontSize: 44, height: 1);
-    final caption = stage == Stage.notSure ? OnboardingCopy.stageWeeksProbably : OnboardingCopy.stageWeeksUnit(stage.cuetYear);
+    final caption = stage == Stage.notSure ? OnboardingCopy.stageWindowProbably : OnboardingCopy.stageWindow(stage.cuetYear);
     return ChoiceTile(
       selected: selected,
       onTap: onTap,
       semanticsLabel: w == null ? stage.option : '${stage.option}. $w ${OnboardingCopy.stageWeeksSpoken(stage.cuetYear)}',
-      minHeight: 132,
+      minHeight: 112,
       padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(w == null ? '--' : '$w', style: figure.copyWith(color: selected ? colors.ink : colors.ink.withValues(alpha: 0.86))),
-              const SizedBox(width: 4),
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  OnboardingCopy.weeksShort,
-                  style: figure.copyWith(fontSize: 44 * 0.45, color: colors.ink2),
-                ),
-              ),
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Text(caption, style: type.caption.copyWith(color: colors.ink3)),
+            padding: const EdgeInsets.only(right: MmSpace.s20),
+            child: Text(stage.option, style: type.cardTitle.copyWith(color: selected ? colors.ink : colors.ink2)),
           ),
           const SizedBox(height: MmSpace.s12),
-          Text(stage.option, style: type.labelLarge.copyWith(height: 20 / 15, color: selected ? colors.ink : colors.ink2)),
+          Text(caption, style: type.caption.copyWith(color: colors.ink3)),
         ],
       ),
     );

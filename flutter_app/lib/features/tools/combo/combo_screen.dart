@@ -57,6 +57,20 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
     return ToolsPage(title: ToolsCopy.comboTitle, lead: ToolsCopy.comboLead, slivers: slivers);
   }
 
+  Future<void> _pick(BuildContext context, ComboState s) {
+    final controller = ref.read(comboControllerProvider.notifier);
+    return showSubjectPicker(
+      context: context,
+      catalog: s.catalog,
+      watch: (ref) => ref.watch(comboControllerProvider).value?.pool.toSet() ?? const {},
+      onToggle: controller.togglePick,
+      onPreset: controller.applyPreset,
+      onClear: controller.clearPool,
+      limit: duMaxPool,
+      limitNote: ToolsCopy.poolFull,
+    );
+  }
+
   List<Widget> _ready(BuildContext context, ComboState s) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -68,7 +82,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
     final result = plan.value ?? DuComboPlan.empty;
 
     return [
-      _Step(done: s.targets.isNotEmpty, title: ToolsCopy.targetsHeading, note: ToolsCopy.targetsHint(duMaxTargets, s.targets.length), top: 0),
+      _Step(title: ToolsCopy.targetsHeading, note: ToolsCopy.targetsHint(duMaxTargets, s.targets.length), top: 0),
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
@@ -128,7 +142,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
           ),
         ),
       if (s.targetsFull) const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.targetFull, top: MmSpace.s8)),
-      _Step(done: s.pool.isNotEmpty, title: ToolsCopy.poolHeading, note: ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)),
+      _Step(title: ToolsCopy.poolHeading, note: ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)),
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
@@ -146,28 +160,21 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                   ],
                 ),
               ] else
-                Wrap(
-                  spacing: MmSpace.s8,
-                  children: [
-                    for (final p in s.pool)
-                      MmChip(label: p.name(s.catalog, short: true), selected: true, onTap: () => controller.togglePick(p)),
-                  ],
+                // Once chosen, the subjects are one quiet line and an edit key, not another chip cloud.
+                Text(
+                  [for (final p in s.pool) p.name(s.catalog, short: true)].join(', '),
+                  style: type.body,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              const SizedBox(height: MmSpace.s12),
-              KeyButton.secondary(
-                label: s.pool.isEmpty ? ToolsCopy.pickSubjects : ToolsCopy.editSubjects,
-                expanded: false,
-                onPressed: () => showSubjectPicker(
-                  context: context,
-                  catalog: s.catalog,
-                  watch: (ref) => ref.watch(comboControllerProvider).value?.pool.toSet() ?? const {},
-                  onToggle: controller.togglePick,
-                  onPreset: controller.applyPreset,
-                  onClear: controller.clearPool,
-                  limit: duMaxPool,
-                  limitNote: ToolsCopy.poolFull,
+              if (s.pool.isEmpty) ...[
+                const SizedBox(height: MmSpace.s12),
+                KeyButton.secondary(label: ToolsCopy.pickSubjects, expanded: false, onPressed: () => _pick(context, s)),
+              ] else
+                Transform.translate(
+                  offset: const Offset(-MmSpace.s8, 0),
+                  child: ToolsInlineAction(label: ToolsCopy.editSubjects, icon: LucideIcons.pencilLine, onTap: () => _pick(context, s)),
                 ),
-              ),
               const SizedBox(height: MmSpace.s24),
               Text(ToolsCopy.papersHeading, style: type.labelLarge),
               const SizedBox(height: MmSpace.s8),
@@ -182,7 +189,6 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
         ),
       ),
       _Step(
-        done: result.ranked.isNotEmpty,
         title: ToolsCopy.resultsHeading,
         note: s.pool.isEmpty ? ToolsCopy.resultsEmpty : null,
       ),
@@ -217,24 +223,15 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
   }
 }
 
-/// A step heading with an answer bubble that inks once the step has an answer.
+/// A step heading: the Bricolage title cut and a note. No mark before it: the volt of this screen
+/// is for what the student has chosen and for the one key, not for every heading.
 class _Step extends StatelessWidget {
-  const _Step({required this.done, required this.title, this.note, this.top = MmRhythm.section});
+  const _Step({required this.title, this.note, this.top = MmRhythm.section});
 
-  final bool done;
   final String title;
   final String? note;
   final double top;
 
   @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: ToolsHeading(
-        title,
-        note: note,
-        top: top,
-        leading: Bubble(state: done ? BubbleState.filled : BubbleState.hollow, size: 14, semanticsLabel: done ? 'Answered' : 'Not answered yet'),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SliverToBoxAdapter(child: ToolsHeading(title, note: note, top: top));
 }

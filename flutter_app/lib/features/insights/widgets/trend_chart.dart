@@ -14,12 +14,16 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/trend.dart';
+import 'edge_fade.dart';
+import 'evidence.dart';
 
 /// Marks per session in one format, with a chip per format the student has played. A single
 /// session is a point and a sentence, never a line.
 ///
-/// Every dot is a session: the first and last are dated on the axis, and a tap on any dot opens
-/// a small glass note with its day, marks and paper length, and Show me opening that session.
+/// Every dot is a session: the first and last are dated on the axis. The figure above the chart is
+/// the latest session until a dot is tapped, then it follows that dot (its marks, its change on
+/// the session before, its day and paper length), with one Show me opening that session. There is
+/// no second card repeating it.
 /// The line draws in left to right (500 ms) once per visit and again when the format changes;
 /// never on a rebuild with the same data, and never under reduced motion.
 class TrendSection extends ConsumerStatefulWidget {
@@ -97,30 +101,37 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
     final colors = context.mmColors;
     final type = context.mmType;
     final s = _selected;
-    final last = s.points.last;
     final formats = widget.series.take(6).toList();
     final shown = _shown(s);
     final picked = _picked == null || _picked! >= shown.length ? null : _picked;
+    // The readout above the chart follows the picked session, and is the latest one until a dot
+    // is picked: one figure, one date, one Show me, never a second card repeating it.
+    final at = picked ?? shown.length - 1;
+    final point = shown[at];
+    final before = s.points.length - shown.length + at - 1;
+    final delta = before < 0 ? null : point.marks - s.points[before].marks;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (formats.length > 1) ...[
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            clipBehavior: Clip.none,
-            child: Row(
-              children: [
-                for (final f in formats) ...[
-                  MmChip(label: f.label, selected: f.key == s.key, onTap: () => _select(f.key)),
-                  const SizedBox(width: MmSpace.s8),
+          EdgeFade(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
+              child: Row(
+                children: [
+                  for (final f in formats) ...[
+                    MmChip(label: f.label, selected: f.key == s.key, onTap: () => _select(f.key)),
+                    const SizedBox(width: MmSpace.s8),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s16),
         ],
-        // The latest result and its change: side by side, the change dropping under the figure when
-        // large text leaves no room (a Wrap, so nothing overflows or clips).
+        // The session's result and its change: side by side, the change dropping under the figure
+        // when large text leaves no room (a Wrap, so nothing overflows or clips).
         SizedBox(
           width: double.infinity,
           child: Wrap(
@@ -135,139 +146,100 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
                   Text(s.label, style: type.label.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s4),
                   MonumentalNumber(
-                    value: '${last.marks}',
-                    unit: 'of ${last.maxMarks}',
+                    value: point.marks < 0 ? '−${-point.marks}' : '${point.marks}',
+                    unit: 'of ${point.maxMarks}',
                     style: type.figure,
-                    semanticsLabel: InsightsCopy.trendLatest(last.marks, last.maxMarks),
+                    semanticsLabel: InsightsCopy.trendLatest(point.marks, point.maxMarks),
                   ),
                 ],
               ),
-              if (s.points.length > 1) _DeltaChip(delta: last.marks - s.points[s.points.length - 2].marks),
+              if (delta != null) _DeltaChip(key: const ValueKey('trend-delta'), delta: delta),
             ],
           ),
         ),
-        _readout(picked == null ? null : _note(shown[picked])),
-        const SizedBox(height: MmSpace.s12),
-        LayoutBuilder(
-          builder: (context, box) {
-            final size = Size(box.maxWidth, _chartHeight);
-            final geo = _TrendGeometry(size: size, points: shown, max: s.maxMarks);
-            return SizedBox(
-              height: _chartHeight,
-              width: double.infinity,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapUp: (d) {
-                        final i = geo.nearest(d.localPosition);
-                        ref.read(hapticsProvider).selection();
-                        setState(() => _picked = i == _picked ? null : i);
-                      },
-                      child: AnimatedBuilder(
-                        animation: _draw,
-                        builder: (context, _) => CustomPaint(
-                          painter: _TrendPainter(
-                            geo: geo,
-                            colors: colors,
-                            labelStyle: type.caption.copyWith(color: colors.ink3),
-                            progress: Motion.out.transform(_draw.value),
-                            picked: picked,
-                            describe: (i) => _describe(shown[i]),
-                            onPoint: (i) => setState(() => _picked = i),
-                          ),
-                        ),
+        const SizedBox(height: MmSpace.s4),
+        // Its day and paper length, and Show me opening that session, in the one readout.
+        Row(
+          key: const ValueKey('trend-readout'),
+          children: [
+            Expanded(
+              child: Semantics(
+                liveRegion: true,
+                label: _describe(point),
+                excludeSemantics: true,
+                child: Text(
+                  InsightsCopy.trendReadout(formatDayMonthShort(point.at.toLocal()), point.maxMarks ~/ 5),
+                  style: type.caption.copyWith(color: colors.ink2),
+                ),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            ShowMeRow(
+              fill: false,
+              semanticsLabel: InsightsCopy.showMeSessions(1),
+              onTap: () => unawaited(context.push<void>(AppRoutes.result(point.attemptId))),
+            ),
+          ],
+        ),
+        if (s.points.length < 2) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(InsightsCopy.trendOnePoint, style: type.small.copyWith(color: colors.ink2)),
+        ] else ...[
+          const SizedBox(height: MmSpace.s8),
+          LayoutBuilder(
+            builder: (context, box) {
+              final size = Size(box.maxWidth, _chartHeight);
+              final geo = _TrendGeometry(size: size, points: shown, max: s.maxMarks);
+              return SizedBox(
+                height: _chartHeight,
+                width: double.infinity,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapUp: (d) {
+                    final i = geo.nearest(d.localPosition);
+                    ref.read(hapticsProvider).selection();
+                    setState(() => _picked = i == _picked ? null : i);
+                  },
+                  child: AnimatedBuilder(
+                    animation: _draw,
+                    builder: (context, _) => CustomPaint(
+                      painter: _TrendPainter(
+                        geo: geo,
+                        colors: colors,
+                        labelStyle: type.caption.copyWith(color: colors.ink3),
+                        progress: Motion.out.transform(_draw.value),
+                        picked: picked,
+                        describe: (i) => _describe(shown[i]),
+                        onPoint: (i) => setState(() => _picked = i),
                       ),
                     ),
                   ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: MmSpace.s4),
+          ExcludeSemantics(
+            child: Padding(
+              padding: const EdgeInsets.only(left: _TrendGeometry.left),
+              child: Row(
+                children: [
+                  Text(formatDayMonthShort(shown.first.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
+                  const Spacer(),
+                  Text(formatDayMonthShort(shown.last.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ),
-            );
-          },
-        ),
-        const SizedBox(height: MmSpace.s4),
-        ExcludeSemantics(
-          child: Padding(
-            padding: const EdgeInsets.only(left: _TrendGeometry.left),
-            child: Row(
-              children: [
-                Text(formatDayMonthShort(shown.first.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
-                const Spacer(),
-                if (shown.length > 1)
-                  Text(formatDayMonthShort(shown.last.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
-              ],
             ),
           ),
-        ),
-        const SizedBox(height: MmSpace.s8),
-        Text(
-          s.points.length < 2 ? InsightsCopy.trendOnePoint : '${InsightsCopy.trendSessions(s.points.length)}. ${InsightsCopy.trendCaption}',
-          style: type.caption.copyWith(color: colors.ink3),
-        ),
+          const SizedBox(height: MmSpace.s8),
+          Text('${InsightsCopy.trendSessions(s.points.length)}. ${InsightsCopy.trendCaption}', style: type.caption.copyWith(color: colors.ink3)),
+        ],
       ],
     );
   }
 
   String _describe(TrendPoint p) =>
       InsightsCopy.trendPointLabel(formatDayMonthShort(p.at.toLocal()), p.marks, p.maxMarks, p.maxMarks ~/ 5);
-
-  /// The band the readout opens in: it grows to the note and back, or just appears under reduced
-  /// motion.
-  Widget _readout(Widget? note) {
-    final body = SizedBox(width: double.infinity, child: note == null ? null : Padding(padding: const EdgeInsets.only(top: MmSpace.s12), child: note));
-    final d = Motion.of(context, Motion.ui);
-    if (d == Duration.zero) return body;
-    return AnimatedSize(duration: d, curve: Motion.glide, alignment: Alignment.topCenter, child: body);
-  }
-
-  /// The picked session as a readout above the chart: its day, marks and paper length, and Show me
-  /// opening that session. A solid surface in its own band, so it never covers the line, the
-  /// gridlines or the marks scale; it wraps at large text.
-  Widget _note(TrendPoint p) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      child: DecoratedBox(
-        key: const ValueKey('trend-note'),
-        decoration: ShapeDecoration(
-          color: colors.raised2,
-          shape: mmShapeBorder(MmRadius.smallAll, side: BorderSide(color: colors.lineStrong)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s8, MmSpace.s8),
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: MmSpace.s4,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    InsightsCopy.trendPointMarks(p.marks, p.maxMarks),
-                    style: type.labelLarge.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
-                  ),
-                  Text(
-                    '${formatDayMonthShort(p.at.toLocal())}, ${InsightsCopy.trendPointPaper(p.maxMarks ~/ 5)}',
-                    style: type.caption.copyWith(color: colors.ink2),
-                  ),
-                ],
-              ),
-              ShowMePill(
-                semanticsLabel: InsightsCopy.showMeSessions(1),
-                onTap: () => unawaited(context.push<void>(AppRoutes.result(p.attemptId))),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 /// Where each session sits on the chart, shared by the painter, the taps and the note.
@@ -458,7 +430,7 @@ class _TrendPainter extends CustomPainter {
 /// The change from the session before, in marks: a small outlined chip that says what it compares
 /// to. Up is a volt ring, down is coral, level is plain; never a verdict, only the figure.
 class _DeltaChip extends StatelessWidget {
-  const _DeltaChip({required this.delta});
+  const _DeltaChip({super.key, required this.delta});
 
   final int delta;
 
@@ -468,7 +440,7 @@ class _DeltaChip extends StatelessWidget {
     final type = context.mmType;
     final up = delta > 0, down = delta < 0;
     final tint = up ? (colors.isNight ? colors.volt : colors.accentText) : (down ? colors.wrongMark : colors.ink3);
-    final text = up ? '+$delta' : (down ? '$delta' : '0');
+    final text = InsightsCopy.signed(delta);
     return Semantics(
       label: InsightsCopy.trendDeltaLabel(delta),
       excludeSemantics: true,

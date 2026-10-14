@@ -75,6 +75,9 @@ class _ChaptersSectionState extends State<ChaptersSection> {
   }
 }
 
+/// One chapter: the whole row is the way into practising it (48 dp or more, with a chevron), so
+/// there is no second "Practise" word to hit. The open-marks bar and its figure span the width of
+/// the text column, and the counts sit under it on one line.
 class _ChapterRow extends StatelessWidget {
   const _ChapterRow({required this.line, required this.onPractise, this.compact = false, this.rank, this.maxOpen = 1, this.delay = Duration.zero});
 
@@ -93,56 +96,67 @@ class _ChapterRow extends StatelessWidget {
     final type = context.mmType;
     final c = line;
     final ranked = rank != null && !compact;
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: compact ? MmSpace.s8 : MmSpace.s16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (ranked)
-            SizedBox(
-              width: 34,
-              child: Text(
-                '$rank',
-                style: type.figureCompact.copyWith(fontSize: 34, height: 1, color: rank == 1 ? colors.ink : colors.ink3, fontFeatures: _tabular),
+    final counts = InsightsCopy.chapterCounts(c.right, c.wrong, c.skip, c.n);
+    return MmPressable(
+      onTap: onPractise,
+      semanticsLabel: '${InsightsCopy.practiseChapter} ${c.chapter}. $counts. ${InsightsCopy.chapterOpen(c.open)}',
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.99,
+      builder: (context, pressed, _) => Padding(
+        padding: EdgeInsets.symmetric(vertical: compact ? MmSpace.s8 : MmSpace.s16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (ranked)
+              SizedBox(
+                width: 34,
+                child: Text(
+                  '$rank',
+                  style: type.figureCompact.copyWith(fontSize: 34, height: 1, color: rank == 1 ? colors.ink : colors.ink3, fontFeatures: _tabular),
+                ),
               ),
-            ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(c.chapter, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
-                Text(subjectDisplayName(c.subject), style: type.caption.copyWith(color: colors.ink3)),
-                const SizedBox(height: MmSpace.s12),
-                if (ranked)
-                  Semantics(
-                    label: InsightsCopy.chapterOpen(c.open),
-                    child: Row(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(c.chapter, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(subjectDisplayName(c.subject), style: type.caption.copyWith(color: colors.ink3)),
+                  const SizedBox(height: MmSpace.s12),
+                  if (ranked)
+                    Row(
                       children: [
                         Expanded(child: _OpenBar(fraction: c.open / maxOpen, delay: delay)),
                         const SizedBox(width: MmSpace.s12),
-                        Text('${c.open}', style: type.figureCompact.copyWith(fontSize: 26, height: 1, fontFeatures: _tabular)),
-                        const SizedBox(width: 3),
-                        Text('marks', style: type.caption.copyWith(color: colors.ink3)),
+                        // The figure and its unit in one run, so they share a baseline.
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(text: '${c.open}', style: type.figureCompact.copyWith(fontSize: 26, height: 1, fontFeatures: _tabular)),
+                              TextSpan(text: ' marks', style: type.label.copyWith(color: colors.ink2)),
+                            ],
+                          ),
+                        ),
                       ],
-                    ),
-                  )
-                else
-                  MarksBar(right: c.right, wrong: c.wrong, blank: c.skip, height: 6),
-                const SizedBox(height: MmSpace.s8),
-                Text(
-                  ranked ? '${InsightsCopy.chapterCounts(c.right, c.wrong, c.skip, c.n)}.' : '${InsightsCopy.chapterCounts(c.right, c.wrong, c.skip, c.n)}. ${InsightsCopy.chapterOpen(c.open)}.',
-                  style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular),
-                ),
-              ],
+                    )
+                  else
+                    MarksBar(right: c.right, wrong: c.wrong, blank: c.skip, height: 6),
+                  const SizedBox(height: MmSpace.s8),
+                  Text(
+                    ranked ? '$counts.' : '$counts. ${InsightsCopy.chapterOpen(c.open)}.',
+                    style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: MmSpace.s8),
-          KeyButton.quiet(
-            label: InsightsCopy.practiseChapter,
-            semanticsLabel: 'Practise ${c.chapter}',
-            onPressed: onPractise,
-          ),
-        ],
+            const SizedBox(width: MmSpace.s8),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -262,7 +276,7 @@ class ChangesSection extends StatelessWidget {
     final type = context.mmType;
     final c = changes;
     if (c.count == 0) return Text(InsightsCopy.changesNone, style: type.small.copyWith(color: colors.ink2));
-    final net = c.net > 0 ? '+${c.net}' : '${c.net}';
+    final net = InsightsCopy.signed(c.net);
     final total = c.marksGained + c.marksLost;
     final gain = total == 0 ? 0.5 : c.marksGained / total;
     return _Panel(
@@ -273,7 +287,7 @@ class ChangesSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(child: _Figure(value: '+${c.marksGained}', label: '${c.gains} helped', color: colors.isNight ? colors.volt : colors.accentText)),
-              Expanded(child: _Figure(value: '-${c.marksLost}', label: '${c.losses} hurt', color: colors.wrongMark, align: CrossAxisAlignment.end)),
+              Expanded(child: _Figure(value: InsightsCopy.signed(-c.marksLost), label: '${c.losses} hurt', color: colors.wrongMark, align: CrossAxisAlignment.end)),
             ],
           ),
           const SizedBox(height: MmSpace.s12),
@@ -469,12 +483,12 @@ class WeekSection extends StatelessWidget {
             // The figure says what it counts: net marks, beside the sessions and questions
             // they come from.
             Semantics(
-              label: '${w.net > 0 ? '+' : ''}${w.net} ${InsightsCopy.netLabel}',
+              label: '${InsightsCopy.signed(w.net)} ${InsightsCopy.netLabel}',
               excludeSemantics: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(w.net > 0 ? '+${w.net}' : '${w.net}', style: type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular)),
+                  Text(InsightsCopy.signed(w.net), style: type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular)),
                   Text(InsightsCopy.netLabel, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ),

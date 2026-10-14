@@ -103,6 +103,26 @@ class ReadLinePainter extends CustomPainter {
     final y = top + rows.lineY(s);
     final left = -bleedLeft;
     final right = size.width + bleedRight;
+    // The rows the reader has not reached are dimmed paper, so they read as "not read yet" and
+    // never as an answer left open. The veil lifts as the line passes.
+    final end = top + rows.height + 12;
+    if (end > y) {
+      final veil = Rect.fromLTRB(left, y, right, end);
+      canvas.drawRect(
+        veil,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              const Color(0xFF1C1A16).withValues(alpha: 0),
+              const Color(0xFF1C1A16).withValues(alpha: 0.5 * a),
+              const Color(0xFF1C1A16).withValues(alpha: 0.5 * a),
+            ],
+            stops: [0, (24 / veil.height).clamp(0.0, 1.0), 1],
+          ).createShader(veil),
+      );
+    }
     final trailRect = Rect.fromLTRB(left, y - trail, right, y);
     canvas.drawRect(
       trailRect,

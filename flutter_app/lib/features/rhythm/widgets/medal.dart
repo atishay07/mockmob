@@ -77,7 +77,7 @@ class _MedalState extends State<Medal> with SingleTickerProviderStateMixin {
     final Widget mark = widget.icon == null && widget.text == null
         ? const SizedBox.shrink()
         : widget.icon != null
-        ? Icon(widget.icon, size: s * 0.42, color: engrave, shadows: shadows)
+        ? _Engraved(icon: widget.icon!, size: s * 0.46, color: engrave, shadows: shadows, heavy: landed)
         : Text(
             widget.text!,
             textScaler: TextScaler.noScaling,
@@ -105,6 +105,34 @@ class _MedalState extends State<Medal> with SingleTickerProviderStateMixin {
   }
 }
 
+/// A glyph engraved into the brass. A line icon is thin, so on a coin it reads faint next to a
+/// numeral; a landed coin strikes it five times, a hair apart, so every earned step has the same
+/// deep cut whatever it is engraved with.
+class _Engraved extends StatelessWidget {
+  const _Engraved({required this.icon, required this.size, required this.color, required this.shadows, required this.heavy});
+
+  final IconData icon;
+  final double size;
+  final Color color;
+  final List<Shadow>? shadows;
+  final bool heavy;
+
+  @override
+  Widget build(BuildContext context) {
+    final glyph = Icon(icon, size: size, color: color, shadows: shadows);
+    if (!heavy) return glyph;
+    const d = 0.45;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        for (final o in const [Offset(-d, 0), Offset(d, 0), Offset(0, -d), Offset(0, d)])
+          Transform.translate(offset: o, child: Icon(icon, size: size, color: color)),
+        glyph,
+      ],
+    );
+  }
+}
+
 class _MedalPainter extends CustomPainter {
   _MedalPainter({required this.colors, required this.status, required this.progress}) : super(repaint: progress);
 
@@ -122,7 +150,7 @@ class _MedalPainter extends CustomPainter {
       case MedalStatus.landed:
         _brass(canvas, c, r);
       case MedalStatus.next:
-        _dashed(canvas, c, r - 1.5, colors.isNight ? colors.volt : colors.ink, 1.8);
+        _dashed(canvas, c, r - 1.5, colors.isNight ? colors.volt : colors.ink, 2.4);
       case MedalStatus.later:
         canvas.drawCircle(
           c,

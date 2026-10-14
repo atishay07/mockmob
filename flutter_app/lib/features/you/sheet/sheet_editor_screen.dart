@@ -19,7 +19,8 @@ import '../you_routes.dart';
 import 'choice_sheets.dart';
 import 'week_editor.dart';
 
-const double _rowInset = MmSpace.gutter + 36 + MmSpace.s12;
+/// Hairlines of a flat list start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
+const double _flatInset = 4 + 28 + MmSpace.s16;
 
 /// Everything setup asked, editable after it (owner feedback 11-10: "there is no option to edit
 /// subject"): name, where the student is, course and colleges, subjects and how solid each
@@ -42,6 +43,7 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
   /// The course and colleges before a change that removed colleges, while the undo is offered.
   CourseSnapshot? _courseUndo;
   bool _courseRestored = false;
+  final WeekSaveController _weekSave = WeekSaveController();
 
   Future<void> _editCourse() async {
     final removed = await showCourseSheet(context, ref);
@@ -67,6 +69,13 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
     if (saved != null && mounted) setState(() => _nameSavedAt = ref.read(nowProvider)());
   }
 
+
+  @override
+  void dispose() {
+    _weekSave.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Undo puts the old course and colleges back, so it only stands while those are as the change
@@ -83,66 +92,95 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
     final rated = subjects.where(target.confidence.containsKey).length;
     final name = auth.name?.trim();
 
+    // Three groups on the ground, not four cards: who you are, what you are aiming at, and the
+    // week. Save is pinned at the foot, so it is always in reach however long the page is.
     return YouPage(
       title: EditCopy.sheetTitle,
+      footer: WeekSaveFooter(controller: _weekSave),
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(MmSpace.s8, 0, MmSpace.gutter, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Mobi(pose: MobiPose.greet, size: 72, say: EditCopy.sheetIntro, interactive: true),
-          ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(youText, 0, youText, 0),
+          child: Text(EditCopy.sheetIntro, style: type.small.copyWith(color: colors.ink2)),
         ),
         const GroupHeading(EditCopy.groupAbout, top: MmSpace.s24),
         YouPanel(
-          inset: _rowInset,
+          flat: true,
+          inset: _flatInset,
           children: [
             YouRow(
+              flat: true,
               icon: LucideIcons.pencilLine,
               title: EditCopy.rowName,
               value: name == null || name.isEmpty ? EditCopy.notSet : name,
               onTap: _editName,
             ),
             YouRow(
+              flat: true,
               icon: LucideIcons.signpost,
               title: EditCopy.rowStage,
               note: target.stage?.sheetLine ?? EditCopy.notSet,
               onTap: () => showStageSheet(context, ref),
             ),
+            YouRow(
+              flat: true,
+              icon: LucideIcons.circleAlert,
+              title: EditCopy.rowWorry,
+              note: target.worry?.option ?? EditCopy.notSet,
+              onTap: () => showWorrySheet(context, ref),
+            ),
           ],
         ),
         if (_nameSavedAt != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, MmSpace.gutter, 0),
             child: ReceiptLine(text: EditCopy.nameSaved(_nameSavedAt!)),
           ),
         const GroupHeading(EditCopy.groupTarget, top: MmSpace.s24),
         YouPanel(
-          inset: _rowInset,
+          flat: true,
+          inset: _flatInset,
           children: [
             YouRow(
+              flat: true,
               icon: LucideIcons.graduationCap,
               title: EditCopy.rowCourse,
               note: target.course ?? EditCopy.courseNotSure,
               onTap: _editCourse,
             ),
             YouRow(
+              flat: true,
               icon: LucideIcons.landmark,
               title: EditCopy.rowColleges,
               note: target.colleges.isEmpty ? EditCopy.notSet : target.colleges.join('\n'),
               onTap: () => showCollegesSheet(context),
             ),
             YouRow(
+              flat: true,
               icon: LucideIcons.tag,
               title: EditCopy.rowCategory,
               value: categoryTitle(target.category),
               onTap: () => showCategorySheet(context, ref),
             ),
+            YouRow(
+              flat: true,
+              icon: LucideIcons.bookOpen,
+              title: EditCopy.rowSubjects,
+              note: subjects.isEmpty ? EditCopy.notSet : subjects.map(subjectDisplayName).join(', '),
+              onTap: () => openYouPage(context, YouPaths.subjects),
+            ),
+            if (subjects.isNotEmpty)
+              YouRow(
+                flat: true,
+                icon: LucideIcons.gauge,
+                title: EditCopy.rowConfidence,
+                value: EditCopy.confidenceValue(rated, subjects.length),
+                onTap: () => showConfidenceSheet(context, subjects),
+              ),
           ],
         ),
         if (_courseUndo != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, MmSpace.gutter, 0),
             child: Row(
               children: [
                 Expanded(
@@ -157,39 +195,14 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
           )
         else if (_courseRestored)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, MmSpace.gutter, 0),
             child: Semantics(liveRegion: true, child: Text(EditCopy.courseRestored, style: type.small.copyWith(color: colors.ink2))),
           ),
-        const GroupHeading(EditCopy.groupSubjects, top: MmSpace.s24),
-        YouPanel(
-          inset: _rowInset,
-          children: [
-            YouRow(
-              icon: LucideIcons.bookOpen,
-              title: EditCopy.rowSubjects,
-              note: subjects.isEmpty ? EditCopy.notSet : subjects.map(subjectDisplayName).join(', '),
-              onTap: () => openYouPage(context, YouPaths.subjects),
-            ),
-            if (subjects.isNotEmpty)
-              YouRow(
-                icon: LucideIcons.gauge,
-                title: EditCopy.rowConfidence,
-                value: EditCopy.confidenceValue(rated, subjects.length),
-                onTap: () => showConfidenceSheet(context, subjects),
-              ),
-            YouRow(
-              icon: LucideIcons.circleAlert,
-              title: EditCopy.rowWorry,
-              note: target.worry?.option ?? EditCopy.notSet,
-              onTap: () => showWorrySheet(context, ref),
-            ),
-          ],
-        ),
         const GroupHeading(EditCopy.groupWeek, top: MmSpace.s24),
-        const WeekEditor(),
+        WeekEditor(controller: _weekSave),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s32, MmSpace.gutter, 0),
-          child: Text(EditCopy.phoneOnly, style: type.caption.copyWith(color: colors.ink3)),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s24, youText, 0),
+          child: Text(EditCopy.phoneOnly, style: type.caption.copyWith(color: colors.ink2)),
         ),
       ],
     );

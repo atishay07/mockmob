@@ -61,9 +61,12 @@ class ResumeHeroCard extends StatelessWidget {
 }
 
 class EndedHeroCard extends StatelessWidget {
-  const EndedHeroCard({super.key, required this.ended, required this.onAction, this.retrying = false});
+  const EndedHeroCard({super.key, required this.ended, required this.onAction, this.retrying = false, this.demoteAction = false});
 
   final EndedHero ended;
+
+  /// Tonight's move under the card holds the volt key; this card's own key is a text key.
+  final bool demoteAction;
   final void Function(TodayAction action) onAction;
 
   /// A Try again read is running: a key that retries shows it is working.
@@ -85,12 +88,21 @@ class EndedHeroCard extends StatelessWidget {
             Semantics(header: true, child: Text(ended.title, style: type.title)),
             const SizedBox(height: MmSpace.s12),
             Text(ended.line, style: type.body.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s20),
-            KeyButton(
-              label: ended.action.label,
-              onPressed: () => onAction(ended.action),
-              loading: retrying && ended.action.target is RetryLoad,
-            ),
+            SizedBox(height: demoteAction ? MmSpace.s8 : MmSpace.s20),
+            if (demoteAction)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Transform.translate(
+                  offset: const Offset(-MmSpace.s16, 0),
+                  child: KeyButton.quiet(label: ended.action.label, onPressed: () => onAction(ended.action)),
+                ),
+              )
+            else
+              KeyButton(
+                label: ended.action.label,
+                onPressed: () => onAction(ended.action),
+                loading: retrying && ended.action.target is RetryLoad,
+              ),
           ],
         ),
       ),

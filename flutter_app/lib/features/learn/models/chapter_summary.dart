@@ -2,17 +2,22 @@ import '../../../core/models/json_helpers.dart';
 
 /// One published lesson inside a chapter summary.
 class SummaryLesson {
-  const SummaryLesson({required this.id, required this.title, this.objectives = const [], this.blocks = const []});
+  const SummaryLesson({
+    required this.id,
+    required this.title,
+    this.objectives = const [],
+    this.blocks = const [],
+  });
 
   factory SummaryLesson.fromJson(Json j) => SummaryLesson(
-        id: asStringOr(j['id'], ''),
-        title: asStringOr(j['title'], ''),
-        objectives: asStringList(j['objectives']),
-        blocks: [
-          for (final b in asJsonList(j['blocks']))
-            if (asStringOr(b['type'], 'reading') == 'reading') b,
-        ],
-      );
+    id: asStringOr(j['id'], ''),
+    title: asStringOr(j['title'], ''),
+    objectives: asStringList(j['objectives']),
+    blocks: [
+      for (final b in asJsonList(j['blocks']))
+        if (asStringOr(b['type'], 'reading') == 'reading') b,
+    ],
+  );
 
   final String id;
   final String title;
@@ -26,13 +31,23 @@ class SummaryLesson {
 /// Reading it records an exposure for each lesson on the server, so it is only fetched when the
 /// student opens the reader.
 class ChapterSummary {
-  const ChapterSummary({required this.subject, required this.chapter, this.lessons = const []});
+  const ChapterSummary({
+    required this.subject,
+    required this.chapter,
+    this.lessons = const [],
+  });
 
-  factory ChapterSummary.fromJson(Json j, {required String subject, required String chapter}) => ChapterSummary(
-        subject: asStringOr(j['subject'], subject),
-        chapter: asStringOr(j['chapter'], chapter),
-        lessons: [for (final u in asJsonList(j['units'])) SummaryLesson.fromJson(u)],
-      );
+  factory ChapterSummary.fromJson(
+    Json j, {
+    required String subject,
+    required String chapter,
+  }) => ChapterSummary(
+    subject: asStringOr(j['subject'], subject),
+    chapter: asStringOr(j['chapter'], chapter),
+    lessons: [
+      for (final u in asJsonList(j['units'])) SummaryLesson.fromJson(u),
+    ],
+  );
 
   final String subject;
   final String chapter;
@@ -59,7 +74,11 @@ class ChapterSummary {
         if (title != null) out.writeln(title);
         if (body != null) out.writeln(body);
         if (formula != null) {
-          for (final f in formula.split('·').map((f) => f.trim()).where((f) => f.isNotEmpty)) {
+          for (final f
+              in formula
+                  .split('·')
+                  .map((f) => f.trim())
+                  .where((f) => f.isNotEmpty)) {
             out.writeln(f);
           }
         }
@@ -69,7 +88,8 @@ class ChapterSummary {
         final rows = b['rows'];
         if (rows is List) {
           for (final r in rows) {
-            if (r is List) out.writeln([for (final c in r) asStringOr(c, '')].join(' | '));
+            if (r is List)
+              out.writeln([for (final c in r) asStringOr(c, '')].join(' | '));
           }
         }
       }

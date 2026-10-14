@@ -7,8 +7,6 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../sheet/flap_faces.dart' show MarksMeter;
-import '../sheet/paper.dart';
-import '../sheet/sheet_body.dart';
 import '../sheet/sheet_geometry.dart';
 
 /// The top of the full result (spec 5.7, Lab order): the figure with its denominator, the counts
@@ -78,32 +76,50 @@ class SummarySection extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Text('${ResultCopy.arithmetic(m.correct, m.wrong, m.marks)}. ${ResultCopy.scheme}', style: type.small.copyWith(color: colors.ink2)),
         ],
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s24),
+        _AnswersGrid(cells: m.cells),
+      ],
+    );
+  }
+}
+
+/// The paper's answers as one grid on the page itself, ten to a row and numbered like the sheet in
+/// the exam hall: no dark panel, so on Daylight it is ink on the warm page and on Night it is
+/// bubbles on the ground. The recap's printed sheet is the object; here the result is simply read.
+class _AnswersGrid extends StatelessWidget {
+  const _AnswersGrid({required this.cells});
+
+  final List<BubbleState> cells;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final label = type.small.copyWith(color: colors.ink3);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Text(ResultCopy.answers, style: label),
+            const Spacer(),
+            Text(ResultCopy.range(cells.length), style: label),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s12),
         LayoutBuilder(
           builder: (context, c) {
-            final g = SheetGeometry.fit(maxWidth: c.maxWidth, maxHeight: 2000, questions: m.cells.length);
+            final g = SheetGeometry.fit(maxWidth: c.maxWidth, maxHeight: 2000, questions: cells.length);
             return Center(
-              child: NightObject(
-                child: DecoratedBox(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [BoxShadow(color: Color(0x4D000000), blurRadius: 24, offset: Offset(4, 12), spreadRadius: -8)],
-                  ),
-                  child: SizedBox(
-                    width: g.width,
-                    // The number lines grow with the text size, so the sheet grows with them.
-                    height:
-                        g.naturalBodyHeight +
-                        BubbleGrid.heightFor(
-                          rows: g.rows,
-                          bubbleSize: g.bubble,
-                          rowGap: SheetGeometry.rowGap,
-                          numberHeight: BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context)),
-                        ) -
-                        SheetGeometry.gridHeight(g.rows, g.bubble),
-                    child: SheetBody(geometry: g, cells: m.cells, sealed: false),
-                  ),
-                ),
+              child: BubbleGrid(
+                states: cells,
+                columns: g.columns,
+                bubbleSize: g.bubble,
+                minGap: 4,
+                maxGap: 18,
+                rowGap: SheetGeometry.rowGap,
+                numbers: true,
+                sealed: false,
               ),
             );
           },

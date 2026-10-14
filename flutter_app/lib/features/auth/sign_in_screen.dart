@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../core/api/api.dart' show nowProvider;
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
-import '../../core/widgets/widgets.dart';
 import '../account_access/widgets/sign_in_methods.dart';
+import '../account_access/widgets/volt_key.dart';
 import 'auth_page.dart';
 import 'copy.dart';
 import 'email_field.dart';
 import 'quiet_action.dart';
+import 'resend_row.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
 /// Sign-in (spec 5.2): every way in on one screen. Google when the build has it, then the email
 /// code (the email and one key to send a code) or a password, and the phone when that is on. The
 /// methods come from [SignInMethods]; this screen owns the email-code block and its code screen.
+///
+/// The email block has three honest states. Nothing sent yet: the volt key sends a code. A code
+/// is already out and the 60 second wait is running (the server refuses another until it ends):
+/// the volt key is "Enter the code we sent" and the wait is a quiet countdown under it. The wait
+/// is over: the volt key sends a new code and the way back to the old one is a quiet key.
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key, this.autofocus = true});
 
@@ -72,12 +78,24 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     context.push(AppRoutes.signInCode(email: email));
   }
 
+  /// The wait is over: the "wait a minute" message and the key that waited both retire.
+  void _waitElapsed() {
+    if (!mounted) return;
+    final notifier = ref.read(signInControllerProvider.notifier);
+    if (ref.read(signInControllerProvider).problem ==
+        SignInProblem.rateLimited) {
+      notifier.clearProblem();
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final state = ref.watch(signInControllerProvider);
     final notifier = ref.read(signInControllerProvider.notifier);
+    final now = ref.watch(nowProvider);
 
     final problem = state.problemFor(SignInStep.email);
     final problemText = problem == null
@@ -86,6 +104,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final sending = state.busy == SignInBusy.sending;
     final typed = _email.text.trim().toLowerCase();
     final held = state.isBusy || _otherBusy;
+    final until = state.resendAvailableAt;
+    final haveCode = state.hasCodeFor(typed);
+    // A code is out for this address and the server will not send another yet.
+    final waiting = haveCode && until != null && until.isAfter(now());
 
     return AuthPage(
       step: SignInStep.email,
@@ -95,14 +117,19 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         children: [
           Semantics(
             header: true,
-            child: Text(AuthCopy.signInTitle, style: type.headline),
+            child: Text(
+              AuthCopy.signInTitle,
+              textAlign: TextAlign.center,
+              style: type.display,
+            ),
           ),
           const SizedBox(height: MmSpace.s8),
           Text(
             AuthCopy.signInLead,
+            textAlign: TextAlign.center,
             style: type.lead.copyWith(color: colors.ink2),
           ),
-          const SizedBox(height: MmSpace.group),
+          const SizedBox(height: MmSpace.s24),
           SignInMethods(
             initialEmail: state.email,
             busy: state.isBusy,
@@ -132,34 +159,45 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   ProblemLine(message: problemText),
                 ],
                 const SizedBox(height: MmSpace.s20),
-                KeyButton(
-                  label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
-                  loading: sending,
-                  // Sending keeps the volt key with its spinner (a loading key ignores taps).
-                  onPressed: sending ? () {} : (held ? null : _send),
-                ),
-                if (state.hasCodeFor(typed) && !held) ...[
-                  const SizedBox(height: MmSpace.s12),
-                  Semantics(
-                    liveRegion: true,
-                    child: Text(
-                      AuthCopy.codeSentTo(typed),
-                      style: type.small.copyWith(color: colors.ink2),
-                    ),
+                if (waiting && !sending) ...[
+                  // The wait is the server's: asking again would only be refused, so the way to
+                  // the code that is already out is the one live key.
+                  VoltKey(
+                    label: AuthCopy.enterSentCode,
+                    onPressed: held ? null : _haveCode,
                   ),
                   const SizedBox(height: MmSpace.s4),
-                  QuietAction(
-                    label: AuthCopy.alreadyHaveCode,
-                    icon: LucideIcons.keyRound,
-                    onPressed: _haveCode,
+                  ResendRow(
+                    availableAt: until,
+                    now: now,
+                    sending: false,
+                    onResend: _send,
+                    waitLabel: AuthCopy.sendNewIn,
+                    spokenWait: AuthCopy.sendNewInSpoken,
+                    readyLabel: AuthCopy.sendNewCode,
+                    onElapsed: _waitElapsed,
                   ),
+                ] else ...[
+                  VoltKey(
+                    label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
+                    loading: sending,
+                    onPressed: held ? null : _send,
+                  ),
+                  if (haveCode && !held) ...[
+                    const SizedBox(height: MmSpace.s4),
+                    QuietAction(
+                      label: AuthCopy.enterSentCode,
+                      onPressed: _haveCode,
+                    ),
+                  ],
                 ],
               ],
             ),
           ),
-          const SizedBox(height: MmSpace.s24),
+          const SizedBox(height: MmSpace.s16),
           Text(
             AuthCopy.newHere,
+            textAlign: TextAlign.center,
             style: type.small.copyWith(color: colors.ink3),
           ),
         ],

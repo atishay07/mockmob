@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
@@ -7,27 +8,49 @@ import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
-import 'package:mockmob/features/onboarding/steps/save_step.dart' show SaveView;
 import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/auth/sign_in_controller.dart';
+import 'package:mockmob/features/auth/sign_in_state.dart';
 
 import 'support.dart';
 
 Widget _flow() => const OnboardingFlow(skipColdOpen: true, startInDeck: true);
 
-/// The after-sign-in sheet body, framed like the glass sheet over a dark Today.
+/// The after-sign-in sheet body, framed like the glass sheet over the screen the student just
+/// left: that screen (the save step) stays visible under the scrim, as it does in the app.
 Widget _sheet(Widget body) => Builder(
-      builder: (context) => Align(
-        alignment: Alignment.bottomCenter,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.mmColors.raised,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+      builder: (context) => Stack(
+        children: [
+          const Positioned.fill(child: OnboardingFlow(skipColdOpen: true, startInDeck: true)),
+          Positioned.fill(child: ColoredBox(color: context.mmColors.sheetScrim)),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.mmColors.raised,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(padding: const EdgeInsets.fromLTRB(20, 28, 20, 40), child: body),
+              ),
+            ),
           ),
-          child: Padding(padding: const EdgeInsets.fromLTRB(20, 28, 20, 40), child: body),
-        ),
+        ],
       ),
     );
+
+/// A sign-in that is waiting on the browser (Google handed over), for the save step's golden.
+class _InBrowserSignIn extends SignInController {
+  @override
+  SignInState build() => super.build().copyWith(googleInBrowser: true);
+}
+
+List<Override> _saveOverrides({bool inBrowser = false}) => [
+      ...onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)),
+      if (inBrowser) signInControllerProvider.overrideWith(_InBrowserSignIn.new),
+    ];
 
 void main() {
   onboardingGolden('welcome', () => const OnboardingFlow(skipColdOpen: true));
@@ -103,11 +126,9 @@ void main() {
     overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)),
   );
 
-  // Google handed over to the browser: what to do there, and a way to stop waiting.
-  onboardingGolden(
-    'save_in_browser',
-    () => SaveView(age: AgeAnswer.adult, onAge: (_) {}, onGoogle: () {}, onEmail: () {}, onNotNow: () {}, googleInBrowser: true, onCancelBrowser: () {}),
-  );
+  // Google handed over to the browser: what to do there, and a way to stop waiting. Rendered in
+  // the flow, so it has the same gutters, back arrow and Mobi as the ready state above.
+  onboardingGolden('save_in_browser', _flow, overrides: () => _saveOverrides(inBrowser: true));
 
   onboardingGolden(
     'first_move',
@@ -134,6 +155,7 @@ void main() {
   onboardingGolden(
     'after_sign_in_saving',
     () => _sheet(SheetSavedView(phase: SheetSyncPhase.saving, startLabel: 'Start now, about 10 minutes', laterLabel: 'Tomorrow at 8:00 PM', onStart: () {}, onLater: () {}, onRetry: () {}, onToggleUsage: (_) {}, onToggleEvents: () {}, onDone: () {})),
+    overrides: _saveOverrides,
   );
   onboardingGolden(
     'after_sign_in_saved',
@@ -149,10 +171,12 @@ void main() {
       onToggleEvents: () {},
       onDone: () {},
     )),
+    overrides: _saveOverrides,
   );
   onboardingGolden(
     'after_sign_in_failed',
     () => _sheet(SheetSavedView(phase: SheetSyncPhase.failed, offline: true, onRetry: () {}, onToggleUsage: (_) {}, onToggleEvents: () {}, onDone: () {})),
+    overrides: _saveOverrides,
   );
 
   // The small phone (360 by 780) and large text (1.3x), where line breaks and overflow show first.
@@ -168,6 +192,8 @@ void main() {
   );
   onboardingGolden('large_text_stage', _flow, textScale: 1.3, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage)));
   onboardingGolden('large_text_subjects', _flow, textScale: 1.3, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)));
+  // At 1.3x the first move scrolls; the golden is taken at the end of the scroll, to show the
+  // week strip is fully reachable (dates and "Today" whole, clear of the foot).
   onboardingGolden(
     'large_text_first_move',
     _flow,
@@ -175,6 +201,10 @@ void main() {
     overrides: () => onboardingOverrides(
       answers: studentUpTo(Steps.plan, step: Steps.firstMove).copyWith(age: AgeAnswer.minor, notNow: true),
     ),
+    act: (tester) async {
+      await tester.drag(find.byType(SingleChildScrollView).first, const Offset(0, -900));
+      await tester.pumpAndSettle();
+    },
   );
 
   // The full subject list: search, the groups, and what CUET has that MockMob does not offer.

@@ -152,7 +152,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
       title: recorded ? YouCopy.deleteReceivedTitle : YouCopy.deleteTitle,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
           child: recorded ? _recorded(context) : _ask(context),
         ),
       ],
@@ -214,7 +214,6 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
           loading: sending,
           hapticOnCommit: false,
           onPressed: sending || !_confirmed ? null : _request,
-          disabledReason: sending || _confirmed ? null : YouCopy.deleteTypeNeeded,
         ),
       ],
     );

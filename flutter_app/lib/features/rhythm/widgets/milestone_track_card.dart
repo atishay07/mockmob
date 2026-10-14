@@ -101,36 +101,48 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _TokenArt(token: _token, earned: earned > 0, justLanded: landed != null),
-            const SizedBox(width: MmSpace.s12),
+            SizedBox(width: landed != null ? MmSpace.s4 : MmSpace.s12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Semantics(
-                    header: true,
-                    child: Text(track.track.title, style: type.headline.copyWith(fontSize: 24, height: 27 / 24)),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(RhythmCopy.trackCount(earned, total), style: type.small.copyWith(color: colors.ink2)),
-                  if (landed != null) ...[
-                    const SizedBox(height: 4),
-                    Semantics(
-                      liveRegion: true,
-                      child: Text(
-                        RhythmCopy.stepJustLanded(landed.step.name),
-                        style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600),
-                      ),
+              child: landed != null
+                  // The achievement leads: "5 repairs", then that it just landed, then the path.
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Semantics(
+                          header: true,
+                          child: Text(landed.step.name, style: type.headline.copyWith(fontSize: 30, height: 32 / 30)),
+                        ),
+                        const SizedBox(height: MmSpace.s4),
+                        Semantics(
+                          liveRegion: true,
+                          label: RhythmCopy.stepJustLanded(landed.step.name),
+                          excludeSemantics: true,
+                          child: Text(
+                            RhythmCopy.justLanded,
+                            style: type.small.copyWith(color: colors.accentText, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(RhythmCopy.trackLanded(track.track.title, earned, total), style: type.small.copyWith(color: colors.ink2)),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // The path name is a label for the steps under it, so the step in front
+                        // (the next one) is the larger line of the section.
+                        Semantics(
+                          header: true,
+                          child: Text(track.track.title, style: type.headline.copyWith(fontSize: 20, height: 24 / 20)),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(RhythmCopy.trackCount(earned, total), style: type.small.copyWith(color: colors.ink2)),
+                      ],
                     ),
-                  ],
-                ],
-              ),
             ),
-            if (landed != null) ...[
-              const SizedBox(width: MmSpace.s8),
-              const ProudMobi(size: 56),
-            ],
           ],
         ),
         const SizedBox(height: MmSpace.s20),
@@ -185,7 +197,7 @@ class _TokenArt extends StatelessWidget {
     } else {
       art = Center(child: ArtImage(token.art, width: 76, height: 76));
     }
-    return SizedBox.square(
+    final coinBox = SizedBox.square(
       dimension: box,
       child: Stack(
         alignment: Alignment.center,
@@ -205,6 +217,20 @@ class _TokenArt extends StatelessWidget {
             ),
           ),
           art,
+        ],
+      ),
+    );
+    if (!justLanded) return coinBox;
+    // Mobi stands against the token's edge, so the achievement and the one celebrating it read as
+    // one picture.
+    return SizedBox(
+      width: box + 40,
+      height: box,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(left: 0, top: 0, child: coinBox),
+          const Positioned(right: 0, bottom: -2, child: ProudMobi(size: 72)),
         ],
       ),
     );
@@ -266,7 +292,7 @@ class _TrailStep extends StatelessWidget {
           Text(
             name,
             style: type.labelLarge.copyWith(
-              fontSize: status == StepStatus.next ? 17 : 16,
+              fontSize: status == StepStatus.next ? 20 : 16,
               fontWeight: status == StepStatus.later ? FontWeight.w500 : (status == StepStatus.next ? FontWeight.w700 : FontWeight.w600),
               color: status == StepStatus.later ? colors.ink3 : colors.ink,
             ),
@@ -274,7 +300,7 @@ class _TrailStep extends StatelessWidget {
           if (date != null) ...[const SizedBox(height: 2), Text(date, style: type.caption.copyWith(color: colors.ink2))],
           if (status == StepStatus.next) ...[
             const SizedBox(height: 2),
-            Text(view.step.condition, style: type.caption.copyWith(color: colors.ink2)),
+            Text(view.step.condition, style: type.small.copyWith(color: colors.ink2)),
             if (counted) ...[const SizedBox(height: MmSpace.s12), _CountBar(count: count!, target: target!)],
           ],
         ],

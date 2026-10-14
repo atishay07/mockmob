@@ -230,9 +230,9 @@ class SheetSavedView extends StatelessWidget {
       children: [
         Semantics(header: true, child: Text(OnboardingCopy.sheetTitle, style: type.title)),
         const SizedBox(height: MmSpace.s16),
-        SheetStatus(phase: phase, offline: offline, onRetry: onRetry),
+        SheetStatus(phase: phase, offline: offline),
         if (showUsage) ...[
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s12),
           UsageDataCard(on: usageOn, busy: usageBusy, eventsOpen: eventsOpen, onChanged: onToggleUsage, onToggleEvents: onToggleEvents),
         ],
         if (error != null) ...[
@@ -240,7 +240,17 @@ class SheetSavedView extends StatelessWidget {
           Semantics(liveRegion: true, child: Text(error!, style: type.small.copyWith(color: context.mmColors.badText))),
         ],
         const SizedBox(height: MmSpace.s20),
-        if (startLabel != null && onStart != null) ...[
+        if (phase == SheetSyncPhase.failed) ...[
+          // A failed save is the one thing to act on: Try again is the key, and what the student
+          // was going to do stays below it, quieter.
+          KeyButton(label: OnboardingCopy.tryAgain, onPressed: usageBusy ? null : onRetry),
+          const SizedBox(height: MmSpace.s8),
+          if (startLabel != null && onStart != null) ...[
+            KeyButton.secondary(label: startLabel!, onPressed: usageBusy ? null : onStart),
+            Center(child: KeyButton.quiet(label: OnboardingCopy.done, onPressed: usageBusy ? null : onDone)),
+          ] else
+            KeyButton.secondary(label: OnboardingCopy.done, onPressed: usageBusy ? null : onDone),
+        ] else if (startLabel != null && onStart != null) ...[
           Text(startTitle, style: type.cardTitle),
           const SizedBox(height: MmSpace.s12),
           KeyButton(label: startLabel!, onPressed: usageBusy ? null : onStart),

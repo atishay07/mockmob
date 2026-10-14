@@ -114,21 +114,10 @@ class _AskMessageViewState extends State<AskMessageView> {
               // Working on it: the eyes scan while the three bubbles ink.
               MobiFace(size: _face, watchTaps: false, entrance: MobiAct.loading, seed: _faceSeed(m)),
               const SizedBox(width: MmSpace.s12),
-              FakeGlass(
-                borderRadius: MmRadius.pillAll,
-                grain: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const InkDots(),
-                      const SizedBox(width: MmSpace.s12),
-                      Text(InsightsCopy.askThinking, style: type.small.copyWith(color: colors.ink2)),
-                    ],
-                  ),
-                ),
-              ),
+              // Plain on the ground: three bubbles inking and what is happening, no pill.
+              const InkDots(),
+              const SizedBox(width: MmSpace.s12),
+              Flexible(child: Text(InsightsCopy.askThinking, style: type.small.copyWith(color: colors.ink2))),
             ],
           ),
         ),
@@ -145,15 +134,18 @@ class _AskMessageViewState extends State<AskMessageView> {
         AskFailure.tooLong => (InsightsCopy.failTooLong, false),
         AskFailure.unavailable => (InsightsCopy.failUnavailable, true),
       };
+      // A plain line under Mobi's face, with one retry key: never a card holding a button.
       return Padding(
         padding: const EdgeInsets.only(left: _indent),
         child: Semantics(
           liveRegion: true,
-          child: InlineBanner(
-            message: text,
-            tone: failure == AskFailure.offline ? BannerTone.offline : BannerTone.warning,
-            actionLabel: canRetry ? InsightsCopy.sendAgain : null,
-            onAction: canRetry ? widget.onRetry : null,
+          container: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(text, style: type.small.copyWith(color: colors.ink)),
+              if (canRetry) _RetryKey(onTap: widget.onRetry),
+            ],
           ),
         ),
       );
@@ -324,6 +316,36 @@ class _ActionChip extends ConsumerWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "Send again": a quiet text key with a small retry glyph, 48 dp tall, at the start of the line.
+class _RetryKey extends StatelessWidget {
+  const _RetryKey({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: InsightsCopy.sendAgain,
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox(
+        height: MmTarget.min,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(LucideIcons.rotateCw, size: 16, color: pressed ? colors.ink2 : colors.ink),
+            const SizedBox(width: MmSpace.s8),
+            Text(InsightsCopy.sendAgain, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: pressed ? colors.ink2 : colors.ink)),
+          ],
         ),
       ),
     );

@@ -8,9 +8,11 @@ import '../../core/widgets/widgets.dart';
 import 'copy.dart';
 import 'quiet_action.dart';
 
-/// "Resend code in 0:30" counting down in tabular figures, then a quiet "Resend code" key.
-/// While a code is being sent it says so. The row keeps one height in all three states, so
-/// nothing below it jumps when the cooldown ends.
+/// "Resend code in 0:30" counting down in tabular figures, then a quiet "Resend code" key,
+/// centred under the primary key. While a code is being sent it says so. The row keeps one
+/// height in all three states, so nothing below it jumps when the cooldown ends. The sign-in
+/// screen reuses it for "Send a new code in 0:48" through [waitLabel], [spokenWait] and
+/// [readyLabel].
 class ResendRow extends StatefulWidget {
   const ResendRow({
     super.key,
@@ -19,6 +21,9 @@ class ResendRow extends StatefulWidget {
     required this.sending,
     required this.onResend,
     this.onElapsed,
+    this.waitLabel = AuthCopy.resendIn,
+    this.spokenWait = AuthCopy.resendInSpoken,
+    this.readyLabel = AuthCopy.resend,
   });
 
   /// When the next code may be asked for. Null means now.
@@ -30,6 +35,13 @@ class ResendRow extends StatefulWidget {
   /// Called once when the wait runs out, so the screen can retire a "new code sent" note that
   /// would otherwise sit beside a key that is live again.
   final VoidCallback? onElapsed;
+
+  /// The words for the wait, and what a screen reader hears (in coarse steps).
+  final String Function(int seconds) waitLabel;
+  final String Function(int seconds) spokenWait;
+
+  /// The key once the wait is over.
+  final String readyLabel;
 
   @override
   State<ResendRow> createState() => _ResendRowState();
@@ -104,37 +116,34 @@ class _ResendRowState extends State<ResendRow> {
         ],
       );
     } else if (remaining > 0) {
-      // The glyph sits where the live key's glyph will, so the row reads as one control that
-      // is waiting rather than a loose label.
+      // A clock and the count, in tabular figures so the digits never jiggle.
       content = Semantics(
-        label: AuthCopy.resendInSpoken(remaining),
+        label: widget.spokenWait(remaining),
         excludeSemantics: true,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: 16,
-              child: Icon(LucideIcons.clock, size: 16, color: colors.ink3),
-            ),
+            Icon(LucideIcons.clock, size: 16, color: colors.ink3),
             const SizedBox(width: MmSpace.s8),
-            Text(
-              AuthCopy.resendIn(remaining),
-              style: type.label.copyWith(color: colors.ink2),
+            Flexible(
+              child: Text(
+                widget.waitLabel(remaining),
+                style: type.label.copyWith(
+                  color: colors.ink2,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
+              ),
             ),
           ],
         ),
       );
     } else {
-      content = QuietAction(
-        label: AuthCopy.resend,
-        icon: LucideIcons.refreshCw,
-        onPressed: widget.onResend,
-      );
+      content = QuietAction(label: widget.readyLabel, onPressed: widget.onResend);
     }
 
-    return SizedBox(
-      height: MmTarget.min,
-      child: Align(alignment: Alignment.centerLeft, child: content),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: MmTarget.min),
+      child: Center(child: content),
     );
   }
 }

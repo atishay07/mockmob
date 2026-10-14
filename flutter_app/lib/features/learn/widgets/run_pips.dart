@@ -27,7 +27,9 @@ class RunPips extends StatelessWidget {
             children: [
               for (var i = 0; i < total; i++) ...[
                 if (i > 0) SizedBox(width: total > 12 ? 2 : 4),
-                Expanded(child: _Pip(filled: i < done, current: i == done)),
+                Expanded(
+                  child: _Pip(filled: i < done, current: i == done),
+                ),
               ],
             ],
           ),
@@ -66,7 +68,10 @@ class _Pip extends StatelessWidget {
             child: t == 0 ? const SizedBox.shrink() : child,
           ),
           child: DecoratedBox(
-            decoration: BoxDecoration(color: colors.ink, borderRadius: BorderRadius.circular(3)),
+            decoration: BoxDecoration(
+              color: colors.ink,
+              borderRadius: BorderRadius.circular(3),
+            ),
           ),
         ),
       ],
@@ -121,5 +126,6 @@ class _SettlingPipsState extends State<SettlingPips> {
   }
 
   @override
-  Widget build(BuildContext context) => RunPips(total: widget.total, done: _filled);
+  Widget build(BuildContext context) =>
+      RunPips(total: widget.total, done: _filled);
 }

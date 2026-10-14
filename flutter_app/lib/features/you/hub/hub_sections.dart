@@ -15,10 +15,7 @@ import '../copy.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
-/// Hairlines in the hub's panels start where the row text starts, beside the icon well.
-const double _rowInset = MmSpace.gutter + 36 + MmSpace.s12;
-
-/// The same for a flat list on the ground: 4 dp, a 28 dp bare icon, 16 dp.
+/// Hairlines of a flat list on the ground start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
 const double _flatInset = 4 + 28 + MmSpace.s16;
 
 /// Weekly goal and rhythm, the repair record and personal bests.
@@ -75,28 +72,32 @@ class SettingsPanel extends ConsumerWidget {
     final pro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
     final credits = ref.watch(authSnapshotProvider.select((a) => a.creditBalance));
     return YouPanel(
-      inset: _rowInset,
+      flat: true,
+      inset: _flatInset,
       children: [
-        YouRow(icon: LucideIcons.bell, title: YouCopy.rowNotifications, onTap: () => context.push(AppRoutes.youNotifications)),
+        YouRow(flat: true, icon: LucideIcons.bell, title: YouCopy.rowNotifications, onTap: () => context.push(AppRoutes.youNotifications)),
         YouRow(
+          flat: true,
           icon: LucideIcons.moonStar,
           title: YouCopy.rowAppearance,
           value: themeName(mode),
           onTap: () => context.push(AppRoutes.youAppearance),
         ),
         YouRow(
+          flat: true,
           icon: LucideIcons.shieldCheck,
           title: YouCopy.rowPrivacy,
           note: privacyNote(consent),
           onTap: () => context.push(AppRoutes.youPrivacy),
         ),
         YouRow(
+          flat: true,
           icon: LucideIcons.user,
           title: YouCopy.rowAccount,
           value: pro ? YouCopy.accountPro : credits == null ? null : YouCopy.accountCredits(credits),
           onTap: () => context.push(AppRoutes.youAccount),
         ),
-        YouRow(icon: LucideIcons.lifeBuoy, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
+        YouRow(flat: true, icon: LucideIcons.lifeBuoy, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
       ],
     );
   }

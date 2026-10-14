@@ -128,6 +128,8 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
     final rows = _ordered(seats, cat, score, sort);
     final clearing = score == null ? null : seats.where((r) => duSeatStatus(score, r, cat).clears).length;
     final options = [if (score != null) SeatSort.fit, SeatSort.high, SeatSort.low, SeatSort.name];
+    // Round III is empty for most programmes: its column only shows when any college has a figure.
+    final showThird = seats.any((r) => r.rounds.length > 2 && duEffectiveCutoff(r.rounds[2], cat) != null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -173,7 +175,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
         else
           ToolsPanel(
             children: [
-              for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, state: s),
+              for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, state: s, showThird: showThird),
             ],
           ),
         if (rows.length > _shown)
@@ -194,11 +196,14 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
 /// "Unreserved" when the Unreserved list was the lower one), and, with a score, the round it
 /// would have cleared.
 class SeatRow extends StatelessWidget {
-  const SeatRow({super.key, required this.seat, required this.groupName, required this.state});
+  const SeatRow({super.key, required this.seat, required this.groupName, required this.state, this.showThird = true});
 
   final DuSeat seat;
   final String groupName;
   final CompassState state;
+
+  /// False leaves the Round III column out (no college of this programme has a Round III figure).
+  final bool showThird;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +215,7 @@ class SeatRow extends StatelessWidget {
     final subtitle = duNormName(seat.programme) == duNormName(groupName) ? null : seat.programme;
     const names = ['I', 'II', 'III'];
     final cells = [
-      for (var i = 0; i < 3; i++)
+      for (var i = 0; i < (showThird ? 3 : 2); i++)
         (name: names[i], value: duEffectiveCutoff(seat.rounds[i], cat), ur: duViaUr(seat.rounds[i], cat)),
     ];
     final spoken = [
@@ -224,24 +229,39 @@ class SeatRow extends StatelessWidget {
       DuSeatStatusId.below => ToolTone.low,
       _ => ToolTone.quiet,
     };
+    // The round this score would have cleared reads in the accent; the others stay quiet.
+    final cleared = switch (status?.id) {
+      DuSeatStatusId.r1 => 0,
+      DuSeatStatusId.r2 => 1,
+      DuSeatStatusId.r3 => 2,
+      _ => -1,
+    };
     return ToolsRowFrame(
       semanticsLabel: spoken,
       padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s20, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(seat.college, style: type.labelLarge.copyWith(fontSize: 16)),
-          if (subtitle != null) Text(subtitle, style: type.caption.copyWith(color: colors.ink2)),
+          // The verdict leads: can I get in comes before which college this is.
+          if (status != null) ...[
+            ToolTag(status.label, tone: tone),
+            const SizedBox(height: MmSpace.s8),
+          ],
+          Text(seat.college, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16)),
+          if (subtitle != null) Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s8),
           Row(
             children: [
-              for (final c in cells)
+              for (final (i, c) in cells.indexed)
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Round ${c.name}', style: type.caption.copyWith(color: colors.ink3)),
-                      Text(duFormatScore(c.value), style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : colors.ink)),
+                      Text('Round ${c.name}', style: type.caption.copyWith(color: i == cleared ? colors.ink : colors.ink3)),
+                      Text(
+                        duFormatScore(c.value),
+                        style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : (i == cleared ? colors.accentText : colors.ink)),
+                      ),
                       if (c.ur)
                         // The word, under the score: three columns leave no room beside it.
                         Tooltip(
@@ -251,12 +271,9 @@ class SeatRow extends StatelessWidget {
                     ],
                   ),
                 ),
+              if (!showThird) const Spacer(),
             ],
           ),
-          if (status != null) ...[
-            const SizedBox(height: MmSpace.s8),
-            ToolTag(status.label, tone: tone),
-          ],
         ],
       ),
     );

@@ -38,7 +38,7 @@ class AppearanceScreen extends ConsumerWidget {
         const GroupHeading(YouCopy.themeHeading, top: MmSpace.s16),
         ThemeTiles(mode: mode, onChoose: (choice) => ref.read(themeModeProvider.notifier).choose(choice)),
         const GroupHeading(YouCopy.glassHeading),
-        const Padding(padding: youGutter, child: GlassQualityPicker()),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: youText), child: GlassQualityPicker()),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter, 0),
           child: Text(
@@ -48,15 +48,27 @@ class AppearanceScreen extends ConsumerWidget {
         ),
         const GroupHeading(YouCopy.feelHeading),
         YouPanel(
+          flat: true,
+          inset: 4,
           children: [
+            // When the phone already removes animations there is nothing to switch here, so the
+            // row says so in words instead of showing a dimmed switch that looks broken.
+            if (systemReduces)
+              const YouFactRow(
+                title: YouCopy.reduceMotion,
+                note: YouCopy.reduceMotionSystem,
+                value: YouCopy.reduceMotionFromPhone,
+              )
+            else
+              YouSwitchRow(
+                flat: true,
+                title: YouCopy.reduceMotion,
+                note: YouCopy.reduceMotionNote,
+                value: reduceOverride,
+                onChanged: (value) => setReduceMotion(ref, value),
+              ),
             YouSwitchRow(
-              title: YouCopy.reduceMotion,
-              note: systemReduces ? YouCopy.reduceMotionSystem : YouCopy.reduceMotionNote,
-              // When the phone already removes animations the switch reads on and cannot be undone here.
-              value: reduceOverride || systemReduces,
-              onChanged: systemReduces ? null : (value) => setReduceMotion(ref, value),
-            ),
-            YouSwitchRow(
+              flat: true,
               title: YouCopy.touchFeedback,
               note: YouCopy.touchFeedbackNote,
               value: touch,
@@ -67,12 +79,14 @@ class AppearanceScreen extends ConsumerWidget {
               },
             ),
             YouSwitchRow(
+              flat: true,
               title: YouCopy.openDirectly,
               note: YouCopy.openDirectlyNote,
               value: openDirectly,
               onChanged: (value) => ref.read(openResultsDirectlyProvider.notifier).set(value),
             ),
             YouSwitchRow(
+              flat: true,
               title: YouCopy.lateNight,
               note: YouCopy.lateNightNote,
               value: lateNight,
@@ -82,7 +96,7 @@ class AppearanceScreen extends ConsumerWidget {
         ),
         const GroupHeading(YouCopy.celebrationsHeading),
         Padding(
-          padding: youGutter,
+          padding: const EdgeInsets.symmetric(horizontal: youText),
           child: MmSegmented<CelebrationMode>(
             semanticsLabel: YouCopy.celebrationsHeading,
             segments: const [

@@ -1,7 +1,8 @@
 // What did not win the hero still shows, right under it, as one row each on the ground (no box
 // under the stage; ui-blitz/today.md 2): a second open thing, another sealed result, or tonight's
 // move while a mock is still open. A short ink tick ties the row to the stage above it.
-// Secondary weight: a quiet glass key, never a second volt.
+// Secondary weight: a quiet glass key, never a second volt (unless the hero above only offers a
+// way out, when the slot's key is the screen's one volt key).
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -70,13 +71,21 @@ class _Slot extends StatelessWidget {
             ),
             const SizedBox(width: MmSpace.s12),
             Center(
-              child: KeyButton.secondary(
-                label: slot.action.label,
-                expanded: false,
-                minHeight: MmTarget.min,
-                loading: retrying && slot.action.target is RetryLoad,
-                onPressed: blocked ? null : () => onAction(slot.action),
-              ),
+              child: slot.lead
+                  ? KeyButton(
+                      label: slot.action.label,
+                      expanded: false,
+                      minHeight: MmTarget.min,
+                      loading: retrying && slot.action.target is RetryLoad,
+                      onPressed: blocked ? null : () => onAction(slot.action),
+                    )
+                  : KeyButton.secondary(
+                      label: slot.action.label,
+                      expanded: false,
+                      minHeight: MmTarget.min,
+                      loading: retrying && slot.action.target is RetryLoad,
+                      onPressed: blocked ? null : () => onAction(slot.action),
+                    ),
             ),
           ],
         ),

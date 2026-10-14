@@ -12,6 +12,7 @@ import '../data/practice_question.dart';
 import '../data/saved_repository.dart';
 import '../data/stream_catalog.dart';
 import '../data/stream_controller.dart';
+import '../widgets/edge_fade.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/practice_card.dart';
 import '../widgets/question_actions.dart';
@@ -111,7 +112,12 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
   Widget _question(BuildContext context, StreamState state, PracticeQuestion q) {
     final picked = state.pickOf(q.id);
     final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
+    // The question scrolls under the bar: its lower edge fades while there is more to read, so
+    // the Save and vote row never looks jammed against the bar.
+    return EdgeFade(
+      axis: Axis.vertical,
+      extent: 24,
+      child: AnimatedSwitcher(
       duration: reduced ? Motion.reducedFade : Motion.glideDuration,
       switchInCurve: Motion.glide,
       switchOutCurve: Motion.exit,
@@ -123,7 +129,7 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
       ),
       child: ListView(
         key: ValueKey(q.id),
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32 + MmSpace.s16),
         children: [
           PracticeCard(question: q, picked: picked, onPick: _controller.pick),
           const SizedBox(height: MmSpace.s12),
@@ -135,9 +141,10 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
           ),
           if (state.error != null && state.error!.isOffline && state.hasMore) ...[
             const SizedBox(height: MmSpace.s8),
-            const InlineBanner(message: InsightsCopy.loadMoreOffline, tone: BannerTone.offline, compact: true),
+            const InlineBanner(message: InsightsCopy.loadMoreOffline, tone: BannerTone.offline),
           ],
         ],
+      ),
       ),
     );
   }

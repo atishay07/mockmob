@@ -4,7 +4,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/student_target.dart';
-import '../widgets/you_page.dart' show PillKey;
+import '../widgets/you_page.dart' show youText;
 import 'sheet_fields.dart';
 
 /// The student's sheet for the season (brief section 12, You): the identity at the top of You.
@@ -53,13 +53,13 @@ class SheetCard extends StatelessWidget {
     final title = trimmed == null || trimmed.isEmpty ? YouCopy.sheetNameFallback : trimmed;
     final year = target.stage?.cuetYear ?? 2027;
     final missingTarget = target.course == null && target.colleges.isEmpty;
-    const fieldInset = EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4);
+    const fieldInset = EdgeInsets.symmetric(horizontal: youText);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s4, MmSpace.s12, 0),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s4, MmSpace.s12, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -115,7 +115,8 @@ class SheetCard extends StatelessWidget {
   }
 }
 
-/// Shown when the sheet has no course or colleges yet: Mobi points at the one way to add them.
+/// Shown when the sheet has no course or colleges yet: one line and the one volt key that fills
+/// them in. Mobi is already waving in the header, so he is not drawn twice.
 class _FinishPrompt extends StatelessWidget {
   const _FinishPrompt({required this.onTap});
 
@@ -127,22 +128,13 @@ class _FinishPrompt extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
       child: Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Mobi(pose: MobiPose.point, size: 56),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(YouCopy.finishSheet, style: context.mmType.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s12),
-                  PillKey(label: YouCopy.finishSheetKey, onPressed: onTap),
-                ],
-              ),
-            ),
+            Text(YouCopy.finishSheet, style: context.mmType.body.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s16),
+            KeyButton(label: YouCopy.finishSheetKey, onPressed: onTap),
           ],
         ),
       ),

@@ -91,14 +91,24 @@ class WeeklyEndingCard extends StatelessWidget {
                   InlineBanner(message: errorText!, tone: BannerTone.error),
                 ],
                 const SizedBox(height: MmSpace.s16),
-                KeyButton.secondary(label: keep.label, onPressed: busy ? null : () => onKey(keep), loading: busy),
-                for (final key in others) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  FlushQuietKey(label: key.label, onPressed: busy ? null : () => onKey(key)),
+                // The one dominant key is volt; the other ways to carry on are quiet outlined pills
+                // that each say what changes, side by side.
+                KeyButton(label: keep.label, onPressed: busy ? null : () => onKey(keep), loading: busy),
+                if (others.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var i = 0; i < others.length; i++) ...[
+                        if (i > 0) const SizedBox(width: MmSpace.s8),
+                        Expanded(child: QuietPill(label: others[i].label, onPressed: busy ? null : () => onKey(others[i]))),
+                      ],
+                    ],
+                  ),
                 ],
                 if (onShare != null && data.met) ...[
                   const SizedBox(height: MmSpace.s4),
-                  FlushQuietKey(label: RhythmCopy.shareWeek, onPressed: busy ? null : onShare),
+                  FlushQuietKey(label: RhythmCopy.shareWeek, chevron: true, onPressed: busy ? null : onShare),
                 ],
               ],
             ),

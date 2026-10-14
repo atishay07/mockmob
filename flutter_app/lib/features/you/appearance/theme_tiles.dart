@@ -6,6 +6,7 @@ import '../../../core/storage/app_prefs.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/you_page.dart' show youText;
 
 /// The three themes as small pictures of the app itself, side by side: Night, Daylight and
 /// Match phone (the two split on a diagonal). Each is painted in its own theme's colours, so the
@@ -19,7 +20,7 @@ class ThemeTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+      padding: const EdgeInsets.symmetric(horizontal: youText),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -100,12 +101,11 @@ class _ThemeTile extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          Row(
-            children: [
-              Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 16),
-              const SizedBox(width: MmSpace.s8),
-              Expanded(child: Text(title, style: type.labelLarge.copyWith(fontSize: 14))),
-            ],
+          // The volt rim on the picture is the one selected indicator (with the heavier title);
+          // a second dot beside the name said the same thing twice.
+          Text(
+            title,
+            style: type.labelLarge.copyWith(fontSize: 14, fontWeight: selected ? FontWeight.w700 : FontWeight.w500, color: selected ? colors.ink : colors.ink2),
           ),
           const SizedBox(height: 2),
           Text(note, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink3)),

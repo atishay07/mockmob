@@ -28,13 +28,6 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
   bool _changedElsewhere = false;
   String? _error;
   DateTime? _savedAt;
-  final MobiController _mobi = MobiController();
-
-  @override
-  void dispose() {
-    _mobi.dispose();
-    super.dispose();
-  }
 
   Future<void> _save(int days, String? pausedUntil) async {
     setState(() {
@@ -55,11 +48,8 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
         _changedElsewhere = false;
         _savedAt = ref.read(nowProvider)();
       });
-      // Only after the server answered.
-      _mobi.play(MobiAct.cheer);
     } on ApiError catch (e) {
       if (!mounted) return;
-      _mobi.play(MobiAct.oops);
       setState(() {
         _saving = false;
         _error = e.isOffline
@@ -79,6 +69,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
       // Not collected.
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +113,32 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     final now = ref.watch(nowProvider)();
     final pause = activePauseEnd(goal.pausedUntil, now);
 
+    // The numeral is the hero, and Save is pinned at the foot, so the screen has one dominant
+    // object and one dominant action however tall the phone is.
     return YouPage(
       title: YouCopy.goalTitle,
+      footer: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (_error != null) ...[
+            InlineBanner(message: _error!, tone: BannerTone.error),
+            const SizedBox(height: MmSpace.s12),
+          ],
+          if (_savedAt != null) ...[
+            ReceiptLine(text: YouCopy.goalSaved(_savedAt!)),
+            const SizedBox(height: MmSpace.s12),
+          ],
+          KeyButton(
+            label: YouCopy.goalSave,
+            loading: _saving,
+            onPressed: changed && !_saving ? () => _save(days, pauseToKeep(goal.pausedUntil, now)) : null,
+          ),
+        ],
+      ),
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -134,14 +146,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 const InlineBanner(message: YouCopy.goalStale),
                 const SizedBox(height: MmSpace.s16),
               ],
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: Text(YouCopy.goalQuestion, style: type.lead)),
-                  const SizedBox(width: MmSpace.s12),
-                  Mobi(pose: MobiPose.idle, size: 56, controller: _mobi),
-                ],
-              ),
+              Text(YouCopy.goalQuestion, style: type.lead),
               if (_changedElsewhere) ...[
                 const SizedBox(height: MmSpace.s12),
                 Semantics(
@@ -170,60 +175,83 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(
-                container: true,
-                liveRegion: true,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: MonumentalNumber(
-                      value: '$days',
-                      unit: YouCopy.goalUnit(days),
-                      style: type.figure,
-                      semanticsLabel: YouCopy.goalNote(days),
-                    ),
-                    ),
-                    const SizedBox(height: MmSpace.s8),
-                    // One line says what a study day is; at seven days it says there is no rest.
-                    Text(
-                      days == 7 ? YouCopy.goalEveryDay : YouCopy.goalCounts,
-                      style: type.body.copyWith(color: colors.ink2),
-                    ),
-                  ],
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s40, youText, 0),
+          child: Semantics(
+            container: true,
+            liveRegion: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GoalFigure(days: days),
+                const SizedBox(height: MmSpace.s12),
+                // One line says what a study day is; at seven days it says there is no rest.
+                Text(
+                  days == 7 ? YouCopy.goalEveryDay : YouCopy.goalCounts,
+                  style: type.body.copyWith(color: colors.ink2),
                 ),
-              ),
-              if (pause != null) ...[
-                const SizedBox(height: MmSpace.s16),
-                InlineBanner(message: YouCopy.goalPaused(formatDayMonth(pause))),
+                if (pause != null) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  Text(YouCopy.goalPaused(formatDayMonth(pause)), style: type.body.copyWith(color: colors.ink2)),
+                ],
               ],
-              const SizedBox(height: MmSpace.s32),
-              if (_error != null) ...[
-                InlineBanner(message: _error!, tone: BannerTone.error),
-                const SizedBox(height: MmSpace.s16),
-              ],
-              KeyButton(
-                label: YouCopy.goalSave,
-                loading: _saving,
-                onPressed: changed && !_saving ? () => _save(days, pauseToKeep(goal.pausedUntil, now)) : null,
-              ),
-              if (_savedAt != null) ...[
-                const SizedBox(height: MmSpace.s16),
-                ReceiptLine(text: YouCopy.goalSaved(_savedAt!)),
-              ],
-            ],
+            ),
           ),
         ),
       ],
     );
   }
 }
+
+/// "4 days a week": the numeral and its unit sharing one baseline. The numeral is the condensed
+/// display figure; the unit is the same face at 40% of its size, sitting on the numeral's baseline
+/// (not hung from its cap height).
+class GoalFigure extends StatelessWidget {
+  const GoalFigure({super.key, required this.days});
+
+  final int days;
+
+  /// Bricolage metrics (units per em 1000): ascender 930, descender 270.
+  static const double _ascent = 0.93;
+  static const double _descent = 0.27;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    final base = type.figureHero;
+    final size = MediaQuery.textScalerOf(context).scale(base.fontSize ?? 96);
+    final ratio = base.height ?? 1;
+    final unitSize = size * 0.4;
+    // Distance from the bottom of a line box to its baseline: half the leading, plus the descent.
+    double belowBaseline(double fontSize) => fontSize * (ratio / 2 - (_ascent + _descent) / 2 + _descent);
+    final lift = belowBaseline(size) - belowBaseline(unitSize);
+    return Semantics(
+      label: YouCopy.goalNote(days),
+      excludeSemantics: true,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.centerLeft,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            MonumentalNumber(value: '$days', style: base),
+            SizedBox(width: size * 0.08),
+            Padding(
+              padding: EdgeInsets.only(bottom: lift),
+              child: Text(
+                YouCopy.goalUnit(days),
+                textScaler: TextScaler.noScaling,
+                style: base.copyWith(fontSize: unitSize, color: colors.ink2, letterSpacing: unitSize * -0.005),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class _GoalSkeleton extends StatelessWidget {
   const _GoalSkeleton();

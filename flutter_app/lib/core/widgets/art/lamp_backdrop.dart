@@ -93,7 +93,7 @@ class LampBackdropPainter extends CustomPainter {
     // The slab of glass, tilted a few degrees, lit from its upper right.
     final slabW = w * 0.34;
     final slabH = math.min(h * 0.74, slabW * 2.1);
-    final slabCenter = Offset(w * 0.64, h * 0.52);
+    final slabCenter = Offset(w * 0.64, h * 0.47);
     canvas.save();
     canvas.translate(slabCenter.dx, slabCenter.dy);
     canvas.rotate(-0.05);
@@ -109,22 +109,33 @@ class LampBackdropPainter extends CustomPainter {
       ..lineTo(slabCenter.dx + slabW * 0.62, slabCenter.dy + slabH * 0.5)
       ..lineTo(slabCenter.dx - slabW * 0.9, slabCenter.dy + slabH * 0.5)
       ..close();
+    // Feathered: the cone's edges are blurred, so it reads as light in the air, not a cut-out
+    // shape (the hard edge looked like a placeholder).
     canvas.drawPath(
       cone,
       Paint()
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [colors.lamp.withValues(alpha: (night ? 0.14 : 0.1) * strength), colors.lamp.withValues(alpha: 0)],
-        ).createShader(cone.getBounds()),
+          colors: [colors.lamp.withValues(alpha: (night ? 0.14 : 0.12) * strength), colors.lamp.withValues(alpha: 0)],
+        ).createShader(cone.getBounds())
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, w * 0.05),
     );
     canvas.restore();
 
-    // A soft shadow, then the glass.
+    // The ground under the slab: a wide, soft pool of shadow on the desk, so the glass stands on
+    // something instead of floating, then the slab's own closer shadow (deeper on Daylight,
+    // where a faint one left the white slab washed into the cream).
+    canvas.drawOval(
+      Rect.fromCenter(center: Offset(slabW * 0.05, slabH / 2 + 6), width: slabW * 1.5, height: slabW * 0.28),
+      Paint()
+        ..color = (night ? const Color(0xFF000000) : const Color(0xFF2A2010)).withValues(alpha: night ? 0.5 : 0.2)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 16),
+    );
     canvas.drawRRect(
       slab.shift(const Offset(0, 10)),
       Paint()
-        ..color = const Color(0xFF000000).withValues(alpha: night ? 0.45 : 0.16)
+        ..color = (night ? const Color(0xFF000000) : const Color(0xFF2A2010)).withValues(alpha: night ? 0.45 : 0.3)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14),
     );
     canvas.drawRRect(
@@ -156,11 +167,22 @@ class LampBackdropPainter extends CustomPainter {
             c,
             r * 2.1,
             Paint()
-              ..color = colors.volt.withValues(alpha: 0.22 * strength)
+              ..color = colors.volt.withValues(alpha: 0.15 * strength)
               ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
           );
         }
         bubbles.paint(canvas, c, r, inked ? BubbleState.filled : BubbleState.hollow, dim: inked ? 1 : 0.75);
+        if (inked && !night) {
+          // Volt on white is weak: a deep ink-green ring gives the inked bubble its edge.
+          canvas.drawCircle(
+            c,
+            r,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.2
+              ..color = colors.accentText.withValues(alpha: 0.7),
+          );
+        }
       }
     }
 
@@ -176,6 +198,16 @@ class LampBackdropPainter extends CustomPainter {
           colors: [colors.edgeTop.withValues(alpha: math.min(1, colors.edgeTop.a * 2)), colors.edgeBottom],
         ).createShader(slab.outerRect),
     );
+    if (!night) {
+      // A warm ink hairline round the whole slab, so the white card has an edge on cream.
+      canvas.drawRRect(
+        slab.inflate(0.5),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1
+          ..color = colors.ink.withValues(alpha: 0.16),
+      );
+    }
     final rim = Path()
       ..moveTo(slab.left + 20, slab.top + 0.75)
       ..lineTo(slab.right - 20, slab.top + 0.75);
@@ -190,14 +222,16 @@ class LampBackdropPainter extends CustomPainter {
     canvas.restore();
 
     // The desk surface: the pool of light across the bottom, then the fade into the ground.
+    // It starts below the slab's foot (84% down), so the glass and the shadow it throws are
+    // whole, and the title under the scene never cuts the card.
     canvas.drawRect(
-      Rect.fromLTWH(0, h * 0.7, w, h * 0.3 + 1),
+      Rect.fromLTWH(0, h * 0.84, w, h * 0.16 + 1),
       Paint()
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [colors.ground.withValues(alpha: 0), colors.ground],
-        ).createShader(Rect.fromLTWH(0, h * 0.7, w, h * 0.3)),
+        ).createShader(Rect.fromLTWH(0, h * 0.84, w, h * 0.16)),
     );
   }
 

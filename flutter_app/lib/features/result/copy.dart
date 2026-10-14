@@ -49,9 +49,6 @@ abstract final class ResultCopy {
     return '${word[0].toUpperCase()}${word.substring(1)} full paper this month.';
   }
 
-  /// Mobi's line on card 4 after a lower or held result: the next step, nothing about the score.
-  static const nextStepLine = 'One repair at a time. The rest wait in Review.';
-
   static String ordinalWord(int n) {
     const words = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
     if (n >= 1 && n <= words.length) return words[n - 1];
@@ -93,11 +90,11 @@ abstract final class ResultCopy {
   static String previous(String mock, int marks, int max) => '$mock, same format: ${formatSignedNumber(marks)} of $max.';
   static String higherCompare(String prev, int pm, String now, int m, int max) =>
       '$prev: ${formatSignedNumber(pm)} of $max. $now: ${formatSignedNumber(m)} of $max.';
-  static const noEarlier = 'No earlier mock to compare.';
-  static const lowerLine = 'Your result is ready. Start with one repeated pattern.';
-  static const showFirstFix = 'Show me the first thing to fix';
   static const nextMarks = 'Where the marks went';
   static const heldTitle = 'Marks held';
+
+  /// Above the open sheet while marks are held: the paper is marked, some answers are not final.
+  static String heldMarkedLine(String mock, int n) => '$mock is marked, ${plural(n, 'answer')} still being checked.';
   static String heldBody(int n) =>
       '${plural(n, 'question')} ${n == 1 ? 'is' : 'are'} being checked. Your marks will update here, and we will tell you.';
   static const keysUnavailable = 'We could not check for answer-key updates just now. Your marks may change.';
@@ -180,6 +177,7 @@ abstract final class ResultCopy {
   static String startRepair(int minutes) => 'Start $minutes-minute repair';
   static const chooseElse = 'Choose something else';
   static const finishForNow = 'Finish for now';
+  static const more = 'More';
   static const reminderAsk = 'Want a reminder when your repair is due? You choose the time.';
   static const setReminder = 'Set a reminder';
   static const notNow = 'Not now';

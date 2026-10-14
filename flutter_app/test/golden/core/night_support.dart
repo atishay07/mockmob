@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 
@@ -65,8 +66,8 @@ class GoldenRoom extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            top: artHeight - 160,
-            height: 161,
+            top: artHeight - 110,
+            height: 111,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -86,18 +87,27 @@ class GoldenRoom extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Your sheet', style: type.title),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
+                // 48 dp rows with a chevron, divided by hairlines: a tappable list, not loose text.
                 // The bubble strip is kept for the one row where it carries a result; the others
                 // say it in numbers.
                 for (final (i, (label, score)) in const [('Mock 7', '183 of 250'), ('Mock 6', '171 of 250'), ('Quick 10', '7 of 10'), ('Mock 5', '164 of 250')].indexed) ...[
-                  Row(children: [
-                    SizedBox(width: MediaQuery.textScalerOf(context).scale(72), child: Text(label, style: type.labelLarge, maxLines: 1)),
-                    if (i == 0)
-                      BubbleRow(states: [for (var j = 0; j < 16; j++) j % 4 == 1 ? BubbleState.wrong : BubbleState.filled])
-                    else
-                      Text(score, style: type.caption.copyWith(color: colors.ink2)),
-                  ]),
-                  const SizedBox(height: 14),
+                  if (i > 0) SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.7))),
+                  SizedBox(
+                    height: 48,
+                    child: Row(children: [
+                      SizedBox(width: MediaQuery.textScalerOf(context).scale(72), child: Text(label, style: type.labelLarge, maxLines: 1)),
+                      Expanded(
+                        child: i == 0
+                            ? Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: BubbleRow(states: [for (var j = 0; j < 16; j++) j % 4 == 1 ? BubbleState.wrong : BubbleState.filled]),
+                              )
+                            : Text(score, style: type.caption.copyWith(color: colors.ink2)),
+                      ),
+                      Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                    ]),
+                  ),
                 ],
               ],
             ),

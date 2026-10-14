@@ -33,16 +33,38 @@ class LessonBlock extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: MmSpace.s4),
           child: Text(label, style: type.label.copyWith(color: colors.ink2)),
         ),
-      if (showTitle && title != null) Semantics(header: true, child: Text(title, style: type.subhead)),
-      if (body != null) ...[if (showTitle && title != null) const SizedBox(height: MmSpace.s8), Text(body, style: type.body)],
-      if (formula != null) ...[const SizedBox(height: MmSpace.s12), _Formula(text: formula)],
-      if (steps.isNotEmpty) ...[const SizedBox(height: MmSpace.s12), _Steps(steps: steps)],
-      if (rows.isNotEmpty) ...[const SizedBox(height: MmSpace.s12), _RowsTable(rows: rows)],
-      for (final w in words) ...[const SizedBox(height: MmSpace.s12), _WordEntry(word: w)],
-      if (note != null) ...[const SizedBox(height: MmSpace.s12), Text(note, style: type.small.copyWith(color: colors.ink2))],
+      if (showTitle && title != null)
+        Semantics(header: true, child: Text(title, style: type.subhead)),
+      if (body != null) ...[
+        if (showTitle && title != null) const SizedBox(height: MmSpace.s8),
+        Text(body, style: type.body),
+      ],
+      if (formula != null) ...[
+        const SizedBox(height: MmSpace.s12),
+        _Formula(text: formula, nested: emphasised),
+      ],
+      if (steps.isNotEmpty) ...[
+        const SizedBox(height: MmSpace.s12),
+        _Steps(steps: steps),
+      ],
+      if (rows.isNotEmpty) ...[
+        const SizedBox(height: MmSpace.s12),
+        _RowsTable(rows: rows),
+      ],
+      for (final w in words) ...[
+        const SizedBox(height: MmSpace.s12),
+        _WordEntry(word: w),
+      ],
+      if (note != null) ...[
+        const SizedBox(height: MmSpace.s12),
+        Text(note, style: type.small.copyWith(color: colors.ink2)),
+      ],
     ];
 
-    final content = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: children,
+    );
     if (!emphasised) return content;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -50,7 +72,10 @@ class LessonBlock extends StatelessWidget {
         borderRadius: MmRadius.panelAll,
         border: Border.all(color: colors.line),
       ),
-      child: Padding(padding: const EdgeInsets.all(MmSpace.cardPadding), child: content),
+      child: Padding(
+        padding: const EdgeInsets.all(MmSpace.cardPadding),
+        child: content,
+      ),
     );
   }
 
@@ -62,27 +87,43 @@ class LessonBlock extends StatelessWidget {
       : const [];
 }
 
+/// A formula. On its own it is a callout in the same style as the worked example and common
+/// mistake cards (one callout look); inside one of those it is a sunken well, not a second card.
 class _Formula extends StatelessWidget {
-  const _Formula({required this.text});
+  const _Formula({required this.text, this.nested = false});
 
   final String text;
+  final bool nested;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     // The server joins several formulas with a middle dot; each goes on its own line here.
-    final lines = text.split('·').map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
+    final lines = text
+        .split('·')
+        .map((l) => l.trim())
+        .where((l) => l.isNotEmpty)
+        .toList();
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.sunken,
-        borderRadius: MmRadius.smallAll,
-        border: Border.all(color: colors.line),
+        color: nested ? colors.sunken : colors.raised2,
+        borderRadius: nested ? MmRadius.smallAll : MmRadius.panelAll,
+        border: nested ? null : Border.all(color: colors.line),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+        padding: EdgeInsets.symmetric(
+          horizontal: nested ? MmSpace.s16 : MmSpace.cardPadding,
+          vertical: nested ? MmSpace.s12 : MmSpace.s16,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [for (final l in lines) Text(l, style: context.mmType.label.copyWith(fontSize: 15, height: 1.5))],
+          children: [
+            for (final l in lines)
+              Text(
+                l,
+                style: context.mmType.label.copyWith(fontSize: 15, height: 1.5),
+              ),
+          ],
         ),
       ),
     );
@@ -121,13 +162,20 @@ class _Steps extends StatelessWidget {
                             bottom: -8,
                             child: SizedBox(
                               width: 2,
-                              child: DecoratedBox(decoration: BoxDecoration(color: colors.lineStrong)),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: colors.lineStrong,
+                                ),
+                              ),
                             ),
                           ),
                         Positioned(
                           top: 8,
                           child: DecoratedBox(
-                            decoration: BoxDecoration(color: colors.ink, shape: BoxShape.circle),
+                            decoration: BoxDecoration(
+                              color: colors.ink,
+                              shape: BoxShape.circle,
+                            ),
                             child: const SizedBox(width: 9, height: 9),
                           ),
                         ),
@@ -179,10 +227,15 @@ class _RowsTable extends StatelessWidget {
                 children: [
                   for (var c = 0; c < columns; c++)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: MmSpace.s8,
+                        vertical: MmSpace.s8,
+                      ),
                       child: Text(
                         c < rows[r].length ? rows[r][c] : '',
-                        style: (r == 0 ? type.label : type.small).copyWith(color: colors.ink),
+                        style: (r == 0 ? type.label : type.small).copyWith(
+                          color: colors.ink,
+                        ),
                       ),
                     ),
                 ],
@@ -220,9 +273,20 @@ class _WordEntry extends StatelessWidget {
             Text(asStringOr(word['word'], ''), style: type.subhead),
             const SizedBox(height: MmSpace.s4),
             Text(asStringOr(word['meaning'], ''), style: type.body),
-            if (example != null) ...[const SizedBox(height: MmSpace.s8), Text(example, style: type.small.copyWith(color: colors.ink2))],
-            if (similar != null) Text('${LearnCopy.similarWord}: $similar', style: type.small.copyWith(color: colors.ink2)),
-            if (opposite != null) Text('${LearnCopy.oppositeWord}: $opposite', style: type.small.copyWith(color: colors.ink2)),
+            if (example != null) ...[
+              const SizedBox(height: MmSpace.s8),
+              Text(example, style: type.small.copyWith(color: colors.ink2)),
+            ],
+            if (similar != null)
+              Text(
+                '${LearnCopy.similarWord}: $similar',
+                style: type.small.copyWith(color: colors.ink2),
+              ),
+            if (opposite != null)
+              Text(
+                '${LearnCopy.oppositeWord}: $opposite',
+                style: type.small.copyWith(color: colors.ink2),
+              ),
           ],
         ),
       ),

@@ -62,7 +62,10 @@ void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite
 
   if (shadow && !head) _contactShadow(c, r, lift, p);
 
-  if (!head) MobiDetails.burst(c, r.burst, body.map(const Offset(71, 86)));
+  if (!head) {
+    MobiDetails.landRings(c, r.burst, Offset(71 + r.x * 0.6, MobiGeo.ground + 0.5), p);
+    MobiDetails.burst(c, r.burst, body.map(const Offset(71, 86)), p);
+  }
 
   // Behind the body: antenna, arms tucked behind, legs and boots.
   c.save();
@@ -85,9 +88,10 @@ void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite
   c.save();
   body.apply(c);
   c.drawPicture(parts.body);
+  // The glint is a reflection on the glass, so it sits under the (lit) eyes and never crosses them.
+  MobiDetails.glint(c, r.glint, tilt: r.tilt);
   MobiDetails.eyes(c, r);
   c.drawPicture(parts.gloss);
-  MobiDetails.glint(c, r.glint);
   if (!head) {
     // Front arms; a held sheet sits over the mittens, as if held from behind.
     if (r.armL.front >= 0.5) _arm(c, r.armL, -1, p, lite);
@@ -105,7 +109,7 @@ void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite
   MobiDetails.answerBubble(c, r.bubble, p);
   c.restore();
 
-  MobiDetails.zzz(c, r.zzz, body.map(const Offset(108, 18)), p);
+  MobiDetails.zzz(c, r.zzz, body.map(const Offset(30, 28)), p);
 }
 
 /// The body transform: offset, lean about the hips, squash and stretch about the hips.
@@ -254,23 +258,28 @@ void _boot(Canvas c, MobiParts parts, Offset ankle, MobiBoot b, double side) {
 void _contactShadow(Canvas c, MobiRig r, double lift, MobiPalette p) {
   final k = (1 - lift / 70).clamp(0.35, 1.0);
   final center = Offset(71 + r.x * 0.6, MobiGeo.ground + 0.5);
-  final rect = Rect.fromCenter(center: center, width: 104 * k, height: 12 * k);
-  final alpha = (p.night ? 0.62 : 0.26) * k;
+  // A wide soft pool, and under it a tighter, firmer contact core where the boots meet the floor
+  // (on the cream Day ground a single faint ellipse read as a smudge, not as weight).
+  _shadowEllipse(c, center, 104 * k, 12 * k, (p.night ? 0.62 : 0.34) * k, p);
+  _shadowEllipse(c, center, 66 * k, 6.5 * k, (p.night ? 0.5 : 0.5) * k, p);
+}
+
+void _shadowEllipse(Canvas c, Offset center, double width, double height, double alpha, MobiPalette p) {
   if (!MobiPaintCache.enabled) {
     // The reference: a fresh shader every frame (what the cache must match).
     c.save();
     c.translate(center.dx, center.dy);
-    c.scale(1, rect.height / rect.width);
+    c.scale(1, height / width);
     c.drawCircle(
       Offset.zero,
-      rect.width / 2,
+      width / 2,
       Paint()
         ..shader = RadialGradient(colors: [
           p.shadow.withValues(alpha: alpha),
           p.shadow.withValues(alpha: alpha * 0.45),
           p.shadow.withValues(alpha: 0),
         ], stops: const [0, 0.5, 1])
-            .createShader(Rect.fromCircle(center: Offset.zero, radius: rect.width / 2)),
+            .createShader(Rect.fromCircle(center: Offset.zero, radius: width / 2)),
     );
     c.restore();
     return;
@@ -278,7 +287,7 @@ void _contactShadow(Canvas c, MobiRig r, double lift, MobiPalette p) {
   // A unit circle scaled to the ellipse, so the shader depends only on the alpha.
   c.save();
   c.translate(center.dx, center.dy);
-  c.scale(rect.width / 2, rect.height / 2);
+  c.scale(width / 2, height / 2);
   c.drawCircle(Offset.zero, 1, Paint()..shader = MobiPaintCache.shadow(p.shadow, alpha));
   c.restore();
 }

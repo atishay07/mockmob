@@ -30,7 +30,7 @@ class SubjectChoiceRow extends StatelessWidget {
       child: RowFrame(
         onTap: onTap,
         semanticsLabel: EditCopy.chosenLabel(name, chosen),
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s8),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s8),
         child: Row(
           children: [
             SubjectArt(id, size: 40),
@@ -39,7 +39,16 @@ class SubjectChoiceRow extends StatelessWidget {
               child: Text(name, style: type.labelLarge.copyWith(fontSize: 16, color: onTap == null ? colors.ink3 : colors.ink)),
             ),
             const SizedBox(width: MmSpace.s12),
-            Bubble(state: chosen ? BubbleState.filled : BubbleState.hollow, size: 24),
+            // A tick inside the inked bubble, so "chosen" is a mark and not only a colour.
+            ExcludeSemantics(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Bubble(state: chosen ? BubbleState.filled : BubbleState.hollow, size: 24),
+                  if (chosen) Icon(LucideIcons.check, size: 15, color: colors.voltInk),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -61,7 +70,7 @@ class StaleSubjectRow extends StatelessWidget {
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.s8, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(4, MmSpace.s12, 0, MmSpace.s12),
       child: Row(
         children: [
           _StaleTile(id),

@@ -8,6 +8,7 @@ import '../copy.dart';
 import '../data/stream_catalog.dart';
 import '../data/stream_controller.dart';
 import '../data/subject_names.dart';
+import 'edge_fade.dart';
 import 'practice_card.dart';
 
 /// Subject, chapter and difficulty as three filter keys. Each opens a sheet; choosing reloads
@@ -21,7 +22,9 @@ class StreamFilterBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final f = filters;
-    return SingleChildScrollView(
+    // A chip never ends in a hard cut at the screen edge: the edge fades where more is behind it.
+    return EdgeFade(
+      child: SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
       child: Row(
@@ -57,6 +60,7 @@ class StreamFilterBar extends ConsumerWidget {
             },
           ),
         ],
+      ),
       ),
     );
   }
@@ -177,7 +181,8 @@ class _FilterKey extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 200),
+                    // Wide enough for a whole chapter name on one line at normal text.
+                    constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width - 2 * MmSpace.gutter - 56),
                     child: Text(label, style: type.label.copyWith(color: colors.ink), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                   const SizedBox(width: MmSpace.s6),

@@ -128,8 +128,6 @@ Widget _gallery() {
 
 Widget _states() {
   return Builder(builder: (context) {
-    final t = context.mmType;
-    final c = context.mmColors;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
       child: Column(
@@ -144,15 +142,15 @@ Widget _states() {
           const SizedBox(height: 24),
           const _Heading('Picker: unmarked, marked'),
           Row(children: [
-            for (final (id, on) in const [('business_studies', false), ('business_studies', true), ('general_test', false), ('general_test', true)]) ...[
-              SubjectEmblem(subject: id, size: 72, marked: on),
-              const SizedBox(width: 12),
+            for (final (id, on) in const [('business_studies', false), ('business_studies', true), ('general_test', false), ('general_test', true), ('sociology', false), ('sociology', true)]) ...[
+              SubjectEmblem(subject: id, size: 56, marked: on, selectable: true),
+              const SizedBox(width: 10),
             ],
           ]),
           const SizedBox(height: 24),
           const _Heading('Unframed on the screen: it stands on its own pool'),
           Row(children: [
-            for (final id in const ['physics', 'geography', 'sociology'])
+            for (final id in const ['chemistry', 'sociology', 'physics'])
               Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: SubjectEmblem(subject: id, size: 88, framed: false, marked: true),
@@ -169,7 +167,7 @@ Widget _states() {
             const SizedBox(width: 12),
             const SubjectEmblem(subject: 'fine_arts', size: 32),
             const SizedBox(width: 12),
-            Expanded(child: Text('Initials, never a wrong object', style: t.caption.copyWith(color: c.ink3))),
+            const SubjectEmblem(subject: 'fine_arts', size: 72, marked: true),
           ]),
         ],
       ),
@@ -218,7 +216,7 @@ Widget _idleFrames() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const _Heading('Idle cycle, five moments of 7.2 s'),
-          for (final id in const ['physics', 'chemistry', 'geography', 'psychology', 'sociology', 'computer_science']) ...[
+          for (final id in const ['physics', 'chemistry', 'computer_science', 'sociology', 'geography', 'psychology']) ...[
             Text(SubjectIdentity.of(id)!.name, style: t.caption.copyWith(color: c.ink3, fontSize: 11)),
             const SizedBox(height: 4),
             Row(children: [
@@ -245,7 +243,6 @@ Widget _idleFrames() {
 Widget _rows() {
   return Builder(builder: (context) {
     final t = context.mmType;
-    final c = context.mmColors;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
       child: Column(
@@ -275,8 +272,6 @@ Widget _rows() {
               const SizedBox(width: 12),
             ],
           ]),
-          const SizedBox(height: 20),
-          Text('The pool replaces the tile: no box inside the card.', style: t.caption.copyWith(color: c.ink3)),
         ],
       ),
     );
@@ -286,7 +281,7 @@ Widget _rows() {
 void main() {
   setUpAll(loadAppFonts);
   _artGolden('emblem_gallery', _gallery, size: const Size(400, 1480));
-  _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 780));
+  _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 800));
   _artGolden('emblem_rows', _rows, size: const Size(400, 700));
   _artGolden('emblem_states', _states, size: const Size(384, 640));
 }

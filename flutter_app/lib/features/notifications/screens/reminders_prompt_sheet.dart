@@ -20,6 +20,7 @@ import '../logic/pre_prompt_variants.dart';
 import '../logic/reminder_plan.dart' show RepairReady;
 import '../services/notification_providers.dart';
 import '../services/system_settings.dart';
+import '../widgets/balanced_text.dart';
 import '../widgets/notification_preview.dart';
 import '../widgets/time_sheet.dart';
 
@@ -353,23 +354,59 @@ class _Ask extends StatelessWidget {
         ? NotificationsCopy.exampleStudyBody
         : NotificationsCopy.exampleStudyAt(formatClock(window.start));
 
+    const resultPreview = NotificationPreview(
+      icon: LucideIcons.clipboardCheck,
+      channel: NotificationsCopy.exampleResultChannel,
+      body: NotificationsCopy.exampleResultBody,
+    );
+    final repairPreview = NotificationPreview(
+      icon: LucideIcons.wrench,
+      channel: NotificationsCopy.exampleRepairChannel,
+      body: repairBody,
+    );
+    final studyPreview = NotificationPreview(
+      icon: LucideIcons.clock,
+      channel: NotificationsCopy.exampleStudyChannel,
+      body: studyBody,
+    );
+    const weeklyPreview = NotificationPreview(
+      icon: LucideIcons.calendar,
+      channel: NotificationsCopy.exampleWeeklyChannel,
+      body: NotificationsCopy.exampleWeeklyBody,
+    );
+
+    // The ask shows the examples it is about: the repair ask shows the repair reminder, not
+    // all three. The first and last wordings are about reminders in general, so they show the
+    // three kinds. At larger text it is one, the student's own waiting repair when there is one.
+    final general = variant.focus == PrePromptFocus.all;
+    final List<Widget> previews = switch (variant.focus) {
+      PrePromptFocus.all when compact => [waiting != null ? repairPreview : resultPreview],
+      PrePromptFocus.all => [resultPreview, repairPreview, studyPreview],
+      PrePromptFocus.study => [studyPreview],
+      PrePromptFocus.repair => [repairPreview],
+      PrePromptFocus.result => [resultPreview],
+      PrePromptFocus.weekly => [weeklyPreview],
+    };
+
     return Column(
       key: const ValueKey('ask'),
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Semantics(
                 header: true,
-                child: Text(variant.title, style: type.title),
+                child: BalancedText(variant.title, style: type.title),
               ),
             ),
-            // Mobi is decoration: at the largest sizes below full page the room goes to the words.
+            // Mobi is decoration: smaller, so the title keeps its room, and gone at the largest
+            // sizes below full page, where the room goes to the words.
             if (!tight) ...[
               const SizedBox(width: MmSpace.s12),
-              const Mobi(pose: MobiPose.greet, size: 64),
+              const Mobi(pose: MobiPose.greet, size: 52),
             ],
           ],
         ),
@@ -379,64 +416,21 @@ class _Ask extends StatelessWidget {
           style: type.body.copyWith(color: colors.ink2),
         ),
         const SizedBox(height: MmSpace.s16),
-        if (!tight) ...[
+        if (general && !tight) ...[
           Text(
             NotificationsCopy.promptExamplesLabel,
             style: type.label.copyWith(color: colors.ink3),
           ),
-          const SizedBox(height: MmSpace.s8),
+          const SizedBox(height: MmSpace.s4),
         ],
-        // The examples sit in one sunken well (no outline): they arrive in order, once, on the
-        // shared stagger, after the glass has opened. Under reduced motion they are just there.
+        // The examples sit straight on the sheet in a hairline list: they arrive in order,
+        // once, on the shared stagger, after the glass has opened. Under reduced motion they
+        // are just there.
         MmStagger(
-          child: MmSurface.inset(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
-            child: Column(
-              children: [
-                if (compact)
-                  // Larger text: one example, so the scroll above the keys stays short.
-                  // The student's own waiting repair is the one that matters most to them.
-                  waiting != null
-                      ? NotificationPreview(
-                          icon: LucideIcons.wrench,
-                          channel: NotificationsCopy.exampleRepairChannel,
-                          body: repairBody,
-                        )
-                      : const NotificationPreview(
-                          icon: LucideIcons.clipboardCheck,
-                          channel: NotificationsCopy.exampleResultChannel,
-                          body: NotificationsCopy.exampleResultBody,
-                        )
-                else ...[
-                  const MmStaggerItem(
-                    index: 0,
-                    child: NotificationPreview(
-                      icon: LucideIcons.clipboardCheck,
-                      channel: NotificationsCopy.exampleResultChannel,
-                      body: NotificationsCopy.exampleResultBody,
-                    ),
-                  ),
-                  const _PreviewRule(),
-                  MmStaggerItem(
-                    index: 1,
-                    child: NotificationPreview(
-                      icon: LucideIcons.wrench,
-                      channel: NotificationsCopy.exampleRepairChannel,
-                      body: repairBody,
-                    ),
-                  ),
-                  const _PreviewRule(),
-                  MmStaggerItem(
-                    index: 2,
-                    child: NotificationPreview(
-                      icon: LucideIcons.clock,
-                      channel: NotificationsCopy.exampleStudyChannel,
-                      body: studyBody,
-                    ),
-                  ),
-                ],
-              ],
-            ),
+          child: PreviewList(
+            children: [
+              for (var i = 0; i < previews.length; i++) MmStaggerItem(index: i, child: previews[i]),
+            ],
           ),
         ),
         const SizedBox(height: MmSpace.s12),
@@ -454,14 +448,6 @@ class _Ask extends StatelessWidget {
       ],
     );
   }
-}
-
-class _PreviewRule extends StatelessWidget {
-  const _PreviewRule();
-
-  @override
-  Widget build(BuildContext context) =>
-      SizedBox(height: 1, child: ColoredBox(color: context.mmColors.line));
 }
 
 class _Outcome extends StatelessWidget {

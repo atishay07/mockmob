@@ -11,8 +11,6 @@ import '../../../core/widgets/widgets.dart';
 import '../../account_access/access_gateway.dart' show accessMethodsProvider;
 import '../../account_access/access_routes.dart' show AccountAccessRoutes;
 import '../../account_access/state/password_hints.dart' show passwordNudgeProvider;
-import '../../account_access/widgets/set_password_nudge.dart';
-import '../../account_access/widgets/sign_out_other_devices.dart';
 import '../copy.dart';
 import '../data/student_target.dart';
 import '../edit_copy.dart';
@@ -21,12 +19,18 @@ import '../widgets/you_row.dart';
 import '../you_routes.dart';
 import 'name_sheet.dart';
 import 'plan_card.dart';
+import 'security_rows.dart';
 import 'sign_out_flow.dart';
 
-/// Account (spec 5.12.4, WEB-PARITY F2 and F3): the plan card, the name (edited in a sheet and
-/// saved to the profile), the subjects, the email, security (password, a phone when the build has
-/// phone sign-in, ending other devices' sessions), sign out and the way to ask for deletion.
-/// Plan and credits come from `/api/auth/me` through the auth snapshot. No price, no purchase.
+/// Hairlines of a flat list start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
+const double _flatInset = 4 + 28 + MmSpace.s16;
+
+/// Account (spec 5.12.4, WEB-PARITY F2 and F3): the plan (the credit balance is the hero), the
+/// name (edited in a sheet and saved to the profile), the subjects, the email, security
+/// (password, a phone when the build has phone sign-in, ending other devices' sessions), sign out
+/// and the way to ask for deletion. Everything below the plan is a bare list on the ground, with
+/// one page margin. Plan and credits come from `/api/auth/me` through the auth snapshot. No
+/// price, no purchase.
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
 
@@ -80,70 +84,73 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final nudge = ref.watch(passwordNudgeProvider).value ?? false;
     final phoneOn = ref.watch(accessMethodsProvider.select((m) => m.phone));
-    const inset = MmSpace.gutter + 36 + MmSpace.s12;
 
     return YouPage(
       title: YouCopy.accountTitle,
       children: [
-        const SizedBox(height: MmSpace.s8),
-        Padding(padding: youGutter, child: PlanCard(auth: auth)),
-        const GroupHeading(YouCopy.accountProfile, top: MmSpace.s24),
+        PlanCard(auth: auth),
+        const GroupHeading(YouCopy.accountProfile, top: MmSpace.s32),
         YouPanel(
-          inset: inset,
+          flat: true,
+          inset: _flatInset,
           children: [
             YouRow(
+              flat: true,
               icon: LucideIcons.pencilLine,
               title: YouCopy.accountName,
               note: hasName ? name : EditCopy.nameAdd,
-              value: hasName ? EditCopy.nameEdit : null,
               onTap: _editName,
             ),
             YouRow(
+              flat: true,
               icon: LucideIcons.bookOpen,
               title: YouCopy.fieldSubjects,
               note: subjects.isEmpty ? EditCopy.notSet : subjects.map(subjectDisplayName).join(', '),
               onTap: () => openYouPage(context, YouPaths.subjects),
             ),
-            if (auth.email != null) _EmailFact(email: auth.email!),
+            if (auth.email != null)
+              YouFactRow(
+                icon: LucideIcons.atSign,
+                title: YouCopy.accountEmail,
+                note: auth.email,
+                semanticsLabel: '${YouCopy.accountEmail}. ${auth.email}. ${YouCopy.accountEmailNote}',
+              ),
           ],
         ),
+        if (auth.email != null) const ProfileFootnote(YouCopy.accountEmailNote),
         if (_nameSavedAt != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+            padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, MmSpace.gutter, 0),
             child: ReceiptLine(text: EditCopy.nameSaved(_nameSavedAt!)),
           ),
         const GroupHeading(YouCopy.accountSecurity),
-        if (nudge)
-          Padding(
-            padding: youGutter,
-            child: SetPasswordNudge(onSetPassword: () => context.push(AccountAccessRoutes.setPassword)),
-          ),
-        if (!nudge || phoneOn) ...[
-          if (nudge) const SizedBox(height: MmSpace.s12),
-          YouPanel(
-            inset: inset,
-            children: [
-              if (!nudge)
-                YouRow(
-                  icon: LucideIcons.keyRound,
-                  title: YouCopy.accountPassword,
-                  note: YouCopy.accountPasswordNote,
-                  onTap: () => context.push(AccountAccessRoutes.setPassword),
-                ),
-              if (phoneOn)
-                YouRow(
-                  icon: LucideIcons.smartphone,
-                  title: YouCopy.accountAddPhone,
-                  note: YouCopy.accountAddPhoneNote,
-                  onTap: () => context.push(AccountAccessRoutes.addPhone),
-                ),
-            ],
-          ),
-        ],
-        const SizedBox(height: MmSpace.s12),
-        const Padding(padding: youGutter, child: SignOutOtherDevicesCard()),
+        YouPanel(
+          flat: true,
+          inset: _flatInset,
+          children: [
+            if (nudge)
+              PasswordNudgeRow(onSetPassword: () => context.push(AccountAccessRoutes.setPassword))
+            else
+              YouRow(
+                flat: true,
+                icon: LucideIcons.keyRound,
+                title: YouCopy.accountPassword,
+                note: YouCopy.accountPasswordNote,
+                onTap: () => context.push(AccountAccessRoutes.setPassword),
+              ),
+            if (phoneOn)
+              YouRow(
+                flat: true,
+                icon: LucideIcons.smartphone,
+                title: YouCopy.accountAddPhone,
+                note: YouCopy.accountAddPhoneNote,
+                onTap: () => context.push(AccountAccessRoutes.addPhone),
+              ),
+            const SignOutOthersRow(),
+          ],
+        ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -155,10 +162,13 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             ],
           ),
         ),
-        const SizedBox(height: MmSpace.s32),
+        const SizedBox(height: MmSpace.s24),
         YouPanel(
+          flat: true,
+          inset: _flatInset,
           children: [
             YouRow(
+              flat: true,
               icon: LucideIcons.trash2,
               title: YouCopy.deleteRow,
               note: YouCopy.deleteRowNote,
@@ -168,40 +178,6 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
           ],
         ),
       ],
-    );
-  }
-}
-
-/// The email: an icon well and the address, read-only, aligned with the rows above it.
-class _EmailFact extends StatelessWidget {
-  const _EmailFact({required this.email});
-
-  final String email;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return RowFrame(
-      semanticsLabel: '${YouCopy.accountEmail}. $email. ${YouCopy.accountEmailNote}',
-      child: Row(
-        children: [
-          const IconWell(LucideIcons.atSign),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(YouCopy.accountEmail, style: type.labelLarge.copyWith(fontSize: 16)),
-                const SizedBox(height: 2),
-                Text(email, style: type.caption.copyWith(color: colors.ink2)),
-                const SizedBox(height: MmSpace.s4),
-                Text(YouCopy.accountEmailNote, style: type.caption.copyWith(color: colors.ink3)),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

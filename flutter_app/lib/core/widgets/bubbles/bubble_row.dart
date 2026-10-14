@@ -33,8 +33,12 @@ class BubbleRow extends StatelessWidget {
         painter: _BubbleRowPainter(states: states, size: bubbleSize, gap: gap, emphasis: emphasis, colors: context.mmColors),
       ),
     );
-    if (semanticsLabel == null) return ExcludeSemantics(child: painted);
-    return Semantics(container: true, label: semanticsLabel, excludeSemantics: true, child: painted);
+    // In a bounded slot (a Flexible or Expanded beside a label that grew with large text) the row
+    // scales down to fit, bubbles and gaps together, instead of running into the screen edge. In
+    // an unbounded slot it keeps its own size.
+    final fitted = FittedBox(fit: BoxFit.scaleDown, alignment: AlignmentDirectional.centerStart, child: painted);
+    if (semanticsLabel == null) return ExcludeSemantics(child: fitted);
+    return Semantics(container: true, label: semanticsLabel, excludeSemantics: true, child: fitted);
   }
 }
 

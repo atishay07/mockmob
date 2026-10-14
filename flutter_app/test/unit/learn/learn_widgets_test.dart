@@ -69,7 +69,7 @@ void main() {
   group('a step with an event waiting on this phone', () {
     final stuckRun = run(item: choiceCard(), revision: 3);
 
-    testWidgets('an answer that could not be sent shows Try again, not a spinner with every key off', (tester) async {
+    testWidgets('an answer that needs the server and could not be sent says so and offers Try again', (tester) async {
       var retried = 0;
       final pending = PendingEvent.create(expectedRevision: 3, itemId: 'card-2', type: 'answer', value: 1);
       await pumpMockmob(
@@ -78,12 +78,27 @@ void main() {
         brightness: Brightness.dark,
         disableAnimations: true,
       );
-      expect(find.text(LearnCopy.tryAgain), findsOneWidget);
+      expect(find.text(LearnCopy.sendFailed), findsOneWidget);
+      expect(find.text(LearnCopy.sendNow), findsNothing);
       await tester.tap(find.text(LearnCopy.tryAgain));
       expect(retried, 1);
     });
 
-    testWidgets('a rating queued on a weak signal also offers Try again', (tester) async {
+    testWidgets('a rating that really failed to send also says so and offers Try again', (tester) async {
+      final r = run(revealed: true, revision: 3, feedback: {'answer': 'Old share'});
+      final pending = PendingEvent.create(expectedRevision: 3, itemId: 'card-1', type: 'rate', rating: 3);
+      await pumpMockmob(
+        tester,
+        _RunStepHost(ui: RunUiState(load: RunLoad.ready, run: r, pending: pending, notice: RunNotice.sendFailed), onRetry: () {}),
+        brightness: Brightness.dark,
+        disableAnimations: true,
+      );
+      expect(find.text(LearnCopy.sendFailed), findsOneWidget);
+      expect(find.text(LearnCopy.tryAgain), findsOneWidget);
+      expect(find.text(LearnCopy.reviewedOffline), findsNothing);
+    });
+
+    testWidgets('a rating queued on a weak signal shows the pill, where it is kept, and Send now', (tester) async {
       final r = run(revealed: true, revision: 3, feedback: {'answer': 'Old share'});
       final pending = PendingEvent.create(expectedRevision: 3, itemId: 'card-1', type: 'rate', rating: 3);
       await pumpMockmob(
@@ -93,7 +108,9 @@ void main() {
         disableAnimations: true,
       );
       expect(find.text(LearnCopy.reviewedOffline), findsOneWidget);
-      expect(find.text(LearnCopy.tryAgain), findsOneWidget);
+      expect(find.text(LearnCopy.ratingOnPhone), findsOneWidget);
+      expect(find.text(LearnCopy.sendNow), findsOneWidget);
+      expect(find.text(LearnCopy.tryAgain), findsNothing);
     });
 
     testWidgets('while the event is on its way there is no Try again', (tester) async {
@@ -105,6 +122,7 @@ void main() {
         disableAnimations: true,
       );
       expect(find.text(LearnCopy.tryAgain), findsNothing);
+      expect(find.text(LearnCopy.sendNow), findsNothing);
     });
   });
 

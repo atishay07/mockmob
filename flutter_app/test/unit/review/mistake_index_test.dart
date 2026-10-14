@@ -91,21 +91,27 @@ void main() {
       expect(ReviewCopy.wrongQuestionsSpoken([3, 5, 9]), 'Questions 3, 5 and 9, answered wrong');
     });
 
-    test('ending lines count only what happened', () {
-      final night = DateTime(2026, 10, 13, 21, 30);
-      expect(ReviewCopy.endingLine('Partnership: x', 3, 3, now: night), 'Partnership: all 3 repaired tonight.');
-      expect(
-        ReviewCopy.endingLine('Partnership', 2, 3, now: night, setAside: 1),
-        'Partnership: 2 of 3 repaired tonight. 1 set aside while its key is checked.',
-      );
+    test('the ending line says one fact the hero number does not', () {
+      // The number above already says how many were repaired: the line says what is left.
+      expect(ReviewCopy.endingFact('Partnership: x', 0), 'Nothing left in Partnership.');
+      expect(ReviewCopy.endingFact('Partnership', 1), '1 left in Partnership.');
+      expect(ReviewCopy.endingFact('Partnership', 1, setAside: 1), '1 left in Partnership. 1 set aside while its key is checked.');
+      expect(ReviewCopy.endingFact('Partnership', 0, setAside: 2, reviewed: 1), 'Nothing left in Partnership. 2 set aside while their keys are checked. 1 read with the key explanation.');
+      // Without an index the open count is unknown, and nothing is claimed about it.
+      expect(ReviewCopy.endingFact('Partnership', null, setAside: 1), '1 set aside while its key is checked.');
       // In the morning it is "today", never "tonight".
-      expect(ReviewCopy.endingLine('Partnership', 1, 1, now: DateTime(2026, 10, 13, 7, 34)), 'Partnership: the mistake repaired today.');
       expect(ReviewCopy.finishFor(DateTime(2026, 10, 13, 7, 34)), 'Finish for today');
       expect(ReviewCopy.tonightOverline(DateTime(2026, 10, 13, 16), 'Accountancy'), "Tonight's repair, Accountancy");
       // Marks read "N of M", as everywhere else in the app.
       expect(ReviewCopy.pastLine('3 October', 9, 250), '3 October, 9 of 250');
       expect(ReviewCopy.lateNight, 'Repair a little, then sleep.');
       expect(ReviewCopy.nothingRepaired(0, 0), contains('Nothing was charged'));
+      expect(ReviewCopy.nothingRepaired(1, 1), '1 set aside, 1 read with the key. They stay in Review.');
+    });
+
+    test('a time never splits across two lines', () {
+      expect(ReviewCopy.bindTime('Recorded at 11:21 PM.'), 'Recorded at 11:21\u00A0PM.');
+      expect(ReviewCopy.bindTime('Nothing to bind.'), 'Nothing to bind.');
     });
 
     test('no banned vocabulary anywhere in the copy', () {
@@ -113,7 +119,8 @@ void main() {
         ReviewCopy.allClearMessage,
         ReviewCopy.lifeCaption,
         ReviewCopy.checkedLater,
-        ReviewCopy.endingLine('Partnership', 1, 1, now: DateTime(2026, 10, 13, 22)),
+        ReviewCopy.endingFact('Partnership', 1, setAside: 1, reviewed: 1),
+        ReviewCopy.nothingRepaired(1, 1),
         ReviewCopy.firstRepair,
         ReviewCopy.tonightCount(3, 'Mock 2', 5),
       ].join(' ').toLowerCase();
@@ -139,13 +146,16 @@ void main() {
 
     test('enough credits: the credit line and Begin', () {
       final plan = EntryPlan.of(3, credits(9), clock);
-      expect(plan.line, 'Uses 1 explanation credit for each mistake. You have 9.');
+      expect(plan.headline, isNull);
+      expect(plan.line, 'Uses 1 credit per mistake. You have 9.');
       expect(plan.limit, isNull);
     });
 
     test('a short wallet starts with what it covers, or reads the keys', () {
       final plan = EntryPlan.of(3, credits(2), clock);
-      expect(plan.line, 'This repair needs 3 explanation credits. You have 2. Start with 2 mistakes, or read the key explanations.');
+      // One headline that says the whole shortfall; the options are the keys under it.
+      expect(plan.headline, 'You have 2 credits, this repair needs 3');
+      expect(plan.line, 'Explanation credits renew on 1 November.');
       expect(plan.limit, 2);
       expect(plan.offerKeys, isTrue);
     });
@@ -153,12 +163,14 @@ void main() {
     test('an empty wallet reads the keys, with the renewal date', () {
       final plan = EntryPlan.of(3, credits(0), clock);
       expect(plan.keyOnly, isTrue);
-      expect(plan.line, "You have used this month's explanation credits. Explanation credits renew on 1 November.");
+      expect(plan.headline, "You have used this month's explanation credits");
+      expect(plan.line, 'Explanation credits renew on 1 November.');
     });
 
     test('paused explanations read the keys', () {
       final plan = EntryPlan.of(3, credits(5, state: 'paused'), clock);
       expect(plan.keyOnly, isTrue);
+      expect(plan.headline, ReviewCopy.pausedHeadline);
       expect(plan.line, ReviewCopy.pausedLine);
     });
   });

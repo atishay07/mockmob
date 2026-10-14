@@ -13,7 +13,6 @@ import '../data/tools_store.dart';
 import '../tools_paths.dart';
 import '../widgets/sources_sheet.dart';
 import '../widgets/tools_card.dart';
-import '../widgets/tool_row.dart';
 import '../widgets/tools_page.dart';
 import '../widgets/web_link.dart';
 
@@ -52,25 +51,28 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
       lead: ToolsCopy.hubLead,
       slivers: [
         SliverToBoxAdapter(child: CompassFeature(state: compass, greet: _firstOpen)),
+        // One flat list on the ground, one icon column, no card behind it.
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(top: MmRhythm.group),
-            child: ToolsPanel(
-              dividerIndent: ToolsLinkRow.dividerIndent,
-              children: [
-                ToolRow(art: ToolArtKind.combo, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
-                ToolRow(art: ToolArtKind.guide, title: ToolsCopy.guideTitle, note: ToolsCopy.guideNote, onTap: () => context.push(ToolsPaths.guide2027)),
-              ],
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(top: MmRhythm.item),
-            child: ToolsPanel(
-              dividerIndent: ToolsLinkRow.dividerIndent,
+            child: ToolsFlatList(
               children: [
                 ToolsLinkRow(
+                  flat: true,
+                  icon: LucideIcons.layoutGrid,
+                  title: ToolsCopy.comboTitle,
+                  note: ToolsCopy.comboNote,
+                  onTap: () => context.push(ToolsPaths.combo),
+                ),
+                ToolsLinkRow(
+                  flat: true,
+                  icon: LucideIcons.calendarRange,
+                  title: ToolsCopy.guideTitle,
+                  note: ToolsCopy.guideNote,
+                  onTap: () => context.push(ToolsPaths.guide2027),
+                ),
+                ToolsLinkRow(
+                  flat: true,
                   icon: LucideIcons.bookOpen,
                   title: ToolsCopy.pyqTitle,
                   note: ToolsCopy.pyqNote,
@@ -79,6 +81,7 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
                 ),
                 if (compass != null)
                   ToolsLinkRow(
+                    flat: true,
                     icon: LucideIcons.fileText,
                     title: ToolsCopy.sourcesTitle,
                     note: ToolsCopy.sourcesNote,
@@ -125,9 +128,27 @@ class CompassFeature extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s12),
           if (known) ...[
-            ToolsNumber(value: '${s.eligible.length}', unit: 'of ${s.total}', semanticsLabel: '${s.eligible.length} of ${s.total}'),
-            const SizedBox(height: MmSpace.s8),
-            Text(ToolsCopy.hubOpens(s.selection.count), style: type.body),
+            MergeSemantics(
+              child: Row(
+                children: [
+                  ToolsRing(
+                    fraction: s.total == 0 ? 0 : s.eligible.length / s.total,
+                    child: ToolsNumber(value: '${s.eligible.length}', semanticsLabel: '${s.eligible.length} ${ToolsCopy.hubOfTotal(s.total)}'),
+                  ),
+                  const SizedBox(width: MmSpace.s20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(ToolsCopy.hubOfTotal(s.total), style: type.cardTitle),
+                        const SizedBox(height: MmSpace.s4),
+                        Text(ToolsCopy.hubOpens(s.selection.count), style: type.small.copyWith(color: colors.ink2)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ] else ...[
             Text(ToolsCopy.compassQuestion, style: type.headline.copyWith(fontSize: 24, height: 28 / 24)),
             const SizedBox(height: MmSpace.s8),

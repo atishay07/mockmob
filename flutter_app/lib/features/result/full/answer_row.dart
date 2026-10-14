@@ -78,7 +78,10 @@ class _AnswerRowState extends State<AnswerRow> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${ResultCopy.question(item.number)}, $_status', style: type.subhead.copyWith(fontSize: 16)),
+                    // The group header above already says wrong, not attempted, correct or being checked,
+                    // and the bubble shows it, so the row names only its question. TalkBack still hears
+                    // the verdict (semantics label above).
+                    Text(ResultCopy.question(item.number), style: type.subhead.copyWith(fontSize: 16)),
                     if (chapter != null) Text(chapter, style: type.small.copyWith(color: colors.ink2)),
                   ],
                 ),

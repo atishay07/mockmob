@@ -8,7 +8,10 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/motion/motion.dart';
 import '../copy.dart';
+import '../data/mistake_index.dart' show MistakeStage;
 import '../data/review_providers.dart';
+import '../widgets/life_row.dart';
+import '../widgets/review_state_view.dart';
 import '../widgets/page_header.dart';
 import '../widgets/record_entry.dart';
 
@@ -33,7 +36,7 @@ class RecordScreen extends ConsumerWidget {
         child: Semantics(label: ReviewCopy.loadingRecord, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
       );
     } else if (entries.isEmpty) {
-      body = StateView(
+      body = ReviewStateView(
         kind: StateViewKind.empty,
         pose: MobiPose.read,
         title: ReviewCopy.recordEmptyTitle,
@@ -52,12 +55,17 @@ class RecordScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // The thread every entry below walks, drawn once as the legend.
+                  const LifeRow(stage: MistakeStage.repaired, bubbleSize: 16, animate: false),
+                  const SizedBox(height: MmSpace.s12),
+                  Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s8),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
-                        child: Icon(LucideIcons.smartphone, size: 16, color: colors.ink2),
+                        child: Icon(LucideIcons.smartphone, size: 14, color: colors.ink2),
                       ),
                       const SizedBox(width: MmSpace.s8),
                       Expanded(
@@ -65,8 +73,6 @@ class RecordScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(ReviewCopy.checksGate, style: type.small.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmRhythm.group),
                 ],
               ),

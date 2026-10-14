@@ -16,8 +16,10 @@ abstract final class LearnLog {
   }
 
   /// A step the student sent that the server had already moved past (another device answered it).
-  static void droppedEvent({required String type, required String requestKey}) =>
-      _add('dropped $type event $requestKey after a conflict');
+  static void droppedEvent({
+    required String type,
+    required String requestKey,
+  }) => _add('dropped $type event $requestKey after a conflict');
 
   /// A step type this build cannot draw.
   static void unknownStep({required String wireType, required String itemId}) =>

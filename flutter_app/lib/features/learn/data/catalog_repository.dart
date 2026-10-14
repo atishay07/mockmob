@@ -20,15 +20,24 @@ class LearnCatalogRepository extends JsonRemoteNotifier<LearnCatalog> {
   LearnCatalog parse(Object? json) => LearnCatalog.fromJson(asJson(json));
 
   @override
-  Future<Object?> fetchJson() async => (await ref.read(studyApiProvider).catalog()).data;
+  Future<Object?> fetchJson() async =>
+      (await ref.read(studyApiProvider).catalog()).data;
 
   @override
   Future<Fetched<LearnCatalog>> fetchRemote() async {
     final fetched = await super.fetchRemote();
     final versions = {for (final u in fetched.value.units) u.id: u.version};
-    unawaited(ref.read(learnStoreProvider).dropChanged(versions).catchError((Object _) {}));
+    unawaited(
+      ref
+          .read(learnStoreProvider)
+          .dropChanged(versions)
+          .catchError((Object _) {}),
+    );
     return fetched;
   }
 }
 
-final learnCatalogProvider = NotifierProvider<LearnCatalogRepository, RemoteState<LearnCatalog>>(LearnCatalogRepository.new);
+final learnCatalogProvider =
+    NotifierProvider<LearnCatalogRepository, RemoteState<LearnCatalog>>(
+      LearnCatalogRepository.new,
+    );

@@ -22,9 +22,12 @@ abstract final class YouCopy {
   static const fieldSubjects = 'Subjects';
   static const fieldWeek = 'This week';
   static const fieldWeekFailed = 'This week did not load.';
+  static const weekOpen = 'Rhythm';
+  static String weekToGo(int left) => left == 1 ? '1 day to your goal' : '$left days to your goal';
   static const rhythmOffLine = 'Rhythm is off. Your record stays.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
 
+  static const showMe = 'Show me';
   static const showMeMilestones = 'Show me, the milestones you earned';
   static String hubGreeting(String firstName) => 'Hi, $firstName.';
 
@@ -68,8 +71,8 @@ abstract final class YouCopy {
   static String goalFigure(int days) => days == 1 ? '1 day a week' : '$days days a week';
   static String goalUnit(int days) => days == 1 ? 'day a week' : 'days a week';
   static const goalEveryDay = 'Every day of the week. There are no rest days at this goal.';
-  static const goalStudy = 'study';
-  static const goalRest = 'rest';
+  static const goalStudy = 'Study';
+  static const goalRest = 'Rest';
   static String goalDayLabel(int days, bool selected) =>
       '${days == 1 ? '1 day' : '$days days'} a week${selected ? ', selected' : ''}';
   static String goalPaused(String date) => 'Rhythm is paused until $date. Changing the goal keeps the pause.';
@@ -88,7 +91,7 @@ abstract final class YouCopy {
   static const appearanceTitle = 'Appearance and feel';
   static const themeHeading = 'Theme';
   static const themeDark = 'Night';
-  static const themeDarkNote = 'Warm charcoal and lamp light';
+  static const themeDarkNote = 'Warm charcoal';
   static const themeLight = 'Daylight';
   static const themeLightNote = 'Warm paper';
   static const themeSystem = 'Match phone';
@@ -98,7 +101,8 @@ abstract final class YouCopy {
   static const feelHeading = 'Feel';
   static const reduceMotion = 'Reduce motion';
   static const reduceMotionNote = 'Keeps screens still. It follows your phone unless you turn it on here.';
-  static const reduceMotionSystem = 'Your phone is set to remove animations, so motion is already reduced.';
+  static const reduceMotionSystem = 'Change it in your phone settings, under accessibility.';
+  static const reduceMotionFromPhone = 'On, from your phone';
   static const touchFeedback = 'Touch feedback';
   static const touchFeedbackNote = 'A small tap when you press keys and choices.';
   static const openDirectly = 'Open results directly';
@@ -130,7 +134,7 @@ abstract final class YouCopy {
   static const operationalNote =
       'Your sessions, scores, notification settings and plan are kept to run your account. Google '
       'Play also reports crashes and performance to us. This switch controls neither.';
-  static const changeAnswer = 'Change my answer';
+  static const changeAnswer = 'Change my age answer';
   static const ageQuestion = 'Are you 18 or older?';
   static const ageYes = 'Yes';
   static const ageNo = 'No';
@@ -166,13 +170,13 @@ abstract final class YouCopy {
   static const signOutTitle = 'Sign out of MockMob?';
   static const signOutPlain = 'You will need to sign in again to use MockMob on this phone.';
   static String signOutUnsent(int count) =>
-      '${plural(count, 'answer')} ${count == 1 ? 'is' : 'are'} on this phone and not sent. Sign out anyway?';
+      '${plural(count, 'answer')} ${count == 1 ? 'is' : 'are'} on this phone and not sent.';
   static const signOutUnsentNote = 'Signing out removes them from this phone.';
-  static const signOutUnknown = 'We could not check for answers still on this phone. Sign out anyway?';
+  static const signOutUnknown = 'We could not check for answers still on this phone.';
   static const signOutUnknownNote = 'Any that are not sent will be removed from this phone.';
   static String signOutQueued(int count) =>
       '${plural(count, 'study update')} ${count == 1 ? 'is' : 'are'} waiting to send from this phone.';
-  static String signOutQueuedAsk(int count) => '${signOutQueued(count)} Sign out anyway?';
+  static String signOutQueuedAsk(int count) => signOutQueued(count);
   static const signOutQueuedNote =
       'They send when you sign in again with this account. Signing in with a different account removes them.';
   static String expiredWork(int count) =>
@@ -186,18 +190,17 @@ abstract final class YouCopy {
   static const deleteRowNote = 'Ask us to delete your account and study records';
 
   // Delete account.
-  static const deleteTitle = 'Delete your MockMob account';
+  static const deleteTitle = 'Delete your account';
   static const deleteConsequences =
       'We delete your account and study records within 30 days. Payment records required by law '
-      'are kept. You will be signed out.';
-  static const deleteNotInstant = 'Your account is not deleted the moment you tap. We record your request first.';
+      'are kept.';
+  static const deleteNotInstant = 'Nothing is deleted when you tap. We record your request first, then you sign out.';
   static String deleteUnsent(int count) =>
       '${plural(count, 'answer')} on this phone ${count == 1 ? 'has' : 'have'} not been sent. '
       '${count == 1 ? 'It' : 'They'} will be removed when you are signed out.';
   static const deleteUnknown = 'We could not check this phone for answers that are not sent. Any that are will be removed when you are signed out.';
   static const deleteWord = 'DELETE';
   static const deleteTypeLabel = 'Type DELETE to confirm';
-  static const deleteTypeNeeded = 'Type DELETE to enable this button.';
   static const deleteHint = 'Type here';
   static String deleteQueued(int count) =>
       '${plural(count, 'study update')} waiting to send will be removed too.';

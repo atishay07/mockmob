@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
@@ -8,8 +9,9 @@ import '../../theme/theme.dart';
 import '../materials/glass_surface.dart';
 
 /// A container transform from a small glass shape (the Start circle) into a glass sheet at the
-/// bottom of the screen (brief section 6): the glass grows out of [origin] along the emphasized
-/// curve in 420 ms while the sheet's content glides in once the glass has mostly opened. Back,
+/// bottom of the screen (brief section 6): the glass grows out of [origin] in 420 ms while the
+/// sheet's content comes up with it, scaling out of the origin from the first fifth of the
+/// morph, so the growing shape is never an empty slab. Back,
 /// the scrim and a drag down close it the same way: the sheet follows the finger, closes past
 /// [closeFraction] of its height or on a flick faster than [closeVelocity], and springs back
 /// otherwise. TalkBack gets a "Close" action. Under reduced motion it is a 200 ms fade.
@@ -57,6 +59,13 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   @override
   Duration get reverseTransitionDuration => reduced ? Motion.crossFade : const Duration(milliseconds: 300);
 
+  /// Where the content scales out of: the origin's centre, as an alignment inside the sheet.
+  Alignment _anchor(Size screen) {
+    final width = math.min(screen.width - 2 * margin, MmSpace.contentMaxWidth);
+    final left = (screen.width - width) / 2;
+    return Alignment(((origin.center.dx - left) / width * 2 - 1).clamp(-1.0, 1.0), 1);
+  }
+
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final media = MediaQuery.of(context);
@@ -90,7 +99,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                 if (reduced) return FadeTransition(opacity: animation, child: child);
                 final clipper = _MorphClipper(
                   origin: origin,
-                  progress: Motion.emphasized.transform(animation.value),
+                  progress: _growCurve.transform(animation.value),
                   screen: media.size,
                   bottom: bottom,
                   margin: margin,
@@ -117,7 +126,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                             painter: _MorphRim(
                               animation: animation,
                               clipper: clipper,
-                              lamp: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.2),
+                              lamp: colors.lamp.withValues(alpha: colors.isNight ? 0.16 : 0.12),
                               edge: colors.edgeTop,
                             ),
                           ),
@@ -132,12 +141,12 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                 builder: (context, content) => GlassSurface(
                   role: GlassRole.sheet,
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  // Thin at the start (the page shows through), resting density by the time the
-                  // first line of text arrives (the reveal begins at 0.35).
+                  // Thin at the start (the page shows through), resting density at 55% of the
+                  // morph, when the content (arriving from 12%) is mostly in.
                   sheetTintAlpha: reduced ? null : _tintAlpha(animation.value),
                   child: content!,
                 ),
-                child: _ContentReveal(animation: animation, reduced: reduced, child: content),
+                child: _ContentReveal(animation: animation, reduced: reduced, anchor: _anchor(media.size), child: content),
               ),
             ),
           ),
@@ -163,9 +172,15 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   }
 }
 
-/// The sheet's tint strength through the morph: 55% at the first frame, the resting 98.5% from
-/// half way (before any text has arrived).
-double _tintAlpha(double t) => 0.55 + (0.985 - 0.55) * Motion.glide.transform((t / 0.5).clamp(0.0, 1.0));
+/// How the shape grows: fast off the button, then settling. Softer at the start than
+/// [Motion.emphasized] (which has already covered most of the way by 50 ms), so the rectangle
+/// is seen coming out of the button instead of appearing beside it.
+const Cubic _growCurve = Cubic(0.3, 0.55, 0.2, 1);
+
+/// The sheet's tint strength through the morph: 45% at the first frame (the page still shows
+/// through the growing glass), the resting 98.5% from 55% of the way, by when the content is
+/// mostly in.
+double _tintAlpha(double t) => 0.45 + (0.985 - 0.45) * Motion.glide.transform((t / 0.55).clamp(0.0, 1.0));
 
 /// The growing shape's rim and lamp: a warm pool in its upper left and a 1 dp top edge light
 /// along its (moving) outline, fading out as the sheet's own edge light takes over.
@@ -212,7 +227,7 @@ class _MorphRim extends CustomPainter {
   bool shouldRepaint(_MorphRim old) => old.animation != animation || old.clipper != clipper || old.lamp != lamp || old.edge != edge;
 }
 
-/// The volt disc left at the origin: full at 0, swelling a little and gone by 25% of the morph.
+/// The volt disc left at the origin: full at 0, swelling a little and gone by 30% of the morph.
 class _OriginDisc extends CustomPainter {
   _OriginDisc({required this.animation, required this.color}) : super(repaint: animation);
 
@@ -221,9 +236,9 @@ class _OriginDisc extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Gone by a quarter of the morph, its alpha falling fastest at first, so the volt never
+    // Gone by 30% of the morph, its alpha falling fastest at first, so the volt never
     // sits half-faded (olive) over the glass.
-    final t = (animation.value / 0.25).clamp(0.0, 1.0);
+    final t = (animation.value / 0.3).clamp(0.0, 1.0);
     if (t >= 1) return;
     final e = Motion.glide.transform(t);
     final alpha = (1 - e) * (1 - e);
@@ -296,22 +311,29 @@ class _DragToCloseState extends State<_DragToClose> with SingleTickerProviderSta
   }
 }
 
+/// The sheet's content riding the growing glass: it fades in over 12% to 62% of the morph and
+/// scales up from 0.9 out of the origin (the button), so the shape is never an empty slab and
+/// the text seems to come out of the button with it. Closing, it leaves over the first half.
 class _ContentReveal extends StatelessWidget {
-  const _ContentReveal({required this.animation, required this.reduced, required this.child});
+  const _ContentReveal({required this.animation, required this.reduced, required this.anchor, required this.child});
 
   final Animation<double> animation;
   final bool reduced;
+  final Alignment anchor;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     if (reduced) return child;
-    final fade = CurvedAnimation(parent: animation, curve: const Interval(0.35, 1, curve: Motion.glide), reverseCurve: const Interval(0.4, 1));
+    final fade = CurvedAnimation(parent: animation, curve: const Interval(0.12, 0.62, curve: Motion.glide), reverseCurve: const Interval(0.4, 1));
     return FadeTransition(
       opacity: fade,
       child: AnimatedBuilder(
         animation: fade,
-        builder: (context, child) => Transform.translate(offset: Offset(0, 14 * (1 - fade.value)), child: child),
+        builder: (context, child) => Transform.translate(
+          offset: Offset(0, 14 * (1 - fade.value)),
+          child: Transform.scale(scale: 0.9 + 0.1 * fade.value, alignment: anchor, child: child),
+        ),
         child: child,
       ),
     );

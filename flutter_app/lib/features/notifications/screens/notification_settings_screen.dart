@@ -334,9 +334,13 @@ class _NotificationSettingsScreenState
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
             child: _Header(onBack: _back),
           ),
-          const Padding(
-            padding: EdgeInsets.all(MmSpace.gutter),
-            child: LoadingRows(),
+          // The real layout in outline. It scrolls without a finger so large text cannot overflow.
+          const Expanded(
+            child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.all(MmSpace.gutter),
+              child: LoadingRows(),
+            ),
           ),
         ],
       );

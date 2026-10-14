@@ -28,7 +28,10 @@ class IdeaLine extends StatelessWidget {
               width: 60,
               child: Padding(
                 padding: const EdgeInsets.only(top: 3),
-                child: Text(LearnCopy.objectiveNumber(number), style: type.label.copyWith(color: colors.ink2)),
+                child: Text(
+                  LearnCopy.objectiveNumber(number),
+                  style: type.label.copyWith(color: colors.ink2),
+                ),
               ),
             ),
             Expanded(child: Text(text, style: type.body)),

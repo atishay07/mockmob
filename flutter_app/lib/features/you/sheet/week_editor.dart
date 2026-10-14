@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/copy/copy.dart';
@@ -13,12 +14,17 @@ import '../../onboarding/state/answers_controller.dart' show onboardingAnswersPr
 import '../data/profile_editor.dart';
 import '../data/student_target.dart';
 import '../edit_copy.dart';
-import '../widgets/you_page.dart' show youGutter;
+import '../widgets/you_page.dart' show youText;
 
 /// The study week, edited in place: which days, what time, how long. Saving sends the day count
-/// to the weekly goal and the time to reminders, and says "saved" only after both answered.
+/// to the weekly goal and the time to reminders, and says "saved" only after both answered. The
+/// Save key is not drawn here: it is pinned at the foot of the page by [WeekSaveFooter], fed by
+/// the [controller].
 class WeekEditor extends ConsumerStatefulWidget {
-  const WeekEditor({super.key});
+  const WeekEditor({super.key, this.controller});
+
+  /// Where the pinned Save key reads its state. Null draws no Save key (the editor alone).
+  final WeekSaveController? controller;
 
   @override
   ConsumerState<WeekEditor> createState() => _WeekEditorState();
@@ -127,33 +133,55 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
     }
   }
 
+  /// Tells the page's pinned footer what Save should look like.
+  void _publish({required bool loaded}) {
+    final controller = widget.controller;
+    if (controller == null) return;
+    final canSave = loaded && _changed && !_saving;
+    final reason = loaded && !_changed && !_saving && _savedAt == null ? EditCopy.weekUnchanged : null;
+    final receipt = _savedAt == null ? null : EditCopy.weekSaved(_savedAt!, _days.length, _window.plural, _window.time);
+    // After the frame: the footer is rebuilt by the listener, never during this build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      controller.update(canSave: canSave, saving: _saving, disabledReason: reason, error: _error, receipt: receipt, onSave: _save);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<StudentWeek?>(studentTargetProvider.select((t) => t.week), (before, now) => _follow());
     ref.listen<int?>(goalRepositoryProvider.select((s) => s.value?.daysPerWeek), (before, now) => _follow());
     // Until the phone's answers have loaded the week is a guess, so Save waits for them.
     final loaded = !ref.watch(onboardingAnswersProvider.select((a) => a.isLoading));
+    _publish(loaded: loaded);
     final colors = context.mmColors;
     final type = context.mmType;
-    final label = type.caption.copyWith(color: colors.ink3);
+    final label = type.caption.copyWith(color: colors.ink2);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // The count says what the chosen days add up to: it becomes the weekly goal.
         Padding(
-          padding: youGutter,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [Text(EditCopy.weekDays, style: label), const SizedBox(height: MmSpace.s8)],
+          padding: const EdgeInsets.symmetric(horizontal: youText),
+          child: Row(
+            children: [
+              Expanded(child: Text(EditCopy.weekDays, style: label)),
+              Semantics(
+                liveRegion: true,
+                child: Text(EditCopy.weekDaysCount(_days.length), style: type.labelLarge.copyWith(fontSize: 14)),
+              ),
+            ],
           ),
         ),
+        const SizedBox(height: MmSpace.s4),
         // Seven 48 dp targets need 336 dp, more than the 328 dp inside the gutters of a 360 dp
-        // phone, so the picker takes the full width less 4 dp a side.
+        // phone, so the picker takes the full width less 12 dp a side.
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
           child: _DayPicker(days: _days, onToggle: _saving ? null : _toggleDay),
         ),
         Padding(
-          padding: youGutter,
+          padding: const EdgeInsets.symmetric(horizontal: youText),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -190,25 +218,80 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
               ),
               const SizedBox(height: MmSpace.s12),
               Text(EditCopy.weekNote, style: type.small.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s20),
-              if (_error != null) ...[
-                InlineBanner(message: _error!, tone: BannerTone.error),
-                const SizedBox(height: MmSpace.s12),
-              ],
-              KeyButton.secondary(
-                label: EditCopy.weekSave,
-                loading: _saving,
-                onPressed: loaded && _changed && !_saving ? _save : null,
-                disabledReason: loaded && !_changed && !_saving && _savedAt == null ? EditCopy.weekUnchanged : null,
-              ),
-              if (_savedAt != null) ...[
-                const SizedBox(height: MmSpace.s12),
-                ReceiptLine(text: EditCopy.weekSaved(_savedAt!, _days.length, _window.plural, _window.time)),
-              ],
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+/// What the pinned Save key at the foot of the sheet editor shows, kept by the [WeekEditor]
+/// above it. The key stays on screen however long the page is.
+class WeekSaveController extends ChangeNotifier {
+  bool canSave = false;
+  bool saving = false;
+  String? disabledReason;
+  String? error;
+  String? receipt;
+  VoidCallback? onSave;
+
+  void update({
+    required bool canSave,
+    required bool saving,
+    required String? disabledReason,
+    required String? error,
+    required String? receipt,
+    required VoidCallback onSave,
+  }) {
+    if (this.canSave == canSave &&
+        this.saving == saving &&
+        this.disabledReason == disabledReason &&
+        this.error == error &&
+        this.receipt == receipt) {
+      this.onSave = onSave;
+      return;
+    }
+    this.canSave = canSave;
+    this.saving = saving;
+    this.disabledReason = disabledReason;
+    this.error = error;
+    this.receipt = receipt;
+    this.onSave = onSave;
+    notifyListeners();
+  }
+}
+
+/// The pinned footer of the sheet editor: what happened, then the one volt key.
+class WeekSaveFooter extends StatelessWidget {
+  const WeekSaveFooter({super.key, required this.controller});
+
+  final WeekSaveController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (controller.error != null) ...[
+            InlineBanner(message: controller.error!, tone: BannerTone.error),
+            const SizedBox(height: MmSpace.s12),
+          ],
+          if (controller.receipt != null) ...[
+            ReceiptLine(text: controller.receipt!),
+            const SizedBox(height: MmSpace.s12),
+          ],
+          KeyButton(
+            label: EditCopy.weekSave,
+            loading: controller.saving,
+            onPressed: controller.canSave ? controller.onSave : null,
+            disabledReason: controller.disabledReason,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -245,7 +328,7 @@ class _TimeChoice extends ConsumerWidget {
             padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
             child: Row(
               children: [
-                SelectBubble(selected: selected),
+                _Radio(selected: selected),
                 const SizedBox(width: MmSpace.s8),
                 Expanded(
                   // Shrinks a little on a narrow phone rather than cutting the time.
@@ -296,15 +379,42 @@ class _DayPicker extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Bubble(state: days.contains(i) ? BubbleState.filled : BubbleState.hollow, size: 30),
+                    Bubble(state: days.contains(i) ? BubbleState.filled : BubbleState.hollow, size: 32),
                     const SizedBox(height: MmSpace.s6),
-                    Text(_letters[i], style: type.caption.copyWith(color: days.contains(i) ? colors.ink : colors.ink3)),
+                    Text(_letters[i], style: type.labelLarge.copyWith(fontSize: 15, color: days.contains(i) ? colors.ink : colors.ink2)),
                   ],
                 ),
               ),
             ),
           ),
       ],
+    );
+  }
+}
+
+/// The choice mark of a time pill: a clear ring when open, the inked bubble with a tick when
+/// chosen (the old 10 dp dot was hard to see on the pill).
+class _Radio extends StatelessWidget {
+  const _Radio({required this.selected});
+
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: SizedBox.square(
+        dimension: 20,
+        child: selected
+            ? Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Bubble(state: BubbleState.filled, size: 20),
+                  Icon(LucideIcons.check, size: 13, color: colors.voltInk),
+                ],
+              )
+            : DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: colors.ink3, width: 1.6))),
+      ),
     );
   }
 }

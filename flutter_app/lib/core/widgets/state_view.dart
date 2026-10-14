@@ -121,7 +121,8 @@ class _StateViewState extends State<StateView> {
   Widget _content(BuildContext context, bool compact) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final artSize = compact ? 80.0 : 112.0;
+    // Large enough to be the screen's picture, not a speck on an empty canvas (was 112 dp).
+    final artSize = compact ? 96.0 : 148.0;
 
     return Center(
       child: ConstrainedBox(
@@ -160,7 +161,7 @@ class _StateViewState extends State<StateView> {
                     ),
                   ),
                 ),
-                const SizedBox(height: MmSpace.s20),
+                const SizedBox(height: MmSpace.s12),
                 MmStaggerItem(
                   index: 1,
                   child: Semantics(
@@ -176,7 +177,7 @@ class _StateViewState extends State<StateView> {
                   ),
                 ],
                 if (primary != null) ...[
-                  const SizedBox(height: MmSpace.s24),
+                  const SizedBox(height: MmSpace.s20),
                   MmStaggerItem(
                     index: 3,
                     child: KeyedSubtree(key: _action, child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading)),

@@ -145,7 +145,8 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (_cap != null) ...[
-            InlineBanner(message: _cap!, tone: BannerTone.warning),
+            // Plain words, not a boxed alert: refusing a sixth subject is information.
+            Semantics(liveRegion: true, container: true, child: Text(_cap!, style: context.mmType.small.copyWith(color: context.mmColors.ink))),
             const SizedBox(height: MmSpace.s12),
           ],
           if (_error != null) ...[
@@ -173,16 +174,26 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         ],
       ),
       children: [
+        // One header block on the page grid: the count and the one-line rule on the left, Mobi on
+        // the right edge. No bubble of instructions before the first choice.
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s4, MmSpace.gutter, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Mobi(pose: MobiPose.point, size: 72, say: EditCopy.subjectsMobi, controller: _mobi),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s4, youText, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SlotCount(count: _chosen.length, max: kMaxProfileSubjects),
+                    const SizedBox(height: MmSpace.s4),
+                    Text(EditCopy.subjectsHint, style: context.mmType.small.copyWith(color: context.mmColors.ink2)),
+                  ],
+                ),
+              ),
+              Mobi(pose: MobiPose.point, size: 64, controller: _mobi),
+            ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s16, MmSpace.gutter, 0),
-          child: SlotCount(count: _chosen.length, max: kMaxProfileSubjects),
         ),
         if (loaded == null)
           const Padding(padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0), child: _ListSkeleton())
@@ -197,7 +208,8 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             if (loaded.inGroup(group).isNotEmpty) ...[
               GroupHeading(group.label, top: MmSpace.s24),
               YouPanel(
-                inset: MmSpace.gutter + 40 + MmSpace.s12,
+                flat: true,
+                inset: 4 + 40 + MmSpace.s12,
                 children: [
                   for (final o in loaded.inGroup(group))
                     SubjectChoiceRow(
@@ -228,7 +240,8 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
     return [
       const GroupHeading(EditCopy.staleHeading, top: MmSpace.s24),
       YouPanel(
-        inset: MmSpace.gutter + 40 + MmSpace.s12,
+        flat: true,
+        inset: 4 + 40 + MmSpace.s12,
         children: [
           for (final o in stale)
             StaleSubjectRow(id: o.id, name: o.name, reason: o.reason, onRemove: _saving ? null : () => _toggle(o.id)),

@@ -20,13 +20,24 @@ class PinnedActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.ground, border: Border(top: BorderSide(color: colors.line))),
+      // A faint hairline: the bar is the ground, not a second surface.
+      decoration: BoxDecoration(
+        color: colors.ground,
+        border: Border(
+          top: BorderSide(color: colors.line.withValues(alpha: 0.5)),
+        ),
+      ),
       child: Center(
         heightFactor: 1,
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(
+              MmSpace.gutter,
+              MmSpace.s12,
+              MmSpace.gutter,
+              MmSpace.s12,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +45,10 @@ class PinnedActions extends StatelessWidget {
                 if (message != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                    child: Semantics(liveRegion: true, child: Text(message!, style: context.mmType.body)),
+                    child: Semantics(
+                      liveRegion: true,
+                      child: Text(message!, style: context.mmType.body),
+                    ),
                   ),
                 for (var i = 0; i < children.length; i++) ...[
                   if (i > 0) const SizedBox(height: MmSpace.s8),
@@ -51,7 +65,12 @@ class PinnedActions extends StatelessWidget {
 
 /// A 48 dp icon target with no ripple, named for TalkBack.
 class IconTap extends StatelessWidget {
-  const IconTap({super.key, required this.icon, required this.label, required this.onTap});
+  const IconTap({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String label;
@@ -67,7 +86,11 @@ class IconTap extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: SizedBox(width: 48, height: 48, child: Icon(icon, size: 24, color: context.mmColors.ink)),
+        child: SizedBox(
+          width: 48,
+          height: 48,
+          child: Icon(icon, size: 24, color: context.mmColors.ink),
+        ),
       ),
     );
   }
@@ -83,7 +106,12 @@ class ConceptsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s4, MmSpace.gutter, MmSpace.s8),
+      padding: const EdgeInsets.fromLTRB(
+        MmSpace.s12,
+        MmSpace.s4,
+        MmSpace.gutter,
+        MmSpace.s8,
+      ),
       child: SizedBox(
         height: 56,
         child: Row(
@@ -100,7 +128,13 @@ class ConceptsHeader extends StatelessWidget {
                       borderRadius: MmRadius.pillAll,
                       pressed: pressed,
                       grain: false,
-                      child: Center(child: Icon(LucideIcons.arrowLeft, size: 20, color: colors.ink)),
+                      child: Center(
+                        child: Icon(
+                          LucideIcons.arrowLeft,
+                          size: 20,
+                          color: colors.ink,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -108,7 +142,10 @@ class ConceptsHeader extends StatelessWidget {
             ),
             const SizedBox(width: MmSpace.s8),
             Expanded(
-              child: Semantics(header: true, child: Text(LearnCopy.title, style: context.mmType.screenTitle)),
+              child: Semantics(
+                header: true,
+                child: Text(LearnCopy.title, style: context.mmType.screenTitle),
+              ),
             ),
           ],
         ),
@@ -120,7 +157,11 @@ class ConceptsHeader extends StatelessWidget {
 /// Makes system Back on a deep-linked Learn screen go to [fallback] instead of leaving the app.
 /// With a screen underneath, Back pops as usual.
 class LearnBackScope extends StatelessWidget {
-  const LearnBackScope({super.key, required this.fallback, required this.child});
+  const LearnBackScope({
+    super.key,
+    required this.fallback,
+    required this.child,
+  });
 
   /// Where Back goes when nothing is under this screen (Practice for Learn, Learn for its pages).
   final String fallback;

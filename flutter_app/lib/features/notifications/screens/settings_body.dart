@@ -126,6 +126,11 @@ class SettingsBody extends StatelessWidget {
     final blocked = permission == NotificationPermission.denied || permission == NotificationPermission.unavailable;
 
     final mutedUntil = _mutedUntil;
+    final panePending = permission == NotificationPermission.notAsked || blocked;
+    final showMuteRow = mutedUntil != null && !panePending;
+    final showHint = hintKey != null && !showMuteRow;
+    // When all is well the "Notifications are on" row steps aside for whichever status is showing.
+    final showPane = panePending || (!showMuteRow && !showHint);
 
     // One authored entrance, riding the page's own transition: the title, the permission pane,
     // then the day and the channels. The groups further down are simply there.
@@ -145,15 +150,14 @@ class SettingsBody extends StatelessWidget {
         ),
         children: [
           if (header != null) MmStaggerItem(index: 0, child: header!),
-          if (mutedUntil != null) ...[
-            InlineBanner(
-              message: NotificationsCopy.mutedBanner(mutedUntil),
-              actionLabel: NotificationsCopy.unmute,
-              onAction: actions.onUnmute,
-            ),
+          // One status at a time, the most blocking first: a pane that needs an action (Turn on, Open
+          // Android settings), then a running mute, then the one-time hint. The mute also shows
+          // under Take a break and as a note on each held channel, so nothing is lost.
+          if (showMuteRow) ...[
+            MutedRow(message: NotificationsCopy.mutedBanner(mutedUntil), onUnmute: actions.onUnmute),
             const SizedBox(height: MmRhythm.group),
           ],
-          if (hintKey != null) ...[
+          if (showHint) ...[
             InlineBanner(
               message: NotificationsCopy.fewerReminders(_reminderName(hintKey)),
               actionLabel: NotificationsCopy.fewerRemindersDismiss,
@@ -161,7 +165,7 @@ class SettingsBody extends StatelessWidget {
             ),
             const SizedBox(height: MmRhythm.group),
           ],
-          if (permission case final known?)
+          if (permission case final known? when showPane)
             MmStaggerItem(
               index: 1,
               child: PermissionPanel(permission: known, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings),
@@ -170,9 +174,8 @@ class SettingsBody extends StatelessWidget {
             const PermissionPanelSkeleton(),
           group(2, [
             const SectionHeading(NotificationsCopy.dayHeading),
-            MmSurface.plain(
-              child: DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
-            ),
+            // The hero of the page: it sits straight on the ground, not in a card.
+            DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
           ]),
           group(3, [
             const SectionHeading(NotificationsCopy.channelsHeading),
@@ -189,6 +192,7 @@ class SettingsBody extends StatelessWidget {
                   value: prefs.channelOn(NotificationChannelKeys.resultReady),
                   onChanged: (on) => actions.onChannel(NotificationChannelKeys.resultReady, on),
                   dimmed: blocked,
+                  blocked: blocked,
                 ),
                 ChannelRow(
                   title: NotificationsCopy.channelStudy,
@@ -197,6 +201,7 @@ class SettingsBody extends StatelessWidget {
                   note: _pausedNote(NotificationChannelKeys.studyWindow),
                   onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
                   dimmed: _dim(blocked),
+                  blocked: blocked,
                 ),
                 ChannelRow(
                   title: NotificationsCopy.channelRepair,
@@ -205,6 +210,7 @@ class SettingsBody extends StatelessWidget {
                   note: _pausedNote(repairReadyKey),
                   onChanged: (on) => actions.onChannel(repairReadyKey, on),
                   dimmed: _dim(blocked),
+                  blocked: blocked,
                 ),
                 ChannelRow(
                   title: NotificationsCopy.channelWeekly,
@@ -213,6 +219,7 @@ class SettingsBody extends StatelessWidget {
                   note: _pausedNote(NotificationChannelKeys.weeklyPlan),
                   onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
                   dimmed: _dim(blocked),
+                  blocked: blocked,
                 ),
                 if (freshChecksOpen)
                   ChannelRow(
@@ -222,6 +229,7 @@ class SettingsBody extends StatelessWidget {
                     note: _pausedNote(NotificationChannelKeys.checkDue),
                     onChanged: (on) => actions.onChannel(NotificationChannelKeys.checkDue, on),
                     dimmed: blocked,
+                    blocked: blocked,
                   ),
               ],
             ),
@@ -235,6 +243,9 @@ class SettingsBody extends StatelessWidget {
               children: [
                 ValueRow(label: NotificationsCopy.windowStarts, value: formatClock(window.start), onTap: actions.onWindowStart),
                 ValueRow(label: NotificationsCopy.windowEnds, value: formatClock(window.end), onTap: actions.onWindowEnd),
+                // Inside the group it belongs to, as a quiet full-width row: not a pill floating
+                // between sections, and never the weight of the primary key.
+                ActionRow(label: NotificationsCopy.windowRemove, onTap: actions.onRemoveWindow),
               ],
             ),
             if (prefs.studyWindowInQuietHours) ...[
@@ -244,15 +255,6 @@ class SettingsBody extends StatelessWidget {
                 child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
               ),
             ],
-            const SizedBox(height: MmRhythm.item),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: KeyButton.secondary(
-                label: NotificationsCopy.windowRemove,
-                expanded: false,
-                onPressed: actions.onRemoveWindow,
-              ),
-            ),
           ],
           const SectionHeading(NotificationsCopy.quietHeading),
           MmRowGroup(

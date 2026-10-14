@@ -27,6 +27,8 @@ class EmblemPalette {
   const EmblemPalette._({
     required this.isNight,
     required this.field,
+    required this.glyphField,
+    required this.pool,
     required this.fieldTop,
     required this.fieldBottom,
     required this.lamp,
@@ -49,22 +51,27 @@ class EmblemPalette {
 
   factory EmblemPalette.of(SubjectIdentity subject, Brightness brightness) {
     final night = brightness == Brightness.dark;
-    final field = subject.field(brightness);
     final mid = subject.formInk(brightness);
     final deep = subject.formInkDeep(brightness);
     const lamp = Color(0xFFF2A93B);
     if (night) {
       const lit = Color(0xFFEFE8D9);
+      // The subject's night field is a near-black wash. A plate printed on it sinks into the
+      // Night Sheet and every warm subject turns the same brown, so the plate is lifted a step
+      // toward the subject's own ink: clearly lighter than the ground and still its own hue.
+      final field = _liftNight(subject.field(brightness), mid);
       return EmblemPalette._(
         isNight: true,
         field: field,
-        fieldTop: Color.lerp(Color.lerp(field, lamp, 0.10)!, const Color(0xFFFFFFFF), 0.05)!,
-        fieldBottom: Color.lerp(field, const Color(0xFF050403), 0.42)!,
-        lamp: lamp.withValues(alpha: 0.22),
-        edgeTop: const Color(0x3DFFF6E4),
+        glyphField: Color.lerp(field, mid, 0.10)!,
+        pool: _poolColor(subject.field(brightness), mid, lightness: 0.21, saturation: 0.44),
+        fieldTop: Color.lerp(field, const Color(0xFFFFF6E4), 0.12)!,
+        fieldBottom: Color.lerp(field, const Color(0xFF050403), 0.30)!,
+        lamp: lamp.withValues(alpha: 0.10),
+        edgeTop: const Color(0x66FFF6E4),
         edgeBottom: const Color(0x00FFF6E4),
         rim: const Color(0x52000000),
-        grid: mid.withValues(alpha: 0.30),
+        grid: mid.withValues(alpha: 0.16),
         lit: lit,
         shade: Color.lerp(lit, deep, 0.42)!,
         mid: mid,
@@ -79,9 +86,12 @@ class EmblemPalette {
       );
     }
     const lit = Color(0xFFFFFDF8);
+    final field = subject.field(brightness);
     return EmblemPalette._(
       isNight: false,
       field: field,
+      glyphField: Color.lerp(field, mid, 0.30)!,
+      pool: _poolColor(field, mid, lightness: 0.86, saturation: 0.46, blend: 0.24),
       fieldTop: Color.lerp(field, const Color(0xFFFFFFFF), 0.24)!,
       fieldBottom: Color.lerp(field, mid, 0.26)!,
       lamp: lamp.withValues(alpha: 0.16),
@@ -107,6 +117,13 @@ class EmblemPalette {
 
   /// The tile: the subject's light field, lit from the upper left, darker at the foot.
   final Color field;
+
+  /// The flat colour a 24 dp glyph tile is printed in (its silhouettes are checked against it).
+  final Color glyphField;
+
+  /// The core of the pool an unframed emblem stands on. Lightness is the same for every subject,
+  /// so no pool reads louder than its neighbours.
+  final Color pool;
   final Color fieldTop;
   final Color fieldBottom;
 
@@ -152,6 +169,27 @@ class EmblemPalette {
 
   /// An unmarked bubble's printed ring.
   final Color ring;
+}
+
+Color _liftNight(Color field, Color mid) {
+  final base = HSLColor.fromColor(Color.lerp(field, mid, 0.30)!);
+  return base
+      .withSaturation((base.saturation * 1.08 + 0.05).clamp(0.0, 0.60))
+      .withLightness((base.lightness + 0.02).clamp(0.0, 0.30))
+      .toColor();
+}
+
+/// A pool colour at a fixed [lightness]: the subject's hue, one strength for every subject.
+Color _poolColor(Color field, Color mid, {required double lightness, required double saturation, double blend = 0.5}) {
+  final hsl = HSLColor.fromColor(Color.lerp(field, mid, blend)!);
+  return hsl.withLightness(lightness).withSaturation(math.min(saturation, math.max(hsl.saturation, 0.3))).toColor();
+}
+
+/// WCAG contrast ratio between two opaque colours.
+double contrastRatio(Color a, Color b) {
+  final la = a.computeLuminance(), lb = b.computeLuminance();
+  final hi = math.max(la, lb), lo = math.min(la, lb);
+  return (hi + 0.05) / (lo + 0.05);
 }
 
 /// Small drawing helpers in the emblem's 100 by 100 design space.

@@ -73,11 +73,8 @@ class PrivacyScreen extends ConsumerWidget {
         const GroupHeading(YouCopy.operationalHeading),
         const YouParagraph(YouCopy.operationalNote),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: PillKey(label: YouCopy.changeAnswer, onPressed: () => _changeAnswer(context, ref, consent)),
-          ),
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s24, youText, 0),
+          child: KeyButton.secondary(label: YouCopy.changeAnswer, onPressed: () => _changeAnswer(context, ref, consent)),
         ),
       ];
 }

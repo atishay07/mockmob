@@ -8,10 +8,14 @@ import '../../../core/widgets/widgets.dart';
 /// one accent, 48 dp tall. It names what opens ("See the 6 questions"), so it needs no dots or
 /// pill to say what it is. It sits flush with the text above it.
 class EvidenceLink extends StatelessWidget {
-  const EvidenceLink({super.key, required this.label, required this.onTap});
+  const EvidenceLink({super.key, required this.label, required this.onTap, this.icon = LucideIcons.arrowRight});
 
   final String label;
   final VoidCallback onTap;
+
+  /// The icon after the label: an arrow when it leads to evidence, something else for a quiet
+  /// explanation.
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class EvidenceLink extends StatelessWidget {
               ),
             ),
             const SizedBox(width: MmSpace.s8),
-            Icon(LucideIcons.arrowRight, size: 18, color: pressed ? colors.ink2 : colors.volt),
+            Icon(icon, size: 18, color: pressed ? colors.ink2 : (icon == LucideIcons.arrowRight ? colors.volt : colors.ink3)),
           ],
         ),
       ),

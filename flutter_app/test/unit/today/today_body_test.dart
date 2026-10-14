@@ -95,7 +95,7 @@ void main() {
   testWidgets('the error state offers Try again and a way to practise', (tester) async {
     final events = await pumpToday(tester, buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attemptsFailed: true)));
     expect(find.text(TodayCopy.unavailableTitle), findsOneWidget);
-    expect(find.text(TodayCopy.unavailableOverline), findsOneWidget, reason: 'a failed read is not labelled as the move');
+    expect(find.text(TodayCopy.unavailableLine), findsOneWidget);
     expect(find.textContaining('move'), findsNothing);
     await tester.tap(find.text(TodayCopy.tryAgain));
     await tester.pump();

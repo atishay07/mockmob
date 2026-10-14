@@ -45,8 +45,8 @@ void main() {
       await tester.pumpAndSettle();
       // Partnership holds five open mistakes across two papers.
       expect(find.byType(MistakeRow), findsNWidgets(5));
-      expect(find.text('Repair these 3 from Mock 2'), findsOneWidget);
-      expect(find.text('Repair these 2 from Mock 1'), findsOneWidget);
+      expect(find.text('Repair 3 from Mock 2'), findsOneWidget);
+      expect(find.text('Repair 2 from Mock 1'), findsOneWidget);
     });
 
     testWidgets('opening a second chapter closes the first (one open at a time)', (tester) async {

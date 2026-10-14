@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
+import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
+import 'package:mockmob/features/result/full/full_sections.dart' show BlankGroup;
 import 'package:mockmob/features/result/model/recap_model.dart';
 import 'package:mockmob/features/today/logic/today_model.dart' show GoTo, TodayAction;
 
@@ -73,7 +75,8 @@ void main() {
       final f = firstBusinessStudiesMock();
       expect(f.model.ordinal, 1);
       await open(tester, '/result/a7/recap/4', f.model, f.detail);
-      expect(find.text('Your first Business Studies paper.'), findsOneWidget);
+      // The first mock is said once, by the token row; no second line about it.
+      expect(find.text('Your first Business Studies paper.'), findsNothing);
       expect(find.text('Your first full paper.'), findsNothing);
     });
   });
@@ -109,21 +112,25 @@ void main() {
     });
   });
 
+  // The answer rows inside the folded "Not attempted" group: none until it is opened. A row names
+  // only its question (the group header says why they are here), so they are counted by type.
+  final blankRows = find.descendant(of: find.byType(BlankGroup), matching: find.byType(AnswerRow));
+
   group('P3-8: the full result folds the "Not attempted" rows', () {
     testWidgets('folded by default; one tap shows the rows, another folds them', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7', f.model, f.detail);
-      expect(find.textContaining(', Not attempted'), findsNothing);
+      expect(blankRows, findsNothing);
       final header = find.text('Not attempted (6)');
       await tester.scrollUntilVisible(header, 300, scrollable: find.byType(Scrollable).first);
       expect(find.bySemanticsLabel('6 questions not attempted. Show them.'), findsOneWidget);
       await tester.tap(header);
       await _run(tester, 400);
-      expect(find.textContaining(', Not attempted'), findsNWidgets(6));
+      expect(blankRows, findsNWidgets(6));
       expect(find.bySemanticsLabel('6 questions not attempted. Hide them.'), findsOneWidget);
       await tester.tap(header);
       await _run(tester, 400);
-      expect(find.textContaining(', Not attempted'), findsNothing);
+      expect(blankRows, findsNothing);
     });
 
     testWidgets('the correct answers are reachable without passing every blank', (tester) async {
@@ -132,7 +139,7 @@ void main() {
       final correct = find.text('Correct (10)');
       await tester.scrollUntilVisible(correct, 300, scrollable: find.byType(Scrollable).first);
       expect(correct, findsOneWidget);
-      expect(find.textContaining(', Not attempted'), findsNothing);
+      expect(blankRows, findsNothing);
     });
 
     testWidgets('a link to a blank question opens the group on it', (tester) async {
@@ -166,15 +173,17 @@ void main() {
       for (final label in ['5 min', '10 min', '15 min']) {
         expect(tester.getRect(find.text(label)).bottom, lessThanOrEqualTo(keyTop), reason: '$label chip is under the key');
       }
-      await tester.scrollUntilVisible(find.text('Finish for now'), 100, scrollable: find.byType(Scrollable).first);
-      expect(find.text('Finish for now'), findsOneWidget);
+      // The quiet keys are pinned with the primary one, so they are always in reach.
+      expect(find.text('Choose something else'), findsOneWidget);
+      expect(find.bySemanticsLabel('More'), findsOneWidget);
     });
 
     testWidgets('at normal text the quiet keys stay pinned under the primary key', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail());
       final keyBottom = tester.getRect(find.text('Start 10-minute repair')).bottom;
-      expect(tester.getRect(find.text('Finish for now')).top, greaterThan(keyBottom));
+      expect(find.text('Finish for now'), findsNothing, reason: 'one quiet key, the other behind More');
       expect(tester.getRect(find.text('Choose something else')).top, greaterThan(keyBottom));
+      expect(tester.getRect(find.bySemanticsLabel('More')).top, greaterThan(keyBottom));
     });
   });
 
@@ -193,14 +202,15 @@ void main() {
       actionType: 'practice',
     );
 
-    testWidgets('a next move is the primary key; Finish for now and Choose something else are quiet below it', (tester) async {
+    testWidgets('a next move is the primary key; Choose something else is the one quiet key below it', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7/recap/4', f.model, f.detail, nextMove: mixed);
       expect(find.text('No wrong answers to repair from this mock.'), findsOneWidget);
       final primary = find.text(mixed.label);
       expect(primary, findsOneWidget);
       final bottom = tester.getRect(primary).bottom;
-      expect(tester.getRect(find.text('Finish for now')).top, greaterThan(bottom));
+      expect(find.text('Finish for now'), findsNothing, reason: 'it waits behind More');
+      expect(find.bySemanticsLabel('More'), findsOneWidget);
       expect(tester.getRect(find.text('Choose something else')).top, greaterThan(bottom));
       // The key is a real 48 dp target.
       final box = tester.renderObject<RenderBox>(find.ancestor(of: primary, matching: find.byType(Semantics)).first);
@@ -231,7 +241,8 @@ void main() {
       await open(tester, '/result/a7/recap/4', mock7(), detail(), nextMove: mixed);
       expect(find.text('Start 10-minute repair'), findsOneWidget);
       expect(find.text(mixed.label), findsNothing);
-      expect(find.text('Finish for now'), findsOneWidget);
+      expect(find.text('Finish for now'), findsNothing, reason: 'it waits behind More');
+      expect(find.bySemanticsLabel('More'), findsOneWidget);
       expect(find.text('Choose something else'), findsOneWidget);
     });
   });

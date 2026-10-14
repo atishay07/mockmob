@@ -117,7 +117,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
               return false;
             },
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s16),
+              padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s32),
               child: SizeChangedLayoutNotifier(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -144,7 +144,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s8, bottom: MmSpace.s16),
+                      padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s20, bottom: MmSpace.s16),
                       child: Semantics(header: true, child: RiseHeadline(move.title, style: type.headline)),
                     ),
                     // Faded in only: Mobi aims at its start key as it lays out, so it never moves.
@@ -163,7 +163,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                         onNumberLanded: () => ref.read(hapticsProvider).selection(),
                       ),
                     ),
-                    const SizedBox(height: MmSpace.s32),
+                    const SizedBox(height: MmSpace.s24),
                     EntranceItem.answer(
                       2,
                       child: Padding(

@@ -167,17 +167,17 @@ class _DayShapeState extends State<DayShape>
                   Curves.easeOutCubic.transform(_controller.value),
                 );
                 return CustomPaint(
-                  size: const Size.fromHeight(40),
+                  size: const Size.fromHeight(_DayPainter.barTop * 2 + _DayPainter.barHeight),
                   painter: _DayPainter(
                     marks: m,
                     hasQuiet: quiet.isNotEmpty,
                     hasWindow: window != null,
-                    track: colors.sunken,
+                    track: colors.isNight ? colors.raised : colors.sunken,
                     trackBorder: colors.line,
                     quiet: colors.isNight ? colors.lineStrong : colors.ink4,
                     study: colors.isNight ? colors.volt : colors.accentText,
-                    clash: colors.warnText,
-                    ground: colors.raised,
+                    clash: _ClashInk.of(colors),
+                    ground: colors.ground,
                   ),
                 );
               },
@@ -234,6 +234,38 @@ class _DayShapeState extends State<DayShape>
 
 enum _Swatch { quiet, study, clash }
 
+/// The overlap mark: amber, hatched, so it reads even where it is narrow, and never by colour
+/// alone. The same pair of colours paints the bar and its legend swatch.
+class _ClashInk {
+  const _ClashInk({required this.fill, required this.stripe});
+
+  final Color fill;
+  final Color stripe;
+
+  factory _ClashInk.of(MmColors colors) => colors.isNight
+      // Night: the warm amber with stripes cut in the ground colour.
+      ? _ClashInk(fill: colors.warnText, stripe: colors.ground)
+      // Day: a clear amber (the text brown reads muddy as a fill) with dark brown stripes.
+      : const _ClashInk(fill: Color(0xFFE9A92E), stripe: Color(0x99523300));
+}
+
+/// Fills [rrect] with the hatched mark: the fill, then diagonal stripes clipped to it.
+void _paintHatch(Canvas canvas, RRect rrect, _ClashInk ink) {
+  canvas.save();
+  canvas.clipRRect(rrect);
+  canvas.drawRRect(rrect, Paint()..color = ink.fill);
+  final stripe = Paint()
+    ..color = ink.stripe
+    ..strokeWidth = 2.2
+    ..strokeCap = StrokeCap.butt;
+  const gap = 6.0;
+  final r = rrect.outerRect;
+  for (var x = r.left - r.height; x < r.right + r.height; x += gap) {
+    canvas.drawLine(Offset(x, r.bottom), Offset(x + r.height, r.top), stripe);
+  }
+  canvas.restore();
+}
+
 class _LegendLine extends StatelessWidget {
   const _LegendLine({required this.swatch, required this.text});
 
@@ -253,12 +285,11 @@ class _LegendLine extends StatelessWidget {
         SizedBox(
           width: 20,
           height: 8,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: MmRadius.pillAll,
-            ),
-          ),
+          child: swatch == _Swatch.clash
+              ? CustomPaint(painter: _HatchSwatchPainter(_ClashInk.of(colors)))
+              : DecoratedBox(
+                  decoration: BoxDecoration(color: color, borderRadius: MmRadius.pillAll),
+                ),
         ),
         const SizedBox(width: MmSpace.s8),
         Expanded(
@@ -270,6 +301,19 @@ class _LegendLine extends StatelessWidget {
       ],
     );
   }
+}
+
+class _HatchSwatchPainter extends CustomPainter {
+  _HatchSwatchPainter(this.ink);
+
+  final _ClashInk ink;
+
+  @override
+  void paint(Canvas canvas, Size size) =>
+      _paintHatch(canvas, RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(4)), ink);
+
+  @override
+  bool shouldRepaint(_HatchSwatchPainter old) => old.ink.fill != ink.fill || old.ink.stripe != ink.stripe;
 }
 
 class _DayPainter extends CustomPainter {
@@ -292,8 +336,20 @@ class _DayPainter extends CustomPainter {
   final Color trackBorder;
   final Color quiet;
   final Color study;
-  final Color clash;
+  final _ClashInk clash;
   final Color ground;
+
+  /// The bar's drawing box inside the canvas, and the room the marks keep from its ends.
+  static const double barTop = 6;
+  static const double barHeight = 36;
+  static const double markInset = 5;
+  static const double markRadius = 8;
+
+  /// An overlap is never drawn narrower than this, so a short clash still shows as a mark.
+  static const double minClashWidth = 12;
+
+  /// The narrowest study bar.
+  static const double minStudyWidth = 6;
 
   List<(double, double)> _spans(double s, double e) {
     final a = s / 1440, b = e / 1440;
@@ -301,68 +357,49 @@ class _DayPainter extends CustomPainter {
     return a < b ? [(a, b)] : [(a, 1.0), (0.0, b)];
   }
 
+  /// A span as pixels, grown to [minWidth] about its middle and kept inside the bar.
+  Rect _markRect((double, double) span, double width, double minWidth) {
+    var x0 = span.$1 * width;
+    var x1 = span.$2 * width;
+    if (x1 - x0 < minWidth) {
+      final mid = (x0 + x1) / 2;
+      x0 = mid - minWidth / 2;
+      x1 = mid + minWidth / 2;
+    }
+    const edge = 3.0;
+    if (x0 < edge) {
+      x1 += edge - x0;
+      x0 = edge;
+    }
+    if (x1 > width - edge) {
+      x0 -= x1 - (width - edge);
+      x1 = width - edge;
+    }
+    return Rect.fromLTRB(x0.clamp(edge, width), barTop + markInset, x1.clamp(edge, width), barTop + barHeight - markInset);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
-    const barTop = 8.0;
-    const barHeight = 24.0;
     final rect = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, barTop, size.width, barHeight),
-      const Radius.circular(12),
+      const Radius.circular(barHeight / 2),
     );
     canvas.save();
     canvas.clipRRect(rect);
     canvas.drawRRect(rect, Paint()..color = track);
 
-    final quietSpans = hasQuiet
-        ? _spans(marks.qs, marks.qe)
-        : const <(double, double)>[];
-    final studySpans = hasWindow
-        ? _spans(marks.ws, marks.we)
-        : const <(double, double)>[];
+    final quietSpans = hasQuiet ? _spans(marks.qs, marks.qe) : const <(double, double)>[];
+    final studySpans = hasWindow ? _spans(marks.ws, marks.we) : const <(double, double)>[];
 
     for (final s in quietSpans) {
       canvas.drawRect(
-        Rect.fromLTRB(
-          s.$1 * size.width,
-          barTop,
-          s.$2 * size.width,
-          barTop + barHeight,
-        ),
+        Rect.fromLTRB(s.$1 * size.width, barTop, s.$2 * size.width, barTop + barHeight),
         Paint()..color = quiet,
       );
     }
-    for (final s in studySpans) {
-      canvas.drawRect(
-        Rect.fromLTRB(
-          s.$1 * size.width,
-          barTop + 4,
-          s.$2 * size.width,
-          barTop + barHeight - 4,
-        ),
-        Paint()..color = study,
-      );
-    }
-    for (final o in overlapOf(quietSpans, studySpans)) {
-      canvas.drawRect(
-        Rect.fromLTRB(
-          o.$1 * size.width,
-          barTop + 4,
-          o.$2 * size.width,
-          barTop + barHeight - 4,
-        ),
-        Paint()..color = clash,
-      );
-    }
     canvas.restore();
-    canvas.drawRRect(
-      rect.deflate(0.5),
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
-        ..color = trackBorder,
-    );
 
-    // Hour marks at 6 hour steps, drawn over the bar in the sheet colour.
+    // Hour marks at 6 hour steps, cut through the bar in the ground colour.
     final tick = Paint()
       ..color = ground
       ..strokeWidth = 1;
@@ -373,6 +410,30 @@ class _DayPainter extends CustomPainter {
         tick,
       );
     }
+
+    // The study window and any overlap sit over the bar as their own rounded marks, so they are
+    // never clipped by the bar's ends.
+    for (final s in studySpans) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(_markRect(s, size.width, minStudyWidth), const Radius.circular(markRadius)),
+        Paint()..color = study,
+      );
+    }
+    for (final o in overlapOf(quietSpans, studySpans)) {
+      _paintHatch(
+        canvas,
+        RRect.fromRectAndRadius(_markRect(o, size.width, minClashWidth), const Radius.circular(markRadius)),
+        clash,
+      );
+    }
+
+    canvas.drawRRect(
+      rect.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = trackBorder,
+    );
   }
 
   @override
@@ -384,5 +445,7 @@ class _DayPainter extends CustomPainter {
       old.hasQuiet != hasQuiet ||
       old.hasWindow != hasWindow ||
       old.study != study ||
-      old.quiet != quiet;
+      old.quiet != quiet ||
+      old.track != track ||
+      old.clash.fill != clash.fill;
 }

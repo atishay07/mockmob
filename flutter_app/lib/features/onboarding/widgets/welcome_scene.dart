@@ -5,9 +5,9 @@ import '../../../core/theme/theme.dart';
 
 /// The welcome room, drawn in code: a desk lamp in the top corner that clicks on as the room
 /// opens (a catch of the filament, then full light in 360 ms) and pours a cone of warm light onto
-/// a desk, and one row of answer bubbles on the desk's edge that ink in turn. Mobi stands on
-/// the desk, large, and is the picture (placed by the welcome screen). Nothing here is a picture, so it
-/// is sharp at any size, follows the theme, and costs one paint.
+/// a desk. Mobi stands on the desk, large, and is the picture (placed by the welcome screen);
+/// nothing else is on it, so the screen has one thing to look at and one key. Nothing here is a
+/// picture, so it is sharp at any size, follows the theme, and costs one paint.
 class WelcomeScene extends StatefulWidget {
   const WelcomeScene({super.key, required this.deskAt, this.animate = true});
 
@@ -20,8 +20,7 @@ class WelcomeScene extends StatefulWidget {
 }
 
 class _WelcomeSceneState extends State<WelcomeScene> with SingleTickerProviderStateMixin {
-  /// The scene's one clock: the lamp comes on over its first 360 ms, then the bubble inks once
-  /// Mobi has landed and begun his hello.
+  /// The scene's one clock: the lamp comes on over its first 360 ms.
   late final AnimationController _ink = AnimationController(vsync: this, duration: WelcomeScenePainter.length);
 
   @override
@@ -101,7 +100,7 @@ class WelcomeScenePainter extends CustomPainter {
 
   final ScenePalette palette;
 
-  /// 0 to 1 over [length]; at 1 (reduced motion, goldens) the room is lit and inked.
+  /// 0 to 1 over [length]; at 1 (reduced motion, goldens) the room is lit.
   final Animation<double> clock;
   final double deskAt;
 
@@ -109,9 +108,6 @@ class WelcomeScenePainter extends CustomPainter {
 
   /// The lamp's first 360 ms of the clock.
   static const double _lampOn = 0.18;
-
-  /// The bubble inks over the rest, after Mobi's hello has begun.
-  static const Interval _inking = Interval(0.25, 1);
 
   /// How lit the lamp is at clock [t]: the filament catches (to 0.6 in 54 ms), dips once, then
   /// the light rises to full on the emphasized curve. Never more than one flicker.
@@ -162,7 +158,6 @@ class WelcomeScenePainter extends CustomPainter {
 
     _lamp(canvas, w, h, bulb, glow);
     _desk(canvas, size, deskY, glow);
-    _sheet(canvas, w, h, deskY);
   }
 
   void _lamp(Canvas canvas, double w, double h, Offset bulb, double glow) {
@@ -250,33 +245,6 @@ class WelcomeScenePainter extends CustomPainter {
         ], stops: const [0, 0.65, 1])
             .createShader(Rect.fromLTWH(0, deskY, w, 1)),
     );
-  }
-
-  /// A row of answer bubbles along the desk's front edge, inking one at a time while Mobi waves:
-  /// the only prop left on the desk, so Mobi is the picture and the sheet is only hinted at.
-  void _sheet(Canvas canvas, double w, double h, double deskY) {
-    final p = palette;
-    const count = 5;
-    final y = deskY + h * 0.115;
-    final progress = _inking.transform(clock.value);
-    final ring = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
-      ..color = p.ring.withValues(alpha: 0.8);
-    for (var i = 0; i < count; i++) {
-      final c = Offset(w * 0.09 + i * w * 0.075, y);
-      final rect = Rect.fromCenter(center: c, width: 15, height: 9);
-      final inked = ((progress * count) - i).clamp(0.0, 1.0);
-      if (i == 2 && inked > 0) {
-        final t = Motion.emphasized.transform(inked);
-        canvas.drawOval(
-          Rect.fromCenter(center: c, width: rect.width * (0.4 + 0.6 * t), height: rect.height * (0.4 + 0.6 * t)),
-          Paint()..color = p.ink.withValues(alpha: 0.35 + 0.65 * t),
-        );
-      } else {
-        canvas.drawOval(rect, ring);
-      }
-    }
   }
 
   @override

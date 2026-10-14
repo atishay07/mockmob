@@ -4,19 +4,21 @@
 abstract final class InsightsCopy {
   // ---- Your record -------------------------------------------------------------------------
   static const recordTitle = 'Your record';
-  static String recordBasis(int sessions, int questions) =>
-      'From your last ${_n(sessions, 'scored session')}, ${_n(questions, 'question')} in all.';
+  // Short on purpose: it must sit on one line over the figure, with no word left alone below it.
+  static String recordBasis(int sessions, int questions) => '${_n(sessions, 'scored session')}, ${_n(questions, 'question')}';
+  /// A signed figure with a true minus sign (U+2212), never a hyphen: +5, 0, −1.
+  static String signed(int n) => n > 0 ? '+$n' : (n < 0 ? '−${-n}' : '0');
   static const netLabel = 'net marks';
   static const ledgerHeading = 'Where the marks went';
   // The marks arithmetic is said once, in netOver; the legend names each kind and its count.
   static String ledgerRight(int n, int marks) => '$n right';
   static String ledgerWrong(int n) => '$n wrong';
-  static String ledgerBlank(int n) => '$n left blank';
+  static String ledgerBlank(int n) => '$n blank';
   static String sheetScale(int per) => 'Each bubble stands for about $per questions.';
   static const kindLeak = 'Where marks leak';
   static const kindGood = 'Working';
   static const kindNote = 'Worth knowing';
-  static const ledgerNote = 'Marking as CUET counts it: +5 right, -1 wrong, 0 blank.';
+  static const ledgerNote = 'CUET marking: +5 right, −1 wrong, 0 blank.';
   static String accuracyLine(int pct, int low, int high, int n) => '$pct% right of $n answered. Likely range $low to $high%.';
   static const signedOutTitle = 'Sign in to open the stream';
   static const signedOutMessage = 'The stream picks questions from your own subjects and remembers what you answered, so it needs your account.';
@@ -26,19 +28,26 @@ abstract final class InsightsCopy {
   // Net marks are never stated alone: papers differ in length, so a sum over sessions means
   // nothing by itself. It always carries the marks that were on offer.
   static String netOver(int net, int offered, int sessions) =>
-      '${net > 0 ? '+' : ''}$net net marks of $offered on offer over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
+      '${signed(net)} net marks of $offered on offer over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
 
   // The figure when the share answered right is not known yet (sparse record).
-  static const sparseTitle = 'Answer 10 questions to see your share right';
-  static String sparseLine(int answered) => answered == 0
-      ? 'Nothing answered yet. Right and wrong answers both count toward it.'
-      : '$answered answered so far. Right and wrong answers both count toward it.';
+  static const sparseTitle = 'Not enough answers yet';
+  static String sparseLine(int answered, {int blank = 0}) {
+    if (answered == 0) {
+      return blank > 0
+          ? 'You left ${blank == 1 ? 'it' : 'all $blank'} blank. Answer 10 questions to see your share right.'
+          : 'Answer 10 questions to see your share right.';
+    }
+    final more = answered >= 10 ? 1 : 10 - answered;
+    return '$answered answered so far. Answer $more more to see your share right.';
+  }
 
   // Show me: the sessions behind a claim.
   static String showMeSessions(int n) => n == 1 ? 'Show me, the session behind this' : 'Show me, the $n sessions behind this';
   static String evidenceCount(int n) => n == 1 ? '1 session, opens its result.' : '$n sessions, newest first. Each opens its result.';
   static String evidenceMore(int n) => '${_n(n, 'older session')} not listed.';
   static const openSession = 'Opens its result';
+  static String showMeCount(int n) => n == 1 ? '1 session' : '$n sessions';
   static const behindLedger = 'The sessions behind these marks';
   static const behindFinding = 'The sessions behind this';
   static const behindChanges = 'Sessions with changed answers';
@@ -48,6 +57,7 @@ abstract final class InsightsCopy {
   // The attempts list (trend and by subject) while it loads or after it failed.
   static const attemptsFailed = 'Your sessions did not load, so the trend and subjects are missing.';
   static const attemptsOffline = 'You are offline. Sessions show here once they have loaded.';
+  static const staleNote = 'Offline. Showing what was last loaded.';
 
   // The trend's points.
   static String trendPointLabel(String day, int marks, int max, int total) => '$day. $marks of $max marks, $total questions.';
@@ -64,7 +74,8 @@ abstract final class InsightsCopy {
   static String trendDeltaLabel(int d) => d == 0
       ? 'The same marks as the session before'
       : (d > 0 ? '$d marks more than the session before' : '${-d} marks fewer than the session before');
-  static const trendOnePoint = 'One more session in this format and the line appears.';
+  static const trendOnePoint = 'Not enough yet. One more session in this format and the line appears.';
+  static String trendReadout(String day, int total) => '$day, ${trendPointPaper(total)}';
   static String trendLatest(int marks, int max) => '$marks of $max';
   static String trendSessions(int n) => _n(n, 'session');
 
@@ -157,6 +168,8 @@ abstract final class InsightsCopy {
   static const savedErrorTitle = 'Saved questions did not load';
   static const savedErrorMessage = 'Check your connection and try again.';
   static const remove = 'Remove';
+  static const removedFromSaved = 'Removed from saved';
+  static const undo = 'Undo';
   static const removing = 'Removing';
 
   // ---- Stream ------------------------------------------------------------------------------

@@ -30,7 +30,7 @@ class MistakeActions {
 /// The question with the student's answer, then the correct answer once the server says it,
 /// what happened, the worked explanation and the optional retry.
 class MistakeView extends StatelessWidget {
-  const MistakeView({super.key, required this.run, required this.question, required this.actions, this.detail, this.renewLine});
+  const MistakeView({super.key, required this.run, required this.question, required this.actions, this.detail, this.renewDate});
 
   final RepairRunState run;
 
@@ -40,7 +40,9 @@ class MistakeView extends StatelessWidget {
   /// The attempt detail (answer reviews), for the key rule of the answer review. Null until it
   /// has loaded at least once.
   final AttemptDetail? detail;
-  final String? renewLine;
+
+  /// When the explanation credits renew ("1 November"), for the used-up credits line.
+  final String? renewDate;
   final MistakeActions actions;
 
   @override
@@ -50,6 +52,10 @@ class MistakeView extends StatelessWidget {
     final step = run.current!;
     final outcome = step.outcome;
     final loading = outcome == null || outcome is OutcomeLoading;
+    // A call that failed and can be tried again: the key becomes "Try again", and moving on is the
+    // quiet text under it. Nothing else on this screen is a second button.
+    final retryHere = outcome is OutcomeFailed && outcome.failure.canRetry;
+    final moveOn = run.isLast ? ReviewCopy.finish : ReviewCopy.nextMistake;
 
     final (chosen, keyIndex) = switch (outcome) {
       OutcomeExplained(:final response) => (response.chosenIndex ?? step.item.givenIndex, response.keyIndex),
@@ -62,28 +68,60 @@ class MistakeView extends StatelessWidget {
       children: [
         _TopBar(run: run, onFinishForNow: actions.onFinishForNow),
         Expanded(
-          child: ListView(
-            key: PageStorageKey(step.item.key),
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
+          child: Stack(
             children: [
-              Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s8),
-              if (question == null)
-                Text(ReviewCopy.notFound, style: type.body.copyWith(color: colors.ink2))
-              else
-                QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
-              ..._outcome(context, outcome),
+              ListView(
+                key: PageStorageKey(step.item.key),
+                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
+                children: [
+                  Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s8),
+                  if (question == null)
+                    Text(ReviewCopy.notFound, style: type.body.copyWith(color: colors.ink2))
+                  else
+                    QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
+                  ..._outcome(context, outcome),
+                ],
+              ),
+              // The words run under the key: a short fade into the ground says there is more, in
+              // place of a hard cut or a rule.
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: 28,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [colors.ground.withValues(alpha: 0), colors.ground],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.ground,
-            border: Border(top: BorderSide(color: colors.line)),
-          ),
+        ColoredBox(
+          color: colors.ground,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s16),
-            child: KeyButton(label: run.isLast ? ReviewCopy.finish : ReviewCopy.nextMistake, onPressed: loading ? null : actions.onNext),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // While the explanation is made the key holds its place and shows its spinner: a
+                // working key, not a grey one that looks broken.
+                KeyButton(
+                  label: retryHere ? ReviewCopy.tryAgainKey : moveOn,
+                  loading: loading,
+                  onPressed: retryHere ? actions.onRetry : actions.onNext,
+                ),
+                if (retryHere) Align(child: KeyButton.quiet(label: moveOn, onPressed: actions.onNext)),
+              ],
+            ),
           ),
         ),
       ],
@@ -97,7 +135,7 @@ class MistakeView extends StatelessWidget {
     switch (outcome) {
       case null || OutcomeLoading():
         return [
-          const SizedBox(height: MmSpace.s24),
+          const SizedBox(height: MmSpace.s32),
           Text(ReviewCopy.working, style: type.label.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s12),
           const SkeletonGroup(
@@ -118,7 +156,7 @@ class MistakeView extends StatelessWidget {
       case OutcomeSetAside(:final heldByServer):
         return [NoticePanel(message: heldByServer ? ReviewCopy.heldForRecheck : ReviewCopy.setAsideCheck, icon: LucideIcons.scale)];
       case OutcomeNotExplained():
-        return [NoticePanel(message: ReviewCopy.notExplained, secondary: readKey)];
+        return [NoticePanel(message: ReviewCopy.notExplained, primary: readKey)];
       case OutcomeFailed(:final failure):
         final message = switch (failure) {
           RepairFailure.offline => ReviewCopy.offline,
@@ -132,13 +170,13 @@ class MistakeView extends StatelessWidget {
           NoticePanel(
             message: message,
             icon: failure == RepairFailure.offline ? LucideIcons.wifiOff : LucideIcons.info,
-            primary: failure.canRetry ? StateAction(ReviewCopy.tryAgainKey, actions.onRetry) : null,
-            secondary: failure == RepairFailure.notFound ? null : readKey,
+            // The key below says "Try again"; reading the key explanation is the quiet link here.
+            primary: failure == RepairFailure.notFound ? null : readKey,
           ),
         ];
       case OutcomeKeyReview(:final reason):
         return [
-          if (reason == KeyReviewReason.outOfCredits) NoticePanel(message: ReviewCopy.outOfCredits, detail: renewLine),
+          if (reason == KeyReviewReason.outOfCredits) NoticePanel(message: ReviewCopy.creditsUsedLine(renewDate)),
           if (reason == KeyReviewReason.paused) const NoticePanel(message: ReviewCopy.paused),
           _KeyReview(detail: detail, questionId: run.current!.item.questionId),
         ];

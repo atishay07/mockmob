@@ -26,8 +26,8 @@ Future<ClockTime?> showTimeSheet(
 }) {
   return showMmSheet<ClockTime>(
     context: context,
-    title: NotificationsCopy.pickTitle(what),
     builder: (_) => TimeSheetBody(
+      label: NotificationsCopy.pickLabel(what),
       initial: initial,
       mustBeAfter: mustBeAfter,
       afterReason: afterReason,
@@ -39,10 +39,14 @@ class TimeSheetBody extends StatefulWidget {
   const TimeSheetBody({
     super.key,
     required this.initial,
+    this.label,
     this.mustBeAfter,
     this.afterReason,
   });
 
+  /// What is being set, shown small above the time ("Quiet hours start"). Also the sheet's
+  /// heading for TalkBack, so it needs no separate title.
+  final String? label;
   final ClockTime initial;
   final ClockTime? mustBeAfter;
   final String? afterReason;
@@ -93,15 +97,30 @@ class _TimeSheetBodyState extends State<TimeSheetBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Room under the drag handle, then what is being set, small, over the time it holds.
+        const SizedBox(height: MmSpace.s8),
+        if (widget.label != null) ...[
+          Semantics(
+            header: true,
+            child: Text(
+              widget.label!,
+              style: type.labelLarge.copyWith(color: colors.ink2),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: MmSpace.s4),
+        ],
         Semantics(
           liveRegion: true,
           child: Text(
             readout,
-            style: type.display,
+            // The display cut tracks tight for headlines; as a clock it needs air, or the 1s
+            // and the colon run together.
+            style: type.display.copyWith(letterSpacing: 0.5),
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s24),
         group(
           NotificationsCopy.pickHour,
           Wrap(

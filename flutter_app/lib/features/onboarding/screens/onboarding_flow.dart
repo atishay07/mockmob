@@ -288,6 +288,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                                       now: ref.watch(nowProvider)(),
                                       current: step.id,
                                       compact: _compact(step, answers),
+                                      // Steps 2 to 7: a one-line strip; the full card is the first step's.
+                                      slim: step.id != Steps.stage,
                                       trackKey: _track,
                                     )
                                   : const SizedBox(key: ValueKey('none'), width: double.infinity),

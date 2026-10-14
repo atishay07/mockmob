@@ -33,35 +33,33 @@ class Guide2027Screen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Said once for the whole timeline, so no row has to repeat it.
+                Text(ToolsCopy.guideBasis, style: context.mmType.caption.copyWith(color: context.mmColors.ink2)),
+                const SizedBox(height: MmSpace.s20),
                 for (var i = 0; i < guideTimeline.length; i++)
-                  _TimelineRow(milestone: guideTimeline[i], now: now, last: i == guideTimeline.length - 1),
+                  _TimelineRow(
+                    milestone: guideTimeline[i],
+                    now: now,
+                    last: i == guideTimeline.length - 1,
+                    // The rail below this node is volt while the next stop has already begun.
+                    reached: i + 1 < guideTimeline.length && !now.isBefore(guideTimeline[i + 1].start),
+                  ),
               ],
             ),
           ),
         ),
         SliverToBoxAdapter(child: _Section(section: guidePattern)),
         SliverToBoxAdapter(child: _Section(section: guideSubjects)),
+        // One flat list of where to go next (the planner, Compass, past papers), not three cards.
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmRhythm.item),
-            child: ToolsPanel(
-              dividerIndent: ToolsLinkRow.dividerIndent,
+            padding: const EdgeInsets.only(top: MmRhythm.group),
+            child: ToolsFlatList(
               children: [
-                ToolsLinkRow(icon: LucideIcons.layoutGrid, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
-                ToolsLinkRow(icon: LucideIcons.compass, title: ToolsCopy.compassTitle, note: ToolsCopy.compassQuestion, onTap: () => context.push(ToolsPaths.compass)),
-              ],
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.guideCommonQuestions)),
-        SliverToBoxAdapter(child: ToolsPanel(children: [for (final (q, a) in guideFaqs) _Faq(question: q, answer: a)])),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(top: MmRhythm.section),
-            child: ToolsPanel(
-              dividerIndent: ToolsLinkRow.dividerIndent,
-              children: [
+                ToolsLinkRow(flat: true, icon: LucideIcons.layoutGrid, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
+                ToolsLinkRow(flat: true, icon: LucideIcons.compass, title: ToolsCopy.compassTitle, note: ToolsCopy.compassQuestion, onTap: () => context.push(ToolsPaths.compass)),
                 ToolsLinkRow(
+                  flat: true,
                   icon: LucideIcons.bookOpen,
                   title: ToolsCopy.pyqTitle,
                   note: ToolsCopy.pyqNote,
@@ -72,17 +70,22 @@ class Guide2027Screen extends ConsumerWidget {
             ),
           ),
         ),
+        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.guideCommonQuestions)),
+        SliverToBoxAdapter(child: ToolsPanel(children: [for (final (q, a) in guideFaqs) _Faq(question: q, answer: a)])),
       ],
     );
   }
 }
 
 class _TimelineRow extends StatelessWidget {
-  const _TimelineRow({required this.milestone, required this.now, required this.last});
+  const _TimelineRow({required this.milestone, required this.now, required this.last, required this.reached});
 
   final GuideMilestone milestone;
   final DateTime now;
   final bool last;
+
+  /// The next stop has begun, so the rail under this node is the volt one.
+  final bool reached;
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +95,7 @@ class _TimelineRow extends StatelessWidget {
     final passed = !now.isBefore(m.end);
     final current = !passed && !now.isBefore(m.start);
     final state = passed ? ToolsCopy.guidePassed : current ? ToolsCopy.guideNow : (m.expected ? ToolsCopy.guideExpected : ToolsCopy.guideComingUp);
+    final volt = colors.isNight ? colors.volt : colors.accentText;
     return MergeSemantics(
       child: IntrinsicHeight(
         child: Row(
@@ -101,18 +105,16 @@ class _TimelineRow extends StatelessWidget {
               width: 28,
               child: Column(
                 children: [
-                  Bubble(
-                    state: passed || current ? BubbleState.filled : BubbleState.hollow,
-                    emphasis: current,
-                    size: 16,
-                    animate: false,
-                    semanticsLabel: state,
-                  ),
+                  Semantics(label: state, child: _Node(passed: passed, current: current, volt: volt)),
                   if (!last)
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: MmSpace.s4),
-                        child: SizedBox(width: 1.5, height: double.infinity, child: ColoredBox(color: colors.ink4)),
+                        child: SizedBox(
+                          width: 2.5,
+                          height: double.infinity,
+                          child: DecoratedBox(decoration: BoxDecoration(color: reached ? volt : colors.ink3, borderRadius: BorderRadius.circular(2))),
+                        ),
                       ),
                     ),
                 ],
@@ -121,16 +123,17 @@ class _TimelineRow extends StatelessWidget {
             const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(bottom: last ? 0 : MmSpace.s20),
+                padding: EdgeInsets.only(bottom: last ? 0 : MmSpace.s24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(m.when, style: type.caption.copyWith(color: current ? colors.accentText : colors.ink3, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 2),
+                    // The date is the spine of a timeline: heavier than the words under it.
+                    Text(m.when, style: type.labelLarge.copyWith(fontSize: 15, color: current ? colors.accentText : colors.ink)),
+                    const SizedBox(height: MmSpace.s4),
                     Row(
                       children: [
                         Flexible(child: Text(m.title, style: type.cardTitle)),
-                        if (m.expected) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideExpected)],
+                        if (m.expected) ...[const SizedBox(width: MmSpace.s8), const _ExpectedTag()],
                         if (current) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideNow, tone: ToolTone.good)],
                       ],
                     ),
@@ -142,6 +145,59 @@ class _TimelineRow extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// A node of the rail: a checked disc once passed, a lit disc with a halo for now, a clear ring
+/// for what is still to come. All 20 dp, so the rail reads at a glance.
+class _Node extends StatelessWidget {
+  const _Node({required this.passed, required this.current, required this.volt});
+
+  final bool passed;
+  final bool current;
+  final Color volt;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    if (passed) {
+      return DecoratedBox(
+        decoration: BoxDecoration(shape: BoxShape.circle, color: volt),
+        child: SizedBox.square(dimension: 20, child: Icon(LucideIcons.check, size: 13, color: colors.voltInk)),
+      );
+    }
+    if (current) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: volt,
+          border: Border.all(color: colors.raised, width: 3),
+          boxShadow: [BoxShadow(color: volt.withValues(alpha: 0.55), blurRadius: 10, spreadRadius: 1)],
+        ),
+        child: const SizedBox.square(dimension: 20),
+      );
+    }
+    return DecoratedBox(
+      decoration: BoxDecoration(shape: BoxShape.circle, color: colors.raised, border: Border.all(color: colors.ink3, width: 2)),
+      child: const SizedBox.square(dimension: 20),
+    );
+  }
+}
+
+/// "Expected": an outline, not a fill, in readable ink: a date that is a forecast says so plainly.
+class _ExpectedTag extends StatelessWidget {
+  const _ExpectedTag();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(borderRadius: MmRadius.pillAll, border: Border.all(color: colors.ink3)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        child: Text(ToolsCopy.guideExpected, style: context.mmType.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
       ),
     );
   }

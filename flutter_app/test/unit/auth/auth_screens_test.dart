@@ -9,6 +9,9 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/core/widgets/brand/wordmark.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:mockmob/features/auth/auth_page.dart' show BackKey;
 import 'package:mockmob/features/account_access/access_gateway.dart' show accountAccessGatewayProvider;
 import 'package:mockmob/features/auth/auth_routes.dart';
 import 'package:mockmob/features/auth/code_slots.dart';
@@ -28,8 +31,10 @@ Future<GoRouter> _pump(
   bool google = false,
   FakeAccessGateway? access,
   String initial = AppRoutes.signIn,
+  Size size = const Size(360, 780),
+  double textScale = 1,
 }) async {
-  tester.view.physicalSize = const Size(720, 1560);
+  tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
 
@@ -67,6 +72,12 @@ Future<GoRouter> _pump(
         routerConfig: router,
         theme: buildTheme(Brightness.light),
         debugShowCheckedModeBanner: false,
+        builder: (context, app) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: app!,
+        ),
       ),
     ),
   );
@@ -127,7 +138,7 @@ void main() {
     (tester) async {
       await _pump(tester, gateway: FakeGateway());
       await _sendCodeFor(tester, 'asha@example.com');
-      await tester.tap(find.bySemanticsLabel(AuthCopy.back));
+      await tester.tap(find.bySemanticsLabel(AuthCopy.differentEmail));
       await tester.pumpAndSettle();
 
       expect(find.text(AuthCopy.signInTitle), findsOneWidget);
@@ -136,7 +147,7 @@ void main() {
         'asha@example.com',
       );
       // A code is already out for this address, so the way back to it is offered.
-      expect(find.text(AuthCopy.alreadyHaveCode), findsOneWidget);
+      expect(find.text(AuthCopy.enterSentCode), findsOneWidget);
     },
   );
 
@@ -149,7 +160,7 @@ void main() {
       await _sendCodeFor(tester, 'asha@example.com');
 
       expect(find.text(AuthCopy.problem(SignInProblem.rateLimited, SignInStep.email)!), findsOneWidget);
-      await tester.tap(find.text(AuthCopy.alreadyHaveCode));
+      await tester.tap(find.text(AuthCopy.enterSentCode));
       await tester.pumpAndSettle();
       expect(find.text(AuthCopy.codeTitle), findsOneWidget, reason: 'the code in the inbox can still be entered');
     },
@@ -355,4 +366,95 @@ void main() {
     final field = tester.getSize(find.byType(TextField));
     expect(field.height, greaterThanOrEqualTo(52));
   });
+
+  testWidgets(
+    'a rate limit makes the code we sent the main key and holds the send key behind a countdown',
+    (tester) async {
+      final clock = TestClock();
+      final gateway = FakeGateway()..sendError = failure(AuthFailure.rateLimited);
+      await _pump(tester, gateway: gateway, clock: clock);
+      await _sendCodeFor(tester, 'asha@example.com');
+
+      // The volt key goes to the code that is already out; asking again is not offered.
+      expect(find.widgetWithText(KeyButton, AuthCopy.enterSentCode), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, AuthCopy.sendCode), findsNothing);
+      expect(find.text('Send a new code in 1:00'), findsOneWidget);
+      // No second, contradicting line about a code having been sent.
+      expect(find.textContaining('Code sent to'), findsNothing);
+
+      clock.advance(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('Send a new code in 0:59'), findsOneWidget);
+
+      // When the wait ends the message goes and the send key is live again, with a quiet way
+      // back to the old code.
+      clock.advance(const Duration(seconds: 59));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text(AuthCopy.problem(SignInProblem.rateLimited, SignInStep.email)!), findsNothing);
+      expect(find.widgetWithText(KeyButton, AuthCopy.sendCode), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, AuthCopy.enterSentCode), findsOneWidget);
+      gateway.sendError = null;
+    },
+  );
+
+  testWidgets('the code screen has one way back: the arrow, named for what it does', (
+    tester,
+  ) async {
+    final handle = tester.ensureSemantics();
+    await _pump(tester, gateway: FakeGateway());
+    await _sendCodeFor(tester, 'asha@example.com');
+    expect(find.text(AuthCopy.differentEmail), findsNothing, reason: 'no second link to the same place');
+    expect(find.bySemanticsLabel(AuthCopy.differentEmail), findsOneWidget);
+    // The arrow's glyph sits on the 16 dp content edge; its key is still 48 dp.
+    final key = find.bySemanticsLabel(AuthCopy.differentEmail);
+    expect(tester.getSize(find.byType(BackKey)).width, MmTarget.min);
+    expect(tester.getTopLeft(find.byIcon(LucideIcons.arrowLeft)).dx, closeTo(MmSpace.gutter, 0.6));
+    expect(key, findsOneWidget);
+    handle.dispose();
+  });
+
+  testWidgets('offline keeps the brand row and shows one quiet status line, not a box', (
+    tester,
+  ) async {
+    await _pump(
+      tester,
+      gateway: FakeGateway(),
+      network: NetworkStatus.offline,
+    );
+    final markBefore = tester.getTopLeft(find.byType(Wordmark));
+    expect(find.byType(InlineBanner), findsNothing);
+    expect(find.text(AuthCopy.offlineBanner), findsOneWidget);
+    expect(find.byType(Wordmark), findsOneWidget);
+    // The line sits clear of the top bar, not flush against the screen edge.
+    expect(tester.getTopLeft(find.text(AuthCopy.offlineBanner)).dy, greaterThan(markBefore.dy));
+    expect(tester.getTopLeft(find.text(AuthCopy.offlineBanner)).dy, greaterThan(MmTarget.min));
+  });
+
+  testWidgets('the key stays in reach: the email key sits in the lower half of the screen', (
+    tester,
+  ) async {
+    await _pump(tester, gateway: FakeGateway(), size: const Size(384, 853));
+    final key = tester.getCenter(find.widgetWithText(KeyButton, AuthCopy.sendCode));
+    expect(key.dy, greaterThan(853 * 0.6));
+  });
+
+  for (final screen in ['sign-in', 'code']) {
+    testWidgets('at 1.3x text on a 360 dp phone the $screen screen does not overflow', (
+      tester,
+    ) async {
+      await _pump(
+        tester,
+        gateway: FakeGateway(),
+        size: const Size(360, 640),
+        textScale: 1.3,
+        network: NetworkStatus.offline,
+        auth: const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true),
+      );
+      if (screen == 'code') await _sendCodeFor(tester, 'asha.verma.longname@example.com');
+      expect(tester.takeException(), isNull);
+      await tester.drag(find.byType(SingleChildScrollView).first, const Offset(0, -400));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+    });
+  }
 }

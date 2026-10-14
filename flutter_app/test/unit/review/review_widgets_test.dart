@@ -29,9 +29,9 @@ void main() {
   testWidgets('the tab offers tonight, skipped questions without a repair key, and the record', (tester) async {
     await pump(tester, const ReviewScreen());
     expect(find.textContaining("'s repair, "), findsOneWidget);
-    expect(find.textContaining('Start, about'), findsOneWidget);
+    expect(find.textContaining('Start, '), findsOneWidget);
     expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    expect(find.text('Checked on fresh questions: not available yet.'), findsOneWidget);
+    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsOneWidget, reason: 'the record entry is one compact line per fact');
     expect(find.textContaining('mastered'), findsNothing);
   });
 
@@ -68,7 +68,7 @@ void main() {
         run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
       ),
     );
-    final list = find.byType(ListView);
+    final list = find.byType(CustomScrollView);
     await tester.drag(list, const Offset(0, -2000));
     await tester.pumpAndSettle();
     final share = tester.getRect(find.widgetWithText(KeyButton, 'Share a card').first);
@@ -85,8 +85,9 @@ void main() {
       const RepairScreen(attemptId: 'm7', questionId: 'm7-q0'),
       run: runOf(outcomes: [const OutcomeLoading()]),
     );
+    // The key holds its place and works (spinner, taps ignored) instead of sitting grey.
     final key = tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Next mistake'));
-    expect(key.onPressed, isNull);
+    expect(key.loading, isTrue);
     expect(find.text('Correct answer'), findsNothing, reason: 'the key shows only with the server answer');
   });
 
@@ -108,9 +109,12 @@ void main() {
       const RepairEndingScreen(attemptId: 'm7'),
       run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
     );
-    expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget);
+    expect(find.text('Repair finished. Recorded at 11:21\u00A0PM.'), findsOneWidget);
     expect(find.byType(MobiCharacter), findsOneWidget);
     expect(find.text('Repair 1 more mistake'), findsOneWidget);
+    // The number carries the count; the line carries what the number does not.
+    expect(find.textContaining(RegExp(r'\d+ left in Partnership|Nothing left in Partnership')), findsOneWidget);
+    expect(find.textContaining('repaired tonight'), findsNothing);
   });
 
   group('the repairFinished moment', () {
@@ -132,6 +136,7 @@ void main() {
       expect(slot, findsOneWidget);
       expect(find.descendant(of: slot, matching: find.text('Repair finished. Recorded at 11:21 PM.')), findsOneWidget);
       expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget, reason: 'the screen leaves its own receipt out');
+      expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsNothing);
       expect(find.byType(MobiCharacter), findsOneWidget);
       expect(find.descendant(of: slot, matching: find.byType(MobiCharacter)), findsNothing, reason: 'an L1 moment has no Mobi of its own');
     });
@@ -165,20 +170,22 @@ void main() {
       await tester.pumpAndSettle();
       expect(seen.ids, isEmpty);
       expect(find.byType(CelebrationSlot), findsNothing);
-      expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget);
+      expect(find.text('Repair finished. Recorded at 11:21\u00A0PM.'), findsOneWidget);
     });
   });
 
-  testWidgets('nothing repaired: no number, no Mobi, no receipt', (tester) async {
+  testWidgets('nothing repaired: a hero with Mobi and one large word, no number, no receipt, and Try again', (tester) async {
     await pump(
       tester,
       const RepairEndingScreen(attemptId: 'm7'),
       run: runOf(phase: RepairPhase.ending, outcomes: [const OutcomeSetAside(heldByServer: true)]),
     );
-    expect(find.text('Nothing was repaired this time'), findsOneWidget);
-    expect(find.byType(MobiCharacter), findsNothing);
+    expect(find.text('Nothing repaired this time'), findsOneWidget);
+    expect(find.byType(MobiCharacter), findsOneWidget);
     expect(find.byType(ReceiptLine), findsNothing);
     expect(find.byType(MonumentalNumber), findsNothing);
+    expect(find.widgetWithText(KeyButton, 'Try again'), findsOneWidget, reason: 'the key says what it does');
+    expect(find.widgetWithText(KeyButton, 'Repair 1 more mistake'), findsNothing);
   });
 
   for (final (name, screen, run) in [

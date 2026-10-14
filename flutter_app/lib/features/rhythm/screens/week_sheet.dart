@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -113,7 +115,7 @@ class WeekSheetBody extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
+          KeyButton(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
         ],
       );
     } else if (snapshot.isInitialLoading) {
@@ -140,7 +142,7 @@ class WeekSheetBody extends StatelessWidget {
         children: [
           Text(RhythmCopy.weekLoadFailed, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(label: RhythmCopy.tryAgain, onPressed: onRetry),
+          KeyButton(label: RhythmCopy.tryAgain, onPressed: onRetry),
         ],
       );
     } else {
@@ -251,7 +253,7 @@ class _Loaded extends StatelessWidget {
         if (plan == null && onChangeDays != null) ...[
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),
-          FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
+          FlushQuietKey(label: RhythmCopy.setStudyDays, chevron: true, onPressed: onChangeDays!),
         ],
         if (outlook?.kind == OutlookKind.outOfReach && onPauseWeek != null) ...[
           const SizedBox(height: MmSpace.s12),
@@ -276,16 +278,66 @@ class _Loaded extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s16),
         ],
-        Text(run, style: type.body.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s12),
-        Text(RhythmCopy.studyDayRule, style: type.caption.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s12),
-        Wrap(
-          spacing: MmSpace.s24,
-          children: [
-            if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
-            FlushQuietKey(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
-          ],
+        Text(run, style: type.small.copyWith(color: colors.ink2)),
+        // The rule is one tap away, not repeated on every sheet.
+        const _RuleInfo(),
+        if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, chevron: true, onPressed: onChangeDays!),
+        const SizedBox(height: MmSpace.s4),
+        QuietPill(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
+      ],
+    );
+  }
+}
+
+/// "How a day counts": a quiet 48 dp row that opens the one-line rule under it and closes again.
+class _RuleInfo extends StatefulWidget {
+  const _RuleInfo();
+
+  @override
+  State<_RuleInfo> createState() => _RuleInfoState();
+}
+
+class _RuleInfoState extends State<_RuleInfo> {
+  bool _open = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: MmPressable(
+            onTap: () => setState(() => _open = !_open),
+            semanticsLabel: RhythmCopy.howDayCounts,
+            selected: _open,
+            haptic: MmPressHaptic.selection,
+            focusRadius: MmRadius.smallAll,
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: MmTarget.min),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(LucideIcons.info, size: 16, color: colors.ink2),
+                  const SizedBox(width: MmSpace.s8),
+                  Text(RhythmCopy.howDayCounts, style: type.small.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+          ),
+        ),
+        AnimatedSize(
+          duration: Motion.of(context, const Duration(milliseconds: 160)),
+          curve: Motion.glide,
+          alignment: Alignment.topCenter,
+          child: _open
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                  child: Semantics(liveRegion: true, child: Text(RhythmCopy.studyDayRule, style: type.caption.copyWith(color: colors.ink2))),
+                )
+              : const SizedBox(width: double.infinity),
         ),
       ],
     );
@@ -350,7 +402,7 @@ class _PauseKeyState extends State<_PauseKey> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        KeyButton.secondary(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run, loading: _busy),
+        KeyButton(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run, loading: _busy),
         if (_failed) ...[
           const SizedBox(height: MmSpace.s8),
           InlineBanner(message: RhythmCopy.pauseFailed, tone: BannerTone.error),

@@ -16,6 +16,9 @@ import '../data/trend.dart';
 /// "Show me" under a claim on the record page, opening the sessions behind it: one session opens
 /// straight in its result, several open a sheet listing them, newest first. Draws nothing when
 /// there is no session to show (the caller hides the claim too).
+///
+/// It is a full-width row with a chevron, never a pill: the whole line is the target (48 dp), it
+/// says how many sessions it opens, and it stays quieter than the one action of the screen.
 class EvidencePill extends StatelessWidget {
   const EvidencePill({super.key, required this.attempts, required this.what});
 
@@ -28,9 +31,51 @@ class EvidencePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (attempts.isEmpty) return const SizedBox.shrink();
-    return ShowMePill(
+    return ShowMeRow(
       semanticsLabel: InsightsCopy.showMeSessions(attempts.length),
+      count: InsightsCopy.showMeCount(attempts.length),
       onTap: () => openEvidence(context, attempts, what: what),
+    );
+  }
+}
+
+/// "Show me" as a tappable row: the words, an optional count of what opens, and a chevron. With
+/// [fill] it spans the width (label left, count and chevron right); without it, it hugs its
+/// content, for a spot beside a line of text.
+class ShowMeRow extends StatelessWidget {
+  const ShowMeRow({super.key, required this.onTap, required this.semanticsLabel, this.count, this.fill = true});
+
+  final VoidCallback onTap;
+  final String semanticsLabel;
+  final String? count;
+  final bool fill;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: semanticsLabel,
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.99,
+      onTap: onTap,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Row(
+          mainAxisSize: fill ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            Text(ShowMePill.label, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: colors.ink)),
+            if (fill) const Spacer() else const SizedBox(width: MmSpace.s4),
+            if (count != null) ...[
+              Text(count!, style: type.caption.copyWith(color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
+              const SizedBox(width: MmSpace.s4),
+            ],
+            Icon(LucideIcons.chevronRight, size: 18, color: colors.ink2),
+          ],
+        ),
+      ),
     );
   }
 }

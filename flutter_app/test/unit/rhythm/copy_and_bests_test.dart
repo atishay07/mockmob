@@ -84,7 +84,7 @@ void main() {
     test('exact spec lines', () {
       expect(RhythmCopy.lastNight(3, 3), 'Last night: 3 mistakes repaired. 3 are waiting.');
       expect(RhythmCopy.lastNight(1, 1), 'Last night: 1 mistake repaired. 1 is waiting.');
-      expect(RhythmCopy.welcomeBack, 'Welcome back. Pick up with a small next step.');
+      expect(RhythmCopy.welcomeBack, 'Welcome back.');
       expect(RhythmCopy.goalRow(4), 'Goal: 4 days a week');
       expect(RhythmCopy.bestRun(1), 'Best run: 1 week');
     });
@@ -127,7 +127,7 @@ void main() {
     });
 
     test('the long pause says how long it is, and the paused panel keeps the run', () {
-      expect(RhythmCopy.pauseUntilOn, 'Pause for about 3 months');
+      expect(RhythmCopy.pauseUntilOn, 'About 3 months');
       expect(RhythmCopy.pausedKeepsRun, 'Paused weeks do not break your run.');
     });
   });

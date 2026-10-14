@@ -60,7 +60,11 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     _openNew = Timer(const Duration(milliseconds: 1600), () {
       if (!mounted) return;
       final unit = ui.replacements.isEmpty ? null : ui.replacements.first.id;
-      context.go(unit == null || unit.isEmpty ? AppRoutes.learn : AppRoutes.learnUnit(unit));
+      context.go(
+        unit == null || unit.isEmpty
+            ? AppRoutes.learn
+            : AppRoutes.learnUnit(unit),
+      );
     });
   }
 
@@ -83,7 +87,8 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
         child: Column(
           children: [
             _header(ui),
-            if (offline && ui.load == RunLoad.ready) const InlineBanner.offlineStrip(),
+            if (offline && ui.load == RunLoad.ready)
+              const InlineBanner.offlineStrip(),
             Expanded(child: _body(ui, controller)),
           ],
         ),
@@ -96,23 +101,39 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     final colors = context.mmColors;
     final run = ui.run;
     final showRun = run != null && ui.load == RunLoad.ready && run.isActive;
-    final number = showRun ? (run.cursor + 1).clamp(1, run.total == 0 ? 1 : run.total) : 0;
+    final number = showRun
+        ? (run.cursor + 1).clamp(1, run.total == 0 ? 1 : run.total)
+        : 0;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, MmSpace.gutter, MmSpace.s8),
+      padding: const EdgeInsets.fromLTRB(
+        MmSpace.s4,
+        MmSpace.s4,
+        MmSpace.gutter,
+        MmSpace.s8,
+      ),
       child: Column(
         children: [
           Row(
             children: [
-              IconTap(icon: LucideIcons.x, label: LearnCopy.leaveRun, onTap: _leave),
+              IconTap(
+                icon: LucideIcons.x,
+                label: LearnCopy.leaveRun,
+                onTap: _leave,
+              ),
               Expanded(
                 child: Text(
-                  showRun ? (run.title ?? LearnCopy.reviewRunTitle) : LearnCopy.title,
+                  showRun
+                      ? (run.title ?? LearnCopy.reviewRunTitle)
+                      : LearnCopy.title,
                   style: type.label.copyWith(color: colors.ink2),
                 ),
               ),
               if (showRun && run.total > 0) ...[
                 const SizedBox(width: MmSpace.s8),
-                Text(LearnCopy.position(run.mode, number, run.total), style: type.label.copyWith(color: colors.ink)),
+                Text(
+                  LearnCopy.position(run.mode, number, run.total),
+                  style: type.label.copyWith(color: colors.ink),
+                ),
               ],
             ],
           ),
@@ -135,29 +156,43 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
           kind: StateViewKind.error,
           title: LearnCopy.runUnavailableTitle,
           message: LearnCopy.runUnavailableMessage,
-          primary: StateAction(LearnCopy.backToLearn, () => context.go(AppRoutes.learn)),
+          primary: StateAction(
+            LearnCopy.backToLearn,
+            () => context.go(AppRoutes.learn),
+          ),
         );
       case RunLoad.offlineMissing:
         return StateView(
           kind: StateViewKind.offline,
           title: LearnCopy.runOfflineTitle,
           message: LearnCopy.runOfflineMessage,
-          primary: StateAction(LearnCopy.tryAgain, () => unawaited(controller.load())),
-          secondary: StateAction(LearnCopy.backToLearn, () => context.go(AppRoutes.learn)),
+          primary: StateAction(
+            LearnCopy.tryAgain,
+            () => unawaited(controller.load()),
+          ),
+          secondary: StateAction(
+            LearnCopy.backToLearn,
+            () => context.go(AppRoutes.learn),
+          ),
         );
       case RunLoad.changed:
         return StateView(
           kind: StateViewKind.empty,
           title: LearnCopy.contentChangedOpening,
-          primary: StateAction(LearnCopy.backToLearn, () => context.go(AppRoutes.learn)),
+          primary: StateAction(
+            LearnCopy.backToLearn,
+            () => context.go(AppRoutes.learn),
+          ),
         );
       case RunLoad.ready:
         final run = ui.run;
         final item = run?.currentItem;
-        if (run == null || !run.isActive || item == null) return const _RunSkeleton();
+        if (run == null || !run.isActive || item == null)
+          return const _RunSkeleton();
         final actions = RunStepActions(
           reveal: () => unawaited(controller.reveal()),
-          answer: (value, {bool assisted = false}) => unawaited(controller.answer(value, assisted: assisted)),
+          answer: (value, {bool assisted = false}) =>
+              unawaited(controller.answer(value, assisted: assisted)),
           rate: (r) => unawaited(controller.rate(r)),
           advance: () => unawaited(controller.advance()),
           retry: () => unawaited(controller.flush()),
@@ -182,7 +217,12 @@ class _RunSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SkeletonGroup(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+        padding: EdgeInsets.fromLTRB(
+          MmSpace.gutter,
+          MmSpace.s16,
+          MmSpace.gutter,
+          0,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

@@ -51,11 +51,8 @@ class AskScreen extends ConsumerStatefulWidget {
 class _AskScreenState extends ConsumerState<AskScreen> {
   late final TextEditingController _text = TextEditingController(text: widget.seed);
   final ScrollController _scroll = ScrollController();
-  /// Mobi in the header, once there is a conversation.
-  final MobiController _mobi = MobiController();
-
-  /// Mobi on the stage before the first message. A second controller: the stage's pending
-  /// lines and acts must never replay on the header Mobi.
+  /// Mobi at the head of the thread: on the stage before the first message, then smaller above
+  /// the conversation, where it thinks while a reply is on its way and talks when one lands.
   final MobiController _stageMobi = MobiController();
 
   /// The lead prompt tile and the follow-up rail, so Mobi can glance at what is new.
@@ -84,7 +81,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     _text.dispose();
     _scroll.dispose();
     _glanceTimer?.cancel();
-    _mobi.dispose();
     _stageMobi.dispose();
     super.dispose();
   }
@@ -194,7 +190,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (now.isEmpty) return;
     if (!(prev?.busy ?? false) && next.busy) {
       // The bulb pulses while the reply is on its way (it settles by itself after 12 s).
-      _mobi.play(MobiAct.loading);
+      _stageMobi.play(MobiAct.loading);
       return;
     }
     // The pending bubble became a reply or a failure.
@@ -202,10 +198,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       if (before[i].sending && !now[i].sending) {
         final m = now[i];
         if (m.failure != null) {
-          _mobi.play(MobiAct.oops);
+          _stageMobi.play(MobiAct.oops);
         } else {
-          _mobi.play(MobiAct.idle);
-          _mobi.say(speechLine(m.text));
+          _stageMobi.play(MobiAct.idle);
+          _stageMobi.say(speechLine(m.text));
           if (m.isModel) ref.read(hapticsProvider).light();
         }
         return;
@@ -213,8 +209,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     }
     // A record answer lands with no wait.
     if (now.length > before.length && !now.last.fromStudent && !now.last.sending && now.last.failure == null) {
-      _mobi.play(MobiAct.idle);
-      _mobi.say(speechLine(now.last.text));
+      _stageMobi.play(MobiAct.idle);
+      _stageMobi.say(speechLine(now.last.text));
     }
   }
 
@@ -261,7 +257,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     }
     if (followUps.isNotEmpty && !_railShown) {
       _railShown = true;
-      _glanceAt(_mobi, _railKey, after: const Duration(milliseconds: 800));
+      _glanceAt(_stageMobi, _railKey, after: const Duration(milliseconds: 800));
     } else if (followUps.isEmpty) {
       _railShown = false;
     }
@@ -294,7 +290,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _AskHeader(mobi: conversation ? _mobi : null, sessions: record != null && record.isReady ? record.sessions : null),
+                _AskHeader(sessions: record != null && record.isReady ? record.sessions : null),
                 Expanded(
                   // A conversation sits on the composer: short threads fill upward from the
                   // bottom, never leaving a dead band under the last reply.
@@ -306,21 +302,33 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                         constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: conversation ? MainAxisAlignment.end : MainAxisAlignment.start,
+                          // Short threads keep Mobi at the top and the last reply on the composer:
+                          // the space between is the thread's, never a dead band above it.
+                          mainAxisAlignment: conversation ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                           children: [
-                            if (!conversation) ..._stage(record, pro, name, sendPrompt),
-                            for (final (i, m) in state.messages.indexed) ...[
-                              if (i > 0) SizedBox(height: m.fromStudent ? MmSpace.s20 : MmSpace.s16),
-                              AskMessageView(
-                                message: m,
-                                animate: i >= settled,
-                                citation: citationFor(m, record, evidence),
-                                onReport: m.isModel ? () => _report(m) : null,
-                                onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
-                                onRetry: () {
-                                  ref.read(askControllerProvider.notifier).retry(i);
-                                  _toEnd();
-                                },
+                            if (!conversation)
+                              ..._stage(record, pro, name, sendPrompt)
+                            else ...[
+                              _head(record, name, size: 104),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const SizedBox(height: MmSpace.s16),
+                                  for (final (i, m) in state.messages.indexed) ...[
+                                    if (i > 0) SizedBox(height: m.fromStudent ? MmSpace.s20 : MmSpace.s16),
+                                    AskMessageView(
+                                      message: m,
+                                      animate: i >= settled,
+                                      citation: citationFor(m, record, evidence),
+                                      onReport: m.isModel ? () => _report(m) : null,
+                                      onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
+                                      onRetry: () {
+                                        ref.read(askControllerProvider.notifier).retry(i);
+                                        _toEnd();
+                                      },
+                                    ),
+                                  ],
+                                ],
                               ),
                             ],
                           ],
@@ -348,10 +356,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                   // Mobi leans in to listen while the student types, and stands at ease after.
                   onFocusChange: (focused) {
                     if (!mounted || ref.read(askControllerProvider).busy) return;
-                    // Whichever Mobi is on screen: the stage's before the first message, the
-                    // header's once there is a conversation.
-                    final who = ref.read(askControllerProvider).messages.isEmpty ? _stageMobi : _mobi;
-                    who.play(focused ? MobiAct.listen : MobiAct.idle);
+                    _stageMobi.play(focused ? MobiAct.listen : MobiAct.idle);
                   },
                 ),
               ],
@@ -362,44 +367,50 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     );
   }
 
-  /// The stage before the first message: Mobi and its line, then the prompts by intent.
-  List<Widget> _stage(PrepInsights? record, bool pro, String? name, void Function(AskPrompt) send) {
+  /// Mobi and the line it says about the record it has read. The same widget before and after the
+  /// first message (only its size changes), so Mobi never restarts when the conversation begins.
+  Widget _head(PrepInsights? record, String? name, {double size = 132}) {
     final ready = record != null && record.isReady;
+    return Center(
+      child: MobiStage(
+        controller: _stageMobi,
+        size: size,
+        say: InsightsCopy.askGreeting(name, ready ? record.sessions : null),
+        semanticLabel: 'Mobi',
+        bubbleWidth: 300,
+        interactive: true,
+      ),
+    );
+  }
+
+  /// The stage before the first message: Mobi and its line, then the prompts by intent. The first
+  /// prompt is the largest and the only lit one; the rest follow in a grid.
+  List<Widget> _stage(PrepInsights? record, bool pro, String? name, void Function(AskPrompt) send) {
     final tiles = recordPrompts(record, pro: pro);
     final open = openPrompts(record);
     Duration d(int ms) => Duration(milliseconds: ms);
-    Widget pair(AskPrompt a, AskPrompt b, int ms, {bool lead = false}) => IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: RiseIn(
-                  key: lead ? _leadTileKey : null,
-                  delay: d(ms),
-                  child: PromptTile(prompt: a, lead: lead, onTap: () => send(a)),
-                ),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: RiseIn(delay: d(ms + 70), child: PromptTile(prompt: b, onTap: () => send(b)))),
-            ],
-          ),
-        );
     return [
-      Center(
-        child: MobiStage(
-          controller: _stageMobi,
-          size: 132,
-          say: InsightsCopy.askGreeting(name, ready ? record.sessions : null),
-          semanticLabel: 'Mobi',
-          bubbleWidth: 300,
-          interactive: true,
-        ),
-      ),
+      _head(record, name),
       const SizedBox(height: MmSpace.s24),
       RiseIn(delay: d(360), child: const AskEyebrow(InsightsCopy.askGroupRecord, note: InsightsCopy.askGroupRecordNote)),
-      pair(tiles[0], tiles[1], 420, lead: true),
+      RiseIn(
+        key: _leadTileKey,
+        delay: d(420),
+        child: PromptTile(prompt: tiles[0], lead: true, onTap: () => send(tiles[0])),
+      ),
       const SizedBox(height: MmSpace.s12),
-      pair(tiles[2], tiles[3], 540),
+      IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: RiseIn(delay: d(500), child: PromptTile(prompt: tiles[1], onTap: () => send(tiles[1])))),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(child: RiseIn(delay: d(570), child: PromptTile(prompt: tiles[2], onTap: () => send(tiles[2])))),
+          ],
+        ),
+      ),
+      const SizedBox(height: MmSpace.s12),
+      RiseIn(delay: d(640), child: PromptTile(prompt: tiles[3], wide: true, onTap: () => send(tiles[3]))),
       const SizedBox(height: MmSpace.s24),
       RiseIn(delay: d(700), child: const AskEyebrow(InsightsCopy.askGroupOpen, note: InsightsCopy.askGroupOpenNote)),
       for (final (i, p) in open.indexed) ...[
@@ -416,12 +427,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   }
 }
 
-/// The top row: back, Mobi when there is a conversation (it acts there), the title and one line
-/// saying how much of the record Mobi has read.
+/// The top row: back, the title and one line saying how much of the record Mobi has read.
 class _AskHeader extends StatelessWidget {
-  const _AskHeader({required this.mobi, required this.sessions});
+  const _AskHeader({required this.sessions});
 
-  final MobiController? mobi;
   final int? sessions;
 
   @override
@@ -438,13 +447,6 @@ class _AskHeader extends StatelessWidget {
             icon: Icon(LucideIcons.arrowLeft, color: colors.ink),
           ),
           const SizedBox(width: MmSpace.s4),
-          if (mobi != null) ...[
-            RiseIn(
-              dy: 6,
-              child: SizedBox(width: 48, height: 52, child: Mobi(pose: MobiPose.idle, size: 48, controller: mobi, semanticLabel: 'Mobi')),
-            ),
-            const SizedBox(width: MmSpace.s8),
-          ],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

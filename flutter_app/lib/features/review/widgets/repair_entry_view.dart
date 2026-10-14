@@ -17,24 +17,25 @@ import 'mistake_run.dart';
 
 /// How the run can start, from the explanation wallet (spec 5.8 entry).
 class EntryPlan {
-  const EntryPlan({required this.line, required this.primary, this.limit, this.keyOnly = false, this.offerKeys = false});
+  const EntryPlan({this.headline, this.line, required this.primary, this.limit, this.keyOnly = false, this.offerKeys = false});
 
   /// Built from `GET /api/ai/credits`. An unknown balance shows no credit line and never
   /// counts as zero.
   factory EntryPlan.of(int mistakes, AiCredits? credits, ReviewClock clock) {
     final renew = credits?.resetAt == null ? null : ReviewCopy.renewsOn(formatDayMonth(clock.local(credits!.resetAt!)));
     if (credits?.isPaused ?? false) {
-      return const EntryPlan(line: ReviewCopy.pausedLine, primary: ReviewCopy.readKeys, keyOnly: true);
+      return const EntryPlan(headline: ReviewCopy.pausedHeadline, line: ReviewCopy.pausedLine, primary: ReviewCopy.readKeys, keyOnly: true);
     }
     final balance = credits?.explanationBalance;
-    if (balance == null) return const EntryPlan(line: null, primary: ReviewCopy.begin);
+    if (balance == null) return const EntryPlan(primary: ReviewCopy.begin);
     if (balance <= 0) {
-      return EntryPlan(line: [ReviewCopy.outOfCredits, ?renew].join(' '), primary: ReviewCopy.readKeys, keyOnly: true);
+      return EntryPlan(headline: ReviewCopy.outOfCreditsHeadline, line: renew, primary: ReviewCopy.readKeys, keyOnly: true);
     }
     final shortfall = repairWalletShortfall(mistakes: mistakes, balance: balance);
     if (shortfall != null) {
       return EntryPlan(
-        line: ReviewCopy.shortfallLine(shortfall.needed, shortfall.balance),
+        headline: ReviewCopy.shortfallHeadline(shortfall.needed, shortfall.balance),
+        line: renew,
         primary: ReviewCopy.startWith(shortfall.coveredMistakes),
         limit: shortfall.coveredMistakes,
         offerKeys: true,
@@ -43,6 +44,10 @@ class EntryPlan {
     return EntryPlan(line: ReviewCopy.creditLine(balance), primary: ReviewCopy.begin);
   }
 
+  /// A one-line headline when the wallet changes what the run can do (short, empty or paused).
+  final String? headline;
+
+  /// The line under it, or the whole credit line when the wallet covers the run.
   final String? line;
   final String primary;
   final int? limit;
@@ -50,6 +55,9 @@ class EntryPlan {
 
   /// Also offer "Read the key explanations" as the quiet key.
   final bool offerKeys;
+
+  /// Whether there is anything to say above the key.
+  bool get hasWords => headline != null || line != null;
 }
 
 //// The threshold of a repair, on the moment layer: the subject's light and object in the upper
@@ -220,25 +228,6 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                           const SizedBox(height: MmSpace.s16),
                           Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
                           const Spacer(),
-                          const SizedBox(height: MmSpace.s16),
-                          // The band above the key belongs to Mobi: standing by Begin, pointing at it,
-                          // with what it costs beside him.
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Mobi(pose: reopen ? MobiPose.rest : MobiPose.point, size: 112, motion: MobiMotion.settle),
-                              const SizedBox(width: MmSpace.s12),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: MmSpace.s12),
-                                  child: Text(
-                                    widget.plan.line != null && !reopen ? widget.plan.line! : '',
-                                    style: type.small.copyWith(color: colors.ink2),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
@@ -246,12 +235,39 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                 ),
               ),
             ),
+            // The close: what it costs in words, then Mobi pointing at the one volt key. The words sit
+            // on their own line, full width, so the hand never touches them.
             Padding(
               padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
+                  if (widget.plan.hasWords && !reopen) ...[
+                    if (widget.plan.headline != null)
+                      Semantics(
+                        header: true,
+                        child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+                      ),
+                    if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
+                    if (widget.plan.line != null)
+                      Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
+                    const SizedBox(height: MmSpace.s16),
+                  ],
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (!large) ...[
+                        Mobi(pose: reopen ? MobiPose.rest : MobiPose.point, size: 88, motion: MobiMotion.settle),
+                        const SizedBox(width: MmSpace.s12),
+                      ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                          child: KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
+                        ),
+                      ),
+                    ],
+                  ),
                   if (widget.plan.offerKeys && !reopen)
                     Align(
                       child: KeyButton.quiet(label: ReviewCopy.readKeys, onPressed: widget.onReadKeys),

@@ -7,6 +7,7 @@ import 'package:mockmob/features/insights/data/insights_models.dart';
 import 'package:mockmob/features/insights/data/subject_names.dart';
 import 'package:mockmob/features/insights/data/trend.dart';
 import 'package:mockmob/features/insights/widgets/ask_messages.dart';
+import 'package:mockmob/features/insights/widgets/evidence.dart';
 import 'package:mockmob/features/insights/widgets/insights_bits.dart';
 import 'package:mockmob/features/insights/widgets/record_sections.dart';
 import 'package:mockmob/features/insights/widgets/trend_chart.dart';
@@ -64,29 +65,21 @@ void main() {
     });
   });
 
-  group('trend dots', () {
-    testWidgets('the first and last sessions are dated, and a tapped dot opens a note with Show me', (tester) async {
-      final series = trendSeries(trendAttempts());
+  group('trend readout', () {
+    // The readout above the chart is the one place a session's marks, change, day and Show me
+    // appear: the latest session until a dot is picked, then that dot. No second card.
+    Future<void> pump(WidgetTester tester, TrendSeries series, {double textScale = 1}) async {
+      await tester.pumpWidget(const SizedBox());
       await pumpMockmob(
         tester,
-        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: series)),
+        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [series])),
         brightness: Brightness.dark,
         disableAnimations: true,
+        textScale: textScale,
+        size: const Size(384, 900),
       );
-      expect(find.text('3 Oct'), findsOneWidget);
-      expect(find.text('11 Oct'), findsOneWidget);
-      expect(find.text('Show me'), findsNothing);
-      final chart = find.byType(CustomPaint).last;
-      final box = tester.getRect(chart);
-      await tester.tapAt(Offset(box.right - 10, box.center.dy));
-      await tester.pump();
-      expect(find.text('Show me'), findsOneWidget);
-      expect(find.text('39 of 50 marks'), findsOneWidget);
-      expect(find.textContaining('10 questions'), findsOneWidget);
-    });
-  });
+    }
 
-  group('trend note placement', () {
     TrendSeries seriesAt(List<int> marks) => TrendSeries(
           key: 'k',
           subject: 'accountancy',
@@ -98,57 +91,70 @@ void main() {
           ],
         );
 
-    Future<(Rect chart, Rect note)> pick(WidgetTester tester, List<int> marks, double textScale, {bool first = false}) async {
-      // A fresh chart each time: the picked dot of the one before must not carry over.
-      await tester.pumpWidget(const SizedBox());
-      await pumpMockmob(
-        tester,
-        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [seriesAt(marks)])),
-        brightness: Brightness.dark,
-        disableAnimations: true,
-        textScale: textScale,
-        size: const Size(384, 900),
-      );
-      final chart = tester.getRect(find.byType(CustomPaint).last);
-      await tester.tapAt(Offset(first ? chart.left + 36 : chart.right - 10, chart.center.dy));
-      await tester.pump();
-      return (tester.getRect(find.byType(CustomPaint).last), tester.getRect(find.byKey(const ValueKey('trend-note'))));
-    }
+    testWidgets('it opens on the latest session, with its change and one Show me; the ends are dated', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pump(tester, defaultSeries(trendSeries(trendAttempts()))!);
+      expect(find.text('3 Oct'), findsWidgets);
+      expect(find.text('11 Oct'), findsWidgets);
+      expect(find.text('Show me'), findsOneWidget);
+      expect(find.bySemanticsLabel('39 of 50'), findsOneWidget);
+      expect(find.text('+18'), findsOneWidget);
+      handle.dispose();
+    });
 
-    // The readout has its own band above the plot: it never covers the line, the gridlines, the
-    // marks scale or the dates, wherever the picked dot sits.
-    testWidgets('the note sits above the chart on a solid surface, whatever dot is picked', (tester) async {
-      for (final marks in [
-        [41, 44, 49],
-        [20, 30, 25],
-        [20, 10, 2],
-        [2, 4, 1],
-      ]) {
-        final (chart, note) = await pick(tester, marks, 1);
-        expect(note.bottom, lessThanOrEqualTo(chart.top), reason: '$marks');
-        expect(note.left, greaterThanOrEqualTo(chart.left), reason: '$marks');
-        expect(note.right, lessThanOrEqualTo(chart.right), reason: '$marks');
+    testWidgets('a tapped dot moves the whole readout to that session, with no extra card', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pump(tester, seriesAt([33, 8, 21]));
+      expect(find.bySemanticsLabel('21 of 50'), findsOneWidget);
+      expect(find.text('+13'), findsOneWidget);
+      final chart = tester.getRect(find.byType(CustomPaint).last);
+      await tester.tapAt(Offset(chart.left + 36, chart.center.dy));
+      await tester.pump();
+      // The first session: its marks, no change to compare with, still exactly one Show me.
+      expect(find.bySemanticsLabel('33 of 50'), findsOneWidget);
+      expect(find.bySemanticsLabel('21 of 50'), findsNothing);
+      expect(find.byKey(const ValueKey('trend-delta')), findsNothing);
+      expect(find.text('Show me'), findsOneWidget);
+      expect(find.text('3 Oct, 10 questions'), findsOneWidget);
+      // Tapping it again goes back to the latest session.
+      await tester.tapAt(Offset(chart.left + 36, chart.center.dy));
+      await tester.pump();
+      expect(find.bySemanticsLabel('21 of 50'), findsOneWidget);
+      handle.dispose();
+    });
+
+    testWidgets('a middle dot shows its change on the session before it', (tester) async {
+      await pump(tester, seriesAt([33, 8, 21]));
+      final chart = tester.getRect(find.byType(CustomPaint).last);
+      await tester.tapAt(Offset(chart.center.dx, chart.center.dy));
+      await tester.pump();
+      expect(find.text('−25'), findsOneWidget);
+    });
+
+    testWidgets('the readout sits above the chart and wraps at large text without overflowing', (tester) async {
+      for (final scale in [1.0, 1.6]) {
+        await pump(tester, seriesAt([41, 44, 49]), textScale: scale);
+        final chart = tester.getRect(find.byType(CustomPaint).last);
+        final readout = tester.getRect(find.byKey(const ValueKey('trend-readout')));
+        expect(tester.takeException(), isNull, reason: 'x$scale');
+        expect(readout.bottom, lessThanOrEqualTo(chart.top), reason: 'x$scale');
+        expect(readout.right, lessThanOrEqualTo(chart.right + 1), reason: 'x$scale');
+        // Show me is a 48 dp target.
+        expect(tester.getSize(find.byType(ShowMeRow)).height, greaterThanOrEqualTo(48), reason: 'x$scale');
       }
     });
 
-    testWidgets('the note wraps at large text, so Show me does not overflow', (tester) async {
-      final (chart, note) = await pick(tester, [41, 44, 49], 1.6);
-      expect(tester.takeException(), isNull);
-      expect(note.bottom, lessThanOrEqualTo(chart.top));
-      expect(note.right, lessThanOrEqualTo(chart.right));
-    });
-
-    testWidgets('a dot at the left edge of the plot opens the same readout', (tester) async {
-      final (chart, note) = await pick(tester, [33, 8], 1, first: true);
-      expect(note.bottom, lessThanOrEqualTo(chart.top));
-      expect(find.text('33 of 50 marks'), findsOneWidget);
+    testWidgets('one session is a figure and a plain "not enough yet" line, with no empty chart', (tester) async {
+      await pump(tester, seriesAt([0]));
+      expect(find.textContaining('Not enough yet'), findsOneWidget);
+      expect(find.byType(CustomPaint), findsNothing);
     });
   });
 
   group('honest units', () {
     test('the record never states net marks alone: it carries the marks on offer and the sessions', () {
       expect(InsightsCopy.netOver(1346, 3250, 10), '+1346 net marks of 3250 on offer over 10 sessions');
-      expect(InsightsCopy.netOver(-4, 50, 1), '-4 net marks of 50 on offer over 1 session');
+      expect(InsightsCopy.netOver(-4, 50, 1), '−4 net marks of 50 on offer over 1 session');
     });
 
     test('the Review entry row gives the share right, which means the same over papers of any length', () {

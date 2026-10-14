@@ -6,21 +6,22 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
 /// The one celebratory flourish of a finished repair, restrained: two thin rings and small foil flecks
-/// (volt, lamp amber, paper) ease out from a point over 900 ms and fade, once, while a soft volt
-/// bloom rises under the number and settles at a faint level. No confetti, no loop, nothing that
-/// covers text: it is drawn behind the number and never intercepts a touch.
+/// (volt, lamp amber, paper) ease out from the centre of the number's digits over 900 ms and fade,
+/// once, while a soft volt bloom rises under the number and settles at a faint level. The flecks sit
+/// on fixed rays, evenly spaced, so the burst reads as drawn rather than scattered. No confetti, no
+/// loop, nothing that covers text: it is drawn behind the number and never intercepts a touch.
 ///
 /// It plays when [play] first becomes true. Mount it only when the celebration is on and motion
 /// is not reduced; it draws nothing before it plays.
 class FoilBurst extends StatefulWidget {
-  const FoilBurst({super.key, required this.play, this.origin = const Alignment(-0.34, 0), this.seed = 11});
+  const FoilBurst({super.key, required this.play, this.origin = Alignment.center, this.seed = 11});
 
   final bool play;
 
   /// Where the burst starts inside the box it fills.
   final Alignment origin;
 
-  /// Particle layout: the same seed always draws the same burst (goldens, tests).
+  /// Kept for callers that pass one; the layout is fixed rays now, so every seed draws the same burst.
   final int seed;
 
   static const Duration duration = Duration(milliseconds: 900);
@@ -51,19 +52,17 @@ class _FoilBurstState extends State<FoilBurst> with SingleTickerProviderStateMix
     super.dispose();
   }
 
-  static List<_Fleck> _layout(int seed) {
-    final r = math.Random(seed);
-    return [
-      for (var i = 0; i < 14; i++)
-        _Fleck(
-          angle: (i / 14) * 2 * math.pi + r.nextDouble() * 0.3,
-          distance: 36 + r.nextDouble() * 34,
-          size: 1.6 + r.nextDouble() * 2.2,
-          kind: i % 3,
-          delay: r.nextDouble() * 0.12,
-        ),
-    ];
-  }
+  /// Twelve flecks on twelve even rays, alternating a near and a far ring of travel.
+  static List<_Fleck> _layout(int seed) => [
+    for (var i = 0; i < 12; i++)
+      _Fleck(
+        angle: (i / 12) * 2 * math.pi - math.pi / 2,
+        distance: i.isEven ? 30 : 46,
+        size: i.isEven ? 2.6 : 1.8,
+        kind: i % 3,
+        delay: (i % 4) * 0.025,
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -132,11 +131,11 @@ class _BurstPainter extends CustomPainter {
     final level = (night ? 0.2 : 0.3) * rise;
     canvas.drawCircle(
       c,
-      120,
+      110,
       Paint()
         ..shader = RadialGradient(
           colors: [bloom.withValues(alpha: level), bloom.withValues(alpha: 0)],
-        ).createShader(Rect.fromCircle(center: c, radius: 120)),
+        ).createShader(Rect.fromCircle(center: c, radius: 110)),
     );
 
     // Two thin shock rings, volt then lamp, widening and fading: the stamp of a seal landing.
@@ -148,16 +147,16 @@ class _BurstPainter extends CustomPainter {
       if (local <= 0) continue;
       final e = Motion.emphasized.transform(local);
       ring.color = (i == 0 ? volt : lamp).withValues(alpha: 0.7 * (1 - Curves.easeIn.transform(local)));
-      canvas.drawCircle(c, 26 + (i == 0 ? 58 : 40) * e, ring);
+      canvas.drawCircle(c, 24 + (i == 0 ? 46 : 30) * e, ring);
     }
 
-    // Fourteen flecks of foil, easing out and settling a little downward.
+    // Twelve flecks of foil on even rays, easing out and settling a little downward.
     final fleck = Paint();
     for (final f in flecks) {
       final local = ((v - f.delay) / (1 - f.delay)).clamp(0.0, 1.0);
       if (local <= 0) continue;
       final e = Motion.emphasized.transform(local);
-      final p = c + Offset(math.cos(f.angle), math.sin(f.angle)) * (30 + f.distance * e) + Offset(0, 14 * local * local);
+      final p = c + Offset(math.cos(f.angle), math.sin(f.angle)) * (26 + f.distance * e) + Offset(0, 10 * local * local);
       final base = f.kind == 0 ? volt : (f.kind == 1 ? lamp : paper);
       fleck.color = base.withValues(alpha: (1 - Curves.easeIn.transform(local)) * 0.9);
       canvas.drawCircle(p, f.kind == 2 ? f.size * 0.7 : f.size, fleck);

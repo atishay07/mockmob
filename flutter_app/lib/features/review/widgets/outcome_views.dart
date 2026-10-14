@@ -10,6 +10,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/retry.dart';
 import '../data/review_providers.dart';
+import 'review_bits.dart' show FlushKey;
 
 /// A labelled block of the worked explanation. The body never moves once shown.
 class ExplanationBlock extends StatelessWidget {
@@ -65,7 +66,9 @@ class WorkedExplanation extends StatelessWidget {
   }
 }
 
-/// A calm notice inside the work layer: a glyph, the plain sentence and up to two actions.
+/// A calm notice inside the work layer, as one line of text on the ground: a small glyph and the
+/// plain sentence, then up to two quiet text actions. No box, no border, no tint: a notice is a
+/// sentence, not a second card under the question.
 class NoticePanel extends StatelessWidget {
   const NoticePanel({super.key, required this.message, this.detail, this.primary, this.secondary, this.icon = LucideIcons.info});
 
@@ -80,56 +83,38 @@ class NoticePanel extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s24),
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.sunken,
-          shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(MmSpace.s16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(
-                liveRegion: true,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Icon(icon, size: 18, color: colors.ink2),
-                    ),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(message, style: type.body),
-                          if (detail != null) ...[
-                            const SizedBox(height: MmSpace.s4),
-                            Text(detail!, style: type.small.copyWith(color: colors.ink2)),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
+      padding: const EdgeInsets.only(top: MmSpace.s20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(
+            liveRegion: true,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Icon(icon, size: 16, color: colors.ink2),
                 ),
-              ),
-              if (primary != null || secondary != null) ...[
-                const SizedBox(height: MmSpace.s12),
-                Wrap(
-                  spacing: MmSpace.s8,
-                  runSpacing: MmSpace.s4,
-                  children: [
-                    if (primary != null) KeyButton.secondary(label: primary!.label, onPressed: primary!.onPressed, expanded: false),
-                    if (secondary != null) KeyButton.quiet(label: secondary!.label, onPressed: secondary!.onPressed),
-                  ],
+                const SizedBox(width: MmSpace.s8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(message, style: type.small.copyWith(color: colors.ink)),
+                      if (detail != null) ...[
+                        const SizedBox(height: MmSpace.s2),
+                        Text(detail!, style: type.small.copyWith(color: colors.ink2)),
+                      ],
+                    ],
+                  ),
                 ),
               ],
-            ],
+            ),
           ),
-        ),
+          if (primary != null) FlushKey(label: primary!.label, onPressed: primary!.onPressed),
+          if (secondary != null) FlushKey(label: secondary!.label, onPressed: secondary!.onPressed),
+        ],
       ),
     );
   }

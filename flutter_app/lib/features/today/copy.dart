@@ -42,8 +42,9 @@ abstract final class TodayCopy {
       'Ten CUET-style questions in $subject. The result shows where your marks go, chapter by chapter.';
   static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
-  static const String startNow = 'Start now, about 10 minutes';
-  static const String startNowShort = 'Start now, 10 min';
+  /// One wording at every text size: the chips above already say "10 min", and the key never
+  /// has to swap to a shorter sentence when the text grows.
+  static const String startNow = 'Start now, 10 min';
   static const String fullMockInstead = 'Sit a full mock instead';
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
@@ -81,10 +82,7 @@ abstract final class TodayCopy {
     return 'Questions ${joinWithAnd(shown)}$more.';
   }
 
-  static String startRepair(int minutes) => 'Start repair, about $minutes minutes';
-
-  /// The same key for large text: the chips above it already say "10 min".
-  static String startRepairShort(int minutes) => 'Start repair, $minutes min';
+  static String startRepair(int minutes) => 'Start repair, $minutes min';
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
   static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
   static const String earlySignal = 'From one paper. Another mock sharpens this.';
@@ -111,14 +109,13 @@ abstract final class TodayCopy {
   static String withCount(String label, int count) => '$label, $count questions';
   static const String practiceLength = 'How many questions?';
   /// The label on the error card: a failed read is not tonight's move.
-  static const String unavailableOverline = 'Could not load';
   static const String unavailableTitle = 'Your earlier results are still there.';
-  static const String unavailableLine = 'We could not load a new suggestion just now.';
+  static const String unavailableLine = 'Could not load a suggestion.';
   static const String tryAgain = 'Try again';
   static const String choosePractice = 'Choose practice';
   static const String chooseSomethingElse = 'Choose something else';
   static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
-  static const String connectToStart = 'Connect to start.';
+  static const String connectToStart = 'Needs a connection to start.';
   static const String showMe = 'Show me';
 
   // Returning and late night (brief 1.1, spec 6.7, 6.8).
@@ -148,8 +145,8 @@ abstract final class TodayCopy {
   static String endedSending(String label, DateTime at) =>
       '$label ended at ${formatTime12(at)}. Your answers are on this phone and are being sent.';
   static String endedClosed(String label, DateTime at, int answered) =>
-      'The submission window for $label has ended, so it could not be recorded. '
-      '${plural(answered, 'answer')} ${answered == 1 ? 'was' : 'were'} sent before ${formatTime12(at)}.';
+      '$label ended at ${formatTime12(at)} and could not be recorded. '
+      '${plural(answered, 'answer')} reached the server.';
   static String endedChecking(String label, DateTime at) =>
       '$label ended at ${formatTime12(at)}. Checking what reached the server.';
   static const String openResult = 'Open result';

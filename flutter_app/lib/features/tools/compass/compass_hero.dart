@@ -11,6 +11,7 @@ import '../domain/du_models.dart';
 import '../widgets/action_chip.dart';
 import '../widgets/subject_picker_sheet.dart';
 import '../widgets/tools_card.dart';
+import '../widgets/tools_parts.dart';
 import 'compass_controller.dart';
 
 /// Opens the subject picker wired to Compass.
@@ -97,6 +98,8 @@ class CompassHero extends ConsumerWidget {
                 ),
             ],
           ),
+          const SizedBox(height: MmSpace.s4),
+          Text(ToolsCopy.subjectsTapToRemove, style: type.caption.copyWith(color: colors.ink3)),
           if (s.previewing) ...[
             const SizedBox(height: MmSpace.s8),
             Text(ToolsCopy.fromCombo, style: type.caption.copyWith(color: colors.ink2)),
@@ -107,11 +110,14 @@ class CompassHero extends ConsumerWidget {
             const SizedBox(height: MmSpace.s12),
             InlineBanner(message: ToolsCopy.overLimit(s.selection.count, duDefaultMaxPapers), tone: BannerTone.warning),
           ],
-          const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(
-            label: ToolsCopy.editSubjects,
-            expanded: false,
-            onPressed: () => openCompassPicker(context, ref, s.catalog),
+          const SizedBox(height: MmSpace.s4),
+          Transform.translate(
+            offset: const Offset(-MmSpace.s8, 0),
+            child: ToolsInlineAction(
+              label: ToolsCopy.editSubjects,
+              icon: LucideIcons.pencilLine,
+              onTap: () => openCompassPicker(context, ref, s.catalog),
+            ),
           ),
         ],
       ),

@@ -11,7 +11,7 @@ import 'reveal_tally.dart';
 /// is never colour alone, counting up with the ink), one comparison line when the server sent
 /// one, and the key naming what comes next.
 class MarksFooter extends StatelessWidget {
-  const MarksFooter({super.key, required this.model, required this.onNext, required this.onFirstFix, this.ink});
+  const MarksFooter({super.key, required this.model, required this.onNext, this.ink});
 
   final RecapModel model;
   final VoidCallback onNext;
@@ -19,21 +19,19 @@ class MarksFooter extends StatelessWidget {
   /// The ink's progress through the paper while the reader passes; null when complete.
   final Animation<double>? ink;
 
-  /// The lower variant's extra quiet key, which jumps to card 3.
-  final VoidCallback onFirstFix;
-
+  /// One line under the counts, only when it carries something: the answer-key warning, or the
+  /// earlier paper to compare with. A first mock and a lower result have nothing to add (the
+  /// counts and the key say it), so they get no filler line.
   String? _line() {
     if (model.keysUnavailable) return ResultCopy.keysUnavailable;
     final prev = model.previous;
     switch (model.variant) {
       case RecapVariant.firstMock:
-        return ResultCopy.noEarlier;
       case RecapVariant.lower:
-        return ResultCopy.lowerLine;
+      case RecapVariant.held:
+        return null;
       case RecapVariant.higher:
         if (prev != null) return ResultCopy.higherCompare(prev.label, prev.marks, model.mockLabel, model.marks, prev.max);
-        return null;
-      case RecapVariant.held:
         return null;
       case RecapVariant.standard:
         return prev == null ? null : ResultCopy.previous(prev.label, prev.marks, prev.max);
@@ -61,10 +59,6 @@ class MarksFooter extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s16),
           KeyButton(label: m.isHeld ? ResultCopy.nextFix : ResultCopy.nextMarks, onPressed: onNext),
-          if (m.variant == RecapVariant.lower)
-            Align(
-              child: KeyButton.quiet(label: ResultCopy.showFirstFix, onPressed: onFirstFix),
-            ),
         ],
       ),
     );

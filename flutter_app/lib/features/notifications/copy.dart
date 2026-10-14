@@ -11,8 +11,7 @@ abstract final class NotificationsCopy {
   static const String promptExamplesLabel = 'What they would say';
   static const String promptAllow = 'Allow reminders';
   static const String promptNotNow = 'Not now';
-  static const String promptStudyNote =
-      'Reminders come at most once a day and never during quiet hours.';
+  static const String promptStudyNote = 'At most one reminder a day.';
 
   // The sheet comes back after a refusal or a dismissal, spaced out, and each time it asks a
   // different way. The first wording is [promptTitle] and [promptLead]; these follow it. Each is
@@ -62,6 +61,9 @@ abstract final class NotificationsCopy {
   static const String exampleRepairBody =
       'When a mock leaves mistakes, a short repair is waiting for you.';
 
+  static const String exampleWeeklyChannel = 'Weekly plan';
+  static const String exampleWeeklyBody = 'Your week is ready to look at.';
+
   static String promptQuietLine(String start, String end) =>
       'Quiet hours are $start to $end.';
 
@@ -99,6 +101,8 @@ abstract final class NotificationsCopy {
   static const String permissionBlockedBody =
       'Your choices below are saved. Allow notifications for MockMob in Android settings and they start. Studying works the same without them.';
   static const String openAndroidSettings = 'Open Android settings';
+  static const String channelBlockedState = 'Blocked';
+  static const String channelOffState = 'Off';
   static const String blockedChannels = 'Android is blocking MockMob, so these will not arrive yet.';
   static const String settingsDidNotOpen = 'Android did not open its settings. Open Settings, Apps, MockMob, Notifications.';
 
@@ -163,10 +167,16 @@ abstract final class NotificationsCopy {
       'Muted on this phone until ${formatWeekdayDate(until)}, ${formatTime12(until)}.';
   static const String unmute = 'Unmute';
   // The same mute, said once near the top so it is not missed below the fold.
-  static String mutedBanner(DateTime until) => 'Reminders are muted until ${formatWeekdayDate(until)}.';
+  // One line with a short weekday and date, so the date never wraps: "Muted until Mon 19 Oct".
+  static String mutedBanner(DateTime until) =>
+      'Muted until ${weekdayName(until.weekday).substring(0, 3)} ${formatDayMonthShort(until)}';
 
   // Time picker sheet.
   static String pickTitle(String what) => 'Set $what';
+
+  /// The visible label above the time: "Quiet hours start", "Study window end".
+  static String pickLabel(String what) =>
+      what.isEmpty ? what : '${what[0].toUpperCase()}${what.substring(1)}';
   static const String pickHour = 'Hour';
   static const String pickMinute = 'Minute';
   static const String pickPeriod = 'AM or PM';

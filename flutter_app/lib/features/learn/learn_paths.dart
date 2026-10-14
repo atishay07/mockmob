@@ -10,6 +10,8 @@ abstract final class LearnPaths {
       '${AppRoutes.learn}/summary/${Uri.encodeComponent(subject)}/${Uri.encodeComponent(chapter)}';
 
   /// Chapter practice through setup, so the cost shows before anything starts.
-  static String practiseChapter(String subject, String chapter) =>
-      Uri(path: AppRoutes.practiceSetup('chapter'), queryParameters: {'subject': subject, 'chapter': chapter}).toString();
+  static String practiseChapter(String subject, String chapter) => Uri(
+    path: AppRoutes.practiceSetup('chapter'),
+    queryParameters: {'subject': subject, 'chapter': chapter},
+  ).toString();
 }

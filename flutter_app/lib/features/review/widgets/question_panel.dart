@@ -65,12 +65,15 @@ class MarkedOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // One loud row: the correct answer, in a strong ink outline on a lifted surface. Your wrong
+    // answer is quiet: the same hairline as the others, with its cross and its words doing the
+    // work, so the two never shout at once.
     final (fill, border, bubble, word) = switch (mark) {
-      OptionMark.yours => (colors.wrongSurface, colors.wrongBorder, BubbleState.wrong, ReviewCopy.yourAnswer),
-      OptionMark.correct => (colors.raised, colors.isNight ? colors.ink2 : colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
+      OptionMark.yours => (colors.raised, colors.line, BubbleState.wrong, ReviewCopy.yourAnswer),
+      OptionMark.correct => (colors.raised2, colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
       OptionMark.none => (colors.raised, colors.line, BubbleState.hollow, null),
     };
-    final textColor = mark == OptionMark.yours ? colors.wrongText : (mark == OptionMark.none ? colors.ink2 : colors.ink);
+    final textColor = mark == OptionMark.correct ? colors.ink : colors.ink2;
     return Semantics(
       container: true,
       label: 'Option $letter, $text${word == null ? '' : ', $word'}',
@@ -80,7 +83,7 @@ class MarkedOption extends StatelessWidget {
           color: fill,
           shape: mmShapeBorder(
             MmRadius.keyAll,
-            side: BorderSide(color: border, width: mark == OptionMark.none ? 1 : 1.5),
+            side: BorderSide(color: border, width: mark == OptionMark.correct ? 2 : 1),
           ),
         ),
         child: ConstrainedBox(
@@ -109,10 +112,10 @@ class MarkedOption extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(text, style: type.body.copyWith(color: textColor)),
+                      Text(text, style: type.body.copyWith(color: textColor, fontWeight: mark == OptionMark.correct ? FontWeight.w600 : null)),
                       if (word != null) ...[
                         const SizedBox(height: 4),
-                        Text(word, style: type.label.copyWith(color: mark == OptionMark.yours ? colors.wrongText : colors.ink)),
+                        Text(word, style: type.label.copyWith(color: mark == OptionMark.yours ? colors.badText : colors.ink)),
                       ],
                     ],
                   ),

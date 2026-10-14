@@ -79,6 +79,7 @@ void main() {
         size: const Size(360, 1100),
         overrides: learnOverrides(catalog: LearnCatalog.fromJson({...catalogJson(due: 0), 'units': <Object>[], 'nextUnit': null})),
       );
+      await settleSpeech(tester);
       await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/learn_tab_no_lessons_$name.png'));
     });
 

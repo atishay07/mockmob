@@ -52,13 +52,15 @@ class EmblemPictures {
       });
 }
 
-double _dogEar(EmblemDetail d) => d == EmblemDetail.glyph ? 20 : 24;
+double _dogEar(EmblemDetail d) => d == EmblemDetail.glyph ? 0 : 24;
 
 /// The tile is a piece of an answer sheet, not an app icon: three rounded corners and one corner
-/// folded down, like the sheets drawn on it.
+/// folded down, like the sheets drawn on it. At 24 dp the fold is dropped: a plain rounded plate
+/// keeps the silhouette clean.
 Path _sheetPath(EmblemDetail d) {
   const r = 26.0;
   final cut = _dogEar(d);
+  if (cut == 0) return Path()..addRRect(RRect.fromLTRBR(0, 0, 100, 100, const Radius.circular(r)));
   return Path()
     ..moveTo(r, 0)
     ..lineTo(100 - cut, 0)
@@ -72,43 +74,112 @@ Path _sheetPath(EmblemDetail d) {
     ..close();
 }
 
-/// The warm pool an unframed emblem stands on: the subject's field fading into the screen, with
-/// the lamp's warmth on Night. Replaces the tile where an emblem sits in a row or a card.
+/// The warm pool an unframed emblem stands on: one hue per subject at one strength, fading into
+/// the screen well inside the emblem's box so it never bleeds under a label.
 void paintPool(Canvas canvas, EmblemPalette p) {
-  const c = Offset(48, 56);
-  final core = p.isNight ? Color.lerp(p.field, p.lamp.withValues(alpha: 1), 0.16)! : Color.lerp(p.field, p.mid, 0.24)!;
+  const c = Offset(50, 54);
+  final core = p.pool;
+  final top = p.isNight ? 0.70 : 0.78;
   canvas.save();
   canvas.translate(c.dx, c.dy);
-  canvas.scale(1, 0.86);
+  canvas.scale(1, 0.88);
   canvas.drawCircle(
     Offset.zero,
-    54,
+    44,
     Paint()
       ..shader = ui.Gradient.radial(
         Offset.zero,
-        54,
-        [core.withValues(alpha: p.isNight ? 0.95 : 1.0), core.withValues(alpha: p.isNight ? 0.55 : 0.7), core.withValues(alpha: 0)],
-        const [0, 0.55, 1],
+        44,
+        [core.withValues(alpha: top), core.withValues(alpha: top * 0.5), core.withValues(alpha: top * 0.14), core.withValues(alpha: 0)],
+        const [0, 0.45, 0.78, 1],
       ),
   );
   canvas.restore();
+}
+
+/// The 24 dp plate: one flat, lifted colour with a crisp rim, so the object reads as a clean
+/// silhouette. No grid, no fold, no lamp pool.
+void _paintGlyphTile(Canvas canvas, EmblemPalette p, Path shapePath) {
+  final base = p.glyphField;
+  canvas.drawPath(
+    shapePath,
+    Paint()
+      ..shader = ui.Gradient.linear(
+        const Offset(0, 0),
+        const Offset(0, 100),
+        [Color.lerp(base, const Color(0xFFFFFFFF), p.isNight ? 0.10 : 0.12)!, base, Color.lerp(base, const Color(0xFF000000), p.isNight ? 0.16 : 0.08)!],
+        const [0, 0.5, 1],
+      ),
+  );
+  canvas.drawPath(
+    shapePath,
+    Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8
+      ..shader = ui.Gradient.linear(const Offset(0, 0), const Offset(0, 100), [p.edgeTop, p.edgeBottom, p.edgeBottom, p.rim], const [0, 0.35, 0.7, 1]),
+  );
+}
+
+/// The folded corner: the back of the sheet catching the lamp, a clean shadow cast on the sheet
+/// below it, and a lit crease. Paper, not a grey patch.
+void _paintDogEar(Canvas canvas, EmblemPalette p, double cut) {
+  final flap = Path()
+    ..moveTo(100 - cut, 0)
+    ..lineTo(100, cut)
+    ..lineTo(100 - cut, cut)
+    ..close();
+  // The shadow the flap casts on the sheet: soft, offset down and to the left.
+  canvas.drawPath(
+    flap.shift(const Offset(-1.4, 2.6)),
+    Paint()
+      ..color = p.isNight ? const Color(0x73000000) : p.deep.withValues(alpha: 0.26)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.4),
+  );
+  const cream = Color(0xFFFFF6E4);
+  final near = p.isNight ? Color.lerp(p.field, cream, 0.58)! : Color.lerp(p.field, const Color(0xFFFFFFFF), 0.92)!;
+  final far = p.isNight ? Color.lerp(p.field, cream, 0.34)! : Color.lerp(p.field, const Color(0xFFFFFFFF), 0.64)!;
+  canvas.drawPath(
+    flap,
+    Paint()..shader = ui.Gradient.linear(Offset(100 - cut * 0.5, cut * 0.5), Offset(100 - cut, cut), [near, far]),
+  );
+  // The flap's own two edges, thin and dark, so it has a defined shape.
+  final edge = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 0.9
+    ..strokeCap = StrokeCap.round
+    ..color = p.isNight ? const Color(0x59000000) : p.deep.withValues(alpha: 0.22);
+  canvas.drawPath(
+    Path()
+      ..moveTo(100 - cut, 0.6)
+      ..lineTo(100 - cut, cut)
+      ..lineTo(99.4, cut),
+    edge,
+  );
+  // The lit crease along the fold.
+  canvas.drawLine(
+    Offset(100 - cut, 0),
+    Offset(100, cut),
+    Paint()
+      ..strokeWidth = 1.3
+      ..strokeCap = StrokeCap.round
+      ..color = p.isNight ? const Color(0x99FFF6E4) : const Color(0xE6FFFFFF),
+  );
 }
 
 /// The tile: the light field lit like the desk, the printed answer grid and timing track, the
 /// folded corner and the edge light. Drawn in the 100 by 100 design space.
 void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
   final shapePath = _sheetPath(d);
+  if (d == EmblemDetail.glyph) {
+    _paintGlyphTile(canvas, p, shapePath);
+    return;
+  }
   final cut = _dogEar(d);
 
-  // Body: a 168 degree two-stop light, darker at the foot. A Daylight glyph is printed a step
-  // deeper so its lit paper still separates from the tile at 24 dp.
-  final deepen = d == EmblemDetail.glyph && !p.isNight;
-  final body = deepen
-      ? [Color.lerp(p.field, p.mid, 0.16)!, Color.lerp(p.field, p.mid, 0.30)!, Color.lerp(p.field, p.mid, 0.44)!]
-      : [p.fieldTop, p.field, p.fieldBottom];
+  // Body: a 168 degree two-stop light, darker at the foot.
   canvas.drawPath(
     shapePath,
-    Paint()..shader = ui.Gradient.linear(const Offset(40, 0), const Offset(60, 100), body, const [0, 0.42, 1]),
+    Paint()..shader = ui.Gradient.linear(const Offset(40, 0), const Offset(60, 100), [p.fieldTop, p.field, p.fieldBottom], const [0, 0.42, 1]),
   );
   // The lamp's pool from the upper left.
   canvas.save();
@@ -119,44 +190,27 @@ void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
     Paint()..shader = ui.Gradient.radial(const Offset(16, 8), 78, [p.lamp, p.lamp.withValues(alpha: 0)]),
   );
 
-  if (d != EmblemDetail.glyph) {
-    // The printed answer grid: strongest at the lower right, gone under the lamp.
-    const cols = [10.0, 22.0, 34.0, 46.0, 58.0, 70.0, 82.0];
-    final ringPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = d == EmblemDetail.plate ? 0.8 : 1.0;
-    for (final y in cols) {
-      for (final x in cols) {
-        final k = ((x + y - 74) / 70).clamp(0.0, 1.0);
-        if (k <= 0.02) continue;
-        ringPaint.color = p.grid.withValues(alpha: p.grid.a * k);
-        canvas.drawCircle(Offset(x, y + 2), 3.2, ringPaint);
-      }
-    }
-    if (d == EmblemDetail.plate) {
-      // The OMR timing track down the right edge.
-      final track = Paint()..color = p.grid.withValues(alpha: p.grid.a * 1.2);
-      for (var y = 32.0; y <= 82; y += 8) {
-        canvas.drawRect(Rect.fromLTWH(91.5, y, 3.6, 1.7), track);
-      }
+  // The printed answer grid: strongest at the lower right, gone under the lamp.
+  const cols = [10.0, 22.0, 34.0, 46.0, 58.0, 70.0, 82.0];
+  final ringPaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = d == EmblemDetail.plate ? 0.8 : 1.0;
+  for (final y in cols) {
+    for (final x in cols) {
+      final k = ((x + y - 74) / 70).clamp(0.0, 1.0);
+      if (k <= 0.02) continue;
+      ringPaint.color = p.grid.withValues(alpha: p.grid.a * k);
+      canvas.drawCircle(Offset(x, y + 2), 3.2, ringPaint);
     }
   }
-  // The folded corner: the back of the sheet, a shade off the field, with a lit crease.
-  final back = p.isNight ? Color.lerp(p.field, const Color(0xFFFFF6E4), 0.12)! : Color.lerp(p.field, const Color(0xFFFFFFFF), 0.5)!;
-  final flap = Path()
-    ..moveTo(100 - cut, 0)
-    ..lineTo(100, cut)
-    ..lineTo(100 - cut, cut)
-    ..close();
-  canvas.drawPath(flap, Paint()..color = back);
-  canvas.drawLine(
-    Offset(100 - cut, 0),
-    Offset(100, cut),
-    Paint()
-      ..strokeWidth = d == EmblemDetail.glyph ? 1.6 : 1.1
-      ..strokeCap = StrokeCap.round
-      ..color = p.isNight ? const Color(0x33FFF6E4) : const Color(0xCCFFFFFF),
-  );
+  if (d == EmblemDetail.plate) {
+    // The OMR timing track down the right edge.
+    final track = Paint()..color = p.grid.withValues(alpha: p.grid.a * 1.2);
+    for (var y = 32.0; y <= 82; y += 8) {
+      canvas.drawRect(Rect.fromLTWH(91.5, y, 3.6, 1.7), track);
+    }
+  }
+  _paintDogEar(canvas, p, cut);
   canvas.restore();
 
   // The edge light along the top and the rim at the foot.
@@ -164,10 +218,71 @@ void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
     shapePath,
     Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = d == EmblemDetail.glyph ? 1.6 : 1.0
+      ..strokeWidth = 1.0
       ..strokeJoin = StrokeJoin.round
       ..shader = ui.Gradient.linear(const Offset(0, 0), const Offset(0, 100), [p.edgeTop, p.edgeBottom, p.edgeBottom, p.rim], const [0, 0.35, 0.7, 1]),
   );
+}
+
+/// The picked state of a framed tile: a volt ring around the sheet with a soft light on Night, and
+/// on Daylight a dark hairline under it so the volt holds on paper. [k] is 0 to 1 as it inks.
+void paintSelectionRing(Canvas canvas, EmblemPalette p, EmblemDetail d, double k) {
+  if (k <= 0) return;
+  final path = _sheetPath(d);
+  final glyph = d == EmblemDetail.glyph;
+  final w = glyph ? 5.0 : 3.4;
+  if (p.isNight) {
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = w * 2.2
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, glyph ? 3.2 : 4.4)
+        ..color = p.volt.withValues(alpha: 0.42 * k),
+    );
+  } else {
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = w + 1.6
+        ..strokeJoin = StrokeJoin.round
+        ..color = p.voltRing.withValues(alpha: p.voltRing.a * k),
+    );
+  }
+  canvas.drawPath(
+    path,
+    Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = w
+      ..strokeJoin = StrokeJoin.round
+      ..color = p.volt.withValues(alpha: k),
+  );
+}
+
+/// The picked tick in the lower right corner of a framed tile (tile and plate sizes).
+void paintSelectedBadge(Canvas canvas, EmblemPalette p, double k) {
+  if (k <= 0.02) return;
+  const c = Offset(80, 80);
+  final pop = Curves.easeOutBack.transform(k.clamp(0.0, 1.0));
+  canvas.save();
+  canvas.translate(c.dx, c.dy);
+  canvas.scale(pop);
+  canvas.drawCircle(Offset.zero, 11.2, Paint()..color = p.isNight ? const Color(0xFF0E0C09) : p.voltRing);
+  canvas.drawCircle(Offset.zero, 9, Paint()..color = p.volt);
+  canvas.drawPath(
+    Path()
+      ..moveTo(-4.2, 0.2)
+      ..lineTo(-1.1, 3.3)
+      ..lineTo(4.4, -3.2),
+    Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..color = p.voltInk,
+  );
+  canvas.restore();
 }
 
 Path _markShape(MarkStyle style, Offset c, double r) {
@@ -341,6 +456,9 @@ void _paintGlyph(Canvas canvas, Color ink, MarkGlyph glyph, Offset c, double r) 
 
 /// Paints one emblem: the cached tile, then the object floating on its idle phase with its
 /// contact shadow, the live detail and the mark.
+///
+/// When [selectable] the emblem stands for a choice: unmarked it sits slightly small and dimmed;
+/// marked it lifts to full size, a volt ring and tick show on a framed tile, and the mark is inked.
 class EmblemPainter extends CustomPainter {
   EmblemPainter({
     required this.subject,
@@ -353,6 +471,7 @@ class EmblemPainter extends CustomPainter {
     required this.ink,
     required this.inking,
     required this.phase,
+    this.selectable = false,
   }) : super(repaint: Listenable.merge([idle, ink]));
 
   final SubjectIdentity subject;
@@ -361,6 +480,7 @@ class EmblemPainter extends CustomPainter {
   final Brightness brightness;
   final EmblemDetail detail;
   final bool framed;
+  final bool selectable;
 
   /// 0 to 1 over the 7.2 s idle cycle; stays at 0 when idle motion is off.
   final ValueListenable<double> idle;
@@ -380,22 +500,41 @@ class EmblemPainter extends CustomPainter {
     canvas.save();
     canvas.translate((size.width - size.shortestSide) / 2, (size.height - size.shortestSide) / 2);
     canvas.scale(scale);
+
+    // The picked state: small and dim until chosen, then lifted to full size.
+    final k = selectable ? ink.value.clamp(0.0, 1.0) : 0.0;
+    var dimmed = false;
+    if (selectable) {
+      if (k < 1) {
+        canvas.saveLayer(const Rect.fromLTWH(-10, -10, 120, 120), Paint()..color = Color.fromRGBO(0, 0, 0, 0.6 + 0.4 * k));
+        dimmed = true;
+      }
+      final lift = framed ? 0.92 + 0.06 * k : 0.94 + 0.08 * k;
+      canvas.translate(50, 50);
+      canvas.scale(lift);
+      canvas.translate(-50, -50);
+    }
+
     if (framed) {
       canvas.drawPicture(EmblemPictures.tile(subject, palette, brightness, detail));
+      if (selectable) paintSelectionRing(canvas, palette, detail, k);
     } else {
       canvas.drawPicture(EmblemPictures.pool(subject, palette, brightness, detail));
     }
     final a = art;
     if (a != null) {
-      final moving = idle.value != 0;
+      canvas.save();
+      final moving = idle.value != 0 && !a.overlaysText;
       final t = moving ? (idle.value + phase) % 1.0 : 0.0;
       final lift = moving ? (1 - math.cos(t * 2 * math.pi)) / 2 : 0.0;
       // The drift is a fixed share of a dp, so at 24 dp it needs more of the 100 unit space.
-      final rise = switch (detail) { EmblemDetail.glyph => 4.4, EmblemDetail.tile => 2.2, EmblemDetail.plate => 1.8 };
-      final tilt = detail == EmblemDetail.glyph ? 2.2 : 1.2;
-      if (detail == EmblemDetail.glyph) {
+      final rise = switch (detail) { EmblemDetail.glyph => 6.0, EmblemDetail.tile => 3.4, EmblemDetail.plate => 3.0 };
+      final tilt = detail == EmblemDetail.glyph ? 3.0 : 2.0;
+      if (a.overlaysText) {
+        // The initials are text laid over this: nothing here scales or floats.
+      } else if (detail == EmblemDetail.glyph) {
         canvas.translate(50, 50);
-        canvas.scale(1.08);
+        canvas.scale(1.14);
         canvas.translate(-50, -50);
       } else if (!framed) {
         canvas.translate(50, 50);
@@ -405,11 +544,11 @@ class EmblemPainter extends CustomPainter {
       // Contact shadow: tighter and lighter as the object rises.
       canvas.save();
       canvas.translate(50, a.groundY);
-      canvas.scale(1 - 0.12 * lift, 1 - 0.12 * lift);
+      canvas.scale(1 - 0.16 * lift, 1 - 0.16 * lift);
       canvas.translate(-50, -a.groundY);
       canvas.drawPicture(EmblemPictures.shadow(a, subject, palette, brightness, detail));
       canvas.restore();
-      // The object floats: up to 1.8 units and -1.2 degrees, pivoting on its ground.
+      // The object floats on its ground: up and over a degree or two each way.
       canvas.translate(50, a.groundY);
       canvas.rotate(-tilt * math.pi / 180 * lift);
       canvas.translate(-50, -a.groundY - rise * lift);
@@ -417,7 +556,10 @@ class EmblemPainter extends CustomPainter {
       final sketch = Sketch(canvas, palette, detail);
       a.live(sketch, t);
       paintMark(canvas, palette, a.markAt(t, detail), ink.value, detail: detail, inking: inking());
+      canvas.restore();
     }
+    if (selectable && framed && detail != EmblemDetail.glyph) paintSelectedBadge(canvas, palette, k);
+    if (dimmed) canvas.restore();
     canvas.restore();
   }
 
@@ -427,6 +569,7 @@ class EmblemPainter extends CustomPainter {
       old.brightness != brightness ||
       old.detail != detail ||
       old.framed != framed ||
+      old.selectable != selectable ||
       old.idle != idle ||
       old.ink != ink ||
       old.phase != phase;

@@ -70,6 +70,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
     final colors = context.mmColors;
     final type = context.mmType;
     final b = widget.model.breakdown;
+    // At large text the secondary line ("Mock 7, Accountancy") gives way, so the flow gets the room.
+    final largeText = MediaQuery.textScalerOf(context).scale(14) / 14 > 1.15;
     return RecapCardPage(
       onNext: widget.onNext,
       onBack: widget.onBack,
@@ -95,8 +97,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
           ],
           const SizedBox(height: MmSpace.s4),
         ],
-        Text(widget.model.title, style: type.small.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s24),
+        if (!largeText) Text(widget.model.title, style: type.small.copyWith(color: colors.ink3)),
+        SizedBox(height: largeText ? MmSpace.s12 : MmSpace.s24),
         BreakdownSection(breakdown: b, grow: _grow, caption: false, flow: true),
       ],
     );

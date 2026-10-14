@@ -49,10 +49,19 @@ class ComboCard extends ConsumerWidget {
                 const SizedBox(width: MmSpace.s8),
               ],
               Expanded(
-                child: Text(
-                  best ? ToolsCopy.bestFit : ToolsCopy.option(rank + 1),
-                  style: type.labelLarge.copyWith(color: best ? colors.accentText : colors.ink2),
-                ),
+                child: best
+                    // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                            child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
+                          ),
+                        ),
+                      )
+                    : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
               ),
               Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),
             ],
@@ -77,7 +86,7 @@ class ComboCard extends ConsumerWidget {
                 ],
               ),
             ),
-          const SizedBox(height: MmSpace.s8),
+          const SizedBox(height: MmSpace.s16),
           Row(
             children: [
               if (targetCount > 0) Expanded(child: _Figure(label: ToolsCopy.yourTargets, a: combo.met.length, b: targetCount)),
@@ -106,7 +115,7 @@ class ComboCard extends ConsumerWidget {
                 ),
               ),
           ] else if (targetCount > 0) ...[
-            const SizedBox(height: MmSpace.s12),
+            const SizedBox(height: MmSpace.s16),
             Row(
               children: [
                 Icon(LucideIcons.check, size: 14, color: colors.goodText),
@@ -115,27 +124,27 @@ class ComboCard extends ConsumerWidget {
               ],
             ),
           ],
-          const SizedBox(height: MmSpace.s12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(
-              label: ToolsCopy.seeInCompass,
-              onPressed: () async {
-                // Shown, not saved: the student's own Compass subjects stay as they are.
-                ref.read(compassControllerProvider.notifier).showCombination(combo.selection);
-                try {
-                  await ref.read(compassControllerProvider.future);
-                } on Object {
-                  // Compass opens on its own load-failed state with Try again, and shows this
-                  // combination once it loads.
-                }
-                if (context.mounted) await context.push(ToolsPaths.compass);
-              },
-            ),
-          ),
+          const SizedBox(height: MmSpace.s20),
+          // The best combination's key is the volt one; the others are the quiet outline.
+          if (best)
+            KeyButton(label: ToolsCopy.seeInCompass, onPressed: () => _open(context, ref))
+          else
+            KeyButton.secondary(label: ToolsCopy.seeInCompass, onPressed: () => _open(context, ref)),
         ],
       ),
     );
+  }
+
+  Future<void> _open(BuildContext context, WidgetRef ref) async {
+    // Shown, not saved: the student's own Compass subjects stay as they are.
+    ref.read(compassControllerProvider.notifier).showCombination(combo.selection);
+    try {
+      await ref.read(compassControllerProvider.future);
+    } on Object {
+      // Compass opens on its own load-failed state with Try again, and shows this
+      // combination once it loads.
+    }
+    if (context.mounted) await context.push(ToolsPaths.compass);
   }
 }
 
@@ -154,12 +163,12 @@ class _Figure extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: type.caption.copyWith(color: colors.ink3)),
-          const SizedBox(height: 2),
+          Text(label, style: type.caption.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s4),
           Text.rich(
             TextSpan(children: [
-              TextSpan(text: '$a', style: type.figureCompact.copyWith(fontSize: 32, height: 1)),
-              TextSpan(text: ' of $b', style: type.label.copyWith(color: colors.ink2)),
+              TextSpan(text: '$a', style: type.figureCompact.copyWith(fontSize: 44, height: 1)),
+              TextSpan(text: ' of $b', style: type.labelLarge.copyWith(color: colors.ink2)),
             ]),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
@@ -62,7 +63,10 @@ class SavedScreen extends ConsumerWidget {
           child: ListView(
             padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s48),
             children: [
-              if (state.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s16)],
+              if (state.isStale) ...[
+                const InlineBanner(message: InsightsCopy.staleNote, tone: BannerTone.offline),
+                const SizedBox(height: MmSpace.s16),
+              ],
               Text(InsightsCopy.savedCount(count, pro ? null : (marks.limit ?? freeSaveLimit)), style: context.mmType.small.copyWith(color: colors.ink2)),
               if (list.held > 0) Text(InsightsCopy.savedHeld(list.held), style: context.mmType.caption.copyWith(color: colors.ink3)),
               const SizedBox(height: MmSpace.s16),
@@ -94,6 +98,9 @@ class SavedScreen extends ConsumerWidget {
   }
 }
 
+/// One saved question. The whole row practises it (the screen's one dominant action stays
+/// "Practise these"); removing is a quiet 48 dp icon at the end, and the removal says so with an
+/// Undo, so a slip costs nothing.
 class _SavedRow extends ConsumerWidget {
   const _SavedRow({required this.question, required this.removing});
 
@@ -105,55 +112,85 @@ class _SavedRow extends ConsumerWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final q = question;
-    final remove = removing
-        ? null
-        : () async {
-            final outcome = await ref.read(saveControllerProvider.notifier).set(q.id, saved: false, source: 'saved');
-            if (outcome is SaveFailed && context.mounted) {
-              ScaffoldMessenger.maybeOf(context)?.showSnackBar(const SnackBar(content: Text(InsightsCopy.saveFailed), behavior: SnackBarBehavior.floating));
-            }
-          };
+    // Captured now: the row leaves the list once the server confirms, before the answer is used.
+    final controller = ref.read(saveControllerProvider.notifier);
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    void say(String text, {SnackBarAction? action}) => messenger
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(text), behavior: SnackBarBehavior.floating, action: action));
+
+    Future<void> undo() async {
+      final outcome = await controller.set(q.id, saved: true, source: 'saved');
+      if (outcome is SaveLimitReached) {
+        say(InsightsCopy.limitReached);
+      } else if (outcome is SaveFailed) {
+        say(InsightsCopy.saveFailed);
+      }
+    }
+
+    Future<void> remove() async {
+      final outcome = await controller.set(q.id, saved: false, source: 'saved');
+      if (outcome is SaveFailed) {
+        say(InsightsCopy.saveFailed);
+      } else if (outcome is SaveDone) {
+        say(InsightsCopy.removedFromSaved, action: SnackBarAction(label: InsightsCopy.undo, onPressed: undo));
+      }
+    }
+
     return AnimatedOpacity(
       duration: Motion.crossFade,
       opacity: removing ? 0.5 : 1,
-      child: Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s4),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SubjectThumb(subject: q.subject),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(questionMeta(q), style: type.caption.copyWith(color: colors.ink3)),
-                  const SizedBox(height: MmSpace.s4),
-                  MmPressable(
-                    onTap: () => context.push(InsightsPaths.savedStreamFrom(q.id)),
-                    semanticsLabel: 'Practise this question: ${q.body}',
-                    pressedScale: 0.99,
-                    haptic: MmPressHaptic.selection,
-                    builder: (context, pressed, _) => Text(q.body, style: type.body, maxLines: 3, overflow: TextOverflow.ellipsis),
-                  ),
-                  Transform.translate(
-                    offset: const Offset(-MmSpace.s16, 0),
-                    child: Row(
-                      children: [
-                        KeyButton.quiet(label: InsightsCopy.practiseChapter, semanticsLabel: 'Practise this question', onPressed: () => context.push(InsightsPaths.savedStreamFrom(q.id))),
-                        KeyButton.quiet(
-                          label: removing ? InsightsCopy.removing : InsightsCopy.remove,
-                          semanticsLabel: 'Remove this question from saved',
-                          onPressed: remove,
-                        ),
-                      ],
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: MmPressable(
+              onTap: () => context.push(InsightsPaths.savedStreamFrom(q.id)),
+              semanticsLabel: 'Practise this question: ${q.body}',
+              focusRadius: MmRadius.smallAll,
+              pressedScale: 0.99,
+              highlight: true,
+              haptic: MmPressHaptic.selection,
+              builder: (context, pressed, _) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SubjectThumb(subject: q.subject),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(questionMeta(q), style: type.caption.copyWith(color: colors.ink3)),
+                          const SizedBox(height: MmSpace.s4),
+                          Text(q.body, style: type.body, maxLines: 3, overflow: TextOverflow.ellipsis),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s8),
+            child: MmPressable(
+              onTap: removing ? null : remove,
+              semanticsLabel: removing ? InsightsCopy.removing : 'Remove this question from saved',
+              focusRadius: MmRadius.pillAll,
+              haptic: MmPressHaptic.selection,
+              builder: (context, pressed, _) => SizedBox.square(
+                dimension: MmTarget.min,
+                child: Center(
+                  child: removing
+                      ? SizedBox.square(dimension: 18, child: MmSpinner(color: colors.ink2))
+                      : Icon(LucideIcons.bookmarkMinus, size: 20, color: pressed ? colors.ink : colors.ink2),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -95,21 +95,15 @@ class _CourseStepState extends ConsumerState<CourseStep> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(
-              label: OnboardingCopy.courseChange(course.short),
-              semanticsLabel: '${course.short}. ${OnboardingCopy.changeCourse}',
-              onPressed: () => setState(() => _choosing = true),
-            ),
-          ),
+          // Two controls that change what the ladder shows, as two chips with the same weight:
+          // the course (a pencil says it changes) and the category.
           Wrap(
             spacing: MmSpace.s8,
             runSpacing: 0,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              CourseChip(label: course.short, onTap: () => setState(() => _choosing = true)),
               CategoryChip(category: a.category, onTap: () => _category(a.category)),
-              MmChip(label: OnboardingCopy.openToAny, selected: a.openToAny, onTap: () => _c.setOpenToAny(!a.openToAny)),
             ],
           ),
           const SizedBox(height: MmSpace.s12),
@@ -118,6 +112,11 @@ class _CourseStepState extends ConsumerState<CourseStep> {
             category: a.category,
             picks: a.colleges,
             onToggle: _c.toggleCollege,
+          ),
+          const SizedBox(height: MmSpace.s8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: MmChip(label: OnboardingCopy.openToAny, selected: a.openToAny, onTap: () => _c.setOpenToAny(!a.openToAny)),
           ),
           if (top != null) ...[
             const SizedBox(height: MmSpace.s12),

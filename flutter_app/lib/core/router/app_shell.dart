@@ -86,7 +86,7 @@ class _AppShellState extends ConsumerState<AppShell> {
     Navigator.of(context, rootNavigator: true).push(
       MorphSheetRoute<void>(
         origin: origin,
-        scrim: context.mmColors.scrim,
+        scrim: context.mmColors.sheetScrim,
         reduced: Motion.reduced(context),
         semanticsLabel: 'Quick start',
         builder: (context) => const QuickStartSheet(),

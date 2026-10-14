@@ -17,6 +17,7 @@ import 'package:mockmob/features/notifications/logic/reminder_plan.dart' show Re
 import 'package:mockmob/features/notifications/screens/notification_settings_screen.dart';
 import 'package:mockmob/features/notifications/screens/reminders_prompt_sheet.dart';
 import 'package:mockmob/features/notifications/services/system_settings.dart';
+import 'package:mockmob/features/notifications/widgets/balanced_text.dart';
 import 'package:mockmob/features/notifications/widgets/notification_preview.dart';
 import 'package:mockmob/features/notifications/widgets/day_shape.dart';
 import 'package:mockmob/features/notifications/widgets/settings_rows.dart';
@@ -97,6 +98,22 @@ void main() {
       expect(result, const ClockTime(21, 30));
     });
 
+    testWidgets('the label above the time says what is being set', (tester) async {
+      await pumpMockmob(
+        tester,
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () => showTimeSheet(context, what: 'study window end', initial: const ClockTime(21, 0)),
+            child: const Text('open'),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      expect(_text('Study window end'), findsOneWidget);
+      expect(_text('Set 9:00 PM'), findsOneWidget);
+    });
+
     testWidgets('12 AM is midnight, 12 PM is noon', (tester) async {
       ClockTime? result;
       await pumpMockmob(
@@ -140,6 +157,37 @@ void main() {
     testWidgets('an odd stored minute stays available', (tester) async {
       await open(tester, initial: const ClockTime(21, 20));
       expect(find.text('20'), findsOneWidget);
+    });
+  });
+
+  group('balanced title', () {
+    // The test font gives every glyph a square of the font size, so widths are exact.
+    Future<Size> sizeOf(WidgetTester tester, String text, double width) async {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: SizedBox(width: width, child: BalancedText(text, style: const TextStyle(fontSize: 10))),
+            ),
+          ),
+        ),
+      );
+      return tester.getSize(find.byType(Text));
+    }
+
+    testWidgets('an orphan is pulled back into an even second line', (tester) async {
+      // Plain wrap at 150: "aaaaa bbbbb cc" over "d". Balanced: "aaaaa bbbbb" over "cc d".
+      final size = await sizeOf(tester, 'aaaaa bbbbb cc d', 150);
+      expect(size.width, lessThan(125));
+      expect(size.height, 20, reason: 'still two lines');
+    });
+
+    testWidgets('a title that fits one line is left alone', (tester) async {
+      final size = await sizeOf(tester, 'aaaa bbbb', 150);
+      expect(size.height, 10);
     });
   });
 
@@ -218,7 +266,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.textContaining('Muted on this phone until Monday, 19 October, 6:00 PM.'), findsOneWidget);
       // And once near the top, with its own way back, so it is not missed below the fold.
-      expect(_text('Reminders are muted until Monday, 19 October.'), findsOneWidget);
+      expect(_text('Muted until Mon 19 Oct'), findsOneWidget);
       // Nothing is armed inside the mute; the week after it is already planned.
       final muteEnd = rig.now.add(const Duration(days: 7));
       expect(rig.gateway.scheduled.where((s) => s.at.isBefore(muteEnd)), isEmpty);
@@ -297,6 +345,36 @@ void main() {
       expect(_text('Android is blocking MockMob, so these will not arrive yet.'), findsOneWidget);
       expect(_text('Open Android settings'), findsOneWidget);
       expect(_text('Turn on'), findsNothing);
+    });
+
+    testWidgets('blocked: no toggle reads as working, and Open Android settings is the volt key', (tester) async {
+      await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.denied);
+      // The on choices say Blocked and the off ones say Off, in words, in place of a switch.
+      expect(find.byType(Switch), findsNothing);
+      expect(_text('Blocked'), findsWidgets);
+      expect(_text('Off'), findsWidgets);
+      final open = tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Open Android settings'));
+      expect(open.variant, KeyVariant.primary);
+    });
+
+    testWidgets('one status at a time: a pane that needs an action wins over a running mute', (tester) async {
+      await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.notAsked);
+      await tester.tap(_text('Mute for 7 days'));
+      await tester.pumpAndSettle();
+      expect(_text('Turn on'), findsOneWidget);
+      expect(_text('Notifications are off'), findsOneWidget);
+      // No second banner at the top: the mute is still said under Take a break.
+      expect(_text('Muted until Mon 19 Oct'), findsNothing);
+      expect(find.textContaining('Muted on this phone until Monday, 19 October, 6:00 PM.'), findsOneWidget);
+    });
+
+    testWidgets('Remove study window is a quiet row inside the study window group', (tester) async {
+      await pumpScreen(tester, prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 0), end: ClockTime(21, 0))));
+      expect(find.byType(ActionRow), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, 'Remove study window'), findsNothing);
+      await tester.tap(find.widgetWithText(ActionRow, 'Remove study window'));
+      await tester.pumpAndSettle();
+      expect(repo.saved.single['clearStudyWindow'], isTrue);
     });
 
     testWidgets('a paused category says so and the one-time line can be dismissed', (tester) async {
@@ -462,9 +540,11 @@ void main() {
         findsOneWidget,
       );
       expect(_text('Remind me when it matters'), findsNothing);
-      // Mobi stays, and so do the three examples and the main key.
+      // Mobi stays, and so does the main key. The ask is about the result, so it shows that one example.
       expect(find.byType(Mobi), findsOneWidget);
-      expect(_text('What they would say'), findsOneWidget);
+      expect(find.byType(NotificationPreview), findsOneWidget);
+      expect(_text('Your mock was received. Your result is ready.'), findsOneWidget);
+      expect(_text('What they would say'), findsNothing);
       expect(_text('Allow reminders'), findsOneWidget);
       expect(_text('Not now'), findsOneWidget);
     });
@@ -477,6 +557,14 @@ void main() {
       );
       expect(_text('A nudge at your study time'), findsOneWidget);
       expect(find.textContaining('your study window starts at 8:30 PM.'), findsOneWidget);
+    });
+
+    testWidgets('the repair ask shows the repair reminder only, with no examples label', (tester) async {
+      await pumpSheet(tester, asks: 2);
+      expect(_text('Hear when a repair is waiting'), findsOneWidget);
+      expect(find.byType(NotificationPreview), findsOneWidget);
+      expect(_text('When a mock leaves mistakes, a short repair is waiting for you.'), findsOneWidget);
+      expect(_text('What they would say'), findsNothing);
     });
 
     testWidgets('the wording starts over after the sixth', (tester) async {

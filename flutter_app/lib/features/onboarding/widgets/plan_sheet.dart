@@ -103,18 +103,24 @@ class PlanSheet extends StatelessWidget {
                       last: i == plan.lines.length - 1,
                     ),
                   const SizedBox(height: MmSpace.s4),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                          child: Text(OnboardingCopy.sharpens, style: type.caption.copyWith(color: colors.ink3)),
+                  // The foil seal joins the caption only when it lands (the card grows to take
+                  // it), so there is no empty target waiting in the corner.
+                  _FootGrow(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                            child: Text(OnboardingCopy.sharpens, style: type.caption.copyWith(color: colors.ink3)),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: MmSpace.s12),
-                      _StampedSeal(sealed: sealed, size: compact ? 56 : 72, animate: animate, stamp: stamp),
-                    ],
+                        if (sealed) ...[
+                          const SizedBox(width: MmSpace.s12),
+                          _StampedSeal(sealed: true, size: compact ? 56 : 72, animate: animate, stamp: stamp),
+                        ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -132,6 +138,19 @@ class PlanSheet extends StatelessWidget {
         child: _LampSweep(run: revealed && animate && !sealed, child: RepaintBoundary(child: card)),
       ),
     );
+  }
+}
+
+/// Grows to its content on the emphasized curve (at once under reduced motion).
+class _FootGrow extends StatelessWidget {
+  const _FootGrow({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduced(context)) return child;
+    return AnimatedSize(duration: Motion.glideDuration, curve: Motion.emphasized, alignment: Alignment.topCenter, child: child);
   }
 }
 
@@ -372,12 +391,7 @@ class _StampedSeal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    if (!sealed) {
-      // Where the seal will land: a dashed ring, like the box on a form that waits for a stamp.
-      return ExcludeSemantics(
-        child: CustomPaint(size: Size.square(size), painter: _DashedRing(color: colors.ink3.withValues(alpha: 0.7))),
-      );
-    }
+    if (!sealed) return SizedBox.square(dimension: size);
     final seal = FoilSeal(sealed: sealed, size: size, animate: animate && stamp == null);
     final s = stamp;
     if (s == null) return seal;
@@ -396,31 +410,6 @@ class _StampedSeal extends StatelessWidget {
       },
     );
   }
-}
-
-class _DashedRing extends CustomPainter {
-  const _DashedRing({required this.color});
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const dashes = 24;
-    final r = size.shortestSide / 2 - 6;
-    final c = size.center(Offset.zero);
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5
-      ..strokeCap = StrokeCap.round
-      ..color = color;
-    const sweep = 2 * math.pi / dashes;
-    for (var i = 0; i < dashes; i++) {
-      canvas.drawArc(Rect.fromCircle(center: c, radius: r), i * sweep, sweep * 0.5, false, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DashedRing old) => old.color != color;
 }
 
 class _WavePainter extends CustomPainter {

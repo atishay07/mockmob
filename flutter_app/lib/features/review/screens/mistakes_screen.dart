@@ -14,6 +14,7 @@ import '../widgets/mistake_map.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
+import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
 
 /// `/review/mistakes`: every chapter with mistakes, open ones first, then the skipped questions.
@@ -33,7 +34,7 @@ class MistakesScreen extends ConsumerWidget {
     Widget body;
     if (index == null) {
       body = inputs.attempts.isFailedEmpty
-          ? StateView(
+          ? ReviewStateView(
               kind: (inputs.attempts.error?.isOffline ?? false) ? StateViewKind.offline : StateViewKind.error,
               title: ReviewCopy.loadErrorTitle,
               message: ReviewCopy.loadErrorMessage,
@@ -43,7 +44,7 @@ class MistakesScreen extends ConsumerWidget {
               child: Semantics(label: ReviewCopy.loadingMistakes, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
             );
     } else if (!index.hasAnyMistake && index.blanks == null) {
-      body = StateView(
+      body = ReviewStateView(
         kind: StateViewKind.empty,
         pose: MobiPose.read,
         title: index.attempts.isEmpty ? ReviewCopy.emptyTitle : ReviewCopy.allClearTitle,
@@ -67,7 +68,6 @@ class MistakesScreen extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, pad.bottom + MmSpace.s32),
           children: [
-            if (inputs.attempts.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmRhythm.item)],
             if (open.isNotEmpty)
               MmStaggerItem(
                 index: 0,
@@ -77,7 +77,7 @@ class MistakesScreen extends ConsumerWidget {
                     SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
                     RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
                     const SizedBox(height: MmRhythm.item),
-                    MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups)),
+                    MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups), leadKeyPrimary: true),
                   ],
                 ),
               ),
@@ -137,7 +137,7 @@ class MistakesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const PageHeader(title: ReviewCopy.mistakesTitle),
+            PageHeader(title: ReviewCopy.mistakesTitle, notice: index != null && inputs.attempts.isStale ? HeaderNotice.offline : null),
             Expanded(child: body),
           ],
         ),

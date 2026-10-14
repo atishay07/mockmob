@@ -96,7 +96,7 @@ void main() {
       expect(tester.getTopLeft(find.text('Quick 10')).dy, quickTop);
     });
 
-    testWidgets('no draft: Quick 10 is lit and Ask your record is offered', (tester) async {
+    testWidgets('no draft: Quick 10 is lit and Ask Mobi about your marks is offered', (tester) async {
       await tester.pumpWidget(_app(
         const SingleChildScrollView(child: QuickStartSheet()),
         overrides: [
@@ -107,7 +107,7 @@ void main() {
       await _pumpFor(tester, const Duration(milliseconds: 500));
       expect(find.textContaining('Resume'), findsNothing);
       expect(find.ancestor(of: find.text('Quick 10'), matching: find.byType(LitEdge)), findsOneWidget);
-      expect(find.text('Ask your record'), findsOneWidget);
+      expect(find.text('Ask Mobi about your marks'), findsOneWidget);
       expect(find.text('Ask Mobi'), findsNothing);
       expect(find.byType(MobiCharacter), findsOneWidget, reason: 'Mobi sits in the sheet header (navigation-08)');
     });

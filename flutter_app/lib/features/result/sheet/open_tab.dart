@@ -4,7 +4,9 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// The tab of the sealed sheet (spec 5.6.2): a volt pill, 56 by 200 dp. Tapping opens with a scripted lift; dragging is handled by the stage.
+/// The tab of the sealed sheet (spec 5.6.2): the volt key, as wide as the room it is given (the
+/// same full-width key as on every other card) and 56 dp tall. Tapping opens with a scripted
+/// lift; dragging is handled by the stage.
 class OpenTab extends StatelessWidget {
   const OpenTab({super.key, required this.onTap});
 
@@ -18,7 +20,7 @@ class OpenTab extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: ResultCopy.openTab,
       builder: (context, pressed, focused) => SizedBox(
-        width: 200,
+        width: double.infinity,
         height: MmTarget.primaryKey,
         child: DecoratedBox(
           decoration: ShapeDecoration(

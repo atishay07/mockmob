@@ -27,9 +27,14 @@ bool returningGreetsWithMobi(Rhythm rhythm) => showReturning(rhythm);
 const int returningWeeksShown = 3;
 
 class ReturningCard extends StatelessWidget {
-  const ReturningCard({super.key, required this.rhythm, this.extraLine});
+  const ReturningCard({super.key, required this.rhythm, this.extraLine, this.actionLabel, this.onAction});
 
   final Rhythm rhythm;
+
+  /// The one next step ("Review your 3 mistakes") and what it does. The key shows only when both
+  /// are given; Today owns the data behind it.
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   /// One line from Today, such as "Your last mock was Mock 7 on 2 October. Your 3 mistakes from
   /// it are still here."
@@ -53,7 +58,17 @@ class ReturningCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (greet) ...[const Mobi(pose: MobiPose.greet, size: 88, motion: MobiMotion.settle), const SizedBox(width: MmSpace.s16)],
-              Expanded(child: Semantics(header: true, child: Text(RhythmCopy.welcomeBack, style: type.title))),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Semantics(header: true, child: Text(RhythmCopy.welcomeBack, style: type.headline)),
+                    const SizedBox(height: MmSpace.s4),
+                    // Said plainly and in full ink: this is the reassurance, not a footnote.
+                    Text(RhythmCopy.nothingLost, style: type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
             ],
           ),
           if (extraLine != null) ...[
@@ -63,10 +78,12 @@ class ReturningCard extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
           if (weeks.isNotEmpty) ...[
             // The weeks that had study in them, as the same capsules the rhythm screen draws.
-            RunRibbon(weeks: ribbon),
-            const SizedBox(height: MmSpace.s8),
+            RunRibbon(weeks: ribbon, showCounts: true),
           ],
-          Text(RhythmCopy.nothingLost, style: type.body.copyWith(color: colors.ink2)),
+          if (actionLabel != null && onAction != null) ...[
+            const SizedBox(height: MmSpace.s16),
+            KeyButton(label: actionLabel!, onPressed: onAction),
+          ],
         ],
       ),
       ),
@@ -76,15 +93,17 @@ class ReturningCard extends StatelessWidget {
 
 /// The Today host: shows the card only while the student is returning and rhythm is on.
 class ReturningSection extends ConsumerWidget {
-  const ReturningSection({super.key, this.extraLine});
+  const ReturningSection({super.key, this.extraLine, this.actionLabel, this.onAction});
 
   final String? extraLine;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(rhythmVisibleProvider)) return const SizedBox.shrink();
     final rhythm = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm));
     if (rhythm == null || !showReturning(rhythm)) return const SizedBox.shrink();
-    return ReturningCard(rhythm: rhythm, extraLine: extraLine);
+    return ReturningCard(rhythm: rhythm, extraLine: extraLine, actionLabel: actionLabel, onAction: onAction);
   }
 }

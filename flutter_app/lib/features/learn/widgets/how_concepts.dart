@@ -40,9 +40,12 @@ class _HowConceptsState extends State<HowConcepts> {
       key: _line,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Semantics(header: true, child: Text(LearnCopy.howTitle, style: type.label.copyWith(color: colors.ink))),
+        Semantics(
+          header: true,
+          child: Text(LearnCopy.howTitle, style: type.subhead),
+        ),
         const SizedBox(height: MmSpace.s4),
-        Text(LearnCopy.howLine, style: type.small.copyWith(color: colors.ink2)),
+        Text(LearnCopy.howLine, style: type.body.copyWith(color: colors.ink2)),
       ],
     );
     if (!widget.withMobi) return text;
@@ -50,8 +53,8 @@ class _HowConceptsState extends State<HowConcepts> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(child: text),
-        const SizedBox(width: MmSpace.s12),
-        Mobi(pose: MobiPose.point, size: 72, controller: _mobi),
+        const SizedBox(width: MmSpace.s8),
+        Mobi(pose: MobiPose.point, size: 80, controller: _mobi),
       ],
     );
   }

@@ -29,7 +29,7 @@ abstract final class OnboardingCopy {
   /// A sheet this build cannot read was kept aside, and the key starts a new one.
   static const String sheetFromNewer = 'Your saved sheet is from a newer MockMob. Update to pick it up, or start a new one here. The old one is kept.';
   static const String sheetBroken = "Your saved sheet couldn't be read, so this starts a new one. The old one is kept.";
-  static String welcomeBackLine(int filled, int of) => 'Your sheet is where you left it. $filled of $of filled.';
+  static String welcomeBackLine(int filled, int of) => '$filled of $of filled';
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
 
@@ -66,11 +66,10 @@ abstract final class OnboardingCopy {
   static const String datesNotOut = 'Dates not out yet';
   static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
-  static const String weeksShort = 'weeks';
   static const String trackToday = 'Today';
   static String trackMay(int year) => 'May $year';
-  static String stageWeeksUnit(int year) => 'to May $year';
-  static const String stageWeeksProbably = 'to May 2027, probably';
+  static String stageWindow(int year) => 'CUET in May $year';
+  static const String stageWindowProbably = 'CUET in May 2027, probably';
   static String stageWeeksSpoken(int year) => 'weeks to the expected May $year window';
 
   // Course and colleges.
@@ -88,7 +87,6 @@ abstract final class OnboardingCopy {
   static const String openToAny = 'Any college is fine';
   static String showAll(int n) => 'Show all $n';
   static const String showFewer = 'Show fewer';
-  static String courseChange(String course) => '$course, change';
   static const String changeCourse = 'Change course';
   static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
   static String barLine(String college, String score, int perPaper) =>
@@ -154,7 +152,7 @@ abstract final class OnboardingCopy {
   static String planFrom(String date) => 'From $date';
   static const String holdToSeal = 'Hold to seal';
   static const String sealing = 'Keep holding';
-  static const String sealIt = 'Seal it';
+  static const String sealIt = 'Tap to seal instead';
   static const String sealed = 'Sealed';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
@@ -222,6 +220,7 @@ abstract final class OnboardingCopy {
       'We count which parts of the app are used, such as starting a mock or finishing a repair, along with the app '
       'version. We do not collect your answers, marks, questions, contacts, location or an advertising ID. You '
       'can turn this off any time here and collection stops straight away.';
+  static const String usageSummary = 'Counts which parts of the app are used. Never your answers, marks or location.';
   static const String seeEvents = 'See every event we collect';
   static const String hideEvents = 'Hide the event list';
   static const String eventsIntro = 'Each event below is sent with the time and the app version only.';

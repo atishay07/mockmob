@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/connectivity/connectivity.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -28,6 +29,9 @@ enum CompassSort { colleges, cutoff, name }
 /// How many "not eligible yet" rows show before "Show all".
 const int _nearFirst = 5;
 
+/// How many programmes a long stream group shows before "Show more".
+const int _streamFirst = 6;
+
 /// Admission Compass (`/tools/compass`): the student's CUET subjects against DU's 2026-27
 /// Bulletin rules, then the 2026 college cutoffs by category and round. The website's
 /// admission-compass and cutoff calculator in one native screen, on the same data.
@@ -50,6 +54,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   bool? _nearOpen;
   bool _nearAll = false;
 
+  /// Streams the student has opened to the full list.
+  final Set<String> _openStreams = {};
+
   @override
   void dispose() {
     _search.dispose();
@@ -66,6 +73,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     final async = ref.watch(compassControllerProvider);
     final slivers = switch (async) {
       AsyncData(:final value) => _ready(context, value),
+      // A refresh that failed while results are on the phone: keep them, and say so.
+      AsyncError(:final error, value: final CompassState kept) => [
+          SliverToBoxAdapter(child: _StaleBanner(error: error, onRetry: _retry)),
+          ..._ready(context, kept),
+        ],
       AsyncError(:final error) => [SliverToBoxAdapter(child: ToolsLoadFailed(error: error, onRetry: _retry))],
       _ => const [SliverToBoxAdapter(child: ToolsLoading())],
     };
@@ -104,22 +116,15 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.only(top: MmRhythm.item),
-          child: ToolsPanel(
-            dividerIndent: ToolsLinkRow.dividerIndent,
-            children: [
-              ToolsLinkRow(
-                icon: LucideIcons.slidersHorizontal,
-                title: ToolsCopy.categoryHeading,
-                note: ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
-                onTap: () => showCategoryScoreSheet(context),
-              ),
-            ],
+          child: CategoryScoreBar(
+            summary: ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
+            onTap: () => showCategoryScoreSheet(context),
           ),
         ),
       ),
       if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty)),
       if (s.unlocks.isNotEmpty) ...[
-        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading)),
+        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading, top: MmRhythm.group)),
         SliverToBoxAdapter(child: _Unlocks(state: s)),
       ],
       if (!s.selection.isEmpty) ...[
@@ -149,13 +154,45 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           SliverToBoxAdapter(child: ToolsNote(ToolsCopy.nothingMatches, top: MmSpace.s20)),
         for (final st in streams)
           if (list.where((r) => r.group.stream == st).toList() case final rows when rows.isNotEmpty) ...[
-            SliverToBoxAdapter(child: GroupHeading(st, top: MmSpace.s20)),
             SliverToBoxAdapter(
-              child: ToolsPanel(
-                children: [
-                  for (final r in rows)
-                    ProgrammeRow(verdict: r, category: s.category, score: score, onTap: () => open(r.group.id)),
-                ],
+              child: GroupHeading(
+                st,
+                top: MmSpace.s20,
+                trailing: Padding(
+                  padding: const EdgeInsets.only(right: MmSpace.gutter + 4),
+                  child: Text('${rows.length}', style: context.mmType.caption.copyWith(color: context.mmColors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Builder(
+                builder: (context) {
+                  // A long group opens on its first rows; the rest is one tap away.
+                  final collapsible = rows.length > _streamFirst + 2;
+                  final all = _openStreams.contains(st);
+                  final shown = collapsible && !all ? rows.take(_streamFirst).toList() : rows;
+                  return ToolsPanel(
+                    children: [
+                      for (final r in shown) ProgrammeRow(verdict: r, category: s.category, score: score, onTap: () => open(r.group.id)),
+                      if (collapsible)
+                        ToolsRowFrame(
+                          onTap: () => setState(() => all ? _openStreams.remove(st) : _openStreams.add(st)),
+                          semanticsLabel: all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(rows.length - _streamFirst),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(rows.length - _streamFirst),
+                                  style: context.mmType.labelLarge.copyWith(color: context.mmColors.accentText),
+                                ),
+                              ),
+                              Icon(all ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: context.mmColors.accentText),
+                            ],
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
             ),
           ],
@@ -249,12 +286,12 @@ class _Unlocks extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(compassControllerProvider.notifier);
-    return Padding(
+    // One row that scrolls (with its edge fade), so the chips never stagger into a ragged block.
+    return ToolsFadingScroller(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
-      child: Wrap(
-        spacing: MmSpace.s8,
+      child: Row(
         children: [
-          for (final u in state.unlocks)
+          for (final u in state.unlocks) ...[
             Semantics(
               label: ToolsCopy.unlockSemantics(u.name, u.unlocks),
               excludeSemantics: true,
@@ -266,6 +303,8 @@ class _Unlocks extends ConsumerWidget {
                 onTap: () => controller.toggle(u.pick),
               ),
             ),
+            const SizedBox(width: MmSpace.s8),
+          ],
         ],
       ),
     );
@@ -308,9 +347,7 @@ class _Filters extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        ToolsFadingScroller(
           child: Row(
             children: [
               for (final st in [ToolsCopy.all, ...streams]) ...[
@@ -365,6 +402,29 @@ class _ClearingSwitch extends StatelessWidget {
           const SizedBox(width: MmSpace.s12),
           ExcludeSemantics(child: IgnorePointer(child: Switch(value: value, onChanged: (_) {}))),
         ],
+      ),
+    );
+  }
+}
+
+/// The DU data could not be refreshed but the last copy is on the phone: the screen stays, with
+/// one banner that says why and offers Try again.
+class _StaleBanner extends ConsumerWidget {
+  const _StaleBanner({required this.error, required this.onRetry});
+
+  final Object error;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline || (error is DuLoadError && (error as DuLoadError).offline);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
+      child: InlineBanner(
+        tone: offline ? BannerTone.offline : BannerTone.error,
+        message: offline ? ToolsCopy.staleOffline : ToolsCopy.staleError,
+        actionLabel: ToolsCopy.tryAgain,
+        onAction: onRetry,
       ),
     );
   }

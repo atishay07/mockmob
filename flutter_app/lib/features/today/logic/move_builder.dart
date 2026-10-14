@@ -173,7 +173,7 @@ MoveHero buildMove(TodayInputs i) {
       return MoveHero(
         state: state,
         mood: mood,
-        overline: TodayCopy.unavailableOverline,
+        overline: '',
         art: const HeroArt.mobi(MmArt.mobiThink),
         mobiLine: TodayCopy.unavailableTitle,
         meaning: TodayCopy.unavailableLine,
@@ -207,7 +207,6 @@ MoveHero buildMove(TodayInputs i) {
           GoTo(i.profile?.firstMoveRoute ?? TodayLinks.quick(subject: subject, purpose: 'baseline')),
           startsSession: true,
           actionType: 'practice',
-          shortLabel: TodayCopy.startNowShort,
         ),
         secondary: TodayAction(TodayCopy.fullMockInstead, GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
       );
@@ -350,7 +349,6 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
       GoTo(TodayLinks.repair(b.id, tonight.items.first.questionId, n)),
       startsSession: true,
       actionType: 'repair',
-      shortLabel: TodayCopy.startRepairShort(choice.minutes),
     ),
     secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
     // The date is in the meaning line; the basis line only says when one paper is all there is.

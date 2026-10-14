@@ -100,6 +100,12 @@ class _WelcomeViewState extends State<WelcomeView> {
     final line = _asleep
         ? null
         : (lateNight ? OnboardingCopy.lateNight : (returning ? OnboardingCopy.mobiWelcomeBack : OnboardingCopy.mobiWelcome));
+    // On a short screen (the 360 by 640 floor) Mobi's bubble would run up into the wordmark, so
+    // it waits: the greeting is the headline's job there, and the late-night line moves to sit
+    // above the key as plain text. The room grows with the screen and shrinks with large text.
+    final scale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.3);
+    final bubbleRoom = size.height >= 760 + (scale - 1) * 250;
+    final sayLine = bubbleRoom ? line : null;
 
     // The room fills everything above the words, so the desk meets the headline at every
     // height instead of leaving a band of empty floor between them.
@@ -122,7 +128,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   controller: _mobi,
                   size: mobiSize,
                   entrance: widget.entrance,
-                  say: line,
+                  say: sayLine,
                   bubbleWidth: (size.width * 0.62).clamp(200.0, 300.0),
                   semanticLabel: switch (widget.entrance) {
                     MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
@@ -165,6 +171,10 @@ class _WelcomeViewState extends State<WelcomeView> {
             child: Text(OnboardingCopy.welcomeSupport, style: type.body.copyWith(color: colors.ink2)),
           ),
           const SizedBox(height: MmSpace.s24),
+          if (!bubbleRoom && lateNight && !_asleep) ...[
+            Semantics(liveRegion: true, child: Text(OnboardingCopy.lateNight, style: type.small.copyWith(color: colors.ink2))),
+            const SizedBox(height: MmSpace.s12),
+          ],
           if (returning) ...[
             Row(
               children: [
@@ -174,10 +184,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                   gap: 5,
                 ),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(child: Text(OnboardingCopy.welcomeBackLine(widget.filled, 7), style: type.small.copyWith(color: colors.ink2))),
+                Expanded(
+                  child: Text(OnboardingCopy.welcomeBackLine(widget.filled, 7), maxLines: 1, overflow: TextOverflow.ellipsis, style: type.small.copyWith(color: colors.ink2)),
+                ),
               ],
             ),
-            const SizedBox(height: MmSpace.s16),
+            const SizedBox(height: MmSpace.s20),
           ],
           if (notice != null) ...[
             Semantics(liveRegion: true, child: Text(notice, style: type.small.copyWith(color: colors.ink2))),

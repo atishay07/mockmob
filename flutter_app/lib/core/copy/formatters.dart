@@ -130,3 +130,10 @@ String categoryWords(String? category) {
     _ => code,
   };
 }
+
+/// [categoryWords] with the first letter capitalised, for a chip, a row or the start of a line:
+/// "Unreserved", "OBC", "Sikh minority". The stored value stays the portal code.
+String categoryWordsTitle(String? category) {
+  final words = categoryWords(category);
+  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
+}

@@ -10,7 +10,13 @@ import 'pending_event.dart';
 
 /// A lesson kept on the phone, with what it was cached under.
 class CachedLesson {
-  const CachedLesson({required this.json, this.version, this.contentHash, required this.subject, required this.sizeBytes});
+  const CachedLesson({
+    required this.json,
+    this.version,
+    this.contentHash,
+    required this.subject,
+    required this.sizeBytes,
+  });
 
   final Json json;
   final String? version;
@@ -33,13 +39,22 @@ class LearnStore {
   static String _runKey(String runId) => 'run:$runId';
   static String _pendingKey(String runId) => 'pending:$runId';
 
-  Future<LearnCacheRow?> _row(String key) => (_db.select(_db.learnCache)
-        ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.equals(key)))
-      .getSingleOrNull();
+  Future<LearnCacheRow?> _row(String key) =>
+      (_db.select(_db.learnCache)..where(
+            (t) => t.userId.equals(_scope.userId) & t.cacheKey.equals(key),
+          ))
+          .getSingleOrNull();
 
-  Future<void> _put(String key, Object json, {String version = '', String hash = ''}) async {
+  Future<void> _put(
+    String key,
+    Object json, {
+    String version = '',
+    String hash = '',
+  }) async {
     final text = jsonEncode(json);
-    await _db.into(_db.learnCache).insertOnConflictUpdate(
+    await _db
+        .into(_db.learnCache)
+        .insertOnConflictUpdate(
           LearnCacheCompanion.insert(
             userId: _scope.userId,
             cacheKey: key,
@@ -53,7 +68,10 @@ class LearnStore {
   }
 
   Future<void> _delete(String key) =>
-      (_db.delete(_db.learnCache)..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.equals(key))).go();
+      (_db.delete(_db.learnCache)..where(
+            (t) => t.userId.equals(_scope.userId) & t.cacheKey.equals(key),
+          ))
+          .go();
 
   Json? _decode(LearnCacheRow? row) {
     if (row == null) return null;
@@ -68,9 +86,11 @@ class LearnStore {
 
   /// The kept lesson rows. Keys are matched in Dart, never with a LIKE built from an id, so
   /// `_` and `%` in an id or subject are plain characters.
-  Future<List<LearnCacheRow>> _lessonRows() => (_db.select(_db.learnCache)
-        ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%')))
-      .get();
+  Future<List<LearnCacheRow>> _lessonRows() =>
+      (_db.select(_db.learnCache)..where(
+            (t) => t.userId.equals(_scope.userId) & t.cacheKey.like('unit:%'),
+          ))
+          .get();
 
   /// The subject and id inside a lesson key (`unit:<subject>:<id>`), or null for another key.
   static (String, String)? _parts(String key) {
@@ -87,7 +107,9 @@ class LearnStore {
     if (subject != null) {
       row = await _row(_unitKey(subject, id));
     } else {
-      row = (await _lessonRows()).where((r) => _parts(r.cacheKey)?.$2 == id).firstOrNull;
+      row = (await _lessonRows())
+          .where((r) => _parts(r.cacheKey)?.$2 == id)
+          .firstOrNull;
     }
     if (row == null) return null;
     final json = _decode(row);
@@ -115,16 +137,23 @@ class LearnStore {
   Future<void> _deleteKeys(Iterable<String> keys) async {
     final list = keys.toList();
     if (list.isEmpty) return;
-    await (_db.delete(_db.learnCache)..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.isIn(list))).go();
+    await (_db.delete(
+          _db.learnCache,
+        )..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.isIn(list)))
+        .go();
   }
 
   /// Drops the kept copy of lesson [id] (exact id, under any subject).
-  Future<void> dropLesson(String id) async =>
-      _deleteKeys([for (final r in await _lessonRows()) if (_parts(r.cacheKey)?.$2 == id) r.cacheKey]);
+  Future<void> dropLesson(String id) async => _deleteKeys([
+    for (final r in await _lessonRows())
+      if (_parts(r.cacheKey)?.$2 == id) r.cacheKey,
+  ]);
 
   /// Drops every lesson kept for [subject] (exact subject).
-  Future<void> dropSubject(String subject) async =>
-      _deleteKeys([for (final r in await _lessonRows()) if (_parts(r.cacheKey)?.$1 == subject) r.cacheKey]);
+  Future<void> dropSubject(String subject) async => _deleteKeys([
+    for (final r in await _lessonRows())
+      if (_parts(r.cacheKey)?.$1 == subject) r.cacheKey,
+  ]);
 
   /// Bytes kept per subject.
   Future<Map<String, int>> sizeBySubject() async {
@@ -143,7 +172,10 @@ class LearnStore {
       final id = _parts(row.cacheKey)?.$2;
       if (id == null) continue;
       final current = currentVersions[id];
-      if (currentVersions.containsKey(id) && current != null && current != row.version) await _delete(row.cacheKey);
+      if (currentVersions.containsKey(id) &&
+          current != null &&
+          current != row.version)
+        await _delete(row.cacheKey);
     }
   }
 
@@ -164,17 +196,23 @@ class LearnStore {
     return event.requestKey.isEmpty ? null : event;
   }
 
-  Future<void> putPending(String runId, PendingEvent event) => _put(_pendingKey(runId), event.toJson());
+  Future<void> putPending(String runId, PendingEvent event) =>
+      _put(_pendingKey(runId), event.toJson());
 
   Future<void> clearPending(String runId) => _delete(_pendingKey(runId));
 
   /// Ids of runs that have an event on this phone that the server has not acknowledged.
   Future<List<String>> pendingRunIds() async {
-    final rows = await (_db.select(_db.learnCache)
-          ..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.like('pending:%')))
-        .get();
+    final rows =
+        await (_db.select(_db.learnCache)..where(
+              (t) =>
+                  t.userId.equals(_scope.userId) & t.cacheKey.like('pending:%'),
+            ))
+            .get();
     return [for (final r in rows) r.cacheKey.substring('pending:'.length)];
   }
 }
 
-final learnStoreProvider = Provider<LearnStore>((ref) => LearnStore(ref.watch(localScopeProvider)));
+final learnStoreProvider = Provider<LearnStore>(
+  (ref) => LearnStore(ref.watch(localScopeProvider)),
+);

@@ -8,6 +8,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button.dart';
+import '../../../core/widgets/pressable.dart';
 import '../../you/widgets/you_page.dart' show YouHeader, YouHeaderLamp;
 
 class RhythmPage extends StatelessWidget {
@@ -154,6 +155,89 @@ class FlushQuietKey extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Transform.translate(offset: const Offset(-inset, 0), child: row),
+    );
+  }
+}
+
+/// A quiet pill: a 48 dp outlined capsule for the choices that sit under a volt primary. It reads
+/// as a button (a visible edge, a pressed fill) without competing with it. With [danger] the label
+/// and the edge take the warm error tone, for the one action that switches something off.
+/// Put it in an `Expanded` to share a row; it fills the width it is given.
+class QuietPill extends StatelessWidget {
+  const QuietPill({super.key, required this.label, required this.onPressed, this.danger = false, this.semanticsLabel});
+
+  final String label;
+  final VoidCallback? onPressed;
+  final bool danger;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final enabled = onPressed != null;
+    final tone = !enabled ? colors.ink4 : (danger ? colors.badText : colors.ink);
+    final edge = danger ? colors.wrongBorder.withValues(alpha: colors.isNight ? 0.7 : 0.55) : colors.lineStrong;
+    return MmPressable(
+      onTap: onPressed,
+      semanticsLabel: semanticsLabel ?? label,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: pressed ? (colors.isNight ? colors.raised2 : colors.sunken) : Colors.transparent,
+          borderRadius: MmRadius.pillAll,
+          border: Border.all(color: edge),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s8),
+            child: Center(child: Text(label, textAlign: TextAlign.center, style: type.button.copyWith(color: tone))),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A headline that wraps evenly. When [text] needs more than one line at the width it is given,
+/// the width shrinks to the narrowest that still needs the same number of lines, so no single
+/// word is left alone on the last line. The string itself is untouched.
+class BalancedText extends StatelessWidget {
+  const BalancedText(this.text, {super.key, required this.style});
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final direction = Directionality.of(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final full = box.maxWidth;
+        if (!full.isFinite) return Text(text, style: style);
+        int lines(double width) {
+          final painter = TextPainter(text: TextSpan(text: text, style: style), textDirection: direction, textScaler: scaler)..layout(maxWidth: width);
+          final n = painter.computeLineMetrics().length;
+          painter.dispose();
+          return n;
+        }
+
+        final n = lines(full);
+        if (n < 2) return Text(text, style: style);
+        var lo = full / 2;
+        var hi = full;
+        for (var i = 0; i < 9; i++) {
+          final mid = (lo + hi) / 2;
+          if (lines(mid) <= n) {
+            hi = mid;
+          } else {
+            lo = mid;
+          }
+        }
+        return Align(alignment: Alignment.centerLeft, child: SizedBox(width: hi.ceilToDouble() + 1, child: Text(text, style: style)));
+      },
     );
   }
 }

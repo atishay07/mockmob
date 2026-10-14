@@ -131,6 +131,17 @@ const TodayWeek tuesdayWeek = TodayWeek(
   dates: [12, 13, 14, 15, 16, 17, 18],
 );
 
+/// Monday and Tuesday counted, Saturday 17 October is today (the dates are the stale Tuesday
+/// week's own, so Today has to place the marker from its own clock).
+const TodayWeek saturdayWeek = TodayWeek(
+  studied: [true, true, false, false, false, false, false],
+  todayIndex: 5,
+  label: '2 of 4 study days',
+  goal: 4,
+  planned: {0, 1, 3, 5},
+  dates: [12, 13, 14, 15, 16, 17, 18],
+);
+
 LearningPlan readyPlan({int minutes = 10}) =>
     LearningPlan.fromJson({'primary': {'kind': 'ordinary_practice', 'title': 'Practise'}, 'minutes': minutes, 'recordState': 'ready'});
 
@@ -147,6 +158,7 @@ TodayInputs ashaInputs({
   Set<DismissalKey> dismissed = const {},
   Duration attemptsAge = const Duration(minutes: 70),
   Duration planAge = const Duration(minutes: 70),
+  TodayWeek week = tuesdayWeek,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -159,7 +171,7 @@ TodayInputs ashaInputs({
     plan: readyPlan(),
     planFetchedAt: at.subtract(planAge),
     planStale: offline,
-    week: tuesdayWeek,
+    week: week,
     returning: returning,
     draft: draft,
     unopened: unopened,

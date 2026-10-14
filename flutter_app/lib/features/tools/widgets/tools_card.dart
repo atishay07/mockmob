@@ -20,9 +20,17 @@ class ToolsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The focal pane's volt edge comes with its soft volt glow underneath (LitEdge), so the line
+    // reads as the lamp catching the card and not as a stray border.
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-      child: lit ? MmSurface.hero(lit: true, padding: padding, child: child) : MmSurface.plain(padding: padding, child: child),
+      child: lit
+          ? LitEdge(
+              glow: true,
+              borderRadius: BorderRadius.circular(MmRhythm.heroRadius),
+              child: MmSurface.hero(padding: padding, child: child),
+            )
+          : MmSurface.plain(padding: padding, child: child),
     );
   }
 }

@@ -37,7 +37,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: CuetDates.registrationMonths,
     title: 'CUET registration',
-    body: 'Based on the 2026 cycle.',
+    body: 'Fill in the form and choose your papers once NTA opens registration.',
     start: DateTime(2027, 2),
     end: DateTime(2027, 4),
     expected: true,
@@ -53,7 +53,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: 'May 2027',
     title: 'The exam',
-    body: 'Based on the 2026 cycle. Practise with timed papers and keep a block for targeted chapter review.',
+    body: 'Practise with timed papers and keep a block for targeted chapter review.',
     start: DateTime(2027, 5),
     end: DateTime(2027, 6),
     expected: true,

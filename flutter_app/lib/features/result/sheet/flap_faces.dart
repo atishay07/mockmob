@@ -15,10 +15,14 @@ import 'sheet_geometry.dart';
 /// ("Mock 7, Accountancy"), the paper's embossing, the fold notch and the foil seal on the free
 /// edge. Drawn upright in its own space; the fold flips it into place.
 class FlapOutside extends StatelessWidget {
-  const FlapOutside({super.key, required this.model, required this.geometry});
+  const FlapOutside({super.key, required this.model, required this.geometry, this.fade});
 
   final RecapModel model;
   final SheetGeometry geometry;
+
+  /// The opacity of the words on this face (the paper stays). They are gone before the flap turns
+  /// on edge, so they are never seen skewed or cut off by the sheet's edge mid-fold. Null: shown.
+  final Animation<double>? fade;
 
   static const double sealSize = 76;
 
@@ -35,7 +39,9 @@ class FlapOutside extends StatelessWidget {
             notch: PaperNotch.bottomRight,
             texture: true,
             tone: 1,
-            child: Padding(
+            child: _Fade(
+              opacity: fade,
+              child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,12 +68,13 @@ class FlapOutside extends StatelessWidget {
                 ],
               ),
             ),
+            ),
           ),
         ),
         const Positioned(right: 0, bottom: 0, child: FoldedCorner(size: notch)),
         Positioned(
           right: geometry.width * 0.24 - sealSize / 2,
-          bottom: -sealSize * 0.42,
+          bottom: -sealSize * 0.1,
           child: const _StampedSeal(child: _Seal(size: sealSize)),
         ),
       ],
@@ -199,10 +206,14 @@ class _CodeSeal extends StatelessWidget {
 
 /// The inside of the flap: the marks box of the answer sheet, where the figure lands.
 class FlapInside extends StatelessWidget {
-  const FlapInside({super.key, required this.model, required this.geometry, required this.showFigure, this.rollFigure = true, this.meter});
+  const FlapInside({super.key, required this.model, required this.geometry, required this.showFigure, this.rollFigure = true, this.meter, this.fade});
 
   final RecapModel model;
   final SheetGeometry geometry;
+
+  /// The opacity of the words on this face; see [FlapOutside.fade]. They arrive once the flap is
+  /// nearly flat. Null: shown.
+  final Animation<double>? fade;
 
   /// The marks meter's fill (0 to 1 of its final length); null draws it full.
   final Animation<double>? meter;
@@ -219,7 +230,9 @@ class FlapInside extends StatelessWidget {
     return PaperFace(
       notch: PaperNotch.topRight,
       squareBottom: true,
-      child: Padding(
+      child: _Fade(
+        opacity: fade,
+        child: Padding(
         padding: const EdgeInsets.fromLTRB(20, SheetGeometry.pad, 20, 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,7 +270,22 @@ class FlapInside extends StatelessWidget {
           ],
         ),
       ),
+      ),
     );
+  }
+}
+
+/// Fades [child] by [opacity] when there is one.
+class _Fade extends StatelessWidget {
+  const _Fade({required this.opacity, required this.child});
+
+  final Animation<double>? opacity;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final o = opacity;
+    return o == null ? child : FadeTransition(opacity: o, child: child);
   }
 }
 

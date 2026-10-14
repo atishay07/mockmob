@@ -118,7 +118,11 @@ class InsightsScreen extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s48),
           children: [
-            if (state.isStale || inputs.attemptsState.isStale || inputs.recovery.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s16)],
+            // The same rounded inline banner as every other notice, in the flow with the page's gutter.
+            if (state.isStale || inputs.attemptsState.isStale || inputs.recovery.isStale) ...[
+              const InlineBanner(message: InsightsCopy.staleNote, tone: BannerTone.offline),
+              const SizedBox(height: MmSpace.s16),
+            ],
             ..._sections(context, ref, value, inputs),
             if (RecoverySections.shows(inputs.recovery)) ...[
               const SizedBox(height: MmSpace.group + MmSpace.s8),
@@ -222,6 +226,7 @@ class InsightsScreen extends ConsumerWidget {
         gap,
         _AttemptsErrorRow(
           message: offline ? InsightsCopy.attemptsOffline : InsightsCopy.attemptsFailed,
+          offline: offline,
           onRetry: () => ref.read(attemptsRepositoryProvider.notifier).refresh(force: true),
         ),
         ...chapters,
@@ -289,57 +294,101 @@ class _BlockSkeleton extends StatelessWidget {
   Widget build(BuildContext context) => SkeletonGroup(child: shape);
 }
 
-/// One plain row when the sessions could not be read and none are on the phone.
+/// One plain notice when the sessions could not be read and none are on the phone: the same
+/// rounded inline banner as the offline note, with Try again.
 class _AttemptsErrorRow extends StatelessWidget {
-  const _AttemptsErrorRow({required this.message, required this.onRetry});
+  const _AttemptsErrorRow({required this.message, required this.offline, required this.onRetry});
 
   final String message;
+  final bool offline;
   final Future<void> Function() onRetry;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s12, MmSpace.s8, MmSpace.s12),
-          child: Row(
-            children: [
-              Expanded(child: Text(message, style: type.small.copyWith(color: colors.ink))),
-              const SizedBox(width: MmSpace.s8),
-              KeyButton.quiet(label: InsightsCopy.retry, onPressed: () => onRetry()),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => InlineBanner(
+        message: message,
+        tone: offline ? BannerTone.offline : BannerTone.warning,
+        actionLabel: InsightsCopy.retry,
+        onAction: () => onRetry(),
+      );
 }
 
+/// The record while it loads, in the shape of what is coming: the hero's figure and its sheet of
+/// bubbles, then a finding and a few rows. One soft band of light crosses it, a few times.
 class _RecordSkeleton extends StatelessWidget {
   const _RecordSkeleton();
 
   @override
   Widget build(BuildContext context) {
     return const SkeletonGroup(
+      shimmer: true,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // The hero: the caption, the figure with its meaning, then the sheet of bubbles.
-            MmSkeletonCard(hero: true),
+            _HeroSkeleton(),
+            SizedBox(height: MmSpace.s12),
+            Skeleton(height: 56, radius: MmRadius.key),
             SizedBox(height: MmRhythm.section),
-            MmSkeletonCard(),
+            Skeleton.line(width: 190, height: 20),
+            SizedBox(height: MmSpace.s16),
+            Skeleton(height: 132, radius: MmRadius.panel),
             SizedBox(height: MmRhythm.section),
             MmSkeletonRows(rows: 3),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The hero card's shape: a line of basis, the big figure, its meaning, a dot grid and the legend.
+class _HeroSkeleton extends StatelessWidget {
+  const _HeroSkeleton();
+
+  static const int _cols = 12;
+  static const int _rows = 6;
+  static const double _gap = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: colors.raised,
+        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Skeleton.line(width: 190, height: 14),
+            const SizedBox(height: MmSpace.s12),
+            const Skeleton(width: 150, height: 84, radius: 20),
+            const SizedBox(height: MmSpace.s12),
+            const Skeleton.line(width: 230, height: 14),
+            const SizedBox(height: MmSpace.s20),
+            LayoutBuilder(
+              builder: (context, box) {
+                final d = (box.maxWidth - (_cols - 1) * _gap) / _cols;
+                return Wrap(
+                  spacing: _gap,
+                  runSpacing: _gap,
+                  children: [for (var i = 0; i < _cols * _rows; i++) Skeleton.circle(size: d)],
+                );
+              },
+            ),
+            const SizedBox(height: MmSpace.s16),
+            const Row(
+              children: [
+                Skeleton.line(width: 70, height: 12),
+                SizedBox(width: MmSpace.s16),
+                Skeleton.line(width: 70, height: 12),
+                SizedBox(width: MmSpace.s16),
+                Skeleton.line(width: 70, height: 12),
+              ],
+            ),
           ],
         ),
       ),
