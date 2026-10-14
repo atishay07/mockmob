@@ -66,7 +66,7 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
 const TOUR = [
-  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
+  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
@@ -128,7 +128,7 @@ export default function LandingPage() {
               </a>{/* The sample below is hidden from students who are signed in, so their pill is a label, not a dead link. */}
               <span className="lp-pill vs-static vs-member-only"><span className="lp-pill__dot" aria-hidden="true" />CUET UG 2027</span><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <ReturningNote />
-              {/* Hidden unless signed in. Placed before the guest copy so, for a student, the welcome and the Arena action come first in reading and tab order. */}
+              {/* Hidden unless signed in. Placed before the guest copy so, for a student, the welcome and the practice action come first in reading and tab order. */}
               <MemberHeroCopy />
               <h1 className="lp-title vs-guest-only">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
@@ -366,11 +366,13 @@ export default function LandingPage() {
             <div className="lp-bg__dots" />
           </div>
           <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="greeting" label="See you in the Arena." note="Start with one session." />
+            <MascotSeat station="close" pose="greeting" label="See you in practice." note="Start with one session." />
             <h2 className="lp-h2 lp-h2--xl vs-guest-only">Five questions. Then your next move.</h2>
             <p className="lp-sub vs-guest-only">Try the sample now. Build your practice record when you’re ready.</p>
-            <h2 className="lp-h2 lp-h2--xl vs-member-only">Back to practice.</h2>
-            <p className="lp-sub vs-member-only">Your plan, your mistakes and your next step are one tap away.</p>
+            <h2 className="lp-h2 lp-h2--xl vs-member-only vs-hide-first">Back to practice.</h2>
+            <p className="lp-sub vs-member-only vs-hide-first">Your plan, your mistakes and your next step are one tap away.</p>
+            <h2 className="lp-h2 lp-h2--xl vs-member-only vs-first-only">Start with a 10-question check.</h2>
+            <p className="lp-sub vs-member-only vs-first-only">Choose a subject, then see where your marks went and what to work on first.</p>
             <LandingActions mode="primary" />
           </Reveal>
         </section>

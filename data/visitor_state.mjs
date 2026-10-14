@@ -188,7 +188,7 @@ export function memberCopy(state, user, resume = null) {
     return {
       greeting,
       title: 'Start with a 10-question check.',
-      line: 'About 10 minutes on a subject you choose. Afterwards you see where your marks went and what to work on first.',
+      line: 'Choose a subject. Afterwards you see where your marks went and what to work on first.',
       plan, planDetail,
       primary: { label: 'Start your 10-question check', href: FIRST_CHECK_HREF },
       secondary: null,
@@ -197,7 +197,7 @@ export function memberCopy(state, user, resume = null) {
   return {
     greeting,
     title: 'Back to practice.',
-    line: 'Practise, review your mistakes and see what to work on tonight.',
+    line: 'Practice, review your mistakes and see what to work on tonight.',
     plan, planDetail,
     primary: { label: 'Continue practice', href: PRACTICE_HREF },
     secondary: pro ? { label: 'Review your mistakes', href: '/review' } : { label: 'Compare plans', href: '/pricing' },
@@ -292,6 +292,19 @@ export function startDestination({ preference, state, landedOnHome, referrer, or
   }
   const choice = START_ON_OPTIONS.find((option) => option.id === parseStartOn(preference));
   return choice?.href || null;
+}
+
+/**
+ * What the home page does on this load. `latched` is true once a confirmed decision has already
+ * been made in this document (the page script keeps it for the life of the page, across in-app
+ * navigation). Every confirmed decision latches, including "stay on home" (?home, a reload, Home
+ * chosen as the start page): the external document.referrer never changes inside the app, so
+ * without the latch a later click on the logo would look like a fresh visit and bounce the
+ * student to Practice. An unconfirmed session decides nothing yet and does not latch.
+ */
+export function startRedirectPlan({ latched = false, ...input }) {
+  if (latched || !input.state?.confirmed) return { latch: false, destination: null };
+  return { latch: true, destination: startDestination(input) };
 }
 
 /**

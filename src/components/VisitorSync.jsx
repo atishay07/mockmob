@@ -92,7 +92,7 @@ export default function VisitorSync() {
     if (!shouldCheckStarted({ status, hint: readHint(), pathname, previousPath, lastCheckAt: state.lastAt, inFlight: state.inFlight })) return;
     state.inFlight = true;
     state.lastAt = Date.now();
-    apiGet('/api/attempts/summary?limit=1')
+    apiGet('/api/attempts/summary?limit=1&finalise=0')
       .then((body) => {
         const started = startedFromSummary(body);
         // Signed out while the read was in flight: the answer belongs to nobody now.

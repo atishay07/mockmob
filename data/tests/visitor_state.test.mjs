@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {
   ARENA_FIRST_KEY, DEFAULT_START_ON, FIRST_CHECK_HREF, PRACTICE_HREF, START_ON_KEY, START_ON_OPTIONS, STARTED_CHECK_GAP_MS, VISITOR_BOOT_SCRIPT, VISITOR_KEY,
   findResumableTest, firstName, forgetArenaFirst, forgetStartOn, memberCopy, nextHint, parseHint, parseStartOn, readStartOn, serializeHint,
-  shouldCheckStarted, stageOf, startDestination, startedFromSummary, visitorState, writeStartOn,
+  shouldCheckStarted, stageOf, startDestination, startRedirectPlan, startedFromSummary, visitorState, writeStartOn,
 } from '../visitor_state.mjs';
 
 const free = { id: 'u1', name: 'Aarav Mehta', isPremium: false, creditBalance: 8 };
@@ -261,6 +261,30 @@ test('nobody else is redirected, and a request for home is respected', () => {
   assert.equal(startDestination({ ...base, referrer: 'garbage' }), null);
   assert.equal(startDestination({ ...base, navigationType: 'reload' }), null, 'reloading the home page keeps it');
   assert.equal(startDestination({ ...base, navigationType: 'back_forward' }), null, 'coming back to home with the back button keeps it');
+});
+
+test('a confirmed "stay on home" decision latches, so the logo does not bounce the student to Practice later', () => {
+  // The page script keeps one latch per document load; this plays the sequence it sees.
+  let latched = false;
+  const decide = (input) => {
+    const plan = startRedirectPlan({ latched, ...input });
+    if (plan.latch) latched = true;
+    return plan.destination;
+  };
+  assert.equal(decide({ ...base, search: '?home' }), null, 'the first load asked for home');
+  assert.equal(latched, true);
+  // In the app, then the logo: the external referrer is unchanged but the load is the same document.
+  assert.equal(decide({ ...base, referrer: 'https://www.google.com/' }), null, 'logo after an earlier ?home load stays home');
+  // The same holds for a reload-type or Home-as-start-page decision.
+  latched = false;
+  assert.equal(decide({ ...base, preference: 'home' }), null);
+  assert.equal(decide({ ...base }), null, 'a later visit to / in the same document is not a fresh visit');
+});
+
+test('an unconfirmed session decides nothing and does not latch; a fresh confirmed visit still redirects once', () => {
+  assert.deepEqual(startRedirectPlan({ ...base, state: { ...member, confirmed: false } }), { latch: false, destination: null });
+  assert.deepEqual(startRedirectPlan({ ...base }), { latch: true, destination: PRACTICE_HREF });
+  assert.deepEqual(startRedirectPlan({ ...base, latched: true }), { latch: false, destination: null });
 });
 
 function memoryStorage(initial = {}) {

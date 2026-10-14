@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { readHint, landedOnHome, navigationType, startRedirectDone, markStartRedirect, useResumableTest } from '@/components/VisitorSync';
-import { PRACTICE_HREF, START_ON_KEY, START_ON_OPTIONS, memberCopy, parseStartOn, startDestination, visitorState } from '@/../data/visitor_state.mjs';
+import { PRACTICE_HREF, START_ON_KEY, START_ON_OPTIONS, memberCopy, parseStartOn, startRedirectPlan, visitorState } from '@/../data/visitor_state.mjs';
 
 // The signed-in side of the home page. Each export is shown only to signed-in students (the
 // vs-member-only class is toggled by <html data-visitor>), so signed-out visitors and search
@@ -44,18 +44,18 @@ function useStartPage(state) {
     const preference = readStartOnPreference();
     let alive = true;
     queueMicrotask(() => { if (alive) setStartOn(parseStartOn(preference)); });
-    if (state.kind === 'member' && !startRedirectDone()) {
-      const destination = startDestination({
-        preference, state, landedOnHome: landedOnHome(), referrer: document.referrer,
-        origin: window.location.origin, search: window.location.search, navigationType: navigationType(),
-      });
-      if (destination) {
-        markStartRedirect();
-        router.replace(destination);
-      } else if (!state.confirmed && landedOnHome() && parseStartOn(preference) !== 'home') {
-        // While the session check runs, warm the likely destination so the move is quick.
-        try { router.prefetch(START_ON_OPTIONS.find((o) => o.id === parseStartOn(preference))?.href || PRACTICE_HREF); } catch { /* prefetch is a hint */ }
-      }
+    // Every confirmed decision latches for the life of this document, "stay on home" included, so
+    // a later click on the logo (the external referrer never changes in the app) stays home.
+    const { latch, destination } = startRedirectPlan({
+      latched: startRedirectDone(), preference, state, landedOnHome: landedOnHome(), referrer: document.referrer,
+      origin: window.location.origin, search: window.location.search, navigationType: navigationType(),
+    });
+    if (latch) markStartRedirect();
+    if (destination) {
+      router.replace(destination);
+    } else if (!latch && !startRedirectDone() && state.kind === 'member' && landedOnHome() && parseStartOn(preference) !== 'home') {
+      // While the session check runs, warm the likely destination so the move is quick.
+      try { router.prefetch(START_ON_OPTIONS.find((o) => o.id === parseStartOn(preference))?.href || PRACTICE_HREF); } catch { /* prefetch is a hint */ }
     }
     return () => { alive = false; };
   }, [state, router]);
