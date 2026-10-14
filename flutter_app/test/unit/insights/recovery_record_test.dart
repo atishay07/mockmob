@@ -304,7 +304,7 @@ void main() {
   group('the record page', () {
     Future<void> pumpPage(WidgetTester tester, RemoteState<RecoveryRecord>? recovery) async {
       final record = RemoteState(value: rich(), fetchedAt: DateTime.utc(2026, 10, 13, 14, 30));
-      tester.view.physicalSize = const Size(384 * 2, 3600 * 2);
+      tester.view.physicalSize = const Size(384 * 2, 7200 * 2);
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
       await tester.pumpWidget(

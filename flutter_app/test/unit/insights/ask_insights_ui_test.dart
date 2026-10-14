@@ -5,7 +5,6 @@ import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ask_citation.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/evidence.dart';
-import 'package:mockmob/features/insights/data/insights_models.dart';
 import 'package:mockmob/features/insights/data/readout.dart';
 import 'package:mockmob/features/insights/widgets/answer_sheet.dart';
 import 'package:mockmob/features/insights/widgets/answer_text.dart';

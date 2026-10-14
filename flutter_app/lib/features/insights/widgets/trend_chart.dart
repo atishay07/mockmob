@@ -119,12 +119,18 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
           ),
           const SizedBox(height: MmSpace.s16),
         ],
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
+        // The latest result and its change: side by side, the change dropping under the figure when
+        // large text leaves no room (a Wrap, so nothing overflows or clips).
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            runSpacing: MmSpace.s8,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(s.label, style: type.label.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s4),
@@ -136,9 +142,9 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
                   ),
                 ],
               ),
-            ),
-            if (s.points.length > 1) _DeltaChip(delta: last.marks - s.points[s.points.length - 2].marks),
-          ],
+              if (s.points.length > 1) _DeltaChip(delta: last.marks - s.points[s.points.length - 2].marks),
+            ],
+          ),
         ),
         const SizedBox(height: MmSpace.s12),
         LayoutBuilder(
