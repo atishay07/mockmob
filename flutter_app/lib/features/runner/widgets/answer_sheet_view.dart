@@ -9,7 +9,7 @@ import 'runner_motion.dart';
 
 /// What the sheet on the submit page is showing (runner.md 5).
 enum SheetPhase {
-  /// Pencil marks: the answers as the student has them, on their phone. Calm.
+  /// The answers as the student has them, on their phone, in the runner's one answered ink. Calm.
   review,
 
   /// The call is in flight: a band of lamp light passes over the sheet again and again. It never
@@ -25,8 +25,8 @@ enum SheetPhase {
 }
 
 /// The whole answer sheet drawn in code (ten columns, numbers above each row, like the sheet in
-/// the exam hall) for the submit page. Answered questions are pencil marks, unanswered ones dashed
-/// rings, marked ones a ringed dot; [SheetPhase.sending] sweeps a lamp band over it and
+/// the exam hall) for the submit page. Answered questions are the runner's answered disc (solid
+/// paper ink, as on the track and the palette), unanswered ones dashed rings, marked ones a ringed dot; [SheetPhase.sending] sweeps a lamp band over it and
 /// [SheetPhase.inked] inks the answered bubbles volt, left to right, row by row.
 class AnswerSheetView extends StatefulWidget {
   const AnswerSheetView({super.key, required this.cells, required this.phase, this.bubbleSize = 17, this.semanticsLabel});
@@ -177,7 +177,7 @@ class _SheetPainter extends CustomPainter {
     final inking = phase == SheetPhase.inked;
     // The eased 0..1 position of the ink front, in cells: the wave runs across the whole sheet.
     final exact = inking ? Curves.easeInOut.transform(ink.value) * (cells.length + 1) : -1.0;
-    final pencilColor = colors.ink.withValues(alpha: colors.isNight ? 0.62 : 0.72);
+    final pencilColor = colors.ink;
     final pencil = Paint()..color = pencilColor;
     // While sending, a band of warm light travels the sheet and each answered bubble warms as it
     // passes (no hard-edged panel over the paper: the light lives in the marks themselves).

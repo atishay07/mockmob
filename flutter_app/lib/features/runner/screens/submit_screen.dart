@@ -20,6 +20,7 @@ import '../nta/nta_header.dart';
 import '../nta/nta_submit_summary.dart';
 import '../widgets/answer_sheet_view.dart';
 import '../widgets/runner_controls.dart';
+import '../widgets/runner_motion.dart';
 import '../widgets/runner_top_bar.dart';
 import '../widgets/submit_sheet_card.dart';
 import '../widgets/submit_stage_view.dart';
@@ -251,16 +252,58 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
   }
 }
 
-/// Mobi under the inked sheet: one hop for the hand-in (a living vector Mobi playing its cheer).
-/// It says nothing and is never about the student's marks. Present only on the received stage.
-class _HandInMobi extends StatelessWidget {
+/// Mobi under the inked sheet: it waits in a fixed slot while the bubbles ink in order, then hops
+/// once for the hand-in (a living vector Mobi playing its cheer). The slot is reserved from the
+/// moment the sheet is received, with the same air above and below, so the page never shifts when
+/// Mobi lands. It says nothing and is never about the student's marks. Present only on the
+/// received stage.
+class _HandInMobi extends StatefulWidget {
   const _HandInMobi();
+
+  /// Mobi's own height and the air above and below it.
+  static const double size = 104;
+  static const double air = 28;
+
+  @override
+  State<_HandInMobi> createState() => _HandInMobiState();
+}
+
+class _HandInMobiState extends State<_HandInMobi> {
+  Timer? _timer;
+  bool _landed = false;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _landed = true;
+    } else {
+      // The last bubble inks as the sheet finishes; Mobi hops as it does.
+      _timer = Timer(RunnerMotion.inkInOrder, () {
+        if (mounted) setState(() => _landed = true);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: MmSpace.s16),
-      child: Center(child: Mobi(pose: MobiPose.cheer, size: 112)),
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: SizedBox(
+        height: _HandInMobi.size + 2 * _HandInMobi.air,
+        child: Center(
+          child: _landed ? const Mobi(pose: MobiPose.cheer, size: _HandInMobi.size) : const SizedBox.shrink(),
+        ),
+      ),
     );
   }
 }

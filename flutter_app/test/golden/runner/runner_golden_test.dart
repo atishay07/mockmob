@@ -112,6 +112,24 @@ void main() {
         });
       }
 
+      // The track with marked questions: the notch above each one is reviewable here.
+      testWidgets('practice of 20 with marked questions on the track', (tester) async {
+        final s = FakeRunnerSession(
+          questions: accountancyQuestions(20),
+          mode: 'quick',
+          mockNumber: null,
+          chapter: 'Admission of a partner',
+          currentIndex: 9,
+          answers: {..._answered(9), 'q10': 2}..remove('q6'),
+          marked: {'q4', 'q6', 'q10', 'q14'},
+          visited: {for (var i = 1; i <= 10; i++) 'q$i'},
+          save: const SaveSnapshot(state: SaveState.saved),
+        );
+        await pumpRunner(tester, session: s, brightness: b, size: const Size(360, 780));
+        await settle(tester);
+        await _shot(tester, 'practice_marked_360', b);
+      });
+
       testWidgets('practice: back after an interruption, the away strip over the meta line', (tester) async {
         final s = FakeRunnerSession(
           questions: accountancyQuestions(10),

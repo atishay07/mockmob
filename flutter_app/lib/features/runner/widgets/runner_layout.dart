@@ -153,34 +153,40 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    key: ValueKey('question-$index'),
-                    padding: EdgeInsets.fromLTRB(
-                      MmSpace.gutter,
-                      trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12,
-                      MmSpace.gutter,
-                      MmSpace.s16,
-                    ),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                        child: QuestionEnter(
-                          direction: _direction,
-                          animate: arriving,
-                          child: QuestionView(
-                            question: q,
-                            selected: s.answerFor(q.id),
-                            marked: s.marked.contains(q.id),
-                            canAnswer: s.canAnswer,
-                            onSelect: (option) => widget.onSelect(q.id, option),
-                            onMark: (value) => s.setMarked(q.id, value),
-                            onLock: _lockFrom,
-                            passageRange: passageRangeOf(s, index),
-                            note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                  child: LayoutBuilder(
+                    builder: (context, box) {
+                      final padTop = trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12;
+                      const padBottom = MmSpace.s16;
+                      return SingleChildScrollView(
+                        key: ValueKey('question-$index'),
+                        padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          // At least the height of the region, so the options rest at the foot.
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: MmSpace.contentMaxWidth,
+                              minHeight: (box.maxHeight - padTop - padBottom).clamp(0.0, double.infinity),
+                            ),
+                            child: QuestionEnter(
+                              direction: _direction,
+                              animate: arriving,
+                              child: QuestionView(
+                                question: q,
+                                selected: s.answerFor(q.id),
+                                marked: s.marked.contains(q.id),
+                                canAnswer: s.canAnswer,
+                                onSelect: (option) => widget.onSelect(q.id, option),
+                                onMark: (value) => s.setMarked(q.id, value),
+                                onLock: _lockFrom,
+                                passageRange: passageRangeOf(s, index),
+                                note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
                 RunnerBottomBar(

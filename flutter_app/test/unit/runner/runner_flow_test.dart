@@ -58,11 +58,39 @@ void main() {
       final node = tester.getSemantics(find.bySemanticsLabel('Option B, 3:2:1'));
       expect(node.flagsCollection.isSelected, Tristate.isTrue);
 
-      await tester.tap(find.text('Clear my answer'));
+      await tester.tap(find.text('Clear my answer').last);
       await tester.pump();
       expect(s.answers.containsKey('q1'), isFalse);
       // Clearing is not a selection: no second tick.
       expect(h.haptics.calls, ['selection']);
+    });
+
+    testWidgets('the tick is the lock-in and nothing else', (tester) async {
+      final s = FakeRunnerSession();
+      final h = await pumpRunner(tester, session: s);
+      // Locking an answer in ticks once.
+      await tester.tap(find.text('3:2:1'));
+      await tester.pump();
+      expect(h.haptics.calls, ['selection']);
+      // The same option again changes nothing: silent.
+      await tester.tap(find.text('3:2:1'));
+      await tester.pump();
+      expect(h.haptics.calls, ['selection']);
+      // Marking, moving and coming back are not lock-ins.
+      await tester.tap(find.text('Mark for review'));
+      await tester.pump();
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      await tester.tap(find.text('Previous').last);
+      await tester.pump();
+      expect(h.haptics.calls, ['selection']);
+      // Changing the answer to another option is a new lock-in; clearing it is not.
+      await tester.tap(find.text('11:5:4'));
+      await tester.pump();
+      expect(h.haptics.calls, ['selection', 'selection']);
+      await tester.tap(find.text('Clear my answer').last);
+      await tester.pump();
+      expect(h.haptics.calls, ['selection', 'selection']);
     });
 
     testWidgets('options are closed once answering stops', (tester) async {
@@ -143,14 +171,14 @@ void main() {
       expect(s.calls, containsAllInOrder(['paused', 'resumed']));
     });
 
-    testWidgets('the practice skin hides the timer and says feedback comes later', (tester) async {
+    testWidgets('the practice skin hides the timer and says when marks come', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
       await pumpRunner(tester, session: s);
       expect(find.text('47:12'), findsNothing);
-      expect(find.text('Feedback comes after you finish.'), findsOneWidget);
+      expect(find.text('Marks come after you submit.'), findsOneWidget);
       await tester.tap(find.text('3:2:1'));
       await tester.pump();
-      expect(find.textContaining('Feedback comes after you finish.'), findsNothing);
+      expect(find.textContaining('Marks come after you submit.'), findsNothing);
     });
   });
 

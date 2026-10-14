@@ -114,9 +114,11 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
 
   /// A tap on an option: the tick fires on the tap itself and the screen shows the answer on the
   /// next frame; the journal write happens after (a failed one is rolled back by the engine).
+  /// The tick is the lock-in and nothing else: clearing an answer, or tapping the option that is
+  /// already chosen, changes nothing and stays silent.
   Future<void> select(String qid, int? option) async {
     if (!session.canAnswer) return;
-    if (option != null) unawaited(ref.read(hapticsProvider).tick());
+    if (option != null && session.answerFor(qid) != option) unawaited(ref.read(hapticsProvider).tick());
     session.dismissAway();
     await session.selectAnswer(qid, option);
   }

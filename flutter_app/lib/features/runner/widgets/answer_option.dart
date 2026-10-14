@@ -9,11 +9,13 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import 'runner_motion.dart';
 
-/// One answer option (spec 5.5, brief section 12, runner.md 3.3): a solid 60 dp row whose lettered
-/// bubble inks from the point the finger touched when chosen, like filling the bubble on the
-/// sheet. The row answers a press by sinking to 0.985 and darkening (transform only: nothing
-/// reflows), and on selection the ink bleeds out of the bubble across the row as a flat volt wash
-/// at 9%, the border goes ink, and the text takes weight. No correctness, ever, while answering.
+/// One answer option (spec 5.5, brief section 12, runner.md 3.3) drawn as a row of the OMR sheet:
+/// a lettered bubble in a column on the left and the text beside it, with no box and no border.
+/// The rows are told apart by the hairline rules the question view draws between them. The bubble
+/// inks from the point the finger touched when chosen, like filling it with a pencil, and the ink
+/// bleeds out of it across the row as a flat volt wash: the chosen row is the only lit thing, and
+/// the other rows keep their full ink. A press darkens the row and presses the bubble in (a
+/// transform and a fill: nothing reflows). No correctness, ever, while answering.
 class AnswerOption extends StatefulWidget {
   const AnswerOption({
     super.key,
@@ -21,7 +23,6 @@ class AnswerOption extends StatefulWidget {
     required this.text,
     required this.selected,
     required this.onSelect,
-    this.quiet = false,
     this.onLock,
   });
 
@@ -31,10 +32,6 @@ class AnswerOption extends StatefulWidget {
 
   /// Null when answering is closed (time up, submitting).
   final VoidCallback? onSelect;
-
-  /// Another option is chosen: this one steps back to the second ink so the chosen row is the
-  /// only one at full strength.
-  final bool quiet;
 
   /// Called with the global centre of the bubble just before a not-yet-chosen option is chosen,
   /// so the layout can fly the lock-in dot from it.
@@ -47,11 +44,14 @@ class AnswerOption extends StatefulWidget {
 class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMixin {
   static const double _minBubble = 32;
 
+  /// The space left of the bubble column: the wash starts a little before the bubble.
+  static const double _leading = 6;
+
   /// The letter is 14 sp and grows with the system text size; the bubble grows with it.
   static const double _letterSize = 14;
 
-  /// How far the row sinks under a finger.
-  static const double _pressedScale = 0.985;
+  /// How far the bubble presses in under a finger.
+  static const double _pressedScale = 0.88;
 
   late final MmPressSpring _press = MmPressSpring(this);
   late final AnimationController _wash = AnimationController(
@@ -127,58 +127,54 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
     final letterHeight = MediaQuery.textScalerOf(context).scale(_letterSize);
     final bubbleSize = letterHeight + 12 > _minBubble ? letterHeight + 12 : _minBubble;
 
-    final fill = selected || _pressed ? colors.raised2 : colors.raised;
-    final border = selected ? colors.ink : colors.line;
-    final textColor = !enabled ? colors.ink3 : (widget.quiet && !selected ? colors.ink2 : colors.ink);
+    final textColor = enabled ? colors.ink : colors.ink3;
 
     final bubble = SizedBox.square(
       key: _bubbleKey,
       dimension: bubbleSize,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: bubbleSize, inkOrigin: _inkOrigin),
-          Text(
-            widget.letter,
-            style: type.label.copyWith(
-              fontSize: _letterSize,
-              height: 1,
-              color: selected ? colors.voltInk : (enabled ? colors.ink2 : colors.ink3),
-              fontWeight: FontWeight.w700,
+      child: AnimatedBuilder(
+        animation: _press.scale,
+        builder: (context, child) => Transform.scale(scale: _press.scale.value, child: child),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: bubbleSize, inkOrigin: _inkOrigin),
+            Text(
+              widget.letter,
+              style: type.label.copyWith(
+                fontSize: _letterSize,
+                height: 1,
+                color: selected ? colors.voltInk : (enabled ? colors.ink2 : colors.ink3),
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
-    final ringColor = _focused ? colors.focusRing : border;
-    final ringWidth = selected || _focused ? 1.5 : 1.0;
-    final shape = RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll);
-    // Fill and wash are clipped to the row; the border is drawn over them so the ink never
-    // covers its inner half.
+    final focusShape = RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.focusRing, width: 1.5));
+    // The wash is clipped to the row; a press lays a flat fill under it; focus rings the row.
     final Widget row = DecoratedBox(
       position: DecorationPosition.foreground,
-      decoration: ShapeDecoration(
-        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: ringColor, width: ringWidth)),
-      ),
-      child: ClipPath(
-        clipper: ShapeBorderClipper(shape: shape),
-        child: DecoratedBox(
-          decoration: ShapeDecoration(color: fill, shape: shape),
+      decoration: _focused ? ShapeDecoration(shape: focusShape) : const BoxDecoration(),
+      child: ClipRect(
+        child: ColoredBox(
+          color: _pressed ? colors.raised : const Color(0x00000000),
           child: CustomPaint(
             painter: _WashPainter(
               progress: _wash,
               color: colors.isNight ? colors.volt.withValues(alpha: 0.09) : colors.volt.withValues(alpha: 0.26),
-              bubbleCenter: const Offset(MmSpace.s12, 0) + Offset(bubbleSize / 2, 0),
+              bubbleCenter: Offset(_leading + bubbleSize / 2, 0),
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 60),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+                padding: const EdgeInsets.fromLTRB(_leading, MmSpace.s12, MmSpace.s12, MmSpace.s12),
                 child: Row(
                   children: [
                     bubble,
-                    const SizedBox(width: MmSpace.s12),
+                    const SizedBox(width: MmSpace.s16),
                     Expanded(
                       child: Text(
                         widget.text,
@@ -224,11 +220,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: widget.onSelect == null ? null : _tap,
-            child: AnimatedBuilder(
-              animation: _press.scale,
-              child: RepaintBoundary(child: row),
-              builder: (context, child) => Transform.scale(scale: _press.scale.value, child: child),
-            ),
+            child: RepaintBoundary(child: row),
           ),
         ),
       ),

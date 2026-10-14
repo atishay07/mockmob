@@ -12,24 +12,32 @@ import 'runner_motion.dart';
 /// Where every cell of the track sits for a given width: the pitch comes from the real width,
 /// never from a fixed number, so each cell of the paper always has a mark.
 ///
-/// Bubbles are 10 dp across and at most 18 dp apart; as the paper grows or the phone narrows the
+/// Bubbles grow with the room they have, from [bubble] (10 dp) up to [maxBubble] (15 dp) on a
+/// short paper, and sit at most [maxPitch] apart; as the paper grows or the phone narrows the
 /// pitch tightens, and below [marksBelow] the strip switches to the timing marks of an OMR sheet.
 class TrackGeometry {
   TrackGeometry({required this.count, required this.width}) {
-    pitch = count <= 1 ? maxPitch : (maxPitch < (width - bubble) / (count - 1) ? maxPitch : (width - bubble) / (count - 1));
+    diameter = count <= 1 ? maxBubble : (width / count * 0.78).clamp(bubble, maxBubble);
+    pitch = count <= 1 ? maxPitch : (maxPitch < (width - diameter) / (count - 1) ? maxPitch : (width - diameter) / (count - 1));
   }
 
   final int count;
   final double width;
 
-  /// Bubble diameter.
+  /// The smallest bubble diameter.
   static const double bubble = 10;
 
-  /// The widest a bubble slot gets: a 10 dp bubble and an 8 dp gap.
-  static const double maxPitch = 18;
+  /// The largest: a short practice gets 15 dp bubbles you can see from across the desk.
+  static const double maxBubble = 15;
+
+  /// The widest a bubble slot gets.
+  static const double maxPitch = 24;
 
   /// Below this slot width, bubbles crowd; marks take over.
   static const double marksBelow = 12;
+
+  /// This strip's bubble diameter.
+  late final double diameter;
 
   /// Distance between bubble centres.
   late final double pitch;
@@ -44,7 +52,7 @@ class TrackGeometry {
   double centerX(int i) => centerAt(i.toDouble());
 
   /// The centre of a point [position] cells along the strip (fractional while the ring glides).
-  double centerAt(double position) => marks ? position * markStep + markWidth / 2 : bubble / 2 + position * pitch;
+  double centerAt(double position) => marks ? position * markStep + markWidth / 2 : diameter / 2 + position * pitch;
 
   /// Distance between neighbouring centres.
   double get step => marks ? markStep : pitch;
@@ -62,8 +70,9 @@ class TrackGeometry {
 
 /// Progress along the top of the paper, answered of total (spec 5.5, runner.md 3.2).
 ///
-/// A short practice reads as a row of answer bubbles: answered ones inked in paper ink at 55%,
-/// the current one ringed in paper white, the rest hairline rings. When the paper is long or the
+/// A short practice reads as a row of answer bubbles: answered ones inked solid in paper ink (the
+/// one answered state of the whole runner, the same as the palette and the submit sheet), the
+/// current one ringed, the rest hairline rings. When the paper is long or the
 /// phone narrow the bubbles give way to the timing marks along the edge of an OMR sheet, with the
 /// current mark a taller paper-white bar.
 ///
@@ -73,7 +82,7 @@ class TrackGeometry {
 /// - a newly answered cell **sparks**: it floods volt and cools to paper ink (when the lock-in
 ///   dot flies in from the option it waits for it, see [TimingTrackState.hold] and
 ///   [TimingTrackState.land]);
-/// - a marked question shows a small **notch**;
+/// - a marked question shows a **notch**, a small ink pennant above its bubble;
 /// - at half the paper answered, and at all of it, one soft light band crosses the strip.
 ///
 /// The strip is a labelled control, not a picture: it reads "Question 3 of 20, answered", and a
@@ -345,8 +354,8 @@ class _TrackPainter extends CustomPainter {
 
   bool _answered(int i) => cells[i].answered && !held.contains(i);
 
-  /// The paper-ink fill of an answered cell at rest.
-  Color get _inkFill => colors.ink.withValues(alpha: 0.55);
+  /// The ink of an answered cell at rest: solid paper ink, as on the palette and the submit sheet.
+  Color get _inkFill => colors.ink;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -379,10 +388,11 @@ class _TrackPainter extends CustomPainter {
   Color _cooled(Color rest, double t) => Color.lerp(colors.volt, rest, Curves.easeIn.transform(((t - 0.3) / 0.7).clamp(0.0, 1.0)))!;
 
   void _bubbles(Canvas canvas, Size size) {
-    const d = TrackGeometry.bubble;
+    final d = geometry.diameter;
     final mid = size.height / 2;
     // The current ring grows 2.5 dp, less when the slots are tight, so it never touches a neighbour.
     final grow = ((geometry.pitch - d) / 2).clamp(1.0, 2.5);
+    final lift = d / 2 + 4;
     final t = _sparkT;
     for (var i = 0; i < cells.length; i++) {
       final c = cells[i];
@@ -396,7 +406,7 @@ class _TrackPainter extends CustomPainter {
           canvas.drawCircle(center, d / 2, Paint()..color = _inkFill);
         }
       }
-      if (c.marked) _notch(canvas, center, d / 2 + 5);
+      if (c.marked) _notch(canvas, center, lift + grow);
       // The current cell's ring is the gliding one drawn below.
       if (c.current) continue;
       final stroke = Paint()
@@ -426,9 +436,15 @@ class _TrackPainter extends CustomPainter {
     }
   }
 
-  /// A marked-for-review question: a small ink dot above its bubble.
+  /// A marked-for-review question: a small ink pennant above its bubble, pointing down at it.
   void _notch(Canvas canvas, Offset center, double lift) {
-    canvas.drawCircle(center - Offset(0, lift + 2), 1.8, Paint()..color = colors.ink2);
+    final tip = center - Offset(0, lift - 1);
+    final path = Path()
+      ..moveTo(tip.dx - 3.4, tip.dy - 5)
+      ..lineTo(tip.dx + 3.4, tip.dy - 5)
+      ..lineTo(tip.dx, tip.dy)
+      ..close();
+    canvas.drawPath(path, Paint()..color = colors.ink);
   }
 
   void _marks(Canvas canvas, Size size) {
@@ -442,7 +458,7 @@ class _TrackPainter extends CustomPainter {
       final x = geometry.centerX(i);
       final answered = _answered(i);
       final h = c.marked ? 14.0 : (answered ? 8.0 : 6.0);
-      var color = answered ? colors.ink2 : colors.lineStrong;
+      var color = answered ? colors.ink : colors.lineStrong;
       if (answered && i == sparkIndex && t > 0 && t < 1) color = _cooled(color, t);
       canvas.drawRRect(
         RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(x, mid), width: mark, height: h), Radius.circular(mark / 2)),

@@ -6,6 +6,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/sheet_cells.dart';
+import 'answered_mark.dart';
 import 'runner_motion.dart';
 import 'sheet_cell.dart';
 
@@ -58,7 +59,7 @@ class PaletteSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: MmSpace.s12),
-                _Legend(counts: counts),
+                _Legend(counts: counts, unsynced: cells.where((c) => c.unsynced).length),
               ],
             ),
           ),
@@ -165,9 +166,12 @@ class _CellWaveState extends State<_CellWave> with SingleTickerProviderStateMixi
 
 /// The shapes of the three other states with their counts. "Answered" is the header's number.
 class _Legend extends StatelessWidget {
-  const _Legend({required this.counts});
+  const _Legend({required this.counts, required this.unsynced});
 
   final SheetCounts counts;
+
+  /// Answers that exist only on this phone so far; the legend names their dot while there are any.
+  final int unsynced;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +188,7 @@ class _Legend extends StatelessWidget {
           counts.notVisited,
         ),
         _FlagLegend(count: counts.marked),
+        if (unsynced > 0) _PhoneLegend(count: unsynced),
       ],
     );
   }
@@ -228,7 +233,7 @@ class _MiniBubble extends CustomPainter {
     final r = size.width / 2 - 2;
     final b = BubblePaint(colors);
     if (sample.answered) {
-      b.paint(canvas, c, r, BubbleState.filled);
+      AnsweredMark.paint(canvas, c, r, colors);
     } else if (sample.visited) {
       b.paint(canvas, c, r, BubbleState.hollow);
     } else {
@@ -259,4 +264,45 @@ class _FlagLegend extends StatelessWidget {
       ],
     );
   }
+}
+
+/// The hollow dot on a bubble: the answer is on this phone and the server does not have it yet.
+class _PhoneLegend extends StatelessWidget {
+  const _PhoneLegend({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox.square(
+          dimension: 22,
+          child: CustomPaint(painter: _PhoneDot(colors: colors)),
+        ),
+        const SizedBox(width: MmSpace.s6),
+        Text('${RunnerCopy.onThisPhone} $count', style: type.caption.copyWith(color: colors.ink2)),
+      ],
+    );
+  }
+}
+
+class _PhoneDot extends CustomPainter {
+  const _PhoneDot({required this.colors});
+
+  final MmColors colors;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    // An answered bubble with the dot at its corner, as it appears in the grid.
+    AnsweredMark.paint(canvas, c, size.width / 2 - 3.5, colors);
+    SheetCellPainter.paintUnsyncedDot(canvas, c + Offset(size.width * 0.27, size.width * 0.27), colors);
+  }
+
+  @override
+  bool shouldRepaint(_PhoneDot old) => old.colors != colors;
 }

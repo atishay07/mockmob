@@ -140,8 +140,8 @@ void main() {
       final s = FakeRunnerSession(currentIndex: 49, answers: {'q1': 0, 'q3': 2}, marked: {'q3'});
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit');
       await settle(tester);
-      expect(find.text('Go to question 3'), findsOneWidget, reason: 'the first marked question');
-      await tester.tap(find.text('Go to question 2'));
+      expect(find.text('Go to question 3').last, findsOneWidget, reason: 'the first marked question');
+      await tester.tap(find.text('Go to question 2').last);
       await settle(tester);
       expect(s.calls, contains('goTo 1'));
     });
