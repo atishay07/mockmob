@@ -1,0 +1,520 @@
+/* ==========================================================================
+   UI kit (web redesign W2.1). The web form of the app's Night Sheet components.
+   Every value comes from shared/tokens.css (--mm-*), so the same markup is right in
+   Night and Daylight and inside a pinned .mm-night / .mm-day subtree.
+   Rules: one volt light per screen; glass on chrome only; sentence case; no eyebrows,
+   no trailing arrows, no mono labels; transform and opacity for motion; every state.
+   Spec: docs/brain/web-redesign/W2.1.md
+
+   Cascade: the components live in Tailwind's `components` layer, so a utility class on an
+   element (px-4, w-full) and any page rule still win, as they did over the old .btn-volt.
+   The order statement below matches Tailwind's own and is a no-op when that comes first; it
+   keeps preflight (base) under the components whichever stylesheet the bundler emits first.
+   Glass on chrome stays unlayered: it has to beat the older chrome rules it replaces.
+   ========================================================================== */
+@layer theme, base, components, utilities;
+
+/* Fills that differ by theme beyond the shared roles (read from the fixed palettes so they
+   resolve on the element that declares them, including pinned subtrees). */
+:root, [data-theme='dark'], .mm-night {
+  --ui-secondary-fill: var(--mm-night-raised-2);
+  --ui-secondary-press: color-mix(in srgb, var(--mm-night-raised-2) 65%, var(--mm-night-line-strong));
+  --ui-selected-fill: var(--mm-night-raised-2);
+  --ui-bubble-ink: var(--mm-volt);
+}
+[data-theme='light'], .mm-day {
+  --ui-secondary-fill: var(--mm-day-raised);
+  --ui-secondary-press: var(--mm-day-raised-2);
+  --ui-selected-fill: var(--mm-day-raised);
+  --ui-bubble-ink: var(--mm-day-accent-text);
+}
+
+/* ---------- Glass on chrome (owner D6) ----------
+   Chrome = the header, the app top bar, the bottom bar and dock, sheets, popovers and dialogs.
+   Never content. <html data-glass> is set before first paint (shared/theme.mjs):
+     full  live blur under a 62% tint, with the edge light
+     lite  a dense tint and the edge light, no blur (default on touch screens)
+     off   solid
+   Reduced transparency or more contrast makes every one of them solid.
+   The lists name the existing chrome so glass is defined here once; new chrome uses .ui-chrome
+   (a bar) or .ui-sheet (a floating sheet, which needs its own position).
+
+   Bars draw their glass on a ::before layer, not on the bar itself. A backdrop-filter on the
+   bar would make it the containing block of its position:fixed children (the dock's Start
+   sheet) and a backdrop root that stops the menus inside it from blurring the page. */
+:root :is(.ui-chrome, .mm-nav, .mm-dock, .app-shell .arena-topbar, .app-shell .arena-bottomnav) {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root :is(.ui-chrome, .mm-nav, .mm-dock, .app-shell .arena-topbar, .app-shell .arena-bottomnav)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--mm-glass-tint-lite);
+}
+/* The edge light sits on the side that meets content. */
+:root :is(.ui-chrome, .mm-nav, .app-shell .arena-topbar)::before { box-shadow: inset 0 -1px 0 var(--mm-edge-bottom); }
+:root :is(.mm-dock, .app-shell .arena-bottomnav)::before { box-shadow: inset 0 1px 0 var(--mm-edge-top); }
+/* Floating chrome keeps its own position, border and radius; it gains the tint, the edge light
+   and the soft drop. These may scroll, so the glass is on the element itself. */
+:root :is(.ui-sheet, .shell-more, .start__panel, .acct__panel, .mm-disc__panel, .app-shell .arena-sheet) {
+  background: var(--mm-glass-tint-lite);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-glass);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  :root[data-glass='full'] :is(.ui-chrome, .mm-nav, .mm-dock, .app-shell .arena-topbar, .app-shell .arena-bottomnav)::before {
+    background: var(--mm-glass-tint);
+    -webkit-backdrop-filter: blur(var(--mm-glass-blur-chrome)) saturate(1.4);
+    backdrop-filter: blur(var(--mm-glass-blur-chrome)) saturate(1.4);
+  }
+  :root[data-glass='full'] :is(.ui-sheet, .shell-more, .start__panel, .acct__panel, .mm-disc__panel, .app-shell .arena-sheet) {
+    background: var(--mm-glass-tint);
+    -webkit-backdrop-filter: blur(var(--mm-glass-blur-sheet)) saturate(1.4);
+    backdrop-filter: blur(var(--mm-glass-blur-sheet)) saturate(1.4);
+  }
+}
+:root[data-glass='off'] :is(.ui-chrome, .mm-nav, .mm-dock, .app-shell .arena-topbar, .app-shell .arena-bottomnav)::before,
+:root[data-glass='off'] :is(.ui-sheet, .shell-more, .start__panel, .acct__panel, .mm-disc__panel, .app-shell .arena-sheet) {
+  background: var(--mm-raised);
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root :is(.ui-chrome, .mm-nav, .mm-dock, .app-shell .arena-topbar, .app-shell .arena-bottomnav)::before,
+  :root :is(.ui-sheet, .shell-more, .start__panel, .acct__panel, .mm-disc__panel, .app-shell .arena-sheet) {
+    background: var(--mm-raised) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+.ui-chrome { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid var(--mm-line); }
+.ui-sheet { border: 1px solid var(--mm-line); border-radius: var(--mm-radius-panel); color: var(--mm-ink); }
+/* The top bar's dropdown sheet needs its own layer for the glass above. */
+.app-shell .arena-sheet { z-index: 1; }
+
+@layer components {
+
+/* ---------- Buttons: primary (the volt pill), secondary, quiet ----------
+   The legacy classes are aliases of the same three buttons, so every existing button on the
+   site gets the brand look without a rewrite: .btn-volt, .mm-btn--primary and .mm-btn--onnight
+   are primary; .btn-outline and .mm-btn--secondary are secondary; .btn-ghost and .mm-btn--quiet
+   are quiet. The aliases sit inside :where() (no specificity), so any page rule that sizes or
+   places them (width on phones, a compact header button) still wins. */
+.ui-btn, :where(.btn-volt, .btn-outline, .btn-ghost, .mm-btn) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mm-space-s8);
+  min-height: 48px;
+  padding: 12px var(--mm-space-s24);
+  border: 1px solid transparent;
+  border-radius: var(--mm-radius-pill);
+  font-family: var(--mm-font-body);
+  font-size: var(--mm-type-button-size);
+  line-height: var(--mm-type-button-line);
+  font-weight: var(--mm-type-button-weight);
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--mm-dur-release) var(--mm-ease-out),
+    background-color var(--mm-dur-ui) var(--mm-ease-out),
+    border-color var(--mm-dur-ui) var(--mm-ease-out),
+    box-shadow var(--mm-dur-ui) var(--mm-ease-out),
+    color var(--mm-dur-ui) var(--mm-ease-out);
+}
+:where(.ui-btn, .btn-volt, .btn-outline, .btn-ghost, .mm-btn) > svg, .ui-btn .ui-btn__icon { width: 18px; height: 18px; flex-shrink: 0; }
+.ui-btn__label { min-width: 0; }
+:where(.ui-btn, .btn-volt, .btn-outline, .btn-ghost, .mm-btn):focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 3px; }
+:where(.ui-btn, .btn-volt, .btn-outline, .btn-ghost, .mm-btn):is(:disabled, [aria-disabled='true'], [data-loading='true']) { cursor: not-allowed; }
+.ui-btn[data-loading='true'] { cursor: progress; }
+:where(.ui-btn, .btn-volt, .btn-outline, .btn-ghost, .mm-btn):active:not(:disabled):not([aria-disabled='true']):not([data-loading='true']) {
+  transform: scale(var(--mm-pressed-scale));
+  transition-duration: var(--mm-dur-press);
+}
+.ui-btn--sm, :where(.btn-volt, .btn-outline, .btn-ghost).sm { min-height: 44px; padding: 8px 18px; font-size: 15px; }
+.ui-btn--lg, :where(.btn-volt, .btn-outline, .btn-ghost).lg { min-height: var(--mm-target-primary-key); padding-inline: 28px; }
+.ui-btn--block { display: flex; width: 100%; }
+
+/* Primary: volt enamel, a darker rim at the foot, a soft volt light beneath (never behind text). */
+.ui-btn--primary, :where(.btn-volt, .mm-btn--primary, .mm-btn--onnight) {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--mm-volt) 86%, #fff) 0%, var(--mm-volt) 55%, color-mix(in srgb, var(--mm-volt) 78%, var(--mm-volt-edge)) 100%);
+  color: var(--mm-volt-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.38), inset 0 -2px 0 color-mix(in srgb, var(--mm-volt-edge) 55%, transparent), 0 8px 22px -10px var(--mm-volt-glow);
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(.ui-btn--primary, .btn-volt, .mm-btn--primary, .mm-btn--onnight):hover:not(:disabled):not([aria-disabled='true']):not([data-loading='true']) {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5), inset 0 -2px 0 color-mix(in srgb, var(--mm-volt-edge) 55%, transparent), 0 12px 26px -10px var(--mm-volt-glow);
+  }
+}
+:where(.ui-btn--primary, .btn-volt, .mm-btn--primary, .mm-btn--onnight):active:not(:disabled):not([aria-disabled='true']):not([data-loading='true']) {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), inset 0 -1px 0 var(--mm-volt-edge), 0 4px 12px -8px var(--mm-volt-glow);
+}
+
+/* Secondary: a smoked pill with the edge light. */
+.ui-btn--secondary, :where(.btn-outline, .mm-btn--secondary) {
+  background: var(--ui-secondary-fill);
+  color: var(--mm-ink);
+  border-color: var(--mm-line);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-card);
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(.ui-btn--secondary, .btn-outline, .mm-btn--secondary):hover:not(:disabled):not([aria-disabled='true']):not([data-loading='true']) { border-color: var(--mm-line-strong); }
+}
+:where(.ui-btn--secondary, .btn-outline, .mm-btn--secondary):active:not(:disabled):not([aria-disabled='true']):not([data-loading='true']) {
+  background: var(--ui-secondary-press);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top);
+}
+
+/* Quiet: a text button with a real target. */
+.ui-btn--quiet, :where(.btn-ghost, .mm-btn--quiet) {
+  min-height: 48px;
+  padding-inline: var(--mm-space-s16);
+  background: transparent;
+  color: var(--mm-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(.ui-btn--quiet, .btn-ghost, .mm-btn--quiet):hover:not(:disabled):not([aria-disabled='true']) { background: var(--mm-hover); }
+}
+:where(.ui-btn--quiet, .btn-ghost, .mm-btn--quiet):active:not(:disabled):not([aria-disabled='true']) { background: var(--mm-sunken); }
+
+/* Disabled: the pill goes quiet (no volt) and keeps readable text. */
+:where(.ui-btn--primary, .ui-btn--secondary, .btn-volt, .btn-outline, .mm-btn--primary, .mm-btn--secondary, .mm-btn--onnight):is(:disabled, [aria-disabled='true']):not([data-loading='true']) {
+  background: var(--mm-raised-2);
+  border-color: var(--mm-line);
+  color: var(--mm-ink-3);
+  box-shadow: none;
+}
+:where(.ui-btn--quiet, .btn-ghost, .mm-btn--quiet):is(:disabled, [aria-disabled='true']) { color: var(--mm-ink-3); }
+/* Loading keeps the label and the width; the spinner takes the icon slot. */
+.ui-btn[data-loading='true'] .ui-btn__label { opacity: 0.86; }
+.ui-btn-wrap { display: inline-grid; gap: var(--mm-space-s8); justify-items: start; }
+.ui-btn-wrap--block { display: grid; justify-items: stretch; }
+.ui-btn-reason { margin: 0; font: var(--mm-type-small-weight) var(--mm-type-small-size)/var(--mm-type-small-line) var(--mm-font-body); color: var(--mm-ink-3); }
+
+.ui-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: ui-spin 0.8s linear infinite;
+}
+@keyframes ui-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Fields: input, select, textarea ---------- */
+.ui-field { display: grid; gap: var(--mm-space-s8); min-width: 0; }
+.ui-field__label {
+  font: var(--mm-type-label-large-weight) var(--mm-type-label-large-size)/var(--mm-type-label-large-line) var(--mm-font-body);
+  color: var(--mm-ink);
+}
+.ui-field__optional { font-weight: 500; color: var(--mm-ink-3); }
+.ui-field__hint, .ui-field__error, .ui-field__ok {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin: 0;
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+.ui-field__error { color: var(--mm-bad-text); }
+.ui-field__ok { color: var(--mm-good-text); }
+.ui-field__error svg, .ui-field__ok svg { width: 14px; height: 14px; margin-top: 2px; flex-shrink: 0; }
+
+.ui-input, .ui-select, .ui-textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px var(--mm-space-s16);
+  border: 1px solid var(--mm-line-strong);
+  border-radius: var(--mm-radius-small);
+  background: var(--mm-raised);
+  color: var(--mm-ink);
+  font-family: var(--mm-font-body);
+  font-size: 16px; /* 16px or more: phones do not zoom on focus */
+  line-height: 24px;
+  outline: none;
+  transition: border-color var(--mm-dur-ui) var(--mm-ease-out), box-shadow var(--mm-dur-ui) var(--mm-ease-out), background-color var(--mm-dur-ui) var(--mm-ease-out);
+}
+.ui-input::placeholder, .ui-textarea::placeholder { color: var(--mm-ink-3); opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .ui-input:hover:not(:disabled):not(:focus), .ui-select:hover:not(:disabled):not(:focus), .ui-textarea:hover:not(:disabled):not(:focus) { border-color: var(--mm-ink-3); }
+}
+.ui-input:focus-visible, .ui-select:focus-visible, .ui-textarea:focus-visible,
+.ui-input:focus, .ui-select:focus, .ui-textarea:focus {
+  border-color: var(--mm-focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mm-focus-ring) 22%, transparent);
+}
+.ui-input[aria-invalid='true'], .ui-select[aria-invalid='true'], .ui-textarea[aria-invalid='true'] {
+  border-color: var(--mm-wrong-border);
+  background: color-mix(in srgb, var(--mm-wrong-surface) 45%, var(--mm-raised));
+}
+.ui-input[aria-invalid='true']:focus, .ui-select[aria-invalid='true']:focus, .ui-textarea[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mm-wrong-border) 28%, transparent);
+}
+.ui-input[data-valid='true'], .ui-select[data-valid='true'], .ui-textarea[data-valid='true'] {
+  border-color: color-mix(in srgb, var(--mm-good-text) 60%, var(--mm-line-strong));
+}
+.ui-input:disabled, .ui-select:disabled, .ui-textarea:disabled {
+  background: var(--mm-sunken);
+  border-color: var(--mm-line);
+  color: var(--mm-ink-3);
+  cursor: not-allowed;
+}
+.ui-input[readonly] { background: var(--mm-sunken); }
+.ui-textarea { min-height: 120px; resize: vertical; }
+.ui-select-wrap { position: relative; display: block; }
+.ui-select { appearance: none; -webkit-appearance: none; padding-right: 44px; cursor: pointer; }
+.ui-select option { background: var(--mm-raised); color: var(--mm-ink); }
+.ui-select-wrap > svg {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  color: var(--mm-ink-2);
+  pointer-events: none;
+}
+.ui-select-wrap:has(.ui-select:disabled) > svg { color: var(--mm-ink-4); }
+
+/* ---------- Chips: the answer-sheet selection language ---------- */
+.ui-chips { display: flex; flex-wrap: wrap; gap: var(--mm-space-s8); margin: 0; padding: 0; border: 0; }
+.ui-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mm-space-s8);
+  min-height: var(--mm-target-chip);
+  max-width: 100%;
+  padding: 0 var(--mm-space-s16) 0 var(--mm-space-s12);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-pill);
+  background: var(--mm-raised);
+  color: var(--mm-ink);
+  font: var(--mm-type-label-large-weight) 14px/20px var(--mm-font-body);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--mm-dur-release) var(--mm-ease-out), background-color var(--mm-dur-ui) var(--mm-ease-out), border-color var(--mm-dur-ui) var(--mm-ease-out);
+}
+/* 40px to see, 48px to hit. */
+.ui-chip::after { content: ''; position: absolute; inset: -4px 0; }
+.ui-chip__label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ui-chip__bubble {
+  position: relative;
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mm-line-strong);
+}
+.ui-chip__bubble::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: var(--ui-bubble-ink);
+  transform: scale(0.2);
+  opacity: 0;
+  transition: transform var(--mm-dur-ink) var(--mm-ease-glide), opacity var(--mm-dur-ink) var(--mm-ease-glide);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ui-chip:hover:not(:disabled):not([aria-disabled='true']) { border-color: var(--mm-line-strong); }
+}
+.ui-chip:active:not(:disabled):not([aria-disabled='true']) { transform: scale(var(--mm-pressed-scale)); background: var(--mm-raised-2); transition-duration: var(--mm-dur-press); }
+.ui-chip:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; }
+.ui-chip:is([aria-pressed='true'], [aria-checked='true'], [aria-selected='true']) {
+  background: var(--ui-selected-fill);
+  border-color: color-mix(in srgb, var(--mm-ink) 70%, transparent);
+  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--mm-ink) 70%, transparent);
+}
+.ui-chip:is([aria-pressed='true'], [aria-checked='true'], [aria-selected='true']) .ui-chip__bubble { border-color: var(--ui-bubble-ink); }
+.ui-chip:is([aria-pressed='true'], [aria-checked='true'], [aria-selected='true']) .ui-chip__bubble::after { transform: scale(1); opacity: 1; }
+.ui-chip:is(:disabled, [aria-disabled='true']) { color: var(--mm-ink-3); border-style: dashed; cursor: not-allowed; }
+
+/* ---------- Tags: a quiet status word, never an eyebrow ---------- */
+.ui-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 2px 10px;
+  border-radius: var(--mm-radius-pill);
+  background: var(--mm-sunken);
+  color: var(--mm-ink-2);
+  font: var(--mm-type-label-weight) var(--mm-type-label-size)/var(--mm-type-label-line) var(--mm-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+}
+.ui-tag--accent { background: var(--mm-volt-wash); color: var(--mm-accent-text); }
+.ui-tag--bad { background: var(--mm-wrong-surface); color: var(--mm-wrong-text); }
+
+/* ---------- Surfaces: a hierarchy, not boxes everywhere ----------
+   plain   a group held together by spacing alone (the default for most content)
+   raised  a solid card, for something you act on or that must read as one object
+   sunken  a well inside a card or page (a summary, a code, a quiet aside)
+   focal   the one lit object on a screen: raised with a thin volt top edge
+   Cards never nest: a raised surface inside another drops to a sunken well. */
+.ui-surface { position: relative; display: block; min-width: 0; color: inherit; }
+.ui-surface--plain { display: grid; gap: var(--mm-space-s12); }
+.ui-surface--raised, .ui-surface--focal {
+  padding: var(--mm-space-card-padding);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-panel);
+  background: var(--mm-raised);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-card);
+}
+.ui-surface--focal { box-shadow: inset 0 1px 0 var(--mm-volt), var(--mm-shadow-card); }
+[data-theme='light'] .ui-surface--focal, .mm-day .ui-surface--focal { box-shadow: inset 0 2px 0 var(--mm-volt), var(--mm-shadow-card); }
+.ui-surface--sunken {
+  padding: var(--mm-space-s16);
+  border-radius: var(--mm-radius-key);
+  background: var(--mm-sunken);
+}
+:is(.ui-surface--raised, .ui-surface--focal) :is(.ui-surface--raised, .ui-surface--focal) {
+  padding: var(--mm-space-s16);
+  border-color: transparent;
+  border-radius: var(--mm-radius-key);
+  background: var(--mm-sunken);
+  box-shadow: none;
+}
+@media (min-width: 768px) {
+  .ui-surface--raised, .ui-surface--focal { padding: var(--mm-space-s24); }
+}
+/* A whole surface you can press (a link or button). */
+.ui-surface--interactive {
+  width: 100%;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--mm-dur-release) var(--mm-ease-out), border-color var(--mm-dur-ui) var(--mm-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ui-surface--interactive:hover { border-color: var(--mm-line-strong); }
+}
+.ui-surface--interactive:active { transform: scale(0.99); transition-duration: var(--mm-dur-press); }
+.ui-surface--interactive:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 3px; }
+.ui-surface--interactive[aria-current='true'], .ui-surface--interactive[aria-pressed='true'] { border-color: color-mix(in srgb, var(--mm-ink) 70%, transparent); }
+.ui-divider { height: 1px; margin: 0; border: 0; background: var(--mm-line); }
+
+/* ---------- Page head: title, one line of lead, actions. No eyebrow. ---------- */
+.ui-pagehead { display: grid; gap: var(--mm-space-s8); margin-bottom: var(--mm-space-group); }
+.ui-pagehead__title {
+  margin: 0;
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-type-screen-title-size);
+  line-height: var(--mm-type-screen-title-line);
+  font-weight: var(--mm-type-screen-title-weight);
+  letter-spacing: var(--mm-type-screen-title-tracking);
+  color: var(--mm-ink);
+  text-wrap: balance;
+}
+.ui-pagehead--moment .ui-pagehead__title {
+  font-size: var(--mm-type-headline-size);
+  line-height: var(--mm-type-headline-line);
+  font-weight: var(--mm-type-headline-weight);
+  letter-spacing: var(--mm-type-headline-tracking);
+  font-stretch: 87%;
+}
+.ui-pagehead__lead {
+  margin: 0;
+  max-width: 60ch;
+  font: var(--mm-type-body-weight) var(--mm-type-body-size)/var(--mm-type-body-line) var(--mm-font-body);
+  color: var(--mm-ink-2);
+  text-wrap: pretty;
+}
+.ui-pagehead__actions { display: flex; flex-wrap: wrap; gap: var(--mm-space-s12); margin-top: var(--mm-space-s8); }
+@media (min-width: 768px) {
+  .ui-pagehead--with-actions { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--mm-space-s24); }
+  .ui-pagehead--with-actions .ui-pagehead__actions { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+}
+
+/* ---------- Empty, error, offline and loading states ----------
+   Designed endings: what happened, what to do next, the user's work kept. Mobi appears at
+   these human moments only, in a small pool of lamp light (environment light, never behind
+   text). The app-shell skin in student-pages.css still overrides the frame inside .app-shell. */
+.ui-state {
+  display: grid;
+  gap: var(--mm-space-s8);
+  justify-items: start;
+  padding: var(--mm-space-s24);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-panel);
+  background: var(--mm-raised);
+  color: var(--mm-ink-2);
+}
+.ui-state b, .ui-state__title {
+  margin: 0;
+  font: var(--mm-type-card-title-weight) var(--mm-type-card-title-size)/var(--mm-type-card-title-line) var(--mm-font-body);
+  letter-spacing: var(--mm-type-card-title-tracking);
+  color: var(--mm-ink);
+}
+.ui-state p { margin: 0; max-width: 60ch; font: 400 15px/22px var(--mm-font-body); color: var(--mm-ink-2); }
+.ui-state--empty { border-style: dashed; border-color: var(--mm-line-strong); background: transparent; }
+.ui-state--error, .ui-state--offline { grid-template-columns: auto minmax(0, 1fr); align-items: start; column-gap: var(--mm-space-s12); }
+.ui-state--error { border-color: color-mix(in srgb, var(--mm-bad-text) 45%, var(--mm-line)); }
+.ui-state--error > svg { margin-top: 2px; color: var(--mm-bad-text); }
+.ui-state--offline > svg { margin-top: 2px; color: var(--mm-warn-text); }
+.ui-state__actions { display: flex; flex-wrap: wrap; gap: var(--mm-space-s8); margin-top: var(--mm-space-s8); }
+.ui-state__art { position: relative; display: grid; place-items: end center; width: 96px; height: 96px; }
+.ui-state__art::before {
+  content: '';
+  position: absolute;
+  inset: 10% -30% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--mm-lamp) 18%, transparent), transparent);
+  pointer-events: none;
+}
+.ui-state__art > * { position: relative; }
+/* Legacy action buttons inside states, kept for pages that render them directly. */
+.ui-state__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--mm-line-strong);
+  border-radius: var(--mm-radius-pill);
+  background: transparent;
+  color: var(--mm-ink);
+  font: 600 15px/1.2 var(--mm-font-body);
+  cursor: pointer;
+}
+.ui-state__action--primary { border-color: transparent; background: var(--mm-volt); color: var(--mm-volt-ink); }
+.ui-state__action:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; }
+.ui-state__eyebrow { display: none; }
+
+.ui-loading { display: grid; gap: var(--mm-space-s12); }
+.ui-loading__label { margin: 0; font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body); color: var(--mm-ink-3); }
+.ui-skeleton {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--mm-sunken) 0%, var(--mm-raised-2) 45%, var(--mm-sunken) 90%);
+  background-size: 200% 100%;
+  animation: ui-shimmer 1.4s linear infinite;
+}
+@keyframes ui-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* ---------- Reduced motion: no travel, no spin, no shimmer; the same information in text. ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ui-btn, :where(.btn-volt, .btn-outline, .btn-ghost, .mm-btn), .ui-chip, .ui-chip__bubble::after, .ui-surface--interactive, .ui-input, .ui-select, .ui-textarea { transition-duration: 0ms !important; }
+  :where(.ui-btn, .btn-volt, .btn-outline, .btn-ghost, .mm-btn):active, .ui-chip:active, .ui-surface--interactive:active { transform: none !important; }
+  .ui-spinner { animation: none; border-right-color: currentColor; opacity: 0.6; }
+  .ui-skeleton { animation: none; }
+}
+
+} /* @layer components */

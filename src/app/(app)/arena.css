@@ -1,49 +1,50 @@
 /* ==========================================================================
-   ARENA  —  scope: .app-shell (signed-in app)
-   Brings the authenticated screens into the Night Arena language of the
-   homepage: green-tinted night ground, solid raised surfaces with a top-edge
-   highlight, hairlines, Gabarito headings, sentence-case labels and the volt
-   keycap as the one primary action. Everything is scoped so marketing pages
-   that share the legacy primitives (.glass, .eyebrow …) are untouched.
-   The NTA-style console (.nta-runner[data-interface='nta']) is deliberately
-   excluded: it stays conventional (nta-classic.css).
+   SIGNED-IN PRODUCT  —  scope: .app-shell
+   The product in the Night Sheet language of the Android app (shared/tokens.json): warm
+   charcoal ground, solid raised surfaces with an edge light, hairlines, Bricolage titles,
+   Hanken text, sentence-case labels and the volt pill as the one primary action. Glass is for
+   chrome only (top bar, bottom bar, sheets; see src/components/ui/ui.css). Everything is scoped
+   so marketing pages that share the legacy primitives are untouched.
+   The NTA-style console (.nta-runner[data-interface='nta']) is deliberately excluded: it stays
+   conventional (nta-classic.css).
    ========================================================================== */
 
-/* Semantic app tokens. Dark is Night Arena; light is a calm daylight palette driven by
-   the same `mm:theme:v1` preference as the marketing site. Tokens live on <html> while
-   the app shell is mounted so portals (modals, toasts) rendered into <body> inherit them. */
+/* Semantic product tokens. Night is the default for the signed-in product (owner D5); Daylight
+   is the option, driven by the same `mm:theme:v1` preference as the marketing site. Tokens live
+   on <html> while the shell is mounted so portals (modals, toasts) inherit them. Values are the
+   Night Sheet roles, so --a-* and --mm-* always agree. */
 html:has(.app-shell) {
-  --a-bg: #0b100e;
-  --a-raised: #131a16;
-  --a-raised-2: #18211b;
-  --a-sunken: #0f1512;
-  --a-line: #253026;
-  --a-line-strong: #384736;
-  --a-line-hover: rgba(244, 245, 240, 0.32);
-  --a-ink: #f2f4ec;
-  --a-ink-2: #bcc5b9;
-  --a-ink-3: #93a08f;
-  --a-ink-4: #7f8b7b;
+  --a-bg: var(--mm-night-ground);
+  --a-raised: var(--mm-night-raised);
+  --a-raised-2: var(--mm-night-raised-2);
+  --a-sunken: var(--mm-night-sunken);
+  --a-line: var(--mm-night-line);
+  --a-line-strong: var(--mm-night-line-strong);
+  --a-line-hover: rgba(255, 246, 228, 0.32);
+  --a-ink: var(--mm-night-ink);
+  --a-ink-2: var(--mm-night-ink-2);
+  --a-ink-3: var(--mm-night-ink-3);
+  --a-ink-4: var(--mm-night-ink-3); /* ink 4 is decorative only in the app; text keeps 4.5:1 */
   --a-volt-line: rgba(210, 240, 0, 0.5);
-  --a-volt-wash: rgba(210, 240, 0, 0.07);
-  --a-accent-text: #d2f000;  /* volt as text; a darker lime in light mode */
-  --a-select: #d2f000;       /* selected border/ring */
-  --a-focus: #d2f000;
-  --a-hover: rgba(244, 245, 240, 0.04);
-  --a-topbar: rgba(11, 16, 14, 0.86);
-  --a-sidebar: linear-gradient(180deg, #101612, #0c110e);
-  --a-sheet: #0e1411;
-  --a-glass-top: rgba(244, 245, 240, 0.025);
-  --a-edge: rgba(244, 245, 240, 0.16);
-  --a-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px -18px rgba(0, 0, 0, 0.6);
-  --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
-  --a-option-hover: #1d271f;
-  --a-letter: #222d22;
-  --a-grid: rgba(244, 245, 240, 0.035);
-  --a-bad-text: #ff9d92;
-  --a-bad-wash: rgba(255, 122, 107, 0.1);
-  --a-warn-text: #e0b93f;
-  --a-good-text: #b6e36e;
+  --a-volt-wash: var(--mm-night-volt-wash);
+  --a-accent-text: var(--mm-night-accent-text);  /* volt as text; #526700 by day */
+  --a-select: var(--mm-volt);       /* selected border/ring */
+  --a-focus: var(--mm-night-focus-ring);
+  --a-hover: var(--mm-night-hover);
+  --a-topbar: var(--mm-night-glass-tint-lite);
+  --a-sidebar: var(--mm-night-ground);
+  --a-sheet: var(--mm-night-raised);
+  --a-glass-top: rgba(255, 246, 228, 0.025);
+  --a-edge: rgba(255, 246, 228, 0.16);
+  --a-shadow-1: var(--mm-night-shadow-card);
+  --a-shadow-2: var(--mm-night-shadow-pop);
+  --a-option-hover: var(--mm-night-raised-2);
+  --a-letter: var(--mm-night-raised-2);
+  --a-grid: rgba(255, 246, 228, 0.035);
+  --a-bad-text: var(--mm-night-bad-text);
+  --a-bad-wash: rgba(255, 163, 150, 0.1);
+  --a-warn-text: var(--mm-night-warn-text);
+  --a-good-text: var(--mm-night-good-text);
   --a-purple-text: #c4b5fd;
   --a-radius: 18px;
   --a-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -55,54 +56,54 @@ html:has(.app-shell) {
   color-scheme: dark;
 }
 html[data-theme='light']:has(.app-shell) {
-  --a-bg: #f4f5f0;
-  --a-raised: #ffffff;
-  --a-raised-2: #f8f9f4;
-  --a-sunken: #eef0e8;
-  --a-line: #dce1d4;
-  --a-line-strong: #bcc5b0;
-  --a-line-hover: #8f9a84;
-  --a-ink: #172016;
-  --a-ink-2: #3d4a39;
-  --a-ink-3: #56624f;
-  --a-ink-4: #646f5d;
+  --a-bg: var(--mm-day-ground);
+  --a-raised: var(--mm-day-raised);
+  --a-raised-2: color-mix(in srgb, var(--mm-day-raised) 55%, var(--mm-day-ground));
+  --a-sunken: var(--mm-day-sunken);
+  --a-line: var(--mm-day-line);
+  --a-line-strong: var(--mm-day-line-strong);
+  --a-line-hover: #9a907c;
+  --a-ink: var(--mm-day-ink);
+  --a-ink-2: var(--mm-day-ink-2);
+  --a-ink-3: var(--mm-day-ink-3);
+  --a-ink-4: var(--mm-day-ink-3);
   --a-volt-line: rgba(111, 135, 0, 0.5);
   --a-volt-wash: rgba(124, 150, 20, 0.08);
-  --a-accent-text: #4f6400;
+  --a-accent-text: var(--mm-day-accent-text);
   --a-select: #6f8700;
-  --a-focus: #4f6400;
-  --a-hover: rgba(23, 32, 22, 0.05);
-  --a-topbar: rgba(244, 245, 240, 0.9);
-  --a-sidebar: #eef0e8;
-  --a-sheet: #eef0e8;
+  --a-focus: var(--mm-day-focus-ring);
+  --a-hover: var(--mm-day-hover);
+  --a-topbar: var(--mm-day-glass-tint-lite);
+  --a-sidebar: var(--mm-day-ground);
+  --a-sheet: var(--mm-day-raised);
   --a-glass-top: rgba(255, 255, 255, 0);
   --a-edge: rgba(255, 255, 255, 0.9);
-  --a-shadow-1: 0 1px 2px rgba(20, 32, 14, 0.06), 0 12px 32px -18px rgba(20, 32, 14, 0.18);
-  --a-shadow-2: 0 1px 2px rgba(20, 32, 14, 0.06), 0 24px 56px -28px rgba(20, 32, 14, 0.22);
-  --a-option-hover: #f1f4e6;
-  --a-letter: #e6eadc;
-  --a-grid: rgba(23, 32, 22, 0.05);
-  --a-bad-text: #b0291f;
+  --a-shadow-1: var(--mm-day-shadow-card);
+  --a-shadow-2: var(--mm-day-shadow-pop);
+  --a-option-hover: color-mix(in srgb, var(--mm-day-raised) 55%, var(--mm-day-ground));
+  --a-letter: var(--mm-day-raised-2);
+  --a-grid: rgba(23, 21, 15, 0.05);
+  --a-bad-text: var(--mm-day-bad-text);
   --a-bad-wash: rgba(176, 41, 31, 0.08);
-  --a-warn-text: #845400;
-  --a-good-text: #3d6600;
+  --a-warn-text: var(--mm-day-warn-text);
+  --a-good-text: var(--mm-day-good-text);
   --a-purple-text: #5b3a9a;
   color-scheme: light;
   /* Tailwind's default palette is variable-backed, so the app's existing utilities
      (text-zinc-*, text-white, border-white/10, bg-white/[x]) re-map here instead of being
      rewritten screen by screen. Status hues darken to keep 4.5:1 on paper. */
-  --color-zinc-50: #172016;
-  --color-zinc-100: #1d261b;
-  --color-zinc-200: #2a3527;
-  --color-zinc-300: #3a4636;
-  --color-zinc-400: #47533f;
-  --color-zinc-500: #56624f;
-  --color-zinc-600: #646f5d;
-  --color-zinc-700: #b5bfaa;
-  --color-zinc-800: #d9dfd1;
-  --color-zinc-900: #eaece3;
-  --color-zinc-950: #f4f5f0;
-  --color-white: #172016;
+  --color-zinc-50: #17150f;
+  --color-zinc-100: #1e1b14;
+  --color-zinc-200: #2b271e;
+  --color-zinc-300: #3a352b;
+  --color-zinc-400: #454036;
+  --color-zinc-500: #655f53;
+  --color-zinc-600: #655f53;
+  --color-zinc-700: #bdb4a2;
+  --color-zinc-800: #d8d1c2;
+  --color-zinc-900: #eae5da;
+  --color-zinc-950: #f3efe6;
+  --color-white: #17150f;
   --color-red-300: #a3241b;
   --color-red-400: #b0291f;
   --color-amber-100: #6b4400;
@@ -118,7 +119,7 @@ html[data-theme='light']:has(.app-shell) {
 }
 html:has(.app-shell),
 html:has(.app-shell) body {
-  background: var(--a-bg, #0b100e);
+  background: var(--a-bg, #12110e);
 }
 /* Light-mode corrections for literal-colour utilities (volt is inlined, not a variable). */
 html[data-theme='light'] .app-shell :is(.text-volt, .pill.volt, .badge.premium, .verdict-good):not(.arena-dark-island *) { color: var(--a-accent-text) !important; }
@@ -131,7 +132,6 @@ html[data-theme='light'] .app-shell .select { background-image: url("data:image/
 /* Shared primitives in globals.css that hard-code night ink. */
 html:has(.app-shell) :is(.app-shell .stat .value, .app-shell .logo, .app-shell .seo-copy h2) { color: var(--a-ink); }
 html[data-theme='light'] .app-shell :is(.q-option, .q-chip, .subject-card, .count-btn, .glass.hover, .glass.lift):hover { border-color: var(--a-line-hover); }
-html[data-theme='light'] .app-shell .btn-outline:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
 html[data-theme='light'] .app-shell .q-chip.skipped { color: var(--a-warn-text); }
 /* The NTA-style console is its own conventional skin: restore Tailwind defaults inside it. */
 html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .arena-dark-island) {
@@ -142,19 +142,10 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-theme { display: inline-flex; align-items: center; }
 .app-shell .arena-launch__reason { font-size: 13px; color: var(--a-ink-2); max-width: 60ch; }
-/* A quiet hairline grid replaces the old dot field; it fades out down the page. */
+/* The work layer is calm and solid (Night Sheet): no volt wash and no grid behind the product.
+   Light as environment belongs to moments (home hero, first run), not to every page. */
 .app-shell .arena-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(60% 40% at 70% -5%, rgba(210, 240, 0, 0.07), transparent 70%),
-    linear-gradient(to right, var(--a-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--a-grid) 1px, transparent 1px);
-  background-size: auto, 48px 48px, 48px 48px;
-  -webkit-mask-image: linear-gradient(180deg, #000, transparent 75%);
-  mask-image: linear-gradient(180deg, #000, transparent 75%);
+  display: none;
 }
 
 /* ---------- Navigation ---------- */
@@ -187,10 +178,10 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 .app-shell .arena-nav-label {
   margin: 0 0 6px;
   padding-inline: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--a-ink-3);
 }
 .app-shell .arena-nav-link {
@@ -257,9 +248,7 @@ body:has(.app-shell) { overflow-x: clip; }
   top: 0;
   z-index: 40;
   border-bottom: 1px solid var(--a-line);
-  background: var(--a-topbar);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  backdrop-filter: blur(18px) saturate(1.2);
+  background: var(--a-topbar); /* glass rules: src/components/ui/ui.css */
 }
 .app-shell .arena-topbar__row {
   display: flex;
@@ -445,7 +434,7 @@ body:has(.app-shell) { overflow-x: clip; }
 
 /* ---------- Shared app primitives, re-skinned in scope ---------- */
 .app-shell .glass {
-  background: linear-gradient(180deg, var(--a-glass-top), transparent 40%), var(--a-raised);
+  background: var(--a-raised);
   border: 1px solid var(--a-line);
   border-radius: var(--a-radius);
   -webkit-backdrop-filter: none;
@@ -467,8 +456,8 @@ body:has(.app-shell) { overflow-x: clip; }
   display: none;
 }
 .app-shell .glass.volt-soft {
-  border-color: rgba(210, 240, 0, 0.28);
-  background: linear-gradient(180deg, rgba(210, 240, 0, 0.06), rgba(210, 240, 0, 0.015)), var(--a-sunken);
+  border-color: var(--a-line-strong);
+  background: var(--a-sunken);
 }
 .app-shell .glass.hover:hover,
 .app-shell .glass.lift:hover {
@@ -476,22 +465,10 @@ body:has(.app-shell) { overflow-x: clip; }
   transform: none;
 }
 .app-shell .glass.active {
-  border-color: var(--a-volt-line);
-  background: linear-gradient(180deg, var(--a-volt-wash), transparent 60%), var(--a-raised);
+  border-color: color-mix(in srgb, var(--a-ink) 70%, transparent);
+  background: var(--a-raised);
 }
-.app-shell .eyebrow {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  color: var(--a-ink-3);
-}
-.app-shell .eyebrow::before {
-  width: 6px;
-  height: 6px;
-  box-shadow: 0 0 0 3px rgba(210, 240, 0, 0.14);
-}
+/* .eyebrow is retired everywhere (globals.css). */
 .app-shell .mono-label {
   font-family: var(--font-body);
   font-size: 12px;
@@ -527,8 +504,9 @@ body:has(.app-shell) { overflow-x: clip; }
   margin: 12px 0 2px;
 }
 .app-shell .stat.highlight {
-  border-color: rgba(210, 240, 0, 0.3);
-  background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), var(--a-raised);
+  border-color: var(--a-line-strong);
+  background: var(--a-raised);
+  box-shadow: inset 0 1px 0 var(--mm-volt);
 }
 .app-shell .select,
 .app-shell .input,
@@ -543,6 +521,10 @@ body:has(.app-shell) { overflow-x: clip; }
 }
 .app-shell .select {
   padding-right: 38px;
+}
+/* 16px on touch screens so a phone never zooms the page when a field takes focus. */
+@media (pointer: coarse) {
+  .app-shell :is(.select, .input, .textarea) { font-size: 16px; }
 }
 .app-shell .select:focus,
 .app-shell .input:focus,
@@ -575,44 +557,7 @@ body:has(.app-shell) { overflow-x: clip; }
   opacity: 0.4;
   cursor: not-allowed;
 }
-/* The primary action is the marketing keycap: volt, a hard bottom edge, flush when pressed. */
-.app-shell .btn-volt {
-  min-height: 46px;
-  border-radius: 14px;
-  letter-spacing: 0;
-  text-transform: none;
-  font-weight: 700;
-  color: #0b1000;
-  box-shadow: 0 3px 0 #9db400, 0 10px 24px -12px rgba(210, 240, 0, 0.55);
-  transform: translateY(-3px);
-  transition: transform 0.15s var(--a-ease), box-shadow 0.15s var(--a-ease), background-color 0.15s ease;
-}
-.app-shell .btn-volt:hover:not(:disabled) {
-  background: #dbfb14;
-  box-shadow: 0 3px 0 #9db400, 0 14px 30px -12px rgba(210, 240, 0, 0.65);
-}
-.app-shell .btn-volt:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 0 0 #9db400;
-}
-.app-shell .btn-volt:disabled {
-  transform: none;
-  box-shadow: none;
-}
-.app-shell .btn-volt.md { padding: 12px 20px; font-size: 15px; }
-.app-shell .btn-volt.sm { padding: 9px 16px; font-size: 13px; }
-.app-shell .btn-outline {
-  min-height: 44px;
-  border-radius: 14px;
-  border-color: var(--a-line-strong);
-  background: var(--a-raised);
-  letter-spacing: 0;
-  text-transform: none;
-}
-.app-shell .btn-outline:hover {
-  border-color: var(--a-line-hover);
-  background: var(--a-raised-2);
-}
+/* Buttons (.btn-volt, .btn-outline, .btn-ghost) are the UI kit buttons: src/components/ui/ui.css. */
 .app-shell .pill {
   border-radius: 999px;
   padding: 4px 10px;
@@ -965,14 +910,10 @@ body:has(.app-shell) { overflow-x: clip; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .btn-volt,
   .app-shell .arena-nav-link,
   .app-shell .arena-subject-card,
   .app-shell .mode-card {
     transition: none;
-  }
-  .app-shell .btn-volt {
-    transform: none;
   }
 }
 
@@ -1000,12 +941,12 @@ html:has(.app-shell) .mm-toast--error { color: var(--a-bad-text); }
 html:has(.app-shell) .mm-toast .btn-ghost { color: var(--a-ink-2); }
 /* Dark islands (PrepOS console, Rival console, launcher) keep Night Arena tokens in light mode. */
 html[data-theme='light'] .arena-dark-island {
-  --a-bg: #0b100e; --a-raised: #131a16; --a-raised-2: #18211b; --a-sunken: #0f1512;
-  --a-line: #253026; --a-line-strong: #384736; --a-line-hover: rgba(244, 245, 240, 0.32);
-  --a-ink: #f2f4ec; --a-ink-2: #bcc5b9; --a-ink-3: #93a08f; --a-ink-4: #7f8b7b;
-  --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: rgba(210, 240, 0, 0.07);
-  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 245, 240, 0.04);
-  --text-primary: #f2f4ec; --text-muted: #bcc5b9; --text-subtle: #93a08f; --text-faint: #7f8b7b; --focus-ring: #d2f000;
+  --a-bg: var(--mm-night-ground); --a-raised: var(--mm-night-raised); --a-raised-2: var(--mm-night-raised-2); --a-sunken: var(--mm-night-sunken);
+  --a-line: var(--mm-night-line); --a-line-strong: var(--mm-night-line-strong); --a-line-hover: rgba(255, 246, 228, 0.32);
+  --a-ink: var(--mm-night-ink); --a-ink-2: var(--mm-night-ink-2); --a-ink-3: var(--mm-night-ink-3); --a-ink-4: var(--mm-night-ink-3);
+  --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: var(--mm-night-volt-wash);
+  --a-accent-text: var(--mm-volt); --a-select: var(--mm-volt); --a-focus: var(--mm-volt); --a-hover: var(--mm-night-hover);
+  --text-primary: var(--mm-night-ink); --text-muted: var(--mm-night-ink-2); --text-subtle: var(--mm-night-ink-3); --text-faint: var(--mm-night-ink-3); --focus-ring: var(--mm-volt);
   color-scheme: dark;
 }
 
@@ -1233,7 +1174,7 @@ html[data-theme='light'] .app-shell .cmp {
 .app-shell .pr-nta { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 18px; border-color: var(--a-line-strong); background: linear-gradient(135deg, var(--a-volt-wash), transparent 55%), var(--a-raised); }
 @media (min-width: 720px) { .app-shell .pr-nta { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: 28px; } }
 .app-shell .pr-nta__copy { display: grid; gap: 8px; min-width: 0; }
-.app-shell .pr-nta__kicker { margin-right: auto; font: 700 11px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--a-accent-text); }
+.app-shell .pr-nta__kicker { margin-right: auto; font: 600 13px var(--font-body); letter-spacing: 0; text-transform: none; color: var(--a-accent-text); }
 .app-shell .pr-nta .pr-mode__top { align-items: center; gap: 12px; justify-content: flex-start; }
 .app-shell .pr-nta .pr-mode__top .pr-badge { margin-left: auto; }
 .app-shell .pr-nta[aria-pressed='true'] .pr-mode__top .pr-badge { margin-right: 26px; }
@@ -1292,9 +1233,8 @@ html[data-theme='light'] .app-shell .cmp {
 /* ---------- Compass Pro (Admission Compass) ----------
    The premium layer sits above the free calculator as one glass surface over a soft volt
    light, so it reads as a distinct tier without a second visual language. */
-.app-shell .cpro { position: relative; isolation: isolate; display: grid; gap: 16px; padding: clamp(16px, 3vw, 24px); border-radius: 22px; border: 1px solid var(--a-volt-line); background: color-mix(in srgb, var(--a-raised) 72%, transparent); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--a-shadow-2); overflow: hidden; }
-.app-shell .cpro::before { content: ""; position: absolute; z-index: -1; inset: -30% -20% auto 40%; height: 120%; background: radial-gradient(closest-side, var(--a-volt-wash), transparent); pointer-events: none; }
-@media (prefers-reduced-transparency: reduce) { .app-shell .cpro { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--a-raised); } }
+.app-shell .cpro { position: relative; isolation: isolate; display: grid; gap: 16px; padding: clamp(16px, 3vw, 24px); border-radius: 22px; border: 1px solid var(--a-volt-line); background: var(--a-raised); box-shadow: inset 0 1px 0 var(--a-edge), var(--a-shadow-1); overflow: hidden; }
+/* Content is never glass (owner D6): the Compass card is a solid raised surface. */
 .app-shell .cpro-head { display: grid; gap: 8px; max-width: 70ch; }
 .app-shell .cpro-head h2 { margin: 0; font: 800 clamp(20px, 3vw, 26px)/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .app-shell .cpro-head p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--a-ink-2); }

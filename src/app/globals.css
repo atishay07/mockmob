@@ -2,11 +2,29 @@
 
 @theme inline {
   --color-volt: #d2f000;
-  --color-ink: #0a0a0a;
-  --color-ink-2: #141414;
-  --font-display: var(--font-gabarito), system-ui, sans-serif;
+  --color-ink: #12110e; /* Night ground, shared/tokens.json */
+  --color-ink-2: #1b1a16; /* Night raised */
+  /* Theme roles from shared/tokens.css as utilities (bg-mm-raised, text-mm-ink-2, border-mm-line).
+     They follow <html data-theme>, so one class is right in Night and Daylight. */
+  --color-mm-ground: var(--mm-ground);
+  --color-mm-raised: var(--mm-raised);
+  --color-mm-raised-2: var(--mm-raised-2);
+  --color-mm-sunken: var(--mm-sunken);
+  --color-mm-line: var(--mm-line);
+  --color-mm-line-strong: var(--mm-line-strong);
+  --color-mm-ink: var(--mm-ink);
+  --color-mm-ink-2: var(--mm-ink-2);
+  --color-mm-ink-3: var(--mm-ink-3);
+  --color-mm-accent: var(--mm-accent-text);
+  --color-mm-volt: var(--mm-volt);
+  --color-mm-volt-ink: var(--mm-volt-ink);
+  --color-mm-bad: var(--mm-bad-text);
+  --color-mm-warn: var(--mm-warn-text);
+  --color-mm-good: var(--mm-good-text);
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-body: var(--font-hanken), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Mono is retired (no mono label costume, W2.1): measurement is Hanken with tabular figures. */
+  --font-mono: var(--font-hanken), system-ui, sans-serif;
   --animate-pulse-slow: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-marquee: marquee 40s linear infinite;
   @keyframes marquee {
@@ -26,19 +44,21 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --dur-press: 140ms;
+  --dur-press: 100ms;
   --dur-ui: 200ms;
   --dur-enter: 420ms;
-  --volt: #d2f000;
-  --volt-glow: rgba(210, 240, 0, 0.25);
-  --volt-glow-strong: rgba(210, 240, 0, 0.5);
-  --ink: #0a0a0a;
-  --ink-2: #141414;
-  --text-primary: #f6f7ee;
-  --text-muted: #a8aaa3;
-  --text-subtle: #8f928b;
-  --text-faint: #7f837b;
-  --focus-ring: rgba(210, 240, 0, 0.72);
+  /* The legacy dark dialect (pages not yet on .mm or .app-shell) is always Night: the warm
+     Night Sheet palette from shared/tokens.css, not cold black. */
+  --volt: var(--mm-volt);
+  --volt-glow: var(--mm-night-volt-glow);
+  --volt-glow-strong: var(--mm-night-volt-glow);
+  --ink: var(--mm-night-ground);
+  --ink-2: var(--mm-night-raised);
+  --text-primary: var(--mm-night-ink);
+  --text-muted: var(--mm-night-ink-2);
+  --text-subtle: var(--mm-night-ink-3);
+  --text-faint: var(--mm-night-ink-3);
+  --focus-ring: var(--mm-volt);
 }
 * { -webkit-tap-highlight-color: transparent; }
 html, body {
@@ -61,7 +81,7 @@ html { scroll-behavior: smooth; }
   font-variant-numeric: tabular-nums;
 }
 body { min-height: 100vh; }
-::selection { background: var(--volt); color: #050600; }
+::selection { background: var(--volt); color: var(--mm-volt-ink); }
 
 :where(a, button, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -103,37 +123,24 @@ body { min-height: 100vh; }
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-.eyebrow {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--volt);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.eyebrow::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 999px;
-  background: var(--volt);
-  box-shadow: 0 0 8px var(--volt);
-  display: inline-block;
-}
-.eyebrow.no-dot::before { display: none; }
+/* Eyebrows and kickers are retired (copy rules, W2.1): the class renders nothing, as it already
+   did inside .mm. Mono labels become a quiet sentence-case caption. */
+.eyebrow { display: none !important; }
 .mono-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============== BACKGROUNDS ============== */
+/* The volt halo is retired (no glow; light is environment only). */
 .halo {
+  display: none;
   position: fixed; z-index: 0; pointer-events: none;
   width: 900px; height: 900px;
   border-radius: 999px;
@@ -143,89 +150,22 @@ body { min-height: 100vh; }
   top: -200px; left: 50%; transform: translateX(-50%);
 }
 
-/* ============== BUTTONS ============== */
-.btn-volt {
-  background: var(--volt);
-  color: #050600;
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  box-shadow: 0 0 24px var(--volt-glow);
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s var(--ease-out); /* was transition: all */
-  cursor: pointer;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.btn-volt:hover { background: #e8ff4a; box-shadow: 0 0 32px var(--volt-glow-strong); }
-.btn-volt:active { transform: scale(0.97); }
-.btn-volt:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
-.btn-volt.sm { padding: 10px 18px; font-size: 12px; }
-.btn-volt.md { padding: 12px 22px; font-size: 13px; }
-.btn-volt.lg { padding: 16px 32px; font-size: 14px; }
+/* ============== BUTTONS ==============
+   .btn-volt, .btn-outline and .btn-ghost are aliases of the UI kit buttons (primary, secondary,
+   quiet): src/components/ui/ui.css. Nothing is defined here so there is one button look. */
 
-.btn-outline {
-  background: rgba(255,255,255,0.02);
-  color: var(--text-primary);
-  border: 1px solid rgba(255,255,255,0.12);
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s var(--ease-out); /* was transition: all */
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.btn-outline:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); }
-.btn-outline.sm { padding: 10px 18px; font-size: 12px; }
-.btn-outline.md { padding: 12px 22px; font-size: 13px; }
-.btn-outline.lg { padding: 16px 32px; font-size: 14px; }
-
-.btn-ghost {
-  background: transparent;
-  color: #a1a1aa;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 13px;
-  transition: color 0.15s ease;
-  cursor: pointer;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-ghost:hover { color: var(--text-primary); }
-
-/* ============== GLASS CARD (liquid-glass, translucent) ============== */
+/* ============== SURFACES (.glass is a legacy name) ==============
+   Glass belongs to chrome only (owner D6). .glass is a solid raised surface with the edge light;
+   the legacy dialect is always Night. New code uses <Surface> (src/components/ui/Card.jsx). */
 .glass {
   position: relative;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008) 40%, rgba(255,255,255,0.015) 100%);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--mm-night-raised);
+  border: 1px solid var(--mm-night-line);
   border-radius: 16px;
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  box-shadow: inset 0 1px 0 var(--mm-night-edge-top), var(--mm-night-shadow-card);
+  transition: border-color var(--mm-dur-ui) var(--mm-ease-out);
   overflow: hidden;
   isolation: isolate;
-}
-/* Soft specular highlight at the top — "liquid" feel, no motion cost */
-.glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 40%);
-  pointer-events: none;
-  z-index: 0;
 }
 .glass > * { position: relative; z-index: 1; }
 .card-action {
@@ -234,30 +174,32 @@ body { min-height: 100vh; }
   font: inherit;
   text-align: inherit;
 }
-.glass.hover:hover { border-color: rgba(255,255,255,0.2); cursor: pointer; }
-.glass.active { border-color: rgba(210, 240, 0, 0.5); background: rgba(210, 240, 0, 0.03); }
-.glass.volt-soft { border-color: rgba(210, 240, 0, 0.2); background: rgba(210, 240, 0, 0.02); }
-/* Subtle lift variant — for card grids that should read as tactile */
+.glass.hover:hover { border-color: var(--mm-night-line-strong); cursor: pointer; }
+.glass.active { border-color: color-mix(in srgb, var(--mm-night-ink) 70%, transparent); }
+.glass.volt-soft { border-color: var(--mm-night-line-strong); background: var(--mm-night-raised-2); }
 @media (hover: hover) and (pointer: fine){
-.glass.lift:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.18); }
+.glass.lift:hover { border-color: var(--mm-night-line-strong); }
 }
 
-/* ============== FORM ============== */
+/* ============== FORM (legacy classes; new code uses Field from src/components/ui/Input.jsx) ============== */
 .input, .select, .textarea {
   width: 100%;
-  padding: 11px 14px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: var(--mm-night-sunken);
+  border: 1px solid var(--mm-night-line-strong);
+  border-radius: 12px;
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: 16px;
   font-family: var(--font-body);
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color var(--mm-dur-ui) var(--mm-ease-out), box-shadow var(--mm-dur-ui) var(--mm-ease-out);
 }
-.input::placeholder, .textarea::placeholder { color: var(--text-faint); }
-.input:focus, .select:focus, .textarea:focus { border-color: rgba(210, 240, 0, 0.5); }
-.textarea { resize: none; font-family: inherit; }
+.input::placeholder, .textarea::placeholder { color: var(--text-subtle); opacity: 1; }
+.input:focus, .select:focus, .textarea:focus { border-color: var(--mm-volt); box-shadow: 0 0 0 3px var(--mm-night-volt-glow); }
+.input[aria-invalid='true'], .select[aria-invalid='true'], .textarea[aria-invalid='true'] { border-color: var(--mm-night-wrong-border); }
+.input:disabled, .select:disabled, .textarea:disabled { opacity: 0.6; cursor: not-allowed; }
+.textarea { resize: vertical; font-family: inherit; }
 .select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
 .select option { background: var(--ink-2); color: var(--text-primary); }
 
@@ -271,7 +213,6 @@ body { min-height: 100vh; }
   padding: 0 10px;
   display: inline-block;
   transform: rotate(-1deg);
-  box-shadow: 0 0 32px rgba(210, 240, 0, 0.3);
 }
 
 /* Scrollbar */
@@ -287,11 +228,11 @@ body { min-height: 100vh; }
 /* Nav active underline */
 .nav-link {
   padding: 14px 14px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--text-subtle);
   border-bottom: 2px solid transparent;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s var(--ease-out); /* was transition: all */
@@ -361,16 +302,17 @@ body { min-height: 100vh; }
 .q-chip.current { background: var(--volt); color: #050600; border-color: var(--volt); }
 
 /* Badge pills */
+/* A quiet status word (see .ui-tag), sentence case. */
 .pill {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: var(--font-mono);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .pill.subtle { background: rgba(255,255,255,0.05); color: #a1a1aa; }
 .pill.volt { background: rgba(210, 240, 0, 0.1); color: var(--volt); }
@@ -388,7 +330,7 @@ body { min-height: 100vh; }
   border-radius: 999px;
   transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.fill-volt { background: var(--volt); box-shadow: 0 0 8px var(--volt); }
+.fill-volt { background: var(--volt); }
 .fill-amber { background: #fbbf24; }
 .fill-red { background: #f87171; }
 
@@ -452,7 +394,7 @@ canvas { max-width: 100%; }
   font-size: 28px;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text-primary);
   margin: 14px 0 6px;
 }
 .stat.highlight .value { color: var(--volt); }
@@ -555,11 +497,11 @@ canvas { max-width: 100%; }
 .avatar {
   width: 32px; height: 32px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--volt), #8fa600);
+  background: var(--volt);
   display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-display);
-  font-weight: 800;
-  color: #000;
+  font-weight: 700;
+  color: var(--mm-volt-ink);
   font-size: 13px;
   flex-shrink: 0;
 }
@@ -574,11 +516,7 @@ canvas { max-width: 100%; }
 /* ============== SKELETON SHIMMER ============== */
 .skeleton {
   display: block;
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,0.04) 0%,
-      rgba(255,255,255,0.09) 40%,
-      rgba(255,255,255,0.04) 80%);
+  background: linear-gradient(90deg, var(--mm-sunken) 0%, var(--mm-raised-2) 45%, var(--mm-sunken) 90%);
   background-size: 200% 100%;
   border-radius: 6px;
   animation: shimmer 1.3s linear infinite;
@@ -1173,11 +1111,11 @@ html[data-theme='dark'] .logo__img--light { display: none; }
   max-height: 92dvh;
   overflow-y: auto;
   padding: 1.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
-  border: 1px solid rgba(244, 245, 240, 0.1);
+  border: 1px solid var(--mm-night-line);
   border-bottom: 0;
   border-radius: 22px 22px 0 0;
-  background: #12170f;
-  color: #f4f5f0;
+  background: var(--mm-night-raised);
+  color: var(--mm-night-ink);
   font-family: var(--font-body);
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.28), 0 -32px 80px rgba(0, 0, 0, 0.4);
   animation: mmx-rise 0.24s cubic-bezier(0.2, 0.9, 0.3, 1);
@@ -1425,31 +1363,32 @@ html[data-theme='dark'] .logo__img--light { display: none; }
 
 .mm {
   /* Surfaces */
-  --paper: #f4f5f0;
-  --paper-raised: #ffffff;
-  --paper-sunken: #eaece3;
-  /* Ink — all three clear 4.5:1 on --paper */
-  --ink: #10140e;
-  --ink-2: #3e453b;
-  --ink-3: #5c6357;
+  /* Surfaces and ink: the Daylight roles of shared/tokens.json (marketing-theme.css switches
+     them with the theme). All three inks clear 4.5:1 on --paper and --paper-raised. */
+  --paper: var(--mm-day-ground);
+  --paper-raised: var(--mm-day-raised);
+  --paper-sunken: var(--mm-day-sunken);
+  --ink: var(--mm-day-ink);
+  --ink-2: var(--mm-day-ink-2);
+  --ink-3: var(--mm-day-ink-3);
   /* Structure */
-  --line: #d9dcd0;
-  --line-strong: #c1c5b6;
+  --line: var(--mm-day-line);
+  --line-strong: var(--mm-day-line-strong);
   /* Action. Volt is a fill that carries dark ink, never a glow. */
-  --volt: #d2f000;
-  --volt-edge: #9db400;
-  --volt-soft: #eefbaa;
-  --volt-ink: #0b1000;
-  /* Night — the product's own screens */
-  --slate: #0f130e;
-  --slate-2: #1a211a;
-  --slate-3: #29322a;
-  --slate-line: rgba(244, 245, 240, 0.13);
-  --chalk: #f4f5f0;
-  --chalk-2: #a6ae9f;
+  --volt: var(--mm-volt);
+  --volt-edge: var(--mm-volt-edge);
+  --volt-soft: #eef6c3;
+  --volt-ink: var(--mm-volt-ink);
+  /* Night: the product's own screens */
+  --slate: var(--mm-night-ground);
+  --slate-2: var(--mm-night-raised);
+  --slate-3: var(--mm-night-raised-2);
+  --slate-line: var(--mm-night-line);
+  --chalk: var(--mm-night-ink);
+  --chalk-2: var(--mm-night-ink-2);
   /* Alert */
-  --flag: #b93225;
-  --flag-soft: #fbe9e7;
+  --flag: var(--mm-day-wrong-border);
+  --flag-soft: var(--mm-day-wrong-surface);
 
   --r-1: 10px;
   --r-2: 14px;
@@ -1484,7 +1423,7 @@ html:has(.mm) {
 
 /* Paint the overscroll area to match, so the old dark body never flashes. */
 body:has(.mm) {
-  background: #f4f5f0;
+  background: var(--mm-day-ground);
 }
 
 
@@ -1609,7 +1548,7 @@ body:has(.mm) {
   }
 }
 
-/* Mono is reserved for measurement: counts, timers, scores, codes. */
+/* Measurement (counts, timers, scores, codes): tabular figures, not a mono costume. */
 .mm-measure {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -1626,100 +1565,21 @@ body:has(.mm) {
   -webkit-box-decoration-break: clone;
 }
 
-/* ---------- Buttons: a key with a real bottom edge that collapses on press ---------- */
-
+/* ---------- Buttons ----------
+   .mm-btn--primary, --onnight, --secondary and --quiet are the UI kit buttons
+   (src/components/ui/ui.css). Only the marketing layout lives here: full width on phones,
+   the app's 56px primary key. --btn-edge is kept at 0 for older rules that still read it. */
 .mm-btn {
-  --btn-edge: 4px;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  --btn-edge: 0px;
   width: 100%;
-  min-height: 54px;
-  padding: 0.75rem 1.25rem;
-  border: 0;
-  border-radius: var(--r-2);
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.3, 1),
-    box-shadow 0.12s cubic-bezier(0.2, 0.8, 0.3, 1),
-    background-color 0.15s ease;
+  min-height: var(--mm-target-primary-key);
+}
+.mm-btn--quiet {
+  min-height: 48px;
 }
 @media (min-width: 640px) {
   .mm-btn {
     width: auto;
-  }
-}
-
-.mm-btn--primary {
-  background: var(--volt);
-  color: var(--volt-ink);
-  box-shadow: 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
-  transform: translateY(calc(var(--btn-edge) * -1));
-}
-.mm-btn--primary:active {
-  transform: translateY(0);
-  box-shadow: 0 0 0 var(--volt-edge), var(--sh-1);
-}
-
-.mm-btn--secondary {
-  background: var(--paper-raised);
-  color: var(--ink);
-  box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1);
-  transform: translateY(calc(var(--btn-edge) * -1));
-}
-.mm-btn--secondary:active {
-  transform: translateY(0);
-  box-shadow: 0 0 0 var(--line-strong);
-}
-
-.mm-btn--onnight {
-  background: var(--volt);
-  color: var(--volt-ink);
-  box-shadow: 0 var(--btn-edge) 0 var(--volt-edge);
-  transform: translateY(calc(var(--btn-edge) * -1));
-}
-.mm-btn--onnight:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.mm-btn--quiet {
-  background: transparent;
-  color: var(--ink-2);
-  min-height: 44px;
-  font-weight: 700;
-  box-shadow: none;
-  transform: none;
-}
-.mm-btn--quiet:active {
-  color: var(--ink);
-}
-
-.mm-btn[disabled],
-.mm-btn[aria-disabled="true"] {
-  opacity: 0.45;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-@media (hover: hover) {
-  .mm-btn--primary:hover {
-    background: #dbfb14;
-  }
-  .mm-btn--secondary:hover {
-    background: var(--surface-hover, #fff);
-    box-shadow: 0 var(--btn-edge) 0 var(--ink-3), var(--sh-2);
-  }
-  .mm-btn--quiet:hover {
-    color: var(--ink);
   }
 }
 
@@ -1955,7 +1815,6 @@ body:has(.mm) {
   height: 48px;
 }
 .mm-nav__cta {
-  --btn-edge: 3px;
   display: none;
   width: auto;
   min-height: 44px;
@@ -3722,59 +3581,9 @@ body:has(.mm) {
   }
 }
 
-/* ---------- Shared legacy components, restyled inside .mm ---------- */
+/* ---------- Shared legacy components, restyled inside .mm ----------
+   (.btn-volt, .btn-outline and .btn-ghost need nothing here: they are the UI kit buttons.) */
 
-.mm .btn-volt {
-  background: var(--volt);
-  color: var(--volt-ink);
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  text-transform: none;
-  border-radius: var(--r-2);
-  box-shadow: 0 4px 0 var(--volt-edge), var(--sh-2);
-  transform: translateY(-4px);
-  min-height: 52px;
-}
-.mm .btn-volt:hover {
-  background: #dbfb14;
-  box-shadow: 0 4px 0 var(--volt-edge), var(--sh-2);
-}
-.mm .btn-volt:active {
-  transform: translateY(0);
-  box-shadow: 0 0 0 var(--volt-edge), var(--sh-1);
-}
-.mm .btn-outline {
-  background: var(--paper-raised);
-  color: var(--ink);
-  border: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  text-transform: none;
-  border-radius: var(--r-2);
-  box-shadow: 0 4px 0 var(--line-strong), var(--sh-1);
-  transform: translateY(-4px);
-  min-height: 52px;
-}
-.mm .btn-outline:hover {
-  background: #fff;
-  border: 0;
-  box-shadow: 0 4px 0 var(--ink-3), var(--sh-2);
-}
-.mm .btn-outline:active {
-  transform: translateY(0);
-  box-shadow: 0 0 0 var(--line-strong);
-}
-.mm .btn-ghost {
-  color: var(--ink-2);
-  font-family: var(--font-display);
-  font-weight: 700;
-  min-height: 44px;
-}
-.mm .btn-ghost:hover {
-  color: var(--ink);
-}
 .mm .glass {
   background: var(--paper-raised);
   border: 1px solid var(--line);
@@ -3868,8 +3677,8 @@ body:has(.mm) {
 .mm .pill {
   background: var(--paper-sunken);
   color: var(--ink-2);
-  font-family: var(--font-mono);
-  letter-spacing: 0.06em;
+  font-family: var(--font-body);
+  letter-spacing: 0;
 }
 .mm .pill.volt {
   background: var(--volt);
@@ -3958,7 +3767,7 @@ body:has(.mm) {
 .recovery-lab h1,.recovery-lab h2 { font-family:var(--font-display),sans-serif; font-size:clamp(26px,4vw,40px); line-height:1.12; letter-spacing:-.025em; margin:12px 0 20px; }
 .recovery-lab h3 { font-size:21px; font-weight:650; margin:12px 0; }
 .recovery-lab p { line-height:1.65; margin:12px 0; }
-.recovery-eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.1em; font-weight:700; }
+.recovery-eyebrow { font-size:13px; text-transform:none; letter-spacing:0; font-weight:600; }
 .recovery-facts { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:24px 0; border-block:1px solid #c9cfc6; }
 .recovery-facts strong { font-size:36px; display:block; font-variant-numeric:tabular-nums; }
 .recovery-facts span { display:block; font-size:14px; }

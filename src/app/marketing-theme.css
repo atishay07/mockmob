@@ -1,55 +1,59 @@
-/* The user's preference affects marketing pages; exam-console skins stay independent. */
+/* Marketing pages (.mm) in both themes. Every value is a Night Sheet token from
+   shared/tokens.css: warm charcoal and paper-white ink at night, warm paper by day, volt as the
+   one accent. The user's saved choice drives this; exam-console skins stay independent.
+   Glass on the header and dock lives in src/components/ui/ui.css (chrome only, owner D6). */
 html[data-theme='dark'] .mm {
-  --paper: #0b100e; --paper-raised: #131a16; --paper-sunken: #101612;
-  --ink: #f2f4ec; --ink-2: #bcc5b9; --ink-3: #9aa795;
-  --line: #283329; --line-strong: #42513e; --volt-soft: #263214;
-  --sh-1: 0 2px 5px #0003; --sh-2: 0 10px 28px #0003; --sh-3: 0 22px 54px #0005;
-  --focus-ring: #d2f000; color-scheme: dark;
-  --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06);
-  --tint: 244 245 240; --surface-hover: #18211b; --edge-light: rgba(244, 245, 240, 0.28);
-  --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
+  --paper: var(--mm-night-ground); --paper-raised: var(--mm-night-raised); --paper-sunken: var(--mm-night-sunken);
+  --ink: var(--mm-night-ink); --ink-2: var(--mm-night-ink-2); --ink-3: var(--mm-night-ink-3);
+  --line: var(--mm-night-line); --line-strong: var(--mm-night-line-strong);
+  --volt-soft: color-mix(in srgb, var(--mm-volt) 14%, var(--mm-night-ground));
+  --sh-1: var(--mm-night-shadow-card); --sh-2: var(--mm-night-shadow-card); --sh-3: var(--mm-night-shadow-pop);
+  --focus-ring: var(--mm-night-focus-ring); color-scheme: dark;
+  --accent-text: var(--mm-night-accent-text); --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: var(--mm-night-volt-wash);
+  --tint: 244 240 230; --surface-hover: var(--mm-night-raised-2); --edge-light: rgba(255, 246, 228, 0.28);
+  --warn-text: var(--mm-night-warn-text); --bad-text: var(--mm-night-bad-text); --good-text: var(--mm-night-good-text);
 }
 html[data-theme='light'] .mm {
-  --paper: #f4f5f0; --paper-raised: #fff; --paper-sunken: #eaece3;
-  --ink: #172016; --ink-2: #424f3e; --ink-3: #5c6855;
-  --line: #d9dfd1; --line-strong: #b5bfaa; --volt-soft: #eef6c3;
-  --slate: #101810; --slate-2: #1a2418; --slate-3: #2d3a29;
-  --sh-1: 0 2px 5px #14200e0a; --sh-2: 0 10px 28px #14200e0d; --sh-3: 0 22px 54px #14200e14;
-  --focus-ring: #4f6400; color-scheme: light;
+  --paper: var(--mm-day-ground); --paper-raised: var(--mm-day-raised); --paper-sunken: var(--mm-day-sunken);
+  --ink: var(--mm-day-ink); --ink-2: var(--mm-day-ink-2); --ink-3: var(--mm-day-ink-3);
+  --line: var(--mm-day-line); --line-strong: var(--mm-day-line-strong); --volt-soft: #eef6c3;
+  --slate: var(--mm-night-ground); --slate-2: var(--mm-night-raised); --slate-3: var(--mm-night-raised-2);
+  --sh-1: var(--mm-day-shadow-card); --sh-2: var(--mm-day-shadow-card); --sh-3: var(--mm-day-shadow-pop);
+  --focus-ring: var(--mm-day-focus-ring); color-scheme: light;
   /* Lime-family text that holds 4.5:1 on paper; volt itself stays a fill. */
-  --accent-text: #526700; --accent-line: #9caf5d; --accent-wash: rgba(124, 150, 20, 0.07);
-  --tint: 23 32 22; --surface-hover: #f9fbf1; --edge-light: rgba(255, 255, 255, 0.9);
-  --warn-text: #845400; --bad-text: #b0291f; --good-text: #3d6600;
+  --accent-text: var(--mm-day-accent-text); --accent-line: #9caf5d; --accent-wash: rgba(124, 150, 20, 0.07);
+  --tint: 23 21 15; --surface-hover: color-mix(in srgb, var(--mm-day-raised) 70%, var(--mm-day-ground)); --edge-light: rgba(255, 255, 255, 0.9);
+  --warn-text: var(--mm-day-warn-text); --bad-text: var(--mm-day-bad-text); --good-text: var(--mm-day-good-text);
 }
-html[data-theme='light']:has(.mm), html[data-theme='light'] body:has(.mm) { background: #f4f5f0; color-scheme: light; }
-html[data-theme='dark']:has(.mm), html[data-theme='dark'] body:has(.mm) { background: #0b100e; color-scheme: dark; }
+html[data-theme='light']:has(.mm), html[data-theme='light'] body:has(.mm) { background: var(--mm-day-ground); color-scheme: light; }
+html[data-theme='dark']:has(.mm), html[data-theme='dark'] body:has(.mm) { background: var(--mm-night-ground); color-scheme: dark; }
 /* Theme switch: the thumb is the sun or the moon. The crescent is an inset shadow, so
    sun-to-moon is one interpolated box-shadow; the night sky fades in as a layer, stars
    arrive after the thumb lands, and the travel ends with a small spring. Only opacity,
-   transform and colour animate. Reduced motion: instant. */
+   transform and colour animate. Reduced motion: instant. Warm sky and warm night (Night Sheet). */
 .mm-theme-toggle { display: inline-grid; place-items: center; width: 64px; height: 44px; padding: 0; flex-shrink: 0; cursor: pointer; background: transparent; border: 0; border-radius: 999px; -webkit-tap-highlight-color: transparent; }
 .mm-theme-toggle:focus-visible { outline: none; }
-.mm-theme-toggle:focus-visible .mm-theme-toggle__sky { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 3px; }
+.mm-theme-toggle:focus-visible .mm-theme-toggle__sky { outline: 2px solid var(--focus-ring, var(--mm-focus-ring)); outline-offset: 3px; }
 .mm-theme-toggle__sky { position: relative; display: block; width: 58px; height: 30px; border-radius: 999px; overflow: hidden; isolation: isolate;
-  background: linear-gradient(180deg, #f1f6d9, #dce7ad); border: 1px solid #b2c086; box-shadow: inset 0 1px 2px rgb(60 80 10 / .14);
+  background: linear-gradient(180deg, #f7f0dd, #ece0c2); border: 1px solid #c9bb98; box-shadow: inset 0 1px 2px rgb(80 60 20 / .14);
   transition: border-color .45s ease, box-shadow .45s ease; }
-.mm-theme-toggle__sky::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(120% 140% at 20% 0%, #24382a, #0d150f 70%); opacity: 0; transition: opacity .5s ease; }
+.mm-theme-toggle__sky::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(120% 140% at 20% 0%, #2c271e, #12110e 70%); opacity: 0; transition: opacity .5s ease; }
 /* A small cloud in the day sky, sinking away at night. */
 .mm-theme-toggle__sky::after { content: ""; position: absolute; right: 7px; bottom: 5px; width: 13px; height: 5px; border-radius: 4px; background: #fff;
   box-shadow: -5px -2px 0 1px #fff, 3px -3px 0 0 #fff; opacity: .9; transition: opacity .3s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
-.mm-theme-toggle__star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #f3f6e4; opacity: 0; transform: scale(.2);
+.mm-theme-toggle__star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #f4f0e6; opacity: 0; transform: scale(.2);
   transition: opacity .3s ease, transform .45s cubic-bezier(.34, 1.56, .64, 1); }
 .mm-theme-toggle__star:nth-child(1) { left: 9px; top: 8px; }
 .mm-theme-toggle__star:nth-child(2) { left: 18px; top: 17px; width: 1.5px; height: 1.5px; }
 .mm-theme-toggle__star:nth-child(3) { left: 25px; top: 7px; width: 1.5px; height: 1.5px; }
-.mm-theme-toggle__thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background-color: #ffcb3a;
-  box-shadow: inset 0 0 0 0 #edf1df, 0 0 0 3px rgb(255 203 58 / .26), 0 0 12px 1px rgb(255 186 40 / .5);
+.mm-theme-toggle__thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background-color: #f2a93b;
+  box-shadow: inset 0 0 0 0 #f4f0e6, 0 0 0 3px rgb(242 169 59 / .24), 0 0 12px 1px rgb(242 169 59 / .45);
   transform: translateX(0) rotate(0deg);
   transition: transform .6s cubic-bezier(.34, 1.4, .5, 1), background-color .4s ease, box-shadow .55s cubic-bezier(.22, 1, .36, 1), scale .16s ease; }
-.mm-theme-toggle:hover .mm-theme-toggle__sky { border-color: #8fa25a; }
+.mm-theme-toggle:hover .mm-theme-toggle__sky { border-color: #a8976f; }
 .mm-theme-toggle:active .mm-theme-toggle__thumb { scale: 1.14 .9; }
-html[data-theme='dark'] .mm-theme-toggle__sky { border-color: #3d4f37; box-shadow: inset 0 1px 3px rgb(0 0 0 / .5); }
-html[data-theme='dark'] .mm-theme-toggle:hover .mm-theme-toggle__sky { border-color: #5d7354; }
+html[data-theme='dark'] .mm-theme-toggle__sky { border-color: #4a453b; box-shadow: inset 0 1px 3px rgb(0 0 0 / .5); }
+html[data-theme='dark'] .mm-theme-toggle:hover .mm-theme-toggle__sky { border-color: #6a645a; }
 html[data-theme='dark'] .mm-theme-toggle__sky::before { opacity: 1; }
 html[data-theme='dark'] .mm-theme-toggle__sky::after { opacity: 0; transform: translateY(9px); }
 html[data-theme='dark'] .mm-theme-toggle__star { opacity: .95; transform: scale(1); }
@@ -57,42 +61,33 @@ html[data-theme='dark'] .mm-theme-toggle__star:nth-child(1) { transition-delay: 
 html[data-theme='dark'] .mm-theme-toggle__star:nth-child(2) { transition-delay: .3s; opacity: .7; }
 html[data-theme='dark'] .mm-theme-toggle__star:nth-child(3) { transition-delay: .38s; opacity: .8; }
 html[data-theme='dark'] .mm-theme-toggle__thumb { background-color: transparent; transform: translateX(28px) rotate(-28deg);
-  box-shadow: inset -6px -2px 0 0 #edf1df, 0 0 0 0 rgb(255 203 58 / 0), 0 0 10px 1px rgb(222 236 196 / .22); }
+  box-shadow: inset -6px -2px 0 0 #f4f0e6, 0 0 0 0 rgb(242 169 59 / 0), 0 0 10px 1px rgb(244 240 230 / .2); }
 /* Theme change: the new palette spreads out from the switch (View Transitions; JS drives the clip). */
 html[data-theme-switching]::view-transition-old(root),
 html[data-theme-switching]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-html[data-theme] .mm .mm-nav { background: color-mix(in srgb, var(--paper) 94%, transparent); }
-html[data-theme] .mm .mm-dock { background: color-mix(in srgb, var(--paper) 96%, transparent); }
-@supports (backdrop-filter: blur(8px)) {
-  html[data-theme] .mm .mm-nav { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-}
-@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  html[data-theme] .mm :is(.mm-nav, .mm-dock) { background: var(--paper); backdrop-filter: none; -webkit-backdrop-filter: none; }
-}
-html[data-theme] .mm .mm-btn--secondary { background: var(--paper-raised); color: var(--ink); box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1); }
+/* Product stills and the footer retain legible ink on their deliberate dark surfaces. */
+html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: var(--mm-night-ink); --ink-2: var(--mm-night-ink-2); --ink-3: var(--mm-night-ink-3); --line: var(--mm-night-line); --line-strong: var(--mm-night-line-strong);
+  --accent-text: var(--mm-volt); --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: var(--mm-night-volt-wash); --tint: 244 240 230; --surface-hover: var(--mm-night-raised-2); --edge-light: rgba(255, 246, 228, 0.28); --warn-text: var(--mm-night-warn-text); --bad-text: var(--mm-night-bad-text); --good-text: var(--mm-night-good-text); }
 html[data-theme='light'] .lp :is(.du-teaser__big span, .du-live > span:first-child) { color: var(--accent-text); }
-html[data-theme='light'] .lp .lp-bg__grid { opacity: .18; background-image: linear-gradient(to right, #65784b40 1px, transparent 1px), linear-gradient(to bottom, #65784b40 1px, transparent 1px); }
-html[data-theme='light'] .lp .lp-bg__dots { opacity: .14; background-image: radial-gradient(circle at 1px 1px, #53673a 1px, transparent 1.6px); }
+html[data-theme='light'] .lp .lp-bg__grid { opacity: .18; background-image: linear-gradient(to right, #7a6a4a40 1px, transparent 1px), linear-gradient(to bottom, #7a6a4a40 1px, transparent 1px); }
+html[data-theme='light'] .lp .lp-bg__dots { opacity: .14; background-image: radial-gradient(circle at 1px 1px, #6a5a3a 1px, transparent 1.6px); }
 html[data-theme='light'] .lp .lp-bg__aurora { opacity: .35; }
 html[data-theme='light'] .lp .lp-bg__fade { background: linear-gradient(0deg, var(--paper), transparent 60%); }
 html[data-theme='light'] .lp .du-live { background: var(--paper-raised); }
 html[data-theme='light'] .lp :is(.du-chip[aria-pressed='true'], .du-preset:hover) { color: #344800; border-color: #7e943d; background: #edf3d2; }
 html[data-theme='light'] .lp .du-preset { border-color: #b8c591; }
 html[data-theme='light'] .lp :is(.du-stat strong, .du-sum__count, .du-count, .du-live b) { color: var(--accent-text); }
-/* Product stills and the footer retain legible ink on their deliberate dark surfaces. */
-html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f2f4ec; --ink-2: #bdc8b5; --ink-3: #a3b198; --line: #2a3827; --line-strong: #485841;
-  --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06); --tint: 244 245 240; --surface-hover: #1a2418; --edge-light: rgba(244, 245, 240, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
 @media (min-width: 1024px) and (max-width: 1150px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after { transition: none !important; } }
 
 /* First-visit prompt that points at the light/dark switch. Quiet: one soft pulse, one small note. */
 .mm-theme-toggle { position: relative; }
 .mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: mm-theme-nudge 1.8s ease-in-out 3; }
-.mm-theme-hint { position: absolute; z-index: 60; top: calc(100% + 10px); right: -6px; display: grid; gap: 1px; width: max-content; max-width: 180px; padding: 0.55rem 0.8rem; border-radius: 14px; background: #172016; color: #f4f5f0; font: 600 0.78rem/1.3 var(--font-body); text-align: left; box-shadow: 0 14px 34px -14px rgba(10,16,8,.55); pointer-events: none; animation: mm-theme-hint-in .32s cubic-bezier(.22,1,.36,1) both; }
-.mm-theme-hint b { color: #d2f000; font-weight: 700; }
+.mm-theme-hint { position: absolute; z-index: 60; top: calc(100% + 10px); right: -6px; display: grid; gap: 1px; width: max-content; max-width: 180px; padding: 0.55rem 0.8rem; border-radius: 14px; background: var(--mm-day-ink); color: var(--mm-day-ground); font: 600 0.78rem/1.3 var(--font-body); text-align: left; box-shadow: 0 14px 34px -14px rgba(23, 21, 15, .55); pointer-events: none; animation: mm-theme-hint-in .32s cubic-bezier(.22,1,.36,1) both; }
+.mm-theme-hint b { color: var(--mm-volt); font-weight: 700; }
 .mm-theme-hint::before { content: ''; position: absolute; top: -5px; right: 26px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
-html[data-theme='dark'] .mm-theme-hint { background: #f4f5f0; color: #172016; }
-html[data-theme='dark'] .mm-theme-hint b { color: #4f6400; }
+html[data-theme='dark'] .mm-theme-hint { background: var(--mm-night-ink); color: var(--mm-day-ink); }
+html[data-theme='dark'] .mm-theme-hint b { color: var(--mm-day-accent-text); }
 @keyframes mm-theme-nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(150,185,0,0); } 50% { box-shadow: 0 0 0 7px rgba(150,185,0,.28); } }
 @keyframes mm-theme-hint-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: none; box-shadow: 0 0 0 4px rgba(150,185,0,.28); } .mm-theme-hint { animation: none; } }
