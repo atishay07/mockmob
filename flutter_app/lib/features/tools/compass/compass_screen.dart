@@ -27,6 +27,7 @@ import 'compass_hero.dart';
 import 'compass_practise.dart';
 import 'programme_rows.dart';
 import '../pro/compass_pro_section.dart';
+import '../widgets/size_reveal.dart';
 
 enum CompassSort { colleges, cutoff, name }
 
@@ -280,8 +281,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   }
 }
 
-/// The zero state: Mobi thinking and one line of action, not a paragraph. The subjects that
-/// would open something follow directly below, each with the number of programmes it opens.
+/// The zero state: one line of action, not a paragraph (Mobi is already thinking in the hero card
+/// above; one Mobi per screen). The subjects that would open something follow directly below,
+/// each with the number of programmes it opens.
 class _NoneOpen extends StatelessWidget {
   const _NoneOpen({required this.hasUnlocks});
 
@@ -292,17 +294,9 @@ class _NoneOpen extends StatelessWidget {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
-      child: Row(
-        children: [
-          const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Text(
-              hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
-              style: type.title.copyWith(fontSize: 18, height: 24 / 18),
-            ),
-          ),
-        ],
+      child: Text(
+        hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
+        style: type.title.copyWith(fontSize: 18, height: 24 / 18),
       ),
     );
   }
@@ -397,10 +391,7 @@ class _UnlocksState extends ConsumerState<_Unlocks> {
             ],
           ),
         ),
-        AnimatedSize(
-          duration: reduced ? Duration.zero : Motion.ui,
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
+        SizeReveal(
           child: AnimatedSwitcher(
             duration: reduced ? Duration.zero : Motion.crossFade,
             switchInCurve: Motion.glide,

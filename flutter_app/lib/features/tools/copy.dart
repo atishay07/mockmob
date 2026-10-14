@@ -273,6 +273,9 @@ abstract final class ComboWords {
   }
 
   static const rankRule = 'Ranked by targets opened, then all programmes opened, then fewest papers.';
+
+  /// With no targets chosen the first step of the ranking does not apply.
+  static const rankRuleNoTargets = 'Ranked by all programmes opened, then fewest papers.';
   static const expand = 'Show how it compares';
   static const collapse = 'Hide the comparison';
 

@@ -28,6 +28,7 @@ class AnswerOption extends StatefulWidget {
     this.minHeight = 60,
     this.struck = false,
     this.onStrike,
+    this.glide = false,
   });
 
   final String letter;
@@ -52,6 +53,10 @@ class AnswerOption extends StatefulWidget {
   /// A long press: crosses the option out, or brings it back. Null when it cannot be struck (the
   /// chosen option, or answering closed).
   final VoidCallback? onStrike;
+
+  /// The wash is sliding between rows (the answer changed from one option to another): this row's
+  /// own wash holds off, and the chosen row takes it in full when the slide lands.
+  final bool glide;
 
   /// How dim a crossed-out row is.
   static const double struckOpacity = 0.55;
@@ -107,6 +112,15 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       } else {
         _strike.reverse();
       }
+    }
+    if (widget.glide) {
+      // The sliding band carries the wash; this row shows none of its own until it lands.
+      if (widget.selected != old.selected) _wash.value = 0;
+      return;
+    }
+    if (old.glide && widget.selected) {
+      _wash.value = 1;
+      return;
     }
     if (widget.selected == old.selected) return;
     if (RunnerMotion.reduced(context)) {

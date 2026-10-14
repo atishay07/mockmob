@@ -113,7 +113,7 @@ void main() {
       ProviderScope.containerOf(tester.element(find.byType(RecordCard))).read(holder.notifier).set(_data(full));
       await tester.pump(const Duration(seconds: 1));
       expect(find.textContaining(RegExp(r'(^|\D)0-minute')), findsNothing);
-      expect(find.text(ResultCopy.startRepair(full.defaultRepairMinutes)), findsOneWidget);
+      expect(find.text('Repair Admission of a partner, 3 mistakes'), findsOneWidget, reason: 'the key says what opens: the 10-minute run holds 3 of the 4 in the chapter');
     });
   });
 
@@ -335,7 +335,7 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
       final head = tester.getRect(find.text(ResultCopy.inRecord('Mock 7')));
       final last = tester.getRect(find.text(ResultCopy.shareSheet));
-      final key = tester.getRect(find.textContaining('-minute repair'));
+      final key = tester.getRect(find.textContaining('Repair Admission of a partner'));
       final above = head.top - 56; // under the 56 dp story bar
       final below = key.top - last.bottom;
       expect(above, greaterThan(ResultSpace.moment));

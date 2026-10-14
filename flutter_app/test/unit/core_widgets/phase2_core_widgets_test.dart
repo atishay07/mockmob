@@ -251,6 +251,8 @@ void main() {
       expect(find.text('Check your connection.'), findsOneWidget);
 
       await tester.pump(const Duration(seconds: 2));
+      // The message line swaps through MmOverlapSwitcher: the old words stay until the new ones land.
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.text(StateView.slowWords), findsOneWidget);
       expect(find.text('Check your connection.'), findsNothing);
 

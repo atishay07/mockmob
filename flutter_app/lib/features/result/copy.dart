@@ -79,6 +79,10 @@ abstract final class ResultCopy {
   /// The names of the four cards, by card number.
   static const cardNames = <int, String>{1: 'Your result', 2: nextMarks, 3: sectionFirstFix, 4: 'What is recorded'};
   static const skip = 'Skip to full result';
+
+  /// What the story bar's key shows: short, so the four segments keep a 48 dp width beside it. A
+  /// screen reader still hears [skip].
+  static const skipShort = 'Skip';
   static const previousCard = 'Previous card';
 
   // ---- Evidence behind a claim --------------------------------------------------------

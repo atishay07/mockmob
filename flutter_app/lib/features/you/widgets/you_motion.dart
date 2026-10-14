@@ -1,18 +1,33 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
 
 // Motion pieces the You screens share (UI phase 2). Everything here animates transform and
 // opacity only, inside a RepaintBoundary, answers a student action or shows a state, and gives
 // way to the same words under reduced motion.
+
+/// Eases its own height when its child's height changes (a status line arriving, a note
+/// appearing under a row), so what is below it glides instead of jumping. Left out under reduced
+/// motion: an [AnimatedSize] with a zero duration trips over its own layout.
+class YouSizeEase extends StatelessWidget {
+  const YouSizeEase({super.key, required this.child, this.alignment = Alignment.topCenter});
+
+  final Widget child;
+  final AlignmentGeometry alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduced(context)) return child;
+    return AnimatedSize(duration: Motion.ui, curve: Motion.glide, alignment: alignment, child: child);
+  }
+}
 
 /// Text that cross-fades when its words change (a note that states a state, a security row's
 /// status). 200 ms; instant under reduced motion. The box is as large as the longer of the two
@@ -314,26 +329,42 @@ class _TickPainter extends CustomPainter {
   bool shouldRepaint(_TickPainter old) => old.progress != progress || old.color != color || old.size != size;
 }
 
-/// A Mobi whose taps cycle through a few small acts (a wave, a nod, a hop) instead of one boop:
-/// he answers every tap, never twice the same in a row. Drive him further through [controller].
+/// The Celebrations setting as Mobi's level: Quiet calms a big act to a nod, Off plays none.
+MobiCelebrationLevel celebrationLevelFor(CelebrationMode mode) => switch (mode) {
+      CelebrationMode.full => MobiCelebrationLevel.full,
+      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
+      CelebrationMode.off => MobiCelebrationLevel.off,
+    };
+
+/// A Mobi whose taps play the app's one tap cycle ([MobiTapCycle.standard]: a wave, a curious
+/// tilt, a nod, a start), never the same act twice in a row; a sleeping Mobi wakes with a start.
+/// Drive him further through [controller] (reactions that land after a real event, a mood, a
+/// line).
 ///
-/// He is decorative to TalkBack (the screen's words carry the meaning). Under reduced motion the
-/// acts show as key poses and the cycle still advances.
+/// He carries the student's Celebrations setting himself, so a proud or a cheer played through
+/// [controller] is calmed under Quiet and skipped under Off wherever he stands. He is decorative
+/// to TalkBack (the screen's words carry the meaning). Under reduced motion he holds a still pose
+/// and a tap gives only the light haptic. [follow] makes his eyes watch the finger (off under
+/// reduced motion), for the one hero Mobi of a calm screen.
 class YouMobi extends ConsumerStatefulWidget {
   const YouMobi({
     super.key,
     required this.size,
     this.controller,
-    this.entrance,
-    this.pose = MobiPose.idle,
-    this.cycle = const [MobiAct.hello, MobiAct.correct, MobiAct.cheer],
+    this.entrance = MobiAct.idle,
+    this.follow = false,
+    this.seed = 7,
+    this.tapCycle = MobiTapCycle.standard,
   });
 
   final double size;
   final MobiController? controller;
-  final MobiAct? entrance;
-  final MobiPose pose;
-  final List<MobiAct> cycle;
+  final MobiAct entrance;
+
+  /// The eyes follow the finger anywhere on screen (see [MobiCharacter.followPointer]).
+  final bool follow;
+  final int seed;
+  final MobiTapCycle? tapCycle;
 
   @override
   ConsumerState<YouMobi> createState() => _YouMobiState();
@@ -342,7 +373,6 @@ class YouMobi extends ConsumerStatefulWidget {
 class _YouMobiState extends ConsumerState<YouMobi> {
   MobiController? _own;
   MobiController get _controller => widget.controller ?? (_own ??= MobiController());
-  int _taps = 0;
 
   @override
   void dispose() {
@@ -350,61 +380,20 @@ class _YouMobiState extends ConsumerState<YouMobi> {
     super.dispose();
   }
 
-  void _tap() {
-    unawaited(ref.read(hapticsProvider).tick().catchError((Object _) {}));
-    if (widget.cycle.isEmpty) return;
-    _controller.play(widget.cycle[_taps % widget.cycle.length]);
-    _taps++;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _tap,
-      child: Mobi(pose: widget.pose, size: widget.size, controller: _controller, entrance: widget.entrance),
-    );
-  }
-}
-
-/// Shakes its child sideways once each time [trigger] changes: a damped 360 ms wobble of at most
-/// 6 dp, the answer to "no, that is not allowed" (a sixth subject). Transform only. Still under
-/// reduced motion (the words carry the message).
-class YouShake extends StatefulWidget {
-  const YouShake({super.key, required this.trigger, required this.child});
-
-  final int trigger;
-  final Widget child;
-
-  @override
-  State<YouShake> createState() => _YouShakeState();
-}
-
-class _YouShakeState extends State<YouShake> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
-
-  @override
-  void didUpdateWidget(YouShake old) {
-    super.didUpdateWidget(old);
-    if (old.trigger != widget.trigger && !Motion.reduced(context)) _c.forward(from: 0);
-  }
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _c,
-      child: widget.child,
-      builder: (context, child) {
-        final t = _c.value;
-        final dx = t == 0 || t == 1 ? 0.0 : math.sin(t * math.pi * 6) * 6 * (1 - t);
-        return Transform.translate(offset: Offset(dx, 0), child: child);
-      },
+    final mode = ref.watch(rhythmPrefsProvider.select((p) => p.mode));
+    return MobiCelebrations(
+      level: celebrationLevelFor(mode),
+      child: MobiCharacter(
+        controller: _controller,
+        size: widget.size,
+        entrance: widget.entrance,
+        interactive: true,
+        tapCycle: widget.tapCycle,
+        followPointer: widget.follow,
+        seed: widget.seed,
+      ),
     );
   }
 }

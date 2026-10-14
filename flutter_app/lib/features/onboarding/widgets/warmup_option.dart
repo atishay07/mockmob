@@ -29,11 +29,19 @@ class WarmupOption extends StatefulWidget {
 }
 
 class _WarmupOptionState extends State<WarmupOption> with SingleTickerProviderStateMixin {
-  late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 380));
+  late final AnimationController _ink;
 
   /// Where the finger last touched this option, in its own coordinates.
   Offset? _touch;
   bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Built here, not on first use: a lazily built controller would be created inside dispose
+    // for an option that never inked.
+    _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 380));
+  }
 
   @override
   void didChangeDependencies() {
@@ -103,10 +111,14 @@ class _WarmupOptionState extends State<WarmupOption> with SingleTickerProviderSt
           children: [
             if (right)
               Positioned.fill(
+                // Inside the 2 dp border, so the spreading ink never paints over it.
                 child: IgnorePointer(
-                  child: ClipRRect(
-                    borderRadius: MmRadius.keyAll,
-                    child: CustomPaint(painter: _InkPainter(clock: _ink, from: _touch, color: colors.selectedSurface)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: ClipRRect(
+                      borderRadius: MmRadius.keyAll,
+                      child: CustomPaint(painter: _InkPainter(clock: _ink, from: _touch, color: colors.selectedSurface)),
+                    ),
                   ),
                 ),
               ),

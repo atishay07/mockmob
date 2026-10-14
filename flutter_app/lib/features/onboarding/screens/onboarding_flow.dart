@@ -127,11 +127,12 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       _cheer?.cancel();
       if (full && act != null) {
         _cheer = Timer(Motion.reduced(context) ? Duration.zero : sealLands, () {
-          if (mounted) _mobi.play(act);
+          if (mounted) _mobi.react(act);
         });
       }
     } else if (act != null) {
-      _mobi.play(act);
+      // A reaction: a still pose under reduced motion, calmed or skipped by Celebrations.
+      _mobi.react(act);
     }
     final line = cue.line;
     if (line != null) {

@@ -67,9 +67,15 @@ class _ResumeSheetState extends State<ResumeSheet> with SingleTickerProviderStat
   void _maybePlay() {
     final a = widget.answered;
     if (_played || a == null) return;
-    _played = true;
     final inked = a.where((v) => v).length;
-    if (inked == 0 || Motion.reduced(context)) {
+    // Nothing is inked yet: the sheet is just its rings, and answers that arrive later (the
+    // student comes back from the paper) still ink in order.
+    if (inked == 0) {
+      _c.value = 1;
+      return;
+    }
+    _played = true;
+    if (Motion.reduced(context)) {
       _c.value = 1;
       return;
     }

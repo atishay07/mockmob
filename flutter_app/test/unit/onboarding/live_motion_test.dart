@@ -31,6 +31,12 @@ class _SpyMobi extends MobiController {
   }
 
   @override
+  bool react(MobiAct act, {String? key, Duration gap = MobiRation.glanceGap}) {
+    acts.add(act);
+    return super.react(act, key: key, gap: gap);
+  }
+
+  @override
   void pointAt(Offset globalPoint) {
     points.add(globalPoint);
     super.pointAt(globalPoint);
@@ -110,6 +116,8 @@ void main() {
       final (spy, q) = await pumpQuestion(tester);
       await tester.pump(const Duration(seconds: 5));
       await tester.tap(option(q, q.answer));
+      // The frame after the tap is what hands the answer to the step (it cancels the timer).
+      await tester.pump();
       await tester.pump(const Duration(seconds: 30));
       expect(spy.acts, isNot(contains(MobiAct.think)));
       expect(spy.points, isEmpty, reason: 'a right answer has no fix to point at');
@@ -119,10 +127,11 @@ void main() {
     testWidgets('a wrong answer: no shake, and after his nod he points at the ten-second fix', (tester) async {
       final (spy, q) = await pumpQuestion(tester);
       final wrong = [for (var i = 0; i < q.options.length; i++) if (i != q.answer) i].first;
-      final before = tester.getTopLeft(option(q, wrong));
+      // A shake is sideways: the options above may shrink to a quiet row, so only x is compared.
+      final before = tester.getTopLeft(option(q, wrong)).dx;
       await tester.tap(option(q, wrong));
       await tester.pump(const Duration(milliseconds: 120));
-      expect(tester.getTopLeft(option(q, wrong)), before, reason: 'a wrong answer never shakes');
+      expect(tester.getTopLeft(option(q, wrong)).dx, before, reason: 'a wrong answer never shakes');
       expect(spy.points, isEmpty, reason: 'he waits for his encouraging nod to finish');
       await tester.pump(const Duration(milliseconds: 1500));
       expect(spy.points, hasLength(1));

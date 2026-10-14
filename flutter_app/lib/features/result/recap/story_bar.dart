@@ -7,7 +7,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
 /// The top of every recap card: one segment per card showing where you are (position, not a
-/// timer and not progress toward a reward), and "Skip to full result" on the right. When a card
+/// timer and not progress toward a reward), and "Skip" (to the full result) on the right. When a card
 /// arrives its segment is drawn in left to right once (420 ms, emphasized), the way a page is
 /// turned to; cards already seen stay quietly filled.
 class StoryBar extends StatefulWidget {
@@ -30,8 +30,9 @@ class StoryBar extends StatefulWidget {
   /// indicator.
   final ValueChanged<int>? onJump;
 
-  /// Each segment is a tap target this tall (and as wide as its share of the bar), the 48 dp
-  /// minimum, though only 3 dp of it is drawn.
+  /// Each segment is a tap target this tall (and as wide as its share of the bar, which the short
+  /// "Skip" key keeps at 48 dp or more on a phone), the 48 dp minimum, though only 3 dp of it is
+  /// drawn.
   static const double target = MmTarget.min;
 
   @override
@@ -151,7 +152,8 @@ class _StoryBarState extends State<StoryBar> with SingleTickerProviderStateMixin
               ),
             ),
             const SizedBox(width: MmSpace.s12),
-            KeyButton.quiet(label: ResultCopy.skip, onPressed: widget.onSkip),
+            // "Skip" is all the bar has room for beside four 48 dp segments; TalkBack hears where it goes.
+            KeyButton.quiet(label: ResultCopy.skipShort, semanticsLabel: ResultCopy.skip, onPressed: widget.onSkip),
           ],
         ),
       ),

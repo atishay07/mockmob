@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -69,6 +70,11 @@ class _SheetCardState extends State<SheetCard> {
   bool _read = false;
   MobiAct _entrance = MobiAct.idle;
 
+  /// The nudge is waiting for the student to be still: a touch or a scroll anywhere restarts its
+  /// [MobiRation.nudgeAfter] wait.
+  bool _nudging = false;
+  bool _routed = false;
+
   DateTime _now() => (widget.now ?? MobiRation.now)();
 
   @override
@@ -90,19 +96,53 @@ class _SheetCardState extends State<SheetCard> {
     final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations);
     if (reading == null) return;
     _read = true;
-    _mobi.play(_consume(reading));
+    _mobi.react(_consume(reading));
   }
 
   @override
   void dispose() {
     _later?.cancel();
+    if (_routed) GestureBinding.instance.pointerRouter.removeGlobalRoute(_onPointer);
     _mobi.dispose();
     super.dispose();
+  }
+
+  void _onPointer(PointerEvent event) {
+    if (!_nudging) return;
+    if (event is PointerDownEvent || event is PointerMoveEvent || event is PointerScrollEvent) _armNudge();
+  }
+
+  /// (Re)starts the wait; when it runs out with no touch, Mobi points at the Rhythm field.
+  void _armNudge() {
+    if (!_routed) {
+      GestureBinding.instance.pointerRouter.addGlobalRoute(_onPointer);
+      _routed = true;
+    }
+    _nudging = true;
+    _later?.cancel();
+    _later = Timer(MobiRation.nudgeAfter, _pointAtWeek);
+  }
+
+  void _pointAtWeek() {
+    _nudging = false;
+    if (!mounted) return;
+    // Only while the field is on screen: pointing at a place the student has scrolled away from
+    // would be pointing at nothing.
+    final box = _weekKey.currentContext?.findRenderObject();
+    final screen = MediaQuery.maybeSizeOf(context);
+    if (box is! RenderBox || !box.attached || !box.hasSize || screen == null) return;
+    final top = box.localToGlobal(Offset.zero).dy;
+    if (top < 0 || top + box.size.height > screen.height) return;
+    _mobi.pointAtWidget(_weekKey);
+    _mobi.react(MobiMoments.act(MobiEvent.showAction));
   }
 
   /// Spends the reading's once-a-day gate and schedules its words or its point. Returns the act
   /// to play now. A reading whose gate is already spent today is just a still Mobi.
   MobiAct _consume(HubMobiReading reading) {
+    // A goal the server has counted as met keeps a proud face all week (a calm one under Off),
+    // whether or not today's act is spent: the face is a state, the act is a moment.
+    _mobi.setMood(reading.gate == HubMobiGate.met && widget.celebrations != CelebrationMode.off ? MobiMood.proud : MobiMood.calm);
     switch (reading.gate) {
       case HubMobiGate.met:
         if (!MobiRation.helloToday('you:week')) return MobiAct.idle;
@@ -122,13 +162,8 @@ class _SheetCardState extends State<SheetCard> {
       });
     }
     if (reading.pointAtWeek) {
-      // After 4 s with no touch, once a day: he points at the Rhythm field.
-      _later?.cancel();
-      _later = Timer(MobiRation.nudgeAfter, () {
-        if (!mounted) return;
-        _mobi.pointAtWidget(_weekKey);
-        _mobi.play(MobiAct.nudge);
-      });
+      // After 4 s with no touch and no scroll, once a day: he points at the Rhythm field.
+      _armNudge();
       return MobiAct.idle;
     }
     return reading.act;
@@ -195,7 +230,7 @@ class _SheetCardState extends State<SheetCard> {
               // Mobi reads the week once a day (proud for a met goal, a nudge toward the Rhythm
               // field one day short, sleepy from midnight to 5 AM), then he is simply there:
               // he breathes and blinks, and each tap plays the next small act.
-              YouMobi(size: 120, controller: _mobi, entrance: _entrance, pose: MobiPose.greet),
+              YouMobi(size: 120, controller: _mobi, entrance: _entrance, follow: true),
             ],
           ),
         ),

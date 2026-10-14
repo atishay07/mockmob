@@ -40,6 +40,12 @@ import 'widgets/suggestion_hero.dart';
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});
 
+  /// How long a pull waits for the server before it calls the refresh failed (a quote can take
+  /// many seconds on this server, so the bound is past the ring's own 12 s "still refreshing"). A
+  /// read that fails is tried again in the background and a retrying read never completes, so
+  /// without a bound the ring would turn on a dead connection; the page keeps what it had and says so.
+  static const Duration refreshTimeout = Duration(seconds: 15);
+
   @override
   ConsumerState<PracticeScreen> createState() => _PracticeScreenState();
 }
@@ -105,7 +111,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       _refreshing = true;
     });
     try {
-      await _readAgain();
+      await _readAgain().timeout(PracticeScreen.refreshTimeout);
     } finally {
       if (mounted) setState(() => _refreshing = false);
     }
@@ -119,18 +125,20 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery,
     ];
     ref.invalidate(practiceSuggestionProvider);
-    final subjects = ref.refresh(practiceSubjectsProvider.future);
-    final counts = ref.refresh(questionCountsProvider.future);
-    final quotes = [
-      for (final q in queries) ref.refresh(practiceQuoteProvider(q).future).then<bool>((_) => true, onError: (Object _) => false),
-    ];
-    final attempts = ref.read(attemptsRepositoryProvider.notifier).refresh();
-    await subjects;
-    final fresh = await counts;
-    await attempts;
-    final answered = await Future.wait(quotes);
+    // Every read starts together and none of them can throw past this point: each answer is
+    // judged below, so a late failure never escapes as an unhandled error.
+    Future<bool> read(Future<Object?> f) => f.then<bool>((_) => true, onError: (Object _) => false);
+    final subjectsRead = read(ref.refresh(practiceSubjectsProvider.future));
+    final countsRead = ref.refresh(questionCountsProvider.future).then<Map<String, int>?>((m) => m, onError: (Object _) => null);
+    final quotesRead = [for (final q in queries) read(ref.refresh(practiceQuoteProvider(q).future))];
+    final attemptsRead = read(ref.read(attemptsRepositoryProvider.notifier).refresh());
+    final subjectsOk = await subjectsRead;
+    final fresh = await countsRead;
+    await attemptsRead;
+    final answered = await Future.wait(quotesRead);
+    if (!subjectsOk) throw StateError('subjects');
     // The counts read comes back empty when it failed; with counts already on screen, that is a failure.
-    if (fresh.isEmpty && (_lastCounts?.isNotEmpty ?? false)) throw StateError('counts');
+    if ((fresh == null || fresh.isEmpty) && (_lastCounts?.isNotEmpty ?? false)) throw StateError('counts');
     if (answered.isNotEmpty && !answered.contains(true)) throw StateError('quotes');
   }
 

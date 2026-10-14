@@ -34,6 +34,7 @@ class WeekDial extends StatefulWidget {
     this.animate = true,
     this.showWords = true,
     this.sweep = false,
+    this.live = true,
     this.onLanded,
   });
 
@@ -56,6 +57,10 @@ class WeekDial extends StatefulWidget {
   /// Runs the closing light round a met ring once: the T2 moment of a week that has just been met.
   /// Off by default, so opening a screen on a week that is already met only draws it closed.
   final bool sweep;
+
+  /// False says a change of [done] is not a day just counted (a cache that was old, a new week):
+  /// the ring then shows the new count settled, with no segment inking and no lamp pulse.
+  final bool live;
 
   /// Called once when the count in the middle has landed: the screen's lead number gives its one
   /// selection tick there. Null for a dial that is not the lead of its screen.
@@ -130,6 +135,8 @@ class _WeekDialState extends State<WeekDial> with TickerProviderStateMixin {
   void didUpdateWidget(WeekDial old) {
     super.didUpdateWidget(old);
     final live = widget.animate && !Motion.reduced(context);
+    // Only a day counted while the ring is on screen inks in; any other change settles at once.
+    final counted = live && widget.live;
 
     if (old.paused != widget.paused) {
       if (live) {
@@ -152,7 +159,7 @@ class _WeekDialState extends State<WeekDial> with TickerProviderStateMixin {
     }
 
     if (old.done == widget.done) return;
-    if (!live || widget.paused) {
+    if (!counted || widget.paused) {
       _from = 0;
       _controller?.dispose();
       _controller = null;

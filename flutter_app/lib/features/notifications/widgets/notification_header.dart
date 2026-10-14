@@ -1,22 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_motion.dart' show YouMobi;
 import '../copy.dart';
 import '../logic/next_reminder.dart';
 
 /// The top of the notification settings: a 64 dp Mobi and the one live line about what happens
-/// next. He rests when every reminder is off or muted and says hello when any is on; the screen
-/// cheers him once, when a switch has just turned on and the save receipt confirmed it.
+/// next. He rests (calm face) when every reminder is off or muted and says hello (a warm face)
+/// when any is on; the screen cheers him once, when a switch has just turned on and the save
+/// receipt confirmed it. His taps play the app's one tap cycle.
 ///
 /// The line is the real scheduler's own output ([NextReminder]), never a guess. It stays out
 /// until the first planning pass has run.
-class NotificationsHeader extends ConsumerStatefulWidget {
+class NotificationsHeader extends StatefulWidget {
   const NotificationsHeader({
     super.key,
     required this.mobi,
@@ -41,11 +39,17 @@ class NotificationsHeader extends ConsumerStatefulWidget {
   final VoidCallback? onNextTap;
 
   @override
-  ConsumerState<NotificationsHeader> createState() => _NotificationsHeaderState();
+  State<NotificationsHeader> createState() => _NotificationsHeaderState();
 }
 
-class _NotificationsHeaderState extends ConsumerState<NotificationsHeader> {
+class _NotificationsHeaderState extends State<NotificationsHeader> {
   late final MobiAct _entrance = widget.resting ? MobiAct.rest : MobiRation.greeting('notifications', otherwise: MobiAct.idle);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.mobi.setMood(widget.resting ? MobiMood.calm : MobiMood.happy);
+  }
 
   @override
   void didUpdateWidget(NotificationsHeader old) {
@@ -53,7 +57,8 @@ class _NotificationsHeaderState extends ConsumerState<NotificationsHeader> {
     if (old.resting == widget.resting) return;
     // Sitting down answers a switch going off or a mute. Standing up again is quiet: the cheer
     // waits for the save receipt, so nothing celebrates before the server has said yes.
-    widget.mobi.play(widget.resting ? MobiAct.rest : MobiAct.idle);
+    widget.mobi.setMood(widget.resting ? MobiMood.calm : MobiMood.happy);
+    widget.mobi.react(widget.resting ? MobiAct.rest : MobiAct.idle);
   }
 
   @override
@@ -65,14 +70,7 @@ class _NotificationsHeaderState extends ConsumerState<NotificationsHeader> {
       padding: const EdgeInsets.only(bottom: MmSpace.s16),
       child: Row(
         children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              unawaited(ref.read(hapticsProvider).tick().catchError((Object _) {}));
-              widget.mobi.play(widget.resting ? MobiAct.rest : MobiAct.correct);
-            },
-            child: Mobi(pose: MobiPose.idle, size: 64, controller: widget.mobi, entrance: _entrance),
-          ),
+          YouMobi(size: 64, controller: widget.mobi, entrance: _entrance, seed: 31),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: AnimatedSwitcher(

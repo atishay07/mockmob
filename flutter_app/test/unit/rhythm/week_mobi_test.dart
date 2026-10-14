@@ -229,6 +229,48 @@ void main() {
       expect(find.text('Paused. Your run is kept.'), findsNothing);
     });
 
+    testWidgets('the Resume key unfolds as the pause lands and folds away on resume, never jumping', (tester) async {
+      MobiRation.now = () => DateTime(2026, 10, 14, 15);
+      final week = ValueNotifier(weekOf(['2026-10-12', '2026-10-13']));
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<WeekView>(
+          valueListenable: week,
+          builder: (context, w, _) => SingleChildScrollView(child: WeekHero(week: w, onResume: () {})),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(find.text('Resume rhythm'), findsNothing);
+      final legendTop = tester.getTopLeft(find.text('Counted')).dy;
+
+      week.value = weekOf(['2026-10-12', '2026-10-13'], paused: true);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 140));
+      // Half way: the key is on its way in, and the week card is part of the way down.
+      expect(find.text('Resume rhythm'), findsOneWidget);
+      expect(tester.getTopLeft(find.text('Counted')).dy, greaterThan(legendTop));
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      final pausedTop = tester.getTopLeft(find.text('Counted')).dy;
+      expect(pausedTop, greaterThan(legendTop + 40), reason: 'the 48 dp key is now in the column');
+
+      week.value = weekOf(['2026-10-12', '2026-10-13']);
+      await tester.pump();
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(find.text('Resume rhythm'), findsNothing);
+      // His "Back on" line stays 4 s, then the page is exactly where it was.
+      await tester.pump(const Duration(seconds: 5));
+      // A fold finishes over a few frames (the line fades, then its space goes).
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(tester.getTopLeft(find.text('Counted')).dy, closeTo(legendTop, 1.5), reason: 'the page comes back to where it was');
+      await tester.pumpWidget(const SizedBox());
+    });
+
     testWidgets('a sleeping Mobi wakes on a tap and the line appears', (tester) async {
       MobiRation.now = () => DateTime(2026, 10, 14, 2);
       final week = ValueNotifier(weekOf(['2026-10-12', '2026-10-13']));

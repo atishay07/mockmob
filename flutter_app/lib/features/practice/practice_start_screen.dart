@@ -23,14 +23,6 @@ import 'widgets/composer_parts.dart' show modeTitle;
 import 'widgets/composer_ticket.dart';
 import 'widgets/failure_copy.dart';
 
-/// `/practice/start`: starts Quick or chapter practice straight from a link or from Today, with
-/// no setup screen, using the same quote check and launch as the setup screen. A link that names
-/// no subject starts in the student's picked (or default) subject. Mocks always go through
-/// setup, because they need the pre-start sheet, and so does a link asking for a length the mode
-/// does not offer, so the change is said before Start. Anything the student must look at (a
-/// blocked quote, a failure) ends in a designed state with a way out, never a blank screen; an
-/// offline stop starts again by itself when the network returns. Mobi reads the sheet while the
-/// questions are drawn and points the student in once they are ready.
 /// The three real stages of a start, in order. Each is set by the code that is actually doing it,
 /// never by a timer: the cost is being checked, the questions are being drawn (the start request
 /// is out), the paper is opening (the server said yes). [done] is the instant before the runner.
@@ -44,6 +36,14 @@ enum StartStage {
   static const List<String> labels = [PracticeCopy.stageChecking, PracticeCopy.stageDrawing, PracticeCopy.stageOpening];
 }
 
+/// `/practice/start`: starts Quick or chapter practice straight from a link or from Today, with
+/// no setup screen, using the same quote check and launch as the setup screen. A link that names
+/// no subject starts in the student's picked (or default) subject. Mocks always go through
+/// setup, because they need the pre-start sheet, and so does a link asking for a length the mode
+/// does not offer, so the change is said before Start. Anything the student must look at (a
+/// blocked quote, a failure) ends in a designed state with a way out, never a blank screen; an
+/// offline stop starts again by itself when the network returns. Mobi reads the sheet while the
+/// questions are drawn and points the student in once they are ready.
 class PracticeStartScreen extends ConsumerStatefulWidget {
   const PracticeStartScreen({super.key, this.mode, this.link = const PracticeLink()});
 
@@ -245,7 +245,8 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     final reduced = Motion.reduced(context);
     _setStage(StartStage.opening, read: false);
     _waiting?.cancel();
-    _mobi.play(MobiAct.correct);
+    // The server said yes: his nod lands after it (rate-limited, a still pose under reduced motion).
+    _mobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'practice-start:opening');
     if (!reduced) {
       await Future<void>.delayed(const Duration(milliseconds: 190));
       if (!mounted) return;
@@ -258,9 +259,11 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     context.go(AppRoutes.run(sessionId));
   }
 
+  /// The start ended in a stop. The working view (and this Mobi) leaves, and the state view that
+  /// takes its place has its own Mobi: he shrugs once at a failure (`oops`, the first of a run)
+  /// and rests at an offline stop, so a second Mobi is never drawn here.
   void _stop(String message, StateViewKind kind) {
     _waiting?.cancel();
-    _mobi.play(MobiAct.oops);
     _slowTimer?.cancel();
     setState(() {
       _working = false;

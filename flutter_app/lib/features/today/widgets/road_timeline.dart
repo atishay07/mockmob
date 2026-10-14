@@ -128,6 +128,7 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
     final colors = context.mmColors;
     final type = context.mmType;
     final draw = todayEnterValue(context, delay: const Duration(milliseconds: 80), length: Motion.drawIn);
+    final reveal = TodayEntranceScope.of(context) ?? kAlwaysCompleteAnimation;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
     final rawScale = MediaQuery.textScalerOf(context).scale(12) / 12;
     final reduced = Motion.reduced(context);
@@ -142,21 +143,28 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
       child: LayoutBuilder(
         builder: (context, box) {
           final width = box.maxWidth;
-          final frame = _frame = RoadFrame.measure(
-            width: width,
-            today: widget.today,
-            stops: widget.stops,
-            end: widget.end,
-            scaler: scaler,
-            lane: lane,
-            exam: exam,
-            now: now,
-            stretch: stretch,
-          );
+          RoadFrame measure(double clear) => RoadFrame.measure(
+                width: width,
+                today: widget.today,
+                stops: widget.stops,
+                end: widget.end,
+                scaler: scaler,
+                lane: lane,
+                exam: exam,
+                now: now,
+                stretch: stretch,
+                pillClear: clear,
+              );
           // Mobi stands on the Now tick only where he covers no label, no bar and not the bracket's
-          // pill; otherwise (and at large text) he is not there. He walks only where the app's
-          // ambient motion is on (the same gate as the subject objects).
-          final slot = rawScale > RoadTimeline.walkerMaxTextScale || !SubjectEmblem.idleEnabled ? null : frame.walkerRect(RoadTimeline.walkerSize);
+          // pill: the pill first makes room for him (it keeps to his right) and, when it cannot,
+          // he is not there. He walks only where the app's ambient motion is on (the same gate as
+          // the subject objects), and never at large text.
+          final walkerOk = rawScale <= RoadTimeline.walkerMaxTextScale && SubjectEmblem.idleEnabled;
+          final clear = MobiFigure.widthFor(RoadTimeline.walkerSize) / 2 + 5;
+          var frame = measure(walkerOk ? clear : 0);
+          final slot = walkerOk ? frame.walkerRect(RoadTimeline.walkerSize) : null;
+          if (walkerOk && slot == null) frame = measure(0);
+          _frame = frame;
           if (slot != null && !_decided) {
             _decided = true;
             _walkIn = !RoadTimeline._walked && !reduced;
@@ -183,7 +191,8 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
                 scrubPresence: _scrubPresence,
                 caption: _captionText,
                 captionPresence: _caption,
-                captionAt: frame.nowX,
+                captionLeft: frame.nowX + clear,
+                pillClear: slot == null ? 0 : clear,
                 reduced: reduced,
               ),
             ),
@@ -206,7 +215,8 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
                     child: canvas,
                   ),
                 ),
-                if (slot != null) _walker(slot),
+                // He sets off once the road starts to draw, so the walk is seen, not spent below the fold.
+                if (slot != null) _walker(slot, reveal),
               ],
             ),
           );
@@ -215,7 +225,7 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
     );
   }
 
-  Widget _walker(Rect slot) {
+  Widget _walker(Rect slot, Animation<double> reveal) {
     const size = RoadTimeline.walkerSize;
     final Widget mobi = _walkIn
         ? MobiWalker(
@@ -239,27 +249,52 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
       top: slot.top,
       right: 0,
       height: size,
-      child: ValueListenableBuilder<MmScrubValue?>(
-        valueListenable: _scrub,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            IgnorePointer(child: mobi),
-            // Only once he has arrived does a tap on him mean anything.
-            if (_arrived)
-              Positioned(
-                left: slot.left - 6,
-                top: -6,
-                width: slot.width + 12,
-                height: size + 12,
-                child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _onWalker, child: const SizedBox.expand()),
-              ),
-          ],
+      // Held back until the road starts to draw (the gate stays inside the Positioned: a bare
+      // placeholder beside it would be a non-positioned child and size the Stack to nothing).
+      child: _WalkGate(
+        progress: reveal,
+        child: ValueListenableBuilder<MmScrubValue?>(
+          valueListenable: _scrub,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              IgnorePointer(child: mobi),
+              // Only once he has arrived does a tap on him mean anything.
+              if (_arrived)
+                Positioned(
+                  left: slot.left - 6,
+                  top: -6,
+                  width: slot.width + 12,
+                  height: size + 12,
+                  child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _onWalker, child: const SizedBox.expand()),
+                ),
+            ],
+          ),
+          builder: (context, scrub, child) => AnimatedOpacity(opacity: scrub == null ? 1 : 0, duration: const Duration(milliseconds: 140), child: child),
         ),
-        builder: (context, scrub, child) => AnimatedOpacity(opacity: scrub == null ? 1 : 0, duration: const Duration(milliseconds: 140), child: child),
       ),
     );
   }
+}
+
+/// Holds its child (Mobi on the road) back until the road's own reveal has begun to draw: a
+/// walk that played while the road was still below the fold would be over before it was seen.
+/// Once shown it stays (the child is the same widget, so its walk is never restarted).
+class _WalkGate extends StatelessWidget {
+  const _WalkGate({required this.progress, required this.child});
+
+  final Animation<double> progress;
+  final Widget child;
+
+  /// How far into the reveal (0 to 1) he sets off.
+  static const double startAt = 0.2;
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: progress,
+        child: child,
+        builder: (context, child) => progress.value >= startAt ? child! : const SizedBox.shrink(),
+      );
 }
 
 /// The road's geometry at one width: where Now stands, the days the finger can read, and what
@@ -317,6 +352,19 @@ class RoadFrame {
     return day;
   }
 
+  /// Where the bracket's pill is centred: midway between Now and the next stop, kept inside the
+  /// road, and, when Mobi stands on Now ([clear] is half his width and some air), to the right of
+  /// him as long as the pill still fits before the next stop. The painter and [measure] both ask
+  /// here, so what Mobi avoids is exactly what is drawn.
+  static double bracketCentre({required double now, required double to, required double words, required double width, double clear = 0}) {
+    double within(double lo) => ((now + to) / 2).clamp(lo, math.max(lo, width - words / 2 - 2)).toDouble();
+    final plain = within(now + 8 + words / 2);
+    if (clear <= 0) return plain;
+    // The pill's own width is the words and 7 dp of padding each side.
+    final roomy = within(now + clear + 7 + words / 2);
+    return to - (now + clear) >= words + 14 ? roomy : plain;
+  }
+
   /// Mobi's box standing on the Now tick, or null where it would cover a label, a lane bar or the
   /// bracket's pill, or leave the road.
   Rect? walkerRect(double size) {
@@ -339,6 +387,7 @@ class RoadFrame {
     required TextStyle exam,
     required TextStyle now,
     required TextStyle stretch,
+    double pillClear = 0,
   }) {
     final start = DateTime.utc(today.year, today.month);
     final days = math.max(1, end.difference(start).inDays);
@@ -368,7 +417,7 @@ class RoadFrame {
           add(name, Offset(a + name.width > width ? width - name.width : a, y - name.height / 2));
         case RoadStopKind.exam:
           final name = tp(TodayCopy.laneExam, exam);
-          final nx = (b - name.width).clamp(0.0, width - name.width).toDouble();
+          final nx = (b - name.width).clamp(0.0, math.max(0.0, width - name.width)).toDouble();
           add(name, Offset(nx, _RoadPainter._laneTop - name.height / 2));
       }
     }
@@ -377,7 +426,7 @@ class RoadFrame {
       final to = x(stops[next].start);
       if (to - n > 12) {
         final words = tp(TodayCopy.stretchTo(stops[next].start.difference(today).inDays), stretch);
-        final cx = ((n + to) / 2).clamp(n + 8 + words.width / 2, width - words.width / 2 - 2).toDouble();
+        final cx = bracketCentre(now: n, to: to, words: words.width, width: width, clear: pillClear);
         obstacles.add(Rect.fromCenter(center: Offset(cx, _RoadPainter._bracketY), width: words.width + 14, height: words.height + 8));
         words.dispose();
       }
@@ -428,7 +477,8 @@ class _RoadPainter extends CustomPainter {
     required this.scrubPresence,
     required this.caption,
     required this.captionPresence,
-    required this.captionAt,
+    required this.captionLeft,
+    required this.pillClear,
     required this.reduced,
   }) : super(repaint: Listenable.merge([draw, scrub, scrubPresence, captionPresence]));
 
@@ -448,10 +498,15 @@ class _RoadPainter extends CustomPainter {
   final ValueListenable<MmScrubValue?> scrub;
   final Animation<double> scrubPresence;
 
-  /// Mobi's caption, its presence over its 2.8 s, and the x it is anchored at (the Now tick).
+  /// Mobi's caption, its presence over its 2.8 s, and the x its pill starts at: just right of
+  /// him, so he never stands over his own words.
   final ValueListenable<String?> caption;
   final Animation<double> captionPresence;
-  final double captionAt;
+  final double captionLeft;
+
+  /// Half Mobi's width and some air when he stands on Now, else 0: the bracket's pill keeps to
+  /// the right of this (see [RoadFrame.bracketCentre]).
+  final double pillClear;
   final bool reduced;
 
   /// The day the scrub last read, kept so the readout can ease away after the finger lifts.
@@ -567,7 +622,7 @@ class _RoadPainter extends CustomPainter {
           // The flag: the exam's name at the right of the first lane, and its own hairline down
           // from the middle of that name to the block (never a line the name does not stand on).
           final name = _tp(TodayCopy.laneExam, exam);
-          final nx = (b - name.width).clamp(0.0, size.width - name.width);
+          final nx = (b - name.width).clamp(0.0, math.max(0.0, size.width - name.width)).toDouble();
           name.paint(canvas, Offset(nx, _laneTop - name.height / 2));
           final fx = (nx + name.width / 2).clamp(a + 3, b - 3);
           canvas.drawRect(Rect.fromLTWH(fx - 0.5, _laneTop + 9, 1, _trackY - 10 - _laneTop - 11), Paint()..color = color.withValues(alpha: 0.45));
@@ -609,7 +664,7 @@ class _RoadPainter extends CustomPainter {
         canvas.drawLine(Offset(n + 1, _bracketY), Offset(reach, _bracketY), ink);
         canvas.drawLine(Offset(reach, _bracketY - 4), Offset(reach, _bracketY + 4), ink);
         final words = _tp(TodayCopy.stretchTo(next.start.difference(today).inDays), stretch);
-        final cx = ((n + to) / 2).clamp(n + 8 + words.width / 2, size.width - words.width / 2 - 2);
+        final cx = RoadFrame.bracketCentre(now: n, to: to, words: words.width, width: size.width, clear: pillClear);
         final o = ((t - 0.55) / 0.45).clamp(0.0, 1.0) * (1 - live);
         if (o > 0.01) {
           final pill = Rect.fromCenter(center: Offset(cx, _bracketY), width: words.width + 14, height: words.height + 8);
@@ -688,12 +743,15 @@ class _RoadPainter extends CustomPainter {
       final a = Curves.easeOut.transform(p.clamp(0.0, 1.0));
       final date = start.add(Duration(days: _lastDay));
       final fx = x(date);
-      canvas.drawLine(
-        Offset(fx, _flagY + 14),
-        Offset(fx, _trackY + _track / 2 + 4),
+      _hairline(
+        canvas,
+        fx,
+        _flagY + 14,
+        _trackY + _track / 2 + 4,
         Paint()
           ..color = colors.ink.withValues(alpha: 0.65 * a)
           ..strokeWidth = 1,
+        _labelRects(size, x),
       );
       canvas.drawCircle(Offset(fx, _trackY), 4.5, Paint()..color = colors.ground.withValues(alpha: a));
       canvas.drawCircle(
@@ -710,11 +768,51 @@ class _RoadPainter extends CustomPainter {
     }
     final text = caption.value;
     final shown = _captionShow;
-    if (text != null && shown > 0.01 && p <= 0.01) _pill(canvas, size, captionAt, [text], shown);
+    if (text != null && shown > 0.01 && p <= 0.01) _pill(canvas, size, captionLeft, [text], shown, fromLeft: true);
   }
 
-  /// A pill of one or two lines in the bracket's row, [alpha] of the way shown.
-  void _pill(Canvas canvas, Size size, double cx, List<String> lines, double alpha) {
+  /// Where the names written above the track stand (the lanes and the exam flag), as painted.
+  List<Rect> _labelRects(Size size, double Function(DateTime) x) {
+    final rects = <Rect>[];
+    var row = 0;
+    for (final s in stops) {
+      final a = x(s.start);
+      final b = s.end == null ? a + 4 : x(s.end!);
+      switch (s.kind) {
+        case RoadStopKind.registration || RoadStopKind.boards:
+          final y = _laneTop + row * _laneStep;
+          row++;
+          final name = _tp(s.kind == RoadStopKind.registration ? TodayCopy.laneRegistration : TodayCopy.laneBoards, lane);
+          final lx = a + name.width > size.width ? size.width - name.width : a;
+          rects.add(Rect.fromLTWH(lx, y - name.height / 2, name.width, name.height));
+        case RoadStopKind.exam:
+          final name = _tp(TodayCopy.laneExam, exam);
+          final nx = (b - name.width).clamp(0.0, math.max(0.0, size.width - name.width)).toDouble();
+          rects.add(Rect.fromLTWH(nx, _laneTop - name.height / 2, name.width, name.height));
+      }
+    }
+    return rects;
+  }
+
+  /// A vertical hairline at [x] from [y0] to [y1] that goes round any of [avoid] it would cross,
+  /// so a name on the road is never struck through.
+  void _hairline(Canvas canvas, double x, double y0, double y1, Paint paint, List<Rect> avoid) {
+    final cuts = [
+      for (final r in avoid)
+        if (x >= r.left - 3 && x <= r.right + 3) r,
+    ]..sort((a, b) => a.top.compareTo(b.top));
+    var from = y0;
+    for (final r in cuts) {
+      final to = r.top - 2;
+      if (to > from) canvas.drawLine(Offset(x, from), Offset(x, to), paint);
+      from = math.max(from, r.bottom + 2);
+    }
+    if (y1 > from) canvas.drawLine(Offset(x, from), Offset(x, y1), paint);
+  }
+
+  /// A pill of one or two lines in the bracket's row, [alpha] of the way shown. [at] is its
+  /// centre, or its left edge with [fromLeft].
+  void _pill(Canvas canvas, Size size, double at, List<String> lines, double alpha, {bool fromLeft = false}) {
     if (alpha <= 0.01) return;
     final words = <TextPainter>[
       for (var i = 0; i < lines.length; i++)
@@ -732,7 +830,7 @@ class _RoadPainter extends CustomPainter {
       th += p.height;
     }
     final w = tw + 16, h = th + 8 + (words.length - 1) * 2;
-    final x = cx.clamp(w / 2 + 2, math.max(w / 2 + 2, size.width - w / 2 - 2)).toDouble();
+    final x = (fromLeft ? at + w / 2 : at).clamp(w / 2 + 2, math.max(w / 2 + 2, size.width - w / 2 - 2)).toDouble();
     final pill = Rect.fromCenter(center: Offset(x, _bracketY - (words.length > 1 ? 2 : 0)), width: w, height: h);
     final radius = Radius.circular(math.min(12, h / 2));
     canvas.saveLayer(pill.inflate(2), Paint()..color = Color.fromRGBO(0, 0, 0, alpha.clamp(0.0, 1.0)));
@@ -763,7 +861,14 @@ class _RoadPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RoadPainter old) =>
-      old.today != today || old.end != end || old.colors != colors || old.stops != stops || old.draw != draw || old.scaler != scaler;
+      old.today != today ||
+      old.end != end ||
+      old.colors != colors ||
+      old.stops != stops ||
+      old.draw != draw ||
+      old.scaler != scaler ||
+      old.pillClear != pillClear ||
+      old.captionLeft != captionLeft;
 }
 
 /// How far a stop is from [today]: "On now" inside it, "in 5 days" under a week, else weeks.

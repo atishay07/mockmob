@@ -49,6 +49,27 @@ void main() {
       expect(nextReminderFrom(accepted: const [], skips: const [], planned: 0).reason, NothingReason.off);
       expect(nextReminderFrom(accepted: const [], skips: const [NextSkip.stale], planned: 3).reason, NothingReason.quietHours);
       expect(nextReminderFrom(accepted: const [], skips: const [NextSkip.cap, NextSkip.stale], planned: 3).reason, NothingReason.weeklyCap);
+      expect(nextReminderFrom(accepted: const [], skips: const [NextSkip.daily], planned: 3).reason, NothingReason.dailyCap);
+    });
+
+    test('a running mute is the reason, said with the day it ends', () {
+      final until = DateTime(2026, 10, 19, 18);
+      final next = nextReminderFrom(accepted: const [], skips: const [NextSkip.stale], planned: 0, mutedUntil: until);
+      expect(next.reason, NothingReason.muted);
+      expect(next.headline(now), 'Nothing scheduled');
+      expect(next.why, 'Muted until Mon 19 Oct.');
+    });
+
+    test('a reminder that falls after the mute wins over the mute', () {
+      final after = DateTime(2026, 10, 20, 20);
+      final next = nextReminderFrom(accepted: [(after, NextKind.study, null)], skips: const [], planned: 1, mutedUntil: DateTime(2026, 10, 19, 18));
+      expect(next.isScheduled, isTrue);
+      expect(next.at, after);
+    });
+
+    test('the daily limit is said in its own words, not as the weekly one', () {
+      expect(const NextReminder.nothing(NothingReason.dailyCap).why, isNot(contains('weekly')));
+      expect(const NextReminder.nothing(NothingReason.weeklyCap).why, contains('weekly'));
     });
   });
 
@@ -92,6 +113,19 @@ void main() {
       final seen = <NextReminder>[];
       await withNext(rig, seen).sync();
       expect(seen.last.reason, NothingReason.quietHours);
+    });
+
+    test('a mute reports the first reminder after it, never one inside it', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      final seen = <NextReminder>[];
+      final scheduler = withNext(rig, seen);
+      await scheduler.mute();
+      final next = seen.last;
+      if (next.isScheduled) {
+        expect(next.at!.isAfter(rig.now.add(const Duration(days: 7)).subtract(const Duration(minutes: 1))), isTrue);
+      } else {
+        expect(next.reason, NothingReason.muted);
+      }
     });
 
     test('everything off is nothing scheduled, off', () async {
@@ -158,6 +192,13 @@ void main() {
         acknowledge: (_) async => throw StateError('plugin'),
       );
       await failing.handle(NotificationTap(payload: payload, actionId: ReminderActions.notTonight));
+    });
+  });
+
+  group('expanded notifications', () {
+    test('a long repair line is kept whole when the notification opens out', () {
+      const body = 'Your repair is ready: 12 mistakes, about 30 minutes.';
+      expect(bigTextFor(body).bigText, body);
     });
   });
 

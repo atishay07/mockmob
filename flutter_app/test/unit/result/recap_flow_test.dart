@@ -208,7 +208,7 @@ void main() {
         await tester.pumpAndSettle();
       }
       expect(find.text('Start with Admission of a partner'), findsOneWidget);
-      await tester.tap(find.text('Skip to full result'));
+      await tester.tap(find.bySemanticsLabel('Skip to full result'));
       await tester.pumpAndSettle();
       expect(_at(router), '/result/a7');
       expect(actions.events.map((e) => e.$1), contains('recap_skipped'));
@@ -256,8 +256,8 @@ void main() {
       expect(find.text('Fresh check: not available yet.'), findsNothing);
       await tester.tap(find.text('5 min'));
       await tester.pump();
-      expect(find.text('Start 5-minute repair'), findsOneWidget);
-      await tester.tap(find.text('Start 5-minute repair'));
+      expect(find.text('Repair Admission of a partner, 2 mistakes'), findsOneWidget);
+      await tester.tap(find.text('Repair Admission of a partner, 2 mistakes'));
       await tester.pumpAndSettle();
       expect(_at(router), startsWith('/review/repair/a7/'));
       expect(_at(router), contains('count=2'));
@@ -332,6 +332,7 @@ void main() {
       final fourth = find.bySemanticsLabel('Card 4 of 4: What is recorded');
       expect(fourth, findsOneWidget);
       expect(tester.getSize(fourth).height, greaterThanOrEqualTo(48));
+      expect(tester.getSize(fourth).width, greaterThanOrEqualTo(48), reason: 'a segment is as wide as 48 dp too');
       expect(find.bySemanticsLabel('Card 2 of 4: Where the marks went'), findsOneWidget);
       await tester.tap(fourth);
       await _run(tester, 900);

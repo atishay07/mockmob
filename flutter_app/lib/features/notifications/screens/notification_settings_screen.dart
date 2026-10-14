@@ -206,7 +206,7 @@ class _NotificationSettingsScreenState
       // The save receipt is on screen: only now may Mobi cheer, and only once per visit.
       if (_cheerPending && !_cheered) {
         _cheered = true;
-        _mobi.play(MobiAct.cheer);
+        _mobi.react(MobiMoments.act(MobiEvent.sessionDone));
       }
       _cheerPending = false;
     } else {

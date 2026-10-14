@@ -130,10 +130,12 @@ class RepairRunState {
     required this.source,
     required this.steps,
     this.index = 0,
+    int? furthest,
     this.phase = RepairPhase.entry,
     this.keyOnly = false,
     this.repairedBefore = false,
-  });
+    this.retry = false,
+  }) : furthest = furthest ?? index;
 
   final String attemptId;
   final String chapter;
@@ -141,6 +143,10 @@ class RepairRunState {
   final String source;
   final List<RepairStep> steps;
   final int index;
+
+  /// The furthest step the student has reached. Every step up to it has been opened once, so the
+  /// run track can go back to it (and forward again) without a new repair call.
+  final int furthest;
   final RepairPhase phase;
 
   /// Every step shows the key explanation instead of calling the repair (empty wallet,
@@ -150,6 +156,10 @@ class RepairRunState {
   /// The student had a repaired mistake on this phone before this run (for "first repair").
   final bool repairedBefore;
 
+  /// Prepared by the ending's "Try the same mistakes again": the screen that opens next keeps
+  /// these exact steps instead of building the chapter's run afresh.
+  final bool retry;
+
   RepairStep? get current => index < steps.length ? steps[index] : null;
   bool get isLast => index >= steps.length - 1;
 
@@ -158,7 +168,18 @@ class RepairRunState {
   int get reviewedCount => steps.where((s) => s.outcome is OutcomeKeyReview).length;
 
   /// Keys of the mistakes this run touched, so "Repair N more" offers different ones.
-  Set<String> get touchedKeys => {for (final s in steps.take(index + 1)) s.item.key};
+  Set<String> get touchedKeys => {for (final s in steps.take(furthest + 1)) s.item.key};
+
+  /// Whether the run track can show step [i]: one already reached, other than the one on screen.
+  /// Going there never calls the repair again; the step shows what it already has.
+  bool canGoTo(int i) => phase == RepairPhase.working && i != index && i >= 0 && i <= furthest && i < steps.length;
+
+  /// The keys of the mistakes worth another try: reached in this run and missed (the call failed or
+  /// the server could not explain it). Never a repaired, set-aside or key-read mistake.
+  List<RepairStep> get missed => [
+    for (final s in steps.take(furthest + 1))
+      if (s.outcome is OutcomeFailed || s.outcome is OutcomeNotExplained) s,
+  ];
 
   /// The latest acknowledgement of a counted repair in this run (the receipt time).
   DateTime? get lastAckedAt {
@@ -170,17 +191,35 @@ class RepairRunState {
     return latest;
   }
 
-  RepairRunState copyWith({List<RepairStep>? steps, int? index, RepairPhase? phase, bool? keyOnly}) => RepairRunState(
-    attemptId: attemptId,
-    chapter: chapter,
-    subjectId: subjectId,
-    source: source,
-    steps: steps ?? this.steps,
-    index: index ?? this.index,
-    phase: phase ?? this.phase,
-    keyOnly: keyOnly ?? this.keyOnly,
-    repairedBefore: repairedBefore,
-  );
+  /// [furthest] follows [index] forward on its own: a step once reached stays reached.
+  RepairRunState copyWith({List<RepairStep>? steps, int? index, int? furthest, RepairPhase? phase, bool? keyOnly, bool? retry}) {
+    final i = index ?? this.index;
+    final f = furthest ?? this.furthest;
+    return RepairRunState(
+      attemptId: attemptId,
+      chapter: chapter,
+      subjectId: subjectId,
+      source: source,
+      steps: steps ?? this.steps,
+      index: i,
+      furthest: f > i ? f : i,
+      phase: phase ?? this.phase,
+      keyOnly: keyOnly ?? this.keyOnly,
+      repairedBefore: repairedBefore,
+      retry: retry ?? this.retry,
+    );
+  }
+
+  /// The run without step [at] (a question the server says is not a mistake). The place on screen
+  /// and the furthest reached step shift with it, so neither skips a mistake.
+  RepairRunState without(int at) {
+    final next = [...steps]..removeAt(at);
+    final last = next.isEmpty ? 0 : next.length - 1;
+    int shift(int v) => (at < v ? v - 1 : v).clamp(0, last);
+    final i = shift(index);
+    final f = furthest > at || furthest >= next.length ? furthest - 1 : furthest;
+    return copyWith(steps: next, index: i, furthest: f.clamp(i, last));
+  }
 
   RepairRunState withCurrent(MistakeOutcome? outcome) {
     final next = [...steps];

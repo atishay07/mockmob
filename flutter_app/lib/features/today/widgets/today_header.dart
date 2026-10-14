@@ -182,7 +182,7 @@ class _SpeechRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<MobiSpeech?>(
       valueListenable: speech,
-      builder: (context, line, _) => AnimatedSize(
+      builder: (context, line, _) => MmSizeEase(
         duration: Motion.of(context, Motion.crossFade),
         curve: Motion.out,
         alignment: Alignment.topRight,

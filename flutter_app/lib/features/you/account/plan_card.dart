@@ -51,15 +51,20 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     super.dispose();
   }
 
-  /// Credits that could not be read: Mobi shrugs once per failure run, never again on a retry that
-  /// fails the same way. A balance that arrives ends the run.
+  /// Credits that could not be read: Mobi shrugs once per failure run and keeps a soft, concerned
+  /// face until they load; he never shrugs again on a retry that fails the same way. A balance
+  /// that arrives ends the run and the face goes back to calm.
   void _shrugIfFailed() {
     final auth = widget.auth;
     if (auth.isPro || auth.creditBalance != null) {
       MobiRation.recovered('account');
+      if (_mobi.mood != MobiMood.calm) _mobi.setMood(MobiMood.calm);
       return;
     }
-    if (MobiRation.oops('account')) WidgetsBinding.instance.addPostFrameCallback((_) => _mobi.play(MobiAct.oops));
+    _mobi.setMood(MobiMood.concerned);
+    if (MobiRation.oops('account')) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _mobi.react(MobiMoments.act(MobiEvent.setback)));
+    }
   }
 
   /// Reads the profile again. The card watches the snapshot, so a balance that arrives replaces
@@ -133,7 +138,7 @@ class _PlanCardState extends ConsumerState<PlanCard> {
             children: [
               Expanded(child: figure),
               const SizedBox(width: MmSpace.s8),
-              YouMobi(size: 56, controller: _mobi, entrance: MobiAct.idle, cycle: const [MobiAct.hello, MobiAct.correct]),
+              YouMobi(size: 56, controller: _mobi),
             ],
           ),
           // Mobi's line (the greeting after a saved name): plain text, typed in, never boxed.

@@ -11,8 +11,9 @@ import '../theme/theme.dart';
 ///
 /// It arrives once: it slides 8 dp in from the left and fades up over 160 ms, and a recorded line's
 /// check draws itself as one pen stroke inside its ring as it lands. When a pending line turns
-/// recorded (the server answered) the glyph swaps and the check draws then. Under reduced motion
-/// it is simply there. [animate] false shows it at rest (a list that rebuilds).
+/// recorded (the server answered) the glyph and the words swap in place with no blank frame
+/// ([MmOverlapSwitcher]) and the check draws then. Under reduced motion it is simply there.
+/// [animate] false shows it at rest (a list that rebuilds).
 class ReceiptLine extends StatefulWidget {
   const ReceiptLine({super.key, required this.text, this.recorded = true, this.animate = true});
 
@@ -64,6 +65,7 @@ class _ReceiptLineState extends State<ReceiptLine> with SingleTickerProviderStat
     final glyphColor = colors.ink.withValues(alpha: 0.7);
     final glyph = widget.recorded
         ? SizedBox.square(
+            key: const ValueKey('receipt-recorded'),
             dimension: 16,
             child: Stack(
               children: [
@@ -81,7 +83,7 @@ class _ReceiptLineState extends State<ReceiptLine> with SingleTickerProviderStat
               ],
             ),
           )
-        : Icon(LucideIcons.smartphone, size: 16, color: glyphColor);
+        : Icon(LucideIcons.smartphone, key: const ValueKey('receipt-pending'), size: 16, color: glyphColor);
 
     return Semantics(
       container: true,
@@ -99,9 +101,17 @@ class _ReceiptLineState extends State<ReceiptLine> with SingleTickerProviderStat
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: const EdgeInsets.only(top: 2), child: glyph),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: SizedBox.square(dimension: 16, child: MmOverlapSwitcher(alignment: Alignment.center, child: glyph)),
+            ),
             const SizedBox(width: MmSpace.s8),
-            Expanded(child: Text(widget.text, style: type.small.copyWith(color: colors.ink2))),
+            Expanded(
+              child: MmOverlapSwitcher(
+                alignment: AlignmentDirectional.topStart,
+                child: Text(widget.text, key: ValueKey<String>(widget.text), style: type.small.copyWith(color: colors.ink2)),
+              ),
+            ),
           ],
         ),
       ),

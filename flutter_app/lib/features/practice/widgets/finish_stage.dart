@@ -234,7 +234,10 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   void _react() {
     if (_reacted) return;
     _reacted = true;
-    if (_mode == CelebrationMode.full) _mobi.play(widget.tone.act);
+    // Through react: a still pose with no travel under reduced motion, and never twice in a hurry.
+    // His face follows the tone once the number has landed (Full and Quiet; Off is words only).
+    if (_mode != CelebrationMode.off) _mobi.setMood(widget.tone.mood);
+    if (_mode == CelebrationMode.full) _mobi.react(widget.tone.act, key: 'practice-finish');
     _mobi.say(PracticeCopy.finishLine(widget.tone, widget.marks));
     if (_still) {
       _marksOn = true;

@@ -119,7 +119,8 @@ class RepairKeyScope {
   /// The run's mistake count.
   final int count;
 
-  /// Mistakes of the same paper in other chapters: the run does not hold them.
+  /// Mistakes of the same paper the run does not hold: those in other chapters, and the
+  /// chapter's own beyond a shorter run's limit. They stay in Review.
   final int othersInPaper;
 
   /// "About" minutes for the run, 3 per mistake rounded up to 5.
@@ -158,7 +159,7 @@ abstract final class RepairCandidates {
       chapter: chapter,
       firstQuestionId: start.questionId,
       count: count,
-      othersInPaper: candidates.length - inChapter.length,
+      othersInPaper: candidates.length - count,
     );
   }
 

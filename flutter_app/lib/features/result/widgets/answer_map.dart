@@ -56,13 +56,22 @@ class AnswerMap extends StatefulWidget {
 }
 
 class _AnswerMapState extends State<AnswerMap> with TickerProviderStateMixin {
-  late final AnimationController _arrive = AnimationController(vsync: this, duration: AnswerMap.total);
-  late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
+  // Built in initState, not lazily: a controller first touched by dispose() would create its ticker
+  // on an element that is already deactivated.
+  late final AnimationController _arrive;
+  late final AnimationController _pop;
   Timer? _start;
   Timer? _hide;
   int _popped = -1;
   int? _peek;
   bool _ran = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _arrive = AnimationController(vsync: this, duration: AnswerMap.total);
+    _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
+  }
 
   @override
   void didChangeDependencies() {

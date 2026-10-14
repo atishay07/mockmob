@@ -16,6 +16,7 @@ import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
+import '../data/review_seen.dart';
 import '../widgets/mistake_map.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
@@ -143,6 +144,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     ];
     final tonight = index.tonight;
     final groups = index.openGroups;
+    // What changed since the last look on this phone: a changed chapter rolls its number from the
+    // old count and carries one quiet mark. The first look, and a look with no change, move nothing.
+    ref.watch(reviewSeenProvider);
+    final changes = ref.read(reviewSeenProvider.notifier).look(openCountsOf(index.groups));
     final records = recordEntries(index);
     final mocks = index.mocks.take(5).toList();
 
@@ -216,6 +221,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               showSubject: spansSubjects(groups),
               clock: clock,
               onOpen: _openRepair,
+              changes: changes,
+              index: index,
             ),
           ),
         ),

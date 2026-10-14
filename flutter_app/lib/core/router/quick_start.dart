@@ -316,7 +316,7 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: maxHeight),
-      child: AnimatedSize(
+      child: MmSizeEase(
         duration: reduced ? Duration.zero : Motion.ui,
         curve: Motion.glide,
         alignment: Alignment.topCenter,

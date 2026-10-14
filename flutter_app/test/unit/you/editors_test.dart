@@ -141,6 +141,29 @@ void main() {
       expect(find.text('Five is the most. Remove one to add another.'), findsWidgets);
     });
 
+    testWidgets('the first refused sixth subject shakes the sentence and it lands back', (tester) async {
+      await pumpMockmob(
+        tester,
+        const SubjectsScreen(),
+        wrapInScaffold: false,
+        size: const Size(384, 1400),
+        overrides: youOverrides(fakeAuth: FakeAuth(_user), api: _api()),
+      );
+      await _tap(tester, 'General Test');
+      await tester.ensureVisible(find.text('Mathematics').first);
+      await tester.pump();
+      await tester.tap(find.text('Mathematics').first);
+      await tester.pump();
+      await tester.pump();
+      final sentence = find.text('Five is the most. Remove one to add another.');
+      expect(sentence, findsWidgets);
+      final rest = tester.getTopLeft(sentence.first);
+      await tester.pump(const Duration(milliseconds: 25));
+      expect(tester.getTopLeft(sentence.first), isNot(rest), reason: 'the first refusal already shakes');
+      await tester.pump(const Duration(seconds: 1));
+      expect(tester.getTopLeft(sentence.first), rest);
+    });
+
     testWidgets('a failed save keeps the choice and says nothing changed', (tester) async {
       await _pump(tester, const SubjectsScreen(), api: _api(error: offlineError()));
       await _tap(tester, 'General Test');

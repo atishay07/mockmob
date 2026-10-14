@@ -7,6 +7,7 @@ import '../../../core/router/external_link_opener.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/you_motion.dart' show YouMobi;
 import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
@@ -22,6 +23,9 @@ class HelpScreen extends ConsumerStatefulWidget {
 }
 
 class _HelpScreenState extends ConsumerState<HelpScreen> {
+  /// Mobi waves hello the first time Help opens today, then he is simply there (sleepy late at
+  /// night). His taps play the app's one tap cycle.
+  late final MobiAct _entrance = MobiRation.greeting('help');
   String? _notice;
   bool _noticeIsError = false;
 
@@ -73,8 +77,8 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                 children: [
                   Row(
                     children: [
-                      // Mobi waves hello: a person, not a ticket queue, reads the mail.
-                      const Mobi(pose: MobiPose.greet, size: 56, interactive: true),
+                      // Mobi is the face of the mail: a person, not a ticket queue, reads it.
+                      YouMobi(size: 56, entrance: _entrance, seed: 53),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(child: Text(YouCopy.helpContact, style: type.title)),
                     ],

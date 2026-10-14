@@ -283,9 +283,22 @@ class _AnswerRuler extends StatefulWidget {
 }
 
 class _AnswerRulerState extends State<_AnswerRuler> with SingleTickerProviderStateMixin {
-  late final AnimationController _draw = AnimationController(vsync: this, duration: Duration(milliseconds: RulerTimeline.total(widget.tiles.length)));
+  late final AnimationController _draw;
   Timer? _wait;
   bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _draw = AnimationController(vsync: this, duration: Duration(milliseconds: RulerTimeline.total(widget.tiles.length)));
+  }
+
+  @override
+  void didUpdateWidget(_AnswerRuler old) {
+    super.didUpdateWidget(old);
+    // More or fewer stems than before: the timeline's length follows.
+    if (old.tiles.length != widget.tiles.length) _draw.duration = Duration(milliseconds: RulerTimeline.total(widget.tiles.length));
+  }
 
   String get label => widget.label;
   int get questions => widget.questions;

@@ -1,18 +1,17 @@
-import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
-import '../widgets/you_motion.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/copy/copy.dart';
 import '../../../core/repositories/repositories.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/goal_pause.dart';
+import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart';
 import 'goal_picker.dart';
 
@@ -57,21 +56,14 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     final held = act == MobiAct.rest || act == MobiAct.think;
     if (held && act == _lastMobi) return;
     _lastMobi = act;
-    _mobi.play(act);
+    _mobi.react(act);
   }
 
-  /// Proud only after the server has accepted the save, and only as far as Celebrations allows.
+  /// Proud only after the server has accepted the save. The Celebrations setting is carried by
+  /// the Mobi himself: a nod under Quiet, nothing under Off (the receipt line still says it).
   void _proud() {
-    final mode = ref.read(rhythmPrefsProvider).mode;
-    final act = switch (mode) {
-      CelebrationMode.full => MobiAct.proud,
-      CelebrationMode.quiet => MobiAct.correct,
-      CelebrationMode.off => null,
-    };
-    if (act != null) {
-      _lastMobi = act;
-      _mobi.play(act);
-    }
+    _lastMobi = MobiAct.proud;
+    _mobi.react(MobiAct.proud);
   }
 
   Future<void> _save(int days, String? pausedUntil) async {
@@ -202,7 +194,6 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                     size: 64,
                     controller: _mobi,
                     entrance: days <= 3 ? MobiAct.rest : (days == 6 ? MobiAct.think : MobiAct.idle),
-                    cycle: const [MobiAct.hello, MobiAct.correct],
                   ),
                 ],
               ),

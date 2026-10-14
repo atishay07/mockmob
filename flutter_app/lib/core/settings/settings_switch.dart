@@ -18,9 +18,12 @@ class SettingsSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Out of semantics, touches and keyboard focus: the row around it is the one target.
     return ExcludeSemantics(
-      child: IgnorePointer(
-        child: MmSwitch(value: value, onChanged: enabled && !held ? (_) {} : null),
+      child: ExcludeFocus(
+        child: IgnorePointer(
+          child: MmSwitch(value: value, onChanged: enabled && !held ? (_) {} : null),
+        ),
       ),
     );
   }

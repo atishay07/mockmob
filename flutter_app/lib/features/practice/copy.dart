@@ -163,7 +163,7 @@ abstract final class PracticeCopy {
   static const String checkingCost = 'Checking what this takes.';
   static const String feedbackAfter = 'You see what was right once you finish.';
   static const String retry = 'Try again';
-  static const String refreshFailed = 'We could not refresh Practice. What you see is from a moment ago.';
+  static const String refreshFailed = 'We could not refresh Practice. Showing what was here before.';
   static const String notNow = 'Not now';
 
   /// A link asked for a length this mode does not offer; said before Start, never silently.

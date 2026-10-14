@@ -189,7 +189,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final mobi = widget.mobiController;
     final hero = widget.view.hero;
     if (mobi == null || hero is! MoveHero || !hero.art.isMobi) return;
-    mobi.react(act);
+    // One reaction per kind in the glance gap: three chips picked in a row make him listen once.
+    mobi.react(act, key: 'today:${act.name}');
     // Listening is a held stance: he goes back to standing a moment after the student stops.
     _settleMobi?.cancel();
     if (act == MobiAct.listen) _settleMobi = Timer(const Duration(milliseconds: 2400), () => mobi.play(MobiAct.idle));

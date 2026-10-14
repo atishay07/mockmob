@@ -87,6 +87,13 @@ class _SkeletonGroupState extends State<SkeletonGroup> with SingleTickerProvider
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // Reduce motion turned on while the light is crossing: it stops where it rests, out of sight.
+    final running = _controller;
+    if (running != null && running.isAnimating && Motion.reduced(context)) {
+      running
+        ..stop()
+        ..value = 1;
+    }
     if (_decided) return;
     _decided = true;
     if (!_wanted || Motion.reduced(context)) return;
@@ -350,11 +357,12 @@ class MmSkeletonRows extends StatelessWidget {
   }
 }
 
-/// Skeleton to content as one 200 ms cross-fade (MOTION.md C11). While [loading] the [skeleton]
-/// shows; when the data lands the two cross-fade, and the content's own entrance rides that fade
-/// (so the content widget must not fade-up a second time). A cache hit starts with [loading] false
-/// and shows the content at once, with no skeleton flash. Reduced motion shortens the fade to
-/// 120 ms.
+/// Skeleton to content with no blank frame between (MOTION.md C11), on [MmOverlapSwitcher]: when
+/// the data lands the content fades in over 200 ms over the skeleton, which holds until the
+/// content is half in and then goes in 90 ms, so the ground never shows through. The content's own
+/// entrance rides that fade (so the content widget must not fade up a second time). A cache hit
+/// starts with [loading] false and shows the content at once, with no skeleton flash. Reduced
+/// motion shortens the fade to 120 ms.
 ///
 /// Give the skeleton and the content a stable height relationship (the skeletons here follow the
 /// real components' measured heights) so the page does not jump when the data lands.
@@ -365,21 +373,15 @@ class MmSkeletonSwitcher extends StatelessWidget {
   final Widget skeleton;
   final Widget child;
 
-  /// The cross-fade between skeleton and content.
+  /// The content's fade in over the skeleton.
   static const Duration duration = Duration(milliseconds: 200);
 
   @override
   Widget build(BuildContext context) {
-    final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
-      duration: reduced ? Motion.reducedFade : duration,
-      switchInCurve: Curves.easeOut,
-      switchOutCurve: Curves.easeIn,
-      layoutBuilder: (current, previous) => Stack(
-        fit: StackFit.passthrough,
-        alignment: Alignment.topCenter,
-        children: [...previous, ?current],
-      ),
+    return MmOverlapSwitcher(
+      duration: duration,
+      fit: StackFit.passthrough,
+      alignment: Alignment.topCenter,
       child: loading
           ? KeyedSubtree(key: const ValueKey('mm-skeleton'), child: skeleton)
           : KeyedSubtree(key: const ValueKey('mm-content'), child: child),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,6 +12,7 @@ import '../copy.dart';
 import 'answer_option.dart';
 import 'question_enter.dart';
 import 'runner_controls.dart';
+import 'runner_motion.dart';
 
 /// The question region (spec 5.5, runner.md 3.4 and 3.5): the passage in its own scrolling well,
 /// the question at the top, then the options as the rows of an OMR sheet at the foot. Solid surfaces only. The pieces arrive together when the
@@ -30,6 +32,7 @@ class QuestionView extends StatelessWidget {
     this.onLock,
     this.isStruck,
     this.onStrike,
+    this.passageRead,
   });
 
   final SessionQuestion question;
@@ -60,6 +63,10 @@ class QuestionView extends StatelessWidget {
 
   /// A long press on option i: crosses it out or brings it back.
   final ValueChanged<int>? onStrike;
+
+  /// Where the reader is in this question's passage, kept by the runner per passage group so
+  /// question 12 to 13 on one passage keeps the place (null: a fresh read each time).
+  final PassageRead? passageRead;
 
   /// The question itself is the hero of the screen: 19/28 at weight 600 for a long stem, and
   /// larger when the stem is short, so a one-line question fills the space it has instead of
@@ -111,7 +118,7 @@ class QuestionView extends StatelessWidget {
             if (passage != null && passage.isNotEmpty) ...[
               EnterItem(
                 order: 0,
-                child: _PassageWell(text: passage, range: passageRange),
+                child: _PassageWell(text: passage, range: passageRange, read: passageRead),
               ),
               const SizedBox(height: MmSpace.s16),
             ],
@@ -167,27 +174,38 @@ class QuestionView extends StatelessWidget {
             const SizedBox(height: MmSpace.s24),
             // The options are the rows of an OMR sheet: hairline rules between them, no boxes.
             EnterItem(order: 2, child: rule),
-            for (var i = 0; i < question.options.length; i++)
-              EnterItem(
-                order: 2 + i,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AnswerOption(
-                      letter: question.options[i].key,
-                      text: question.options[i].text,
-                      selected: selected == i,
-                      onSelect: canAnswer ? () => onSelect(i) : null,
-                      onLock: onLock,
-                      minHeight: optionHeight,
-                      // The chosen option is never crossed out; picking a crossed-out one brings it back.
-                      struck: selected != i && (isStruck?.call(i) ?? false),
-                      onStrike: canAnswer && selected != i && onStrike != null ? () => onStrike!(i) : null,
+            _WashGlide(
+              selected: selected,
+              count: question.options.length,
+              builder: (rows, gliding) => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var i = 0; i < question.options.length; i++)
+                    EnterItem(
+                      order: 2 + i,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          AnswerOption(
+                            key: rows[i],
+                            glide: gliding,
+                            letter: question.options[i].key,
+                            text: question.options[i].text,
+                            selected: selected == i,
+                            onSelect: canAnswer ? () => onSelect(i) : null,
+                            onLock: onLock,
+                            minHeight: optionHeight,
+                            // The chosen option is never crossed out; picking a crossed-out one brings it back.
+                            struck: selected != i && (isStruck?.call(i) ?? false),
+                            onStrike: canAnswer && selected != i && onStrike != null ? () => onStrike!(i) : null,
+                          ),
+                          rule,
+                        ],
+                      ),
                     ),
-                    rule,
-                  ],
-                ),
+                ],
               ),
+            ),
             // Reserve the clear key's height so nothing below jumps when an answer appears.
             _ClearBand(selected: selected, canAnswer: canAnswer, onSelect: onSelect),
           ],
@@ -197,19 +215,190 @@ class QuestionView extends StatelessWidget {
   }
 }
 
+/// Changing the answer from one option to another: the volt wash slides from the old row to the
+/// new one over 240 ms (under the rows, never over their text), and the new row takes it in full
+/// as it lands. A first answer, a clear, and reduced motion keep each row's own wash.
+class _WashGlide extends StatefulWidget {
+  const _WashGlide({required this.selected, required this.count, required this.builder});
+
+  final int? selected;
+  final int count;
+
+  /// Builds the rows with their keys; [gliding] is true while the wash slides.
+  final Widget Function(List<GlobalKey> rows, bool gliding) builder;
+
+  @override
+  State<_WashGlide> createState() => _WashGlideState();
+}
+
+class _WashGlideState extends State<_WashGlide> with SingleTickerProviderStateMixin {
+  late List<GlobalKey> _rows = List.generate(widget.count, (_) => GlobalKey());
+  final GlobalKey _box = GlobalKey();
+  late final AnimationController _t = AnimationController(vsync: this, duration: RunnerMotion.washGlide)
+    ..addStatusListener((status) {
+      if (status == AnimationStatus.completed && mounted) setState(_end);
+    });
+  Rect? _from;
+  Rect? _to;
+
+  @override
+  void initState() {
+    super.initState();
+    // Made here, not lazily: a list that never glided must still dispose it safely.
+    _t.value = 0;
+  }
+
+  void _end() {
+    _from = null;
+    _to = null;
+  }
+
+  Rect? _rectOf(int i) {
+    if (i < 0 || i >= _rows.length) return null;
+    final row = _rows[i].currentContext?.findRenderObject();
+    final box = _box.currentContext?.findRenderObject();
+    if (row is! RenderBox || box is! RenderBox || !row.hasSize || !row.attached || !box.attached) return null;
+    return row.localToGlobal(Offset.zero, ancestor: box) & row.size;
+  }
+
+  @override
+  void didUpdateWidget(_WashGlide old) {
+    super.didUpdateWidget(old);
+    if (widget.count != old.count) _rows = List.generate(widget.count, (_) => GlobalKey());
+    final a = old.selected;
+    final b = widget.selected;
+    if (a == b) return;
+    final from = a == null ? null : _rectOf(a);
+    final to = b == null ? null : _rectOf(b);
+    if (from != null && to != null && !RunnerMotion.reduced(context)) {
+      _from = from;
+      _to = to;
+      _t.forward(from: 0);
+    } else {
+      _t.stop();
+      _end();
+    }
+  }
+
+  @override
+  void dispose() {
+    _t.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final from = _from;
+    final to = _to;
+    return Stack(
+      key: _box,
+      children: [
+        if (from != null && to != null)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: CustomPaint(
+                painter: _GlidePainter(
+                  progress: _t,
+                  from: from,
+                  to: to,
+                  // The same strength as a row's own wash.
+                  color: colors.volt.withValues(alpha: colors.isNight ? 0.09 : 0.16),
+                ),
+              ),
+            ),
+          ),
+        widget.builder(_rows, from != null),
+      ],
+    );
+  }
+}
+
+class _GlidePainter extends CustomPainter {
+  _GlidePainter({required this.progress, required this.from, required this.to, required this.color}) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final Rect from;
+  final Rect to;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Rect.lerp(from, to, Motion.glide.transform(progress.value.clamp(0.0, 1.0)))!;
+    canvas.drawRect(rect, Paint()..color = color);
+  }
+
+  @override
+  bool shouldRepaint(_GlidePainter old) => old.from != from || old.to != to || old.color != color;
+}
+
+/// Where the reader is in a passage: folded to its one-line caption or open, and how far down it
+/// is scrolled. The runner keeps one per passage group, in memory only.
+class PassageRead {
+  bool collapsed = false;
+  double offset = 0;
+}
+
 /// A long passage scrolls inside its own well, at most 40% of the screen, so the question and
-/// options stay within reach.
-class _PassageWell extends StatelessWidget {
-  const _PassageWell({required this.text, this.range});
+/// options stay within reach. Its caption row is a key: it folds the well to that one line over
+/// 260 ms (and opens it again), and a soft fade at the foot says there is more text below.
+class _PassageWell extends StatefulWidget {
+  const _PassageWell({required this.text, this.range, this.read});
 
   final String text;
   final (int, int)? range;
+  final PassageRead? read;
+
+  /// The fold.
+  static const Duration fold = Duration(milliseconds: 260);
+
+  @override
+  State<_PassageWell> createState() => _PassageWellState();
+}
+
+class _PassageWellState extends State<_PassageWell> with SingleTickerProviderStateMixin {
+  late final PassageRead _read = widget.read ?? PassageRead();
+  late final ScrollController _scroll = ScrollController(initialScrollOffset: _read.offset)..addListener(_remember);
+  late final AnimationController _open = AnimationController(vsync: this, duration: _PassageWell.fold, value: _read.collapsed ? 0 : 1);
+  late final Animation<double> _size = CurvedAnimation(parent: _open, curve: Motion.glide);
+  bool _more = false;
+
+  void _remember() {
+    if (_scroll.hasClients) _read.offset = _scroll.offset;
+  }
+
+  bool _metrics(ScrollMetrics m) {
+    final more = m.extentAfter > 1;
+    if (more != _more) setState(() => _more = more);
+    // The well's own scroll is not the question region's: the region's foot fade never hears it.
+    return true;
+  }
+
+  void _toggle() {
+    setState(() => _read.collapsed = !_read.collapsed);
+    if (RunnerMotion.reduced(context)) {
+      _open.value = _read.collapsed ? 0 : 1;
+    } else if (_read.collapsed) {
+      _open.reverse();
+    } else {
+      _open.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    _open.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final maxHeight = MediaQuery.sizeOf(context).height * 0.4;
+    final range = widget.range;
+    final caption = range == null ? RunnerCopy.passage : '${RunnerCopy.passage}. ${RunnerCopy.passageRange(range.$1, range.$2)}';
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.sunken,
@@ -218,33 +407,100 @@ class _PassageWell extends StatelessWidget {
           side: BorderSide(color: colors.line),
         ),
       ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: maxHeight),
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            primary: false,
-            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(LucideIcons.bookOpen, size: 14, color: colors.ink3),
-                    const SizedBox(width: MmSpace.s8),
-                    Expanded(
-                      child: Text(
-                        range == null ? RunnerCopy.passage : '${RunnerCopy.passage}. ${RunnerCopy.passageRange(range!.$1, range!.$2)}',
-                        style: type.caption.copyWith(color: colors.ink3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // The caption row is the fold key (48 dp tall); folded, it is all that shows.
+          Semantics(
+            button: true,
+            expanded: !_read.collapsed,
+            label: '$caption ${_read.collapsed ? RunnerCopy.passageShow : RunnerCopy.passageHide}',
+            excludeSemantics: true,
+            onTap: _toggle,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _toggle,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: MmTarget.min),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: MmSpace.s16),
+                  child: Row(
+                    children: [
+                      Icon(LucideIcons.bookOpen, size: 14, color: colors.ink3),
+                      const SizedBox(width: MmSpace.s8),
+                      Expanded(
+                        child: Text(
+                          caption,
+                          style: type.caption.copyWith(color: colors.ink3),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox.square(
+                        dimension: MmTarget.min,
+                        child: Center(
+                          child: RotationTransition(
+                            turns: _size.drive(Tween<double>(begin: -0.5, end: 0)),
+                            child: Icon(LucideIcons.chevronUp, size: 18, color: colors.ink2),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: MmSpace.s8),
-                Text(text, style: type.body.copyWith(color: colors.ink)),
-              ],
+              ),
             ),
           ),
-        ),
+          SizeTransition(
+            sizeFactor: _size,
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: math.max(0, maxHeight - MmTarget.min)),
+              child: Stack(
+                children: [
+                  NotificationListener<ScrollMetricsNotification>(
+                    onNotification: (n) => _metrics(n.metrics),
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (n) => _metrics(n.metrics),
+                      child: Scrollbar(
+                        controller: _scroll,
+                        child: SingleChildScrollView(
+                          controller: _scroll,
+                          primary: false,
+                          padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s16, MmSpace.s16),
+                          child: Text(widget.text, style: type.body.copyWith(color: colors.ink)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // More text below: the foot of the well fades into its own ground.
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: 24,
+                    child: IgnorePointer(
+                      child: AnimatedOpacity(
+                        opacity: _more ? 1 : 0,
+                        duration: Motion.of(context, Motion.glideDuration),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [colors.sunken.withValues(alpha: 0), colors.sunken],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

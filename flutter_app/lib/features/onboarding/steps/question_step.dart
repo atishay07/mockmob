@@ -71,7 +71,7 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
     _shownAt = ref.read(nowProvider)();
     if (widget.answers.warmup == null) {
       _think = Timer(QuestionStep.thinkAfter, () {
-        if (mounted && widget.answers.warmup == null && !Motion.reduced(context)) widget.mobi?.play(MobiAct.think);
+        if (mounted && widget.answers.warmup == null && !Motion.reduced(context)) widget.mobi?.react(MobiAct.think);
       });
     }
   }

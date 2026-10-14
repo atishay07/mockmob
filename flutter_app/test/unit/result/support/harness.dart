@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/platform/native_prefs.dart';
 import 'package:mockmob/core/platform/review_prompt.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
@@ -184,7 +185,16 @@ Future<GoRouter> pumpResultRoute(
   Size size = const Size(384, 853),
   bool disableAnimations = false,
   double textScale = 1,
+  int hour = 14,
 }) async {
+  // The hour decides Mobi's late-night face (the recap's one reaction table), so the tests pin it:
+  // they must give the same answer at 3 AM and at 3 PM. Time still runs; only the hour is fixed.
+  MobiRation.reset();
+  MobiRation.now = () {
+    final t = DateTime.now();
+    return DateTime(t.year, t.month, t.day, hour, t.minute, t.second, t.millisecond, t.microsecond);
+  };
+  addTearDown(MobiRation.reset);
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);

@@ -75,7 +75,9 @@ class WelcomeHeroLayout {
 /// and now and then the lamp flicks (the glow dips for 420 ms) and [onFlick] says where it hung,
 /// so Mobi can glance up. The loop is one painter on one ticker: it stops with the route and
 /// never runs under reduced motion, or with [animate] off, when the room is lit from the first
-/// frame and still.
+/// frame and still. It also never runs for ever: after [cycles] breaths (32 s) it fades out over
+/// 1.5 s and the room rests, so a phone left on Welcome is not kept drawing, and a test that
+/// waits for the screen to settle can.
 class WelcomeHero extends StatefulWidget {
   const WelcomeHero({super.key, required this.layout, this.animate = true, this.onFlick});
 
@@ -93,9 +95,16 @@ class WelcomeHero extends StatefulWidget {
 
   /// The breathing and mote loop, and the first flick; later ones follow every [flickEvery].
   static const Duration loop = Duration(seconds: 8);
+
+  /// How many breaths the room takes before it rests (32 s in all).
+  static const int cycles = 4;
   static const Duration firstFlick = Duration(seconds: 9);
   static const Duration flickEvery = Duration(seconds: 17);
   static const Duration flickFor = Duration(milliseconds: 420);
+
+  /// The whole alive span, and how long it takes to fade in and out at its two ends.
+  static const Duration span = Duration(seconds: 8 * cycles);
+  static const Duration fadeEnds = Duration(milliseconds: 1500);
 
   /// How long the lamp takes to come on.
   static const Duration lampOn = Duration(milliseconds: 520);
@@ -106,7 +115,7 @@ class WelcomeHero extends StatefulWidget {
 
 class _WelcomeHeroState extends State<WelcomeHero> with TickerProviderStateMixin {
   late final AnimationController _lamp = AnimationController(vsync: this, duration: WelcomeHero.lampOn);
-  late final AnimationController _loop = AnimationController(vsync: this, duration: WelcomeHero.loop);
+  late final AnimationController _loop = AnimationController(vsync: this, duration: WelcomeHero.span);
   late final AnimationController _flick = AnimationController(vsync: this, duration: WelcomeHero.flickFor);
   Timer? _flickTimer;
 
@@ -118,8 +127,8 @@ class _WelcomeHeroState extends State<WelcomeHero> with TickerProviderStateMixin
       _lamp.value = 1;
     } else {
       _lamp.forward();
-      // Once it is on, the room breathes; the ticker stops with the route.
-      _loop.repeat();
+      // Once it is on, the room breathes for its span; the ticker stops with the route.
+      _loop.forward();
       _flickTimer = Timer(WelcomeHero.firstFlick, _doFlick);
     }
   }
@@ -129,7 +138,10 @@ class _WelcomeHeroState extends State<WelcomeHero> with TickerProviderStateMixin
     _flick.forward(from: 0);
     final l = widget.layout.image;
     widget.onFlick?.call(Offset(l.left + WelcomeHero.lampX * l.width, l.top + WelcomeHero.lampY * l.height));
-    _flickTimer = Timer(WelcomeHero.flickEvery, _doFlick);
+    // The next flick only if the room is still breathing by then.
+    final elapsed = Duration(milliseconds: (_loop.value * WelcomeHero.span.inMilliseconds).round());
+    final left = WelcomeHero.span - WelcomeHero.fadeEnds - elapsed;
+    if (left > WelcomeHero.flickEvery) _flickTimer = Timer(WelcomeHero.flickEvery, _doFlick);
   }
 
   @override
@@ -224,11 +236,17 @@ class _LampPainter extends CustomPainter {
   void _alive(Canvas canvas, double dip) {
     final w = image.width, h = image.height;
     final lampAt = Offset(image.left + WelcomeHero.lampX * w, image.top + WelcomeHero.lampY * h);
-    final t = loop.value;
+    // Where in the current breath, and how present the whole thing is: it eases in as the room
+    // comes alive and out as it goes to rest, so nothing pops at either end.
+    final spanMs = WelcomeHero.span.inMilliseconds;
+    final elapsed = loop.value * spanMs;
+    final t = (loop.value * WelcomeHero.cycles) % 1.0;
+    final endMs = WelcomeHero.fadeEnds.inMilliseconds;
+    final env = math.min(1.0, math.min(elapsed / endMs, (spanMs - elapsed) / endMs)).clamp(0.0, 1.0);
     // The breath: the glow under the shade swells and eases over the loop.
     final breath = 0.5 + 0.5 * math.sin(2 * math.pi * t);
     final glowR = w * 0.3;
-    final a = (0.07 + 0.07 * breath) * (1 - dip);
+    final a = (0.07 + 0.07 * breath) * (1 - dip) * env;
     canvas.drawCircle(
       lampAt + Offset(0, h * 0.03),
       glowR,
@@ -246,7 +264,7 @@ class _LampPainter extends CustomPainter {
       final spread = ((y - (image.top + WelcomeHero.lampY * h)) / (0.1 * h)) * 0.15 * w;
       final r = ((i * 37) % 17) / 16;
       final x = lampAt.dx + (r * 2 - 1) * spread * 0.8 + math.sin(2 * math.pi * (p * 1.5 + i * 0.37)) * w * 0.006;
-      final alpha = math.sin(math.pi * p) * (0.25 + 0.45 * ((i * 11) % 7) / 6) * (1 - dip);
+      final alpha = math.sin(math.pi * p) * (0.25 + 0.45 * ((i * 11) % 7) / 6) * (1 - dip) * env;
       paint.color = const Color(0xFFFFE7A8).withValues(alpha: alpha);
       canvas.drawCircle(Offset(x, y), 0.8 + 1.1 * (((i * 5) % 4) / 3), paint);
     }

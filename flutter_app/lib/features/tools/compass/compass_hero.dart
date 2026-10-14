@@ -84,6 +84,11 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
   /// springs in (or flies in from the unlock chip that was committed).
   bool _settled = false;
 
+  /// How Mobi came in when this card was made (thinking when nothing is open, hello otherwise).
+  /// Fixed for as long as the card lives, so later changes are his reactions, never a second
+  /// entrance on top of them; reset when the selection is emptied and the card is new again.
+  MobiAct? _entrance;
+
   @override
   void initState() {
     super.initState();
@@ -97,8 +102,9 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
     final after = CompassReaction.openOf(widget.state);
     if (before == after) return;
     final act = CompassReaction.actFor(before: before, after: after);
-    // After a first non-zero count the card is new and Mobi greets in his entrance.
-    if (act != null && before != 0) _mobi.react(act, key: 'compass-hero', gap: const Duration(milliseconds: 600));
+    // From an empty selection the card is new and Mobi greets in his entrance; once he is there,
+    // every change of the count (a first one after "none open" too) is answered by an act.
+    if (act != null && !old.state.selection.isEmpty) _mobi.react(act, key: 'compass-hero', gap: const Duration(milliseconds: 600));
     final text = CompassReaction.deltaText(before: before, after: after);
     _deltaTimer?.cancel();
     if (text == null || after == 0) {
@@ -127,6 +133,7 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
     final controller = ref.read(compassControllerProvider.notifier);
 
     if (s.selection.isEmpty) {
+      _entrance = null;
       return ToolsCard(
         lit: true,
         child: Column(
@@ -154,6 +161,7 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
 
     final open = s.eligible.length;
     final fraction = s.total == 0 ? 0.0 : open / s.total;
+    final entrance = _entrance ??= open == 0 ? MobiAct.think : MobiAct.hello;
     return ToolsCard(
       lit: true,
       child: Column(
@@ -238,13 +246,14 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
                 ),
               ),
               const Spacer(),
-              // Mobi weighs the count with the student; the first count greets him in.
+              // The one Mobi on the page: he weighs the count with the student, thinking when
+              // nothing is open, and answers each change of it.
               Mobi(
                 key: const ValueKey('compass-mobi'),
-                pose: MobiPose.greeting,
+                pose: entrance == MobiAct.think ? MobiPose.think : MobiPose.greeting,
                 size: 56,
                 controller: _mobi,
-                entrance: open == 0 ? MobiAct.think : MobiAct.hello,
+                entrance: entrance,
               ),
             ],
           ),

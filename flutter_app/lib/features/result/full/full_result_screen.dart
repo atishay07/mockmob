@@ -56,6 +56,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   /// The answers as last built, so a bubble of the map can find its row.
   AnswerGroups? _groups;
 
+  /// Whether Mobi may act on an opened answer (full Celebrations, not sleepy): set by the build.
+  bool _mobiAllowed = false;
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +84,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     if (target == null) return;
     unawaited(ref.read(hapticsProvider).tick());
     final item = target;
+    // A blank row inside the folded group mounts already open, so it never sees itself go from
+    // folded to open: Mobi is told here instead.
+    final foldedBlank = item.verdict == Verdict.blank && !_blankOpen;
     setState(() {
       _open.add(item.qid);
       if (item.verdict == Verdict.blank) _blankOpen = true;
@@ -100,7 +106,12 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) => scrollTo());
     // A row inside the folded group arrives while that group's height is still opening: look
     // again once it has settled.
-    if (item.verdict == Verdict.blank) Future<void>.delayed(Motion.of(context, Motion.card) + const Duration(milliseconds: 30), scrollTo);
+    if (item.verdict == Verdict.blank) {
+      Future<void>.delayed(Motion.of(context, Motion.card) + const Duration(milliseconds: 30), () {
+        scrollTo();
+        if (foldedBlank && mounted) _onOpened(item, allowed: _mobiAllowed);
+      });
+    }
   }
 
   /// An answer was opened after the page was up: Mobi turns to it (full Celebrations only, never
@@ -175,6 +186,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       final reaction = recapReaction(variant: model.variant, mode: mode, isNta: model.isNta, hour: MobiRation.now().hour);
       final mobiOn = reaction != null;
       final mobiAllowed = reaction != null && mode == CelebrationMode.full && reaction.act != MobiAct.sleepy;
+      _mobiAllowed = mobiAllowed;
       final keysOff = model.keysUnavailable || data.detail == null;
       final fix = firstFixSection(context, model);
       // One authored entrance, riding the page's own transition: the figure first, then what

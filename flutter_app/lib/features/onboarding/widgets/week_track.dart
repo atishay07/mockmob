@@ -53,7 +53,7 @@ class _WeekTrackState extends State<WeekTrack> {
     final lit = litWeeks;
     if (lit == null) return;
     if (lit == nearWeeks) {
-      mobi.play(MobiAct.correct);
+      mobi.react(MobiMoments.act(MobiEvent.answerRight));
     } else if (lit == farWeeks) {
       final box = context.findRenderObject();
       if (box is RenderBox && box.hasSize) mobi.glance(box.localToGlobal(Offset(box.size.width + 240, 0)), hold: const Duration(milliseconds: 1400));
@@ -77,8 +77,9 @@ class _WeekTrackState extends State<WeekTrack> {
             final nearX = (w - 2) * (nearWeeks / farWeeks) + 1;
             double xOf(int? weeks) => weeks == null ? 0 : (w - 2) * (weeks / farWeeks) + 1;
             final mobiW = MobiFigure.widthFor(WeekTrack.walker);
-            // His box's left edge: centred on a window's tick, kept inside the road.
-            double leftFor(int? weeks) => (xOf(weeks) - mobiW / 2).clamp(0.0, math.max(0.0, w - mobiW));
+            // His box's left edge: just before a window's tick (so its marker stays in view), kept
+            // inside the road.
+            double leftFor(int? weeks) => (xOf(weeks) - mobiW - 2).clamp(0.0, math.max(0.0, w - mobiW));
             return Stack(
               clipBehavior: Clip.none,
               children: [

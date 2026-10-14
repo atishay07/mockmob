@@ -7,12 +7,10 @@ import '../../../core/models/subject.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
-import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../data/practice_catalog.dart';
 import '../data/suggestion.dart' show RecordChapter, practiceRecordChaptersProvider;
 import '../model/practice_selection.dart';
-import 'practice_motion.dart';
 
 /// The chapters field of chapter practice: a labelled row that opens the chapter list and says
 /// what is chosen ("Goodwill and Issue of shares"). The names are never truncated.
@@ -229,7 +227,7 @@ class _ChapterChipState extends State<_ChapterChip> with SingleTickerProviderSta
             pressedScale: 0.97,
             haptic: MmPressHaptic.selection,
             builder: (context, pressed, _) => ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 44),
+              constraints: const BoxConstraints(minHeight: MmTarget.min),
               child: DecoratedBox(
                 decoration: ShapeDecoration(
                   color: pressed ? colors.raised2 : colors.sunken,
@@ -311,8 +309,15 @@ class ChapterList extends ConsumerStatefulWidget {
 class _ChapterListState extends ConsumerState<ChapterList> {
   String _query = '';
 
-  /// Counts the taps on a chapter past the cap: the limit line shakes once for each.
-  int _capTaps = 0;
+  /// Bumped by each tap on a chapter past the cap: the limit line shakes once for each, with the
+  /// kit's refusal haptic ([MmShake]).
+  final ValueNotifier<int> _capTaps = ValueNotifier(0);
+
+  @override
+  void dispose() {
+    _capTaps.dispose();
+    super.dispose();
+  }
 
   void _toggle(String name, bool multi) {
     if (!multi) {
@@ -326,8 +331,7 @@ class _ChapterListState extends ConsumerState<ChapterList> {
       list.add(name);
     } else {
       // At the cap: nothing is added. The line that says why shakes (and says it, as always).
-      ref.read(hapticsProvider).light();
-      setState(() => _capTaps++);
+      setState(() => _capTaps.value++);
       return;
     }
     widget.chosen.value = list;
@@ -375,11 +379,11 @@ class _ChapterListState extends ConsumerState<ChapterList> {
               children: [
                 _SearchField(onChanged: (q) => setState(() => _query = q.trim().toLowerCase())),
                 const SizedBox(height: MmSpace.s8),
-                PracticeShake(
-                  trigger: _capTaps,
+                MmShake(
+                  pulse: _capTaps,
                   child: Text(
                     multi ? PracticeCopy.chapterLimit : PracticeCopy.oneChapterOnly,
-                    style: type.small.copyWith(color: _capTaps > 0 && widget.chosen.value.length >= maxChapters ? colors.ink : colors.ink3),
+                    style: type.small.copyWith(color: _capTaps.value > 0 && widget.chosen.value.length >= maxChapters ? colors.ink : colors.ink3),
                   ),
                 ),
                 if (multi) _RecordRow(subjectId: widget.subjectId, chosen: widget.chosen.value, onToggle: (name) => _toggle(name, multi)),
@@ -454,7 +458,7 @@ class _RecordChip extends StatelessWidget {
         pressedScale: 0.97,
         haptic: MmPressHaptic.selection,
         builder: (context, pressed, _) => ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 44),
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
           child: DecoratedBox(
             decoration: ShapeDecoration(
               color: MmSelection.fill(colors, selected: picked, pressed: pressed),
@@ -616,7 +620,8 @@ class _ChapterRow extends StatelessWidget {
       selected: selected,
       focusRadius: MmRadius.keyAll,
       pressedScale: 0.985,
-      haptic: MmPressHaptic.selection,
+      // A refused tap (past the cap) gets the refusal haptic from the shaking line, not a tick too.
+      haptic: enabled ? MmPressHaptic.selection : MmPressHaptic.none,
       highlight: true,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 52),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/motion/motion.dart' show MmShake, MmShakeState;
 import 'package:mockmob/core/settings/settings_switch.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
@@ -11,6 +13,9 @@ import 'package:mockmob/features/you/copy.dart';
 import 'package:mockmob/features/you/goal/goal_picker.dart';
 import 'package:mockmob/features/you/goal/goal_screen.dart';
 import 'package:mockmob/features/you/widgets/you_motion.dart';
+
+import '../../helpers/golden_harness.dart';
+import 'you_test_support.dart';
 
 Widget host(Widget child, {bool disableAnimations = false}) => ProviderScope(
       child: MaterialApp(
@@ -91,6 +96,26 @@ void main() {
     });
   });
 
+  group('the You Mobi', () {
+    testWidgets('plays the one tap cycle and carries the Celebrations setting', (tester) async {
+      final store = MemoryPrefsStore()..values['rhythm_celebrations_u1'] = 'quiet';
+      await pumpMockmob(tester, const YouMobi(size: 64, follow: true), overrides: youOverrides(rhythmStore: store));
+      await tester.pump();
+      await tester.pump();
+      final mobi = tester.widget<MobiCharacter>(find.byType(MobiCharacter));
+      expect(mobi.interactive, isTrue);
+      expect(mobi.tapCycle, same(MobiTapCycle.standard));
+      expect(mobi.followPointer, isTrue);
+      expect(tester.widget<MobiCelebrations>(find.byType(MobiCelebrations)).level, MobiCelebrationLevel.quiet);
+    });
+
+    test('the setting maps one to one onto the level Mobi reads', () {
+      expect(celebrationLevelFor(CelebrationMode.full), MobiCelebrationLevel.full);
+      expect(celebrationLevelFor(CelebrationMode.quiet), MobiCelebrationLevel.quiet);
+      expect(celebrationLevelFor(CelebrationMode.off), MobiCelebrationLevel.off);
+    });
+  });
+
   group('notes and values', () {
     testWidgets('a note cross-fades to its new words', (tester) async {
       var text = 'Goal: 4 days a week';
@@ -125,17 +150,22 @@ void main() {
       expect(find.text('Daylight'), findsOneWidget);
     });
 
-    testWidgets('the shake settles back to rest', (tester) async {
-      var hits = 0;
+    testWidgets('the cap sentence shakes on every refusal, the first one included, and settles back', (tester) async {
+      final key = GlobalKey<MmShakeState>();
+      var shown = false;
       late StateSetter set;
       await tester.pumpWidget(host(StatefulBuilder(builder: (context, s) {
         set = s;
-        return YouShake(trigger: hits, child: const Text('Five is the most.'));
+        return shown ? MmShake(key: key, child: const Text('Five is the most.')) : const SizedBox.shrink();
       })));
-      final rest = tester.getTopLeft(find.text('Five is the most.'));
-      set(() => hits++);
+      // The first refusal puts the sentence on screen and shakes it after that frame, as the
+      // subjects screen does.
+      set(() => shown = true);
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 40));
+      final rest = tester.getTopLeft(find.text('Five is the most.'));
+      key.currentState!.shake();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 20));
       expect(tester.getTopLeft(find.text('Five is the most.')), isNot(rest));
       await tester.pumpAndSettle();
       expect(tester.getTopLeft(find.text('Five is the most.')), rest);

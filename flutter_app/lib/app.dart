@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/auth/auth.dart';
 import 'core/home_widget/home_widget_sync.dart' show homeWidgetSyncProvider;
+import 'core/mascot/mascot.dart' show MobiCelebrationLevel, MobiCelebrations;
 import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
@@ -14,7 +15,7 @@ import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
-import 'features/rhythm/rhythm.dart' show rhythmWatcherProvider;
+import 'features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider, rhythmWatcherProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
 class MockMobApp extends ConsumerWidget {
@@ -97,12 +98,36 @@ class _AppView extends ConsumerWidget {
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
               // The brand opening covers the app on every cold start, then removes itself.
-              child: BrandOpeningHost(afterOpening: const _AppServices(), child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink()))),
+              child: BrandOpeningHost(
+                afterOpening: const _AppServices(),
+                child: _Celebrations(
+                  child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink())),
+                ),
+              ),
             ),
           ),
         );
       },
     );
+  }
+}
+
+/// The student's Celebrations setting reaches every Mobi in the app: Quiet calms his proud, cheer
+/// and celebrate to a nod, Off keeps him still. The setting is read from the phone's own
+/// preferences (no network), so watching it here costs nothing on a cold start.
+class _Celebrations extends ConsumerWidget {
+  const _Celebrations({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final level = switch (ref.watch(celebrationModeProvider)) {
+      CelebrationMode.full => MobiCelebrationLevel.full,
+      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
+      CelebrationMode.off => MobiCelebrationLevel.off,
+    };
+    return MobiCelebrations(level: level, child: child);
   }
 }
 
@@ -136,15 +161,17 @@ class _StatusBarScrim extends StatelessWidget {
               child: ValueListenableBuilder<Color?>(
                 valueListenable: statusTintColor,
                 builder: (context, tint, _) => tint != null
-                    ? Align(alignment: Alignment.topCenter, child: SizedBox(height: top, width: double.infinity, child: ColoredBox(color: tint)))
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: top,
+                          width: double.infinity,
+                          child: ColoredBox(color: tint),
+                        ),
+                      )
                     : DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0, top / (top + fade), 1],
-                            colors: [ground, ground, ground.withValues(alpha: 0)],
-                          ),
+                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0, top / (top + fade), 1], colors: [ground, ground, ground.withValues(alpha: 0)]),
                         ),
                       ),
               ),

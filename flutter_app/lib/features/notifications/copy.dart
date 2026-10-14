@@ -110,6 +110,7 @@ abstract final class NotificationsCopy {
   static const String dayHeading = 'Your day';
   static const String dayQuiet = 'Quiet hours';
   static const String dayStudy = 'Study window';
+  static const String dayNext = 'Next reminder';
   static const String dayQuietOff = 'Quiet hours are off';
 
   // Channels.
@@ -201,7 +202,7 @@ abstract final class NotificationsCopy {
   static const String ackNotTonightTitle = 'Okay, no repair tonight';
   static const String ackNotTonightBody = 'Your repair stays in Review whenever you want it.';
   static const String ackMutedTitle = 'Reminders paused for 7 days';
-  static const String ackMutedBody = 'Turn them back on in You > Notifications.';
+  static const String ackMutedBody = 'Turn them back on in Notifications, under You.';
   static const String actionResume = 'Resume';
   static const String ackNotTonightStudyTitle = 'Okay, not tonight';
   static const String ackNotTonightStudyBody = 'Start from Today whenever you are ready.';
@@ -212,6 +213,10 @@ abstract final class NotificationsCopy {
   static const String nextReasonOff = 'Every reminder is off.';
   static const String nextReasonQuiet = 'Quiet hours cover your study window.';
   static const String nextReasonCap = 'You have reached your weekly limit.';
+  static const String nextReasonDaily = 'One reminder a day, and today has had its one.';
+  static String nextReasonMuted(DateTime until) =>
+      'Muted until ${weekdayName(until.weekday).substring(0, 3)} ${formatDayMonthShort(until)}.';
+  static const String nextReasonMutedPlain = 'Reminders are muted.';
   static const String nextReasonBlocked = 'Android is blocking notifications.';
   static const String nextStudy = 'study window';
   static const String nextWeekly = 'weekly plan';

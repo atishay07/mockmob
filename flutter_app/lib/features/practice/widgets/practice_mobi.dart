@@ -92,8 +92,10 @@ class _PracticeMobiState extends State<PracticeMobi> {
       } else {
         _think?.cancel();
         if (_thinking) {
+          // The answer is in: he stops thinking and gives one small nod (not a celebration).
           _thinking = false;
-          widget.controller.play(MobiAct.correct);
+          widget.controller.play(MobiAct.idle);
+          widget.controller.react(MobiAct.nod, key: 'practice:quotes');
         }
       }
     }
@@ -116,8 +118,12 @@ class _PracticeMobiState extends State<PracticeMobi> {
     });
   }
 
+  /// Late at night he arrives sleepy or asleep (the shared window), and a Mobi who is dozing does
+  /// not jab at the Start key: a tap wakes him, and the card says to stop after this one.
+  bool get _dozing => widget.entrance == MobiAct.sleep || widget.entrance == MobiAct.sleepy;
+
   void _armNudge() {
-    if (_nudgedThisVisit || _listening || Motion.reduced(context)) return;
+    if (_nudgedThisVisit || _listening || _dozing || Motion.reduced(context)) return;
     _listening = true;
     GestureBinding.instance.pointerRouter.addGlobalRoute(_onPointer);
     _position?.addListener(_onScrolled);

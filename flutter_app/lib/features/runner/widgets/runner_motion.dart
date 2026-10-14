@@ -61,6 +61,9 @@ abstract final class RunnerMotion {
   static const Duration wash = Duration(milliseconds: 320);
   static const Duration washOut = Duration(milliseconds: 140);
 
+  /// Changing the answer from one option to another: the wash slides from the old row to the new.
+  static const Duration washGlide = Duration(milliseconds: 240);
+
   /// A light band crossing a surface once.
   static const Duration sweep = Duration(milliseconds: 700);
 

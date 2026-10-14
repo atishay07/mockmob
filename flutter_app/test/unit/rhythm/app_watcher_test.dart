@@ -1,6 +1,7 @@
 // rhythm-notifications-03: the app root keeps the milestone watcher alive, so a milestone in a
 // fresh rhythm read gets its moment without Today's week row (or the week sheet) ever being built.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/app.dart';
@@ -73,6 +74,19 @@ class _QuietDriver implements HapticDriver {
   Future<void> selectionClick() async {}
 }
 
+/// The opening asks Android's splash to fade off the "mo" and waits for the answer (or four
+/// seconds): with no platform here, answer at once, and tell it a frame has been drawn (a widget
+/// test rasterizes none), so the hand-off runs and no timer is left behind.
+void openingWithoutAndroid() {
+  OpeningGlass.debugFirstFrameDrawn = true;
+  const channel = MethodChannel('in.mockmob.app/splash');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (call) async => true);
+  addTearDown(() {
+    OpeningGlass.debugFirstFrameDrawn = false;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
+  });
+}
+
 /// The welcome room breathes (its lamp and dust loop), so it never "settles": give the opening and
 /// the hand-off a few seconds of frames instead.
 Future<void> pumpAlive(WidgetTester tester) async {
@@ -88,6 +102,7 @@ void main() {
   });
 
   testWidgets('a fresh milestone is celebrated from the app root, with Today never opened', (tester) async {
+    openingWithoutAndroid();
     final seen = _MemorySeen();
     await tester.pumpWidget(
       ProviderScope(
@@ -115,9 +130,7 @@ void main() {
 
   testWidgets('the app-lifetime services are not built in the first frame, and start once the opening has handed off', (tester) async {
     var built = 0;
-    // A widget test rasterizes no frame; without this the opening would wait for one for good.
-    OpeningGlass.debugFirstFrameDrawn = true;
-    addTearDown(() => OpeningGlass.debugFirstFrameDrawn = false);
+    openingWithoutAndroid();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [

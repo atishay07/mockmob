@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/models/question.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -12,7 +14,7 @@ import 'review_layout.dart';
 /// reading): an optional passage, the question, and the options with the student's answer and
 /// the correct one marked by bubble, word and surface, never colour alone.
 class QuestionPanel extends StatelessWidget {
-  const QuestionPanel({super.key, required this.question, this.chosen, this.keyIndex, this.showKey = true});
+  const QuestionPanel({super.key, required this.question, this.chosen, this.keyIndex, this.showKey = true, this.reveal});
 
   final SnapshotQuestion question;
   final int? chosen;
@@ -20,6 +22,9 @@ class QuestionPanel extends StatelessWidget {
   /// The correct option, or null when no key may be shown (spec 5.7 key rule).
   final int? keyIndex;
   final bool showKey;
+
+  /// The key reveal's clock ([KeyReveal]), or null to paint the final state.
+  final Animation<double>? reveal;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class QuestionPanel extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         for (var i = 0; i < question.options.length; i++) ...[
           if (i > 0) const SizedBox(height: MmSpace.s8),
-          MarkedOption(letter: question.options[i].key, text: question.options[i].text, mark: _markFor(i)),
+          MarkedOption(letter: question.options[i].key, text: question.options[i].text, mark: _markFor(i), reveal: reveal),
         ],
       ],
     );
@@ -54,38 +59,175 @@ class QuestionPanel extends StatelessWidget {
 
 enum OptionMark { none, yours, correct }
 
+/// The key reveal, on one 1100 ms clock (the website's FoldLine beat): your pick settles 4 dp into
+/// place and "Your answer" fades in; 120 ms after it lands the correct option's outline strokes
+/// round, then its bubble fills and "Correct answer" fades in, with one light haptic as the fill
+/// lands. Each part reads its own window of the clock.
+abstract final class KeyRevealTiming {
+  static const Duration total = Duration(milliseconds: 1100);
+  static const double settleEnd = 300 / 1100;
+  static const double yourWordStart = 140 / 1100;
+  static const double yourWordEnd = 380 / 1100;
+  static const double strokeStart = 420 / 1100;
+  static const double strokeEnd = 800 / 1100;
+  static const double keyWordStart = 860 / 1100;
+
+  /// How far the pick drops as it settles.
+  static const double settle = 4;
+
+  static double window(double t, double a, double b) => ((t - a) / (b - a)).clamp(0.0, 1.0);
+}
+
+/// Owns the key reveal for the question it shows: plays once when the key first appears on a
+/// mistake (an answer review, the folded line of a fresh repair), and paints the final state at
+/// once for a stored repair, under reduced motion, or when [animate] is false.
+class KeyReveal extends ConsumerStatefulWidget {
+  const KeyReveal({super.key, required this.keyShown, required this.builder, this.animate = true, this.haptic = true});
+
+  /// The key is on screen now: the reveal starts the first time this is true.
+  final bool keyShown;
+  final bool animate;
+
+  /// One light haptic as the fill lands. Off where the server's acknowledgement already gave one.
+  final bool haptic;
+  final Widget Function(BuildContext context, Animation<double>? reveal) builder;
+
+  @override
+  ConsumerState<KeyReveal> createState() => _KeyRevealState();
+}
+
+class _KeyRevealState extends ConsumerState<KeyReveal> with SingleTickerProviderStateMixin {
+  late final AnimationController _t = AnimationController(vsync: this, duration: KeyRevealTiming.total);
+  bool _played = false;
+  bool _ticked = false;
+
+  /// The pick was already on screen before the key came (a failed call, then the key): only the
+  /// key's part plays, so the pick never blinks.
+  bool _pickShownFirst = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _pickShownFirst = !widget.keyShown;
+    _t.addListener(_tick);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _maybeStart();
+  }
+
+  @override
+  void didUpdateWidget(KeyReveal old) {
+    super.didUpdateWidget(old);
+    _maybeStart();
+  }
+
+  void _maybeStart() {
+    if (_played || !widget.keyShown) return;
+    _played = true;
+    if (!widget.animate || Motion.reduced(context)) {
+      _t.value = 1;
+      _ticked = true;
+    } else {
+      _t.forward(from: _pickShownFirst ? KeyRevealTiming.yourWordEnd : 0);
+    }
+  }
+
+  void _tick() {
+    if (_ticked || _t.value < KeyRevealTiming.strokeEnd) return;
+    _ticked = true;
+    if (widget.haptic) ref.read(hapticsProvider).tick();
+  }
+
+  @override
+  void dispose() {
+    _t.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.builder(context, _played ? _t : null);
+}
+
+/// The outline of an option drawing round, on the option's own shape.
+class _OutlineDraw extends CustomPainter {
+  _OutlineDraw({required this.progress, required this.color}) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final t = KeyRevealTiming.window(progress.value, KeyRevealTiming.strokeStart, KeyRevealTiming.strokeEnd);
+    // Once drawn, the option's own 2 px border takes over (the same line, so nothing jumps).
+    if (t <= 0 || progress.value >= KeyRevealTiming.strokeEnd) return;
+    final path = mmShapeBorder(MmRadius.keyAll).getOuterPath((Offset.zero & size).deflate(1));
+    canvas.drawPath(
+      mmPathPrefix(path, Motion.inOut.transform(t)),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..strokeCap = StrokeCap.round
+        ..color = color,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_OutlineDraw old) => old.progress != progress || old.color != color;
+}
+
 /// One option row with its mark.
 class MarkedOption extends StatelessWidget {
-  const MarkedOption({super.key, required this.letter, required this.text, this.mark = OptionMark.none});
+  const MarkedOption({super.key, required this.letter, required this.text, this.mark = OptionMark.none, this.reveal});
 
   final String letter;
   final String text;
   final OptionMark mark;
 
+  /// The key reveal's clock, or null for the final state.
+  final Animation<double>? reveal;
+
   @override
   Widget build(BuildContext context) {
+    final r = reveal;
+    if (r == null || mark == OptionMark.none) return _paint(context, 1);
+    return AnimatedBuilder(animation: r, builder: (context, _) => _paint(context, r.value));
+  }
+
+  Widget _paint(BuildContext context, double t) {
     final colors = context.mmColors;
     final type = context.mmType;
     // One loud row: the correct answer, in a strong 2 px ink outline on the selected surface (lifted
     // on Night; Day keeps its white, since its raised2 is darker than the page). Your wrong
     // answer is quiet: the same hairline as the others, with its cross and its words doing the
     // work, so the two never shout at once.
+    // Mid-reveal the key reads as a plain option until its outline has drawn round.
+    final keyLanded = t >= KeyRevealTiming.strokeEnd;
     final (fill, border, bubble, word) = switch (mark) {
       OptionMark.yours => (colors.raised, colors.line, BubbleState.wrong, ReviewCopy.yourAnswer),
+      OptionMark.correct when !keyLanded => (colors.raised, colors.line, BubbleState.hollow, ReviewCopy.correctAnswer),
       OptionMark.correct => (selectedSurfaceOf(colors), colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
       OptionMark.none => (colors.raised, colors.line, BubbleState.hollow, null),
     };
-    final textColor = mark == OptionMark.correct ? colors.ink : colors.ink2;
-    return Semantics(
-      container: true,
-      label: 'Option $letter, $text${word == null ? '' : ', $word'}',
-      excludeSemantics: true,
-      child: DecoratedBox(
+    final wordOpacity = switch (mark) {
+      OptionMark.yours => KeyRevealTiming.window(t, KeyRevealTiming.yourWordStart, KeyRevealTiming.yourWordEnd),
+      OptionMark.correct => KeyRevealTiming.window(t, KeyRevealTiming.keyWordStart, 1),
+      OptionMark.none => 1.0,
+    };
+    final drop = mark == OptionMark.yours
+        ? KeyRevealTiming.settle * (1 - Motion.out.transform(KeyRevealTiming.window(t, 0, KeyRevealTiming.settleEnd)))
+        : 0.0;
+    final strong = mark == OptionMark.correct && keyLanded;
+    final textColor = strong ? colors.ink : colors.ink2;
+    final drawing = mark == OptionMark.correct && reveal != null && !keyLanded;
+    final box = DecoratedBox(
         decoration: ShapeDecoration(
           color: fill,
           shape: mmShapeBorder(
             MmRadius.keyAll,
-            side: BorderSide(color: border, width: mark == OptionMark.correct ? 2 : 1),
+            side: BorderSide(color: border, width: strong ? 2 : 1),
           ),
         ),
         child: ConstrainedBox(
@@ -102,7 +244,7 @@ class MarkedOption extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        Bubble(state: bubble, size: 22, animate: false),
+                        Bubble(state: bubble, size: 22, animate: reveal != null && mark == OptionMark.correct),
                         if (bubble == BubbleState.hollow)
                           Text(letter, style: type.label.copyWith(fontSize: 11, height: 1, color: colors.ink2)),
                       ],
@@ -114,10 +256,14 @@ class MarkedOption extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(text, style: type.body.copyWith(color: textColor, fontWeight: mark == OptionMark.correct ? FontWeight.w600 : null)),
+                      Text(text, style: type.body.copyWith(color: textColor, fontWeight: strong ? FontWeight.w600 : null)),
                       if (word != null) ...[
                         const SizedBox(height: MmSpace.s4),
-                        Text(word, style: type.label.copyWith(color: mark == OptionMark.yours ? colors.badText : colors.ink)),
+                        // The word's line is always laid out, so the row never grows mid-reveal.
+                        Opacity(
+                          opacity: wordOpacity,
+                          child: Text(word, style: type.label.copyWith(color: mark == OptionMark.yours ? colors.badText : colors.ink)),
+                        ),
                       ],
                     ],
                   ),
@@ -126,6 +272,14 @@ class MarkedOption extends StatelessWidget {
             ),
           ),
         ),
+      );
+    return Semantics(
+      container: true,
+      label: 'Option $letter, $text${word == null ? '' : ', $word'}',
+      excludeSemantics: true,
+      child: Transform.translate(
+        offset: Offset(0, -drop),
+        child: drawing ? CustomPaint(foregroundPainter: _OutlineDraw(progress: reveal!, color: colors.ink), child: box) : box,
       ),
     );
   }

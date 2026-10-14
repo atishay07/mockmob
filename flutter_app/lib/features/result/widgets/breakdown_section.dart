@@ -74,8 +74,15 @@ class BreakdownSection extends StatefulWidget {
 class _BreakdownSectionState extends State<BreakdownSection> with SingleTickerProviderStateMixin {
   bool _arithmetic = false;
   int? _picked;
-  late final AnimationController _focus = AnimationController(vsync: this, duration: Motion.ui);
-  late final Animation<double> _focusCurve = CurvedAnimation(parent: _focus, curve: Motion.out);
+  late final AnimationController _focus;
+  late final Animation<double> _focusCurve;
+
+  @override
+  void initState() {
+    super.initState();
+    _focus = AnimationController(vsync: this, duration: Motion.ui);
+    _focusCurve = CurvedAnimation(parent: _focus, curve: Motion.out);
+  }
 
   bool get _pickable => widget.flow && widget.cells != null && widget.onOpenQuestion != null;
 
@@ -266,7 +273,7 @@ class PickedKind extends StatelessWidget {
         ],
       );
     }
-    return AnimatedSize(
+    return MmSizeEase(
       duration: Motion.of(context, Motion.card),
       curve: Motion.out,
       alignment: Alignment.topCenter,
@@ -275,7 +282,7 @@ class PickedKind extends StatelessWidget {
   }
 }
 
-/// One answer as a bubble with its number under it, 44 dp wide and 48 tall, opening its question.
+/// One answer as a bubble with its number under it, a 48 dp target, opening its question.
 class _NumberedBubble extends StatelessWidget {
   const _NumberedBubble({required this.number, required this.state, required this.onTap, required this.ink});
 
@@ -293,7 +300,7 @@ class _NumberedBubble extends StatelessWidget {
       focusRadius: MmRadius.smallAll,
       semanticsLabel: ResultCopy.questionTile(number, ResultCopy.stateWord(state)),
       builder: (context, pressed, _) => SizedBox(
-        width: 44,
+        width: MmTarget.min,
         height: MmTarget.min,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

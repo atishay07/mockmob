@@ -36,11 +36,7 @@ class CelebrationPreview extends ConsumerStatefulWidget {
         CelebrationMode.off => YouCopy.previewOff,
       };
 
-  static MobiCelebrationLevel levelFor(CelebrationMode mode) => switch (mode) {
-        CelebrationMode.full => MobiCelebrationLevel.full,
-        CelebrationMode.quiet => MobiCelebrationLevel.quiet,
-        CelebrationMode.off => MobiCelebrationLevel.off,
-      };
+  static MobiCelebrationLevel levelFor(CelebrationMode mode) => celebrationLevelFor(mode);
 
   @override
   ConsumerState<CelebrationPreview> createState() => _CelebrationPreviewState();
@@ -68,10 +64,11 @@ class _CelebrationPreviewState extends ConsumerState<CelebrationPreview> {
     _settle?.cancel();
     if (act == null) {
       // Off: Mobi stands still. Nothing plays and nothing is announced beyond the words.
-      _mobi.play(MobiAct.idle);
+      _mobi.react(MobiAct.idle);
       return;
     }
-    _mobi.play(act);
+    // A reaction, so reduced motion shows the still pose and the pinned level is honoured.
+    _mobi.react(act);
   }
 
   void _tap() {

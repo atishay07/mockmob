@@ -15,6 +15,7 @@ import '../widgets/tools_card.dart';
 import '../widgets/tools_page.dart';
 import '../widgets/web_link.dart';
 import 'guide_content.dart';
+import '../widgets/size_reveal.dart';
 
 /// The CUET 2027 guide (`/tools/guide-2027`): the expected timeline as a column of answer
 /// bubbles (inked once a window has passed, ringed for the one you are in), what is known about
@@ -136,12 +137,17 @@ class _TimelineRow extends StatelessWidget {
                     // The date is the spine of a timeline: heavier than the words under it.
                     Text(m.when, style: type.labelLarge.copyWith(fontSize: 15, color: current ? colors.accentText : colors.ink)),
                     const SizedBox(height: MmSpace.s4),
-                    Row(
+                    // The title and its tags wrap: two tags beside a long title (Expected and
+                    // the days-left chip) do not fit one line on a narrow phone or large text.
+                    Wrap(
+                      spacing: MmSpace.s8,
+                      runSpacing: MmSpace.s4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Flexible(child: Text(m.title, style: type.cardTitle)),
-                        if (m.expected) ...[const SizedBox(width: MmSpace.s8), const _ExpectedTag()],
-                        if (current) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideNow, tone: ToolTone.good)],
-                        if (guideDaysLeftChip(m, now) case final left?) ...[const SizedBox(width: MmSpace.s8), ToolTag(left)],
+                        Text(m.title, style: type.cardTitle),
+                        if (m.expected) const _ExpectedTag(),
+                        if (current) const ToolTag(ToolsCopy.guideNow, tone: ToolTone.good),
+                        if (guideDaysLeftChip(m, now) case final left?) ToolTag(left),
                       ],
                     ),
                     const SizedBox(height: MmSpace.s4),
@@ -268,10 +274,7 @@ class _FaqState extends State<_Faq> {
             ),
           ),
         ),
-        AnimatedSize(
-          duration: duration,
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
+        SizeReveal(
           child: _open
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(MmSpace.s20, 0, MmSpace.s20, MmSpace.s16),
@@ -299,17 +302,70 @@ class _Rail extends StatefulWidget {
   State<_Rail> createState() => _RailState();
 }
 
+enum _RailSpot { below, inView, above }
+
 class _RailState extends State<_Rail> with SingleTickerProviderStateMixin {
   late final AnimationController _t = AnimationController(vsync: this, value: 1);
   bool _begun = false;
+  bool _played = false;
+  bool _first = true;
+  ScrollPosition? _position;
 
+  /// The fill waits until the rail is on screen: the segments in view when the page opens fill one
+  /// after another, and one below the fold fills as it scrolls in.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_begun) return;
     _begun = true;
     if (!widget.reached || Motion.reduced(context)) return;
-    final lead = Duration(milliseconds: 140 * widget.index);
+    _t.value = 0;
+    _position = Scrollable.maybeOf(context)?.position;
+    _position?.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _check());
+  }
+
+  /// Where the rail is against the scroller: below the fold (wait), in view (fill), or already
+  /// scrolled past above it (just drawn: it is full by the time the student comes back to it).
+  _RailSpot _spot() {
+    final scroller = Scrollable.maybeOf(context)?.context.findRenderObject();
+    // No scroller to wait for: it is simply there.
+    if (scroller is! RenderBox || !scroller.attached || !scroller.hasSize) return _RailSpot.inView;
+    final box = context.findRenderObject();
+    if (box is! RenderBox || !box.attached || !box.hasSize) return _RailSpot.below;
+    final rail = box.localToGlobal(Offset.zero) & box.size;
+    final view = scroller.localToGlobal(Offset.zero) & scroller.size;
+    if (rail.bottom <= view.top) return _RailSpot.above;
+    return rail.top < view.bottom - 24 ? _RailSpot.inView : _RailSpot.below;
+  }
+
+  bool _queued = false;
+
+  /// A scroll moves the offset before the page has laid out again, so where the rail is is read
+  /// on the frame that follows.
+  void _onScroll() {
+    if (_queued || _played) return;
+    _queued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _queued = false;
+      _check();
+    });
+  }
+
+  void _check() {
+    if (!mounted || _played) return;
+    final atOpen = _first;
+    _first = false;
+    final spot = _spot();
+    if (spot == _RailSpot.below) return;
+    _played = true;
+    _position?.removeListener(_onScroll);
+    if (spot == _RailSpot.above) {
+      _t.value = 1;
+      return;
+    }
+    // Rails in view as the page opens go one after another; one that scrolls in goes at once.
+    final lead = atOpen ? Duration(milliseconds: 140 * widget.index) : Duration.zero;
     final total = lead + Motion.drawIn;
     _t.duration = total;
     _t.value = 0;
@@ -318,31 +374,48 @@ class _RailState extends State<_Rail> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    _position?.removeListener(_onScroll);
     _t.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Painted, not laid out: the rail takes the tight height its row gives it, and has no
+    // intrinsic height of its own to trip the row's IntrinsicHeight (a zero-height fill would).
     return SizedBox(
       width: 2.5,
-      height: double.infinity,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(2),
-        child: AnimatedBuilder(
-          animation: _t,
-          builder: (context, _) => Stack(
-            fit: StackFit.expand,
-            children: [
-              ColoredBox(color: widget.base),
-              if (widget.reached)
-                FractionallySizedBox(alignment: Alignment.topCenter, heightFactor: _t.value.clamp(0.0, 1.0), child: ColoredBox(color: widget.volt)),
-            ],
-          ),
+      child: AnimatedBuilder(
+        animation: _t,
+        builder: (context, _) => CustomPaint(
+          painter: _RailPainter(base: widget.base, fill: widget.reached ? widget.volt : null, fraction: _t.value.clamp(0.0, 1.0)),
         ),
       ),
     );
   }
+}
+
+class _RailPainter extends CustomPainter {
+  const _RailPainter({required this.base, required this.fill, required this.fraction});
+
+  final Color base;
+  final Color? fill;
+  final double fraction;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rail = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(2));
+    canvas.drawRRect(rail, Paint()..color = base);
+    final color = fill;
+    if (color == null || fraction <= 0) return;
+    canvas.save();
+    canvas.clipRRect(rail);
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height * fraction), Paint()..color = color);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_RailPainter old) => old.base != base || old.fill != fill || old.fraction != fraction;
 }
 
 /// The node for "now": a lit disc whose halo breathes three times when the page opens, then

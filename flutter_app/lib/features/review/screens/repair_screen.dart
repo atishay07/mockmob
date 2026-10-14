@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/copy/formatters.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/credits_repository.dart';
@@ -102,10 +103,12 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       child: Scaffold(
         backgroundColor: colors.ground,
         body: SafeArea(
-          child: AnimatedSwitcher(
-            duration: Motion.of(context, Motion.ui),
-            switchInCurve: Motion.glide,
-            switchOutCurve: Motion.exit,
+          // One mistake hands over to the next in 160 ms with the two overlapping: the incoming
+          // one rises in while the outgoing one holds, so no frame is ever blank, and the leaving
+          // one takes no touch (a quick second tap lands on the new mistake, never the old one).
+          child: MmOverlapSwitcher(
+            duration: Motion.of(context, Motion.runner),
+            outDuration: Motion.of(context, const Duration(milliseconds: 90)),
             child: KeyedSubtree(key: ValueKey('${run?.phase}-${run?.current?.item.key}'), child: body),
           ),
         ),
@@ -135,6 +138,29 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     );
   }
 
+  /// The track and the swipe: back to a mistake already reached, with one selection tick.
+  bool _goTo(int i) {
+    final moved = _run.goTo(i);
+    if (moved) ref.read(hapticsProvider).tick();
+    return moved;
+  }
+
+  /// The newest other paper where this question was also answered wrong, from the student's own
+  /// attempts. Null when it was missed once.
+  EarlierMiss? _earlier(RepairRunState run) {
+    final index = ref.watch(reviewIndexProvider);
+    final item = run.current?.item;
+    if (index == null || item == null) return null;
+    final others = index.missedElsewhere(item);
+    if (others.isEmpty) return null;
+    final last = others.first;
+    final clock = ref.watch(reviewClockProvider);
+    return EarlierMiss(
+      line: ReviewCopy.missedBefore(last.source, formatDayMonth(clock.local(last.foundAt))),
+      onOpen: () => context.push(AppRoutes.result(last.attemptId)),
+    );
+  }
+
   Widget _mistake(RepairRunState run) {
     final index = ref.watch(reviewIndexProvider);
     final detail = ref.watch(attemptDetailProvider(widget.attemptId)).value;
@@ -147,7 +173,14 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       detail: detail,
       scheme: markingSchemeOf(index?.attempt(widget.attemptId)),
       renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
-      actions: MistakeActions(onNext: _run.next, onFinishForNow: () => _finishForNow(run), onRetry: _run.retry, onReadKey: _run.readKey),
+      earlier: _earlier(run),
+      actions: MistakeActions(
+        onNext: _run.next,
+        onFinishForNow: () => _finishForNow(run),
+        onRetry: _run.retry,
+        onReadKey: _run.readKey,
+        onGoTo: _goTo,
+      ),
     );
   }
 }

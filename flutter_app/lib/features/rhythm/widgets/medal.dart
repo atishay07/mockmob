@@ -229,7 +229,8 @@ class _MedalPainter extends CustomPainter {
             false,
             Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 3.4
+              // 3.4 dp on a 36 dp coin, up to 5.4 dp on the 120 dp one in a step's sheet.
+              ..strokeWidth = 3.4 * (size.width / 36).clamp(1.0, 1.6)
               ..strokeCap = StrokeCap.round
               ..color = colors.accentText,
           );

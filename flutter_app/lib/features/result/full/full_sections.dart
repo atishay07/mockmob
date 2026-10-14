@@ -63,12 +63,17 @@ Widget? firstFixSection(BuildContext context, RecapModel m) {
           ),
         ] else
           Text(ResultCopy.wrongByNumber(m.chapters.wrongNumbers.length), style: type.body.copyWith(color: colors.ink2)),
-        if (m.candidates.isNotEmpty) ...[
+        if (RepairCandidates.scopeOf(m.candidates) case final scope?) ...[
           const SizedBox(height: MmSpace.s16),
+          // The key says exactly what opens: the count, the chapter and the time of the run the link
+          // starts (the same words as the recap's last card and Today).
           KeyButton(
-            label: '${ResultCopy.repairN(m.tonightCount)}, about ${repairMinutes(m.tonightCount)} minutes',
+            label: RepairCandidates.keyLabel(scope),
+            semanticsLabel: RepairCandidates.spoken(scope),
             onPressed: () => context.go(ResultNav.repair(m)),
           ),
+          const SizedBox(height: MmSpace.s8),
+          Text(RepairCandidates.describe(scope), style: type.small.copyWith(color: colors.ink2)),
         ],
       ],
     ),
@@ -187,7 +192,7 @@ class BlankGroup extends StatelessWidget {
             ),
           ),
         ),
-        AnimatedSize(
+        MmSizeEase(
           duration: Motion.of(context, Motion.card),
           curve: Motion.out,
           alignment: Alignment.topCenter,

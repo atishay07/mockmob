@@ -73,6 +73,28 @@ void main() {
     expect(_shown(tester, _c), 1);
   });
 
+  testWidgets('animateFirst fades the first child in; reduced motion fades short and still never dips', (tester) async {
+    await tester.pumpWidget(motionApp(Center(child: MmOverlapSwitcher(animateFirst: true, child: _box(_a)))));
+    expect(_shown(tester, _a), lessThan(0.1), reason: 'the first child arrives');
+    await tester.pumpAndSettle();
+    expect(_shown(tester, _a), 1);
+
+    Widget reduced(Key key) => motionApp(Center(child: MmOverlapSwitcher(child: _box(key))), reduced: true);
+    await tester.pumpWidget(reduced(_a));
+    await tester.pumpWidget(reduced(_b));
+    var least = 2.0;
+    var frames = 0;
+    while (find.byKey(_a).evaluate().isNotEmpty && frames < 60) {
+      final sum = _shown(tester, _a) + _shown(tester, _b);
+      if (sum < least) least = sum;
+      await tester.pump(const Duration(milliseconds: 8));
+      frames++;
+    }
+    expect(least, greaterThanOrEqualTo(MmOverlapSwitcher.floor - 1e-6));
+    expect(frames * 8, lessThanOrEqualTo(Motion.reducedFade.inMilliseconds + 100), reason: 'the reduced fade is the short one');
+    expect(_shown(tester, _b), 1);
+  });
+
   testWidgets('the same key updates in place with no transition', (tester) async {
     await tester.pumpWidget(motionApp(const Center(child: MmOverlapSwitcher(child: SizedBox(key: _a, width: 10)))));
     await tester.pumpWidget(motionApp(const Center(child: MmOverlapSwitcher(child: SizedBox(key: _a, width: 20)))));

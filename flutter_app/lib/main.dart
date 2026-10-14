@@ -12,6 +12,7 @@ import 'core/permissions/permission_requester.dart';
 import 'core/router/error_fallback.dart';
 import 'core/router/router.dart' show intendedRouteProvider;
 import 'core/router/router_redirect.dart' show IntendedRoute;
+import 'core/router/splash_screen.dart' show SplashScreen;
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
@@ -33,6 +34,8 @@ Future<void> _start() async {
   SubjectEmblem.idleEnabled = true;
   // Subjects wear their photo-real objects from 40 dp up; tests keep the drawn emblems.
   SubjectEmblem.objectArt = true;
+  // The launch screen of a slow start keeps Mobi's idle blink; tests keep the still frame.
+  SplashScreen.idleEnabled = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   // The first frame is the "mo" alone: the app builds under the opening once the "mo" is on the
   // glass, so a slow phone does not hold the system splash while the router and the first

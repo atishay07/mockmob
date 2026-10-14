@@ -95,3 +95,45 @@ SheetCounts sheetCountsOf(List<SheetCell> cells) {
   }
   return first == last ? null : (first + 1, last + 1);
 }
+
+/// What Mobi does on a practice's submit page, read from the sheet itself.
+enum SheetMobiCue {
+  /// Every question has an answer and none is marked: one nod.
+  nod,
+
+  /// Questions without an answer: he points at the "not answered" row, and it pulses once.
+  pointAtBlank,
+
+  /// All answered, some marked for review: a curious tilt.
+  tilt,
+}
+
+/// The cue for a sheet with [counts]: blanks first, then marks, then a full sheet.
+SheetMobiCue sheetMobiCue(SheetCounts counts) {
+  if (counts.notAnswered > 0) return SheetMobiCue.pointAtBlank;
+  if (counts.marked > 0) return SheetMobiCue.tilt;
+  return SheetMobiCue.nod;
+}
+
+/// A legend key on the palette, used as a filter: only the cells in that state stay bright.
+enum SheetFilter { notAnswered, notVisited, marked, unsynced }
+
+/// Whether [cell] is in the state [filter] names (the legend's own meaning: "not answered" is a
+/// question seen and left blank; "not visited" one never opened).
+bool sheetCellMatches(SheetCell cell, SheetFilter filter) => switch (filter) {
+  SheetFilter.notAnswered => !cell.answered && cell.visited,
+  SheetFilter.notVisited => !cell.answered && !cell.visited,
+  SheetFilter.marked => cell.marked,
+  SheetFilter.unsynced => cell.unsynced,
+};
+
+/// The next cell matching [filter] after [from], wrapping round, so the "Go to question N" key
+/// walks through the matches; [from] itself comes last. -1 when nothing matches.
+int nextSheetMatch(List<SheetCell> cells, SheetFilter filter, int from) {
+  final n = cells.length;
+  for (var step = 1; step <= n; step++) {
+    final i = (from + step) % n;
+    if (i >= 0 && sheetCellMatches(cells[i], filter)) return i;
+  }
+  return -1;
+}

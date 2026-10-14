@@ -1,5 +1,6 @@
 import '../../../core/domain/next_move.dart' show isLateNightHour;
 import '../../../core/mascot/mobi_acts.dart' show MobiAct, MobiMoves;
+import '../../../core/mascot/mobi_mood.dart' show MobiMood;
 import '../../rhythm/rhythm.dart' show CelebrationMode;
 
 /// The outcome variants of the recap (spec 5.6.4). The server decides tone; the app never
@@ -103,6 +104,21 @@ RecapReaction? recapReaction({
     RecapVariant.higher => RecapReaction(full ? MobiAct.cheer : MobiAct.rest),
     RecapVariant.lower || RecapVariant.held => const RecapReaction(MobiAct.encourage),
     RecapVariant.standard => const RecapReaction(MobiAct.rest),
+  };
+}
+
+/// The face Mobi keeps under the act: proud with the milestone, happy with the cheer, sleepy late
+/// at night, and a soft, warm "that did not go to plan, and that is fine" after a lower result.
+/// Everything else (a rest, a held result, no reaction) is the calm default face. Pure, so every
+/// screen that shows the recap's Mobi gives it the same expression.
+MobiMood recapMood(RecapVariant variant, RecapReaction? reaction) {
+  if (reaction == null) return MobiMood.calm;
+  return switch (reaction.act) {
+    MobiAct.proud => MobiMood.proud,
+    MobiAct.cheer => MobiMood.happy,
+    MobiAct.sleepy => MobiMood.sleepy,
+    MobiAct.encourage when variant == RecapVariant.lower => MobiMood.concerned,
+    _ => MobiMood.calm,
   };
 }
 

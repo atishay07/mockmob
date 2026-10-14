@@ -1,4 +1,3 @@
-import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,9 +8,9 @@ import '../../../core/copy/copy.dart';
 import '../../../core/models/consent.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/settings/appearance_settings.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../widgets/you_motion.dart';
 import '../widgets/you_row.dart';
@@ -152,7 +151,8 @@ class ToolsPanel extends StatelessWidget {
   }
 }
 
-/// The quiet sign-off at the foot of You: Mobi resting and the version.
+/// The quiet sign-off at the foot of You: the version. Mobi is not here a second time: the sheet
+/// at the top has him (one Mobi per screen).
 class HubFooter extends ConsumerWidget {
   const HubFooter({super.key});
 
@@ -160,19 +160,10 @@ class HubFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final version = ref.watch(appVersionProvider).value;
+    if (version == null) return const SizedBox(height: MmSpace.s24);
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s40),
-      child: Column(
-        children: [
-          // Mobi sits at the foot of the page; a tap makes him hop.
-          const Mobi(pose: MobiPose.rest, size: 64, interactive: true),
-          // No wordmark under him: its o is Mobi too, so the pair read as two Mobis stacked.
-          if (version != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            Text(YouCopy.helpVersion(version), style: context.mmType.caption.copyWith(color: colors.ink3)),
-          ],
-        ],
-      ),
+      padding: const EdgeInsets.only(top: MmSpace.s32),
+      child: Center(child: Text(YouCopy.helpVersion(version), style: context.mmType.caption.copyWith(color: colors.ink3))),
     );
   }
 }

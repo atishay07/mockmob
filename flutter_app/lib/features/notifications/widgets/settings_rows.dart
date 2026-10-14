@@ -7,6 +7,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/settings/settings_switch.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show MmPressHaptic, MmPressable, Skeleton, SkeletonGroup;
+import '../../you/widgets/you_motion.dart' show YouSizeEase;
 import '../copy.dart';
 
 /// A group heading in the Bricolage title cut, on the gutter (the same left edge as the cards),
@@ -229,9 +230,7 @@ class ChannelRow extends ConsumerWidget {
                       Text(body, style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2)),
                       // A held reminder's note ("Paused until Mon 19 Oct.") fades in and out with
                       // the state it describes, and the row's height eases with it.
-                      AnimatedSize(
-                        duration: Motion.of(context, Motion.ui),
-                        curve: Motion.glide,
+                      YouSizeEase(
                         alignment: Alignment.topLeft,
                         child: AnimatedSwitcher(
                           duration: Motion.of(context, Motion.crossFade),

@@ -87,14 +87,20 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
     super.dispose();
   }
 
-  /// Mobi follows the choice: listening while days are picked, thinking at six or seven.
+  /// Mobi follows the choice: listening while days are picked, thinking at six or seven (a full
+  /// week is a lot to plan). These are reactions, so reduced motion shows only a still pose, and
+  /// a quick run of taps is answered once, not on every tap.
   void _react() {
     if (_days.length >= 6) {
-      _mobi.play(MobiAct.think);
+      _mobi.setMood(MobiMood.curious);
+      _mobi.react(MobiAct.think, key: 'rhythm-days:full', gap: _answerGap);
     } else if (_choosing) {
-      _mobi.play(MobiAct.listen);
+      _mobi.setMood(MobiMood.calm);
+      _mobi.react(MobiMoments.act(MobiEvent.choiceWitnessed), key: 'rhythm-days:choose', gap: _answerGap);
     }
   }
+
+  static const Duration _answerGap = Duration(milliseconds: 900);
 
   /// The selection tick is the press's own (`MmPressHaptic.selection` on the day).
   void _toggle(int day) {
@@ -230,7 +236,8 @@ class _PresetChip extends StatelessWidget {
         duration: Motion.of(context, const Duration(milliseconds: 180)),
         curve: Motion.emphasized,
         constraints: const BoxConstraints(minHeight: 36),
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s8),
+        // 12 dp a side, so the four quick choices sit on one row on a 360 dp phone.
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
         decoration: ShapeDecoration(
           color: selected ? colors.selectedSurface : colors.sunken,
           shape: StadiumBorder(side: BorderSide(color: selected ? colors.ink2 : colors.line)),

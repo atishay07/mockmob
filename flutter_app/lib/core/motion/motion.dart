@@ -15,6 +15,7 @@ export 'pull_refresh.dart';
 export 'scroll_effects.dart';
 export 'scrub.dart';
 export 'shake.dart';
+export 'size_ease.dart';
 export 'springs.dart';
 
 /// Motion tokens (Night Sheet brief, section 7). Only opacity and transform animate, inside a
@@ -170,7 +171,11 @@ abstract final class Motion {
 /// middle of a swap holds what is showing and starts again from there.
 ///
 /// Prefer it to a bare `AnimatedSwitcher`, whose default cross-fade dips to about half strength in
-/// the middle and reads as a flash on the dark ground.
+/// the middle and reads as a flash on the dark ground. It is the default for every keyed content
+/// swap in the app (`MmSkeletonSwitcher` is built on it).
+///
+/// Under reduced motion it stays a fade (opacity only, nothing travels) but a short one: the
+/// incoming layer arrives over [Motion.reducedFade].
 class MmOverlapSwitcher extends StatefulWidget {
   const MmOverlapSwitcher({
     super.key,
@@ -179,12 +184,17 @@ class MmOverlapSwitcher extends StatefulWidget {
     this.outDuration = const Duration(milliseconds: 90),
     this.alignment = Alignment.topCenter,
     this.animateFirst = false,
+    this.fit = StackFit.loose,
   });
 
   final Widget child;
   final Duration duration;
   final Duration outDuration;
   final AlignmentGeometry alignment;
+
+  /// How the two layers are sized in their stack. [StackFit.passthrough] hands both the parent's
+  /// constraints unchanged (a full-width skeleton and its content).
+  final StackFit fit;
 
   /// Fades the first child in as well (off: it is simply there).
   final bool animateFirst;
@@ -221,19 +231,51 @@ class _MmOverlapSwitcherState extends State<MmOverlapSwitcher> with TickerProvid
   final List<_OverlapLayer> _outgoing = [];
 
   double _incomingOpacity() => Motion.glide.transform(_current.fade.value.clamp(0.0, 1.0));
+  bool _begun = false;
+
+  /// The incoming fade: [MmOverlapSwitcher.duration], or the short reduced-motion fade.
+  Duration get _inDuration => Motion.reduced(context) ? Motion.reducedFade : widget.duration;
 
   @override
   void initState() {
     super.initState();
     _current = _layer(widget.child, value: widget.animateFirst ? 0 : 1);
-    if (widget.animateFirst) _current.fade.forward();
   }
 
-  _OverlapLayer _layer(Widget child, {required double value}) {
-    final c = AnimationController(vsync: this, duration: widget.duration, value: value);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_begun) return;
+    _begun = true;
+    // The first fade starts here, where reduced motion can be read.
+    if (widget.animateFirst) {
+      _current.fade
+        ..duration = _inDuration
+        ..forward();
+    }
+  }
+
+  _OverlapLayer _layer(Widget child, {required double value, Duration? duration}) {
+    final c = AnimationController(vsync: this, duration: duration ?? widget.duration, value: value);
     final layer = _OverlapLayer(_ids++, child, c);
-    c.addListener(() => _onIncoming(layer));
+    c
+      ..addListener(() => _onIncoming(layer))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) _landed(layer);
+      });
     return layer;
+  }
+
+  /// The incoming layer has landed at full strength on top: the swap is over, and any layer still
+  /// leaving goes now (on real frames they have already faded; a long frame must not leave the old
+  /// content behind the new).
+  void _landed(_OverlapLayer layer) {
+    if (!mounted || !identical(layer, _current) || _outgoing.isEmpty) return;
+    final gone = List<_OverlapLayer>.of(_outgoing);
+    setState(_outgoing.clear);
+    for (final out in gone) {
+      out.fade.dispose();
+    }
   }
 
   void _onIncoming(_OverlapLayer layer) {
@@ -274,7 +316,7 @@ class _MmOverlapSwitcherState extends State<MmOverlapSwitcher> with TickerProvid
     while (_outgoing.length > 2) {
       _outgoing.removeAt(0).fade.dispose();
     }
-    _current = _layer(widget.child, value: 0);
+    _current = _layer(widget.child, value: 0, duration: _inDuration);
     _current.fade.forward();
   }
 
@@ -318,6 +360,7 @@ class _MmOverlapSwitcherState extends State<MmOverlapSwitcher> with TickerProvid
         );
     return Stack(
       alignment: widget.alignment,
+      fit: widget.fit,
       children: [
         for (final out in _outgoing) layer(out, leaving: true),
         layer(current, leaving: false),

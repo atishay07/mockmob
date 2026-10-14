@@ -1,4 +1,3 @@
-import '../../../core/settings/changed_row.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/reduced_motion.dart';
 import '../../../core/settings/appearance_settings.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/settings/theme_cross_fade.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -61,7 +61,7 @@ class _AppearanceScreenState extends ConsumerState<AppearanceScreen> {
     _stand?.cancel();
     _react = Timer(ThemeCrossFade.duration, () {
       if (!mounted) return;
-      _mobi.play(AppearanceScreen.actFor(next));
+      _mobi.react(AppearanceScreen.actFor(next));
       if (next == ThemeMode.dark) {
         _stand = Timer(AppearanceScreen.sleepyFor, () {
           if (mounted) _mobi.play(MobiAct.idle);
@@ -223,7 +223,7 @@ class _ThemeHeadingRow extends StatelessWidget {
           Expanded(
             child: Semantics(header: true, child: Text(YouCopy.themeHeading, style: type.labelLarge.copyWith(color: context.mmColors.ink2))),
           ),
-          YouMobi(size: 72, controller: mobi, entrance: MobiAct.idle),
+          YouMobi(size: 72, controller: mobi),
         ],
       ),
     );

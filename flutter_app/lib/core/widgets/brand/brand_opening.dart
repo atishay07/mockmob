@@ -7,6 +7,7 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../auth/auth_state.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
@@ -26,8 +27,16 @@ import 'logo_geometry.g.dart';
 /// by a spring. The word ends centred. Mobi glances toward the word (860).
 /// 850: the first screen starts painting under the still-opaque opening.
 /// 1000 to 1280: the hand-off. The word fades out first (120 ms), then the ground lifts off the
-/// first screen (80 to 280). If the app is not ready yet, the word holds and Mobi blinks now and
-/// then until it is (never a spinner), at most [maxMs].
+/// first screen (80 to 280).
+///
+/// The opening plays on its own clock: nothing of it waits for the stored session, the profile or
+/// the first screen's data. Only the hand-off looks at the app. If the first screen is known by
+/// the time the word is composed (the usual start: the cached profile answers in a few hundred
+/// ms) it hands off straight to it. If the session is still being read, the word holds for
+/// [authGraceMs] more, and then hands off to the router's launch screen, which is this word
+/// exactly (a still, alive launch screen), so nothing moves; the first screen replaces it when it
+/// is known. If the app itself is not built yet, the word holds and Mobi blinks now and then
+/// (never a spinner), at most [maxMs].
 abstract final class OpeningTimeline {
   static const double blinkAt = 150;
   static const double inkAt = 320;
@@ -67,8 +76,14 @@ abstract final class OpeningTimeline {
   static const double idleFirstBlinkAt = 1900;
   static const double idleBlinkEvery = 2800;
 
-  /// The longest the opening waits for the app; then it hands off to the splash route, which
-  /// shows the same word.
+  /// How long past the composed word the hand-off still waits for the session to be known, so
+  /// the usual slightly late answer (a few hundred ms past 1 s) lands on the first screen
+  /// directly. Never a wait for the network: after this the opening hands off to the launch
+  /// screen (the same word) and the first screen follows when the session is known.
+  static const double authGraceMs = 300;
+
+  /// The longest the opening waits for the app to be built; then it hands off to the splash route,
+  /// which shows the same word.
   static const double maxMs = 8000;
 
   /// Under reduced motion: the "mo" fades out, then the word fades in; no unfolding, no blink.
@@ -94,9 +109,12 @@ abstract final class OpeningTimeline {
 
   static double _span(double t, double a, double ms) => ((t - a) / ms).clamp(0.0, 1.0);
 
+  /// How long a blink lasts, from the lid starting to close to the eye open again.
+  static const double blinkMs = 160;
+
   static double blinkAmount(double t, double at) {
     final u = t - at;
-    if (u <= 0 || u >= 160) return 0;
+    if (u <= 0 || u >= blinkMs) return 0;
     return u < 60 ? Motion.inOut.transform(u / 60) : 1 - Motion.inOut.transform((u - 60) / 100);
   }
 
@@ -274,6 +292,13 @@ abstract final class OpeningTimeline {
         view: wordView(size),
         mobi: const MobiFacePose(detail: LogoDetail.small),
       );
+
+  /// The word as the launch screen holds it while a slow start waits for the session: the last
+  /// frame, with Mobi's eyes open except [intoBlink] ms into a blink (0 while they are open).
+  static LogoPose launchPoseAt(Size size, double intoBlink) => LogoPose(
+        view: wordView(size),
+        mobi: MobiFacePose(detail: LogoDetail.small, blink: blinkAmount(intoBlink, 0)),
+      );
 }
 
 /// Tells the opening when its first frame is on the glass: the first Flutter frame has been
@@ -340,10 +365,12 @@ abstract final class OpeningGlass {
 /// "mockmob", and hands off to the first screen. It covers the app until it is done, then
 /// removes itself ([onDone]); tap to skip. Under reduced motion the "mo" fades to the word.
 ///
-/// [ready] says the first screen is built and has had a frame (never that auth or the first
-/// screen's data has loaded: the opening plays on its own clock, and the first screen shows its
-/// own skeleton or launch screen for that). [progress] (0 to 1 of the first
-/// 1000 ms) freezes the timeline, for goldens and the lab.
+/// [ready] says the first screen is known and built (the session is known and the router has gone
+/// to it); it is never about the first screen's data (the opening plays on its own clock, and the
+/// first screen shows its own skeleton for that). [launchReady] says the app is built and the
+/// router's launch screen is up, so if the session is still not known [OpeningTimeline.authGraceMs]
+/// after the word is composed, the opening hands off to that screen, which is its own last frame.
+/// [progress] (0 to 1 of the first 1000 ms) freezes the timeline, for goldens and the lab.
 class BrandOpening extends ConsumerStatefulWidget {
   const BrandOpening({
     super.key,
@@ -351,6 +378,7 @@ class BrandOpening extends ConsumerStatefulWidget {
     this.onPrepaint,
     this.onReveal,
     this.ready = true,
+    this.launchReady = false,
     this.progress,
     this.shown,
     this.onSeen,
@@ -370,6 +398,7 @@ class BrandOpening extends ConsumerStatefulWidget {
   /// Called once as the opening starts to fade, so whatever is underneath can come alive.
   final VoidCallback? onReveal;
   final bool ready;
+  final bool launchReady;
   final double? progress;
 
   /// Completes when the "mo" is on the glass. Null asks the platform ([OpeningGlass.wait]).
@@ -418,6 +447,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
   bool _fading = false;
   bool _done = false;
   double? _readyAt;
+  double? _launchAt;
 
   /// [_clock] runs from the first build (so frames keep coming under the splash); [_seenAt] is
   /// its value when the "mo" reached the glass. Timeline time is measured from there.
@@ -460,6 +490,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     if (_started) return;
     _started = true;
     if (widget.ready) _readyAt = 0;
+    if (widget.ready || widget.launchReady) _launchAt = 0;
     _clock.addListener(_tick);
     _fade.addStatusListener((s) {
       if (s == AnimationStatus.completed) _finish();
@@ -482,6 +513,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
       if (!reduced || _now >= OpeningTimeline.expandAt) return;
       _seenAt = _clock.value;
       if (_readyAt != null) _readyAt = 0;
+      if (_launchAt != null) _launchAt = 0;
     }
     _reduced = reduced;
     _fade.duration = Duration(
@@ -494,7 +526,9 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     super.didUpdateWidget(old);
     // Only noted here; the next tick decides (a hand-off from here would set the host's state
     // during its build).
-    if (widget.ready && _readyAt == null && widget.progress == null) _readyAt = _now;
+    if (widget.progress != null) return;
+    if (widget.ready && _readyAt == null) _readyAt = _now;
+    if ((widget.ready || widget.launchReady) && _launchAt == null) _launchAt = _now;
   }
 
   double get _settledAt => _reduced ? OpeningTimeline.reducedMs : OpeningTimeline.settledAt;
@@ -508,11 +542,21 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     }
     if (_fading) return;
     final readyAt = _readyAt;
-    // A late "ready" waits a moment more, so the first screen has painted under the cover.
-    final goAt = math.min(
-      OpeningTimeline.maxMs,
-      readyAt == null ? double.infinity : math.max(_settledAt, readyAt + OpeningTimeline.prepaintLead),
-    );
+    final launchAt = _launchAt;
+    // A late "ready" waits a moment more, so the first screen has painted under the cover. With
+    // the session still unknown the word waits only the grace, then hands off to the launch
+    // screen (which is this word), never on the network.
+    final double goAt;
+    if (readyAt != null) {
+      goAt = math.min(OpeningTimeline.maxMs, math.max(_settledAt, readyAt + OpeningTimeline.prepaintLead));
+    } else if (launchAt != null) {
+      goAt = math.min(
+        OpeningTimeline.maxMs,
+        math.max(_settledAt + OpeningTimeline.authGraceMs, launchAt + OpeningTimeline.prepaintLead),
+      );
+    } else {
+      goAt = OpeningTimeline.maxMs;
+    }
     if (t >= goAt - OpeningTimeline.prepaintLead) _prepaint();
     if (t >= goAt) _handOff();
   }
@@ -763,11 +807,12 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
 
   @override
   Widget build(BuildContext context) {
-    // Ready is only "the first screen is built and has had a frame". Auth and Today's data are
-    // not waited for: the opening plays on its own clock, and the router shows the launch screen
-    // (the opening's own last frame) while the stored session is read, then the retry screen if
-    // it failed, so the hand-off never waits on a network call.
-    final ready = _appFramed;
+    // The opening plays on its own clock and never waits for auth or Today's data. Only its
+    // hand-off looks: it lands on the first screen when the session is known (a failed load is
+    // known too: the router shows its retry screen), and otherwise, a moment after the word is
+    // composed, on the router's launch screen (the opening's own last frame) while the stored
+    // session is read. So it never waits on a network call and never shows a wrong screen.
+    final authKnown = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -781,7 +826,8 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
           const SizedBox.shrink(),
         if (_showing)
           BrandOpening(
-            ready: ready,
+            ready: _appFramed && authKnown,
+            launchReady: _appFramed,
             shown: widget.shown,
             onSeen: _buildApp,
             onPrepaint: () {

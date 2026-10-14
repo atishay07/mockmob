@@ -1,4 +1,3 @@
-import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../account_access/access_gateway.dart' show accessMethodsProvider;
@@ -69,7 +69,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       return;
     }
     // The student has confirmed: Mobi waves goodbye while the sign out goes through.
-    _mobi.play(MobiAct.hello);
+    _mobi.react(MobiMoments.act(MobiEvent.goodbye));
     try {
       await performSignOut(ref);
     } on Object {

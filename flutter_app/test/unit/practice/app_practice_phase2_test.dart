@@ -12,6 +12,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/data/suggestion.dart';
+import 'package:mockmob/features/practice/model/finish_reaction.dart';
 import 'package:mockmob/features/practice/practice_start_screen.dart' show StartStage;
 import 'package:mockmob/features/practice/widgets/card_motion.dart';
 import 'package:mockmob/features/practice/widgets/chapter_picker.dart';
@@ -19,7 +20,8 @@ import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:mockmob/features/practice/widgets/numbered_sheet.dart';
 import 'package:mockmob/features/practice/widgets/practice_mobi.dart';
-import 'package:mockmob/features/practice/widgets/practice_motion.dart';
+import 'package:mockmob/features/practice/widgets/subject_tiles.dart';
+import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show sheetAgrees;
 import 'package:mockmob/features/practice/widgets/resume_sheet.dart';
 
 import '../../helpers/fonts.dart';
@@ -99,24 +101,6 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('the reactions are pure where they can be', () {
-    test('the squash goes down, rebounds and rests at 1', () {
-      expect(PracticeSquash.scaleAt(0), const Offset(1, 1));
-      final down = PracticeSquash.scaleAt(0.17);
-      expect(down.dx, closeTo(1.08, 0.001));
-      expect(down.dy, closeTo(0.9, 0.001));
-      final end = PracticeSquash.scaleAt(1);
-      expect(end.dx, closeTo(1, 0.01));
-      expect(end.dy, closeTo(1, 0.01));
-    });
-
-    test('the shake starts and ends still and stays within 4 dp', () {
-      expect(PracticeShake.offsetAt(0), 0);
-      expect(PracticeShake.offsetAt(1).abs(), lessThan(0.001));
-      for (var i = 0; i <= 20; i++) {
-        expect(PracticeShake.offsetAt(i / 20).abs(), lessThanOrEqualTo(4));
-      }
-    });
-
     test('the emblem floats 3 dp each way on a 6 s sine', () {
       expect(EmblemFloat.period, const Duration(seconds: 6));
       expect(EmblemFloat.offsetAt(0), closeTo(0, 1e-9));
@@ -153,6 +137,27 @@ void main() {
       expect(PracticeCopy.recorded(at, chapter: 'Goodwill'), 'Chapter practice finished, Goodwill. Recorded at 11:51 PM.');
       expect(PracticeCopy.recorded(at, chapter: 'Goodwill.'), 'Chapter practice finished, Goodwill. Recorded at 11:51 PM.');
       expect(PracticeCopy.finished(at, chapter: 'Goodwill'), PracticeCopy.recorded(at, chapter: 'Goodwill'));
+    });
+
+    test('the painted sheet shows only beside a count it agrees with', () {
+      // Still being read: it holds its place.
+      expect(sheetAgrees(flags: null, answered: 4), isTrue);
+      expect(sheetAgrees(flags: [true, false, true], answered: null), isTrue);
+      // Read: the inked bubbles are exactly the printed count.
+      expect(sheetAgrees(flags: [true, false, true], answered: 2), isTrue);
+      expect(sheetAgrees(flags: [true, false, true], answered: 3), isFalse);
+      // A source with no journal (ten answered, nothing inked) never draws a sheet that contradicts it.
+      expect(sheetAgrees(flags: [for (var i = 0; i < 10; i++) false], answered: 10), isFalse);
+    });
+
+    test('his face follows the tone: proud, happy, curious at the slip, calm over blanks, soft when nothing is right', () {
+      expect({for (final t in FinishTone.values) t: t.mood}, {
+        FinishTone.great: MobiMood.proud,
+        FinishTone.good: MobiMood.happy,
+        FinishTone.mixed: MobiMood.curious,
+        FinishTone.blank: MobiMood.calm,
+        FinishTone.low: MobiMood.concerned,
+      });
     });
 
     test('Mobi says what a long-pressed bubble was', () {
@@ -348,6 +353,17 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('arriving sleepy late at night, he does not nudge at all', (tester) async {
+      var nudges = 0;
+      PracticeMobi.debugOnNudge = () => nudges++;
+      addTearDown(() => PracticeMobi.debugOnNudge = null);
+      final mobi = MobiController();
+      addTearDown(mobi.dispose);
+      await _pump(tester, Center(child: PracticeMobi(controller: mobi, entrance: MobiAct.sleepy, loading: false)));
+      await tester.pump(const Duration(seconds: 12));
+      expect(nudges, 0);
+    });
+
     testWidgets('under reduced motion he holds a still pose and never nudges', (tester) async {
       var nudges = 0;
       PracticeMobi.debugOnNudge = () => nudges++;
@@ -411,41 +427,60 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('answers that arrive after an empty sheet still ink in order', (tester) async {
+      Widget sheet(List<bool> a) => SizedBox(width: 300, child: ResumeSheet(total: 20, answered: a));
+      await _pump(tester, sheet(List.filled(20, false)));
+      await tester.pump(const Duration(seconds: 1));
+      expect(tester.hasRunningAnimations, isFalse);
+      await _pump(tester, sheet([for (var i = 0; i < 20; i++) i < 10]));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.hasRunningAnimations, isTrue);
+      await tester.pumpAndSettle();
+      expect(tester.hasRunningAnimations, isFalse);
+    });
+
     testWidgets('under reduced motion the final sheet shows at once', (tester) async {
       await _pump(tester, SizedBox(width: 300, child: ResumeSheet(total: 20, answered: [for (var i = 0; i < 20; i++) i < 7])), reduceMotion: true);
       expect(tester.hasRunningAnimations, isFalse);
     });
   });
 
-  group('the subject pick and the cap', () {
-    testWidgets('the squash plays on a new trigger and ends at rest', (tester) async {
-      Widget squash(int t) => PracticeSquash(trigger: t, glint: Colors.amber, child: const SizedBox(width: 60, height: 60));
-      await _pump(tester, squash(0));
-      expect(tester.hasRunningAnimations, isFalse);
-      await _pump(tester, squash(1));
+  group('the subject pick', () {
+    Widget tile({bool selected = false, VoidCallback? onTap, ValueChanged<Offset>? at}) => Center(
+      child: SubjectTile(id: 'accountancy', name: 'Accountancy', questions: 120, selected: selected, onTap: onTap ?? () {}, onPickedAt: at),
+    );
+
+    testWidgets('a tap that picks it says where the tile is, and the object answers once with one light haptic', (tester) async {
+      var taps = 0;
+      Offset? at;
+      final haptics = await _pump(tester, tile(onTap: () => taps++, at: (o) => at = o));
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.tap(find.byType(SubjectTile));
       await tester.pump(const Duration(milliseconds: 90));
-      expect(tester.hasRunningAnimations, isTrue);
+      expect(taps, 1);
+      expect(at, tester.getCenter(find.byType(SubjectTile)));
+      expect(tester.hasRunningAnimations, isTrue, reason: 'the object gives and its light sparkles');
       await tester.pumpAndSettle();
       expect(tester.hasRunningAnimations, isFalse);
+      expect(haptics.calls, ['light'], reason: "one touch, one haptic: the object's own");
     });
 
-    testWidgets('the squash and the shake stand still under reduced motion', (tester) async {
-      await _pump(tester, const PracticeSquash(trigger: 0, glint: Colors.amber, child: SizedBox(width: 60, height: 60)), reduceMotion: true);
-      await _pump(tester, const PracticeSquash(trigger: 1, glint: Colors.amber, child: SizedBox(width: 60, height: 60)), reduceMotion: true);
-      await tester.pump(const Duration(milliseconds: 90));
-      expect(tester.hasRunningAnimations, isFalse);
-      await _pump(tester, const PracticeShake(trigger: 0, child: Text('limit')), reduceMotion: true);
-      await _pump(tester, const PracticeShake(trigger: 1, child: Text('limit')), reduceMotion: true);
-      await tester.pump(const Duration(milliseconds: 90));
-      expect(tester.hasRunningAnimations, isFalse);
+    testWidgets('a tap on the chosen tile changes nothing: no look, no squash, no haptic', (tester) async {
+      Offset? at;
+      final haptics = await _pump(tester, tile(selected: true, at: (o) => at = o));
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.tap(find.byType(SubjectTile));
+      await tester.pumpAndSettle();
+      expect(at, isNull);
+      expect(haptics.calls, isEmpty);
     });
 
-    testWidgets('the shake runs for 320 ms on a new trigger', (tester) async {
-      await _pump(tester, const PracticeShake(trigger: 0, child: Text('limit')));
-      await _pump(tester, const PracticeShake(trigger: 1, child: Text('limit')));
-      await tester.pump(const Duration(milliseconds: 100));
-      expect(tester.hasRunningAnimations, isTrue);
-      await tester.pump(const Duration(milliseconds: 300));
+    testWidgets('under reduced motion the pick still ticks, and nothing moves', (tester) async {
+      final haptics = await _pump(tester, tile(), reduceMotion: true);
+      await tester.tap(find.byType(SubjectTile));
+      await tester.pump(const Duration(milliseconds: 90));
+      expect(haptics.calls, ['light']);
+      await tester.pump(const Duration(milliseconds: 400));
       expect(tester.hasRunningAnimations, isFalse);
     });
   });

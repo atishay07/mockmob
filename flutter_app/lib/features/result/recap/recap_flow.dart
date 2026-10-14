@@ -326,12 +326,19 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
   bool _retried = false;
 
   /// Mobi waits below the skeleton, at 60%: a quiet loading loop, never a second thing to read.
+  /// It is pinned under the skeleton's own box, so it never lands on a placeholder block and
+  /// never pushes the skeleton off a short screen: it is left out where there is no room.
   static const Widget _waiting = Padding(
-    padding: EdgeInsets.only(top: MmSpace.s24),
+    padding: EdgeInsets.symmetric(vertical: MmSpace.s12),
     child: Center(
       child: Opacity(opacity: 0.6, child: Mobi(pose: MobiPose.loading, size: 56)),
     ),
   );
+
+  /// The shortest area (dp) that still holds the skeleton and Mobi under it: the full result's
+  /// skeleton scrolls out of view and clips, the sealed sheet's cannot give way.
+  static const double _roomPage = 480;
+  static const double _roomSealed = 620;
 
   @override
   void initState() {
@@ -357,8 +364,9 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
   void dispose() {
     _timer?.cancel();
     // A retry that ended in the result being here settles Mobi: the next failure is a new run and
-    // may shrug again (the state view's own gate).
-    if (_retried) MobiRation.recovered('state-view');
+    // may shrug again (the state view's own gate). Leaving while the error is still on screen is
+    // not a recovery.
+    if (_retried && widget.data.error == null) MobiRation.recovered('state-view');
     super.dispose();
   }
 
@@ -367,7 +375,7 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
     final data = widget.data;
     final page = widget.page;
     final error = data.error;
-    final Widget body;
+    Widget body;
     if (error == null && _slow) {
       // Mobi in the state's own slot, thinking quietly: it is waiting with the student, not
       // reacting to a failure.
@@ -426,7 +434,6 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
               const Skeleton.line(width: 200, height: 22),
               const SizedBox(height: MmSpace.s16),
               const MmSkeletonRows(rows: 3),
-              _waiting,
             ],
           ),
         ),
@@ -448,7 +455,6 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
               Skeleton(height: 280, radius: 12),
               Spacer(),
               Skeleton(height: 56, radius: 28),
-              _waiting,
             ],
           ),
         ),
@@ -459,6 +465,21 @@ class _RecapPlaceholderState extends State<RecapPlaceholder> {
         title: error.kind == ApiErrorKind.notFound ? ResultCopy.notFound : ResultCopy.loadFailed,
         primary: StateAction(ResultCopy.tryAgain, _retry),
         secondary: StateAction(ResultCopy.backToReview, () => context.go(AppRoutes.review)),
+      );
+    }
+    if (error == null && !_slow) {
+      final skeleton = body;
+      // Mobi waits only when the paper is known not to be an NTA mock: NTA results are exam-faithful,
+      // with no Mobi at all, and the mode is not known until the attempt is.
+      final mode = data.attempt?.mode;
+      final mobiOk = mode != null && mode != 'nta';
+      body = LayoutBuilder(
+        builder: (context, c) => Column(
+          children: [
+            Expanded(child: skeleton),
+            if (mobiOk && c.maxHeight >= (page ? _roomPage : _roomSealed)) _waiting,
+          ],
+        ),
       );
     }
     return RecapRoom(child: SafeArea(child: body));

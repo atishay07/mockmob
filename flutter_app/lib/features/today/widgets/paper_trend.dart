@@ -28,6 +28,9 @@ class PaperTrendStrip extends ConsumerWidget {
   /// The chart's height: room for the newest mark above its dot and a margin under the lowest.
   static const double chartHeight = 72;
 
+  /// The chart's height never stands for less than this share of the paper's marks.
+  static const double minSpanShare = 0.12;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
@@ -54,6 +57,7 @@ class PaperTrendStrip extends ConsumerWidget {
                             child: CustomPaint(
                               painter: TrendPainter(
                                 marks: [for (final p in points) p.marks],
+                                minSpan: points.last.outOf * minSpanShare,
                                 colors: colors,
                                 draw: draw,
                                 newest: type.microStrong.copyWith(height: 1, color: colors.ink),
@@ -105,19 +109,27 @@ class PaperTrendStrip extends ConsumerWidget {
 
 /// Where a mark sits in the chart: the line and the dots share this, so the touch columns and
 /// the picture always agree. Exposed for the tests.
-Offset trendDot(Size size, List<int> marks, int i, {double top = 24, double bottom = 12}) {
+///
+/// The marks fill the height only as far as they truly differ: the height never spans less than
+/// [minSpan] marks (a share of the paper), so papers a few marks apart read as nearly level, not
+/// as a climb. The span is centred on the marks.
+Offset trendDot(Size size, List<int> marks, int i, {double top = 24, double bottom = 12, double minSpan = 0}) {
   final n = marks.length;
   final x = size.width / n * (i + 0.5);
   final lo = marks.reduce(math.min), hi = marks.reduce(math.max);
   final room = size.height - top - bottom;
-  final t = hi == lo ? 0.5 : (marks[i] - lo) / (hi - lo);
+  final span = math.max((hi - lo).toDouble(), minSpan);
+  final t = span <= 0 ? 0.5 : (marks[i] - (hi + lo) / 2) / span + 0.5;
   return Offset(x, top + room * (1 - t));
 }
 
 class TrendPainter extends CustomPainter {
-  TrendPainter({required this.marks, required this.colors, required this.draw, required this.newest}) : super(repaint: draw);
+  TrendPainter({required this.marks, required this.colors, required this.draw, required this.newest, this.minSpan = 0}) : super(repaint: draw);
 
   final List<int> marks;
+
+  /// The least number of marks the chart's height stands for (see [trendDot]).
+  final double minSpan;
   final MmColors colors;
   final Animation<double> draw;
   final TextStyle newest;
@@ -126,7 +138,7 @@ class TrendPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final n = marks.length;
     if (n < 2) return;
-    final dots = [for (var i = 0; i < n; i++) trendDot(size, marks, i)];
+    final dots = [for (var i = 0; i < n; i++) trendDot(size, marks, i, minSpan: minSpan)];
     final t = Motion.emphasized.transform(draw.value.clamp(0.0, 1.0));
     // The line runs from the first dot toward the last as far as the draw has gone.
     final reach = t * (n - 1);
@@ -188,5 +200,6 @@ class TrendPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(TrendPainter old) => old.marks != marks || old.colors != colors || old.draw != draw || old.newest != newest;
+  bool shouldRepaint(TrendPainter old) =>
+      old.marks != marks || old.colors != colors || old.draw != draw || old.newest != newest || old.minSpan != minSpan;
 }

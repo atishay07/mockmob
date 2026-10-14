@@ -323,7 +323,7 @@ class _RuleInfoState extends State<_RuleInfo> {
             ),
           ),
         ),
-        AnimatedSize(
+        MmSizeEase(
           duration: Motion.of(context, const Duration(milliseconds: 160)),
           curve: Motion.glide,
           alignment: Alignment.topCenter,

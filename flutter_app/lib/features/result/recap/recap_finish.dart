@@ -106,7 +106,7 @@ class _RecapFinishState extends State<RecapFinish> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (pose != null) ...[
-                          RecapMobi(pose: pose, size: 96, line: line),
+                          RecapMobi(pose: pose, size: 96, line: line, mood: recapMood(m.variant, widget.reaction)),
                           const SizedBox(height: MmSpace.s24),
                         ],
                         Semantics(liveRegion: true, child: ReceiptLine(text: ResultCopy.finishLine(m.mockLabel, m.candidates.length))),

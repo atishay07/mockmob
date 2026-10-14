@@ -310,7 +310,8 @@ class YouSwitchRow extends StatelessWidget {
                 Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: enabled ? colors.ink : colors.ink3)),
                 if (note != null) ...[
                   const SizedBox(height: 2),
-                  Text(note!, style: type.caption.copyWith(color: colors.ink2)),
+                  // A note that states the state ("Usage data is on") cross-fades with the switch.
+                  YouNote(note!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ],
             ),
@@ -319,7 +320,8 @@ class YouSwitchRow extends StatelessWidget {
           if (stateWords)
             ExcludeSemantics(
               child: SizedBox(
-                width: 28,
+                // Wide enough for "Off" at the student's own text size, so it never breaks.
+                width: MediaQuery.textScalerOf(context).scale(28),
                 child: YouSlideValue(value ? on : off, style: type.caption.copyWith(color: value ? colors.ink : colors.ink3, fontWeight: FontWeight.w600)),
               ),
             ),

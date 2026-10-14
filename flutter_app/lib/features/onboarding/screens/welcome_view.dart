@@ -100,7 +100,7 @@ class _WelcomeViewState extends State<WelcomeView> {
     if (!mounted || _nudged || _asleep || widget.pending || Motion.reduced(context)) return;
     _nudged = true;
     _mobi.pointAtWidget(_keyKey);
-    _mobi.play(MobiAct.nudge);
+    _mobi.react(MobiMoments.act(MobiEvent.showAction));
   }
 
   /// Any touch: the nudge timer starts over, and a held point lets go.
@@ -318,9 +318,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                   onPointerDown: (_) {
                     if (_asleep) return;
                     _mobi.lookAtWidget(_keyKey);
-                    _mobi.play(MobiAct.listen);
+                    _mobi.react(MobiMoments.act(MobiEvent.choiceWitnessed));
                   },
-                  onPointerUp: (_) => _mobi.lookAt(null),
+                  // Let go: he straightens up again (a held lean would outlast the touch).
+                  onPointerUp: (_) {
+                    _mobi.lookAt(null);
+                    if (!_asleep) _mobi.play(MobiAct.idle);
+                  },
                   onPointerCancel: (_) {
                     _mobi.lookAt(null);
                     _mobi.play(MobiAct.idle);

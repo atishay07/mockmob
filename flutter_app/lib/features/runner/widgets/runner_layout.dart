@@ -113,6 +113,10 @@ class _RunnerLayoutState extends State<RunnerLayout> {
     }
   }
 
+  /// Where the student is in each passage (folded or open, how far down), per passage group, so
+  /// moving between the questions of one passage keeps the place. In memory only.
+  final Map<String, PassageRead> _passages = {};
+
   /// The mock's cells waiting for their option's wash to arrive (one per quick answer).
   final Set<Timer> _inkTimers = {};
 
@@ -273,6 +277,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                                     onLock: _lockFrom,
                                     passageRange: passageRangeOf(s, at),
                                     isStruck: (option) => s.strikes.isStruck(question.id, option),
+                                    passageRead: _passages.putIfAbsent(question.passageGroupId ?? question.id, PassageRead.new),
                                     onStrike: onStrike == null ? null : (option) => onStrike(question.id, option),
                                     note: _noteFor(s, at, strikable: onStrike != null),
                                   ),
@@ -284,7 +289,15 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                       }
 
                       return _ScrollFade(
-                        child: QuestionStage(index: index, layer: layer),
+                        // A sideways swipe moves between questions; past the last it opens the
+                        // submit page, the same as the Next key there.
+                        child: QuestionStage(
+                          index: index,
+                          layer: layer,
+                          onSwipe: (step) => step > 0 ? widget.onNext() : widget.onPrevious(),
+                          hasPrevious: index > 0,
+                          hasNext: index < s.questions.length - 1,
+                        ),
                       );
                     },
                   ),

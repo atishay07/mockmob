@@ -1,9 +1,10 @@
-import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/motion/motion.dart' show MmShake, MmShakeState;
+import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -11,7 +12,6 @@ import '../data/profile_editor.dart';
 import '../data/student_target.dart';
 import '../data/subject_catalog.dart';
 import '../edit_copy.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
 import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
@@ -43,8 +43,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   String? _error;
   String? _cap;
 
-  /// Counts the refused sixth picks; the cap sentence shakes each time it changes.
-  int _capHits = 0;
+  /// The cap sentence shakes each time a sixth subject is refused (it is already on screen from
+  /// the second refusal on, so the shake is called, not triggered by a rebuild).
+  final GlobalKey<MmShakeState> _shake = GlobalKey<MmShakeState>();
   DateTime? _savedAt;
   final MobiController _mobi = MobiController();
 
@@ -91,12 +92,13 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         return;
       }
       if (_chosen.length >= kMaxProfileSubjects) {
-        // Said once, in the banner; Mobi only shrugs (no second copy of the words).
+        // Said once, in the sentence; Mobi only shrugs (no second copy of the words) and the
+        // sentence shakes after this frame has put it on screen.
         _cap = EditCopy.subjectsCap;
-        _capHits++;
         _mobi
           ..hush()
-          ..play(MobiAct.oops);
+          ..react(MobiMoments.act(MobiEvent.refused), key: 'subjects:cap');
+        WidgetsBinding.instance.addPostFrameCallback((_) => _shake.currentState?.shake());
         return;
       }
       _cap = null;
@@ -122,17 +124,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         _savedAt = ref.read(nowProvider)();
       });
       ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.account);
-      // Only after the server stored them: Mobi is proud (a nod under Quiet, nothing under Off)
-      // and says what changes.
-      switch (ref.read(rhythmPrefsProvider).mode) {
-        case CelebrationMode.full:
-          _mobi.play(MobiAct.proud);
-        case CelebrationMode.quiet:
-          _mobi.play(MobiAct.correct);
-        case CelebrationMode.off:
-          break;
-      }
-      _mobi.say(EditCopy.subjectsMobiSaved);
+      // Only after the server stored them: Mobi is proud (a nod under Quiet, nothing under Off).
+      // The receipt under the list already says what changes, so he does not say it again.
+      _mobi.react(MobiMoments.act(MobiEvent.milestone));
     } on ApiError catch (e) {
       if (!mounted) return;
       setState(() {
@@ -164,7 +158,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             Semantics(
               liveRegion: true,
               container: true,
-              child: YouShake(trigger: _capHits, child: Text(_cap!, style: context.mmType.small.copyWith(color: context.mmColors.ink))),
+              child: MmShake(key: _shake, child: Text(_cap!, style: context.mmType.small.copyWith(color: context.mmColors.ink))),
             ),
             const SizedBox(height: MmSpace.s12),
           ],
@@ -210,7 +204,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
                   ],
                 ),
               ),
-              Mobi(pose: MobiPose.point, size: 64, controller: _mobi),
+              YouMobi(size: 64, controller: _mobi, entrance: MobiAct.point),
             ],
           ),
         ),

@@ -1,13 +1,15 @@
-import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/analytics/event_allowlist.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/consent_repository.dart';
+import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/you_motion.dart' show YouSizeEase;
 import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
 import 'event_list_sheet.dart';
@@ -97,10 +99,25 @@ class _Status extends StatelessWidget {
       UsagePhase.unreached =>
         InlineBanner(message: YouCopy.consentUnreached, tone: BannerTone.warning, actionLabel: YouCopy.tryAgain, onAction: onRetry),
     };
-    if (body == null) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, youText, 0),
-      child: Semantics(liveRegion: true, container: true, child: body),
+    // The state line arrives and changes by cross-fade, and the page below eases with it, so the
+    // switch and its words never jump.
+    return YouSizeEase(
+      child: AnimatedSwitcher(
+        duration: Motion.of(context, Motion.crossFade),
+        switchInCurve: Motion.glide,
+        switchOutCurve: Motion.exit,
+        layoutBuilder: (current, previous) => Stack(
+          alignment: AlignmentDirectional.topStart,
+          children: [...previous, ?current],
+        ),
+        child: body == null
+            ? const SizedBox(key: ValueKey('no-status'), width: double.infinity)
+            : Padding(
+                key: ValueKey(ui.phase),
+                padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, youText, 0),
+                child: Semantics(liveRegion: true, container: true, child: body),
+              ),
+      ),
     );
   }
 

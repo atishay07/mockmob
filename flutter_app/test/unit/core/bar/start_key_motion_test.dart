@@ -8,13 +8,29 @@ import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../../helpers/golden_harness.dart';
 
-Widget _bar({String? resumeId}) => Align(
+Widget _bar({String? resumeId, bool entrance = false}) => Align(
   alignment: Alignment.bottomCenter,
-  child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}, startResumeId: resumeId, startResumeLabel: resumeId == null ? null : 'Resume Accountancy mock'),
+  child: MmBottomBar(
+    currentBranch: 0,
+    onTab: (_) {},
+    onStart: (_) {},
+    entrance: entrance,
+    startResumeId: resumeId,
+    startResumeLabel: resumeId == null ? null : 'Resume Accountancy mock',
+  ),
 );
 
 void main() {
   setUp(MmBottomBar.resetResumeSlide);
+
+  testWidgets('a bar that arrives with an open session slides once it has landed, not never', (tester) async {
+    // The entrance is still running on the first frame; the slide must wait for it, not be lost.
+    await pumpMockmob(tester, _bar(resumeId: 's7', entrance: true), size: const Size(360, 780));
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('Resume'), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.text('Resume'), findsNothing, reason: 'and it slid back to Start');
+  });
 
   test('the stretch keeps the key volume: taller means narrower', () {
     final (sx0, sy0) = StartKeyFace.squashFor(0);

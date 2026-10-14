@@ -2,18 +2,15 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
-import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/edge_fade.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
-import 'practice_motion.dart';
 import 'subject_accent.dart';
 
 /// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
@@ -22,7 +19,7 @@ import 'subject_accent.dart';
 ///
 /// The chosen tile is always in view: a subject picked elsewhere (Compass, a link, the quick
 /// start) opens the strip already scrolled to it, and a later choice glides it into view.
-class SubjectTiles extends ConsumerStatefulWidget {
+class SubjectTiles extends StatefulWidget {
   const SubjectTiles({
     super.key,
     required this.choices,
@@ -83,10 +80,10 @@ class SubjectTiles extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<SubjectTiles> createState() => _SubjectTilesState();
+  State<SubjectTiles> createState() => _SubjectTilesState();
 }
 
-class _SubjectTilesState extends ConsumerState<SubjectTiles> {
+class _SubjectTilesState extends State<SubjectTiles> {
   ScrollController? _controller;
   double _viewport = 0;
 
@@ -168,9 +165,10 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
                   name: c.name,
                   questions: widget.countFor?.call(c.id),
                   selected: c.id == widget.selectedId,
+                  // The pick's own touch (the object's give) carries the light haptic, so no second
+                  // tick is added here.
                   onTap: () {
                     if (c.id == widget.selectedId) return;
-                    ref.read(hapticsProvider).selection();
                     widget.onSelected(c.id);
                   },
                   onPickedAt: widget.onPickedAt,
@@ -202,19 +200,22 @@ class SubjectTile extends StatefulWidget {
 }
 
 class _SubjectTileState extends State<SubjectTile> {
-  /// Counts the times this tile became the chosen one: the object's squash and sparkle play on it.
-  int _picks = 0;
+  /// Bumped by the tap that picks this tile: the object answers it ([MmObjectReact]: it gives under
+  /// the finger and springs back, with its subject light's sparkle). Never by a rebuild, so a
+  /// subject chosen elsewhere does not squash a tile nobody touched.
+  final ValueNotifier<int> _pick = ValueNotifier(0);
 
   @override
-  void didUpdateWidget(SubjectTile old) {
-    super.didUpdateWidget(old);
-    if (!old.selected && widget.selected) _picks++;
+  void dispose() {
+    _pick.dispose();
+    super.dispose();
   }
 
   void _tapped() {
     if (!widget.selected) {
       final box = context.findRenderObject();
       if (box is RenderBox && box.hasSize && box.attached) widget.onPickedAt?.call(box.localToGlobal(box.size.center(Offset.zero)));
+      _pick.value++;
     }
     widget.onTap();
   }
@@ -280,18 +281,15 @@ class _SubjectTileState extends State<SubjectTile> {
                             duration: reduced ? Duration.zero : Motion.ui,
                             curve: Motion.out,
                             alignment: Alignment.topLeft,
-                            // The pick lands on the object itself: a squash into its light and a few
-                            // glints, once per pick (nothing under reduced motion; the ring says it).
-                            child: PracticeSquash(
-                              trigger: _picks,
-                              glint: light?.of(Theme.of(context).brightness) ?? colors.volt,
-                              alignment: Alignment.bottomLeft,
-                              child: SubjectEmblem(
-                                subject: id,
-                                size: SubjectTiles.emblemSize(questions != null),
-                                framed: false,
-                                marked: selected,
-                              ),
+                            // The pick lands on the object itself: it gives and springs back with a
+                            // light sparkle, once per pick (nothing moves under reduced motion; the
+                            // ring says it).
+                            child: SubjectEmblem(
+                              subject: id,
+                              size: SubjectTiles.emblemSize(questions != null),
+                              framed: false,
+                              marked: selected,
+                              reaction: _pick,
                             ),
                           ),
                         ),

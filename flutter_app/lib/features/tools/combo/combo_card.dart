@@ -13,6 +13,7 @@ import '../domain/du_eligibility.dart';
 import '../domain/du_models.dart';
 import '../tools_paths.dart';
 import '../widgets/tools_card.dart';
+import '../widgets/size_reveal.dart';
 
 /// One ranked combination: the papers, numbered (what goes on the form), how many of the
 /// targets and of all DU programmes it opens, what each missed target still needs, and the way
@@ -49,7 +50,7 @@ class _ComboCardState extends ConsumerState<ComboCard> {
 
   String get _detail {
     final best = widget.best;
-    if (best == null || rank == 0) return ComboWords.rankRule;
+    if (best == null || rank == 0) return targetCount > 0 ? ComboWords.rankRule : ComboWords.rankRuleNoTargets;
     return ComboWords.comparedWithBest(
       targetsMet: combo.met.length,
       bestTargetsMet: best.met.length,
@@ -75,55 +76,51 @@ class _ComboCardState extends ConsumerState<ComboCard> {
             button: true,
             expanded: _expanded,
             label: _expanded ? ComboWords.collapse : ComboWords.expand,
-            excludeSemantics: false,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => setState(() => _expanded = !_expanded),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: MmTarget.min),
                 child: Row(
-            children: [
-              // The bubble is a state: inked when this combination reaches every target.
-              if (targetCount > 0) ...[
-                Bubble(
-                  state: inked && combo.missed.isEmpty ? BubbleState.filled : BubbleState.hollow,
-                  size: 14,
-                  semanticsLabel: combo.missed.isEmpty ? ToolsCopy.meetsEvery : ToolsCopy.missesATarget,
+                  children: [
+                    // The bubble is a state: inked when this combination reaches every target.
+                    if (targetCount > 0) ...[
+                      Bubble(
+                        state: inked && combo.missed.isEmpty ? BubbleState.filled : BubbleState.hollow,
+                        size: 14,
+                        semanticsLabel: combo.missed.isEmpty ? ToolsCopy.meetsEvery : ToolsCopy.missesATarget,
+                      ),
+                      const SizedBox(width: MmSpace.s8),
+                    ],
+                    Expanded(
+                      child: best
+                          // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
+                                  child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
+                                ),
+                              ),
+                            )
+                          : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
+                    ),
+                    Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),
+                    const SizedBox(width: MmSpace.s8),
+                    AnimatedRotation(
+                      turns: _expanded ? 0.5 : 0,
+                      duration: Motion.of(context, Motion.ui),
+                      curve: Motion.glide,
+                      child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink3),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: MmSpace.s8),
-              ],
-              Expanded(
-                child: best
-                    // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
-                    ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
-                            child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
-                          ),
-                        ),
-                      )
-                    : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
-              ),
-              Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),
-              const SizedBox(width: MmSpace.s8),
-              AnimatedRotation(
-                turns: _expanded ? 0.5 : 0,
-                duration: Motion.of(context, Motion.ui),
-                curve: Motion.glide,
-                child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink3),
-              ),
-            ],
-          ),
               ),
             ),
           ),
-          AnimatedSize(
-            duration: Motion.of(context, Motion.ui),
-            curve: Motion.glide,
-            alignment: Alignment.topCenter,
+          SizeReveal(
             child: _expanded
                 ? Padding(
                     padding: const EdgeInsets.only(top: MmSpace.s4),

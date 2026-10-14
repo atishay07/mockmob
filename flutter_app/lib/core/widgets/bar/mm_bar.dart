@@ -251,10 +251,27 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   void _maybeSlideResume() {
     final id = widget.startResumeId;
     if (!mounted || id == null || _reduced || MmBottomBar._resumeSlid.contains(id)) return;
-    // Not while the bar is still arriving or a finger is on the key.
-    if (_enter.isAnimating || _dragging) return;
+    // Not while a finger is on the key; and not while the bar is still arriving: it slides once
+    // the bar has landed (otherwise the entrance would use up the one slide this session gets).
+    if (_dragging) return;
+    if (_enter.isAnimating) {
+      if (!_slideWaiting) {
+        _slideWaiting = true;
+        _enter.addStatusListener(_slideWhenLanded);
+      }
+      return;
+    }
     MmBottomBar._resumeSlid.add(id);
     _label.forward(from: 0);
+  }
+
+  bool _slideWaiting = false;
+
+  void _slideWhenLanded(AnimationStatus status) {
+    if (status != AnimationStatus.completed && status != AnimationStatus.dismissed) return;
+    _enter.removeStatusListener(_slideWhenLanded);
+    _slideWaiting = false;
+    _maybeSlideResume();
   }
 
   @override

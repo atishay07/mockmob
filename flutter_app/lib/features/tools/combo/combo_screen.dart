@@ -33,28 +33,24 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
   final _search = TextEditingController();
   String _query = '';
 
-  /// Each bump shakes the targets (or the pool line) once, with the warn haptic: the student has
-  /// just reached a limit.
+  /// Each bump shakes the targets once, with the warn haptic: the student reached for a seventh
+  /// target, and the note under them says why it did not go in. (The subject picker shakes its
+  /// own limit line the same way for a thirteenth subject.)
   final ValueNotifier<int> _targetsLimit = ValueNotifier(0);
-  final ValueNotifier<int> _poolLimit = ValueNotifier(0);
 
   @override
   void dispose() {
     _targetsLimit.dispose();
-    _poolLimit.dispose();
     _search.dispose();
     super.dispose();
   }
 
+  /// A target that cannot be added because the limit is reached: a tap on it shakes the targets.
+  Widget _refusable(bool refused, Widget child) =>
+      refused ? GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => _targetsLimit.value++, child: child) : child;
+
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<ComboState>>(comboControllerProvider, (previous, next) {
-      final was = previous?.value;
-      final now = next.value;
-      if (was == null || now == null) return;
-      if (now.targetsFull && !was.targetsFull) _targetsLimit.value++;
-      if (now.poolFull && !was.poolFull) _poolLimit.value++;
-    });
     final async = ref.watch(comboControllerProvider);
     final slivers = switch (async) {
       AsyncData(:final value) => _ready(context, value),
@@ -120,7 +116,10 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                     PopOnSelect(
                       key: ValueKey('target-${g.id}'),
                       selected: false,
-                      child: MmChip(label: g.name, selected: false, onTap: s.targetsFull ? null : () => controller.toggleTarget(g.id)),
+                      child: _refusable(
+                        s.targetsFull,
+                        MmChip(label: g.name, selected: false, onTap: s.targetsFull ? null : () => controller.toggleTarget(g.id)),
+                      ),
                     ),
               ],
             ),
@@ -163,18 +162,22 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
             child: Column(
               children: [
                 for (final g in matches)
-                  MmSelectRow(
-                    title: g.name,
-                    note: g.stream,
-                    multi: true,
-                    selected: s.targets.contains(g.id),
-                    onTap: !s.targets.contains(g.id) && s.targetsFull ? null : () => controller.toggleTarget(g.id),
+                  _refusable(
+                    !s.targets.contains(g.id) && s.targetsFull,
+                    MmSelectRow(
+                      title: g.name,
+                      note: g.stream,
+                      multi: true,
+                      selected: s.targets.contains(g.id),
+                      onTap: !s.targets.contains(g.id) && s.targetsFull ? null : () => controller.toggleTarget(g.id),
+                    ),
                   ),
               ],
             ),
           ),
         ),
-      if (s.targetsFull) const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.targetFull, top: MmSpace.s8)),
+      // The line that says why shakes with the targets (one haptic, from the targets).
+      if (s.targetsFull) SliverToBoxAdapter(child: MmShake(pulse: _targetsLimit, haptic: false, child: const ToolsNote(ToolsCopy.targetFull, top: MmSpace.s8))),
       _Step(title: ToolsCopy.poolHeading, note: ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)),
       SliverToBoxAdapter(
         child: Padding(
@@ -194,14 +197,11 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                 ),
               ] else
                 // Once chosen, the subjects are one quiet line and an edit key, not another chip cloud.
-                MmShake(
-                  pulse: _poolLimit,
-                  child: Text(
-                    [for (final p in s.pool) p.name(s.catalog, short: true)].join(', '),
-                    style: type.body,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Text(
+                  [for (final p in s.pool) p.name(s.catalog, short: true)].join(', '),
+                  style: type.body,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               if (s.pool.isEmpty) ...[
                 const SizedBox(height: MmSpace.s12),

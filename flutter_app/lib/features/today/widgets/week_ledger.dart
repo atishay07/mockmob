@@ -51,12 +51,7 @@ class WeekLedger extends ConsumerStatefulWidget {
   /// Whether the one-line key is shown: only when a rest day or a day not counted is on the rail.
   static bool needsKey(List<PlanDay> days) => days.any((d) => d.mark == PlanDayMark.rest || d.mark == PlanDayMark.open);
 
-  String describe() => [
-        week.count,
-        ?week.outlook,
-        week.days.map((d) => d.describe()).join('; '),
-        if (onTap != null) 'Opens your week',
-      ].join('. ');
+  String describe() => [week.count, ?week.outlook, week.days.map((d) => d.describe()).join('; '), if (onTap != null) 'Opens your week'].join('. ');
 
   /// The bubble's scale at [t] (0 to 1) of its pop: out to 1.35 by 45%, back to 1.
   static double popScale(double t) {
@@ -78,6 +73,7 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
   late final AnimationController _chip = AnimationController(vsync: this, duration: WeekLedger.chipHold + _chipEdge * 2);
   late final AnimationController _breathe = AnimationController(vsync: this, duration: _breatheLength);
   late final AnimationController _ink = AnimationController(vsync: this, duration: Motion.ink);
+
   /// Each change plays one ring from today's bubble (see [MmRippleRing]).
   final ValueNotifier<int> _ripplePulse = ValueNotifier(0);
 
@@ -185,48 +181,50 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
                   },
             pressedScale: 0.985,
             focusRadius: MmRadius.panelAll,
-            builder: (context, pressed, _) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // The count never breaks mid-phrase: when the outlook does not fit beside it
-                  // (large text), the outlook drops to its own line.
-                  Expanded(
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: MmSpace.s8,
-                      runSpacing: 2,
-                      children: [
-                        _Count(count: week.count),
-                        // The chevron travels with the outlook, so a wrapped line keeps its
-                        // arrow beside it instead of leaving one orphaned at the edge.
-                        if (week.outlook != null || tap != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (week.outlook != null)
-                                _Outlook(
-                                  text: week.outlook!,
-                                  met: week.met,
-                                  style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
-                                  rule: colors.litMark,
-                                ),
-                              if (tap != null) ...[
-                                if (week.outlook != null) const SizedBox(width: MmSpace.s4),
-                                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+            // At least 48 dp tall: the whole count row is one touch target.
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 48),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // The count never breaks mid-phrase: when the outlook does not fit beside it
+                    // (large text), the outlook drops to its own line.
+                    Expanded(
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: MmSpace.s8,
+                        runSpacing: 2,
+                        children: [
+                          _Count(count: week.count),
+                          // The chevron travels with the outlook, so a wrapped line keeps its
+                          // arrow beside it instead of leaving one orphaned at the edge.
+                          if (week.outlook != null || tap != null)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (week.outlook != null)
+                                  _Outlook(
+                                    text: week.outlook!,
+                                    met: week.met,
+                                    style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
+                                    rule: colors.litMark,
+                                  ),
+                                if (tap != null) ...[if (week.outlook != null) const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3)],
                               ],
-                            ],
-                          ),
-                      ],
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-          const SizedBox(height: MmSpace.s8),
+          // The 48 dp count row already carries its own air above the rail.
+          const SizedBox(height: MmSpace.s4),
           _Rail(
             days: week.days,
             paused: week.paused,
@@ -319,7 +317,10 @@ class _OutlookState extends State<_Outlook> with SingleTickerProviderStateMixin 
         transitionBuilder: (child, animation) {
           final incoming = child.key == ValueKey(widget.text);
           final slide = Tween<Offset>(begin: incoming ? const Offset(0, 0.6) : const Offset(0, -0.6), end: Offset.zero).animate(animation);
-          return FadeTransition(opacity: animation, child: SlideTransition(position: slide, child: child));
+          return FadeTransition(
+            opacity: animation,
+            child: SlideTransition(position: slide, child: child),
+          );
         },
         child: Text(widget.text, key: ValueKey(widget.text), style: widget.style),
       ),
@@ -354,9 +355,7 @@ class _UnderlinePainter extends CustomPainter {
 
 /// The rail's shared geometry: seven columns, the bubble's row near the foot.
 class _Geo {
-  _Geo(this.size, this.n)
-      : col = size.width / n,
-        cy = size.height - bubble - 10;
+  _Geo(this.size, this.n) : col = size.width / n, cy = size.height - bubble - 10;
 
   final Size size;
   final int n;
@@ -446,7 +445,9 @@ class _Rail extends StatelessWidget {
             child: IgnorePointer(
               child: ExcludeSemantics(
                 child: RepaintBoundary(
-                  child: CustomPaint(painter: _RingPainter(days: days, colors: colors, breathe: breathe)),
+                  child: CustomPaint(
+                    painter: _RingPainter(days: days, colors: colors, breathe: breathe),
+                  ),
                 ),
               ),
             ),
@@ -488,11 +489,7 @@ class _Rail extends StatelessWidget {
                       label: days[i].describe(),
                       excludeSemantics: true,
                       onTap: () => onDay(i),
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => onDay(i),
-                        child: const SizedBox.expand(),
-                      ),
+                      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => onDay(i), child: const SizedBox.expand()),
                     ),
                   ),
               ],
@@ -550,9 +547,14 @@ class _RailPainter extends CustomPainter {
   final Map<String, TextPainter> _texts = {};
 
   TextPainter _tp(String text, TextStyle style) => _texts.putIfAbsent(
-        '${identityHashCode(style)}|$text',
-        () => TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout(),
-      );
+    '${identityHashCode(style)}|$text',
+    () => TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      textScaler: scaler,
+      maxLines: 1,
+    )..layout(),
+  );
 
   /// How far the chip is shown, 0 to 1: it eases in, holds and eases out.
   double get _chipShow {
@@ -587,13 +589,13 @@ class _RailPainter extends CustomPainter {
           ..shader = LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [lit.withValues(alpha: colors.isNight ? 0.2 : 0.16), lit.withValues(alpha: 0)],
+            colors: [
+              lit.withValues(alpha: colors.isNight ? 0.2 : 0.16),
+              lit.withValues(alpha: 0),
+            ],
           ).createShader(wash),
       );
-      canvas.drawRRect(
-        RRect.fromLTRBR(x0, 0, x1, 1.5, const Radius.circular(0.75)),
-        Paint()..color = lit,
-      );
+      canvas.drawRRect(RRect.fromLTRBR(x0, 0, x1, 1.5, const Radius.circular(0.75)), Paint()..color = lit);
     }
 
     // The rail: a groove between the bubbles, Monday to Sunday, inked from Monday up to today.
@@ -743,14 +745,24 @@ class _Count extends StatelessWidget {
     // A changed count (a refresh counted a day) rolls from the old words to the new, like the
     // outlook beside it; the first paint and an unchanged count stand still.
     final Widget words = m == null
-        ? Text(count, key: ValueKey(count), style: type.cardTitle.copyWith(color: colors.ink))
+        ? Text(
+            count,
+            key: ValueKey(count),
+            style: type.cardTitle.copyWith(color: colors.ink),
+          )
         // One run of text: the figure and its words share a baseline and never split apart.
         : Text.rich(
             key: ValueKey(count),
             TextSpan(
               children: [
-                TextSpan(text: m.group(1), style: type.countFigure.copyWith(color: colors.ink)),
-                TextSpan(text: ' ${m.group(2)}', style: type.labelLarge.copyWith(color: colors.ink)),
+                TextSpan(
+                  text: m.group(1),
+                  style: type.countFigure.copyWith(color: colors.ink),
+                ),
+                TextSpan(
+                  text: ' ${m.group(2)}',
+                  style: type.labelLarge.copyWith(color: colors.ink),
+                ),
               ],
             ),
           );
@@ -762,7 +774,10 @@ class _Count extends StatelessWidget {
       transitionBuilder: (child, animation) {
         final incoming = child.key == ValueKey(count);
         final slide = Tween<Offset>(begin: incoming ? const Offset(0, 0.4) : const Offset(0, -0.4), end: Offset.zero).animate(animation);
-        return FadeTransition(opacity: animation, child: SlideTransition(position: slide, child: child));
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(position: slide, child: child),
+        );
       },
       child: words,
     );

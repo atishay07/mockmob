@@ -25,7 +25,7 @@ class SaveKey extends StatelessWidget {
       focusRadius: MmRadius.pillAll,
       pressedScale: 0.96,
       builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 44),
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
           child: Row(

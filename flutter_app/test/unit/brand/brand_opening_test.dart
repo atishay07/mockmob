@@ -440,7 +440,9 @@ void main() {
 
     testWidgets('the host removes the opening and hides the app from screen readers until then', (tester) async {
       final handle = tester.ensureSemantics();
-      final auth = _Auth(const AuthSnapshot(status: AuthStatus.unknown));
+      // The first screen is known (a session that is still unknown paints the launch screen later,
+      // see cold_start_timing_test.dart).
+      final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
       await _pump(
         tester,
         BrandOpeningHost(shown: _onGlass(), child: const Scaffold(body: Center(child: Text('First screen')))),
@@ -483,14 +485,17 @@ void main() {
       );
       var inkAt = -1;
       var handedOffAt = -1;
-      for (var ms = 0; ms <= 1500; ms += 10) {
+      for (var ms = 0; ms <= 1800; ms += 10) {
         await tester.pump(const Duration(milliseconds: 10));
         if (inkAt < 0 && haptics.light > 0) inkAt = ms;
         if (handedOffAt < 0 && find.byType(BrandOpening).evaluate().isEmpty) handedOffAt = ms;
       }
       expect(inkAt, inInclusiveRange(OpeningTimeline.hapticAt - 20, OpeningTimeline.hapticAt + 40));
-      // Unfolded by 1.0 s and gone by about 1.28 s (to a frame or two), with auth still unknown.
-      expect(handedOffAt, inInclusiveRange(OpeningTimeline.settledAt, 1340));
+      // Unfolded by 1.0 s; the hand-off waits only the grace for the session (a late answer then
+      // lands on the first screen directly), then the opening is gone about 0.28 s later, to a
+      // frame or two, with auth still unknown (the launch screen is up, not an endless opening).
+      const goAt = OpeningTimeline.settledAt + OpeningTimeline.authGraceMs;
+      expect(handedOffAt, inInclusiveRange(goAt + OpeningTimeline.fadeMs - 20, goAt + OpeningTimeline.fadeMs + 60));
       expect(find.text('First screen'), findsOneWidget, reason: 'the first screen, not an endless opening');
     });
 

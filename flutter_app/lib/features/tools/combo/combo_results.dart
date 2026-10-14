@@ -11,6 +11,7 @@ import '../domain/du_combos.dart';
 import '../domain/du_eligibility.dart' show duDescribeGap;
 import '../domain/du_models.dart';
 import 'combo_card.dart';
+import '../widgets/size_reveal.dart';
 
 /// The ranked combinations. While a new plan is being checked Mobi waits (the loading pose) in place of the old
 /// list (after a short beat, so a quick answer never flashes it). When the plan lands the cards
@@ -121,10 +122,7 @@ class _ComboResultsState extends State<ComboResults> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        AnimatedSize(
-          duration: Motion.of(context, Motion.ui),
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
+        SizeReveal(
           child: outcome == null ? const SizedBox(width: double.infinity) : _Reaction(key: ValueKey(outcome.line), outcome: outcome),
         ),
         for (var i = 0; i < widget.ranked.length; i++)

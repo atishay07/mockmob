@@ -171,7 +171,7 @@ void main() {
     testWidgets('every chip sits above the pinned key, and the quiet keys are still reachable', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail(), size: const Size(360, 748), textScale: 1.3);
       expect(tester.takeException(), isNull);
-      final keyTop = tester.getRect(find.text('Start 10-minute repair')).top;
+      final keyTop = tester.getRect(find.text('Repair Admission of a partner, 3 mistakes')).top;
       for (final label in ['5 min', '10 min', '15 min']) {
         expect(tester.getRect(find.text(label)).bottom, lessThanOrEqualTo(keyTop), reason: '$label chip is under the key');
       }
@@ -182,7 +182,7 @@ void main() {
 
     testWidgets('at normal text the quiet keys stay pinned under the primary key', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail());
-      final keyBottom = tester.getRect(find.text('Start 10-minute repair')).bottom;
+      final keyBottom = tester.getRect(find.text('Repair Admission of a partner, 3 mistakes')).bottom;
       expect(find.text('Finish for now'), findsNothing, reason: 'one quiet key, the other behind More');
       expect(tester.getRect(find.text('Choose something else')).top, greaterThan(keyBottom));
       expect(tester.getRect(find.bySemanticsLabel('More')).top, greaterThan(keyBottom));
@@ -241,7 +241,7 @@ void main() {
 
     testWidgets('a paper with something to repair keeps the repair as the primary key', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail(), nextMove: mixed);
-      expect(find.text('Start 10-minute repair'), findsOneWidget);
+      expect(find.text('Repair Admission of a partner, 3 mistakes'), findsOneWidget);
       expect(find.text(mixed.label), findsNothing);
       expect(find.text('Finish for now'), findsNothing, reason: 'it waits behind More');
       expect(find.bySemanticsLabel('More'), findsOneWidget);

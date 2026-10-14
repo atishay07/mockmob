@@ -119,7 +119,12 @@ Future<void> _acknowledge(Ref ref, ReminderAck ack) {
 /// until the first plan of this run has finished (never guessed).
 class NextReminderNotifier extends Notifier<NextReminder?> {
   @override
-  NextReminder? build() => null;
+  NextReminder? build() {
+    // Another account (or signing out) starts from "not planned yet": a time planned for the
+    // previous student is never shown to the next one.
+    ref.watch(userIdProvider);
+    return null;
+  }
 
   void set(NextReminder? next) => state = next;
 }

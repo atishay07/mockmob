@@ -75,18 +75,28 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   /// longest; the ones between are quiet. Under reduced motion it holds its pose.
   void _chooseMinutes(int v) {
     setState(() => _chosen = v);
-    if (Motion.reduced(context) || m.isNta) return;
+    if (Motion.reduced(context) || m.isNta || !_mobiShown) return;
     final all = [for (final o in repairDurationOptions(m.tonightCount)) o.minutes];
     if (all.length < 2) return;
     final lo = all.reduce((a, b) => a < b ? a : b);
     final hi = all.reduce((a, b) => a > b ? a : b);
-    if (v == lo) _mobi.play(MobiAct.listen);
-    if (v == hi) _mobi.play(MobiAct.correct);
+    // One act per 2.5 s however fast the chips are tapped, calmed under the Celebrations setting.
+    if (v == lo) _mobi.react(MobiMoments.act(MobiEvent.choiceWitnessed), key: 'recap-record:length');
+    if (v == hi) _mobi.react(MobiMoments.act(MobiEvent.answerRight), key: 'recap-record:length');
   }
 
   /// What the repair key opens, said exactly: the run is one chapter of this paper, so the key
-  /// names its count (and the chapter when other chapters are left for Review).
-  RepairKeyScope? get _scope => RepairCandidates.scopeOf(m.candidates, limit: _mistakes);
+  /// names its count (and the chapter when other mistakes are left for Review). A shorter length
+  /// opens fewer than the chapter holds, and the ones it leaves are in Review too, so the count
+  /// of "the others" is everything the run does not hold.
+  RepairKeyScope? get _scope {
+    final s = RepairCandidates.scopeOf(m.candidates, limit: _mistakes);
+    if (s == null) return null;
+    return RepairKeyScope(chapter: s.chapter, firstQuestionId: s.firstQuestionId, count: s.count, othersInPaper: m.candidates.length - s.count);
+  }
+
+  /// Whether Mobi is on the card now (not at large text, not on an NTA result).
+  bool _mobiShown = false;
 
   @override
   void initState() {
@@ -164,7 +174,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
       ],
     );
     final effort = _effortLine;
-    final mobiPose = RecapMobi.poseOf(_reaction(ref.watch(celebrationModeProvider)));
+    final reaction = _reaction(ref.watch(celebrationModeProvider));
+    final mobiPose = RecapMobi.poseOf(reaction);
+    _mobiShown = !largeText && mobiPose != null;
     final receipt = ResultCopy.receiptLine(m.receivedAt);
 
     return RecapCardPage(
@@ -211,7 +223,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             ),
             if (!largeText && mobiPose != null) ...[
               const SizedBox(width: MmSpace.s12),
-              RecapMobi(pose: mobiPose, size: ResultSpace.mobi, controller: _mobi),
+              RecapMobi(pose: mobiPose, size: ResultSpace.mobi, mood: recapMood(m.variant, reaction), controller: _mobi),
             ],
           ],
         ),

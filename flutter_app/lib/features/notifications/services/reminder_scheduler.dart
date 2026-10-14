@@ -133,8 +133,10 @@ class ReminderScheduler {
         if (outcome.skipped == NotificationSkip.cleared || cleared()) return;
         final at = outcome.deliverAt;
         switch (outcome.skipped) {
-          case NotificationSkip.weeklyCap || NotificationSkip.dailyCap:
+          case NotificationSkip.weeklyCap:
             skips.add(NextSkip.cap);
+          case NotificationSkip.dailyCap:
+            skips.add(NextSkip.daily);
           case NotificationSkip.stale:
             skips.add(NextSkip.stale);
           case NotificationSkip.channelOff:
@@ -167,7 +169,15 @@ class ReminderScheduler {
         failureStack ??= stack;
       }
     }
-    _onNext?.call(nextReminderFrom(accepted: accepted, skips: skips, planned: plan.length));
+    final muteEnd = state.mutedUntil;
+    _onNext?.call(
+      nextReminderFrom(
+        accepted: accepted,
+        skips: skips,
+        planned: plan.length,
+        mutedUntil: muteEnd != null && muteEnd.isAfter(now) ? muteEnd : null,
+      ),
+    );
     _onStateChanged?.call();
     if (failure != null) Error.throwWithStackTrace(failure, failureStack!);
   }

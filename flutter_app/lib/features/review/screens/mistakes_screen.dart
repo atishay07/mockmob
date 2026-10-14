@@ -79,7 +79,15 @@ class MistakesScreen extends ConsumerWidget {
                     SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
                     RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
                     const SizedBox(height: ReviewSpace.item),
-                    MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups), leadKeyPrimary: true),
+                    MistakeMap(
+                      groups: open,
+                      clock: clock,
+                      onOpen: openRepair,
+                      initialOpen: 0,
+                      showSubject: spansSubjects(index.groups),
+                      leadKeyPrimary: true,
+                      index: index,
+                    ),
                   ],
                 ),
               ),
@@ -93,6 +101,7 @@ class MistakesScreen extends ConsumerWidget {
                     const SectionHeading(ReviewCopy.repaired, rule: true),
                     MistakeMap(
                       groups: repaired,
+                      index: index,
                       clock: clock,
                       onOpen: openRepair,
                       scaleTo: mapScaleOf(index.groups),
@@ -111,6 +120,7 @@ class MistakesScreen extends ConsumerWidget {
                     const SectionHeading(ReviewCopy.setAsideHeading, rule: true),
                     MistakeMap(
                       groups: setAside,
+                      index: index,
                       clock: clock,
                       onOpen: openRepair,
                       scaleTo: mapScaleOf(index.groups),

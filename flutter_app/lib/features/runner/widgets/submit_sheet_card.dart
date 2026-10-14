@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -18,7 +20,22 @@ import 'answer_sheet_view.dart';
 /// "5 not answered" takes them to question 9, the first without an answer. The counts are a
 /// ledger of numerals, so the sheet reads first, then what is left to settle.
 class SubmitSheetCard extends StatelessWidget {
-  const SubmitSheetCard({super.key, required this.session, this.lit = true, this.phase = SheetPhase.review, this.onGoTo, this.animateInk = true});
+  const SubmitSheetCard({
+    super.key,
+    required this.session,
+    this.lit = true,
+    this.phase = SheetPhase.review,
+    this.onGoTo,
+    this.animateInk = true,
+    this.openRowKey,
+    this.pulseOpen = false,
+  });
+
+  /// Put on the "not answered" row, so Mobi can point at it.
+  final GlobalKey? openRowKey;
+
+  /// The "not answered" row pulses once when this turns true (Mobi pointing at it).
+  final bool pulseOpen;
 
   final RunnerSession session;
 
@@ -99,6 +116,8 @@ class SubmitSheetCard extends StatelessWidget {
         if (counts.marked > 0 && counts.notAnswered > 0) Divider(height: 1, thickness: 1, color: colors.line),
         if (counts.notAnswered > 0)
           _CountRow(
+            key: openRowKey,
+            pulse: pulseOpen,
             glyph: const Bubble(state: BubbleState.blank, size: 16, animate: false),
             count: counts.notAnswered,
             word: RunnerCopy.notAnsweredWord,
@@ -179,7 +198,10 @@ class _MarkedAnsweredGlyph extends CustomPainter {
 /// width target, at least 64 dp tall, with a chevron), so there is no second box to find; it
 /// darkens while pressed. A count of zero is not shown.
 class _CountRow extends StatefulWidget {
-  const _CountRow({required this.glyph, required this.count, required this.word, this.goTo, this.goToLabel});
+  const _CountRow({super.key, required this.glyph, required this.count, required this.word, this.goTo, this.goToLabel, this.pulse = false});
+
+  /// The row pulses once when this turns true: its ground swells and settles over 600 ms.
+  final bool pulse;
 
   final Widget glyph;
   final int count;
@@ -191,9 +213,36 @@ class _CountRow extends StatefulWidget {
   State<_CountRow> createState() => _CountRowState();
 }
 
-class _CountRowState extends State<_CountRow> {
+class _CountRowState extends State<_CountRow> with SingleTickerProviderStateMixin {
   bool _pressed = false;
   bool _focused = false;
+
+  late final AnimationController _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+
+  @override
+  void initState() {
+    super.initState();
+    // Made here, not lazily: a row that never pulsed must still dispose it safely.
+    _pulse.value = 0;
+    if (widget.pulse) WidgetsBinding.instance.addPostFrameCallback((_) => _beat());
+  }
+
+  @override
+  void didUpdateWidget(_CountRow old) {
+    super.didUpdateWidget(old);
+    if (widget.pulse && !old.pulse) _beat();
+  }
+
+  void _beat() {
+    if (!mounted || Motion.reduced(context)) return;
+    _pulse.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
 
   bool get _canGo => widget.goTo != null && widget.goToLabel != null;
 
@@ -247,7 +296,23 @@ class _CountRowState extends State<_CountRow> {
         ),
       ),
     );
-    if (!_canGo) return body;
+    // The one pulse: the row's ground swells to the raised tone and settles, nothing moves.
+    final pulsed = AnimatedBuilder(
+      animation: _pulse,
+      child: body,
+      builder: (context, child) {
+        final t = _pulse.isAnimating ? math.sin(math.pi * _pulse.value) : 0.0;
+        if (t <= 0) return child!;
+        return DecoratedBox(
+          decoration: ShapeDecoration(
+            color: colors.raised2.withValues(alpha: t),
+            shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
+          ),
+          child: child,
+        );
+      },
+    );
+    if (!_canGo) return pulsed;
     return Semantics(
       container: true,
       button: true,
@@ -280,7 +345,7 @@ class _CountRowState extends State<_CountRow> {
                     ),
                   )
                 : const BoxDecoration(),
-            child: ColoredBox(color: _pressed ? colors.raised2 : Colors.transparent, child: body),
+            child: ColoredBox(color: _pressed ? colors.raised2 : Colors.transparent, child: pulsed),
           ),
         ),
       ),

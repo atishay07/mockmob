@@ -17,6 +17,7 @@ import 'package:mockmob/features/today/logic/today_reactions.dart';
 import 'package:mockmob/features/today/logic/week_chip.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
+import 'package:mockmob/features/today/widgets/paper_trend.dart' show trendDot;
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
 import 'package:mockmob/features/today/widgets/road_timeline.dart';
 import 'package:mockmob/features/today/widgets/sealed_hero.dart';
@@ -249,7 +250,7 @@ void main() {
       final trend = buildTrend(ashaInputs())!;
       expect(trend.mock, isTrue);
       expect(trend.points.map((p) => p.attemptId), ['m2', 'm3', 'm4', 'm5', 'm6', 'm7']);
-      expect(trend.points.last.marks, 44 * 5 - 6);
+      expect(trend.points.last.marks, 42 * 5 - 6, reason: '42 right, 6 wrong, 2 not attempted');
       expect(trend.points.last.outOf, 250);
       expect(trend.subject, isNotEmpty);
     });
@@ -276,10 +277,25 @@ void main() {
         overrides: [auth],
       );
       expect(find.text(TodayCopy.trendCaption(6, true)), findsOneWidget);
-      await tester.tap(find.bySemanticsLabel(RegExp('^Mock 5, .*Opens the result')), warnIfMissed: false);
+      // The strip's dot says "Mock 5, 4 Oct. ..."; the paper's own row says "Mock 5, Accountancy, ...".
+      await tester.tap(find.bySemanticsLabel(RegExp(r'^Mock 5, \d+ \w+\. .*Opens the result')), warnIfMissed: false);
       await tester.pump();
       expect(events.whereType<GoTo>().map((g) => g.location), contains(contains('m5')));
       semantics.dispose();
+    });
+
+    test('the chart never stretches a few marks into a climb', () {
+      const size = Size(300, 72);
+      final level = [200, 202, 204];
+      final stretched = trendDot(size, level, 0).dy - trendDot(size, level, 2).dy;
+      final honest = trendDot(size, level, 0, minSpan: 30).dy - trendDot(size, level, 2, minSpan: 30).dy;
+      expect(stretched, closeTo(36, 0.01), reason: 'without a floor, 4 marks fill the whole height');
+      expect(honest, lessThan(stretched / 4), reason: 'with the floor they read as nearly level');
+      // Marks that really differ by more than the floor still use the full height.
+      final real = trendDot(size, [171, 204], 0, minSpan: 30).dy - trendDot(size, [171, 204], 1, minSpan: 30).dy;
+      expect(real, closeTo(36, 0.01));
+      // Equal marks sit in the middle.
+      expect(trendDot(size, [150, 150, 150], 1).dy, closeTo(24 + 18, 0.01));
     });
 
     test('a paper\'s marks count from 0 to the real figure', () {
@@ -308,9 +324,10 @@ void main() {
     );
     final end = DateTime.utc(2027, 7, 1);
 
-    RoadFrame frameOf(List<RoadStop> stops, {double width = 340, TextScaler scaler = TextScaler.noScaling}) {
-      const style = TextStyle(fontSize: 12, height: 1);
-      return RoadFrame.measure(width: width, today: today, stops: stops, end: end, scaler: scaler, lane: style, exam: style, now: style, stretch: style);
+    // The test font is a square per letter, so a smaller size stands in for the app's narrower type.
+    RoadFrame frameOf(List<RoadStop> stops, {double width = 340, TextScaler scaler = TextScaler.noScaling, double pillClear = 0, double fontSize = 12}) {
+      final style = TextStyle(fontSize: fontSize, height: 1);
+      return RoadFrame.measure(width: width, today: today, stops: stops, end: end, scaler: scaler, lane: style, exam: style, now: style, stretch: style, pillClear: pillClear);
     }
 
     test('the finger reads real days, and snaps to a stop\'s edge within 5 dp', () {
@@ -329,7 +346,20 @@ void main() {
       expect(frameOf([exam]).walkerRect(30), isNotNull);
       // A first stop a few days out puts the bracket's pill where he would stand.
       final soon = RoadStop(kind: RoadStopKind.registration, title: 'Soon', when: 'x', start: DateTime.utc(2026, 10, 27), end: DateTime.utc(2026, 11, 30));
-      expect(frameOf([soon, exam]).walkerRect(30), isNull);
+      expect(frameOf([soon, exam], pillClear: 17).walkerRect(30), isNull, reason: 'no room for him and the pill: he is not there');
+    });
+
+    test('the bracket pill makes room for him when the stretch is long enough', () {
+      // Registration is 11 weeks out: the pill centred on the stretch would reach back over him.
+      expect(frameOf([registration, exam], fontSize: 7).walkerRect(30), isNull);
+      expect(frameOf([registration, exam], pillClear: 17, fontSize: 7).walkerRect(30), isNotNull);
+      // The centre never moves left of its plain place, stays inside the road and keeps right of him.
+      final plain = RoadFrame.bracketCentre(now: 23, to: 117, words: 50, width: 340);
+      final roomy = RoadFrame.bracketCentre(now: 23, to: 117, words: 50, width: 340, clear: 17);
+      expect(roomy, greaterThan(plain));
+      expect(roomy - 25 - 7, greaterThanOrEqualTo(23 + 17), reason: 'the pill starts right of Mobi');
+      // A stretch too short to hold both leaves the pill where it was.
+      expect(RoadFrame.bracketCentre(now: 23, to: 70, words: 50, width: 340, clear: 17), RoadFrame.bracketCentre(now: 23, to: 70, words: 50, width: 340));
     });
 
     testWidgets('a long press and a slide reads the road and ticks at an edge; nothing is left running', (tester) async {
@@ -350,8 +380,31 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
       expect(haptics.selections, greaterThanOrEqualTo(1), reason: 'the finger landed on the edge of registration');
       await gesture.up();
+      // The readout eases away (320 ms): the first frame starts it, the second plays it out.
+      await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(tester.hasRunningAnimations, isFalse);
+    });
+
+    testWidgets('Mobi sets off only when the road is scrolled into view, so the walk is seen', (tester) async {
+      SubjectEmblem.idleEnabled = true;
+      addTearDown(() => SubjectEmblem.idleEnabled = false);
+      RoadTimeline.debugResetWalker();
+      await pumpMockmob(
+        tester,
+        SingleChildScrollView(
+          child: Column(children: [const SizedBox(height: 900), RoadTimeline(today: today, stops: [exam], end: end), const SizedBox(height: 300)]),
+        ),
+        size: const Size(372, 500),
+        overrides: [auth],
+      );
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(MobiWalker), findsNothing, reason: 'the road is below the fold: he has not set off');
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -600));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byType(MobiWalker), findsOneWidget);
+      await tester.pump(const Duration(seconds: 3));
     });
 
     testWidgets('Mobi walks the road once per app run, then only stands; never at large text', (tester) async {
@@ -365,18 +418,26 @@ void main() {
             textScale: scale,
             overrides: [auth],
           );
+      Future<void> leave() async {
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+      }
+
       await pumpRoad();
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(MobiWalker), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));
+      await leave();
       await pumpRoad();
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(MobiWalker), findsNothing, reason: 'the walk is once per run');
       expect(find.byType(MobiCharacter), findsOneWidget);
+      await leave();
       RoadTimeline.debugResetWalker();
       await pumpRoad(scale: 1.6);
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(MobiCharacter), findsNothing, reason: 'hidden above 1.3x text');
+      expect(find.byType(MobiWalker), findsNothing);
     });
   });
 
@@ -444,6 +505,9 @@ void main() {
       await tester.tap(find.text(TodayCopy.openSheet));
       await tester.pump(const Duration(milliseconds: 120));
       expect(opened, 1);
+      // The seal splits in 200 ms and heals in 600 ms: the second leg starts a frame after the first.
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump();
       await tester.pump(const Duration(seconds: 2));
       expect(tester.hasRunningAnimations, isFalse, reason: 'the seal has healed and the glint is over');
       expect(find.byType(MobiCharacter), findsNothing);

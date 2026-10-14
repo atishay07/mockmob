@@ -6,7 +6,15 @@ import 'motion_harness.dart';
 
 const _card = ValueKey('card');
 
-Widget _subject({required List<MmDragSide> commits, MmDragSettle settle = MmDragSettle.back, bool left = true, bool right = true}) {
+Widget _subject({
+  required List<MmDragSide> commits,
+  MmDragSettle settle = MmDragSettle.back,
+  bool left = true,
+  bool right = true,
+  double follow = 1,
+  double commitShare = MmDragPolicy.commitShare,
+  ValueChanged<MmDragRelease>? onRelease,
+}) {
   return Center(
     child: SizedBox(
       width: 300,
@@ -15,6 +23,9 @@ Widget _subject({required List<MmDragSide> commits, MmDragSettle settle = MmDrag
         left: left,
         right: right,
         settle: settle,
+        follow: follow,
+        commitShare: commitShare,
+        onRelease: onRelease,
         onCommit: commits.add,
         child: const ColoredBox(key: _card, color: Color(0xFF333333), child: SizedBox.expand()),
       ),
@@ -124,6 +135,57 @@ void main() {
       await tester.pumpAndSettle();
       expect(commits, [MmDragSide.right]);
       expect(_dx(tester), greaterThan(300), reason: 'left past its own width');
+    });
+
+    testWidgets('a cancelled pointer never commits, even past the threshold', (tester) async {
+      final commits = <MmDragSide>[];
+      await tester.pumpWidget(motionApp(_subject(commits: commits)));
+      final gesture = await tester.startGesture(tester.getCenter(find.byKey(_card)));
+      for (var i = 0; i < 14; i++) {
+        await gesture.moveBy(const Offset(10, 0));
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(_dx(tester), closeTo(140, 0.5));
+      await gesture.cancel();
+      await tester.pumpAndSettle();
+      expect(commits, isEmpty, reason: 'the system took the pointer; nothing was decided');
+      expect(_dx(tester), closeTo(0, 0.5));
+    });
+
+    testWidgets('follow below 1 leans the child; the thresholds count the finger; onRelease carries the offset', (tester) async {
+      final commits = <MmDragSide>[];
+      final releases = <MmDragRelease>[];
+      await tester.pumpWidget(motionApp(_subject(commits: commits, follow: 0.35, onRelease: releases.add)));
+      final gesture = await tester.startGesture(tester.getCenter(find.byKey(_card)));
+      for (var i = 0; i < 14; i++) {
+        await gesture.moveBy(const Offset(-10, 0));
+        await tester.pump(const Duration(seconds: 1));
+      }
+      expect(_dx(tester), closeTo(-140 * 0.35, 0.5), reason: 'the card leans at 0.35 of the finger');
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(commits, [MmDragSide.left], reason: '140 dp of finger travel is past 105');
+      expect(releases.single.side, MmDragSide.left);
+      expect(releases.single.offset, closeTo(-140 * 0.35, 0.5), reason: 'where the card was when it let go');
+    });
+
+    testWidgets('commitShare sets the distance as a share of the width', (tester) async {
+      final commits = <MmDragSide>[];
+      await tester.pumpWidget(motionApp(_subject(commits: commits, commitShare: 0.45)));
+      Future<void> drag(int steps) async {
+        final gesture = await tester.startGesture(tester.getCenter(find.byType(MmDragCommit)));
+        for (var i = 0; i < steps; i++) {
+          await gesture.moveBy(const Offset(10, 0));
+          await tester.pump(const Duration(seconds: 1));
+        }
+        await gesture.up();
+        await tester.pumpAndSettle();
+      }
+
+      await drag(12);
+      expect(commits, isEmpty, reason: '120 dp is short of 0.45 x 300');
+      await drag(14);
+      expect(commits, [MmDragSide.right]);
     });
 
     testWidgets('a closed side rubber-bands and never commits', (tester) async {

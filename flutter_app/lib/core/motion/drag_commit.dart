@@ -17,6 +17,21 @@ enum MmDragSettle {
   exit,
 }
 
+/// Where a committed drag let go: the side, the child's offset in dp at release (what the next
+/// content picks up from, so a swap continues the finger's motion instead of starting over) and
+/// the finger's speed in dp per second.
+@immutable
+class MmDragRelease {
+  const MmDragRelease({required this.side, required this.offset, required this.velocity});
+
+  final MmDragSide side;
+  final double offset;
+  final double velocity;
+
+  @override
+  String toString() => 'MmDragRelease($side, offset: ${offset.toStringAsFixed(1)}, velocity: ${velocity.toStringAsFixed(0)})';
+}
+
 /// The arithmetic of [MmDragCommit], kept pure so it can be tested without a gesture.
 abstract final class MmDragPolicy {
   /// A horizontal drag claims the pointer only when it is clearly sideways.
@@ -89,6 +104,9 @@ abstract final class MmDragPolicy {
 /// - Grabbing it mid-settle stops the spring and carries on from where it is.
 /// - [behind] paints under the child with the signed progress (-1 to 1 at the threshold), for the
 ///   reveal of a row ("Remove", "Saved"); it rebuilds per frame, keep it cheap.
+/// - [follow] below 1 moves the child less than the finger (a recap card that leans at 0.35);
+///   the thresholds still count the finger's travel.
+/// - A cancelled pointer (the system took it, another gesture won) never commits: it springs home.
 ///
 /// Under reduced motion the child still follows the finger (direct manipulation), and the settle
 /// jumps instead of springing.
@@ -100,13 +118,16 @@ class MmDragCommit extends StatefulWidget {
     this.left = true,
     this.right = true,
     this.commitDistance,
+    this.commitShare = MmDragPolicy.commitShare,
     this.commitVelocity = MmDragPolicy.commitVelocity,
     this.settle = MmDragSettle.back,
     this.behind,
     this.onProgress,
+    this.onRelease,
+    this.follow = 1,
     this.enabled = true,
     this.haptic = true,
-  });
+  }) : assert(follow > 0 && follow <= 1, 'follow is a share of the finger travel, above 0 and at most 1.');
 
   final Widget child;
 
@@ -117,8 +138,12 @@ class MmDragCommit extends StatefulWidget {
   final bool left;
   final bool right;
 
-  /// The commit distance in dp. Null: [MmDragPolicy.commitShare] of the width.
+  /// The commit distance in dp of finger travel. Null: [commitShare] of the width.
   final double? commitDistance;
+
+  /// The commit distance as a share of the width, when [commitDistance] is null (0.45 for a row
+  /// that should take a deliberate swipe).
+  final double commitShare;
   final double commitVelocity;
   final MmDragSettle settle;
 
@@ -127,6 +152,13 @@ class MmDragCommit extends StatefulWidget {
 
   /// The signed progress toward the threshold as it changes (drag and settle).
   final ValueChanged<double>? onProgress;
+
+  /// Called with [onCommit] when a drag commits, with where the child was and how fast the finger
+  /// moved, for a caller that carries the motion into the next content.
+  final ValueChanged<MmDragRelease>? onRelease;
+
+  /// The share of the finger's travel the child moves (1: under the finger).
+  final double follow;
   final bool enabled;
   final bool haptic;
 
@@ -144,9 +176,12 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
   /// The child's current offset in dp.
   double get offset => _x.value;
 
-  double get _distance => widget.commitDistance ?? _width * MmDragPolicy.commitShare;
+  double get _distance => widget.commitDistance ?? _width * widget.commitShare;
 
-  double get progress => _distance <= 0 ? 0 : (_x.value / _distance).clamp(-1.0, 1.0);
+  /// The child's offset in finger travel (the offset itself when [MmDragCommit.follow] is 1).
+  double get _travel => _x.value / widget.follow;
+
+  double get progress => _distance <= 0 ? 0 : (_travel / _distance).clamp(-1.0, 1.0);
 
   void _changed() => widget.onProgress?.call(progress);
 
@@ -191,7 +226,7 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
   void _start() {
     _held = false;
     _x.stop();
-    _raw = _x.value;
+    _raw = _travel;
   }
 
   void _update(double dx) {
@@ -202,7 +237,7 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
       right: widget.right,
       maxTravel: _width * MmDragPolicy.maxTravelShare,
     );
-    _x.value = next;
+    _x.value = next * widget.follow;
     final past = next.abs() >= _distance && ((next > 0 && widget.right) || (next < 0 && widget.left));
     if (past != _past) {
       _past = past;
@@ -210,9 +245,21 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
     }
   }
 
+  /// The pointer was taken away mid-drag: never a commit, the child springs home.
+  void _cancel() {
+    _past = false;
+    if (!mounted) return;
+    if (Motion.reduced(context)) {
+      _x.value = 0;
+    } else {
+      _x.animateWith(Motion.spring(Springs.smooth, _x.value, 0));
+    }
+  }
+
   void _end(double velocity) {
+    final at = _x.value;
     final side = MmDragPolicy.commits(
-      _x.value,
+      _travel,
       velocity,
       distance: _distance,
       left: widget.left,
@@ -221,20 +268,25 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
     );
     _past = false;
     final reduced = Motion.reduced(context);
+    // The child moved at [MmDragCommit.follow] of the finger's speed; it keeps that speed.
+    final carried = velocity * widget.follow;
     if (side != null && widget.settle == MmDragSettle.exit) {
       _gone = true;
       final target = (side == MmDragSide.right ? 1 : -1) * (_width * 1.1 + 24);
       if (reduced) {
         _x.value = target;
       } else {
-        _x.animateWith(Motion.spring(Springs.lift, _x.value, target, velocity: velocity));
+        _x.animateWith(Motion.spring(Springs.lift, _x.value, target, velocity: carried));
       }
     } else if (reduced) {
       _x.value = 0;
     } else {
-      _x.animateWith(Motion.spring(Springs.smooth, _x.value, 0, velocity: velocity));
+      _x.animateWith(Motion.spring(Springs.smooth, _x.value, 0, velocity: carried));
     }
-    if (side != null) widget.onCommit?.call(side);
+    if (side != null) {
+      widget.onCommit?.call(side);
+      widget.onRelease?.call(MmDragRelease(side: side, offset: at, velocity: velocity));
+    }
   }
 
   @override
@@ -271,7 +323,7 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
                 ..onStart = _start
                 ..onUpdate = _update
                 ..onEnd = _end
-                ..onCancel = () => _end(0),
+                ..onCancel = _cancel,
             ),
           },
           child: body,
@@ -339,9 +391,12 @@ class MmSidewaysDragRecognizer extends OneSequenceGestureRecognizer {
       }
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       if (_dragging) {
-        final v = event is PointerUpEvent ? (_tracker?.getVelocity().pixelsPerSecond.dx ?? 0) : 0.0;
         _dragging = false;
-        onEnd?.call(v);
+        if (event is PointerUpEvent) {
+          onEnd?.call(_tracker?.getVelocity().pixelsPerSecond.dx ?? 0);
+        } else {
+          onCancel?.call();
+        }
       } else {
         if (!_won) resolve(GestureDisposition.rejected);
         onIdle?.call();

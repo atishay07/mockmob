@@ -92,6 +92,11 @@ void main() {
       await _tapText(tester, 'General Test');
       await _tapText(tester, 'Mathematics');
       await tester.pump(const Duration(seconds: 2));
+      // The refusal's two-beat haptic waits on a platform channel before its 80 ms gap: let the
+      // channel answer in real time, then run the gap, so no timer outlives the test.
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
     },
   );
 

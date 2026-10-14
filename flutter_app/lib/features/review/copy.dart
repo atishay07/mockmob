@@ -165,6 +165,29 @@ abstract final class ReviewCopy {
   // ---- Per mistake ----------------------------------------------------------------------
 
   static String progress(int i, int n) => '$i of ${plural(n, 'mistake')}';
+
+  /// One segment of the run track, for TalkBack: "Mistake 2 of 3, repaired".
+  static String trackSegment(int i, int n, String state) => 'Mistake $i of $n, $state';
+  static const trackOnScreen = 'on screen';
+  static const trackRepaired = 'repaired';
+  static const trackReviewed = 'read with the key';
+  static const trackSetAside = 'set aside';
+  static const trackSeen = 'opened';
+  static const trackAhead = 'not reached yet';
+  static const trackGoHint = 'Show this mistake';
+
+  /// The free line when the same question was also answered wrong in another paper.
+  static String missedBefore(String source, String date) => 'You also missed this question in $source on $date.';
+  static const openThatResult = 'Open that result';
+
+  /// The quiet tag on a mistake row: "Missed twice", "Missed 3 times".
+  static String missedTimes(int n) => n == 2 ? 'Missed twice' : 'Missed $n times';
+
+  /// The Review map's quiet mark on a chapter that changed since the last look.
+  static const changedNew = 'New';
+  static String changedMore(int n) => '$n new';
+  static String changedFewer(int n) => '$n fewer';
+  static String changedSpoken(String mark) => 'Since your last look: $mark';
   static const finishForNow = 'Finish for now';
   static const nextMistake = 'Next mistake';
   static const finish = 'Finish';
@@ -264,6 +287,12 @@ abstract final class ReviewCopy {
   static String repairMore(int n) => 'Repair ${plural(n, 'more mistake')}';
   static String repairMoreLine(String chapter, int? minutes) => minutes == null ? chapter : '$chapter, about $minutes minutes';
   static String finishFor(DateTime now) => 'Finish for ${tonightOrToday(now)}';
+  /// The ending's key when mistakes of this run were missed (a failed call, or one the server
+  /// could not explain): the same mistakes, again.
+  static const trySameAgain = 'Try the same mistakes again';
+  static String trySameAgainLine(int n, String chapter) => '${plural(n, 'mistake')}, ${shortChapter(chapter)}';
+  static const mobiEndingRepaired = 'Mobi, pleased with the repair';
+  static const mobiEndingNothing = 'Mobi, ready for another try';
   static const nothingRepairedTitle = 'Nothing repaired this time';
   static String nothingRepaired(int setAside, int reviewed) {
     final parts = <String>[

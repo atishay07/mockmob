@@ -36,6 +36,13 @@ void main() {
       expect(RepairCandidates.spoken(scope), 'Repair 1 mistake. Principles of management, about 5 minutes. The other 4 are in Review.');
     });
 
+    test("a shorter run counts the chapter's left-over mistakes among the others in Review", () {
+      final scope = RepairCandidates.scopeOf(paper, limit: 2)!;
+      expect(scope.count, 2);
+      expect(scope.othersInPaper, 3);
+      expect(RepairCandidates.describe(scope), 'Business environment, about 10 minutes. The other 3 are in Review.');
+    });
+
     test('a long chapter name is shortened at its colon; a whole-paper chapter has no note', () {
       final scope = RepairCandidates.scopeOf([_c('a', 1, 'Planning: meaning and features'), _c('b', 4, 'Planning: meaning and features')])!;
       expect(RepairCandidates.describe(scope), 'Planning, about 10 minutes.');

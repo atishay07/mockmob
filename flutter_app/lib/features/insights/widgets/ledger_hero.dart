@@ -142,7 +142,7 @@ class _LedgerHeroState extends ConsumerState<LedgerHero> {
         ),
       );
     }
-    return AnimatedSize(
+    return MmSizeEase(
       duration: reduced ? Duration.zero : Motion.ui,
       curve: Motion.out,
       alignment: Alignment.topLeft,

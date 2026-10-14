@@ -64,9 +64,10 @@ void main() {
       ]) {
         expect(find.text(label), findsOneWidget, reason: label);
       }
-      // Full and Off appear twice: once for glass, once for celebrations.
+      // Full and Off appear twice: once for glass, once for celebrations. Off also reads beside
+      // each switch that is off (Reduce motion and Open results directly).
       expect(find.text('Full'), findsNWidgets(2));
-      expect(find.text('Off'), findsNWidgets(2));
+      expect(find.text('Off'), findsNWidgets(4));
     });
 
     testWidgets('theme choice goes through the core provider and is saved', (tester) async {
@@ -111,6 +112,8 @@ void main() {
       await tester.pump();
       expect(container.read(glassQualityProvider), GlassQuality.full);
       expect(_segmentSelected(tester, 'Full'), isTrue);
+      // The old line cross-fades out over 200 ms.
+      await tester.pump(const Duration(milliseconds: 300));
       expect(find.textContaining('Running Lite'), findsNothing);
     });
 

@@ -14,8 +14,14 @@ enum NothingReason {
   /// Quiet hours cover the moment a reminder would arrive.
   quietHours,
 
-  /// The weekly (or the one a day) limit is already used.
+  /// The weekly limit is already used.
   weeklyCap,
+
+  /// The one reminder a day is already used.
+  dailyCap,
+
+  /// Reminders are muted on this phone and nothing falls after the mute ends within the plan.
+  muted,
 
   /// Android is blocking this app's notifications.
   blocked,
@@ -25,12 +31,17 @@ enum NothingReason {
 /// actually accepted by the notification engine (after quiet hours and the caps), or the reason
 /// there is none. Never a guess: it is built from the engine's own outcomes.
 class NextReminder {
-  const NextReminder.at(DateTime this.at, NextKind this.kind, {this.mistakes}) : reason = null;
+  const NextReminder.at(DateTime this.at, NextKind this.kind, {this.mistakes})
+      : reason = null,
+        until = null;
 
-  const NextReminder.nothing(NothingReason this.reason)
+  const NextReminder.nothing(NothingReason this.reason, {this.until})
       : at = null,
         kind = null,
         mistakes = null;
+
+  /// For [NothingReason.muted]: when the mute ends.
+  final DateTime? until;
 
   /// When it will show, in the student's timezone. Null when nothing is scheduled.
   final DateTime? at;
@@ -63,6 +74,8 @@ class NextReminder {
         NothingReason.off => NotificationsCopy.nextReasonOff,
         NothingReason.quietHours => NotificationsCopy.nextReasonQuiet,
         NothingReason.weeklyCap => NotificationsCopy.nextReasonCap,
+        NothingReason.dailyCap => NotificationsCopy.nextReasonDaily,
+        NothingReason.muted => until == null ? NotificationsCopy.nextReasonMutedPlain : NotificationsCopy.nextReasonMuted(until!),
         NothingReason.blocked => NotificationsCopy.nextReasonBlocked,
       };
 
@@ -90,16 +103,20 @@ NextReminder nextReminderFrom({
   required List<(DateTime at, NextKind kind, int? mistakes)> accepted,
   required List<NextSkip> skips,
   required int planned,
+  DateTime? mutedUntil,
 }) {
   if (accepted.isNotEmpty) {
     final first = ([...accepted]..sort((a, b) => a.$1.compareTo(b.$1))).first;
     return NextReminder.at(first.$1, first.$2, mistakes: first.$3);
   }
+  // A running mute is the reason, whatever else the plan held: nothing arrives until it ends.
+  if (mutedUntil != null) return NextReminder.nothing(NothingReason.muted, until: mutedUntil);
   if (planned == 0) return const NextReminder.nothing(NothingReason.off);
   if (skips.contains(NextSkip.cap)) return const NextReminder.nothing(NothingReason.weeklyCap);
+  if (skips.contains(NextSkip.daily)) return const NextReminder.nothing(NothingReason.dailyCap);
   if (skips.contains(NextSkip.stale)) return const NextReminder.nothing(NothingReason.quietHours);
   return const NextReminder.nothing(NothingReason.off);
 }
 
 /// A reason the engine turned a reminder away, in the notifications module's own words.
-enum NextSkip { cap, stale, off }
+enum NextSkip { cap, daily, stale, off }

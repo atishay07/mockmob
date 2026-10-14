@@ -267,6 +267,10 @@ class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMix
                               painter: _LinkPainter(
                                 colors: colors,
                                 linked: i + 1 < weeks.length && _met(w) && _met(weeks[i + 1]),
+                                // Only the first and last link of a run are rounded off; the ones
+                                // between meet end to end, so a run reads as one line.
+                                startsRun: i == 0 || !_met(weeks[i - 1]),
+                                endsRun: i + 2 >= weeks.length || !_met(weeks[i + 2]),
                                 grow: _curves[i],
                               ),
                             ),
@@ -396,10 +400,15 @@ class _CapsulePainter extends CustomPainter {
 /// The volt line between two capsules of consecutive met weeks, from this capsule's centre to the
 /// next one's, drawn in as the ribbon grows. Nothing for a week that ends the run.
 class _LinkPainter extends CustomPainter {
-  _LinkPainter({required this.colors, required this.linked, required this.grow}) : super(repaint: grow);
+  _LinkPainter({required this.colors, required this.linked, required this.startsRun, required this.endsRun, required this.grow})
+      : super(repaint: grow);
 
   final MmColors colors;
   final bool linked;
+
+  /// This link opens a run of met weeks / closes it: that end is rounded, the others are flat.
+  final bool startsRun;
+  final bool endsRun;
   final Animation<double> grow;
 
   @override
@@ -409,26 +418,25 @@ class _LinkPainter extends CustomPainter {
     final from = Offset(size.width / 2, y);
     // To the next capsule's centre: one slot on. The next slot's own capsule is where it ends.
     final to = Offset(size.width / 2 + RunRibbon.slot * grow.value, y);
-    if (!colors.isNight) {
+    void line(double width, Color color) {
       canvas.drawLine(
         from,
         to,
         Paint()
-          ..strokeWidth = 4
-          ..strokeCap = StrokeCap.round
-          ..color = colors.voltEdge,
+          ..strokeWidth = width
+          ..strokeCap = StrokeCap.butt
+          ..color = color,
       );
+      final dot = Paint()..color = color;
+      if (startsRun) canvas.drawCircle(from, width / 2, dot);
+      if (endsRun) canvas.drawCircle(to, width / 2, dot);
     }
-    canvas.drawLine(
-      from,
-      to,
-      Paint()
-        ..strokeWidth = 2.5
-        ..strokeCap = StrokeCap.round
-        ..color = colors.volt,
-    );
+
+    if (!colors.isNight) line(4, colors.voltEdge);
+    line(2.5, colors.volt);
   }
 
   @override
-  bool shouldRepaint(_LinkPainter old) => old.colors != colors || old.linked != linked;
+  bool shouldRepaint(_LinkPainter old) =>
+      old.colors != colors || old.linked != linked || old.startsRun != startsRun || old.endsRun != endsRun;
 }

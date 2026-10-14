@@ -216,8 +216,9 @@ class _EdgePulsePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final v = progress.value;
     if (v <= 0 || v >= 1) return;
-    final e = Motion.emphasized.transform(v);
-    final fade = 1 - e;
+    // The ring leaves the edge at once and lets go slowly: out on an ease-out, away on a square.
+    final e = Curves.easeOutCubic.transform(v);
+    final fade = (1 - v) * (1 - v);
     final edge = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(heroRadius));
     canvas.drawRRect(
       edge.deflate(0.75),

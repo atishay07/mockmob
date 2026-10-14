@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -12,6 +11,7 @@ import '../widgets/tools_page.dart' show IconWell;
 import '../widgets/tools_parts.dart' show ToolsRing;
 import '../widgets/tools_sheet.dart';
 import 'compass_controller.dart';
+import '../widgets/size_reveal.dart';
 
 /// Opens the category and score in a sheet, live against Compass's state.
 Future<void> showCategoryScoreSheet(BuildContext context) => showToolsSheet<void>(
@@ -220,11 +220,7 @@ class _ClearStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final reduced = Motion.reduced(context);
-    return AnimatedSize(
-      duration: reduced ? Duration.zero : Motion.ui,
-      curve: Motion.glide,
-      alignment: Alignment.topCenter,
+    return SizeReveal(
       child: !show
           ? const SizedBox(width: double.infinity)
           : Padding(

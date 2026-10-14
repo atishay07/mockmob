@@ -114,7 +114,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
       final third = (_hold.value * 3).floor().clamp(0, 2);
       if (third > _thirds) {
         _thirds = third;
-        widget.mobi?.play(MobiAct.brace);
+        widget.mobi?.react(MobiAct.brace);
       }
     });
     _flip.addStatusListener((s) {
@@ -196,7 +196,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     if (mobi == null) return;
     mobi.lookAt(null);
     if (held < 0.08 || held >= 1) return;
-    mobi.play(MobiAct.relief);
+    mobi.react(MobiAct.relief);
     mobi.say(OnboardingCopy.mobiStillYours);
     _hush?.cancel();
     _hush = Timer(Duration(milliseconds: (MobiTyping.duration(OnboardingCopy.mobiStillYours) * 1000).round() + 2200), mobi.hush);
@@ -252,7 +252,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     // He stops watching the seal. Quiet answers with a nod; the Full celebration is the flow's,
     // timed to this stamp; Off keeps him still.
     widget.mobi?.lookAt(null);
-    if (mode == CelebrationMode.quiet) widget.mobi?.play(MobiAct.nod);
+    if (mode == CelebrationMode.quiet) widget.mobi?.react(MobiMoments.act(MobiEvent.saveConfirmed));
     _sync();
   }
 

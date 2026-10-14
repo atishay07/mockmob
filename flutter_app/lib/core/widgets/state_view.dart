@@ -42,6 +42,8 @@ class StateView extends StatefulWidget {
     this.pose = MobiPose.idle,
     this.scene,
     this.art,
+    this.slowArt,
+    this.onSlow,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -58,10 +60,19 @@ class StateView extends StatefulWidget {
   /// marked". Errors have none.
   final StateScene? scene;
 
-  /// Replaces the default Mobi in the illustration area (a Mobi reacting to this particular
-  /// state, a subject object). It sits in the same lamp pool, above the title, never over text.
-  /// Ignored when the state shows a painted [scene].
+  /// The Mobi slot: replaces the default Mobi in the illustration area (a Mobi reacting to this
+  /// particular state, a subject object). It sits in the same lamp pool, above the title, never
+  /// over text. Ignored when the state shows a painted [scene].
   final Widget? art;
+
+  /// What the Mobi slot shows once the main action has run past [slowAfter] (a quietly thinking
+  /// Mobi): it swaps in over the art with no blank frame, and back when the action stops. Null
+  /// keeps the art; the default Mobi then turns to quiet thought by itself.
+  final Widget? slowArt;
+
+  /// Called once each time the main action runs past [slowAfter], as the words change, for a
+  /// caller whose own Mobi should react.
+  final VoidCallback? onSlow;
 
   /// The scene this state shows, if any.
   StateScene? get shownScene => switch (kind) {
@@ -104,11 +115,27 @@ class _StateViewState extends State<StateView> {
         if (mounted) _mobi.lookAtWidget(_action);
       });
     }
-    if (widget.primary?.loading ?? false) {
-      _slowTimer = Timer(StateView.slowAfter, () {
-        if (mounted) setState(() => _slow = true);
-      });
-    }
+    if (widget.primary?.loading ?? false) _slowTimer = Timer(StateView.slowAfter, _goSlow);
+  }
+
+  /// The pose the default Mobi holds when nothing is running.
+  MobiPose get _stance => pose != MobiPose.idle
+      ? pose
+      : switch (kind) {
+          StateViewKind.empty => MobiPose.read,
+          StateViewKind.offline || StateViewKind.error => MobiPose.rest,
+        };
+
+  /// Whether the default Mobi is on screen (no art of the caller's, no painted scene).
+  bool get _defaultMobi => widget.art == null && widget.slowArt == null && widget.shownScene == null;
+
+  /// The main action has run long: the words say so, and Mobi turns to quiet thought (a real
+  /// wait, so a real reaction; once per state).
+  void _goSlow() {
+    if (!mounted) return;
+    setState(() => _slow = true);
+    widget.onSlow?.call();
+    if (_defaultMobi) _mobi.react(MobiAct.think, key: 'state-view:slow');
   }
 
   Timer? _slowTimer;
@@ -123,11 +150,11 @@ class _StateViewState extends State<StateView> {
     _slowTimer?.cancel();
     _slowTimer = null;
     if (now) {
-      _slowTimer = Timer(StateView.slowAfter, () {
-        if (mounted) setState(() => _slow = true);
-      });
+      _slowTimer = Timer(StateView.slowAfter, _goSlow);
     } else if (_slow) {
       _slow = false;
+      // The wait is over and the state is still here (the retry failed again): back to rest.
+      if (_defaultMobi) _mobi.react(_stance.act);
     }
   }
 
@@ -139,7 +166,20 @@ class _StateViewState extends State<StateView> {
   }
 
   Widget _art(BuildContext context, double size) {
-    final custom = widget.art;
+    final slowArt = widget.slowArt;
+    if (slowArt == null) return _picture(context, size, widget.art);
+    final showSlow = _slow;
+    // The slot swaps with no blank frame; each picture keeps its state while it is showing.
+    return MmOverlapSwitcher(
+      alignment: Alignment.bottomCenter,
+      child: KeyedSubtree(
+        key: ValueKey<bool>(showSlow),
+        child: _picture(context, size, showSlow ? slowArt : widget.art),
+      ),
+    );
+  }
+
+  Widget _picture(BuildContext context, double size, Widget? custom) {
     if (custom != null) return SizedBox(height: size, child: Center(child: custom));
     if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle, controller: _mobi);
     return switch (kind) {
