@@ -2,6 +2,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabase';
 import { respondEpisode } from '@/lib/server/learning';
 import { finaliseExpiredSessions, supabaseSessionStore, episodeCheckInput, FINALISE_BATCH } from '@/lib/server/sessionFinaliser';
+import { releaseExpiredAiCredits } from '@/services/credits/releaseExpired';
 
 export const maxDuration = 60;
 
@@ -21,6 +22,10 @@ function authorised(request) {
 async function run(request) {
   const headers = { 'Cache-Control': 'no-store' };
   if (!authorised(request)) return Response.json({ error: 'forbidden', message: 'Not allowed.' }, { status: 403, headers });
+  // First, and on its own: give back the credits of AI repairs and replies that never finished (a killed function
+  // leaves its reservation open). It cannot fail this job, and a slow finalisation below cannot starve it.
+  let credits = { ok: false, released: 0 };
+  try { credits = await releaseExpiredAiCredits(supabaseAdmin(), 100); } catch { /* reported in the response below */ }
   try {
     const result = await finaliseExpiredSessions(supabaseSessionStore(supabaseAdmin()), {
       limit: FINALISE_BATCH,
@@ -29,7 +34,7 @@ async function run(request) {
         await respondEpisode(row.user_id, row.selection_meta.episodeId, input, options);
       },
     });
-    return Response.json(result, { headers });
+    return Response.json({ ...result, aiCreditsReleased: credits.released, ...(credits.ok ? {} : { aiCreditsReleaseFailed: true }) }, { headers });
   } catch {
     return Response.json({ error: 'finalise_unavailable', message: 'Session finalisation could not run.' }, { status: 503, headers });
   }
