@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Icon } from '@/components/ui/Icons';
 import { useResumableTest } from '@/components/VisitorSync';
 import { audienceClass, memberDockActions } from '@/lib/navigation';
 
@@ -10,7 +9,8 @@ import { audienceClass, memberDockActions } from '@/lib/navigation';
 // page, so the server HTML is the same for everyone). One action, from the navigation source:
 // Resume your test while a saved test exists, else Start your 10-question check for a member with no
 // session yet, else Continue practice. The line beside the button only appears when there is a
-// test to pick up; otherwise the one action takes the whole width.
+// test to pick up; otherwise the one action takes the whole width. No trailing arrow, the same as
+// the member hero (owner UI standards).
 export default function MemberDockAction() {
   const resume = useResumableTest();
   return (
@@ -19,7 +19,6 @@ export default function MemberDockAction() {
       {memberDockActions(resume).map((action) => (
         <Link key={action.id} href={action.href} className={`mm-btn mm-btn--primary ${audienceClass(action.show)}${resume ? '' : ' vs-solo'}`}>
           {action.label}
-          <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
         </Link>
       ))}
     </>
