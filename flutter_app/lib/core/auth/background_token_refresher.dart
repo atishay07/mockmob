@@ -56,6 +56,14 @@ class BackgroundTokenRefresher implements ApiTokenProvider {
     }
   }
 
+  /// The isolate has no profile, so it cannot say whose token this is: a write that names its
+  /// account is refused here rather than risk the wrong one.
+  @override
+  Future<ApiToken?> accountToken() async {
+    final token = await accessToken();
+    return token == null ? null : ApiToken(token);
+  }
+
   @override
   Future<bool> refresh() async {
     if (!_config.supabaseConfigured) return false;

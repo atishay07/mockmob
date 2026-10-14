@@ -61,10 +61,17 @@ class FakeHttpAdapter implements HttpClientAdapter {
 }
 
 class FakeTokens implements ApiTokenProvider {
-  FakeTokens({this.token = 'tok-1', this.refreshResult = true});
+  FakeTokens({this.token = 'tok-1', this.refreshResult = true, this.userId = 'u1'});
 
   String? token;
   bool refreshResult;
+
+  /// The account the token belongs to: 'u1', like most tests' signed-in student. Null when the
+  /// provider cannot say (a session whose profile has not loaded).
+  String? userId;
+
+  /// When set, every token read waits for it (to change accounts while a write waits).
+  Completer<void>? tokenGate;
 
   /// The refresh cannot finish (offline, slow): throws [RefreshUnavailable].
   bool refreshUnavailable = false;
@@ -74,6 +81,13 @@ class FakeTokens implements ApiTokenProvider {
 
   @override
   Future<String?> accessToken() async => token;
+
+  @override
+  Future<ApiToken?> accountToken() async {
+    if (tokenGate != null) await tokenGate!.future;
+    final value = token;
+    return value == null ? null : ApiToken(value, userId: userId);
+  }
 
   @override
   Future<bool> refresh() async {

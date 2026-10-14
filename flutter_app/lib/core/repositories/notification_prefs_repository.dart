@@ -25,6 +25,9 @@ class NotificationPrefsRepository extends JsonRemoteNotifier<NotificationPrefs> 
   /// Sends only the fields given (the server merges). Returns the saved prefs once the
   /// server acknowledges. Throws `ApiError` (422 for a rejected value, such as a timezone
   /// outside the allowlist).
+  ///
+  /// The write is for [expectUserId] when given, else for the account this repository holds; it
+  /// is never sent with another account's token (`ApiError.accountChanged`).
   Future<NotificationPrefs> update({
     String? timezone,
     ClockTime? quietStart,
@@ -33,7 +36,9 @@ class NotificationPrefsRepository extends JsonRemoteNotifier<NotificationPrefs> 
     Map<String, bool>? channels,
     StudyWindow? studyWindow,
     bool clearStudyWindow = false,
+    String? expectUserId,
   }) async {
+    final forUser = writeFor(expectUserId);
     final body = <String, Object?>{
       'timezone': ?timezone,
       'quietStart': ?quietStart?.toWire(),
@@ -42,9 +47,9 @@ class NotificationPrefsRepository extends JsonRemoteNotifier<NotificationPrefs> 
       'channels': ?channels,
       if (clearStudyWindow) 'studyWindow': null else if (studyWindow != null) 'studyWindow': studyWindow.toJson(),
     };
-    final response = await ref.read(apiClientProvider).put('/api/me/notification-prefs', body: body);
+    final response = await ref.read(apiClientProvider).put('/api/me/notification-prefs', body: body, expectUserId: forUser);
     final prefs = NotificationPrefs.fromJson(response.map);
-    await setAcknowledged(Fetched(prefs, response.data));
+    await setAcknowledged(Fetched(prefs, response.data), forUserId: forUser);
     return prefs;
   }
 }

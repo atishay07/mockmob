@@ -200,6 +200,8 @@ class SheetSync extends Notifier<SheetSyncState> {
     } on _AccountChanged {
       // Not marked saved. The account signed in now gets its own sheet and its own sync.
     } on ApiError catch (e) {
+      // A write the API client refused for another account's token ends here too: shown and
+      // retried only while this run's account is still the one signed in.
       if (_settle(runFor, SheetSyncState(SheetSyncPhase.failed, offline: e.isOffline))) _scheduleRetry();
     } on Object {
       // Anything else (signed out part way, a reply that would not parse): not saved, and
@@ -213,7 +215,8 @@ class SheetSync extends Notifier<SheetSyncState> {
   }
 
   /// Throws [_AccountChanged] unless [userId] is still the signed-in account. Checked right
-  /// before each write, because a request carries whichever session is current when it goes out.
+  /// before each write; each write also names [userId] to the API client, which refuses to send
+  /// it with any other account's token (the session can change while a request waits).
   void _stillSignedInAs(String userId) {
     if (!ref.mounted) throw const _AccountChanged();
     final now = ref.read(authSnapshotProvider);
@@ -262,7 +265,7 @@ class SheetSync extends Notifier<SheetSyncState> {
     final consent = ref.read(consentRepositoryProvider);
     if (consent.isLoaded && consent.consent.ageBand == age.band) return;
     _stillSignedInAs(userId);
-    await ref.read(consentRepositoryProvider.notifier).setAgeBand(age.band);
+    await ref.read(consentRepositoryProvider.notifier).setAgeBand(age.band, expectUserId: userId);
   }
 
   /// The subjects go last: an account with subjects counts as "already has a plan" on the next
@@ -270,18 +273,19 @@ class SheetSync extends Notifier<SheetSyncState> {
   /// keeping an account whose week the server never got.
   Future<void> _writeProfile(String userId, OnboardingAnswers a) async {
     _stillSignedInAs(userId);
-    await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: a.days.length.clamp(1, 7));
+    await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: a.days.length.clamp(1, 7), expectUserId: userId);
     _stillSignedInAs(userId);
     await ref.read(notificationPrefsRepositoryProvider.notifier).update(
           studyWindow: prefs.StudyWindow(
             start: prefs.ClockTime(a.window.hour, 0),
             end: prefs.ClockTime(a.window.hour + 1, 0),
           ),
+          expectUserId: userId,
         );
     final subjects = [for (final s in a.subjects) if (s.syncs) s.id];
     if (subjects.isNotEmpty) {
       _stillSignedInAs(userId);
-      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects});
+      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects}, expectUserId: userId);
     }
   }
 

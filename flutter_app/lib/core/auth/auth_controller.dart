@@ -41,6 +41,9 @@ class AuthController extends Notifier<AuthSnapshot> {
   Timer? _startRetry;
   int _startFailures = 0;
 
+  /// The Supabase user whose session the signed-in profile was loaded for.
+  String? _profileSessionUser;
+
   /// How long to wait before starting the auth service again after it failed to start (secure
   /// storage or the session lock was not ready). After the last one the student retries by hand.
   @visibleForTesting
@@ -315,6 +318,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       }));
     }
     if (_stale(epoch, session)) return;
+    _profileSessionUser = session.user.id;
     state = AuthSnapshot(
       status: AuthStatus.signedIn,
       userId: user.id,
@@ -331,6 +335,14 @@ class AuthController extends Notifier<AuthSnapshot> {
     ref.read(consentRepositoryProvider);
     ref.read(analyticsClientProvider);
     unawaited(ref.read(syncCoordinatorProvider).flushQuietly());
+  }
+
+  /// The MockMob user id of the account a token from the Supabase session of [sessionUserId]
+  /// belongs to: the signed-in account when its profile was loaded for that session, else null
+  /// (signed out, or a session that signed in since and has not loaded its profile yet).
+  String? accountFor(String? sessionUserId) {
+    if (sessionUserId == null || !state.isSignedIn || sessionUserId != _profileSessionUser) return null;
+    return state.userId;
   }
 
   /// Reloads the profile (after onboarding or any change that affects subjects or Pro status).
@@ -480,6 +492,11 @@ class AuthController extends Notifier<AuthSnapshot> {
       if (cleaned && !keepQueuedWork) await _bestEffort(() => prefs.setLastUserId(null));
       await _bestEffort(() => prefs.setCachedMe(null));
     } finally {
+      if (tokensCleared) {
+        // Once more, last: a re-plan that was running when the first cancel went out can have
+        // scheduled this account's reminders again since. With the tokens gone none starts now.
+        await _bestEffort(() => ref.read(notificationServiceProvider).cancelAll());
+      }
       _explicitSignOut = false;
       if (tokensCleared && ref.mounted) state = AuthSnapshot.signedOut;
     }

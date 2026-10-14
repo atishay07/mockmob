@@ -188,11 +188,12 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     );
   }
 
-  GoRoute sheet(String path, GoRouterWidgetBuilder builder) {
+  GoRoute sheet(String path, GoRouterWidgetBuilder builder, {GoRouterWidgetBuilder? footer}) {
     return GoRoute(
       path: path,
       parentNavigatorKey: rootKey,
-      pageBuilder: (context, state) => MmSheetPage<void>(key: state.pageKey, child: builder(context, state)),
+      pageBuilder: (context, state) =>
+          MmSheetPage<void>(key: state.pageKey, footer: footer?.call(context, state), child: builder(context, state)),
     );
   }
 
@@ -322,7 +323,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       page('recap/:card', resultRecapScreen, root: true),
     ]),
 
-    sheet(AppRoutes.permissionsNotifications, permissionsNotificationsScreen),
+    sheet(AppRoutes.permissionsNotifications, permissionsNotificationsScreen, footer: permissionsNotificationsFooter),
 
     // Web alias. The redirect also catches it; this keeps the path "known" to the router.
     GoRoute(path: AppRoutes.dashboard, redirect: (context, state) => AppRoutes.today),

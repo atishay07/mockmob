@@ -19,20 +19,25 @@ class GoalRepository extends JsonRemoteNotifier<Goal> {
 
   /// Saves the weekly goal. [pausedUntil] is `YYYY-MM-DD` (at most 100 days ahead). The state
   /// changes only after the server acknowledges. Throws `ApiError` (422 for a rejected value).
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async {
+  ///
+  /// The write is for [expectUserId] when given, else for the account this repository holds; it
+  /// is never sent with another account's token (`ApiError.accountChanged`).
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async {
+    final forUser = writeFor(expectUserId);
     final response = await ref.read(apiClientProvider).put(
           '/api/me/goal',
           body: {'daysPerWeek': daysPerWeek, 'pausedUntil': pausedUntil},
+          expectUserId: forUser,
         );
     final goal = Goal.fromJson(response.map);
-    await setAcknowledged(Fetched(goal, response.data));
+    await setAcknowledged(Fetched(goal, response.data), forUserId: forUser);
     return goal;
   }
 
   /// Pausing never removes history. Pass null to resume.
-  Future<Goal> setPause(String? pausedUntil) {
+  Future<Goal> setPause(String? pausedUntil, {String? expectUserId}) {
     final current = state.value?.daysPerWeek ?? 4;
-    return save(daysPerWeek: current, pausedUntil: pausedUntil);
+    return save(daysPerWeek: current, pausedUntil: pausedUntil, expectUserId: expectUserId);
   }
 }
 

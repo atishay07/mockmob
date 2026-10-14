@@ -28,6 +28,13 @@ import 'widget_support.dart';
 
 Finder _text(String s) => find.text(s);
 
+/// The sheet's body over its keys, the way the sheet lays them out (the keys pinned under it).
+const Widget _sheetWithKeys = Column(
+  mainAxisSize: MainAxisSize.min,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: [RemindersPromptSheet(), RemindersPromptKeys()],
+);
+
 void main() {
   group('day shape maths', () {
     test('a span that crosses midnight is two spans', () {
@@ -373,7 +380,7 @@ void main() {
       if (asks > 0) await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
       await pumpMockmob(
         tester,
-        const SingleChildScrollView(child: RemindersPromptSheet()),
+        const SingleChildScrollView(child: _sheetWithKeys),
         size: const Size(360, 1200),
         overrides: [
           ...featureOverrides(rig: rig, repo: FakePrefsRepo(prefs), permission: permission, appPrefs: appPrefs, repair: repair),
@@ -611,6 +618,66 @@ void main() {
       }
     });
 
+    testWidgets('as a sheet route at 1.3x text on a 360 dp phone, Allow and Not now stay pinned in view', (tester) async {
+      rig = Rig();
+      permission = FakePermissionRequester(NotificationPermission.notAsked);
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const SizedBox.expand(),
+            routes: [
+              GoRoute(
+                path: 'ask',
+                pageBuilder: (_, state) =>
+                    MmSheetPage<void>(key: state.pageKey, footer: const RemindersPromptKeys(), child: const RemindersPromptSheet()),
+              ),
+            ],
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      const screen = Size(360, 640);
+      await pumpMockmob(
+        tester,
+        Router<Object>.withConfig(config: router),
+        size: screen,
+        textScale: 1.3,
+        wrapInScaffold: false,
+        overrides: featureOverrides(
+          rig: rig,
+          repo: FakePrefsRepo(prefsWith(window: const StudyWindow(start: ClockTime(20, 30), end: ClockTime(21, 30)))),
+          permission: permission,
+          appPrefs: AppPrefs(MemoryPrefsStore()),
+          repair: const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25),
+        ),
+      );
+      unawaited(router.push('/ask'));
+      await tester.pumpAndSettle();
+
+      Rect keyRect(String label) => tester.getRect(find.widgetWithText(KeyButton, label));
+      final allow = keyRect('Allow reminders');
+      final notNow = keyRect('Not now');
+      for (final rect in [allow, notNow]) {
+        expect(rect.top, greaterThanOrEqualTo(0));
+        expect(rect.bottom, lessThanOrEqualTo(screen.height), reason: 'in view without scrolling');
+        expect(rect.height, greaterThanOrEqualTo(48));
+      }
+      // The keys sit in the sheet's footer, outside the body's scroll, so scrolling the body never moves them.
+      final body = find.ancestor(of: find.byType(RemindersPromptSheet), matching: find.byType(SingleChildScrollView));
+      expect(body, findsOneWidget);
+      expect(find.descendant(of: body, matching: find.byType(KeyButton)), findsNothing);
+      await tester.drag(find.byType(RemindersPromptSheet), const Offset(0, -300));
+      await tester.pumpAndSettle();
+      expect(keyRect('Allow reminders'), allow);
+      expect(keyRect('Not now'), notNow);
+
+      await tester.tap(find.text('Not now'));
+      await tester.pumpAndSettle();
+      expect(find.byType(RemindersPromptSheet), findsNothing, reason: 'Not now closes the sheet');
+      expect((await rig.store.load()).prePromptAskCount, 1);
+    });
+
     testWidgets('a refusal in the system dialog still ends on a designed state with Android settings one tap away', (tester) async {
       await pumpSheet(tester, after: NotificationPermission.denied);
       await tester.tap(find.text('Allow reminders'));
@@ -629,7 +696,7 @@ void main() {
           GoRoute(path: '/', builder: (_, _) => const NotificationSettingsScreen()),
           GoRoute(
             path: AppRoutes.permissionsNotifications,
-            builder: (_, _) => const Scaffold(body: SingleChildScrollView(child: RemindersPromptSheet())),
+            builder: (_, _) => const Scaffold(body: SingleChildScrollView(child: _sheetWithKeys)),
           ),
         ],
       );

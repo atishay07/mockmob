@@ -43,9 +43,17 @@ _ParsedAttempts _parseAttempts(String body) {
 
 List<Attempt> _parseCachedRows(List<String> rows) => [for (final r in rows) Attempt.fromJson(asJson(jsonDecode(r)))];
 
+/// The `cache_entries` row whose `fetchedAtMs` is when the whole list was last read from the
+/// server. The rows of `cached_attempts` carry their own times: one added by a submit is newer
+/// than the list it joined, so the list's age is kept apart.
+const attemptsListFetchKey = 'attempts-list';
+
 /// All of the student's attempts, newest first. `GET /api/attempts` is an unpaginated dump,
 /// so it is read once after sign-in and after a submit, parsed off the main isolate, and then
 /// served from drift (`cached_attempts`) until [refresh] is called again.
+///
+/// The list's [RemoteState.fetchedAt] is the last full server read. A submit adds its attempt
+/// without changing it, so days-old rows never look fresh because one new paper joined them.
 class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
   /// Unlike the other reads, the list loads from the cache first and goes to the network only
   /// when the cache is empty or `refresh(force: true)` is called.
@@ -64,8 +72,17 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
     final attempts = jsons.fold<int>(0, (n, j) => n + j.length) > _isolateThresholdChars
         ? await Isolate.run(() => _parseCachedRows(jsons))
         : _parseCachedRows(jsons);
-    final fetchedAt = rows.map((r) => r.fetchedAtMs).reduce((a, b) => a > b ? a : b);
-    return CachedValue(attempts, DateTime.fromMillisecondsSinceEpoch(fetchedAt));
+    return CachedValue(attempts, DateTime.fromMillisecondsSinceEpoch(await _listFetchedAtMs(db, userId, rows)));
+  }
+
+  /// When the cached list was last read whole from the server. Without that record (a list
+  /// cached by an older version, or only submitted papers so far) the oldest row's time stands
+  /// in: it never makes the list look newer than any part of it.
+  Future<int> _listFetchedAtMs(AppDatabase db, String userId, List<CachedAttemptRow> rows) async {
+    final entry = await (db.select(db.cacheEntries)
+          ..where((t) => t.userId.equals(userId) & t.cacheKey.equals(attemptsListFetchKey)))
+        .getSingleOrNull();
+    return entry?.fetchedAtMs ?? rows.map((r) => r.fetchedAtMs).reduce((a, b) => a < b ? a : b);
   }
 
   @override
@@ -101,11 +118,15 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
             ),
         ], mode: InsertMode.insertOrReplace);
       });
+      await db.into(db.cacheEntries).insertOnConflictUpdate(
+            CacheEntriesCompanion.insert(userId: userId, cacheKey: attemptsListFetchKey, json: '{}', fetchedAtMs: at.millisecondsSinceEpoch),
+          );
     });
   }
 
   /// Adds a just-submitted attempt (the 200 body of `POST /api/attempts`) so Review and Today
-  /// see it before the next list read.
+  /// see it before the next list read. The list keeps its own fetch time: the rest of it is no
+  /// fresher than when it was last read.
   Future<void> upsertSubmitted(Map<String, dynamic> body) async {
     final id = userId;
     if (id == null) return;
@@ -122,11 +143,19 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
             fetchedAtMs: at.millisecondsSinceEpoch,
           ),
         );
-    if (!ref.mounted) return;
+    if (!ref.mounted || userId != id) return;
+    if (state.value == null) {
+      // The list has not loaded here yet: show what the phone holds, the new paper included,
+      // with the list's own time, rather than a list of one that reads as complete and fresh.
+      final cached = await readCache(id);
+      if (!ref.mounted || userId != id || state.value != null || cached == null) return;
+      state = RemoteState(value: cached.value, fetchedAt: cached.fetchedAt, fromCache: true, loading: state.loading, error: state.error);
+      return;
+    }
     final current = [...?state.value]..removeWhere((a) => a.id == attempt.id);
     current.insert(0, attempt);
     current.sort((a, b) => b.completedAt.compareTo(a.completedAt));
-    state = RemoteState(value: current, fetchedAt: state.fetchedAt ?? at, fromCache: state.fromCache);
+    state = RemoteState(value: current, fetchedAt: state.fetchedAt, fromCache: state.fromCache, loading: state.loading, error: state.error);
   }
 }
 

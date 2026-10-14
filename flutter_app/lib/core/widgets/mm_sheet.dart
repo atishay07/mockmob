@@ -164,10 +164,14 @@ Future<T?> showMmSheet<T>({
 /// A go_router page that presents its [child] as an MockMob modal sheet over the shell.
 /// Used for the sheet routes of spec 4.2 (`/today/week`, `/before-you-start`, ...).
 class MmSheetPage<T> extends Page<T> {
-  const MmSheetPage({super.key, super.name, super.arguments, super.restorationId, required this.child, this.title});
+  const MmSheetPage({super.key, super.name, super.arguments, super.restorationId, required this.child, this.title, this.footer});
 
   final Widget child;
   final String? title;
+
+  /// Pinned under the scrolling [child] (see [MmSheetScaffold.footer]): the sheet's keys stay in
+  /// reach however long the body grows at large text.
+  final Widget? footer;
 
   @override
   Route<T> createRoute(BuildContext context) {
@@ -184,7 +188,7 @@ class MmSheetPage<T> extends Page<T> {
       constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 680),
       shape: const RoundedRectangleBorder(),
       sheetAnimationStyle: _sheetAnimationStyle(context),
-      builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, child: child)),
+      builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, footer: footer, child: child)),
     );
   }
 }

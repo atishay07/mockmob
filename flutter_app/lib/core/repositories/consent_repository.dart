@@ -81,21 +81,27 @@ class ConsentRepository extends Notifier<ConsentState> {
 
   /// Saves the answer to "Are you 18 or older?". Usage data stays off unless the student is
   /// an adult who already allowed it. Throws `ApiError`.
-  Future<Consent> setAgeBand(AgeBand band) {
+  ///
+  /// Each write is for [expectUserId] when given, else for the account this repository holds;
+  /// it is never sent with another account's token ([ApiError.accountChanged]).
+  Future<Consent> setAgeBand(AgeBand band, {String? expectUserId}) {
     final keepOn = band == AgeBand.adult && state.consent.ageBand == AgeBand.adult && state.consent.analyticsAllowed;
-    return _put(band, keepOn);
+    return _put(band, keepOn, expectUserId);
   }
 
   /// Turns usage data on or off. On: the switch shows on only after the server acknowledges.
   /// Off: collection stops at once and the queue is cleared before the call; the result carries
   /// `deletedEvents`. A 503 means the choice was saved but the delete failed: call again.
-  Future<Consent> setAnalyticsAllowed(bool allowed) {
-    return _put(allowed ? AgeBand.adult : state.consent.ageBand, allowed);
+  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) {
+    return _put(allowed ? AgeBand.adult : state.consent.ageBand, allowed, expectUserId);
   }
 
-  Future<Consent> _put(AgeBand band, bool allowed) async {
+  Future<Consent> _put(AgeBand band, bool allowed, [String? expectUserId]) async {
     final id = _userId;
     if (id == null) throw const ApiError.signedOut();
+    // Checked before anything changes: a write for an account that is no longer signed in
+    // touches nothing of the one that is.
+    if (expectUserId != null && expectUserId != id) throw const ApiError.accountChanged();
     final prefs = ref.read(appPrefsProvider);
     if (!allowed) {
       // Close the gate before anything goes over the network. Listeners (the analytics
@@ -109,11 +115,13 @@ class ConsentRepository extends Notifier<ConsentState> {
     final response = await ref.read(apiClientProvider).put(
           '/api/me/consent',
           body: {'ageBand': band.name, 'analyticsAllowed': allowed},
+          expectUserId: id,
         );
     final consent = Consent.fromJson(response.map);
     if (allowed) await prefs.setAnalyticsStoppedFor(null);
     await prefs.setPendingWithdrawalFor(null);
-    if (ref.mounted) state = ConsentState(status: ConsentStatus.loaded, consent: consent);
+    // A reply that lands after another account signed in is not that account's consent.
+    if (ref.mounted && _userId == id) state = ConsentState(status: ConsentStatus.loaded, consent: consent);
     return consent;
   }
 }

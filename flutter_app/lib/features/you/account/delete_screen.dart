@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
+import '../../../core/auth/auth_state.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/sync/pending_work.dart';
 import '../../../core/theme/theme.dart';
@@ -31,7 +32,12 @@ const Duration kRepeatRequestGap = Duration(days: 1);
 /// processes it, so nothing here says "deleted".
 Future<DeletionReceipt> requestAccountDeletion(WidgetRef ref, {DateTime Function() now = DateTime.now}) async {
   final startedAt = now();
-  final response = await ref.read(apiClientProvider).post('/api/me/delete', body: {'source': 'android'});
+  // Only ever for the account on screen: never sent with the token of one that signed in since.
+  final response = await ref.read(apiClientProvider).post(
+        '/api/me/delete',
+        body: {'source': 'android'},
+        expectUserId: ref.read(authSnapshotProvider).userId,
+      );
   final map = response.map;
   final requestedAt = DateTime.tryParse('${map['requestedAt']}')?.toLocal() ?? startedAt;
   // The server's own word wins when it gives one; otherwise the gap, wide enough to ride out

@@ -53,10 +53,12 @@ class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
           kind: StateViewKind.error,
           title: AuthCopy.loadFailedTitle,
           message: AuthCopy.loadFailedBody,
-          // The label changes in place, so nothing moves while it tries.
+          // The label changes and the spinner turns in place, so nothing moves while it tries; a
+          // loading key ignores taps.
           primary: StateAction(
             retrying ? AuthCopy.tryingAgain : AuthCopy.tryAgain,
-            retrying || _signingOut ? () {} : () => auth.retryStart(),
+            _signingOut ? () {} : () => auth.retryStart(),
+            loading: retrying,
           ),
           secondary: auth.canSignOut ? StateAction(AuthCopy.signOut, _signingOut ? () {} : _signOut) : null,
         ),

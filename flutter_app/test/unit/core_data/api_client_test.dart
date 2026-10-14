@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
@@ -13,6 +15,17 @@ class _Observer implements ApiNetworkObserver {
 
   @override
   void onReachedServer() => reached++;
+}
+
+/// A refresh that comes back with another account's session (B signed in meanwhile).
+class _SwitchOnRefresh extends FakeTokens {
+  @override
+  Future<bool> refresh() async {
+    refreshCalls++;
+    token = 'tok-b';
+    userId = 'u2';
+    return true;
+  }
 }
 
 void main() {
@@ -110,6 +123,78 @@ void main() {
       final e = await errorOf(api.get('/api/auth/me'));
       expect(e.isUnauthorized, isTrue);
       expect(http.requests, isEmpty);
+    });
+  });
+
+  // onboarding-sheet-r2-03: a request reads the token when it goes out, so a write started for
+  // one account must not leave with the token of an account that signed in while it waited.
+  group('a write that names its account', () {
+    test('goes out as usual while the token is that account's', () async {
+      http.replies.add(const FakeReply(200, {'daysPerWeek': 4}));
+      final r = await api.put('/api/me/goal', body: {'daysPerWeek': 4}, expectUserId: 'u1');
+      expect(r.status, 200);
+      expect(http.requests.single.headers['Authorization'], 'Bearer tok-1');
+    });
+
+    test('started for A, it is refused when it would go out after B signed in', () async {
+      tokens.tokenGate = Completer<void>();
+      final write = errorOf(api.put('/api/me/goal', body: {'daysPerWeek': 4}, expectUserId: 'u1'));
+      // A signs out and B signs in while the write waits for its token.
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      tokens.tokenGate!.complete();
+      final e = await write;
+      expect(e.isAccountChanged, isTrue);
+      expect(e.isUnauthorized, isTrue);
+      expect(e.status, isNull, reason: 'nothing reached the server');
+      expect(http.requests, isEmpty, reason: 'nothing was sent with B's token');
+    });
+
+    test('every write method checks it: post, put, patch, delete and a replayed request', () async {
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      final calls = <Future<Object?>>[
+        api.post('/api/me/delete', body: const {}, expectUserId: 'u1'),
+        api.put('/api/me/consent', body: const {}, expectUserId: 'u1'),
+        api.patch('/api/users/u1', body: const {}, expectUserId: 'u1'),
+        api.delete('/api/bookmarks', expectUserId: 'u1'),
+        api.request('PUT', '/api/me/notification-prefs', body: const {}, expectUserId: 'u1'),
+      ];
+      for (final call in calls) {
+        expect((await errorOf(call)).isAccountChanged, isTrue);
+      }
+      expect(http.requests, isEmpty);
+    });
+
+    test('a token whose account is not known yet is refused too', () async {
+      // B's session before B's profile has loaded: the provider cannot name the account.
+      tokens.userId = null;
+      final e = await errorOf(api.patch('/api/users/u1', body: const {'subjects': ['accountancy']}, expectUserId: 'u1'));
+      expect(e.isAccountChanged, isTrue);
+      expect(http.requests, isEmpty);
+    });
+
+    test('a 401 is not retried with a refreshed token that belongs to another account', () async {
+      final switching = _SwitchOnRefresh();
+      api = newApiClient(http, tokens: switching);
+      http.replies.add(const FakeReply(401, {'error': 'Unauthorized'}));
+      final e = await errorOf(api.put('/api/me/goal', body: const {}, expectUserId: 'u1'));
+      expect(e.isAccountChanged, isTrue);
+      expect(switching.refreshCalls, 1);
+      expect(http.requests, hasLength(1), reason: 'only the first, with A's token');
+      expect(http.requests.single.headers['Authorization'], 'Bearer tok-1');
+    });
+
+    test('a write that names no account, and every read, are unaffected', () async {
+      tokens.userId = null;
+      http.replies
+        ..add(const FakeReply(200, {}))
+        ..add(const FakeReply(200, {}));
+      await api.put('/api/me/goal', body: const {});
+      await api.get('/api/me/goal');
+      expect(http.requests, hasLength(2));
     });
   });
 

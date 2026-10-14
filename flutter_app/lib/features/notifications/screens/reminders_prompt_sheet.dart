@@ -26,10 +26,11 @@ import '../widgets/time_sheet.dart';
 enum _Phase { ask, granted, denied }
 
 /// Above this text scale the ask shows one example, not three: the sheet stays a bottom sheet
-/// until 1.5x, and three examples push the main key below the fold well before that.
+/// until 1.5x, and three examples make a long scroll above the keys well before that.
 const double _compactTextScale = 1.15;
 
-/// Above this the ask also drops Mobi and the examples label, so the main key stays in view just below full page.
+/// Above this the ask also drops Mobi and the examples label, so the words get the room just
+/// below full page.
 const double _tightTextScale = 1.35;
 
 /// What the sheet was opened on: the wording it uses (set by how many times it has been put to
@@ -45,44 +46,36 @@ class _Opened {
       _Opened(asks: asks, permission: next);
 }
 
-/// The pre-prompt sheet "Remind me when it matters" (spec 8): three examples of what a reminder
-/// would say, a main key, and Not now. The main key opens the Android 13 system dialog; once
-/// Android has stopped showing it (two refusals) it says Open settings and opens MockMob's
-/// notification settings instead. Whatever the student chooses, the sheet ends on a designed
-/// state and never blocks study.
-///
-/// It comes back after a Not now, a refusal or a closed sheet (see `shouldOfferPrePrompt`) and
-/// asks a different way each time (see `prePromptVariantFor`). Opening it counts as one ask,
-/// written before it can close.
-///
-/// The body only: `MmSheetPage` supplies the frame.
-class RemindersPromptSheet extends ConsumerStatefulWidget {
-  const RemindersPromptSheet({super.key});
+class _PromptState {
+  const _PromptState({this.phase = _Phase.ask, this.asking = false, this.opened});
 
-  @override
-  ConsumerState<RemindersPromptSheet> createState() =>
-      _RemindersPromptSheetState();
+  final _Phase phase;
+
+  /// Android's own question is up.
+  final bool asking;
+
+  /// Null for the first frames, until the wording is known.
+  final _Opened? opened;
+
+  _PromptState copyWith({_Phase? phase, bool? asking, _Opened? opened}) =>
+      _PromptState(phase: phase ?? this.phase, asking: asking ?? this.asking, opened: opened ?? this.opened);
 }
 
-class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
-  _Phase _phase = _Phase.ask;
-  bool _asking = false;
-  _Opened? _opened;
+/// The sheet's state, shared by its body ([RemindersPromptSheet]) and its keys
+/// ([RemindersPromptKeys]), which sit in different parts of the sheet: the keys are pinned in
+/// the footer. Lives while the sheet is up.
+final _promptProvider = NotifierProvider.autoDispose<_Prompt, _PromptState>(_Prompt.new);
+
+class _Prompt extends Notifier<_PromptState> {
   Future<void>? _recording;
-  AppLifecycleListener? _lifecycle;
 
   @override
-  void initState() {
-    super.initState();
-    unawaited(_open());
+  _PromptState build() {
     // Coming back from Android settings with notifications on ends on the granted state.
-    _lifecycle = AppLifecycleListener(onResume: () => unawaited(_recheck()));
-  }
-
-  @override
-  void dispose() {
-    _lifecycle?.dispose();
-    super.dispose();
+    final lifecycle = AppLifecycleListener(onResume: () => unawaited(_recheck()));
+    ref.onDispose(lifecycle.dispose);
+    scheduleMicrotask(() => unawaited(_open()));
+    return const _PromptState();
   }
 
   Future<void> _open() async {
@@ -90,13 +83,13 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     var permission = NotificationPermission.notAsked;
     try {
       asks = (await ref.read(reminderStoreProvider).load()).prePromptAskCount;
-      if (!mounted) return;
+      if (!ref.mounted) return;
       permission = await ref.read(permissionRequesterProvider).notificationPermission();
     } on Object {
       // The sheet still opens, on the first wording and the plain key.
     }
-    if (!mounted) return;
-    setState(() => _opened = _Opened(asks: asks, permission: permission));
+    if (!ref.mounted) return;
+    state = state.copyWith(opened: _Opened(asks: asks, permission: permission));
     // Counted as soon as it is on screen, so closing it any way at all keeps the spacing.
     // A student who already has reminders on is not being asked.
     if (permission != NotificationPermission.granted) {
@@ -113,27 +106,27 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     }
   }
 
-  Future<void> _allow() async {
-    setState(() => _asking = true);
+  /// The ask was counted when the sheet opened; this finishes when that write has, so a Not now
+  /// keeps the spacing even if the app is killed right after.
+  Future<void> recorded() => _recording ?? Future<void>.value();
+
+  Future<void> allow() async {
+    if (state.asking) return;
+    state = state.copyWith(asking: true);
     NotificationPermission result;
     try {
-      result = await ref
-          .read(permissionRequesterProvider)
-          .requestNotificationPermission();
+      result = await ref.read(permissionRequesterProvider).requestNotificationPermission();
     } on Object {
       result = NotificationPermission.denied;
     }
-    if (!mounted) return;
+    if (!ref.mounted) return;
     ref.invalidate(notificationPermissionProvider);
     final granted = result == NotificationPermission.granted;
     if (granted) {
       unawaited(ref.read(hapticsProvider).settle());
       _replan();
     }
-    setState(() {
-      _asking = false;
-      _phase = granted ? _Phase.granted : _Phase.denied;
-    });
+    state = state.copyWith(asking: false, phase: granted ? _Phase.granted : _Phase.denied);
   }
 
   /// Plans the reminders now that Android allows them. Nothing awaits it, so a failure (the
@@ -144,59 +137,56 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     );
   }
 
-  Future<void> _openSettings() async {
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    final opened = await ref.read(systemSettingsProvider).openNotificationSettings();
-    if (!opened) {
-      messenger?.showSnackBar(const SnackBar(content: Text(NotificationsCopy.settingsDidNotOpen)));
-    }
-  }
-
   /// The app came back to the front: the student may have allowed notifications in Android
   /// settings. Android's own dialog also brings the app back, so a running request is left alone.
   ///
   /// After a refusal the student may do the same, so the denied state is checked too: it must not
   /// keep saying reminders stay off once they are on.
   Future<void> _recheck() async {
-    if (_phase == _Phase.granted || _asking || _opened == null) return;
+    if (state.phase == _Phase.granted || state.asking || state.opened == null) return;
     NotificationPermission permission;
     try {
       permission = await ref.read(permissionRequesterProvider).notificationPermission();
     } on Object {
       return;
     }
-    if (!mounted || _phase == _Phase.granted || _asking) return;
+    if (!ref.mounted || state.phase == _Phase.granted || state.asking) return;
     ref.invalidate(notificationPermissionProvider);
+    final opened = state.opened!;
     if (permission == NotificationPermission.granted) {
       unawaited(ref.read(hapticsProvider).settle());
       _replan();
-      setState(() => _phase = _Phase.granted);
-    } else if (_phase == _Phase.ask && permission != _opened!.permission) {
-      setState(() => _opened = _opened!.withPermission(permission));
+      state = state.copyWith(phase: _Phase.granted);
+    } else if (state.phase == _Phase.ask && permission != opened.permission) {
+      state = state.copyWith(opened: opened.withPermission(permission));
     }
   }
+}
 
-  Future<void> _notNow() async {
-    // The ask was counted when the sheet opened; make sure that write has finished before the
-    // sheet closes, so the spacing holds even if the app is killed right after.
-    await _recording;
-    if (mounted) Navigator.of(context).maybePop();
-  }
-
-  void _chooseStudyTime() {
-    final router = GoRouter.of(context);
-    Navigator.of(context).maybePop();
-    unawaited(router.push(AppRoutes.youNotifications));
-  }
+/// The pre-prompt sheet "Remind me when it matters" (spec 8): three examples of what a reminder
+/// would say, a main key, and Not now. The main key opens the Android 13 system dialog; once
+/// Android has stopped showing it (two refusals) it says Open settings and opens MockMob's
+/// notification settings instead. Whatever the student chooses, the sheet ends on a designed
+/// state and never blocks study.
+///
+/// It comes back after a Not now, a refusal or a closed sheet (see `shouldOfferPrePrompt`) and
+/// asks a different way each time (see `prePromptVariantFor`). Opening it counts as one ask,
+/// written before it can close.
+///
+/// The body only: `MmSheetPage` supplies the frame, and [RemindersPromptKeys] goes in its
+/// footer, so the keys stay in view at any text size.
+class RemindersPromptSheet extends ConsumerWidget {
+  const RemindersPromptSheet({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(_promptProvider);
     final prefs =
         ref.watch(notificationPrefsRepositoryProvider).value ??
         NotificationPrefs.defaults;
-    final opened = _opened;
+    final opened = view.opened;
     final window = prefs.studyWindow;
-    final child = switch (_phase) {
+    final child = switch (view.phase) {
       // The first frames, until the wording is known: nothing, rather than a wording that then changes.
       _Phase.ask when opened == null => const SizedBox.shrink(key: ValueKey('opening')),
       _Phase.ask => _Ask(
@@ -207,30 +197,18 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
           studyTime: window == null ? null : formatClock(window.start),
         ),
         primary: prePromptPrimaryFor(opened.permission),
-        asking: _asking,
-        onAllow: _allow,
-        onOpenSettings: () => unawaited(_openSettings()),
-        onNotNow: _notNow,
       ),
-      _Phase.granted => _Outcome(
-        key: const ValueKey('granted'),
+      _Phase.granted => const _Outcome(
+        key: ValueKey('granted'),
         mobi: MobiPose.cheer,
         title: NotificationsCopy.grantedTitle,
         body: NotificationsCopy.grantedBody,
-        primaryLabel: NotificationsCopy.grantedPickTime,
-        onPrimary: _chooseStudyTime,
-        doneLabel: NotificationsCopy.grantedDone,
-        onDone: () => Navigator.of(context).maybePop(),
       ),
-      _Phase.denied => _Outcome(
-        key: const ValueKey('denied'),
+      _Phase.denied => const _Outcome(
+        key: ValueKey('denied'),
         mobi: MobiPose.rest,
         title: NotificationsCopy.deniedTitle,
         body: NotificationsCopy.deniedBody,
-        secondaryLabel: NotificationsCopy.openAndroidSettings,
-        onSecondary: () => unawaited(_openSettings()),
-        doneLabel: NotificationsCopy.deniedDone,
-        onDone: () => Navigator.of(context).maybePop(),
       ),
     };
 
@@ -242,16 +220,106 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
   }
 }
 
+/// The pre-prompt sheet's keys, for the sheet's footer: Allow reminders (or Open settings) and
+/// Not now while it asks, then the keys of the state it ends on. Pinned under the scrolling
+/// body, so they stay in view at large text on a small phone.
+class RemindersPromptKeys extends ConsumerWidget {
+  const RemindersPromptKeys({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(_promptProvider);
+    final prompt = ref.read(_promptProvider.notifier);
+    final opened = view.opened;
+
+    Future<void> openSettings() async {
+      final messenger = ScaffoldMessenger.maybeOf(context);
+      final done = await ref.read(systemSettingsProvider).openNotificationSettings();
+      if (!done) {
+        messenger?.showSnackBar(const SnackBar(content: Text(NotificationsCopy.settingsDidNotOpen)));
+      }
+    }
+
+    Future<void> notNow() async {
+      await prompt.recorded();
+      if (context.mounted) await Navigator.of(context).maybePop();
+    }
+
+    void close() => Navigator.of(context).maybePop();
+
+    void chooseStudyTime() {
+      final router = GoRouter.of(context);
+      Navigator.of(context).maybePop();
+      unawaited(router.push(AppRoutes.youNotifications));
+    }
+
+    final keys = switch (view.phase) {
+      // Until the wording is known the keys' room is kept, so nothing moves when they appear.
+      _Phase.ask when opened == null => const ExcludeSemantics(
+        child: Visibility(
+          visible: false,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: _KeyPair(
+            first: KeyButton(label: NotificationsCopy.promptAllow, onPressed: null),
+            second: KeyButton.quiet(label: NotificationsCopy.promptNotNow, expanded: true, onPressed: null),
+          ),
+        ),
+      ),
+      _Phase.ask => _KeyPair(
+        first: prePromptPrimaryFor(opened!.permission) == PrePromptPrimary.openSettings
+            ? KeyButton(label: NotificationsCopy.promptOpenSettings, onPressed: () => unawaited(openSettings()))
+            : KeyButton(
+                label: NotificationsCopy.promptAllow,
+                loading: view.asking,
+                onPressed: view.asking ? null : () => unawaited(prompt.allow()),
+              ),
+        second: KeyButton.quiet(
+          label: NotificationsCopy.promptNotNow,
+          expanded: true,
+          onPressed: view.asking ? null : () => unawaited(notNow()),
+        ),
+      ),
+      _Phase.granted => _KeyPair(
+        first: KeyButton(label: NotificationsCopy.grantedPickTime, onPressed: chooseStudyTime),
+        second: KeyButton.quiet(label: NotificationsCopy.grantedDone, expanded: true, onPressed: close),
+      ),
+      _Phase.denied => _KeyPair(
+        first: KeyButton(label: NotificationsCopy.deniedDone, onPressed: close),
+        second: KeyButton.secondary(label: NotificationsCopy.openAndroidSettings, onPressed: () => unawaited(openSettings())),
+      ),
+    };
+
+    return AnimatedSwitcher(
+      duration: Motion.of(context, Motion.ui),
+      switchInCurve: Motion.out,
+      child: KeyedSubtree(key: ValueKey('${view.phase.name}-${opened == null}'), child: keys),
+    );
+  }
+}
+
+/// The main key over the second one, 8 dp apart.
+class _KeyPair extends StatelessWidget {
+  const _KeyPair({required this.first, required this.second});
+
+  final Widget first;
+  final Widget second;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [first, const SizedBox(height: MmSpace.s8), second],
+      );
+}
+
 class _Ask extends StatelessWidget {
   const _Ask({
     required this.prefs,
     this.repair,
     required this.variant,
     required this.primary,
-    required this.asking,
-    required this.onAllow,
-    required this.onOpenSettings,
-    required this.onNotNow,
   });
 
   final NotificationPrefs prefs;
@@ -263,12 +331,9 @@ class _Ask extends StatelessWidget {
   /// The title and line for this ask: a different wording each time the sheet comes back.
   final PrePromptVariant variant;
 
-  /// Allow reminders, or Open settings once Android no longer shows its question.
+  /// Allow reminders, or Open settings once Android no longer shows its question: decides the
+  /// note above the keys.
   final PrePromptPrimary primary;
-  final bool asking;
-  final VoidCallback onAllow;
-  final VoidCallback onOpenSettings;
-  final VoidCallback onNotNow;
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +397,7 @@ class _Ask extends StatelessWidget {
             child: Column(
               children: [
                 if (compact)
-                  // Larger text: one example, so the main key stays in view without scrolling.
+                  // Larger text: one example, so the scroll above the keys stays short.
                   // The student's own waiting repair is the one that matters most to them.
                   waiting != null
                       ? NotificationPreview(
@@ -378,8 +443,7 @@ class _Ask extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s12),
-        // Once Android no longer asks, the way forward takes the note's place: the sheet must
-        // stay short enough that its main key is in view without scrolling.
+        // Once Android no longer asks, the way forward takes the note's place.
         if (primary == PrePromptPrimary.openSettings)
           Text(
             NotificationsCopy.promptBlockedNote,
@@ -390,21 +454,6 @@ class _Ask extends StatelessWidget {
             '${NotificationsCopy.promptQuietLine(formatClock(prefs.quietStart), formatClock(prefs.quietEnd))} ${NotificationsCopy.promptStudyNote}',
             style: type.small.copyWith(color: colors.ink3),
           ),
-        const SizedBox(height: MmSpace.s20),
-        if (primary == PrePromptPrimary.openSettings)
-          KeyButton(label: NotificationsCopy.promptOpenSettings, onPressed: onOpenSettings)
-        else
-          KeyButton(
-            label: NotificationsCopy.promptAllow,
-            loading: asking,
-            onPressed: asking ? null : onAllow,
-          ),
-        const SizedBox(height: MmSpace.s8),
-        KeyButton.quiet(
-          label: NotificationsCopy.promptNotNow,
-          expanded: true,
-          onPressed: asking ? null : onNotNow,
-        ),
       ],
     );
   }
@@ -424,26 +473,12 @@ class _Outcome extends StatelessWidget {
     required this.mobi,
     required this.title,
     required this.body,
-    required this.doneLabel,
-    required this.onDone,
-    this.primaryLabel,
-    this.onPrimary,
-    this.secondaryLabel,
-    this.onSecondary,
   });
 
   /// Mobi cheers once Android granted it, and sits calmly when it did not.
   final MobiPose mobi;
   final String title;
   final String body;
-  final String doneLabel;
-  final VoidCallback onDone;
-  final String? primaryLabel;
-  final VoidCallback? onPrimary;
-
-  /// A secondary way forward next to Done (Open Android settings after a refusal).
-  final String? secondaryLabel;
-  final VoidCallback? onSecondary;
 
   @override
   Widget build(BuildContext context) {
@@ -467,17 +502,6 @@ class _Outcome extends StatelessWidget {
           style: type.body.copyWith(color: colors.ink2),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: MmSpace.s24),
-        if (primaryLabel != null) ...[
-          KeyButton(label: primaryLabel!, onPressed: onPrimary),
-          const SizedBox(height: MmSpace.s8),
-          KeyButton.quiet(label: doneLabel, expanded: true, onPressed: onDone),
-        ] else if (secondaryLabel != null) ...[
-          KeyButton(label: doneLabel, onPressed: onDone),
-          const SizedBox(height: MmSpace.s8),
-          KeyButton.secondary(label: secondaryLabel!, onPressed: onSecondary),
-        ] else
-          KeyButton(label: doneLabel, onPressed: onDone),
       ],
     );
   }

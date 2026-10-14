@@ -56,7 +56,8 @@ class ProfileEditor {
   /// Saves the profile subjects. Returns what the server stored.
   Future<List<String>> saveSubjects(List<String> ids) async {
     final userId = _userId();
-    final response = await _ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': ids});
+    final response =
+        await _ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': ids}, expectUserId: userId);
     // Only what the server says it stored counts. A reply without the list is not an
     // acknowledgement: read the account back and compare before saying "saved".
     var saved = asStringList(response.map['subjects']);
@@ -78,7 +79,8 @@ class ProfileEditor {
   Future<String> saveName(String name) async {
     final trimmed = name.trim();
     final userId = _userId();
-    final response = await _ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'name': trimmed});
+    final response =
+        await _ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'name': trimmed}, expectUserId: userId);
     await _reloadProfile();
     return asString(response.map['name']) ?? trimmed;
   }
@@ -91,6 +93,8 @@ class ProfileEditor {
   /// server has it, so a stale phone copy of the days can never lower it, and the phone's weekdays
   /// are brought to the server's count instead.
   Future<Set<int>> saveWeek({required Set<int> days, required StudyTime window, required int minutes, bool daysEdited = true}) async {
+    // Every part is for the account that started the save, never one that signed in during it.
+    final userId = _ref.read(authSnapshotProvider).userId;
     final goals = _ref.read(goalRepositoryProvider.notifier);
     var goal = _ref.read(goalRepositoryProvider).value;
     if (goal == null) {
@@ -103,7 +107,7 @@ class ProfileEditor {
     if (!daysEdited) days = daysForCount(days, count);
     if (goal.daysPerWeek != count) {
       try {
-        await goals.save(daysPerWeek: count, pausedUntil: pauseToKeep(goal.pausedUntil, _ref.read(nowProvider)()));
+        await goals.save(daysPerWeek: count, pausedUntil: pauseToKeep(goal.pausedUntil, _ref.read(nowProvider)()), expectUserId: userId);
       } on ApiError catch (e) {
         throw WeekSaveError(WeekSavePart.goal, e);
       }
@@ -112,13 +116,14 @@ class ProfileEditor {
     try {
       await _ref.read(notificationPrefsRepositoryProvider.notifier).update(
             studyWindow: prefs.StudyWindow(start: prefs.ClockTime(window.hour, 0), end: prefs.ClockTime(window.hour + 1, 0)),
+            expectUserId: userId,
           );
     } on ApiError catch (e) {
       throw WeekSaveError(WeekSavePart.studyTime, e);
     }
     _editAnswers((a) => a.copyWith(window: window));
     try {
-      await _ref.read(studyLengthProvider).save(minutes);
+      await _ref.read(studyLengthProvider).save(minutes, expectUserId: userId);
     } on ApiError catch (e) {
       throw WeekSaveError(WeekSavePart.length, e);
     }

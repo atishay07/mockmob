@@ -206,6 +206,15 @@ class AuthService implements ApiTokenProvider {
     }
   }
 
+  /// The token without an account: this service knows Supabase users, not MockMob accounts. The
+  /// foreground API client reads tokens through a bridge that names the account
+  /// (`api_providers.dart`), so a write meant for one account never leaves with another's token.
+  @override
+  Future<ApiToken?> accountToken() async {
+    final token = await accessToken();
+    return token == null ? null : ApiToken(token);
+  }
+
   @override
   Future<bool> refresh() async {
     final current = _client.currentSession;

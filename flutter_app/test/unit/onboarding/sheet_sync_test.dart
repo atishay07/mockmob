@@ -25,7 +25,7 @@ import '../core_data/support/test_db.dart';
 /// A goal write that fails with something other than an ApiError (here: signed out part way).
 class _SignedOutGoal extends GoalRepository {
   @override
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async => throw const SignedOutException();
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async => throw const SignedOutException();
 }
 
 class _FakeAuth extends AuthController {
@@ -70,6 +70,7 @@ const _prefs = {
 void main() {
   late AppDatabase db;
   late FakeHttpAdapter http;
+  late FakeTokens tokens;
   late MemoryPrefsStore sheetPrefs;
   late StreamController<void> wakeups;
   var today = DateTime(2026, 10, 13, 21, 45);
@@ -98,11 +99,12 @@ void main() {
             _ => const FakeReply(200, {}),
           };
     sheetPrefs = MemoryPrefsStore()..values[AnswersStore.key] = jsonEncode((answers ?? _sealed).toJson());
+    tokens = FakeTokens();
     final c = ProviderContainer(overrides: [
       authSnapshotProvider.overrideWith(() => _FakeAuth(auth)),
       appDatabaseProvider.overrideWithValue(db),
       appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
-      apiClientProvider.overrideWithValue(newApiClient(http)),
+      apiClientProvider.overrideWithValue(newApiClient(http, tokens: tokens)),
       answersStoreProvider.overrideWithValue(AnswersStore(sheetPrefs)),
       nowProvider.overrideWithValue(() => today),
       sheetSyncWakeupsProvider.overrideWith((ref) => wakeups.stream),
@@ -406,6 +408,45 @@ void main() {
       await store.park(_sealed.copyWith(owner: 'u1'), now);
       expect(await store.parked('u1', now.add(const Duration(days: 29))), isNotNull);
       expect(await store.parked('u1', now.add(const Duration(days: 31))), isNull);
+    });
+
+    // onboarding-sheet-r2-03, the API side: the signed-in state can lag the session. Each write
+    // names A to the API client, which refuses to send it with any other account's token.
+    test("no write of A's sheet is sent with B's token, even before the signed-in state says B", () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      // A's session was replaced by B's, whose profile has not loaded: the state still says A.
+      tokens
+        ..token = 'tok-b'
+        ..userId = null;
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(writes(), isEmpty, reason: "nothing of A's sheet goes out with B's token");
+      await c.read(onboardingAnswersProvider.notifier).flushed();
+      expect((await AnswersStore(sheetPrefs).load()).syncedFor, isNull, reason: 'not recorded as saved to A');
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed, reason: 'A is still on screen, so Try again stays');
+    });
+
+    test("writes started for A stop at the first one that would go out after B signed in", () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      final gate = http.hold = Completer<void>();
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(writes(), isNotEmpty, reason: 'the first write is out with A's token');
+      expect(writes().map((r) => r.headers['Authorization']).toSet(), {'Bearer tok-1'});
+      // B signs in while that request is out; the signed-in state has not caught up yet.
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      http.hold = null;
+      gate.complete();
+      await settle();
+      final withB = [for (final r in writes()) if (r.headers['Authorization'] == 'Bearer tok-b') '${r.method} ${r.path}'];
+      expect(withB, isEmpty, reason: "nothing of A's sheet goes out with B's token: $withB");
+      await c.read(onboardingAnswersProvider.notifier).flushed();
+      expect((await AnswersStore(sheetPrefs).load()).syncedFor, isNull);
+      expect(c.read(sheetSyncProvider).phase, isNot(SheetSyncPhase.saved));
     });
 
     test('a switch of account while the writes are out stops them, and nothing is marked saved', () async {

@@ -99,21 +99,33 @@ class ApiClient {
   Future<ApiResponse> get(String path, {Map<String, Object?>? query, ApiOptions options = const ApiOptions()}) =>
       _send('GET', path, query: query, options: options);
 
-  Future<ApiResponse> post(String path, {Object? body, Map<String, Object?>? query, ApiOptions options = const ApiOptions()}) =>
-      _send('POST', path, body: body, query: query, options: options);
+  // The writes take [expectUserId]: the MockMob user id the write is for. When the token at
+  // hand belongs to anyone else (the student signed out and another account signed in while the
+  // write waited), nothing is sent and [ApiError.accountChanged] is thrown. Checked again when
+  // a 401 is retried with a refreshed token.
 
-  Future<ApiResponse> put(String path, {Object? body, ApiOptions options = const ApiOptions()}) =>
-      _send('PUT', path, body: body, options: options);
+  Future<ApiResponse> post(String path, {Object? body, Map<String, Object?>? query, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
+      _send('POST', path, body: body, query: query, options: options, expectUserId: expectUserId);
 
-  Future<ApiResponse> patch(String path, {Object? body, ApiOptions options = const ApiOptions()}) =>
-      _send('PATCH', path, body: body, options: options);
+  Future<ApiResponse> put(String path, {Object? body, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
+      _send('PUT', path, body: body, options: options, expectUserId: expectUserId);
 
-  Future<ApiResponse> delete(String path, {Object? body, ApiOptions options = const ApiOptions()}) =>
-      _send('DELETE', path, body: body, options: options);
+  Future<ApiResponse> patch(String path, {Object? body, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
+      _send('PATCH', path, body: body, options: options, expectUserId: expectUserId);
+
+  Future<ApiResponse> delete(String path, {Object? body, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
+      _send('DELETE', path, body: body, options: options, expectUserId: expectUserId);
 
   /// Any method by name, for callers that replay a stored request (the outbox).
-  Future<ApiResponse> request(String method, String path, {Object? body, Map<String, Object?>? query, ApiOptions options = const ApiOptions()}) =>
-      _send(method.toUpperCase(), path, body: body, query: query, options: options);
+  Future<ApiResponse> request(
+    String method,
+    String path, {
+    Object? body,
+    Map<String, Object?>? query,
+    ApiOptions options = const ApiOptions(),
+    String? expectUserId,
+  }) =>
+      _send(method.toUpperCase(), path, body: body, query: query, options: options, expectUserId: expectUserId);
 
   /// Remaining client-side hold for a call after a 429, if any. Reads and writes of a route
   /// family are held apart: a 429 on the session events PUT must not stop the result from
@@ -131,6 +143,7 @@ class ApiClient {
     Object? body,
     Map<String, Object?>? query,
     required ApiOptions options,
+    String? expectUserId,
   }) async {
     if (!options.bypassRateGate) {
       final held = heldFor(path, method: method);
@@ -152,7 +165,7 @@ class ApiClient {
             responseType: options.plainBody ? ResponseType.plain : ResponseType.json,
             receiveTimeout: options.receiveTimeout,
             headers: {if (options.idempotencyKey != null) 'Idempotency-Key': options.idempotencyKey},
-            extra: {_authKey: options.authenticated},
+            extra: {_authKey: options.authenticated, _expectUserKey: ?expectUserId},
           ),
         );
         observer?.onReachedServer();
@@ -200,6 +213,7 @@ class ApiClient {
   }
 
   static const _authKey = 'mm_authenticated';
+  static const _expectUserKey = 'mm_expect_user';
   static const _retriedKey = 'mm_retried_after_refresh';
 
   /// One shared refresh for any number of concurrent 401s.
@@ -216,14 +230,26 @@ class _AuthInterceptor extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.extra[ApiClient._authKey] == false) return handler.next(options);
-    final token = await _client._tokens.accessToken();
-    if (token == null || token.isEmpty) {
+    final token = await _client._tokens.accountToken();
+    if (token == null || token.value.isEmpty) {
       return handler.reject(
         DioException(requestOptions: options, error: const ApiError.signedOut(), type: DioExceptionType.unknown),
       );
     }
-    options.headers['Authorization'] = 'Bearer $token';
+    if (!_forExpectedUser(options, token)) {
+      return handler.reject(
+        DioException(requestOptions: options, error: const ApiError.accountChanged(), type: DioExceptionType.unknown),
+      );
+    }
+    options.headers['Authorization'] = 'Bearer ${token.value}';
     handler.next(options);
+  }
+
+  /// True unless the request names the account it is for and [token] belongs to another one,
+  /// or to an account the provider cannot name.
+  static bool _forExpectedUser(RequestOptions options, ApiToken token) {
+    final expected = options.extra[ApiClient._expectUserKey];
+    return expected == null || token.userId == expected;
   }
 
   @override
@@ -241,7 +267,7 @@ class _AuthInterceptor extends Interceptor {
     // Another request may already have refreshed while this one was in flight: if the token
     // changed since this request was sent, just retry with it instead of refreshing again.
     final sent = options.headers['Authorization'];
-    final current = await _client._tokens.accessToken();
+    final current = (await _client._tokens.accountToken())?.value;
     final alreadyRefreshed = current != null && sent != null && sent != 'Bearer $current';
     bool refreshed;
     try {
@@ -265,8 +291,15 @@ class _AuthInterceptor extends Interceptor {
     }
     try {
       options.extra[ApiClient._retriedKey] = true;
-      final token = await _client._tokens.accessToken();
-      if (token != null) options.headers['Authorization'] = 'Bearer $token';
+      final token = await _client._tokens.accountToken();
+      // The refreshed session may be another account's by now: a write for the first one is
+      // not repeated with it.
+      if (token != null && !_forExpectedUser(options, token)) {
+        return handler.next(
+          DioException(requestOptions: options, type: DioExceptionType.unknown, error: const ApiError.accountChanged()),
+        );
+      }
+      if (token != null) options.headers['Authorization'] = 'Bearer ${token.value}';
       final retried = await _client.dio.fetch<Object?>(options);
       handler.resolve(retried);
     } on DioException catch (e) {

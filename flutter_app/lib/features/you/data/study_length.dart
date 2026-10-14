@@ -6,6 +6,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
+import '../../../core/auth/auth_state.dart';
 import '../../../core/models/json_helpers.dart';
 
 /// What happened to the usual length.
@@ -28,15 +29,17 @@ class StudyLength {
   static const String path = '/api/study/preferences';
 
   /// Saves [minutes] to the account. Throws the [ApiError] when the server refused or could not
-  /// be reached.
-  Future<LengthSync> save(int minutes) async {
+  /// be reached. The write is for [expectUserId] when given, else for the account signed in now,
+  /// and is never sent with another account's token.
+  Future<LengthSync> save(int minutes, {String? expectUserId}) async {
+    final forUser = expectUserId ?? _ref.read(authSnapshotProvider).userId;
     for (var attempt = 0; ; attempt++) {
       final api = _ref.read(apiClientProvider);
       final current = (await api.get(path)).map;
       if (asString(current['state']) != 'ready') return LengthSync.notOpen;
       if (asInt(current['minutes']) == minutes) return LengthSync.unchanged;
       try {
-        await api.put(path, body: {'minutes': minutes, 'expectedRevision': asInt(current['revision']) ?? 0});
+        await api.put(path, body: {'minutes': minutes, 'expectedRevision': asInt(current['revision']) ?? 0}, expectUserId: forUser);
         return LengthSync.saved;
       } on ApiError catch (e) {
         if (e.kind != ApiErrorKind.conflict || attempt > 0) rethrow;

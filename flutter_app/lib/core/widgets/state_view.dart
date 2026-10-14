@@ -11,10 +11,14 @@ enum StateViewKind { empty, error, offline }
 
 /// A label and handler for one of the (at most two) actions of a [StateView].
 class StateAction {
-  const StateAction(this.label, this.onPressed);
+  const StateAction(this.label, this.onPressed, {this.loading = false});
 
   final String label;
   final VoidCallback onPressed;
+
+  /// The action is running: the main key shows its spinner in place, keeps its size and ignores
+  /// taps. Only the primary action shows it; the quiet secondary key has no spinner.
+  final bool loading;
 }
 
 /// An empty, error or offline state: Mobi in a small pool of lamp light, a title, a message and
@@ -127,7 +131,7 @@ class StateView extends StatelessWidget {
               ],
               if (primary != null) ...[
                 const SizedBox(height: MmSpace.s24),
-                KeyButton(label: primary!.label, onPressed: primary!.onPressed),
+                KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading),
               ],
               if (secondary != null) ...[
                 const SizedBox(height: MmSpace.s4),

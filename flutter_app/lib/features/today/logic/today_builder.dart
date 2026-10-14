@@ -113,8 +113,10 @@ String? _updatedLine(TodayInputs i) {
   if (!cached) return null;
   final times = [?i.planFetchedAt, ?i.attemptsFetchedAt];
   if (times.isEmpty) return i.offline ? TodayCopy.offlineSuffix : null;
-  final latest = times.reduce((a, b) => a.isAfter(b) ? a : b);
-  final at = i.clock(latest);
+  // The older read, as on the home widget: the papers are the list's last full read, served from
+  // the phone while the plan is read again, so the newer time would call days-old papers fresh.
+  final oldest = times.reduce((a, b) => a.isBefore(b) ? a : b);
+  final at = i.clock(oldest);
   return i.offline ? TodayCopy.updatedOffline(at) : TodayCopy.updatedAt(at);
 }
 

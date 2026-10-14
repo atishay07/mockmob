@@ -18,3 +18,9 @@ Widget permissionsNotificationsScreen(
   BuildContext context,
   GoRouterState state,
 ) => const RemindersPromptSheet();
+
+/// The pre-prompt sheet's keys, pinned in the sheet's footer under the scrolling body.
+Widget permissionsNotificationsFooter(
+  BuildContext context,
+  GoRouterState state,
+) => const RemindersPromptKeys();

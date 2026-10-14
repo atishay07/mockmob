@@ -196,6 +196,20 @@ class ApiError implements Exception {
         retryAfter = null,
         details = const {};
 
+  /// A write meant for one account would have gone out with another account's token (the
+  /// student signed out and someone else signed in while it waited). Nothing was sent.
+  const ApiError.accountChanged()
+      : status = null,
+        kind = ApiErrorKind.unauthorized,
+        code = accountChangedCode,
+        retryAfter = null,
+        details = const {};
+
+  static const accountChangedCode = 'account_changed';
+
+  /// See [ApiError.accountChanged].
+  bool get isAccountChanged => code == accountChangedCode;
+
   static Map<Object?, Object?> _asMap(Object? body) {
     if (body is Map) return body;
     if (body is String && body.trimLeft().startsWith('{')) {

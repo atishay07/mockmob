@@ -122,6 +122,14 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
     return started;
   }
 
+  /// The account a write is for: [expectUserId] when the caller names one, else the account this
+  /// notifier holds. Throws [ApiError.accountChanged] when the caller's account is no longer the
+  /// one signed in, so nothing is sent for it.
+  String? writeFor(String? expectUserId) {
+    if (expectUserId != null && expectUserId != userId) throw const ApiError.accountChanged();
+    return userId;
+  }
+
   /// Still the same signed-in account the read started for, and the notifier is alive.
   bool _current(String id) => ref.mounted && userId == id;
 
@@ -161,10 +169,11 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   }
 
   /// Replaces the value after a write the server acknowledged (for example a goal edit),
-  /// keeping the cache in step.
-  Future<void> setAcknowledged(Fetched<T> fetched) async {
+  /// keeping the cache in step. [forUserId] is the account the write was for: a reply that lands
+  /// after another account signed in is neither cached nor shown for that account.
+  Future<void> setAcknowledged(Fetched<T> fetched, {String? forUserId}) async {
     final id = userId;
-    if (id == null) return;
+    if (id == null || (forUserId != null && forUserId != id)) return;
     final at = ref.read(nowProvider)();
     await writeCache(id, fetched, at);
     if (ref.mounted) state = RemoteState(value: fetched.value, fetchedAt: at);

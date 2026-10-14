@@ -26,22 +26,30 @@ Future<void> _openSheet(
   WidgetTester tester,
   Brightness brightness, {
   required WidgetBuilder sheet,
+  WidgetBuilder? footer,
   required List<Override> overrides,
+  Size size = kSheetSize,
+  double textScale = 1,
 }) async {
   await pumpMockmob(
     tester,
     Builder(
       builder: (context) => Center(
-        child: TextButton(onPressed: () => showMmSheet<void>(context: context, builder: sheet), child: const Text('open')),
+        child: TextButton(onPressed: () => showMmSheet<void>(context: context, builder: sheet, footer: footer), child: const Text('open')),
       ),
     ),
     brightness: brightness,
-    size: kSheetSize,
+    size: size,
+    textScale: textScale,
     overrides: overrides,
   );
   await tester.tap(find.text('open'));
   await tester.pumpAndSettle();
 }
+
+/// The pre-prompt sheet as its route lays it out: the body scrolls, the keys are pinned under it.
+Widget _promptBody(BuildContext _) => const RemindersPromptSheet();
+Widget _promptKeys(BuildContext _) => const RemindersPromptKeys();
 
 Future<void> _settings(
   WidgetTester tester,
@@ -79,88 +87,48 @@ void main() {
     await loadMaterialIcons();
   });
 
-  // Not a picture: the sheet is at most 680 dp tall and its body scrolls inside it, so a wording
-  // that is too long would push a key out of view. Measured with the real fonts, on a 360 dp phone
-  // (the body is 320 dp wide), for the student with a study window and the one without.
+  // Not a picture: on a 360 dp phone, at ordinary and larger text (the sheet stays a bottom sheet
+  // below 1.5x), every wording keeps both keys fully in view without scrolling. The body scrolls
+  // under them when it is long; the keys sit in the sheet's footer. Measured with the real fonts.
   group('pre-prompt sheet fit', () {
-    testWidgets('every wording keeps both keys in view', (tester) async {
-      // 680 dp less the drag handle (24). The bottom padding below the keys (20) may scroll.
-      const room = 680.0 - 24;
-      final tooTall = <String>[];
-      for (final start in [NotificationPermission.notAsked, NotificationPermission.denied]) {
-        for (final window in [_window, null]) {
-          for (var asks = 0; asks < 6; asks++) {
-            // A fresh scope each time, or the earlier run's providers would be reused.
-            await tester.pumpWidget(const SizedBox());
-            final rig = Rig();
-            await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
-            await pumpMockmob(
-              tester,
-              Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  width: 320,
-                  child: SingleChildScrollView(child: RemindersPromptSheet(key: ValueKey('${start.name}${window == null}$asks'))),
+    testWidgets('every wording keeps both keys in view on a 360 dp phone', (tester) async {
+      const screen = Size(360, 640);
+      final outOfView = <String>[];
+      for (final scale in [1.0, 1.3, 1.45]) {
+        for (final start in [NotificationPermission.notAsked, NotificationPermission.denied]) {
+          for (final window in [_window, null]) {
+            for (var asks = 0; asks < 6; asks++) {
+              // A fresh scope each time, or the earlier run's providers would be reused.
+              await tester.pumpWidget(const SizedBox());
+              final rig = Rig();
+              await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
+              await _openSheet(
+                tester,
+                Brightness.light,
+                sheet: _promptBody,
+                footer: _promptKeys,
+                size: screen,
+                textScale: scale,
+                overrides: featureOverrides(
+                  rig: rig,
+                  repo: FakePrefsRepo(prefsWith(window: window)),
+                  permission: FakePermissionRequester(start),
+                  repair: const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25),
                 ),
-              ),
-              size: const Size(360, 1400),
-              overrides: featureOverrides(
-                rig: rig,
-                repo: FakePrefsRepo(prefsWith(window: window)),
-                permission: FakePermissionRequester(start),
-              ),
-            );
-            await tester.pumpAndSettle();
-            final height = tester.getSize(find.byType(RemindersPromptSheet)).height;
-            // ignore: avoid_print
-            print('sheet body, ${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
-            if (height > room) tooTall.add('${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
+              );
+              final main = start == NotificationPermission.denied && asks >= 2 ? 'Open settings' : 'Allow reminders';
+              for (final label in [main, 'Not now']) {
+                final key = find.widgetWithText(KeyButton, label);
+                final rect = key.evaluate().isEmpty ? null : tester.getRect(key.first);
+                if (rect == null || rect.top < 0 || rect.bottom > screen.height) {
+                  outOfView.add('$scale, ${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $label at $rect');
+                }
+              }
+            }
           }
         }
       }
-      expect(tooTall, isEmpty, reason: 'taller than the $room dp that keeps both keys in view');
-    });
-  });
-
-  // The sheet stays a bottom sheet below 1.5x text, so at 1.3x and 1.45x the main key must still
-  // be in view without scrolling (the first group only measures ordinary text).
-  group('pre-prompt sheet fit at larger text', () {
-    testWidgets('both keys stay in view below the full-page scale', (tester) async {
-      const room = 680.0 - 24;
-      final tooTall = <String>[];
-      for (final scale in [1.3, 1.45]) {
-        for (final repair in [null, const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25)]) {
-          for (var asks = 0; asks < 6; asks++) {
-            await tester.pumpWidget(const SizedBox());
-            final rig = Rig();
-            await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
-            await pumpMockmob(
-              tester,
-              Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  width: 320,
-                  child: SingleChildScrollView(child: RemindersPromptSheet(key: ValueKey('$scale${repair == null}$asks'))),
-                ),
-              ),
-              size: const Size(360, 1800),
-              textScale: scale,
-              overrides: featureOverrides(
-                rig: rig,
-                repo: FakePrefsRepo(prefsWith(window: _window)),
-                permission: FakePermissionRequester(NotificationPermission.notAsked),
-                repair: repair,
-              ),
-            );
-            await tester.pumpAndSettle();
-            final height = tester.getSize(find.byType(RemindersPromptSheet)).height;
-            // ignore: avoid_print
-            print('sheet body at $scale, ${repair == null ? 'no repair' : 'repair'}, ask $asks: $height dp');
-            if (height > room) tooTall.add('$scale, ${repair == null ? 'no repair' : 'repair'}, ask $asks: $height dp');
-          }
-        }
-      }
-      expect(tooTall, isEmpty, reason: 'taller than the $room dp that keeps both keys in view');
+      expect(outOfView, isEmpty, reason: 'a key out of view on a 360 x 640 dp phone');
     });
   });
 
@@ -171,7 +139,8 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const RemindersPromptSheet(),
+          sheet: _promptBody,
+          footer: _promptKeys,
           overrides: featureOverrides(
             rig: rig,
             repo: FakePrefsRepo(NotificationPrefs.defaults),
@@ -186,7 +155,8 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const RemindersPromptSheet(),
+          sheet: _promptBody,
+          footer: _promptKeys,
           overrides: featureOverrides(
             rig: rig,
             repo: FakePrefsRepo(NotificationPrefs.defaults),
@@ -203,7 +173,8 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const RemindersPromptSheet(),
+          sheet: _promptBody,
+          footer: _promptKeys,
           overrides: featureOverrides(
             rig: rig,
             repo: FakePrefsRepo(NotificationPrefs.defaults),
@@ -223,7 +194,8 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const RemindersPromptSheet(),
+          sheet: _promptBody,
+          footer: _promptKeys,
           overrides: featureOverrides(
             rig: rig,
             repo: FakePrefsRepo(prefsWith(window: _window)),
@@ -240,7 +212,8 @@ void main() {
         await _openSheet(
           tester,
           b,
-          sheet: (_) => const RemindersPromptSheet(),
+          sheet: _promptBody,
+          footer: _promptKeys,
           overrides: featureOverrides(
             rig: rig,
             repo: FakePrefsRepo(NotificationPrefs.defaults),
