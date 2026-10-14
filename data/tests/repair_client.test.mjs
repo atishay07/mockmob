@@ -194,3 +194,15 @@ test('Mobi reacts to the real outcome: success only for a server-acknowledged re
   const src = read('src/components/recovery/MistakeRepair.jsx');
   assert.match(src, /const mobi = nta \? null : <RepairMobi/, 'no Mobi in NTA');
 });
+
+test('Review remembers the last look: the first visit and an unchanged list animate nothing; storage failures are safe', async () => {
+  const { reviewChanges } = await import('../../src/components/recovery/reviewChanges.js');
+  const m = new Map(); const storage = { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, v) };
+  assert.equal(reviewChanges([{ id: 'a', mistakes: 3 }], storage).changed, false, 'first visit is a baseline');
+  const next = reviewChanges([{ id: 'b', mistakes: 2 }, { id: 'a', mistakes: 3 }], storage);
+  assert.deepEqual([...next.fresh], ['b']); assert.equal(next.fromToReview, 3); assert.equal(next.changed, true);
+  assert.equal(reviewChanges([{ id: 'b', mistakes: 2 }, { id: 'a', mistakes: 3 }], storage).changed, false, 'nothing changed, nothing moves');
+  const broken = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('blocked'); } };
+  assert.equal(reviewChanges([{ id: 'a', mistakes: 1 }], broken).changed, false);
+  assert.equal(reviewChanges([{ id: 'a', mistakes: 1 }], null).changed, false);
+});

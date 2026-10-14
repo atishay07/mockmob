@@ -11,6 +11,8 @@ import ArenaHead, { ArenaStats } from './arena/ArenaHead';
 import { AppIcon, StatusIcon, SubjectIcon } from './ui/Glyph';
 import ArenaCompanion from './brand/ArenaCompanion';
 import StudyProgress from './study/StudyProgress';
+import { reviewChanges } from './recovery/reviewChanges';
+import './recovery/review-changes.css';
 
 const label = (id = '') => id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const when = (ts) => {
@@ -19,14 +21,30 @@ const when = (ts) => {
   return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 };
 
-function SessionCard({ a }) {
+const reducedMotion = () => {
+  try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
+};
+// Rolls from the count at the last look to the count now, once. Reduced motion shows the new number at once.
+function RollNumber({ from, to }) {
+  const [shown, setShown] = useState(from === to || reducedMotion() ? to : from);
+  useEffect(() => {
+    if (from === to || reducedMotion()) return undefined;
+    let raf; let start;
+    const step = (t) => { start ??= t; const p = Math.min((t - start) / 700, 1); setShown(Math.round(from + (to - from) * (1 - (1 - p) ** 3))); if (p < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [from, to]);
+  return <span className="ov-roll">{shown}</span>;
+}
+
+function SessionCard({ a, fresh = false, index = 0 }) {
   const pct = a.total ? Math.round((a.correct / a.total) * 100) : 0;
   return (
-    <li>
+    <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
       <Link className="ov-session" href={`/result/${a.id}`}>
         <span className="ov-session__icon"><SubjectIcon id={a.subject} size={20} /></span>
         <span className="ov-session__main">
-          <b>{label(a.subject)}</b>
+          <b>{label(a.subject)}{fresh ? <> <span className="ov-new">New since your last look</span></> : null}</b>
           <span>{when(a.completedAt)}{when(a.completedAt) ? ' · ' : ''}{a.correct}/{a.total} correct</span>
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
@@ -41,7 +59,8 @@ function SessionCard({ a }) {
 
 export default function RecoveryOverview({ view }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (alive) setData(d); }).catch(() => { if (alive) setError('Your recovery record could not be loaded. Please try again.'); }); return () => { alive = false; }; }, [retryCount]);
+  const [changes, setChanges] = useState(null);
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) setError('Your recovery record could not be loaded. Please try again.'); }); return () => { alive = false; }; }, [retryCount, view]);
   const retry = () => { setData(null); setError(''); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
@@ -66,7 +85,7 @@ export default function RecoveryOverview({ view }) {
         <>
           <ArenaStats label="Review summary" items={[
             { icon: <AppIcon name="practice" size={15} />, label: 'Sessions saved', value: review.length },
-            { icon: <AppIcon name="review" size={15} />, label: 'Questions to review', value: toReview },
+            { icon: <AppIcon name="review" size={15} />, label: 'Questions to review', value: changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview },
             { icon: <AppIcon name="check" size={15} />, label: 'Answered right', value: answered ? `${Math.round((correct / answered) * 100)}%` : '—' },
             { icon: <AppIcon name="clock" size={15} />, label: 'Last session', value: when(review[0]?.completedAt) || '—' },
           ]} />
@@ -75,7 +94,7 @@ export default function RecoveryOverview({ view }) {
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
-            {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} />)}</ul> : (
+            {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (
               <div className="ov-empty"><ArenaCompanion pose="attentive" title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
             )}
           </section>

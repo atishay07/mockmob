@@ -1,0 +1,10 @@
+/* Review: only what changed since the last look moves. New sessions rise in and fill their bar from empty;
+   the questions-to-review number rolls from the old count. Reduced motion shows the final state. */
+.ov-roll { font-variant-numeric: tabular-nums; }
+.ov-new { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 650; line-height: 1.4; color: var(--a-accent-text, #d2f000); border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .ov-list > li[data-fresh] { animation: ov-rise 460ms var(--ease-out, ease) both; animation-delay: calc(var(--ov-i, 0) * 60ms); }
+  :root:not([data-motion='reduced']) .ov-list > li[data-fresh] .ov-bar em { animation: ov-fill 720ms var(--ease-out, ease) both; animation-delay: calc(var(--ov-i, 0) * 60ms + 200ms); }
+}
+@keyframes ov-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes ov-fill { from { transform: scaleX(0); } }
