@@ -84,11 +84,11 @@ test('header actions: one primary per state, and the right one', () => {
   for (const [id, visitor] of Object.entries(STATES)) assert.equal(primary(visitor).length, 1, id);
   assert.deepEqual(headerActionsFor(S1).map((a) => [a.label, a.variant]), [['Log in', 'text'], ['Start free', 'primary']]);
   assert.deepEqual(headerActionsFor(S2).map((a) => [a.label, a.variant]), [['Start free', 'text'], ['Log in', 'primary']]);
-  assert.deepEqual(headerActionsFor(S3).map((a) => a.label), ['Start your first check']);
+  assert.deepEqual(headerActionsFor(S3).map((a) => a.label), ['Start your 10-question check']);
   assert.deepEqual(headerActionsFor(S4).map((a) => a.label), ['Continue practice']);
   assert.deepEqual(headerActionsFor(S5).map((a) => a.label), ['Continue practice']);
   assert.deepEqual(headerActionsFor(S4, resume).map((a) => [a.label, a.href]), [['Resume your test', resume.href]]);
-  // A saved test wins over Start your first check too (S3 plus resume), the same as the dock.
+  // A saved test wins over Start your 10-question check too (S3 plus resume), the same as the dock.
   assert.deepEqual(headerActionsFor(S3, resume).map((a) => [a.label, a.href]), [['Resume your test', resume.href]]);
   assert.deepEqual(headerActionsFor(S5, resume).map((a) => a.label), ['Resume your test']);
   // A saved test does not change what a guest sees.

@@ -20,7 +20,7 @@
    Between 1024 and 1180 the items tighten a little so nothing wraps. */
 @media (min-width: 1024px) and (max-width: 1180px) {
   .mm .mm-nav__links .mm-nav__link { padding-inline: .5rem; font-size: .875rem; }
-  /* A member's bar also carries the long action ("Start your first check") and the account menu,
+  /* A member's bar also carries the long action ("Start your 10-question check") and the account menu,
      about 55px more than a visitor's. The account menu has its own Theme row, so the switch in the
      bar steps aside for members here and returns at 1181px. */
   html[data-visitor='member'] .mm-nav__end > .mm-theme-toggle { display: none; }

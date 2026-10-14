@@ -12,6 +12,9 @@ import { appNavigation, shellGate, titleForPath } from '@/lib/navigation';
 import { AppBottomBar, AppSidebar, AppTopbar } from '@/components/shell/AppNav';
 import { GuideTour, useGuideTour } from '@/components/shell/GuideTour';
 import { ShellPageSkeleton, ShellUnavailable } from '@/components/shell/ShellStates';
+import { NoticeProvider } from '@/components/notices/NoticeProvider';
+import { NoticeSlot } from '@/components/notices/NoticeSlot';
+import ShellNotices from '@/components/notices/ShellNotices';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -92,7 +95,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
             <div className="arena-backdrop" aria-hidden="true" />
             <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-              {page}
+              <NoticeProvider>
+                {/* One notice slot for the app shell (W1.5). Not on the timed test, which has its own toast. */}
+                {!isTestRoute && gate === 'ready' ? <><ShellNotices /><NoticeSlot surface="app" /></> : null}
+                {page}
+              </NoticeProvider>
             </div>
           </main>
           {!isTestRoute && (

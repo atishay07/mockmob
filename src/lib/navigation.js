@@ -112,14 +112,14 @@ export const HEADER_ACTIONS = Object.freeze([
   { id: 'signup', label: 'Start free', href: '/signup', variant: 'primary', show: 'newGuest' },
   { id: 'signup-returning', label: 'Start free', href: '/signup', variant: 'text', show: 'returningGuest' },
   { id: 'login-returning', label: 'Log in', href: '/login', variant: 'primary', show: 'returningGuest' },
-  { id: 'first-check', label: 'Start your first check', href: FIRST_CHECK_HREF, variant: 'primary', show: 'memberFirst' },
+  { id: 'first-check', label: 'Start your 10-question check', href: FIRST_CHECK_HREF, variant: 'primary', show: 'memberFirst' },
   { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF, variant: 'primary', show: 'memberStarted' },
 ]);
 
 /**
  * Every header action the page renders, with a saved test applied. `resume` is a saved test
  * (findResumableTest): it replaces Continue practice for every member and takes the place of Start
- * your first check too, so a member with a saved test and no scored session sees Resume (S3 plus
+ * your 10-question check too, so a member with a saved test and no scored session sees Resume (S3 plus
  * resume), the same as the mobile dock. The header renders this list and <html data-visitor>
  * (visitor.css) picks the visible ones.
  */
@@ -140,8 +140,7 @@ export function headerActionsFor(visitor = {}, resume = null) {
 /**
  * The dock actions for a member, all variants (the dock renders them and CSS picks one): Resume
  * your test while a saved test exists, else Start your 10-question check before the first scored
- * session (the label the day-one hero and closing line use), else Continue practice. The header
- * keeps the shorter Start your first check so a member's bar fits at 1024px.
+ * session (the label the day-one hero, closing line and header use), else Continue practice.
  */
 export function memberDockActions(resume = null) {
   if (resume) return [{ id: 'resume', label: 'Resume your test', href: resume.href, show: 'member' }];
