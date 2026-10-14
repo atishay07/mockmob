@@ -3,19 +3,25 @@ import 'dart:ui' show lerpDouble;
 double _l(double a, double b, double t) => lerpDouble(a, b, t)!;
 
 /// One eye on the visor. [open] scales it vertically (1 open, 0 a closed line), [happy] morphs
-/// the oval into a smiling arc, [lid] lowers a flat upper lid (sleepy, squint).
+/// the oval into a smiling arc, [lid] lowers a flat upper lid (sleepy, squint), [smile] raises a
+/// curved lower lid (warm, smiling eyes that stay open).
 class MobiEye {
-  const MobiEye({this.open = 1, this.happy = 0, this.lid = 0});
+  const MobiEye({this.open = 1, this.happy = 0, this.lid = 0, this.smile = 0});
 
   final double open;
   final double happy;
   final double lid;
+  final double smile;
 
-  MobiEye copyWith({double? open, double? happy, double? lid}) =>
-      MobiEye(open: open ?? this.open, happy: happy ?? this.happy, lid: lid ?? this.lid);
+  MobiEye copyWith({double? open, double? happy, double? lid, double? smile}) =>
+      MobiEye(open: open ?? this.open, happy: happy ?? this.happy, lid: lid ?? this.lid, smile: smile ?? this.smile);
 
-  static MobiEye lerp(MobiEye a, MobiEye b, double t) =>
-      MobiEye(open: _l(a.open, b.open, t), happy: _l(a.happy, b.happy, t), lid: _l(a.lid, b.lid, t));
+  static MobiEye lerp(MobiEye a, MobiEye b, double t) => MobiEye(
+        open: _l(a.open, b.open, t),
+        happy: _l(a.happy, b.happy, t),
+        lid: _l(a.lid, b.lid, t),
+        smile: _l(a.smile, b.smile, t),
+      );
 }
 
 /// One rubber-hose arm. [angle] is the shoulder rotation in radians from straight down, outward
@@ -85,6 +91,10 @@ class MobiRig {
     this.burst = -1,
     this.zzz = -1,
     this.sheet = 0,
+    this.glow = 0,
+    this.glint = -1,
+    this.sparkle = -1,
+    this.bubble = -1,
   });
 
   /// Body offset; [y] negative lifts Mobi off the ground.
@@ -120,6 +130,19 @@ class MobiRig {
   /// The little answer sheet held for reading, 0 hidden to 1 held.
   final double sheet;
 
+  /// Light in the antenna bulb, 0 off to 1 lit (thinking, loading, celebrating).
+  final double glow;
+
+  /// A band of light sweeping across the visor: progress 0 to 1, or negative for none.
+  final double glint;
+
+  /// Proud glints twinkling around the head: progress 0 to 1, or negative for none.
+  final double sparkle;
+
+  /// One volt answer bubble inking beside the head (a right answer): progress 0 to 1, or
+  /// negative for none.
+  final double bubble;
+
   MobiRig copyWith({
     double? x,
     double? y,
@@ -137,6 +160,10 @@ class MobiRig {
     double? burst,
     double? zzz,
     double? sheet,
+    double? glow,
+    double? glint,
+    double? sparkle,
+    double? bubble,
   }) =>
       MobiRig(
         x: x ?? this.x,
@@ -155,6 +182,10 @@ class MobiRig {
         burst: burst ?? this.burst,
         zzz: zzz ?? this.zzz,
         sheet: sheet ?? this.sheet,
+        glow: glow ?? this.glow,
+        glint: glint ?? this.glint,
+        sparkle: sparkle ?? this.sparkle,
+        bubble: bubble ?? this.bubble,
       );
 
   /// Both eyes at once.
@@ -182,6 +213,10 @@ class MobiRig {
       burst: _pick(a.burst, b.burst, t),
       zzz: _pick(a.zzz, b.zzz, t),
       sheet: _l(a.sheet, b.sheet, t),
+      glow: _l(a.glow, b.glow, t),
+      glint: _pick(a.glint, b.glint, t),
+      sparkle: _pick(a.sparkle, b.sparkle, t),
+      bubble: _pick(a.bubble, b.bubble, t),
     );
   }
 }

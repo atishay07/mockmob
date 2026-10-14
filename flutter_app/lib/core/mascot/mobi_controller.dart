@@ -49,6 +49,12 @@ abstract interface class MobiHost {
   void pointAtGlobal(Offset point);
 }
 
+/// The attention half of a Mobi on screen: short looks that come back by themselves. A separate
+/// interface so existing [MobiHost] implementations keep compiling.
+abstract interface class MobiAttentionHost {
+  void glanceAtGlobal(Offset point, double seconds);
+}
+
 /// Drives one Mobi: [play] an act, [say] a line (Mobi talks while it types in), [lookAt] a point,
 /// [pointAt] a point or widget. Commands sent before the Mobi is on screen wait for it.
 class MobiController extends ChangeNotifier {
@@ -59,6 +65,7 @@ class MobiController extends ChangeNotifier {
   Offset? _pendingLook;
   bool _pendingLookSet = false;
   Offset? _pendingPoint;
+  (Offset, double)? _pendingGlance;
   int _ids = 0;
 
   final ValueNotifier<MobiSpeech?> _speech = ValueNotifier(null);
@@ -106,6 +113,24 @@ class MobiController extends ChangeNotifier {
     }
   }
 
+  /// Glances at [globalPoint] for [hold], then looks back: new content arriving, a tap, the next
+  /// step. Lighter than [lookAt], which holds until changed.
+  void glance(Offset globalPoint, {Duration hold = const Duration(milliseconds: 1100)}) {
+    final seconds = hold.inMicroseconds / 1e6;
+    final host = _host;
+    if (host == null) {
+      _pendingGlance = (globalPoint, seconds);
+    } else if (host is MobiAttentionHost) {
+      (host as MobiAttentionHost).glanceAtGlobal(globalPoint, seconds);
+    }
+  }
+
+  /// Glances at the centre of the widget with [key], if it is laid out.
+  void glanceAtWidget(GlobalKey key, {Duration hold = const Duration(milliseconds: 1100)}) {
+    final box = key.currentContext?.findRenderObject();
+    if (box is RenderBox && box.hasSize) glance(box.localToGlobal(box.size.center(Offset.zero)), hold: hold);
+  }
+
   /// Points at the centre of the widget with [key], if it is laid out.
   void pointAtWidget(GlobalKey key) {
     final box = key.currentContext?.findRenderObject();
@@ -128,6 +153,9 @@ class MobiController extends ChangeNotifier {
     if (point != null) host.pointAtGlobal(point);
     final line = _speech.value;
     if (line != null) host.play(MobiAct.talk, seconds: MobiTyping.duration(line.text) + 0.25);
+    final glance = _pendingGlance;
+    if (glance != null && host is MobiAttentionHost) (host as MobiAttentionHost).glanceAtGlobal(glance.$1, glance.$2);
+    _pendingGlance = null;
     _pendingAct = null;
     _pendingLook = null;
     _pendingLookSet = false;

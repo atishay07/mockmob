@@ -12,7 +12,7 @@ enum MobiTail { down, left, right }
 /// start, so nothing reflows), the bubble grows out of its tail, and TalkBack reads the whole
 /// line once. Under reduced motion the line is simply there.
 class MobiBubble extends StatefulWidget {
-  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18});
+  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18, this.boxed = true});
 
   final MobiSpeech speech;
   final MobiTail tail;
@@ -20,6 +20,10 @@ class MobiBubble extends StatefulWidget {
 
   /// Seconds before typing starts (lets the bubble land first).
   final double delay;
+
+  /// Draw the card (fill, edge, tail and a soft shadow). When false the line sits on the screen
+  /// as plain text with no box, for threads (Ask) where a card per line is too heavy.
+  final bool boxed;
 
   @override
   State<MobiBubble> createState() => _MobiBubbleState();
@@ -84,11 +88,13 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
     final type = context.mmType;
     final style = type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, color: colors.ink);
     final text = widget.speech.text;
-    final pad = switch (widget.tail) {
-      MobiTail.down => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12 + _BubblePainter.tailSize),
-      MobiTail.left => const EdgeInsets.fromLTRB(MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12, MmSpace.s16, MmSpace.s12),
-      MobiTail.right => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12),
-    };
+    final pad = !widget.boxed
+        ? EdgeInsets.zero
+        : switch (widget.tail) {
+            MobiTail.down => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12 + _BubblePainter.tailSize),
+            MobiTail.left => const EdgeInsets.fromLTRB(MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+            MobiTail.right => const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16 + _BubblePainter.tailSize, MmSpace.s12),
+          };
 
     final bubble = AnimatedBuilder(
       animation: _c,
@@ -96,6 +102,18 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
         final seconds = _c.value * _total;
         final n = _visible(seconds);
         final land = _reduced ? 1.0 : Motion.emphasized.transform((seconds / 0.26).clamp(0.0, 1.0));
+        final line = Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: text.substring(0, n)),
+              TextSpan(
+                text: text.substring(n),
+                style: const TextStyle(color: Color(0x00000000)),
+              ),
+            ],
+          ),
+          style: style,
+        );
         return Opacity(
           opacity: land,
           child: Transform.scale(
@@ -105,24 +123,18 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
               MobiTail.left => Alignment.centerLeft,
               MobiTail.right => Alignment.centerRight,
             },
-            child: CustomPaint(
-              painter: _BubblePainter(
-                fill: colors.isNight ? colors.raised2 : colors.raised,
-                edge: colors.lineStrong.withValues(alpha: colors.isNight ? 0.7 : 0.55),
-                lamp: colors.isNight ? colors.lamp.withValues(alpha: 0.35) : const Color(0x00000000),
-                tail: widget.tail,
-              ),
-              child: Padding(
-                padding: pad,
-                child: Text.rich(
-                  TextSpan(children: [
-                    TextSpan(text: text.substring(0, n)),
-                    TextSpan(text: text.substring(n), style: const TextStyle(color: Color(0x00000000))),
-                  ]),
-                  style: style,
-                ),
-              ),
-            ),
+            child: widget.boxed
+                ? CustomPaint(
+                    painter: _BubblePainter(
+                      fill: colors.isNight ? colors.raised2 : colors.raised,
+                      edge: colors.lineStrong.withValues(alpha: colors.isNight ? 0.7 : 0.55),
+                      lamp: colors.isNight ? colors.lamp.withValues(alpha: 0.35) : const Color(0x00000000),
+                      shadow: colors.isNight ? const Color(0x4D000000) : const Color(0x1A3B2A12),
+                      tail: widget.tail,
+                    ),
+                    child: Padding(padding: pad, child: line),
+                  )
+                : line,
           ),
         );
       },
@@ -140,12 +152,13 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
 }
 
 class _BubblePainter extends CustomPainter {
-  const _BubblePainter({required this.fill, required this.edge, required this.lamp, required this.tail});
+  const _BubblePainter({required this.fill, required this.edge, required this.lamp, required this.shadow, required this.tail});
 
   static const double tailSize = 9;
   final Color fill;
   final Color edge;
   final Color lamp;
+  final Color shadow;
   final MobiTail tail;
 
   Path _shape(Size size) {
@@ -186,8 +199,24 @@ class _BubblePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final shape = _shape(size);
-    canvas.drawShadow(shape, const Color(0xFF000000), 6, false);
+    // A soft, low shadow: felt more than seen.
+    canvas.drawPath(
+      shape.shift(const Offset(0, 2)),
+      Paint()
+        ..color = shadow
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
+    );
     canvas.drawPath(shape, Paint()..color = fill);
+    // A sheen across the upper half, like light on a glass edge.
+    canvas.drawPath(
+      shape,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+          colors: [const Color(0xFFFFFFFF).withValues(alpha: 0.06), const Color(0x00FFFFFF)],
+        ).createShader(Offset.zero & size),
+    );
     canvas.drawPath(
       shape,
       Paint()
@@ -202,5 +231,6 @@ class _BubblePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_BubblePainter old) => old.fill != fill || old.edge != edge || old.tail != tail || old.lamp != lamp;
+  bool shouldRepaint(_BubblePainter old) =>
+      old.fill != fill || old.edge != edge || old.tail != tail || old.lamp != lamp || old.shadow != shadow;
 }
