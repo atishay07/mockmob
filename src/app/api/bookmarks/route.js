@@ -17,9 +17,9 @@ async function getBookmarkCount(userId) {
   return count || 0;
 }
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const session = await auth();
+    const session = await auth(request);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -74,7 +74,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const session = await auth();
+    const session = await auth(request);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

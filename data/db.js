@@ -9,6 +9,7 @@
  */
 
 import { supabaseAdmin } from '@/lib/supabase';
+import { formatIdFor } from '@/lib/server/attemptSummary';
 import {
   effectivePremiumFromRow,
   REFUND_REVOKED_PREMIUM_ACTION,
@@ -289,6 +290,8 @@ const attemptOut = (r) => r && ({
   details: r.details || [],
   questionsSnapshot: r.questions_snapshot || [],
   selectionMeta: r.selection_meta || {},
+  mode: (r.selection_meta && r.selection_meta.mode) || null,
+  formatId: formatIdFor({ subject: r.subject, total: r.total, questionsSnapshot: r.questions_snapshot || [], selectionMeta: r.selection_meta || {} }),
   completedAt: new Date(r.completed_at).getTime(),
 });
 

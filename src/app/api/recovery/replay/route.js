@@ -5,6 +5,7 @@ import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { LAUNCH_SUBJECTS } from '@/../shared/recoveryContract';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { studyExposures } from '@/lib/server/studyExposure';
+import { actionFromHref } from '@/lib/server/actionFields';
 
 // Read-only inventory check. Launch rechecks evidence, freshness and access atomically.
 export async function GET(request) {
@@ -24,9 +25,10 @@ export async function GET(request) {
     for(const chapter of chapters){
       if(!isValidTopSyllabusPair(attempt.subject,chapter)){rows.push({chapter,state:'unavailable'});continue;}
       const result=await Database.getQuestions(attempt.subject,5,{mode:'quick',count:5,requestedCount:5,userId:session.user.id,chapter,returnMeta:true,requireEvidence:true,...exposures});
-      rows.push({chapter,state:result.questions.length===5?'available':'unavailable',
-        ...(result.questions.length===5?{href:`/test?${new URLSearchParams({subject:attempt.subject,mode:'quick',count:'5',chapter,recoveryFrom:attempt.id})}`}:{})});
+      const href=result.questions.length===5?`/test?${new URLSearchParams({subject:attempt.subject,mode:'quick',count:'5',chapter,recoveryFrom:attempt.id})}`:null;
+      rows.push({chapter,state:href?'available':'unavailable',
+        ...(href?{href,action:actionFromHref(href)}:{})});
     }
-    return Response.json({chapters:rows,state:'ready',delayedCheckHref:'/recovery'},{headers});
+    return Response.json({chapters:rows,state:'ready',delayedCheckHref:'/recovery',delayedCheckAction:actionFromHref('/recovery')},{headers});
   }catch{return Response.json({error:'Fresh practice could not be checked. Your result is still available.'},{status:503,headers});}
 }

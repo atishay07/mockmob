@@ -99,7 +99,7 @@ export async function GET(request) {
     const rawCount = (data || []).length;
     data = await readablePracticeQuestions(await attachBankPassages(supabaseAdmin(),data || []), supabaseAdmin());
     count = null; // Legacy raw row counts are not eligible-content counts.
-    const session = await auth().catch(() => null);
+    const session = await auth(request).catch(() => null);
     const questionIds = (data || []).map((r) => r.id);
     const voteMap = session?.user?.id
       ? await Database.getUserVotes(session.user.id, questionIds)

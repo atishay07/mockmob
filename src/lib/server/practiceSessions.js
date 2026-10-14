@@ -9,6 +9,7 @@ import { publicSessionView } from '@/../shared/recoveryContract';
 import { supabaseAdmin } from '@/lib/supabase';
 import { durableLearningEnabled, episodeCheckQuestion } from './learning';
 import { allowancePeriod } from '@/../data/learning_engine';
+import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
@@ -104,7 +105,9 @@ export async function finishPractice(userId, input) {
   }
   if (Date.now() > Date.parse(row.expires_at) + 120000) throw new Error('SESSION_EXPIRED');
   const duration = Math.min(Date.parse(row.expires_at) - Date.parse(row.created_at), Date.now() - Date.parse(row.created_at) + 2000);
-  const result = scorePracticeSubmission(row.questions, input.answers || {}, input.events || [], duration);
+  // A per-answer check (B13) makes that answer final, whatever the client submits for it now.
+  const checked = await checkedAnswersForSubmit(supabaseAdmin(), row.id, userId);
+  const result = scorePracticeSubmission(row.questions, applyCheckedAnswers(input.answers || {}, checked), input.events || [], duration);
   // Observations from device-held telemetry are not certified recovery evidence.
   const score = result;
   try {
