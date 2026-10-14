@@ -188,6 +188,8 @@ void main() {
       // Let the screen's own timers (the review ask) run out before the test ends.
       await tester.pump(const Duration(seconds: 6));
 
+      // A fresh screen: the celebration is decided once, when the screen opens.
+      await tester.pumpWidget(const SizedBox());
       await pumpEnding(animations: false);
       expect(find.byType(FoilBurst), findsNothing, reason: 'reduced motion: everything at rest');
     });

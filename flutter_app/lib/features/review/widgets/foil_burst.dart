@@ -139,9 +139,6 @@ class _BurstPainter extends CustomPainter {
         ).createShader(Rect.fromCircle(center: c, radius: 120)),
     );
 
-    final out = Motion.emphasized.transform(v);
-    final fade = (1 - Curves.easeIn.transform(((v - 0.35) / 0.65).clamp(0.0, 1.0)));
-
     // Two thin shock rings, volt then lamp, widening and fading: the stamp of a seal landing.
     final ring = Paint()
       ..style = PaintingStyle.stroke

@@ -340,7 +340,7 @@ class _MarksBar extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               ColoredBox(color: colors.line),
-              Align(alignment: Alignment.centerLeft, child: FractionallySizedBox(widthFactor: f, heightFactor: 1, child: ColoredBox(color: colors.ink2))),
+              Align(alignment: Alignment.centerLeft, child: FractionallySizedBox(widthFactor: f, heightFactor: 1, child: ColoredBox(color: colors.ink))),
             ],
           ),
         ),
