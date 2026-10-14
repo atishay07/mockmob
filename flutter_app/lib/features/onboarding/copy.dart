@@ -61,6 +61,12 @@ abstract final class OnboardingCopy {
   static const String datesNotOut = 'Dates not out yet';
   static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
+  static const String weeksShort = 'weeks';
+  static const String trackToday = 'Today';
+  static String trackMay(int year) => 'May $year';
+  static String stageWeeksUnit(int year) => 'to May $year';
+  static const String stageWeeksProbably = 'to May 2027, probably';
+  static String stageWeeksSpoken(int year) => 'weeks to the expected May $year window';
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
@@ -114,6 +120,13 @@ abstract final class OnboardingCopy {
   static const String questionSupport = 'Answer the way you would in the hall.';
   static String rightIn(int seconds) => seconds <= 1 ? 'Right, in about a second.' : 'Right, in $seconds seconds.';
   static const String trapLead = 'That\'s the trap. The ten-second fix';
+
+  /// Beside the measured seconds, set as a monumental number.
+  /// The tick on the pace line under a right warm-up answer.
+  static const String examPace = 'Exam pace, about a minute';
+  static String paceSpoken(int seconds) =>
+      seconds <= 60 ? 'Inside exam pace, about a minute a question.' : 'Slower than exam pace, about a minute a question.';
+  static String rightSeconds(int seconds) => seconds <= 1 ? 'second. Right.' : 'seconds. Right.';
   static String optionSemantics(String letter, String text) => 'Option $letter, $text';
   static const String correctAnswer = 'Correct answer';
   static const String yourAnswer = 'Your answer';
@@ -126,6 +139,8 @@ abstract final class OnboardingCopy {
   static const String restDays = 'Dotted days are rest days.';
   static const String boardWeeks = 'During boards we count two a week.';
   static String minutes(int m) => '$m min';
+  static String minutesSpoken(int m) => '$m minutes';
+  static const String minutesUnit = 'minutes';
 
   // Plan.
   static const String planLead = 'Your plan, built from your answers.';
@@ -168,6 +183,16 @@ abstract final class OnboardingCopy {
   static const String mobiFirstMove = 'Ten minutes. I\'ll be here after.';
   static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
   static const String saveNow = 'Save my sheet';
+
+  // The first seven days under the first move.
+  static const String weekAheadTitle = 'Your first week';
+  static const String today = 'Today';
+  static String weekAheadPace(int minutes, String time) => '$minutes min, around $time';
+  static String weekAheadSpoken(List<String> days, int minutes, String time) {
+    if (days.isEmpty) return '$weekAheadTitle: rest this week.';
+    final list = days.length == 1 ? days.first : '${days.sublist(0, days.length - 1).join(', ')} and ${days.last}';
+    return '$weekAheadTitle: $list, $minutes minutes around $time.';
+  }
 
   // After sign-in (the "Before you start" sheet).
   static const String savingSheet = 'Saving your sheet';

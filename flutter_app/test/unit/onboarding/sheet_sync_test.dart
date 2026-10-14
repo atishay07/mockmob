@@ -222,7 +222,9 @@ void main() {
 
   group('after a failure', () {
     test('it tries again on its own once the save sheet is closed', () async {
-      final c = start(retryDelays: const [Duration(milliseconds: 5)]);
+      // The wait is long enough that the first failure is seen before the retry goes out, even
+      // on a loaded machine (at 5 ms the retry could fire inside settle() and fail again).
+      final c = start(retryDelays: const [Duration(milliseconds: 250)]);
       final ok = http.handler!;
       http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
       await c.read(onboardingAnswersProvider.future);
@@ -231,7 +233,7 @@ void main() {
       expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
 
       http.handler = ok;
-      await Future<void>.delayed(const Duration(milliseconds: 30));
+      await Future<void>.delayed(const Duration(milliseconds: 400));
       await settle();
       expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
       expect(writes().map((r) => r.path), contains('/api/users/u1'));

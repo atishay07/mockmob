@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import 'entrance.dart';
 
 /// The common body of a step under the sheet: the question as a headline, one line of support,
-/// the answers (scrolling when they need to), and the action area pinned at the bottom.
+/// the answers (scrolling when they need to), and the action area pinned at the bottom. It builds
+/// in order when it appears: the headline rises word by word, the support lifts, the answers
+/// lift (each wrapped in [EntranceItem.answer] by the step), the key lifts last.
 class StepLayout extends StatelessWidget {
   const StepLayout({
     super.key,
@@ -35,7 +38,7 @@ class StepLayout extends StatelessWidget {
         children: [
           Semantics(
             header: true,
-            child: Text(
+            child: RiseHeadline(
               title,
               style: type.headline,
               textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
@@ -43,7 +46,11 @@ class StepLayout extends StatelessWidget {
           ),
           if (support != null) ...[
             const SizedBox(height: MmSpace.s8),
-            Text(support!, style: type.body.copyWith(color: colors.ink2)),
+            EntranceItem(
+              at: Entrance.support,
+              rise: 8,
+              child: Text(support!, style: type.body.copyWith(color: colors.ink2)),
+            ),
           ],
           SizedBox(height: short ? MmSpace.s12 : MmSpace.s20),
         ],
@@ -58,7 +65,8 @@ class StepLayout extends StatelessWidget {
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);
 
-    return Column(
+    return StepEntrance(
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
@@ -92,9 +100,10 @@ class StepLayout extends StatelessWidget {
         if (bottom != null)
           Padding(
             padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
-            child: bottom,
+            child: EntranceItem(at: Entrance.key, child: bottom!),
           ),
       ],
+      ),
     );
   }
 }

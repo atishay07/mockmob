@@ -6,6 +6,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/subjects.dart';
+import 'choice_tile.dart';
+import 'confidence_bubbles.dart';
 
 /// One subject on the subjects step: its object, its name, and the answer-sheet bubble that
 /// inks when it is on the sheet; once included, Shaky, Okay or Strong opens beneath.
@@ -35,39 +37,48 @@ class SubjectRow extends ConsumerWidget {
       focusRadius: MmRadius.keyAll,
       onTap: () {
         ref.read(hapticsProvider).selection();
+        GuideGlance.at(context);
         onToggle();
       },
       builder: (context, pressed, _) => SubjectLine(subject: subject, chosen: included, dim: !included, bubble: !included),
     );
 
-    return AnimatedContainer(
-      duration: Motion.of(context, Motion.glideDuration),
-      curve: Motion.glide,
-      decoration: ShapeDecoration(
-        color: MmSelection.fill(colors, selected: included),
-        shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: included)),
-      ),
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          header,
-          _Grow(
-            child: included
-                ? Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s12),
-                    // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
-                    child: MmSegmented<Confidence>(
-                      semanticsLabel: 'How solid is ${subject.label}',
-                      segments: [for (final c in Confidence.values) MmSegment(c, c.label)],
-                      value: confidence ?? Confidence.okay,
-                      onChanged: onConfidence,
-                    ),
-                  )
-                : const SizedBox(width: double.infinity),
+    // On the sheet: a flat wash of the lamp's light under the name and the confidence bubbles, no
+    // border and no box inside a box. Off the sheet: bare on the ground. A hairline, inset to the
+    // name, separates one subject from the next.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AnimatedContainer(
+          duration: Motion.of(context, Motion.glideDuration),
+          curve: Motion.glide,
+          decoration: BoxDecoration(
+            color: included ? colors.lamp.withValues(alpha: colors.isNight ? 0.07 : 0.12) : Colors.transparent,
+            borderRadius: BorderRadius.circular(MmRadius.key),
           ),
-        ],
-      ),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              header,
+              _Grow(
+                child: included
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 52, bottom: MmSpace.s8),
+                        // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
+                        child: ConfidenceBubbles(
+                          subject: subject.label,
+                          value: confidence ?? Confidence.okay,
+                          onChanged: onConfidence,
+                        ),
+                      )
+                    : const SizedBox(width: double.infinity),
+              ),
+            ],
+          ),
+        ),
+        Container(height: 1, margin: const EdgeInsets.only(left: 64, right: MmSpace.s4), color: colors.line),
+      ],
     );
   }
 }

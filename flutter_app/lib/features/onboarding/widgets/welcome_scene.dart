@@ -1,13 +1,11 @@
-import 'dart:ui' show lerpDouble;
-
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
 /// The welcome room, drawn in code: a desk lamp in the top corner pouring a cone of warm light
-/// onto a desk, and an answer sheet on the desk whose bubbles ink in one row at a time. Mobi
-/// stands on the desk beside it (placed by the welcome screen). Nothing here is a picture, so it
+/// onto a desk, and one row of answer bubbles on the desk's edge that ink in turn. Mobi stands on
+/// the desk, large, and is the picture (placed by the welcome screen). Nothing here is a picture, so it
 /// is sharp at any size, follows the theme, and costs one paint.
 class WelcomeScene extends StatefulWidget {
   const WelcomeScene({super.key, required this.deskAt, this.animate = true});
@@ -104,9 +102,6 @@ class WelcomeScenePainter extends CustomPainter {
   final ScenePalette palette;
   final Animation<double> ink;
   final double deskAt;
-
-  /// The chosen bubble of each row of the sheet.
-  static const List<int> _answers = [1, 3, 0, 2, 1];
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -233,61 +228,29 @@ class WelcomeScenePainter extends CustomPainter {
     );
   }
 
+  /// A row of answer bubbles along the desk's front edge, inking one at a time while Mobi waves:
+  /// the only prop left on the desk, so Mobi is the picture and the sheet is only hinted at.
   void _sheet(Canvas canvas, double w, double h, double deskY) {
     final p = palette;
-    // A sheet lying on the desk, seen at a low angle: a trapezoid narrower at the back.
-    final tl = Offset(w * 0.11, deskY + h * 0.028);
-    final tr = Offset(w * 0.47, deskY + h * 0.022);
-    final br = Offset(w * 0.53, deskY + h * 0.14);
-    final bl = Offset(w * 0.04, deskY + h * 0.152);
-    Path quad(Offset d) => Path()
-      ..moveTo(tl.dx + d.dx, tl.dy + d.dy)
-      ..lineTo(tr.dx + d.dx, tr.dy + d.dy)
-      ..lineTo(br.dx + d.dx, br.dy + d.dy)
-      ..lineTo(bl.dx + d.dx, bl.dy + d.dy)
-      ..close();
-    canvas.drawPath(quad(const Offset(2, 4)), Paint()..color = const Color(0xFF000000).withValues(alpha: p.night ? 0.4 : 0.14));
-    final sheet = quad(Offset.zero);
-    canvas.drawPath(
-      sheet,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [p.paper, Color.lerp(p.paper, p.ground, p.night ? 0.45 : 0.12)!],
-        ).createShader(sheet.getBounds()),
-    );
-
-    Offset at(double u, double v) {
-      final top = Offset.lerp(tl, tr, u)!, bottom = Offset.lerp(bl, br, u)!;
-      return Offset.lerp(top, bottom, v)!;
-    }
-
-    const rows = 5, cols = 4;
+    const count = 5;
+    final y = deskY + h * 0.115;
     final progress = ink.value;
-    final ringPaint = Paint()
+    final ring = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1
-      ..color = p.ring.withValues(alpha: 0.75);
-    for (var r = 0; r < rows; r++) {
-      final v = 0.17 + r * 0.165;
-      final scale = lerpDouble(0.8, 1.15, v)!;
-      // The row number, a short printed tick.
-      final tick = at(0.09, v);
-      canvas.drawLine(tick.translate(-3 * scale, 0), tick.translate(3 * scale, 0), ringPaint);
-      final inked = ((progress * rows) - r).clamp(0.0, 1.0);
-      for (var c = 0; c < cols; c++) {
-        final o = at(0.26 + c * 0.19, v);
-        final rect = Rect.fromCenter(center: o, width: 9 * scale, height: 5.2 * scale);
-        if (c == _answers[r] && inked > 0) {
-          final t = Motion.emphasized.transform(inked);
-          canvas.drawOval(
-            Rect.fromCenter(center: o, width: rect.width * (0.4 + 0.6 * t), height: rect.height * (0.4 + 0.6 * t)),
-            Paint()..color = p.ink.withValues(alpha: 0.35 + 0.65 * t),
-          );
-        } else {
-          canvas.drawOval(rect, ringPaint);
-        }
+      ..strokeWidth = 1.2
+      ..color = p.ring.withValues(alpha: 0.8);
+    for (var i = 0; i < count; i++) {
+      final c = Offset(w * 0.09 + i * w * 0.075, y);
+      final rect = Rect.fromCenter(center: c, width: 15, height: 9);
+      final inked = ((progress * count) - i).clamp(0.0, 1.0);
+      if (i == 2 && inked > 0) {
+        final t = Motion.emphasized.transform(inked);
+        canvas.drawOval(
+          Rect.fromCenter(center: c, width: rect.width * (0.4 + 0.6 * t), height: rect.height * (0.4 + 0.6 * t)),
+          Paint()..color = p.ink.withValues(alpha: 0.35 + 0.65 * t),
+        );
+      } else {
+        canvas.drawOval(rect, ring);
       }
     }
   }

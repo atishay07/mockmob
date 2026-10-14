@@ -20,6 +20,7 @@ import '../model/choices.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/answer_sheet_card.dart';
+import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
 /// Step 10: keep the sheet. Age first (held on the phone until sign-in), then Google when it is
@@ -179,7 +180,7 @@ class SaveView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (note != null) ...[InlineBanner(message: note!), const SizedBox(height: MmSpace.s16)],
-          ?sheet,
+          if (sheet != null) EntranceItem.answer(0, child: sheet!),
           if (sheet == null && sealedLine != null) ...[
             const SizedBox(height: MmSpace.s12),
             Padding(
@@ -190,14 +191,22 @@ class SaveView extends StatelessWidget {
           // The age question and the keys follow the sheet directly, so the step reads as one
           // group at every height (DEVICE-FINDINGS 2) instead of a sheet up top and keys far below.
           const SizedBox(height: MmSpace.s24),
-          Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
-          const SizedBox(height: MmSpace.s8),
-          Wrap(
-            spacing: MmSpace.s8,
-            children: [for (final a in AgeAnswer.values) MmChip(label: a.label, selected: age == a, onTap: () => onAge(a))],
+          EntranceItem.answer(
+            2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
+                const SizedBox(height: MmSpace.s8),
+                Wrap(
+                  spacing: MmSpace.s8,
+                  children: [for (final a in AgeAnswer.values) MmChip(label: a.label, selected: age == a, onTap: () => onAge(a))],
+                ),
+                const SizedBox(height: MmSpace.s4),
+                Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
+              ],
+            ),
           ),
-          const SizedBox(height: MmSpace.s4),
-          Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s20),
           AnimatedSwitcher(
             duration: Motion.of(context, Motion.glideDuration),

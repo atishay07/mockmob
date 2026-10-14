@@ -10,6 +10,8 @@ import '../model/answers.dart';
 import '../state/answers_controller.dart';
 import '../widgets/college_ladder.dart';
 import '../widgets/course_grid.dart';
+import '../widgets/engraved_text.dart';
+import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
 /// Step 4, one evolving screen: pick the course from the six with their real 2026 college
@@ -64,14 +66,17 @@ class _CourseStepState extends ConsumerState<CourseStep> {
               setState(() => _choosing = false);
             },
           ),
-          MmSelectRow(
-            title: OnboardingCopy.notSure,
-            note: OnboardingCopy.notSureNote,
-            selected: a.courseUndecided,
-            onTap: () {
-              _c.setCourse(null, undecided: true);
-              widget.onNext();
-            },
+          EntranceItem.answer(
+            6,
+            child: MmSelectRow(
+              title: OnboardingCopy.notSure,
+              note: OnboardingCopy.notSureNote,
+              selected: a.courseUndecided,
+              onTap: () {
+                _c.setCourse(null, undecided: true);
+                widget.onNext();
+              },
+            ),
           ),
         ],
       ),
@@ -118,7 +123,8 @@ class _CourseStepState extends ConsumerState<CourseStep> {
             const SizedBox(height: MmSpace.s12),
             Semantics(
               liveRegion: true,
-              child: Text(
+              // Engraves again whenever the top pick or the category changes it.
+              child: EngravedText(
                 topScore == null
                     ? OnboardingCopy.noSeatsFor(a.category)
                     : OnboardingCopy.barLine(top.short, DuCatalog.format(topScore), (topScore / 4).round()),

@@ -41,10 +41,17 @@ class PlanStep extends ConsumerStatefulWidget {
 }
 
 class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMixin {
-  late final AnimationController _flip = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+  late final AnimationController _flip = AnimationController(vsync: this, duration: _flipTime);
   late final AnimationController _hold = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+
+  /// The seal landing: the foil drops in with a ring wave and the sheet rebounds (420 ms).
+  late final AnimationController _stamp = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
   bool _ticked = false;
-  bool _halfTicked = false;
+
+  /// The thirds of the hold already ticked (a selection tick at one third and two thirds).
+  int _thirds = 0;
+
+  static const Duration _flipTime = Duration(milliseconds: 640);
 
   /// More of the sheet lies below the scroll area's foot (drives the fade above the key).
   final ValueNotifier<bool> _moreBelow = ValueNotifier<bool>(true);
@@ -60,10 +67,14 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
       if (s == AnimationStatus.completed) _seal();
     });
     _hold.addListener(() {
-      if (!_halfTicked && _hold.value >= 0.5) {
-        _halfTicked = true;
+      final third = (_hold.value * 3).floor().clamp(0, 2);
+      if (_hold.status == AnimationStatus.forward && third > _thirds) {
+        _thirds = third;
         ref.read(hapticsProvider).selection();
       }
+    });
+    _flip.addStatusListener((s) {
+      if (s == AnimationStatus.completed) _printTicks();
     });
   }
 
@@ -73,8 +84,9 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     if (_flip.value > 0 || _flip.isAnimating) return;
     if (widget.flipped || widget.answers.sealed) {
       _flip.value = 1;
+      _stamp.value = 1;
     } else {
-      _flip.duration = Motion.reduced(context) ? Motion.crossFade : const Duration(milliseconds: 600);
+      _flip.duration = Motion.reduced(context) ? Motion.crossFade : _flipTime;
       _flip.forward();
     }
   }
@@ -86,17 +98,34 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// A selection tick as each plan row prints (the rows print 160 ms apart after the flip).
+  Future<void> _printTicks() async {
+    if (Motion.reduced(context)) return;
+    final rows = PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length;
+    for (var i = 0; i < rows; i++) {
+      if (!mounted) return;
+      ref.read(hapticsProvider).selection();
+      await Future<void>.delayed(PlanSheet.stagger);
+    }
+  }
+
   void _seal() {
     if (widget.answers.sealed) return;
     ref.read(hapticsProvider).medium();
     ref.read(onboardingAnswersProvider.notifier).seal();
     _hold.value = 1;
+    if (Motion.reduced(context)) {
+      _stamp.value = 1;
+    } else {
+      _stamp.forward(from: 0);
+    }
   }
 
   @override
   void dispose() {
     _flip.dispose();
     _hold.dispose();
+    _stamp.dispose();
     _moreBelow.dispose();
     super.dispose();
   }
@@ -140,25 +169,50 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     final from = formatWeekdayDate(widget.answers.sealedAt ?? now);
     final lead = PlanSummary.usesDefaults(widget.answers) ? OnboardingCopy.planLeadDefaults : OnboardingCopy.planLead;
 
+    Widget planSheet(bool compact) => PlanSheet(
+          plan: plan,
+          seal: _hold,
+          sealed: sealed,
+          from: from,
+          lead: lead,
+          revealed: _flip.isCompleted,
+          compact: compact,
+          stamp: _stamp,
+        );
+
+    // The sheet sinks a little under the finger while the seal charges, and rebounds as the seal
+    // lands (0.97 and back on the stamp), so the hold has weight.
+    Widget weighted(Widget child) => AnimatedBuilder(
+          animation: Listenable.merge([_hold, _stamp]),
+          child: child,
+          builder: (context, child) {
+            if (reduced) return child!;
+            final charging = _stamp.value == 0 ? 0.015 * _hold.value : 0.0;
+            final s = _stamp.value;
+            final rebound = s > 0 && s < 1 ? 0.03 * math.sin(math.pi * s) * (1 - s) : 0.0;
+            final scale = 1 - charging - rebound;
+            return scale == 1 ? child! : Transform.scale(scale: scale, child: child);
+          },
+        );
+
     Widget card(bool compact) => AnimatedBuilder(
       animation: _flip,
       builder: (context, _) {
         final t = Motion.emphasized.transform(_flip.value);
         final back = t >= 0.5;
         if (reduced) {
-          return back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted, compact: compact)
-              : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false);
+          return back ? planSheet(compact) : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false);
         }
         final angle = t * math.pi;
+        // A slight lift at the middle of the turn, so the sheet reads as picked up and turned over.
+        final lift = 1 + 0.04 * math.sin(t * math.pi);
         return Transform(
           alignment: Alignment.center,
           transform: Matrix4.identity()
             ..setEntry(3, 2, 0.0012)
+            ..scaleByDouble(lift, lift, 1, 1)
             ..rotateY(back ? angle - math.pi : angle),
-          child: back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted, compact: compact)
-              : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false),
+          child: back ? weighted(planSheet(compact)) : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false),
         );
       },
     );
@@ -242,12 +296,16 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                     Row(
                       children: [
                         Expanded(
+                          flex: 2,
                           child: HoldToSeal(
                             progress: _hold,
-                            onHoldStart: () => _hold.forward(),
+                            onHoldStart: () {
+                              ref.read(hapticsProvider).selection();
+                              _hold.forward();
+                            },
                             onHoldEnd: () {
                               if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
-                              _halfTicked = false;
+                              _thirds = 0;
                             },
                             onSeal: _seal,
                           ),

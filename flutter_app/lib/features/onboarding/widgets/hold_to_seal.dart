@@ -1,12 +1,16 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
+import 'foil_seal.dart';
 
-/// "Hold to seal": a quiet hairline pill (volt is kept for the seal) that fills with volt from
-/// the left while it is held (the seal's
-/// progress, [progress], also runs the light around the sheet). Letting go early drains it.
-/// TalkBack's double tap (or a long press there) seals at once.
+/// "Hold to seal", the dominant action of the plan: a volt-rimmed pill with the foil seal at its
+/// left end. While it is held the pill fills with volt from the left ([progress], which also
+/// runs the light around the sheet), the seal turns a quarter and grows a ring of progress, and
+/// the label says "Keep holding". Letting go early drains it. TalkBack's double tap (or a long
+/// press there) seals at once.
 class HoldToSeal extends StatelessWidget {
   const HoldToSeal({super.key, required this.progress, required this.onHoldStart, required this.onHoldEnd, required this.onSeal});
 
@@ -16,6 +20,8 @@ class HoldToSeal extends StatelessWidget {
 
   /// The accessible path: seals at once.
   final VoidCallback onSeal;
+
+  static const double _seal = 34;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,11 @@ class HoldToSeal extends StatelessWidget {
           animation: progress,
           builder: (context, _) {
             final p = progress.value;
-            String label(double v) => v > 0 ? OnboardingCopy.sealing : OnboardingCopy.holdToSeal;
+            final label = p > 0 ? OnboardingCopy.sealing : OnboardingCopy.holdToSeal;
+            final text = Padding(
+              padding: const EdgeInsets.only(left: _seal + MmSpace.s16),
+              child: Center(child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.ink))),
+            );
             return SizedBox(
               height: MmTarget.primaryKey,
               child: CustomPaint(
@@ -47,10 +57,24 @@ class HoldToSeal extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Center(child: Text(label(p), style: type.button.copyWith(color: colors.ink))),
+                    text,
                     ClipRect(
                       clipper: _LeftOf(p),
-                      child: Center(child: Text(label(p), style: type.button.copyWith(color: colors.voltInk))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: _seal + MmSpace.s16),
+                        child: Center(child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.voltInk))),
+                      ),
+                    ),
+                    Positioned(
+                      left: (MmTarget.primaryKey - _seal) / 2,
+                      top: (MmTarget.primaryKey - _seal) / 2,
+                      child: CustomPaint(
+                        foregroundPainter: _RingPainter(progress: p, color: colors.isNight ? colors.voltInk : colors.ink),
+                        child: Transform.rotate(
+                          angle: p * math.pi / 2,
+                          child: Transform.scale(scale: 0.86 + 0.14 * p, child: const FoilSeal(sealed: true, size: _seal, animate: false)),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -73,22 +97,55 @@ class _HoldPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rrect = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(size.height / 2));
     canvas.drawRRect(rrect, Paint()..color = colors.isNight ? colors.raised2 : colors.raised);
+    // The volt rim says this is the action; the fill grows inside it.
     canvas.drawRRect(
       rrect.deflate(0.75),
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
-        ..color = colors.lineStrong,
+        ..color = colors.isNight ? colors.volt.withValues(alpha: 0.7) : colors.accentText.withValues(alpha: 0.7),
     );
     if (progress <= 0) return;
     canvas.save();
     canvas.clipRRect(rrect);
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width * progress, size.height), Paint()..color = colors.volt);
+    final w = size.height + (size.width - size.height) * progress;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, w, size.height), Radius.circular(size.height / 2)),
+      Paint()..color = colors.volt,
+    );
     canvas.restore();
   }
 
   @override
   bool shouldRepaint(_HoldPainter old) => old.progress != progress || old.colors != colors;
+}
+
+/// The ring of progress around the seal while it is held.
+class _RingPainter extends CustomPainter {
+  const _RingPainter({required this.progress, required this.color});
+
+  final double progress;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (progress <= 0) return;
+    final rect = (Offset.zero & size).inflate(4);
+    canvas.drawArc(
+      rect,
+      -math.pi / 2,
+      2 * math.pi * progress.clamp(0.0, 1.0),
+      false,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..strokeCap = StrokeCap.round
+        ..color = color,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RingPainter old) => old.progress != progress || old.color != color;
 }
 
 class _LeftOf extends CustomClipper<Rect> {
@@ -97,7 +154,10 @@ class _LeftOf extends CustomClipper<Rect> {
   final double fraction;
 
   @override
-  Rect getClip(Size size) => Rect.fromLTWH(0, 0, size.width * fraction, size.height);
+  Rect getClip(Size size) {
+    final w = size.height + (size.width - size.height) * fraction;
+    return Rect.fromLTWH(0, 0, fraction <= 0 ? 0 : w, size.height);
+  }
 
   @override
   bool shouldReclip(_LeftOf old) => old.fraction != fraction;
