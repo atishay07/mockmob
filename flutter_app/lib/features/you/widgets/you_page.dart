@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -128,18 +129,17 @@ class _Footer extends StatelessWidget {
   }
 }
 
-/// The header every You, Rhythm and Tools sub-page shares (SPACING.md 9): the lit back key at the
-/// gutter, 12 dp, then the title inline in the `screenTitle` cut, in a 56 dp row; an optional
-/// [trailing] action sits at the far end. One widget, so the screens and both themes never drift.
-/// The stacked large headline is for moment screens only, so [large] is kept for callers but no
-/// longer changes the layout.
+/// The header every You, Rhythm and Tools sub-page shares: the core [MmPageHeader] (SPACING.md 9:
+/// back arrow on the gutter, the title inline in the `screenTitle` cut, a 56 dp row, an optional
+/// trailing action) under the status inset, so these pages and every other pushed page in the app
+/// cannot drift. [large] is kept for callers and no longer changes the layout.
 class YouHeader extends StatelessWidget {
   const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack, this.trailing});
 
   final String title;
   final bool showBack;
 
-  /// Kept so existing callers compile; the inline title is the same size for every page.
+  /// Kept so existing callers compile; every page title is the same size.
   final bool large;
 
   /// Replaces the pop (a screen that may be the first page goes to You instead).
@@ -148,30 +148,11 @@ class YouHeader extends StatelessWidget {
   /// An action at the end of the row (a 48 dp target).
   final Widget? trailing;
 
-  /// The back key is a 44 dp disc in a 48 dp target: this much of the target sits left of the
-  /// disc, so the disc's edge lands on the gutter.
-  static const double _targetSlop = (MmTarget.min - 44) / 2;
-
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 56),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(showBack ? MmSpace.gutter - _targetSlop : MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s8),
-        child: Row(
-          children: [
-            if (showBack) ...[BackKey(onTap: onBack), const SizedBox(width: MmSpace.s12 - _targetSlop)],
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text(title, style: type.screenTitle, maxLines: 2, overflow: TextOverflow.ellipsis),
-              ),
-            ),
-            if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
-          ],
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: MmRhythm.screenTop, bottom: MmSpace.s8),
+      child: MmPageHeader(title: title, showBack: showBack, onBack: onBack, trailing: trailing, fallbackRoute: AppRoutes.you),
     );
   }
 }

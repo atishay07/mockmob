@@ -198,11 +198,12 @@ void main() {
       expect(find.text('Request recorded at 10:39 PM.'), findsOneWidget);
       expect(auth.signOutCalls, 0, reason: 'sign-out is a separate step after the request is recorded');
 
+      // The Sign out key took over the Request key's place in the tree, and a key ignores a second
+      // commit for 300 ms (KeyButton.tapLock): a student takes longer than that to read the receipt.
+      await tester.pump(const Duration(milliseconds: 350));
       await tester.tap(find.text('Sign out'));
-      // The onboarding sheet is discarded first (it reads the stored sheet), then the auth
-      // controller signs out: give the store's real asynchrony a moment.
-      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump();
       expect(auth.signOutCalls, 1);
     });
 

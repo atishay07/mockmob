@@ -6,6 +6,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart' show IconWell;
+import '../copy.dart' show ToolsCopy;
 import 'tools_parts.dart';
 
 export '../../you/widgets/you_page.dart' show BackKey, GlassDisc, GroupHeading, youGutter;
@@ -83,9 +84,19 @@ class ToolsPage extends StatelessWidget {
                   controller: controller,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   slivers: [
+                    // A short title is the page header. A long one (a programme's full name) would
+                    // be cut to one line there, so the header says the tool and the name follows
+                    // on the gutter in the title cut, wrapping to as many lines as it needs.
                     SliverToBoxAdapter(
-                      child: MmStaggerItem(index: 0, child: YouHeader(title: title, large: large)),
+                      child: MmStaggerItem(index: 0, child: YouHeader(title: large ? title : ToolsCopy.compassTitle)),
                     ),
+                    if (!large)
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s8),
+                          child: Semantics(header: true, child: Text(title, style: type.title)),
+                        ),
+                      ),
                     if (lead != null)
                       SliverToBoxAdapter(
                         child: MmStaggerItem(

@@ -213,19 +213,38 @@ class _CapsuleContent extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final accent = colors.isNight ? colors.volt : colors.accentText;
+    final titleStyle = type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w600, color: colors.ink);
+    final detailStyle = type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w400, color: colors.ink2);
+    // The detail goes first when space runs out: whole, never cut to "23 of 50,...". Only then
+    // does the title take an ellipsis.
     final text = MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.2,
-      child: Text.rich(
-        TextSpan(
-          children: [
-            TextSpan(text: live.title, style: type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w600, color: colors.ink)),
-            if (live.detail != null)
-              TextSpan(text: ', ${live.detail}', style: type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w400, color: colors.ink2)),
-          ],
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final detail = live.detail;
+          var withDetail = detail != null;
+          if (withDetail && box.maxWidth.isFinite) {
+            final painter = TextPainter(
+              text: TextSpan(children: [TextSpan(text: live.title, style: titleStyle), TextSpan(text: ', $detail', style: detailStyle)]),
+              textDirection: Directionality.of(context),
+              textScaler: MediaQuery.textScalerOf(context),
+              maxLines: 1,
+            )..layout();
+            withDetail = painter.width <= box.maxWidth;
+            painter.dispose();
+          }
+          return Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: live.title, style: titleStyle),
+                if (withDetail) TextSpan(text: ', $detail', style: detailStyle),
+              ],
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+          );
+        },
       ),
     );
     final action = live.action;

@@ -53,10 +53,14 @@ const Map<String, String> _ids = {
   ' PHYSICS ': 'physics',
 };
 
-/// A bundle with no art in it: every load fails, as on a broken install.
+/// A bundle whose object renders are missing, as on a broken install: the manifest loads, every
+/// other file fails.
 class _EmptyBundle extends CachingAssetBundle {
   @override
-  Future<ByteData> load(String key) async => throw FlutterError('Unable to load asset: $key');
+  Future<ByteData> load(String key) async {
+    if (key == 'AssetManifest.bin') return const StandardMessageCodec().encodeMessage(<String, Object>{})!;
+    throw FlutterError('Unable to load asset: $key');
+  }
 }
 
 final Map<Brightness, ThemeData> _themes = {};

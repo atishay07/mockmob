@@ -99,7 +99,9 @@ Future<void> _pump(WidgetTester tester, String location, Brightness b, List<Over
 
 /// Opens a sheet from the tab and lets it rise and its quote arrive.
 Future<void> _open(WidgetTester tester, String label) async {
-  await tester.ensureVisible(find.text(label).first);
+  // The modes can sit below the fold on a short phone, and the list builds rows lazily: scroll the
+  // page to them (the first scrollable is the page, not the tile strip).
+  await tester.scrollUntilVisible(find.text(label).first, 200, scrollable: find.byType(Scrollable).first);
   await tester.pump();
   await tester.tap(find.text(label).first);
   await _settle(tester);

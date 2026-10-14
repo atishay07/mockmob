@@ -358,8 +358,9 @@ class _DragToCloseState extends State<_DragToClose> with SingleTickerProviderSta
 }
 
 /// The sheet's content arriving once the glass has its shape (MOTION.md C8): it fades in over
-/// [contentIn] (38% to 78% of the morph), scaling from 0.94 about the origin, so it seems to come
-/// out of the key without ever being laid out at full size inside a shape that is still growing.
+/// [contentIn] (38% to 78% of the morph), scaling from 0.94 about the origin and never past the
+/// shape's own progress, so it seems to come out of the key and is never cut by a shape that is
+/// still growing.
 /// At 38% the shape is past 80% of its width. Closing, it is gone by [contentOutBy] of the way
 /// back (the first 55% of the close), while the shape is still over 80% of its width.
 class _ContentReveal extends StatelessWidget {
@@ -378,7 +379,14 @@ class _ContentReveal extends StatelessWidget {
       opacity: fade,
       child: AnimatedBuilder(
         animation: fade,
-        builder: (context, child) => Transform.scale(scale: 0.94 + 0.06 * fade.value, alignment: anchor, child: child),
+        builder: (context, child) {
+          // Never larger than the growing glass: the content is bottom anchored, so a scale at or
+          // under the shape's progress keeps its top line (the title) inside the shape.
+          final t = animation.value.clamp(0.0, 1.0);
+          final shape = animation.status == AnimationStatus.reverse ? 1 - MorphSheetRoute.closeCurve.transform(1 - t) : morphGrowCurve.transform(t);
+          final scale = math.min(0.94 + 0.06 * fade.value, math.max(0.8, shape));
+          return Transform.scale(scale: scale, alignment: anchor, child: child);
+        },
         child: child,
       ),
     );

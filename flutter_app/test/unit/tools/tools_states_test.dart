@@ -55,15 +55,20 @@ void main() {
 
     testWidgets('Hide collapses the list, Show brings back five, Show all brings back every row', (tester) async {
       await compass(tester, prefs: savedCompass('english,business_studies,economics'));
+      await tester.ensureVisible(find.text(ToolsCopy.nearHide));
       await tester.tap(find.text(ToolsCopy.nearHide));
       await tester.pumpAndSettle();
       expect(find.byType(NearRow), findsNothing, reason: 'Hide must work with zero programmes open');
       expect(find.text(ToolsCopy.nearShow), findsOneWidget);
 
+      // The key ignores a second commit for 300 ms (KeyButton.tapLock).
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.ensureVisible(find.text(ToolsCopy.nearShow));
       await tester.tap(find.text(ToolsCopy.nearShow));
       await tester.pumpAndSettle();
       expect(find.byType(NearRow), findsNWidgets(5));
 
+      await tester.pump(const Duration(milliseconds: 350));
       await tester.tap(find.textContaining('Show all'));
       await tester.pumpAndSettle();
       expect(find.byType(NearRow).evaluate().length, greaterThan(5));
@@ -74,6 +79,7 @@ void main() {
       await compass(tester, prefs: savedCompass('english,accountancy,business_studies,economics'));
       expect(find.byType(NearRow), findsNothing);
       expect(find.text(ToolsCopy.nearShow), findsOneWidget);
+      await tester.ensureVisible(find.text(ToolsCopy.nearShow));
       await tester.tap(find.text(ToolsCopy.nearShow));
       await tester.pumpAndSettle();
       expect(find.byType(NearRow), findsNWidgets(5));
