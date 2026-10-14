@@ -3,6 +3,7 @@
 // the road to May. Pure layout: goldens render it from fixtures.
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -15,6 +16,7 @@ import '../widgets/road_section.dart';
 import '../widgets/sealed_hero.dart';
 import '../widgets/sheet_section.dart';
 import '../widgets/today_header.dart';
+import '../widgets/today_entrance.dart';
 import '../widgets/today_skeleton.dart';
 
 class TodayCallbacks {
@@ -78,7 +80,7 @@ class TodayBody extends StatefulWidget {
   State<TodayBody> createState() => _TodayBodyState();
 }
 
-class _TodayBodyState extends State<TodayBody> {
+class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMixin {
   /// The move card: the header Mobi points at it.
   final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
@@ -104,10 +106,28 @@ class _TodayBodyState extends State<TodayBody> {
   /// the bar, and the shell's fade alone would leave them half-seen between bar and dock.
   static const double _barPad = _scrimRise;
 
+  /// Today's one page-load moment (ui-blitz/today.md 2.6). It runs only when the first build
+  /// already has data (the usual open, painted from cache); a page that loads behind the
+  /// skeleton appears in place, so the masthead never fades out and back in.
+  late final AnimationController _entrance = AnimationController(vsync: this, duration: todayEntranceDuration);
+  bool _entranceDecided = false;
+
   @override
   void initState() {
     super.initState();
     _scroll.addListener(_queueMeasure);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_entranceDecided) return;
+    _entranceDecided = true;
+    if (widget.view.hero == null || Motion.reduced(context)) {
+      _entrance.value = 1;
+    } else {
+      _entrance.forward();
+    }
   }
 
   @override
@@ -124,6 +144,7 @@ class _TodayBodyState extends State<TodayBody> {
     _scroll.removeListener(_queueMeasure);
     _ownScroll?.dispose();
     _pinned.dispose();
+    _entrance.dispose();
     super.dispose();
   }
 
@@ -203,19 +224,26 @@ class _TodayBodyState extends State<TodayBody> {
         avatar: widget.avatar,
         aim: view.hero is MoveHero ? _moveKey : null,
       ),
-      const SizedBox(height: MmSpace.s20),
-      _hero(),
-      if (view.also.isNotEmpty) AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
-      if (insights != null) ...[const SizedBox(height: MmSpace.s16), insights],
+      const SizedBox(height: MmSpace.s24),
+      TodayEnter(delay: const Duration(milliseconds: 120), rise: 20, child: _hero()),
+      if (view.also.isNotEmpty)
+        TodayEnter(
+          delay: const Duration(milliseconds: 200),
+          child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
+        ),
+      if (insights != null) ...[const SizedBox(height: MmSpace.s16), TodayEnter(delay: const Duration(milliseconds: 220), child: insights)],
       ?widget.weeklyEnding,
       if (view.sheet.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.group),
-        SheetSection(rows: view.sheet, onOpen: callbacks.onTarget),
+        const SizedBox(height: MmSpace.s40),
+        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, onOpen: callbacks.onTarget)),
       ],
       if (view.road != null) ...[
-        const SizedBox(height: MmSpace.group),
-        RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
-        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s8), roadFooter],
+        SizedBox(height: view.sheet.isEmpty ? MmSpace.s40 : MmSpace.s32),
+        TodayEnter(
+          delay: const Duration(milliseconds: 300),
+          child: RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
+        ),
+        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s16), roadFooter],
       ],
     ];
 
@@ -230,7 +258,7 @@ class _TodayBodyState extends State<TodayBody> {
             MmSpace.cardGutter,
             padding.bottom + MmSpace.s32,
           ),
-          sliver: SliverList.list(children: children),
+          sliver: TodayEntranceScope(progress: _entrance, child: SliverList.list(children: children)),
         ),
       ],
     );

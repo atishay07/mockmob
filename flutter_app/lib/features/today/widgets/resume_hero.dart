@@ -31,13 +31,13 @@ class ResumeHeroCard extends StatelessWidget {
           children: [
             // Beside the object: the overline, the paper and the answered count, with no hole.
             Padding(
-              padding: EdgeInsets.only(right: art == null ? 0 : heroArtWidth - MmSpace.cardPadding + 4),
+              padding: EdgeInsets.only(right: art == null ? 0 : heroArtClear - MmSpace.cardPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(TodayCopy.resumeOverline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
-                  Semantics(header: true, child: Text(resume.title, style: type.title.copyWith(fontSize: 20, height: 24 / 20))),
+                  Semantics(header: true, child: Text(resume.title, style: type.headline)),
                   const SizedBox(height: MmSpace.s4),
                   NumberBlock(
                     number: '${resume.answered}',

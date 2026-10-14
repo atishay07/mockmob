@@ -1,15 +1,18 @@
-// "Recent papers" (brief 12, owner feedback 13 Oct on the dots): the last papers, each with its
-// marks, the change from the last paper of the same kind, and one bar that shows where the
-// marks went (right, wrong, blank) in proportion. The bar replaces a row of fifty tiny bubbles
-// that repeated the number beside it. A result that has not been opened stays sealed here too:
-// no marks, no bar, so Today never spoils a reveal. Each row opens its result.
+// "Recent papers" (brief 12, owner feedback 13 Oct on the dots; ui-blitz/today.md 2.3): the
+// last papers typeset on the ground, one row each between hairlines, no box. Each row has its
+// marks in the condensed cut, the change from the last paper of the same kind with a small up
+// or down mark, and one bar that shows where the marks went (right, wrong, blank) in
+// proportion. A result that has not been opened stays sealed here too: no marks, no bar, so
+// Today never spoils a reveal. Each row opens its result.
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/formatters.dart' show minusSign;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
+import 'section_heading.dart';
 
 class SheetSection extends StatelessWidget {
   const SheetSection({super.key, required this.rows, required this.onOpen});
@@ -20,32 +23,15 @@ class SheetSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(child: Semantics(header: true, child: Text(TodayCopy.yourSheet, style: type.title))),
-              Text(TodayCopy.sheetCaption(rows.length), style: type.caption.copyWith(color: colors.ink3)),
-            ],
-          ),
-        ),
-        const SizedBox(height: MmSpace.s12),
-        FakeGlass(
-          borderRadius: MmRadius.panelAll,
-          child: Column(
-            children: [
-              for (var k = 0; k < rows.length; k++) ...[
-                if (k > 0) Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: Divider(height: 1, thickness: 1, color: colors.line)),
-                _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
-              ],
-            ],
-          ),
-        ),
+        TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length)),
+        const SizedBox(height: MmSpace.s4),
+        for (var k = 0; k < rows.length; k++) ...[
+          if (k > 0) Padding(padding: const EdgeInsets.only(left: MmSpace.s4), child: Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7))),
+          _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
+        ],
       ],
     );
   }
@@ -67,14 +53,14 @@ class _PaperRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final figure = type.title.copyWith(fontSize: 22, height: 26 / 22);
+    final figure = type.figureCompact.copyWith(fontSize: 32, height: 32 / 32, letterSpacing: -0.3);
     return MmPressable(
       semanticsLabel: _semantics,
       onTap: onTap,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
       builder: (context, pressed, _) => Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12 + 2, MmSpace.gutter, MmSpace.s12 + 2),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, MmSpace.s4, MmSpace.s16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -85,7 +71,7 @@ class _PaperRow extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(row.label, style: type.labelLarge.copyWith(fontSize: 16)),
+                      Text(row.label, style: type.cardTitle),
                       const SizedBox(height: 2),
                       Text(
                         '${row.subject}, ${row.date}',
@@ -118,8 +104,10 @@ class _PaperRow extends StatelessWidget {
                           Text(TodayCopy.marksOf(row.outOf ?? 0), style: type.caption.copyWith(color: colors.ink3)),
                         ],
                       ),
-                      if (row.change != null)
-                        Text(row.change!, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink2)),
+                      if (row.change != null) ...[
+                        const SizedBox(height: 2),
+                        _Change(text: row.change!),
+                      ],
                     ],
                   ),
               ],
@@ -136,6 +124,31 @@ class _PaperRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// "+33 on Mock 6" with a small mark for its direction, so the change reads before the words.
+class _Change extends StatelessWidget {
+  const _Change({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final up = text.startsWith('+');
+    final down = text.startsWith(minusSign) || text.startsWith('-');
+    final icon = up ? LucideIcons.arrowUpRight : (down ? LucideIcons.arrowDownRight : LucideIcons.minus);
+    final color = up ? colors.ink : colors.ink2;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 13, color: color),
+        const SizedBox(width: 2),
+        Text(text, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: color, fontWeight: up ? FontWeight.w600 : FontWeight.w500)),
+      ],
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
+import 'package:mockmob/features/today/widgets/week_ledger.dart';
 import 'package:mockmob/features/today/widgets/today_celebration.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show MmSegmented;
@@ -106,7 +107,7 @@ void main() {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
     final week = find.bySemanticsLabel(RegExp('^1 of 4 study days'));
     expect(week, findsOneWidget);
-    await tester.tap(find.byType(PlanWeekStrip));
+    await tester.tap(find.byType(WeekLedger));
     await tester.pump();
     expect(events, contains('week'));
   });
