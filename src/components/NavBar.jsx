@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from './Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
+import '@/app/nav-motion.css';
 
 const LINKS = [
   { label: 'Free mock test', href: '/cuet-mock-test-free' },
@@ -24,6 +25,32 @@ export function NavBar() {
   const [stuck, setStuck] = useState(false);
   const navRef = useRef(null);
   const toggleRef = useRef(null);
+  const linksRef = useRef(null);
+
+  // One pill slides to the link you point at, and rests under the page you are on. It is moved by
+  // custom properties on the container, so pointing around never re-renders the bar.
+  const place = useCallback((el) => {
+    const box = linksRef.current;
+    if (!box) return;
+    if (!el) { box.style.setProperty('--ni-on', '0'); return; }
+    // The first aim places the pill where it belongs without sweeping in from the left.
+    const first = box.style.getPropertyValue('--ni-on') !== '1';
+    if (first) box.dataset.snap = 'true';
+    box.style.setProperty('--ni-x', `${el.offsetLeft}px`);
+    box.style.setProperty('--ni-w', `${el.offsetWidth}px`);
+    box.style.setProperty('--ni-on', '1');
+    if (first) { void box.offsetWidth; window.requestAnimationFrame(() => { delete box.dataset.snap; }); }
+  }, []);
+  const rest = useCallback(() => place(linksRef.current?.querySelector('[aria-current="page"]') || null), [place]);
+  useEffect(() => {
+    rest();
+    const box = linksRef.current;
+    if (!box || typeof ResizeObserver === 'undefined') return undefined;
+    const watcher = new ResizeObserver(rest);
+    watcher.observe(box);
+    return () => watcher.disconnect();
+  }, [rest, pathname]);
+  const aim = (event) => { const link = event.target.closest?.('a.mm-nav__link'); if (link) place(link); };
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -62,7 +89,8 @@ export function NavBar() {
       <div className="mm-wrap mm-nav__row">
         <Logo />
 
-        <div className="mm-nav__links">
+        <div ref={linksRef} className="mm-nav__links" onPointerOver={aim} onFocus={aim} onPointerLeave={rest} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) rest(); }}>
+          <span className="mm-nav__pill" aria-hidden="true" />
           {LINKS.map((link) => (
             <Link
               key={link.href}
@@ -95,7 +123,7 @@ export function NavBar() {
           <button
             ref={toggleRef}
             type="button"
-            className="mm-nav__toggle"
+            className="mm-nav__toggle mk-press"
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls={menuOpen ? 'mm-nav-sheet' : undefined}
@@ -115,7 +143,7 @@ export function NavBar() {
       </div>
 
       {menuOpen ? (
-        <div className="mm-nav__sheet" id="mm-nav-sheet">
+        <div className="mm-nav__sheet mm-nav__sheet--in" id="mm-nav-sheet">
           {/* Shown only below 240px (high zoom), where the bar has no room for the switch. */}
           <div className="mm-nav__sheet-theme">
             <span>Theme</span>

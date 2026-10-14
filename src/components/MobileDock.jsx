@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
+import '@/app/nav-motion.css';
 
 // Thumb-zone action bar. Mobile only — on desktop the nav CTA carries this
 // job, so the bar is display:none rather than duplicated.
@@ -16,7 +17,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href }) {
   return (
     <>
       <div className="mm-dockpad" aria-hidden="true" />
-      <div className="mm-dock">
+      <div className="mm-dock" data-motion-dock="true">
         <p className="mm-dock__note">{note}</p>
         <Link href={resolvedHref} className="mm-btn mm-btn--primary">
           {resolvedLabel}
