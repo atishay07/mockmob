@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show MobiPose;
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
@@ -20,6 +21,7 @@ import '../sheet/sheet_body.dart';
 import '../sheet/sheet_geometry.dart';
 import '../widgets/engrave.dart';
 import 'marks_footer.dart';
+import 'recap_mobi.dart';
 import 'sealed_parts.dart';
 
 /// How the sheet arrives on card 1.
@@ -72,6 +74,8 @@ class SheetStage extends ConsumerStatefulWidget {
 }
 
 class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStateMixin {
+  static const double _mobiSize = 68;
+
   late final AnimationController _open;
   late final AnimationController _reveal;
   late final AnimationController _fade;
@@ -401,25 +405,42 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                   ),
                 );
                 // Once open, the space the flap left above the sheet carries one plain line,
-                // engraved as the reader starts. Left out where the sheet needs that space.
-                // The sheet keeps its place in the tree either way, so opening never rebuilds it.
+                // engraved as the reader starts, and Mobi reading the sheet beside it (cheering
+                // once, after the figure lands, only for a higher result; never after a lower or
+                // held one). Left out where the sheet needs that space. The sheet keeps its place
+                // in the tree either way, so opening never rebuilds it.
+                final showMobi = _opened && room >= 70 && m.variant.celebratory;
                 return Stack(
                   children: [
                     Positioned.fill(child: sheet),
                     if (_opened && room >= 64)
                       Positioned(
-                      left: MmSpace.cardGutter,
-                      right: MmSpace.cardGutter,
-                      bottom: g.height + 8 + MmSpace.s16,
-                      child: Engrave(
-                        delay: _calm ? Duration.zero : const Duration(milliseconds: 120),
-                        child: Text(
-                          ResultCopy.markedLine(m.mockLabel, first: m.variant == RecapVariant.firstMock),
-                          style: context.mmType.headline,
-                          maxLines: 2,
+                        left: MmSpace.cardGutter,
+                        right: MmSpace.cardGutter + (showMobi ? _mobiSize + 4 : 0),
+                        bottom: g.height + 8 + MmSpace.s16,
+                        child: Engrave(
+                          delay: _calm ? Duration.zero : const Duration(milliseconds: 120),
+                          child: Text(
+                            ResultCopy.markedLine(m.mockLabel, first: m.variant == RecapVariant.firstMock),
+                            style: context.mmType.headline,
+                            maxLines: 2,
+                          ),
                         ),
                       ),
-                    ),
+                    if (showMobi)
+                      Positioned(
+                        right: MmSpace.cardGutter,
+                        bottom: g.height + 8 + MmSpace.s8,
+                        child: Arrive(
+                          delay: _calm ? Duration.zero : const Duration(milliseconds: 500),
+                          rise: 18,
+                          child: RecapMobi(
+                            pose: MobiPose.read,
+                            size: _mobiSize,
+                            cheerAfter: !_calm && m.variant == RecapVariant.higher ? const Duration(milliseconds: 1500) : null,
+                          ),
+                        ),
+                      ),
                   ],
                 );
               },

@@ -19,6 +19,7 @@ import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
+import 'recap_mobi.dart';
 import 'record_parts.dart';
 import 'sheet_share.dart';
 
@@ -71,9 +72,6 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     RecapVariant.standard => MobiPose.rest,
     RecapVariant.lower || RecapVariant.held => MobiPose.point,
   };
-
-  /// Settle for every pose; the cheer for a higher result adds its one hop.
-  MobiMotion get _mobiMotion => m.variant == RecapVariant.higher ? MobiMotion.hop : MobiMotion.settle;
 
   int get _mistakes {
     for (final o in repairDurationOptions(m.tonightCount)) {
@@ -129,6 +127,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return RecapCardPage(
       onNext: null,
       onBack: widget.onBack,
+      // Mobi has the floor of the card, above the keys: it settles into its pose, breathes and
+      // blinks, says its one line as plain text and, for a higher result only, cheers.
+      anchored: RecapMobi(pose: _mobiPose, size: 120, line: _mobiLine),
       footer: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -160,14 +161,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
         // no space when nothing fired.
         CelebrationSlot(scope: CelebrationScope.result(m.attemptId)),
         if (token != null) ...[const SizedBox(height: MmSpace.s20), TokenRow(at: token)],
-        const SizedBox(height: MmSpace.s20),
-        // The recap's one Mobi (card 1 has none), left-aligned above the repair panel, with one
-        // line: greets the first mock, cheers once for a higher result, stays calm otherwise.
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Mobi(pose: _mobiPose, size: 112, motion: _mobiMotion, say: _mobiLine),
-        ),
-        const SizedBox(height: MmSpace.s16),
+        const SizedBox(height: MmSpace.s24),
         RepairPanel(
           model: m,
           blanksInReview: m.blanksInReview,
@@ -179,7 +173,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           onRetryKeys: widget.onRetryKeys,
         ),
         // The sheet, to keep: a share card with no marks on it, previewed before anything leaves.
-        const SizedBox(height: MmSpace.s12),
+        const SizedBox(height: MmSpace.s20),
         SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
         if (askReminder) ...[
           const SizedBox(height: MmSpace.s12),

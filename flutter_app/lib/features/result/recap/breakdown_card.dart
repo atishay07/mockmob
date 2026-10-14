@@ -9,6 +9,7 @@ import '../../../core/domain/domain.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../widgets/breakdown_section.dart';
+import '../widgets/evidence_link.dart';
 import '../widgets/marks_flow.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
@@ -86,9 +87,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
             const SizedBox(height: MmSpace.s4),
             Align(
               alignment: Alignment.centerLeft,
-              child: ShowMePill(
-                semanticsLabel: e.wrongSide ? ResultCopy.showMeWrong : ResultCopy.showMeBlank,
-                marks: [for (final _ in e.numbers.take(3)) e.wrongSide ? BubbleState.wrong : BubbleState.blank],
+              child: EvidenceLink(
+                label: e.wrongSide ? ResultCopy.seeWrong : ResultCopy.seeBlank,
                 onTap: () => ResultNav.toFullResult(context, widget.model.attemptId, question: e.numbers.first),
               ),
             ),

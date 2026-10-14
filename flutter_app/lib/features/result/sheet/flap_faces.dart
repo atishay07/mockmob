@@ -218,6 +218,7 @@ class FlapInside extends StatelessWidget {
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5, letterSpacing: 0.4);
     return PaperFace(
       notch: PaperNotch.topRight,
+      squareBottom: true,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, SheetGeometry.pad, 20, 14),
         child: Column(

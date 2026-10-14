@@ -292,6 +292,14 @@ void main() {
     await _open(tester, '/result/a7/recap/4', mock7(), size: compact, textScale: 1.3);
     await _shot(tester, 'large13_card4_night');
   });
+  testWidgets('large text 1.3x: card 2, the flow rows grow to their words (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/2', mock7(), size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_card2_night');
+  });
+  testWidgets('large text 1.3x: card 3, the strip and tiles (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/3', mock7(), size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_card3_night');
+  });
   testWidgets('large text 1.3x: full result, long title (day)', (tester) async {
     final f = _firstBusinessStudies();
     await _open(tester, '/result/a7', f.model, b: Brightness.light, d: f.detail, size: compact, textScale: 1.3);

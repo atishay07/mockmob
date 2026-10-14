@@ -38,6 +38,7 @@ class SheetBody extends StatelessWidget {
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5, letterSpacing: 0.4);
     return PaperFace(
       edge: false,
+      squareTop: true,
       child: CustomPaint(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(_padLeft, SheetGeometry.pad, SheetGeometry.pad, SheetGeometry.pad),

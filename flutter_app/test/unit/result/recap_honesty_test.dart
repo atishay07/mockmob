@@ -152,7 +152,7 @@ void main() {
       expect(ResultCopy.receiptLine(noAck.receivedAt), 'Marked on the server.');
       final acked = mock7();
       expect(acked.receivedAt, isNotNull);
-      expect(ResultCopy.receiptLine(acked.receivedAt), startsWith('Saved on the server at '));
+      expect(ResultCopy.receiptLine(acked.receivedAt), startsWith('Saved to your record at '));
     });
   });
 

@@ -27,7 +27,14 @@ class MarksFlow extends StatelessWidget {
 
   /// The height the whole paper's marks take in the column.
   static const double columnHeight = 168;
-  static const double columnWidth = 12;
+  static const double columnWidth = 14;
+
+  /// Room to the left of the column for its scale (0 at the top, the paper's marks at the bottom).
+  static const double scaleWidth = 30;
+
+  /// The least height a destination block draws at, so a small part (15 of 250) is still a band
+  /// you can see and read. The column keeps the true share.
+  static const double minBlock = 12;
   static const double blockWidth = 10;
   static const double rowGap = 14;
   static const double numberSize = 28;
@@ -44,11 +51,12 @@ class MarksFlow extends StatelessWidget {
     final unitStyle = type.labelLarge.copyWith(color: colors.ink2);
     final labelStyle = type.body.copyWith(height: 1.3);
     final detailStyle = type.caption.copyWith(color: colors.ink3);
+    final scaleStyle = type.caption.copyWith(color: colors.ink3, fontSize: 11, height: 1.2);
 
     return LayoutBuilder(
       builder: (context, box) {
         final width = box.maxWidth;
-        final ribbonEnd = (width * 0.27).clamp(76.0, 118.0);
+        final ribbonEnd = scaleWidth + (width * 0.24).clamp(64.0, 100.0);
         final textLeft = ribbonEnd + blockWidth + 14;
         final textWidth = math.max(40.0, width - textLeft);
         final max = math.max(1, breakdown.max);
@@ -68,8 +76,9 @@ class MarksFlow extends StatelessWidget {
           final amount = math.max(0, breakdown.parts[i]);
           final h = columnHeight * amount / max;
           final words = measure(value, numberStyle) + 2 + measure(label, labelStyle) + (detail == null ? 0 : measure(detail, detailStyle));
-          final slot = math.max(h, words + 4);
-          layout.add(_FlowRow(part: part, amount: amount, top: y, height: h, slot: slot));
+          final blockH = amount == 0 ? 0.0 : math.max(h, minBlock);
+          final slot = math.max(blockH, words + 4);
+          layout.add(_FlowRow(part: part, amount: amount, top: y, height: blockH, source: h, slot: slot));
           y += slot + (i < rows.length - 1 ? rowGap : 0);
         }
         final total = math.max(y, columnHeight);
@@ -141,6 +150,13 @@ class MarksFlow extends StatelessWidget {
                   ),
                 ),
               ),
+              Positioned(left: 0, top: columnTop - 7, width: scaleWidth - 8, child: ExcludeSemantics(child: Text('0', textAlign: TextAlign.right, style: scaleStyle))),
+              Positioned(
+                left: 0,
+                top: columnTop + columnHeight - 7,
+                width: scaleWidth - 8,
+                child: ExcludeSemantics(child: Text('${breakdown.max}', textAlign: TextAlign.right, style: scaleStyle)),
+              ),
               for (var i = 0; i < rows.length; i++) words(i),
             ],
           ),
@@ -160,7 +176,7 @@ class MarksFlow extends StatelessWidget {
 }
 
 class _FlowRow {
-  const _FlowRow({required this.part, required this.amount, required this.top, required this.height, required this.slot});
+  const _FlowRow({required this.part, required this.amount, required this.top, required this.height, required this.source, required this.slot});
 
   final MarkPart part;
   final int amount;
@@ -168,6 +184,9 @@ class _FlowRow {
   /// The row's slot in the flow (its words start here) and the block's share-true height.
   final double top;
   final double height;
+
+  /// The part's true share of the column.
+  final double source;
   final double slot;
 }
 
@@ -182,6 +201,29 @@ class _FlowPainter extends CustomPainter {
   final int max;
   final Animation<double>? grow;
 
+  /// One language for the whole flow: solid colour bands, lime for what was scored, coral for
+  /// what wrong answers cost, grey for blanks. "Not earned" is the same hue, lighter, with a
+  /// rim. The words beside each band say which is which, so colour is never the only signal.
+  void _paintBand(Canvas canvas, Rect r, MarkPart part) {
+    switch (part) {
+      case MarkPart.scored:
+        canvas.drawRect(r, Paint()..color = colors.volt);
+      case MarkPart.takenOff:
+        canvas.drawRect(r, Paint()..color = colors.wrongMark);
+      case MarkPart.notEarnedWrong:
+        canvas.drawRect(r, Paint()..color = colors.wrongMark.withValues(alpha: 0.34));
+        canvas.drawRect(
+          r.deflate(0.5),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1
+            ..color = colors.wrongMark.withValues(alpha: 0.85),
+        );
+      case MarkPart.notEarnedBlank:
+        canvas.drawRect(r, Paint()..color = colors.ink3.withValues(alpha: 0.42));
+    }
+  }
+
   Color _tint(MarkPart p) => switch (p) {
     MarkPart.scored => colors.volt,
     MarkPart.takenOff || MarkPart.notEarnedWrong => colors.wrongMark,
@@ -191,29 +233,41 @@ class _FlowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final t = grow?.value ?? 1;
+    const left = MarksFlow.scaleWidth;
     const cw = MarksFlow.columnWidth;
     const bw = MarksFlow.blockWidth;
     final colHeight = MarksFlow.columnHeight;
 
-    // The column: the paper's marks, split in the same order as the rows.
+    // The column: the paper's marks, outlined full height, then filled in the same order as the
+    // rows. The outline is there before the fill, so the 250 is a whole thing being divided.
     final columnShown = MarksFlow.columnAt(t);
-    final column = RRect.fromRectAndRadius(Rect.fromLTWH(0, columnTop, cw, colHeight), const Radius.circular(3));
+    final column = RRect.fromRectAndRadius(Rect.fromLTWH(left, columnTop, cw, colHeight), const Radius.circular(3));
     canvas.drawRRect(column, Paint()..color = colors.sunken);
     canvas.save();
     canvas.clipRRect(column);
-    canvas.clipRect(Rect.fromLTWH(0, columnTop, cw, colHeight * columnShown));
+    canvas.clipRect(Rect.fromLTWH(left, columnTop, cw, colHeight * columnShown));
     var sy = columnTop;
     final sources = <double>[];
     for (final r in rows) {
       sources.add(sy);
-      final h = colHeight * r.amount / max;
-      if (h > 0) {
-        paintMarkPart(canvas, Rect.fromLTWH(0, sy, cw, h), r.part, colors);
-        sy += h;
-        if (sy < columnTop + colHeight - 0.5) canvas.drawRect(Rect.fromLTWH(0, sy - 0.75, cw, 1.5), Paint()..color = colors.ground);
+      if (r.source > 0) {
+        _paintBand(canvas, Rect.fromLTWH(left, sy, cw, r.source), r.part);
+        sy += r.source;
+        if (sy < columnTop + colHeight - 0.5) canvas.drawRect(Rect.fromLTWH(left, sy - 0.75, cw, 1.5), Paint()..color = colors.ground);
       }
     }
     canvas.restore();
+    canvas.drawRRect(
+      column.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = colors.lineStrong,
+    );
+    // The scale: a tick at each end of the column.
+    final tick = Paint()..color = colors.ink3;
+    canvas.drawRect(Rect.fromLTWH(left - 6, columnTop - 0.5, 5, 1), tick);
+    canvas.drawRect(Rect.fromLTWH(left - 6, columnTop + colHeight - 0.5, 5, 1), tick);
 
     // The ribbons, then each destination block as its ribbon arrives.
     for (var i = 0; i < rows.length; i++) {
@@ -223,19 +277,16 @@ class _FlowPainter extends CustomPainter {
       if (r.amount == 0 || r.height <= 0) {
         // A zero part keeps its place: a short hairline where its block would be.
         if (p > 0) {
-          canvas.drawRect(
-            Rect.fromLTWH(ribbonEnd, blockTop + 12, bw * p, 1.5),
-            Paint()..color = colors.ink4,
-          );
+          canvas.drawRect(Rect.fromLTWH(ribbonEnd, blockTop + 12, bw * p, 1.5), Paint()..color = colors.ink4);
         }
         continue;
       }
       if (p <= 0) continue;
       final s0 = sources[i];
-      final s1 = s0 + colHeight * r.amount / max;
+      final s1 = s0 + r.source;
       final d0 = blockTop;
       final d1 = blockTop + r.height;
-      const x0 = cw;
+      const x0 = left + cw;
       final x1 = ribbonEnd;
       final xm = (x0 + x1) / 2;
       final ribbon = Path()
@@ -253,14 +304,14 @@ class _FlowPainter extends CustomPainter {
         ribbon,
         Paint()
           ..shader = LinearGradient(
-            colors: [tint.withValues(alpha: r.part == MarkPart.scored ? 0.30 : 0.20), tint.withValues(alpha: r.part == MarkPart.scored ? 0.16 : 0.10)],
+            colors: [tint.withValues(alpha: r.part == MarkPart.scored ? 0.34 : 0.26), tint.withValues(alpha: r.part == MarkPart.scored ? 0.18 : 0.12)],
           ).createShader(band),
       );
       // Lit edges, so each ribbon reads as its own band where they cross.
       final edge = Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1
-        ..color = tint.withValues(alpha: 0.38);
+        ..color = tint.withValues(alpha: 0.5);
       canvas.drawPath(
         Path()
           ..moveTo(x0, s0)
@@ -276,10 +327,10 @@ class _FlowPainter extends CustomPainter {
       canvas.restore();
       if (p > 0.82) {
         final grown = ((p - 0.82) / 0.18).clamp(0.0, 1.0);
-        final block = Rect.fromLTWH(x1, d0, bw, math.max(2, r.height) * grown);
+        final block = Rect.fromLTWH(x1, d0, bw, r.height * grown);
         canvas.save();
         canvas.clipRRect(RRect.fromRectAndRadius(block, const Radius.circular(2)));
-        paintMarkPart(canvas, block, r.part, colors);
+        _paintBand(canvas, block, r.part);
         canvas.restore();
       }
     }
@@ -292,7 +343,7 @@ class _FlowPainter extends CustomPainter {
   bool _sameRows(List<_FlowRow> o) {
     if (o.length != rows.length) return false;
     for (var i = 0; i < o.length; i++) {
-      if (o[i].top != rows[i].top || o[i].height != rows[i].height || o[i].amount != rows[i].amount) return false;
+      if (o[i].top != rows[i].top || o[i].height != rows[i].height || o[i].source != rows[i].source || o[i].amount != rows[i].amount) return false;
     }
     return true;
   }

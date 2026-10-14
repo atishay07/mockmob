@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/domain/domain.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 // The sheet's own wording, so the row rotates with the same ask count. The notifications module
@@ -100,49 +102,105 @@ class RepairPanel extends StatelessWidget {
         _Row(state: BubbleState.blank, text: blanksInReview ? ResultCopy.blanksInReview(m.blankCount) : ResultCopy.blanksCount(m.blankCount)),
       if (shortfall != null) _Row(state: null, text: ResultCopy.walletShort(shortfall!.needed, shortfall!.balance)),
     ];
-    return LitEdge(
-      child: Container(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: MmRadius.panelAll,
-            side: BorderSide(color: colors.line),
+    // No box: the repair is rows on the card itself, one hairline between what is recorded and
+    // the length to choose. The lit key below is the card's one lit element.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < rows.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s12), rows[i]],
+        if (m.keysUnavailable) ...[
+          const SizedBox(height: MmSpace.s16),
+          InlineBanner(
+            message: ResultCopy.keysUnavailable,
+            tone: BannerTone.warning,
+            actionLabel: ResultCopy.tryAgain,
+            onAction: onRetryKeys,
           ),
-          shadows: colors.cardShadow,
-        ),
-        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s16, MmSpace.cardPadding, MmSpace.s16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < rows.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s12), rows[i]],
-            if (m.keysUnavailable) ...[
-              const SizedBox(height: MmSpace.s16),
-              InlineBanner(
-                message: ResultCopy.keysUnavailable,
-                tone: BannerTone.warning,
-                actionLabel: ResultCopy.tryAgain,
-                onAction: onRetryKeys,
-              ),
-            ],
-            if (options.isNotEmpty) ...[
-              const SizedBox(height: MmSpace.s16),
-              Divider(height: 1, thickness: 1, color: colors.line),
-              const SizedBox(height: MmSpace.s12),
-              Semantics(
-                container: true,
-                label: ResultCopy.chipLabel(minutes, mistakes),
-                child: Wrap(
-                  spacing: MmSpace.s8,
-                  children: [
-                    for (final o in options)
-                      MmChip(label: ResultCopy.chip(o.minutes), selected: o.minutes == minutes, onTap: () => onMinutes(o.minutes)),
-                  ],
+        ],
+        if (options.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s20),
+          Divider(height: 1, thickness: 1, color: colors.line),
+          const SizedBox(height: MmSpace.s16),
+          Semantics(
+            container: true,
+            label: ResultCopy.chipLabel(minutes, mistakes),
+            child: _LengthRow(options: options, minutes: minutes, onMinutes: onMinutes),
+          ),
+          const SizedBox(height: MmSpace.s8),
+          Text(ResultCopy.chipLabel(minutes, mistakes), style: type.caption.copyWith(color: colors.ink3)),
+        ],
+      ],
+    );
+  }
+}
+
+/// The repair lengths as one connected strip of equal segments (5, 10, 15 minutes), the chosen
+/// one lit with a volt rule under it. 48 dp tall; each segment is its own target.
+class _LengthRow extends ConsumerWidget {
+  const _LengthRow({required this.options, required this.minutes, required this.onMinutes});
+
+  final List<RepairDurationOption> options;
+  final int minutes;
+  final ValueChanged<int> onMinutes;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(borderRadius: MmRadius.smallAll, side: BorderSide(color: colors.lineStrong)),
+      ),
+      child: ClipRRect(
+        borderRadius: MmRadius.smallAll,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < options.length; i++) ...[
+                if (i > 0) VerticalDivider(width: 1, thickness: 1, color: colors.line),
+                Expanded(
+                  child: MmPressable(
+                    semanticsLabel: ResultCopy.chip(options[i].minutes),
+                    selected: options[i].minutes == minutes,
+                    onTap: () {
+                      ref.read(hapticsProvider).selection();
+                      onMinutes(options[i].minutes);
+                    },
+                    builder: (context, pressed, _) {
+                      final on = options[i].minutes == minutes;
+                      return Container(
+                        constraints: const BoxConstraints(minHeight: MmTarget.min),
+                        alignment: Alignment.center,
+                        color: on ? colors.raised2 : (pressed ? colors.raised : const Color(0x00000000)),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                              child: Text(
+                                ResultCopy.chip(options[i].minutes),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: type.labelLarge.copyWith(color: on ? colors.ink : colors.ink2, fontWeight: on ? FontWeight.w700 : FontWeight.w500),
+                              ),
+                            ),
+                            if (on)
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: ColoredBox(color: colors.volt, child: const SizedBox(height: 3)),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: MmSpace.s4),
-              Text(ResultCopy.chipLabel(minutes, mistakes), style: type.caption.copyWith(color: colors.ink3)),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

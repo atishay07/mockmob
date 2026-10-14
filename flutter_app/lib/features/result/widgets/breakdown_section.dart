@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
 import '../../../core/theme/theme.dart';
@@ -85,7 +86,7 @@ class _BreakdownSectionState extends State<BreakdownSection> {
           ),
         ],
         const SizedBox(height: MmSpace.s4),
-        // A 32 dp pill inside a 48 dp target, on the gutter like the Show me pill.
+        // A plain text action, 48 dp tall, flush with the text above.
         Align(
           alignment: Alignment.centerLeft,
           child: _ArithmeticToggle(open: _arithmetic, onTap: () => setState(() => _arithmetic = !_arithmetic)),
@@ -112,32 +113,22 @@ class _ArithmeticToggle extends StatelessWidget {
     final label = open ? ResultCopy.hideArithmetic : ResultCopy.showArithmetic;
     return MmPressable(
       semanticsLabel: label,
-      focusRadius: MmRadius.pillAll,
+      focusRadius: MmRadius.smallAll,
       onTap: onTap,
-      builder: (context, pressed, _) => SizedBox(
-        height: MmTarget.min,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          widthFactor: 1,
-          child: DecoratedBox(
-            decoration: ShapeDecoration(
-              color: pressed ? colors.raised2 : colors.ground.withValues(alpha: colors.isNight ? 0.55 : 0.6),
-              shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
-            ),
-            child: SizedBox(
-              height: 32,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Center(
-                  widthFactor: 1,
-                  child: Text(
-                    label,
-                    style: context.mmType.caption.copyWith(fontSize: 13, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink),
-                  ),
-                ),
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                label,
+                style: context.mmType.labelLarge.copyWith(color: pressed ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600),
               ),
             ),
-          ),
+            const SizedBox(width: MmSpace.s8),
+            Icon(open ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: colors.ink2),
+          ],
         ),
       ),
     );

@@ -73,11 +73,11 @@ abstract final class ResultCopy {
   static const skip = 'Skip to full result';
   static const previousCard = 'Previous card';
 
-  // ---- Evidence behind a claim ("Show me") --------------------------------------------------------
+  // ---- Evidence behind a claim --------------------------------------------------------
 
-  static const showMeWrong = 'Show me, the wrong answers behind this';
-  static const showMeBlank = 'Show me, the questions you left blank';
-  static const showMeQuestions = 'Show me, the questions behind this';
+  static const seeWrong = 'See the wrong answers';
+  static const seeBlank = 'See the blank answers';
+  static String seeQuestions(int n) => n == 1 ? 'See the question' : 'See the $n questions';
 
   // ---- Card 1, the marks ------------------------------------------------------------------
 
@@ -158,7 +158,7 @@ abstract final class ResultCopy {
   // ---- Card 4, the record and the next ask ----------------------------------------------------
 
   static String inRecord(String mock) => '$mock is in your record.';
-  static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  static String savedAt(DateTime at) => 'Saved to your record at ${formatTime12(at)}.';
 
   /// The receipt line on card 4: a time only when the server's acknowledgment was received on
   /// this phone, otherwise the plain fact.

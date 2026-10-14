@@ -116,3 +116,30 @@ Built and rendered (goldens in `flutter_app/test/golden/result/goldens`):
 - Full result: figure at figureHero with the marks meter under it; the breakdown is the flow.
 - Goldens now pump real frames in `_open` (2400 ms default), so typed and staggered motion is
   captured as it plays on a phone.
+
+## 6. Design review round (14 October, third pass)
+
+Applied after the review of 814a76a:
+- Card 3: the cost figure is the hero (`figureHero`, 10 dp meter); the four counts are one line;
+  "See the 6 questions" and "Why this?" share one row; the answer strip is printed paper nearly
+  edge to edge (8 dp gutters) with a 44 dp paper map and 84 dp tiles over 40 dp bubbles; Mobi
+  thinks, then points at the strip (`RecapMobi`, `lookAt`).
+- "Show me" pill with dots removed everywhere in the result: `EvidenceLink`, a text action with
+  an arrow that names what it opens. "Show the arithmetic" is the same kind of text action.
+- Full result: one way back into the recap ("Continue recap" while unfinished, "Replay recap"
+  in the bar once finished).
+- Card 2 flow: outlined full-height source column with a 0 and total scale; one visual language
+  (solid bands, lime / coral / grey, "not earned" lighter with a rim; no hatch or dots); a
+  destination block is at least 12 dp tall, the column keeps the true share.
+- Card 4: the repair panel is flat rows with one hairline, the lengths are one connected
+  segmented row; the sheet keepsake is a 116 by 108 dp sheet; Mobi (120 dp) rests on the floor of
+  the card above the keys with one plain line of text, no chat bubble. Cheers only for a higher
+  result. Receipt: "Saved to your record at 10:44 PM."
+- Card 1: the body of the sheet meets the flap along the crease with square corners (one sheet,
+  no inner rounded panel); Mobi reads the sheet in the space above it (not after a lower or held
+  result; one cheer after the figure lands for a higher one).
+- `RecapCardPage.anchored` rests a block on the floor of a card; `RecapBleed` marks a block that
+  runs nearly edge to edge.
+- Goldens: 1.3x text for cards 2 and 3 added (`large13_card2_night`, `large13_card3_night`).
+
+Not done: the reveal's ink and tally motion are unverified on a device (stills cannot show it).

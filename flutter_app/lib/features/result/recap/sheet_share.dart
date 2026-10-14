@@ -145,7 +145,7 @@ class SheetKeepsakeRow extends StatelessWidget {
       focusRadius: MmRadius.smallAll,
       semanticsLabel: ResultCopy.shareSheet,
       builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 76),
+        constraints: const BoxConstraints(minHeight: 124),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
@@ -155,23 +155,23 @@ class SheetKeepsakeRow extends StatelessWidget {
                 child: NightObject(
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(6)),
-                      boxShadow: [BoxShadow(color: Color(0x66000000), blurRadius: 12, offset: Offset(2, 6), spreadRadius: -4)],
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      boxShadow: [BoxShadow(color: Color(0x80000000), blurRadius: 20, offset: Offset(4, 10), spreadRadius: -6)],
                     ),
                     child: SizedBox(
-                      width: 64,
-                      height: 60,
+                      width: 116,
+                      height: 108,
                       child: PaperFace(
                         child: Padding(
-                          padding: const EdgeInsets.all(7),
+                          padding: const EdgeInsets.all(11),
                           child: Center(
                             child: BubbleGrid(
                               states: cells,
                               columns: 10,
-                              bubbleSize: 3.6,
-                              minGap: 1.2,
-                              maxGap: 1.6,
-                              rowGap: 1.6,
+                              bubbleSize: 7,
+                              minGap: 1.6,
+                              maxGap: 2.2,
+                              rowGap: 3,
                               numbers: false,
                             ),
                           ),
@@ -186,9 +186,9 @@ class SheetKeepsakeRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(ResultCopy.shareSheet, style: type.labelLarge),
-                    const SizedBox(height: 2),
-                    Text(ResultCopy.shareSheetHint, style: type.caption.copyWith(color: colors.ink3)),
+                    Text(ResultCopy.shareSheet, style: type.title.copyWith(fontSize: 20)),
+                    const SizedBox(height: MmSpace.s4),
+                    Text(ResultCopy.shareSheetHint, style: type.small.copyWith(color: colors.ink2)),
                   ],
                 ),
               ),
