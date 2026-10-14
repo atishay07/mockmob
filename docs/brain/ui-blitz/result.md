@@ -95,3 +95,24 @@ One volt focal element per card. All numbers come from `RecapModel` / `MarkBreak
 Loading (skeleton), error and offline (StateView), held (no figure, card 2 skipped), keys
 unavailable (banner), lower (calm), first mock (no score celebration), all correct (flow with one
 part), all blank, finish ("in your record" line, then Today).
+
+## 5. Build status (14 October, second builder)
+
+Built and rendered (goldens in `flutter_app/test/golden/result/goldens`):
+- Card 1: arrival, stamped seal, engraved headline, reader line with row-by-row ink, tally that
+  counts what has inked, marks meter under the figure, light sweep. Calm path unchanged.
+  Fix: the ink now completes on the last row where the reader ends (row span = bubble + 6 dp).
+- Card 2: the marks flow (column, four ribbons, rows sized to their words). Draw starts at 260 ms,
+  after the headline and lead have landed.
+- Card 3: cost figure and meter; the chapter strip is now printed paper with a paper map on top
+  (all questions as ticks, this chapter's answers to look at raised: wrong in coral, blank as an
+  open dash) and six 72 dp tiles (32 dp bubbles, 4 dp apart, each at least 48 dp wide).
+- Card 4: "Share your sheet" is a keepsake row (the student's sheet in miniature, answered inked,
+  blanks open) that opens the share preview. Copy: "Your answers as a card. No marks on it."
+- Between and within cards: the card stack transition (rise 40 / sink 0.96), plus every card's
+  blocks arriving in reading order (16 dp rise, 55 ms stagger, 480 ms emphasized; spacers not
+  animated; semantics always present; reduced motion shows all at once). Story bar fill per card,
+  one selection tick when a card snaps in.
+- Full result: figure at figureHero with the marks meter under it; the breakdown is the flow.
+- Goldens now pump real frames in `_open` (2400 ms default), so typed and staggered motion is
+  captured as it plays on a phone.

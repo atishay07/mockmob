@@ -134,7 +134,7 @@ class FirstFixCard extends StatelessWidget {
               // bubbles, printed on the same charcoal paper as the sheet on card 1.
               final inner = constraints.maxWidth - 2 * _stripPad;
               final columns = firstFixTileColumns(inner);
-              final width = (inner - (columns - 1) * MmSpace.s8) / columns;
+              final width = (inner - (columns - 1) * _tileGap) / columns;
               return NightObject(
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
@@ -143,18 +143,29 @@ class FirstFixCard extends StatelessWidget {
                   ),
                   child: PaperFace(
                     child: Padding(
-                      padding: const EdgeInsets.all(_stripPad),
-                      child: Wrap(
-                        spacing: MmSpace.s8,
-                        runSpacing: MmSpace.s4,
+                      padding: const EdgeInsets.fromLTRB(_stripPad, MmSpace.s16, _stripPad, _stripPad),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          for (final (n, s) in tiles)
-                            _QuestionTile(
-                              number: n,
-                              state: s,
-                              width: width,
-                              onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
-                            ),
+                          // Where these answers sit on the whole paper, before the answers themselves.
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                            child: PaperMap(questions: m.cells.length, marks: tiles),
+                          ),
+                          const SizedBox(height: MmSpace.s8),
+                          Wrap(
+                            spacing: _tileGap,
+                            runSpacing: MmSpace.s4,
+                            children: [
+                              for (final (n, s) in tiles)
+                                _QuestionTile(
+                                  number: n,
+                                  state: s,
+                                  width: width,
+                                  onTap: () => ResultNav.toFullResult(context, m.attemptId, question: n),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -266,14 +277,99 @@ class _Counts extends StatelessWidget {
 /// (the touch target minimum), otherwise as many as keep that width, never fewer than one.
 int firstFixTileColumns(double maxWidth) {
   for (var n = 6; n > 1; n--) {
-    if ((maxWidth - (n - 1) * MmSpace.s8) / n >= 48) return n;
+    if ((maxWidth - (n - 1) * _tileGap) / n >= 48) return n;
   }
   return 1;
 }
 
-const double _stripPad = 12;
+const double _stripPad = 8;
+const double _tileGap = 4;
 
-/// One question on the chapter strip: its number over its bubble, 64 dp tall and at least 48 dp
+/// The whole paper as one line of ticks, question 1 at the left and the last at the right, with
+/// the chapter's answers to look at raised and inked (wrong in coral, blank as an open dash), so
+/// the student sees whether they cluster or are spread through the paper. Observed positions only.
+class PaperMap extends StatelessWidget {
+  const PaperMap({super.key, required this.questions, required this.marks});
+
+  final int questions;
+  final List<(int, BubbleState)> marks;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final scale = type.caption.copyWith(color: colors.ink3, fontSize: 11, height: 1.2);
+    return ExcludeSemantics(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          RepaintBoundary(
+            child: SizedBox(
+              height: 22,
+              child: CustomPaint(painter: _PaperMapPainter(questions: questions, marks: marks, colors: colors)),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s4),
+          Row(
+            children: [
+              Text('1', style: scale),
+              const Spacer(),
+              Text('$questions', style: scale),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PaperMapPainter extends CustomPainter {
+  _PaperMapPainter({required this.questions, required this.marks, required this.colors});
+
+  final int questions;
+  final List<(int, BubbleState)> marks;
+  final MmColors colors;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (questions <= 0) return;
+    final base = size.height - 1;
+    final step = questions == 1 ? 0.0 : size.width / (questions - 1);
+    double x(int n) => questions == 1 ? size.width / 2 : (n - 1) * step;
+    canvas.drawRect(Rect.fromLTWH(0, base - 0.5, size.width, 1), Paint()..color = colors.line);
+    final tick = Paint()..color = colors.ink4;
+    for (var n = 1; n <= questions; n++) {
+      canvas.drawRect(Rect.fromLTWH(x(n) - 0.5, base - 5, 1, 5), tick);
+    }
+    for (final (n, s) in marks) {
+      if (n < 1 || n > questions) continue;
+      final cx = x(n);
+      final r = Rect.fromLTWH(cx - 1.5, 2, 3, base - 2);
+      if (s == BubbleState.wrong) {
+        canvas.drawRRect(RRect.fromRectAndRadius(r, const Radius.circular(1.5)), Paint()..color = colors.wrongMark);
+        canvas.drawCircle(Offset(cx, 3), 3, Paint()..color = colors.wrongMark);
+      } else {
+        final dash = Paint()..color = colors.ink2;
+        for (var y = 2.0; y < base - 1; y += 4) {
+          canvas.drawRect(Rect.fromLTWH(cx - 0.75, y, 1.5, 2), dash);
+        }
+        canvas.drawCircle(
+          Offset(cx, 3),
+          2.6,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.2
+            ..color = colors.ink2,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_PaperMapPainter old) => old.questions != questions || old.colors != colors || old.marks != marks;
+}
+
+/// One question on the chapter strip: its number over its bubble, 72 dp tall and at least 48 dp
 /// wide, opening that exact answer.
 class _QuestionTile extends StatelessWidget {
   const _QuestionTile({required this.number, required this.state, required this.onTap, this.width = 52});
@@ -295,7 +391,7 @@ class _QuestionTile extends StatelessWidget {
       builder: (context, pressed, _) => AnimatedContainer(
         duration: Motion.of(context, Motion.press),
         width: width,
-        height: 64,
+        height: 72,
         decoration: BoxDecoration(
           color: pressed ? colors.raised2 : const Color(0x00000000),
           borderRadius: MmRadius.smallAll,
@@ -305,7 +401,7 @@ class _QuestionTile extends StatelessWidget {
           children: [
             Text('$number', style: type.caption.copyWith(color: colors.ink3, fontWeight: FontWeight.w600, height: 1.1)),
             const SizedBox(height: 5),
-            Bubble(state: state, size: 28, animate: false),
+            Bubble(state: state, size: 32, animate: false),
           ],
         ),
       ),

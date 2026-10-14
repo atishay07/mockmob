@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/platform/share_image.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/brand/wordmark.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';

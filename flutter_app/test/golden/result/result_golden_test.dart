@@ -55,7 +55,7 @@ Future<void> _open(
   AttemptDetail? d,
   int? progress,
   bool reminderDue = false,
-  Duration settle = const Duration(milliseconds: 1800),
+  Duration settle = const Duration(milliseconds: 2400),
   Size size = const Size(384, 853),
   double textScale = 1,
   TodayAction? nextMove,
@@ -76,7 +76,8 @@ Future<void> _open(
     ),
   );
   await settleImages(tester);
-  await tester.pump(settle);
+  // Real frames, so staggered and typed motion plays as it does on a phone.
+  await _frames(tester, settle.inMilliseconds);
   await settleImages(tester);
 }
 

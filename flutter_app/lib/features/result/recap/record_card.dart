@@ -179,13 +179,8 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           onRetryKeys: widget.onRetryKeys,
         ),
         // The sheet, to keep: a share card with no marks on it, previewed before anything leaves.
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Transform.translate(
-            offset: const Offset(-16, 0),
-            child: KeyButton.quiet(label: ResultCopy.shareSheet, onPressed: () => showSheetShare(context, model: m)),
-          ),
-        ),
+        const SizedBox(height: MmSpace.s12),
+        SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
         if (askReminder) ...[
           const SizedBox(height: MmSpace.s12),
           ReminderRow(

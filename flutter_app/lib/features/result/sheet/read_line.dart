@@ -37,13 +37,15 @@ class GridRows {
   double lineY(double scan) => -6 + (height + 12) * scan;
 
   /// How far the ink has got through the paper, in question order (0 to 1), when the line is at
-  /// [y]. A row inks left to right while the line travels one row pitch from the top of its
-  /// bubbles, so rows ink one after another, each as the reader passes it.
+  /// [y]. A row inks left to right while the line crosses its bubbles (from their top to 6 dp
+  /// below them), so rows ink one after another, each as the reader passes it, and the last row
+  /// is complete where the line ends.
   double inkAt(double y) {
     if (questions == 0) return 1;
+    final span = bubble + 6;
     var done = 0.0;
     for (var r = 0; r < count; r++) {
-      final f = ((y - bandTop(r)) / (pitch * 0.9)).clamp(0.0, 1.0);
+      final f = ((y - bandTop(r)) / span).clamp(0.0, 1.0);
       done += f * inRow(r);
       if (f < 1) break;
     }

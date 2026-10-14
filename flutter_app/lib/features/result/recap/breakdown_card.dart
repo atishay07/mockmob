@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -11,7 +13,8 @@ import '../widgets/marks_flow.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
 
-/// Card 2 (spec 5.6.3): where the other marks went. The bar grows once, left to right.
+/// Card 2 (spec 5.6.3): where the other marks went, as a flow that draws once: the paper's column
+/// fills, then a ribbon runs to each place the marks went.
 class BreakdownCard extends StatefulWidget {
   const BreakdownCard({super.key, required this.model, required this.onNext, required this.onBack});
 
@@ -25,6 +28,7 @@ class BreakdownCard extends StatefulWidget {
 
 class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProviderStateMixin {
   late final AnimationController _grow = AnimationController(vsync: this, duration: MarksFlow.duration);
+  Timer? _wait;
 
   @override
   void didChangeDependencies() {
@@ -33,7 +37,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
     if (Motion.reduced(context)) {
       _grow.value = 1;
     } else {
-      Future<void>.delayed(const Duration(milliseconds: 140), () {
+      // After the headline and the lead have landed (the card page's stagger).
+      _wait = Timer(const Duration(milliseconds: 260), () {
         if (mounted) _grow.forward();
       });
     }
@@ -41,6 +46,7 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
 
   @override
   void dispose() {
+    _wait?.cancel();
     _grow.dispose();
     super.dispose();
   }

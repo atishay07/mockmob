@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import '../widgets/engrave.dart';
 
 /// The frame of recap cards 2 to 4: the card's content in a scroll view (it scrolls at large text
 /// sizes, never clips) and its keys pinned below. Swiping past the end goes to the next card,
@@ -45,6 +46,25 @@ class _RecapCardPageState extends State<RecapCardPage> {
     return false;
   }
 
+  /// The card's content arrives in reading order after the card itself: each block rises 16 dp
+  /// and fades in, 55 ms after the one above it (480 ms each, emphasized), so the headline lands
+  /// first and the evidence follows it. Spacers are not animated. Reduced motion: all at once.
+  List<Widget> _staggered(List<Widget> children) {
+    var n = 0;
+    return [
+      for (final c in children)
+        if (c is SizedBox && c.child == null)
+          c
+        else
+          Arrive(
+            delay: Duration(milliseconds: 90 + 55 * (n++).clamp(0, 8)),
+            duration: const Duration(milliseconds: 480),
+            rise: 16,
+            child: c,
+          ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,7 +75,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
               padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, widget.topPadding, MmSpace.cardGutter, MmSpace.s24),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: widget.children),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children)),
             ),
           ),
         ),

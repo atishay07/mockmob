@@ -188,6 +188,7 @@ abstract final class ResultCopy {
   // ---- Your sheet, to keep (card 4) ----------------------------------------------------------
 
   static const shareSheet = 'Share your sheet';
+  static const shareSheetHint = 'Your answers as a card. No marks on it.';
   static const shareTitle = 'Share your sheet';
   static const share = 'Share';
   static const addSubject = 'Add the subject';

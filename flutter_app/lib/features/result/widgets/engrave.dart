@@ -131,8 +131,10 @@ class _ArriveState extends State<Arrive> with SingleTickerProviderStateMixin {
         if (v >= 1) return child!;
         final t = Motion.emphasized.transform(v);
         final fade = Motion.glide.transform((v / 0.6).clamp(0.0, 1.0));
+        // Semantics stay in while it arrives, so TalkBack never waits on the motion.
         return Opacity(
           opacity: fade,
+          alwaysIncludeSemantics: true,
           child: Transform(
             alignment: Alignment.bottomCenter,
             transform: Matrix4.translationValues(0, widget.rise * (1 - t), 0)..rotateZ(widget.turn * (1 - t)),
