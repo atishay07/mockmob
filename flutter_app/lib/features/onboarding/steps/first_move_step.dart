@@ -8,6 +8,7 @@ import '../copy.dart';
 import '../model/answers.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
+import '../widgets/entrance.dart';
 import '../widgets/first_move_hero.dart';
 
 /// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
@@ -73,7 +74,8 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
     final type = context.mmType;
     final move = FirstMove.of(widget.answers);
     _queuePoint();
-    return Column(
+    return StepEntrance(
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
@@ -112,14 +114,20 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s8, bottom: MmSpace.s16),
-                      child: Semantics(header: true, child: Text(move.title, style: type.headline)),
+                      child: Semantics(header: true, child: RiseHeadline(move.title, style: type.headline)),
                     ),
-                    FirstMoveHeroFor(
-                      answers: widget.answers,
-                      now: ref.watch(nowProvider)(),
-                      onStart: widget.onStart,
-                      onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
-                      startKey: _start,
+                    // Faded in only: Mobi aims at its start key as it lays out, so it never moves.
+                    EntranceItem(
+                      at: Entrance.answer(0),
+                      rise: 0,
+                      scale: false,
+                      child: FirstMoveHeroFor(
+                        answers: widget.answers,
+                        now: ref.watch(nowProvider)(),
+                        onStart: widget.onStart,
+                        onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
+                        startKey: _start,
+                      ),
                     ),
                   ],
                 ),
@@ -128,6 +136,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
           ),
         ),
       ],
+      ),
     );
   }
 }

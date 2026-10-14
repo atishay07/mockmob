@@ -61,6 +61,10 @@ abstract final class OnboardingCopy {
   static const String datesNotOut = 'Dates not out yet';
   static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
+  static const String weeksShort = 'weeks';
+  static String stageWeeksUnit(int year) => 'to May $year';
+  static const String stageWeeksProbably = 'to May 2027, probably';
+  static String stageWeeksSpoken(int year) => 'weeks to the expected May $year window';
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
@@ -114,6 +118,9 @@ abstract final class OnboardingCopy {
   static const String questionSupport = 'Answer the way you would in the hall.';
   static String rightIn(int seconds) => seconds <= 1 ? 'Right, in about a second.' : 'Right, in $seconds seconds.';
   static const String trapLead = 'That\'s the trap. The ten-second fix';
+
+  /// Beside the measured seconds, set as a monumental number.
+  static String rightSeconds(int seconds) => seconds <= 1 ? 'second. Right.' : 'seconds. Right.';
   static String optionSemantics(String letter, String text) => 'Option $letter, $text';
   static const String correctAnswer = 'Correct answer';
   static const String yourAnswer = 'Your answer';
@@ -126,6 +133,8 @@ abstract final class OnboardingCopy {
   static const String restDays = 'Dotted days are rest days.';
   static const String boardWeeks = 'During boards we count two a week.';
   static String minutes(int m) => '$m min';
+  static String minutesSpoken(int m) => '$m minutes';
+  static const String minutesUnit = 'minutes';
 
   // Plan.
   static const String planLead = 'Your plan, built from your answers.';

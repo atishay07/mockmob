@@ -6,6 +6,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/subjects.dart';
+import 'choice_tile.dart';
+import 'confidence_bubbles.dart';
 
 /// One subject on the subjects step: its object, its name, and the answer-sheet bubble that
 /// inks when it is on the sheet; once included, Shaky, Okay or Strong opens beneath.
@@ -35,17 +37,23 @@ class SubjectRow extends ConsumerWidget {
       focusRadius: MmRadius.keyAll,
       onTap: () {
         ref.read(hapticsProvider).selection();
+        GuideGlance.at(context);
         onToggle();
       },
       builder: (context, pressed, _) => SubjectLine(subject: subject, chosen: included, dim: !included, bubble: !included),
     );
 
+    // On the sheet: one raised surface with the paper rim and the confidence row inside it (no
+    // box in a box). Not on the sheet: flat on the ground, a hollow bubble at the end.
     return AnimatedContainer(
       duration: Motion.of(context, Motion.glideDuration),
       curve: Motion.glide,
       decoration: ShapeDecoration(
-        color: MmSelection.fill(colors, selected: included),
-        shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: included)),
+        color: included ? MmSelection.fill(colors, selected: true) : Colors.transparent,
+        shape: mmShapeBorder(
+          MmRadius.keyAll,
+          side: included ? MmSelection.side(colors, selected: true) : BorderSide(color: colors.line),
+        ),
       ),
       padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
       child: Column(
@@ -54,15 +62,20 @@ class SubjectRow extends ConsumerWidget {
           header,
           _Grow(
             child: included
-                ? Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s12),
-                    // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
-                    child: MmSegmented<Confidence>(
-                      semanticsLabel: 'How solid is ${subject.label}',
-                      segments: [for (final c in Confidence.values) MmSegment(c, c.label)],
-                      value: confidence ?? Confidence.okay,
-                      onChanged: onConfidence,
-                    ),
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(height: 1, margin: const EdgeInsets.only(left: 52), color: colors.line),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 44, bottom: MmSpace.s4),
+                        // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
+                        child: ConfidenceBubbles(
+                          subject: subject.label,
+                          value: confidence ?? Confidence.okay,
+                          onChanged: onConfidence,
+                        ),
+                      ),
+                    ],
                   )
                 : const SizedBox(width: double.infinity),
           ),

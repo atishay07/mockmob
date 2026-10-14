@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -26,6 +27,7 @@ import '../steps/stage_step.dart';
 import '../steps/subjects_step.dart';
 import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
+import '../widgets/choice_tile.dart';
 import '../widgets/guide_bar.dart';
 import 'welcome_view.dart';
 
@@ -65,13 +67,22 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   final GlobalKey _track = GlobalKey();
   Timer? _settle;
   Timer? _hush;
+  Timer? _lookBack;
 
   AnswersController get _c => ref.read(onboardingAnswersProvider.notifier);
+
+  /// Mobi glances at what the student just touched, then looks back ahead.
+  void _glance(Offset at) {
+    _mobi.lookAt(at);
+    _lookBack?.cancel();
+    _lookBack = Timer(const Duration(milliseconds: 1400), () => _mobi.lookAt(null));
+  }
 
   @override
   void dispose() {
     _settle?.cancel();
     _hush?.cancel();
+    _lookBack?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -192,7 +203,14 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         });
         return;
       }
-      final cue = mobiCueFor(previous?.value, after);
+      final before = previous?.value;
+      // A bubble inking on the sheet lands with a light tap (A.8: an onboarding bubble filling).
+      // The seal has its own, firmer one.
+      if (_inDeck && before != null && !(after.sealed && !before.sealed)) {
+        final inked = kOnboardingDeck.sheetSteps.any((s) => after.isDone(s.id) && !before.isDone(s.id));
+        if (inked) ref.read(hapticsProvider).light();
+      }
+      final cue = mobiCueFor(before, after);
       if (cue != null) _perform(cue, after);
     });
 
@@ -255,18 +273,28 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(height: GuideBar.height),
-                            if (_showsSheet(step))
-                              AnswerSheetCard(
-                                answers: answers,
-                                now: ref.watch(nowProvider)(),
-                                current: step.id,
-                                compact: _compact(step, answers),
-                                trackKey: _track,
-                              ),
+                            // The sheet stays put from step to step (only its bubbles and lines
+                            // change); it folds away, rather than vanishing, where a step shows
+                            // its own copy or none.
+                            _SheetSlot(
+                              child: _showsSheet(step)
+                                  ? AnswerSheetCard(
+                                      key: const ValueKey('sheet'),
+                                      answers: answers,
+                                      now: ref.watch(nowProvider)(),
+                                      current: step.id,
+                                      compact: _compact(step, answers),
+                                      trackKey: _track,
+                                    )
+                                  : const SizedBox(key: ValueKey('none'), width: double.infinity),
+                            ),
                             Expanded(
-                              child: _StepSwitcher(
-                                forward: _forward,
-                                child: KeyedSubtree(key: ValueKey(step.id), child: _body(step, answers)),
+                              child: GuideGlance(
+                                onGlance: _glance,
+                                child: _StepSwitcher(
+                                  forward: _forward,
+                                  child: KeyedSubtree(key: ValueKey(step.id), child: _body(step, answers)),
+                                ),
                               ),
                             ),
                           ],
@@ -354,7 +382,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   }
 }
 
-/// Glides the next step in from the side it comes from (300 ms) while the last one fades out.
+/// The step change (ui-blitz onboarding, section 3). The last step leaves quickly, 16 dp up and
+/// faded (down when going back), as if the page were turned; the next one fades in and builds
+/// itself (its headline rises, its answers lift; see StepEntrance), so nothing slides twice.
 class _StepSwitcher extends StatelessWidget {
   const _StepSwitcher({required this.forward, required this.child});
 
@@ -365,7 +395,7 @@ class _StepSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
     return AnimatedSwitcher(
-      duration: reduced ? Motion.reducedFade : Motion.glideDuration,
+      duration: reduced ? Motion.reducedFade : const Duration(milliseconds: 220),
       reverseDuration: reduced ? Motion.reducedFade : Motion.exitDuration,
       switchInCurve: Motion.glide,
       switchOutCurve: Motion.exit,
@@ -375,14 +405,43 @@ class _StepSwitcher extends StatelessWidget {
       ),
       transitionBuilder: (child, animation) {
         final faded = FadeTransition(opacity: animation, child: child);
-        if (reduced) return faded;
-        final dx = (forward ? 16.0 : -16.0);
+        if (reduced || child.key == this.child.key) return faded;
+        final dy = forward ? -16.0 : 16.0;
         return AnimatedBuilder(
           animation: animation,
-          child: faded,
-          builder: (context, child) => Transform.translate(offset: Offset(dx * (1 - animation.value), 0), child: child),
+          child: IgnorePointer(child: faded),
+          builder: (context, child) => Transform.translate(offset: Offset(0, dy * (1 - animation.value)), child: child),
         );
       },
+      child: child,
+    );
+  }
+}
+
+/// Where the answer sheet sits above a step. When a step has no sheet above it (the question,
+/// the plan, which flips its own copy, the account and the first move) the sheet folds up into
+/// the top bar over 420 ms and folds back down after; under reduced motion it just appears.
+class _SheetSlot extends StatelessWidget {
+  const _SheetSlot({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = Motion.reduced(context);
+    return AnimatedSwitcher(
+      duration: reduced ? Duration.zero : Motion.emphasizedDuration,
+      reverseDuration: reduced ? Duration.zero : Motion.exitDuration,
+      switchInCurve: Motion.emphasized,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: SizeTransition(sizeFactor: animation, alignment: Alignment.topCenter, child: child),
+      ),
       child: child,
     );
   }

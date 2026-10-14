@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/haptics/haptics.dart';
@@ -73,6 +77,8 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _Clock(since: _shownAt, stoppedAt: result?.millis),
+          const SizedBox(height: MmSpace.s12),
           Text(_q.stem, style: type.question),
           const SizedBox(height: MmSpace.s20),
           // Shown in the question's stable shuffled order; the choice is stored as the index
@@ -93,13 +99,31 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
           // The payoff sits right under the options, so every option stays in view above it.
           if (result != null) ...[
             const SizedBox(height: MmSpace.s8),
-            Semantics(
-              liveRegion: true,
-              child: Text(
-                result.correct ? OnboardingCopy.rightIn((result.millis / 1000).round()) : OnboardingCopy.trapLead,
-                style: type.cardTitle.copyWith(color: colors.ink),
+            if (result.correct)
+              // The measured time is the payoff: a monumental number that rolls in.
+              Semantics(
+                liveRegion: true,
+                label: OnboardingCopy.rightIn((result.millis / 1000).round()),
+                excludeSemantics: true,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    MonumentalNumber(value: '${math.max(1, (result.millis / 1000).round())}', style: type.figure),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(
+                      child: Text(
+                        OnboardingCopy.rightSeconds((result.millis / 1000).round()),
+                        style: type.cardTitle.copyWith(color: colors.ink),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Semantics(
+                liveRegion: true,
+                child: Text(OnboardingCopy.trapLead, style: type.cardTitle.copyWith(color: colors.ink)),
               ),
-            ),
             if (!result.correct) ...[
               const SizedBox(height: MmSpace.s8),
               DecoratedBox(
@@ -112,6 +136,63 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
       ),
       // Skipping lives in the top bar; the only key here is Continue, once answered.
       bottom: result == null ? null : KeyButton(label: OnboardingCopy.next, onPressed: widget.onNext),
+    );
+  }
+}
+
+/// The clock the warm-up is timed by, quiet above the question: the seconds since it appeared,
+/// stopped at the answer. Its own repaint boundary; it ticks once a second and never moves.
+class _Clock extends ConsumerStatefulWidget {
+  const _Clock({required this.since, required this.stoppedAt});
+
+  final DateTime since;
+
+  /// The measured time once answered.
+  final int? stoppedAt;
+
+  @override
+  ConsumerState<_Clock> createState() => _ClockState();
+}
+
+class _ClockState extends ConsumerState<_Clock> {
+  Timer? _tick;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.stoppedAt == null) _tick = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
+  }
+
+  @override
+  void didUpdateWidget(_Clock old) {
+    super.didUpdateWidget(old);
+    if (widget.stoppedAt != null) _tick?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _tick?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final ms = widget.stoppedAt ?? ref.read(nowProvider)().difference(widget.since).inMilliseconds;
+    final s = (ms < 0 ? 0 : ms) ~/ 1000;
+    final text = '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}';
+    final ink = widget.stoppedAt == null ? colors.ink3 : colors.ink2;
+    return ExcludeSemantics(
+      child: RepaintBoundary(
+        child: Row(
+          children: [
+            Icon(LucideIcons.timer, size: 15, color: ink),
+            const SizedBox(width: MmSpace.s6),
+            Text(text, style: type.label.copyWith(color: ink)),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -433,7 +433,7 @@ void main() {
       final gate = http.hold = Completer<void>();
       c.read(sheetSyncProvider);
       await settle();
-      expect(writes(), isNotEmpty, reason: 'the first write is out with A's token');
+      expect(writes(), isNotEmpty, reason: "the first write is out with A's token");
       expect(writes().map((r) => r.headers['Authorization']).toSet(), {'Bearer tok-1'});
       // B signs in while that request is out; the signed-in state has not caught up yet.
       tokens

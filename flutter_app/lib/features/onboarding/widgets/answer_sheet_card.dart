@@ -10,6 +10,7 @@ import '../model/choices.dart';
 import '../model/deck.dart';
 import 'engraved_text.dart';
 import 'foil_seal.dart';
+import 'glyphs.dart';
 import 'sheet_lines.dart';
 
 /// "Your sheet": the smoked-glass answer sheet at the top of every step (brief section 11).
@@ -83,7 +84,16 @@ class AnswerSheetCard extends StatelessWidget {
           borderRadius: radius,
           opacity: colors.isNight ? 0.62 : 0.78,
           child: Builder(
-            builder: (context) => Padding(
+            builder: (context) => Stack(
+              children: [
+                // OMR timing marks down the left edge: the card reads as an answer sheet.
+                Positioned(
+                  left: 8,
+                  top: MmSpace.s16,
+                  bottom: MmSpace.s16,
+                  child: TimingMarks(color: colors.ink.withValues(alpha: colors.isNight ? 0.14 : 0.18)),
+                ),
+                Padding(
               padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s16),
               child: _Grow(
                 child: Column(
@@ -140,6 +150,8 @@ class AnswerSheetCard extends StatelessWidget {
                 ),
               ),
             ),
+              ],
+            ),
           ),
         ),
       ),
@@ -189,13 +201,11 @@ class _BubbleTrack extends StatelessWidget {
                 SizedBox(
                   height: 30,
                   child: Center(
-                    child: Bubble(
+                    child: _TrackBubble(
                       state: answers.isDone(steps[i].id)
                           ? BubbleState.filled
                           : (answers.isSkipped(steps[i].id) ? BubbleState.blank : BubbleState.hollow),
-                      size: 22,
                       emphasis: steps[i].id == current,
-                      inkOrigin: const Offset(-1, 0),
                       animate: animate,
                     ),
                   ),
@@ -217,6 +227,73 @@ class _BubbleTrack extends StatelessWidget {
       ],
     );
   }
+}
+
+/// A bubble on the sheet's track. When it inks, a volt ring bursts out of it once (1x to 2.4x,
+/// fading, 520 ms), so an answer landing on the sheet is seen from anywhere on the screen.
+/// Transform-free: one painter on its own layer, ticking only while the ring is out.
+class _TrackBubble extends StatefulWidget {
+  const _TrackBubble({required this.state, required this.emphasis, required this.animate});
+
+  final BubbleState state;
+  final bool emphasis;
+  final bool animate;
+
+  @override
+  State<_TrackBubble> createState() => _TrackBubbleState();
+}
+
+class _TrackBubbleState extends State<_TrackBubble> with SingleTickerProviderStateMixin {
+  late final AnimationController _burst = AnimationController(vsync: this, duration: const Duration(milliseconds: 520));
+
+  @override
+  void didUpdateWidget(_TrackBubble old) {
+    super.didUpdateWidget(old);
+    if (widget.animate && old.state != BubbleState.filled && widget.state == BubbleState.filled && !Motion.reduced(context)) {
+      _burst.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _burst.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return CustomPaint(
+      foregroundPainter: _BurstPainter(progress: _burst, color: colors.isNight ? colors.volt : colors.accentText),
+      child: Bubble(state: widget.state, size: 22, emphasis: widget.emphasis, inkOrigin: const Offset(-1, 0), animate: widget.animate),
+    );
+  }
+}
+
+class _BurstPainter extends CustomPainter {
+  _BurstPainter({required this.progress, required this.color}) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = progress.value;
+    if (p <= 0 || p >= 1) return;
+    final e = Motion.out.transform(p);
+    final r = 11 * (1 + 1.4 * e);
+    canvas.drawCircle(
+      size.center(Offset.zero),
+      r,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2 * (1 - e) + 0.5
+        ..color = color.withValues(alpha: 0.85 * (1 - p)),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_BurstPainter old) => old.color != color || old.progress != progress;
 }
 
 /// The weeks to the expected window, rolled in condensed type, or a quiet placeholder.

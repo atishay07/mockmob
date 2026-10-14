@@ -12,6 +12,7 @@ import '../model/answers.dart';
 import '../model/deck.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
+import '../widgets/entrance.dart';
 import '../widgets/flip_reorder.dart';
 import '../widgets/step_layout.dart';
 import '../widgets/subject_picker.dart';
@@ -63,16 +64,21 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
     final check = course == null || a.subjects.isEmpty ? null : EligibilityCheck.of(course, a.subjects.toSet());
     final line = PlanSummary.eligibilityLine(a);
 
+    // Rows lift in the order they stand: the chosen ones, then the common picks.
+    final order = [...included, ...rest];
     Widget row(SheetSubject s) => FlipItem(
           key: ValueKey(s),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: MmSpace.s8),
-            child: SubjectRow(
-              subject: s,
-              included: a.subjects.contains(s),
-              confidence: a.confidence[s],
-              onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
-              onConfidence: (v) => c.setConfidence(s, v),
+          child: EntranceItem.answer(
+            order.indexOf(s) + (line == null ? 0 : 1),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s8),
+              child: SubjectRow(
+                subject: s,
+                included: a.subjects.contains(s),
+                confidence: a.confidence[s],
+                onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
+                onConfidence: (v) => c.setConfidence(s, v),
+              ),
             ),
           ),
         );
@@ -84,13 +90,16 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (line != null)
-            Padding(
+            EntranceItem.answer(
+              0,
+              child: Padding(
               padding: const EdgeInsets.only(bottom: MmSpace.s12),
               child: _Note(
                 text: line,
                 icon: check?.eligible ?? false ? LucideIcons.check : LucideIcons.circleAlert,
                 color: check?.eligible ?? false ? colors.accentText : colors.warnText,
               ),
+            ),
             ),
           for (final s in included) row(s),
           if (_capped)

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/du_catalog.dart';
+import 'choice_tile.dart';
+import 'entrance.dart';
+import 'glyphs.dart';
 
 /// The six Commerce courses as tiles: the real count of colleges that took each through CUET in
-/// 2026, in condensed figures, over the course name. Two columns, equal heights.
+/// 2026, in condensed figures, the shape of its college ladder, and the course name. Two
+/// columns, equal heights.
 class CourseGrid extends StatelessWidget {
   const CourseGrid({super.key, required this.selected, required this.onPick});
 
@@ -25,11 +26,14 @@ class CourseGrid extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: CourseTile(course: courses[i], selected: courses[i].id == selected, onTap: () => onPick(courses[i]))),
+                Expanded(child: EntranceItem.answer(i, child: CourseTile(course: courses[i], selected: courses[i].id == selected, onTap: () => onPick(courses[i])))),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: i + 1 < courses.length
-                      ? CourseTile(course: courses[i + 1], selected: courses[i + 1].id == selected, onTap: () => onPick(courses[i + 1]))
+                      ? EntranceItem.answer(
+                          i + 1,
+                          child: CourseTile(course: courses[i + 1], selected: courses[i + 1].id == selected, onTap: () => onPick(courses[i + 1])),
+                        )
                       : const SizedBox(),
                 ),
               ],
@@ -42,7 +46,7 @@ class CourseGrid extends StatelessWidget {
   }
 }
 
-class CourseTile extends ConsumerWidget {
+class CourseTile extends StatelessWidget {
   const CourseTile({super.key, required this.course, required this.selected, required this.onTap});
 
   final DuCourse course;
@@ -50,68 +54,48 @@ class CourseTile extends ConsumerWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return MmPressable(
-      semanticsLabel: '${course.short}, ${OnboardingCopy.collegesCount(course.collegeCount)}',
+    final scores = [for (final o in course.ladder('UR')) o.scoreFor('UR')!];
+    return ChoiceTile(
       selected: selected,
-      inMutuallyExclusiveGroup: true,
-      focusRadius: MmRadius.keyAll,
-      onTap: () {
-        ref.read(hapticsProvider).selection();
-        onTap();
-      },
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: MmSelection.fill(colors, selected: selected, pressed: pressed),
-          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
-        ),
-        child: CustomPaint(
-          foregroundPainter: EdgeLightPainter(
-            borderRadius: MmRadius.keyAll,
-            top: colors.edgeTop,
-            bottom: colors.edgeBottom.withValues(alpha: 0),
-            sheen: false,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${course.collegeCount}', style: type.figureCompact),
-                          const SizedBox(width: 4),
-                          // The unit at 55% of the figure, top-aligned (brief section 4).
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              OnboardingCopy.collegesUnit(course.collegeCount),
-                              style: type.figureCompact.copyWith(
-                                fontSize: (type.figureCompact.fontSize ?? 32) * 0.55,
-                                height: 1,
-                                color: colors.ink2,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SelectBubble(selected: selected),
-                  ],
+      onTap: onTap,
+      semanticsLabel: '${course.short}, ${OnboardingCopy.collegesCount(course.collegeCount)}',
+      minHeight: 124,
+      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${course.collegeCount}', style: type.figureCompact),
+              const SizedBox(width: 4),
+              // The unit at 55% of the figure, top-aligned (brief section 4).
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  OnboardingCopy.collegesUnit(course.collegeCount),
+                  style: type.figureCompact.copyWith(
+                    fontSize: (type.figureCompact.fontSize ?? 32) * 0.55,
+                    height: 1,
+                    color: colors.ink2,
+                  ),
                 ),
-                const SizedBox(height: MmSpace.s8),
-                Text(course.short, style: type.labelLarge.copyWith(height: 20 / 15)),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),
+          const SizedBox(height: MmSpace.s8),
+          // The shape of the ladder: its top closing scores as rungs.
+          LadderGlyph(
+            scores: scores,
+            color: colors.ink3,
+            accent: selected ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink2,
+          ),
+          const SizedBox(height: MmSpace.s12),
+          Text(course.short, style: type.labelLarge.copyWith(height: 20 / 15)),
+        ],
       ),
     );
   }

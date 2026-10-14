@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/entrance.dart';
 import '../widgets/welcome_scene.dart';
 
 /// Welcome (brief section 11, step 2): the lamp-lit desk drawn in code, Mobi standing on it and
@@ -83,9 +84,13 @@ class WelcomeView extends StatelessWidget {
       },
     );
 
+    // The words build after Mobi has started his wave: the headline rises word by word, the
+    // promise lifts, then the key (ui-blitz onboarding, Welcome).
     final words = Padding(
       padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, pad.bottom + MmSpace.s12),
-      child: Column(
+      child: StepEntrance(
+        delay: const Duration(milliseconds: 260),
+        child: Builder(builder: (context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -93,14 +98,19 @@ class WelcomeView extends StatelessWidget {
             header: true,
             label: OnboardingCopy.welcomeHeadline,
             excludeSemantics: true,
-            child: Text(
+            child: RiseHeadline(
               OnboardingCopy.welcomeHeadlineSet,
               style: type.moment,
+              at: const Duration(milliseconds: 260),
               textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          Text(OnboardingCopy.welcomeSupport, style: type.body.copyWith(color: colors.ink2)),
+          EntranceItem(
+            at: const Duration(milliseconds: 520),
+            rise: 10,
+            child: Text(OnboardingCopy.welcomeSupport, style: type.body.copyWith(color: colors.ink2)),
+          ),
           const SizedBox(height: MmSpace.s24),
           if (returning) ...[
             Row(
@@ -120,14 +130,24 @@ class WelcomeView extends StatelessWidget {
             Semantics(liveRegion: true, child: Text(notice!, style: type.small.copyWith(color: colors.ink2))),
             const SizedBox(height: MmSpace.s12),
           ],
-          KeyButton(
-            label: retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
-            onPressed: onStart,
-            loading: pending,
+          EntranceItem(
+            at: const Duration(milliseconds: 600),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                KeyButton(
+                  label: retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
+                  onPressed: onStart,
+                  loading: pending,
+                ),
+                const SizedBox(height: MmSpace.s4),
+                Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: onHaveAccount)),
+              ],
+            ),
           ),
-          const SizedBox(height: MmSpace.s4),
-          Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: onHaveAccount)),
         ],
+      )),
       ),
     );
 

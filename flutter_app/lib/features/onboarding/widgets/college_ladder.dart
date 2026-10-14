@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/du_catalog.dart';
+import 'choice_tile.dart';
+import 'entrance.dart';
 
 /// The college ladder for one course: every college that seated [category] in Round 1, highest
-/// minimum first, with DU's figure to one decimal. Tapping inks a college's bubble (up to three).
+/// minimum first, with DU's figure to one decimal, on one rail. Tapping inks a college's bubble
+/// with its pick number (up to three), so the order of the picks shows.
 class CollegeLadder extends StatefulWidget {
   const CollegeLadder({
     super.key,
@@ -52,15 +53,19 @@ class _CollegeLadderState extends State<CollegeLadder> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < shown.length; i++)
-          _LadderRow(
-            offering: shown[i],
-            score: shown[i].scoreFor(widget.category)!,
-            selected: widget.picks.contains(shown[i].college),
-            last: i == shown.length - 1,
-            onTap: () {
-              final ok = widget.onToggle(shown[i].college);
-              setState(() => _full = !ok);
-            },
+          EntranceItem.answer(
+            i,
+            child: _LadderRow(
+              offering: shown[i],
+              score: shown[i].scoreFor(widget.category)!,
+              pick: widget.picks.contains(shown[i].college) ? widget.picks.indexOf(shown[i].college) + 1 : null,
+              first: i == 0,
+              last: i == shown.length - 1,
+              onTap: () {
+                final ok = widget.onToggle(shown[i].college);
+                setState(() => _full = !ok);
+              },
+            ),
           ),
         if (_full)
           Padding(
@@ -80,61 +85,121 @@ class _CollegeLadderState extends State<CollegeLadder> {
   }
 }
 
-class _LadderRow extends ConsumerWidget {
-  const _LadderRow({required this.offering, required this.score, required this.selected, required this.last, required this.onTap});
+/// One rung: the bubble on the rail (inked with the pick number once picked), the college, and
+/// its closing score in condensed figures. Unpicked rungs sit flat on the ground; a pick lifts
+/// onto a raised surface with the paper rim.
+class _LadderRow extends StatelessWidget {
+  const _LadderRow({
+    required this.offering,
+    required this.score,
+    required this.pick,
+    required this.first,
+    required this.last,
+    required this.onTap,
+  });
 
   final DuOffering offering;
   final double score;
-  final bool selected;
+
+  /// 1, 2 or 3 when picked (the order the student picked in), else null.
+  final int? pick;
+  final bool first;
   final bool last;
   final VoidCallback onTap;
 
+  static const double _bubble = 26;
+  static const double _inset = MmSpace.s12;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final figure = DuCatalog.format(score);
     final name = displayCollege(offering.college);
-    return MmPressable(
-      semanticsLabel: '$name, $figure',
-      checked: selected,
-      pressedScale: 0.98,
-      focusRadius: MmRadius.keyAll,
-      onTap: () {
-        ref.read(hapticsProvider).selection();
-        onTap();
-      },
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: selected ? MmSelection.fill(colors, selected: true) : (pressed ? colors.raised : Colors.transparent),
-          shape: mmShapeBorder(
-            MmRadius.keyAll,
-            side: selected ? MmSelection.side(colors, selected: true) : const BorderSide(color: Colors.transparent, width: 1.5),
-          ),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 56),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
-            child: Row(
-              children: [
-                SelectBubble(selected: selected),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Text(
-                    name,
-                    style: type.labelLarge.copyWith(color: selected ? colors.ink : colors.ink2, fontWeight: selected ? FontWeight.w600 : FontWeight.w500),
+    final selected = pick != null;
+    // The rail runs through every rung's bubble, over a picked rung's fill too, so the list
+    // reads as one ladder.
+    return ChoiceTile(
+      selected: selected,
+      exclusive: false,
+      flat: true,
+      bubble: BubbleSpot.none,
+      semanticsLabel: selected ? '$name, $figure, pick $pick' : '$name, $figure',
+      onTap: onTap,
+      padding: EdgeInsets.zero,
+      child: CustomPaint(
+        painter: _RailPainter(x: _inset + _bubble / 2, first: first, last: last, color: colors.lineStrong),
+        child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s8 + 6),
+        child: Row(
+          children: [
+            SizedBox.square(
+              dimension: _bubble,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // The ground behind the bubble hides the rail inside the ring.
+                  DecoratedBox(
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: selected ? Colors.transparent : colors.ground),
+                    child: const SizedBox.square(dimension: _bubble - 2),
                   ),
-                ),
-                const SizedBox(width: MmSpace.s12),
-                Text(figure, style: type.title.copyWith(fontSize: 20, color: selected ? colors.ink : colors.ink2)),
-              ],
+                  Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: _bubble, inkOrigin: const Offset(-0.4, -0.4)),
+                  if (selected)
+                    Text(
+                      '$pick',
+                      style: type.label.copyWith(
+                        color: colors.isNight ? colors.voltInk : colors.ground,
+                        fontWeight: FontWeight.w800,
+                        height: 1,
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Text(
+                name,
+                style: type.labelLarge.copyWith(
+                  color: selected ? colors.ink : colors.ink2,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s12),
+            Text(figure, style: type.figureCompact.copyWith(fontSize: 26, height: 1, color: selected ? colors.ink : colors.ink2)),
+          ],
+        ),
         ),
       ),
     );
   }
+}
+
+/// One segment of the ladder's rail: from the rung above to the rung below, through the bubble.
+class _RailPainter extends CustomPainter {
+  const _RailPainter({required this.x, required this.first, required this.last, required this.color});
+
+  final double x;
+  final bool first;
+  final bool last;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (first && last) return;
+    final mid = size.height / 2;
+    canvas.drawLine(
+      Offset(x, first ? mid : 0),
+      Offset(x, last ? mid : size.height),
+      Paint()
+        ..color = color
+        ..strokeWidth = 1.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RailPainter old) => old.x != x || old.first != first || old.last != last || old.color != color;
 }
 
 /// A college's name as shown: DU's "(W)" marks a women's college, so it is dropped where the
