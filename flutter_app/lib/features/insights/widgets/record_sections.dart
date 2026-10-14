@@ -518,21 +518,28 @@ class SubjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, box) {
-        final w = (box.maxWidth - MmSpace.s12) / 2;
-        return Wrap(
-          spacing: MmSpace.s12,
-          runSpacing: MmSpace.s12,
-          children: [
-            for (final (i, l) in lines.indexed)
-              SizedBox(
-                width: w,
-                child: RiseIn(delay: Duration(milliseconds: 60 * (i % 4)), child: _SubjectPlate(line: l)),
-              ),
-          ],
-        );
-      },
+    // Two to a row, each row as tall as its taller plate.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var r = 0; r < lines.length; r += 2) ...[
+          if (r > 0) const SizedBox(height: MmSpace.s12),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: RiseIn(delay: Duration(milliseconds: 60 * (r % 4)), child: _SubjectPlate(line: lines[r]))),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: r + 1 < lines.length
+                      ? RiseIn(delay: Duration(milliseconds: 60 * ((r + 1) % 4)), child: _SubjectPlate(line: lines[r + 1]))
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
@@ -564,14 +571,12 @@ class _SubjectPlate extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: Text(name, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis)),
-                      SubjectThumb(subject: l.subject, size: 56),
-                    ],
-                  ),
+                  // The subject's object, then its name on the full width: a long name wraps at
+                  // a word, never mid-word.
+                  SubjectThumb(subject: l.subject, size: 44),
                   const SizedBox(height: MmSpace.s8),
+                  Text(name, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: MmSpace.s4),
                   if (pct == null)
                     Text(InsightsCopy.subjectNoneAnswered, style: type.cardTitle.copyWith(color: colors.ink2))
                   else

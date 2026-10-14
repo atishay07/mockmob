@@ -116,6 +116,17 @@ void main() {
   insightsGolden('record_top', () => const InsightsScreen());
   insightsGolden('record_full_free', () => const InsightsScreen(), size: const Size(384, 3000));
   insightsGolden('record_full_pro', () => const InsightsScreen(), size: const Size(384, 3300), overrides: () => insightsOverrides(pro: true));
+  // The lower half of the page (pace, week, subjects), which the 3300 px frame above ends before.
+  insightsGolden(
+    'record_lower',
+    () => const InsightsScreen(),
+    size: const Size(384, 1800),
+    overrides: () => insightsOverrides(pro: true),
+    after: (tester) async {
+      await tester.drag(find.byType(ListView).first, const Offset(0, -9000));
+      await tester.pump(const Duration(seconds: 2));
+    },
+  );
   insightsGolden(
     'record_thin',
     () => const InsightsScreen(),
