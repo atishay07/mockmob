@@ -1,5 +1,5 @@
 "use client";
-// Score Recovery Â· Mistake Repair for one wrong answer. The server works the question and must
+// Score Recovery · Mistake Repair for one wrong answer. The server works the question and must
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -141,11 +141,11 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
         <div className="mr-card" data-kind="wrong"><span>Where it breaks</span><p>{r.why_wrong}</p></div>
       </div>
       <div className="mr-idea"><span>The idea to keep</span><p>{r.key_idea}</p></div>
-      <div className="mr-next"><span>Do this next Â· 10 minutes</span><p>{r.next_step}</p></div>
+      <div className="mr-next"><span>Do this next · 10 minutes</span><p>{r.next_step}</p></div>
       <footer className="mr-foot">
         {nextButton}
         {state.practiceHref ? <Link className={`mr-practice${next ? ' mr-practice--quiet' : ''}`} href={state.practiceHref}>Practise 5 on this chapter</Link> : null}
-        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair Â· no credit used' : state.charged ? `1 credit used${state.wallet ? ` Â· ${state.wallet.total} left` : ''}` : 'No credit used'}</span>
+        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair · no credit used' : state.charged ? `1 credit used${state.wallet ? ` · ${state.wallet.total} left` : ''}` : 'No credit used'}</span>
       </footer>
     </section>
   );
