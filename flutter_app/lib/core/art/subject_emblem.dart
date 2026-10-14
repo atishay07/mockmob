@@ -64,6 +64,8 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
   @override
   void didUpdateWidget(SubjectEmblem old) {
     super.didUpdateWidget(old);
+    // The setting may change in the same frame as the props; read it fresh.
+    _reduced = Motion.reduced(context);
     if (old.animate != widget.animate) _syncIdle();
     if (old.marked != widget.marked) {
       final target = widget.marked ? 1.0 : 0.0;

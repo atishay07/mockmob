@@ -5,10 +5,14 @@ import 'package:mockmob/core/art/emblem_painter.dart';
 import 'package:mockmob/core/motion/reduced_motion.dart';
 import 'package:mockmob/core/theme/theme.dart';
 
+// One ThemeData per brightness: a fresh (unequal) theme on every pump would start
+// MaterialApp's theme animation and hide whether the emblem itself is animating.
+final Map<Brightness, ThemeData> _themes = {};
+
 Future<void> _pump(WidgetTester tester, Widget child, {bool disableAnimations = false, Brightness brightness = Brightness.dark}) {
   return tester.pumpWidget(
     MaterialApp(
-      theme: buildTheme(brightness),
+      theme: _themes.putIfAbsent(brightness, () => buildTheme(brightness)),
       home: MediaQuery(
         data: MediaQueryData(disableAnimations: disableAnimations),
         child: Scaffold(body: Center(child: child)),

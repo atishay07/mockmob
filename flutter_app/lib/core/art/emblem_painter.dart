@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'emblem_palette.dart';
@@ -52,11 +53,15 @@ void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
   final shape = BorderRadius.circular(30).toRSuperellipse(rect);
   final shapePath = Path()..addRSuperellipse(shape);
 
-  // Body: a 168 degree two-stop light, darker at the foot.
+  // Body: a 168 degree two-stop light, darker at the foot. A Daylight glyph is printed a step
+  // deeper so its lit paper still separates from the tile at 24 dp.
+  final deepen = d == EmblemDetail.glyph && !p.isNight;
+  final body = deepen
+      ? [Color.lerp(p.field, p.mid, 0.10)!, Color.lerp(p.field, p.mid, 0.22)!, Color.lerp(p.field, p.mid, 0.34)!]
+      : [p.fieldTop, p.field, p.fieldBottom];
   canvas.drawPath(
     shapePath,
-    Paint()
-      ..shader = ui.Gradient.linear(const Offset(40, 0), const Offset(60, 100), [p.fieldTop, p.field, p.fieldBottom], const [0, 0.42, 1]),
+    Paint()..shader = ui.Gradient.linear(const Offset(40, 0), const Offset(60, 100), body, const [0, 0.42, 1]),
   );
   // The lamp's pool from the upper left.
   canvas.save();

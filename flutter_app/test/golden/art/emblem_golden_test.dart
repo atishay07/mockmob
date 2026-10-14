@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart';
+import 'package:mockmob/core/art/emblem_painter.dart';
+import 'package:mockmob/core/art/emblem_palette.dart';
+import 'package:mockmob/core/art/emblem_subjects.dart';
 import 'package:mockmob/core/theme/theme.dart';
 
 import '../../helpers/fonts.dart';
@@ -180,8 +183,64 @@ Widget _states() {
   });
 }
 
+/// One subject's emblem frozen at idle phase [t] (what the 7.2 s idle cycle shows at that moment).
+class _Frame extends StatelessWidget {
+  const _Frame(this.subject, this.t, {this.size = 72});
+
+  final String subject;
+  final double t;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final identity = SubjectIdentity.of(subject)!;
+    return CustomPaint(
+      size: Size.square(size),
+      painter: EmblemPainter(
+        subject: identity,
+        art: EmblemArt.forKind(identity.kind),
+        palette: EmblemPalette.of(identity, brightness),
+        brightness: brightness,
+        detail: EmblemDetail.forSize(size),
+        framed: true,
+        idle: ValueNotifier<double>(t == 0 ? 1e-6 : t),
+        ink: ValueNotifier<double>(1),
+        inking: () => false,
+        phase: 0,
+      ),
+    );
+  }
+}
+
+Widget _idleFrames() {
+  return Builder(builder: (context) {
+    final t = context.mmType;
+    final c = context.mmColors;
+    const phases = [0.0, 0.18, 0.36, 0.54, 0.72];
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _Heading('Idle cycle, five moments of 7.2 s'),
+          for (final id in const ['physics', 'chemistry', 'geography', 'psychology', 'sociology', 'computer_science']) ...[
+            Text(SubjectIdentity.of(id)!.name, style: t.caption.copyWith(color: c.ink3, fontSize: 11)),
+            const SizedBox(height: 4),
+            Row(children: [
+              for (final p in phases) ...[_Frame(id, p, size: 60), const SizedBox(width: 10)],
+            ]),
+            const SizedBox(height: 10),
+          ],
+        ],
+      ),
+    );
+  });
+}
+
 void main() {
   setUpAll(loadAppFonts);
-  _artGolden('emblem_gallery', _gallery, size: const Size(384, 1180));
+  _artGolden('emblem_gallery', _gallery, size: const Size(400, 1480));
+  _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 620));
   _artGolden('emblem_states', _states, size: const Size(384, 640));
 }

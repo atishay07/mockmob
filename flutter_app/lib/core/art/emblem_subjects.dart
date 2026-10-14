@@ -399,8 +399,8 @@ class _GeneralTest extends EmblemArt {
 class _Mathematics extends EmblemArt {
   const _Mathematics();
 
-  static const _c = Offset(40, 70);
-  static const _r = 28.0;
+  static const _c = Offset(41, 68);
+  static const _r = 30.0;
 
   @override
   void object(Sketch s) {
@@ -408,16 +408,16 @@ class _Mathematics extends EmblemArt {
     // Set square behind on the right.
     final square = Path.combine(
       PathOperation.difference,
-      Path()..addPolygon(const [Offset(52, 77), Offset(84, 77), Offset(84, 33)], true),
-      Path()..addPolygon(const [Offset(65, 72), Offset(79.5, 72), Offset(79.5, 52)], true),
+      Path()..addPolygon(const [Offset(53, 76), Offset(86, 76), Offset(86, 24)], true),
+      Path()..addPolygon(const [Offset(67, 71), Offset(81.5, 71), Offset(81.5, 47)], true),
     );
     s.fill(square.shift(const Offset(1.4, 2)), p.deep);
-    s.folded(square, Path()..addPolygon(const [Offset(52, 77), Offset(84, 33), Offset(100, 33), Offset(100, 100), Offset(52, 100)], true), p.mid,
+    s.folded(square, Path()..addPolygon(const [Offset(53, 76), Offset(86, 24), Offset(100, 24), Offset(100, 100), Offset(53, 100)], true), p.mid,
         p.midShade);
     if (s.fine) {
-      for (var i = 0; i < 6; i++) {
+      for (var i = 0; i < 8; i++) {
         final y = 72.0 - i * 6;
-        s.line(Offset(84, y), Offset(i.isEven ? 80.5 : 82, y), p.deep, 1);
+        s.line(Offset(86, y), Offset(i.isEven ? 82.5 : 84, y), p.deep, 1);
       }
     }
 
@@ -615,7 +615,7 @@ class _Biology extends EmblemArt {
       3.4,
     );
     s.fill(whole.shift(const Offset(1.2, 2.2)), p.deep.withValues(alpha: p.isNight ? 1 : 0.4));
-    s.fill(upper, Color.lerp(p.lit, p.mid, p.isNight ? 0.30 : 0.22)!);
+    s.fill(upper, Color.lerp(p.lit, p.mid, p.isNight ? 0.30 : 0.42)!);
     s.fill(lower, Color.lerp(p.mid, p.midShade, 0.35)!);
     if (s.fine) {
       final rib = (Path()
