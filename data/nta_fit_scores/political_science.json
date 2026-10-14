@@ -13919,6 +13919,132 @@
     }
    }
   },
+  "7ed82615-4905-4767-a7e8-b4104ea206fd": {
+   "question_id": "7ed82615-4905-4767-a7e8-b4104ea206fd",
+   "batch": "authored-2026-10-14__political_science__glob",
+   "db_chapter": "Globalisation",
+   "content_hash": "d39543d996cc7ab07be913559a6f72a5f85073a2fc2a69c6a99873cd32f479c6",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 48,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "The 1991 balance-of-payments crisis as the trigger is a standard NCERT and CBT staple; the WTO option is anachronistic but harmless.",
+     "scored_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "1991 BoP crisis as the trigger, a core Indian-economy recall. Options B and C are implausible, so discrimination is 1.",
+     "scored_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "1991 balance of payments crisis as trigger for reform. Core recall. Key is the longest option and B and C are implausible, so discrimination 1.",
+     "scored_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Contemporary World Politics",
+   "unit_votes": null,
+   "chapter": "Globalisation",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10,
+    9,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-10-14-w2",
+    "wave": 2,
+    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A (balance of payments crisis) is correct. Distractor B (WTO expelling India in 1991) was absurd because the WTO did not exist until 1995, so it was replaced with a plausible but false RBI decision on foreign banks. Distractor C was reworded to a false 1991 nationalisation by the Government of India (the real nationalisations were 1969 and 1980) and the explanation was updated to match. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    },
+    "judged_text": "pre_repair",
+    "judged_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9",
+    "final_content_hash": "d39543d996cc7ab07be913559a6f72a5f85073a2fc2a69c6a99873cd32f479c6",
+    "hash_changed_by_repair": true,
+    "repaired_fields": [
+     "options",
+     "explanation"
+    ],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+     ],
+     "on": "as_authored"
+    },
+    "blind_resolve_on_final_text": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    },
+    "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-haiku-5-5",
+     "fit": "claude-haiku-5-5",
+     "solver": "claude-haiku-5-5"
+    }
+   }
+  },
   "8eedfa08-6c44-41d8-9c93-794135a8aa52": {
    "question_id": "8eedfa08-6c44-41d8-9c93-794135a8aa52",
    "batch": "authored-2026-10-14__political_science__glob",
@@ -14362,6 +14488,131 @@
      "solver": "claude-haiku-5-5"
     }
    }
+  },
+  "ee4e7379-b61d-481c-95b8-bbc665cc9bf9": {
+   "question_id": "ee4e7379-b61d-481c-95b8-bbc665cc9bf9",
+   "batch": "authored-2026-10-14__political_science__glob",
+   "db_chapter": "Globalisation",
+   "content_hash": "f36a059d4a1000d3c5ceeb80a5e8c2393aac296f922c6a7bd549a557b8cd0450",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 42,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core NCERT definition of globalisation, a standard CBT staple at Class 12 level; distractors are the usual autarky and bloc confusions.",
+     "scored_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 43,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core definition of globalisation, a standard CBT recall item. Distractors cover autarky, blocs and bipolarity.",
+     "scored_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 42,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Central definition of globalisation, the chapter's key idea. Distractors (autarky, blocs, bipolarity) are plausible. Route key_aspect.",
+     "scored_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Contemporary World Politics",
+   "unit_votes": null,
+   "chapter": "Globalisation",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": "cbt_staple",
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-10-14-w2",
+    "wave": 2,
+    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A is the correct definition of globalisation and the other options are clearly wrong. The option lengths were uneven (A about 105 characters against C about 82), which cues the key, so distractors B and D were lengthened to balance the set. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    },
+    "judged_text": "pre_repair",
+    "judged_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317",
+    "final_content_hash": "f36a059d4a1000d3c5ceeb80a5e8c2393aac296f922c6a7bd549a557b8cd0450",
+    "hash_changed_by_repair": true,
+    "repaired_fields": [
+     "options"
+    ],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+     ],
+     "on": "as_authored"
+    },
+    "blind_resolve_on_final_text": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    },
+    "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-haiku-5-5",
+     "fit": "claude-haiku-5-5",
+     "solver": "claude-haiku-5-5"
+    }
+   }
   }
  },
  "authored": {
@@ -14381,13 +14632,13 @@
   "claude-authored-2026-10-14-w2": {
    "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (built by scripts/authored-w2-accept.mjs --mode=final). The measures block above describes the base merge only.",
    "merged_at": "2026-10-14T12:10:00.000Z",
-   "questions": 7,
+   "questions": 9,
    "judge_model": "claude-haiku-5-5",
    "judge_date": "2026-10-14",
    "repaired_text_policy": "admit",
    "held_for_fresh_judge_pass": 0,
-   "fit_pass_at_8": 7,
-   "fit_pass_at_9": 2,
+   "fit_pass_at_8": 9,
+   "fit_pass_at_9": 4,
    "tens_capped_without_agreed_route": 0,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
   }

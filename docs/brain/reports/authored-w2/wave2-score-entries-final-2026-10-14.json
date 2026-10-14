@@ -13,21 +13,21 @@
  "models_note": "The raw judge files do not record the model; claude-haiku-5-5 for every solver and judge was stated by the orchestrator (14 Oct 2026).",
  "note": "One record per final wave-2 question, in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --mode=final from the raw files (untracked scratch under tmp/authored-w2), the expert verdicts, the fresh pass on the reworded questions and the first-pass candidates. Tables are built from it by scripts/authored-scores-merge.mjs.",
  "candidates_file": "docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json",
- "candidates_sha256": "b07a44bc23e0ae53f0e1c2d668a880119702c71c0dd1e16cc76ca204c9cd23d3",
+ "candidates_sha256": "b0644cba44cd4de297c9ceeb562e757b92685fec60dab15870a4fed898071f4b",
  "fresh_passes": [
   "tmp/authored-w2/reword"
  ],
  "counts": {
-  "candidates": 386,
-  "entries": 386,
+  "candidates": 382,
+  "entries": 382,
   "problems": 0,
-  "repaired": 28,
-  "judgedTextDiffers": 27,
+  "repaired": 37,
+  "judgedTextDiffers": 36,
   "judgedOnFinalTextByFreshPass": 9,
   "rewordedAfterAcceptance": 9,
-  "blindResolveOnFinalText": 0,
-  "supplementaryReview": 22,
-  "spotChecked": 51
+  "blindResolveOnFinalText": 12,
+  "supplementaryReview": 17,
+  "spotChecked": 53
  },
  "entries": {
   "15342484-fa9f-4b7d-8caf-a7bb1d1ab98e": {
@@ -4163,6 +4163,258 @@
     }
    ]
   },
+  "234b88ee-c820-4a1a-ae2f-87ae4f382003": {
+   "subject": "biology",
+   "batch": "biology__b3",
+   "chapter": "Biotechnology & its Applications",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Correct key D was markedly longer and more detailed than the three distractors, which is a length cue. Repair: shortened D to 'The alkaline midgut dissolves the crystals and gut proteases cleave the protoxin' (same meaning, key unchanged). Protoxin activation in the alkaline midgut is the NCERT point.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "The acidic pH of the insect's stomach dissolves the crystals and activates the protoxin"
+      },
+      {
+       "key": "B",
+       "text": "The toxin is converted into its active form inside the bacterial cell before ingestion"
+      },
+      {
+       "key": "C",
+       "text": "Bacterial spores germinate in the insect gut and secrete the active toxin"
+      },
+      {
+       "key": "D",
+       "text": "The alkaline pH of the insect midgut solubilises the crystals, and gut proteases cleave the protoxin to an active toxin"
+      }
+     ]
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-midgut",
+     "flags": [],
+     "note": "Correct: alkaline midgut solubilises crystals and gut proteases activate the protoxin. Distractors are fair.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-insect-gut",
+     "flags": [],
+     "note": "Correct: alkaline midgut dissolves crystals and gut proteases activate the protoxin. Facts in explanation check out.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Bt protoxin activation is core. Options are long and wordy, and the key is the longest option, a cue. Format 2 caps at 8.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 52,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Bt protoxin activation is NCERT recall, but the options are long and the longest one is the key. Key D correct.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Bt protoxin activation is NCERT. Options run 14 to 20 words and the key is the longest option (a test-wise cue), so format 2, capped at 8.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ]
+  },
+  "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a": {
+   "subject": "biology",
+   "batch": "biology__b3",
+   "chapter": "Biotechnology & its Applications",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A was the longest option (19 words against 15 to 17). Repair: removed 'own' from A so its length is closer to the others. Key A (siRNA-mediated silencing of the nematode's own genes after dsRNA uptake) is unchanged and still uniquely correct.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "The nematode takes up the dsRNA, which is processed into small interfering RNAs that silence its own essential genes"
+      },
+      {
+       "key": "B",
+       "text": "The nematode ingests the dsRNA, which is translated into a toxic protein in its gut"
+      },
+      {
+       "key": "C",
+       "text": "The dsRNA binds to the plant DNA and blocks root formation so the nematode cannot enter"
+      },
+      {
+       "key": "D",
+       "text": "The dsRNA acts as an antibody that neutralises the digestive enzymes of the nematode"
+      }
+     ]
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.biotechnology-and-its-applications.rnai-nematode-resistance-mechanism",
+     "flags": [],
+     "note": "Key A is correct (RNAi, siRNA in nematode). Stem names dsRNA and the target gene, which signposts the mechanism; scored down one point.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.biotechnology-and-its-applications.rnai-based-nematode-resistance",
+     "flags": [],
+     "note": "Correct RNAi mechanism. Options C and D are absurd, so two weak distractors cap this at 7.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "RNAi against nematodes is an NCERT example. Options are long and wordy beyond CUET's short style. Format 2 caps at 8.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "RNAi in transgenic tobacco against nematode: joins plant transgenesis and RNAi mechanism, so level 2. Key A correct.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology & its Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "RNAi-based nematode resistance is NCERT-based; options run 14 to 19 words and the key is the longest, a cue, so format 2 and capped at 8.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ]
+  },
   "996138c8-cf93-4929-8e1e-701248bd2274": {
    "subject": "biology",
    "batch": "biology__b3",
@@ -4554,6 +4806,132 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Gause's Paramecium competitive exclusion is a standard NCERT example and a CBT staple; it cleanly tests the key idea of the chapter.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ]
+  },
+  "b4a09c0e-f636-4717-b187-b5aba191f03a": {
+   "subject": "biology",
+   "batch": "biology__b3",
+   "chapter": "Organisms & Populations",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key D was the longest option, and the 'lion and a deer' distractor was very short. Repair: C changed to 'A lion and the deer it hunts' and D shortened to 'A lichen fungus and the alga in its thallus'. Lichen remains the only mutualism pair and key D is unchanged.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "Cuscuta and the host plant on which it grows"
+      },
+      {
+       "key": "B",
+       "text": "An orchid growing on the branch of a mango tree"
+      },
+      {
+       "key": "C",
+       "text": "A lion and a deer"
+      },
+      {
+       "key": "D",
+       "text": "A lichen fungus and the alga living together in its thallus"
+      }
+     ]
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.organisms-and-populations.interspecific-interaction-types",
+     "flags": [],
+     "note": "Lichen is the only mutualism pair. Other options are parasitism, commensalism and predation, all standard NCERT examples.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.organisms-and-populations.mutualism-definition-and-examples",
+     "flags": [],
+     "note": "Correct: lichen is mutualistic. Other options are parasitism, commensalism and predation, so it is easy by elimination.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Organisms & Populations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 38,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Lichen mutualism is direct NCERT recall. Cuscuta and orchid are plausible distractors. No route, so 9. Key checked.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Organisms & Populations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 39,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Mutualism pair (lichen) is a central recall item. Lion and deer is an obvious predator-prey distractor, so discrimination is 1. Key D correct.",
+     "on_final_text": null,
+     "batch": "biology__b3"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Organisms & Populations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 39,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Mutualism pair recall from NCERT; the other pairs are plausible parasitism, commensalism and predation misconceptions. No route, so 9.",
      "on_final_text": null,
      "batch": "biology__b3"
     }
@@ -7258,6 +7636,121 @@
     }
    ]
   },
+  "cb5101b5-3bdd-4d79-8337-30667d59a867": {
+   "subject": "computer_science",
+   "batch": "computer_science__b1",
+   "chapter": "Exception and File Handling in Python",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A is correct: f(0) returns -1 after finally prints done, f(4) returns 2 after printing done, and the final print gives -1 2. The stem had no cue that commas separate output lines, which made the options ambiguous. Added that cue to the stem in tmp/authored-w2/computer_science/computer_science__b1.json; key unchanged.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "stem": "What is the output of the following code?\ndef f(n):\n    try:\n        return 10 // n\n    except ZeroDivisionError:\n        return -1\n    finally:\n        print('done')\n\nprint(f(0), f(4))"
+    },
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "computer_science.exception-and-file-handling-in-python.try-except-finally-execution-order",
+     "flags": [],
+     "note": "f(0) prints done before the return value is used, f(4) prints done too, then -1 2. Distractors B, C and D each break one step of that order.",
+     "on_final_text": null,
+     "batch": "computer_science__b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "computer_science.exception-and-file-handling-in-python.finally-runs-on-every-return",
+     "flags": [],
+     "note": "Trace checked: done during f(0), done during f(4), then -1 2. Options write line breaks as commas, which reads awkwardly; not blocking.",
+     "on_final_text": null,
+     "batch": "computer_science__b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Nested try, except and finally with a return and two calls: combines several ideas, so level 2 and capped at 8. Key A checks out.",
+     "on_final_text": null,
+     "batch": "computer_science__b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "try, except and finally trace across two calls on a nine-line function: several linked steps, 92 s, so level 2 and time 2.",
+     "on_final_text": null,
+     "batch": "computer_science__b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "try, except and finally call order with a function called twice: several ideas combined. Comma-joined output options are awkward to read. Capped at 8.",
+     "on_final_text": null,
+     "batch": "computer_science__b1"
+    }
+   ]
+  },
   "eb996150-b37e-4a8c-8926-1206d7b0964b": {
    "subject": "computer_science",
    "batch": "computer_science__b2",
@@ -8144,6 +8637,115 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Four-operation stack trace with pop and index. Tracing this many operations sits at the edge of CBT, so level 2 and capped at 8. Key A checked.",
+     "on_final_text": null,
+     "batch": "computer_science__b2"
+    }
+   ]
+  },
+  "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0": {
+   "subject": "computer_science",
+   "batch": "computer_science__b2",
+   "chapter": "Stack",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key pop() is the only top-removing operation, but option B is del s[0], a statement rather than a list method, so the stem cue was inaccurate.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "stem": "In Python, a stack is commonly implemented using a list in which the end of the list is the top of the stack. Which list method removes the top element of such a stack?"
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "computer_science.stack.pop-removes-top-element",
+     "flags": [],
+     "note": "Correct: pop() removes the last element, the top. pop(0) and del s[0] are fair bottom-removal traps. Stem states the list-as-stack convention, which narrows only slightly.",
+     "on_final_text": null,
+     "batch": "computer_science__b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "computer_science.stack.pop-without-index-removes-top",
+     "flags": [],
+     "note": "pop() without an index removes the top, so key C verified. pop(0) and del s[0] are real bottom-removal confusions.",
+     "on_final_text": null,
+     "batch": "computer_science__b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "pop() removes the top of a list stack. pop(0) and del s[0] are real misconceptions. Cleanly tests one key aspect of Stack.",
+     "on_final_text": null,
+     "batch": "computer_science__b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 38,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "pop() as top-of-stack recall, a core stack fact. Options del s[0] and reverse() are weak distractors.",
+     "on_final_text": null,
+     "batch": "computer_science__b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 38,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "pop() as stack-top removal is a textbook CBT staple; pop(0) and del are queue-style distractors. Route cbt_staple lifts to 10. Key C checked.",
      "on_final_text": null,
      "batch": "computer_science__b2"
     }
@@ -13441,6 +14043,133 @@
     }
    ]
   },
+  "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d": {
+   "subject": "english",
+   "batch": "english__v1",
+   "chapter": "Correct Word Usage",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key 'since' is correct for a starting point with the present perfect continuous. The distractor 'from' was arguably acceptable in ordinary speech, so it was replaced with 'by' (clearly wrong here) and the explanation was reworded. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "for"
+      },
+      {
+       "key": "B",
+       "text": "since"
+      },
+      {
+       "key": "C",
+       "text": "from"
+      },
+      {
+       "key": "D",
+       "text": "during"
+      }
+     ],
+     "explanation": "'Since' is used with a point in time such as 2015, and the present perfect continuous needs it here. 'For' is used with a duration, 'during' with a period of an event, and 'from' does not fit the present perfect continuous with a starting year."
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "english.correct-word-usage.since-vs-for-time",
+     "flags": [],
+     "note": "Since with a point in time against for with a duration. Standard NCERT-level preposition item, clean.",
+     "on_final_text": null,
+     "batch": "english__v1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "english.correct-word-usage.since-vs-for-time",
+     "flags": [],
+     "note": "Clean since-versus-for item; for is a real trap and the year fixes the choice.",
+     "on_final_text": null,
+     "batch": "english__v1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 33,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Preposition of time (since vs for), a routine rule. Same format family as 2024 q8. Stem wording differs, so format 2. Key matches.",
+     "on_final_text": null,
+     "batch": "english__v1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 32,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "since/for/during/from preposition of time, a standard CUET grammar blank. Instruction wording differs from the 2024 pattern: format 2, cap 8.",
+     "on_final_text": null,
+     "batch": "english__v1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 33,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Since/for/from/during for a year point. Stem adds 'Choose the correct option' clause; 'for' is a classic trap. Format 2 caps at 8.",
+     "on_final_text": null,
+     "batch": "english__v1"
+    }
+   ]
+  },
   "19453319-eb6d-49c8-b282-86d1e025724b": {
    "subject": "english",
    "batch": "english__v1",
@@ -15648,109 +16377,6 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Standard one-word substitution with a real near-miss (agnostic). Stem 'Choose the one-word substitute for' is not an exemplar style, so capped at 8.",
-     "on_final_text": null,
-     "batch": "english__v2"
-    }
-   ]
-  },
-  "06298513-8dfe-4653-9454-4dbaac8ed520": {
-   "subject": "english",
-   "batch": "english__v2",
-   "chapter": "Correct Word Usage",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Key B: a starting point in time (2015) takes since with the present perfect continuous; for needs a length of time, from and during do not fit. Unique. Easy.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null,
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "B",
-     "B",
-     "B",
-     "B",
-     "B"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "english.correct-word-usage.since-with-point-in-time",
-     "flags": [],
-     "note": "Key B 'since' with a starting point in time and present perfect continuous is correct. 'For' is a good trap; 'during' is weak.",
-     "on_final_text": null,
-     "batch": "english__v2"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "english.correct-word-usage.since-vs-for-time-expressions",
-     "flags": [],
-     "note": "Key B since is correct for a starting point with present perfect continuous. 'during' is a weak distractor.",
-     "on_final_text": null,
-     "batch": "english__v2"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 32,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Preposition fill-in with 'since' and a present perfect continuous clause. Format is real. 'From' is a plausible trap.",
-     "on_final_text": null,
-     "batch": "english__v2"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 33,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Since versus for with a present perfect continuous, standard preposition blank. Key B is correct. Stem wording differs from the exemplar stem.",
-     "on_final_text": null,
-     "batch": "english__v2"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 33,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "since versus for with the present perfect is a standard CUET preposition item. Stem style differs from exemplars E5/E6, so capped at 8.",
      "on_final_text": null,
      "batch": "english__v2"
     }
@@ -26181,105 +26807,6 @@
     }
    ]
   },
-  "4e27ea47-76be-4af9-b5dd-77b000253b42": {
-   "subject": "geography",
-   "batch": "geography__b1",
-   "chapter": "Population — Distribution, Density, Growth",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Stage II is the high birth, falling death, rapid growth stage of the DTM. Stage I and III and IV descriptions in the explanation are accurate.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "C",
-     "C",
-     "C",
-     "C",
-     "C"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.population-distribution-density-growth.demographic-transition-model-stages",
-     "flags": [],
-     "note": "Direct recall of DTM Stage II features; stages distractors are sound.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.population-distribution-density-growth.demographic-transition-high-growth-stage",
-     "flags": [],
-     "note": "Key C correct. Clean recall of the DTM stage with high birth and falling death rates.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Population — Distribution, Density, Growth",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 37,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Stage II definition of the Demographic Transition Model is a recurring NCERT and CBT staple. Stages I, III and IV are real confusers.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Population — Distribution, Density, Growth",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 35,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Demographic Transition Model stage II recall, a yearly CBT staple; Stage III is the plausible confusion. Route cbt_staple.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Population — Distribution, Density, Growth",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 35,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Demographic transition stage recall, a standard CBT item. Stage I and III are the plausible traps.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ]
-  },
   "f92f3699-2f61-4c22-a11e-cf947bc020c9": {
    "subject": "geography",
    "batch": "geography__b1",
@@ -26479,204 +27006,6 @@
      "fit_score": 10,
      "fit_flags": [],
      "note": "Push vs pull factor recall, a standard CBT staple. Three distractors are pull factors, so the trap is real.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ]
-  },
-  "8b40da05-e62e-4112-b9e3-9320246384ca": {
-   "subject": "geography",
-   "batch": "geography__b1",
-   "chapter": "Human Development",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "HDI has three components: life expectancy, education and income (GNI per capita at PPP). Infant mortality is not a component. Key D is correct and unique.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "D",
-     "D",
-     "D",
-     "D",
-     "D"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.human-development.hdi-components",
-     "flags": [],
-     "note": "Clear NOT-item; the three HDI dimensions are each represented among the distractors.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 9,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.human-development.hdi-components",
-     "flags": [],
-     "note": "Key D correct. Three true HDI components as distractors make a good NOT-form item.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Human Development",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 36,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "HDI components in a NOT stem is a recurring CBT staple. Infant mortality is the plausible trap among health and education measures.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Human Development",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 35,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "HDI components with a NOT twist; recurring CBT staple. Infant mortality is the plausible trap. Route cbt_staple.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "Human Development",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 35,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "NOT-component item on the HDI, a standard CBT staple. Infant mortality is a plausible trap.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ]
-  },
-  "a1a985d8-c58d-4586-8e62-91999fa88b46": {
-   "subject": "geography",
-   "batch": "geography__b1",
-   "chapter": "India — People & Economy",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "2011 Census literacy: Kerala 93.91, Mizoram 91.58, Himachal Pradesh 83.78, Bihar 61.80. Order (C), (D), (A), (B) is correct, and each distractor is a plausible wrong order. Options are balanced in length.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "D",
-     "D",
-     "D",
-     "D",
-     "D"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 7,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "hard",
-     "objective_tag": "geography.india-people-and-economy.state-literacy-ranking-census-2011",
-     "flags": [],
-     "note": "Key correct per Census 2011 (Kerala 93.91, Mizoram 91.58, HP 83.78, Bihar 61.80). Depends on exact state-level recall beyond a typical NCERT line.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.india-people-and-economy.state-literacy-ranking-order",
-     "flags": [],
-     "note": "Key D correct: Kerala 93.91, Mizoram 91.58, Himachal Pradesh 83.78, Bihar 61.80. Label hard; judged medium.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 79,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Ranking of four states by 2011 literacy needs four memorised figures. Supporting detail at level 2, capped at 8.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 75,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Ranking of four states by 2011 literacy. Ranking format fits the paper, but four recalled figures make it harder than most exemplars. Max 8.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "People",
-     "chapter": "India — People & Economy",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 57,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "State literacy ranking, a ranking-type sequence the paper uses; four recalled figures with close options.",
      "on_final_text": null,
      "batch": "geography__b1"
     }
@@ -26886,105 +27215,6 @@
     }
    ]
   },
-  "ff6a9f3a-7ddd-4738-a651-24069d405c10": {
-   "subject": "geography",
-   "batch": "geography__b1",
-   "chapter": "Secondary Activities",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Soft drink bottling adds water, a ubiquitous input, so it is weight-gaining. Iron ore smelting and sugar refining are weight-losing; electronic goods assembly is footloose. Key C is unique.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "C",
-     "C",
-     "C",
-     "C",
-     "C"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.secondary-activities.weight-gaining-industries",
-     "flags": [],
-     "note": "Soft drink bottling is weight-gaining (water added); the three distractors are weight-losing or footloose, a useful mix.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.secondary-activities.weight-gaining-industry-identification",
-     "flags": [],
-     "note": "Key C correct: soft drink bottling adds water, so it gains weight. Distractors are weight-losing or footloose industries.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Secondary Activities",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 34,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Weight-gaining versus weight-losing industries is an NCERT classification staple. Sugar refining and electronics assembly are real confusers.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Secondary Activities",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 32,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Weight-gaining industry from NCERT Ch 6; distractors are weight-losing and footloose types. Clean recall. No route.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Secondary Activities",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 32,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Weight-gaining industry recall, core Secondary Activities classification; sugar refining is a plausible trap.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ]
-  },
   "e614bf7c-e905-495a-860c-5e445124e0d0": {
    "subject": "geography",
    "batch": "geography__b1",
@@ -27178,111 +27408,6 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "Quaternary activities recall; retail and road transport are tertiary traps, coal mining is primary.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ]
-  },
-  "f5ceaadd-0e02-4556-978e-5690c51b638b": {
-   "subject": "geography",
-   "batch": "geography__b1",
-   "chapter": "Tertiary & Quaternary Activities",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Decreasing direct dependence on natural resources follows the standard sequence primary, secondary, tertiary, quaternary, giving (B), (D), (A), (C). Key D is the only option in that order. Stem is clear enough for the sequence.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null,
-    "spot_check": {
-     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
-     "verdict": "NTA-ready",
-     "expert_verdict_then": "ready",
-     "answer_matched_key": true
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "D",
-     "D",
-     "D",
-     "D",
-     "D"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 7,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.tertiary-and-quaternary-activities.sectors-by-natural-resource-dependence",
-     "flags": [],
-     "note": "Key (B),(D),(A),(C) is the standard ordering, but NCERT does not state it as a ranking; the stem's direct-dependence wording is a teaching convention. Label hard is one notch high.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.tertiary-and-quaternary-activities.resource-dependence-order-across-sectors",
-     "flags": [],
-     "note": "Key D correct: Primary, Secondary, Tertiary, Quaternary. Label hard; ordering is one concept, judged medium.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Tertiary & Quaternary Activities",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 79,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Order by direct dependence on resources: tertiary versus secondary is arguable and the stem is contestable. Level 2, capped at 8.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Tertiary & Quaternary Activities",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 59,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Ordering by direct dependence on resources is an interpretive criterion, not a stated NCERT rule. Answer is defensible but wordier than CUET sequences. Max 8.",
-     "on_final_text": null,
-     "batch": "geography__b1"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Human Activities",
-     "chapter": "Tertiary & Quaternary Activities",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 59,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Ordering by resource dependence is a cross-sector inference, not a textbook sequence; the key is defensible. Level 2.",
      "on_final_text": null,
      "batch": "geography__b1"
     }
@@ -28686,105 +28811,6 @@
     }
    ]
   },
-  "47f514b2-0bd9-4024-a9fb-f1b84d8e74ea": {
-   "subject": "geography",
-   "batch": "geography__b2",
-   "chapter": "Transport & Communication",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Submarine cables lie on the ocean floor (II), satellite relays from geostationary orbit (III), optical fibre carries light pulses (I), and the telegraph uses dots and dashes (IV). Key D is the only full match.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "D",
-     "D",
-     "D",
-     "D",
-     "D"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 9,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.communication-technologies-matching",
-     "flags": [],
-     "note": "All four pairings verified (A-II, B-III, C-I, D-IV). Clean list with each distractor a single swap.",
-     "on_final_text": null,
-     "batch": "geography__b2"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 9,
-     "blind_answer": "D",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.communication-technology-matching",
-     "flags": [],
-     "note": "Clean four-pair match with correct key (A-II, B-III, C-I, D-IV). Plausible permutation distractors; label hard is one level high.",
-     "on_final_text": null,
-     "batch": "geography__b2"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 71,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Communication technology match with long List-II entries (format 2). Key D checked correct; capped at 8.",
-     "on_final_text": null,
-     "batch": "geography__b2"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": "key_aspect",
-     "est_seconds": 71,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Four communication technologies matched to descriptions: a clean test of one key aspect. Key checked.",
-     "on_final_text": null,
-     "batch": "geography__b2"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 71,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Communication-media match is in the syllabus, but List-II entries are sentence-long rather than CUET-short. Format 2 caps at 8.",
-     "on_final_text": null,
-     "batch": "geography__b2"
-    }
-   ]
-  },
   "e4fff894-037f-4700-934f-07d0f1fea52a": {
    "subject": "geography",
    "batch": "geography__b2",
@@ -29189,111 +29215,6 @@
     }
    ]
   },
-  "75dc1722-2c50-4a6c-b862-813621007361": {
-   "subject": "geography",
-   "batch": "geography__b3",
-   "chapter": "Transport & Communication",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "repaired",
-    "expert_issue": "Key A (railways) is the NCERT answer for heavy bulk cargo overland. The explanation said pipelines carry liquids and gases, not solid ore, which overstates it (NCERT also mentions slurry); explanation changed, stem, options and key unchanged.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": {
-     "explanation": "Railways are the cheapest overland mode for heavy bulk cargo over long distances, and a landlocked country has no water route. Airways are costly per tonne, roadways suit shorter flexible trips, and pipelines carry liquids and gases, not solid ore."
-    },
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "A",
-     "A",
-     "A",
-     "A",
-     "A"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "A",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.bulk-cargo-mode-choice",
-     "flags": [],
-     "note": "Sound mode choice for bulk overland cargo. Pipelines are ruled out because ore is solid. Fair medium item.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "A",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.railways-for-bulk-cargo",
-     "flags": [],
-     "note": "Applies bulk and long-distance cost reasoning to a short case. Pipelines is a throwaway. Stem signposts with 'lowest cost'.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 58,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Sound mode-choice idea (bulk cargo, long distance) but the stem is about 45 words for one idea; real items are shorter.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 35,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Bulk ore by rail over 1,500 km: a sound mode-choice idea, but the landlocked scenario and cost clause are wordier than CUET stems.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 53,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Bulk freight mode choice by cost: core application. Roadways is a plausible distractor. Level 3, time 3.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ]
-  },
   "df6bc8d7-5108-4469-b832-52df9a5fb6d5": {
    "subject": "geography",
    "batch": "geography__b3",
@@ -29600,212 +29521,6 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Two statements are plainly false, so the options are easy to eliminate. Key A checked.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ]
-  },
-  "819e826f-4bb2-4dcf-b3f2-f02f85a761ac": {
-   "subject": "geography",
-   "batch": "geography__b3",
-   "chapter": "Transport & Communication",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Rhine (II), Panama (I), Trans-Siberian (III), NH 44 (IV): key B. Each pair is an NCERT statement. Unique.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null,
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "B",
-     "B",
-     "B",
-     "B",
-     "B"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.match-waterways-canals-railways-roads",
-     "flags": [],
-     "note": "All four pairings check: Rhine II, Panama I, Trans-Siberian III, NH44 IV. Key B matches.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 9,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.landmark-routes-matching",
-     "flags": [],
-     "note": "All four pairs verified (Rhine-II, Panama-I, Trans-Siberian-III, NH44-IV). Only option B fits. Clean match list.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 84,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Four named features (Rhine, Panama, Trans-Siberian, NH44) matched to short descriptions; each entry is one recall step. Key B checks out.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 64,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Four-entry match of named transport examples, each pair a standard NCERT example. Key B checks out.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 76,
-     "fit_score": 6,
-     "fit_flags": [],
-     "note": "Name-based match of rivers, canals, rail and highway; peripheral names cap it at 6. Key B checked.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ]
-  },
-  "af69a573-bbd4-4fb1-9c09-33acedec4003": {
-   "subject": "geography",
-   "batch": "geography__b3",
-   "chapter": "International Trade",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "180 - 215 = -35: deficit of US$ 35 billion, key B. The stem fixes the figures as visible goods, so the goods-versus-services wording question does not arise. Unique.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null,
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "B",
-     "B",
-     "B",
-     "B",
-     "B"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 9,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.international-trade.balance-of-trade-sign",
-     "flags": [],
-     "note": "One-step: 180 minus 215 is a deficit of 35. Distractors come from a sign slip (A) and a sum (C, D).",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 9,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "geography.international-trade.balance-of-trade-calculation",
-     "flags": [],
-     "note": "180 minus 215 gives a deficit of 35. Distractors are a sign slip (surplus 35) and a sum (395). Clean one-step numerical.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "International Trade",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 59,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "CBT staple: balance of trade as exports minus imports, with a deficit answer. Unit corrected to Transport, Communication and Trade per blueprint.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "International Trade",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 59,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Balance of trade as exports minus imports with a sign trap. Clean and central; a numerical, so no route claimed. Key checks out.",
-     "on_final_text": null,
-     "batch": "geography__b3"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "International Trade",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 59,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Balance of trade is a core concept: one subtraction with sign. Key B checked (180 - 215 = deficit 35).",
      "on_final_text": null,
      "batch": "geography__b3"
     }
@@ -30425,107 +30140,6 @@
     }
    ]
   },
-  "86fa69db-a3ae-4c63-bf05-296eb028c420": {
-   "subject": "geography",
-   "batch": "geography__b4",
-   "chapter": "Resources & Development",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "repaired",
-    "expert_issue": "Matching is correct (A-II, B-III, C-IV, D-I) and the other options are wrong; the label was hard but both judges rated it medium.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": {
-     "difficulty_label": "hard"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "C",
-     "C",
-     "C",
-     "C",
-     "C"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.resources-and-development.indian-soil-types-matching",
-     "flags": [],
-     "note": "Clean four-pair soil match (A-II, B-III, C-IV, D-I); all pairings are defined in the stem. Labelled hard; medium fits better.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.resources-and-development.soil-types-matching",
-     "flags": [],
-     "note": "Four-way soil match; key C checks out (A-II, B-III, C-IV, D-I). Clean wording, usable for NTA mode.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 99,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Four long soil descriptions to match, each needing working out; wordier than real soil match items, so time 2 and level 2.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 92,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Soil types match with long List-II descriptions, wordier than CUET match items; 92 s is time level 2, capped at 8.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "match_the_following",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 80,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Soil types matched to features; List-II entries are long and wordier than real CUET match items, so format 2.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ]
-  },
   "5abfe535-4bcd-4f97-a362-f478075ecd10": {
    "subject": "geography",
    "batch": "geography__b4",
@@ -30620,105 +30234,6 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "Four trade-term statements in standard form; central to the international trade chapter. No route claimed, so 9.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ]
-  },
-  "0457ce26-b351-4e93-ad4d-61fbf40dc66c": {
-   "subject": "geography",
-   "batch": "geography__b4",
-   "chapter": "Planning & Sustainable Development",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Chronology 1950 (B), 1951 (D), 1956 (C), 2015 (A) is correct and only option C matches it.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "C",
-     "C",
-     "C",
-     "C",
-     "C"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.planning-and-sustainable-development.indian-planning-milestones-chronology",
-     "flags": [],
-     "note": "Order 1950, 1951, 1956, 2015 gives B, D, C, A, matching the key. Distractors reverse the early events, which are plausible slips.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.planning-and-sustainable-development.chronology-of-planning-milestones",
-     "flags": [],
-     "note": "Order B, D, C, A (1950, 1951, 1956, 2015) matches key C. Stem lists events unordered, so no broken_layout.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Planning & Sustainable Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 65,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Chronology of planning milestones (1950, 1951, 1956, 2015); the kind of ordering real papers ask. Supporting detail, no route.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Planning & Sustainable Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 68,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Planning institutions and Five Year Plans chronology: clean sequence format, but a supporting history point, not the central idea.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "sequence_ordering",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Planning & Sustainable Development",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 67,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Planning-milestone chronology is a CBT staple CUET repeats; four dated events, recall only. Route cbt_staple.",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31027,53 +30542,80 @@
     }
    ]
   },
-  "f3b33c2c-c926-45bf-bcfa-11697113066c": {
+  "51db2fdf-48fb-4653-9369-e8b891a12f18": {
    "subject": "geography",
    "batch": "geography__b4",
-   "chapter": "Transport & Communication",
+   "chapter": "Geographical Perspective on Selected Issues and Problems",
    "set_id": null,
    "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Panama (II), Suez (III), Kiel (I) and Malacca (IV) are correctly matched; key D is the only option set that matches.",
+    "expert_verdict": "repaired",
+    "expert_issue": "CFCs are the correct ozone-depleting group. The key was the longest option (26 chars) against 7 to 15 chars for the other options, which is a length cue. Rewrote the other options to 25-33 chars.",
     "expert_reviewed_text": "final",
     "judged": "as_authored",
-    "pre_repair": null
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "Carbon dioxide"
+      },
+      {
+       "key": "B",
+       "text": "Chlorofluorocarbons (CFCs)"
+      },
+      {
+       "key": "C",
+       "text": "Methane"
+      },
+      {
+       "key": "D",
+       "text": "Sulphur dioxide"
+      }
+     ]
+    }
    },
    "blind_solvers": {
     "n": 5,
     "matched_key": 5,
     "answers": [
-     "D",
-     "D",
-     "D",
-     "D",
-     "D"
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
     ],
-    "on": "final"
+    "on": "as_authored"
    },
-   "blind_resolve_on_final_text": null,
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "B",
+     "B",
+     "B"
+    ]
+   },
    "quality": [
     {
      "judge": "j1",
      "quality_score": 8,
-     "blind_answer": "D",
+     "blind_answer": "B",
      "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.major-canals-and-straits-location",
+     "difficulty_check": "easy",
+     "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cfcs",
      "flags": [],
-     "note": "Panama (II), Suez (III), Kiel (I), Malacca (IV) gives option D, matching the key. Four standard pairings with reasonable reshuffled distractors.",
+     "note": "Correct NCERT recall (CFCs). Distractors CO2, methane and SO2 are real pollutants that do not deplete ozone, so they are fair.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
     {
      "judge": "j2",
-     "quality_score": 9,
-     "blind_answer": "D",
+     "quality_score": 7,
+     "blind_answer": "B",
      "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.transport-and-communication.major-canals-and-straits",
+     "difficulty_check": "easy",
+     "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cause",
      "flags": [],
-     "note": "Four-way canal match; key D (Panama-II, Suez-III, Kiel-I, Malacca-IV) is correct. Options vary well and the list is well built.",
+     "note": "Correct recall of CFCs. CO2, methane and SO2 are obviously off-topic distractors, so the item is trivial by elimination.",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31081,46 +30623,46 @@
    "fit": [
     {
      "judge": "h1",
-     "cuet_type": "match_the_following",
+     "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
+     "unit": "Geographical Perspective on Selected Issues and Problems",
+     "chapter": "Geographical Perspective on Selected Issues and Problems",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 76,
-     "fit_score": 9,
+     "ten_route": "cbt_staple",
+     "est_seconds": 35,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Four canal-to-link matches with short entries; standard waterway recall, supporting rather than core, so no route.",
+     "note": "CFCs as the cause of ozone depletion is a perennial CBT staple; carbon dioxide and methane are plausible greenhouse traps.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
     {
      "judge": "h2",
-     "cuet_type": "match_the_following",
+     "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
+     "unit": "Geographical Perspective on Selected Issues and Problems",
+     "chapter": "Geographical Perspective on Selected Issues and Problems",
      "pyq_closeness": 0,
      "ten_route": "cbt_staple",
-     "est_seconds": 68,
+     "est_seconds": 34,
      "fit_score": 10,
      "fit_flags": [],
-     "note": "Canal links (Panama, Suez, Kiel, Malacca) in standard match form; the options swap real pairs. Waterways staple.",
+     "note": "CFCs as the cause of ozone depletion: a central issue and a classic CBT staple; other options are real pollutants that are not the cause.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
     {
      "judge": "h3",
-     "cuet_type": "match_the_following",
+     "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Transport, Communication and Trade",
-     "chapter": "Transport & Communication",
+     "unit": "Geographical Perspective on Selected Issues and Problems",
+     "chapter": "Geographical Perspective on Selected Issues and Problems",
      "pyq_closeness": 0,
      "ten_route": "cbt_staple",
-     "est_seconds": 80,
+     "est_seconds": 37,
      "fit_score": 10,
      "fit_flags": [],
-     "note": "Canal-to-link matching (Panama, Suez, Kiel, Malacca) is a CBT staple; swaps between Panama and Suez are plausible. Route cbt_staple.",
+     "note": "CFC cause of ozone depletion is a CBT staple; distractors are the greenhouse and acid-rain gases. Route cbt_staple.",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31225,117 +30767,35 @@
     }
    ]
   },
-  "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63": {
+  "c2a88140-3a27-4266-8266-f57e7e1345e7": {
    "subject": "geography",
    "batch": "geography__b4",
-   "chapter": "Resources & Development",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "Statements A, B and D are true and C is false; key B is unique.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "B",
-     "B",
-     "B",
-     "B",
-     "B"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.resources-and-development.soil-conservation-methods",
-     "flags": [],
-     "note": "A, B and D are true; C is false because strip cropping reduces wind erosion. Key B is correct, and the statements are clean.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "B",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "geography.resources-and-development.soil-conservation-methods",
-     "flags": [],
-     "note": "Statements A, B and D are true and C is false (strip cropping reduces erosion); key B is right.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "statement_based",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 68,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Soil conservation method statements (contour, shelter belt, terraces, strip cropping); real CUET style and central to the chapter.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "statement_based",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 85,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Soil conservation statements: valid CUET format, but a supporting method idea; strip-cropping statement tests a near-miss.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "statement_based",
-     "passage_skill": null,
-     "unit": "Resources and Development",
-     "chapter": "Resources & Development",
-     "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 68,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Soil conservation statements, each judgeable from NCERT; standard CUET statement form. No route claimed, so 9.",
-     "on_final_text": null,
-     "batch": "geography__b4"
-    }
-   ]
-  },
-  "e4a0e47c-96a8-49ec-9a9c-e9c849e698b9": {
-   "subject": "geography",
-   "batch": "geography__b4",
-   "chapter": "Human Settlements",
+   "chapter": "Planning & Sustainable Development",
    "set_id": null,
    "text": {
     "expert_verdict": "repaired",
-    "expert_issue": "Urban sprawl is the correct term and the distractors are distinct; both judges rated it easy, not medium.",
+    "expert_issue": "Brundtland definition is correct, but key B was the only long option (109 chars against 63 to 67 for the others), which is a length cue.",
     "expert_reviewed_text": "final",
     "judged": "as_authored",
     "pre_repair": {
-     "difficulty_label": "medium"
+     "options": [
+      {
+       "key": "A",
+       "text": "maximises the rate of industrial growth in developing countries"
+      },
+      {
+       "key": "B",
+       "text": "meets the needs of the present without compromising the ability of future generations to meet their own needs"
+      },
+      {
+       "key": "C",
+       "text": "stops the use of all natural resources to protect the environment"
+      },
+      {
+       "key": "D",
+       "text": "gives market prices the sole role in allocating land and water"
+      }
+     ]
     }
    },
    "blind_solvers": {
@@ -31348,31 +30808,39 @@
      "B",
      "B"
     ],
-    "on": "final"
+    "on": "as_authored"
    },
-   "blind_resolve_on_final_text": null,
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "B",
+     "B",
+     "B"
+    ]
+   },
    "quality": [
     {
      "judge": "j1",
-     "quality_score": 8,
+     "quality_score": 7,
      "blind_answer": "B",
      "key_matches": true,
      "difficulty_check": "easy",
-     "objective_tag": "geography.human-settlements.urban-sprawl-definition",
+     "objective_tag": "geography.planning-and-sustainable-development.brundtland-definition",
      "flags": [],
-     "note": "Correct definition. Distractors are real urban terms (counter-urbanisation, urban hierarchy, urban renewal), each a fair wrong concept.",
+     "note": "Correct Brundtland definition. The only option resembling a definition is correct, so the item is easy by elimination; a 7 for that.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
     {
      "judge": "j2",
-     "quality_score": 8,
+     "quality_score": 7,
      "blind_answer": "B",
      "key_matches": true,
      "difficulty_check": "easy",
-     "objective_tag": "geography.human-settlements.urban-sprawl-definition",
+     "objective_tag": "geography.planning-and-sustainable-development.brundtland-definition-of-sustainable-development",
      "flags": [],
-     "note": "Correct term for unplanned low-density outward spread. Counter-urbanisation is a fair distractor; clean definitional item.",
+     "note": "Correct Brundtland definition. Options A, C and D are plainly wrong, so the item is trivial by elimination.",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31382,14 +30850,14 @@
      "judge": "h1",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 37,
-     "fit_score": 9,
+     "ten_route": "cbt_staple",
+     "est_seconds": 48,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Urban sprawl defined in one line; counter-urbanisation and urban renewal are fair traps for a settlement term.",
+     "note": "Brundtland definition of sustainable development is a standard board and CBT staple; the distractors are plausible.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
@@ -31397,14 +30865,14 @@
      "judge": "h2",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 33,
-     "fit_score": 8,
+     "ten_route": "cbt_staple",
+     "est_seconds": 45,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Urban sprawl definition: standard settlement term and a clean four-option set; supporting idea, so 8.",
+     "note": "Brundtland definition of sustainable development: central definition, direct recall, and a standard CBT staple.",
      "on_final_text": null,
      "batch": "geography__b4"
     },
@@ -31412,14 +30880,14 @@
      "judge": "h3",
      "cuet_type": "single_mcq",
      "passage_skill": null,
-     "unit": "Human Settlements",
-     "chapter": "Human Settlements",
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
      "pyq_closeness": 0,
-     "ten_route": null,
-     "est_seconds": 39,
-     "fit_score": 9,
+     "ten_route": "board",
+     "est_seconds": 50,
+     "fit_score": 10,
      "fit_flags": [],
-     "note": "Urban sprawl definition with standard settlement-term distractors (counter-urbanisation, urban renewal). Supporting term, no route.",
+     "note": "Brundtland definition is a standard NCERT-based item that boards repeat; industrial-growth and market options are plausible. Route board.",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31521,6 +30989,132 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Cropping-intensity numerical needs two steps (add, then divide); geography papers rarely ask calculations, so level 2 caps at 8.",
+     "on_final_text": null,
+     "batch": "geography__b4"
+    }
+   ]
+  },
+  "d437d53e-569f-4309-973e-b170d69d5f02": {
+   "subject": "geography",
+   "batch": "geography__b4",
+   "chapter": "Planning & Sustainable Development",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Agenda 21 definition is correct, but key D was far longer than the rest (86 chars against 39 to 51 for the others), which is a length cue.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "Abolition of all tariffs on world trade"
+      },
+      {
+       "key": "B",
+       "text": "Global control of the production of nuclear weapons"
+      },
+      {
+       "key": "C",
+       "text": "Transfer of rural population to cities"
+      },
+      {
+       "key": "D",
+       "text": "Sustainable development and environmental protection through national and local action"
+      }
+     ]
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.planning-and-sustainable-development.agenda-21-purpose",
+     "flags": [],
+     "note": "Correct purpose of Agenda 21. The other options are unrelated to it, so the item is easy by elimination; a 7 for trivial distractors.",
+     "on_final_text": null,
+     "batch": "geography__b4"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.planning-and-sustainable-development.agenda-21-purpose",
+     "flags": [],
+     "note": "Correct purpose of Agenda 21. Options A, B and C are off-subject, so the item is easy by elimination.",
+     "on_final_text": null,
+     "batch": "geography__b4"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 46,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Agenda 21 purpose; three options are obviously off-topic and the sustainable-development option is the only plausible one.",
+     "on_final_text": null,
+     "batch": "geography__b4"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 42,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Purpose of Agenda 21 from the Rio Summit: a supporting document idea with a clean four-option set.",
+     "on_final_text": null,
+     "batch": "geography__b4"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Planning & Sustainable Development",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Agenda 21 purpose is a supporting idea; three options are absurd, so the key falls out by elimination (discrimination 1).",
      "on_final_text": null,
      "batch": "geography__b4"
     }
@@ -31938,6 +31532,115 @@
      "fit_score": 9,
      "fit_flags": [],
      "note": "Triangle area by determinant, a two-step numerical; the missing half is the key slip. Standard item, but no route claimed, so 9.",
+     "on_final_text": null,
+     "batch": "mathematics__b1"
+    }
+   ]
+  },
+  "8e614805-3ebf-4171-896b-77e5df5bb96f": {
+   "subject": "mathematics",
+   "batch": "mathematics__b1",
+   "chapter": "Continuity & Differentiability",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A (3) is correct: lim sin(3x)/x = 3. The stem read 'sin 3x / x', which a student could parse as sin(3x / x); the stem now writes sin(3x) / x.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "stem": "Let f(x) = sin 3x / x for x ≠ 0, and f(0) = k. If f is continuous at x = 0, then the value of k is"
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.continuity-and-differentiability.continuity-by-standard-limit",
+     "flags": [],
+     "note": "Limit of sin 3x over x is 3, so k = 3. Distractor 1 is a good slip, but 0 and 1/3 are throwaway.",
+     "on_final_text": null,
+     "batch": "mathematics__b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.continuity-and-differentiability.limit-sin-x-over-x",
+     "flags": [],
+     "note": "Key 3 verified. Option C (0) is a throwaway; 1 and 1/3 are fair traps.",
+     "on_final_text": null,
+     "batch": "mathematics__b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 53,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Continuity at 0 via the sin(theta)/theta limit, a CBT staple asked year after year. Key A verified. cbt_staple route.",
+     "on_final_text": null,
+     "batch": "mathematics__b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 53,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Continuity via the sin 3x over x limit, a standard item. No route claimed. Options 1 and 1/3 are slips, 0 is weak.",
+     "on_final_text": null,
+     "batch": "mathematics__b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Continuity via the sin(3x)/x limit: standard NCERT-level recall in two steps. No route claimed, so 9.",
      "on_final_text": null,
      "batch": "mathematics__b1"
     }
@@ -33259,109 +32962,6 @@
      "note": "Symmetric part (A + A^T)/2 from NCERT section 3.6. Stem ends on 'rows' with no question, so format 2 and no 9. Distractors: transpose, skew part, missing division by 2.",
      "on_final_text": true,
      "batch": "rw-w2"
-    }
-   ]
-  },
-  "66c40b7a-966b-41d5-a141-8d286986967d": {
-   "subject": "mathematics",
-   "batch": "mathematics__b2",
-   "chapter": "Continuity & Differentiability",
-   "set_id": null,
-   "text": {
-    "expert_verdict": "ready",
-    "expert_issue": "lim sin 3x / x = 3, so k = 3, key C. The stem writes sin 3x / x without brackets (the expert pass bracketed the same notation in 8e614805); this is the NCERT form and the options 1, 9, 3, 1/3 leave no second reading, so it is left as authored.",
-    "expert_reviewed_text": "final",
-    "judged": "as_authored",
-    "pre_repair": null,
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    }
-   },
-   "blind_solvers": {
-    "n": 5,
-    "matched_key": 5,
-    "answers": [
-     "C",
-     "C",
-     "C",
-     "C",
-     "C"
-    ],
-    "on": "final"
-   },
-   "blind_resolve_on_final_text": null,
-   "quality": [
-    {
-     "judge": "j1",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "medium",
-     "objective_tag": "mathematics.continuity-and-differentiability.limit-sin-ax-over-x",
-     "flags": [],
-     "note": "Correct one-step limit; continuity needs k = 3. Distractor 1 comes from misapplying sin x/x. Distractor 9 is weak.",
-     "on_final_text": null,
-     "batch": "mathematics__b2"
-    },
-    {
-     "judge": "j2",
-     "quality_score": 8,
-     "blind_answer": "C",
-     "key_matches": true,
-     "difficulty_check": "easy",
-     "objective_tag": "mathematics.continuity-and-differentiability.continuity-at-point-via-limit",
-     "flags": [],
-     "note": "Key C correct (limit 3). One-step limit with distractors from sin x/x misapplication; label medium is a notch high.",
-     "on_final_text": null,
-     "batch": "mathematics__b2"
-    }
-   ],
-   "fit": [
-    {
-     "judge": "h1",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Section A1 (common)",
-     "chapter": "Continuity & Differentiability",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 54,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Continuity for k using the standard limit sin3x/x = 3. A staple one-step CBT item; option 1 is the sin x/x slip.",
-     "on_final_text": null,
-     "batch": "mathematics__b2"
-    },
-    {
-     "judge": "h2",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Section A1 (common)",
-     "chapter": "Continuity & Differentiability",
-     "pyq_closeness": 0,
-     "ten_route": "board",
-     "est_seconds": 54,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Standard board continuity item (find k for sin3x/x); pattern boards repeat. Route board; no flags.",
-     "on_final_text": null,
-     "batch": "mathematics__b2"
-    },
-    {
-     "judge": "h3",
-     "cuet_type": "single_mcq",
-     "passage_skill": null,
-     "unit": "Section A1 (common)",
-     "chapter": "Continuity & Differentiability",
-     "pyq_closeness": 0,
-     "ten_route": "cbt_staple",
-     "est_seconds": 52,
-     "fit_score": 10,
-     "fit_flags": [],
-     "note": "Standard limit sin3x/x gives k=3; continuity staple CBT item. Distractor 1 is the sin x/x slip. Route cbt_staple.",
-     "on_final_text": null,
-     "batch": "mathematics__b2"
     }
    ]
   },
@@ -38054,6 +37654,138 @@
     }
    ]
   },
+  "ee4e7379-b61d-481c-95b8-bbc665cc9bf9": {
+   "subject": "political_science",
+   "batch": "political_science__glob",
+   "chapter": "Globalisation",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A is the correct definition of globalisation and the other options are clearly wrong. The option lengths were uneven (A about 105 characters against C about 82), which cues the key, so distractors B and D were lengthened to balance the set. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "The growing interconnectedness of countries through flows of trade, capital, people, ideas and technology"
+      },
+      {
+       "key": "B",
+       "text": "Self-sufficiency achieved by restricting imports and foreign investment"
+      },
+      {
+       "key": "C",
+       "text": "The formation of regional blocs that exclude trade with countries outside the bloc"
+      },
+      {
+       "key": "D",
+       "text": "A world divided into two rival power blocs led by two superpowers"
+      }
+     ]
+    },
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.globalisation.meaning-of-globalisation",
+     "flags": [],
+     "note": "Clean direct-recall definition with distinct distractors; B, C and D are clearly different concepts. Fit for a mock.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.globalisation.meaning-of-globalisation",
+     "flags": [],
+     "note": "Key correct and clean. Distractors B-D are obviously wrong, so the item is answerable by elimination alone.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 42,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core NCERT definition of globalisation, a standard CBT staple at Class 12 level; distractors are the usual autarky and bloc confusions.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 43,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Core definition of globalisation, a standard CBT recall item. Distractors cover autarky, blocs and bipolarity.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 42,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Central definition of globalisation, the chapter's key idea. Distractors (autarky, blocs, bipolarity) are plausible. Route key_aspect.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    }
+   ]
+  },
   "8eedfa08-6c44-41d8-9c93-794135a8aa52": {
    "subject": "political_science",
    "batch": "political_science__glob",
@@ -38457,6 +38189,139 @@
      "fit_score": 8,
      "fit_flags": [],
      "note": "Four long statements on globalisation, MNCs and Bretton Woods. Key D checked: B and D true, A and C false. Real statements are shorter. est 92 s.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    }
+   ]
+  },
+  "7ed82615-4905-4767-a7e8-b4104ea206fd": {
+   "subject": "political_science",
+   "batch": "political_science__glob",
+   "chapter": "Globalisation",
+   "set_id": null,
+   "text": {
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A (balance of payments crisis) is correct. Distractor B (WTO expelling India in 1991) was absurd because the WTO did not exist until 1995, so it was replaced with a plausible but false RBI decision on foreign banks. Distractor C was reworded to a false 1991 nationalisation by the Government of India (the real nationalisations were 1969 and 1980) and the explanation was updated to match. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "judged": "as_authored",
+    "pre_repair": {
+     "options": [
+      {
+       "key": "A",
+       "text": "A severe balance of payments crisis, with foreign exchange reserves falling to very low levels"
+      },
+      {
+       "key": "B",
+       "text": "A decision by the World Trade Organisation to expel India from its membership"
+      },
+      {
+       "key": "C",
+       "text": "The nationalisation of all private banks by the Reserve Bank of India"
+      },
+      {
+       "key": "D",
+       "text": "A sharp rise in exports that produced a large trade surplus"
+      }
+     ],
+     "explanation": "By 1991 India's foreign exchange reserves were too low to finance imports, and the country sought an IMF loan, which led to the new economic policy. The WTO was founded only in 1995, and bank nationalisation took place in 1969 and 1980. Option D contradicts the crisis, since India was running a trade deficit at the time."
+    },
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    }
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "as_authored"
+   },
+   "blind_resolve_on_final_text": {
+    "n": 3,
+    "matched_key": 3,
+    "answers": [
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.globalisation.india-balance-of-payments-crisis-trigger",
+     "flags": [],
+     "note": "Correct key (1991 balance of payments crisis). Option B is an absurd throwaway since the WTO did not exist until 1995; otherwise fit for a mock.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.globalisation.india-1991-balance-of-payments-crisis",
+     "flags": [],
+     "note": "Key correct. Options B (WTO expulsion) and C (bank nationalisation) are absurd, so the item is near-trivial by elimination.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 48,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "The 1991 balance-of-payments crisis as the trigger is a standard NCERT and CBT staple; the WTO option is anachronistic but harmless.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "1991 BoP crisis as the trigger, a core Indian-economy recall. Options B and C are implausible, so discrimination is 1.",
+     "on_final_text": null,
+     "batch": "political_science__glob"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "Globalisation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "1991 balance of payments crisis as trigger for reform. Core recall. Key is the longest option and B and C are implausible, so discrimination 1.",
      "on_final_text": null,
      "batch": "political_science__glob"
     }

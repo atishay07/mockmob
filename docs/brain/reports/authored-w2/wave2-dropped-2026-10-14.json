@@ -1,90 +1,5 @@
 [
   {
-    "id": "234b88ee-c820-4a1a-ae2f-87ae4f382003",
-    "subject": "biology",
-    "batch": "biology__b3",
-    "chapter": "Biotechnology & its Applications",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a",
-    "subject": "biology",
-    "batch": "biology__b3",
-    "chapter": "Biotechnology & its Applications",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "b4a09c0e-f636-4717-b187-b5aba191f03a",
-    "subject": "biology",
-    "batch": "biology__b3",
-    "chapter": "Organisms & Populations",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "cb5101b5-3bdd-4d79-8337-30667d59a867",
-    "subject": "computer_science",
-    "batch": "computer_science__b1",
-    "chapter": "Exception and File Handling in Python",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:stem; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "stem"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0",
-    "subject": "computer_science",
-    "batch": "computer_science__b2",
-    "chapter": "Stack",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:stem; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "stem"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
     "id": "3860696b-f94c-42b9-a539-1b897716322e",
     "subject": "computer_science",
     "batch": "computer_science__b3",
@@ -109,21 +24,39 @@
     "decided_by": "orchestrator instruction, 14 Oct 2026"
   },
   {
-    "id": "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d",
+    "id": "06298513-8dfe-4653-9454-4dbaac8ed520",
     "subject": "english",
-    "batch": "english__v1",
+    "batch": "english__v2",
     "chapter": "Correct Word Usage",
     "type": "fill_in_blank",
     "set_id": null,
+    "first_acceptance": "not_in_the_first_pass",
+    "category": "duplicate",
+    "reason": "duplicate_probable_of_8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d"
+  },
+  {
+    "id": "4e27ea47-76be-4af9-b5dd-77b000253b42",
+    "subject": "geography",
+    "batch": "geography__b1",
+    "chapter": "Population — Distribution, Density, Growth",
+    "type": "single_mcq",
+    "set_id": null,
     "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer C, the key): practice. Stage II is right, but NCERT teaches three stages, so the Stage IV distractor and the explanation descriptions of Stage III and IV go beyond NCERT.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "8b40da05-e62e-4112-b9e3-9320246384ca",
+    "subject": "geography",
+    "batch": "geography__b1",
+    "chapter": "Human Development",
+    "type": "single_mcq",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_reject",
+    "reason": "Geography NCERT recheck (blind answer D): reject. NCERT HDI uses life expectancy, adult literacy and gross enrolment, and per capita income, so the keyed mean years of schooling option is a non-NCERT component and the explanation teaches UNDP-revised indicators.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
   },
   {
     "id": "fdbdd72a-aa89-4f36-b2ff-bd69aae539af",
@@ -161,6 +94,18 @@
     "reason": "expert verdict practice: Key B is correct under the current UNDP method: (A), (B) and (C) are true and (D) is false. But the geometric-mean aggregation dates from the 2010 methodology change and is not in the NCERT Class 12 text, so the item tests knowledge beyond the CUET syllabus. Kept as practice."
   },
   {
+    "id": "a1a985d8-c58d-4586-8e62-91999fa88b46",
+    "subject": "geography",
+    "batch": "geography__b1",
+    "chapter": "India — People & Economy",
+    "type": "sequence_ordering",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer D, the key): practice. The order Kerala, Mizoram, HP, Bihar is correct, but the Mizoram against HP rank is rote data beyond the NCERT text and the quoted figures cannot be verified against NCERT.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
     "id": "524da815-d899-4ece-8c8e-1877ba78d84c",
     "subject": "geography",
     "batch": "geography__b1",
@@ -171,6 +116,42 @@
     "category": "identical_to_live_question",
     "reason": "The stem is identical to live question 55f45222-f7f0-4f1a-b64f-2643a621454f in the 13 Oct export of the bank (Geography, which is not a primary activity).",
     "decided_by": "orchestrator instruction, 14 Oct 2026"
+  },
+  {
+    "id": "ff6a9f3a-7ddd-4738-a651-24069d405c10",
+    "subject": "geography",
+    "batch": "geography__b1",
+    "chapter": "Secondary Activities",
+    "type": "single_mcq",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer C, the key): practice. Weight-gaining industry and soft drink bottling are standard but not NCERT wording; the answer is sound.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "f5ceaadd-0e02-4556-978e-5690c51b638b",
+    "subject": "geography",
+    "batch": "geography__b1",
+    "chapter": "Tertiary & Quaternary Activities",
+    "type": "sequence_ordering",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_reject",
+    "reason": "Geography NCERT recheck (blind answer D): reject. Ranking tertiary above quaternary by dependence on natural resources is not an NCERT idea and is arbitrary or debatable.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "47f514b2-0bd9-4024-a9fb-f1b84d8e74ea",
+    "subject": "geography",
+    "batch": "geography__b2",
+    "chapter": "Transport & Communication",
+    "type": "match_the_following",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer D, the key): practice. The keyed option is the only one that fits, but submarine cables are themselves optical fibre so descriptions I and II overlap, and the telegraph Morse detail is not NCERT.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
   },
   {
     "id": "3fcbe4d0-8a61-48c8-9492-803679c7555d",
@@ -209,6 +190,18 @@
     "decided_by": "this pass: Geography re-check against NCERT wording and against the other Geography questions (14 Oct 2026)"
   },
   {
+    "id": "75dc1722-2c50-4a6c-b862-813621007361",
+    "subject": "geography",
+    "batch": "geography__b3",
+    "chapter": "Transport & Communication",
+    "type": "single_mcq",
+    "set_id": null,
+    "first_acceptance": "not_in_the_first_pass",
+    "category": "second_reviewer_practice",
+    "reason": "Second reviewer, who solved blind first and answered A (the key): practice, not NTA. Railways is the expected NCERT answer, but the stem says lowest cost per tonne-km for bulk iron ore. NCERT notes pipelines are cheap to run and can carry solids as slurry, and slurry ore pipelines exist in India, so pipelines is defensible and the key is not uniquely correct (and no water route is a weak premise). The repaired explanation concedes the slurry point. Suitable for practice, not for a graded NTA paper.",
+    "decided_by": "second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
     "id": "0ece0098-615c-4f81-9795-5ac0eab4aae3",
     "subject": "geography",
     "batch": "geography__b3",
@@ -244,6 +237,30 @@
     "reason": "expert verdict practice: Key B (telegraph in India 1851, first transatlantic cable, telephone patent 1876, INSAT-1A 1982) is right on the dates, but the dates of these technology milestones are not NCERT Class 12 Geography content (the same fault the spot-check found in 1445658c), and the first successful transatlantic cable (1858 or 1866) is itself disputed. Practice-grade, not for an NTA-pattern paper."
   },
   {
+    "id": "819e826f-4bb2-4dcf-b3f2-f02f85a761ac",
+    "subject": "geography",
+    "batch": "geography__b3",
+    "chapter": "Transport & Communication",
+    "type": "match_the_following",
+    "set_id": null,
+    "first_acceptance": "not_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer B, the key): practice. Rhine, Panama and Trans-Siberian are NCERT, but National Highway 44 by number is not in NCERT; the match is still solvable.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "af69a573-bbd4-4fb1-9c09-33acedec4003",
+    "subject": "geography",
+    "batch": "geography__b3",
+    "chapter": "International Trade",
+    "type": "single_mcq",
+    "set_id": null,
+    "first_acceptance": "not_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer B, the key): practice. The arithmetic gives a 35 billion deficit, but NCERT defines balance of trade over goods and services, so the stem should say visible or merchandise trade and the explanation should not equate balance of trade with visible items only.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
     "id": "dff435fd-f205-422e-8f43-9d02733241d1",
     "subject": "geography",
     "batch": "geography__b3",
@@ -255,38 +272,64 @@
     "reason": "expert verdict practice: Key D is the only workable matching, but List-II (IV) defines the balance of trade over visible goods only, which the spot-check found conflicts with the NCERT Class 12 Geography wording (goods and services). Fixable by making (IV) \"Net value of exports minus imports\", which changes the options and needs a new blind re-solve. Practice-grade until then."
   },
   {
-    "id": "51db2fdf-48fb-4653-9369-e8b891a12f18",
+    "id": "86fa69db-a3ae-4c63-bf05-296eb028c420",
     "subject": "geography",
     "batch": "geography__b4",
-    "chapter": "Geographical Perspective on Selected Issues and Problems",
-    "type": "single_mcq",
+    "chapter": "Resources & Development",
+    "type": "match_the_following",
     "set_id": null,
     "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
+    "category": "geography_ncert_recheck_reject",
+    "reason": "Geography NCERT recheck (blind answer C): reject. Soil types are Class 11 and Class 10 content, not the Class 12 Geography books, and the reference cites a non-Class-12 chapter title.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
   },
   {
-    "id": "c2a88140-3a27-4266-8266-f57e7e1345e7",
+    "id": "0457ce26-b351-4e93-ad4d-61fbf40dc66c",
     "subject": "geography",
     "batch": "geography__b4",
     "chapter": "Planning & Sustainable Development",
+    "type": "sequence_ordering",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_reject",
+    "reason": "Geography NCERT recheck (blind answer C): reject. Planning Commission, Second Plan emphasis and NITI Aayog dates are economy or polity content, not Geography NCERT events.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "f3b33c2c-c926-45bf-bcfa-11697113066c",
+    "subject": "geography",
+    "batch": "geography__b4",
+    "chapter": "Transport & Communication",
+    "type": "match_the_following",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer D, the key): practice. The answer is factually right, but the Kiel Canal and the Strait of Malacca (a strait, not a canal) are not clearly NCERT content.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63",
+    "subject": "geography",
+    "batch": "geography__b4",
+    "chapter": "Resources & Development",
+    "type": "statement_based",
+    "set_id": null,
+    "first_acceptance": "accepted_in_the_first_pass",
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer B, the key): practice. The answer is correct, but contour ploughing, strip cropping and terracing are mainly Class 10 content and only shelter belts are clearly in Class 12.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "e4a0e47c-96a8-49ec-9a9c-e9c849e698b9",
+    "subject": "geography",
+    "batch": "geography__b4",
+    "chapter": "Human Settlements",
     "type": "single_mcq",
     "set_id": null,
     "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
+    "category": "geography_ncert_recheck_practice",
+    "reason": "Geography NCERT recheck (blind answer B, the key): practice. The definition is sound, but urban sprawl, counter-urbanisation and urban hierarchy are not clearly NCERT Class 12 terms and the cited section may not exist.",
+    "decided_by": "Geography NCERT recheck, second reviewer, 14 Oct 2026 (instruction of the orchestrator)"
   },
   {
     "id": "1445658c-c847-43d9-a6f3-474f23ee0894",
@@ -301,40 +344,6 @@
     "decided_by": "independent spot-check, 14 Oct 2026"
   },
   {
-    "id": "d437d53e-569f-4309-973e-b170d69d5f02",
-    "subject": "geography",
-    "batch": "geography__b4",
-    "chapter": "Planning & Sustainable Development",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "8e614805-3ebf-4171-896b-77e5df5bb96f",
-    "subject": "mathematics",
-    "batch": "mathematics__b1",
-    "chapter": "Continuity & Differentiability",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:stem; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "stem"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
     "id": "87c9264b-613d-4c51-bb97-9de06bbe6fe8",
     "subject": "mathematics",
     "batch": "mathematics__b1",
@@ -342,8 +351,20 @@
     "type": "single_mcq",
     "set_id": null,
     "first_acceptance": "accepted_in_the_first_pass",
-    "category": "no_longer_accepted",
-    "reason": "solvers_0_of_5"
+    "category": "held_key_correct_solvers_disagree",
+    "reason": "Held, not rejected, and kept out of NTA. The key D, (1, 6) and (0, 1), is right by explicit computation (A squared = (1, 4; 0, 1), A cubed = (1, 6; 0, 1), cross-checked as A times A squared, and A to the n = (1, 2n; 0, 1)), and the distractors are wrong (A is the wrong result, B is 3A, C is the cube-the-entry error 2 cubed = 8). But the fresh blind solvers did not reach the rule of 4 of 5 on the key (0 of 5, all answered A), and the rule stands, so it is held with the reason instead of published. Blind copy: tmp/authored-w2/resolve/matrix-blind.json.",
+    "decided_by": "careful check by hand, 14 Oct 2026 (instruction of the orchestrator)"
+  },
+  {
+    "id": "66c40b7a-966b-41d5-a141-8d286986967d",
+    "subject": "mathematics",
+    "batch": "mathematics__b2",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "set_id": null,
+    "first_acceptance": "not_in_the_first_pass",
+    "category": "duplicate",
+    "reason": "duplicate_probable_of_8e614805-3ebf-4171-896b-77e5df5bb96f"
   },
   {
     "id": "8ee1a4be-30ab-4a3b-a98d-87294334ec60",
@@ -391,39 +412,5 @@
     "category": "near_duplicate",
     "reason": "Near-duplicate of 650e43dc-3d1c-450d-a5af-397791d0e931 (Mathematics, Application of Integrals): the area between y = x squared and y = x, key 1/6, the same four options. The other copy is kept.",
     "decided_by": "orchestrator instruction, 14 Oct 2026"
-  },
-  {
-    "id": "ee4e7379-b61d-481c-95b8-bbc665cc9bf9",
-    "subject": "political_science",
-    "batch": "political_science__glob",
-    "chapter": "Globalisation",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
-  },
-  {
-    "id": "7ed82615-4905-4767-a7e8-b4104ea206fd",
-    "subject": "political_science",
-    "batch": "political_science__glob",
-    "chapter": "Globalisation",
-    "type": "single_mcq",
-    "set_id": null,
-    "first_acceptance": "accepted_in_the_first_pass",
-    "category": "held_repaired_text_needs_blind_resolve",
-    "reason": "repaired_text_without_blind_resolve:options; no_blind_solver_evidence_on_final_text",
-    "repaired_after_solve": {
-      "blind_text_changed": [
-        "options"
-      ],
-      "blind_resolve": null
-    }
   }
 ]

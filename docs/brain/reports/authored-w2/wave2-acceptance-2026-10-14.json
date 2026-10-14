@@ -22,9 +22,9 @@
  "raw": "tmp/authored-w2",
  "total": {
   "written": 451,
-  "acceptedByJudgesAndSolvers": 414,
-  "accepted": 400,
-  "rejected": 51,
+  "acceptedByJudgesAndSolvers": 426,
+  "accepted": 410,
+  "rejected": 41,
   "rejectedByReason": {
    "solvers": 4,
    "quality_score": 9,
@@ -35,8 +35,8 @@
    "verification_incomplete": 0,
    "structural": 0,
    "blind_text": 0,
-   "duplicate": 14,
-   "repaired_without_resolve": 12,
+   "duplicate": 16,
+   "repaired_without_resolve": 0,
    "resolve": 0,
    "expert_verdict": 3,
    "other": 0
@@ -45,9 +45,9 @@
  "bySubject": {
   "biology": {
    "written": 60,
-   "acceptedByJudgesAndSolvers": 54,
-   "accepted": 53,
-   "rejected": 7,
+   "acceptedByJudgesAndSolvers": 57,
+   "accepted": 56,
+   "rejected": 4,
    "batches": {
     "biology__b1": {
      "written": 20,
@@ -59,7 +59,7 @@
     },
     "biology__b3": {
      "written": 20,
-     "accepted": 17
+     "accepted": 20
     }
    },
    "byChapter": {
@@ -101,11 +101,11 @@
     },
     "Biotechnology & its Applications": {
      "written": 5,
-     "accepted": 3
+     "accepted": 5
     },
     "Organisms & Populations": {
      "written": 4,
-     "accepted": 3
+     "accepted": 4
     },
     "Ecosystem": {
      "written": 3,
@@ -119,7 +119,7 @@
    "byType": {
     "single_mcq": {
      "written": 37,
-     "accepted": 30
+     "accepted": 33
     },
     "sequence_ordering": {
      "written": 9,
@@ -145,7 +145,7 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 1,
-    "repaired_without_resolve": 3,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -161,31 +161,31 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 1,
-    "repaired_without_resolve": 3,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
    },
    "keyDistributionAccepted": {
-    "A": 12,
+    "A": 13,
     "B": 14,
     "C": 15,
-    "D": 12
+    "D": 14
    }
   },
   "computer_science": {
    "written": 80,
-   "acceptedByJudgesAndSolvers": 76,
-   "accepted": 76,
-   "rejected": 4,
+   "acceptedByJudgesAndSolvers": 78,
+   "accepted": 78,
+   "rejected": 2,
    "batches": {
     "computer_science__b1": {
      "written": 20,
-     "accepted": 19
+     "accepted": 20
     },
     "computer_science__b2": {
      "written": 20,
-     "accepted": 19
+     "accepted": 20
     },
     "computer_science__b3": {
      "written": 20,
@@ -215,11 +215,11 @@
     },
     "Exception and File Handling in Python": {
      "written": 10,
-     "accepted": 9
+     "accepted": 10
     },
     "Stack": {
      "written": 3,
-     "accepted": 2
+     "accepted": 3
     },
     "Queue": {
      "written": 7,
@@ -249,7 +249,7 @@
    "byType": {
     "single_mcq": {
      "written": 56,
-     "accepted": 52
+     "accepted": 54
     },
     "statement_based": {
      "written": 10,
@@ -275,7 +275,7 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 0,
-    "repaired_without_resolve": 2,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -291,21 +291,21 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 0,
-    "repaired_without_resolve": 2,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
    },
    "keyDistributionAccepted": {
-    "A": 18,
+    "A": 19,
     "B": 19,
-    "C": 19,
+    "C": 20,
     "D": 20
    }
   },
   "english": {
    "written": 61,
-   "acceptedByJudgesAndSolvers": 58,
+   "acceptedByJudgesAndSolvers": 59,
    "accepted": 55,
    "rejected": 6,
    "batches": {
@@ -315,11 +315,11 @@
     },
     "english__v1": {
      "written": 20,
-     "accepted": 19
+     "accepted": 20
     },
     "english__v2": {
      "written": 20,
-     "accepted": 19
+     "accepted": 18
     },
     "english__v3": {
      "written": 20,
@@ -396,8 +396,8 @@
     "verification_incomplete": 0,
     "structural": 0,
     "blind_text": 0,
-    "duplicate": 3,
-    "repaired_without_resolve": 1,
+    "duplicate": 4,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -412,8 +412,8 @@
     "verification_incomplete": 0,
     "structural": 0,
     "blind_text": 0,
-    "duplicate": 3,
-    "repaired_without_resolve": 1,
+    "duplicate": 4,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -545,9 +545,9 @@
   },
   "geography": {
    "written": 80,
-   "acceptedByJudgesAndSolvers": 65,
-   "accepted": 64,
-   "rejected": 16,
+   "acceptedByJudgesAndSolvers": 68,
+   "accepted": 67,
+   "rejected": 13,
    "batches": {
     "geography__b1": {
      "written": 20,
@@ -563,7 +563,7 @@
     },
     "geography__b4": {
      "written": 20,
-     "accepted": 13
+     "accepted": 16
     }
    },
    "byChapter": {
@@ -617,17 +617,17 @@
     },
     "Planning & Sustainable Development": {
      "written": 4,
-     "accepted": 1
+     "accepted": 3
     },
     "Geographical Perspective on Selected Issues and Problems": {
      "written": 2,
-     "accepted": 1
+     "accepted": 2
     }
    },
    "byType": {
     "single_mcq": {
      "written": 52,
-     "accepted": 39
+     "accepted": 42
     },
     "statement_based": {
      "written": 11,
@@ -653,7 +653,7 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 1,
-    "repaired_without_resolve": 3,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 3,
     "other": 0
@@ -669,31 +669,31 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 1,
-    "repaired_without_resolve": 3,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 3,
     "other": 0
    },
    "keyDistributionAccepted": {
     "A": 18,
-    "B": 14,
+    "B": 16,
     "C": 16,
-    "D": 16
+    "D": 17
    }
   },
   "mathematics": {
    "written": 80,
-   "acceptedByJudgesAndSolvers": 75,
+   "acceptedByJudgesAndSolvers": 76,
    "accepted": 68,
    "rejected": 12,
    "batches": {
     "mathematics__b1": {
      "written": 20,
-     "accepted": 17
+     "accepted": 18
     },
     "mathematics__b2": {
      "written": 20,
-     "accepted": 19
+     "accepted": 18
     },
     "mathematics__b3": {
      "written": 20,
@@ -786,8 +786,8 @@
     "verification_incomplete": 0,
     "structural": 0,
     "blind_text": 0,
-    "duplicate": 7,
-    "repaired_without_resolve": 1,
+    "duplicate": 8,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -802,40 +802,40 @@
     "verification_incomplete": 0,
     "structural": 0,
     "blind_text": 0,
-    "duplicate": 7,
-    "repaired_without_resolve": 1,
+    "duplicate": 8,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
    },
    "keyDistributionAccepted": {
-    "A": 16,
+    "A": 17,
     "B": 15,
-    "C": 18,
+    "C": 17,
     "D": 19
    }
   },
   "political_science": {
    "written": 10,
-   "acceptedByJudgesAndSolvers": 7,
-   "accepted": 7,
-   "rejected": 3,
+   "acceptedByJudgesAndSolvers": 9,
+   "accepted": 9,
+   "rejected": 1,
    "batches": {
     "political_science__glob": {
      "written": 10,
-     "accepted": 7
+     "accepted": 9
     }
    },
    "byChapter": {
     "Globalisation": {
      "written": 10,
-     "accepted": 7
+     "accepted": 9
     }
    },
    "byType": {
     "single_mcq": {
      "written": 6,
-     "accepted": 3
+     "accepted": 5
     },
     "match_the_following": {
      "written": 1,
@@ -865,7 +865,7 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 0,
-    "repaired_without_resolve": 2,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
@@ -881,13 +881,13 @@
     "structural": 0,
     "blind_text": 0,
     "duplicate": 0,
-    "repaired_without_resolve": 2,
+    "repaired_without_resolve": 0,
     "resolve": 0,
     "expert_verdict": 0,
     "other": 0
    },
    "keyDistributionAccepted": {
-    "A": 1,
+    "A": 3,
     "B": 2,
     "C": 2,
     "D": 2
@@ -3363,11 +3363,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "biology__b3.json"
@@ -3376,7 +3373,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "D",
+      "D",
+      "D"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -3415,8 +3420,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a",
@@ -3426,11 +3431,8 @@
    "type": "single_mcq",
    "difficulty_label": "medium",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "biology__b3.json"
@@ -3439,7 +3441,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -3478,8 +3488,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "996138c8-cf93-4929-8e1e-701248bd2274",
@@ -3705,11 +3715,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "biology__b3.json"
@@ -3718,7 +3725,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "D",
+      "D",
+      "D"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -3757,8 +3772,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "f1e3b5d2-8c81-481e-a2c5-df9ea70e2d83",
@@ -5226,11 +5241,8 @@
    "type": "single_mcq",
    "difficulty_label": "hard",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:stem",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "computer_science__b1.json"
@@ -5239,7 +5251,15 @@
     "blind_text_changed": [
      "stem"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -5278,8 +5298,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "eb996150-b37e-4a8c-8926-1206d7b0964b",
@@ -5775,11 +5795,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:stem",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "computer_science__b2.json"
@@ -5788,7 +5805,15 @@
     "blind_text_changed": [
      "stem"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "C",
+      "C",
+      "C"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -5827,8 +5852,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "768a8a3a-053a-4349-bbbb-4f7dbcec98a2",
@@ -8926,11 +8951,8 @@
    "type": "fill_in_blank",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "english__v1.json"
@@ -8939,7 +8961,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "B",
+      "B",
+      "B"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -8978,8 +9008,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "19453319-eb6d-49c8-b282-86d1e025724b",
@@ -10235,8 +10265,10 @@
    "type": "fill_in_blank",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": true,
-   "reasons": [],
+   "accepted": false,
+   "reasons": [
+    "duplicate_probable_of_8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d"
+   ],
    "expert": {
     "verdict": "ready",
     "file": "supplement-2026-10-14.json"
@@ -10279,7 +10311,13 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "near_duplicate": {
+    "of": "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d",
+    "from": "wave2",
+    "dice": 0.843,
+    "shared_option_texts": 3
+   },
+   "final": "duplicate"
   },
   {
    "id": "95deadea-8c72-4b9f-9065-b888c9f43782",
@@ -16368,7 +16406,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "f92f3699-2f61-4c22-a11e-cf947bc020c9",
@@ -16530,7 +16568,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_reject"
   },
   {
    "id": "fdbdd72a-aa89-4f36-b2ff-bd69aae539af",
@@ -16800,7 +16838,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "12a442fa-6cee-441a-9d44-24964d13d688",
@@ -17019,7 +17057,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "e614bf7c-e905-495a-860c-5e445124e0d0",
@@ -17181,7 +17219,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_reject"
   },
   {
    "id": "aa03d13c-d893-4772-bdcb-5b16892ddf37",
@@ -18147,7 +18185,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "3fcbe4d0-8a61-48c8-9492-803679c7555d",
@@ -18579,7 +18617,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "second_reviewer_practice"
   },
   {
    "id": "0ece0098-615c-4f81-9795-5ac0eab4aae3",
@@ -19011,7 +19049,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "af69a573-bbd4-4fb1-9c09-33acedec4003",
@@ -19068,7 +19106,7 @@
     "unit_differs_from_blueprint:International Trade|Transport, Communication and Trade"
    ],
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "c7fc6288-9655-4ae2-ba08-de74316b385d",
@@ -19575,7 +19613,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_reject"
   },
   {
    "id": "5abfe535-4bcd-4f97-a362-f478075ecd10",
@@ -19683,7 +19721,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_reject"
   },
   {
    "id": "dac8b08f-9e49-42c9-b3ba-794274425e94",
@@ -19907,11 +19945,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "geography__b4.json"
@@ -19920,7 +19955,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "B",
+      "B",
+      "B"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -19959,8 +20002,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "f3b33c2c-c926-45bf-bcfa-11697113066c",
@@ -20014,7 +20057,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "7ca304d9-3b20-41d1-a8fa-53b62e046556",
@@ -20078,11 +20121,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "geography__b4.json"
@@ -20091,7 +20131,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "B",
+      "B",
+      "B"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -20130,8 +20178,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63",
@@ -20185,7 +20233,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "1a357441-012b-4f3d-9f91-98911fc8ee79",
@@ -20302,7 +20350,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "final": "geography_ncert_recheck_practice"
   },
   {
    "id": "8fa17c21-03d2-4d1f-aa65-7e1d619c5380",
@@ -20524,11 +20572,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "geography__b4.json"
@@ -20537,7 +20582,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "D",
+      "D",
+      "D"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -20576,8 +20629,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "2bcb43e0-f75e-40d3-b4ff-725752064937",
@@ -20812,11 +20865,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:stem",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "mathematics__b1.json"
@@ -20825,7 +20875,15 @@
     "blind_text_changed": [
      "stem"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -20864,8 +20922,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "ac6a6f98-94fa-4360-b0d4-66175ce8f866",
@@ -21627,7 +21685,7 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": false,
-   "final": "no_longer_accepted"
+   "final": "held_key_correct_solvers_disagree"
   },
   {
    "id": "d66d55ac-929f-4786-8a67-59576d0aa5c7",
@@ -21694,8 +21752,10 @@
    "type": "single_mcq",
    "difficulty_label": "medium",
    "set_id": null,
-   "accepted": true,
-   "reasons": [],
+   "accepted": false,
+   "reasons": [
+    "duplicate_probable_of_8e614805-3ebf-4171-896b-77e5df5bb96f"
+   ],
    "expert": {
     "verdict": "ready",
     "file": "supplement-2026-10-14.json"
@@ -21738,7 +21798,13 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
-   "final": "published"
+   "near_duplicate": {
+    "of": "8e614805-3ebf-4171-896b-77e5df5bb96f",
+    "from": "wave2",
+    "dice": 0.912,
+    "shared_option_texts": 1
+   },
+   "final": "duplicate"
   },
   {
    "id": "d2371b4a-f9c6-4bfa-aa45-6ff3bf2fbad0",
@@ -22780,7 +22846,7 @@
    "set_id": null,
    "accepted": false,
    "reasons": [
-    "duplicate_stem_of_66c40b7a-966b-41d5-a141-8d286986967d"
+    "duplicate_probable_of_8e614805-3ebf-4171-896b-77e5df5bb96f"
    ],
    "solvers": {
     "n": 5,
@@ -22820,6 +22886,12 @@
     "flags": []
    },
    "passed_rule_before_duplicate_screen": true,
+   "near_duplicate": {
+    "of": "8e614805-3ebf-4171-896b-77e5df5bb96f",
+    "from": "wave2",
+    "dice": 0.912,
+    "shared_option_texts": 1
+   },
    "final": "not_accepted"
   },
   {
@@ -24968,11 +25040,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "political_science__glob.json"
@@ -24981,7 +25050,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -25020,8 +25097,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "8eedfa08-6c44-41d8-9c93-794135a8aa52",
@@ -25247,11 +25324,8 @@
    "type": "single_mcq",
    "difficulty_label": "easy",
    "set_id": null,
-   "accepted": false,
-   "reasons": [
-    "repaired_text_without_blind_resolve:options",
-    "no_blind_solver_evidence_on_final_text"
-   ],
+   "accepted": true,
+   "reasons": [],
    "expert": {
     "verdict": "repaired",
     "file": "political_science__glob.json"
@@ -25260,7 +25334,15 @@
     "blind_text_changed": [
      "options"
     ],
-    "blind_resolve": null
+    "blind_resolve": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    }
    },
    "solvers": {
     "n": 5,
@@ -25299,8 +25381,8 @@
     "flagged_by": 0,
     "flags": []
    },
-   "passed_rule_before_duplicate_screen": false,
-   "final": "held_repaired_text_needs_blind_resolve"
+   "passed_rule_before_duplicate_screen": true,
+   "final": "published"
   },
   {
    "id": "68bc3caf-99f7-4dab-bbc8-3a52cd16e754",
@@ -25636,40 +25718,42 @@
     ]
    }
   ],
-  "blind_resolve_files_present": 0,
+  "blind_resolve_files_present": 3,
   "spot_check_rows": 60,
   "decisions": "ok"
  },
  "final": {
   "note": "The final publication set: accepted by the rule, expert verdict ready or repaired, no hand decision, repair evidence in place.",
-  "final": 386,
-  "dropped": 31,
+  "final": 382,
+  "dropped": 35,
   "droppedByCategory": {
-   "held_repaired_text_needs_blind_resolve": 12,
    "identical_to_live_question": 2,
    "near_duplicate": 4,
+   "duplicate": 3,
+   "geography_ncert_recheck_practice": 9,
+   "geography_ncert_recheck_reject": 4,
    "spot_check_practice_grade": 3,
    "geography_ncert_recheck_hdi_banding": 1,
    "expert_verdict_not_publishable": 3,
    "spot_check_probable_reject": 1,
    "same_concept_repeat": 3,
-   "no_longer_accepted": 1,
-   "duplicate": 1
+   "second_reviewer_practice": 1,
+   "held_key_correct_solvers_disagree": 1
   },
   "bySubject": {
    "biology": {
     "written": 60,
-    "accepted_by_the_rule": 53,
+    "accepted_by_the_rule": 56,
     "first_pass_accepted": 56,
-    "final": 53,
-    "dropped": 3
+    "final": 56,
+    "dropped": 0
    },
    "computer_science": {
     "written": 80,
-    "accepted_by_the_rule": 76,
+    "accepted_by_the_rule": 78,
     "first_pass_accepted": 78,
-    "final": 74,
-    "dropped": 4
+    "final": 76,
+    "dropped": 2
    },
    "english": {
     "written": 61,
@@ -25687,10 +25771,10 @@
    },
    "geography": {
     "written": 80,
-    "accepted_by_the_rule": 64,
+    "accepted_by_the_rule": 67,
     "first_pass_accepted": 51,
-    "final": 55,
-    "dropped": 15
+    "final": 44,
+    "dropped": 26
    },
    "mathematics": {
     "written": 80,
@@ -25701,19 +25785,19 @@
    },
    "political_science": {
     "written": 10,
-    "accepted_by_the_rule": 7,
+    "accepted_by_the_rule": 9,
     "first_pass_accepted": 9,
-    "final": 7,
-    "dropped": 2
+    "final": 9,
+    "dropped": 0
    }
   },
   "byVerdict": {
-   "ready": 358,
-   "repaired": 28
+   "ready": 345,
+   "repaired": 37
   },
   "reworded": 9,
-  "spotChecked": 51,
-  "supplementaryReview": 22,
+  "spotChecked": 53,
+  "supplementaryReview": 17,
   "problems": []
  }
 }

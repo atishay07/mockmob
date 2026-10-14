@@ -4,21 +4,21 @@
  "source": "claude-authored-2026-10-14-w2",
  "repairedTextPolicy": "admit",
  "at": "2026-10-14T12:10:00.000Z",
- "planned": 386,
- "agentEntries": 386,
- "hashChangedByRepair": 14,
+ "planned": 382,
+ "agentEntries": 382,
+ "hashChangedByRepair": 25,
  "heldForFreshPass": 0,
- "engineEligible": 386,
+ "engineEligible": 382,
  "engineIneligible": 0,
  "engineIneligibleReasons": {},
  "fitGate": {
   "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
   "minFit": 8,
-  "pass": 386,
+  "pass": 382,
   "reasons": {},
   "baseTablesMissing": []
  },
- "qualityAndFitBoth": 386,
+ "qualityAndFitBoth": 382,
  "passageSets": {
   "servable": 2,
   "of": 2,
@@ -61,7 +61,7 @@
     "exportRowsWithEvidence": 0,
     "faithful": true,
     "eligibleWithout": 30,
-    "eligibleWith": 37,
+    "eligibleWith": 39,
     "papersWithout": [
      {
       "status": "refused",
@@ -96,7 +96,7 @@
     "exportRowsWithEvidence": 0,
     "faithful": true,
     "eligibleWithout": 125,
-    "eligibleWith": 178,
+    "eligibleWith": 181,
     "papersWithout": [
      {
       "status": "closest",
@@ -131,7 +131,7 @@
     "exportRowsWithEvidence": 0,
     "faithful": true,
     "eligibleWithout": 74,
-    "eligibleWith": 148,
+    "eligibleWith": 150,
     "papersWithout": [
      {
       "status": "refused",
@@ -153,7 +153,7 @@
      },
      {
       "status": "closest",
-      "questions": 49
+      "questions": 48
      },
      {
       "status": "closest",
@@ -170,7 +170,7 @@
     "papersWithout": [
      {
       "status": "closest",
-      "questions": 46
+      "questions": 45
      },
      {
       "status": "closest",
@@ -201,7 +201,7 @@
     "exportRowsWithEvidence": 0,
     "faithful": true,
     "eligibleWithout": 67,
-    "eligibleWith": 122,
+    "eligibleWith": 111,
     "papersWithout": [
      {
       "status": "refused",
@@ -270,16 +270,16 @@
  },
  "bySubject": {
   "biology": {
-   "planned": 53,
-   "eligible": 53,
-   "fitPass": 53,
-   "both": 53
+   "planned": 56,
+   "eligible": 56,
+   "fitPass": 56,
+   "both": 56
   },
   "computer_science": {
-   "planned": 74,
-   "eligible": 74,
-   "fitPass": 74,
-   "both": 74
+   "planned": 76,
+   "eligible": 76,
+   "fitPass": 76,
+   "both": 76
   },
   "english": {
    "planned": 55,
@@ -294,10 +294,10 @@
    "both": 77
   },
   "geography": {
-   "planned": 55,
-   "eligible": 55,
-   "fitPass": 55,
-   "both": 55
+   "planned": 44,
+   "eligible": 44,
+   "fitPass": 44,
+   "both": 44
   },
   "mathematics": {
    "planned": 65,
@@ -306,10 +306,10 @@
    "both": 65
   },
   "political_science": {
-   "planned": 7,
-   "eligible": 7,
-   "fitPass": 7,
-   "both": 7
+   "planned": 9,
+   "eligible": 9,
+   "fitPass": 9,
+   "both": 9
   }
  },
  "ineligible": []

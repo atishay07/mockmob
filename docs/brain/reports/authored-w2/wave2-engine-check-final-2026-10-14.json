@@ -13,22 +13,22 @@
   "minFit": 8
  },
  "method": "ntaEligibility (quality gate with the agent scores, content gates, CUET-fit gate) on every accepted wave-2 question with the committed agent and fit tables of the named checkout plus the wave-2 entries merged in memory (policy admit). Nothing in data/ is written. Rows are mapped like the wave-1 publisher (toQuestionRow); case-set items typed single_mcq are mapped as passage children.",
- "candidatesSha256": "b07a44bc23e0ae53f0e1c2d668a880119702c71c0dd1e16cc76ca204c9cd23d3",
- "planned": 386,
- "engineEligible": 386,
+ "candidatesSha256": "b0644cba44cd4de297c9ceeb562e757b92685fec60dab15870a4fed898071f4b",
+ "planned": 382,
+ "engineEligible": 382,
  "engineIneligible": 0,
  "engineIneligibleReasons": {},
  "ineligibleByGate": {},
  "bySubject": {
   "biology": {
-   "planned": 53,
-   "eligible": 53,
+   "planned": 56,
+   "eligible": 56,
    "ineligible": 0,
    "reasons": {}
   },
   "computer_science": {
-   "planned": 74,
-   "eligible": 74,
+   "planned": 76,
+   "eligible": 76,
    "ineligible": 0,
    "reasons": {}
   },
@@ -45,8 +45,8 @@
    "reasons": {}
   },
   "geography": {
-   "planned": 55,
-   "eligible": 55,
+   "planned": 44,
+   "eligible": 44,
    "ineligible": 0,
    "reasons": {}
   },
@@ -57,8 +57,8 @@
    "reasons": {}
   },
   "political_science": {
-   "planned": 7,
-   "eligible": 7,
+   "planned": 9,
+   "eligible": 9,
    "ineligible": 0,
    "reasons": {}
   }

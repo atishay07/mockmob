@@ -21984,102 +21984,6 @@
         }
       }
     },
-    "06298513-8dfe-4653-9454-4dbaac8ed520": {
-      "question_id": "06298513-8dfe-4653-9454-4dbaac8ed520",
-      "batch": "authored-2026-10-14__english__v2",
-      "chapter": "Correct Word Usage",
-      "key": "B",
-      "content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "english.correct-word-usage.since-with-point-in-time",
-          "flags": [],
-          "note": "Key B 'since' with a starting point in time and present perfect continuous is correct. 'For' is a good trap; 'during' is weak.",
-          "scored_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "english.correct-word-usage.since-vs-for-time-expressions",
-          "flags": [],
-          "note": "Key B since is correct for a starting point with present perfect continuous. 'during' is a weak distractor.",
-          "scored_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "easy",
-        "judges": [
-          "easy",
-          "easy"
-        ],
-        "agreed": "easy",
-        "corrected": null
-      },
-      "objective_tags": [
-        "english.correct-word-usage.since-with-point-in-time",
-        "english.correct-word-usage.since-vs-for-time-expressions"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Key B: a starting point in time (2015) takes since with the present perfect continuous; for needs a length of time, from and during do not fit. Unique. Easy.",
-        "expert_reviewed_text": "final",
-        "supplementary_review": {
-          "reviewer": "Claude Sonnet 5.5 (this session)",
-          "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-        },
-        "judged_text": "final",
-        "judged_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-        "final_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "B",
-            "B",
-            "B",
-            "B",
-            "B"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "0bc7e3fd-ca5f-4abb-8058-b2df046889e4": {
       "question_id": "0bc7e3fd-ca5f-4abb-8058-b2df046889e4",
       "batch": "authored-2026-10-14__english__v3",
@@ -25352,6 +25256,109 @@
         }
       }
     },
+    "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d": {
+      "question_id": "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d",
+      "batch": "authored-2026-10-14__english__v1",
+      "chapter": "Correct Word Usage",
+      "key": "B",
+      "content_hash": "bf75218d281ebbff77ff2a31b22b4b00d118d82b7786436713dc565c0b670589",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "english.correct-word-usage.since-vs-for-time",
+          "flags": [],
+          "note": "Since with a point in time against for with a duration. Standard NCERT-level preposition item, clean.",
+          "scored_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "english.correct-word-usage.since-vs-for-time",
+          "flags": [],
+          "note": "Clean since-versus-for item; for is a real trap and the year fixes the choice.",
+          "scored_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "english.correct-word-usage.since-vs-for-time",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "english.correct-word-usage.since-vs-for-time",
+        "english.correct-word-usage.since-vs-for-time"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key 'since' is correct for a starting point with the present perfect continuous. The distractor 'from' was arguably acceptable in ordinary speech, so it was replaced with 'by' (clearly wrong here) and the explanation was reworded. Key unchanged.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea",
+        "final_content_hash": "bf75218d281ebbff77ff2a31b22b4b00d118d82b7786436713dc565c0b670589",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options",
+          "explanation"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "B",
+            "B",
+            "B"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "958b3846-9d9d-423a-9b6b-8356b921c740": {
       "question_id": "958b3846-9d9d-423a-9b6b-8356b921c740",
       "batch": "authored-2026-10-14__english__v2",
@@ -27131,7 +27138,7 @@
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
-      "judged_text_differs_from_final": 3,
+      "judged_text_differs_from_final": 4,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

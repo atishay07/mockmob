@@ -13934,119 +13934,6 @@
     }
    }
   },
-  "06298513-8dfe-4653-9454-4dbaac8ed520": {
-   "question_id": "06298513-8dfe-4653-9454-4dbaac8ed520",
-   "batch": "authored-2026-10-14__english__v2",
-   "db_chapter": "Correct Word Usage",
-   "content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-   "engine_type_guess": "fill_in_blank",
-   "judges": [
-    {
-     "judge": "h1",
-     "model": "claude-haiku-5-5",
-     "date": "2026-10-14",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 32,
-     "fit_score": 9,
-     "fit_flags": [],
-     "note": "Preposition fill-in with 'since' and a present perfect continuous clause. Format is real. 'From' is a plausible trap.",
-     "scored_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e"
-    },
-    {
-     "judge": "h2",
-     "model": "claude-haiku-5-5",
-     "date": "2026-10-14",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 33,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "Since versus for with a present perfect continuous, standard preposition blank. Key B is correct. Stem wording differs from the exemplar stem.",
-     "scored_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e"
-    },
-    {
-     "judge": "h3",
-     "model": "claude-haiku-5-5",
-     "date": "2026-10-14",
-     "cuet_type": "fill_in_blank",
-     "passage_skill": null,
-     "unit": "Verbal Ability",
-     "chapter": "Correct Word Usage",
-     "pyq_closeness": 1,
-     "ten_route": null,
-     "est_seconds": 33,
-     "fit_score": 8,
-     "fit_flags": [],
-     "note": "since versus for with the present perfect is a standard CUET preposition item. Stem style differs from exemplars E5/E6, so capped at 8.",
-     "scored_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e"
-    }
-   ],
-   "cuet_type": "fill_in_blank",
-   "cuet_type_votes": null,
-   "passage_skill": null,
-   "unit": "Verbal Ability",
-   "unit_votes": null,
-   "chapter": "Correct Word Usage",
-   "chapter_votes": null,
-   "pyq_closeness": 1,
-   "ten_route": null,
-   "fit_scores": [
-    9,
-    8,
-    8
-   ],
-   "fit_median": 8,
-   "fit_median_raw": 8,
-   "fit_flags": {},
-   "flagged_by": 0,
-   "blocking": false,
-   "provenance": {
-    "kind": "claude-authored-2026-10-14-w2",
-    "wave": 2,
-    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-    "expert_verdict": "ready",
-    "expert_issue": "Key B: a starting point in time (2015) takes since with the present perfect continuous; for needs a length of time, from and during do not fit. Unique. Easy.",
-    "expert_reviewed_text": "final",
-    "supplementary_review": {
-     "reviewer": "Claude Sonnet 5.5 (this session)",
-     "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-    },
-    "judged_text": "final",
-    "judged_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-    "final_content_hash": "a70ace0f165716a675ab2869d9c294f60ed45b3cb936c829da60d6309b71f08e",
-    "hash_changed_by_repair": false,
-    "repaired_fields": [],
-    "blind_solvers": {
-     "n": 5,
-     "matched_key": 5,
-     "answers": [
-      "B",
-      "B",
-      "B",
-      "B",
-      "B"
-     ],
-     "on": "final"
-    },
-    "blind_resolve_on_final_text": null,
-    "engine_acceptance": "judged_text_is_final_text",
-    "repaired_text_policy": "admit",
-    "models": {
-     "quality": "claude-haiku-5-5",
-     "fit": "claude-haiku-5-5",
-     "solver": "claude-haiku-5-5"
-    }
-   }
-  },
   "0bc7e3fd-ca5f-4abb-8058-b2df046889e4": {
    "question_id": "0bc7e3fd-ca5f-4abb-8058-b2df046889e4",
    "batch": "authored-2026-10-14__english__v3",
@@ -17906,6 +17793,126 @@
     },
     "blind_resolve_on_final_text": null,
     "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-haiku-5-5",
+     "fit": "claude-haiku-5-5",
+     "solver": "claude-haiku-5-5"
+    }
+   }
+  },
+  "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d": {
+   "question_id": "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d",
+   "batch": "authored-2026-10-14__english__v1",
+   "db_chapter": "Correct Word Usage",
+   "content_hash": "bf75218d281ebbff77ff2a31b22b4b00d118d82b7786436713dc565c0b670589",
+   "engine_type_guess": "fill_in_blank",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 33,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Preposition of time (since vs for), a routine rule. Same format family as 2024 q8. Stem wording differs, so format 2. Key matches.",
+     "scored_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 32,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "since/for/during/from preposition of time, a standard CUET grammar blank. Instruction wording differs from the 2024 pattern: format 2, cap 8.",
+     "scored_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "fill_in_blank",
+     "passage_skill": null,
+     "unit": "Verbal Ability",
+     "chapter": "Correct Word Usage",
+     "pyq_closeness": 1,
+     "ten_route": null,
+     "est_seconds": 33,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Since/for/from/during for a year point. Stem adds 'Choose the correct option' clause; 'for' is a classic trap. Format 2 caps at 8.",
+     "scored_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea"
+    }
+   ],
+   "cuet_type": "fill_in_blank",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Verbal Ability",
+   "unit_votes": null,
+   "chapter": "Correct Word Usage",
+   "chapter_votes": null,
+   "pyq_closeness": 1,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-10-14-w2",
+    "wave": 2,
+    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+    "expert_verdict": "repaired",
+    "expert_issue": "Key 'since' is correct for a starting point with the present perfect continuous. The distractor 'from' was arguably acceptable in ordinary speech, so it was replaced with 'by' (clearly wrong here) and the explanation was reworded. Key unchanged.",
+    "expert_reviewed_text": "final",
+    "judged_text": "pre_repair",
+    "judged_content_hash": "8dd2a6eee312056929faf20cb0b619d5445c7f475f9f57309cdaf0bf7987f3ea",
+    "final_content_hash": "bf75218d281ebbff77ff2a31b22b4b00d118d82b7786436713dc565c0b670589",
+    "hash_changed_by_repair": true,
+    "repaired_fields": [
+     "options",
+     "explanation"
+    ],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "B",
+      "B",
+      "B",
+      "B",
+      "B"
+     ],
+     "on": "as_authored"
+    },
+    "blind_resolve_on_final_text": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "B",
+      "B",
+      "B"
+     ]
+    },
+    "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
     "repaired_text_policy": "admit",
     "models": {
      "quality": "claude-haiku-5-5",

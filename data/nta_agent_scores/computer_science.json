@@ -72,7 +72,7 @@
       "hedge_wording": 1
     },
     "mean_of_means": 6.09,
-    "admissible_before_row_checks": 215
+    "admissible_before_row_checks": 217
   },
   "questions": {
     "01a8e374-7e1a-416b-ac0f-193f15cf0f43": {
@@ -20235,6 +20235,108 @@
         }
       }
     },
+    "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0": {
+      "question_id": "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0",
+      "batch": "authored-2026-10-14__computer_science__b2",
+      "chapter": "Stack",
+      "key": "C",
+      "content_hash": "085f9deab6bc04235fbd066f73c4be585dfcc00468609fb83b733c3f637501dd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.stack.pop-removes-top-element",
+          "flags": [],
+          "note": "Correct: pop() removes the last element, the top. pop(0) and del s[0] are fair bottom-removal traps. Stem states the list-as-stack convention, which narrows only slightly.",
+          "scored_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.stack.pop-without-index-removes-top",
+          "flags": [],
+          "note": "pop() without an index removes the top, so key C verified. pop(0) and del s[0] are real bottom-removal confusions.",
+          "scored_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.stack.pop-removes-top-element",
+        "computer_science.stack.pop-without-index-removes-top"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key pop() is the only top-removing operation, but option B is del s[0], a statement rather than a list method, so the stem cue was inaccurate.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f",
+        "final_content_hash": "085f9deab6bc04235fbd066f73c4be585dfcc00468609fb83b733c3f637501dd",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "stem"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "C",
+            "C",
+            "C"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "1acc4c7e-a3f1-46c9-80a8-90953bc6e44b": {
       "question_id": "1acc4c7e-a3f1-46c9-80a8-90953bc6e44b",
       "batch": "authored-2026-10-14__computer_science__b4",
@@ -24868,6 +24970,114 @@
         }
       }
     },
+    "cb5101b5-3bdd-4d79-8337-30667d59a867": {
+      "question_id": "cb5101b5-3bdd-4d79-8337-30667d59a867",
+      "batch": "authored-2026-10-14__computer_science__b1",
+      "chapter": "Exception and File Handling in Python",
+      "key": "A",
+      "content_hash": "5881a0fa6242ba59fa64aeae27b7b6dec22a4aa564539599ac25fc38d279a057",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "computer_science.exception-and-file-handling-in-python.try-except-finally-execution-order",
+          "flags": [],
+          "note": "f(0) prints done before the return value is used, f(4) prints done too, then -1 2. Distractors B, C and D each break one step of that order.",
+          "scored_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "computer_science.exception-and-file-handling-in-python.finally-runs-on-every-return",
+          "flags": [],
+          "note": "Trace checked: done during f(0), done during f(4), then -1 2. Options write line breaks as commas, which reads awkwardly; not blocking.",
+          "scored_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.exception-and-file-handling-in-python.try-except-finally-execution-order",
+        "computer_science.exception-and-file-handling-in-python.finally-runs-on-every-return"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key A is correct: f(0) returns -1 after finally prints done, f(4) returns 2 after printing done, and the final print gives -1 2. The stem had no cue that commas separate output lines, which made the options ambiguous. Added that cue to the stem in tmp/authored-w2/computer_science/computer_science__b1.json; key unchanged.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "repaired",
+          "answer_matched_key": true
+        },
+        "judged_text": "pre_repair",
+        "judged_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a",
+        "final_content_hash": "5881a0fa6242ba59fa64aeae27b7b6dec22a4aa564539599ac25fc38d279a057",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "stem"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "cc4ffd23-289c-4651-98ed-6a47619b6636": {
       "question_id": "cc4ffd23-289c-4651-98ed-6a47619b6636",
       "batch": "authored-2026-10-14__computer_science__b1",
@@ -26379,12 +26589,12 @@
     "claude-authored-2026-10-14-w2": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-14T12:10:00.000Z",
-      "questions": 74,
+      "questions": 76,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
-      "judged_text_differs_from_final": 3,
+      "judged_text_differs_from_final": 5,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

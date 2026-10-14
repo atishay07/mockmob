@@ -73,7 +73,7 @@
       "hedge_wording": 3
     },
     "mean_of_means": 6.38,
-    "admissible_before_row_checks": 232
+    "admissible_before_row_checks": 235
   },
   "questions": {
     "0fad5eeb-3be5-4439-bb2b-b719127d15e9": {
@@ -23053,6 +23053,108 @@
         }
       }
     },
+    "234b88ee-c820-4a1a-ae2f-87ae4f382003": {
+      "question_id": "234b88ee-c820-4a1a-ae2f-87ae4f382003",
+      "batch": "authored-2026-10-14__biology__b3",
+      "chapter": "Biotechnology & its Applications",
+      "key": "D",
+      "content_hash": "75fe5320a6063b68f04a9655b0d4914eceb9d5d970688f81c7394d9a7cb6aff0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-midgut",
+          "flags": [],
+          "note": "Correct: alkaline midgut solubilises crystals and gut proteases activate the protoxin. Distractors are fair.",
+          "scored_content_hash": "41ee951f410403787ff6e352100312282c5857176580e9605dd125686a646d4d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-insect-gut",
+          "flags": [],
+          "note": "Correct: alkaline midgut dissolves crystals and gut proteases activate the protoxin. Facts in explanation check out.",
+          "scored_content_hash": "41ee951f410403787ff6e352100312282c5857176580e9605dd125686a646d4d"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-midgut",
+        "biology.biotechnology-and-its-applications.bt-protoxin-activation-in-insect-gut"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Correct key D was markedly longer and more detailed than the three distractors, which is a length cue. Repair: shortened D to 'The alkaline midgut dissolves the crystals and gut proteases cleave the protoxin' (same meaning, key unchanged). Protoxin activation in the alkaline midgut is the NCERT point.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "41ee951f410403787ff6e352100312282c5857176580e9605dd125686a646d4d",
+        "final_content_hash": "75fe5320a6063b68f04a9655b0d4914eceb9d5d970688f81c7394d9a7cb6aff0",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "D",
+            "D",
+            "D"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "245978df-4555-41c5-8fa7-4ee3c9c0b349": {
       "question_id": "245978df-4555-41c5-8fa7-4ee3c9c0b349",
       "batch": "authored-2026-10-14__biology__b1",
@@ -26214,6 +26316,108 @@
         }
       }
     },
+    "b4a09c0e-f636-4717-b187-b5aba191f03a": {
+      "question_id": "b4a09c0e-f636-4717-b187-b5aba191f03a",
+      "batch": "authored-2026-10-14__biology__b3",
+      "chapter": "Organisms & Populations",
+      "key": "D",
+      "content_hash": "d856073784262af37045ed4000ad08d436556fd5c77be23fba266826cbcd0a27",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.organisms-and-populations.interspecific-interaction-types",
+          "flags": [],
+          "note": "Lichen is the only mutualism pair. Other options are parasitism, commensalism and predation, all standard NCERT examples.",
+          "scored_content_hash": "897ddcca6eb546fbffe3609ea8ecd3a0a449b5def5516d5f156e6c729ddc33a6"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.organisms-and-populations.mutualism-definition-and-examples",
+          "flags": [],
+          "note": "Correct: lichen is mutualistic. Other options are parasitism, commensalism and predation, so it is easy by elimination.",
+          "scored_content_hash": "897ddcca6eb546fbffe3609ea8ecd3a0a449b5def5516d5f156e6c729ddc33a6"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.organisms-and-populations.interspecific-interaction-types",
+        "biology.organisms-and-populations.mutualism-definition-and-examples"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key D was the longest option, and the 'lion and a deer' distractor was very short. Repair: C changed to 'A lion and the deer it hunts' and D shortened to 'A lichen fungus and the alga in its thallus'. Lichen remains the only mutualism pair and key D is unchanged.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "897ddcca6eb546fbffe3609ea8ecd3a0a449b5def5516d5f156e6c729ddc33a6",
+        "final_content_hash": "d856073784262af37045ed4000ad08d436556fd5c77be23fba266826cbcd0a27",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "D",
+            "D",
+            "D"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "dbbeb54a-2a90-448d-bc03-d52a07078ded": {
       "question_id": "dbbeb54a-2a90-448d-bc03-d52a07078ded",
       "batch": "authored-2026-10-14__biology__b1",
@@ -27058,18 +27262,120 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a": {
+      "question_id": "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a",
+      "batch": "authored-2026-10-14__biology__b3",
+      "chapter": "Biotechnology & its Applications",
+      "key": "A",
+      "content_hash": "c4bc6d45a8785c4b2816610fc2ec2d3f31f3bb39d1d74de79040c2dfe4ec8029",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-and-its-applications.rnai-nematode-resistance-mechanism",
+          "flags": [],
+          "note": "Key A is correct (RNAi, siRNA in nematode). Stem names dsRNA and the target gene, which signposts the mechanism; scored down one point.",
+          "scored_content_hash": "6c3a5fb9772ead8597f4354bb2c0a8135426c072ab6d34070aeb724d49d086e5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-and-its-applications.rnai-based-nematode-resistance",
+          "flags": [],
+          "note": "Correct RNAi mechanism. Options C and D are absurd, so two weak distractors cap this at 7.",
+          "scored_content_hash": "6c3a5fb9772ead8597f4354bb2c0a8135426c072ab6d34070aeb724d49d086e5"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-and-its-applications.rnai-nematode-resistance-mechanism",
+        "biology.biotechnology-and-its-applications.rnai-based-nematode-resistance"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key A was the longest option (19 words against 15 to 17). Repair: removed 'own' from A so its length is closer to the others. Key A (siRNA-mediated silencing of the nematode's own genes after dsRNA uptake) is unchanged and still uniquely correct.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "6c3a5fb9772ead8597f4354bb2c0a8135426c072ab6d34070aeb724d49d086e5",
+        "final_content_hash": "c4bc6d45a8785c4b2816610fc2ec2d3f31f3bb39d1d74de79040c2dfe4ec8029",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
     }
   },
   "authored": {
     "claude-authored-2026-10-14-w2": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-14T12:10:00.000Z",
-      "questions": 53,
+      "questions": 56,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
-      "judged_text_differs_from_final": 1,
+      "judged_text_differs_from_final": 4,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

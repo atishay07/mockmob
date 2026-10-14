@@ -70,7 +70,7 @@
       "hedge_wording": 1
     },
     "mean_of_means": 6.03,
-    "admissible_before_row_checks": 147
+    "admissible_before_row_checks": 149
   },
   "questions": {
     "093c87f4-dc35-4f40-aebb-d867a931b5a3": {
@@ -19671,6 +19671,115 @@
         }
       }
     },
+    "7ed82615-4905-4767-a7e8-b4104ea206fd": {
+      "question_id": "7ed82615-4905-4767-a7e8-b4104ea206fd",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "A",
+      "content_hash": "d39543d996cc7ab07be913559a6f72a5f85073a2fc2a69c6a99873cd32f479c6",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.india-balance-of-payments-crisis-trigger",
+          "flags": [],
+          "note": "Correct key (1991 balance of payments crisis). Option B is an absurd throwaway since the WTO did not exist until 1995; otherwise fit for a mock.",
+          "scored_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.india-1991-balance-of-payments-crisis",
+          "flags": [],
+          "note": "Key correct. Options B (WTO expulsion) and C (bank nationalisation) are absurd, so the item is near-trivial by elimination.",
+          "scored_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.india-balance-of-payments-crisis-trigger",
+        "political_science.globalisation.india-1991-balance-of-payments-crisis"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key A (balance of payments crisis) is correct. Distractor B (WTO expelling India in 1991) was absurd because the WTO did not exist until 1995, so it was replaced with a plausible but false RBI decision on foreign banks. Distractor C was reworded to a false 1991 nationalisation by the Government of India (the real nationalisations were 1969 and 1980) and the explanation was updated to match. Key unchanged.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "repaired",
+          "answer_matched_key": true
+        },
+        "judged_text": "pre_repair",
+        "judged_content_hash": "ab02c8df6c52cc8efa5488178e448edbbbb184a448ebee51f25ddb2c73a9cda9",
+        "final_content_hash": "d39543d996cc7ab07be913559a6f72a5f85073a2fc2a69c6a99873cd32f479c6",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options",
+          "explanation"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
     "8eedfa08-6c44-41d8-9c93-794135a8aa52": {
       "question_id": "8eedfa08-6c44-41d8-9c93-794135a8aa52",
       "batch": "authored-2026-10-14__political_science__glob",
@@ -20046,6 +20155,114 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "ee4e7379-b61d-481c-95b8-bbc665cc9bf9": {
+      "question_id": "ee4e7379-b61d-481c-95b8-bbc665cc9bf9",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "A",
+      "content_hash": "f36a059d4a1000d3c5ceeb80a5e8c2393aac296f922c6a7bd549a557b8cd0450",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.meaning-of-globalisation",
+          "flags": [],
+          "note": "Clean direct-recall definition with distinct distractors; B, C and D are clearly different concepts. Fit for a mock.",
+          "scored_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.meaning-of-globalisation",
+          "flags": [],
+          "note": "Key correct and clean. Distractors B-D are obviously wrong, so the item is answerable by elimination alone.",
+          "scored_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "political_science.globalisation.meaning-of-globalisation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.meaning-of-globalisation",
+        "political_science.globalisation.meaning-of-globalisation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key A is the correct definition of globalisation and the other options are clearly wrong. The option lengths were uneven (A about 105 characters against C about 82), which cues the key, so distractors B and D were lengthened to balance the set. Key unchanged.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "repaired",
+          "answer_matched_key": true
+        },
+        "judged_text": "pre_repair",
+        "judged_content_hash": "8da1eb9a357437f1da2c698ffe1b573d22a05e36368a9662241e44315fbe0317",
+        "final_content_hash": "f36a059d4a1000d3c5ceeb80a5e8c2393aac296f922c6a7bd549a557b8cd0450",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
     }
   },
   "authored": {
@@ -20064,12 +20281,12 @@
     "claude-authored-2026-10-14-w2": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-14T12:10:00.000Z",
-      "questions": 7,
+      "questions": 9,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
-      "judged_text_differs_from_final": 0,
+      "judged_text_differs_from_final": 2,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

@@ -11455,6 +11455,125 @@
     }
    }
   },
+  "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0": {
+   "question_id": "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0",
+   "batch": "authored-2026-10-14__computer_science__b2",
+   "db_chapter": "Stack",
+   "content_hash": "085f9deab6bc04235fbd066f73c4be585dfcc00468609fb83b733c3f637501dd",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "pop() removes the top of a list stack. pop(0) and del s[0] are real misconceptions. Cleanly tests one key aspect of Stack.",
+     "scored_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 38,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "pop() as top-of-stack recall, a core stack fact. Options del s[0] and reverse() are weak distractors.",
+     "scored_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Stack",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 38,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "pop() as stack-top removal is a textbook CBT staple; pop(0) and del are queue-style distractors. Route cbt_staple lifts to 10. Key C checked.",
+     "scored_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section B1: Computer Science",
+   "unit_votes": null,
+   "chapter": "Stack",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10,
+    9,
+    10
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-10-14-w2",
+    "wave": 2,
+    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+    "expert_verdict": "repaired",
+    "expert_issue": "Key pop() is the only top-removing operation, but option B is del s[0], a statement rather than a list method, so the stem cue was inaccurate.",
+    "expert_reviewed_text": "final",
+    "judged_text": "pre_repair",
+    "judged_content_hash": "4fd51142c3f2e567cf8cb4dd4bcbd09abaf3a3b4db4912a6c1b9b422b741802f",
+    "final_content_hash": "085f9deab6bc04235fbd066f73c4be585dfcc00468609fb83b733c3f637501dd",
+    "hash_changed_by_repair": true,
+    "repaired_fields": [
+     "stem"
+    ],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "C",
+      "C",
+      "C",
+      "C",
+      "C"
+     ],
+     "on": "as_authored"
+    },
+    "blind_resolve_on_final_text": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "C",
+      "C",
+      "C"
+     ]
+    },
+    "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-haiku-5-5",
+     "fit": "claude-haiku-5-5",
+     "solver": "claude-haiku-5-5"
+    }
+   }
+  },
   "1acc4c7e-a3f1-46c9-80a8-90953bc6e44b": {
    "question_id": "1acc4c7e-a3f1-46c9-80a8-90953bc6e44b",
    "batch": "authored-2026-10-14__computer_science__b4",
@@ -16942,6 +17061,131 @@
     }
    }
   },
+  "cb5101b5-3bdd-4d79-8337-30667d59a867": {
+   "question_id": "cb5101b5-3bdd-4d79-8337-30667d59a867",
+   "batch": "authored-2026-10-14__computer_science__b1",
+   "db_chapter": "Exception and File Handling in Python",
+   "content_hash": "5881a0fa6242ba59fa64aeae27b7b6dec22a4aa564539599ac25fc38d279a057",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Nested try, except and finally with a return and two calls: combines several ideas, so level 2 and capped at 8. Key A checks out.",
+     "scored_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "try, except and finally trace across two calls on a nine-line function: several linked steps, 92 s, so level 2 and time 2.",
+     "scored_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-14",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Exception and File Handling in Python",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "try, except and finally call order with a function called twice: several ideas combined. Comma-joined output options are awkward to read. Capped at 8.",
+     "scored_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section B1: Computer Science",
+   "unit_votes": null,
+   "chapter": "Exception and File Handling in Python",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-10-14-w2",
+    "wave": 2,
+    "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+    "expert_verdict": "repaired",
+    "expert_issue": "Key A is correct: f(0) returns -1 after finally prints done, f(4) returns 2 after printing done, and the final print gives -1 2. The stem had no cue that commas separate output lines, which made the options ambiguous. Added that cue to the stem in tmp/authored-w2/computer_science/computer_science__b1.json; key unchanged.",
+    "expert_reviewed_text": "final",
+    "spot_check": {
+     "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+     "verdict": "NTA-ready",
+     "expert_verdict_then": "repaired",
+     "answer_matched_key": true
+    },
+    "judged_text": "pre_repair",
+    "judged_content_hash": "0fabfc2153c3382406e277418cd4217b935ffd358941f1893cb5a10beb4b424a",
+    "final_content_hash": "5881a0fa6242ba59fa64aeae27b7b6dec22a4aa564539599ac25fc38d279a057",
+    "hash_changed_by_repair": true,
+    "repaired_fields": [
+     "stem"
+    ],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+     ],
+     "on": "as_authored"
+    },
+    "blind_resolve_on_final_text": {
+     "n": 3,
+     "matched_key": 3,
+     "answers": [
+      "A",
+      "A",
+      "A"
+     ]
+    },
+    "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-haiku-5-5",
+     "fit": "claude-haiku-5-5",
+     "solver": "claude-haiku-5-5"
+    }
+   }
+  },
   "cc4ffd23-289c-4651-98ed-6a47619b6636": {
    "question_id": "cc4ffd23-289c-4651-98ed-6a47619b6636",
    "batch": "authored-2026-10-14__computer_science__b1",
@@ -18725,14 +18969,14 @@
   "claude-authored-2026-10-14-w2": {
    "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (built by scripts/authored-w2-accept.mjs --mode=final). The measures block above describes the base merge only.",
    "merged_at": "2026-10-14T12:10:00.000Z",
-   "questions": 74,
+   "questions": 76,
    "judge_model": "claude-haiku-5-5",
    "judge_date": "2026-10-14",
    "repaired_text_policy": "admit",
    "held_for_fresh_judge_pass": 0,
-   "fit_pass_at_8": 74,
-   "fit_pass_at_9": 41,
-   "tens_capped_without_agreed_route": 1,
+   "fit_pass_at_8": 76,
+   "fit_pass_at_9": 42,
+   "tens_capped_without_agreed_route": 2,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
   }
  }

@@ -1397,6 +1397,74 @@
     "_verdict": "ready"
   },
   {
+    "id": "234b88ee-c820-4a1a-ae2f-87ae4f382003",
+    "subject": "biology",
+    "unit": "Biotechnology and its Applications",
+    "chapter": "Biotechnology & its Applications",
+    "type": "single_mcq",
+    "stem": "Crystal proteins of Bacillus thuringiensis are produced as inactive protoxins. When a susceptible insect ingests these crystals, why does the protoxin become an active toxin?",
+    "options": [
+      {
+        "key": "A",
+        "text": "The acidic pH of the insect's stomach dissolves the crystals and activates the protoxin"
+      },
+      {
+        "key": "B",
+        "text": "The toxin is converted into its active form inside the bacterial cell before ingestion"
+      },
+      {
+        "key": "C",
+        "text": "Bacterial spores germinate in the insect gut and secrete the active toxin"
+      },
+      {
+        "key": "D",
+        "text": "The alkaline midgut dissolves the crystals and gut proteases cleave the protoxin"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Bt crystal proteins are protoxins that need activation. In the alkaline midgut of susceptible insects, the crystals dissolve and gut proteases cut the protoxin to an active toxin. The toxin then binds to midgut epithelial cells and forms pores that lead to cell lysis.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 Biology, Biotechnology and its Applications, section Bt crops (Bt toxin activation)",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
+    "id": "fdb74c4a-b4a0-43c3-8d43-b4bc4912788a",
+    "subject": "biology",
+    "unit": "Biotechnology and its Applications",
+    "chapter": "Biotechnology & its Applications",
+    "type": "single_mcq",
+    "stem": "Transgenic tobacco plants that produce double-stranded RNA complementary to an essential gene of the root-knot nematode Meloidogyne incognita resist infection by the nematode. Which mechanism explains this resistance?",
+    "options": [
+      {
+        "key": "A",
+        "text": "The nematode takes up the dsRNA, which is processed into small interfering RNAs that silence its essential genes"
+      },
+      {
+        "key": "B",
+        "text": "The nematode ingests the dsRNA, which is translated into a toxic protein in its gut"
+      },
+      {
+        "key": "C",
+        "text": "The dsRNA binds to the plant DNA and blocks root formation so the nematode cannot enter"
+      },
+      {
+        "key": "D",
+        "text": "The dsRNA acts as an antibody that neutralises the digestive enzymes of the nematode"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "The dsRNA made in the transgenic plant is taken up by the nematode and processed by its RNA interference machinery into small interfering RNAs. These siRNAs silence the target nematode genes, so the parasite cannot establish infection. The effect acts inside the parasite, not in the plant's own cells.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "Class 12 Biology, Biotechnology and its Applications, section Biotechnology applications in agriculture (RNA interference and pest resistance)",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
     "id": "996138c8-cf93-4929-8e1e-701248bd2274",
     "subject": "biology",
     "unit": "Biotechnology and its Applications",
@@ -1531,6 +1599,40 @@
     "ncert_ref": "Class 12 Biology, Organisms and Populations, section Interspecific interactions (competition and competitive exclusion)",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
+  },
+  {
+    "id": "b4a09c0e-f636-4717-b187-b5aba191f03a",
+    "subject": "biology",
+    "unit": "Ecology and Environment",
+    "chapter": "Organisms & Populations",
+    "type": "single_mcq",
+    "stem": "Which of the following pairs of organisms shows mutualism?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Cuscuta and the host plant on which it grows"
+      },
+      {
+        "key": "B",
+        "text": "An orchid growing on the branch of a mango tree"
+      },
+      {
+        "key": "C",
+        "text": "A lion and the deer it hunts"
+      },
+      {
+        "key": "D",
+        "text": "A lichen fungus and the alga in its thallus"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "In a lichen, the fungus gets food from the alga, and the alga gets protection and water from the fungus, so both partners benefit. Cuscuta is a parasite, the orchid on the mango tree is a commensal, and the lion and deer pair is predator and prey.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 Biology, Organisms and Populations, section Interspecific interactions (mutualism, commensalism, parasitism, predation)",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
   },
   {
     "id": "f1e3b5d2-8c81-481e-a2c5-df9ea70e2d83",
@@ -2451,6 +2553,40 @@
     "_verdict": "ready"
   },
   {
+    "id": "cb5101b5-3bdd-4d79-8337-30667d59a867",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Exception and File Handling in Python",
+    "type": "single_mcq",
+    "stem": "What is the output of the following code? In the options below, a comma separates consecutive lines of output.\ndef f(n):\n    try:\n        return 10 // n\n    except ZeroDivisionError:\n        return -1\n    finally:\n        print('done')\n\nprint(f(0), f(4))",
+    "options": [
+      {
+        "key": "A",
+        "text": "done, done, -1 2"
+      },
+      {
+        "key": "B",
+        "text": "done, -1 2"
+      },
+      {
+        "key": "C",
+        "text": "-1 2, done, done"
+      },
+      {
+        "key": "D",
+        "text": "done, done, 2 -1"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "f(0) raises ZeroDivisionError, so the except block returns -1, and the finally block prints done before the call ends. f(4) returns 10 // 4 = 2 and the finally block prints done again. The final print then shows -1 and 2, so the output is done, done, and -1 2 on the last line.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "hard",
+    "ncert_ref": "Class 12 Computer Science, Exception Handling in Python: try, except and finally blocks",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
     "id": "eb996150-b37e-4a8c-8926-1206d7b0964b",
     "subject": "computer_science",
     "unit": "Section A: Database and Networks",
@@ -2755,6 +2891,40 @@
     "ncert_ref": "Class 12 CS, Section B1: Computer Science, chapter Stack, stack implementation using a list (push and pop)",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
+  },
+  {
+    "id": "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Stack",
+    "type": "single_mcq",
+    "stem": "In Python, a stack is commonly implemented using a list in which the end of the list is the top of the stack. Which list operation removes the top element of such a stack?",
+    "options": [
+      {
+        "key": "A",
+        "text": "pop(0)"
+      },
+      {
+        "key": "B",
+        "text": "del s[0]"
+      },
+      {
+        "key": "C",
+        "text": "pop()"
+      },
+      {
+        "key": "D",
+        "text": "reverse()"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "pop() without an index removes and returns the last element, which is the top of a list-based stack. pop(0), like del s[0], removes the first element, which is the bottom of such a stack. reverse() changes the order of the elements and removes nothing.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 CS, Section B1: Computer Science, chapter Stack, stack implementation using a list",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
   },
   {
     "id": "768a8a3a-053a-4349-bbbb-4f7dbcec98a2",
@@ -4564,6 +4734,40 @@
     "_verdict": "ready"
   },
   {
+    "id": "8ea3affd-ebb6-42c3-a5cc-aa0a8788e76d",
+    "subject": "english",
+    "unit": "Verbal Ability",
+    "chapter": "Correct Word Usage",
+    "type": "fill_in_blank",
+    "stem": "She has been living in this city ______ 2015. Choose the correct option to fill in the blank.",
+    "options": [
+      {
+        "key": "A",
+        "text": "for"
+      },
+      {
+        "key": "B",
+        "text": "since"
+      },
+      {
+        "key": "C",
+        "text": "by"
+      },
+      {
+        "key": "D",
+        "text": "during"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "'Since' marks a starting point in time such as 2015 and is the standard link with the present perfect continuous for an action running up to now. 'For' is used with a duration, 'during' with a period of an event, and 'by' means no later than a point in time, which does not fit an action continuing up to now.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "CUET UG 2026 English, Verbal Ability, Correct Word Usage: prepositions of time",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
     "id": "19453319-eb6d-49c8-b282-86d1e025724b",
     "subject": "english",
     "unit": "Verbal Ability",
@@ -5308,40 +5512,6 @@
     "set_id": null,
     "difficulty_label": "easy",
     "ncert_ref": "CUET UG 2026 English syllabus, Verbal Ability > Vocabulary > One-word substitution",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "06298513-8dfe-4653-9454-4dbaac8ed520",
-    "subject": "english",
-    "unit": "Verbal Ability",
-    "chapter": "Correct Word Usage",
-    "type": "fill_in_blank",
-    "stem": "Choose the option that correctly fills the blank: She has been living in this city ______ 2015.",
-    "options": [
-      {
-        "key": "A",
-        "text": "for"
-      },
-      {
-        "key": "B",
-        "text": "since"
-      },
-      {
-        "key": "C",
-        "text": "from"
-      },
-      {
-        "key": "D",
-        "text": "during"
-      }
-    ],
-    "correct_key": "B",
-    "explanation": "A specific starting point in time takes 'since' with the present perfect continuous tense. 'For' is used with a period of time, and 'from' and 'during' do not express this relationship.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "easy",
-    "ncert_ref": "CUET UG 2026 English syllabus, Verbal Ability > Correct Word Usage > Fill in the blanks: prepositions",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
   },
@@ -8883,40 +9053,6 @@
     "_verdict": "ready"
   },
   {
-    "id": "4e27ea47-76be-4af9-b5dd-77b000253b42",
-    "subject": "geography",
-    "unit": "People",
-    "chapter": "Population — Distribution, Density, Growth",
-    "type": "single_mcq",
-    "stem": "Which stage of the Demographic Transition Model is marked by a high birth rate, a sharply falling death rate and rapid population growth?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Stage I"
-      },
-      {
-        "key": "B",
-        "text": "Stage IV"
-      },
-      {
-        "key": "C",
-        "text": "Stage II"
-      },
-      {
-        "key": "D",
-        "text": "Stage III"
-      }
-    ],
-    "correct_key": "C",
-    "explanation": "In Stage II of the Demographic Transition Model, birth rates stay high while death rates fall sharply because of better health and food supply, so population grows rapidly. Stage I has high birth and death rates with a stable population. Stage III shows a falling birth rate and a slowing growth, and Stage IV has low birth and death rates.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "easy",
-    "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 2 'The World Population: Distribution, Density and Growth', demographic transition",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
     "id": "f92f3699-2f61-4c22-a11e-cf947bc020c9",
     "subject": "geography",
     "unit": "People",
@@ -8981,74 +9117,6 @@
     "set_id": null,
     "difficulty_label": "easy",
     "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 3 'Migration: Types, Causes and Consequences', causes of migration",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "8b40da05-e62e-4112-b9e3-9320246384ca",
-    "subject": "geography",
-    "unit": "People",
-    "chapter": "Human Development",
-    "type": "single_mcq",
-    "stem": "Which of the following is NOT a component of the Human Development Index?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Life expectancy at birth"
-      },
-      {
-        "key": "B",
-        "text": "Mean years of schooling"
-      },
-      {
-        "key": "C",
-        "text": "GNI per capita at purchasing power parity"
-      },
-      {
-        "key": "D",
-        "text": "Infant mortality rate"
-      }
-    ],
-    "correct_key": "D",
-    "explanation": "The HDI rests on three dimensions: health measured by life expectancy at birth, education measured by mean and expected years of schooling, and income measured by GNI per capita at PPP. The infant mortality rate is not one of the three components.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "easy",
-    "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 4 'Human Development', Human Development Index",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "a1a985d8-c58d-4586-8e62-91999fa88b46",
-    "subject": "geography",
-    "unit": "People",
-    "chapter": "India — People & Economy",
-    "type": "sequence_ordering",
-    "stem": "Arrange the following Indian states in decreasing order of their literacy rate in the Census of 2011: (A) Himachal Pradesh (B) Bihar (C) Kerala (D) Mizoram",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A), (C), (D), (B)"
-      },
-      {
-        "key": "B",
-        "text": "(C), (A), (D), (B)"
-      },
-      {
-        "key": "C",
-        "text": "(D), (C), (A), (B)"
-      },
-      {
-        "key": "D",
-        "text": "(C), (D), (A), (B)"
-      }
-    ],
-    "correct_key": "D",
-    "explanation": "The 2011 Census literacy rates are Kerala 93.91 per cent, Mizoram 91.58 per cent, Himachal Pradesh 83.78 per cent and Bihar 61.80 per cent. In decreasing order this gives Kerala, Mizoram, Himachal Pradesh, Bihar, which is (C), (D), (A), (B).",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "hard",
-    "ncert_ref": "NCERT Class 12 India: People and Economy, Ch 1 'Population: Distribution, Density, Growth and Composition', literacy",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
   },
@@ -9121,40 +9189,6 @@
     "_verdict": "ready"
   },
   {
-    "id": "ff6a9f3a-7ddd-4738-a651-24069d405c10",
-    "subject": "geography",
-    "unit": "Human Activities",
-    "chapter": "Secondary Activities",
-    "type": "single_mcq",
-    "stem": "Which of the following is a weight-gaining industry?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Iron ore smelting"
-      },
-      {
-        "key": "B",
-        "text": "Electronic goods assembly"
-      },
-      {
-        "key": "C",
-        "text": "Soft drink bottling"
-      },
-      {
-        "key": "D",
-        "text": "Sugar refining"
-      }
-    ],
-    "correct_key": "C",
-    "explanation": "A weight-gaining industry produces a finished product heavier than its raw material inputs, because it adds a ubiquitous input such as water. Soft drink bottling fits this pattern. Iron ore smelting and sugar refining are weight-losing, and electronic goods assembly is footloose.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 6 'Secondary Activities', weight-gaining and weight-losing industries",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
     "id": "e614bf7c-e905-495a-860c-5e445124e0d0",
     "subject": "geography",
     "unit": "Human Activities",
@@ -9219,40 +9253,6 @@
     "set_id": null,
     "difficulty_label": "easy",
     "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 7 'Tertiary and Quaternary Activities', quaternary activities",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "f5ceaadd-0e02-4556-978e-5690c51b638b",
-    "subject": "geography",
-    "unit": "Human Activities",
-    "chapter": "Tertiary & Quaternary Activities",
-    "type": "sequence_ordering",
-    "stem": "Arrange the following economic activity types in the order of decreasing direct dependence on natural resources, with the highest dependence first: (A) Tertiary activities (B) Primary activities (C) Quaternary activities (D) Secondary activities",
-    "options": [
-      {
-        "key": "A",
-        "text": "(B), (A), (D), (C)"
-      },
-      {
-        "key": "B",
-        "text": "(D), (B), (A), (C)"
-      },
-      {
-        "key": "C",
-        "text": "(B), (D), (C), (A)"
-      },
-      {
-        "key": "D",
-        "text": "(B), (D), (A), (C)"
-      }
-    ],
-    "correct_key": "D",
-    "explanation": "Primary activities draw directly on natural resources, secondary activities process raw materials, tertiary activities provide services, and quaternary activities are knowledge-based. The decreasing order is therefore Primary (B), Secondary (D), Tertiary (A), Quaternary (C).",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "hard",
-    "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography, Ch 5 to Ch 7 (Primary, Secondary, Tertiary and Quaternary Activities)",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
   },
@@ -9733,40 +9733,6 @@
     "_verdict": "ready"
   },
   {
-    "id": "47f514b2-0bd9-4024-a9fb-f1b84d8e74ea",
-    "subject": "geography",
-    "unit": "Transport, Communication and Trade",
-    "chapter": "Transport & Communication",
-    "type": "match_the_following",
-    "stem": "Match List-I with List-II.\nList-I\n(A) Submarine cables\n(B) Satellite communication\n(C) Optical fibre cables\n(D) Telegraph\nList-II\n(I) Carry data as pulses of light through thin glass strands\n(II) Laid on the ocean floor to carry international telecom traffic between continents\n(III) Relay signals from geostationary orbit to ground stations across large areas\n(IV) Transmit messages as dots and dashes over electric wires\nChoose the correct answer from the options given below:",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
-      },
-      {
-        "key": "B",
-        "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
-      },
-      {
-        "key": "C",
-        "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
-      },
-      {
-        "key": "D",
-        "text": "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)"
-      }
-    ],
-    "correct_key": "D",
-    "explanation": "Submarine cables lie on the ocean floor (II), satellite communication relays signals from geostationary orbit (III), and optical fibre carries light pulses (I). The telegraph sends Morse code as dots and dashes over wires (IV), giving (A)-(II), (B)-(III), (C)-(I), (D)-(IV).",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "hard",
-    "ncert_ref": "Class 12 Fundamentals of Human Geography, Ch 8 Transport and Communication, section on communication",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
     "id": "e4fff894-037f-4700-934f-07d0f1fea52a",
     "subject": "geography",
     "unit": "Human Settlements",
@@ -9903,40 +9869,6 @@
     "_verdict": "ready"
   },
   {
-    "id": "75dc1722-2c50-4a6c-b862-813621007361",
-    "subject": "geography",
-    "unit": "Transport, Communication and Trade",
-    "chapter": "Transport & Communication",
-    "type": "single_mcq",
-    "stem": "A landlocked country needs to move bulk iron ore overland over about 1,500 km at the lowest cost per tonne-km. Which mode of transport is most suitable?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Railways"
-      },
-      {
-        "key": "B",
-        "text": "Airways"
-      },
-      {
-        "key": "C",
-        "text": "Roadways"
-      },
-      {
-        "key": "D",
-        "text": "Pipelines"
-      }
-    ],
-    "correct_key": "A",
-    "explanation": "Railways are the cheapest overland mode for heavy bulk cargo over long distances, and a landlocked country has no water route. Airways are costly per tonne, roadways suit shorter flexible trips, and pipelines are built mainly for liquids and gases, so they are not the standard way to move solid ore.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Fundamentals of Human Geography, Ch 8 Transport and Communication (railways and bulk cargo)",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "repaired"
-  },
-  {
     "id": "df6bc8d7-5108-4469-b832-52df9a5fb6d5",
     "subject": "geography",
     "unit": "Transport, Communication and Trade",
@@ -10035,74 +9967,6 @@
     "set_id": null,
     "difficulty_label": "medium",
     "ncert_ref": "Fundamentals of Human Geography, Ch 8 Transport and Communication (communication: cables, satellites, radio)",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "819e826f-4bb2-4dcf-b3f2-f02f85a761ac",
-    "subject": "geography",
-    "unit": "Transport, Communication and Trade",
-    "chapter": "Transport & Communication",
-    "type": "match_the_following",
-    "stem": "Match List-I with List-II.\nList-I\n(A) Rhine\n(B) Panama Canal\n(C) Trans-Siberian Railway\n(D) National Highway 44\nList-II\n(I) Connects the Atlantic and Pacific Oceans\n(II) Europe's busiest inland waterway\n(III) Longest railway line in the world\n(IV) Connects Srinagar and Kanyakumari\nChoose the correct answer from the options given below:",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
-      },
-      {
-        "key": "B",
-        "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
-      },
-      {
-        "key": "C",
-        "text": "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)"
-      },
-      {
-        "key": "D",
-        "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
-      }
-    ],
-    "correct_key": "B",
-    "explanation": "The Rhine is Europe's busiest inland waterway, and the Panama Canal joins the Atlantic and Pacific Oceans. The Trans-Siberian Railway is the longest railway line in the world, and National Highway 44 runs from Srinagar to Kanyakumari.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Fundamentals of Human Geography, Ch 8 Transport and Communication (waterways, canals, railways, roadways)",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "af69a573-bbd4-4fb1-9c09-33acedec4003",
-    "subject": "geography",
-    "unit": "International Trade",
-    "chapter": "International Trade",
-    "type": "single_mcq",
-    "stem": "In a year, a country exports visible goods worth US$ 180 billion and imports visible goods worth US$ 215 billion. What is its balance of trade for the year?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Surplus of US$ 35 billion"
-      },
-      {
-        "key": "B",
-        "text": "Deficit of US$ 35 billion"
-      },
-      {
-        "key": "C",
-        "text": "Surplus of US$ 395 billion"
-      },
-      {
-        "key": "D",
-        "text": "Deficit of US$ 395 billion"
-      }
-    ],
-    "correct_key": "B",
-    "explanation": "Balance of trade = value of visible exports minus value of visible imports = 180 - 215 = -35 billion, which is a deficit of US$ 35 billion. The sum of 395 and the reversed sign in option A are the distractors.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Fundamentals of Human Geography, Ch 9 International Trade (balance of trade)",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
   },
@@ -10311,40 +10175,6 @@
     "_verdict": "ready"
   },
   {
-    "id": "86fa69db-a3ae-4c63-bf05-296eb028c420",
-    "subject": "geography",
-    "unit": "Resources and Development",
-    "chapter": "Resources & Development",
-    "type": "match_the_following",
-    "stem": "Match List-I with List-II.\nList-I\n(A) Alluvial soil\n(B) Black soil\n(C) Red soil\n(D) Laterite soil\nList-II\n(I) Formed under high temperature and heavy rainfall, where leaching removes silica and leaves iron and aluminium oxides\n(II) Deposited by rivers in the northern plains, highly fertile and rich in potash\n(III) Formed from basaltic lava, retains moisture well and suits cotton cultivation\n(IV) Developed on crystalline rocks in low-rainfall areas, poor in lime and humus\nChoose the correct answer from the options given below:",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
-      },
-      {
-        "key": "B",
-        "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
-      },
-      {
-        "key": "C",
-        "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
-      },
-      {
-        "key": "D",
-        "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
-      }
-    ],
-    "correct_key": "C",
-    "explanation": "Alluvial soil is river-deposited and highly fertile, which matches (II). Black soil forms from basaltic lava and suits cotton, which matches (III). Red soil develops on crystalline rocks in low-rainfall areas, which matches (IV), and laterite forms under heavy rainfall through leaching, which matches (I).",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Class 12 India: People and Economy, Ch Resources and Development, section Soils",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "repaired"
-  },
-  {
     "id": "5abfe535-4bcd-4f97-a362-f478075ecd10",
     "subject": "geography",
     "unit": "Transport, Communication and Trade",
@@ -10375,40 +10205,6 @@
     "set_id": null,
     "difficulty_label": "medium",
     "ncert_ref": "Class 12 Fundamentals of Human Geography, Ch International Trade, section Visible and invisible trade",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "0457ce26-b351-4e93-ad4d-61fbf40dc66c",
-    "subject": "geography",
-    "unit": "Resources and Development",
-    "chapter": "Planning & Sustainable Development",
-    "type": "sequence_ordering",
-    "stem": "Arrange the following events in chronological order, from the earliest to the latest.\n(A) NITI Aayog replaces the Planning Commission as India's planning body.\n(B) The Planning Commission of India is set up.\n(C) The Second Five Year Plan, with emphasis on heavy industry, is launched.\n(D) The First Five Year Plan is launched.\nChoose the correct sequence from the options given below:",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A), (B), (C), (D)"
-      },
-      {
-        "key": "B",
-        "text": "(D), (B), (C), (A)"
-      },
-      {
-        "key": "C",
-        "text": "(B), (D), (C), (A)"
-      },
-      {
-        "key": "D",
-        "text": "(B), (C), (D), (A)"
-      }
-    ],
-    "correct_key": "C",
-    "explanation": "The Planning Commission was set up in 1950, and the First Five Year Plan followed in 1951. The Second Five Year Plan began in 1956, and NITI Aayog replaced the Planning Commission in 2015. The correct sequence is therefore (B), (D), (C), (A).",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Class 12 India: People and Economy, Ch Planning and Sustainable Development, section Planning in India",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
   },
@@ -10515,38 +10311,38 @@
     "_verdict": "ready"
   },
   {
-    "id": "f3b33c2c-c926-45bf-bcfa-11697113066c",
+    "id": "51db2fdf-48fb-4653-9369-e8b891a12f18",
     "subject": "geography",
-    "unit": "Transport, Communication and Trade",
-    "chapter": "Transport & Communication",
-    "type": "match_the_following",
-    "stem": "Match List-I with List-II.\nList-I\n(A) Panama Canal\n(B) Suez Canal\n(C) Kiel Canal\n(D) Strait of Malacca\nList-II\n(I) Links the Baltic Sea with the North Sea\n(II) Links the Atlantic and Pacific Oceans\n(III) Links the Mediterranean Sea with the Red Sea\n(IV) Links the Indian Ocean with the South China Sea\nChoose the correct answer from the options given below:",
+    "unit": "Geographical Perspective on Selected Issues and Problems",
+    "chapter": "Geographical Perspective on Selected Issues and Problems",
+    "type": "single_mcq",
+    "stem": "Which group of human-made chemicals is the main cause of depletion of the ozone layer in the stratosphere?",
     "options": [
       {
         "key": "A",
-        "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        "text": "Carbon dioxide from burning fuels"
       },
       {
         "key": "B",
-        "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+        "text": "Chlorofluorocarbons (CFCs)"
       },
       {
         "key": "C",
-        "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+        "text": "Methane from paddy fields"
       },
       {
         "key": "D",
-        "text": "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)"
+        "text": "Sulphur dioxide from smelters"
       }
     ],
-    "correct_key": "D",
-    "explanation": "The Panama Canal joins the Atlantic and Pacific (II), and the Suez Canal joins the Mediterranean and Red Sea (III). The Kiel Canal joins the Baltic and North Sea (I), and the Strait of Malacca links the Indian Ocean with the South China Sea (IV).",
+    "correct_key": "B",
+    "explanation": "Chlorofluorocarbons release chlorine atoms in the stratosphere, and each chlorine atom destroys many ozone molecules. Carbon dioxide and methane drive global warming, and sulphur dioxide is linked to acid rain.",
     "passage_text": null,
     "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Class 12 Fundamentals of Human Geography, Ch Transport and Communication, section Waterways",
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 India: People and Economy, Ch Geographical Perspective on Selected Issues and Problems, section Ozone depletion",
     "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
+    "_verdict": "repaired"
   },
   {
     "id": "7ca304d9-3b20-41d1-a8fa-53b62e046556",
@@ -10583,70 +10379,36 @@
     "_verdict": "ready"
   },
   {
-    "id": "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63",
+    "id": "c2a88140-3a27-4266-8266-f57e7e1345e7",
     "subject": "geography",
     "unit": "Resources and Development",
-    "chapter": "Resources & Development",
-    "type": "statement_based",
-    "stem": "Consider the following statements about soil conservation.\n(A) Contour ploughing reduces surface runoff on sloping land.\n(B) Shelter belts of trees reduce wind erosion in arid regions.\n(C) Strip cropping increases the rate of soil erosion by wind.\n(D) Terrace cultivation on hill slopes reduces runoff and soil loss.\nChoose the correct answer from the options given below:",
-    "options": [
-      {
-        "key": "A",
-        "text": "(A), (B) and (C) only"
-      },
-      {
-        "key": "B",
-        "text": "(A), (B) and (D) only"
-      },
-      {
-        "key": "C",
-        "text": "(B), (C) and (D) only"
-      },
-      {
-        "key": "D",
-        "text": "(A) and (C) only"
-      }
-    ],
-    "correct_key": "B",
-    "explanation": "Contour ploughing, shelter belts and terrace cultivation all reduce runoff or wind erosion, so (A), (B) and (D) are correct. Strip cropping is a conservation method that reduces erosion, so statement (C) is false.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Class 12 India: People and Economy, Ch Resources and Development, section Soil conservation",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
-  },
-  {
-    "id": "e4a0e47c-96a8-49ec-9a9c-e9c849e698b9",
-    "subject": "geography",
-    "unit": "Human Settlements",
-    "chapter": "Human Settlements",
+    "chapter": "Planning & Sustainable Development",
     "type": "single_mcq",
-    "stem": "The unplanned, low-density outward spread of a city into the surrounding rural land is called:",
+    "stem": "The Brundtland Commission report, Our Common Future (1987), defined sustainable development as development that:",
     "options": [
       {
         "key": "A",
-        "text": "Counter-urbanisation"
+        "text": "maximises the rate of industrial growth in developing countries, even where it damages local ecosystems and resources"
       },
       {
         "key": "B",
-        "text": "Urban sprawl"
+        "text": "meets the needs of the present without compromising the ability of future generations to meet their own needs"
       },
       {
         "key": "C",
-        "text": "Urban hierarchy"
+        "text": "stops the use of all natural resources, including water, forests and minerals, to protect the environment"
       },
       {
         "key": "D",
-        "text": "Urban renewal"
+        "text": "gives market prices the sole role in allocating land, water and forests, with no role for community or state rules"
       }
     ],
     "correct_key": "B",
-    "explanation": "Urban sprawl is the unplanned, low-density outward spread of a city into the surrounding rural land. Counter-urbanisation is movement from cities to rural areas, urban renewal is redevelopment within the existing city, and urban hierarchy is the ranking of settlements by size and function.",
+    "explanation": "The Brundtland Commission defined sustainable development as meeting present needs without compromising the ability of future generations to meet theirs. The other options describe unrestricted industrial growth, a complete halt to resource use and pure market allocation, none of which is the definition.",
     "passage_text": null,
     "set_id": null,
     "difficulty_label": "easy",
-    "ncert_ref": "Class 12 Fundamentals of Human Geography, Ch Human Settlements, section Urban sprawl",
+    "ncert_ref": "Class 12 India: People and Economy, Ch Planning and Sustainable Development, section Sustainable development",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "repaired"
   },
@@ -10681,6 +10443,40 @@
     "set_id": null,
     "difficulty_label": "medium",
     "ncert_ref": "Class 12 India: People and Economy, Ch Resources and Development, section Land use (net sown area and gross cropped area)",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
+    "id": "d437d53e-569f-4309-973e-b170d69d5f02",
+    "subject": "geography",
+    "unit": "Resources and Development",
+    "chapter": "Planning & Sustainable Development",
+    "type": "single_mcq",
+    "stem": "The Earth Summit held at Rio de Janeiro in 1992 adopted Agenda 21. What is the main purpose of Agenda 21?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Abolition of all tariffs on world trade, with goods moving freely between every country in the world"
+      },
+      {
+        "key": "B",
+        "text": "Global control and gradual reduction of the production of nuclear weapons by all member states"
+      },
+      {
+        "key": "C",
+        "text": "Transfer of rural population to cities so that urban industry gets a larger labour supply"
+      },
+      {
+        "key": "D",
+        "text": "Sustainable development and environmental protection through national and local action"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Agenda 21 is a comprehensive action plan for sustainable development adopted at the 1992 Rio Earth Summit. It asks countries to pursue development together with environmental protection through national and local action. Trade liberalisation, nuclear arms and population transfer are not its subject.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 India: People and Economy, Ch Planning and Sustainable Development, section Sustainable development",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "repaired"
   },
@@ -10822,6 +10618,40 @@
     "ncert_ref": "Class 12 Mathematics, Ch 4 Determinants, Sec 4.4 Area of a triangle",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
+  },
+  {
+    "id": "8e614805-3ebf-4171-896b-77e5df5bb96f",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "stem": "Let f(x) = sin(3x) / x for x ≠ 0, and f(0) = k. If f is continuous at x = 0, then the value of k is",
+    "options": [
+      {
+        "key": "A",
+        "text": "3"
+      },
+      {
+        "key": "B",
+        "text": "1"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "1/3"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Continuity at x = 0 requires k = lim (x→0) sin 3x / x. Writing sin 3x / x = 3 × (sin 3x / 3x) and using lim (θ→0) sin θ / θ = 1 gives the limit 3, so k = 3.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 Mathematics, Ch 5 Continuity and Differentiability, Sec 5.2 Continuity",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
   },
   {
     "id": "ac6a6f98-94fa-4360-b0d4-66175ce8f866",
@@ -11265,40 +11095,6 @@
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready",
     "_reworded": true
-  },
-  {
-    "id": "66c40b7a-966b-41d5-a141-8d286986967d",
-    "subject": "mathematics",
-    "unit": "Section A1 (common)",
-    "chapter": "Continuity & Differentiability",
-    "type": "single_mcq",
-    "stem": "Let f(x) = sin 3x / x for x ≠ 0, and f(0) = k. If f is continuous at x = 0, the value of k is:",
-    "options": [
-      {
-        "key": "A",
-        "text": "1"
-      },
-      {
-        "key": "B",
-        "text": "9"
-      },
-      {
-        "key": "C",
-        "text": "3"
-      },
-      {
-        "key": "D",
-        "text": "1/3"
-      }
-    ],
-    "correct_key": "C",
-    "explanation": "lim(x→0) sin 3x / x = 3 × lim(x→0) sin 3x / 3x = 3 × 1 = 3. Continuity at x = 0 needs k to equal this limit, so k = 3. The value 1 comes from misapplying the standard limit of sin x / x to sin 3x / x.",
-    "passage_text": null,
-    "set_id": null,
-    "difficulty_label": "medium",
-    "ncert_ref": "Class 12 Mathematics Part I, Ch 5 Continuity and Differentiability, Sec 5.2 Continuity",
-    "source": "claude-authored-2026-10-14-w2",
-    "_verdict": "ready"
   },
   {
     "id": "d2371b4a-f9c6-4bfa-aa45-6ff3bf2fbad0",
@@ -12899,6 +12695,40 @@
     "_verdict": "ready"
   },
   {
+    "id": "ee4e7379-b61d-481c-95b8-bbc665cc9bf9",
+    "subject": "political_science",
+    "unit": "Contemporary World Politics",
+    "chapter": "Globalisation",
+    "type": "single_mcq",
+    "stem": "Which of the following best describes globalisation?",
+    "options": [
+      {
+        "key": "A",
+        "text": "The growing interconnectedness of countries through flows of trade, capital, people, ideas and technology"
+      },
+      {
+        "key": "B",
+        "text": "Self-sufficiency achieved by restricting imports and foreign investment within a closed domestic economy"
+      },
+      {
+        "key": "C",
+        "text": "The formation of regional blocs that exclude trade with countries outside the bloc"
+      },
+      {
+        "key": "D",
+        "text": "A world divided into two rival power blocs led by two superpowers during the Cold War"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Globalisation is the growing interconnectedness of countries through flows of trade, capital, people, ideas and technology. Option B describes autarky, which is the opposite of globalisation. Options C and D describe regional blocs and a bipolar power structure, which are not the process itself.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 Political Science Part II (Contemporary World Politics), chapter Globalisation, section on the meaning of globalisation",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
+  },
+  {
     "id": "8eedfa08-6c44-41d8-9c93-794135a8aa52",
     "subject": "political_science",
     "unit": "Contemporary World Politics",
@@ -13033,6 +12863,40 @@
     "ncert_ref": "Class 12 Political Science Part II (Contemporary World Politics), chapter Globalisation, sections on the meaning of globalisation and multinational corporations",
     "source": "claude-authored-2026-10-14-w2",
     "_verdict": "ready"
+  },
+  {
+    "id": "7ed82615-4905-4767-a7e8-b4104ea206fd",
+    "subject": "political_science",
+    "unit": "Contemporary World Politics",
+    "chapter": "Globalisation",
+    "type": "single_mcq",
+    "stem": "India adopted a major programme of economic liberalisation in 1991. Which of the following was the most immediate trigger for this policy shift?",
+    "options": [
+      {
+        "key": "A",
+        "text": "A severe balance of payments crisis, with foreign exchange reserves falling to very low levels"
+      },
+      {
+        "key": "B",
+        "text": "A decision by the Reserve Bank of India to nationalise all foreign banks operating in India"
+      },
+      {
+        "key": "C",
+        "text": "The nationalisation of all private banks by the Government of India in 1991"
+      },
+      {
+        "key": "D",
+        "text": "A sharp rise in exports that produced a large trade surplus"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "By 1991 India's foreign exchange reserves were too low to finance imports, and the country sought an IMF loan, which led to the new economic policy. Option B describes a step India never took. Option C misdates the nationalisation of major private banks, which the Government of India carried out in 1969 and 1980, not in 1991. Option D contradicts the crisis, since India was running a trade deficit at the time.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "Class 12 Political Science Part II (Contemporary World Politics), chapter Globalisation, section on globalisation and India",
+    "source": "claude-authored-2026-10-14-w2",
+    "_verdict": "repaired"
   },
   {
     "id": "2785926b-24a5-40f2-8c49-f9cf4ecf6a67",

@@ -69,7 +69,7 @@
       "duplicate_options": 1
     },
     "mean_of_means": 6.63,
-    "admissible_before_row_checks": 150
+    "admissible_before_row_checks": 139
   },
   "questions": {
     "6114efa1-3b99-4a6a-ba1a-d68d0bf8c481": {
@@ -10569,98 +10569,6 @@
       ],
       "key_dispute": false
     },
-    "0457ce26-b351-4e93-ad4d-61fbf40dc66c": {
-      "question_id": "0457ce26-b351-4e93-ad4d-61fbf40dc66c",
-      "batch": "authored-2026-10-14__geography__b4",
-      "chapter": "Planning & Sustainable Development",
-      "key": "C",
-      "content_hash": "455042b3d3a4d71cf9e230e2a1117cd0945c1650cd7bf16ee0100374709b199b",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.planning-and-sustainable-development.indian-planning-milestones-chronology",
-          "flags": [],
-          "note": "Order 1950, 1951, 1956, 2015 gives B, D, C, A, matching the key. Distractors reverse the early events, which are plausible slips.",
-          "scored_content_hash": "455042b3d3a4d71cf9e230e2a1117cd0945c1650cd7bf16ee0100374709b199b"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.planning-and-sustainable-development.chronology-of-planning-milestones",
-          "flags": [],
-          "note": "Order B, D, C, A (1950, 1951, 1956, 2015) matches key C. Stem lists events unordered, so no broken_layout.",
-          "scored_content_hash": "455042b3d3a4d71cf9e230e2a1117cd0945c1650cd7bf16ee0100374709b199b"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.planning-and-sustainable-development.indian-planning-milestones-chronology",
-        "geography.planning-and-sustainable-development.chronology-of-planning-milestones"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Chronology 1950 (B), 1951 (D), 1956 (C), 2015 (A) is correct and only option C matches it.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "455042b3d3a4d71cf9e230e2a1117cd0945c1650cd7bf16ee0100374709b199b",
-        "final_content_hash": "455042b3d3a4d71cf9e230e2a1117cd0945c1650cd7bf16ee0100374709b199b",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "C",
-            "C",
-            "C",
-            "C",
-            "C"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "0933e59e-79fe-434d-bfc0-6cb4eabc3dac": {
       "question_id": "0933e59e-79fe-434d-bfc0-6cb4eabc3dac",
       "batch": "authored-2026-10-14__geography__b4",
@@ -11695,135 +11603,43 @@
         }
       }
     },
-    "47f514b2-0bd9-4024-a9fb-f1b84d8e74ea": {
-      "question_id": "47f514b2-0bd9-4024-a9fb-f1b84d8e74ea",
-      "batch": "authored-2026-10-14__geography__b2",
-      "chapter": "Transport & Communication",
-      "key": "D",
-      "content_hash": "bc33661d9f3f5d15f051027894ef80e9c3033b730b05923084d5df69913569cc",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.communication-technologies-matching",
-          "flags": [],
-          "note": "All four pairings verified (A-II, B-III, C-I, D-IV). Clean list with each distractor a single swap.",
-          "scored_content_hash": "bc33661d9f3f5d15f051027894ef80e9c3033b730b05923084d5df69913569cc"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.communication-technology-matching",
-          "flags": [],
-          "note": "Clean four-pair match with correct key (A-II, B-III, C-I, D-IV). Plausible permutation distractors; label hard is one level high.",
-          "scored_content_hash": "bc33661d9f3f5d15f051027894ef80e9c3033b730b05923084d5df69913569cc"
-        }
-      ],
-      "mean": 9,
-      "min": 9,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "hard",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.transport-and-communication.communication-technologies-matching",
-        "geography.transport-and-communication.communication-technology-matching"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Submarine cables lie on the ocean floor (II), satellite relays from geostationary orbit (III), optical fibre carries light pulses (I), and the telegraph uses dots and dashes (IV). Key D is the only full match.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "bc33661d9f3f5d15f051027894ef80e9c3033b730b05923084d5df69913569cc",
-        "final_content_hash": "bc33661d9f3f5d15f051027894ef80e9c3033b730b05923084d5df69913569cc",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "D",
-            "D",
-            "D",
-            "D",
-            "D"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "4e27ea47-76be-4af9-b5dd-77b000253b42": {
-      "question_id": "4e27ea47-76be-4af9-b5dd-77b000253b42",
-      "batch": "authored-2026-10-14__geography__b1",
-      "chapter": "Population — Distribution, Density, Growth",
-      "key": "C",
-      "content_hash": "a6e73088cced5093972385f6722c922a1c6923bda4f1c6cfdc6c6e636fce8f53",
+    "51db2fdf-48fb-4653-9369-e8b891a12f18": {
+      "question_id": "51db2fdf-48fb-4653-9369-e8b891a12f18",
+      "batch": "authored-2026-10-14__geography__b4",
+      "chapter": "Geographical Perspective on Selected Issues and Problems",
+      "key": "B",
+      "content_hash": "ea6ffcc4aa34032728924f0f58387291283f4b9bf9bfeb338180b54ab70a9f52",
       "judges": [
         {
           "judge": "j1",
           "model": "claude-haiku-5-5",
           "date": "2026-10-14",
           "quality_score": 8,
-          "blind_answer": "C",
+          "blind_answer": "B",
           "key_matches": true,
           "difficulty_check": "easy",
-          "objective_tag": "geography.population-distribution-density-growth.demographic-transition-model-stages",
+          "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cfcs",
           "flags": [],
-          "note": "Direct recall of DTM Stage II features; stages distractors are sound.",
-          "scored_content_hash": "a6e73088cced5093972385f6722c922a1c6923bda4f1c6cfdc6c6e636fce8f53"
+          "note": "Correct NCERT recall (CFCs). Distractors CO2, methane and SO2 are real pollutants that do not deplete ozone, so they are fair.",
+          "scored_content_hash": "d724499219248e72a140594cce3e64c1e737852ebf99aa61107d74c7e509bee5"
         },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
           "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
+          "quality_score": 7,
+          "blind_answer": "B",
           "key_matches": true,
           "difficulty_check": "easy",
-          "objective_tag": "geography.population-distribution-density-growth.demographic-transition-high-growth-stage",
+          "objective_tag": "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cause",
           "flags": [],
-          "note": "Key C correct. Clean recall of the DTM stage with high birth and falling death rates.",
-          "scored_content_hash": "a6e73088cced5093972385f6722c922a1c6923bda4f1c6cfdc6c6e636fce8f53"
+          "note": "Correct recall of CFCs. CO2, methane and SO2 are obviously off-topic distractors, so the item is trivial by elimination.",
+          "scored_content_hash": "d724499219248e72a140594cce3e64c1e737852ebf99aa61107d74c7e509bee5"
         }
       ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
       "key_agreement": "both",
       "blind_answers_agree": true,
       "flags": [],
@@ -11841,36 +11657,46 @@
         "corrected": null
       },
       "objective_tags": [
-        "geography.population-distribution-density-growth.demographic-transition-model-stages",
-        "geography.population-distribution-density-growth.demographic-transition-high-growth-stage"
+        "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cfcs",
+        "geography.geographical-perspective-on-selected-issues-and-problems.ozone-depletion-cause"
       ],
       "key_dispute": false,
       "provenance": {
         "kind": "claude-authored-2026-10-14-w2",
         "wave": 2,
         "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Stage II is the high birth, falling death, rapid growth stage of the DTM. Stage I and III and IV descriptions in the explanation are accurate.",
+        "expert_verdict": "repaired",
+        "expert_issue": "CFCs are the correct ozone-depleting group. The key was the longest option (26 chars) against 7 to 15 chars for the other options, which is a length cue. Rewrote the other options to 25-33 chars.",
         "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "a6e73088cced5093972385f6722c922a1c6923bda4f1c6cfdc6c6e636fce8f53",
-        "final_content_hash": "a6e73088cced5093972385f6722c922a1c6923bda4f1c6cfdc6c6e636fce8f53",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "d724499219248e72a140594cce3e64c1e737852ebf99aa61107d74c7e509bee5",
+        "final_content_hash": "ea6ffcc4aa34032728924f0f58387291283f4b9bf9bfeb338180b54ab70a9f52",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
         "blind_solvers": {
           "n": 5,
           "matched_key": 5,
           "answers": [
-            "C",
-            "C",
-            "C",
-            "C",
-            "C"
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
           ],
-          "on": "final"
+          "on": "as_authored"
         },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "B",
+            "B",
+            "B"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
         "repaired_text_policy": "admit",
         "models": {
           "quality": "claude-haiku-5-5",
@@ -12629,104 +12455,6 @@
         }
       }
     },
-    "75dc1722-2c50-4a6c-b862-813621007361": {
-      "question_id": "75dc1722-2c50-4a6c-b862-813621007361",
-      "batch": "authored-2026-10-14__geography__b3",
-      "chapter": "Transport & Communication",
-      "key": "A",
-      "content_hash": "ecaef05ca912bf1fc6b1cafc4cd2316228c7d265ea37138d1fb32edd47b6df58",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "A",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.bulk-cargo-mode-choice",
-          "flags": [],
-          "note": "Sound mode choice for bulk overland cargo. Pipelines are ruled out because ore is solid. Fair medium item.",
-          "scored_content_hash": "accb090ae5f8a1dc37d724db2d0b7969b8f38f18d8c8527ecb557880842a6344"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "A",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.railways-for-bulk-cargo",
-          "flags": [],
-          "note": "Applies bulk and long-distance cost reasoning to a short case. Pipelines is a throwaway. Stem signposts with 'lowest cost'.",
-          "scored_content_hash": "accb090ae5f8a1dc37d724db2d0b7969b8f38f18d8c8527ecb557880842a6344"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.transport-and-communication.bulk-cargo-mode-choice",
-        "geography.transport-and-communication.railways-for-bulk-cargo"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "repaired",
-        "expert_issue": "Key A (railways) is the NCERT answer for heavy bulk cargo overland. The explanation said pipelines carry liquids and gases, not solid ore, which overstates it (NCERT also mentions slurry); explanation changed, stem, options and key unchanged.",
-        "expert_reviewed_text": "final",
-        "supplementary_review": {
-          "reviewer": "Claude Sonnet 5.5 (this session)",
-          "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-        },
-        "judged_text": "pre_repair",
-        "judged_content_hash": "accb090ae5f8a1dc37d724db2d0b7969b8f38f18d8c8527ecb557880842a6344",
-        "final_content_hash": "ecaef05ca912bf1fc6b1cafc4cd2316228c7d265ea37138d1fb32edd47b6df58",
-        "hash_changed_by_repair": true,
-        "repaired_fields": [
-          "explanation"
-        ],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "A",
-            "A",
-            "A",
-            "A",
-            "A"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "admitted_on_expert_verdict_blind_text_unchanged",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "7ca304d9-3b20-41d1-a8fa-53b62e046556": {
       "question_id": "7ca304d9-3b20-41d1-a8fa-53b62e046556",
       "batch": "authored-2026-10-14__geography__b4",
@@ -12902,288 +12630,6 @@
             "C",
             "C",
             "C"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "819e826f-4bb2-4dcf-b3f2-f02f85a761ac": {
-      "question_id": "819e826f-4bb2-4dcf-b3f2-f02f85a761ac",
-      "batch": "authored-2026-10-14__geography__b3",
-      "chapter": "Transport & Communication",
-      "key": "B",
-      "content_hash": "bf1b97b7b6f8ade1d383623b70ba7cf451336fcc070e3764841a6e1589372882",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.match-waterways-canals-railways-roads",
-          "flags": [],
-          "note": "All four pairings check: Rhine II, Panama I, Trans-Siberian III, NH44 IV. Key B matches.",
-          "scored_content_hash": "bf1b97b7b6f8ade1d383623b70ba7cf451336fcc070e3764841a6e1589372882"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.landmark-routes-matching",
-          "flags": [],
-          "note": "All four pairs verified (Rhine-II, Panama-I, Trans-Siberian-III, NH44-IV). Only option B fits. Clean match list.",
-          "scored_content_hash": "bf1b97b7b6f8ade1d383623b70ba7cf451336fcc070e3764841a6e1589372882"
-        }
-      ],
-      "mean": 8.5,
-      "min": 8,
-      "spread": 1,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.transport-and-communication.match-waterways-canals-railways-roads",
-        "geography.transport-and-communication.landmark-routes-matching"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Rhine (II), Panama (I), Trans-Siberian (III), NH 44 (IV): key B. Each pair is an NCERT statement. Unique.",
-        "expert_reviewed_text": "final",
-        "supplementary_review": {
-          "reviewer": "Claude Sonnet 5.5 (this session)",
-          "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-        },
-        "judged_text": "final",
-        "judged_content_hash": "bf1b97b7b6f8ade1d383623b70ba7cf451336fcc070e3764841a6e1589372882",
-        "final_content_hash": "bf1b97b7b6f8ade1d383623b70ba7cf451336fcc070e3764841a6e1589372882",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "B",
-            "B",
-            "B",
-            "B",
-            "B"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "86fa69db-a3ae-4c63-bf05-296eb028c420": {
-      "question_id": "86fa69db-a3ae-4c63-bf05-296eb028c420",
-      "batch": "authored-2026-10-14__geography__b4",
-      "chapter": "Resources & Development",
-      "key": "C",
-      "content_hash": "958102fa4649bbea7c65085472cf4d1423bd2f247724760b8e40a4e91afaf505",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.resources-and-development.indian-soil-types-matching",
-          "flags": [],
-          "note": "Clean four-pair soil match (A-II, B-III, C-IV, D-I); all pairings are defined in the stem. Labelled hard; medium fits better.",
-          "scored_content_hash": "958102fa4649bbea7c65085472cf4d1423bd2f247724760b8e40a4e91afaf505"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.resources-and-development.soil-types-matching",
-          "flags": [],
-          "note": "Four-way soil match; key C checks out (A-II, B-III, C-IV, D-I). Clean wording, usable for NTA mode.",
-          "scored_content_hash": "958102fa4649bbea7c65085472cf4d1423bd2f247724760b8e40a4e91afaf505"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.resources-and-development.indian-soil-types-matching",
-        "geography.resources-and-development.soil-types-matching"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "repaired",
-        "expert_issue": "Matching is correct (A-II, B-III, C-IV, D-I) and the other options are wrong; the label was hard but both judges rated it medium.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "958102fa4649bbea7c65085472cf4d1423bd2f247724760b8e40a4e91afaf505",
-        "final_content_hash": "958102fa4649bbea7c65085472cf4d1423bd2f247724760b8e40a4e91afaf505",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [
-          "difficulty_label"
-        ],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "C",
-            "C",
-            "C",
-            "C",
-            "C"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "8b40da05-e62e-4112-b9e3-9320246384ca": {
-      "question_id": "8b40da05-e62e-4112-b9e3-9320246384ca",
-      "batch": "authored-2026-10-14__geography__b1",
-      "chapter": "Human Development",
-      "key": "D",
-      "content_hash": "d89ac2ff35c5ff036a2ad188c8ecfc41de68a90353fe12af2ed28e456d415b1b",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.human-development.hdi-components",
-          "flags": [],
-          "note": "Clear NOT-item; the three HDI dimensions are each represented among the distractors.",
-          "scored_content_hash": "d89ac2ff35c5ff036a2ad188c8ecfc41de68a90353fe12af2ed28e456d415b1b"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.human-development.hdi-components",
-          "flags": [],
-          "note": "Key D correct. Three true HDI components as distractors make a good NOT-form item.",
-          "scored_content_hash": "d89ac2ff35c5ff036a2ad188c8ecfc41de68a90353fe12af2ed28e456d415b1b"
-        }
-      ],
-      "mean": 8.5,
-      "min": 8,
-      "spread": 1,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": "geography.human-development.hdi-components",
-      "tag_agreement": true,
-      "difficulty": {
-        "label": "easy",
-        "judges": [
-          "easy",
-          "easy"
-        ],
-        "agreed": "easy",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.human-development.hdi-components",
-        "geography.human-development.hdi-components"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "HDI has three components: life expectancy, education and income (GNI per capita at PPP). Infant mortality is not a component. Key D is correct and unique.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "d89ac2ff35c5ff036a2ad188c8ecfc41de68a90353fe12af2ed28e456d415b1b",
-        "final_content_hash": "d89ac2ff35c5ff036a2ad188c8ecfc41de68a90353fe12af2ed28e456d415b1b",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "D",
-            "D",
-            "D",
-            "D",
-            "D"
           ],
           "on": "final"
         },
@@ -13573,98 +13019,6 @@
         }
       }
     },
-    "a1a985d8-c58d-4586-8e62-91999fa88b46": {
-      "question_id": "a1a985d8-c58d-4586-8e62-91999fa88b46",
-      "batch": "authored-2026-10-14__geography__b1",
-      "chapter": "India — People & Economy",
-      "key": "D",
-      "content_hash": "87be2304af6d99d8c40db43667fef3cc73ad3bfb55691f994f46ca30c8fcf870",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 7,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "hard",
-          "objective_tag": "geography.india-people-and-economy.state-literacy-ranking-census-2011",
-          "flags": [],
-          "note": "Key correct per Census 2011 (Kerala 93.91, Mizoram 91.58, HP 83.78, Bihar 61.80). Depends on exact state-level recall beyond a typical NCERT line.",
-          "scored_content_hash": "87be2304af6d99d8c40db43667fef3cc73ad3bfb55691f994f46ca30c8fcf870"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.india-people-and-economy.state-literacy-ranking-order",
-          "flags": [],
-          "note": "Key D correct: Kerala 93.91, Mizoram 91.58, Himachal Pradesh 83.78, Bihar 61.80. Label hard; judged medium.",
-          "scored_content_hash": "87be2304af6d99d8c40db43667fef3cc73ad3bfb55691f994f46ca30c8fcf870"
-        }
-      ],
-      "mean": 7.5,
-      "min": 7,
-      "spread": 1,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "hard",
-        "judges": [
-          "hard",
-          "medium"
-        ],
-        "agreed": null,
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.india-people-and-economy.state-literacy-ranking-census-2011",
-        "geography.india-people-and-economy.state-literacy-ranking-order"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "2011 Census literacy: Kerala 93.91, Mizoram 91.58, Himachal Pradesh 83.78, Bihar 61.80. Order (C), (D), (A), (B) is correct, and each distractor is a plausible wrong order. Options are balanced in length.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "87be2304af6d99d8c40db43667fef3cc73ad3bfb55691f994f46ca30c8fcf870",
-        "final_content_hash": "87be2304af6d99d8c40db43667fef3cc73ad3bfb55691f994f46ca30c8fcf870",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "D",
-            "D",
-            "D",
-            "D",
-            "D"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "aa03d13c-d893-4772-bdcb-5b16892ddf37": {
       "question_id": "aa03d13c-d893-4772-bdcb-5b16892ddf37",
       "batch": "authored-2026-10-14__geography__b1",
@@ -13836,102 +13190,6 @@
             "C",
             "C",
             "C"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "af69a573-bbd4-4fb1-9c09-33acedec4003": {
-      "question_id": "af69a573-bbd4-4fb1-9c09-33acedec4003",
-      "batch": "authored-2026-10-14__geography__b3",
-      "chapter": "International Trade",
-      "key": "B",
-      "content_hash": "509fb0f0b965d8bbe50491394ca86c18a3d4f6d07b8c85286379ab988561f2a5",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.international-trade.balance-of-trade-sign",
-          "flags": [],
-          "note": "One-step: 180 minus 215 is a deficit of 35. Distractors come from a sign slip (A) and a sum (C, D).",
-          "scored_content_hash": "509fb0f0b965d8bbe50491394ca86c18a3d4f6d07b8c85286379ab988561f2a5"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.international-trade.balance-of-trade-calculation",
-          "flags": [],
-          "note": "180 minus 215 gives a deficit of 35. Distractors are a sign slip (surplus 35) and a sum (395). Clean one-step numerical.",
-          "scored_content_hash": "509fb0f0b965d8bbe50491394ca86c18a3d4f6d07b8c85286379ab988561f2a5"
-        }
-      ],
-      "mean": 9,
-      "min": 9,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "easy",
-          "easy"
-        ],
-        "agreed": "easy",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.international-trade.balance-of-trade-sign",
-        "geography.international-trade.balance-of-trade-calculation"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "180 - 215 = -35: deficit of US$ 35 billion, key B. The stem fixes the figures as visible goods, so the goods-versus-services wording question does not arise. Unique.",
-        "expert_reviewed_text": "final",
-        "supplementary_review": {
-          "reviewer": "Claude Sonnet 5.5 (this session)",
-          "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
-        },
-        "judged_text": "final",
-        "judged_content_hash": "509fb0f0b965d8bbe50491394ca86c18a3d4f6d07b8c85286379ab988561f2a5",
-        "final_content_hash": "509fb0f0b965d8bbe50491394ca86c18a3d4f6d07b8c85286379ab988561f2a5",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "B",
-            "B",
-            "B",
-            "B",
-            "B"
           ],
           "on": "final"
         },
@@ -14223,76 +13481,78 @@
         }
       }
     },
-    "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63": {
-      "question_id": "bcfc7ea5-b87e-4e75-b267-5ab7587e6f63",
+    "c2a88140-3a27-4266-8266-f57e7e1345e7": {
+      "question_id": "c2a88140-3a27-4266-8266-f57e7e1345e7",
       "batch": "authored-2026-10-14__geography__b4",
-      "chapter": "Resources & Development",
+      "chapter": "Planning & Sustainable Development",
       "key": "B",
-      "content_hash": "790fcfc078acbdcb8e4e660517089b91f4feedbbbeb03b9cf1be855fdae0ce12",
+      "content_hash": "f20c3972b037d036881d350acced6e13b2458cddabafed223122210ba6130529",
       "judges": [
         {
           "judge": "j1",
           "model": "claude-haiku-5-5",
           "date": "2026-10-14",
-          "quality_score": 8,
+          "quality_score": 7,
           "blind_answer": "B",
           "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.resources-and-development.soil-conservation-methods",
+          "difficulty_check": "easy",
+          "objective_tag": "geography.planning-and-sustainable-development.brundtland-definition",
           "flags": [],
-          "note": "A, B and D are true; C is false because strip cropping reduces wind erosion. Key B is correct, and the statements are clean.",
-          "scored_content_hash": "790fcfc078acbdcb8e4e660517089b91f4feedbbbeb03b9cf1be855fdae0ce12"
+          "note": "Correct Brundtland definition. The only option resembling a definition is correct, so the item is easy by elimination; a 7 for that.",
+          "scored_content_hash": "10aca91fa4d2e0a509d2a71c5f4e04bad529b2d5e9e5afff9695cce3fa608b22"
         },
         {
           "judge": "j2",
           "model": "claude-haiku-5-5",
           "date": "2026-10-14",
-          "quality_score": 8,
+          "quality_score": 7,
           "blind_answer": "B",
           "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.resources-and-development.soil-conservation-methods",
+          "difficulty_check": "easy",
+          "objective_tag": "geography.planning-and-sustainable-development.brundtland-definition-of-sustainable-development",
           "flags": [],
-          "note": "Statements A, B and D are true and C is false (strip cropping reduces erosion); key B is right.",
-          "scored_content_hash": "790fcfc078acbdcb8e4e660517089b91f4feedbbbeb03b9cf1be855fdae0ce12"
+          "note": "Correct Brundtland definition. Options A, C and D are plainly wrong, so the item is trivial by elimination.",
+          "scored_content_hash": "10aca91fa4d2e0a509d2a71c5f4e04bad529b2d5e9e5afff9695cce3fa608b22"
         }
       ],
-      "mean": 8,
-      "min": 8,
+      "mean": 7,
+      "min": 7,
       "spread": 0,
       "key_agreement": "both",
       "blind_answers_agree": true,
       "flags": [],
       "blocking": false,
       "unknown_flags": [],
-      "objective_tag": "geography.resources-and-development.soil-conservation-methods",
-      "tag_agreement": true,
+      "objective_tag": null,
+      "tag_agreement": false,
       "difficulty": {
-        "label": "medium",
+        "label": "easy",
         "judges": [
-          "medium",
-          "medium"
+          "easy",
+          "easy"
         ],
-        "agreed": "medium",
+        "agreed": "easy",
         "corrected": null
       },
       "objective_tags": [
-        "geography.resources-and-development.soil-conservation-methods",
-        "geography.resources-and-development.soil-conservation-methods"
+        "geography.planning-and-sustainable-development.brundtland-definition",
+        "geography.planning-and-sustainable-development.brundtland-definition-of-sustainable-development"
       ],
       "key_dispute": false,
       "provenance": {
         "kind": "claude-authored-2026-10-14-w2",
         "wave": 2,
         "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Statements A, B and D are true and C is false; key B is unique.",
+        "expert_verdict": "repaired",
+        "expert_issue": "Brundtland definition is correct, but key B was the only long option (109 chars against 63 to 67 for the others), which is a length cue.",
         "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "790fcfc078acbdcb8e4e660517089b91f4feedbbbeb03b9cf1be855fdae0ce12",
-        "final_content_hash": "790fcfc078acbdcb8e4e660517089b91f4feedbbbeb03b9cf1be855fdae0ce12",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "10aca91fa4d2e0a509d2a71c5f4e04bad529b2d5e9e5afff9695cce3fa608b22",
+        "final_content_hash": "f20c3972b037d036881d350acced6e13b2458cddabafed223122210ba6130529",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
         "blind_solvers": {
           "n": 5,
           "matched_key": 5,
@@ -14303,10 +13563,18 @@
             "B",
             "B"
           ],
-          "on": "final"
+          "on": "as_authored"
         },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "B",
+            "B",
+            "B"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
         "repaired_text_policy": "admit",
         "models": {
           "quality": "claude-haiku-5-5",
@@ -14501,6 +13769,108 @@
         },
         "blind_resolve_on_final_text": null,
         "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "d437d53e-569f-4309-973e-b170d69d5f02": {
+      "question_id": "d437d53e-569f-4309-973e-b170d69d5f02",
+      "batch": "authored-2026-10-14__geography__b4",
+      "chapter": "Planning & Sustainable Development",
+      "key": "D",
+      "content_hash": "8252a961c10db20185b100c884f5e1fa5f498b32db4448a9f6a26c652fec136c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.planning-and-sustainable-development.agenda-21-purpose",
+          "flags": [],
+          "note": "Correct purpose of Agenda 21. The other options are unrelated to it, so the item is easy by elimination; a 7 for trivial distractors.",
+          "scored_content_hash": "6fb3f41143f6f6580193ff7ecf711e5c8abd5bd6d8db8d961dad4714212557be"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.planning-and-sustainable-development.agenda-21-purpose",
+          "flags": [],
+          "note": "Correct purpose of Agenda 21. Options A, B and C are off-subject, so the item is easy by elimination.",
+          "scored_content_hash": "6fb3f41143f6f6580193ff7ecf711e5c8abd5bd6d8db8d961dad4714212557be"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "geography.planning-and-sustainable-development.agenda-21-purpose",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.planning-and-sustainable-development.agenda-21-purpose",
+        "geography.planning-and-sustainable-development.agenda-21-purpose"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Agenda 21 definition is correct, but key D was far longer than the rest (86 chars against 39 to 51 for the others), which is a length cue.",
+        "expert_reviewed_text": "final",
+        "judged_text": "pre_repair",
+        "judged_content_hash": "6fb3f41143f6f6580193ff7ecf711e5c8abd5bd6d8db8d961dad4714212557be",
+        "final_content_hash": "8252a961c10db20185b100c884f5e1fa5f498b32db4448a9f6a26c652fec136c",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "options"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "D",
+            "D",
+            "D"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
         "repaired_text_policy": "admit",
         "models": {
           "quality": "claude-haiku-5-5",
@@ -14885,100 +14255,6 @@
         }
       }
     },
-    "e4a0e47c-96a8-49ec-9a9c-e9c849e698b9": {
-      "question_id": "e4a0e47c-96a8-49ec-9a9c-e9c849e698b9",
-      "batch": "authored-2026-10-14__geography__b4",
-      "chapter": "Human Settlements",
-      "key": "B",
-      "content_hash": "54a3398ee2448b8959b083cabed3f49700f7d804bccec111c30710331d7667c5",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.human-settlements.urban-sprawl-definition",
-          "flags": [],
-          "note": "Correct definition. Distractors are real urban terms (counter-urbanisation, urban hierarchy, urban renewal), each a fair wrong concept.",
-          "scored_content_hash": "54a3398ee2448b8959b083cabed3f49700f7d804bccec111c30710331d7667c5"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "B",
-          "key_matches": true,
-          "difficulty_check": "easy",
-          "objective_tag": "geography.human-settlements.urban-sprawl-definition",
-          "flags": [],
-          "note": "Correct term for unplanned low-density outward spread. Counter-urbanisation is a fair distractor; clean definitional item.",
-          "scored_content_hash": "54a3398ee2448b8959b083cabed3f49700f7d804bccec111c30710331d7667c5"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": "geography.human-settlements.urban-sprawl-definition",
-      "tag_agreement": true,
-      "difficulty": {
-        "label": "easy",
-        "judges": [
-          "easy",
-          "easy"
-        ],
-        "agreed": "easy",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.human-settlements.urban-sprawl-definition",
-        "geography.human-settlements.urban-sprawl-definition"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "repaired",
-        "expert_issue": "Urban sprawl is the correct term and the distractors are distinct; both judges rated it easy, not medium.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "54a3398ee2448b8959b083cabed3f49700f7d804bccec111c30710331d7667c5",
-        "final_content_hash": "54a3398ee2448b8959b083cabed3f49700f7d804bccec111c30710331d7667c5",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [
-          "difficulty_label"
-        ],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "B",
-            "B",
-            "B",
-            "B",
-            "B"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "e4fff894-037f-4700-934f-07d0f1fea52a": {
       "question_id": "e4fff894-037f-4700-934f-07d0f1fea52a",
       "batch": "authored-2026-10-14__geography__b2",
@@ -15347,196 +14623,6 @@
         }
       }
     },
-    "f3b33c2c-c926-45bf-bcfa-11697113066c": {
-      "question_id": "f3b33c2c-c926-45bf-bcfa-11697113066c",
-      "batch": "authored-2026-10-14__geography__b4",
-      "chapter": "Transport & Communication",
-      "key": "D",
-      "content_hash": "61c8ba8c840deefad34038fbfb3c5e9cd2cc54cd56c906f0782ef99c033858e0",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.major-canals-and-straits-location",
-          "flags": [],
-          "note": "Panama (II), Suez (III), Kiel (I), Malacca (IV) gives option D, matching the key. Four standard pairings with reasonable reshuffled distractors.",
-          "scored_content_hash": "61c8ba8c840deefad34038fbfb3c5e9cd2cc54cd56c906f0782ef99c033858e0"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 9,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.transport-and-communication.major-canals-and-straits",
-          "flags": [],
-          "note": "Four-way canal match; key D (Panama-II, Suez-III, Kiel-I, Malacca-IV) is correct. Options vary well and the list is well built.",
-          "scored_content_hash": "61c8ba8c840deefad34038fbfb3c5e9cd2cc54cd56c906f0782ef99c033858e0"
-        }
-      ],
-      "mean": 8.5,
-      "min": 8,
-      "spread": 1,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.transport-and-communication.major-canals-and-straits-location",
-        "geography.transport-and-communication.major-canals-and-straits"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Panama (II), Suez (III), Kiel (I) and Malacca (IV) are correctly matched; key D is the only option set that matches.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "61c8ba8c840deefad34038fbfb3c5e9cd2cc54cd56c906f0782ef99c033858e0",
-        "final_content_hash": "61c8ba8c840deefad34038fbfb3c5e9cd2cc54cd56c906f0782ef99c033858e0",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "D",
-            "D",
-            "D",
-            "D",
-            "D"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
-    "f5ceaadd-0e02-4556-978e-5690c51b638b": {
-      "question_id": "f5ceaadd-0e02-4556-978e-5690c51b638b",
-      "batch": "authored-2026-10-14__geography__b1",
-      "chapter": "Tertiary & Quaternary Activities",
-      "key": "D",
-      "content_hash": "b5388f10b52b03a6fac76cf7d4150ecf63bc75c4b40d92a8bb03cacfd19b51a2",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 7,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.tertiary-and-quaternary-activities.sectors-by-natural-resource-dependence",
-          "flags": [],
-          "note": "Key (B),(D),(A),(C) is the standard ordering, but NCERT does not state it as a ranking; the stem's direct-dependence wording is a teaching convention. Label hard is one notch high.",
-          "scored_content_hash": "b5388f10b52b03a6fac76cf7d4150ecf63bc75c4b40d92a8bb03cacfd19b51a2"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "D",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.tertiary-and-quaternary-activities.resource-dependence-order-across-sectors",
-          "flags": [],
-          "note": "Key D correct: Primary, Secondary, Tertiary, Quaternary. Label hard; ordering is one concept, judged medium.",
-          "scored_content_hash": "b5388f10b52b03a6fac76cf7d4150ecf63bc75c4b40d92a8bb03cacfd19b51a2"
-        }
-      ],
-      "mean": 7.5,
-      "min": 7,
-      "spread": 1,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "hard",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.tertiary-and-quaternary-activities.sectors-by-natural-resource-dependence",
-        "geography.tertiary-and-quaternary-activities.resource-dependence-order-across-sectors"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Decreasing direct dependence on natural resources follows the standard sequence primary, secondary, tertiary, quaternary, giving (B), (D), (A), (C). Key D is the only option in that order. Stem is clear enough for the sequence.",
-        "expert_reviewed_text": "final",
-        "spot_check": {
-          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
-          "verdict": "NTA-ready",
-          "expert_verdict_then": "ready",
-          "answer_matched_key": true
-        },
-        "judged_text": "final",
-        "judged_content_hash": "b5388f10b52b03a6fac76cf7d4150ecf63bc75c4b40d92a8bb03cacfd19b51a2",
-        "final_content_hash": "b5388f10b52b03a6fac76cf7d4150ecf63bc75c4b40d92a8bb03cacfd19b51a2",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "D",
-            "D",
-            "D",
-            "D",
-            "D"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
-    },
     "f92f3699-2f61-4c22-a11e-cf947bc020c9": {
       "question_id": "f92f3699-2f61-4c22-a11e-cf947bc020c9",
       "batch": "authored-2026-10-14__geography__b1",
@@ -15634,110 +14720,18 @@
           "solver": "claude-haiku-5-5"
         }
       }
-    },
-    "ff6a9f3a-7ddd-4738-a651-24069d405c10": {
-      "question_id": "ff6a9f3a-7ddd-4738-a651-24069d405c10",
-      "batch": "authored-2026-10-14__geography__b1",
-      "chapter": "Secondary Activities",
-      "key": "C",
-      "content_hash": "acce5ef5893c9da7430ebce30a8e0e0e3f01360601ee97119a7e1a16a9a30a82",
-      "judges": [
-        {
-          "judge": "j1",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.secondary-activities.weight-gaining-industries",
-          "flags": [],
-          "note": "Soft drink bottling is weight-gaining (water added); the three distractors are weight-losing or footloose, a useful mix.",
-          "scored_content_hash": "acce5ef5893c9da7430ebce30a8e0e0e3f01360601ee97119a7e1a16a9a30a82"
-        },
-        {
-          "judge": "j2",
-          "model": "claude-haiku-5-5",
-          "date": "2026-10-14",
-          "quality_score": 8,
-          "blind_answer": "C",
-          "key_matches": true,
-          "difficulty_check": "medium",
-          "objective_tag": "geography.secondary-activities.weight-gaining-industry-identification",
-          "flags": [],
-          "note": "Key C correct: soft drink bottling adds water, so it gains weight. Distractors are weight-losing or footloose industries.",
-          "scored_content_hash": "acce5ef5893c9da7430ebce30a8e0e0e3f01360601ee97119a7e1a16a9a30a82"
-        }
-      ],
-      "mean": 8,
-      "min": 8,
-      "spread": 0,
-      "key_agreement": "both",
-      "blind_answers_agree": true,
-      "flags": [],
-      "blocking": false,
-      "unknown_flags": [],
-      "objective_tag": null,
-      "tag_agreement": false,
-      "difficulty": {
-        "label": "medium",
-        "judges": [
-          "medium",
-          "medium"
-        ],
-        "agreed": "medium",
-        "corrected": null
-      },
-      "objective_tags": [
-        "geography.secondary-activities.weight-gaining-industries",
-        "geography.secondary-activities.weight-gaining-industry-identification"
-      ],
-      "key_dispute": false,
-      "provenance": {
-        "kind": "claude-authored-2026-10-14-w2",
-        "wave": 2,
-        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
-        "expert_verdict": "ready",
-        "expert_issue": "Soft drink bottling adds water, a ubiquitous input, so it is weight-gaining. Iron ore smelting and sugar refining are weight-losing; electronic goods assembly is footloose. Key C is unique.",
-        "expert_reviewed_text": "final",
-        "judged_text": "final",
-        "judged_content_hash": "acce5ef5893c9da7430ebce30a8e0e0e3f01360601ee97119a7e1a16a9a30a82",
-        "final_content_hash": "acce5ef5893c9da7430ebce30a8e0e0e3f01360601ee97119a7e1a16a9a30a82",
-        "hash_changed_by_repair": false,
-        "repaired_fields": [],
-        "blind_solvers": {
-          "n": 5,
-          "matched_key": 5,
-          "answers": [
-            "C",
-            "C",
-            "C",
-            "C",
-            "C"
-          ],
-          "on": "final"
-        },
-        "blind_resolve_on_final_text": null,
-        "engine_acceptance": "judged_text_is_final_text",
-        "repaired_text_policy": "admit",
-        "models": {
-          "quality": "claude-haiku-5-5",
-          "fit": "claude-haiku-5-5",
-          "solver": "claude-haiku-5-5"
-        }
-      }
     }
   },
   "authored": {
     "claude-authored-2026-10-14-w2": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-14T12:10:00.000Z",
-      "questions": 55,
+      "questions": 44,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
-      "judged_text_differs_from_final": 3,
+      "judged_text_differs_from_final": 5,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }
