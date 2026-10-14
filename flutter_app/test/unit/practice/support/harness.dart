@@ -286,6 +286,7 @@ List<Override> practiceOverrides({
   DateTime? now,
   MemoryPrefsStore? prefs,
   Stream<void>? restored,
+  bool lateNightLines = true,
   List<Override> extra = const [],
 }) => [
   practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
@@ -309,7 +310,9 @@ List<Override> practiceOverrides({
   nowProvider.overrideWithValue(() => now ?? testNow),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
   rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
-  lateNightLinesProvider.overrideWith(() => PrefToggle(initial: true, read: (_) async => true, write: (_, _) async {})),
+  lateNightLinesProvider.overrideWith(
+    () => PrefToggle(initial: lateNightLines, read: (_) async => lateNightLines, write: (_, _) async {}),
+  ),
   ...extra,
 ];
 

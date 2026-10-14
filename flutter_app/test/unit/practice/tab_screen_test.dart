@@ -86,6 +86,35 @@ void main() {
     expect(router.state.uri.path, '/result/m1');
   });
 
+  testWidgets('after 11 PM the suggestion says to stop after it, unless late-night lines are off', (tester) async {
+    final mock = attemptOf(
+      id: 'm1',
+      completedAt: _ms(testNow.subtract(const Duration(days: 1))),
+      questions: [...chapterOf('Admission of a partner', right: 1, wrong: 3)],
+    );
+    Future<void> at(DateTime now, {bool lines = true}) async {
+      // A fresh scope for each clock and setting.
+      await tester.pumpWidget(const SizedBox());
+      await pumpRouted(
+        tester,
+        location: '/practice',
+        routes: _routes(),
+        overrides: practiceOverrides(quotes: _quotes(), attempts: [mock], now: now, lateNightLines: lines),
+      );
+      await settle(tester);
+    }
+
+    await at(DateTime(2026, 10, 12, 23, 30));
+    expect(find.text('This one, then sleep'), findsOneWidget);
+    expect(find.text('Your next practice'), findsNothing);
+    await at(DateTime(2026, 10, 12, 23, 30), lines: false);
+    expect(find.text('This one, then sleep'), findsNothing);
+    expect(find.text('Your next practice'), findsOneWidget);
+    await at(DateTime(2026, 10, 12, 20));
+    expect(find.text('This one, then sleep'), findsNothing);
+    expect(find.text('Your next practice'), findsOneWidget);
+  });
+
   testWidgets('without a nameable chapter the suggestion is the last paper\'s subject, with when it was', (tester) async {
     final practice = attemptOf(
       id: 'p1',

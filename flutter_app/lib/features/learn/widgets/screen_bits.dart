@@ -127,11 +127,17 @@ class LearnBackScope extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => PopScope(
-        canPop: context.canPop(),
-        onPopInvokedWithResult: (didPop, _) {
-          if (!didPop && context.mounted) context.go(fallback);
-        },
-        child: child,
-      );
+  Widget build(BuildContext context) {
+    final router = GoRouter.maybeOf(context);
+    // Outside the app's router (the lab, a golden) there is nowhere to fall back to, and Back
+    // keeps the navigator's own behaviour.
+    if (router == null) return child;
+    return PopScope(
+      canPop: router.canPop(),
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && context.mounted) router.go(fallback);
+      },
+      child: child,
+    );
+  }
 }

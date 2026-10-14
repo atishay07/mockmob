@@ -125,8 +125,8 @@ abstract final class TodayCopy {
   static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
       ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
       : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
-  /// Mobi's line on Today's card. Practice and Review keep "Late one tonight. Ten minutes, then
-  /// sleep.", so Today says its own: the card's move is already short.
+  /// Mobi's line on Today's card, its own (Practice and Review say theirs): the card's move is
+  /// already short.
   static const String lateNight = 'Still up? One short move, then sleep.';
   static const String mobiWelcomeBack = 'Good to see you.';
   static const String mobiDayOne = "Let's find your marks.";

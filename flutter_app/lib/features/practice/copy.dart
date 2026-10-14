@@ -20,7 +20,8 @@ abstract final class PracticeCopy {
 
   // The suggestion at the top.
   static const String suggestedOverline = 'Your next practice';
-  static const String lateOverline = 'Late one tonight. Ten minutes, then sleep.';
+  /// The overline after 11 PM: points at the card's one set, with no length the set may not keep.
+  static const String lateOverline = 'This one, then sleep';
   static const String resumeOverline = 'Still open';
   static const String showMe = 'Show me';
   static const String showMeSemantics = 'Show me, the attempt behind this';

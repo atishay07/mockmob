@@ -102,6 +102,9 @@ void main() {
       expect(ReviewCopy.endingLine('Partnership', 1, 1, now: DateTime(2026, 10, 13, 7, 34)), 'Partnership: the mistake repaired today.');
       expect(ReviewCopy.finishFor(DateTime(2026, 10, 13, 7, 34)), 'Finish for today');
       expect(ReviewCopy.tonightOverline(DateTime(2026, 10, 13, 16), 'Accountancy'), "Tonight's repair, Accountancy");
+      // Marks read "N of M", as everywhere else in the app.
+      expect(ReviewCopy.pastLine('3 October', 9, 250), '3 October, 9 of 250');
+      expect(ReviewCopy.lateNight, 'Repair a little, then sleep.');
       expect(ReviewCopy.nothingRepaired(0, 0), contains('Nothing was charged'));
     });
 

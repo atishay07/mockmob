@@ -73,7 +73,8 @@ void main() {
       await _pump(tester, const ReviewScreen(), attempts: [_clean]);
       expect(find.text('Nothing waiting to repair'), findsOneWidget);
       expect(find.text('Nothing to repair tonight'), findsNothing);
-      expect(find.textContaining(' of '), findsNothing, reason: 'nothing was found, so there is no repairs progress line');
+      // Past results read "250 of 250" too; the progress line is "N of M repaired".
+      expect(find.textContaining(RegExp(r'\d+ of \d+ repaired')), findsNothing, reason: 'nothing was found, so there is no repairs progress line');
     });
 
     testWidgets('questions that are only set aside are not called repaired', (tester) async {
@@ -169,7 +170,10 @@ void main() {
 
     testWidgets('no mistakes found, no progress line', (tester) async {
       await _pump(tester, const ReviewScreen(), attempts: [_clean]);
-      expect(find.textContaining(' of '), findsNothing);
+      expect(find.textContaining(RegExp(r'\d+ of \d+ repaired')), findsNothing);
+      // The past result writes its marks as the rest of the app does.
+      expect(find.text('12 October, 250 of 250'), findsOneWidget);
+      expect(find.textContaining(' / '), findsNothing);
     });
   });
 

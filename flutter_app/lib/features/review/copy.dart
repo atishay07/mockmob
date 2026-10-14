@@ -38,7 +38,9 @@ abstract final class ReviewCopy {
     return head.isEmpty ? chapter : head;
   }
 
-  static const lateNight = 'Late one tonight. Ten minutes, then sleep.';
+  /// Mobi's line under tonight's card after 11 PM: any one repair is a fine place to stop. One line
+  /// in his bubble.
+  static const lateNight = 'Repair a little, then sleep.';
 
   static String unopened(String label) => '$label was received. Your result is ready.';
   static const openResult = 'Open it';
@@ -75,7 +77,7 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date, $marks / $max';
+  static String pastLine(String date, int marks, int max) => '$date, $marks of $max';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 

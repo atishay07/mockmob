@@ -7,6 +7,7 @@ import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/router/routes.dart';
+import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 import '../data/suggestion.dart';
@@ -39,7 +40,8 @@ class SuggestionHero extends ConsumerWidget {
     final suggestion = ref.watch(practiceSuggestionProvider);
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final now = ref.watch(nowProvider)();
-    final late = isLateNight(now);
+    // The "Late-night lines" setting turns this one off too.
+    final late = isLateNight(now) && ref.watch(lateNightLinesProvider);
     final subject = subjectNameFor(suggestion.subjectId, catalog);
     final overline = late ? PracticeCopy.lateOverline : PracticeCopy.suggestedOverline;
 

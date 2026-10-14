@@ -60,7 +60,7 @@ void main() {
       PracticeCopy.sheetTicket(DateTime(2026, 10, 12, 23, 42)),
       'If you leave, open MockMob again before 11:42 PM so your answers can be sent.',
     );
-    expect(PracticeCopy.lateOverline, 'Late one tonight. Ten minutes, then sleep.');
+    expect(PracticeCopy.lateOverline, 'This one, then sleep');
   });
 
   test('when a paper was, in words', () {

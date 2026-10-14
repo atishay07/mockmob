@@ -89,8 +89,9 @@ void main() {
   test("Today's late-night line is its own, not Practice's or Review's (P3-2)", () {
     expect(TodayCopy.lateNight, isNot(PracticeCopy.lateOverline));
     expect(TodayCopy.lateNight, isNot(ReviewCopy.lateNight));
+    expect(PracticeCopy.lateOverline, isNot(ReviewCopy.lateNight), reason: 'each screen says its own');
     expect(TodayCopy.lateNight, isNot(TodayCopy.mobiSleepy.first), reason: 'the header Mobi is not shown beside it, but taps say that one');
-    for (final line in [TodayCopy.lateNight, TodayCopy.noOpenMistakes]) {
+    for (final line in [TodayCopy.lateNight, TodayCopy.noOpenMistakes, PracticeCopy.lateOverline, ReviewCopy.lateNight]) {
       expect(line, isNot(contains('!')));
       expect(line, isNot(contains('—')));
     }

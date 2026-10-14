@@ -242,17 +242,31 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
     });
 
-    testWidgets('if the platform never answers, it starts anyway after a safety cap', (tester) async {
+    testWidgets('if the platform never answers, the whole opening plays from the 10 s safety net', (tester) async {
       final haptics = _CountingHaptics();
       var done = 0;
       await _pump(tester, BrandOpening(onDone: () => done++, shown: Completer<void>().future), haptics: haptics);
-      await tester.pump(const Duration(milliseconds: 2400));
+      // Under a splash that is never reported gone, nothing plays or hands off out of sight, even
+      // well past a slow start.
+      await tester.pump(const Duration(milliseconds: 6000));
+      await tester.pump(const Duration(milliseconds: 3990));
       expect(haptics.light, 0);
-      await tester.pump(const Duration(milliseconds: 600));
+      expect(done, 0);
+      // From the net, the nominal timeline: the ink at 400 ms, the hand-off at 1000 ms, gone 280
+      // ms later.
+      await tester.pump(const Duration(milliseconds: 10));
+      await tester.pump(const Duration(milliseconds: 380));
+      expect(haptics.light, 0);
+      await tester.pump(const Duration(milliseconds: 40));
       expect(haptics.light, 1);
-      await tester.pump(const Duration(milliseconds: 600));
+      await tester.pump(const Duration(milliseconds: 580));
+      expect(done, 0);
+      await tester.pump(const Duration(milliseconds: 150));
       await tester.pump(const Duration(milliseconds: 300));
       expect(done, 1);
+      expect(haptics.light, 1);
+      // The hand-off asked the silent platform to lift its splash at once; that ask gives up.
+      await tester.pump(OpeningGlass.answerCap);
     });
 
     testWidgets('a tap skips straight to the hand-off', (tester) async {
