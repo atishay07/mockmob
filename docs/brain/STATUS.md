@@ -1777,3 +1777,20 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
   - **Cause:** Vercel Production env. Either OPENAI_API_KEY is missing (getOpenAIClient returns null, giving provider_unavailable), or AI_REPAIR_MODEL names a model with no price row.
   - **Open:** the owner checks Vercel env. The fix branch's per-failure log line will name the cause once deployed.
 - **Applied:** migration 20261014183050 runtime_ai_price_claude_haiku_5_5 (one config row; undo: `delete from public.runtime_ai_prices where provider='anthropic' and model='claude-haiku-5-5'`). This lets the Haiku 5.5 fallback in fix/repair-reliability run once deployed. No student data was changed.
+
+### 2026-10-15 00:18 IST: authored wave 2 published to production (owner approved in chat)
+- **Dry run:** plan hash 73b63070..., the same as the reviewed plan. 0 blockers, 0 warnings. 382 bound to both the agent and fit tables, 0 lookalikes.
+- **Apply:** source claude-authored-2026-10-14-w2. 382 questions and 1 case-set group inserted, 0 missing, 0 not visible, 0 hash mismatches.
+- **Live counts:**
+
+  | Subject | Before | After |
+  |---|---|---|
+  | Biology | 360 | 416 |
+  | Computer Science | 311 | 387 |
+  | English | 327 | 382 |
+  | General Test (gat) | 150 | 227 |
+  | Geography | 179 | 223 |
+  | Mathematics | 267 | 332 |
+  | Political Science | 272 | 281 |
+
+- **Restore file:** docs/brain/reports/authored-publish/authored-publish-restore-2026-10-14T18-48-05-150Z.json (`--mode=restore` hides wave 2 only).
