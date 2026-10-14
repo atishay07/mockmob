@@ -73,3 +73,16 @@ This is the handover from session cc0bf1af (Opus 5.5, account support@mockmob.in
 - Fast mode was turned on for this session.
 - Bypass permissions are on.
 - The owner approved deploys of the repair fixes and the wave 2 publish.
+
+## Update 01:10 IST: owner's "go all out" push, both runs in flight
+- **Round 3 (wf_1fb2ccb3-a45, app, wt-phase2):** cold-start hold, Mobi bubble over the greeting, onboarding deep link, stale goldens, untested unit areas, then check-3.
+- **"Alive and refined" (wf_ede58103-677):**
+  - Plan: 25 ideation agents, then 1 planner, then about 16 build packets (11 app in wt-phase2, 5 web in worktree `wt-web-refine`, branch web/alive-1015 from origin/main), then app and web checks.
+  - Goal: Mobi with a full emotional range everywhere it fits, motion and micro-interactions on every control, illustration and generated-art upgrades, refined features (including repair v2) on web and app.
+  - Resume: Workflow({scriptPath: its session script, resumeFromRunId}). Scripts are in the session's workflows/scripts folder.
+- **When both finish:**
+  1. Commit wt-phase2 and merge into feat/app-and-web.
+  2. Build release APK v3 in mockmob-next (obfuscated, zip it for the phone) and send it.
+  3. Free RAM (stop the Gradle daemon), boot the emulator, then install the profile demo (`build apk --profile --target-platform android-x64 -t test/device_demo/demo_main.dart`). Record with tool/emu_rec.sh and send the clips.
+  4. Web: review the web/alive-1015 commits and test lines. The owner has allowed deploys tonight, so push to main when green, and check Vercel.
+- **Owner rule (01:05):** keep working until usage is at about 97%. Write a handover if a reset is more than 30 minutes away.
