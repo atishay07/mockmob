@@ -47,7 +47,7 @@ class AuthSnapshot {
   final int? creditBalance;
 
   /// Signed out because the session could not be refreshed (not because the student chose to).
-  /// Show "Please sign in again. Your work is still on this phone."
+  /// Show "Sign in again. Your work is still on this phone."
   final bool sessionExpired;
 
   /// A session exists but the profile could not be loaded and none was cached. The status stays
