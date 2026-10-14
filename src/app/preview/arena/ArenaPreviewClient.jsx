@@ -12,6 +12,7 @@ import { buildPracticeQuote } from '@/../data/practice_quote';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewCompass, previewInsights } from './previewRecord';
+import { computeRhythm } from '@/lib/server/rhythm';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MockMobAIHub from '@/components/ai/MockMobAIHub';
 import AssistantDrawer from '@/components/ai/AssistantDrawer';
@@ -19,6 +20,7 @@ import AdmissionCompassPageClient from '@/app/(app)/admission-compass/AdmissionC
 import AnalyticsPageClient from '@/app/(app)/analytics/AnalyticsPageClient';
 import SavedPageClient from '@/app/(app)/saved/SavedPageClient';
 import TodayPage from '@/app/(app)/today/page';
+import ProgressPage from '@/app/(app)/progress/page';
 import RecoveryOverview from '@/components/RecoveryOverview';
 import RecoveryJourney from '@/app/(app)/recovery/page';
 import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
@@ -145,6 +147,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       { userId: 'preview-user', name: state === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', tests: 2, totalScore: 112 },
       { userId: 'fixture-student', name: 'Illustrative student', tests: 1, totalScore: 50 },
     ]);
+    // Recent papers (Today trend). Newest first; ?trend=few has too few to draw.
+    if (url.pathname === '/api/attempts/summary') {
+      const marks = fixture.get('trend') === 'few' || state === 'empty' ? [92, 88] : [76, 84, 80, 96, 104, 118];
+      const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
+      return json({ items, nextCursor: null });
+    }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
@@ -261,6 +269,18 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         next_step: 'Illustrative: redo this question by writing each partner’s old and new share over 10, then subtract.',
         model: 'fixture', generatedAt: new Date().toISOString() } });
     }
+    // Study rhythm (Today and Progress). ?rhythm=met|fresh|returning; ?data=empty has no record.
+    if (url.pathname === '/api/me/rhythm') {
+      const kind = fixture.get('rhythm') || 'some';
+      const day = 86400000;
+      const at = (back, hour = 12) => { const d = new Date(Date.now() - back * day); d.setHours(hour, 0, 0, 0); return d.getTime(); };
+      let activities = [];
+      if (state !== 'empty' && kind !== 'fresh') {
+        const backs = kind === 'returning' ? [9, 10, 11, 16, 17, 23, 24, 30, 31, 32, 38, 45] : kind === 'met' ? [0, 1, 2, 3, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 29, 30, 36, 44, 51] : [0, 1, 3, 8, 9, 10, 12, 16, 17, 18, 24, 25, 31, 38, 45];
+        activities = backs.map((back, i) => ({ id: `fx${i}`, at: at(back, back === 0 ? 0 : 9 + (i % 5)), kind: i % 4 === 3 ? 'repair' : 'session', answered: 12, fullMock: i === 9 }));
+      }
+      return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
+    }
     if (url.pathname === '/api/questions/mine') return json(state === 'empty' ? [] : fixtureUploads());
     if (url.pathname === '/api/questions/pending') return json(state === 'empty' ? [] : fixtureUploads().filter((question) => question.status === 'pending_moderation'));
     if (url.pathname === '/api/learning/summary') return json(state === 'empty' ? null : { solvedTotal: 7 });
@@ -297,7 +317,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'progress' ? <div className="student-page student-page--progress"><RecoveryOverview view="progress" /></div> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );
