@@ -157,7 +157,7 @@ class InsightsScreen extends ConsumerWidget {
     final ev = attempts == null ? null : RecordEvidence(attempts, now: ref.watch(nowProvider)());
     final series = trendSeries(attempts ?? const <Attempt>[]);
     final subjects = subjectLines(attempts ?? const <Attempt>[]);
-    const gap = SizedBox(height: MmSpace.group + MmSpace.s12);
+    const gap = SizedBox(height: MmSpace.group);
 
     VoidCallback? actionFor(Finding f) {
       // The chapter finding opens that chapter, not the whole subject.
@@ -179,7 +179,8 @@ class InsightsScreen extends ConsumerWidget {
     Widget section(String title, Widget child, {String? caption}) => RiseIn(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [SectionTitle(title, caption: caption), child],
+            // A hairline and space set sections apart; only the hero and the lead finding are cards.
+            children: [Divider(height: 1, color: context.mmColors.line), const SizedBox(height: MmSpace.s24), SectionTitle(title, caption: caption), child],
           ),
         );
     final chapters = <Widget>[

@@ -27,6 +27,16 @@ class AskPrompt {
   final String? preview;
 
   bool get free => intent.index <= AskIntent.blank.index;
+
+  /// What a tile says about itself when the record has no line to show yet, so every tile has
+  /// one and the grid keeps its rhythm. It describes the question; it is never a figure.
+  String get fallbackPreview => switch (intent) {
+        AskIntent.losing => InsightsCopy.previewLosing,
+        AskIntent.chapter => InsightsCopy.previewChapter,
+        AskIntent.pace => InsightsCopy.previewPace,
+        AskIntent.week => InsightsCopy.previewWeek,
+        _ => '',
+      };
 }
 
 String _sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s';
@@ -100,7 +110,7 @@ class AskEyebrow extends StatelessWidget {
           Semantics(header: true, child: Text(label, style: type.label.copyWith(color: colors.ink, letterSpacing: 0.2))),
           if (note != null) ...[
             const SizedBox(width: MmSpace.s8),
-            Flexible(child: Text(note!, style: type.caption.copyWith(color: colors.ink3), maxLines: 1, overflow: TextOverflow.ellipsis)),
+            Flexible(child: Text(note!, style: type.caption.copyWith(color: colors.ink3))),
           ],
         ],
       ),
@@ -108,33 +118,8 @@ class AskEyebrow extends StatelessWidget {
   }
 }
 
-/// The cost of a prompt, said as a chip: Free (answered on this phone) or 1 credit.
-class _CostChip extends StatelessWidget {
-  const _CostChip({required this.free});
-
-  final bool free;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        shape: StadiumBorder(side: BorderSide(color: free ? colors.volt.withValues(alpha: colors.isNight ? 0.45 : 0.7) : colors.lineStrong)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-        child: Text(
-          free ? InsightsCopy.costFree : InsightsCopy.costCredit,
-          style: type.caption.copyWith(fontSize: 12, height: 1.2, fontWeight: FontWeight.w600, color: free ? colors.accentText : colors.ink2),
-        ),
-      ),
-    );
-  }
-}
-
 /// A rich prompt: a small drawing of what the question is about, the question, one live line from
-/// the student's record, and its cost. Taps send it. [lead] gives the one lit edge of the screen.
+/// the student's record. Its cost is said once, on the group. Taps send it. [lead] gives the one lit edge of the screen.
 class PromptTile extends ConsumerWidget {
   const PromptTile({super.key, required this.prompt, required this.onTap, this.lead = false});
 
@@ -166,20 +151,17 @@ class PromptTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PromptGlyph(intent: prompt.intent),
-                    const Spacer(),
-                    _CostChip(free: prompt.free),
                   ],
                 ),
                 const SizedBox(height: MmSpace.s12),
                 Text(prompt.text, style: type.labelLarge.copyWith(height: 20 / 15), maxLines: 3),
                 const Spacer(),
-                if (prompt.preview != null) ...[
-                  const SizedBox(height: MmSpace.s8),
-                  Padding(
-                    padding: const EdgeInsets.only(right: MmSpace.s4),
-                    child: Text(prompt.preview!, style: type.caption.copyWith(color: colors.ink3, fontSize: 12.5, height: 17 / 12.5), maxLines: 2, overflow: TextOverflow.ellipsis),
-                  ),
-                ],
+                const SizedBox(height: MmSpace.s8),
+                Padding(
+                  padding: const EdgeInsets.only(right: MmSpace.s4),
+                  // The whole line, wrapped: a chapter name is never cut.
+                  child: Text(prompt.preview ?? prompt.fallbackPreview, style: type.caption.copyWith(color: colors.ink3, fontSize: 12.5, height: 17 / 12.5)),
+                ),
               ],
             ),
           ),
@@ -228,9 +210,7 @@ class PromptRow extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(child: Text(prompt.text, style: type.labelLarge.copyWith(fontSize: 14.5, height: 19 / 14.5), maxLines: 2, overflow: TextOverflow.ellipsis)),
-                const SizedBox(width: MmSpace.s12),
-                const _CostChip(free: false),
+                Expanded(child: Text(prompt.text, style: type.labelLarge.copyWith(fontSize: 14.5, height: 19 / 14.5))),
               ],
             ),
           ),
@@ -277,8 +257,10 @@ class FollowUpRail extends ConsumerWidget {
                   child: Row(
                     children: [
                       Text(p.text, style: type.labelLarge.copyWith(fontSize: 14)),
-                      const SizedBox(width: MmSpace.s8),
-                      Text(p.free ? InsightsCopy.costFree : InsightsCopy.costCredit, style: type.caption.copyWith(fontSize: 12, color: colors.ink3)),
+                      if (!p.free) ...[
+                        const SizedBox(width: MmSpace.s8),
+                        Text(InsightsCopy.costCredit, style: type.caption.copyWith(fontSize: 12, color: colors.ink3)),
+                      ],
                     ],
                   ),
                 ),

@@ -17,6 +17,7 @@ import 'package:mockmob/features/insights/screens/stream_screen.dart';
 import 'package:mockmob/features/insights/widgets/entry_points.dart';
 import 'package:mockmob/features/insights/widgets/trend_chart.dart';
 
+import '../../helpers/golden_harness.dart' show settleImages;
 import '../../unit/insights/support/insights_fixtures.dart';
 import 'insights_golden_support.dart';
 
@@ -80,11 +81,13 @@ void main() {
   // The note flips below a dot near the top, and stays out of the heading above the chart.
   insightsGolden(
     'trend_picked_top',
-    () => Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_topSeries]))),
+    () => Builder(
+      builder: (context) => Scaffold(
+        backgroundColor: context.mmColors.ground,
+        body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_topSeries]))),
+      ),
     ),
-    size: const Size(384, 420),
+    size: const Size(384, 500),
     after: (tester) async {
       final chart = tester.getRect(find.byType(CustomPaint).last);
       // The last dot, at the top right of the plot.
@@ -102,7 +105,7 @@ void main() {
           body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_midSeries]))),
         ),
       ),
-      size: const Size(384, 420),
+      size: const Size(384, 500),
       after: (tester) async {
         final chart = tester.getRect(find.byType(CustomPaint).last);
         // The first dot sits at the left of the plot (after the marks scale), the last at the right.
@@ -120,11 +123,13 @@ void main() {
   insightsGolden(
     'record_lower',
     () => const InsightsScreen(),
-    size: const Size(384, 1800),
+    size: const Size(384, 1180),
     overrides: () => insightsOverrides(pro: true),
     after: (tester) async {
       await tester.drag(find.byType(ListView).first, const Offset(0, -9000));
       await tester.pump(const Duration(seconds: 2));
+      // The subject art decodes on the real event loop.
+      await settleImages(tester);
     },
   );
   insightsGolden(

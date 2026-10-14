@@ -48,7 +48,7 @@ class SheetCounts {
 /// The bubbles ink in reading order over 700 ms once per visit; a rebuild with the same counts
 /// does not repeat it, and under reduced motion the sheet is simply inked.
 class AnswerSheet extends StatefulWidget {
-  const AnswerSheet({super.key, required this.right, required this.wrong, required this.blank, this.columns = 15, this.gap = 6});
+  const AnswerSheet({super.key, required this.right, required this.wrong, required this.blank, this.columns = 12, this.gap = 6});
 
   final int right;
   final int wrong;

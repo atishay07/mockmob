@@ -21,6 +21,19 @@ AnswerParts splitAnswer(String text, {bool wantLead = true}) {
   return AnswerParts(lead: m.group(1), body: m.group(2)!);
 }
 
+/// What Mobi says aloud for a reply: the first whole sentence, or the whole reply when it is
+/// short. A long reply with no early stop is cut on a word boundary and marked with an ellipsis;
+/// the full reply is always set below in its bubble.
+String speechLine(String text, {int max = 110}) {
+  final t = text.trim().replaceAll(RegExp(r'\s+'), ' ');
+  if (t.length <= max) return t;
+  final m = RegExp('^(.{8,$max}?[.?!])' r'(\s|$)').firstMatch(t);
+  if (m != null) return m.group(1)!;
+  final cut = t.lastIndexOf(' ', max);
+  final end = cut > max ~/ 2 ? cut : max;
+  return '${t.substring(0, end).replaceAll(RegExp(r'[\s,;:.\-]+$'), '')}…';
+}
+
 const Set<String> _units = {
   'marks', 'mark', 'questions', 'question', 'right', 'wrong', 'blank', 'sessions', 'session', 'changes', 'change', 'minutes', 'seconds',
 };

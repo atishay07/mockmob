@@ -146,6 +146,7 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
             ],
           ),
         ),
+        _readout(picked == null ? null : _note(shown[picked])),
         const SizedBox(height: MmSpace.s12),
         LayoutBuilder(
           builder: (context, box) {
@@ -181,7 +182,6 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
                       ),
                     ),
                   ),
-                  if (picked != null) _tooltip(shown[picked], geo.point(picked)),
                 ],
               ),
             );
@@ -213,86 +213,61 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
   String _describe(TrendPoint p) =>
       InsightsCopy.trendPointLabel(formatDayMonthShort(p.at.toLocal()), p.marks, p.maxMarks, p.maxMarks ~/ 5);
 
-  static const double _tooltipWidth = 176;
+  /// The band the readout opens in: it grows to the note and back, or just appears under reduced
+  /// motion.
+  Widget _readout(Widget? note) {
+    final body = SizedBox(width: double.infinity, child: note == null ? null : Padding(padding: const EdgeInsets.only(top: MmSpace.s12), child: note));
+    final d = Motion.of(context, Motion.ui);
+    if (d == Duration.zero) return body;
+    return AnimatedSize(duration: d, curve: Motion.glide, alignment: Alignment.topCenter, child: body);
+  }
 
-  /// A small glass note by the picked dot: its day, marks and paper length, and Show me.
-  Widget _tooltip(TrendPoint p, Offset at) {
+  /// The picked session as a readout above the chart: its day, marks and paper length, and Show me
+  /// opening that session. A solid surface in its own band, so it never covers the line, the
+  /// gridlines or the marks scale; it wraps at large text.
+  Widget _note(TrendPoint p) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // The note is placed by its measured height (it grows with large text), never a guess:
-    // above the dot, below it, or beside it, always inside the chart.
-    return Positioned.fill(
-      child: CustomSingleChildLayout(
-        delegate: _TooltipLayout(at: at, width: MediaQuery.textScalerOf(context).scale(_tooltipWidth), plotLeft: _TrendGeometry.left),
-        child: Semantics(
-          container: true,
-          liveRegion: true,
-          child: FakeGlass(
-            borderRadius: MmRadius.smallAll,
-            grain: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, 0),
-              child: Column(
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      child: DecoratedBox(
+        key: const ValueKey('trend-note'),
+        decoration: ShapeDecoration(
+          color: colors.raised2,
+          shape: mmShapeBorder(MmRadius.smallAll, side: BorderSide(color: colors.lineStrong)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s8, MmSpace.s8),
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: MmSpace.s4,
+            children: [
+              Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(formatDayMonthShort(p.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
                   Text(
                     InsightsCopy.trendPointMarks(p.marks, p.maxMarks),
                     style: type.labelLarge.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
                   ),
-                  Text(InsightsCopy.trendPointPaper(p.maxMarks ~/ 5), style: type.caption.copyWith(color: colors.ink2)),
-                  ShowMePill(
-                    semanticsLabel: InsightsCopy.showMeSessions(1),
-                    onTap: () => unawaited(context.push<void>(AppRoutes.result(p.attemptId))),
+                  Text(
+                    '${formatDayMonthShort(p.at.toLocal())}, ${InsightsCopy.trendPointPaper(p.maxMarks ~/ 5)}',
+                    style: type.caption.copyWith(color: colors.ink2),
                   ),
                 ],
               ),
-            ),
+              ShowMePill(
+                semanticsLabel: InsightsCopy.showMeSessions(1),
+                onTap: () => unawaited(context.push<void>(AppRoutes.result(p.attemptId))),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-}
-
-/// Places the note inside the chart, so it never covers the marks scale on the left or the
-/// dates under the plot. Above the dot when its measured height fits, else below it, else
-/// beside it (the side with room), vertically centred on the dot and kept inside the chart.
-/// Only a note taller than the whole chart (very large text) may run past its edge.
-/// The note is wider at large text so Show me never overflows.
-class _TooltipLayout extends SingleChildLayoutDelegate {
-  const _TooltipLayout({required this.at, required this.width, required this.plotLeft});
-
-  final Offset at;
-  final double width;
-
-  /// Where the plot starts: the marks scale sits to its left and stays uncovered.
-  final double plotLeft;
-
-  /// The gap between the dot and the note.
-  static const double gap = 14;
-
-  @override
-  BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
-      BoxConstraints.tightFor(width: math.min(width, constraints.maxWidth - plotLeft));
-
-  @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    double clampX(double x) => x.clamp(plotLeft, math.max(plotLeft, size.width - childSize.width));
-    double clampY(double y) => y.clamp(0.0, math.max(0.0, size.height - childSize.height));
-    final above = at.dy - gap - childSize.height >= 0;
-    if (above) return Offset(clampX(at.dx - childSize.width / 2), at.dy - gap - childSize.height);
-    final below = at.dy + gap + childSize.height <= size.height;
-    if (below) return Offset(clampX(at.dx - childSize.width / 2), at.dy + gap);
-    final centred = clampY(at.dy - childSize.height / 2);
-    if (at.dx + gap + childSize.width <= size.width) return Offset(at.dx + gap, centred);
-    if (at.dx - gap - childSize.width >= plotLeft) return Offset(at.dx - gap - childSize.width, centred);
-    return Offset(clampX(at.dx - childSize.width / 2), clampY(at.dy - gap - childSize.height));
-  }
-
-  @override
-  bool shouldRelayout(_TooltipLayout old) => old.at != at || old.width != width || old.plotLeft != plotLeft;
 }
 
 /// Where each session sits on the chart, shared by the painter, the taps and the note.

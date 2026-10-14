@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/evidence.dart';
@@ -83,7 +82,7 @@ void main() {
       await tester.pump();
       expect(find.text('Show me'), findsOneWidget);
       expect(find.text('39 of 50 marks'), findsOneWidget);
-      expect(find.text('10 questions'), findsOneWidget);
+      expect(find.textContaining('10 questions'), findsOneWidget);
     });
   });
 
@@ -99,7 +98,7 @@ void main() {
           ],
         );
 
-    Future<(Rect chart, Rect note)> pick(WidgetTester tester, List<int> marks, double textScale) async {
+    Future<(Rect chart, Rect note)> pick(WidgetTester tester, List<int> marks, double textScale, {bool first = false}) async {
       // A fresh chart each time: the picked dot of the one before must not carry over.
       await tester.pumpWidget(const SizedBox());
       await pumpMockmob(
@@ -108,58 +107,41 @@ void main() {
         brightness: Brightness.dark,
         disableAnimations: true,
         textScale: textScale,
+        size: const Size(384, 900),
       );
       final chart = tester.getRect(find.byType(CustomPaint).last);
-      await tester.tapAt(Offset(chart.right - 10, chart.center.dy));
+      await tester.tapAt(Offset(first ? chart.left + 36 : chart.right - 10, chart.center.dy));
       await tester.pump();
-      return (chart, tester.getRect(find.byType(FakeGlass)));
+      return (tester.getRect(find.byType(CustomPaint).last), tester.getRect(find.byKey(const ValueKey('trend-note'))));
     }
 
-    testWidgets('a dot near the top gets its note inside the chart, off the marks scale and the dates', (tester) async {
-      final (chart, note) = await pick(tester, [41, 44, 49], 1);
-      expect(note.top, greaterThanOrEqualTo(chart.top));
-      // Never over the date row under the plot (the walk-through had Show me on the date).
-      expect(note.bottom, lessThanOrEqualTo(chart.bottom));
-      // Never over the marks scale ("25", "0") at the left of the plot.
-      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
-      expect(note.right, lessThanOrEqualTo(chart.right));
-    });
-
-    testWidgets('the note is wider at large text, so Show me does not overflow', (tester) async {
-      final (chart, note) = await pick(tester, [41, 44, 49], 1.6);
-      expect(tester.takeException(), isNull);
-      expect(note.width, greaterThan(176));
-      expect(note.top, greaterThanOrEqualTo(chart.top));
-      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
-    });
-
-    testWidgets('a dot too low for the note above it still keeps the note inside the chart', (tester) async {
+    // The readout has its own band above the plot: it never covers the line, the gridlines, the
+    // marks scale or the dates, wherever the picked dot sits.
+    testWidgets('the note sits above the chart on a solid surface, whatever dot is picked', (tester) async {
       for (final marks in [
+        [41, 44, 49],
         [20, 30, 25],
         [20, 10, 2],
         [2, 4, 1],
       ]) {
         final (chart, note) = await pick(tester, marks, 1);
-        expect(note.top, greaterThanOrEqualTo(chart.top), reason: '$marks');
-        expect(note.bottom, lessThanOrEqualTo(chart.bottom), reason: '$marks');
-        expect(note.left, greaterThanOrEqualTo(chart.left + 30), reason: '$marks');
+        expect(note.bottom, lessThanOrEqualTo(chart.top), reason: '$marks');
+        expect(note.left, greaterThanOrEqualTo(chart.left), reason: '$marks');
+        expect(note.right, lessThanOrEqualTo(chart.right), reason: '$marks');
       }
     });
 
-    testWidgets('a dot at the left edge of the plot keeps the note off the marks scale', (tester) async {
-      await pumpMockmob(
-        tester,
-        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [seriesAt([33, 8])])),
-        brightness: Brightness.dark,
-        disableAnimations: true,
-      );
-      final chart = tester.getRect(find.byType(CustomPaint).last);
-      await tester.tapAt(Offset(chart.left + 36, chart.center.dy));
-      await tester.pump();
-      final note = tester.getRect(find.byType(FakeGlass));
-      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
-      expect(note.top, greaterThanOrEqualTo(chart.top));
-      expect(note.bottom, lessThanOrEqualTo(chart.bottom));
+    testWidgets('the note wraps at large text, so Show me does not overflow', (tester) async {
+      final (chart, note) = await pick(tester, [41, 44, 49], 1.6);
+      expect(tester.takeException(), isNull);
+      expect(note.bottom, lessThanOrEqualTo(chart.top));
+      expect(note.right, lessThanOrEqualTo(chart.right));
+    });
+
+    testWidgets('a dot at the left edge of the plot opens the same readout', (tester) async {
+      final (chart, note) = await pick(tester, [33, 8], 1, first: true);
+      expect(note.bottom, lessThanOrEqualTo(chart.top));
+      expect(find.text('33 of 50 marks'), findsOneWidget);
     });
   });
 

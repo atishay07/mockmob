@@ -231,20 +231,15 @@ Widget _pair(Widget a, Widget b) => Row(
 
 String _sec(int? s) => s == null ? '-' : (s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s');
 
-/// A solid panel for a chart's group (the work layer: calm, no glass).
+/// The body of a chart group: no box. The hero and the lead finding are the page's only cards;
+/// everything else sits on the ground and is set apart by space and hairlines.
 class _Panel extends StatelessWidget {
   const _Panel({required this.child});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line))),
-      child: Padding(padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s8), child: child),
-    );
-  }
+  Widget build(BuildContext context) => child;
 }
 
 // ---- Changed answers -----------------------------------------------------------------------
@@ -416,9 +411,10 @@ class _SecondsBar extends StatelessWidget {
 
 // ---- This week and last ----------------------------------------------------------------------
 
-/// This week against last: net marks and what they count for each, with a row of seven day
-/// bubbles under each (inked on the days a session was finished) when the sessions are on the
-/// phone.
+/// This week against last: net marks and what they count for each, with seven day columns under
+/// each when the sessions are on the phone: the day's letter, and a bar for that day's net marks
+/// (volt for a gain, coral for a loss, a hairline dot for a day with no session). Both weeks share
+/// one scale, so the bars compare.
 class WeekSection extends StatelessWidget {
   const WeekSection({super.key, required this.thisWeek, required this.lastWeek, required this.activeDays, this.evidence = const [], this.now});
 
@@ -429,28 +425,36 @@ class WeekSection extends StatelessWidget {
   /// Sessions in the last 14 days, newest first.
   final List<Attempt> evidence;
 
-  /// Today, to place each session on its day. Without it no day bubbles are drawn.
+  /// Today, to place each session on its day. Without it no day columns are drawn.
   final DateTime? now;
 
-  /// Seven flags for the week that ends [daysBack] days before today, oldest day first.
-  List<bool>? _days(int daysBack) {
+  /// Seven days for the week that ends [daysBack] days before today, oldest day first: the
+  /// weekday and its net marks, or a null net when no session ended on it.
+  List<_Day>? _days(int daysBack) {
     final n = now;
     if (n == null || evidence.isEmpty) return null;
     final today = DateTime(n.year, n.month, n.day);
-    final worked = {
-      for (final a in evidence)
+    final net = <DateTime, int>{};
+    for (final a in evidence) {
+      final d = a.completedAt.toLocal();
+      final day = DateTime(d.year, d.month, d.day);
+      net[day] = (net[day] ?? 0) + a.marks;
+    }
+    return [
+      for (var i = 6; i >= 0; i--)
         () {
-          final d = a.completedAt.toLocal();
-          return DateTime(d.year, d.month, d.day);
+          final day = today.subtract(Duration(days: daysBack + i));
+          return _Day(day.weekday, net[day]);
         }(),
-    };
-    return [for (var i = 6; i >= 0; i--) worked.contains(today.subtract(Duration(days: daysBack + i)))];
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final all = [...?_days(0), ...?_days(7)];
+    final scale = all.fold<int>(1, (m, d) => (d.net ?? 0).abs() > m ? (d.net ?? 0).abs() : m);
     Widget column(String title, WeekSummary w, int daysBack) {
       final days = _days(daysBack);
       return Column(
@@ -479,28 +483,86 @@ class WeekSection extends StatelessWidget {
             if (w.accuracy.known) Text('${w.accuracy.pct}% right of ${w.accuracy.n}', style: type.caption.copyWith(color: colors.ink2)),
           ],
           if (days != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            BubbleRow(
-              states: [for (final d in days) d ? BubbleState.filled : BubbleState.hollow],
-              bubbleSize: 13,
-              gap: 5,
-              semanticsLabel: '${days.where((d) => d).length} of 7 days with a session',
-            ),
+            const SizedBox(height: MmSpace.s16),
+            _DayBars(days: days, scale: scale),
           ],
         ],
       );
     }
 
-    return _Panel(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _pair(column(InsightsCopy.thisWeek, thisWeek, 0), column(InsightsCopy.lastWeek, lastWeek, 7)),
+        const SizedBox(height: MmSpace.s16),
+        Text(InsightsCopy.activeDays(activeDays), style: type.small.copyWith(color: colors.ink)),
+        Text(InsightsCopy.weekNote, style: type.caption.copyWith(color: colors.ink3)),
+        EvidencePill(attempts: evidence, what: InsightsCopy.behindWeek),
+      ],
+    );
+  }
+}
+
+class _Day {
+  const _Day(this.weekday, this.net);
+
+  /// DateTime.monday to DateTime.sunday.
+  final int weekday;
+
+  /// Net marks of the sessions that ended that day; null when none did.
+  final int? net;
+
+  static const _letters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  String get letter => _letters[weekday - 1];
+}
+
+/// Seven day columns: a bar for the day's net marks above its letter.
+class _DayBars extends StatelessWidget {
+  const _DayBars({required this.days, required this.scale});
+
+  final List<_Day> days;
+  final int scale;
+
+  static const _plot = 44.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final worked = days.where((d) => d.net != null).length;
+    return Semantics(
+      label: '$worked of 7 days with a session',
+      excludeSemantics: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _pair(column(InsightsCopy.thisWeek, thisWeek, 0), column(InsightsCopy.lastWeek, lastWeek, 7)),
-          const SizedBox(height: MmSpace.s16),
-          Text(InsightsCopy.activeDays(activeDays), style: type.small.copyWith(color: colors.ink)),
-          Text(InsightsCopy.weekNote, style: type.caption.copyWith(color: colors.ink3)),
-          EvidencePill(attempts: evidence, what: InsightsCopy.behindWeek),
-          const SizedBox(height: MmSpace.s4),
+          for (final d in days)
+            Expanded(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: _plot,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: d.net == null
+                          ? DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: colors.line), child: const SizedBox.square(dimension: 5))
+                          : GrowIn(
+                              duration: const Duration(milliseconds: 420),
+                              builder: (context, t) => DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: d.net! >= 0 ? colors.volt : colors.wrongMark,
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
+                                ),
+                                child: SizedBox(width: 10, height: ((d.net!.abs() / scale) * (_plot - 6) + 6) * t),
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: MmSpace.s4),
+                  Text(d.letter, style: type.caption.copyWith(fontSize: 11.5, color: d.net == null ? colors.ink4 : colors.ink2)),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -554,53 +616,54 @@ class _SubjectPlate extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final l = line;
-    final light = SubjectLight.forSubject(l.subject);
+    final light = SubjectLight.forSubject(l.subject)?.of(Theme.of(context).brightness);
     final name = subjectDisplayName(l.subject);
     final pct = l.accuracyPct;
     return Semantics(
       container: true,
       label: '$name, ${pct == null ? InsightsCopy.subjectNoneAnswered : InsightsCopy.subjectRight(pct)}, ${InsightsCopy.subjectLine(l.sessions, l.questions)}',
       excludeSemantics: true,
-      child: FakeGlass(
-        child: Stack(
-          children: [
-            if (light != null)
-              Positioned.fill(child: IgnorePointer(child: LightField.subject(context, light, center: const Alignment(0.9, -0.9), strength: 0.9))),
-            Padding(
-              padding: const EdgeInsets.all(MmSpace.s16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // The subject's object, then its name on the full width: a long name wraps at
-                  // a word, never mid-word.
-                  SubjectThumb(subject: l.subject, size: 44),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(name, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  const SizedBox(height: MmSpace.s4),
-                  if (pct == null)
-                    Text(InsightsCopy.subjectNoneAnswered, style: type.cardTitle.copyWith(color: colors.ink2))
-                  else
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text('$pct', style: type.figure.copyWith(fontSize: 48, height: 1, fontFeatures: _tabular)),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4, left: 2),
-                          child: Text('%', style: type.figureCompact.copyWith(fontSize: 22, height: 1, color: colors.ink2)),
-                        ),
-                      ],
+      // One neutral plate: the subject shows in its drawn object and a one pixel edge in its
+      // colour, never as a wash over the whole plate.
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: colors.raised,
+          shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: light == null ? colors.line : light.withValues(alpha: colors.isNight ? 0.55 : 0.7))),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(MmSpace.s16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // The subject's object, then its name on the full width: a long name wraps at a
+              // word and is never cut.
+              SubjectThumb(subject: l.subject, size: 60),
+              const SizedBox(height: MmSpace.s8),
+              Text(name, style: type.labelLarge),
+              const SizedBox(height: MmSpace.s4),
+              if (pct == null)
+                Text(InsightsCopy.subjectNoneAnswered, style: type.cardTitle.copyWith(color: colors.ink2))
+              else
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text('$pct', style: type.figure.copyWith(fontSize: 48, height: 1, fontFeatures: _tabular)),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, left: 2),
+                      child: Text('%', style: type.figureCompact.copyWith(fontSize: 22, height: 1, color: colors.ink2)),
                     ),
-                  const SizedBox(height: MmSpace.s4),
-                  Text('right of ${l.answered} answered', style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular)),
-                  const SizedBox(height: MmSpace.s12),
-                  MarksBar(right: l.right, wrong: l.wrong, blank: l.blank, height: 6, engrave: true),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(InsightsCopy.subjectLine(l.sessions, l.questions), style: type.caption.copyWith(color: colors.ink3, fontFeatures: _tabular)),
-                ],
-              ),
-            ),
-          ],
+                  ],
+                ),
+              const SizedBox(height: MmSpace.s4),
+              Text('right of ${l.answered} answered', style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular)),
+              const Spacer(),
+              const SizedBox(height: MmSpace.s12),
+              MarksBar(right: l.right, wrong: l.wrong, blank: l.blank, height: 6, engrave: true),
+              const SizedBox(height: MmSpace.s8),
+              Text(InsightsCopy.subjectLine(l.sessions, l.questions), style: type.caption.copyWith(color: colors.ink3, fontFeatures: _tabular)),
+            ],
+          ),
         ),
       ),
     );

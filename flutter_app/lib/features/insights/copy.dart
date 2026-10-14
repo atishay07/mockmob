@@ -8,9 +8,10 @@ abstract final class InsightsCopy {
       'From your last ${_n(sessions, 'scored session')}, ${_n(questions, 'question')} in all.';
   static const netLabel = 'net marks';
   static const ledgerHeading = 'Where the marks went';
-  static String ledgerRight(int n, int marks) => marks == 0 ? '$n right, 0' : '$n right, +$marks';
-  static String ledgerWrong(int n) => n == 0 ? '0 wrong, 0' : '$n wrong, -$n';
-  static String ledgerBlank(int n) => '$n left blank, 0';
+  // The marks arithmetic is said once, in netOver; the legend names each kind and its count.
+  static String ledgerRight(int n, int marks) => '$n right';
+  static String ledgerWrong(int n) => '$n wrong';
+  static String ledgerBlank(int n) => '$n left blank';
   static String sheetScale(int per) => 'Each bubble stands for about $per questions.';
   static const kindLeak = 'Where marks leak';
   static const kindGood = 'Working';
@@ -221,9 +222,9 @@ abstract final class InsightsCopy {
   }
 
   static const askGroupRecord = 'About your marks';
-  static const askGroupRecordNote = 'Answered on this phone';
+  static const askGroupRecordNote = 'Free, from your own answers';
   static const askGroupOpen = 'Ask anything';
-  static const askGroupOpenNote = 'Mobi writes these';
+  static const askGroupOpenNote = 'Uses 1 credit';
   static const promptLosing = 'Where am I losing marks?';
   static const promptChapter = 'Which chapter should I practise?';
   static const promptPace = 'Am I too slow on wrong answers?';
@@ -234,6 +235,10 @@ abstract final class InsightsCopy {
   static String promptPlan(String? chapter) =>
       chapter == null ? 'Give me a 10 minute revision plan for tonight' : 'Give me a 10 minute revision plan for $chapter';
   static const costFree = 'Free';
+  static const previewLosing = 'Reads your wrong and blank answers';
+  static const previewChapter = 'Ranks chapters by marks left open';
+  static const previewPace = 'Needs timed answers';
+  static const previewWeek = 'Counts your last 7 days';
   static const costCredit = '1 credit';
   static const askThinking = 'Thinking it through';
   static const sourceRecord = 'From your record';

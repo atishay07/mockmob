@@ -159,21 +159,12 @@ class FindingsPanel extends StatelessWidget {
       children: [
         _LeadFinding(finding: findings.first, onAction: onAction(findings.first), evidence: evidence(findings.first)),
         if (rest.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s12),
-          DecoratedBox(
-            decoration: ShapeDecoration(
-              color: colors.raised,
-              shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
-            ),
-            child: Column(
-              children: [
-                for (var i = 0; i < rest.length; i++) ...[
-                  if (i > 0) Divider(height: 1, indent: MmSpace.cardPadding, endIndent: MmSpace.cardPadding, color: colors.line),
-                  _FindingRow(finding: rest[i], onAction: onAction(rest[i]), evidence: evidence(rest[i])),
-                ],
-              ],
-            ),
-          ),
+          const SizedBox(height: MmSpace.s8),
+          // The other findings are not boxed: rails and hairlines carry them.
+          for (var i = 0; i < rest.length; i++) ...[
+            if (i > 0) Divider(height: 1, color: colors.line),
+            _FindingRow(finding: rest[i], onAction: onAction(rest[i]), evidence: evidence(rest[i])),
+          ],
         ],
       ],
     );
@@ -237,8 +228,7 @@ class _LeadFinding extends StatelessWidget {
                   const SizedBox(height: MmSpace.s12),
                   Text(f.detail, style: type.small.copyWith(color: colors.ink2, fontSize: 15, height: 22 / 15)),
                   const SizedBox(height: MmSpace.s12),
-                  Text(InsightsCopy.basedOn(f.n), style: type.caption.copyWith(color: colors.ink3)),
-                  EvidencePill(attempts: evidence, what: InsightsCopy.behindFinding),
+                  BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
                   if (onAction != null && f.actionLabel != null) ...[
                     const SizedBox(height: MmSpace.s4),
                     KeyButton(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onPressed: onAction),
@@ -269,7 +259,7 @@ class _FindingRow extends StatelessWidget {
     final f = finding;
     final rail = f.isLeak ? colors.wrongMark : (f.isGood ? colors.volt : colors.ink4);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s16, MmSpace.cardPadding, MmSpace.s4),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, 0, MmSpace.s4),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -287,8 +277,7 @@ class _FindingRow extends StatelessWidget {
                   const SizedBox(height: MmSpace.s4),
                   Text(f.detail, style: type.small.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s6),
-                  Text(InsightsCopy.basedOn(f.n), style: type.caption.copyWith(color: colors.ink3)),
-                  EvidencePill(attempts: evidence, what: InsightsCopy.behindFinding),
+                  BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
                   if (onAction != null && f.actionLabel != null)
                     ActionLink(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onTap: onAction!)
                   else

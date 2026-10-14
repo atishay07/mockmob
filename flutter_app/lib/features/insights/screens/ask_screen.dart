@@ -22,6 +22,7 @@ import '../data/insights_repository.dart';
 import '../insights_paths.dart';
 import '../widgets/ask_marks.dart';
 import '../widgets/ask_messages.dart';
+import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
 import '../widgets/motion_bits.dart';
 import 'insights_screen.dart';
@@ -178,7 +179,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
           _mobi.play(MobiAct.oops);
         } else {
           _mobi.play(MobiAct.idle);
-          _mobi.say(m.text.length > 60 ? m.text.substring(0, 60) : m.text);
+          _mobi.say(speechLine(m.text));
           if (m.isModel) ref.read(hapticsProvider).light();
         }
         return;
@@ -187,7 +188,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     // A record answer lands with no wait.
     if (now.length > before.length && !now.last.fromStudent && !now.last.sending && now.last.failure == null) {
       _mobi.play(MobiAct.idle);
-      _mobi.say(now.last.text.length > 60 ? now.last.text.substring(0, 60) : now.last.text);
+      _mobi.say(speechLine(now.last.text));
     }
   }
 
@@ -231,7 +232,24 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          Positioned(left: 0, right: 0, top: 0, height: 460, child: IgnorePointer(child: LightField.lamp(context, strength: conversation ? 0.5 : 0.9))),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 460,
+            child: IgnorePointer(
+              child: conversation
+                  ? LightField.lamp(context, strength: 0.5)
+                  : LightField(
+                      pools: [
+                        LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.18), center: const Alignment(-1, -1.1), radius: 1.05),
+                        // The pool Mobi stands in: warm lamp and a breath of volt under it.
+                        LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.42 : 0.3), center: const Alignment(0, -0.05), radius: 0.52),
+                        LightPool(color: colors.voltGlow, center: const Alignment(0, 0.12), radius: 0.34, strength: 0.7),
+                      ],
+                    ),
+            ),
+          ),
           SafeArea(
             bottom: false,
             child: Column(
@@ -239,26 +257,37 @@ class _AskScreenState extends ConsumerState<AskScreen> {
               children: [
                 _AskHeader(mobi: conversation ? _mobi : null, sessions: record != null && record.isReady ? record.sessions : null),
                 Expanded(
-                  child: ListView(
-                    controller: _scroll,
-                    padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
-                    children: [
-                      if (!conversation) ..._stage(record, pro, name, sendPrompt),
-                      for (final (i, m) in state.messages.indexed) ...[
-                        if (i > 0) SizedBox(height: m.fromStudent ? MmSpace.s20 : MmSpace.s16),
-                        AskMessageView(
-                          message: m,
-                          animate: i >= settled,
-                          citation: citationFor(m, record, evidence),
-                          onReport: m.isModel ? () => _report(m) : null,
-                          onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
-                          onRetry: () {
-                            ref.read(askControllerProvider.notifier).retry(i);
-                            _toEnd();
-                          },
+                  // A conversation sits on the composer: short threads fill upward from the
+                  // bottom, never leaving a dead band under the last reply.
+                  child: LayoutBuilder(
+                    builder: (context, box) => SingleChildScrollView(
+                      controller: _scroll,
+                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: conversation ? MainAxisAlignment.end : MainAxisAlignment.start,
+                          children: [
+                            if (!conversation) ..._stage(record, pro, name, sendPrompt),
+                            for (final (i, m) in state.messages.indexed) ...[
+                              if (i > 0) SizedBox(height: m.fromStudent ? MmSpace.s20 : MmSpace.s16),
+                              AskMessageView(
+                                message: m,
+                                animate: i >= settled,
+                                citation: citationFor(m, record, evidence),
+                                onReport: m.isModel ? () => _report(m) : null,
+                                onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
+                                onRetry: () {
+                                  ref.read(askControllerProvider.notifier).retry(i);
+                                  _toEnd();
+                                },
+                              ),
+                            ],
+                          ],
                         ),
-                      ],
-                    ],
+                      ),
+                    ),
                   ),
                 ),
                 if (followUps.isNotEmpty)
@@ -300,7 +329,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     return [
       Center(
         child: MobiStage(
-          size: 116,
+          size: 132,
           say: InsightsCopy.askGreeting(name, ready ? record.sessions : null),
           semanticLabel: 'Mobi',
           bubbleWidth: 300,
