@@ -9154,7 +9154,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "A",
-      "content_hash": "01cacafb728d52b4761d97f47d37a7556de92e611f44c84ca0179f127f99bde9",
+      "content_hash": "016be47ff8c2f0c409bd922e7e373f2f6c36ad76aaccfac27f7fa5711fb6fa64",
       "judges": [
         {
           "judge": "j1",
@@ -9167,7 +9167,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-particular-conclusion",
           "flags": [],
           "note": "Key verified: some pencils are erasers and no pencil-pen overlap gives some erasers not pens (I). II does not follow. Standard CUET syllogism form.",
-          "scored_content_hash": "01cacafb728d52b4761d97f47d37a7556de92e611f44c84ca0179f127f99bde9"
+          "scored_content_hash": "016be47ff8c2f0c409bd922e7e373f2f6c36ad76aaccfac27f7fa5711fb6fa64"
         },
         {
           "judge": "j2",
@@ -9180,7 +9180,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-particular-conclusion",
           "flags": [],
           "note": "Key A verified: some erasers are not pens; II would need all erasers outside pens, which is not given. Standard form.",
-          "scored_content_hash": "01cacafb728d52b4761d97f47d37a7556de92e611f44c84ca0179f127f99bde9"
+          "scored_content_hash": "016be47ff8c2f0c409bd922e7e373f2f6c36ad76aaccfac27f7fa5711fb6fa64"
         }
       ],
       "mean": 8.5,
@@ -9215,8 +9215,8 @@
         "expert_issue": "Some pencils are erasers, and no pen is a pencil, so some erasers are not pens: Conclusion I follows (key A). Conclusion II does not follow because erasers outside pencils may still be pens.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "01cacafb728d52b4761d97f47d37a7556de92e611f44c84ca0179f127f99bde9",
-        "final_content_hash": "01cacafb728d52b4761d97f47d37a7556de92e611f44c84ca0179f127f99bde9",
+        "judged_content_hash": "016be47ff8c2f0c409bd922e7e373f2f6c36ad76aaccfac27f7fa5711fb6fa64",
+        "final_content_hash": "016be47ff8c2f0c409bd922e7e373f2f6c36ad76aaccfac27f7fa5711fb6fa64",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9246,7 +9246,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Quantitative Reasoning",
       "key": "D",
-      "content_hash": "1eae6261d5c5cb952bafa76d4aa9336ce98c997bb99cdc83c67cfeff855a71a5",
+      "content_hash": "f54fbec093ffddf4b5ade1b4a2abe0c7fe9ba512eeb3c2a24989b83ea4f50eb4",
       "judges": [
         {
           "judge": "j1",
@@ -9259,7 +9259,7 @@
           "objective_tag": "general_test.quantitative-reasoning.matching-roots-ap-and-mean",
           "flags": [],
           "note": "Key verified: A-III (sum 9), B-II (product 6), C-I (difference 5), D-IV (mean 10). Well-built match list with each pairing distinct.",
-          "scored_content_hash": "1eae6261d5c5cb952bafa76d4aa9336ce98c997bb99cdc83c67cfeff855a71a5"
+          "scored_content_hash": "f54fbec093ffddf4b5ade1b4a2abe0c7fe9ba512eeb3c2a24989b83ea4f50eb4"
         },
         {
           "judge": "j2",
@@ -9272,7 +9272,7 @@
           "objective_tag": "general_test.quantitative-reasoning.quadratic-ap-mean-matching",
           "flags": [],
           "note": "Blind D matches key: sum 9 (III), product 6 (II), d 5 (I), mean 10 (IV). Well-formed four-pair match.",
-          "scored_content_hash": "1eae6261d5c5cb952bafa76d4aa9336ce98c997bb99cdc83c67cfeff855a71a5"
+          "scored_content_hash": "f54fbec093ffddf4b5ade1b4a2abe0c7fe9ba512eeb3c2a24989b83ea4f50eb4"
         }
       ],
       "mean": 9,
@@ -9307,8 +9307,8 @@
         "expert_issue": "A: roots 2 and 7, sum 9 (III). B: product 12/2 = 6 (II). C: common difference 5 (I). D: mean 40/4 = 10 (IV). Key D matches. Each option is a distinct permutation, so the item is balanced.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "1eae6261d5c5cb952bafa76d4aa9336ce98c997bb99cdc83c67cfeff855a71a5",
-        "final_content_hash": "1eae6261d5c5cb952bafa76d4aa9336ce98c997bb99cdc83c67cfeff855a71a5",
+        "judged_content_hash": "f54fbec093ffddf4b5ade1b4a2abe0c7fe9ba512eeb3c2a24989b83ea4f50eb4",
+        "final_content_hash": "f54fbec093ffddf4b5ade1b4a2abe0c7fe9ba512eeb3c2a24989b83ea4f50eb4",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9338,7 +9338,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "D",
-      "content_hash": "41a7eb64ac6239ccf25c203b06038367e8d36cacc779da95fef9fc3ce51d4c0e",
+      "content_hash": "5ed34f44ae7461efbee6ee8adcbeaddc242df51cb974996ac48336f59f9cfee5",
       "judges": [
         {
           "judge": "j1",
@@ -9351,7 +9351,7 @@
           "objective_tag": "general_test.general-knowledge.peninsular-rivers-seasonal-flow",
           "flags": [],
           "note": "A is false (most peninsular rivers are seasonal) and R is true (rain-fed, no glacial source). Fair assertion-reason trap; explanation's causal link is slightly loose but not wrong.",
-          "scored_content_hash": "41a7eb64ac6239ccf25c203b06038367e8d36cacc779da95fef9fc3ce51d4c0e"
+          "scored_content_hash": "5ed34f44ae7461efbee6ee8adcbeaddc242df51cb974996ac48336f59f9cfee5"
         },
         {
           "judge": "j2",
@@ -9364,7 +9364,7 @@
           "objective_tag": "general_test.general-knowledge.peninsular-rivers-seasonal-flow",
           "flags": [],
           "note": "Assertion false (most peninsular rivers are seasonal), reason true; key D verified. Explanation overgeneralises that only Himalayan rivers are perennial, a minor slip.",
-          "scored_content_hash": "41a7eb64ac6239ccf25c203b06038367e8d36cacc779da95fef9fc3ce51d4c0e"
+          "scored_content_hash": "5ed34f44ae7461efbee6ee8adcbeaddc242df51cb974996ac48336f59f9cfee5"
         }
       ],
       "mean": 7.5,
@@ -9399,8 +9399,8 @@
         "expert_issue": "Assertion is false (most peninsular rivers are seasonal, rain-fed) and reason is true, giving key D. Hard label is supported by one judge; the other judge said medium, which is acceptable.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "41a7eb64ac6239ccf25c203b06038367e8d36cacc779da95fef9fc3ce51d4c0e",
-        "final_content_hash": "41a7eb64ac6239ccf25c203b06038367e8d36cacc779da95fef9fc3ce51d4c0e",
+        "judged_content_hash": "5ed34f44ae7461efbee6ee8adcbeaddc242df51cb974996ac48336f59f9cfee5",
+        "final_content_hash": "5ed34f44ae7461efbee6ee8adcbeaddc242df51cb974996ac48336f59f9cfee5",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9430,7 +9430,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "B",
-      "content_hash": "a9d7c445f0e048324f6cbd0d37c19e7020fc53ae3150cc33be1cd51db57c44a5",
+      "content_hash": "c0557aeebce01e49db1444c178ebf076f4fdf9048c3c2aa5dc289c41ccb3dda1",
       "judges": [
         {
           "judge": "j1",
@@ -9443,7 +9443,7 @@
           "objective_tag": "general_test.general-mental-ability.ordering-fractions-by-decimal-value",
           "flags": [],
           "note": "Correct: 0.667, 0.4545, 0.4444, 0.4286 gives (C),(B),(D),(A). Distractors are reasonable.",
-          "scored_content_hash": "a9d7c445f0e048324f6cbd0d37c19e7020fc53ae3150cc33be1cd51db57c44a5"
+          "scored_content_hash": "c0557aeebce01e49db1444c178ebf076f4fdf9048c3c2aa5dc289c41ccb3dda1"
         },
         {
           "judge": "j2",
@@ -9456,7 +9456,7 @@
           "objective_tag": "general_test.numerical-ability.fraction-ordering-descending",
           "flags": [],
           "note": "Correct: 2/3 > 5/11 > 4/9 > 3/7 gives (C), (B), (D), (A). Close values 5/11 and 4/9 make a fair discriminator.",
-          "scored_content_hash": "a9d7c445f0e048324f6cbd0d37c19e7020fc53ae3150cc33be1cd51db57c44a5"
+          "scored_content_hash": "c0557aeebce01e49db1444c178ebf076f4fdf9048c3c2aa5dc289c41ccb3dda1"
         }
       ],
       "mean": 8,
@@ -9491,8 +9491,8 @@
         "expert_issue": "Decimals 2/3 = 0.667, 5/11 = 0.455, 4/9 = 0.444, 3/7 = 0.429 give the descending order C, B, D, A. Key B is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "a9d7c445f0e048324f6cbd0d37c19e7020fc53ae3150cc33be1cd51db57c44a5",
-        "final_content_hash": "a9d7c445f0e048324f6cbd0d37c19e7020fc53ae3150cc33be1cd51db57c44a5",
+        "judged_content_hash": "c0557aeebce01e49db1444c178ebf076f4fdf9048c3c2aa5dc289c41ccb3dda1",
+        "final_content_hash": "c0557aeebce01e49db1444c178ebf076f4fdf9048c3c2aa5dc289c41ccb3dda1",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9522,7 +9522,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Basic Mathematical Concepts",
       "key": "C",
-      "content_hash": "416fd8906dacb53996dbe0b14130d87851dad57f540aa8265faed25c1dee786c",
+      "content_hash": "c2b633858ea4a7c13e189b0868edec0ebb3593070efc9eed5300311901e47e83",
       "judges": [
         {
           "judge": "j1",
@@ -9535,7 +9535,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.ordering-surds-and-roots",
           "flags": [],
           "note": "Key verified: 4 < 4.12 (sqrt17) < 4.24 (3 sqrt2) < 4.47 (2 sqrt5), so D, C, A, B. Options are well built; values are close, so careful estimation is needed.",
-          "scored_content_hash": "416fd8906dacb53996dbe0b14130d87851dad57f540aa8265faed25c1dee786c"
+          "scored_content_hash": "c2b633858ea4a7c13e189b0868edec0ebb3593070efc9eed5300311901e47e83"
         },
         {
           "judge": "j2",
@@ -9548,7 +9548,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.ordering-surds-real-numbers",
           "flags": [],
           "note": "Key C verified: 4, root 17, 3 root 2, 2 root 5. Option A swaps the first two; the rest are clean.",
-          "scored_content_hash": "416fd8906dacb53996dbe0b14130d87851dad57f540aa8265faed25c1dee786c"
+          "scored_content_hash": "c2b633858ea4a7c13e189b0868edec0ebb3593070efc9eed5300311901e47e83"
         }
       ],
       "mean": 8,
@@ -9587,8 +9587,8 @@
           "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
         },
         "judged_text": "final",
-        "judged_content_hash": "416fd8906dacb53996dbe0b14130d87851dad57f540aa8265faed25c1dee786c",
-        "final_content_hash": "416fd8906dacb53996dbe0b14130d87851dad57f540aa8265faed25c1dee786c",
+        "judged_content_hash": "c2b633858ea4a7c13e189b0868edec0ebb3593070efc9eed5300311901e47e83",
+        "final_content_hash": "c2b633858ea4a7c13e189b0868edec0ebb3593070efc9eed5300311901e47e83",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9618,7 +9618,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Logical & Analytical Reasoning",
       "key": "B",
-      "content_hash": "38a70a427e688f115982115f61e0343f1ff122f3ad1c9c38ea8256aed5548851",
+      "content_hash": "836d264c4aff222307093a625fd081b4b280cd9c0a4611f2dd1ad000d2b603c7",
       "judges": [
         {
           "judge": "j1",
@@ -9631,7 +9631,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.statement-inference-height-ordering",
           "flags": [],
           "note": "S > R > Q makes B and C definitely true; A and D are undetermined. Key B verified. Labelled hard, true level medium.",
-          "scored_content_hash": "38a70a427e688f115982115f61e0343f1ff122f3ad1c9c38ea8256aed5548851"
+          "scored_content_hash": "836d264c4aff222307093a625fd081b4b280cd9c0a4611f2dd1ad000d2b603c7"
         },
         {
           "judge": "j2",
@@ -9644,7 +9644,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.statement-inference-on-ordering",
           "flags": [],
           "note": "S>R>Q and P>Q make B and C definitely true, while A and D are undetermined. Key B is correct. Clean multi-statement item.",
-          "scored_content_hash": "38a70a427e688f115982115f61e0343f1ff122f3ad1c9c38ea8256aed5548851"
+          "scored_content_hash": "836d264c4aff222307093a625fd081b4b280cd9c0a4611f2dd1ad000d2b603c7"
         }
       ],
       "mean": 8,
@@ -9679,8 +9679,8 @@
         "expert_issue": "S > R > Q is forced, and P > Q. So (B) S taller than Q and (C) Q shortest are definitely true. P vs R and R vs P are not fixed. Only option B is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "38a70a427e688f115982115f61e0343f1ff122f3ad1c9c38ea8256aed5548851",
-        "final_content_hash": "38a70a427e688f115982115f61e0343f1ff122f3ad1c9c38ea8256aed5548851",
+        "judged_content_hash": "836d264c4aff222307093a625fd081b4b280cd9c0a4611f2dd1ad000d2b603c7",
+        "final_content_hash": "836d264c4aff222307093a625fd081b4b280cd9c0a4611f2dd1ad000d2b603c7",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9710,7 +9710,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "D",
-      "content_hash": "db98be45ae4cd56f36360ed0792b16ab91bb41cd58d11940993ea92febbd099d",
+      "content_hash": "b6c99e3bba471b829c9adbb205923cd1e8b52be09eccaeae8e3ac292690f4a7e",
       "judges": [
         {
           "judge": "j1",
@@ -9723,7 +9723,7 @@
           "objective_tag": "general_test.quantitative-reasoning.ratio-after-adding-constant",
           "flags": [],
           "note": "Verified 30 and 42; check 36:48 = 3:4 holds. 36 and 48 are the new values, a good trap.",
-          "scored_content_hash": "db98be45ae4cd56f36360ed0792b16ab91bb41cd58d11940993ea92febbd099d"
+          "scored_content_hash": "b6c99e3bba471b829c9adbb205923cd1e8b52be09eccaeae8e3ac292690f4a7e"
         },
         {
           "judge": "j2",
@@ -9736,7 +9736,7 @@
           "objective_tag": "general_test.quantitative-reasoning.ratio-after-adding-constant",
           "flags": [],
           "note": "Solves to x=6, giving 30 and 42, and 42 is the larger. Distractor 36 is the 30+6 trap. Check 36:48 = 3:4 holds.",
-          "scored_content_hash": "db98be45ae4cd56f36360ed0792b16ab91bb41cd58d11940993ea92febbd099d"
+          "scored_content_hash": "b6c99e3bba471b829c9adbb205923cd1e8b52be09eccaeae8e3ac292690f4a7e"
         }
       ],
       "mean": 9,
@@ -9771,8 +9771,8 @@
         "expert_issue": "5x+6 over 7x+6 = 3/4 gives x = 6, so the numbers are 30 and 42 and the larger is 42. Check: 36:48 = 3:4. The distractor 48 is the larger of the new numbers, a plausible trap.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "db98be45ae4cd56f36360ed0792b16ab91bb41cd58d11940993ea92febbd099d",
-        "final_content_hash": "db98be45ae4cd56f36360ed0792b16ab91bb41cd58d11940993ea92febbd099d",
+        "judged_content_hash": "b6c99e3bba471b829c9adbb205923cd1e8b52be09eccaeae8e3ac292690f4a7e",
+        "final_content_hash": "b6c99e3bba471b829c9adbb205923cd1e8b52be09eccaeae8e3ac292690f4a7e",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9802,7 +9802,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "D",
-      "content_hash": "be5e49923ae4709a5212d89a4c39c2d8a7b758cafbf413f992510118967f1d73",
+      "content_hash": "52eda3316f7a8bc314b1de2684cfe0444c6ff1e6c4b9d8f932c2fadafba7d9ac",
       "judges": [
         {
           "judge": "j1",
@@ -9815,7 +9815,7 @@
           "objective_tag": "general_test.general-mental-ability.ratio-of-ages-after-time",
           "flags": [],
           "note": "Correct: A=12, B=20, and 18:26 = 9:13 after 6 years. Two-step linear equation, so medium rather than hard.",
-          "scored_content_hash": "be5e49923ae4709a5212d89a4c39c2d8a7b758cafbf413f992510118967f1d73"
+          "scored_content_hash": "52eda3316f7a8bc314b1de2684cfe0444c6ff1e6c4b9d8f932c2fadafba7d9ac"
         },
         {
           "judge": "j2",
@@ -9828,7 +9828,7 @@
           "objective_tag": "general_test.numerical-ability.ratio-of-ages-after-years",
           "flags": [],
           "note": "Correct: x = 4 gives B = 20, and (12+6)/(20+6) = 9/13 checks. Clean two-equation age item.",
-          "scored_content_hash": "be5e49923ae4709a5212d89a4c39c2d8a7b758cafbf413f992510118967f1d73"
+          "scored_content_hash": "52eda3316f7a8bc314b1de2684cfe0444c6ff1e6c4b9d8f932c2fadafba7d9ac"
         }
       ],
       "mean": 8.5,
@@ -9863,8 +9863,8 @@
         "expert_issue": "(3x+6)/(5x+6) = 9/13 gives x = 4, so B is 20. Verified by substitution (18/26 = 9/13). Key D is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "be5e49923ae4709a5212d89a4c39c2d8a7b758cafbf413f992510118967f1d73",
-        "final_content_hash": "be5e49923ae4709a5212d89a4c39c2d8a7b758cafbf413f992510118967f1d73",
+        "judged_content_hash": "52eda3316f7a8bc314b1de2684cfe0444c6ff1e6c4b9d8f932c2fadafba7d9ac",
+        "final_content_hash": "52eda3316f7a8bc314b1de2684cfe0444c6ff1e6c4b9d8f932c2fadafba7d9ac",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9894,7 +9894,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "B",
-      "content_hash": "0f1dbe27e9c6813383efd0a28bb90af058264c4618875575f596b6740521c06d",
+      "content_hash": "607c8389ffff34be1e61cfcb317a8a22670a41fa1ca647cbc95c47d7fe31c1d9",
       "judges": [
         {
           "judge": "j1",
@@ -9907,7 +9907,7 @@
           "objective_tag": "general_test.general-mental-ability.blood-relation-through-marriage",
           "flags": [],
           "note": "Correct: the woman is the man's aunt by marriage. The multi-link chain fits the hard label.",
-          "scored_content_hash": "0f1dbe27e9c6813383efd0a28bb90af058264c4618875575f596b6740521c06d"
+          "scored_content_hash": "607c8389ffff34be1e61cfcb317a8a22670a41fa1ca647cbc95c47d7fe31c1d9"
         },
         {
           "judge": "j2",
@@ -9920,7 +9920,7 @@
           "objective_tag": "general_test.general-mental-ability.blood-relation-by-marriage",
           "flags": [],
           "note": "Correct: man's mother is husband's sister, so husband is man's uncle and the woman is his aunt. Classic chain puzzle, fair options.",
-          "scored_content_hash": "0f1dbe27e9c6813383efd0a28bb90af058264c4618875575f596b6740521c06d"
+          "scored_content_hash": "607c8389ffff34be1e61cfcb317a8a22670a41fa1ca647cbc95c47d7fe31c1d9"
         }
       ],
       "mean": 8,
@@ -9961,8 +9961,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "0f1dbe27e9c6813383efd0a28bb90af058264c4618875575f596b6740521c06d",
-        "final_content_hash": "0f1dbe27e9c6813383efd0a28bb90af058264c4618875575f596b6740521c06d",
+        "judged_content_hash": "607c8389ffff34be1e61cfcb317a8a22670a41fa1ca647cbc95c47d7fe31c1d9",
+        "final_content_hash": "607c8389ffff34be1e61cfcb317a8a22670a41fa1ca647cbc95c47d7fe31c1d9",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -9992,7 +9992,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "A",
-      "content_hash": "033a1e5781ce1d3d92837af66923f5ef9c67a249744ef84060ecce5668adeb0d",
+      "content_hash": "784e3ea02ee81e874be191c5e242a142e30ab904ccbf5d0af85cf7fe344468e6",
       "judges": [
         {
           "judge": "j1",
@@ -10005,7 +10005,7 @@
           "objective_tag": "general_test.general-knowledge.icj-headquarters-seat",
           "flags": [],
           "note": "Correct: ICJ sits at The Hague. Explanation that it is the only UN principal organ outside New York is accurate.",
-          "scored_content_hash": "033a1e5781ce1d3d92837af66923f5ef9c67a249744ef84060ecce5668adeb0d"
+          "scored_content_hash": "784e3ea02ee81e874be191c5e242a142e30ab904ccbf5d0af85cf7fe344468e6"
         },
         {
           "judge": "j2",
@@ -10018,7 +10018,7 @@
           "objective_tag": "general_test.general-knowledge.icj-headquarters-location",
           "flags": [],
           "note": "The Hague is correct. Geneva and Vienna are decent distractors. Clean direct recall.",
-          "scored_content_hash": "033a1e5781ce1d3d92837af66923f5ef9c67a249744ef84060ecce5668adeb0d"
+          "scored_content_hash": "784e3ea02ee81e874be191c5e242a142e30ab904ccbf5d0af85cf7fe344468e6"
         }
       ],
       "mean": 8,
@@ -10053,8 +10053,8 @@
         "expert_issue": "ICJ sits at The Hague (Peace Palace); it is the only principal UN organ not in New York. Key A correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "033a1e5781ce1d3d92837af66923f5ef9c67a249744ef84060ecce5668adeb0d",
-        "final_content_hash": "033a1e5781ce1d3d92837af66923f5ef9c67a249744ef84060ecce5668adeb0d",
+        "judged_content_hash": "784e3ea02ee81e874be191c5e242a142e30ab904ccbf5d0af85cf7fe344468e6",
+        "final_content_hash": "784e3ea02ee81e874be191c5e242a142e30ab904ccbf5d0af85cf7fe344468e6",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10084,7 +10084,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "B",
-      "content_hash": "588af5c4443a6f4f7d776ff86d34186b3b8ef40dfd731771a5a74c121af400eb",
+      "content_hash": "288132f8a853fc6837fb9a70d69cfdfb5b15b583166d2e5665b71da3cd37619c",
       "judges": [
         {
           "judge": "j1",
@@ -10097,7 +10097,7 @@
           "objective_tag": "general_test.quantitative-reasoning.compound-interest-annual-compounding",
           "flags": [],
           "note": "All four pairs verified: A-IV (300), B-II (210), C-III (20 m/s), D-I (750). Well-built match list with correct key.",
-          "scored_content_hash": "588af5c4443a6f4f7d776ff86d34186b3b8ef40dfd731771a5a74c121af400eb"
+          "scored_content_hash": "288132f8a853fc6837fb9a70d69cfdfb5b15b583166d2e5665b71da3cd37619c"
         },
         {
           "judge": "j2",
@@ -10110,7 +10110,7 @@
           "objective_tag": "general_test.quantitative-reasoning.matching-interest-speed-and-cost-price",
           "flags": [],
           "note": "SI 300 (IV), CI 210 (II), 20 m/s (III), CP 750 (I) gives option B. Well-formed list with unit labels. Four separate calculations.",
-          "scored_content_hash": "588af5c4443a6f4f7d776ff86d34186b3b8ef40dfd731771a5a74c121af400eb"
+          "scored_content_hash": "288132f8a853fc6837fb9a70d69cfdfb5b15b583166d2e5665b71da3cd37619c"
         }
       ],
       "mean": 8.5,
@@ -10145,8 +10145,8 @@
         "expert_issue": "SI 2000 at 5% for 3 years = 300 (IV); CI 1000 at 10% for 2 years = 210 (II); 72 km/h = 20 m/s (III); CP = 900/1.2 = 750 (I). Only option B pairs them all correctly.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "588af5c4443a6f4f7d776ff86d34186b3b8ef40dfd731771a5a74c121af400eb",
-        "final_content_hash": "588af5c4443a6f4f7d776ff86d34186b3b8ef40dfd731771a5a74c121af400eb",
+        "judged_content_hash": "288132f8a853fc6837fb9a70d69cfdfb5b15b583166d2e5665b71da3cd37619c",
+        "final_content_hash": "288132f8a853fc6837fb9a70d69cfdfb5b15b583166d2e5665b71da3cd37619c",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10176,7 +10176,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "B",
-      "content_hash": "660ddffb29807a078acd5f82c4669873d3b0e94acfec2e0681fc4e55f548f4b2",
+      "content_hash": "3930e2c92786d33d8416060227c9a3e4dfda9887eb6d2597a0246e7f36bf3e39",
       "judges": [
         {
           "judge": "j1",
@@ -10189,7 +10189,7 @@
           "objective_tag": "general_test.general-knowledge.first-indian-woman-olympic-medallist",
           "flags": [],
           "note": "Correct: Karnam Malleswari, bronze, Sydney 2000. Label medium, judged easy (one level, no note needed). Other options are accurate in the explanation.",
-          "scored_content_hash": "660ddffb29807a078acd5f82c4669873d3b0e94acfec2e0681fc4e55f548f4b2"
+          "scored_content_hash": "3930e2c92786d33d8416060227c9a3e4dfda9887eb6d2597a0246e7f36bf3e39"
         },
         {
           "judge": "j2",
@@ -10202,7 +10202,7 @@
           "objective_tag": "general_test.general-knowledge.first-indian-woman-olympic-medal",
           "flags": [],
           "note": "Karnam Malleswari, Sydney 2000 bronze. Explanation facts check out (Mary Kom and Saina 2012 bronze, Sindhu 2016 silver).",
-          "scored_content_hash": "660ddffb29807a078acd5f82c4669873d3b0e94acfec2e0681fc4e55f548f4b2"
+          "scored_content_hash": "3930e2c92786d33d8416060227c9a3e4dfda9887eb6d2597a0246e7f36bf3e39"
         }
       ],
       "mean": 8,
@@ -10237,8 +10237,8 @@
         "expert_issue": "Karnam Malleswari, bronze in weightlifting at Sydney 2000, was the first Indian woman Olympic medallist. Mary Kom and Saina Nehwal (2012 bronze) and Sindhu (2016 silver) are correctly described distractors.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "660ddffb29807a078acd5f82c4669873d3b0e94acfec2e0681fc4e55f548f4b2",
-        "final_content_hash": "660ddffb29807a078acd5f82c4669873d3b0e94acfec2e0681fc4e55f548f4b2",
+        "judged_content_hash": "3930e2c92786d33d8416060227c9a3e4dfda9887eb6d2597a0246e7f36bf3e39",
+        "final_content_hash": "3930e2c92786d33d8416060227c9a3e4dfda9887eb6d2597a0246e7f36bf3e39",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10268,7 +10268,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "D",
-      "content_hash": "38b80d6370beccc38d4a8453f52e305c9d3c19c179841197dd54093b487fab4b",
+      "content_hash": "5c978c85621d4177124bf5b53bb0b428ba9d11672fc9bdb41250fe78cbc9589d",
       "judges": [
         {
           "judge": "j1",
@@ -10281,7 +10281,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.direction-sense-net-displacement",
           "flags": [],
           "note": "Key verified: north 8 and south 8 cancel, leaving 6 m east. Standard direction-sense item; distractors are thin (14 m east is the only sum-based one).",
-          "scored_content_hash": "38b80d6370beccc38d4a8453f52e305c9d3c19c179841197dd54093b487fab4b"
+          "scored_content_hash": "5c978c85621d4177124bf5b53bb0b428ba9d11672fc9bdb41250fe78cbc9589d"
         },
         {
           "judge": "j2",
@@ -10294,7 +10294,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.direction-sense-after-right-turns",
           "flags": [],
           "note": "Key 6 m east verified by coordinates: 0 north at the end. Right turns give east then south.",
-          "scored_content_hash": "38b80d6370beccc38d4a8453f52e305c9d3c19c179841197dd54093b487fab4b"
+          "scored_content_hash": "5c978c85621d4177124bf5b53bb0b428ba9d11672fc9bdb41250fe78cbc9589d"
         }
       ],
       "mean": 8,
@@ -10329,8 +10329,8 @@
         "expert_issue": "8 m N, 6 m E, 8 m S gives net displacement 6 m east (key D). Turn directions are correct. Distractor 8 m south is the 'last leg only' error.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "38b80d6370beccc38d4a8453f52e305c9d3c19c179841197dd54093b487fab4b",
-        "final_content_hash": "38b80d6370beccc38d4a8453f52e305c9d3c19c179841197dd54093b487fab4b",
+        "judged_content_hash": "5c978c85621d4177124bf5b53bb0b428ba9d11672fc9bdb41250fe78cbc9589d",
+        "final_content_hash": "5c978c85621d4177124bf5b53bb0b428ba9d11672fc9bdb41250fe78cbc9589d",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10360,7 +10360,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "B",
-      "content_hash": "57b58d9aa81ac58b681a5fafade3812e8c9b81dad155e27c318109f1cb94c911",
+      "content_hash": "eef934924c044c3faee6d24aa6ce95eac26e801ecf274bf3b13d71210b5a9ef2",
       "judges": [
         {
           "judge": "j1",
@@ -10373,7 +10373,7 @@
           "objective_tag": "general_test.general-knowledge.atmosphere-largest-gas-by-volume",
           "flags": [],
           "note": "Correct: nitrogen about 78 per cent by volume. Oxygen is a fair trap. Explanation figures are accurate.",
-          "scored_content_hash": "57b58d9aa81ac58b681a5fafade3812e8c9b81dad155e27c318109f1cb94c911"
+          "scored_content_hash": "eef934924c044c3faee6d24aa6ce95eac26e801ecf274bf3b13d71210b5a9ef2"
         },
         {
           "judge": "j2",
@@ -10386,7 +10386,7 @@
           "objective_tag": "general_test.general-knowledge.nitrogen-largest-atmospheric-share",
           "flags": [],
           "note": "Nitrogen is about 78 per cent by volume. Argon and carbon dioxide are weak distractors, so 7.",
-          "scored_content_hash": "57b58d9aa81ac58b681a5fafade3812e8c9b81dad155e27c318109f1cb94c911"
+          "scored_content_hash": "eef934924c044c3faee6d24aa6ce95eac26e801ecf274bf3b13d71210b5a9ef2"
         }
       ],
       "mean": 7.5,
@@ -10421,8 +10421,8 @@
         "expert_issue": "Nitrogen is about 78 per cent of dry air by volume, the largest share. Explanation figures are accurate.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "57b58d9aa81ac58b681a5fafade3812e8c9b81dad155e27c318109f1cb94c911",
-        "final_content_hash": "57b58d9aa81ac58b681a5fafade3812e8c9b81dad155e27c318109f1cb94c911",
+        "judged_content_hash": "eef934924c044c3faee6d24aa6ce95eac26e801ecf274bf3b13d71210b5a9ef2",
+        "final_content_hash": "eef934924c044c3faee6d24aa6ce95eac26e801ecf274bf3b13d71210b5a9ef2",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10452,7 +10452,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Logical & Analytical Reasoning",
       "key": "D",
-      "content_hash": "1c832d729f28a855b98ed35523529116912dc54442aa62d5eb89be7000a152cd",
+      "content_hash": "4fff46768c64f4bb7f7a06a2b5ca6d3b8f8f2f7da7b45d857e845323c72e69de",
       "judges": [
         {
           "judge": "j1",
@@ -10465,7 +10465,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.letter-pair-series-opposite-shift",
           "flags": [],
           "note": "First letters advance and second letters retreat, giving EV. Key D verified; distractors are plausible pattern slips.",
-          "scored_content_hash": "1c832d729f28a855b98ed35523529116912dc54442aa62d5eb89be7000a152cd"
+          "scored_content_hash": "4fff46768c64f4bb7f7a06a2b5ca6d3b8f8f2f7da7b45d857e845323c72e69de"
         },
         {
           "judge": "j2",
@@ -10478,7 +10478,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.letter-series-opposite-shift",
           "flags": [],
           "note": "First letters advance and second letters retreat, giving EV. Key D is correct. Distractor EU is the same-direction slip. Clean.",
-          "scored_content_hash": "1c832d729f28a855b98ed35523529116912dc54442aa62d5eb89be7000a152cd"
+          "scored_content_hash": "4fff46768c64f4bb7f7a06a2b5ca6d3b8f8f2f7da7b45d857e845323c72e69de"
         }
       ],
       "mean": 8,
@@ -10513,8 +10513,8 @@
         "expert_issue": "First letters advance A, B, C, D, E; second letters retreat Z, Y, X, W, V. The next term is EV, which is the only option matching both patterns.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "1c832d729f28a855b98ed35523529116912dc54442aa62d5eb89be7000a152cd",
-        "final_content_hash": "1c832d729f28a855b98ed35523529116912dc54442aa62d5eb89be7000a152cd",
+        "judged_content_hash": "4fff46768c64f4bb7f7a06a2b5ca6d3b8f8f2f7da7b45d857e845323c72e69de",
+        "final_content_hash": "4fff46768c64f4bb7f7a06a2b5ca6d3b8f8f2f7da7b45d857e845323c72e69de",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10544,7 +10544,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Mental Ability",
       "key": "C",
-      "content_hash": "e4dab75314493668d74d7e622240759e1834b921cba62911e66f791af313e96d",
+      "content_hash": "365892586f20383af991f560225909187fdd207adf0f2404a9da4a1a3d6ff183",
       "judges": [
         {
           "judge": "j1",
@@ -10557,7 +10557,7 @@
           "objective_tag": "general_test.general-mental-ability.number-series-increasing-differences",
           "flags": [],
           "note": "Correct: differences 4, 6, 8, 10 so next is 42, matching n(n+1). Only option that fits.",
-          "scored_content_hash": "e4dab75314493668d74d7e622240759e1834b921cba62911e66f791af313e96d"
+          "scored_content_hash": "365892586f20383af991f560225909187fdd207adf0f2404a9da4a1a3d6ff183"
         },
         {
           "judge": "j2",
@@ -10570,7 +10570,7 @@
           "objective_tag": "general_test.general-mental-ability.number-series-increasing-differences",
           "flags": [],
           "note": "Differences 4, 6, 8, 10 give 42. Distractors 36, 40, 44 come from sign and pattern slips. Clean one-step item.",
-          "scored_content_hash": "e4dab75314493668d74d7e622240759e1834b921cba62911e66f791af313e96d"
+          "scored_content_hash": "365892586f20383af991f560225909187fdd207adf0f2404a9da4a1a3d6ff183"
         }
       ],
       "mean": 8.5,
@@ -10605,8 +10605,8 @@
         "expert_issue": "Differences 4, 6, 8, 10 give next term 42 (also n(n+1) for n=6). Key C is unique.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "e4dab75314493668d74d7e622240759e1834b921cba62911e66f791af313e96d",
-        "final_content_hash": "e4dab75314493668d74d7e622240759e1834b921cba62911e66f791af313e96d",
+        "judged_content_hash": "365892586f20383af991f560225909187fdd207adf0f2404a9da4a1a3d6ff183",
+        "final_content_hash": "365892586f20383af991f560225909187fdd207adf0f2404a9da4a1a3d6ff183",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10636,7 +10636,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "A",
-      "content_hash": "3901a7cbac0ea0c0dc53a295ce930ec7c39159e3681ea27b3566139560d16477",
+      "content_hash": "cf4a1acc86fbef3cbc1487f9ba4067fcc78a7d19aeb44ec03b6e1e729198adab",
       "judges": [
         {
           "judge": "j1",
@@ -10649,7 +10649,7 @@
           "objective_tag": "general_test.quantitative-reasoning.profit-percent-on-cost-price",
           "flags": [],
           "note": "Profit 60 on cost 480 gives 12.5 percent; 11.1 percent is the selling-price slip. Clean one-step item.",
-          "scored_content_hash": "3901a7cbac0ea0c0dc53a295ce930ec7c39159e3681ea27b3566139560d16477"
+          "scored_content_hash": "cf4a1acc86fbef3cbc1487f9ba4067fcc78a7d19aeb44ec03b6e1e729198adab"
         },
         {
           "judge": "j2",
@@ -10662,7 +10662,7 @@
           "objective_tag": "general_test.quantitative-reasoning.profit-percentage-on-cost-price",
           "flags": [],
           "note": "Profit 60 on cost 480 gives 12.5%. The 11.1% distractor is the selling-price basis slip. Clean item.",
-          "scored_content_hash": "3901a7cbac0ea0c0dc53a295ce930ec7c39159e3681ea27b3566139560d16477"
+          "scored_content_hash": "cf4a1acc86fbef3cbc1487f9ba4067fcc78a7d19aeb44ec03b6e1e729198adab"
         }
       ],
       "mean": 9,
@@ -10697,8 +10697,8 @@
         "expert_issue": "Profit 60 on cost 480 gives 12.5%. The 11.1% distractor is the profit-on-selling-price error, so the options are well separated and only A is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "3901a7cbac0ea0c0dc53a295ce930ec7c39159e3681ea27b3566139560d16477",
-        "final_content_hash": "3901a7cbac0ea0c0dc53a295ce930ec7c39159e3681ea27b3566139560d16477",
+        "judged_content_hash": "cf4a1acc86fbef3cbc1487f9ba4067fcc78a7d19aeb44ec03b6e1e729198adab",
+        "final_content_hash": "cf4a1acc86fbef3cbc1487f9ba4067fcc78a7d19aeb44ec03b6e1e729198adab",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10728,7 +10728,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "D",
-      "content_hash": "d6d1c96021cb5f3ac5a6b9c6de6e854ec9cd9196e0a0172c910ed49b94b5d386",
+      "content_hash": "8cb04e8e181d8f4baa673a31e8117f30dc76aed9c335790ac864a3af02b64683",
       "judges": [
         {
           "judge": "j1",
@@ -10741,7 +10741,7 @@
           "objective_tag": "general_test.general-knowledge.dronacharya-award-for-coaches",
           "flags": [],
           "note": "Correct: Dronacharya honours coaches. Label medium, judged easy (one level, no note needed). Arjuna contrast is accurate.",
-          "scored_content_hash": "d6d1c96021cb5f3ac5a6b9c6de6e854ec9cd9196e0a0172c910ed49b94b5d386"
+          "scored_content_hash": "8cb04e8e181d8f4baa673a31e8117f30dc76aed9c335790ac864a3af02b64683"
         },
         {
           "judge": "j2",
@@ -10754,7 +10754,7 @@
           "objective_tag": "general_test.general-knowledge.dronacharya-award-coaching",
           "flags": [],
           "note": "Dronacharya is for coaches. Options A and B are throwaways, so 7. Label medium is one level high; easy fits.",
-          "scored_content_hash": "d6d1c96021cb5f3ac5a6b9c6de6e854ec9cd9196e0a0172c910ed49b94b5d386"
+          "scored_content_hash": "8cb04e8e181d8f4baa673a31e8117f30dc76aed9c335790ac864a3af02b64683"
         }
       ],
       "mean": 7.5,
@@ -10789,8 +10789,8 @@
         "expert_issue": "Dronacharya Award honours coaches, key D is unique. Both judges rated it easy, but the label said medium, so the label was changed to easy.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "d6d1c96021cb5f3ac5a6b9c6de6e854ec9cd9196e0a0172c910ed49b94b5d386",
-        "final_content_hash": "d6d1c96021cb5f3ac5a6b9c6de6e854ec9cd9196e0a0172c910ed49b94b5d386",
+        "judged_content_hash": "8cb04e8e181d8f4baa673a31e8117f30dc76aed9c335790ac864a3af02b64683",
+        "final_content_hash": "8cb04e8e181d8f4baa673a31e8117f30dc76aed9c335790ac864a3af02b64683",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -10822,7 +10822,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "D",
-      "content_hash": "dc04d12a765adb1c1c56021a15d3d44f4d06031ddc33ddff855abf2665901626",
+      "content_hash": "71a2be78d4e26ebe03c330797d51232c9159e4d20f9d7358045f9f5c23e4a3c2",
       "judges": [
         {
           "judge": "j1",
@@ -10835,7 +10835,7 @@
           "objective_tag": "general_test.general-mental-ability.successive-markup-and-discount-profit",
           "flags": [],
           "note": "Correct: SP 112 on CP 100 gives 12% profit. The 20% distractor (naive sum of markup and discount) is sound.",
-          "scored_content_hash": "dc04d12a765adb1c1c56021a15d3d44f4d06031ddc33ddff855abf2665901626"
+          "scored_content_hash": "71a2be78d4e26ebe03c330797d51232c9159e4d20f9d7358045f9f5c23e4a3c2"
         },
         {
           "judge": "j2",
@@ -10848,7 +10848,7 @@
           "objective_tag": "general_test.numerical-ability.profit-loss-markup-discount",
           "flags": [],
           "note": "Correct: MP 140, SP 112, profit 12 percent of cost. The 20 percent distractor (40 minus 20) is a real student error.",
-          "scored_content_hash": "dc04d12a765adb1c1c56021a15d3d44f4d06031ddc33ddff855abf2665901626"
+          "scored_content_hash": "71a2be78d4e26ebe03c330797d51232c9159e4d20f9d7358045f9f5c23e4a3c2"
         }
       ],
       "mean": 8.5,
@@ -10883,8 +10883,8 @@
         "expert_issue": "CP 100, MP 140, SP 112, so profit is 12%. Key D is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "dc04d12a765adb1c1c56021a15d3d44f4d06031ddc33ddff855abf2665901626",
-        "final_content_hash": "dc04d12a765adb1c1c56021a15d3d44f4d06031ddc33ddff855abf2665901626",
+        "judged_content_hash": "71a2be78d4e26ebe03c330797d51232c9159e4d20f9d7358045f9f5c23e4a3c2",
+        "final_content_hash": "71a2be78d4e26ebe03c330797d51232c9159e4d20f9d7358045f9f5c23e4a3c2",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -10914,7 +10914,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "Numerical Ability",
       "key": "C",
-      "content_hash": "d29f6fe655b4b354465559ec1074241e6461a0ed49b04b279eab93f6d6b0074e",
+      "content_hash": "5cf8e05f67a250c558a40ec78fd4e214be4f43b750080a0a256899d777a9be99",
       "judges": [
         {
           "judge": "j1",
@@ -10927,7 +10927,7 @@
           "objective_tag": "general_test.numerical-ability.train-crossing-platform-speed",
           "flags": [],
           "note": "Correct: 400 m in 20 s is 20 m/s, which is 72 km/h. Label hard, judged medium (one level, no note needed).",
-          "scored_content_hash": "d29f6fe655b4b354465559ec1074241e6461a0ed49b04b279eab93f6d6b0074e"
+          "scored_content_hash": "5cf8e05f67a250c558a40ec78fd4e214be4f43b750080a0a256899d777a9be99"
         },
         {
           "judge": "j2",
@@ -10940,7 +10940,7 @@
           "objective_tag": "general_test.numerical-ability.train-platform-crossing-distance",
           "flags": [],
           "note": "400 m in 20 s gives 72 km/h. Two steps, so medium. Label hard is one level high.",
-          "scored_content_hash": "d29f6fe655b4b354465559ec1074241e6461a0ed49b04b279eab93f6d6b0074e"
+          "scored_content_hash": "5cf8e05f67a250c558a40ec78fd4e214be4f43b750080a0a256899d777a9be99"
         }
       ],
       "mean": 8.5,
@@ -10975,8 +10975,8 @@
         "expert_issue": "Distance 150 + 250 = 400 m in 20 s gives 20 m/s = 72 km/h (key C). Judges rated it medium, so the label was changed from hard to medium.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "d29f6fe655b4b354465559ec1074241e6461a0ed49b04b279eab93f6d6b0074e",
-        "final_content_hash": "d29f6fe655b4b354465559ec1074241e6461a0ed49b04b279eab93f6d6b0074e",
+        "judged_content_hash": "5cf8e05f67a250c558a40ec78fd4e214be4f43b750080a0a256899d777a9be99",
+        "final_content_hash": "5cf8e05f67a250c558a40ec78fd4e214be4f43b750080a0a256899d777a9be99",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -11008,7 +11008,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "B",
-      "content_hash": "c24ad82d25004a48babd66fc552cf97c03cc6ed4e01f9b0baa566ad81d596ad5",
+      "content_hash": "860e62841738bc9cbf0b01b5484381487928ded8565b25d867d8132300276d39",
       "judges": [
         {
           "judge": "j1",
@@ -11021,7 +11021,7 @@
           "objective_tag": "general_test.quantitative-reasoning.successive-percentage-change",
           "flags": [],
           "note": "100 to 120 to 96 gives a 4 percent decrease; no change and 4 percent increase are good traps. Labelled easy, true level medium.",
-          "scored_content_hash": "c24ad82d25004a48babd66fc552cf97c03cc6ed4e01f9b0baa566ad81d596ad5"
+          "scored_content_hash": "860e62841738bc9cbf0b01b5484381487928ded8565b25d867d8132300276d39"
         },
         {
           "judge": "j2",
@@ -11034,7 +11034,7 @@
           "objective_tag": "general_test.quantitative-reasoning.successive-percentage-change",
           "flags": [],
           "note": "100 to 120 to 96 gives a 4% decrease. Common successive-change item with sign-slip distractor. Clean.",
-          "scored_content_hash": "c24ad82d25004a48babd66fc552cf97c03cc6ed4e01f9b0baa566ad81d596ad5"
+          "scored_content_hash": "860e62841738bc9cbf0b01b5484381487928ded8565b25d867d8132300276d39"
         }
       ],
       "mean": 8.5,
@@ -11069,8 +11069,8 @@
         "expert_issue": "100 to 120 to 96 gives a net 4% decrease on the original. Only B is correct; the 2% option is the usual additive slip.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "c24ad82d25004a48babd66fc552cf97c03cc6ed4e01f9b0baa566ad81d596ad5",
-        "final_content_hash": "c24ad82d25004a48babd66fc552cf97c03cc6ed4e01f9b0baa566ad81d596ad5",
+        "judged_content_hash": "860e62841738bc9cbf0b01b5484381487928ded8565b25d867d8132300276d39",
+        "final_content_hash": "860e62841738bc9cbf0b01b5484381487928ded8565b25d867d8132300276d39",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11100,7 +11100,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "B",
-      "content_hash": "07272655e294271be95c768dce1ec6b9389908d83e19722b95bb2b2f7a6d6200",
+      "content_hash": "8194188ec1c5865334b4eec1f67da0771824466371843590368732caeec27659",
       "judges": [
         {
           "judge": "j1",
@@ -11113,7 +11113,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.clock-hour-minute-angle",
           "flags": [],
           "note": "Key verified: 120 - 100 = 20 degrees at 3:20. Distractor 30 (ignoring hour-hand movement) is the named common error.",
-          "scored_content_hash": "07272655e294271be95c768dce1ec6b9389908d83e19722b95bb2b2f7a6d6200"
+          "scored_content_hash": "8194188ec1c5865334b4eec1f67da0771824466371843590368732caeec27659"
         },
         {
           "judge": "j2",
@@ -11126,7 +11126,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.clock-hour-minute-angle",
           "flags": [],
           "note": "Key 20 degrees verified (100 vs 120). Distractor 30 ignores hour-hand movement, the standard error.",
-          "scored_content_hash": "07272655e294271be95c768dce1ec6b9389908d83e19722b95bb2b2f7a6d6200"
+          "scored_content_hash": "8194188ec1c5865334b4eec1f67da0771824466371843590368732caeec27659"
         }
       ],
       "mean": 9,
@@ -11161,8 +11161,8 @@
         "expert_issue": "At 3:20 the hour hand is at 100 degrees and the minute hand at 120 degrees, so the smaller angle is 20 degrees (key B). Distractor 30 is the stationary-hour-hand error.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "07272655e294271be95c768dce1ec6b9389908d83e19722b95bb2b2f7a6d6200",
-        "final_content_hash": "07272655e294271be95c768dce1ec6b9389908d83e19722b95bb2b2f7a6d6200",
+        "judged_content_hash": "8194188ec1c5865334b4eec1f67da0771824466371843590368732caeec27659",
+        "final_content_hash": "8194188ec1c5865334b4eec1f67da0771824466371843590368732caeec27659",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11192,7 +11192,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "B",
-      "content_hash": "71e0cff420b46e7c7866a8cfd3d380d6f0e41531c48cbd694b486af8961148a3",
+      "content_hash": "76230d5cc6b35cc1721de00c1551086ebe06e683c45d4952cd101fbc7dab4856",
       "judges": [
         {
           "judge": "j1",
@@ -11205,7 +11205,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-series-constant-step",
           "flags": [],
           "note": "Correct: a constant +3 step gives N. Clean and direct, a one-step series that suits a mock.",
-          "scored_content_hash": "71e0cff420b46e7c7866a8cfd3d380d6f0e41531c48cbd694b486af8961148a3"
+          "scored_content_hash": "76230d5cc6b35cc1721de00c1551086ebe06e683c45d4952cd101fbc7dab4856"
         },
         {
           "judge": "j2",
@@ -11218,7 +11218,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-series-constant-step",
           "flags": [],
           "note": "Correct: +3 each step gives N. Plain one-step letter series, distractors are adjacent letters; usable but low polish.",
-          "scored_content_hash": "71e0cff420b46e7c7866a8cfd3d380d6f0e41531c48cbd694b486af8961148a3"
+          "scored_content_hash": "76230d5cc6b35cc1721de00c1551086ebe06e683c45d4952cd101fbc7dab4856"
         }
       ],
       "mean": 7.5,
@@ -11253,8 +11253,8 @@
         "expert_issue": "Letter series advances 3 places each step (B2, E5, H8, K11, N14). Key N is unique.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "71e0cff420b46e7c7866a8cfd3d380d6f0e41531c48cbd694b486af8961148a3",
-        "final_content_hash": "71e0cff420b46e7c7866a8cfd3d380d6f0e41531c48cbd694b486af8961148a3",
+        "judged_content_hash": "76230d5cc6b35cc1721de00c1551086ebe06e683c45d4952cd101fbc7dab4856",
+        "final_content_hash": "76230d5cc6b35cc1721de00c1551086ebe06e683c45d4952cd101fbc7dab4856",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11284,7 +11284,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Mental Ability",
       "key": "A",
-      "content_hash": "25f254e4dc102c1fa6ff9d240f6c5ee3e6b33f5f69b9fcc6057518bfec1a210c",
+      "content_hash": "c5e06f05173ce1a62f7de3243bd65d1557180660d0044b90a010e79eebad9ca1",
       "judges": [
         {
           "judge": "j1",
@@ -11297,7 +11297,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-shift-coding",
           "flags": [],
           "note": "Correct: each letter shifts +1, so CLOUD gives DMPVE. Option C is a one-letter slip; the item is direct and easy.",
-          "scored_content_hash": "25f254e4dc102c1fa6ff9d240f6c5ee3e6b33f5f69b9fcc6057518bfec1a210c"
+          "scored_content_hash": "c5e06f05173ce1a62f7de3243bd65d1557180660d0044b90a010e79eebad9ca1"
         },
         {
           "judge": "j2",
@@ -11310,7 +11310,7 @@
           "objective_tag": "general_test.general-mental-ability.coding-letter-shift",
           "flags": [],
           "note": "Each letter shifted forward by one gives DMPVE. Distractors are plausible shift slips.",
-          "scored_content_hash": "25f254e4dc102c1fa6ff9d240f6c5ee3e6b33f5f69b9fcc6057518bfec1a210c"
+          "scored_content_hash": "c5e06f05173ce1a62f7de3243bd65d1557180660d0044b90a010e79eebad9ca1"
         }
       ],
       "mean": 8,
@@ -11345,8 +11345,8 @@
         "expert_issue": "Each letter is advanced by one (MOUSE to NPVTF) and CLOUD gives DMPVE. BKNTC is a sensible reverse-shift distractor.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "25f254e4dc102c1fa6ff9d240f6c5ee3e6b33f5f69b9fcc6057518bfec1a210c",
-        "final_content_hash": "25f254e4dc102c1fa6ff9d240f6c5ee3e6b33f5f69b9fcc6057518bfec1a210c",
+        "judged_content_hash": "c5e06f05173ce1a62f7de3243bd65d1557180660d0044b90a010e79eebad9ca1",
+        "final_content_hash": "c5e06f05173ce1a62f7de3243bd65d1557180660d0044b90a010e79eebad9ca1",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11376,7 +11376,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Statistical Data Analysis",
       "key": "A",
-      "content_hash": "bb17afecd4a22dd7cad7c211ad7a74fb5e3dfae6b60355d6fb7c32fdbf9452a1",
+      "content_hash": "467af8330276912246eb353875f061c396b74e7bf76e98e371bb74e1f1a01994",
       "judges": [
         {
           "judge": "j1",
@@ -11389,7 +11389,7 @@
           "objective_tag": "general_test.statistical-data-analysis.median-of-ungrouped-data-odd-count",
           "flags": [],
           "note": "Sorted 5, 7, 9, 11, 14, 18, 21 gives median 11. Mean 12.1 is a fair distractor.",
-          "scored_content_hash": "bb17afecd4a22dd7cad7c211ad7a74fb5e3dfae6b60355d6fb7c32fdbf9452a1"
+          "scored_content_hash": "467af8330276912246eb353875f061c396b74e7bf76e98e371bb74e1f1a01994"
         },
         {
           "judge": "j2",
@@ -11402,7 +11402,7 @@
           "objective_tag": "general_test.statistical-data-analysis.median-of-ungrouped-data",
           "flags": [],
           "note": "Sorted 5,7,9,11,14,18,21 gives median 11 (4th value). Distractor 12 is the mean, a good trap. Clean.",
-          "scored_content_hash": "bb17afecd4a22dd7cad7c211ad7a74fb5e3dfae6b60355d6fb7c32fdbf9452a1"
+          "scored_content_hash": "467af8330276912246eb353875f061c396b74e7bf76e98e371bb74e1f1a01994"
         }
       ],
       "mean": 8,
@@ -11437,8 +11437,8 @@
         "expert_issue": "Sorted 5, 7, 9, 11, 14, 18, 21 with n = 7 gives the median 11 (4th value). The mean 85/7 is about 12.1 and is correctly excluded.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "bb17afecd4a22dd7cad7c211ad7a74fb5e3dfae6b60355d6fb7c32fdbf9452a1",
-        "final_content_hash": "bb17afecd4a22dd7cad7c211ad7a74fb5e3dfae6b60355d6fb7c32fdbf9452a1",
+        "judged_content_hash": "467af8330276912246eb353875f061c396b74e7bf76e98e371bb74e1f1a01994",
+        "final_content_hash": "467af8330276912246eb353875f061c396b74e7bf76e98e371bb74e1f1a01994",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11468,7 +11468,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "C",
-      "content_hash": "03cd95a6227639a7579ef94938d5fbf183cb6d060d30a8f7bcb80f70d0aa153a",
+      "content_hash": "a847dc6626d072e94ccf47f183761b1f9a999caedbf780ddff1a0f3b369589ed",
       "judges": [
         {
           "judge": "j1",
@@ -11481,7 +11481,7 @@
           "objective_tag": "general_test.general-knowledge.article-17-untouchability",
           "flags": [],
           "note": "Correct direct recall of Article 17. Distractors 15, 16 and 18 are the real neighbouring articles, so they are plausible.",
-          "scored_content_hash": "03cd95a6227639a7579ef94938d5fbf183cb6d060d30a8f7bcb80f70d0aa153a"
+          "scored_content_hash": "a847dc6626d072e94ccf47f183761b1f9a999caedbf780ddff1a0f3b369589ed"
         },
         {
           "judge": "j2",
@@ -11494,7 +11494,7 @@
           "objective_tag": "general_test.general-knowledge.untouchability-abolition-article",
           "flags": [],
           "note": "Article 17 is correct. Distractors are adjacent articles. Clean direct recall.",
-          "scored_content_hash": "03cd95a6227639a7579ef94938d5fbf183cb6d060d30a8f7bcb80f70d0aa153a"
+          "scored_content_hash": "a847dc6626d072e94ccf47f183761b1f9a999caedbf780ddff1a0f3b369589ed"
         }
       ],
       "mean": 8.5,
@@ -11529,8 +11529,8 @@
         "expert_issue": "Article 17 abolishes untouchability; key C is unique. Explanation accurately distinguishes Articles 15, 16 and 18.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "03cd95a6227639a7579ef94938d5fbf183cb6d060d30a8f7bcb80f70d0aa153a",
-        "final_content_hash": "03cd95a6227639a7579ef94938d5fbf183cb6d060d30a8f7bcb80f70d0aa153a",
+        "judged_content_hash": "a847dc6626d072e94ccf47f183761b1f9a999caedbf780ddff1a0f3b369589ed",
+        "final_content_hash": "a847dc6626d072e94ccf47f183761b1f9a999caedbf780ddff1a0f3b369589ed",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11560,7 +11560,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "C",
-      "content_hash": "18cd6a70ead960bc2c2b19f2a5c81e1667d783f30003cc26587e90d0afb45cd8",
+      "content_hash": "042f6e88937cd815daf1096f0f4c5d3ffbef6665c49a90fd5dbb104e87448ec9",
       "judges": [
         {
           "judge": "j1",
@@ -11573,7 +11573,7 @@
           "objective_tag": "general_test.general-mental-ability.second-difference-constant-series",
           "flags": [],
           "note": "Correct: differences rise by 2, so the next term is 48. Options 46 and 49 are plausible slips.",
-          "scored_content_hash": "18cd6a70ead960bc2c2b19f2a5c81e1667d783f30003cc26587e90d0afb45cd8"
+          "scored_content_hash": "042f6e88937cd815daf1096f0f4c5d3ffbef6665c49a90fd5dbb104e87448ec9"
         },
         {
           "judge": "j2",
@@ -11586,7 +11586,7 @@
           "objective_tag": "general_test.numerical-ability.number-series-difference-pattern",
           "flags": [],
           "note": "Correct: differences 5, 7, 9, 11, 13 give 48. Standard two-step series with sensible near-miss options.",
-          "scored_content_hash": "18cd6a70ead960bc2c2b19f2a5c81e1667d783f30003cc26587e90d0afb45cd8"
+          "scored_content_hash": "042f6e88937cd815daf1096f0f4c5d3ffbef6665c49a90fd5dbb104e87448ec9"
         }
       ],
       "mean": 8,
@@ -11621,8 +11621,8 @@
         "expert_issue": "Differences are 5, 7, 9, 11, 13, so 35 + 13 = 48. Key C is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "18cd6a70ead960bc2c2b19f2a5c81e1667d783f30003cc26587e90d0afb45cd8",
-        "final_content_hash": "18cd6a70ead960bc2c2b19f2a5c81e1667d783f30003cc26587e90d0afb45cd8",
+        "judged_content_hash": "042f6e88937cd815daf1096f0f4c5d3ffbef6665c49a90fd5dbb104e87448ec9",
+        "final_content_hash": "042f6e88937cd815daf1096f0f4c5d3ffbef6665c49a90fd5dbb104e87448ec9",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11652,7 +11652,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "C",
-      "content_hash": "862dae6c21693863c2cd0c05f63d9b9fb4dd32b252407654c3594ce9ee7f29e8",
+      "content_hash": "e8b150104190b06a91d48865f0b5b0f56996888f9361585cd20ff38c354dc437",
       "judges": [
         {
           "judge": "j1",
@@ -11665,7 +11665,7 @@
           "objective_tag": "general_test.general-mental-ability.instrument-to-user-analogy",
           "flags": [],
           "note": "Correct: instrument to its user. Blackboard is a plausible surface-based distractor.",
-          "scored_content_hash": "862dae6c21693863c2cd0c05f63d9b9fb4dd32b252407654c3594ce9ee7f29e8"
+          "scored_content_hash": "e8b150104190b06a91d48865f0b5b0f56996888f9361585cd20ff38c354dc437"
         },
         {
           "judge": "j2",
@@ -11678,7 +11678,7 @@
           "objective_tag": "general_test.general-mental-ability.analogy-instrument-to-user",
           "flags": [],
           "note": "Correct instrument-to-user analogy. Blackboard is a fair decoy (surface, not user); fit for an NTA mock.",
-          "scored_content_hash": "862dae6c21693863c2cd0c05f63d9b9fb4dd32b252407654c3594ce9ee7f29e8"
+          "scored_content_hash": "e8b150104190b06a91d48865f0b5b0f56996888f9361585cd20ff38c354dc437"
         }
       ],
       "mean": 8,
@@ -11713,8 +11713,8 @@
         "expert_issue": "Standard tool-to-user analogy (scalpel to surgeon, chalk to teacher). Blackboard is a surface, not the user, so it is not a second valid answer.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "862dae6c21693863c2cd0c05f63d9b9fb4dd32b252407654c3594ce9ee7f29e8",
-        "final_content_hash": "862dae6c21693863c2cd0c05f63d9b9fb4dd32b252407654c3594ce9ee7f29e8",
+        "judged_content_hash": "e8b150104190b06a91d48865f0b5b0f56996888f9361585cd20ff38c354dc437",
+        "final_content_hash": "e8b150104190b06a91d48865f0b5b0f56996888f9361585cd20ff38c354dc437",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11744,7 +11744,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "B",
-      "content_hash": "645295cebc0cdf362cf9ac0dc9410c3314235f812b20164c1aeb7913f2ae521c",
+      "content_hash": "708afa417fcc328db61667e0c06d7261ccb753adbd7050d97b18df942d7ee29a",
       "judges": [
         {
           "judge": "j1",
@@ -11757,7 +11757,7 @@
           "objective_tag": "general_test.general-knowledge.parliament-terms-and-officers",
           "flags": [],
           "note": "Statements A, B and D are correct and C is wrong (President elected indirectly). Well-built four-statement item with a clean key.",
-          "scored_content_hash": "645295cebc0cdf362cf9ac0dc9410c3314235f812b20164c1aeb7913f2ae521c"
+          "scored_content_hash": "708afa417fcc328db61667e0c06d7261ccb753adbd7050d97b18df942d7ee29a"
         },
         {
           "judge": "j2",
@@ -11770,7 +11770,7 @@
           "objective_tag": "general_test.general-knowledge.parliament-house-tenure-and-election",
           "flags": [],
           "note": "Statements A, B, D are correct and C is wrong (President is indirectly elected). Only option B matches. Label hard is one level high.",
-          "scored_content_hash": "645295cebc0cdf362cf9ac0dc9410c3314235f812b20164c1aeb7913f2ae521c"
+          "scored_content_hash": "708afa417fcc328db61667e0c06d7261ccb753adbd7050d97b18df942d7ee29a"
         }
       ],
       "mean": 8.5,
@@ -11805,8 +11805,8 @@
         "expert_issue": "Statements A, B and D are correct and C is false (President is elected indirectly), so key B is correct and unique. Solver and judge difficulty checks were medium, so the label was changed from hard to medium.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "645295cebc0cdf362cf9ac0dc9410c3314235f812b20164c1aeb7913f2ae521c",
-        "final_content_hash": "645295cebc0cdf362cf9ac0dc9410c3314235f812b20164c1aeb7913f2ae521c",
+        "judged_content_hash": "708afa417fcc328db61667e0c06d7261ccb753adbd7050d97b18df942d7ee29a",
+        "final_content_hash": "708afa417fcc328db61667e0c06d7261ccb753adbd7050d97b18df942d7ee29a",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -11838,7 +11838,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Basic Mathematical Concepts",
       "key": "C",
-      "content_hash": "c6432ff97b1d384481eea3974b7683f0c4c3f61df44aa9158fafa0f10ccafa0b",
+      "content_hash": "619d2bef3b447caabc757898786dcbd7d30f29d9c7f188b35f6235f7ae62f1f4",
       "judges": [
         {
           "judge": "j1",
@@ -11851,7 +11851,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.hcf-by-prime-factorisation",
           "flags": [],
           "note": "84 = 2^2 x 3 x 7 and 126 = 2 x 3^2 x 7 give HCF 42. 84 is a decoy (the number itself).",
-          "scored_content_hash": "c6432ff97b1d384481eea3974b7683f0c4c3f61df44aa9158fafa0f10ccafa0b"
+          "scored_content_hash": "619d2bef3b447caabc757898786dcbd7d30f29d9c7f188b35f6235f7ae62f1f4"
         },
         {
           "judge": "j2",
@@ -11864,7 +11864,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.hcf-by-prime-factorisation",
           "flags": [],
           "note": "Prime factors 2x3x7 give HCF 42. Distractor 21 is the common-prime-missing slip. Clean direct item.",
-          "scored_content_hash": "c6432ff97b1d384481eea3974b7683f0c4c3f61df44aa9158fafa0f10ccafa0b"
+          "scored_content_hash": "619d2bef3b447caabc757898786dcbd7d30f29d9c7f188b35f6235f7ae62f1f4"
         }
       ],
       "mean": 8,
@@ -11899,8 +11899,8 @@
         "expert_issue": "84 = 2^2 x 3 x 7 and 126 = 2 x 3^2 x 7, so HCF = 42. The distractors 14, 21 and 84 each come from a common-factor slip and are clearly wrong.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "c6432ff97b1d384481eea3974b7683f0c4c3f61df44aa9158fafa0f10ccafa0b",
-        "final_content_hash": "c6432ff97b1d384481eea3974b7683f0c4c3f61df44aa9158fafa0f10ccafa0b",
+        "judged_content_hash": "619d2bef3b447caabc757898786dcbd7d30f29d9c7f188b35f6235f7ae62f1f4",
+        "final_content_hash": "619d2bef3b447caabc757898786dcbd7d30f29d9c7f188b35f6235f7ae62f1f4",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -11930,7 +11930,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Basic Mathematical Concepts",
       "key": "A",
-      "content_hash": "6499fce91c070334e42f4ad1b27aef88a8cc5771fda7624d5129e3fd3ac764be",
+      "content_hash": "36b003245e92341b9a38918ea80961a8c6711f4821e953532da39d2b1e4f80cf",
       "judges": [
         {
           "judge": "j1",
@@ -11943,7 +11943,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.surd-simplification-and-division",
           "flags": [],
           "note": "8 sqrt2 divided by sqrt2 = 8 verified. 8 sqrt2 is a plausible slip distractor.",
-          "scored_content_hash": "6499fce91c070334e42f4ad1b27aef88a8cc5771fda7624d5129e3fd3ac764be"
+          "scored_content_hash": "36b003245e92341b9a38918ea80961a8c6711f4821e953532da39d2b1e4f80cf"
         },
         {
           "judge": "j2",
@@ -11956,7 +11956,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.simplify-surds-and-divide",
           "flags": [],
           "note": "Simplifying to 8 sqrt2 over sqrt2 gives 8. Key A is correct. Distractor 4 sqrt2 is a partial-simplification trap.",
-          "scored_content_hash": "6499fce91c070334e42f4ad1b27aef88a8cc5771fda7624d5129e3fd3ac764be"
+          "scored_content_hash": "36b003245e92341b9a38918ea80961a8c6711f4821e953532da39d2b1e4f80cf"
         }
       ],
       "mean": 8,
@@ -11991,8 +11991,8 @@
         "expert_issue": "sqrt(50) = 5 sqrt(2) and sqrt(18) = 3 sqrt(2), so (8 sqrt(2))/sqrt(2) = 8. Only A is correct. Plain-text sqrt notation is acceptable for this format.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "6499fce91c070334e42f4ad1b27aef88a8cc5771fda7624d5129e3fd3ac764be",
-        "final_content_hash": "6499fce91c070334e42f4ad1b27aef88a8cc5771fda7624d5129e3fd3ac764be",
+        "judged_content_hash": "36b003245e92341b9a38918ea80961a8c6711f4821e953532da39d2b1e4f80cf",
+        "final_content_hash": "36b003245e92341b9a38918ea80961a8c6711f4821e953532da39d2b1e4f80cf",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12022,7 +12022,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "D",
-      "content_hash": "14e9ac114c7a06511449b5f9312b804fd68538e8e4d2c02d41bea664ae789948",
+      "content_hash": "99e6e461010e00b01506458ede9a79e18e5d1754ac87fdd1a4f4cb3cd7894979",
       "judges": [
         {
           "judge": "j1",
@@ -12035,7 +12035,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.calendar-day-of-week",
           "flags": [],
           "note": "Key verified: 334 days from 1 Jan to 1 Dec, 334 mod 7 = 5, Monday + 5 = Saturday. Multi-step calendar item matching the hard label.",
-          "scored_content_hash": "14e9ac114c7a06511449b5f9312b804fd68538e8e4d2c02d41bea664ae789948"
+          "scored_content_hash": "99e6e461010e00b01506458ede9a79e18e5d1754ac87fdd1a4f4cb3cd7894979"
         },
         {
           "judge": "j2",
@@ -12048,7 +12048,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.calendar-odd-days-count",
           "flags": [],
           "note": "Key Saturday verified: 334 = 47 x 7 + 5, Monday plus 5. Friday is an off-by-one distractor. Several steps, label hard fits.",
-          "scored_content_hash": "14e9ac114c7a06511449b5f9312b804fd68538e8e4d2c02d41bea664ae789948"
+          "scored_content_hash": "99e6e461010e00b01506458ede9a79e18e5d1754ac87fdd1a4f4cb3cd7894979"
         }
       ],
       "mean": 9,
@@ -12089,8 +12089,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "14e9ac114c7a06511449b5f9312b804fd68538e8e4d2c02d41bea664ae789948",
-        "final_content_hash": "14e9ac114c7a06511449b5f9312b804fd68538e8e4d2c02d41bea664ae789948",
+        "judged_content_hash": "99e6e461010e00b01506458ede9a79e18e5d1754ac87fdd1a4f4cb3cd7894979",
+        "final_content_hash": "99e6e461010e00b01506458ede9a79e18e5d1754ac87fdd1a4f4cb3cd7894979",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12120,7 +12120,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "D",
-      "content_hash": "54d622846c75e5249a1a8934e38816cdf85afc0fbc99bc2b631474d13e41969f",
+      "content_hash": "ff9123c468ec3bc5949eb69ca257094d36b8fc2548dac090a9b8f7b4f48176e9",
       "judges": [
         {
           "judge": "j1",
@@ -12133,7 +12133,7 @@
           "objective_tag": "general_test.quantitative-reasoning.simple-interest-time-for-multiple",
           "flags": [],
           "note": "Verified: rate 12.5 percent, interest 3P needs 24 years. Labelled hard; two-step SI reasoning, true level medium.",
-          "scored_content_hash": "54d622846c75e5249a1a8934e38816cdf85afc0fbc99bc2b631474d13e41969f"
+          "scored_content_hash": "ff9123c468ec3bc5949eb69ca257094d36b8fc2548dac090a9b8f7b4f48176e9"
         },
         {
           "judge": "j2",
@@ -12146,7 +12146,7 @@
           "objective_tag": "general_test.quantitative-reasoning.simple-interest-rate-and-time",
           "flags": [],
           "note": "Rate 12.5% from doubling in 8 years, then 3P interest gives 24 years. Key D is correct. Label hard is one level high; the item is two steps.",
-          "scored_content_hash": "54d622846c75e5249a1a8934e38816cdf85afc0fbc99bc2b631474d13e41969f"
+          "scored_content_hash": "ff9123c468ec3bc5949eb69ca257094d36b8fc2548dac090a9b8f7b4f48176e9"
         }
       ],
       "mean": 8,
@@ -12181,8 +12181,8 @@
         "expert_issue": "Doubling in 8 years at simple interest gives 12.5% p.a. Four times needs SI = 3P, so T = 3/0.125 = 24 years. The arithmetic and the key hold, and the hard label is fair.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "54d622846c75e5249a1a8934e38816cdf85afc0fbc99bc2b631474d13e41969f",
-        "final_content_hash": "54d622846c75e5249a1a8934e38816cdf85afc0fbc99bc2b631474d13e41969f",
+        "judged_content_hash": "ff9123c468ec3bc5949eb69ca257094d36b8fc2548dac090a9b8f7b4f48176e9",
+        "final_content_hash": "ff9123c468ec3bc5949eb69ca257094d36b8fc2548dac090a9b8f7b4f48176e9",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12212,7 +12212,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "A",
-      "content_hash": "d32d7e0d1987528a92860fa8b01f13ad0c75c3d11df15a34152a9193da63847d",
+      "content_hash": "b8e11415038e7d51318aac10f7132f94b9d47ec10df9e3bd7e447019f1044ee0",
       "judges": [
         {
           "judge": "j1",
@@ -12225,7 +12225,7 @@
           "objective_tag": "general_test.general-knowledge.konark-sun-temple-state",
           "flags": [],
           "note": "Correct direct recall. Modhera (Gujarat) is a fair distractor and the explanation is accurate.",
-          "scored_content_hash": "d32d7e0d1987528a92860fa8b01f13ad0c75c3d11df15a34152a9193da63847d"
+          "scored_content_hash": "b8e11415038e7d51318aac10f7132f94b9d47ec10df9e3bd7e447019f1044ee0"
         },
         {
           "judge": "j2",
@@ -12238,7 +12238,7 @@
           "objective_tag": "general_test.general-knowledge.konark-sun-temple-location",
           "flags": [],
           "note": "Konark is in Odisha. Modhera in Gujarat is the tempting distractor. Clean recall.",
-          "scored_content_hash": "d32d7e0d1987528a92860fa8b01f13ad0c75c3d11df15a34152a9193da63847d"
+          "scored_content_hash": "b8e11415038e7d51318aac10f7132f94b9d47ec10df9e3bd7e447019f1044ee0"
         }
       ],
       "mean": 8,
@@ -12273,8 +12273,8 @@
         "expert_issue": "Konark Sun Temple is in Odisha. Modhera (Gujarat) is a correctly flagged distractor.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "d32d7e0d1987528a92860fa8b01f13ad0c75c3d11df15a34152a9193da63847d",
-        "final_content_hash": "d32d7e0d1987528a92860fa8b01f13ad0c75c3d11df15a34152a9193da63847d",
+        "judged_content_hash": "b8e11415038e7d51318aac10f7132f94b9d47ec10df9e3bd7e447019f1044ee0",
+        "final_content_hash": "b8e11415038e7d51318aac10f7132f94b9d47ec10df9e3bd7e447019f1044ee0",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12304,7 +12304,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "General Science and Environment Literacy",
       "key": "C",
-      "content_hash": "42194d965a54014fa57170ddbb50e9ea9948767dba1972b57bfe378ff893f69c",
+      "content_hash": "f3840ccd2f28306c00d9b2f512249f497b855d0ab3e77af89fd314588ccce646",
       "judges": [
         {
           "judge": "j1",
@@ -12317,7 +12317,7 @@
           "objective_tag": "general_test.general-science-and-environment-literacy.assertion-reason-sun-apparent-motion",
           "flags": [],
           "note": "Key verified: Earth's west-to-east rotation causes the Sun's apparent east-to-west motion, so R explains A. Standard A-R item; labelled medium, judged easy.",
-          "scored_content_hash": "42194d965a54014fa57170ddbb50e9ea9948767dba1972b57bfe378ff893f69c"
+          "scored_content_hash": "f3840ccd2f28306c00d9b2f512249f497b855d0ab3e77af89fd314588ccce646"
         },
         {
           "judge": "j2",
@@ -12330,7 +12330,7 @@
           "objective_tag": "general_test.general-science-and-environment-literacy.apparent-sun-motion-earth-rotation",
           "flags": [],
           "note": "Key C verified: both statements true and R explains A. Clean recall item; easy level, label says medium.",
-          "scored_content_hash": "42194d965a54014fa57170ddbb50e9ea9948767dba1972b57bfe378ff893f69c"
+          "scored_content_hash": "f3840ccd2f28306c00d9b2f512249f497b855d0ab3e77af89fd314588ccce646"
         }
       ],
       "mean": 8,
@@ -12365,8 +12365,8 @@
         "expert_issue": "Both A and R are true. Earth's west-to-east rotation causes the Sun's apparent east-to-west motion, so R explains A (key C). NCERT Class 6 Geography ch. 3 reference is consistent.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "42194d965a54014fa57170ddbb50e9ea9948767dba1972b57bfe378ff893f69c",
-        "final_content_hash": "42194d965a54014fa57170ddbb50e9ea9948767dba1972b57bfe378ff893f69c",
+        "judged_content_hash": "f3840ccd2f28306c00d9b2f512249f497b855d0ab3e77af89fd314588ccce646",
+        "final_content_hash": "f3840ccd2f28306c00d9b2f512249f497b855d0ab3e77af89fd314588ccce646",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12396,7 +12396,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "C",
-      "content_hash": "8354677f222798d765b45c8950c9579b35417312b6e5e946b723f716bbafcbed",
+      "content_hash": "c5512a24fc999a521b2a751743a9ac83c8e5a11c7a96a16581bf65989413462d",
       "judges": [
         {
           "judge": "j1",
@@ -12409,7 +12409,7 @@
           "objective_tag": "general_test.general-knowledge.authors-of-famous-indian-books",
           "flags": [],
           "note": "Clean four-pair match. Each distractor swaps two pairs, so the student must know all four authors. Key verified.",
-          "scored_content_hash": "8354677f222798d765b45c8950c9579b35417312b6e5e946b723f716bbafcbed"
+          "scored_content_hash": "c5512a24fc999a521b2a751743a9ac83c8e5a11c7a96a16581bf65989413462d"
         },
         {
           "judge": "j2",
@@ -12422,7 +12422,7 @@
           "objective_tag": "general_test.general-knowledge.authors-of-famous-books",
           "flags": [],
           "note": "All four pairs verified; only option C pairs them correctly. Well-built match list with swap distractors.",
-          "scored_content_hash": "8354677f222798d765b45c8950c9579b35417312b6e5e946b723f716bbafcbed"
+          "scored_content_hash": "c5512a24fc999a521b2a751743a9ac83c8e5a11c7a96a16581bf65989413462d"
         }
       ],
       "mean": 9,
@@ -12463,8 +12463,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "8354677f222798d765b45c8950c9579b35417312b6e5e946b723f716bbafcbed",
-        "final_content_hash": "8354677f222798d765b45c8950c9579b35417312b6e5e946b723f716bbafcbed",
+        "judged_content_hash": "c5512a24fc999a521b2a751743a9ac83c8e5a11c7a96a16581bf65989413462d",
+        "final_content_hash": "c5512a24fc999a521b2a751743a9ac83c8e5a11c7a96a16581bf65989413462d",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12494,7 +12494,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Basic Mathematical Concepts",
       "key": "B",
-      "content_hash": "f330f7aec6826e1cc41820577c08e34d3111e8f7001d6ed943b446abced4db1c",
+      "content_hash": "3703be6f9496fab45a29cd5cbf416dca798d62849ccbe725f86a07aefbdf7b41",
       "judges": [
         {
           "judge": "j1",
@@ -12507,7 +12507,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.product-of-irrationals-may-be-rational",
           "flags": [],
           "note": "sqrt2 x sqrt8 = 4 so A is true; sqrt2 x sqrt2 = 2 so R is false. Key B verified.",
-          "scored_content_hash": "f330f7aec6826e1cc41820577c08e34d3111e8f7001d6ed943b446abced4db1c"
+          "scored_content_hash": "3703be6f9496fab45a29cd5cbf416dca798d62849ccbe725f86a07aefbdf7b41"
         },
         {
           "judge": "j2",
@@ -12520,7 +12520,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.product-of-surds-rationality",
           "flags": [],
           "note": "A is true since sqrt2 x sqrt8 = 4. R is false since sqrt2 x sqrt2 = 2. Key B is correct. Standard assertion-reason form.",
-          "scored_content_hash": "f330f7aec6826e1cc41820577c08e34d3111e8f7001d6ed943b446abced4db1c"
+          "scored_content_hash": "3703be6f9496fab45a29cd5cbf416dca798d62849ccbe725f86a07aefbdf7b41"
         }
       ],
       "mean": 8,
@@ -12555,8 +12555,8 @@
         "expert_issue": "sqrt(2) x sqrt(8) = 4 is rational, so A is true. sqrt(2) x sqrt(2) = 2 is rational, so R is false. Only option B fits.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "f330f7aec6826e1cc41820577c08e34d3111e8f7001d6ed943b446abced4db1c",
-        "final_content_hash": "f330f7aec6826e1cc41820577c08e34d3111e8f7001d6ed943b446abced4db1c",
+        "judged_content_hash": "3703be6f9496fab45a29cd5cbf416dca798d62849ccbe725f86a07aefbdf7b41",
+        "final_content_hash": "3703be6f9496fab45a29cd5cbf416dca798d62849ccbe725f86a07aefbdf7b41",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12586,7 +12586,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Statistical Data Analysis",
       "key": "B",
-      "content_hash": "146c7b349cb50b61612897c3b929a8ca7ea4e26df378470a1ac48915dedbc85f",
+      "content_hash": "1870ff3807eea2d239677605b83a362b8639bf7cb543e26e6362f998a8a00150",
       "judges": [
         {
           "judge": "j1",
@@ -12599,7 +12599,7 @@
           "objective_tag": "general_test.statistical-data-analysis.statements-mean-median-mode-range",
           "flags": [],
           "note": "Key verified: mean 8, median 7 (so B false), mode 7, range 9 give A, C, D. Routine statement item, with the median statement as the only trap.",
-          "scored_content_hash": "146c7b349cb50b61612897c3b929a8ca7ea4e26df378470a1ac48915dedbc85f"
+          "scored_content_hash": "1870ff3807eea2d239677605b83a362b8639bf7cb543e26e6362f998a8a00150"
         },
         {
           "judge": "j2",
@@ -12612,7 +12612,7 @@
           "objective_tag": "general_test.statistical-data-analysis.median-mode-range-statements",
           "flags": [],
           "note": "Key B verified: only statement (B) is false, since the median of the sorted data is 7. Four statements make it medium, label says easy.",
-          "scored_content_hash": "146c7b349cb50b61612897c3b929a8ca7ea4e26df378470a1ac48915dedbc85f"
+          "scored_content_hash": "1870ff3807eea2d239677605b83a362b8639bf7cb543e26e6362f998a8a00150"
         }
       ],
       "mean": 8,
@@ -12651,8 +12651,8 @@
           "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
         },
         "judged_text": "final",
-        "judged_content_hash": "146c7b349cb50b61612897c3b929a8ca7ea4e26df378470a1ac48915dedbc85f",
-        "final_content_hash": "146c7b349cb50b61612897c3b929a8ca7ea4e26df378470a1ac48915dedbc85f",
+        "judged_content_hash": "1870ff3807eea2d239677605b83a362b8639bf7cb543e26e6362f998a8a00150",
+        "final_content_hash": "1870ff3807eea2d239677605b83a362b8639bf7cb543e26e6362f998a8a00150",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12682,7 +12682,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Logical & Analytical Reasoning",
       "key": "A",
-      "content_hash": "34a78f890c76e05c58586101a8e53b2b1f14db045f697c3d12f7b6643b9e1017",
+      "content_hash": "781e27241e5ba8a5dd76797b7d3e05d2e377302e552af841d134497960e40a2e",
       "judges": [
         {
           "judge": "j1",
@@ -12695,7 +12695,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-some-and-all-inference",
           "flags": [],
           "note": "Red flowers may exclude roses, so I fails; II reverses the premise. Neither follows, key A verified.",
-          "scored_content_hash": "34a78f890c76e05c58586101a8e53b2b1f14db045f697c3d12f7b6643b9e1017"
+          "scored_content_hash": "781e27241e5ba8a5dd76797b7d3e05d2e377302e552af841d134497960e40a2e"
         },
         {
           "judge": "j2",
@@ -12708,7 +12708,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-conclusion-validity",
           "flags": [],
           "note": "Neither conclusion follows: red flowers may exclude roses, and the converse is invalid. Key A is correct. Standard syllogism form.",
-          "scored_content_hash": "34a78f890c76e05c58586101a8e53b2b1f14db045f697c3d12f7b6643b9e1017"
+          "scored_content_hash": "781e27241e5ba8a5dd76797b7d3e05d2e377302e552af841d134497960e40a2e"
         }
       ],
       "mean": 8,
@@ -12743,8 +12743,8 @@
         "expert_issue": "Red flowers need not include any rose, so I does not follow. II reverses the premise, so it does not follow. Neither follows; A is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "34a78f890c76e05c58586101a8e53b2b1f14db045f697c3d12f7b6643b9e1017",
-        "final_content_hash": "34a78f890c76e05c58586101a8e53b2b1f14db045f697c3d12f7b6643b9e1017",
+        "judged_content_hash": "781e27241e5ba8a5dd76797b7d3e05d2e377302e552af841d134497960e40a2e",
+        "final_content_hash": "781e27241e5ba8a5dd76797b7d3e05d2e377302e552af841d134497960e40a2e",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12774,7 +12774,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Logical & Analytical Reasoning",
       "key": "A",
-      "content_hash": "1452ac75675720a8b317b0b078932173aae24aba305b5bcb0335cf9f1dcaeaa2",
+      "content_hash": "0d67eda0009e91fbf4f449f19b7903616d6a6eb7d346960dd95a767290092557",
       "judges": [
         {
           "judge": "j1",
@@ -12787,7 +12787,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.two-set-venn-neither-count",
           "flags": [],
           "note": "40 + 25 - 10 = 55 play at least one game, so 5 play neither. Clean one-step set count.",
-          "scored_content_hash": "1452ac75675720a8b317b0b078932173aae24aba305b5bcb0335cf9f1dcaeaa2"
+          "scored_content_hash": "0d67eda0009e91fbf4f449f19b7903616d6a6eb7d346960dd95a767290092557"
         },
         {
           "judge": "j2",
@@ -12800,7 +12800,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.two-set-count-neither",
           "flags": [],
           "note": "Union 40+25-10 = 55, so neither is 5. Key A is correct. Distractor 20 is the no-overlap-subtraction slip. Clean.",
-          "scored_content_hash": "1452ac75675720a8b317b0b078932173aae24aba305b5bcb0335cf9f1dcaeaa2"
+          "scored_content_hash": "0d67eda0009e91fbf4f449f19b7903616d6a6eb7d346960dd95a767290092557"
         }
       ],
       "mean": 8,
@@ -12835,8 +12835,8 @@
         "expert_issue": "Playing at least one game = 40 + 25 - 10 = 55. Neither = 60 - 55 = 5. The key is correct and the distractors are plain counting slips.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "1452ac75675720a8b317b0b078932173aae24aba305b5bcb0335cf9f1dcaeaa2",
-        "final_content_hash": "1452ac75675720a8b317b0b078932173aae24aba305b5bcb0335cf9f1dcaeaa2",
+        "judged_content_hash": "0d67eda0009e91fbf4f449f19b7903616d6a6eb7d346960dd95a767290092557",
+        "final_content_hash": "0d67eda0009e91fbf4f449f19b7903616d6a6eb7d346960dd95a767290092557",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12866,7 +12866,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Statistical Data Analysis",
       "key": "C",
-      "content_hash": "4915eced244dc48fe3414a392bbb50a4ada63228983903be9629fa041fbf6f4c",
+      "content_hash": "ab70d1fe3eb7f4e93fab139b82466947a58a8296d46ccfa5286212c1d757b073",
       "judges": [
         {
           "judge": "j1",
@@ -12879,7 +12879,7 @@
           "objective_tag": "general_test.statistical-data-analysis.combined-mean-of-groups",
           "flags": [],
           "note": "Total 2480 over 50 gives 49.6 verified. 49.0 is the unweighted-average trap.",
-          "scored_content_hash": "4915eced244dc48fe3414a392bbb50a4ada63228983903be9629fa041fbf6f4c"
+          "scored_content_hash": "ab70d1fe3eb7f4e93fab139b82466947a58a8296d46ccfa5286212c1d757b073"
         },
         {
           "judge": "j2",
@@ -12892,7 +12892,7 @@
           "objective_tag": "general_test.statistical-data-analysis.combined-mean-of-groups",
           "flags": [],
           "note": "Weighted total 2480 over 50 gives 49.6. Distractor 49.0 is the unweighted average slip. Good two-step item.",
-          "scored_content_hash": "4915eced244dc48fe3414a392bbb50a4ada63228983903be9629fa041fbf6f4c"
+          "scored_content_hash": "ab70d1fe3eb7f4e93fab139b82466947a58a8296d46ccfa5286212c1d757b073"
         }
       ],
       "mean": 9,
@@ -12927,8 +12927,8 @@
         "expert_issue": "Combined total 920 + 1560 = 2480 over 50 students gives 49.6. The simple average 49 is the distractor, and the key is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "4915eced244dc48fe3414a392bbb50a4ada63228983903be9629fa041fbf6f4c",
-        "final_content_hash": "4915eced244dc48fe3414a392bbb50a4ada63228983903be9629fa041fbf6f4c",
+        "judged_content_hash": "ab70d1fe3eb7f4e93fab139b82466947a58a8296d46ccfa5286212c1d757b073",
+        "final_content_hash": "ab70d1fe3eb7f4e93fab139b82466947a58a8296d46ccfa5286212c1d757b073",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -12958,7 +12958,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "Numerical Ability",
       "key": "B",
-      "content_hash": "663a8871263a48c62f114ad9f32ba2db4cf85e40711c2567677fa00ff4e1fc38",
+      "content_hash": "3d026105fda37eff71486a193706d1752622b6d66bb0b36d70a1c48f9d38caad",
       "judges": [
         {
           "judge": "j1",
@@ -12971,7 +12971,7 @@
           "objective_tag": "general_test.numerical-ability.discount-and-selling-price",
           "flags": [],
           "note": "Correct: 800 less 15 per cent gives Rs 680. Rs 120 is a fair discount-versus-price trap. Explanation is accurate.",
-          "scored_content_hash": "663a8871263a48c62f114ad9f32ba2db4cf85e40711c2567677fa00ff4e1fc38"
+          "scored_content_hash": "3d026105fda37eff71486a193706d1752622b6d66bb0b36d70a1c48f9d38caad"
         },
         {
           "judge": "j2",
@@ -12984,7 +12984,7 @@
           "objective_tag": "general_test.numerical-ability.percentage-discount-selling-price",
           "flags": [],
           "note": "Rs 680 is correct. Rs 720 is a 10 per cent ratio slip. Clean one-step numerical.",
-          "scored_content_hash": "663a8871263a48c62f114ad9f32ba2db4cf85e40711c2567677fa00ff4e1fc38"
+          "scored_content_hash": "3d026105fda37eff71486a193706d1752622b6d66bb0b36d70a1c48f9d38caad"
         }
       ],
       "mean": 8.5,
@@ -13025,8 +13025,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "663a8871263a48c62f114ad9f32ba2db4cf85e40711c2567677fa00ff4e1fc38",
-        "final_content_hash": "663a8871263a48c62f114ad9f32ba2db4cf85e40711c2567677fa00ff4e1fc38",
+        "judged_content_hash": "3d026105fda37eff71486a193706d1752622b6d66bb0b36d70a1c48f9d38caad",
+        "final_content_hash": "3d026105fda37eff71486a193706d1752622b6d66bb0b36d70a1c48f9d38caad",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13056,7 +13056,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Basic Mathematical Concepts",
       "key": "A",
-      "content_hash": "613dc00495cc7e163126d51fe12f0075dc1afdc4c85b232caaf242ef9d9d51c4",
+      "content_hash": "908d328f75025016a26dd307326e9b429a83bae184990ad99dbf95b71e528fb0",
       "judges": [
         {
           "judge": "j1",
@@ -13069,7 +13069,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.remainder-of-powers",
           "flags": [],
           "note": "Key verified: 7 = 2 (mod 5), 2^51 = 2^3 = 8 = 3 (mod 5). Clean remainder item with a sound method in the explanation.",
-          "scored_content_hash": "613dc00495cc7e163126d51fe12f0075dc1afdc4c85b232caaf242ef9d9d51c4"
+          "scored_content_hash": "908d328f75025016a26dd307326e9b429a83bae184990ad99dbf95b71e528fb0"
         },
         {
           "judge": "j2",
@@ -13082,7 +13082,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.remainder-of-powers-cyclicity",
           "flags": [],
           "note": "Key 3 verified by cyclicity of 2 mod 5. Distractors 1, 2 and 4 are weak but plausible.",
-          "scored_content_hash": "613dc00495cc7e163126d51fe12f0075dc1afdc4c85b232caaf242ef9d9d51c4"
+          "scored_content_hash": "908d328f75025016a26dd307326e9b429a83bae184990ad99dbf95b71e528fb0"
         }
       ],
       "mean": 8.5,
@@ -13121,8 +13121,8 @@
           "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
         },
         "judged_text": "final",
-        "judged_content_hash": "613dc00495cc7e163126d51fe12f0075dc1afdc4c85b232caaf242ef9d9d51c4",
-        "final_content_hash": "613dc00495cc7e163126d51fe12f0075dc1afdc4c85b232caaf242ef9d9d51c4",
+        "judged_content_hash": "908d328f75025016a26dd307326e9b429a83bae184990ad99dbf95b71e528fb0",
+        "final_content_hash": "908d328f75025016a26dd307326e9b429a83bae184990ad99dbf95b71e528fb0",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13152,7 +13152,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "B",
-      "content_hash": "75325c9d0dad687b7239441af22297849bf32ceddb4507a575ab5fcb69c70c17",
+      "content_hash": "9e62dcb53ffc0424953d6cb45fcaca458aad790fde7e4a5ff379ef1068010fbe",
       "judges": [
         {
           "judge": "j1",
@@ -13165,7 +13165,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.blood-relation-uncle",
           "flags": [],
           "note": "Key verified: A is E's father's brother, so uncle. Two-step relation chain fits the medium label; the distractors are plausible relation names.",
-          "scored_content_hash": "75325c9d0dad687b7239441af22297849bf32ceddb4507a575ab5fcb69c70c17"
+          "scored_content_hash": "9e62dcb53ffc0424953d6cb45fcaca458aad790fde7e4a5ff379ef1068010fbe"
         },
         {
           "judge": "j2",
@@ -13178,7 +13178,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.blood-relation-paternal-uncle",
           "flags": [],
           "note": "Key Uncle verified: A is E's paternal uncle. Brother is an obvious distractor; the others are plausible relations.",
-          "scored_content_hash": "75325c9d0dad687b7239441af22297849bf32ceddb4507a575ab5fcb69c70c17"
+          "scored_content_hash": "9e62dcb53ffc0424953d6cb45fcaca458aad790fde7e4a5ff379ef1068010fbe"
         }
       ],
       "mean": 8,
@@ -13213,8 +13213,8 @@
         "expert_issue": "A is B's brother and B is E's father, so A is E's uncle (key B). The distractors (brother, cousin, nephew) are each wrong for this chain.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "75325c9d0dad687b7239441af22297849bf32ceddb4507a575ab5fcb69c70c17",
-        "final_content_hash": "75325c9d0dad687b7239441af22297849bf32ceddb4507a575ab5fcb69c70c17",
+        "judged_content_hash": "9e62dcb53ffc0424953d6cb45fcaca458aad790fde7e4a5ff379ef1068010fbe",
+        "final_content_hash": "9e62dcb53ffc0424953d6cb45fcaca458aad790fde7e4a5ff379ef1068010fbe",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13244,7 +13244,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "A",
-      "content_hash": "441bbf135f24deac7e266b20d08c33853e9f7001f774457902a4632cc245113a",
+      "content_hash": "d816388c6c6ceb3be3e8f520da3a466102f5870e64173928d57fa7c35d9712fe",
       "judges": [
         {
           "judge": "j1",
@@ -13257,7 +13257,7 @@
           "objective_tag": "general_test.general-knowledge.nobel-peace-prize-recipients-india",
           "flags": [],
           "note": "Correct: Mother Teresa, 1979. Satyarthi, Tagore and Sen are fair Indian-laureate distractors; explanation dates are accurate.",
-          "scored_content_hash": "441bbf135f24deac7e266b20d08c33853e9f7001f774457902a4632cc245113a"
+          "scored_content_hash": "d816388c6c6ceb3be3e8f520da3a466102f5870e64173928d57fa7c35d9712fe"
         },
         {
           "judge": "j2",
@@ -13270,7 +13270,7 @@
           "objective_tag": "general_test.general-knowledge.nobel-peace-prize-laureates",
           "flags": [],
           "note": "Mother Teresa is correct. Explanation dates for the other laureates are correct. Indian-laureate distractors are decent.",
-          "scored_content_hash": "441bbf135f24deac7e266b20d08c33853e9f7001f774457902a4632cc245113a"
+          "scored_content_hash": "d816388c6c6ceb3be3e8f520da3a466102f5870e64173928d57fa7c35d9712fe"
         }
       ],
       "mean": 8,
@@ -13305,8 +13305,8 @@
         "expert_issue": "Mother Teresa received the 1979 Nobel Peace Prize. Satyarthi (2014), Tagore (Literature 1913) and Sen (Economics 1998) are correctly described distractors.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "441bbf135f24deac7e266b20d08c33853e9f7001f774457902a4632cc245113a",
-        "final_content_hash": "441bbf135f24deac7e266b20d08c33853e9f7001f774457902a4632cc245113a",
+        "judged_content_hash": "d816388c6c6ceb3be3e8f520da3a466102f5870e64173928d57fa7c35d9712fe",
+        "final_content_hash": "d816388c6c6ceb3be3e8f520da3a466102f5870e64173928d57fa7c35d9712fe",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13336,7 +13336,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "D",
-      "content_hash": "64b9d39011a4dafe13e0266593141ecd7b7d40c7ae7df7d4f0afaee041ab7575",
+      "content_hash": "57c37f21919da4dd211a51cbe4aeb6417fb220a4d1333ce3ea3cbf0893d0860f",
       "judges": [
         {
           "judge": "j1",
@@ -13349,7 +13349,7 @@
           "objective_tag": "general_test.general-knowledge.chronology-of-modern-indian-events",
           "flags": [],
           "note": "Correct order B, A, C, D (1757, 1857, 1905, 1919). Distractors are plausible order swaps. Stem does not narrate the order.",
-          "scored_content_hash": "64b9d39011a4dafe13e0266593141ecd7b7d40c7ae7df7d4f0afaee041ab7575"
+          "scored_content_hash": "57c37f21919da4dd211a51cbe4aeb6417fb220a4d1333ce3ea3cbf0893d0860f"
         },
         {
           "judge": "j2",
@@ -13362,7 +13362,7 @@
           "objective_tag": "general_test.general-knowledge.chronology-modern-indian-history",
           "flags": [],
           "note": "Plassey 1757, Revolt 1857, Partition of Bengal 1905, Jallianwala 1919. Only option D has this order.",
-          "scored_content_hash": "64b9d39011a4dafe13e0266593141ecd7b7d40c7ae7df7d4f0afaee041ab7575"
+          "scored_content_hash": "57c37f21919da4dd211a51cbe4aeb6417fb220a4d1333ce3ea3cbf0893d0860f"
         }
       ],
       "mean": 8,
@@ -13397,8 +13397,8 @@
         "expert_issue": "Plassey 1757, Revolt 1857, Partition of Bengal 1905, Jallianwala Bagh 1919 gives order B, A, C, D = option D. Key correct; distractors are distinct orders.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "64b9d39011a4dafe13e0266593141ecd7b7d40c7ae7df7d4f0afaee041ab7575",
-        "final_content_hash": "64b9d39011a4dafe13e0266593141ecd7b7d40c7ae7df7d4f0afaee041ab7575",
+        "judged_content_hash": "57c37f21919da4dd211a51cbe4aeb6417fb220a4d1333ce3ea3cbf0893d0860f",
+        "final_content_hash": "57c37f21919da4dd211a51cbe4aeb6417fb220a4d1333ce3ea3cbf0893d0860f",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13428,7 +13428,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Quantitative Reasoning",
       "key": "A",
-      "content_hash": "dc8e0a08cd9cfcd2801c821c57cc8dab2cae0c4cab465cedefcdd67ed8d0efd2",
+      "content_hash": "53258c770b271833b2cfae333d0e346a12265b51ab8365cdd1f082d980da16ec",
       "judges": [
         {
           "judge": "j1",
@@ -13441,7 +13441,7 @@
           "objective_tag": "general_test.quantitative-reasoning.nth-term-of-ap",
           "flags": [],
           "note": "Key verified: d = 3, a = 13. Clean two-step AP item; distractors come from sign and index slips.",
-          "scored_content_hash": "dc8e0a08cd9cfcd2801c821c57cc8dab2cae0c4cab465cedefcdd67ed8d0efd2"
+          "scored_content_hash": "53258c770b271833b2cfae333d0e346a12265b51ab8365cdd1f082d980da16ec"
         },
         {
           "judge": "j2",
@@ -13454,7 +13454,7 @@
           "objective_tag": "general_test.quantitative-reasoning.nth-term-of-ap",
           "flags": [],
           "note": "Key 13 verified (d = 3, a = 13). Clean nth-term item; 3 and 10 are weaker distractors.",
-          "scored_content_hash": "dc8e0a08cd9cfcd2801c821c57cc8dab2cae0c4cab465cedefcdd67ed8d0efd2"
+          "scored_content_hash": "53258c770b271833b2cfae333d0e346a12265b51ab8365cdd1f082d980da16ec"
         }
       ],
       "mean": 8.5,
@@ -13489,8 +13489,8 @@
         "expert_issue": "d = (46-31)/5 = 3, a = 31 - 6x3 = 13 (key A). Verified: 12th term = 13 + 33 = 46. Distractors are plausible slips.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "dc8e0a08cd9cfcd2801c821c57cc8dab2cae0c4cab465cedefcdd67ed8d0efd2",
-        "final_content_hash": "dc8e0a08cd9cfcd2801c821c57cc8dab2cae0c4cab465cedefcdd67ed8d0efd2",
+        "judged_content_hash": "53258c770b271833b2cfae333d0e346a12265b51ab8365cdd1f082d980da16ec",
+        "final_content_hash": "53258c770b271833b2cfae333d0e346a12265b51ab8365cdd1f082d980da16ec",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13520,7 +13520,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Basic Mathematical Concepts",
       "key": "D",
-      "content_hash": "094a507b358f2f6c9a3c2d6df067b81eb663f1d92a5e18000b723475f8cd6257",
+      "content_hash": "92e21f75968cde472e0c35f22b3a3059c7d766cf9f5427557a7dfa2da0bbade9",
       "judges": [
         {
           "judge": "j1",
@@ -13533,7 +13533,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.ordering-fractions-by-value",
           "flags": [],
           "note": "Decimals 0.667, 0.70, 0.714, 0.75 give C, D, B, A; key D verified. 0.70 and 0.714 are close, which is fair for this level.",
-          "scored_content_hash": "094a507b358f2f6c9a3c2d6df067b81eb663f1d92a5e18000b723475f8cd6257"
+          "scored_content_hash": "92e21f75968cde472e0c35f22b3a3059c7d766cf9f5427557a7dfa2da0bbade9"
         },
         {
           "judge": "j2",
@@ -13546,7 +13546,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.ordering-rational-numbers-by-decimal",
           "flags": [],
           "note": "Decimals 0.667, 0.70, 0.714, 0.75 give C, D, B, A, so key D is correct. 0.70 and 0.714 are close, and the stem is plain.",
-          "scored_content_hash": "094a507b358f2f6c9a3c2d6df067b81eb663f1d92a5e18000b723475f8cd6257"
+          "scored_content_hash": "92e21f75968cde472e0c35f22b3a3059c7d766cf9f5427557a7dfa2da0bbade9"
         }
       ],
       "mean": 7.5,
@@ -13581,8 +13581,8 @@
         "expert_issue": "Decimals: 3/4 = 0.75, 5/7 = 0.714, 2/3 = 0.667, 7/10 = 0.70. Ascending order is C, D, B, A. Only option D gives that order.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "094a507b358f2f6c9a3c2d6df067b81eb663f1d92a5e18000b723475f8cd6257",
-        "final_content_hash": "094a507b358f2f6c9a3c2d6df067b81eb663f1d92a5e18000b723475f8cd6257",
+        "judged_content_hash": "92e21f75968cde472e0c35f22b3a3059c7d766cf9f5427557a7dfa2da0bbade9",
+        "final_content_hash": "92e21f75968cde472e0c35f22b3a3059c7d766cf9f5427557a7dfa2da0bbade9",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13612,7 +13612,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "C",
-      "content_hash": "da8ab97c0e547b42460e00f8410c9e695a555255db9ff27e8cdfb0540c504869",
+      "content_hash": "c8d7cc27bb9138383690f56a36fa5ccbabad9bac85ae267565b7cbb4485508bb",
       "judges": [
         {
           "judge": "j1",
@@ -13625,7 +13625,7 @@
           "objective_tag": "general_test.general-mental-ability.recurrence-double-plus-constant",
           "flags": [],
           "note": "Correct: each term is twice the previous plus 2, giving 94. One recurrence rule, so medium rather than hard.",
-          "scored_content_hash": "da8ab97c0e547b42460e00f8410c9e695a555255db9ff27e8cdfb0540c504869"
+          "scored_content_hash": "c8d7cc27bb9138383690f56a36fa5ccbabad9bac85ae267565b7cbb4485508bb"
         },
         {
           "judge": "j2",
@@ -13638,7 +13638,7 @@
           "objective_tag": "general_test.general-mental-ability.number-series-doubling-plus-constant",
           "flags": [],
           "note": "Correct: each term is twice the previous plus 2, giving 94. Labelled hard but a two-step rule; medium fits better.",
-          "scored_content_hash": "da8ab97c0e547b42460e00f8410c9e695a555255db9ff27e8cdfb0540c504869"
+          "scored_content_hash": "c8d7cc27bb9138383690f56a36fa5ccbabad9bac85ae267565b7cbb4485508bb"
         }
       ],
       "mean": 8,
@@ -13679,8 +13679,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "da8ab97c0e547b42460e00f8410c9e695a555255db9ff27e8cdfb0540c504869",
-        "final_content_hash": "da8ab97c0e547b42460e00f8410c9e695a555255db9ff27e8cdfb0540c504869",
+        "judged_content_hash": "c8d7cc27bb9138383690f56a36fa5ccbabad9bac85ae267565b7cbb4485508bb",
+        "final_content_hash": "c8d7cc27bb9138383690f56a36fa5ccbabad9bac85ae267565b7cbb4485508bb",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13710,7 +13710,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Quantitative Reasoning",
       "key": "C",
-      "content_hash": "ebc7a9dc5d053ae7fcad655c767df4de0c2b41c4f92a87e7ff0cd3a5e9a9caa6",
+      "content_hash": "32a0e7d8e77c1dfe0e9b23a14ec0510fa6789cba09af680c0347b640455ab317",
       "judges": [
         {
           "judge": "j1",
@@ -13723,7 +13723,7 @@
           "objective_tag": "general_test.quantitative-reasoning.simultaneous-equations-sum-difference",
           "flags": [],
           "note": "Key verified: x = 34, y = 22. Clean one-step item with sensible distractors (22 is the smaller number, 44 a doubling slip).",
-          "scored_content_hash": "ebc7a9dc5d053ae7fcad655c767df4de0c2b41c4f92a87e7ff0cd3a5e9a9caa6"
+          "scored_content_hash": "32a0e7d8e77c1dfe0e9b23a14ec0510fa6789cba09af680c0347b640455ab317"
         },
         {
           "judge": "j2",
@@ -13736,7 +13736,7 @@
           "objective_tag": "general_test.quantitative-reasoning.simultaneous-equations-sum-difference",
           "flags": [],
           "note": "Key 34 verified. Clean one-step simultaneous item; distractors 22, 28 and 44 are the usual sign and halving slips.",
-          "scored_content_hash": "ebc7a9dc5d053ae7fcad655c767df4de0c2b41c4f92a87e7ff0cd3a5e9a9caa6"
+          "scored_content_hash": "32a0e7d8e77c1dfe0e9b23a14ec0510fa6789cba09af680c0347b640455ab317"
         }
       ],
       "mean": 8.5,
@@ -13771,8 +13771,8 @@
         "expert_issue": "Sum 56, difference 12 gives larger number 34 (key C). Distractors 22, 28 and 44 are each traceable errors. Explanation checks out.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "ebc7a9dc5d053ae7fcad655c767df4de0c2b41c4f92a87e7ff0cd3a5e9a9caa6",
-        "final_content_hash": "ebc7a9dc5d053ae7fcad655c767df4de0c2b41c4f92a87e7ff0cd3a5e9a9caa6",
+        "judged_content_hash": "32a0e7d8e77c1dfe0e9b23a14ec0510fa6789cba09af680c0347b640455ab317",
+        "final_content_hash": "32a0e7d8e77c1dfe0e9b23a14ec0510fa6789cba09af680c0347b640455ab317",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13802,7 +13802,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "C",
-      "content_hash": "4199eb7064bb22edd0199a5ff1f4d45344c561ed6703b3a6c841acc820e7fa0c",
+      "content_hash": "5fb70cd8afcbd865cc8ea7c667ee591b8b0ac58b439a2cbb3532ece4c48df51d",
       "judges": [
         {
           "judge": "j1",
@@ -13815,7 +13815,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.number-series-doubling-differences",
           "flags": [],
           "note": "Key verified: differences 1, 2, 4, 8, 16 give next 33 + 32 = 65. Labelled hard; judged medium, one-step pattern once seen. Option 66 is a plausible slip.",
-          "scored_content_hash": "4199eb7064bb22edd0199a5ff1f4d45344c561ed6703b3a6c841acc820e7fa0c"
+          "scored_content_hash": "5fb70cd8afcbd865cc8ea7c667ee591b8b0ac58b439a2cbb3532ece4c48df51d"
         },
         {
           "judge": "j2",
@@ -13828,7 +13828,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.number-series-doubling-differences",
           "flags": [],
           "note": "Key 65 verified: differences double (1, 2, 4, 8, 16, 32). Distractor 66 is a doubling slip. Label says hard, medium fits.",
-          "scored_content_hash": "4199eb7064bb22edd0199a5ff1f4d45344c561ed6703b3a6c841acc820e7fa0c"
+          "scored_content_hash": "5fb70cd8afcbd865cc8ea7c667ee591b8b0ac58b439a2cbb3532ece4c48df51d"
         }
       ],
       "mean": 8.5,
@@ -13863,8 +13863,8 @@
         "expert_issue": "Key C (65) is correct: differences 1, 2, 4, 8, 16 double, so the next term is 33 + 32 = 65. Equivalently, each term is 2x previous - 1. Both quality judges rated the item medium, so the label was changed to medium.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "4199eb7064bb22edd0199a5ff1f4d45344c561ed6703b3a6c841acc820e7fa0c",
-        "final_content_hash": "4199eb7064bb22edd0199a5ff1f4d45344c561ed6703b3a6c841acc820e7fa0c",
+        "judged_content_hash": "5fb70cd8afcbd865cc8ea7c667ee591b8b0ac58b439a2cbb3532ece4c48df51d",
+        "final_content_hash": "5fb70cd8afcbd865cc8ea7c667ee591b8b0ac58b439a2cbb3532ece4c48df51d",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -13896,7 +13896,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "A",
-      "content_hash": "522744705b1a37fb8a3156e3e1bbd32756345f60a0854f26185f5b2ed73ad5ea",
+      "content_hash": "6760fe5f55d9f96e8ce28e1f7998c0bb62ecd260343dcd652fc8f70de8626147",
       "judges": [
         {
           "judge": "j1",
@@ -13909,7 +13909,7 @@
           "objective_tag": "general_test.general-mental-ability.odd-one-out-category-classification",
           "flags": [],
           "note": "Correct, but the fruit-versus-vegetable split is near-trivial and the item is practice-grade.",
-          "scored_content_hash": "522744705b1a37fb8a3156e3e1bbd32756345f60a0854f26185f5b2ed73ad5ea"
+          "scored_content_hash": "6760fe5f55d9f96e8ce28e1f7998c0bb62ecd260343dcd652fc8f70de8626147"
         },
         {
           "judge": "j2",
@@ -13922,7 +13922,7 @@
           "objective_tag": "general_test.general-mental-ability.odd-one-out-category",
           "flags": [],
           "note": "Correct: carrot is a vegetable, the others are fruits. Direct recall with obvious answer; correct but practice-grade.",
-          "scored_content_hash": "522744705b1a37fb8a3156e3e1bbd32756345f60a0854f26185f5b2ed73ad5ea"
+          "scored_content_hash": "6760fe5f55d9f96e8ce28e1f7998c0bb62ecd260343dcd652fc8f70de8626147"
         }
       ],
       "mean": 7,
@@ -13957,8 +13957,8 @@
         "expert_issue": "Carrot is the only vegetable among fruits. Key A is unique.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "522744705b1a37fb8a3156e3e1bbd32756345f60a0854f26185f5b2ed73ad5ea",
-        "final_content_hash": "522744705b1a37fb8a3156e3e1bbd32756345f60a0854f26185f5b2ed73ad5ea",
+        "judged_content_hash": "6760fe5f55d9f96e8ce28e1f7998c0bb62ecd260343dcd652fc8f70de8626147",
+        "final_content_hash": "6760fe5f55d9f96e8ce28e1f7998c0bb62ecd260343dcd652fc8f70de8626147",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -13988,7 +13988,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "A",
-      "content_hash": "91b4d6e42ddd44e9f83cb0c37ce56cc93af94b22be10bcaa590dc71853e81e86",
+      "content_hash": "b29abc8af2358aafd5df55a25cf9cbe45fcf21feebe8b74e27caef525c0cc8f9",
       "judges": [
         {
           "judge": "j1",
@@ -14001,7 +14001,7 @@
           "objective_tag": "general_test.general-mental-ability.fixed-letter-shift-coding",
           "flags": [],
           "note": "Correct: each letter shifts +1, giving IPSTF. GNQRD (reverse shift) is a sound distractor.",
-          "scored_content_hash": "91b4d6e42ddd44e9f83cb0c37ce56cc93af94b22be10bcaa590dc71853e81e86"
+          "scored_content_hash": "b29abc8af2358aafd5df55a25cf9cbe45fcf21feebe8b74e27caef525c0cc8f9"
         },
         {
           "judge": "j2",
@@ -14014,7 +14014,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-shift-code",
           "flags": [],
           "note": "Correct: each letter shifts +1, HORSE gives IPSTF. Distractors IPRTF and IQSTF are fair single-slip errors.",
-          "scored_content_hash": "91b4d6e42ddd44e9f83cb0c37ce56cc93af94b22be10bcaa590dc71853e81e86"
+          "scored_content_hash": "b29abc8af2358aafd5df55a25cf9cbe45fcf21feebe8b74e27caef525c0cc8f9"
         }
       ],
       "mean": 8,
@@ -14049,8 +14049,8 @@
         "expert_issue": "Each letter of MOUSE shifts +1, so HORSE gives IPSTF. Key A is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "91b4d6e42ddd44e9f83cb0c37ce56cc93af94b22be10bcaa590dc71853e81e86",
-        "final_content_hash": "91b4d6e42ddd44e9f83cb0c37ce56cc93af94b22be10bcaa590dc71853e81e86",
+        "judged_content_hash": "b29abc8af2358aafd5df55a25cf9cbe45fcf21feebe8b74e27caef525c0cc8f9",
+        "final_content_hash": "b29abc8af2358aafd5df55a25cf9cbe45fcf21feebe8b74e27caef525c0cc8f9",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14080,7 +14080,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Mental Ability",
       "key": "D",
-      "content_hash": "530c0e5ace694ba9faee6c0a271ff64aa802a1da48bda1b22d6f52ec781b087e",
+      "content_hash": "e61361c803de7bff9b1cbedfe3dd2b5fe7f5334644c23560bced1c3b112f9540",
       "judges": [
         {
           "judge": "j1",
@@ -14093,7 +14093,7 @@
           "objective_tag": "general_test.general-mental-ability.direction-sense-net-displacement",
           "flags": [],
           "note": "Correct: north and south legs cancel, leaving 3 km east. Distractors reflect wrong turn direction and summed-distance slips.",
-          "scored_content_hash": "530c0e5ace694ba9faee6c0a271ff64aa802a1da48bda1b22d6f52ec781b087e"
+          "scored_content_hash": "e61361c803de7bff9b1cbedfe3dd2b5fe7f5334644c23560bced1c3b112f9540"
         },
         {
           "judge": "j2",
@@ -14106,7 +14106,7 @@
           "objective_tag": "general_test.general-mental-ability.direction-sense-displacement",
           "flags": [],
           "note": "Net displacement is 3 km east. Distractors cover sign and direction slips.",
-          "scored_content_hash": "530c0e5ace694ba9faee6c0a271ff64aa802a1da48bda1b22d6f52ec781b087e"
+          "scored_content_hash": "e61361c803de7bff9b1cbedfe3dd2b5fe7f5334644c23560bced1c3b112f9540"
         }
       ],
       "mean": 8,
@@ -14141,8 +14141,8 @@
         "expert_issue": "5 km N, 3 km E, 5 km S gives net 3 km east of the start. Key D is unique and the explanation's direction sequence is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "530c0e5ace694ba9faee6c0a271ff64aa802a1da48bda1b22d6f52ec781b087e",
-        "final_content_hash": "530c0e5ace694ba9faee6c0a271ff64aa802a1da48bda1b22d6f52ec781b087e",
+        "judged_content_hash": "e61361c803de7bff9b1cbedfe3dd2b5fe7f5334644c23560bced1c3b112f9540",
+        "final_content_hash": "e61361c803de7bff9b1cbedfe3dd2b5fe7f5334644c23560bced1c3b112f9540",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14172,7 +14172,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "C",
-      "content_hash": "e8dff66467834a5e9e61a9ccb4dca544ce652e9bd60982e2bb098127e61ede3f",
+      "content_hash": "b18eeaf067497439c57d5d6857d18600e7cdeb4cf942bcee29ebf152a48c066b",
       "judges": [
         {
           "judge": "j1",
@@ -14185,7 +14185,7 @@
           "objective_tag": "general_test.general-mental-ability.compound-interest-annual-compounding",
           "flags": [],
           "note": "Correct: amount 12,100, CI 2,100. Simple-interest and half-yearly distractors are well chosen.",
-          "scored_content_hash": "e8dff66467834a5e9e61a9ccb4dca544ce652e9bd60982e2bb098127e61ede3f"
+          "scored_content_hash": "b18eeaf067497439c57d5d6857d18600e7cdeb4cf942bcee29ebf152a48c066b"
         },
         {
           "judge": "j2",
@@ -14198,7 +14198,7 @@
           "objective_tag": "general_test.numerical-ability.compound-interest-annual",
           "flags": [],
           "note": "Correct: 10000 x 1.1^2 gives CI 2100. Simple-interest 2000 and half-yearly 2155.06 are well-chosen decoys.",
-          "scored_content_hash": "e8dff66467834a5e9e61a9ccb4dca544ce652e9bd60982e2bb098127e61ede3f"
+          "scored_content_hash": "b18eeaf067497439c57d5d6857d18600e7cdeb4cf942bcee29ebf152a48c066b"
         }
       ],
       "mean": 9,
@@ -14233,8 +14233,8 @@
         "expert_issue": "Annual compounding gives 2,100. Distractors 2,000 (simple interest) and 2,155.06 (half-yearly) are correctly explained.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "e8dff66467834a5e9e61a9ccb4dca544ce652e9bd60982e2bb098127e61ede3f",
-        "final_content_hash": "e8dff66467834a5e9e61a9ccb4dca544ce652e9bd60982e2bb098127e61ede3f",
+        "judged_content_hash": "b18eeaf067497439c57d5d6857d18600e7cdeb4cf942bcee29ebf152a48c066b",
+        "final_content_hash": "b18eeaf067497439c57d5d6857d18600e7cdeb4cf942bcee29ebf152a48c066b",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14264,7 +14264,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "D",
-      "content_hash": "1f5dae5c989da557ab4d1902532102cc19144e062dd5e81460fa1f70886e89ad",
+      "content_hash": "7b4bd2a58bea98ac1061256a7b2fb118daf4076ad48441de94e841acac0d7e87",
       "judges": [
         {
           "judge": "j1",
@@ -14277,7 +14277,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-to-number-position-coding",
           "flags": [],
           "note": "Correct: B=2, I=9, R=18, D=4. Distractors are single-letter off-by-one slips, which is good design.",
-          "scored_content_hash": "1f5dae5c989da557ab4d1902532102cc19144e062dd5e81460fa1f70886e89ad"
+          "scored_content_hash": "7b4bd2a58bea98ac1061256a7b2fb118daf4076ad48441de94e841acac0d7e87"
         },
         {
           "judge": "j2",
@@ -14290,7 +14290,7 @@
           "objective_tag": "general_test.general-mental-ability.letter-position-code",
           "flags": [],
           "note": "Code rule checks out (C=3, A=1, T=20, D=4, O=15, G=7) so BIRD is 2-9-18-4. Clean with plausible slip distractors.",
-          "scored_content_hash": "1f5dae5c989da557ab4d1902532102cc19144e062dd5e81460fa1f70886e89ad"
+          "scored_content_hash": "7b4bd2a58bea98ac1061256a7b2fb118daf4076ad48441de94e841acac0d7e87"
         }
       ],
       "mean": 8.5,
@@ -14325,8 +14325,8 @@
         "expert_issue": "Position coding checks out: C3, A1, T20, D4, O15, G7. BIRD gives 2-9-18-4, which is option D.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "1f5dae5c989da557ab4d1902532102cc19144e062dd5e81460fa1f70886e89ad",
-        "final_content_hash": "1f5dae5c989da557ab4d1902532102cc19144e062dd5e81460fa1f70886e89ad",
+        "judged_content_hash": "7b4bd2a58bea98ac1061256a7b2fb118daf4076ad48441de94e841acac0d7e87",
+        "final_content_hash": "7b4bd2a58bea98ac1061256a7b2fb118daf4076ad48441de94e841acac0d7e87",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14356,7 +14356,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "A",
-      "content_hash": "069faf7cc85ca6b7225291ae87d8437488794b7fabaf91635971e6427d402804",
+      "content_hash": "6e6a32f677a4df4102452741dbe43d38e6fd10d01ac5eb68a24671af6194da18",
       "judges": [
         {
           "judge": "j1",
@@ -14369,7 +14369,7 @@
           "objective_tag": "general_test.general-mental-ability.net-displacement-direction-sense",
           "flags": [],
           "note": "Correct: 8 km east of the start. Distractors cover a missed final leg and wrong-direction slips.",
-          "scored_content_hash": "069faf7cc85ca6b7225291ae87d8437488794b7fabaf91635971e6427d402804"
+          "scored_content_hash": "6e6a32f677a4df4102452741dbe43d38e6fd10d01ac5eb68a24671af6194da18"
         },
         {
           "judge": "j2",
@@ -14382,7 +14382,7 @@
           "objective_tag": "general_test.general-mental-ability.direction-sense-net-displacement",
           "flags": [],
           "note": "Correct: net displacement is 8 km east. Mirror option D and the 6 km south decoy are reasonable.",
-          "scored_content_hash": "069faf7cc85ca6b7225291ae87d8437488794b7fabaf91635971e6427d402804"
+          "scored_content_hash": "6e6a32f677a4df4102452741dbe43d38e6fd10d01ac5eb68a24671af6194da18"
         }
       ],
       "mean": 8,
@@ -14417,8 +14417,8 @@
         "expert_issue": "Net displacement is 8 km east (6 N, 8 E, 6 S). Key A is correct and the distractors are plausible.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "069faf7cc85ca6b7225291ae87d8437488794b7fabaf91635971e6427d402804",
-        "final_content_hash": "069faf7cc85ca6b7225291ae87d8437488794b7fabaf91635971e6427d402804",
+        "judged_content_hash": "6e6a32f677a4df4102452741dbe43d38e6fd10d01ac5eb68a24671af6194da18",
+        "final_content_hash": "6e6a32f677a4df4102452741dbe43d38e6fd10d01ac5eb68a24671af6194da18",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14448,7 +14448,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "Numerical Ability",
       "key": "A",
-      "content_hash": "8c2faadbe20f979403ed669fb8da8a1c30d1a65f3e97b539c7e613e85c461718",
+      "content_hash": "5588358a972daaf5c45867d6d839e738fc517ee3e52115cbacb89b95125f892d",
       "judges": [
         {
           "judge": "j1",
@@ -14461,7 +14461,7 @@
           "objective_tag": "general_test.numerical-ability.compound-interest-annual-compounding",
           "flags": [],
           "note": "Correct: 5000 x 1.1 x 1.1 gives 6050, so interest is Rs 1,050. Simple interest (1,000) and amount (6,050) are the classic slips.",
-          "scored_content_hash": "8c2faadbe20f979403ed669fb8da8a1c30d1a65f3e97b539c7e613e85c461718"
+          "scored_content_hash": "5588358a972daaf5c45867d6d839e738fc517ee3e52115cbacb89b95125f892d"
         },
         {
           "judge": "j2",
@@ -14474,7 +14474,7 @@
           "objective_tag": "general_test.numerical-ability.compound-interest-annual-compounding",
           "flags": [],
           "note": "Amount 6050, compound interest 1050. Simple interest 1000 and amount 6050 are concept-slip distractors.",
-          "scored_content_hash": "8c2faadbe20f979403ed669fb8da8a1c30d1a65f3e97b539c7e613e85c461718"
+          "scored_content_hash": "5588358a972daaf5c45867d6d839e738fc517ee3e52115cbacb89b95125f892d"
         }
       ],
       "mean": 9,
@@ -14509,8 +14509,8 @@
         "expert_issue": "Amount 5000 x 1.1 x 1.1 = 6050, compound interest 1050 (key A). 1000 is simple interest and 6050 is the amount, both correctly flagged as distractors.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "8c2faadbe20f979403ed669fb8da8a1c30d1a65f3e97b539c7e613e85c461718",
-        "final_content_hash": "8c2faadbe20f979403ed669fb8da8a1c30d1a65f3e97b539c7e613e85c461718",
+        "judged_content_hash": "5588358a972daaf5c45867d6d839e738fc517ee3e52115cbacb89b95125f892d",
+        "final_content_hash": "5588358a972daaf5c45867d6d839e738fc517ee3e52115cbacb89b95125f892d",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14540,7 +14540,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "A",
-      "content_hash": "616a6a88f6d2f51c1ef9d7259bad0397c4c1335b280eb5a3337826d789ffe15a",
+      "content_hash": "5c31b2a29698abf518a62040103f073872610497811c82e91e56a00b968e874a",
       "judges": [
         {
           "judge": "j1",
@@ -14553,7 +14553,7 @@
           "objective_tag": "general_test.general-mental-ability.lcm-hcf-powers-statement-check",
           "flags": [],
           "note": "Correct: A, B and D are true and C (0.01) is false. Each wrong option drops or adds one statement, which is good design.",
-          "scored_content_hash": "616a6a88f6d2f51c1ef9d7259bad0397c4c1335b280eb5a3337826d789ffe15a"
+          "scored_content_hash": "5c31b2a29698abf518a62040103f073872610497811c82e91e56a00b968e874a"
         },
         {
           "judge": "j2",
@@ -14566,7 +14566,7 @@
           "objective_tag": "general_test.numerical-ability.lcm-hcf-and-powers-statements",
           "flags": [],
           "note": "Correct: (A) LCM 12 true, (B) HCF 6 true, (C) 0.01 not 0.1 false, (D) 32 true. Key (A),(B),(D) only is right.",
-          "scored_content_hash": "616a6a88f6d2f51c1ef9d7259bad0397c4c1335b280eb5a3337826d789ffe15a"
+          "scored_content_hash": "5c31b2a29698abf518a62040103f073872610497811c82e91e56a00b968e874a"
         }
       ],
       "mean": 8,
@@ -14607,8 +14607,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "616a6a88f6d2f51c1ef9d7259bad0397c4c1335b280eb5a3337826d789ffe15a",
-        "final_content_hash": "616a6a88f6d2f51c1ef9d7259bad0397c4c1335b280eb5a3337826d789ffe15a",
+        "judged_content_hash": "5c31b2a29698abf518a62040103f073872610497811c82e91e56a00b968e874a",
+        "final_content_hash": "5c31b2a29698abf518a62040103f073872610497811c82e91e56a00b968e874a",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14638,7 +14638,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "D",
-      "content_hash": "7c959e61dcf07aa353d73c337ca85b01c32040a877b998cd5da54709c007e221",
+      "content_hash": "4c8f72e6b9854d223b5fa9206e18ad7dc2a6c902ed84f54e7d0eaff4b26fca70",
       "judges": [
         {
           "judge": "j1",
@@ -14651,7 +14651,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.position-from-left-and-right",
           "flags": [],
           "note": "Key verified: Ravi 19th from left, so 40 - 19 + 1 = 22 from right. Distractor 18 is Ankit's position from the right, a real confusion.",
-          "scored_content_hash": "7c959e61dcf07aa353d73c337ca85b01c32040a877b998cd5da54709c007e221"
+          "scored_content_hash": "4c8f72e6b9854d223b5fa9206e18ad7dc2a6c902ed84f54e7d0eaff4b26fca70"
         },
         {
           "judge": "j2",
@@ -14664,7 +14664,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.position-from-left-and-right",
           "flags": [],
           "note": "Key 22 verified: Ravi is 19th from left, so 22nd from right. Distractor 18 is Ankit's position from right.",
-          "scored_content_hash": "7c959e61dcf07aa353d73c337ca85b01c32040a877b998cd5da54709c007e221"
+          "scored_content_hash": "4c8f72e6b9854d223b5fa9206e18ad7dc2a6c902ed84f54e7d0eaff4b26fca70"
         }
       ],
       "mean": 8.5,
@@ -14705,8 +14705,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "7c959e61dcf07aa353d73c337ca85b01c32040a877b998cd5da54709c007e221",
-        "final_content_hash": "7c959e61dcf07aa353d73c337ca85b01c32040a877b998cd5da54709c007e221",
+        "judged_content_hash": "4c8f72e6b9854d223b5fa9206e18ad7dc2a6c902ed84f54e7d0eaff4b26fca70",
+        "final_content_hash": "4c8f72e6b9854d223b5fa9206e18ad7dc2a6c902ed84f54e7d0eaff4b26fca70",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14736,7 +14736,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "D",
-      "content_hash": "aae8c006786f0a1b223248836c5af82050c96a7c918e960ea1b096dd6d1c1598",
+      "content_hash": "9e66ac8547c045f5e72acd446338256fe5b1b6fc11787f7fe0c4f4f61321e29c",
       "judges": [
         {
           "judge": "j1",
@@ -14749,7 +14749,7 @@
           "objective_tag": "general_test.general-mental-ability.odd-number-form-2k-plus-1",
           "flags": [],
           "note": "Key D is defensible: R gives the form used in the proof. Whether R explains A is slightly arguable, so no flag; score held at 7.",
-          "scored_content_hash": "aae8c006786f0a1b223248836c5af82050c96a7c918e960ea1b096dd6d1c1598"
+          "scored_content_hash": "9e66ac8547c045f5e72acd446338256fe5b1b6fc11787f7fe0c4f4f61321e29c"
         },
         {
           "judge": "j2",
@@ -14762,7 +14762,7 @@
           "objective_tag": "general_test.numerical-ability.odd-even-sum-assertion",
           "flags": [],
           "note": "Key D is defensible: the 2k+1 form is the step the proof uses. A stricter reader could argue R is only a definition; kept at 7 for that reason.",
-          "scored_content_hash": "aae8c006786f0a1b223248836c5af82050c96a7c918e960ea1b096dd6d1c1598"
+          "scored_content_hash": "9e66ac8547c045f5e72acd446338256fe5b1b6fc11787f7fe0c4f4f61321e29c"
         }
       ],
       "mean": 7,
@@ -14803,8 +14803,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "aae8c006786f0a1b223248836c5af82050c96a7c918e960ea1b096dd6d1c1598",
-        "final_content_hash": "aae8c006786f0a1b223248836c5af82050c96a7c918e960ea1b096dd6d1c1598",
+        "judged_content_hash": "9e66ac8547c045f5e72acd446338256fe5b1b6fc11787f7fe0c4f4f61321e29c",
+        "final_content_hash": "9e66ac8547c045f5e72acd446338256fe5b1b6fc11787f7fe0c4f4f61321e29c",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14834,7 +14834,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "C",
-      "content_hash": "dc3fb53d31995ce4db9c48cdcc86d039fade5f8bd2a842c941b5e948050309d5",
+      "content_hash": "4f3a04cfcddabcef5f4a81dfba12656b837c5bdd472f444830bf3a51fceaa3eb",
       "judges": [
         {
           "judge": "j1",
@@ -14847,7 +14847,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.letter-shift-coding",
           "flags": [],
           "note": "Key verified: each letter shifts +1 (HORSE to IPSTF). Distractor IPTSF (swapped letters) is good; GNQRD and JQTUG are weak.",
-          "scored_content_hash": "dc3fb53d31995ce4db9c48cdcc86d039fade5f8bd2a842c941b5e948050309d5"
+          "scored_content_hash": "4f3a04cfcddabcef5f4a81dfba12656b837c5bdd472f444830bf3a51fceaa3eb"
         },
         {
           "judge": "j2",
@@ -14860,7 +14860,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.letter-shift-coding",
           "flags": [],
           "note": "Key IPSTF verified. Distractors GNQRD (back-shift), JQTUG (+2 shift) and IPTSF (swap) are good slips.",
-          "scored_content_hash": "dc3fb53d31995ce4db9c48cdcc86d039fade5f8bd2a842c941b5e948050309d5"
+          "scored_content_hash": "4f3a04cfcddabcef5f4a81dfba12656b837c5bdd472f444830bf3a51fceaa3eb"
         }
       ],
       "mean": 8.5,
@@ -14895,8 +14895,8 @@
         "expert_issue": "MOUSE to NPVTF is a +1 shift. HORSE to IPSTF (key C) applies the same shift. IPTSF is a transposition distractor and is clearly wrong.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "dc3fb53d31995ce4db9c48cdcc86d039fade5f8bd2a842c941b5e948050309d5",
-        "final_content_hash": "dc3fb53d31995ce4db9c48cdcc86d039fade5f8bd2a842c941b5e948050309d5",
+        "judged_content_hash": "4f3a04cfcddabcef5f4a81dfba12656b837c5bdd472f444830bf3a51fceaa3eb",
+        "final_content_hash": "4f3a04cfcddabcef5f4a81dfba12656b837c5bdd472f444830bf3a51fceaa3eb",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -14926,7 +14926,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "General Mental Ability",
       "key": "B",
-      "content_hash": "b726d7161e6a2bce8c0751f4a141aab81f5b07a081b67d830ab878710cb8ecf9",
+      "content_hash": "c82cbe017a961646f91f633b003f4e583bab2160a36d758a7db5ae857c219d34",
       "judges": [
         {
           "judge": "j1",
@@ -14939,7 +14939,7 @@
           "objective_tag": "general_test.general-mental-ability.position-from-both-ends-count",
           "flags": [],
           "note": "Correct: 12 + 18 - 1 = 29. Standard ranking item; the neighbouring options are off-by-one slips.",
-          "scored_content_hash": "b726d7161e6a2bce8c0751f4a141aab81f5b07a081b67d830ab878710cb8ecf9"
+          "scored_content_hash": "c82cbe017a961646f91f633b003f4e583bab2160a36d758a7db5ae857c219d34"
         },
         {
           "judge": "j2",
@@ -14952,7 +14952,7 @@
           "objective_tag": "general_test.general-mental-ability.ranking-from-both-ends",
           "flags": [],
           "note": "Correct: 12 + 18 - 1 = 29. Off-by-one distractors 28 and 30 are good; clean wording.",
-          "scored_content_hash": "b726d7161e6a2bce8c0751f4a141aab81f5b07a081b67d830ab878710cb8ecf9"
+          "scored_content_hash": "c82cbe017a961646f91f633b003f4e583bab2160a36d758a7db5ae857c219d34"
         }
       ],
       "mean": 8,
@@ -14987,8 +14987,8 @@
         "expert_issue": "Total = 12 + 18 - 1 = 29. Key B is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "b726d7161e6a2bce8c0751f4a141aab81f5b07a081b67d830ab878710cb8ecf9",
-        "final_content_hash": "b726d7161e6a2bce8c0751f4a141aab81f5b07a081b67d830ab878710cb8ecf9",
+        "judged_content_hash": "c82cbe017a961646f91f633b003f4e583bab2160a36d758a7db5ae857c219d34",
+        "final_content_hash": "c82cbe017a961646f91f633b003f4e583bab2160a36d758a7db5ae857c219d34",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15018,7 +15018,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Quantitative Reasoning",
       "key": "D",
-      "content_hash": "1e83cb7251b8daa2b9e3ddd76920b4f9fe76d4a658142ed7476dd133e1361583",
+      "content_hash": "d5650e9ddb4f6552770fe0295b466e5b37eca6836097a9e9fcbfcbe283bdb6db",
       "judges": [
         {
           "judge": "j1",
@@ -15031,7 +15031,7 @@
           "objective_tag": "general_test.quantitative-reasoning.sum-of-cubes-of-roots",
           "flags": [],
           "note": "Key verified: 216 - 72 = 144. Two-step identity; labelled hard but judged medium (one level apart, no note needed). Option 216 is the stated common slip.",
-          "scored_content_hash": "1e83cb7251b8daa2b9e3ddd76920b4f9fe76d4a658142ed7476dd133e1361583"
+          "scored_content_hash": "d5650e9ddb4f6552770fe0295b466e5b37eca6836097a9e9fcbfcbe283bdb6db"
         },
         {
           "judge": "j2",
@@ -15044,7 +15044,7 @@
           "objective_tag": "general_test.quantitative-reasoning.sum-cubes-of-roots-identity",
           "flags": [],
           "note": "Key 144 verified: 216 - 3(4)(6). Two-step identity is medium, not hard; 216 is the stated slip.",
-          "scored_content_hash": "1e83cb7251b8daa2b9e3ddd76920b4f9fe76d4a658142ed7476dd133e1361583"
+          "scored_content_hash": "d5650e9ddb4f6552770fe0295b466e5b37eca6836097a9e9fcbfcbe283bdb6db"
         }
       ],
       "mean": 8,
@@ -15079,8 +15079,8 @@
         "expert_issue": "Key D (144) is correct: (sum)^3 - 3*product*sum = 216 - 72. Both quality judges rated the item medium, not hard, so the label was changed to medium. Key and options are unchanged.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "1e83cb7251b8daa2b9e3ddd76920b4f9fe76d4a658142ed7476dd133e1361583",
-        "final_content_hash": "1e83cb7251b8daa2b9e3ddd76920b4f9fe76d4a658142ed7476dd133e1361583",
+        "judged_content_hash": "d5650e9ddb4f6552770fe0295b466e5b37eca6836097a9e9fcbfcbe283bdb6db",
+        "final_content_hash": "d5650e9ddb4f6552770fe0295b466e5b37eca6836097a9e9fcbfcbe283bdb6db",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -15112,7 +15112,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "C",
-      "content_hash": "626e6601689ff2995ad265f2111c5e215cbd0982f22d4ef267a8e13c1b8c286a",
+      "content_hash": "d332d11ba909c76812d92d21d3b567163c5dc72a8e65a574e9ce8b411cb40f5e",
       "judges": [
         {
           "judge": "j1",
@@ -15125,7 +15125,7 @@
           "objective_tag": "general_test.general-mental-ability.combined-work-rate-remaining-days",
           "flags": [],
           "note": "Correct: 4/9 of the work is left and B needs 8 days. Distractors come from common rate slips.",
-          "scored_content_hash": "626e6601689ff2995ad265f2111c5e215cbd0982f22d4ef267a8e13c1b8c286a"
+          "scored_content_hash": "d332d11ba909c76812d92d21d3b567163c5dc72a8e65a574e9ce8b411cb40f5e"
         },
         {
           "judge": "j2",
@@ -15138,7 +15138,7 @@
           "objective_tag": "general_test.numerical-ability.work-together-then-one-leaves",
           "flags": [],
           "note": "Correct: 5/9 done in 4 days, B needs 8 days for the remaining 4/9. Distractor 9 is a plausible slip.",
-          "scored_content_hash": "626e6601689ff2995ad265f2111c5e215cbd0982f22d4ef267a8e13c1b8c286a"
+          "scored_content_hash": "d332d11ba909c76812d92d21d3b567163c5dc72a8e65a574e9ce8b411cb40f5e"
         }
       ],
       "mean": 8.5,
@@ -15173,8 +15173,8 @@
         "expert_issue": "Work done in 4 days is 5/9, leaving 4/9. B needs 4/9 x 18 = 8 days. Key C is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "626e6601689ff2995ad265f2111c5e215cbd0982f22d4ef267a8e13c1b8c286a",
-        "final_content_hash": "626e6601689ff2995ad265f2111c5e215cbd0982f22d4ef267a8e13c1b8c286a",
+        "judged_content_hash": "d332d11ba909c76812d92d21d3b567163c5dc72a8e65a574e9ce8b411cb40f5e",
+        "final_content_hash": "d332d11ba909c76812d92d21d3b567163c5dc72a8e65a574e9ce8b411cb40f5e",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15204,7 +15204,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Quantitative Reasoning",
       "key": "B",
-      "content_hash": "16cb89cc9020a7b0ab0742372ec9481a8f1b602bf945a3f2c3e9d2d6920e736c",
+      "content_hash": "dc8dc8506e3a7dacd3f80cb4a5c9ac72c643eb58a1ff709b597b319f3ab77c4e",
       "judges": [
         {
           "judge": "j1",
@@ -15217,7 +15217,7 @@
           "objective_tag": "general_test.quantitative-reasoning.probability-without-replacement",
           "flags": [],
           "note": "Key verified: 4/52 x 3/51 = 1/221. Independent-draw distractor 1/169 is a real student error; labelled hard, judged medium.",
-          "scored_content_hash": "16cb89cc9020a7b0ab0742372ec9481a8f1b602bf945a3f2c3e9d2d6920e736c"
+          "scored_content_hash": "dc8dc8506e3a7dacd3f80cb4a5c9ac72c643eb58a1ff709b597b319f3ab77c4e"
         },
         {
           "judge": "j2",
@@ -15230,7 +15230,7 @@
           "objective_tag": "general_test.quantitative-reasoning.probability-without-replacement",
           "flags": [],
           "note": "Key 1/221 verified (12/2652). Independent-draw slip 1/169 is a good distractor; two steps is medium, label says hard.",
-          "scored_content_hash": "16cb89cc9020a7b0ab0742372ec9481a8f1b602bf945a3f2c3e9d2d6920e736c"
+          "scored_content_hash": "dc8dc8506e3a7dacd3f80cb4a5c9ac72c643eb58a1ff709b597b319f3ab77c4e"
         }
       ],
       "mean": 9,
@@ -15265,8 +15265,8 @@
         "expert_issue": "Key B (1/221) is correct: (4/52)(3/51) = 12/2652 = 1/221. The 1/169 distractor is the independent-draw trap and is handled in the explanation. Both quality judges rated the item medium, so the label was changed to medium.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "16cb89cc9020a7b0ab0742372ec9481a8f1b602bf945a3f2c3e9d2d6920e736c",
-        "final_content_hash": "16cb89cc9020a7b0ab0742372ec9481a8f1b602bf945a3f2c3e9d2d6920e736c",
+        "judged_content_hash": "dc8dc8506e3a7dacd3f80cb4a5c9ac72c643eb58a1ff709b597b319f3ab77c4e",
+        "final_content_hash": "dc8dc8506e3a7dacd3f80cb4a5c9ac72c643eb58a1ff709b597b319f3ab77c4e",
         "hash_changed_by_repair": false,
         "repaired_fields": [
           "difficulty_label"
@@ -15298,7 +15298,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Statistical Data Analysis",
       "key": "A",
-      "content_hash": "9cae2359ba0c6875c5d0fc93823668e047c26790d305d7c3b2c87247721a83e9",
+      "content_hash": "71dd8eb17fd9cc2fb5507b6a589f02c7d74f63021d91b61fa1ab4339cb2d9a95",
       "judges": [
         {
           "judge": "j1",
@@ -15311,7 +15311,7 @@
           "objective_tag": "general_test.statistical-data-analysis.mean-after-removing-observation",
           "flags": [],
           "note": "Key verified: 120 - 98 = 22. Distractor 28 (twice the new mean) reflects the real error of ignoring totals.",
-          "scored_content_hash": "9cae2359ba0c6875c5d0fc93823668e047c26790d305d7c3b2c87247721a83e9"
+          "scored_content_hash": "71dd8eb17fd9cc2fb5507b6a589f02c7d74f63021d91b61fa1ab4339cb2d9a95"
         },
         {
           "judge": "j2",
@@ -15324,7 +15324,7 @@
           "objective_tag": "general_test.statistical-data-analysis.mean-after-removing-observation",
           "flags": [],
           "note": "Key 22 verified: 120 minus 98. Distractor 28 (twice the new mean) is a plausible slip.",
-          "scored_content_hash": "9cae2359ba0c6875c5d0fc93823668e047c26790d305d7c3b2c87247721a83e9"
+          "scored_content_hash": "71dd8eb17fd9cc2fb5507b6a589f02c7d74f63021d91b61fa1ab4339cb2d9a95"
         }
       ],
       "mean": 8.5,
@@ -15363,8 +15363,8 @@
           "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
         },
         "judged_text": "final",
-        "judged_content_hash": "9cae2359ba0c6875c5d0fc93823668e047c26790d305d7c3b2c87247721a83e9",
-        "final_content_hash": "9cae2359ba0c6875c5d0fc93823668e047c26790d305d7c3b2c87247721a83e9",
+        "judged_content_hash": "71dd8eb17fd9cc2fb5507b6a589f02c7d74f63021d91b61fa1ab4339cb2d9a95",
+        "final_content_hash": "71dd8eb17fd9cc2fb5507b6a589f02c7d74f63021d91b61fa1ab4339cb2d9a95",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15394,7 +15394,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Basic Mathematical Concepts",
       "key": "B",
-      "content_hash": "478454222886ad2517321b9f6ad5d6156f4707daa7b7fdcdd89f63af50e8c524",
+      "content_hash": "91484f7ac1f3e54ca08a30e4cea411e1e0aba23503151f3937755a834b16517f",
       "judges": [
         {
           "judge": "j1",
@@ -15407,7 +15407,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.hcf-lcm-product-relation",
           "flags": [],
           "note": "Key verified: 12 x 360 / 36 = 120, and LCM(36,120) = 360. Distractor 12 (the HCF itself) is weak.",
-          "scored_content_hash": "478454222886ad2517321b9f6ad5d6156f4707daa7b7fdcdd89f63af50e8c524"
+          "scored_content_hash": "91484f7ac1f3e54ca08a30e4cea411e1e0aba23503151f3937755a834b16517f"
         },
         {
           "judge": "j2",
@@ -15420,7 +15420,7 @@
           "objective_tag": "general_test.basic-mathematical-concepts.hcf-lcm-product-relation",
           "flags": [],
           "note": "Key 120 verified by HCF and LCM check. Distractor 60 is a plausible HCF-only slip.",
-          "scored_content_hash": "478454222886ad2517321b9f6ad5d6156f4707daa7b7fdcdd89f63af50e8c524"
+          "scored_content_hash": "91484f7ac1f3e54ca08a30e4cea411e1e0aba23503151f3937755a834b16517f"
         }
       ],
       "mean": 8,
@@ -15459,8 +15459,8 @@
           "note": "reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently"
         },
         "judged_text": "final",
-        "judged_content_hash": "478454222886ad2517321b9f6ad5d6156f4707daa7b7fdcdd89f63af50e8c524",
-        "final_content_hash": "478454222886ad2517321b9f6ad5d6156f4707daa7b7fdcdd89f63af50e8c524",
+        "judged_content_hash": "91484f7ac1f3e54ca08a30e4cea411e1e0aba23503151f3937755a834b16517f",
+        "final_content_hash": "91484f7ac1f3e54ca08a30e4cea411e1e0aba23503151f3937755a834b16517f",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15490,7 +15490,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "B",
-      "content_hash": "d469f49f19ead3147f1c543fc254f19025b9697cae2f1dd4d7dff66598799102",
+      "content_hash": "7e503e9c587abba45881ed01cb38f1b3f22e107b4901d5af15a6d05dadf67492",
       "judges": [
         {
           "judge": "j1",
@@ -15503,7 +15503,7 @@
           "objective_tag": "general_test.general-mental-ability.unit-conversion-mps-to-kmph",
           "flags": [],
           "note": "Correct: 15 m/s = 54 km/h. 15 km/h is a units-slip distractor; a clean one-step item.",
-          "scored_content_hash": "d469f49f19ead3147f1c543fc254f19025b9697cae2f1dd4d7dff66598799102"
+          "scored_content_hash": "7e503e9c587abba45881ed01cb38f1b3f22e107b4901d5af15a6d05dadf67492"
         },
         {
           "judge": "j2",
@@ -15516,7 +15516,7 @@
           "objective_tag": "general_test.numerical-ability.speed-conversion-ms-to-kmh",
           "flags": [],
           "note": "Correct: 15 m/s x 3.6 = 54 km/h. Unconverted 15 km/h is a good unit-slip distractor.",
-          "scored_content_hash": "d469f49f19ead3147f1c543fc254f19025b9697cae2f1dd4d7dff66598799102"
+          "scored_content_hash": "7e503e9c587abba45881ed01cb38f1b3f22e107b4901d5af15a6d05dadf67492"
         }
       ],
       "mean": 9,
@@ -15551,8 +15551,8 @@
         "expert_issue": "15 m/s x 3.6 = 54 km/h. Key B is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "d469f49f19ead3147f1c543fc254f19025b9697cae2f1dd4d7dff66598799102",
-        "final_content_hash": "d469f49f19ead3147f1c543fc254f19025b9697cae2f1dd4d7dff66598799102",
+        "judged_content_hash": "7e503e9c587abba45881ed01cb38f1b3f22e107b4901d5af15a6d05dadf67492",
+        "final_content_hash": "7e503e9c587abba45881ed01cb38f1b3f22e107b4901d5af15a6d05dadf67492",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15582,7 +15582,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Quantitative Reasoning",
       "key": "B",
-      "content_hash": "92ace834e3f82eca36cf45bcad4dd87800c35c771fd65f858c0f052a2831d206",
+      "content_hash": "48c35cbad706d32415d356cbbdf74a9997ea950241b0b9a744fc0f9b4d3349d6",
       "judges": [
         {
           "judge": "j1",
@@ -15595,7 +15595,7 @@
           "objective_tag": "general_test.quantitative-reasoning.speed-time-distance-calculation",
           "flags": [],
           "note": "Clean one-step conversion; 330/60 = 5.5 h = 5 h 30 min. 5h45 and 4h45 are decimal slips; 6 hours is a throwaway.",
-          "scored_content_hash": "92ace834e3f82eca36cf45bcad4dd87800c35c771fd65f858c0f052a2831d206"
+          "scored_content_hash": "48c35cbad706d32415d356cbbdf74a9997ea950241b0b9a744fc0f9b4d3349d6"
         },
         {
           "judge": "j2",
@@ -15608,7 +15608,7 @@
           "objective_tag": "general_test.quantitative-reasoning.time-from-speed-and-distance",
           "flags": [],
           "note": "Blind solve gives 60 km/h and 5.5 h, which is 5 h 30 min. Distractors are common decimal-conversion slips. Clean one-step item.",
-          "scored_content_hash": "92ace834e3f82eca36cf45bcad4dd87800c35c771fd65f858c0f052a2831d206"
+          "scored_content_hash": "48c35cbad706d32415d356cbbdf74a9997ea950241b0b9a744fc0f9b4d3349d6"
         }
       ],
       "mean": 8.5,
@@ -15643,8 +15643,8 @@
         "expert_issue": "240/4 = 60 km/h; 330/60 = 5.5 h = 5 h 30 min. Key B is the only correct option, and the distractors match the known decimal-conversion slips.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "92ace834e3f82eca36cf45bcad4dd87800c35c771fd65f858c0f052a2831d206",
-        "final_content_hash": "92ace834e3f82eca36cf45bcad4dd87800c35c771fd65f858c0f052a2831d206",
+        "judged_content_hash": "48c35cbad706d32415d356cbbdf74a9997ea950241b0b9a744fc0f9b4d3349d6",
+        "final_content_hash": "48c35cbad706d32415d356cbbdf74a9997ea950241b0b9a744fc0f9b4d3349d6",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15674,7 +15674,7 @@
       "batch": "authored-2026-10-14__general_test__b4",
       "chapter": "Logical & Analytical Reasoning",
       "key": "A",
-      "content_hash": "f406371f0229b84be281e26c7bea90d4de3312ae0abb0a4f3cb59bac0a4be186",
+      "content_hash": "e0d942839f2281b83b2ba3250bbbd92d1cfffaa3c258addd9f6d98bd42a3ce1b",
       "judges": [
         {
           "judge": "j1",
@@ -15687,7 +15687,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.unit-quantity-analogy",
           "flags": [],
           "note": "Key verified: metre measures length. The answer is obvious by elimination (Area, Weight, Speed are not the quantity a metre measures); practice-grade.",
-          "scored_content_hash": "f406371f0229b84be281e26c7bea90d4de3312ae0abb0a4f3cb59bac0a4be186"
+          "scored_content_hash": "e0d942839f2281b83b2ba3250bbbd92d1cfffaa3c258addd9f6d98bd42a3ce1b"
         },
         {
           "judge": "j2",
@@ -15700,7 +15700,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.analogy-unit-and-measured-quantity",
           "flags": [],
           "note": "Key Length correct but near-trivial unit-to-quantity recall; Area is a weak distractor. Not a flag.",
-          "scored_content_hash": "f406371f0229b84be281e26c7bea90d4de3312ae0abb0a4f3cb59bac0a4be186"
+          "scored_content_hash": "e0d942839f2281b83b2ba3250bbbd92d1cfffaa3c258addd9f6d98bd42a3ce1b"
         }
       ],
       "mean": 7,
@@ -15735,8 +15735,8 @@
         "expert_issue": "Unit-to-quantity analogy: litre measures volume, metre measures length (key A). Area is the square-metre trap. The item is easy but correct and unambiguous.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "f406371f0229b84be281e26c7bea90d4de3312ae0abb0a4f3cb59bac0a4be186",
-        "final_content_hash": "f406371f0229b84be281e26c7bea90d4de3312ae0abb0a4f3cb59bac0a4be186",
+        "judged_content_hash": "e0d942839f2281b83b2ba3250bbbd92d1cfffaa3c258addd9f6d98bd42a3ce1b",
+        "final_content_hash": "e0d942839f2281b83b2ba3250bbbd92d1cfffaa3c258addd9f6d98bd42a3ce1b",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15766,7 +15766,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "B",
-      "content_hash": "e683c273be9a3b0f7d50e8dd2bc598396c08a4b34149df17806650a921331788",
+      "content_hash": "6b781b3793ec52ab8c4739403157548ebbafd0cfe4510f52855d84a67d95ab04",
       "judges": [
         {
           "judge": "j1",
@@ -15779,7 +15779,7 @@
           "objective_tag": "general_test.general-knowledge.constitution-adoption-date",
           "flags": [],
           "note": "Correct: adopted 26 November 1949, in force 26 January 1950. Distractors are the other key dates, a fair set.",
-          "scored_content_hash": "e683c273be9a3b0f7d50e8dd2bc598396c08a4b34149df17806650a921331788"
+          "scored_content_hash": "6b781b3793ec52ab8c4739403157548ebbafd0cfe4510f52855d84a67d95ab04"
         },
         {
           "judge": "j2",
@@ -15792,7 +15792,7 @@
           "objective_tag": "general_test.general-knowledge.constitution-adoption-date",
           "flags": [],
           "note": "26 November 1949 is correct. 26 January 1950 and 9 December 1946 are good distractors.",
-          "scored_content_hash": "e683c273be9a3b0f7d50e8dd2bc598396c08a4b34149df17806650a921331788"
+          "scored_content_hash": "6b781b3793ec52ab8c4739403157548ebbafd0cfe4510f52855d84a67d95ab04"
         }
       ],
       "mean": 8,
@@ -15827,8 +15827,8 @@
         "expert_issue": "The Constitution was adopted on 26 November 1949 (Constitution Day). The other options (26 January 1950 commencement, 15 August 1947, 9 December 1946 first meeting) are distinct, correct dates for other events.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "e683c273be9a3b0f7d50e8dd2bc598396c08a4b34149df17806650a921331788",
-        "final_content_hash": "e683c273be9a3b0f7d50e8dd2bc598396c08a4b34149df17806650a921331788",
+        "judged_content_hash": "6b781b3793ec52ab8c4739403157548ebbafd0cfe4510f52855d84a67d95ab04",
+        "final_content_hash": "6b781b3793ec52ab8c4739403157548ebbafd0cfe4510f52855d84a67d95ab04",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15858,7 +15858,7 @@
       "batch": "authored-2026-10-14__general_test__b1",
       "chapter": "General Knowledge",
       "key": "C",
-      "content_hash": "bca3d1d56d08e4dd08218c9f3acfb2f464a3deee7c6c9b15c004ed5c3f8197db",
+      "content_hash": "b31ef46ca94a4b07ea164c3d9387aa6e28ace380baabcc4dc7ac1a62d93da425",
       "judges": [
         {
           "judge": "j1",
@@ -15871,7 +15871,7 @@
           "objective_tag": "general_test.general-knowledge.state-with-longest-coastline",
           "flags": [],
           "note": "Correct: Gujarat has the longest coastline (about 1,200 km mainland, more with islands). Stem does not specify mainland, but the key holds either way.",
-          "scored_content_hash": "bca3d1d56d08e4dd08218c9f3acfb2f464a3deee7c6c9b15c004ed5c3f8197db"
+          "scored_content_hash": "b31ef46ca94a4b07ea164c3d9387aa6e28ace380baabcc4dc7ac1a62d93da425"
         },
         {
           "judge": "j2",
@@ -15884,7 +15884,7 @@
           "objective_tag": "general_test.general-knowledge.longest-coastline-state",
           "flags": [],
           "note": "Gujarat has the longest coastline on mainland and with islands. Explanation figures are roughly right.",
-          "scored_content_hash": "bca3d1d56d08e4dd08218c9f3acfb2f464a3deee7c6c9b15c004ed5c3f8197db"
+          "scored_content_hash": "b31ef46ca94a4b07ea164c3d9387aa6e28ace380baabcc4dc7ac1a62d93da425"
         }
       ],
       "mean": 8,
@@ -15919,8 +15919,8 @@
         "expert_issue": "Gujarat has the longest coastline of any Indian state (about 1,200 km mainland, more with islands and creeks), so key C is robust to measurement choice. AP and TN are close to 1,000 km; Maharashtra is much shorter.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "bca3d1d56d08e4dd08218c9f3acfb2f464a3deee7c6c9b15c004ed5c3f8197db",
-        "final_content_hash": "bca3d1d56d08e4dd08218c9f3acfb2f464a3deee7c6c9b15c004ed5c3f8197db",
+        "judged_content_hash": "b31ef46ca94a4b07ea164c3d9387aa6e28ace380baabcc4dc7ac1a62d93da425",
+        "final_content_hash": "b31ef46ca94a4b07ea164c3d9387aa6e28ace380baabcc4dc7ac1a62d93da425",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -15950,7 +15950,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "A",
-      "content_hash": "36ddf46e29f33717b81cded8752a215c5e10787c2158d9570f2a2229392fc021",
+      "content_hash": "d6cd735a6eac9d80672674701a372506ac351076313e0084fc975660fc80b8f1",
       "judges": [
         {
           "judge": "j1",
@@ -15963,7 +15963,7 @@
           "objective_tag": "general_test.general-mental-ability.average-removed-element",
           "flags": [],
           "note": "Correct: 120 - 88 = 32. Clean standard average item.",
-          "scored_content_hash": "36ddf46e29f33717b81cded8752a215c5e10787c2158d9570f2a2229392fc021"
+          "scored_content_hash": "d6cd735a6eac9d80672674701a372506ac351076313e0084fc975660fc80b8f1"
         },
         {
           "judge": "j2",
@@ -15976,7 +15976,7 @@
           "objective_tag": "general_test.numerical-ability.average-removed-number",
           "flags": [],
           "note": "Correct: 120 - 88 = 32. Standard average item with clean distractors.",
-          "scored_content_hash": "36ddf46e29f33717b81cded8752a215c5e10787c2158d9570f2a2229392fc021"
+          "scored_content_hash": "d6cd735a6eac9d80672674701a372506ac351076313e0084fc975660fc80b8f1"
         }
       ],
       "mean": 8,
@@ -16011,8 +16011,8 @@
         "expert_issue": "Total 120 minus 88 gives 32. Key A is correct.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "36ddf46e29f33717b81cded8752a215c5e10787c2158d9570f2a2229392fc021",
-        "final_content_hash": "36ddf46e29f33717b81cded8752a215c5e10787c2158d9570f2a2229392fc021",
+        "judged_content_hash": "d6cd735a6eac9d80672674701a372506ac351076313e0084fc975660fc80b8f1",
+        "final_content_hash": "d6cd735a6eac9d80672674701a372506ac351076313e0084fc975660fc80b8f1",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -16042,7 +16042,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Logical & Analytical Reasoning",
       "key": "D",
-      "content_hash": "5d8b2dc07f6c8d3a92c54027989d9e1c91b67e0d7ff39bfa8b2cbd7a4452102d",
+      "content_hash": "2f2a8475807cab3cf9ea79e1b8a7e20ab45a2df0cae44f02b1d3648765948d7f",
       "judges": [
         {
           "judge": "j1",
@@ -16055,7 +16055,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-fixed-positions",
           "flags": [],
           "note": "Verified: T at left end, R in the middle (third seat). Labelled hard; three clues, true level medium.",
-          "scored_content_hash": "5d8b2dc07f6c8d3a92c54027989d9e1c91b67e0d7ff39bfa8b2cbd7a4452102d"
+          "scored_content_hash": "2f2a8475807cab3cf9ea79e1b8a7e20ab45a2df0cae44f02b1d3648765948d7f"
         },
         {
           "judge": "j2",
@@ -16068,7 +16068,7 @@
           "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-deduction",
           "flags": [],
           "note": "Positions give Q2, R3, S5, T1, P4, so R is in the middle and key D is correct. Facing north adds nothing. Three-step deduction.",
-          "scored_content_hash": "5d8b2dc07f6c8d3a92c54027989d9e1c91b67e0d7ff39bfa8b2cbd7a4452102d"
+          "scored_content_hash": "2f2a8475807cab3cf9ea79e1b8a7e20ab45a2df0cae44f02b1d3648765948d7f"
         }
       ],
       "mean": 8,
@@ -16109,8 +16109,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "5d8b2dc07f6c8d3a92c54027989d9e1c91b67e0d7ff39bfa8b2cbd7a4452102d",
-        "final_content_hash": "5d8b2dc07f6c8d3a92c54027989d9e1c91b67e0d7ff39bfa8b2cbd7a4452102d",
+        "judged_content_hash": "2f2a8475807cab3cf9ea79e1b8a7e20ab45a2df0cae44f02b1d3648765948d7f",
+        "final_content_hash": "2f2a8475807cab3cf9ea79e1b8a7e20ab45a2df0cae44f02b1d3648765948d7f",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -16140,7 +16140,7 @@
       "batch": "authored-2026-10-14__general_test__b2",
       "chapter": "Numerical Ability",
       "key": "B",
-      "content_hash": "d80ebb5492de8c4e94320ac5fda1c2d5ab563fa8c6d7130a05d2bcb568a47dfd",
+      "content_hash": "516d43279898843eaad98065d588366acd51044f7a4f13461542a44a0a2f6340",
       "judges": [
         {
           "judge": "j1",
@@ -16153,7 +16153,7 @@
           "objective_tag": "general_test.general-mental-ability.fraction-decimal-percent-equivalence",
           "flags": [],
           "note": "Correct: (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Well-built match list; labels are defined in the stem.",
-          "scored_content_hash": "d80ebb5492de8c4e94320ac5fda1c2d5ab563fa8c6d7130a05d2bcb568a47dfd"
+          "scored_content_hash": "516d43279898843eaad98065d588366acd51044f7a4f13461542a44a0a2f6340"
         },
         {
           "judge": "j2",
@@ -16166,7 +16166,7 @@
           "objective_tag": "general_test.numerical-ability.fraction-decimal-percent-matching",
           "flags": [],
           "note": "Correct: 2/5 = 0.4 (II), 3/4 = 75 percent (IV), 5/4 = 125 percent (III), 1/8 = 0.125 (I). List layout is well formed.",
-          "scored_content_hash": "d80ebb5492de8c4e94320ac5fda1c2d5ab563fa8c6d7130a05d2bcb568a47dfd"
+          "scored_content_hash": "516d43279898843eaad98065d588366acd51044f7a4f13461542a44a0a2f6340"
         }
       ],
       "mean": 8,
@@ -16207,8 +16207,8 @@
           "answer_matched_key": true
         },
         "judged_text": "final",
-        "judged_content_hash": "d80ebb5492de8c4e94320ac5fda1c2d5ab563fa8c6d7130a05d2bcb568a47dfd",
-        "final_content_hash": "d80ebb5492de8c4e94320ac5fda1c2d5ab563fa8c6d7130a05d2bcb568a47dfd",
+        "judged_content_hash": "516d43279898843eaad98065d588366acd51044f7a4f13461542a44a0a2f6340",
+        "final_content_hash": "516d43279898843eaad98065d588366acd51044f7a4f13461542a44a0a2f6340",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {
@@ -16238,7 +16238,7 @@
       "batch": "authored-2026-10-14__general_test__b3",
       "chapter": "Statistical Data Analysis",
       "key": "C",
-      "content_hash": "0600fbb650b5d038d4a97471551d94f8eff1ec8ecb71fb95b2c9c1e8ee382ebf",
+      "content_hash": "62840c44fb0015cbfa08c1b3aaedfbd6c04fcce3bdd6e03211fdfdcb41289116",
       "judges": [
         {
           "judge": "j1",
@@ -16251,7 +16251,7 @@
           "objective_tag": "general_test.statistical-data-analysis.median-from-frequency-distribution",
           "flags": [],
           "note": "Cumulative frequencies 4, 11, 20, 26, 30; positions 15 and 16 both fall in the 30 class. Median 30 verified.",
-          "scored_content_hash": "0600fbb650b5d038d4a97471551d94f8eff1ec8ecb71fb95b2c9c1e8ee382ebf"
+          "scored_content_hash": "62840c44fb0015cbfa08c1b3aaedfbd6c04fcce3bdd6e03211fdfdcb41289116"
         },
         {
           "judge": "j2",
@@ -16264,7 +16264,7 @@
           "objective_tag": "general_test.statistical-data-analysis.median-of-frequency-table",
           "flags": [],
           "note": "Cumulative 20 at marks 30 makes the 15th and 16th values 30, so key C is correct. Table is run into one line, which reads awkwardly.",
-          "scored_content_hash": "0600fbb650b5d038d4a97471551d94f8eff1ec8ecb71fb95b2c9c1e8ee382ebf"
+          "scored_content_hash": "62840c44fb0015cbfa08c1b3aaedfbd6c04fcce3bdd6e03211fdfdcb41289116"
         }
       ],
       "mean": 7.5,
@@ -16299,8 +16299,8 @@
         "expert_issue": "Total frequency 30; cumulative 4, 11, 20, 26, 30. The 15th and 16th observations both fall in the class of marks 30 (positions 12 to 20), so the median is 30.",
         "expert_reviewed_text": "final",
         "judged_text": "final",
-        "judged_content_hash": "0600fbb650b5d038d4a97471551d94f8eff1ec8ecb71fb95b2c9c1e8ee382ebf",
-        "final_content_hash": "0600fbb650b5d038d4a97471551d94f8eff1ec8ecb71fb95b2c9c1e8ee382ebf",
+        "judged_content_hash": "62840c44fb0015cbfa08c1b3aaedfbd6c04fcce3bdd6e03211fdfdcb41289116",
+        "final_content_hash": "62840c44fb0015cbfa08c1b3aaedfbd6c04fcce3bdd6e03211fdfdcb41289116",
         "hash_changed_by_repair": false,
         "repaired_fields": [],
         "blind_solvers": {

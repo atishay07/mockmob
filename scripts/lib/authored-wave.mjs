@@ -22,8 +22,14 @@
 //  - English passage sets: one passage_groups row per set (id pg_<32 hex>, derived from the set id so a
 //    re-run produces the same id), every child carries passage_group_id, passage_id, passage_text and a
 //    1-based order_index.
+//  - subject: a candidate names its subject by the PUBLIC id (blueprints, score table files, WAVES), the bank stores the INTERNAL one.
+//    The two differ for one paper only: General Test is `general_test` in a candidate and `gat` in every live row (data/cuet_controls.js
+//    toInternalSubjectId / toPublicSubjectId). toQuestionRow and toPassageGroupRow map to the internal id, so the rows, the plan hash,
+//    the content hash (which covers `subject`, and so the hash the score tables are bound to) and every read of the target use `gat`.
+//    The score tables and their files stay keyed by the public id; the engine and data/nta_*_scores.js map `gat` to it.
 import { createHash } from 'node:crypto';
 import { contentHash } from '../../data/content_evidence.js';
+import { toInternalSubjectId } from '../../data/cuet_controls.js';
 import { getNtaBlueprint } from '../../data/nta_engine.js';
 import { isNtaQuestionId } from '../../data/nta_item_checks.js';
 
@@ -115,7 +121,7 @@ export function toQuestionRow(candidate, { groupId = null, orderIndex = null, li
   const passage = isPassageChild(candidate);
   return {
     id: candidate.id,
-    subject: candidate.subject,
+    subject: toInternalSubjectId(candidate.subject),
     chapter: candidate.chapter,
     question: null,
     body: candidate.stem,
@@ -152,7 +158,7 @@ export function toPassageGroupRow(setId, children) {
   const first = children[0];
   return {
     id: passageGroupIdOf(setId, first._extends_set?.source || waveOf(first).source),
-    subject: first.subject,
+    subject: toInternalSubjectId(first.subject),
     chapter: first.chapter,
     passage_type: PASSAGE_KIND[first.chapter] || null,
     title: first.chapter,

@@ -5,11 +5,12 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { contentHash } from '../content_evidence.js';
+import { toInternalSubjectId } from '../cuet_controls.js';
 import { ntaAgentScoreEntry, ntaAgentScoreIntegrity } from '../nta_agent_scores.js';
 import { ntaEligibility } from '../nta_engine.js';
 import { attachPassages, loadNtaAgentRows } from '../nta_pool.js';
 import {
-  AUTHORED_SOURCE, GROUP_COLUMNS, QUESTION_COLUMNS, QUESTION_TYPE, buildFinalCandidates, contentHashOf, passageGroupIdOf, planPublication, smallSets, toPassageGroupRow, toQuestionRow, validateCandidates,
+  AUTHORED_SOURCE, GROUP_COLUMNS, QUESTION_COLUMNS, QUESTION_TYPE, WAVES, buildFinalCandidates, contentHashOf, passageGroupIdOf, planPublication, smallSets, toPassageGroupRow, toQuestionRow, validateCandidates,
 } from '../../scripts/lib/authored-wave.mjs';
 import {
   acceptanceReasons, agentEntryFor, buildEntries, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf, preRepairDiff, qualityProblems, sameHashedText,
@@ -111,6 +112,17 @@ test('the final plan: 475 rows, 12 groups, the subject counts, one short set rep
   changed[0].explanation += ' ';
   assert.notEqual(planPublication(changed).planHash, plan.planHash, 'any change to a row changes the plan hash');
   for (const type of Object.keys(QUESTION_TYPE)) assert.ok(plan.rows.some((r) => r.question_type === QUESTION_TYPE[type]), type);
+});
+
+test('wave 1 has no subject alias: its six subjects are their own internal ids, so every row is stored as the candidate names it', () => {
+  // The bank stores General Test as gat (data/cuet_controls.js); no wave-1 subject has such an alias, so the mapping to the internal id changes nothing here.
+  for (const subject of WAVES[1].subjects) assert.equal(toInternalSubjectId(subject), subject, subject);
+  const candidates = wave1();
+  const plan = planPublication(candidates);
+  const bySubject = new Map(candidates.map((c) => [c.id, c.subject]));
+  assert.ok(plan.rows.every((row) => row.subject === bySubject.get(row.id)));
+  assert.ok(plan.groups.every((group) => WAVES[1].subjects.includes(group.subject) && toInternalSubjectId(group.subject) === group.subject));
+  assert.deepEqual(Object.keys(plan.summary.bySubject).sort(), [...SUBJECTS].sort());
 });
 
 test('the content hash of a planned row is the engine content hash, and a repair overlay changes it', () => {

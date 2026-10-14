@@ -4,14 +4,15 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { contentHash } from '../content_evidence.js';
-import { ntaEligibility } from '../nta_engine.js';
+import { toInternalSubjectId } from '../cuet_controls.js';
+import { assembleNtaPaper, ntaEligibility } from '../nta_engine.js';
 import {
-  AUTHORED_QUESTION_TYPE, AUTHORED_SOURCE, AUTHORED_SOURCE_W2, AUTHORED_SUBJECTS, QUESTION_TYPE, VERBAL_QUESTION_TYPE, WAVES, groupIdOfCandidate, isPassageChild, passageGroupIdOf, planPublication,
+  AUTHORED_QUESTION_TYPE, AUTHORED_SOURCE, AUTHORED_SOURCE_W2, AUTHORED_SUBJECTS, QUESTION_TYPE, VERBAL_QUESTION_TYPE, WAVES, contentHashOf, groupIdOfCandidate, isPassageChild, passageGroupIdOf, planPublication,
   smallSets, toPassageGroupRow, toQuestionRow, validateCandidates, waveOf,
 } from '../../scripts/lib/authored-wave.mjs';
 import { positionsOf } from '../../scripts/lib/authored-scores.mjs';
 import { parseArgs as parseMergeArgs, runCheck, runMerge } from '../../scripts/authored-scores-merge.mjs';
-import { agentTablesFrom, dryRun, loadCandidates, scoreCoverage } from '../../scripts/question-publish-authored.mjs';
+import { agentTablesFrom, bankLookalikes, dryRun, loadCandidates, scoreCoverage } from '../../scripts/question-publish-authored.mjs';
 import { runFinal, parseArgs as parseAcceptArgs } from '../../scripts/authored-w2-accept.mjs';
 
 // Wave 2 (claude-authored-2026-10-14-w2): the committed final candidates, entries, drops and merged tables. No network, no model.
@@ -24,7 +25,9 @@ const ACCEPTANCE_FILE = `${DIR}/wave2-acceptance-2026-10-14.json`;
 const WAVE1_FILE = 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json';
 const NOW = '2026-10-14T12:10:00.000Z';
 const SUBJECTS = ['biology', 'computer_science', 'english', 'general_test', 'geography', 'mathematics', 'political_science'];
+// Candidates, score tables and reports name General Test by its public id; the bank (and so every planned row) stores the internal one, gat.
 const COUNTS = { biology: 56, computer_science: 76, english: 55, general_test: 77, geography: 44, mathematics: 65, political_science: 9 };
+const STORED_COUNTS = { biology: 56, computer_science: 76, english: 55, gat: 77, geography: 44, mathematics: 65, political_science: 9 };
 const readJson = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
 const wave2 = () => readJson(CANDIDATES_FILE);
 const wave1 = () => readJson(WAVE1_FILE);
@@ -71,7 +74,7 @@ test('wave 2 final: 382 candidates validate and plan into 382 rows and one new p
   assert.equal(candidates.length, 382);
   const plan = planPublication(candidates);
   assert.deepEqual(plan.problems, []);
-  assert.deepEqual(plan.summary.bySubject, COUNTS);
+  assert.deepEqual(plan.summary.bySubject, STORED_COUNTS, 'rows are counted by the subject id the bank stores');
   assert.equal(plan.summary.questions, 382);
   assert.equal(plan.summary.passageGroups, 1, 'the Geography case set; the English question completes a wave-1 group that is already in the bank');
   assert.deepEqual(plan.summary.byExpertReview, { ready: 345, repaired: 37 });
@@ -217,6 +220,131 @@ test('the committed tables hold a wave-2 entry bound to the hash of every final 
     assert.ok(mine.every((entry) => entry.provenance.wave === 2 && entry.judges.length === 2), subject);
     assert.equal(table.authored[AUTHORED_SOURCE_W2].questions, COUNTS[subject]);
   }
+});
+
+// ---------------------------------------------------------------------------------------------
+// The stored subject id: the bank stores General Test as gat, a candidate names it general_test
+// ---------------------------------------------------------------------------------------------
+
+test('a planned row for general_test has the subject gat, and every other row keeps its own subject id', () => {
+  const candidates = wave2();
+  const plan = planPublication(candidates);
+  const byId = new Map(candidates.map((c) => [c.id, c]));
+  const generalTest = candidates.filter((c) => c.subject === 'general_test');
+  assert.equal(generalTest.length, 77);
+  const rows = plan.rows.filter((row) => generalTest.some((c) => c.id === row.id));
+  assert.equal(rows.length, 77);
+  assert.ok(rows.every((row) => row.subject === 'gat'), 'General Test rows are stored as gat');
+  assert.ok(!plan.rows.some((row) => row.subject === 'general_test'), 'no row carries the public id');
+  for (const row of plan.rows) {
+    const candidate = byId.get(row.id);
+    assert.equal(row.subject, candidate.subject === 'general_test' ? 'gat' : candidate.subject, row.id);
+    assert.equal(toInternalSubjectId(row.subject), row.subject, `${row.id}: the stored subject is already an internal id`);
+  }
+  assert.deepEqual(plan.summary.bySubject, STORED_COUNTS);
+  // The mapping on its own: an id that is already internal stays as it is, and the other subjects are untouched.
+  assert.equal(toQuestionRow(generalTest[0]).subject, 'gat');
+  assert.equal(toQuestionRow({ ...generalTest[0], subject: 'gat' }).subject, 'gat');
+  assert.equal(toQuestionRow(candidates.find((c) => c.subject === 'biology')).subject, 'biology');
+  // The candidates themselves keep the public id (the blueprint, the wave definition and the score table files are named by it).
+  assert.ok(generalTest.every((c) => WAVES[2].subjects.includes(c.subject)));
+  // A passage group takes the internal id too.
+  assert.equal(toPassageGroupRow('x', [{ ...generalTest[0], set_id: 'x' }]).subject, 'gat');
+});
+
+test('the content hash of a General Test row covers the stored subject, and the committed score tables are bound to that hash', () => {
+  const candidates = wave2();
+  const plan = planPublication(candidates);
+  const generalTest = plan.rows.filter((row) => row.subject === 'gat');
+  const candidate = candidates.find((c) => c.id === generalTest[0].id);
+  assert.equal(contentHashOf(candidate), contentHash(generalTest[0]));
+  assert.notEqual(contentHashOf(candidate), contentHash({ ...generalTest[0], subject: 'general_test' }), 'the hash differs by subject, so a row stored as general_test would not match its score entries');
+  const coverage = scoreCoverage(generalTest, { fitDir: 'data/nta_fit_scores', agentScores: agentTablesFrom('data/nta_agent_scores') });
+  assert.deepEqual([coverage.agent.bound, coverage.agent.missing.length, coverage.agent.hashMismatch.length], [77, 0, 0]);
+  assert.deepEqual([coverage.fit.bound, coverage.fit.missing.length, coverage.fit.hashMismatch.length], [77, 0, 0]);
+  // The tables and their files are still keyed by the public id, as the module that reads them expects.
+  for (const dir of ['data/nta_agent_scores', 'data/nta_fit_scores']) {
+    assert.ok(fs.existsSync(`${dir}/general_test.json`));
+    assert.ok(!fs.existsSync(`${dir}/gat.json`));
+    const table = readJson(`${dir}/general_test.json`);
+    assert.equal(Object.values(table.questions).filter((entry) => entry.provenance?.kind === AUTHORED_SOURCE_W2).length, 77);
+  }
+});
+
+test('the engine admits a gat row with the wave-2 entries, and refuses the same row stored as general_test', () => {
+  const rows = planPublication(wave2()).rows.filter((row) => row.subject === 'gat');
+  assert.equal(rows.length, 77);
+  for (const row of rows) {
+    // Asked for by the internal id (what the pool and the practice reader use) and by the public one: both resolve to the same paper and table.
+    assert.deepEqual(ntaEligibility({ ...row, evidence: null }, { subject: 'gat' }).reasons, [], row.id);
+    assert.deepEqual(ntaEligibility({ ...row, evidence: null }, { subject: 'general_test' }).reasons, [], row.id);
+    assert.equal(ntaEligibility({ ...row, evidence: null }, { subject: 'gat' }).eligible, true, row.id);
+  }
+  // The bug this guards: stored as general_test, the row's hash is not the one the entries are bound to, and both gates refuse it.
+  for (const row of rows) {
+    const reasons = ntaEligibility({ ...row, subject: 'general_test', evidence: null }, { subject: 'gat' }).reasons;
+    assert.ok(reasons.includes('question_changed_since_scored') && reasons.includes('fit_question_changed'), `${row.id}: ${reasons.join(',')}`);
+  }
+});
+
+const haveFixtures = fs.existsSync('tmp/nta-fixtures/gat.json');
+test('a General Test paper from the local export of the bank draws on the wave-2 rows once they are stored as gat', { skip: !haveFixtures }, () => {
+  const live = readJson('tmp/nta-fixtures/gat.json').filter((row) => row.status === 'live' && !row.is_deleted);
+  assert.ok(live.length > 100 && live.every((row) => row.subject === 'gat'), 'the export holds General Test under gat');
+  const rows = planPublication(wave2()).rows.filter((row) => row.subject === 'gat');
+  const ids = new Set(rows.map((row) => row.id));
+  const paper = (pool) => assembleNtaPaper(pool, { subject: 'gat', seed: 'authored-subject-id', seenIds: new Set(), previousPaperIds: new Set() });
+  const before = paper(live);
+  const after = paper([...live, ...rows]);
+  assert.ok(after.rows.length >= before.rows.length);
+  assert.ok(after.rows.filter((row) => ids.has(row.id)).length > 0, 'the paper includes wave-2 questions');
+  assert.equal(before.rows.filter((row) => ids.has(row.id)).length, 0);
+  // Stored under the public id, the same rows are never drawn.
+  const misfiled = paper([...live, ...rows.map((row) => ({ ...row, subject: 'general_test' }))]);
+  assert.equal(misfiled.rows.filter((row) => ids.has(row.id)).length, 0);
+});
+
+test('the lookalike check compares a planned General Test row with the export rows stored as gat', () => {
+  const rows = planPublication(wave2()).rows.filter((row) => row.subject === 'gat');
+  const dir = tmpDir('authored-w2-fixtures-');
+  const twin = { id: 'live-twin', subject: 'gat', status: 'live', is_deleted: false, body: rows[0].body, options: rows[0].options };
+  const other = { id: 'live-other-subject', subject: 'biology', status: 'live', is_deleted: false, body: rows[1].body, options: rows[1].options };
+  fs.writeFileSync(path.join(dir, 'gat.json'), JSON.stringify([twin]));
+  fs.writeFileSync(path.join(dir, 'biology.json'), JSON.stringify([other]));
+  const found = bankLookalikes(rows, dir);
+  assert.equal(found.checked, true);
+  assert.deepEqual(found.exact, [{ id: rows[0].id, existingId: 'live-twin' }]);
+});
+
+test('the dry run reads the live counts of the target by the stored subject id, and warns about a planned subject with no live rows', async () => {
+  const seen = [];
+  const fake = (countOf) => ({
+    from(table) {
+      const state = { table, head: false, subject: null, ids: [] };
+      const query = {
+        select(_columns, options) { state.head = Boolean(options?.head); return query; },
+        in(_column, ids) { state.ids = ids; return query; },
+        limit() { return Promise.resolve({ data: [], error: null }); },
+        eq(column, value) { if (column === 'subject') { state.subject = value; seen.push(value); } return query; },
+        then(resolve) {
+          // Only the wave-1 group that the English question completes is in the target.
+          if (state.table === 'passage_groups') return resolve({ data: state.ids.filter((id) => id === passageGroupIdOf('english__p1__set3')).map((id) => ({ id })), error: null });
+          if (state.head) return resolve({ count: countOf(state.subject), error: null });
+          return resolve({ data: [], error: null });
+        },
+      };
+      return query;
+    },
+  });
+  const run = (countOf) => dryRun({ mode: 'dry-run', candidates: CANDIDATES_FILE, outDir: tmpDir('authored-w2-live-'), offline: false, fixtures: null, fitDir: 'data/nta_fit_scores', agentDir: null, now: NOW }, { sb: fake(countOf), target: { host: 'test.supabase.co', ref: 'test' } });
+  const ok = await run(() => 150);
+  assert.deepEqual([...new Set(seen)].sort(), Object.keys(STORED_COUNTS).sort(), 'gat is read, general_test is not');
+  assert.deepEqual(Object.keys(ok.checks.liveBefore).sort(), Object.keys(STORED_COUNTS).sort());
+  assert.deepEqual(ok.blockers, []);
+  assert.deepEqual(ok.warnings, []);
+  const empty = await run((subject) => (subject === 'gat' ? 0 : 150));
+  assert.equal(empty.warnings.length, 1);
+  assert.match(empty.warnings[0], /no live questions with subject "gat"/);
 });
 
 test('merging wave 2 again reproduces the committed tables byte for byte and touches no other entry', () => {

@@ -9,6 +9,9 @@
 //   node --use-system-ca scripts/question-publish-authored.mjs --mode=apply   --plan=<dry-run.json> --reason=<text> --expect-project=<ref> [--allow-unscored]
 //   node --use-system-ca scripts/question-publish-authored.mjs --mode=restore --restore=<restore.json> [--hard-delete] --expect-project=<ref>
 //
+// Subject ids: a candidate carries the public id (general_test), the bank stores the internal one (gat; data/cuet_controls.js). The plan's
+// rows, summary.bySubject and every read of the target below use the internal id; the score table files stay named by the public one.
+//
 // dry-run  writes nothing to any database. It maps every candidate, checks the plan, and (unless --offline) READS the target:
 //          that every column the insert writes exists, which of the planned ids and group ids already exist, and the live
 //          counts per subject. It also checks the committed NTA score tables (agent always; fit when data/nta_fit_scores
@@ -25,6 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { contentHash } from '../data/content_evidence.js';
+import { toInternalSubjectId, toPublicSubjectId } from '../data/cuet_controls.js';
 import { ntaAgentScoreEntry } from '../data/nta_agent_scores.js';
 import { NEAR_DUPLICATE_STEM_JACCARD, contentTokens, jaccard } from '../data/nta_item_checks.js';
 import { AUTHORED_SOURCES, AUTHORED_SUBJECTS, GROUP_COLUMNS, PUBLISH_VERSION, QUESTION_COLUMNS, planPublication, sha256OfFile, waveOf } from './lib/authored-wave.mjs';
@@ -122,6 +126,7 @@ export async function existingIds(sb, table, ids) {
   return found;
 }
 
+/** Live, undeleted rows per subject. `subjects` are INTERNAL ids (the ones stored in questions.subject, e.g. gat, not general_test). */
 async function liveCounts(sb, subjects) {
   const counts = {};
   for (const subject of subjects) {
@@ -179,7 +184,8 @@ export function scoreCoverage(rows, { fitDir = 'data/nta_fit_scores', agentScore
     else if (agent.entry.content_hash !== hash) out.agent.hashMismatch.push(row.id);
     else out.agent.bound += 1;
     if (fitAvailable) {
-      const entry = loadFit(row.subject)?.questions?.[row.id];
+      // The fit table files are named by the public subject id; the row carries the internal one.
+      const entry = loadFit(toPublicSubjectId(row.subject))?.questions?.[row.id];
       if (!entry) out.fit.missing.push(row.id);
       else if (entry.content_hash !== hash) out.fit.hashMismatch.push(row.id);
       else out.fit.bound += 1;
@@ -207,9 +213,10 @@ export function bankLookalikes(rows, fixturesDir) {
       if (row.status !== 'live' || row.is_deleted) continue;
       const stem = row.body ?? row.question ?? '';
       const options = (Array.isArray(row.options) ? row.options : []).map((option) => normalise(typeof option === 'string' ? option : option?.text));
-      const list = bySubject.get(row.subject) || [];
+      const subject = toInternalSubjectId(row.subject);
+      const list = bySubject.get(subject) || [];
       list.push({ id: row.id, stemKey: normalise(stem), optionKey: options.slice().sort().join('|'), tokens: contentTokens(stem) });
-      bySubject.set(row.subject, list);
+      bySubject.set(subject, list);
     }
   }
   const exact = [];
@@ -218,7 +225,7 @@ export function bankLookalikes(rows, fixturesDir) {
     const stemKey = normalise(row.body);
     const optionKey = row.options.map((option) => normalise(option.text)).sort().join('|');
     const tokens = contentTokens(row.body);
-    for (const other of bySubject.get(row.subject) || []) {
+    for (const other of bySubject.get(toInternalSubjectId(row.subject)) || []) {
       if (other.stemKey === stemKey && other.optionKey === optionKey) exact.push({ id: row.id, existingId: other.id });
       else if (tokens.size >= 6 && jaccard(tokens, other.tokens) >= NEAR_DUPLICATE_STEM_JACCARD) near.push({ id: row.id, existingId: other.id });
     }
@@ -268,7 +275,11 @@ export async function dryRun(args, { sb = null, target = null } = {}) {
     candidatesFile: args.candidates, candidatesSha256: sha256, planHash: plan.planHash,
     summary: plan.summary, blockers,
     // Not blockers: a passage set below the engine's minimum is published (practice and full mock show it) but NTA mode will not serve it.
-    warnings: plan.summary.passageSetsBelowNtaMinimum.map((set) => `passage set ${set.setId} has ${set.children} questions, below the NTA minimum of ${set.ntaMinimum}: not served in NTA mode`),
+    warnings: [
+      ...plan.summary.passageSetsBelowNtaMinimum.map((set) => `passage set ${set.setId} has ${set.children} questions, below the NTA minimum of ${set.ntaMinimum}: not served in NTA mode`),
+      // Every CUET paper already has live rows. A planned subject with none in the target is more likely a wrong id (the public general_test for the stored gat) than a new paper.
+      ...Object.entries(checks.liveBefore || {}).filter(([, count]) => !count).map(([subject]) => `no live questions with subject "${subject}" in the target: check that "${subject}" is the id the bank stores (internal ids, data/cuet_controls.js toInternalSubjectId)`),
+    ],
     checks: summariseChecks(checks),
   };
   fs.mkdirSync(args.outDir, { recursive: true });

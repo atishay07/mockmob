@@ -46,6 +46,7 @@ import { pathToFileURL } from 'node:url';
 import { assembleNtaPaper, getNtaBlueprint, ntaEligibility } from '../data/nta_engine.js';
 import { conflictReason, itemFeatures, passageWordCount } from '../data/nta_item_checks.js';
 import { contentHash } from '../data/content_evidence.js';
+import { toPublicSubjectId } from '../data/cuet_controls.js';
 import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, buildFinalCandidates, planPublication, waveOf } from './lib/authored-wave.mjs';
 import {
   FIT_JUDGES, NTA_MIN_FIT_SCORE, SCORES_VERSION, agentEntryFor, buildEntries, engineTypeOf, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf,
@@ -210,16 +211,18 @@ export function runCheck(args) {
   let fitPass = 0;
   let both = 0;
   for (const row of plan.rows) {
+    // A row carries the internal subject id (General Test is gat); the tables, the blueprints and this report are keyed by the public one (general_test).
+    const subject = toPublicSubjectId(row.subject);
     // The engine's fit gate reads the merged fit tables, not the committed ones (which may not hold the authored entries yet).
-    const verdict = ntaEligibility({ ...row, evidence: null }, { subject: row.subject, agentScores: agentTables, fitScores: fitTables });
-    const subjectCounts = (bySubject[row.subject] ||= { planned: 0, eligible: 0, fitPass: 0, both: 0 });
+    const verdict = ntaEligibility({ ...row, evidence: null }, { subject, agentScores: agentTables, fitScores: fitTables });
+    const subjectCounts = (bySubject[subject] ||= { planned: 0, eligible: 0, fitPass: 0, both: 0 });
     subjectCounts.planned += 1;
     if (verdict.eligible) { subjectCounts.eligible += 1; eligibleIds.add(row.id); }
     else {
-      ineligible.push({ id: row.id, subject: row.subject, chapter: row.chapter, reasons: verdict.reasons });
+      ineligible.push({ id: row.id, subject, chapter: row.chapter, reasons: verdict.reasons });
       for (const reason of verdict.reasons) reasonCounts[reason] = (reasonCounts[reason] || 0) + 1;
     }
-    const fitEntry = fitTables[row.subject].questions[row.id];
+    const fitEntry = fitTables[subject].questions[row.id];
     const fitReasons = fitGateReasons(fitEntry, contentHash(row));
     if (!fitReasons.length) { fitPass += 1; subjectCounts.fitPass += 1; }
     for (const reason of fitReasons) fitReasonCounts[reason] = (fitReasonCounts[reason] || 0) + 1;
@@ -234,7 +237,7 @@ export function runCheck(args) {
     const added = plan.rows.filter((row) => row.passage_group_id === groupId);
     const earlier = wave1Rows.filter((row) => row.passage_group_id === groupId);
     const children = [...earlier, ...added];
-    const subject = children[0].subject;
+    const subject = toPublicSubjectId(children[0].subject);
     const sets = getNtaBlueprint(subject).sets;
     const words = passageWordCount(children[0]);
     const eligibleEarlier = earlier.filter((row) => ntaEligibility({ ...row, evidence: null }, { subject: row.subject, agentScores: agentTables, fitScores: fitTables }).eligible);
@@ -277,12 +280,14 @@ export function runCheck(args) {
  */
 function impactOf(dir, { plan, tables, fitTables, args }) {
   const out = {};
-  for (const subject of AUTHORED_SUBJECTS.filter((name) => name !== 'english' && plan.rows.some((row) => row.subject === name))) {
+  // Rows hold internal subject ids (gat), AUTHORED_SUBJECTS and the score tables public ones (general_test).
+  const inSubject = (subject) => plan.rows.filter((row) => toPublicSubjectId(row.subject) === subject);
+  for (const subject of AUTHORED_SUBJECTS.filter((name) => name !== 'english' && inSubject(name).length)) {
     const file = path.join(dir, `${EXPORT_FILE[subject] || subject}.json`);
     if (!fs.existsSync(file)) { out[subject] = { skipped: 'no export file' }; continue; }
     const existing = readJson(file).filter((row) => row.status === 'live' && !row.is_deleted);
     const withEvidence = existing.filter((row) => row.evidence).length;
-    const authored = plan.rows.filter((row) => row.subject === subject);
+    const authored = inSubject(subject);
     // Before: the committed agent and fit tables. After: the merged ones. (A committed table that already holds the
     // authored entries changes nothing for the rows of the export.)
     const before = { agentScores: { [subject]: loadTable(args.agentDir, subject) }, fitScores: { [subject]: loadTable(args.fitBase, subject) } };
