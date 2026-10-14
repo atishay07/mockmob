@@ -9,6 +9,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
+import 'length_dial.dart';
 
 /// The name of a mode as the student reads it.
 String modeTitle(PracticeMode mode) => switch (mode) {
@@ -20,7 +21,7 @@ String modeTitle(PracticeMode mode) => switch (mode) {
 };
 
 /// How many questions: the counts the mode offers (5, 10, 15, 20; Smart from 10) and nothing
-/// else, on the glass segmented control.
+/// else, on the [LengthDial], where each length shows as the size of its sheet.
 class LengthPicker extends StatelessWidget {
   const LengthPicker({super.key, required this.count, required this.onChanged, this.counts = practiceCounts});
 
@@ -37,12 +38,7 @@ class LengthPicker extends StatelessWidget {
       children: [
         Semantics(header: true, child: Text(PracticeCopy.questionsLabel, style: type.label.copyWith(color: colors.ink2))),
         const SizedBox(height: MmSpace.s8),
-        MmSegmented<int>(
-          semanticsLabel: PracticeCopy.questionsLabel,
-          segments: [for (final c in counts) MmSegment(c, '$c')],
-          value: count,
-          onChanged: onChanged,
-        ),
+        LengthDial(semanticsLabel: PracticeCopy.questionsLabel, counts: counts, count: count, onChanged: onChanged),
       ],
     );
   }

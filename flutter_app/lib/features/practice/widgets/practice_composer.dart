@@ -18,10 +18,10 @@ import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
 import 'chapter_picker.dart';
 import 'composer_parts.dart';
+import 'composer_ticket.dart';
 import 'failure_copy.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
-import 'subject_tiles.dart';
 
 /// Where the composer sends the student. The host decides how (a sheet pops first).
 class ComposerExits {
@@ -280,18 +280,12 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
     final lengthNote = _c.lengthNote;
 
     final children = <Widget>[
-      Semantics(
-        header: true,
-        label: PracticeCopy.confirmTitle(eyebrow, subject),
-        excludeSemantics: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(eyebrow, style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
-            const SizedBox(height: 2),
-            Text(subject, style: type.screenTitle.copyWith(fontSize: 24)),
-          ],
-        ),
+      ComposerTicket(
+        subjectId: _selection.subjectId,
+        eyebrow: eyebrow,
+        subject: subject,
+        count: mode.usesCount ? _selection.count : mockQuestionCount,
+        semanticsLabel: PracticeCopy.confirmTitle(eyebrow, subject),
       ),
       const SizedBox(height: MmSpace.s20),
       if (widget.showSubjects) ...[
@@ -482,8 +476,7 @@ class _SubjectPicker extends ConsumerWidget {
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final choices = subjectChoices(chosen: auth.subjects, selected: selected, catalog: catalog);
     final others = otherSubjects(shown: choices, catalog: catalog);
-    return SubjectTiles(
-      gutter: 0,
+    return SubjectChips(
       choices: choices,
       selectedId: selected,
       onSelected: onPick,
