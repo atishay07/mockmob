@@ -1,8 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/models/models.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -21,34 +24,224 @@ class ResultLoadFailed extends StatelessWidget {
       InlineBanner(message: PracticeCopy.resultLoadFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
 }
 
-/// The ending after "Finish for now": one plain line and nothing else.
-class ResultClosing extends StatelessWidget {
-  const ResultClosing({super.key, required this.text});
+/// The ending after "Finish for now": the sheet is filed. Mobi waves above the student's own
+/// sheet, which settles into its tray (a 16 dp drop and a slight shrink, 420 ms emphasized); a
+/// volt seal draws its ring and check over the sheet's corner; then the receipt line engraves in.
+/// About 900 ms in all, inside the 1.6 s before Today takes over. Reduced motion shows the end at
+/// once. The receipt line is in the tree from the first frame (only its opacity moves), so a
+/// screen reader hears it at once.
+class ResultClosing extends StatefulWidget {
+  const ResultClosing({super.key, required this.text, this.cells = const []});
 
   final String text;
+
+  /// The student's sheet, in question order. Empty draws the seal and the line alone.
+  final List<QuestionCell> cells;
+
+  static const Duration duration = Duration(milliseconds: 900);
+
+  @override
+  State<ResultClosing> createState() => _ResultClosingState();
+}
+
+class _ResultClosingState extends State<ResultClosing> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: ResultClosing.duration);
+
+  // The beats, as intervals of the whole.
+  late final Animation<double> _file = CurvedAnimation(parent: _c, curve: const Interval(0, 0.47, curve: Motion.emphasized));
+  late final Animation<double> _seal = CurvedAnimation(parent: _c, curve: const Interval(0.28, 0.75, curve: Curves.easeOutCubic));
+  late final Animation<double> _line = CurvedAnimation(parent: _c, curve: const Interval(0.62, 0.93, curve: Motion.glide));
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _c.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(MmSpace.s24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Semantics(liveRegion: true, child: ReceiptLine(text: text)),
-                const LateNightLine(),
-              ],
+      body: Stack(
+        children: [
+          Positioned(top: 0, left: 0, right: 0, height: 420, child: IgnorePointer(child: LightField.lamp(context, strength: 0.7))),
+          SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Padding(
+                  padding: const EdgeInsets.all(MmSpace.s24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(child: MobiCharacter(size: 112, entrance: MobiAct.hello, seed: 23)),
+                      const SizedBox(height: MmSpace.s12),
+                      AnimatedBuilder(
+                        animation: _file,
+                        builder: (context, child) {
+                          final f = _file.value;
+                          return Transform.translate(
+                            offset: Offset(0, -16 * (1 - f)),
+                            child: Transform.scale(scale: 1.03 - 0.03 * f, child: child),
+                          );
+                        },
+                        child: _FiledSheet(cells: widget.cells, seal: _seal),
+                      ),
+                      const SizedBox(height: MmSpace.s24),
+                      AnimatedBuilder(
+                        animation: _line,
+                        builder: (context, child) => Opacity(
+                          opacity: _line.value,
+                          child: Transform.translate(offset: Offset(0, 6 * (1 - _line.value)), child: child),
+                        ),
+                        child: Semantics(liveRegion: true, child: ReceiptLine(text: widget.text)),
+                      ),
+                      const LateNightLine(),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
+}
+
+/// The filed sheet: the student's bubbles on a raised card, a volt seal over its top right corner.
+class _FiledSheet extends StatelessWidget {
+  const _FiledSheet({required this.cells, required this.seal});
+
+  final List<QuestionCell> cells;
+  final Animation<double> seal;
+
+  static const double sealSize = 52;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        ExcludeSemantics(
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              color: colors.raised,
+              shape: RoundedSuperellipseBorder(
+                borderRadius: MmRadius.panelAll,
+                side: BorderSide(color: colors.line),
+              ),
+              shadows: colors.cardShadow,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s20, MmSpace.s16 + sealSize / 2, MmSpace.s20),
+              child: cells.isEmpty
+                  ? const SizedBox(height: 24)
+                  : LayoutBuilder(
+                      builder: (context, constraints) {
+                        final columns = cells.length <= 10 ? cells.length : 10;
+                        final cell = ((constraints.maxWidth - (columns - 1) * 4) / columns).clamp(12.0, 22.0);
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: QuestionStrip(cells: cells, columns: columns, cellSize: cell, gap: 4),
+                        );
+                      },
+                    ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: -sealSize / 3,
+          right: -MmSpace.s4,
+          child: ExcludeSemantics(
+            child: RepaintBoundary(
+              child: CustomPaint(
+                size: const Size.square(sealSize),
+                painter: _SealPainter(t: seal, colors: colors),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A volt seal: the disc grows in, a fine ring traces round inside it, then the check draws itself.
+class _SealPainter extends CustomPainter {
+  _SealPainter({required this.t, required this.colors}) : super(repaint: t);
+
+  final Animation<double> t;
+  final MmColors colors;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = t.value;
+    if (p <= 0) return;
+    final c = size.center(Offset.zero);
+    final r = size.shortestSide / 2;
+    final disc = Curves.easeOutBack.transform((p / 0.45).clamp(0.0, 1.0));
+    canvas
+      ..drawCircle(c + const Offset(0, 4), r * disc * 0.92, Paint()..color = colors.voltGlow.withValues(alpha: colors.voltGlow.a * 0.6))
+      ..drawCircle(c, r * disc, Paint()..color = colors.volt);
+    final ring = (p / 0.7).clamp(0.0, 1.0);
+    canvas.drawArc(
+      Rect.fromCircle(center: c, radius: r - 4),
+      -math.pi / 2,
+      2 * math.pi * ring,
+      false,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..color = colors.voltInk.withValues(alpha: 0.35),
+    );
+    final check = ((p - 0.4) / 0.6).clamp(0.0, 1.0);
+    if (check <= 0) return;
+    final a = c + Offset(-r * 0.36, r * 0.02);
+    final b = c + Offset(-r * 0.1, r * 0.28);
+    final d = c + Offset(r * 0.38, -r * 0.26);
+    final first = (b - a).distance;
+    final second = (d - b).distance;
+    final drawn = (first + second) * Curves.easeOutCubic.transform(check);
+    final path = Path()..moveTo(a.dx, a.dy);
+    if (drawn <= first) {
+      final e = Offset.lerp(a, b, drawn / first)!;
+      path.lineTo(e.dx, e.dy);
+    } else {
+      final e = Offset.lerp(b, d, (drawn - first) / second)!;
+      path
+        ..lineTo(b.dx, b.dy)
+        ..lineTo(e.dx, e.dy);
+    }
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.2
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..color = colors.voltInk,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SealPainter old) => old.t != t || old.colors != colors;
 }
 
 /// The wait before the finish moment: Mobi holds the student's sheet and reads it, with one

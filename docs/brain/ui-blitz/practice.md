@@ -95,3 +95,21 @@ Instead of a lone receipt line: Mobi waves (hello act) above a filed-sheet card;
 ## 4. Verification plan
 
 Goldens at 384 x 853 night and day for the tab, the confirm sheet, the setup page, the finish frames and a new chooser golden; unit tests for the dial's semantics and the deck's ordering; `flutter analyze` on `lib/features/practice` and the tests.
+
+## 5. Build status (14 Oct, second builder)
+
+Built and verified with goldens (384 x 853, night and day) and unit tests:
+
+- Choice deck with code-drawn glyphs and press gestures; quick-start deck (lead, pairs, wide, quiet). Goldens `quick_start_deck_*`, `quick_start_deck_resume_*`, `quick_start_deck_pressed_*`.
+- Practice tab: subject tiles lift with identity bars, the "In <subject>" line, the mode deck, and the exam band as a ground change only (its outline was removed so it no longer reads as a card around cards).
+- Composer (confirm sheet and setup page): ticket header, subject chips, length dial. The dial's height now follows the text size (it overflowed by 0.9 dp at 1.3x text).
+- Start screen ("Getting your questions ready"): the same ticket rises in under Mobi once the selection is known, so the subject and length chosen are seen while the questions come. Golden `start_ready_*`.
+- Finish moment: stamp, ring, burst and sweep. New goldens `finish_stamp_mixed_*` (ring only, 1150 ms) and `finish_stamp_great_*` (burst, 1250 ms).
+- Finish for now (2.6): `ResultClosing` files the student's own sheet under a volt seal (ring and check draw in), Mobi waves, the receipt line engraves in; 900 ms inside the existing 1.6 s. Goldens `closing_350ms_*`, `closing_1000ms_*`.
+- Tests: `test/unit/practice/choice_and_dial_test.dart` (deck arrangement, a glyph per id, tap haptic, reduced motion, dial semantics, tap and drag ticks, 1.3x text fit, closing). Four existing tests now find the length stops inside `LengthDial` instead of `MmSegmented<int>` (intended: the control was replaced; every assertion is unchanged).
+
+## 6. For the merge
+
+- `lib/core/router/quick_start.dart` (core, not this track): replace the Column of `QuickStartRow`s with `QuickStartDeck(options: [...])` from `features/practice/widgets/quick_start_deck.dart`, building `ChoiceOption(id:, glyph: QuickStartDeck.glyphFor(id), title:, note:, onTap:)` in the same order and under the same conditions. Ids: `resume`, `quick`, `mock`, `nta`, `repair`, `ask` (Ask is drawn quiet). Pass `noteLines: 2` for the resume option (its count arrives late). The first option leads, so the `lit:` logic goes. Tests in core that look up `QuickStartRow` or the key `quick-start-resume` need the deck's keys (`choice-<id>`).
+- `test/golden/core/sheets_golden_test.dart` and `buttons_golden_test.dart` render the quick-start sheet; their goldens change once the sheet uses the deck.
+- No files outside `lib/features/practice/**`, `test/golden/practice`, `test/unit/practice` and this doc were edited.

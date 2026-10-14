@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
@@ -91,7 +91,7 @@ void main() {
     await settle(tester);
     // 13 is not offered: the nearest offered length is chosen.
     expect(text('15 questions, about 15 minutes.'), findsOneWidget);
-    Finder segment(String n) => find.descendant(of: find.byType(MmSegmented<int>), matching: find.text(n));
+    Finder segment(String n) => find.descendant(of: find.byType(LengthDial), matching: find.text(n));
     for (final n in ['5', '10', '15', '20']) {
       expect(segment(n), findsOneWidget);
     }

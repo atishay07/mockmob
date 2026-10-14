@@ -77,8 +77,14 @@ final _set = [
   ('Goodwill', V.blank),
 ];
 
-AttemptDetail _detail({Map<String, dynamic>? recovery}) => AttemptDetail.fromJson({
-  ...attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _set, extraMeta: {'recovery': ?recovery}),
+/// A great set: nine right, one wrong.
+final _great = [
+  for (var i = 0; i < 9; i++) ('Admission of a partner', V.right),
+  ('Goodwill', V.wrong),
+];
+
+AttemptDetail _detail({Map<String, dynamic>? recovery, List<(String, V)>? questions}) => AttemptDetail.fromJson({
+  ...attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: questions ?? _set, extraMeta: {'recovery': ?recovery}),
   'answerReviews': <String, dynamic>{},
   'answerReviewState': 'ready',
 });
@@ -149,6 +155,45 @@ void main() {
           }
           await _shot(tester, ms == 2400 ? 'finish_settled' : 'finish_${ms}ms', b);
           await tester.pump(const Duration(seconds: 3));
+        });
+      }
+
+      // The stamp (UI blitz, 14 Oct): the figure lands with an ink ring; a great set adds the
+      // burst of volt shards and the band of light over the sheet.
+      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1150), ('finish_stamp_great', _great, 1250)]) {
+        testWidgets('the stamp, $name at $ms ms', (tester) async {
+          final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
+          await _pump(
+            tester,
+            '/practice/result/p1',
+            b,
+            resultOverrides(attemptId: 'p1', detail: _detail(questions: set), pending: pending, chapter: 'Admission of a partner'),
+          );
+          await tester.pump();
+          await tester.pump();
+          for (var t = 0; t < ms; t += 50) {
+            await tester.pump(const Duration(milliseconds: 50));
+          }
+          await _shot(tester, name, b);
+          await tester.pump(const Duration(seconds: 4));
+        });
+      }
+
+      // Finish for now: the sheet is filed under a volt seal, then the receipt line engraves in.
+      for (final ms in [350, 1000]) {
+        testWidgets('finish for now at $ms ms', (tester) async {
+          final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
+          await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(), pending: pending));
+          for (var i = 0; i < 12; i++) {
+            await tester.pump(const Duration(milliseconds: 250));
+          }
+          await tester.tap(find.text('Finish for now'));
+          await tester.pump();
+          for (var t = 0; t < ms; t += 50) {
+            await tester.pump(const Duration(milliseconds: 50));
+          }
+          await _shot(tester, 'closing_${ms}ms', b);
+          await tester.pump(const Duration(seconds: 2));
         });
       }
 

@@ -24,7 +24,12 @@ class LengthDial extends ConsumerStatefulWidget {
   final ValueChanged<int>? onChanged;
   final String? semanticsLabel;
 
-  static const double height = 86;
+  /// The dial's height for [scaler]: the number line grows with the text size and the tallest
+  /// sheet (the longest length) hangs under it, so no stop is ever cut.
+  static double heightFor(TextScaler scaler, List<int> counts) {
+    final longest = counts.isEmpty ? perRow : counts.reduce((a, b) => a > b ? a : b);
+    return 8 + _StopState.top + scaler.scale(_StopState.numberLine) + _StopState.gap + _SheetPainter.sizeFor(longest).height + 12;
+  }
 
   /// Bubbles per row of a stop's sheet.
   static const int perRow = 5;
@@ -79,7 +84,7 @@ class _LengthDialState extends ConsumerState<LengthDial> {
             ),
           ),
           child: SizedBox(
-            height: LengthDial.height,
+            height: LengthDial.heightFor(MediaQuery.textScalerOf(context), widget.counts),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final width = constraints.maxWidth - 8;
@@ -167,6 +172,10 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
     value: widget.selected ? 1 : 0,
   );
 
+  static const double top = 12;
+  static const double numberLine = 24;
+  static const double gap = 6;
+
   /// 18 ms between bubbles plus the last bubble's own 200 ms.
   static Duration _inkDuration(int count) => Duration(milliseconds: 200 + 18 * count);
 
@@ -194,14 +203,15 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
     // Every number sits on the same line; the sheets hang below it, so a longer sheet never
     // pushes its number up.
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 14),
+        const SizedBox(height: top),
         AnimatedDefaultTextStyle(
           duration: Motion.of(context, Motion.ui),
-          style: widget.style.copyWith(fontSize: 22, height: 24 / 22, color: selected ? colors.ink : colors.ink2),
+          style: widget.style.copyWith(fontSize: 22, height: numberLine / 22, color: selected ? colors.ink : colors.ink2),
           child: Text('${widget.count}'),
         ),
-        const SizedBox(height: 7),
+        const SizedBox(height: gap),
         RepaintBoundary(
           child: CustomPaint(
             size: _SheetPainter.sizeFor(widget.count),

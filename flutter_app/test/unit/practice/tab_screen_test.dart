@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -179,7 +180,7 @@ void main() {
     await settle(tester);
     await openSheet(tester, find.text('Quick practice'));
     expect(find.bySemanticsLabel('Quick practice, Accountancy'), findsOneWidget);
-    await tester.tap(find.descendant(of: find.byType(MmSegmented<int>), matching: find.text('15')));
+    await tester.tap(find.descendant(of: find.byType(LengthDial), matching: find.text('15')));
     for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 150));
     }

@@ -715,10 +715,8 @@ class _Band extends StatelessWidget {
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.sunken,
-        shape: RoundedSuperellipseBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(28)),
-          side: BorderSide(color: colors.line),
-        ),
+        // A ground change only, no outline: the tiles inside are the only edges.
+        shape: const RoundedSuperellipseBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s12, MmSpace.s8, MmSpace.s8),

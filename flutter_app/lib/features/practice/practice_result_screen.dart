@@ -248,7 +248,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final recordedAt = receivedState.hasValue ? (receivedState.value ?? attempt.completedAt).toLocal() : null;
     final chapter = ref.watch(practiceNoteProvider(id)).value?.chapter;
 
-    if (_finished) return ResultClosing(text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal()));
+    if (_finished) return ResultClosing(text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal()), cells: model.cells);
 
     final large = MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
     final failedKeys = detail == null && detailState.error != null && !detailState.loading;

@@ -44,7 +44,10 @@ class _SheetFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return ColoredBox(
+    // The real sheet sits on a Material (the route's), so text has its style there too.
+    return Material(
+      type: MaterialType.transparency,
+      child: ColoredBox(
       color: colors.ground,
       child: Stack(
         children: [
@@ -89,6 +92,7 @@ class _SheetFrame extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

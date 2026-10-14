@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/api/api.dart';
 import '../../core/connectivity/connectivity.dart';
+import '../../core/motion/motion.dart';
 import '../../core/models/practice_quote.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
@@ -18,6 +19,8 @@ import 'data/practice_starter.dart' show StartFailure;
 import 'model/cost_line.dart';
 import 'model/practice_link.dart';
 import 'model/practice_selection.dart';
+import 'widgets/composer_parts.dart' show modeTitle;
+import 'widgets/composer_ticket.dart';
 import 'widgets/failure_copy.dart';
 
 /// `/practice/start`: starts Quick or chapter practice straight from a link or from Today, with
@@ -108,7 +111,8 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       context.pushReplacement(_setupLocation);
       return;
     }
-    _selection = selection;
+    // Known now: the paper's ticket rises in under Mobi.
+    setState(() => _selection = selection);
     if (ref.read(networkStatusProvider) == NetworkStatus.offline) {
       _stop(PracticeCopy.offlineAutoStart, StateViewKind.offline);
       return;
@@ -219,6 +223,10 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                             Text(PracticeCopy.gettingReady, style: type.title, textAlign: TextAlign.center),
                             const SizedBox(height: MmSpace.s8),
                             Text(PracticeCopy.gettingReadyNote, style: type.small.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                            const SizedBox(height: MmSpace.s32),
+                            // The paper being drawn, so the subject and length chosen are seen
+                            // while the questions come: its ticket rises in once it is known.
+                            _PaperTicket(selection: _selection),
                           ],
                         ),
                       ),
@@ -227,6 +235,67 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                 : _stopped(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The paper on its way: the same ticket the confirm step shows (the subject's object, the mode,
+/// the subject and the length), on a raised card. It rises in once the selection is known and
+/// keeps its height before then, so nothing jumps.
+class _PaperTicket extends ConsumerWidget {
+  const _PaperTicket({required this.selection});
+
+  final PracticeSelection? selection;
+
+  static const double height = 102;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final s = selection;
+    final catalog = ref.watch(practiceSubjectsProvider).value;
+    final Widget child;
+    if (s == null) {
+      child = const SizedBox(key: ValueKey('none'), height: height);
+    } else {
+      final mode = modeTitle(s.mode);
+      final subject = subjectNameFor(s.subjectId, catalog);
+      child = DecoratedBox(
+        key: ValueKey('${s.subjectId}-${s.count}'),
+        decoration: ShapeDecoration(
+          color: colors.raised,
+          shape: RoundedSuperellipseBorder(
+            borderRadius: MmRadius.panelAll,
+            side: BorderSide(color: colors.line),
+          ),
+          shadows: colors.cardShadow,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(MmSpace.s16),
+          child: ComposerTicket(
+            subjectId: s.subjectId,
+            eyebrow: mode,
+            subject: subject,
+            count: s.mode.usesCount ? s.count : mockQuestionCount,
+            semanticsLabel: PracticeCopy.confirmTitle(mode, subject),
+          ),
+        ),
+      );
+    }
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 360, minHeight: height),
+      child: AnimatedSwitcher(
+        duration: Motion.of(context, Motion.glideDuration),
+        switchInCurve: Motion.glide,
+        transitionBuilder: (child, a) => FadeTransition(
+          opacity: a,
+          child: SlideTransition(
+            position: Tween(begin: const Offset(0, 0.12), end: Offset.zero).animate(a),
+            child: child,
+          ),
+        ),
+        child: child,
       ),
     );
   }
