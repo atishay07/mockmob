@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { ArrowRight, Check, ChevronDown, Printer, RotateCcw, Search, Share2, Sparkles, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { SubjectPicker } from '@/components/du/SubjectPicker';
+import EligibleMeter, { RollingCount } from '@/components/du/EligibleMeter';
+import { useFlipList } from '@/components/du/useFlipList';
 import {
   CATEGORY_LABELS,
   MAIN_CATEGORIES,
@@ -200,7 +202,7 @@ function CutoffTable({ group, catIndex, category, score }) {
   );
 }
 
-function ProgrammeCard({ result, explain, category, catIndex, score, open, onToggle }) {
+function ProgrammeCard({ result, explain, category, catIndex, score, clears = null, open, onToggle }) {
   const { group, matched, secondary } = result;
   const r1 = group.summary?.['round-1']?.[category] || group.summary?.['round-1']?.UR;
   const hasCutoffs = group.offerings > 0 && r1;
@@ -211,10 +213,10 @@ function ProgrammeCard({ result, explain, category, catIndex, score, open, onTog
   }
   const panelId = `du-panel-${group.id}`;
   return (
-    <article className="du-card" data-open={open}>
+    <article className="du-card" data-open={open} data-flip-id={group.id}>
       <button type="button" className="du-card__head" aria-expanded={open} aria-controls={panelId} onClick={onToggle}>
         <span className="du-card__main">
-          <span className="du-card__title">{group.name}</span>
+          <span className="du-card__title">{group.name}{clears ? <span className="du-clear" title="Your score is at or above a published 2026 cutoff here"><span className="du-sr"> Your score reaches a published 2026 cutoff here</span></span> : null}</span>
           <span className="du-card__meta">
             <span className="du-tag">{group.stream}</span>
             {group.offerings > 0 ? <span>{group.colleges} {group.colleges === 1 ? 'college' : 'colleges'}</span> : <span>No CUET cutoff list published</span>}
@@ -374,6 +376,8 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     return { list, near: ineligible.filter(matches) };
   }, [eligible, ineligible, stream, query, sort, onlyClearing, score, couldClear, category]);
 
+  const listRef = useFlipList(visible.list.map((r) => r.group.id).join('|'));
+
   const streams = useMemo(() => {
     if (!data) return [];
     const present = new Set(data.groups.map((g) => g.stream));
@@ -434,7 +438,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
       {hasSelection ? (
         <div className="du-sum" role="region" aria-label="Your selection">
           <p>
-            <strong className="mm-measure">{eligible.length}</strong>
+            <strong className="mm-measure"><RollingCount value={eligible.length} /></strong>
             <span>of {total} unlocked</span>
           </p>
           <div>
@@ -517,11 +521,13 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         {/* ------------------------------ Results ------------------------------ */}
         <div className="du-main" ref={resultsRef} id="results">
           <div className="du-bar">
-            <div>
+            <div className="du-bar__lead">
+              {hasSelection ? <EligibleMeter eligible={eligible.length} total={total} /> : null}
+              <div>
               <h2 className="du-h2" aria-live="polite">
                 {hasSelection ? (
                   <>
-                    <span className="mm-measure">{eligible.length}</span> of {total} DU programmes unlocked
+                    <span className="du-sr">{eligible.length} </span>of {total} DU programmes unlocked
                   </>
                 ) : (
                   'Your DU programmes appear here'
@@ -530,6 +536,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               <p className="du-sub">
                 {hasSelection ? `Category ${category}${score != null ? ` · score ${formatScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
               </p>
+              </div>
             </div>
             {hasSelection ? (
               <div className="du-actions">
@@ -563,10 +570,13 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                   <ul>
                     {unlocks.map((u) => (
                       <li key={u.id}>
-                        <button type="button" onClick={() => toggle(u.kind, u.id)}>
+                        <button type="button" aria-describedby={`du-peek-${u.id}`} onClick={() => toggle(u.kind, u.id)}>
                           <span>{u.kind === 'domain' ? subjectLabel(u.id) : u.name}</span>
                           <b className="mm-measure">+{u.unlocks}</b>
                         </button>
+                        <small id={`du-peek-${u.id}`} className="du-peek">
+                          Opens {u.programmes.slice(0, 2).join(' and ')}{u.unlocks > 2 ? ` and ${u.unlocks - 2} more` : ''}
+                        </small>
                       </li>
                     ))}
                   </ul>
@@ -612,7 +622,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               )}
 
               {eligible.length > 0 && visible.list.length === 0 ? <p className="du-state">Nothing matches these filters.</p> : null}
-              <div className="du-list">
+              <div className="du-list" ref={listRef}>
                 {visible.list.map((r) => (
                   <ProgrammeCard
                     key={r.group.id}
@@ -621,6 +631,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                     category={category}
                     catIndex={catIndex}
                     score={score}
+                    clears={score != null && r.group.offerings > 0 ? couldClear(r.group) : null}
                     open={openIds.has(r.group.id)}
                     onToggle={() => toggleOpen(r.group.id)}
                   />

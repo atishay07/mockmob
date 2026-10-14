@@ -1521,3 +1521,38 @@
   .mm :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select), .du-finder input, .du-search input, .du-input, .du-select select { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .du-teaser__streams b { transition: none; } }
+
+/* ---------- Eligible meter: ring, rolling count, delta chip, Mobi (EligibleMeter.jsx) ---------- */
+.du-bar__lead { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+.du-bar__lead > div:not(.du-meter) { min-width: 0; }
+.du-meter { display: flex; align-items: center; flex: none; gap: 0.15rem; }
+.du-meter__ring { position: relative; width: 64px; height: 64px; }
+.du-meter__ring svg { display: block; width: 100%; height: 100%; }
+.du-meter__track, .du-meter__arc { fill: none; stroke-width: 6; stroke-linecap: round; }
+.du-meter__track { stroke: var(--line-strong); opacity: 0.6; }
+.du-meter__arc { stroke: var(--accent-text, var(--volt)); stroke-dasharray: 1 2; transition: stroke-dashoffset 760ms cubic-bezier(0.23, 1, 0.32, 1); }
+.du-meter__ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 1.2rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--ink); }
+.du-delta { position: absolute; top: -8px; right: -14px; padding: 0.1rem 0.45rem; border-radius: 999px; font: 800 0.75rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; animation: du-delta-in 2600ms cubic-bezier(0.23, 1, 0.32, 1) both; pointer-events: none; }
+.du-delta[data-dir='up'] { background: var(--volt); color: var(--volt-ink, #0b1000); }
+.du-delta[data-dir='down'] { background: var(--paper-sunken); color: var(--ink-2); border: 1px solid var(--line-strong); }
+@keyframes du-delta-in { 0% { transform: translateY(8px) scale(0.6); opacity: 0; } 12% { transform: translateY(0) scale(1.08); opacity: 1; } 22% { transform: scale(1); } 78% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-6px); opacity: 0; } }
+@media (max-width: 420px) { .du-bar__lead { gap: 0.6rem; } .du-meter .mobi-react { display: none; } }
+
+/* ---------- Unlock chips: what they open, before you tap ---------- */
+.du-unlocks li { display: grid; gap: 0.25rem; align-content: start; justify-items: start; max-width: min(100%, 30rem); }
+.du-peek { padding-inline: 0.9rem; font-size: 0.78rem; line-height: 1.4; color: var(--ink-3); overflow-wrap: anywhere; }
+.du-unlocks button { transition: border-color 0.15s ease, transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+.du-unlocks button:active { transform: scale(0.96); transition-duration: 90ms, 90ms; }
+
+/* ---------- Could-clear dot: springs in when your score reaches a published cutoff ---------- */
+.du-clear { display: inline-block; width: 9px; height: 9px; margin-left: 0.5rem; border-radius: 50%; background: var(--volt); box-shadow: 0 0 0 3px rgba(210, 240, 0, 0.18); vertical-align: 0.12em; animation: du-clear-in 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes du-clear-in { from { transform: scale(0); } to { transform: scale(1); } }
+
+html[data-motion='reduced'] .du-meter__arc, html[data-motion='reduced'] .du-unlocks button { transition: none; }
+html[data-motion='reduced'] .du-delta, html[data-motion='reduced'] .du-clear { animation: none; }
+html[data-motion='reduced'] .du-delta { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .du-meter__arc, .du-unlocks button { transition: none; }
+  .du-delta, .du-clear { animation: none; }
+  .du-delta { opacity: 1; }
+}
