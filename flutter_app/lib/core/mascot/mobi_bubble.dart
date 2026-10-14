@@ -188,6 +188,16 @@ class _BubblePainter extends CustomPainter {
     final shape = _shape(size);
     canvas.drawShadow(shape, const Color(0xFF000000), 6, false);
     canvas.drawPath(shape, Paint()..color = fill);
+    // A sheen across the upper half, like light on a glass edge.
+    canvas.drawPath(
+      shape,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.center,
+          colors: [const Color(0xFFFFFFFF).withValues(alpha: 0.06), const Color(0x00FFFFFF)],
+        ).createShader(Offset.zero & size),
+    );
     canvas.drawPath(
       shape,
       Paint()
