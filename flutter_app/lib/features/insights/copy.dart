@@ -11,6 +11,10 @@ abstract final class InsightsCopy {
   static String ledgerRight(int n, int marks) => marks == 0 ? '$n right, 0' : '$n right, +$marks';
   static String ledgerWrong(int n) => n == 0 ? '0 wrong, 0' : '$n wrong, -$n';
   static String ledgerBlank(int n) => '$n left blank, 0';
+  static String sheetScale(int per) => 'Each bubble stands for about $per questions.';
+  static const kindLeak = 'Where marks leak';
+  static const kindGood = 'Working';
+  static const kindNote = 'Worth knowing';
   static const ledgerNote = 'Marking as CUET counts it: +5 right, -1 wrong, 0 blank.';
   static String accuracyLine(int pct, int low, int high, int n) => '$pct% right of $n answered. Likely range $low to $high%.';
   static const signedOutTitle = 'Sign in to open the stream';
@@ -54,6 +58,11 @@ abstract final class InsightsCopy {
 
   static const trendHeading = 'Marks, session by session';
   static const trendCaption = 'Same paper, same length. Formats are never mixed.';
+  static String trendBest(int marks) => 'Best $marks';
+  static const trendDeltaNote = 'on the session before';
+  static String trendDeltaLabel(int d) => d == 0
+      ? 'The same marks as the session before'
+      : (d > 0 ? '$d marks more than the session before' : '${-d} marks fewer than the session before');
   static const trendOnePoint = 'One more session in this format and the line appears.';
   static String trendLatest(int marks, int max) => '$marks of $max';
   static String trendSessions(int n) => _n(n, 'session');
@@ -97,7 +106,8 @@ abstract final class InsightsCopy {
   static const proChanges = 'Changed answers are part of Pro';
   static const proPace = 'Pace is part of Pro';
 
-  static const askKey = 'Ask your record';
+  static const askKey = 'Ask Mobi';
+  static const askStripNote = 'Questions about this record, answered on your phone.';
   static const emptyTitle = 'Your record starts with one session';
   static const emptyMessage = 'Finish a practice set and this page shows where every mark went, with the questions behind it.';
   static const emptyAction = 'Start a quick 10';
@@ -201,9 +211,38 @@ abstract final class InsightsCopy {
   static const chaptersFailed = 'Chapters did not load. All chapters are on.';
 
   // ---- Ask ---------------------------------------------------------------------------------
-  static const askTitle = 'Ask your record';
+  static const askTitle = 'Ask Mobi';
+  static String askCaption(int sessions) => 'Reads your last ${_n(sessions, 'session')}';
   static const askIntro = 'Ask about your marks, chapters, timing or week. Those answers come from your own sessions.';
-  static const askSuggestions = ['Where am I losing marks?', 'Which chapter should I practise?', 'Am I too slow on wrong answers?'];
+  static String askGreeting(String? name, int? sessions) {
+    final hi = name == null ? 'Hi.' : 'Hi $name.';
+    if (sessions == null || sessions == 0) return '$hi Ask me about your marks, chapters, pace or week.';
+    return '$hi I have read your last ${_n(sessions, 'session')}. Ask me anything about them.';
+  }
+
+  static const askGroupRecord = 'About your marks';
+  static const askGroupRecordNote = 'Answered on this phone';
+  static const askGroupOpen = 'Ask anything';
+  static const askGroupOpenNote = 'Mobi writes these';
+  static const promptLosing = 'Where am I losing marks?';
+  static const promptChapter = 'Which chapter should I practise?';
+  static const promptPace = 'Am I too slow on wrong answers?';
+  static const promptWeek = 'How is my week going?';
+  static const promptChanges = 'Do I change answers too much?';
+  static const promptBlank = 'What am I leaving blank?';
+  static String promptExplain(String? chapter) => 'Explain ${chapter ?? 'the sacrificing ratio'} in simple words';
+  static String promptPlan(String? chapter) =>
+      chapter == null ? 'Give me a 10 minute revision plan for tonight' : 'Give me a 10 minute revision plan for $chapter';
+  static const costFree = 'Free';
+  static const costCredit = '1 credit';
+  static const askThinking = 'Thinking it through';
+  static const sourceRecord = 'From your record';
+  static const sourceModel = 'MockMob AI';
+  static const sourcePaused = 'AI replies paused';
+  static const creditUsed = '1 credit used';
+  static const noCreditsUsed = 'No credits used';
+  static const behindAnswer = 'The sessions behind this answer';
+  static const openRecord = 'Open your record';
   static const askHint = 'Ask a question';
   static const askSend = 'Send';
   static const askSending = 'Sending';

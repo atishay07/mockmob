@@ -7,6 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/subject_names.dart';
+import 'ask_marks.dart';
 
 /// The top row of a pushed insights page: back, the title, an optional trailing key.
 class InsightsHeader extends StatelessWidget {
@@ -416,6 +417,53 @@ class _Monogram extends StatelessWidget {
               letters,
               textScaler: TextScaler.noScaling,
               style: context.mmType.caption.copyWith(fontSize: size * 0.34, fontWeight: FontWeight.w700, color: colors.ink2),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+/// The way into Ask from the record: Mobi's mark, what it can do with this record, an arrow. A
+/// glass strip, 64 dp tall, so the record's one dominant action stays the chapter to practise.
+class AskMobiStrip extends StatelessWidget {
+  const AskMobiStrip({super.key, required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: '${InsightsCopy.askKey}. ${InsightsCopy.askStripNote}',
+      focusRadius: MmRadius.keyAll,
+      onTap: onTap,
+      builder: (context, pressed, _) => FakeGlass(
+        borderRadius: MmRadius.keyAll,
+        pressed: pressed,
+        grain: false,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 64),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+            child: Row(
+              children: [
+                const MobiMark(size: 34),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(InsightsCopy.askKey, style: type.cardTitle.copyWith(fontSize: 16)),
+                      Text(InsightsCopy.askStripNote, style: type.caption.copyWith(color: colors.ink2)),
+                    ],
+                  ),
+                ),
+                Icon(LucideIcons.arrowRight, size: 18, color: colors.ink2),
+              ],
             ),
           ),
         ),

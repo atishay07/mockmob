@@ -242,6 +242,26 @@ void main() {
 
   // ---- Ask ----
   insightsGolden('ask_start', () => const AskScreen());
+  insightsGolden('ask_start_full', () => const AskScreen(), size: const Size(384, 1020));
+  insightsGolden('ask_start_text130', () => const AskScreen(), size: const Size(384, 1300), textScale: 1.3);
+  insightsGolden(
+    'ask_pending',
+    () => const AskScreen(),
+    overrides: () => insightsOverrides(ask: const AskState(messages: [AskMessage.student('Explain Partnership: admission of a partner in simple words'), AskMessage.sending()])),
+  );
+  insightsGolden(
+    'ask_reply_followups',
+    () => const AskScreen(),
+    overrides: () => insightsOverrides(
+      ask: const AskState(messages: [
+        AskMessage.student('How is my week going?'),
+        AskMessage.reply(
+          'Last 7 days: 3 sessions, 40 questions, 128 net marks, 79% accuracy (likely range 66 to 88%). The week before: 2 sessions, 84 net marks.',
+          origin: AskOrigin.phone,
+        ),
+      ]),
+    ),
+  );
   insightsGolden(
     'ask_conversation',
     () => const AskScreen(),

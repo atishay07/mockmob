@@ -3,9 +3,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/copy/copy.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -20,25 +22,25 @@ import '../data/trend.dart';
 /// a small glass note with its day, marks and paper length, and Show me opening that session.
 /// The line draws in left to right (500 ms) once per visit and again when the format changes;
 /// never on a rebuild with the same data, and never under reduced motion.
-class TrendSection extends StatefulWidget {
+class TrendSection extends ConsumerStatefulWidget {
   const TrendSection({super.key, required this.series});
 
   final List<TrendSeries> series;
 
   @override
-  State<TrendSection> createState() => _TrendSectionState();
+  ConsumerState<TrendSection> createState() => _TrendSectionState();
 }
 
-class _TrendSectionState extends State<TrendSection> with SingleTickerProviderStateMixin {
+class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerProviderStateMixin {
   String? _key;
   int? _picked;
   String? _drawnKey;
   late final AnimationController _draw = AnimationController(vsync: this, duration: _drawIn, value: 1);
 
   /// The line drawing in, left to right.
-  static const Duration _drawIn = Duration(milliseconds: 500);
+  static const Duration _drawIn = Duration(milliseconds: 600);
 
-  static const double _chartHeight = 148;
+  static const double _chartHeight = 168;
 
   TrendSeries get _selected {
     for (final s in widget.series) {
@@ -79,6 +81,7 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
   }
 
   void _select(String key) {
+    ref.read(hapticsProvider).selection();
     setState(() {
       _key = key;
       _picked = null;
@@ -119,14 +122,25 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Expanded(child: Text(s.label, style: type.label.copyWith(color: colors.ink2))),
-            Text(
-              InsightsCopy.trendLatest(last.marks, last.maxMarks),
-              style: type.cardTitle.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(s.label, style: type.label.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s4),
+                  MonumentalNumber(
+                    value: '${last.marks}',
+                    unit: 'of ${last.maxMarks}',
+                    style: type.figure,
+                    semanticsLabel: InsightsCopy.trendLatest(last.marks, last.maxMarks),
+                  ),
+                ],
+              ),
             ),
+            if (s.points.length > 1) _DeltaChip(delta: last.marks - s.points[s.points.length - 2].marks),
           ],
         ),
-        const SizedBox(height: MmSpace.s8),
+        const SizedBox(height: MmSpace.s12),
         LayoutBuilder(
           builder: (context, box) {
             final size = Size(box.maxWidth, _chartHeight);
@@ -142,6 +156,7 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
                       behavior: HitTestBehavior.opaque,
                       onTapUp: (d) {
                         final i = geo.nearest(d.localPosition);
+                        ref.read(hapticsProvider).selection();
                         setState(() => _picked = i == _picked ? null : i);
                       },
                       child: AnimatedBuilder(
@@ -336,8 +351,9 @@ class _TrendPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final shown = geo.points;
     final plot = geo.plot;
+    final line = colors.isNight ? colors.volt : colors.accentText;
     final grid = Paint()
-      ..color = colors.line
+      ..color = colors.line.withValues(alpha: 0.7)
       ..strokeWidth = 1;
     for (final v in [geo.maxV, geo.maxV / 2, 0.0]) {
       canvas.drawLine(Offset(plot.left, geo.y(v)), Offset(plot.right, geo.y(v)), grid);
@@ -346,6 +362,29 @@ class _TrendPainter extends CustomPainter {
       final tp = TextPainter(text: TextSpan(text: v.round().toString(), style: labelStyle), textDirection: TextDirection.ltr)..layout();
       tp.paint(canvas, Offset(0, geo.y(v) - tp.height / 2));
       tp.dispose();
+    }
+
+    // The best session so far: a dashed rule and its figure, when it is not the latest one.
+    if (shown.length >= 3) {
+      var best = 0;
+      for (var i = 1; i < shown.length; i++) {
+        if (shown[i].marks > shown[best].marks) best = i;
+      }
+      if (best != shown.length - 1 && progress > 0.9) {
+        final y = geo.y(shown[best].marks);
+        final dash = Paint()
+          ..color = colors.ink3.withValues(alpha: 0.7)
+          ..strokeWidth = 1;
+        for (var x = plot.left; x < plot.right; x += 8) {
+          canvas.drawLine(Offset(x, y), Offset(math.min(x + 4, plot.right), y), dash);
+        }
+        final tp = TextPainter(
+          text: TextSpan(text: InsightsCopy.trendBest(shown[best].marks), style: labelStyle.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+          textDirection: TextDirection.ltr,
+        )..layout();
+        tp.paint(canvas, Offset(plot.right - tp.width, y - tp.height - 2));
+        tp.dispose();
+      }
     }
 
     // The line reaches across the plot as [progress] runs; each dot appears as the line gets to it.
@@ -357,13 +396,28 @@ class _TrendPainter extends CustomPainter {
       }
       canvas.save();
       canvas.clipRect(Rect.fromLTRB(0, 0, reach + 1, size.height));
+      // The area under the line: volt at 22% at the line fading to nothing at the floor.
+      final area = Path.from(path)
+        ..lineTo(geo.x(shown.length - 1), plot.bottom)
+        ..lineTo(geo.x(0), plot.bottom)
+        ..close();
+      canvas.drawPath(
+        area,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [line.withValues(alpha: colors.isNight ? 0.26 : 0.2), line.withValues(alpha: 0)],
+          ).createShader(plot),
+      );
       canvas.drawPath(
         path,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 2
+          ..strokeWidth = 2.5
           ..strokeJoin = StrokeJoin.round
-          ..color = colors.ink2,
+          ..strokeCap = StrokeCap.round
+          ..color = line,
       );
       canvas.restore();
     }
@@ -374,9 +428,21 @@ class _TrendPainter extends CustomPainter {
       final lastPoint = i == shown.length - 1;
       final isPicked = i == picked;
       final r = lastPoint || isPicked ? 7.0 : 4.0;
+      if (lastPoint) {
+        // The latest session carries a halo, the one lit point of the chart.
+        canvas.drawCircle(c, r + 7, Paint()..color = line.withValues(alpha: 0.16));
+        canvas.drawCircle(
+          c,
+          r + 4,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.2
+            ..color = line.withValues(alpha: 0.55),
+        );
+      }
       canvas.drawCircle(c, r + 1, Paint()..color = colors.ground);
       bubbles.paint(canvas, c, r, lastPoint || isPicked ? BubbleState.filled : BubbleState.hollow);
-      if (isPicked) {
+      if (isPicked && !lastPoint) {
         canvas.drawCircle(
           c,
           r + 4,
@@ -406,4 +472,39 @@ class _TrendPainter extends CustomPainter {
   @override
   bool shouldRepaint(_TrendPainter old) =>
       old.geo.points != geo.points || old.geo.size != geo.size || old.colors != colors || old.progress != progress || old.picked != picked;
+}
+
+/// The change from the session before, in marks: a small outlined chip that says what it compares
+/// to. Up is a volt ring, down is coral, level is plain; never a verdict, only the figure.
+class _DeltaChip extends StatelessWidget {
+  const _DeltaChip({required this.delta});
+
+  final int delta;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final up = delta > 0, down = delta < 0;
+    final tint = up ? (colors.isNight ? colors.volt : colors.accentText) : (down ? colors.wrongMark : colors.ink3);
+    final text = up ? '+$delta' : (down ? '$delta' : '0');
+    return Semantics(
+      label: InsightsCopy.trendDeltaLabel(delta),
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: tint.withValues(alpha: 0.6)))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(text, style: type.cardTitle.copyWith(color: tint, height: 1.1)),
+              Text(InsightsCopy.trendDeltaNote, style: type.caption.copyWith(fontSize: 11.5, height: 1.2, color: colors.ink3)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
