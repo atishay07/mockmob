@@ -13,6 +13,7 @@ import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevice
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import './profile-privacy.css';
 import ArenaHead from '@/components/arena/ArenaHead';
+import StartOnSetting from './StartOnSetting';
 
 const putJson = (path, data) => api(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); } catch { return ''; } };
@@ -199,7 +200,7 @@ export default function ProfilePageClient() {
 
   return (
     <div className="student-page student-page--profile flex flex-col gap-6 view">
-      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Update your name, subjects and plan. Your practice history stays with your account." />
+      <ArenaHead eyebrow="Account" title="Your account." lede="Update your name, subjects and plan. Your practice history stays with your account." />
 
       {saveState.message && (
         <div
@@ -245,7 +246,7 @@ export default function ProfilePageClient() {
           </div>
 
           <div className="mt-6 flex items-center justify-between gap-3 flex-wrap border-t border-white/5 pt-4">
-            <div className="text-sm text-zinc-500">Save your name to update it across the Arena.</div>
+            <div className="text-sm text-zinc-500">Save your name to update it across MockMob.</div>
             <Button
               variant="volt"
               size="md"
@@ -301,6 +302,7 @@ export default function ProfilePageClient() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <StartOnSetting />
         <UsageDataSection />
         <SignOutOtherDevicesSection />
         <DeleteAccountSection />

@@ -1,0 +1,29 @@
+/* Day one versus active member. <html data-visitor-stage="first"> is set before first paint for a
+   member known to have no scored session yet (see data/visitor_state.mjs). Loaded with VisitorSync,
+   so the rules apply on every page. Pair them with vs-member-only:
+     vs-first-only   shown only to a member on day one
+     vs-hide-first   hidden from a member on day one */
+html:not([data-visitor-stage='first']) .vs-first-only,
+html[data-visitor-stage='first'] .vs-hide-first { display: none !important; }
+/* A wrapper that only switches versions; its children lay out as if it were not there. */
+.vs-contents { display: contents; }
+/* One action on its own (day one): it takes the full row on phones instead of half of it. */
+.lp .lp-cta .mm-actions.vs-single { grid-template-columns: 1fr; }
+
+/* The home page's member panel when MockMob cannot be reached (the student is still signed in). */
+.vs-offline { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin: 0; max-width: 34rem; padding: .6rem .6rem .6rem 1rem; border: 1px solid var(--line-strong, var(--line)); border-radius: 14px; background: var(--paper-raised); color: var(--ink); font-size: .9375rem; line-height: 1.45; }
+.vs-offline span { flex: 1 1 14rem; }
+.vs-offline button { min-height: 44px; padding: 0 1rem; border: 1px solid var(--line-strong, var(--line)); border-radius: 999px; background: transparent; color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+.vs-offline button:hover { background: var(--paper-sunken, transparent); }
+.vs-offline button:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+.vs-offline button:active { transform: translateY(1px); }
+.vs-offline button:disabled { cursor: progress; color: var(--ink-2); }
+
+/* Which page a fresh visit opens, with the place to change it. */
+.vs-start-note { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; margin: 0; min-height: 44px; color: var(--ink-2); font-size: .875rem; }
+.vs-start-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.vs-start-note a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .vs-offline button { transition: background-color .15s ease-out, transform .1s ease-out; }
+}
