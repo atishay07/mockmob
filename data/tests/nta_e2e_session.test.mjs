@@ -80,8 +80,8 @@ for (const mode of ['asis', 'promoted']) {
       const signingKey = mode === 'asis' ? PROD_KEY : h.TEST_SECRET;
       h.configure({ signingKey });
       // 'late' is a second premium student for the time-up sessions: they test the clock, so they start as a student's
-      // first paper. Since the CUET-fit gate (engine r5) a thin subject such as General Test serves a first paper but can
-      // refuse a later one for the same student (the 'next paper' step records that).
+      // first paper. A thin subject such as General Test serves a later paper for the same student with repeats from the
+      // earlier one (engine r5.1; the 'next paper' step checks it).
       const rows = await h.loadSubject(internal, { mode, students: [{ id: 'prem' }, { id: 'free', premium: false, credits: 100 }, { id: 'other' }, { id: 'late' }] });
       const fake = h.fake;
       const rowsById = new Map(rows.map((row) => [row.id, row]));
@@ -103,6 +103,8 @@ for (const mode of ['asis', 'promoted']) {
           assert.ok(res.body.message.length > 40, 'message too short to help a student');
           assert.match(res.body.message, /Full Mock|Practice|try again/i, 'refusal offers no next step');
           assert.ok(res.body.detail?.reason, 'no reason in the detail');
+          // A refusal the bank decides reads the same on every retry: the website offers a Full Mock, not "Try again".
+          if (['no_scored_questions', 'no_passage_sets', 'too_few_questions'].includes(res.body.detail.reason)) assert.equal(res.body.detail.retryable, false);
           // No leaked error: a stack property or frame, a TypeError, undefined. (Not the bare word "stack": Computer Science has a chapter "Stack".)
           assert.doesNotMatch(JSON.stringify(res.body), /"stack"|\bat (?:\S+ \()?(?:file:|node:|[A-Za-z]:\\)|TypeError|undefined|\[object/i);
           assert.equal(res.body.questions, undefined);
@@ -314,14 +316,18 @@ for (const mode of ['asis', 'promoted']) {
         assert.equal(restart.status, 422, 'a submitted session must not restart under the same key');
         assert.equal(restart.body.error, 'SESSION_ALREADY_SUBMITTED');
       });
-      await step('next paper after a submit prefers questions the student has not seen', async () => {
+      await step('next paper after a submit prefers questions the student has not seen, and is never refused for repeats', async () => {
         const next = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('next') }, 'prem');
-        if (next.status !== 200) { rec.notes.push(`second paper after a submit: ${next.status} ${next.body.error}`); return; }
+        if (next.status !== 200) rec.notes.push(`second paper after a submit: ${next.status} ${next.body.error} ${next.body.detail?.reason || ''}`);
+        assert.equal(next.status, 200, `a served subject refused a second paper: ${next.body.message}`);
         const seen = new Set(questions.map((q) => q.id));
         const overlap = next.body.questions.filter((q) => seen.has(q.id)).length;
+        rec.secondPaperQuestions = next.body.questions.length;
         rec.secondPaperOverlap = overlap;
         rec.secondPaperSeenUsed = next.body.meta.ntaPaper.seenUsed;
         assert.equal(overlap, next.body.meta.ntaPaper.seenUsed, 'overlap does not match the engine\'s own seen count');
+        // Repeats are said: the notice names how many questions come back from the earlier paper.
+        if (overlap) assert.ok(next.body.meta.ntaPaper.items.some((item) => item.startsWith(`${overlap} question`) && /earlier NTA papers|answered before/.test(item)), JSON.stringify(next.body.meta.ntaPaper.items));
       });
 
       // time-up on a ticket session: the deadline is 60 minutes; the server allows a 2 minute upload grace.

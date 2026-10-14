@@ -27,8 +27,12 @@ const clone = (value) => (value === undefined ? value : JSON.parse(JSON.stringif
 const missingError = (name) => ({ code: '42P01', message: `relation "public.${name}" does not exist` });
 
 function valueOf(row, column) {
-  // Supports jsonb paths such as evidence->record or plain columns.
-  return row?.[column];
+  // Plain columns, and jsonb paths as PostgREST reads them: evidence->record (json), selection_meta->>mode (text).
+  const parts = String(column).split(/->>?/);
+  if (parts.length === 1) return row?.[column];
+  let value = row?.[parts[0]];
+  for (const key of parts.slice(1)) value = value === null || value === undefined ? undefined : value[key];
+  return String(column).includes('->>') && value !== null && typeof value === 'object' ? JSON.stringify(value) : value;
 }
 function coerce(raw, sample) {
   if (raw === 'null') return null;

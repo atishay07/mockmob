@@ -1,17 +1,24 @@
 import 'server-only';
 import { NTA_MIN_SERVE_QUESTIONS } from '@/../data/nta_engine';
 
+// Refusals the question bank decides. The engine works a refusal out with a fixed seed, so the same
+// sentence comes back on every retry: detail.retryable is false and a client offers another way
+// forward (a Full Mock) instead of "Try again".
+export const NTA_BANK_REFUSALS = new Set(['no_scored_questions', 'no_passage_sets', 'too_few_questions']);
+
 /**
  * NTA mode starts only from a paper the engine served: 'exact', or 'closest' with at least
  * NTA_MIN_SERVE_QUESTIONS questions and its differences listed. Anything else is refused before a
- * session or credit exists, with the engine's message for the student.
+ * session or credit exists, with the engine's message for the student. detail: { reason, cause (why
+ * no question was eligible, when that is the reason), retryable, items (what the bank is short of) }.
  */
 export function assertNtaPaperServable(questions, meta, code = 'INSUFFICIENT_PRACTICE_CONTENT') {
   const paper = meta?.ntaPaper;
   if (paper && paper.status !== 'refused' && questions.length >= NTA_MIN_SERVE_QUESTIONS) return;
   const error = new Error(code);
+  const reason = paper?.refusal?.reason || 'unavailable';
   error.publicMessage = paper?.notice?.summary || meta?.message || 'NTA mode is not ready for this subject yet. Try a Full Mock instead.';
-  error.publicDetail = { reason: paper?.refusal?.reason || 'unavailable', items: paper?.notice?.items || [] };
+  error.publicDetail = { reason, ...(paper?.refusal?.cause ? { cause: paper.refusal.cause } : {}), retryable: !NTA_BANK_REFUSALS.has(reason), items: paper?.notice?.items || [] };
   throw error;
 }
 

@@ -43,6 +43,8 @@ export function signEvidence(row, { luna = 8, gemini = 9, solvedKey = row.correc
 // rows do.
 const FIT_REGISTRY = new Map(); // id -> { subject, table, entry }
 const FIT_TABLE = { subject: 'fixture', rubric_version: NTA_FIT_RUBRIC_VERSION, questions: {} };
+// Not a React hook: the name only says "use these tables" (lint reads every use* call as a hook).
+// eslint-disable-next-line react-hooks/rules-of-hooks
 useNtaFitTables(FIT_REGISTRY);
 
 const median3 = (scores) => scores.slice().sort((a, b) => a - b)[1];

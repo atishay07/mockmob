@@ -208,6 +208,10 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
 /**
  * Questions served in this student's earlier NTA papers of this subject: submitted NTA attempts and
  * NTA sessions kept on the server. The engine leaves them out when the pool allows (data/nta_engine.js).
+ * A kept session that is still open counts too: its whole paper was on the student's screen, and an
+ * open session becomes a submitted attempt anyway once its time and the upload grace are over
+ * (src/lib/server/sessionFinaliser.js). Counting it never refuses a paper: when too few new questions
+ * are left, the engine builds with repeats allowed and says so in the notice.
  * A failed lookup degrades to "no earlier paper" but is recorded: the returned set has lookupFailed = true,
  * and buildNtaPaper copies that into structure.crossPaper so the paper's record says repeats were not guarded.
  */
@@ -234,7 +238,7 @@ function timeBudgetError(subject) {
   const label = bp?.subject === 'general_test' ? 'General Test' : String(bp?.officialName || subject).split(' / ')[0];
   const error = new Error('NTA_TIME_BUDGET_EXCEEDED');
   error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full Mock for ${label}.`;
-  error.publicDetail = { reason: 'time_budget', items: [] };
+  error.publicDetail = { reason: 'time_budget', retryable: true, items: [] };
   return error;
 }
 

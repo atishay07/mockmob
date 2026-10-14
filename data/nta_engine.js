@@ -48,7 +48,7 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r5';
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.14-r5.1';
 // The CUET-fit bar (data/nta_fit_scores.js): eligibility needs the quality gate above AND the median of
 // the three fit judges at or above this, with fewer than two judges raising a fit flag.
 export { NTA_MIN_FIT_SCORE };
@@ -515,16 +515,30 @@ function prepareCandidates(rows, model, context) {
   const items = [];
   const scores = [];
   const eligibleBySource = {};
+  // Rows each gate kept out (a row failing two gates counts for both), and rows that passed every gate.
+  const excludedRows = { quality: 0, fit: 0, veto: 0, other: 0, fitNotJudged: 0 };
+  let passedGates = 0;
+  // A row's verdict does not depend on the seed or on what the student has seen, so the builds of one
+  // assembleNtaPaper call share it (context.verdicts).
+  const verdicts = context.verdicts;
   // Stem wording is compared with 5-grams weighted by rarity in this pool (data/nta_item_checks.js).
   const gramWeights = stemGramWeights(rows);
   for (const row of rows) {
-    const verdict = ntaEligibility(row, { ...context, subject });
+    const cacheable = verdicts && row && typeof row === 'object';
+    let verdict = cacheable ? verdicts.get(row) : undefined;
+    if (!verdict) {
+      verdict = ntaEligibility(row, { ...context, subject });
+      if (cacheable) verdicts.set(row, verdict);
+    }
     if (verdict.score !== null) scores.push(verdict.score);
     if (verdict.eligible) eligibleBySource[verdict.scoreSource] = (eligibleBySource[verdict.scoreSource] || 0) + 1;
     if (!verdict.eligible) {
       for (const reason of verdict.reasons) count(reason);
+      for (const gate of new Set(verdict.reasons.map(ntaGateOf))) excludedRows[gate] += 1;
+      if (verdict.reasons.includes('fit_not_judged')) excludedRows.fitNotJudged += 1;
       continue;
     }
+    passedGates += 1;
     const placed = placementOf(row, model, context);
     if (placed.excluded) { count('chapter_out_of_syllabus'); continue; }
     if (!placed.slotIds.length) { count('chapter_not_in_this_paper'); continue; }
@@ -579,7 +593,7 @@ function prepareCandidates(rows, model, context) {
     if (dropped) count('passage_child_repeats_another', dropped);
     if (kept.length < model.sets.size.min) { count('passage_set_too_small', kept.length); continue; }
     // A long set is served with its preferred (newest) children, in the passage's own order.
-    const ordered = kept.slice().sort((a, b) => Number(a.seen) - Number(b.seen) || a.pref - b.pref);
+    const ordered = kept.slice().sort((a, b) => (context.seenPolicy === 'none' ? 0 : Number(a.seen) - Number(b.seen)) || a.pref - b.pref);
     const chosen = ordered.slice(0, model.sets.size.max).sort((a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id)));
     const passage = getPassageText(chosen[0].row);
     sets.push({
@@ -591,7 +605,41 @@ function prepareCandidates(rows, model, context) {
       words: length,
     });
   }
-  return { standalone, sets, excludedReasons, scoredCount: scores.length, eligibleCount: items.length, eligibleBySource };
+  return { standalone, sets, excludedReasons, excludedRows, passedGates, scoredCount: scores.length, eligibleCount: items.length, seenEligible: items.filter((item) => item.seen).length, eligibleBySource };
+}
+
+// Score reasons: the question has no score of the bar or more that the engine can trust.
+const QUALITY_REASONS = new Set(['no_score', 'question_changed_since_scored', 'blind_solver_key_missing', 'independent_solver_key_missing']);
+const UNPUBLISHED_REASONS = new Set(['not_published', 'id_not_uuid', 'seed_or_demo_row']);
+
+/**
+ * The gate an eligibility reason belongs to: 'fit' (the CUET-fit judges), 'quality' (the score or its
+ * provenance), 'other' (not a published bank question) or 'veto' (everything that holds back a scored
+ * question: key disputes and mismatches, holds, quarantine, blocking flags, answer, wording and format checks).
+ */
+export function ntaGateOf(reason) {
+  const code = String(reason || '');
+  if (code.startsWith('fit_')) return 'fit';
+  if (QUALITY_REASONS.has(code) || code.startsWith('score_') || code.startsWith('agent_score_')) return 'quality';
+  if (UNPUBLISHED_REASONS.has(code)) return 'other';
+  return 'veto';
+}
+
+/**
+ * Why a pool gave no question to place, by the gate that kept out the most rows: 'unscored' (nothing
+ * carries a score), 'syllabus' (questions pass every gate but sit in chapters this paper does not
+ * ask), 'quality', 'fit_not_judged', 'fit_below_bar', 'veto', or 'unpublished' (only rows that are not
+ * published bank questions). Ties go to quality, then fit.
+ */
+function emptyPoolCause(prepared) {
+  if (!prepared.scoredCount) return 'unscored';
+  if (prepared.passedGates > 0) return 'syllabus';
+  const { quality, fit, veto, fitNotJudged } = prepared.excludedRows;
+  const top = Math.max(quality, fit, veto);
+  if (!top) return 'unpublished';
+  if (quality === top) return 'quality';
+  if (fit === top) return fitNotJudged * 2 >= fit ? 'fit_not_judged' : 'fit_below_bar';
+  return 'veto';
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -654,9 +702,10 @@ function limitsFor(model, level, setQuestions) {
 // Selection
 // ---------------------------------------------------------------------------------------------
 
-function newState(model, pool) {
+function newState(model, pool, { seenPolicy = 'seen_first' } = {}) {
   return {
     pool,
+    seenPolicy,         // how far seen questions are held back (better, assembleNtaPaper)
     slot: new Array(model.slots.length).fill(0),
     unit: new Array(model.units.length).fill(0),
     section: new Array(model.sections.length).fill(0),
@@ -771,25 +820,36 @@ function gains(model, state, limits, item, slotId) {
   return { minGain, targetGain };
 }
 
-// Unseen questions always first; seen ones fill only what unseen ones cannot, and the repair pass
-// swaps in a seen question only for a minimum no unseen question can meet. Then unmet minimums,
-// then targets, then the seed.
-function better(a, b) {
+// Seen policy 'seen_first' (the default): unseen questions always first; seen ones fill only what
+// unseen ones cannot, and the repair pass swaps in a seen question only for a minimum no unseen question
+// can meet. Then unmet minimums, then targets, then the seed. The repeat-allowed builds of
+// assembleNtaPaper: 'relaxed', a seen question gives way only to an unseen one that is just as useful to
+// the paper; 'none', the paper is built as if nothing had been seen (seen questions are still counted
+// and named in the notice).
+function better(a, b, seenPolicy = 'seen_first') {
   if (!b) return true;
-  if (a.item.seen !== b.item.seen) return !a.item.seen;
+  if (seenPolicy === 'seen_first' && a.item.seen !== b.item.seen) return !a.item.seen;
   if ((a.minGain > 0) !== (b.minGain > 0)) return a.minGain > 0;
   if (a.minGain !== b.minGain) return a.minGain > b.minGain;
   if (a.targetGain !== b.targetGain) return a.targetGain > b.targetGain;
+  if (seenPolicy !== 'none' && a.item.seen !== b.item.seen) return !a.item.seen;
   return a.item.pref < b.item.pref;
+}
+
+// Orders two candidates (questions or sets) by seen, as far as the build's seen policy allows.
+function seenOrder(state, a, b) {
+  return state.seenPolicy === 'none' ? 0 : Number(a.seen) - Number(b.seen);
 }
 
 function pickSets(model, state, sets, limits) {
   if (!model.sets.enabled) return;
   const want = model.sets.count.target;
   const kindsWanted = model.sets.distinctKindsMin || 1;
+  const seenFirst = state.seenPolicy === 'seen_first';
   const ordered = sets.slice().sort((a, b) =>
-    Number(a.seen) - Number(b.seen)
+    (seenFirst ? seenOrder(state, a, b) : 0)
     || Math.abs(a.size - model.sets.size.target) - Math.abs(b.size - model.sets.size.target)
+    || seenOrder(state, a, b)
     || a.pref - b.pref);
   for (let pass = 0; pass < 2 && state.sets.length < want; pass += 1) {
     for (const set of ordered) {
@@ -834,7 +894,7 @@ function fill(model, state, limits, deadline) {
       for (const slotId of item.slotIds) {
         if (!canAdd(model, state, limits, item, slotId, sectionFree)) continue;
         const candidate = { item, slotId, ...gains(model, state, limits, item, slotId) };
-        if (better(candidate, best)) best = candidate;
+        if (better(candidate, best, state.seenPolicy)) best = candidate;
       }
     }
     if (!best) return;
@@ -898,8 +958,8 @@ function repair(model, state, limits, deadline) {
         if (!available(state, item)) continue;
         for (const slotId of item.slotIds) if (servesDimension(model, dimension, item, slotId)) incoming.push({ item, slotId });
       }
-      incoming.sort((a, b) => Number(a.item.seen) - Number(b.item.seen) || a.item.pref - b.item.pref);
-      const outgoing = state.picks.slice().sort((a, b) => Number(b.item.seen) - Number(a.item.seen) || b.item.pref - a.item.pref);
+      incoming.sort((a, b) => seenOrder(state, a.item, b.item) || a.item.pref - b.item.pref);
+      const outgoing = state.picks.slice().sort((a, b) => seenOrder(state, b.item, a.item) || b.item.pref - a.item.pref);
       for (const { item, slotId } of incoming.slice(0, REPAIR_CANDIDATES)) {
         const pick = outgoing.find((candidate) => removable(model, state, limits, candidate, item, slotId)
           && fitsAfterSwap(model, state, limits, candidate, item, slotId));
@@ -917,8 +977,8 @@ function repair(model, state, limits, deadline) {
   }
 }
 
-function runLevel(model, prepared, level, deadline) {
-  const state = newState(model, prepared.standalone);
+function runLevel(model, prepared, level, deadline, { seenPolicy = 'seen_first' } = {}) {
+  const state = newState(model, prepared.standalone, { seenPolicy });
   pickSets(model, state, prepared.sets, limitsFor(model, level, 0));
   const setQuestions = state.sets.reduce((sum, entry) => sum + entry.set.size, 0);
   const limits = limitsFor(model, level, setQuestions);
@@ -1155,12 +1215,14 @@ function unitLabel(key) {
   return String(key).replace(/^[^:]*:/, '');
 }
 
-function describe(deviations, model, paper, extras) {
+// The differences of a served paper, or (refused) only what the bank is short of: a refused paper is
+// never shown, so nothing that names its positions, its layout or its repeats is said about it.
+function describe(deviations, model, paper, extras, { refused = false } = {}) {
   const lines = [];
   const subject = subjectLabel(model.bp);
   const total = paper.length;
-  if (total !== model.total) lines.push(`This paper has ${total} questions instead of ${model.total}: the question bank does not have enough questions that meet the quality bar and fit the ${subject} pattern.`);
-  const substituted = deviations.find((deviation) => deviation.kind === 'sets_substituted');
+  if (!refused && total !== model.total) lines.push(`This paper has ${total} questions instead of ${model.total}: the question bank does not have enough questions that meet the quality bar and fit the ${subject} pattern.`);
+  const substituted = !refused && deviations.find((deviation) => deviation.kind === 'sets_substituted');
   if (substituted) {
     const setCount = Number(substituted.actual) || 0;
     const missing = model.sets.questions.target - paper.filter((entry) => entry.setIndex !== null).length;
@@ -1179,27 +1241,46 @@ function describe(deviations, model, paper, extras) {
     const named = chapters.slice(0, 3).map((deviation) => `${unitLabel(deviation.key)} ${deviation.actual} (real paper ${deviation.expected.replace('-', ' to ')})`);
     lines.push(`Chapter weightage differs in ${chapters.length} chapter${chapters.length === 1 ? '' : 's'}: ${named.join('; ')}${chapters.length > 3 ? '; and others' : ''}.`);
   }
+  const numericalShort = deviations.find((deviation) => deviation.kind === 'numerical_short');
+  if (refused) {
+    if (numericalShort) lines.push(`Numerical questions: ${numericalShort.actual} instead of ${numericalShort.expected.replace('-', ' to ')}, because the bank is short of them.`);
+    return lines;
+  }
   if (deviations.some((deviation) => deviation.kind === 'difficulty')) {
     const counts = countBy(paper.map((entry) => entry.difficulty));
     const target = DIFFICULTIES.map((key) => Math.round(model.difficulty[key].target * 100));
     lines.push(`Difficulty mix: ${counts.easy || 0} easy, ${counts.medium || 0} medium and ${counts.hard || 0} hard; the CUET pattern is about ${target[0]}% easy, ${target[1]}% medium and ${target[2]}% hard.`);
   }
-  const numericalShort = deviations.find((deviation) => deviation.kind === 'numerical_short');
   if (numericalShort) lines.push(`Numerical questions: ${numericalShort.actual} instead of ${numericalShort.expected.replace('-', ' to ')}, because the bank is short of them.`);
   if (deviations.some((deviation) => deviation.kind === 'set_kinds')) lines.push('Both reading passages are of the same kind; the real paper mixes factual, narrative and literary passages.');
   if (deviations.some((deviation) => deviation.kind === 'order_chapter_run' || deviation.kind === 'order_type_run')) lines.push('A few questions of the same kind sit next to each other more often than in the real paper.');
   if (extras.paragraphJumbles) lines.push(`The ${extras.paragraphJumbles} rearrangement question${extras.paragraphJumbles === 1 ? ' orders' : 's order'} sentences of a paragraph; the real paper rearranges parts of one sentence.`);
-  if (extras.seenUsed) lines.push(`${extras.seenUsed} question${extras.seenUsed === 1 ? ' is one' : 's are ones'} you have answered before: there are not enough new questions that fit the pattern.`);
+  const repeats = extras.previousRepeats || 0;
+  if (repeats) lines.push(`${repeats} question${repeats === 1 ? ' repeats' : 's repeat'} from your earlier NTA papers: there are not enough new questions that fit the pattern.`);
+  if (extras.seenUsed) {
+    lines.push(repeats
+      ? `${extras.seenUsed} other question${extras.seenUsed === 1 ? ' is one' : 's are ones'} you have answered before.`
+      : `${extras.seenUsed} question${extras.seenUsed === 1 ? ' is one' : 's are ones'} you have answered before: there are not enough new questions that fit the pattern.`);
+  }
   return lines;
 }
 
 function refusal(model, reason, details) {
   const subject = subjectLabel(model.bp);
   const tryInstead = `Try a Full Mock for ${subject} instead; it uses the wider question bank.`;
+  const notReady = `NTA mode is not ready for ${subject} yet`;
+  // No question to place: the sentence names the gate that kept out the most questions (emptyPoolCause).
+  const emptyPool = {
+    unscored: `${notReady}: its questions have not been quality-scored, and NTA mode uses only questions scoring ${details.minScore} or more out of 10. ${tryInstead}`,
+    quality: `${notReady}: no question passes every check, and most do not have a checked quality score of ${details.minScore} or more out of 10. ${tryInstead}`,
+    fit_not_judged: `${notReady}: no question passes every check, and most have not yet been checked against the real CUET paper. ${tryInstead}`,
+    fit_below_bar: `${notReady}: no question passes every check, and most were judged not close enough to real CUET questions. ${tryInstead}`,
+    veto: `${notReady}: no question passes every check, and most are held back by checks on their answer key, wording or format. ${tryInstead}`,
+    syllabus: `${notReady}: the questions that pass every check are from chapters this paper does not cover. ${tryInstead}`,
+    unpublished: `${notReady}: it has no published questions that NTA mode can use. ${tryInstead}`,
+  };
   const messages = {
-    no_scored_questions: details.scored
-      ? `NTA mode is not ready for ${subject} yet: none of its questions has a quality score of ${details.minScore} or more out of 10. ${tryInstead}`
-      : `NTA mode is not ready for ${subject} yet: its questions have not been quality-scored, and NTA mode uses only questions scoring ${details.minScore} or more out of 10. ${tryInstead}`,
+    no_scored_questions: emptyPool[details.cause] || emptyPool.unscored,
     no_passage_sets: `NTA mode for ${subject} needs ${model.sets.count.min} complete reading passages${model.sets.passageWords ? ` of ${model.sets.passageWords.min} to ${model.sets.passageWords.max} words` : ''} with ${model.sets.size.min} to ${model.sets.size.max} different questions each, as in the real paper. The bank has ${details.sets} such passage${details.sets === 1 ? '' : 's'} that meet${details.sets === 1 ? 's' : ''} the quality bar right now. ${tryInstead}`,
     too_few_questions: `NTA mode for ${subject} could place only ${details.total} of ${model.total} questions in the CUET pattern from questions that meet the quality bar, so it would not be a fair exam paper. ${tryInstead}`,
     time_budget: `Building the ${subject} paper took too long, so it was stopped. Please try again in a minute.`,
@@ -1227,7 +1308,8 @@ function assembleSeeded(rows, options = {}) {
   const deadline = Math.min(options.deadline || Infinity, startedAt + NTA_TIME_BUDGET_MS);
   const minScore = Number.isFinite(options.minScore) ? options.minScore : NTA_MIN_SCORE;
   const seed = String(options.seed || 'nta');
-  const context = { ...options, minScore, seed };
+  const seenPolicy = SEEN_POLICIES.includes(options.seenPolicy) ? options.seenPolicy : 'seen_first';
+  const context = { ...options, minScore, seed, seenPolicy };
 
   const prepared = prepareCandidates(Array.isArray(rows) ? rows : [], model, context);
   const gatesMs = Date.now() - startedAt;
@@ -1235,7 +1317,7 @@ function assembleSeeded(rows, options = {}) {
   const results = [];
   for (const level of LEVELS) {
     if (Date.now() > deadline) break;
-    const result = runLevel(model, prepared, level, deadline);
+    const result = runLevel(model, prepared, level, deadline, { seenPolicy });
     results.push(result);
     if (result.total === model.total && result.unmet.length === 0) break;
   }
@@ -1247,7 +1329,10 @@ function assembleSeeded(rows, options = {}) {
   const paper = best ? layout(model, best.state, seed) : [];
   const deviations = checkNtaPaper(paper, bp, variant.id);
   const seenUsed = paper.filter((entry) => entry.item.seen).length;
-  const extras = { seenUsed, paragraphJumbles: bp.subject === 'english' ? englishParagraphJumbles(paper) : 0 };
+  // Questions from the student's earlier NTA papers are named as such; other seen ones as answered before.
+  const previous = options.previousPaperIds instanceof Set ? options.previousPaperIds : new Set(options.previousPaperIds || []);
+  const previousRepeats = paper.filter((entry) => previous.has(entry.id)).length;
+  const extras = { seenUsed: seenUsed - paper.filter((entry) => entry.item.seen && previous.has(entry.id)).length, previousRepeats, paragraphJumbles: bp.subject === 'english' ? englishParagraphJumbles(paper) : 0 };
   const setCount = best ? best.state.sets.length : 0;
   const structureBroken = deviations.filter((deviation) => deviation.severity === 'structure');
 
@@ -1260,17 +1345,19 @@ function assembleSeeded(rows, options = {}) {
   // A broken structure is an engine fault, never something to hand a student.
   else if (structureBroken.length) refusalReason = 'engine_error';
   if (refusalReason) status = 'refused';
-  else if (deviations.length || extras.seenUsed || extras.paragraphJumbles) status = 'closest';
+  else if (deviations.length || extras.seenUsed || extras.previousRepeats || extras.paragraphJumbles) status = 'closest';
+  // No question to place: which gate kept them out decides the sentence (and is kept for the content team).
+  const cause = refusalReason === 'no_scored_questions' ? emptyPoolCause(prepared) : null;
 
   // A refusal for a thin bank still says what the bank is short of; other refusals need no list.
   const items = status !== 'refused' ? describe(deviations, model, paper, extras)
-    : refusalReason === 'too_few_questions' ? describe(deviations, model, paper, {}).filter((line) => !line.startsWith('This paper has')) : [];
+    : refusalReason === 'too_few_questions' ? describe(deviations, model, paper, {}, { refused: true }) : [];
   const subject = subjectLabel(bp);
   const summary = status === 'exact'
     ? `${subject}: 50 questions in the CUET ${subject} pattern.`
     : status === 'closest'
       ? `This ${subject} paper follows the CUET pattern as closely as the question bank allows. What differs from the real paper:`
-      : refusal(model, refusalReason, { minScore, scored: prepared.scoredCount, sets: prepared.sets.length, total: paper.length });
+      : refusal(model, refusalReason, { minScore, scored: prepared.scoredCount, sets: prepared.sets.length, total: paper.length, cause });
   const totalMs = Date.now() - startedAt;
 
   const typeCounts = countBy(paper.filter((entry) => entry.setIndex === null).map((entry) => entry.type));
@@ -1286,6 +1373,8 @@ function assembleSeeded(rows, options = {}) {
     units: model.units.map((unit) => ({ section: model.sections[unit.sectionIndex].id, unit: unit.name, questions: unit.slotIds.reduce((sum, id) => sum + paper.filter((entry) => entry.slotId === id).length, 0), range: `${unit.min}-${unit.max}` })),
     relaxation: best ? best.level.label : null,
     seenUsed,
+    // 'seen_first': seen questions fill only what new ones cannot; 'relaxed' and 'none': repeat-allowed builds.
+    seenPolicy,
   };
 
   const shortfall = status === 'exact' ? null : {
@@ -1293,6 +1382,8 @@ function assembleSeeded(rows, options = {}) {
     variant: variant.id,
     status,
     reason: refusalReason,
+    ...(cause ? { cause } : {}),
+    excludedRows: prepared.excludedRows,
     minScore,
     built: paper.length,
     eligiblePool: prepared.eligibleCount,
@@ -1311,11 +1402,11 @@ function assembleSeeded(rows, options = {}) {
     rows: status === 'refused' ? [] : paper.map((entry) => entry.row),
     paper,
     notice: { summary, items },
-    refusal: refusalReason ? { reason: refusalReason, message: summary } : null,
+    refusal: refusalReason ? { reason: refusalReason, ...(cause ? { cause } : {}), message: summary } : null,
     deviations,
     shortfall,
     structure,
-    pool: { scored: prepared.scoredCount, eligible: prepared.eligibleCount, eligibleBySource: prepared.eligibleBySource, standalone: prepared.standalone.length, completeSets: prepared.sets.length, excluded: prepared.excludedReasons },
+    pool: { scored: prepared.scoredCount, eligible: prepared.eligibleCount, seenEligible: prepared.seenEligible, eligibleBySource: prepared.eligibleBySource, standalone: prepared.standalone.length, completeSets: prepared.sets.length, excluded: prepared.excludedReasons },
     timings: { gatesMs, assembleMs, totalMs, levelsTried: results.length },
     engineVersion: NTA_ENGINE_VERSION,
     blueprintVersion: bp.blueprintVersion,
@@ -1324,6 +1415,11 @@ function assembleSeeded(rows, options = {}) {
 
 // The seed a refusal is worked out with (assembleNtaPaper), so it reads the same on every retry.
 const NTA_REFUSAL_SEED = 'nta-refusal';
+// Refusals that holding back seen questions can cause: the paper falls short of the serving floor or of
+// its reading passages. Only these are worth a repeat-allowed build.
+const REPEATABLE_REFUSALS = new Set(['too_few_questions', 'no_passage_sets']);
+// How far seen questions are held back in one build (better): the default, then the repeat-allowed builds in turn.
+const SEEN_POLICIES = ['seen_first', 'relaxed', 'none'];
 
 /**
  * Builds one NTA paper. rows: the subject's candidate pool (any rows; gates are applied here).
@@ -1335,6 +1431,13 @@ const NTA_REFUSAL_SEED = 'nta-refusal';
  * pool whenever the rest of the pool still gives a paper that can be served; otherwise the paper is
  * built from the whole pool with them treated as seen (used only where nothing new fits), and
  * structure.crossPaper records why.
+ * Seen questions (seenIds, and earlier papers in that fallback) are first held back to fill only what
+ * new ones cannot. When that leaves a paper below the serving floor, it is built again with repeats
+ * allowed, with the same gates, quotas and structure checks: first a seen question gives way only to an
+ * equally useful new one ('relaxed'), then, if that is still short, the paper is built as if nothing
+ * had been seen ('none'). The notice says how many questions repeat from earlier NTA papers, and
+ * structure.repeatFallback (and crossPaper.repeatsAllowed) records every build. So holding back seen
+ * questions never causes a refusal on its own.
  * shuffleKey (default: the seed, which the website derives from the session's generation key): the
  * options of each served row are put in an order seeded by this key and the question id, with the key
  * remapped (data/nta_item_checks.js ntaServedRow). result.rows are the served rows; result.paper
@@ -1345,24 +1448,45 @@ const NTA_REFUSAL_SEED = 'nta-refusal';
  */
 export function assembleNtaPaper(rows, options = {}) {
   const pool = Array.isArray(rows) ? rows : [];
+  // Every build of this call shares each row's gate verdict (prepareCandidates).
+  const verdicts = new WeakMap();
   // A paper the bank cannot supply is refused the same way whatever the session's seed: the refusal
   // is worked out once more with a fixed seed, so a student who retries reads the same sentence (and
   // gets that paper if the fixed seed happens to fit it).
   const assembleOnce = (subset, opts) => {
-    const result = assembleSeeded(subset, opts);
+    const result = assembleSeeded(subset, { ...opts, verdicts });
     if (result.status !== 'refused' || result.refusalReason === 'time_budget' || String(opts.seed || '') === NTA_REFUSAL_SEED) return result;
-    const again = assembleSeeded(subset, { ...opts, seed: NTA_REFUSAL_SEED });
+    const again = assembleSeeded(subset, { ...opts, verdicts, seed: NTA_REFUSAL_SEED });
     return again.refusalReason === 'time_budget' ? result : again;
   };
+  // Seen questions held back first; while that cannot reach the serving floor, again with repeats allowed.
+  const assembleAllowingRepeats = (subset, opts) => {
+    let chosen = assembleOnce(subset, { ...opts, seenPolicy: 'seen_first' });
+    if (chosen.status !== 'refused' || !REPEATABLE_REFUSALS.has(chosen.refusalReason) || !chosen.pool.seenEligible) return chosen;
+    const tried = { seen_first: chosen };
+    for (const seenPolicy of SEEN_POLICIES.slice(1)) {
+      const built = assembleOnce(subset, { ...opts, seenPolicy });
+      tried[seenPolicy] = built;
+      // A served paper wins; between short papers, the larger one (its sentence names the most the bank allows).
+      if (built.status !== 'refused' || (REPEATABLE_REFUSALS.has(built.refusalReason) && built.paper.length > chosen.paper.length)) chosen = built;
+      if (chosen.status !== 'refused' || built.refusalReason === 'time_budget') break;
+    }
+    chosen.structure.repeatFallback = {
+      used: chosen.structure.seenPolicy,
+      builds: Object.fromEntries(Object.entries(tried).map(([policy, built]) => [policy, { status: built.status, refusal: built.refusalReason, built: built.paper.length }])),
+    };
+    return chosen;
+  };
   const previous = options.previousPaperIds instanceof Set ? options.previousPaperIds : new Set(options.previousPaperIds || []);
+  const seenIds = options.seenIds instanceof Set ? options.seenIds : new Set(options.seenIds || []);
   let result;
-  let crossPaper = { previousPaperQuestions: previous.size, leftOut: 0, repeated: 0, fallback: false, reason: null };
+  let crossPaper = { previousPaperQuestions: previous.size, leftOut: 0, repeated: 0, fallback: false, reason: null, repeatsAllowed: false };
   if (!previous.size) {
-    result = assembleOnce(pool, options);
+    result = assembleAllowingRepeats(pool, { ...options, seenIds });
   } else {
     const fresh = pool.filter((row) => !previous.has(row?.id));
     const leftOut = pool.length - fresh.length;
-    const strict = assembleOnce(fresh, options);
+    const strict = assembleAllowingRepeats(fresh, { ...options, seenIds });
     if (strict.status !== 'refused' || strict.refusalReason === 'time_budget' || !leftOut) {
       result = strict;
       crossPaper = { ...crossPaper, leftOut };
@@ -1371,14 +1495,14 @@ export function assembleNtaPaper(rows, options = {}) {
         if (result.shortfall) result.shortfall.excluded = { ...result.shortfall.excluded, served_in_previous_nta_paper: leftOut };
       }
     } else {
-      const seenIds = new Set([...(options.seenIds || []), ...previous]);
-      result = assembleOnce(pool, { ...options, seenIds });
+      result = assembleAllowingRepeats(pool, { ...options, seenIds: new Set([...seenIds, ...previous]) });
       crossPaper = {
         ...crossPaper,
         leftOut: 0,
         repeated: result.paper.filter((entry) => previous.has(entry.id)).length,
         fallback: true,
         reason: 'pool_too_small_without_previous_papers',
+        repeatsAllowed: result.structure.seenPolicy !== 'seen_first',
         withoutPrevious: { status: strict.status, refusal: strict.refusalReason, built: strict.paper.length },
       };
     }

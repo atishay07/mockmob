@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { StatusIcon } from './Glyph';
 import { Mascot } from '@/components/brand/Mascot';
 
@@ -53,6 +54,26 @@ export function ErrorState({ message = 'Check your connection and try again.', o
         {onRetry ? <button type="button" onClick={onRetry} className="ui-state__action">Try again</button> : null}
       </div>
     </div>
+  );
+}
+
+/**
+ * A settled answer that retrying would not change (a refusal, a limit): what happened, why, and the
+ * ways forward. Not an error, so no red and no "Try again". `actions` are links or buttons, the first
+ * one primary (give it ui-state__action--primary).
+ */
+export function NoticeState({ title, message, actions = null, mascot = true, headingLevel = 2 }) {
+  const Heading = headingLevel === 1 ? 'h1' : 'h2';
+  const titleId = useId();
+  return (
+    <section className="ui-state ui-state--notice" role="status" aria-labelledby={titleId}>
+      {mascot ? <div className="pip-state"><Mascot pose="attentive" /></div> : null}
+      <div>
+        <Heading id={titleId} className="ui-state__title">{title}</Heading>
+        <p>{message}</p>
+        {actions ? <div className="ui-state__actions">{actions}</div> : null}
+      </div>
+    </section>
   );
 }
 

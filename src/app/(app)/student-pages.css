@@ -161,3 +161,16 @@
 .app-shell .ui-state__action--primary { border-color: transparent; background: var(--volt); color: #0b1000; }
 .app-shell .ui-state__action:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .ui-state__action:not(.ui-state__action--primary):hover { background: var(--a-hover); border-color: var(--a-line-hover); } }
+/* A settled answer with its ways forward (NoticeState): neutral, not an error. */
+.app-shell .ui-state--notice { grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; padding: 20px 22px; }
+.app-shell .ui-state--notice .pip-state { width: 48px; height: 60px; margin-bottom: 0; }
+.app-shell .ui-state__title { margin: 0 0 6px; font: 700 18px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .ui-state__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.app-shell .ui-state__actions .ui-state__action { margin-top: 0; text-decoration: none; transition: background-color 160ms var(--ease-out, ease-out), border-color 160ms var(--ease-out, ease-out), transform 100ms var(--ease-out, ease-out); }
+.app-shell .ui-state__actions .ui-state__action:active { transform: translateY(1px); }
+@media (hover: hover) and (pointer: fine) { .app-shell .ui-state__actions .ui-state__action--primary:hover { background: #e8ff4a; } }
+@media (max-width: 479px) {
+  .app-shell .ui-state--notice { grid-template-columns: minmax(0, 1fr); padding: 18px; }
+  .app-shell .ui-state__actions .ui-state__action { flex: 1 1 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .ui-state__actions .ui-state__action { transition: none; } .app-shell .ui-state__actions .ui-state__action:active { transform: none; } }

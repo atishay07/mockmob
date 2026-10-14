@@ -8,6 +8,8 @@ const eslintConfig = defineConfig([
     // Default ignores of eslint-config-next:
     ".next/**",
     ".next-dev/**",
+    // A second build output (staging builds); lint scans source only.
+    ".next-staging/**",
     "out/**",
     "build/**",
     "coverage/**",

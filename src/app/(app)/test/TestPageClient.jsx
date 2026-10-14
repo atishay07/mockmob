@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icons';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
+import { PageSpinner, ErrorState, NoticeState } from '@/components/ui/Skeleton';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
@@ -37,6 +38,21 @@ function displayLabel(value) {
   return String(value || '')
     .replace(/_/g, ' ')
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function newGenerationKey() {
+  return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
+}
+
+// A Full Mock for the subject: started directly for a Premium student (it costs them nothing), set up on
+// the dashboard otherwise, where its cost is shown before it starts. One key per refusal, so following
+// the link twice reopens the same Full Mock.
+function fullMockHref(subjectId, isPremium, key) {
+  const subject = encodeURIComponent(subjectId || '');
+  if (!isPremium) return `/dashboard?subject=${subject}&mode=full`;
+  return `/test?subject=${subject}&count=50&mode=full&generationKey=${encodeURIComponent(key)}`;
 }
 
 const NTA_LOADING_STEPS = [
@@ -165,6 +181,8 @@ function TestRunner() {
   const [now, setNow] = useState(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // An NTA paper the bank cannot supply: { message, fullMockKey }.
+  const [refusal, setRefusal] = useState(null);
   const [selectionMeta, setSelectionMeta] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [syncStatus, setSyncStatus] = useState('saved');
@@ -229,6 +247,7 @@ function TestRunner() {
     async function load() {
       setLoading(true);
       setError(null);
+      setRefusal(null);
       setSelectionMeta(null);
       setPendingSubmission(false);
       autoSubmitTried.current = false;
@@ -349,8 +368,12 @@ function TestRunner() {
           return;
         }
         if (isNtaMode && e?.body?.message) {
-          // The NTA engine explains a refusal in the student's terms; show it as it is.
-          setError([e.body.message, ...(e.body.detail?.items || []).slice(0, 2)].join(' '));
+          // The NTA engine explains a refusal in the student's terms; show its sentence as it is.
+          // A refusal the question bank decides (detail.retryable false, src/lib/server/ntaPaper.js) comes back
+          // the same on every retry, so it gets a way forward instead of "Try again"; a build that ran out of
+          // time may still succeed on a retry.
+          if (e.body.detail?.retryable === false) setRefusal({ message: e.body.message, fullMockKey: newGenerationKey() });
+          else setError(e.body.message);
           setLoading(false);
           return;
         }
@@ -587,6 +610,20 @@ function TestRunner() {
 
   if (authStatus === 'loading') return <PageSpinner label="Loading test..." />;
   if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Mobi stays outside while you answer.</ArenaCompanion>{isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <p role="status">Loading practice…</p>}</div>;
+
+  if (refusal) return (
+    <div className="container-narrow max-w-3xl px-4 pt-10">
+      <NoticeState
+        headingLevel={1}
+        title={`No NTA paper for ${displayLabel(subjectId)} yet`}
+        message={refusal.message}
+        actions={<>
+          <Link href={fullMockHref(subjectId, user?.isPremium === true, refusal.fullMockKey)} className="ui-state__action ui-state__action--primary">Start a Full Mock</Link>
+          <Link href="/dashboard" className="ui-state__action">Back to dashboard</Link>
+        </>}
+      />
+    </div>
+  );
 
   if (error && !questions.length) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">

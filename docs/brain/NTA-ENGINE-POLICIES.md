@@ -96,6 +96,26 @@ way and reports the repeats and the key positions.
 
 A refusal is worked out once more with a fixed seed, so a student who retries reads the same sentence.
 
+Repeats never refuse a paper (engine r5.1, 14 Oct). Seen questions (the student's practice answers, and earlier
+papers in the fallback above) are first held back to fill only what new ones cannot ('seen_first'). Holding
+them back can itself leave the paper short: on the 13 Oct export a second paper went from 46 to 44 for General
+Test and from 45 to 44 for Economics, both refused. When the seen-first build is refused for too few questions
+or passages, the paper is built again with repeats allowed, with every gate, quota and structure check
+unchanged: first 'relaxed' (a seen question gives way only to an equally useful new one), then 'none' (built
+as if nothing had been seen). The notice names the repeats ("N questions repeat from your earlier NTA papers:
+there are not enough new questions that fit the pattern."); `structure.repeatFallback` records each build and
+`crossPaper.repeatsAllowed` says a repeat-allowed build was used. Unsubmitted NTA sessions still count as
+earlier papers: their whole paper was on screen, and the finaliser turns them into attempts after the deadline
+and grace anyway.
+
+When no question at all can be placed (`no_scored_questions`), the sentence names the gate that kept out the
+most questions (`refusal.cause`): `quality` (no trusted score of 8 or more), `fit_not_judged` or `fit_below_bar`
+(the CUET-fit judges), `veto` (key disputes, holds, blocking flags, answer, wording and format checks),
+`syllabus` (questions pass every gate but sit in chapters the paper does not ask) or `unscored` (nothing carries
+a score). `shortfall.excludedRows` counts rows per gate. A refused paper's notice items list only what the bank
+is short of (types, units, chapters, numericals), never positions or layout of a paper nobody sees. The website
+reads `detail.retryable` (false for the three bank refusals) and offers a Full Mock instead of "Try again".
+
 ## 10. CUET fit (engine r5, merged from wip/cuet-fit on 14 Oct)
 
 Eligibility needs the quality gate above AND the CUET-fit gate (data/nta_fit_scores.js, rubric

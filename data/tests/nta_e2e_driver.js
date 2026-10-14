@@ -318,8 +318,12 @@
     const first = snap();
     if (first.state !== 'runner') {
       const text = first.text; const buttons = $$('button, a').filter(visible).map((b) => b.innerText.trim()).filter(Boolean);
+      // A refusal the bank decides is a notice panel (title, the engine's sentence, Full Mock and dashboard links);
+      // anything else is the error panel with "Try again".
+      const notice = $('.ui-state--notice');
       const all = document.body.innerText; const at = all.indexOf('This did not load');
-      return { refused: true, message: at >= 0 ? all.slice(at, at + 520).replace(/\s+/g, ' ') : '', text: at >= 0 ? '' : text.slice(0, 200), buttons: buttons.filter((b) => /dashboard|again|retry|full mock/i.test(b)), scrollX: document.documentElement.scrollWidth > innerWidth + 1, width: innerWidth, contrast: first.errorContrast, theme: first.theme };
+      const message = notice ? notice.innerText.replace(/\s+/g, ' ') : at >= 0 ? all.slice(at, at + 520).replace(/\s+/g, ' ') : '';
+      return { refused: true, kind: notice ? 'notice' : at >= 0 ? 'error' : 'other', title: notice?.querySelector('.ui-state__title')?.innerText || '', message, fullMockHref: notice?.querySelector('a.ui-state__action--primary')?.getAttribute('href') || '', text: message ? '' : text.slice(0, 200), buttons: buttons.filter((b) => /dashboard|again|retry|full mock/i.test(b)), scrollX: document.documentElement.scrollWidth > innerWidth + 1, width: innerWidth, contrast: first.errorContrast, theme: first.theme };
     }
     const f = await flow();
     const out = { refused: false, width: innerWidth, head: f.snap?.head, total: first.total, notice: first.notice && { open: first.notice.open, summary: first.notice.summary, items: first.notice.items }, interface: first.interface,

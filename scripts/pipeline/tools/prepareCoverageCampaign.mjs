@@ -39,8 +39,8 @@ try{
  for(const chapter of ['Factual Passage','Narrative Passage','Literary Passage']){
   const siblings=jobs.filter(j=>j.subject==='english'&&j.chapter===chapter);if(!siblings.length)continue;
   const passages=Object.values(registry.sources).filter(s=>s.id.startsWith('mockmob-original-stimulus-')&&s.state==='active'&&s.chapters?.includes(chapter));
-  const use=s=>[...inventory,...planningContext].filter(q=>q.passage_text===s.facts.stimulus.text).length;
-  passages.sort((a,b)=>use(a)-use(b)||hashJSON({name,id:a.id}).localeCompare(hashJSON({name,id:b.id})));
+  const timesUsed=s=>[...inventory,...planningContext].filter(q=>q.passage_text===s.facts.stimulus.text).length;
+  passages.sort((a,b)=>timesUsed(a)-timesUsed(b)||hashJSON({name,id:a.id}).localeCompare(hashJSON({name,id:b.id})));
   const document=passages[0];
   const source=document?{state:'active',kind:'original_practice',passage_text:document.facts.stimulus.text,source_pack_id:'original-english-reference-v1'}:null,id='original-passage-'+hashJSON({name,chapter}).slice(0,20);
   if(!source)throw Error('complete_original_stimulus_required');
