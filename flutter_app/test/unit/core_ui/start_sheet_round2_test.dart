@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
@@ -48,6 +49,68 @@ Future<void> _openSheet(WidgetTester tester, {required String defaultSubject}) a
 }
 
 void main() {
+  testWidgets('a subject chip changes what Quick 10 and Full mock start', (tester) async {
+    tester.view.physicalSize = const Size(360, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final started = <Uri>[];
+    final router = GoRouter(
+      initialLocation: '/today',
+      routes: [
+        GoRoute(
+          path: '/today',
+          builder: (_, _) => Scaffold(
+            body: Builder(
+              builder: (context) => TextButton(
+                onPressed: () => showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => const Material(child: QuickStartSheet()),
+                ),
+                child: const Text('Start'),
+              ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: '/practice/setup/:mode',
+          builder: (_, state) {
+            started.add(state.uri);
+            return const Scaffold(body: Text('setup'));
+          },
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resumeDraftProvider.overrideWith((ref) => null),
+          resumeOfferProvider.overrideWith((ref) async => null),
+          startSubjectsProvider.overrideWith((ref) => _subjects),
+          startDefaultSubjectProvider.overrideWith((ref) => 'accountancy'),
+        ],
+        child: MaterialApp.router(theme: buildTheme(Brightness.light), routerConfig: router),
+      ),
+    );
+    await tester.tap(find.text('Start'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 800));
+    // Tonight's subject is the one the sheet opens on, and Quick 10 starts in it.
+    expect(find.textContaining('10 Accountancy questions'), findsOneWidget);
+    await tester.ensureVisible(find.text('Economics'));
+    await tester.pump();
+    await tester.tap(find.text('Economics'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.textContaining('10 Economics questions'), findsOneWidget, reason: 'the note says what will start');
+    await tester.tap(find.text('Quick 10'));
+    await tester.pumpAndSettle();
+    expect(started.single.path, '/practice/setup/quick');
+    expect(started.single.queryParameters, {'count': '10', 'subject': 'economics'});
+  });
+
   testWidgets('the selected chip is fully in view when the sheet opens, even the last one', (tester) async {
     await _openSheet(tester, defaultSubject: 'general_test');
     final chip = find.text('General Test');
@@ -62,10 +125,9 @@ void main() {
     expect(tester.getRect(find.text('Accountancy')).left, greaterThanOrEqualTo(0));
     ProviderScope.containerOf(tester.element(find.byType(QuickStartSheet))).read(startSubjectProvider.notifier).select('general_test');
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
     await tester.pump(const Duration(milliseconds: 400));
     final rect = tester.getRect(find.text('General Test'));
-    // ignore: avoid_print
-    print('DBG $rect ${tester.getRect(find.text('Accountancy'))} ${tester.getRect(find.byKey(const ValueKey('start-subject-chips')))}');
     expect(rect.left, greaterThanOrEqualTo(0));
     expect(rect.right, lessThanOrEqualTo(360));
   });

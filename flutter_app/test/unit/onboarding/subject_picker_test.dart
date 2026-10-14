@@ -9,6 +9,7 @@ import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/widgets/subject_picker.dart';
+import 'package:mockmob/features/onboarding/widgets/subject_row.dart' show SubjectLine;
 
 import '../../golden/onboarding/subject_rows.dart';
 import '../../golden/onboarding/support.dart';
@@ -34,6 +35,20 @@ Future<ProviderContainer> _pump(WidgetTester tester, OnboardingAnswers answers) 
 
 void main() {
   setUpAll(loadAppFonts);
+
+  testWidgets('a subject line is 56 dp at least: a selectable row (SPACING 4.3)', (tester) async {
+    tester.view.physicalSize = const Size(768, 800);
+    tester.view.devicePixelRatio = 2;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(MaterialApp(
+      theme: buildTheme(Brightness.dark),
+      home: const Scaffold(
+        body: Column(children: [SubjectLine(subject: SheetSubject.accountancy, chosen: true)]),
+      ),
+    ));
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(tester.getSize(find.byType(SubjectLine)).height, greaterThanOrEqualTo(56));
+  });
 
   test('the live list: 15 practice subjects, languages apart, merged and retired rows left out', () {
     final r = SubjectRegistry.fromRows(kSubjectRows);

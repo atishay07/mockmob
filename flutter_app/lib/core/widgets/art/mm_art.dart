@@ -17,13 +17,11 @@ enum MmArt {
   mobiRest('mobi-rest'),
   mobiSleepy('mobi-sleepy'),
   mobiRead('mobi-read'),
-  emptyAllClear('empty-allclear', fallback: MmArt.mobiRead),
-  emptyOffline('empty-offline', fallback: MmArt.mobiSleepy),
   tokenFirstMock('token-first-mock'),
   tokenFirstRepair('token-first-repair'),
   tokenHeld('token-held');
 
-  const MmArt(this.file, {this.fallback});
+  const MmArt(this.file) : fallback = null;
 
   final String file;
   final MmArt? fallback;

@@ -99,7 +99,7 @@ class _Grow extends StatelessWidget {
   }
 }
 
-/// The 52 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
+/// The 56 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
 /// bubble at the end. Shared by the step and the picker.
 class SubjectLine extends StatelessWidget {
   const SubjectLine({
@@ -126,7 +126,7 @@ class SubjectLine extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 52),
+      constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
           SubjectObject(id: subject.id, size: EmblemSizes.chip, marked: chosen),

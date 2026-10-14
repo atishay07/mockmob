@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
@@ -185,6 +186,42 @@ void main() {
       // One object on the card, no Mobi beside it (SPACING.md 5).
       expect(find.byType(MobiCharacter), findsNothing);
       expect(tester.takeException(), isNull);
+    });
+  }
+
+  for (final scale in [1.0, 1.3, 1.6]) {
+    testWidgets('finding 5: the hero title is the subject and never ends in an ellipsis at ${scale}x text', (tester) async {
+      tester.view.physicalSize = const Size(360, 640) * 2;
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: buildTheme(Brightness.dark),
+          builder: (context, app) => MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(scale)), child: app!),
+          home: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SuggestionCard(
+                subjectId: 'business_studies',
+                overline: PracticeCopy.suggestedOverline,
+                number: '10',
+                unit: PracticeCopy.questionsUnit,
+                title: PracticeCopy.subjectTitle('Business Studies'),
+                kicker: PracticeCopy.subjectKicker,
+                reason: 'Ten questions shows where you stand.',
+                actionLabel: 'Start',
+                onAction: () {},
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+      for (final text in ['Business Studies', PracticeCopy.subjectKicker]) {
+        final paragraph = tester.renderObject<RenderParagraph>(find.text(text));
+        expect(paragraph.didExceedMaxLines, isFalse, reason: '"$text" fits its lines at ${scale}x');
+      }
+      expect(PracticeCopy.subjectTitle('Business Studies'), isNot(contains('quick')), reason: 'the kind of paper is the kicker');
     });
   }
 

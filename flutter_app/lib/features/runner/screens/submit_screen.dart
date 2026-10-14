@@ -396,7 +396,9 @@ class _Body extends StatelessWidget {
         padding: padding,
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: (box.maxHeight - padding.vertical).clamp(0.0, double.infinity)),
-          child: Align(alignment: optical, child: child),
+          // The block keeps the height of its tallest stage (the confirm page shows a way back under
+          // each count that the later stages drop), so it never steps when the stage changes.
+          child: Align(alignment: optical, child: _HoldHeight(hold: true, child: child)),
         ),
       ),
     );

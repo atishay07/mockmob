@@ -291,9 +291,20 @@ class _WelcomeViewState extends State<WelcomeView> {
       color: colors.ground,
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [Expanded(child: room), words],
+          // The words take what they need and the painted room the rest. When the words alone are
+          // taller than the screen (a 320 dp phone at 2x text with every extra line), they scroll
+          // under the wordmark's line instead of overflowing, and the room gives way.
+          LayoutBuilder(
+            builder: (context, box) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: room),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: math.max(0.0, box.maxHeight - wordmarkBottom)),
+                  child: SingleChildScrollView(child: words),
+                ),
+              ],
+            ),
           ),
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           Positioned(

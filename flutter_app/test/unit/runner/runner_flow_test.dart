@@ -110,6 +110,8 @@ void main() {
       await tester.pump();
       expect(s.currentIndex, 1);
       expect(find.bySemanticsLabel('Question 2 of 50'), findsOneWidget);
+      // The question just left fades out under the arriving one for 110 ms.
+      await settle(tester);
 
       await tester.tap(find.text('Mark for review'));
       await tester.pump();

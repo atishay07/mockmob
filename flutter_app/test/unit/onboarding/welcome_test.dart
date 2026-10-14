@@ -60,6 +60,40 @@ void main() {
     });
   });
 
+  group('Welcome never overflows, on any phone or text size (router test 19)', () {
+    for (final size in const [Size(320, 568), Size(360, 640), Size(360, 780), Size(384, 853), Size(412, 915)]) {
+      for (final scale in const [1.0, 1.3, 2.0]) {
+        testWidgets('${size.width.toInt()} by ${size.height.toInt()} at text ${scale}x, with every extra line shown', (tester) async {
+          await pumpMockmob(
+            tester,
+            WelcomeView(
+              onStart: () {},
+              onHaveAccount: () {},
+              onStartOver: () {},
+              returning: true,
+              filled: 3,
+              lateNight: true,
+              notice: 'We could not read your saved sheet on this phone.',
+            ),
+            size: size,
+            textScale: scale,
+            disableAnimations: true,
+            overrides: onboardingOverrides(),
+            wrapInScaffold: false,
+          );
+          await tester.pump(const Duration(milliseconds: 100));
+          expect(tester.takeException(), isNull, reason: 'a RenderFlex overflow shows as an exception here');
+          // Where the words are taller than the screen they scroll: the key is always reachable.
+          await tester.ensureVisible(find.text(OnboardingCopy.continuePlan));
+          await tester.pump();
+          final key = tester.getRect(find.text(OnboardingCopy.continuePlan));
+          expect(key.bottom, lessThanOrEqualTo(size.height));
+          expect(find.text(OnboardingCopy.continuePlan).hitTestable(), findsOneWidget);
+        });
+      }
+    }
+  });
+
   testWidgets('a Mobi shown asleep wakes once when Welcome is seen again after 5 AM', (tester) async {
     final entrance = ValueNotifier<MobiAct>(MobiAct.sleep);
     addTearDown(entrance.dispose);

@@ -213,12 +213,12 @@ abstract final class ReviewCopy {
   /// open mistakes in other papers, which the run never touched, so the two are said apart.
   static String endingFact(String chapter, int? left, {int elsewhere = 0, int setAside = 0, int reviewed = 0}) {
     final name = shortChapter(chapter);
-    final other = elsewhere > 0 ? ' $elsewhere more from other papers.' : '';
+    final other = elsewhere > 0 ? ' $elsewhere ${left == 0 ? '' : 'more '}in other papers.' : '';
     return [
       if (left != null)
         left == 0
             ? (elsewhere > 0 ? 'Nothing left in $name from this paper.$other' : 'Nothing left in $name.')
-            : (elsewhere > 0 ? '$left left in $name from this paper.$other' : '$left left in $name.'),
+            : (elsewhere > 0 ? '$left left in $name.$other' : '$left left in $name.'),
       if (setAside > 0) '$setAside set aside while ${setAside == 1 ? 'its key is' : 'their keys are'} checked.',
       if (reviewed > 0) '$reviewed read with the key explanation.',
     ].join(' ');

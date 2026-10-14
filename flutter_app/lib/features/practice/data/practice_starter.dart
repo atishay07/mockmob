@@ -10,6 +10,7 @@ import '../../../core/repositories/local_scope.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/sync/sync_providers.dart';
+import '../../runner/data/runner_session.dart' show EngineRunnerSession;
 import '../copy.dart';
 import '../model/practice_selection.dart';
 import 'practice_notes.dart';
@@ -83,6 +84,7 @@ class PracticeStarter implements PracticeStarting {
     required this.startEngine,
     required this.rememberSession,
     this.afterStarted,
+    this.awaitClosing,
   });
 
   final ApiClient api;
@@ -93,6 +95,10 @@ class PracticeStarter implements PracticeStarting {
 
   /// Analytics and the credit balance refresh. Failures here never fail the start.
   final void Function(PracticeSelection selection)? afterStarted;
+
+  /// Waits for any runner still closing under a draft key (it may yet write its draft over the one
+  /// this start saves). Null in tests that have no runner.
+  final Future<void> Function(String draftKey)? awaitClosing;
 
   final Map<String, Future<StartOutcome>> _inFlight = {};
 
@@ -135,6 +141,14 @@ class PracticeStarter implements PracticeStarting {
       // Retrying the same key returns the same short paper: forget it.
       await drafts.clearGenerationKey(draftKey);
       return StartFailed(StartFailure.notEnoughQuestions, message: view.meta.message ?? ntaPaperSizeMessage(view.questions.length));
+    }
+
+    // A runner of the same selection that is still closing would write its draft over the row this
+    // start is about to save (ROBUSTNESS practice-02): let it finish first.
+    try {
+      await awaitClosing?.call(s.draftKey(userId()));
+    } on Object {
+      // Only an ordering guard; the ownership check on the draft write stays.
     }
 
     try {
@@ -183,6 +197,7 @@ final practiceStarterProvider = Provider<PracticeStarting>((ref) {
     drafts: ref.watch(sessionDraftRepositoryProvider),
     userId: () => ref.read(userIdProvider) ?? (throw const SignedOutException()),
     startEngine: ref.watch(sessionEngineStarterProvider),
+    awaitClosing: EngineRunnerSession.closedUnderKey,
     rememberSession: (id, s) => ref
         .read(practiceNotesProvider)
         .write(id, chapter: s.effectiveChapters.isEmpty ? null : PracticeCopy.chaptersSummary(s.effectiveChapters), mode: s.mode.apiMode),

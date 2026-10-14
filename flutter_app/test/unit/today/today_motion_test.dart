@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
-import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
+import 'package:mockmob/core/mascot/mascot.dart' show MobiBubble, MobiRation;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -121,6 +121,78 @@ void main() {
       await pumpToday(tester, reduced: true);
       await wait(tester, const Duration(seconds: 8));
       expect(nudges, 0);
+    });
+  });
+
+  group("the header Mobi's line never covers the greeting (22 Oct finding 22)", () {
+    setUp(() {
+      MobiRation.reset();
+      HeaderMobi.resetGreeting();
+    });
+    tearDown(MobiRation.reset);
+
+    /// The opacity of the date line and greeting column beside Mobi.
+    double greetingOpacity(WidgetTester tester) => tester
+        .widget<AnimatedOpacity>(find.ancestor(of: find.text('Good evening, Asha'), matching: find.byType(AnimatedOpacity)).first)
+        .opacity;
+
+    testWidgets('nothing is said at first paint or in the first 3 s', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'the 4 s idle rule decides when he speaks, not the first paint');
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('after 4 s idle he says his line, and the greeting steps back while it shows, then returns', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 5));
+      expect(find.byType(MobiBubble), findsOneWidget);
+      expect(greetingOpacity(tester), 0, reason: 'a bubble never sits on readable text');
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('a touch before 4 s means he stays quiet, and the greeting is never dimmed', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 2));
+      final gesture = await tester.startGesture(const Offset(192, 1500));
+      await gesture.up();
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('under reduced motion he never speaks on his own', (tester) async {
+      await pumpToday(tester, reduced: true);
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('while the opening still covers the app (tickers muted) his clock does not run', (tester) async {
+      var live = false;
+      late StateSetter set;
+      await pumpMockmob(
+        tester,
+        StatefulBuilder(builder: (context, setState) {
+          set = setState;
+          return TickerMode(
+            enabled: live,
+            child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
+          );
+        }),
+        size: const Size(384, 1900),
+        overrides: [auth],
+      );
+      await wait(tester, const Duration(seconds: 6));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'nothing is said out of sight');
+      set(() => live = true);
+      await tester.pump();
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'his 4 s start when the app is seen');
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsOneWidget);
     });
   });
 

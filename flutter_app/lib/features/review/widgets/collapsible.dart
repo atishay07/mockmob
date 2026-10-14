@@ -17,6 +17,13 @@ class MmCollapsible extends StatefulWidget {
   static const Duration open = Duration(milliseconds: 320);
   static const Duration close = Duration(milliseconds: 200);
 
+  /// Where the content's fade begins in the opening (a share of [open]): rows that fade in on their
+  /// own must start no earlier, or their stagger plays under a still-transparent parent.
+  static const double fadeStart = 0.35;
+
+  /// The content's fade begins this long after the opening starts.
+  static Duration get fadeLead => open * fadeStart;
+
   @override
   State<MmCollapsible> createState() => _MmCollapsibleState();
 }
@@ -27,7 +34,7 @@ class _MmCollapsibleState extends State<MmCollapsible> with SingleTickerProvider
       if (mounted) setState(() {});
     });
   late final CurvedAnimation _size = CurvedAnimation(parent: _c, curve: Motion.emphasized, reverseCurve: Motion.exit);
-  late final CurvedAnimation _fade = CurvedAnimation(parent: _c, curve: const Interval(0.35, 1, curve: Curves.easeOut), reverseCurve: const Interval(0, 0.6));
+  late final CurvedAnimation _fade = CurvedAnimation(parent: _c, curve: const Interval(MmCollapsible.fadeStart, 1, curve: Curves.easeOut), reverseCurve: const Interval(0, 0.6));
 
   @override
   void didUpdateWidget(MmCollapsible old) {

@@ -5,7 +5,7 @@ import 'runner_motion.dart';
 /// Shows the current question and, for a moment after a switch, the one that was just left under
 /// it (MOTION.md 1.1, finding 7). The arriving question starts at zero opacity and rises in, so
 /// swapping it in at once left a blank frame between the two; the leaving one now stays as a still
-/// picture, fully visible for its first third and fading out over [RunnerMotion.crossFade], while
+/// picture, fully visible for its first quarter and fading out over [RunnerMotion.crossFade], while
 /// the arriving one is already coming up. At every moment at least one of them is on screen.
 ///
 /// Nothing queues and nothing blocks. The leaving layer takes no touches and is hidden from screen
@@ -29,7 +29,7 @@ class QuestionStage extends StatefulWidget {
 class _QuestionStageState extends State<QuestionStage> with SingleTickerProviderStateMixin {
   late final AnimationController _fade;
 
-  late final Animation<double> _ghostOpacity = _fade.drive(CurveTween(curve: const Interval(1 / 3, 1))).drive(Tween<double>(begin: 1, end: 0));
+  late final Animation<double> _ghostOpacity = _fade.drive(CurveTween(curve: const Interval(0.25, 1))).drive(Tween<double>(begin: 1, end: 0));
 
   // Each layer is keyed by a serial that never repeats, not by its question: going 1, 2, 1 must
   // arrive afresh, never reuse the layer that is still fading out.

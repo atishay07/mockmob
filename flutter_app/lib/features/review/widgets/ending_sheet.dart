@@ -37,13 +37,13 @@ class EndingSheet extends StatelessWidget {
 
   /// A full paper is ten bubbles to a row. A short one (a 10-question practice) is two rows of
   /// five, drawn larger, so the sheet is a real object and not a thin strip in a hollow screen.
-  static _Grid gridFor(int cells) => cells <= 10 ? const _Grid(5, 40, 12) : const _Grid(10, 22, 8);
+  static _Grid _gridFor(int cells) => cells <= 10 ? const _Grid(5, 40, 12) : const _Grid(10, 22, 8);
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final grid = gridFor(cells.length);
+    final grid = _gridFor(cells.length);
     final rows = (cells.length / grid.columns).ceil();
     final cols = math.min(grid.columns, math.max(cells.length, 1));
     final repairedNow = cells.where((c) => c == SheetCell.repairedNow).length;

@@ -26,6 +26,8 @@ class MmPageHeader extends StatelessWidget {
     this.fallbackRoute = AppRoutes.today,
     this.backLabel = 'Back',
     this.showBack = true,
+    this.statusLine,
+    this.reserveStatusLine = false,
   });
 
   final String title;
@@ -44,6 +46,15 @@ class MmPageHeader extends StatelessWidget {
 
   /// False for a page that cannot go back (the title then starts on the gutter).
   final bool showBack;
+
+  /// A live line under the row on the gutter that comes and goes ("Saved at 6:00 PM", a Sending
+  /// pill). With [reserveStatusLine] its [statusLineHeight] is kept whether or not it shows, so
+  /// nothing on the page moves when it appears.
+  final Widget? statusLine;
+  final bool reserveStatusLine;
+
+  /// The status line's room: one small line, or the 30 dp save pill.
+  static const double statusLineHeight = 32;
 
   /// The row's height.
   static const double rowHeight = 56;
@@ -93,6 +104,14 @@ class MmPageHeader extends StatelessWidget {
             ],
           ),
         ),
+        if (statusLine != null || reserveStatusLine)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s8),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: statusLineHeight),
+              child: Align(alignment: Alignment.centerLeft, child: statusLine),
+            ),
+          ),
         if (caption != null)
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s8),

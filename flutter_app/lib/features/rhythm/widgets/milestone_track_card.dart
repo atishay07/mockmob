@@ -208,6 +208,9 @@ class _TokenArt extends StatelessWidget {
   /// The token of a step that has just landed is the lead of its moment, so it is larger.
   static const double landedBox = 72;
 
+  /// Mobi beside a landed token: his own column, never over the token.
+  static const double mobiSize = 64;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -253,14 +256,16 @@ class _TokenArt extends StatelessWidget {
     if (!justLanded) return coinBox;
     // Mobi stands against the token's edge, so the achievement and the one celebrating it read as
     // one picture. He arrives after the token has landed.
+    // He has his own room beside the token: the box is token + figure, so neither covers the
+    // other (at 72 dp tall and 40 dp of room, the token's ring sat over his left side).
     return SizedBox(
-      width: landedBox + 40,
+      width: landedBox + MmSpace.s4 + MobiFigure.widthFor(mobiSize),
       height: landedBox,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned(left: 0, top: 0, child: coinBox),
-          const Positioned(right: 0, bottom: -2, child: ProudMobi(size: 72, delay: _mobiDelay)),
+          const Positioned(right: 0, bottom: -2, child: ProudMobi(size: mobiSize, delay: _mobiDelay)),
         ],
       ),
     );

@@ -541,7 +541,7 @@ class _Thread extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < items.length; i++)
-          _RowIn(
+          ThreadRowIn(
             index: i,
             child: MistakeRow(item: items[i], clock: clock, first: i == 0, last: i == items.length - 1, onTap: () => onOpen(items[i])),
           ),
@@ -672,20 +672,22 @@ class _RailPainter extends CustomPainter {
 
 
 /// A thread row fading in as its chapter opens: 160 ms, each row 30 ms after the one above it
-/// (capped, so a long chapter never takes long). The rows are only built while the chapter is open,
+/// (capped, so a long chapter never takes long), the first starting when the section's own content
+/// fade does ([MmCollapsible.fadeLead]), so the stagger is seen and not played under it. The rows are only built while the chapter is open,
 /// so this plays on every opening and never while the list scrolls. Under reduced motion the row
 /// is simply there.
-class _RowIn extends StatefulWidget {
-  const _RowIn({required this.index, required this.child});
+@visibleForTesting
+class ThreadRowIn extends StatefulWidget {
+  const ThreadRowIn({super.key, required this.index, required this.child});
 
   final int index;
   final Widget child;
 
   @override
-  State<_RowIn> createState() => _RowInState();
+  State<ThreadRowIn> createState() => _ThreadRowInState();
 }
 
-class _RowInState extends State<_RowIn> with SingleTickerProviderStateMixin {
+class _ThreadRowInState extends State<ThreadRowIn> with SingleTickerProviderStateMixin {
   static const Duration _fade = Duration(milliseconds: 160);
   static const Duration _step = Duration(milliseconds: 30);
   static const int _cap = 8;
@@ -697,7 +699,7 @@ class _RowInState extends State<_RowIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    final delay = _step * (widget.index < _cap ? widget.index : _cap);
+    final delay = MmCollapsible.fadeLead + _step * (widget.index < _cap ? widget.index : _cap);
     final total = delay + _fade;
     _c = AnimationController(vsync: this, duration: total);
     _opacity = CurvedAnimation(parent: _c, curve: Interval(delay.inMicroseconds / total.inMicroseconds, 1, curve: Curves.easeOut));

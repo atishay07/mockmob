@@ -338,7 +338,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                       LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
                       const SizedBox(height: MmSpace.s12),
                       Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
-                      const SizedBox(height: MmSpace.s32),
+                      const SizedBox(height: MmSpace.s24),
                       if (mobiLine != null) ...[Text(mobiLine, style: type.body), const SizedBox(height: MmSpace.s12)],
                       if (momentShown)
                         CelebrationSlot(scope: scope)

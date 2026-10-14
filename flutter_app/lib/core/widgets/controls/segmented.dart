@@ -46,13 +46,15 @@ class MmSegmented<T> extends ConsumerWidget {
     final n = segments.length;
     final reduced = Motion.reduced(context);
 
-    return Semantics(
-      container: true,
-      label: semanticsLabel,
-      // A decorated box, not a Container: a Container would add the border's width to the
-      // padding and shrink the touch targets.
-      child: MmHitSlop.toTarget(
-        visual: height,
+    // The hit slop is the outermost box: a render box between it and its parent that is only as
+    // big as the track (Semantics is one) would refuse a touch in the band before it arrived.
+    return MmHitSlop.toTarget(
+      visual: height,
+      child: Semantics(
+        container: true,
+        label: semanticsLabel,
+        // A decorated box, not a Container: a Container would add the border's width to the
+        // padding and shrink the touch targets.
         child: DecoratedBox(
           decoration: ShapeDecoration(
             color: colors.sunken,

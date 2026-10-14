@@ -98,7 +98,9 @@ class KeyButtonFace extends StatelessWidget {
         fill = Color.lerp(colors.isNight ? colors.raised2 : colors.raised, colors.isNight ? colors.lineStrong : colors.raised2, 0.35 * d)!;
         text = disabled ? colors.ink4 : colors.ink;
         edge = !disabled;
-        if (disabled) {
+        // Night's glass pill has its edge light. On Day a white pill on cream had no edge at all
+        // (a faint shadow only), so a 1 dp hairline gives it one (SPACING-AUDIT Y3).
+        if (disabled || !colors.isNight) {
           border = colors.line;
           borderWidth = 1;
         }

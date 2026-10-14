@@ -81,7 +81,8 @@ class SuggestionCard extends StatelessWidget {
           padding: clear,
           child: Semantics(
             header: true,
-            child: Text(title, style: type.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+            // Three lines before any ellipsis: a subject name never reaches it, even at large text.
+            child: Text(title, style: type.title, maxLines: 3, overflow: TextOverflow.ellipsis),
           ),
         ),
         if (kicker != null) ...[

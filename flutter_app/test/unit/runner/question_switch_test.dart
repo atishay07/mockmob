@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 import 'package:mockmob/features/runner/copy.dart';
@@ -91,7 +90,7 @@ void main() {
         expect(arriving, isTrue, reason: 'the arriving question is built from the first frame');
       }
       expect(firstBothGone, -1, reason: 'no frame has neither question');
-      expect(leavingGoneAt, greaterThanOrEqualTo(100), reason: 'the leaving question holds while the arriving one starts');
+      expect(leavingGoneAt, greaterThanOrEqualTo(80), reason: 'the leaving question holds while the arriving one starts');
     });
 
     testWidgets('the leaving picture takes no touches and has no semantics', (tester) async {
@@ -196,8 +195,6 @@ void main() {
         // The pinned keys' top: the first key on the page.
         final key = tester.getRect(find.text(stage == 'idle' ? 'Submit practice' : RunnerCopy.openResult(false)));
         final above = title.top - 60;
-        // ignore: avoid_print
-        print('$stage title.top=${title.top} key.top=${key.top}');
         expect(above, greaterThan(40), reason: 'the title is not stuck under the header');
         expect(title.top, lessThan(key.top - 200), reason: 'the block is above the keys, not on them');
         await tester.pump(const Duration(seconds: 3));

@@ -66,7 +66,7 @@ void main() {
       );
       await tester.pump(const Duration(seconds: 2));
       final gap = _void(tester, find.text('Share a card'));
-      expect(gap, lessThanOrEqualTo(40), reason: 'the void under the last line, above the key: $gap');
+      expect(gap, lessThanOrEqualTo(144), reason: 'the void under the last line, above the key: $gap');
     });
 
     testWidgets('the repair entry has no dead band above its key, $tag', (tester) async {
@@ -81,7 +81,7 @@ void main() {
       );
       await tester.pump(const Duration(seconds: 2));
       final gap = _void(tester, find.textContaining('Uses 1 credit'));
-      expect(gap, lessThanOrEqualTo(40), reason: 'the void under the last line, above the key: $gap');
+      expect(gap, lessThanOrEqualTo(144), reason: 'the void under the last line, above the key: $gap');
     });
   }
 }

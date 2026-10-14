@@ -28,8 +28,9 @@ class StateAction {
 
 /// An empty, error or offline state: Mobi in a small pool of lamp light, a title, a message and
 /// up to two actions (the volt pill and a quiet one). Empty shows the living Mobi reading,
-/// offline shows Mobi resting, error shows Mobi thinking, in both themes. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass the recovery
-/// action here.
+/// offline shows Mobi resting, an error shows him shrugging once (`oops`, the first failure of a
+/// run only: a retry that fails again finds him calm), in both themes. Pass a [pose] to choose
+/// Mobi yourself. Every ending is designed: pass the recovery action here.
 class StateView extends StatefulWidget {
   const StateView({
     super.key,
@@ -84,6 +85,9 @@ class _StateViewState extends State<StateView> {
   StateAction? get secondary => widget.secondary;
   MobiPose get pose => widget.pose;
 
+  /// An error's first failure of a run: Mobi shrugs. Later failures of the same run are calm.
+  late final bool _shrug = widget.kind == StateViewKind.error && widget.pose == MobiPose.idle && MobiRation.oopsRun('state-view');
+
   @override
   void initState() {
     super.initState();
@@ -133,7 +137,13 @@ class _StateViewState extends State<StateView> {
     return switch (kind) {
       StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle, controller: _mobi),
       StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle, controller: _mobi),
-      StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle, controller: _mobi),
+      StateViewKind.error => Mobi(
+          pose: MobiPose.rest,
+          size: size,
+          motion: MobiMotion.settle,
+          controller: _mobi,
+          entrance: _shrug ? MobiAct.oops : MobiAct.idle,
+        ),
     };
   }
 

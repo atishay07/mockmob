@@ -549,7 +549,6 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
   void _reveal({required bool animate}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final target = _chipKeys[widget.selected]?.currentContext;
-      debugPrint('REVEAL ${widget.selected} $target $animate');
       if (!mounted || target == null) return;
       Scrollable.ensureVisible(
         target,

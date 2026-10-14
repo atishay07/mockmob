@@ -16,7 +16,6 @@ import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../you/widgets/you_page.dart' show BackKey;
 import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
@@ -485,29 +484,37 @@ class _NotificationSettingsScreenState
 
     final Widget content;
     if (prefs != null) {
-      content = SettingsBody(
-        prefs: prefs,
-        permission: permission,
-        permissionReading: permission == null && permissionState.isLoading,
-        reminder: reminder,
-        cap: cap,
-        freshChecksOpen: freshOpen,
-        actions: _actions,
-        // Room under the last row for the notice, while it is up.
-        footerClearance: _save == _Save.failed ? 96 : 0,
-        header: _Header(
-          onBack: _back,
-          status: _status(context),
-          stale: prefsState.isStale
-              ? (prefsState.error!.isOffline
-                    ? NotificationsCopy.staleBanner(
-                        _inStudentZone(prefsState.fetchedAt ?? now),
-                      )
-                    : NotificationsCopy.staleBannerFailed(
-                        _inStudentZone(prefsState.fetchedAt ?? now),
-                      ))
-              : null,
-        ),
+      // The header is pinned above the list, so the save line stays in view while the settings
+      // scroll under it.
+      content = Column(
+        children: [
+          _Header(
+            onBack: _back,
+            status: _status(context),
+            stale: prefsState.isStale
+                ? (prefsState.error!.isOffline
+                      ? NotificationsCopy.staleBanner(
+                          _inStudentZone(prefsState.fetchedAt ?? now),
+                        )
+                      : NotificationsCopy.staleBannerFailed(
+                          _inStudentZone(prefsState.fetchedAt ?? now),
+                        ))
+                : null,
+          ),
+          Expanded(
+            child: SettingsBody(
+              prefs: prefs,
+              permission: permission,
+              permissionReading: permission == null && permissionState.isLoading,
+              reminder: reminder,
+              cap: cap,
+              freshChecksOpen: freshOpen,
+              actions: _actions,
+              // Room under the last row for the notice, while it is up.
+              footerClearance: _save == _Save.failed ? 96 : 0,
+            ),
+          ),
+        ],
       );
     } else if (prefsState.isFailedEmpty) {
       final offline =
@@ -515,10 +522,7 @@ class _NotificationSettingsScreenState
           prefsState.error?.kind == ApiErrorKind.timeout;
       content = Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-            child: _Header(onBack: _back),
-          ),
+          _Header(onBack: _back),
           Expanded(
             child: StateView(
               kind: offline ? StateViewKind.offline : StateViewKind.error,
@@ -539,10 +543,7 @@ class _NotificationSettingsScreenState
     } else {
       content = Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-            child: _Header(onBack: _back),
-          ),
+          _Header(onBack: _back),
           // The real layout in outline. It scrolls without a finger so large text cannot overflow.
           const Expanded(
             child: SingleChildScrollView(
@@ -594,9 +595,9 @@ class _NotificationSettingsScreenState
   }
 }
 
-/// The back key with the save line at its right, the title, and the cached-copy notice. The
-/// save line sits in the back key's row, so it costs the page no height and nothing moves when
-/// it appears.
+/// The one page header (back arrow and title), the save line under it, and the cached-copy
+/// notice. The save line has its room kept, so it costs the page no height when it appears and
+/// nothing moves.
 class _Header extends StatelessWidget {
   const _Header({required this.onBack, this.status, this.stale});
 
@@ -606,37 +607,28 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // The back key's disc (44 inside its 48 dp target) starts on the gutter.
-        SizedBox(
-          height: MmRhythm.screenTop + 56,
-          child: Padding(
-            padding: const EdgeInsets.only(top: MmRhythm.screenTop),
-            child: Row(
-              children: [
-                Transform.translate(offset: const Offset(-2, 0), child: BackKey(onTap: onBack)),
-                const SizedBox(width: MmSpace.s8),
-                Expanded(child: Align(alignment: Alignment.centerRight, child: status)),
-              ],
-            ),
-          ),
+        MmPageHeader(
+          title: NotificationsCopy.settingsTitle,
+          onBack: onBack,
+          fallbackRoute: AppRoutes.you,
+          statusLine: status,
+          reserveStatusLine: true,
         ),
-        Semantics(header: true, child: Text(NotificationsCopy.settingsTitle, style: type.headline)),
-        const SizedBox(height: MmSpace.s16),
-        if (stale != null) ...[
-          InlineBanner.offlineStrip(message: stale!),
-          const SizedBox(height: MmSpace.s16),
-        ],
+        if (stale != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
+            child: InlineBanner.offlineStrip(message: stale!),
+          ),
       ],
     );
   }
 }
 
-/// "Saved on this phone at 6:00 PM." as a small right-aligned line: a check where the server has
-/// it, a phone where only this phone does. Wraps to two lines on a narrow screen.
+/// "Saved on this phone at 6:00 PM." as a small line under the header: a check where the server
+/// has it, a phone where only this phone does.
 class _SaveReceipt extends StatelessWidget {
   const _SaveReceipt({super.key, required this.text, required this.recorded});
 
@@ -665,9 +657,11 @@ class _SaveReceipt extends StatelessWidget {
           ),
           const SizedBox(width: MmSpace.s8),
           Flexible(
+            // One line in the header's reserved room; the full sentence is the semantics label.
             child: Text(
               text,
-              textAlign: TextAlign.end,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: context.mmType.small.copyWith(color: colors.ink2),
             ),
           ),

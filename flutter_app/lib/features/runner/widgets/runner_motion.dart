@@ -13,8 +13,8 @@ abstract final class RunnerMotion {
   static const Duration stagger = Duration(milliseconds: 35);
 
   /// The question that was just left stays under the arriving one and fades out over this, holding
-  /// fully visible for its first third, so a switch is never a blank frame (the two overlap).
-  static const Duration crossFade = Duration(milliseconds: 150);
+  /// fully visible for its first quarter, so a switch is never a blank frame (the two overlap).
+  static const Duration crossFade = Duration(milliseconds: 110);
 
   /// The count "19 of 20" changing.
   static const Duration countFlip = Duration(milliseconds: 220);

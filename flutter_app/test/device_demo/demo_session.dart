@@ -8,7 +8,6 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:mockmob/core/models/session.dart';
 import 'package:mockmob/core/models/session_draft.dart';
-import 'package:mockmob/core/repositories/local_scope.dart' show LocalScope;
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';

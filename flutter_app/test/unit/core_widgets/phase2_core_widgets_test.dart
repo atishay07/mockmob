@@ -260,6 +260,134 @@ void main() {
     });
   });
 
+  group('StateView: Mobi shrugs once per failure run (MOTION.md P1-4)', () {
+    setUp(MobiRation.reset);
+    tearDown(MobiRation.reset);
+
+    Future<MobiAct> errorEntrance(WidgetTester tester) async {
+      await pumpMockmob(
+        tester,
+        StateView(kind: StateViewKind.error, title: 'Could not load', primary: StateAction('Try again', () {})),
+      );
+      return tester.widget<MobiCharacter>(find.byType(MobiCharacter)).entrance;
+    }
+
+    testWidgets('the first failure plays oops; a retry that fails again (a fresh error view) stays calm', (tester) async {
+      expect(await errorEntrance(tester), MobiAct.oops);
+      await tester.pumpWidget(const SizedBox());
+      expect(await errorEntrance(tester), MobiAct.idle, reason: 'the same run: never think, never oops again');
+      await tester.pumpWidget(const SizedBox());
+      expect(await errorEntrance(tester), MobiAct.idle);
+    });
+
+    testWidgets('a failure long after the last one is a new run and shrugs again', (tester) async {
+      var clock = DateTime(2026, 10, 14, 20);
+      MobiRation.now = () => clock;
+      expect(await errorEntrance(tester), MobiAct.oops);
+      await tester.pumpWidget(const SizedBox());
+      clock = clock.add(MobiRation.failureRun + const Duration(seconds: 1));
+      expect(await errorEntrance(tester), MobiAct.oops);
+    });
+
+    testWidgets('empty and offline views never shrug', (tester) async {
+      await pumpMockmob(tester, const StateView(kind: StateViewKind.empty, title: 'Nothing yet'));
+      expect(tester.widget<MobiCharacter>(find.byType(MobiCharacter)).entrance, isNot(MobiAct.oops));
+    });
+  });
+
+  group('Hit slop: a 32 dp pill and a 44 dp track still answer a finger in a 48 dp box (G7)', () {
+    testWidgets('Show me opens from 7 dp above or below its face, and takes 32 dp of layout', (tester) async {
+      var taps = 0;
+      await pumpMockmob(tester, Center(child: ShowMePill(onTap: () => taps++)));
+      final face = tester.getRect(find.byType(ShowMePill));
+      expect(face.height, 32, reason: 'the band is not layout');
+      await tester.tapAt(Offset(face.center.dx, face.top - 7));
+      await tester.pump();
+      await tester.tapAt(Offset(face.center.dx, face.bottom + 7));
+      await tester.pump();
+      expect(taps, 2);
+      await tester.tapAt(Offset(face.center.dx, face.top - 12));
+      await tester.pump();
+      expect(taps, 2, reason: 'past 48 dp it is not a tap');
+    });
+
+    testWidgets('a segmented control answers 2 dp past its 44 dp track, and its semantics node is 48 dp tall', (tester) async {
+      String? chosen;
+      final handle = tester.ensureSemantics();
+      await pumpMockmob(
+        tester,
+        Center(
+          // The slop band lies inside the parent's bounds, as it does in any card or column.
+          child: SizedBox(
+            width: 300,
+            height: 100,
+            child: Center(
+              child: MmSegmented<String>(
+                segments: const [MmSegment('a', 'Full'), MmSegment('b', 'Lite')],
+                value: 'a',
+                onChanged: (v) => chosen = v,
+                semanticsLabel: 'Glass',
+              ),
+            ),
+          ),
+        ),
+      );
+      final track = tester.getRect(find.byType(MmSegmented<String>));
+      expect(track.height, 44);
+      await tester.tapAt(Offset(track.right - 20, track.top - 2));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(chosen, 'b');
+      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+      handle.dispose();
+    });
+  });
+
+  group('Day edges: a ghost key has a hairline, the lit edge is a visible line (Y3, Y5)', () {
+    /// The border of the first ShapeDecoration under the key face.
+    BorderSide keySide(WidgetTester tester) {
+      final box = tester.widgetList<DecoratedBox>(find.descendant(of: find.byType(KeyButtonFace), matching: find.byType(DecoratedBox)))
+          .firstWhere((b) => b.decoration is ShapeDecoration);
+      return ((box.decoration as ShapeDecoration).shape as OutlinedBorder).side;
+    }
+
+    testWidgets('a secondary key on Day has a 1 dp line border; on Night it keeps the edge light and no border', (tester) async {
+      await pumpMockmob(
+        tester,
+        const Center(child: KeyButtonFace(label: 'Sign out', variant: KeyVariant.secondary)),
+        brightness: Brightness.light,
+      );
+      expect(keySide(tester).width, 1);
+      expect(keySide(tester).color, MmColors.light.line);
+      await pumpMockmob(
+        tester,
+        const Center(child: KeyButtonFace(label: 'Sign out', variant: KeyVariant.secondary)),
+        brightness: Brightness.dark,
+      );
+      expect(keySide(tester).style, BorderStyle.none);
+    });
+
+    testWidgets('the Day lit edge is a 2 dp olive line with a soft band under it; Night keeps one volt line', (tester) async {
+      List<LitEdgePainter> painters() => tester
+          .widgetList<CustomPaint>(find.descendant(of: find.byType(LitEdge), matching: find.byType(CustomPaint)))
+          .map((c) => c.foregroundPainter)
+          .whereType<LitEdgePainter>()
+          .toList();
+      Widget card() => const Center(child: SizedBox(width: 300, height: 120, child: LitEdge(child: ColoredBox(color: Colors.white))));
+
+      await pumpMockmob(tester, card(), brightness: Brightness.light);
+      final day = painters();
+      expect(day, hasLength(2));
+      expect(day.map((p) => p.color.a), contains(1.0), reason: 'the line itself is solid olive');
+      expect(day.map((p) => p.width), containsAll(<double>[2, LitEdge.dayBandWidth]));
+      expect(day.first.color.toARGB32() & 0xFFFFFF, MmColors.light.accentText.toARGB32() & 0xFFFFFF);
+
+      await pumpMockmob(tester, card(), brightness: Brightness.dark);
+      final night = painters();
+      expect(night, hasLength(1));
+      expect(night.single.width, 1.5);
+    });
+  });
+
   group('SubjectPlate: the one subject tile (G12)', () {
     testWidgets('shows the subject name, the emblem at the tile size, and answers a tap', (tester) async {
       var taps = 0;

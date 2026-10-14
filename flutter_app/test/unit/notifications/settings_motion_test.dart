@@ -193,9 +193,11 @@ void main() {
   });
 
   group('one left edge', () {
-    testWidgets('the title, headings, notes and cards all start on the 16 dp gutter', (tester) async {
+    testWidgets('the headings, notes and cards all start on the 16 dp gutter, after the one page header', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 0), end: ClockTime(21, 0))));
-      for (final text in ['Notifications', 'Your day', 'What I want to hear about', 'Quiet hours', 'Reminders a week', 'Take a break']) {
+      // The one page header (G2): the back arrow is on the gutter and the title follows it.
+      expect(tester.getTopLeft(find.text('Notifications').first).dx, 56, reason: 'the title sits after the back arrow');
+      for (final text in ['Your day', 'What I want to hear about', 'Quiet hours', 'Reminders a week', 'Take a break']) {
         expect(tester.getTopLeft(find.text(text).first).dx, 16, reason: '$text sits on the gutter');
       }
       // Text inside a card sits on the card's own text edge: the gutter plus its 16 dp padding.

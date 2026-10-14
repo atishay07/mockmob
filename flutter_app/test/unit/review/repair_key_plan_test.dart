@@ -91,13 +91,13 @@ void main() {
       expect(open.here, 0);
       expect(open.elsewhere, 2);
       final line = ReviewCopy.endingFact(chapter, open.here, elsewhere: open.elsewhere);
-      expect(line, 'Nothing left in Partnership from this paper. 2 more from other papers.');
+      expect(line, 'Nothing left in Partnership from this paper. 2 in other papers.');
     });
 
     test('the plain forms are unchanged when no other paper has any', () {
       expect(ReviewCopy.endingFact('Partnership', 0), 'Nothing left in Partnership.');
       expect(ReviewCopy.endingFact('Partnership', 2), '2 left in Partnership.');
-      expect(ReviewCopy.endingFact('Partnership', 1, elsewhere: 1, setAside: 1), '1 left in Partnership from this paper. 1 more from other papers. 1 set aside while its key is checked.');
+      expect(ReviewCopy.endingFact('Partnership', 1, elsewhere: 1, setAside: 1), '1 left in Partnership. 1 more in other papers. 1 set aside while its key is checked.');
     });
 
     test('without an index the open count is not claimed', () {

@@ -110,9 +110,20 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     _scroll.addListener(_queueMeasure);
-    // The hero rises into place over the entrance, so its key is lower than it will rest while
-    // that plays. The move is judged again on every frame of it, and decided at its end.
-    _entrance.addListener(_queueMeasure);
+    _watchFrames();
+  }
+
+  /// The line is judged after every frame, not only after a scroll or a rebuild: the hero's key
+  /// moves with anything that changes the page's layout above it (the entrance, the art and the
+  /// header settling, text scale), and a capsule raised for a key that has since come into view
+  /// would stand beside it (device walk-through 22:07). It adds no frame of its own, and the
+  /// measure is two offsets; the move is published only when it changes.
+  void _watchFrames() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _measure();
+      _watchFrames();
+    });
   }
 
   @override
@@ -139,7 +150,6 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   @override
   void dispose() {
     _scroll.removeListener(_queueMeasure);
-    _entrance.removeListener(_queueMeasure);
     _ownScroll?.dispose();
     _publish(null);
     _entrance.dispose();
@@ -159,9 +169,8 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   /// capsule takes over the bar: partly under the bar or the capsule, or past the fold. The line
   /// is measured from the bar, not from the capsule, so the capsule arriving never moves it.
   void _measure() {
-    // While the entrance plays the hero is not where it will rest (it rises 16 dp), so a key that
-    // is in view at rest could read as below the line and raise a capsule that then never goes
-    // (device walk-through 22:07: the capsule and the hero's own key showed together).
+    // While the entrance plays the hero is not where it will rest (it rises 16 dp): it is judged
+    // when it has landed, so the capsule never flickers in for a key that is about to be in view.
     if (_entrance.isAnimating) return;
     final hero = widget.view.hero;
     final key = _primaryKey.currentContext?.findRenderObject();

@@ -239,7 +239,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
               // What it costs, in words, directly under the thread.
               if (widget.plan.hasWords && !reopen) ...[
-                const SizedBox(height: MmSpace.s32),
+                const SizedBox(height: MmSpace.s24),
                 if (widget.plan.headline != null)
                   Semantics(
                     header: true,

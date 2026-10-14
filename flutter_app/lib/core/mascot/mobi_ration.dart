@@ -78,6 +78,21 @@ abstract final class MobiRation {
   /// retry that fails again, until [recovered] ends the run.
   static bool oops(String screen) => _failing.add(screen);
 
+  static final Map<String, DateTime> _lastFailure = {};
+
+  /// How far apart two failures on one screen can be and still be the same run.
+  static const Duration failureRun = Duration(seconds: 90);
+
+  /// For a screen that cannot tell when its load recovered (a shared error state): true for the
+  /// first failure, and again only once [failureRun] has passed since the last failure was seen,
+  /// so a retry loop that keeps failing (even through a fresh error view each time) shrugs once.
+  static bool oopsRun(String screen) {
+    final at = now();
+    final last = _lastFailure[screen];
+    _lastFailure[screen] = at;
+    return last == null || at.difference(last) > failureRun;
+  }
+
   /// The load on [screen] succeeded: the next failure is a new run and may shrug again.
   static void recovered(String screen) => _failing.remove(screen);
 
@@ -106,6 +121,7 @@ abstract final class MobiRation {
     _days.clear();
     _runs.clear();
     _failing.clear();
+    _lastFailure.clear();
     now = DateTime.now;
   }
 }

@@ -171,6 +171,19 @@ class EngineRunnerSession implements RunnerSession {
     await closing.done.future;
   }
 
+  /// Waits until every close of a session saved under [draftKey] has finished (cutting its wait for
+  /// the server short), so a new session with the same selection never starts while an older one is
+  /// still about to write its draft (ROBUSTNESS practice-02). Returns at once when none is closing.
+  static Future<void> closedUnderKey(String draftKey) async {
+    final waiting = [for (final c in _closing.values) if (c.draftKey == draftKey) c];
+    for (final closing in waiting) {
+      if (!closing.hurry.isCompleted) closing.hurry.complete();
+    }
+    for (final closing in waiting) {
+      await closing.done.future;
+    }
+  }
+
   /// Writes the draft, unless the row now belongs to a different session (a new practice with the
   /// same selection started while this one was still closing). A row that cannot be read is
   /// written as before: the draft is never left unsaved for want of a check.
@@ -208,7 +221,7 @@ class EngineRunnerSession implements RunnerSession {
     if (_closed) return;
     _closed = true;
     final id = sessionId;
-    final closing = _Closing();
+    final closing = _Closing(engine.draft.draftKey);
     _closing[id] = closing;
     try {
       // Never throws, so a late failure cannot become an unhandled error after this returns.
@@ -234,6 +247,9 @@ class EngineRunnerSession implements RunnerSession {
 }
 
 class _Closing {
+  _Closing(this.draftKey);
+
+  final String draftKey;
   final Completer<void> hurry = Completer<void>();
   final Completer<void> done = Completer<void>();
 }
