@@ -40,7 +40,9 @@ export default function LearningNextAction({ compact = false }) {
   const [error, setError] = useState(''), [refreshFailed, setRefreshFailed] = useState(false);
   const [loading, setLoading] = useState(true), [retryCount, setRetryCount] = useState(0), [choosing, setChoosing] = useState(false);
   const [now, setNow] = useState(() => Date.now());
-  const plan = view?.plan || null;
+  // A plan only counts for the student it was loaded for.
+  const ownView = view && view.userId === userId ? view : null;
+  const plan = ownView?.plan || null;
   // The last plan this card fetched, so a session that confirms after the plan arrived does not
   // ask for it a second time.
   const lastFetch = useRef(null);
@@ -48,10 +50,10 @@ export default function LearningNextAction({ compact = false }) {
   useEffect(() => {
     let alive = true;
     const last = lastFetch.current;
-    const reuse = last && last.slot === planSlot(minutes) && last.retry === retryCount && isFresh(last) ? last : null;
+    const reuse = last && last.userId === userId && last.slot === planSlot(minutes) && last.retry === retryCount && isFresh(last) ? last : null;
     if (reuse && userId) writeCachedPlan({ userId, minutes, plan: reuse.plan, now: reuse.savedAt });
     const saved = reuse || readCachedPlan({ userId, minutes });
-    const show = next => { if (alive) setView(next); };
+    const show = next => { if (alive) setView(next ? { ...next, userId } : null); };
     Promise.resolve().then(() => {
       if (!alive) return;
       setNow(Date.now());
@@ -60,7 +62,7 @@ export default function LearningNextAction({ compact = false }) {
       // leaving a skeleton that never ends.
       if (!userId) {
         if (status === 'loading') return;
-        setLoading(false); setPendingMinutes(null); setError(LOAD_ERROR);
+        show(null); setLoading(false); setPendingMinutes(null); setError(LOAD_ERROR);
         return;
       }
       if (saved) show({ plan: saved.plan, savedAt: saved.savedAt, current: isFresh(saved) });
@@ -70,7 +72,7 @@ export default function LearningNextAction({ compact = false }) {
         .then(p => {
           if (!alive) return;
           writeCachedPlan({ userId, minutes, plan: p });
-          lastFetch.current = { slot: planSlot(minutes), retry: retryCount, plan: p, savedAt: Date.now() };
+          lastFetch.current = { userId, slot: planSlot(minutes), retry: retryCount, plan: p, savedAt: Date.now() };
           show({ plan: p, savedAt: Date.now(), current: true });
           setError(''); setRefreshFailed(false); setPendingMinutes(null);
         })
@@ -114,9 +116,11 @@ export default function LearningNextAction({ compact = false }) {
   const startHref = !compact && !plan?.sequence?.length && plan?.primary.kind === 'ordinary_practice'
     ? `${plan.primary.href}${plan.primary.href.includes('?') ? '&' : '?'}${new URLSearchParams({ tonightKey, tonightMinutes: String(plan.minutes) })}`
     : plan?.primary.href;
-  const stale = plan && !view.current;
-  const age = stale ? planAgeLabel(view.savedAt, now) : '';
+  const stale = plan && !ownView.current;
+  const age = stale ? planAgeLabel(ownView.savedAt, now) : '';
   const refreshing = loading && !!plan;
+  // Only the changing states are announced; the minute count in the age text is not.
+  const announce = refreshFailed || refreshing || choosing || !!pendingMinutes ? 'status' : undefined;
 
   if (compact) {
     return (
@@ -129,7 +133,7 @@ export default function LearningNextAction({ compact = false }) {
         ) : (
           <>
             <div className="na__body"><span className="na__eyebrow">Your next step</span><b className="na__title">{plan.primary.title}</b><p className="na__reason">{plan.primary.reason}</p>
-              {stale ? <span className="na__age" role="status">{refreshFailed ? <>{age}. It could not be updated. <button type="button" className="pr-link" onClick={retry}>Try again</button></> : `${age}. Updating now.`}</span> : null}
+              {stale ? <span className="na__age" role={announce}>{refreshFailed ? <>{age}. It could not be updated. <button type="button" className="pr-link" onClick={retry}>Try again</button></> : `${age}. Updating now.`}</span> : null}
             </div>
             <Link className="btn-volt md na__cta" href={plan.primary.href}>Start</Link>
           </>
@@ -153,7 +157,7 @@ export default function LearningNextAction({ compact = false }) {
         </fieldset>
       </div>
       {stale || refreshing || choosing ? (
-        <p className="na__age" role="status">
+        <p className="na__age" role={announce}>
           {choosing ? 'Saving your time preference…' : pendingMinutes ? `Updating your plan for ${pendingMinutes} minutes…` : refreshFailed ? <>{age}. It could not be updated. <button type="button" className="pr-link" onClick={retry}>Try again</button></> : stale ? `${age}. Updating now.` : 'Updating your plan…'}
         </p>
       ) : null}
