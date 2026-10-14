@@ -1765,3 +1765,15 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
 - Live before → after: chemistry 281→376, english 269→327, history 192→273, political_science 191→272, psychology 82→161, sociology 199→280.
 - Visible in practice and full mock now. NOT in NTA mode until engine r5 (fix/nta-mode, not deployed) ships; not in Explore (no question_scores rows).
 - Restore: `node --use-system-ca scripts/question-publish-authored.mjs --mode=restore --restore=docs/brain/reports/authored-publish/authored-publish-restore-2026-10-14T08-12-59-785Z.json --expect-project=isrxrxzjocewrdureyhp` (default hides; keeps attempt history).
+
+### 2026-10-14 23:59 IST: production diagnosis via Supabase MCP, and one config row applied
+- **Owner grant:** standing authority for MockMob database work (AI OS decisions log, 14 Oct).
+- **Diagnosis (read only, production isrxrxzjocewrdureyhp):**
+  - **Volume:** 11 Mistake Repairs in 14 days, by 2 accounts.
+  - **4 Oct:** 5 of 7 explained, all on gpt-4.1-mini.
+  - **Since the Luna-only deploy (5 Oct 21:01 UTC):** every repair (4 of 4) released as unusable_output within 0.7 to 2.4 s.
+  - **No model call reached the runtime guard:** no runtime_ai_requests row exists after 4 Oct 20:25 UTC.
+  - **Not the guard or budget:** the cap is fine ($0.011 of $25, not paused), no credits are stuck, and a rolled-back call to reserve_runtime_ai('openai','gpt-6-luna') returns dispatch true.
+  - **Cause:** Vercel Production env. Either OPENAI_API_KEY is missing (getOpenAIClient returns null, giving provider_unavailable), or AI_REPAIR_MODEL names a model with no price row.
+  - **Open:** the owner checks Vercel env. The fix branch's per-failure log line will name the cause once deployed.
+- **Applied:** migration 20261014183050 runtime_ai_price_claude_haiku_5_5 (one config row; undo: `delete from public.runtime_ai_prices where provider='anthropic' and model='claude-haiku-5-5'`). This lets the Haiku 5.5 fallback in fix/repair-reliability run once deployed. No student data was changed.
