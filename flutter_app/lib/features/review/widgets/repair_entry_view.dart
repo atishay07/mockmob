@@ -139,78 +139,109 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               ),
             ),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s24),
-                children: [
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(minHeight: 128),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: large ? 40 : 96),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              child: LayoutBuilder(
+                builder: (context, box) => SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s16),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s16),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(minHeight: 128),
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: large ? 40 : 112),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${run.source}, ${subjectName(run.subjectId)}', style: type.caption.copyWith(color: colors.ink2)),
+                                      const SizedBox(height: MmSpace.s4),
+                                      Semantics(
+                                        header: true,
+                                        child: Text(
+                                          run.chapter,
+                                          style: type.moment.copyWith(fontSize: 32, height: 34 / 32),
+                                          maxLines: large ? 5 : 4,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (object != null)
+                                  Positioned(
+                                    right: -44,
+                                    top: -32,
+                                    child: IgnorePointer(
+                                      child: RepaintBoundary(
+                                        child: AnimatedBuilder(
+                                          animation: _artCurve,
+                                          child: ArtImage(object, width: 168, height: 168),
+                                          builder: (context, child) {
+                                            final t = _artCurve.value;
+                                            return Opacity(
+                                              opacity: t.clamp(0.0, 1.0),
+                                              child: Transform.translate(
+                                                offset: Offset(0, 10 * (1 - t)),
+                                                child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: MmSpace.s20),
+                          MonumentalNumber(
+                            value: '$n',
+                            unit: n == 1 ? 'mistake' : 'mistakes',
+                            style: type.hero.copyWith(fontSize: 112, height: 96 / 112),
+                            semanticsLabel: reopen ? '${plural(n, 'mistake')}, already repaired' : '${plural(n, 'mistake')} to repair',
+                          ),
+                          const SizedBox(height: MmSpace.s8),
+                          Text(
+                            reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
+                            style: type.lead.copyWith(color: colors.ink2),
+                          ),
+                          const SizedBox(height: MmSpace.s24),
+                          MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
+                          const SizedBox(height: MmSpace.s32),
+                          // The thread, flat on the ground: where each of these is headed.
+                          LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
+                          const SizedBox(height: MmSpace.s16),
+                          Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
+                          const Spacer(),
+                          const SizedBox(height: MmSpace.s16),
+                          // The band above the key belongs to Mobi: standing by Begin, pointing at it,
+                          // with what it costs beside him.
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text('${run.source}, ${subjectName(run.subjectId)}', style: type.caption.copyWith(color: colors.ink2)),
-                              const SizedBox(height: MmSpace.s4),
-                              Semantics(
-                                header: true,
-                                child: Text(run.chapter, style: type.moment.copyWith(fontSize: 32, height: 34 / 32), maxLines: large ? 5 : 4, overflow: TextOverflow.ellipsis),
+                              Mobi(pose: reopen ? MobiPose.rest : MobiPose.point, size: 112, motion: MobiMotion.settle),
+                              const SizedBox(width: MmSpace.s12),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                                  child: Text(
+                                    widget.plan.line != null && !reopen ? widget.plan.line! : '',
+                                    style: type.small.copyWith(color: colors.ink2),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        if (object != null)
-                          Positioned(
-                            right: -24,
-                            top: -24,
-                            child: IgnorePointer(
-                              child: RepaintBoundary(
-                                child: AnimatedBuilder(
-                                  animation: _artCurve,
-                                  child: ArtImage(object, width: 128, height: 128),
-                                  builder: (context, child) {
-                                    final t = _artCurve.value;
-                                    return Opacity(
-                                      opacity: t.clamp(0.0, 1.0),
-                                      child: Transform.translate(
-                                        offset: Offset(0, 10 * (1 - t)),
-                                        child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: MmSpace.s20),
-                  MonumentalNumber(
-                    value: '$n',
-                    unit: n == 1 ? 'mistake' : 'mistakes',
-                    style: type.hero.copyWith(fontSize: 96, height: 84 / 96),
-                    semanticsLabel: reopen ? '${plural(n, 'mistake')}, already repaired' : '${plural(n, 'mistake')} to repair',
-                  ),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(
-                    reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
-                    style: type.lead.copyWith(color: colors.ink2),
-                  ),
-                  const SizedBox(height: MmSpace.s24),
-                  MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
-                  const SizedBox(height: MmSpace.s32),
-                  // The thread, flat on the ground: where each of these is headed.
-                  LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
-                  const SizedBox(height: MmSpace.s16),
-                  Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-                  if (widget.plan.line != null && !reopen) ...[
-                    const SizedBox(height: MmSpace.s20),
-                    Text(widget.plan.line!, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ],
+                ),
               ),
             ),
             Padding(

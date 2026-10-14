@@ -17,6 +17,17 @@ import 'collapsible.dart';
 /// "12 mistakes across 4 chapters".
 String mistakesSummaryOf(ReviewIndex index) => ReviewCopy.mistakesSummary(index.openCount, index.openGroups.length);
 
+/// The map's caption. When every open mistake is in one subject the subject is said here once,
+/// so the rows do not repeat it; across subjects each row carries its own.
+String mapCaptionOf(ReviewIndex index) {
+  final subjects = {for (final g in index.openGroups) g.subjectId};
+  final summary = mistakesSummaryOf(index);
+  return subjects.length == 1 ? '${subjectName(subjects.first)}, $summary' : summary;
+}
+
+/// Whether the groups span more than one subject (rows then carry the subject's mark and name).
+bool spansSubjects(Iterable<ChapterGroup> groups) => {for (final g in groups) g.subjectId}.length > 1;
+
 /// "3 October" style for an attempt date, in the student's day.
 String attemptDate(ReviewClock clock, DateTime t) => formatDayMonth(clock.local(t));
 
@@ -38,6 +49,7 @@ class MistakeMap extends ConsumerStatefulWidget {
     required this.onOpen,
     this.initialOpen = -1,
     this.scaleTo,
+    this.showSubject,
   });
 
   final List<ChapterGroup> groups;
@@ -52,6 +64,10 @@ class MistakeMap extends ConsumerStatefulWidget {
   /// The mistakes the longest bar stands for. Null reads it from [groups]; the tab passes the
   /// full list's, so a shortened tab and the full page draw the same lengths.
   final int? scaleTo;
+
+  /// Whether each row carries its subject's mark and name. Null: only when [groups] span more
+  /// than one subject (one subject is said once in the section's caption).
+  final bool? showSubject;
 
   @override
   ConsumerState<MistakeMap> createState() => _MistakeMapState();
@@ -97,6 +113,7 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
   Widget build(BuildContext context) {
     final groups = widget.groups;
     final scale = widget.scaleTo ?? mapScaleOf(groups);
+    final showSubject = widget.showSubject ?? spansSubjects(groups);
     final colors = context.mmColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -115,6 +132,8 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
             group: groups[i],
             clock: widget.clock,
             scale: scale,
+            showSubject: showSubject,
+            nameSubject: i == 0 || groups[i].subjectId != groups[i - 1].subjectId,
             open: _open == keyOf(groups[i]),
             // Rows grow in one after another: the bar of row i starts at i * 0.07 of the run.
             grow: _enter.drive(
@@ -134,6 +153,8 @@ class _ChapterRow extends StatelessWidget {
     required this.group,
     required this.clock,
     required this.scale,
+    required this.showSubject,
+    required this.nameSubject,
     required this.open,
     required this.grow,
     required this.onToggle,
@@ -143,6 +164,11 @@ class _ChapterRow extends StatelessWidget {
   final ChapterGroup group;
   final ReviewClock clock;
   final int scale;
+  final bool showSubject;
+
+  /// Whether the caption names the subject: on the first row and wherever the subject changes
+  /// from the row above, so a run of one subject says it once.
+  final bool nameSubject;
   final bool open;
   final Animation<double> grow;
   final VoidCallback onToggle;
@@ -166,12 +192,16 @@ class _ChapterRow extends StatelessWidget {
     final type = context.mmType;
     final g = group;
     final summary = ReviewCopy.groupLine(subjectName(g.subjectId), g.openCount, g.repairedCount, g.setAsideCount);
+    final papers = g.openByPaper;
+    // Words that carry information: where the open ones were found, what is already done. The
+    // subject only when the map spans several (otherwise the section's caption says it once).
     final caption = [
-      subjectName(g.subjectId),
+      if (showSubject && nameSubject) subjectName(g.subjectId),
+      if (papers.isNotEmpty) ReviewCopy.fromPapers([for (final p in papers) p.source]),
       if (g.repairedCount > 0) '${g.repairedCount} repaired',
       if (g.setAsideCount > 0) '${g.setAsideCount} set aside',
     ].join(', ');
-    final papers = g.openByPaper;
+    final indent = showSubject ? _stripGlyph + MmSpace.s12 : 0.0;
 
     return AnimatedContainer(
       duration: Motion.of(context, Motion.card),
@@ -196,8 +226,7 @@ class _ChapterRow extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SubjectGlyphTile(g.subjectId, size: _stripGlyph),
-                      const SizedBox(width: MmSpace.s12),
+                      if (showSubject) ...[SubjectGlyphTile(g.subjectId, size: _stripGlyph), const SizedBox(width: MmSpace.s12)],
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,7 +243,7 @@ class _ChapterRow extends StatelessWidget {
                   ),
                   const SizedBox(height: MmSpace.s12),
                   Padding(
-                    padding: const EdgeInsets.only(left: _stripGlyph + MmSpace.s12),
+                    padding: EdgeInsets.only(left: indent),
                     child: Row(
                       children: [
                         Expanded(
@@ -313,7 +342,7 @@ class MistakeBar extends StatelessWidget {
     required this.setAside,
     required this.scale,
     this.grow = const AlwaysStoppedAnimation(1),
-    this.height = 8,
+    this.height = 14,
   });
 
   final int open;
@@ -371,7 +400,7 @@ class _BarPainter extends CustomPainter {
   final Color ring;
 
   /// The widest one mistake gets, so a chapter with a single mistake is a stub, not a slab.
-  static const double _maxSegment = 36;
+  static const double _maxSegment = 48;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -389,13 +418,13 @@ class _BarPainter extends CustomPainter {
       if (count <= 0) return;
       if (unit >= 6) {
         for (var i = 0; i < count; i++) {
-          final r = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, unit - gap, h), const Radius.circular(3));
+          final r = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, unit - gap, h), const Radius.circular(4));
           if (fill != null) canvas.drawRRect(r, fill);
           if (stroke != null) canvas.drawRRect(r.deflate(0.6), stroke);
           x += unit;
         }
       } else {
-        final r = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, count * unit - 1, h), const Radius.circular(3));
+        final r = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, count * unit - 1, h), const Radius.circular(4));
         if (fill != null) canvas.drawRRect(r, fill);
         if (stroke != null) canvas.drawRRect(r.deflate(0.6), stroke);
         x += count * unit;

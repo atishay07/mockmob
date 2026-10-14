@@ -163,11 +163,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         // Only when nothing is open: a set-aside question is not a repaired one.
         gutter(_AllClear(setAside: index.setAsideCount, repaired: index.repairedCount)),
       if (groups.isNotEmpty) ...[
-        gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mistakesSummaryOf(index)), top: MmSpace.group),
+        gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: MmSpace.group),
         // The progress line and its bar teach the colours of the map under it.
         gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount)),
         const SizedBox(height: MmSpace.s12),
-        gutter(MistakeMap(groups: groups.take(tabChapterLimit).toList(), scaleTo: mapScaleOf(groups), clock: clock, onOpen: _openRepair)),
+        gutter(MistakeMap(groups: groups.take(tabChapterLimit).toList(), scaleTo: mapScaleOf(groups), showSubject: spansSubjects(groups), clock: clock, onOpen: _openRepair)),
         if (groups.length > tabChapterLimit)
           gutter(
             Align(

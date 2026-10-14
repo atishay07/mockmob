@@ -41,65 +41,56 @@ class _NotAttemptedGroupState extends ConsumerState<NotAttemptedGroup> {
     final type = context.mmType;
     final group = widget.group;
     final heading = ReviewCopy.notAttemptedHeading(group.source, group.items.length);
-    // The same family as a map row: open on the ground, lifting onto a raised fill when opened.
-    return AnimatedContainer(
-      duration: Motion.of(context, Motion.card),
-      curve: Motion.glide,
-      decoration: ShapeDecoration(
-        color: _expanded ? colors.raised : colors.raised.withValues(alpha: 0),
-        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: _expanded ? colors.line : colors.line.withValues(alpha: 0))),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          MmPressable(
-            onTap: _toggle,
-            pressedScale: 0.985,
-            focusRadius: MmRadius.panelAll,
-            semanticsLabel: '$heading. ${ReviewCopy.notAttemptedNote} ${ReviewCopy.groupExpandHint(_expanded)}',
-            builder: (context, pressed, _) => ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 64),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
-                child: Row(
-                  children: [
-                    // The skipped sheet: a dashed ring, the same mark the answer sheet uses.
-                    SizedBox.square(
-                      dimension: 40,
-                      child: Center(child: Bubble(state: BubbleState.blank, size: 24, animate: false)),
+    // The same family as a map row, and flatter: open on the ground between two hairlines, the
+    // questions unfolding under it. No box when open or shut.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
+          child: Divider(height: 1, thickness: 1, color: colors.line),
+        ),
+        MmPressable(
+          onTap: _toggle,
+          pressedScale: 0.985,
+          focusRadius: MmRadius.keyAll,
+          semanticsLabel: '$heading. ${ReviewCopy.notAttemptedNote} ${ReviewCopy.groupExpandHint(_expanded)}',
+          builder: (context, pressed, _) => ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(heading, style: type.cardTitle),
+                        const SizedBox(height: MmSpace.s4),
+                        Text(ReviewCopy.notAttemptedNote, style: type.caption.copyWith(color: colors.ink2)),
+                      ],
                     ),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(heading, style: type.cardTitle),
-                          const SizedBox(height: MmSpace.s4),
-                          Text(ReviewCopy.notAttemptedNote, style: type.caption.copyWith(color: colors.ink2)),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: MmSpace.s8),
-                    AnimatedRotation(
-                      turns: _expanded ? 0.5 : 0,
-                      duration: Motion.of(context, Motion.card),
-                      curve: Motion.emphasized,
-                      child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  AnimatedRotation(
+                    turns: _expanded ? 0.5 : 0,
+                    duration: Motion.of(context, Motion.card),
+                    curve: Motion.emphasized,
+                    child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
+                  ),
+                ],
               ),
             ),
           ),
-          MmCollapsible(
-            expanded: _expanded,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [for (final item in group.items) _BlankRow(item: item), const SizedBox(height: MmSpace.s8)],
-            ),
+        ),
+        MmCollapsible(
+          expanded: _expanded,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [for (final item in group.items) _BlankRow(item: item), const SizedBox(height: MmSpace.s8)],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -116,9 +107,9 @@ class _BlankRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Divider(height: 1, color: colors.line),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12), child: Divider(height: 1, color: colors.line)),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -141,7 +132,7 @@ class _BlankRow extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: MmSpace.s16 + 16),
+          padding: const EdgeInsets.only(left: MmSpace.s12 + 16),
           child: Wrap(
             children: [
               KeyButton.quiet(
@@ -300,13 +291,14 @@ class PastResultRow extends StatelessWidget {
                         children: [
                           Text('$label, ${subjectName(attempt.subject)}', style: type.labelLarge),
                           Text(line, style: type.caption.copyWith(color: colors.ink2)),
+                          // The marks over the maximum, drawn under the line that says them.
+                          if (attempt.maxMarks > 0) ...[
+                            const SizedBox(height: MmSpace.s8),
+                            _MarksBar(fraction: attempt.marks / attempt.maxMarks),
+                          ],
                         ],
                       ),
                     ),
-                    if (attempt.maxMarks > 0) ...[
-                      const SizedBox(width: MmSpace.s12),
-                      _MarksBar(fraction: attempt.marks / attempt.maxMarks),
-                    ],
                     const SizedBox(width: MmSpace.s8),
                     Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
                   ],
@@ -332,10 +324,10 @@ class _MarksBar extends StatelessWidget {
     final f = fraction.isNaN ? 0.0 : fraction.clamp(0.0, 1.0);
     return ExcludeSemantics(
       child: SizedBox(
-        width: 48,
-        height: 4,
+        width: double.infinity,
+        height: 6,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(2),
+          borderRadius: BorderRadius.circular(3),
           child: Stack(
             fit: StackFit.expand,
             children: [

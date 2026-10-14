@@ -65,20 +65,20 @@ class MistakesScreen extends ConsumerWidget {
         children: [
           if (inputs.attempts.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s12)],
           if (open.isNotEmpty) ...[
-            SectionHeading(ReviewCopy.mistakesHeading, caption: mistakesSummaryOf(index)),
+            SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
             RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
             const SizedBox(height: MmSpace.s12),
-            MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0),
+            MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups)),
           ],
           if (repaired.isNotEmpty) ...[
             const SizedBox(height: MmSpace.group),
             const SectionHeading(ReviewCopy.repaired),
-            MistakeMap(groups: repaired, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups)),
+            MistakeMap(groups: repaired, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups), showSubject: spansSubjects(index.groups) || open.isEmpty),
           ],
           if (setAside.isNotEmpty) ...[
             const SizedBox(height: MmSpace.group),
             const SectionHeading(ReviewCopy.setAsideHeading),
-            MistakeMap(groups: setAside, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups)),
+            MistakeMap(groups: setAside, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups), showSubject: spansSubjects(index.groups) || open.isEmpty),
           ],
           if (index.blanks case final blanks?) ...[const SizedBox(height: MmSpace.s24), NotAttemptedGroup(group: blanks)],
         ],

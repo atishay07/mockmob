@@ -13,7 +13,7 @@ import '../../../core/theme/theme.dart';
 /// It plays when [play] first becomes true. Mount it only when the celebration is on and motion
 /// is not reduced; it draws nothing before it plays.
 class FoilBurst extends StatefulWidget {
-  const FoilBurst({super.key, required this.play, this.origin = const Alignment(-0.6, 0), this.seed = 11});
+  const FoilBurst({super.key, required this.play, this.origin = const Alignment(-0.34, 0), this.seed = 11});
 
   final bool play;
 

@@ -64,7 +64,7 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
-            child: MistakeBar(open: open, repaired: widget.repaired, setAside: widget.setAside, scale: found, grow: _grow, height: 6),
+            child: MistakeBar(open: open, repaired: widget.repaired, setAside: widget.setAside, scale: found, grow: _grow, height: 14),
           ),
         ],
       ),

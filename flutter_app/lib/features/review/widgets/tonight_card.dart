@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
@@ -10,7 +11,6 @@ import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import 'life_row.dart';
 import 'mistake_run.dart';
-import 'review_bits.dart';
 
 /// Tonight's repair: the one lit element on Review and the hero of the tab. One surface, nothing
 /// boxed inside it. The subject's light pools in the upper right and its object leans out of the
@@ -78,112 +78,180 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
     final object = MmArt.subjectObject(pick.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
 
-    return LitEdge(
-      glow: true,
-      child: MmClip(
-        borderRadius: MmRadius.panelAll,
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: colors.raised, boxShadow: colors.cardShadow),
-          child: Stack(
-            children: [
-              if (light != null)
-                Positioned.fill(
-                  child: IgnorePointer(
-                    child: LightField.subject(context, light, center: const Alignment(0.95, -0.95), strength: colors.isNight ? 1.15 : 0.9),
+    final lit = colors.isNight ? colors.volt : colors.accentText;
+    const bleed = MmSpace.gutter;
+
+    // No card: the hero is a field of light on the ground. The subject's colour pools in the
+    // upper right, a lit volt line crosses the top edge to edge, and the object leans in from the
+    // corner. Nothing is boxed; everything inside sits straight on the ground.
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        if (light != null)
+          Positioned(
+            left: -bleed,
+            right: -bleed,
+            top: -MmSpace.s20,
+            height: 400,
+            child: IgnorePointer(
+              child: LightField(
+                pools: [
+                  LightPool(
+                    color: light.of(Theme.of(context).brightness),
+                    center: const Alignment(0.85, -0.55),
+                    radius: 0.72,
+                    strength: colors.isNight ? 1.25 : 0.95,
                   ),
-                ),
-              Positioned.fill(child: IgnorePointer(child: Grain(opacity: colors.grain * 0.7))),
-              if (object != null)
-                Positioned(
-                  right: -18,
-                  top: -6,
-                  child: IgnorePointer(
-                    child: RepaintBoundary(
-                      child: AnimatedBuilder(
-                        animation: _artCurve,
-                        child: ArtImage(object, width: 136, height: 136),
-                        builder: (context, child) {
-                          final t = _artCurve.value;
-                          return Opacity(
-                            opacity: t.clamp(0.0, 1.0),
-                            child: Transform.translate(
-                              offset: Offset(0, 8 * (1 - t)),
-                              child: Transform.scale(scale: 0.94 + 0.06 * t, child: child),
-                            ),
-                          );
-                        },
+                  LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.14 : 0.12), center: const Alignment(-1.1, -1.1), radius: 0.7),
+                ],
+              ),
+            ),
+          ),
+        Positioned(
+          left: -bleed,
+          right: -bleed,
+          top: 0,
+          height: 3,
+          child: IgnorePointer(
+            child: CustomPaint(painter: LitEdgePainter(color: lit, radius: 0, width: 1.5)),
+          ),
+        ),
+        if (object != null)
+          Positioned(
+            right: -bleed - 30,
+            top: -2,
+            child: IgnorePointer(
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: _artCurve,
+                  child: ArtImage(object, width: 184, height: 184),
+                  builder: (context, child) {
+                    final t = _artCurve.value;
+                    return Opacity(
+                      opacity: t.clamp(0.0, 1.0),
+                      child: Transform.translate(
+                        offset: Offset(0, 10 * (1 - t)),
+                        child: Transform.scale(scale: 0.93 + 0.07 * t, child: child),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
+              ),
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // The headline stays clear of the art leaning in from the corner.
               Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s16),
+                padding: EdgeInsets.only(right: large ? 72 : 140),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // The headline stays clear of the art leaning in from the corner.
-                    Padding(
-                      padding: EdgeInsets.only(right: large ? 56 : 84),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)),
-                            style: type.caption.copyWith(color: colors.ink2),
-                          ),
-                          const SizedBox(height: MmSpace.s6),
-                          Semantics(
-                            header: true,
-                            child: Text(
-                              pick.chapter,
-                              maxLines: large ? 4 : 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: type.headline.copyWith(fontSize: 26, height: 29 / 26),
-                            ),
-                          ),
-                        ],
+                    Text(ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)), style: type.caption.copyWith(color: colors.ink2)),
+                    const SizedBox(height: MmSpace.s6),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        pick.chapter,
+                        maxLines: large ? 5 : 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: type.headline.copyWith(fontSize: 26, height: 29 / 26),
                       ),
                     ),
-                    const SizedBox(height: MmSpace.s20),
-                    MonumentalNumber(
-                      value: '$n',
-                      unit: n == 1 ? 'mistake' : 'mistakes',
-                      style: type.figure.copyWith(fontSize: 64, height: 58 / 64),
-                      semanticsLabel: '${plural(n, 'mistake')} to repair',
-                    ),
-                    const SizedBox(height: MmSpace.s8),
-                    Text(
-                      ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen),
-                      style: type.small.copyWith(color: colors.ink2),
-                    ),
-                    const SizedBox(height: MmSpace.s16),
-                    MistakeRun(numbers: [for (final i in pick.items) i.number]),
-                    const SizedBox(height: MmSpace.s20),
-                    const LifeRow(stage: MistakeStage.found, bubbleSize: 16, animate: false),
-                    const SizedBox(height: MmSpace.s20),
-                    KeyButton(label: ReviewCopy.tonightKey(n, minutes), onPressed: widget.onRepair),
-                    const SizedBox(height: MmSpace.s4),
-                    Row(
-                      children: [
-                        ShowMeTag(
-                          count: n,
-                          onTap: widget.onShowMe,
-                          semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
-                        ),
-                        const Spacer(),
-                        // Mobi stands by the key, pointing at it (asleep on his feet after 11 PM).
-                        if (!widget.lateNight) const Mobi(pose: MobiPose.point, size: 48),
-                      ],
-                    ),
-                    if (widget.lateNight) ...[
-                      const SizedBox(height: MmSpace.s8),
-                      const Mobi(pose: MobiPose.sleepy, size: 44, motion: MobiMotion.settle, say: ReviewCopy.lateNight),
-                    ],
                   ],
                 ),
               ),
+              const SizedBox(height: MmSpace.s24),
+              MonumentalNumber(
+                value: '$n',
+                unit: n == 1 ? 'mistake' : 'mistakes',
+                style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
+                semanticsLabel: '${plural(n, 'mistake')} to repair',
+              ),
+              const SizedBox(height: MmSpace.s8),
+              Text(ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen), style: type.small.copyWith(color: colors.ink2)),
+              const SizedBox(height: MmSpace.s20),
+              // The questions are the evidence; "Show me" opens them. No second control beside it.
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: MistakeRun(numbers: [for (final i in pick.items) i.number])),
+                  const SizedBox(width: MmSpace.s8),
+                  _ShowMeLink(
+                    onTap: widget.onShowMe,
+                    semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
+                  ),
+                ],
+              ),
+              const SizedBox(height: MmSpace.s20),
+              const LifeRow(stage: MistakeStage.found, bubbleSize: 16, animate: false),
+              const SizedBox(height: MmSpace.s24),
+              if (widget.lateNight) ...[
+                // Asleep on his feet after 11 PM: one line, then the key.
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Mobi(pose: MobiPose.sleepy, size: 88, motion: MobiMotion.settle, say: ReviewCopy.lateNight),
+                ),
+                const SizedBox(height: MmSpace.s12),
+                KeyButton(label: ReviewCopy.tonightKey(minutes), semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes), onPressed: widget.onRepair),
+              ] else
+                // Mobi stands at the left of the key and points at it.
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Mobi(pose: MobiPose.point, size: 96, motion: MobiMotion.tilt),
+                    const SizedBox(width: MmSpace.s8),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                        child: KeyButton(
+                          label: ReviewCopy.tonightKey(minutes),
+                          semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
+                          onPressed: widget.onRepair,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              const SizedBox(height: MmSpace.s4),
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// "Show me" at the end of the question row: a quiet link to the exact questions behind tonight's
+/// repair. 48 dp tall, never a second control competing with the key.
+class _ShowMeLink extends StatelessWidget {
+  const _ShowMeLink({required this.onTap, required this.semanticsLabel});
+
+  final VoidCallback onTap;
+  final String semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      onTap: onTap,
+      pressedScale: 0.97,
+      focusRadius: MmRadius.keyAll,
+      semanticsLabel: semanticsLabel,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48, minWidth: 48),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(ReviewCopy.showMe, style: type.label.copyWith(color: colors.accentText)),
+            const SizedBox(width: MmSpace.s4),
+            Icon(LucideIcons.arrowRight, size: 16, color: colors.accentText),
+          ],
         ),
       ),
     );
