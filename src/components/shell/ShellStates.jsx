@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import './shell.css';
 
 // What the signed-in shell shows in the page area before the page itself can render.
@@ -24,14 +24,16 @@ export function ShellPageSkeleton({ label = 'Loading your page' }) {
 // without any claim about their sign-in (`signedIn` false).
 export function ShellUnavailable({ onRetry, signedIn = true }) {
   const [trying, setTrying] = useState(false);
+  // Two copies can be in the page (member and guest variants, one hidden by CSS), so the heading id is per copy.
+  const titleId = useId();
   async function retry() {
     if (trying) return;
     setTrying(true);
     try { await onRetry?.(); } finally { setTrying(false); }
   }
   return (
-    <section className="shell-unavail" role="alert" aria-labelledby="shell-unavail-title">
-      <h1 id="shell-unavail-title">Can&apos;t reach MockMob</h1>
+    <section className="shell-unavail" role="alert" aria-labelledby={titleId}>
+      <h1 id={titleId}>Can&apos;t reach MockMob</h1>
       <p>{signedIn ? 'You are still signed in. We could not load your account just now.' : 'We could not check your sign-in just now.'} Check your connection, then try again.</p>
       <button type="button" className="shell-btn" onClick={retry} disabled={trying} aria-busy={trying || undefined}>
         {trying ? 'Trying again' : 'Try again'}

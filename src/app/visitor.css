@@ -13,13 +13,10 @@ html[data-visitor='member'][data-visitor-plan='pro'] .vs-hide-pro { display: non
    with no scored session yet (S3); the flag comes from the stored hint. Without it a member counts as
    started, so the default is the ordinary member view.
    vs-first-only    only a member who has not finished a session yet
-   vs-started-only  every other member (always paired with vs-member-only)
-   vs-pro-only      only a Pro member */
+   vs-started-only  every other member (always paired with vs-member-only) */
 html:not([data-visitor='member']) .vs-first-only,
 html:not([data-visitor-stage='first']) .vs-first-only,
-html[data-visitor='member'][data-visitor-stage='first'] .vs-started-only,
-html:not([data-visitor='member']) .vs-pro-only,
-html:not([data-visitor-plan='pro']) .vs-pro-only { display: none !important; }
+html[data-visitor='member'][data-visitor-stage='first'] .vs-started-only { display: none !important; }
 
 /* The menu sheet's account row while the sign-in check runs: same height as a link, no wording. */
 .mm-nav__sheet-pending { display: flex; align-items: center; min-height: 52px; border-top: 1px solid var(--line); }
