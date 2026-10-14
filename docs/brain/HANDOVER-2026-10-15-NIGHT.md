@@ -1,0 +1,63 @@
+# MockMob handover, 15 Oct 2026, about 00:50 IST
+
+This is the handover from session cc0bf1af (Opus 5.5, account support@mockmob.in).
+
+## Shipped tonight (all live or delivered)
+
+**App: release APK delivered to the owner.**
+- File: `tmp/apk/MockMob-phase2-release.zip` (`.apk` inside; package in.mockmob.app, 31.6 MB, obfuscated).
+- Built from ui/phase2 snapshot fcc2e672 in worktree `wt-release`, with `dart_defines/prod.json` copied in.
+- Contents:
+  - the new bar (Today, Practice, Start, Review, You) with the live capsule;
+  - Material icon pairs (home, quiz, fact_check, avatar);
+  - motion, spacing and Night/Day fixes;
+  - robustness fixes;
+  - the photo-real 3D subject objects restored (`SubjectEmblem.objectArt`);
+  - the approved art set (welcome hero with live Mobi, plan seal, milestone, empty states);
+  - round 2 fixes (except the audit+onboarding fixer).
+- Full suite NOT run on it.
+
+**Website (main = e1773d6a, deployed by push):**
+- Mistake Repair reliability:
+  - passage sent to the model;
+  - NTA shuffle compare (it also fixed hidden keys on NTA result pages);
+  - 90 s route budget with per-call timeouts;
+  - credits never kept on a failure;
+  - stuck-reservation release and a daily sweep in the cron;
+  - honest error codes and a log line per failure;
+  - narrowed word filter;
+  - Haiku 5.5 fallback.
+- Web repair client: fresh id after a charged-0 failure, 95 s abort, server messages, mojibake fixed.
+
+**Root cause of repair failures since 5 Oct:** Vercel Production had no `OPENAI_API_KEY`. The owner added it at about 00:30 IST and a redeploy was pushed (6e4b64ed). Not yet verified with a live repair: check Vercel runtime logs (project prj_uSolddribHQDl1mM5AKxg3O9qCIu, team team_V5PhMz9hqV42vblUMcvhYqoN).
+
+**Database (production isrxrxzjocewrdureyhp, via Supabase MCP; standing owner grant in the AI OS decisions log):**
+- Migration 20261014183050 adds the claude-haiku-5-5 price row.
+- Authored wave 2 published: 382 questions plus 1 case set, plan 73b63070.
+- Restore file: `mockmob-hotfix/docs/brain/reports/authored-publish/authored-publish-restore-2026-10-14T18-48-05-150Z.json`.
+
+**Disk:** C: had filled to 0 GB. 39.5 GB was cleared, and `flutter_locked.sh` now sweeps leftovers older than 6 h (memory `disk-hygiene.md`).
+
+## In flight or next
+
+1. **Round 2:** workflow wf_113e84d6-978 (script `tmp/workflows/app-phase-2-round2.js`). Its last fixer (audit+onboarding: welcome overflow, clipped-icon audit, Mobi bubble covering the greeting, 3.3 s cold-start hold) and check-2 were still running.
+   - When done: commit in wt-phase2, merge into feat/app-and-web (already merged up to fcc2e672 as ad4431f2), and build a new release APK. Rebuild in wt-release or mockmob-next. If CMake says "Permission denied" (antivirus), delete `build/.cxx` and retry.
+2. **Full test suite** on feat/app-and-web (`bash tool/flutter_locked.sh test -j 1 -r failures-only`, 40 to 60 min). Goldens will need regenerating per area.
+3. **Recording:** profile demo recording of the final build for the owner.
+   - `tool/emu_rec.sh` and `tool/frame_sheet.py`: tap by label, record, contact sheets. ffmpeg comes from pip imageio-ffmpeg (`--use-feature=truststore`).
+   - AVD mockmob_budget, -memory 2048. Stop the Gradle and Kotlin daemons first for RAM.
+4. **Vercel housekeeping:** ask the owner.
+   - Six projects named mockmob* exist (mockmob, -1uhb, -mmzs, -pf37, -nxud, -sjsj). If all of them build each push, that burns Hobby limits.
+   - A `MOCK_AI` variable is set in Production; its value is unknown.
+5. **Repair v2:** the richer paid repair, from `docs/brain/REPAIR-LAB-AUDIT-2026-10-14.md` section 5, built with web and app parity.
+6. **Subject art:** regenerate 4 subject renders (Accountancy calculator plus balance sheet, Computer Science laptop with code, Business Studies briefcase, Languages book with Indian scripts) in the same lamp-lit style. Show old next to new, and ship only the owner's pick.
+7. **Owner-only:** upload key, Google client ID, Play Console.
+
+## Owner's latest direction (15 Oct)
+
+- Speed: he wants hour-long tasks done in minutes. Fan out agents, and do not wait on full suites before building.
+- No regressive changes, and preview before any taste change.
+- Every feature is built the same on web and app.
+- Fast mode was turned on for this session.
+- Bypass permissions are on.
+- The owner approved deploys of the repair fixes and the wave 2 publish.
