@@ -86,27 +86,30 @@ class SheetCard extends StatelessWidget {
               ),
               const SizedBox(width: MmSpace.s8),
               // Mobi waves once when You opens, then breathes and blinks. A tap makes it react.
-              const Mobi(pose: MobiPose.greet, size: 112, interactive: true),
+              const Mobi(pose: MobiPose.greet, size: 120, interactive: true),
             ],
           ),
         ),
         const SizedBox(height: MmSpace.s16),
         Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: WeekField(week: week, onOpen: onOpenRhythm)),
         const SizedBox(height: MmSpace.s8),
-        Padding(
-          padding: fieldInset,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (target.course != null)
-                SheetField(first: true, label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
-              if (target.colleges.isNotEmpty)
-                SheetField(first: target.course == null, label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
-              if (subjects.isNotEmpty)
-                SubjectsField(subjects: subjects, onEdit: onEditSubjects, first: target.course == null && target.colleges.isEmpty),
-              if (missingTarget && onEdit != null) _FinishPrompt(onTap: onEdit!),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (target.course != null)
+              Padding(
+                padding: fieldInset,
+                child: SheetField(first: true, label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
+              ),
+            if (target.colleges.isNotEmpty)
+              Padding(
+                padding: fieldInset,
+                child: SheetField(first: target.course == null, label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
+              ),
+            if (subjects.isNotEmpty)
+              SubjectsField(subjects: subjects, onEdit: onEditSubjects, first: target.course == null && target.colleges.isEmpty),
+            if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit!)),
+          ],
         ),
       ],
     );

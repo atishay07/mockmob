@@ -12,7 +12,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../you/widgets/you_row.dart' show IconWell, RowFrame, YouPanel;
+import '../../you/widgets/you_page.dart' show PillKey, SectionTitle;
+import '../../you/widgets/you_row.dart' show RowFrame, YouPanel;
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
@@ -20,6 +21,8 @@ import '../logic/week_view.dart';
 import 'rhythm_page.dart';
 import '../logic/plan_week.dart';
 import 'plan_week_strip.dart';
+import 'run_ribbon.dart';
+import 'week_dial.dart';
 
 class RhythmBody extends StatelessWidget {
   const RhythmBody({
@@ -70,7 +73,7 @@ class RhythmBody extends StatelessWidget {
     final rhythm = snapshot.rhythm!;
     final week = snapshot.week!;
     final note = runNote(rhythm);
-    final closed = closedWeeks(rhythm);
+    final ribbon = ribbonWeeks(rhythm, week);
     final goal = snapshot.goal?.daysPerWeek ?? rhythm.daysGoal;
 
     return Column(
@@ -91,12 +94,17 @@ class RhythmBody extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
         ],
         if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan),
-        const SizedBox(height: MmSpace.s32),
-        // The run is two numbers on the ground, not a list inside a card: weeks in rhythm and the
-        // best run. Without a run there is one plain line (never a zero).
+        const SizedBox(height: MmSpace.s40),
+        // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
+        // a run there is one plain line (never a zero).
+        const SectionTitle(RhythmCopy.runTitle),
         _RunStats(rhythm: rhythm, note: note),
-        const SizedBox(height: MmSpace.s24),
-        // One row per setting, each a 56 dp row with its value and a chevron on the right.
+        if (ribbon.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s16),
+          RunRibbon(weeks: ribbon),
+        ],
+        const SizedBox(height: MmSpace.s40),
+        const SectionTitle(RhythmCopy.planTitle),
         YouPanel(
           margin: EdgeInsets.zero,
           inset: MmSpace.gutter,
@@ -114,7 +122,7 @@ class RhythmBody extends StatelessWidget {
           ],
         ),
         if (!rhythmOff) ...[
-          const SizedBox(height: MmSpace.s32),
+          const SizedBox(height: MmSpace.s40),
           _PauseGroup(
             paused: week.status == WeekStatus.paused,
             busy: busy,
@@ -124,16 +132,8 @@ class RhythmBody extends StatelessWidget {
             onResume: onResume,
           ),
         ],
-        if (closed.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s32),
-          const GroupHeading(RhythmCopy.closedWeeks),
-          YouPanel(
-            margin: EdgeInsets.zero,
-            children: [for (final w in closed) _ClosedWeek(week: w)],
-          ),
-        ],
-        const SizedBox(height: MmSpace.s32),
-        const GroupHeading(RhythmCopy.celebrationsTitle),
+        const SizedBox(height: MmSpace.s40),
+        const SectionTitle(RhythmCopy.celebrationsTitle),
         CelebrationsPicker(mode: mode, onMode: onMode),
         if (!rhythmOff) ...[
           const SizedBox(height: MmSpace.s24),
@@ -144,10 +144,11 @@ class RhythmBody extends StatelessWidget {
   }
 }
 
-/// This week, lit: the count as a monumental number, the planned week (the same strip as Today
-/// and the week sheet: counted, planned, rest, not yet) and one plain line. The counted days ink
-/// in one after another when the screen opens, and each day answers a tap with a light tick and
-/// its name in words.
+/// This week, lit: the ring on the ground in a pool of lamp light (one segment inked per study day,
+/// the count in the middle), the dates and one plain line, then the planned week in the room's one
+/// lit pane (counted, planned, rest, not yet). The counted days ink in one after another when the
+/// screen opens, and each day answers a tap with a light tick and its name in words. Mobi cheers
+/// beside the ring when the week is met and rests while it is paused; otherwise he stays out of it.
 class WeekHero extends ConsumerStatefulWidget {
   const WeekHero({super.key, required this.week, this.plan});
 
@@ -172,6 +173,7 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
     final colors = context.mmColors;
     final type = context.mmType;
     final week = widget.week;
+    final paused = week.status == WeekStatus.paused;
     final todayIndex = week.days.indexWhere((d) => d.isToday);
     final days = planWeek(
       studied: [for (final d in week.days) d.studyDay],
@@ -180,56 +182,91 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
       dates: [for (final d in week.days) d.date?.day],
     );
     final picked = _selected == null ? null : days[_selected!];
-    return LitEdge(
-      child: FakeGlass(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(RhythmCopy.weekTitle, style: type.caption.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s8),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: MonumentalNumber(
-                  value: '${week.studyDays}',
-                  unit: RhythmCopy.ofGoal(week.goal),
-                  style: type.figure.copyWith(fontSize: 72, height: 66 / 72),
-                  semanticsLabel: week.label,
-                ),
-              ),
-              const SizedBox(height: MmSpace.s16),
-              PlanWeekStrip(
-                days: days,
-                bubble: 28,
-                showDates: true,
-                daySemantics: true,
-                animateIn: true,
-                selected: _selected,
-                onDay: (d) {
-                  ref.read(hapticsProvider).tick();
-                  setState(() => _selected = _selected == d.index ? null : d.index);
-                },
-              ),
-              const SizedBox(height: MmSpace.s4),
-              PlanWeekKey(days: days),
-              const SizedBox(height: MmSpace.s12),
-              Semantics(
-                liveRegion: true,
-                child: AnimatedSwitcher(
-                  duration: Motion.of(context, const Duration(milliseconds: 160)),
-                  child: Text(
-                    picked == null ? _status(week) : _sentence(picked),
-                    key: ValueKey(picked?.index ?? -1),
-                    style: type.small.copyWith(color: colors.ink2),
+    final monday = week.days.first.date;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Semantics(
+          container: true,
+          label: week.label,
+          excludeSemantics: true,
+          child: SizedBox(
+            height: 232,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: LightField(
+                      pools: [
+                        LightPool(
+                          color: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.2),
+                          center: const Alignment(0, -0.05),
+                          radius: 0.36,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                WeekDial(done: week.studyDays, goal: week.goal, size: 188, paused: paused),
+                if (week.met)
+                  const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.celebrating, size: 76, motion: MobiMotion.hop))
+                else if (paused)
+                  const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.rest, size: 72)),
+              ],
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: MmSpace.s8),
+        if (monday != null)
+          Text(RhythmCopy.weekRange(monday), textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s4),
+        Semantics(
+          liveRegion: true,
+          child: Text(_status(week), textAlign: TextAlign.center, style: type.subhead),
+        ),
+        const SizedBox(height: MmSpace.s24),
+        LitEdge(
+          child: FakeGlass(
+            child: Padding(
+              padding: const EdgeInsets.all(MmSpace.s12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PlanWeekStrip(
+                    days: days,
+                    bubble: 28,
+                    showDates: true,
+                    daySemantics: true,
+                    animateIn: true,
+                    selected: _selected,
+                    onDay: (d) {
+                      ref.read(hapticsProvider).tick();
+                      setState(() => _selected = _selected == d.index ? null : d.index);
+                    },
+                  ),
+                  const SizedBox(height: MmSpace.s4),
+                  Padding(padding: const EdgeInsets.only(left: MmSpace.s8), child: PlanWeekKey(days: days)),
+                  AnimatedSize(
+                    duration: Motion.of(context, const Duration(milliseconds: 160)),
+                    curve: Motion.glide,
+                    alignment: Alignment.topCenter,
+                    child: picked == null
+                        ? const SizedBox(width: double.infinity)
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s12, MmSpace.s8, MmSpace.s4),
+                            child: Semantics(
+                              liveRegion: true,
+                              child: Text(_sentence(picked), style: type.small.copyWith(color: colors.ink2)),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -366,42 +403,6 @@ class _OffPanel extends StatelessWidget {
   }
 }
 
-/// A closed week: its words and the week as a row of bubbles, the study days inked.
-class _ClosedWeek extends StatelessWidget {
-  const _ClosedWeek({required this.week});
-
-  final RhythmWeek week;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final days = week.studyDays;
-    final goal = week.goal;
-    final met = week.met;
-    final total = days > goal ? days : goal;
-    return Semantics(
-      container: true,
-      label: met ? '${closedWeekText(week)} ${RhythmCopy.goalMet}' : closedWeekText(week),
-      excludeSemantics: true,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
-        child: Row(
-          children: [
-            Expanded(child: Text(closedWeekText(week), style: type.body.copyWith(color: colors.ink))),
-            const SizedBox(width: MmSpace.s12),
-            BubbleRow(
-              states: [for (var i = 0; i < total; i++) i < days ? BubbleState.filled : BubbleState.hollow],
-              bubbleSize: 10,
-              gap: 4,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _PauseGroup extends StatelessWidget {
   const _PauseGroup({
     required this.paused,
@@ -427,8 +428,8 @@ class _PauseGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const GroupHeading(RhythmCopy.pauseTitle),
-        // The date is in the week card above; this says only what pausing does to the run.
+        const SectionTitle(RhythmCopy.pauseTitle, bottom: MmSpace.s4),
+        // The date is in the week above; this says only what pausing does to the run.
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
           child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
@@ -436,41 +437,16 @@ class _PauseGroup extends StatelessWidget {
         if (paused)
           KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume)
         else
-          YouPanel(
-            margin: EdgeInsets.zero,
-            inset: MmSpace.gutter + 36 + MmSpace.s12,
+          Wrap(
+            spacing: MmSpace.s8,
+            runSpacing: MmSpace.s8,
             children: [
-              _PauseRow(label: RhythmCopy.pauseThisWeek, onTap: busy ? null : onThisWeek),
-              _PauseRow(label: RhythmCopy.pauseTwoWeeks, onTap: busy ? null : onTwoWeeks),
-              _PauseRow(label: RhythmCopy.pauseUntilOn, onTap: busy ? null : onUntilOn),
+              PillKey(label: RhythmCopy.pauseThisWeek, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseThisWeek}', onPressed: busy ? null : onThisWeek),
+              PillKey(label: RhythmCopy.pauseTwoWeeks, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseTwoWeeks}', onPressed: busy ? null : onTwoWeeks),
+              PillKey(label: RhythmCopy.pauseUntilOn, semanticsLabel: '${RhythmCopy.pauseTitle}, ${RhythmCopy.pauseUntilOn}', onPressed: busy ? null : onUntilOn),
             ],
           ),
       ],
-    );
-  }
-}
-
-/// A pause preset as a row with a pause glyph, so a preset reads as an action.
-class _PauseRow extends StatelessWidget {
-  const _PauseRow({required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return RowFrame(
-      onTap: onTap,
-      semanticsLabel: '${RhythmCopy.pauseTitle}, $label',
-      child: Row(
-        children: [
-          IconWell(LucideIcons.pause, color: onTap == null ? colors.ink4 : colors.ink2),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(child: Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: onTap == null ? colors.ink3 : colors.ink))),
-        ],
-      ),
     );
   }
 }

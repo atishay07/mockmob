@@ -14,12 +14,12 @@ import '../../../core/widgets/widgets.dart';
 import '../../review/widgets/share_card.dart' show ShareCardData, showShareCardSheet;
 import '../celebration/celebration_controller.dart';
 import '../celebration/celebration_event.dart';
-import '../celebration/ring_sweep.dart';
 import '../copy.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
 import '../logic/weekly_ending.dart';
 import 'rhythm_page.dart';
+import 'week_dial.dart';
 
 class WeeklyEndingCard extends StatelessWidget {
   const WeeklyEndingCard({
@@ -60,7 +60,8 @@ class WeeklyEndingCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              if (ring) ...[const RingSweep(size: 36, label: RhythmCopy.weekDoneLabel), const SizedBox(width: MmSpace.s12)],
+              WeekDial(done: data.studyDays, goal: data.goal.clamp(1, 7), size: 60, showWords: false, animate: ring),
+              const SizedBox(width: MmSpace.s12),
               Expanded(child: Semantics(header: true, child: Text(RhythmCopy.endingTitle, style: type.subhead))),
               Semantics(
                 button: true,

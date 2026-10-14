@@ -23,8 +23,8 @@ class TokenShelf extends StatelessWidget {
   /// The rhythm is still loading: recesses without words, announced as loading.
   final bool loading;
 
-  static const double band = 104;
-  static const double token = 78;
+  static const double band = 122;
+  static const double token = 92;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +136,7 @@ class _Token extends StatelessWidget {
           ),
           Positioned(
             bottom: 3,
-            child: ArtImage(token.art, height: TokenShelf.token, placeholder: const SizedBox.square(dimension: 64)),
+            child: ArtImage(token.art, height: TokenShelf.token, placeholder: const SizedBox.square(dimension: 76)),
           ),
         ],
       ),
@@ -169,8 +169,8 @@ class _Ghost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: 64,
-      child: loading ? null : LockedCoin(token),
+      dimension: 76,
+      child: loading ? null : LockedCoin(token, size: 76),
     );
   }
 }
@@ -183,8 +183,8 @@ class _SocketPool extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final c = Offset(size.width / 2, size.height - 4 - 32);
-    const r = 56.0;
+    final c = Offset(size.width / 2, size.height - 4 - 44);
+    const r = 72.0;
     canvas.drawCircle(
       c,
       r,

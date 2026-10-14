@@ -187,7 +187,13 @@ class _BestPanel extends StatelessWidget {
                 unit: RhythmCopy.outOf(best.best.max),
                 style: type.figure,
               ),
-              const SizedBox(height: MmSpace.s8),
+              if (best.attempts >= 2) ...[
+                const SizedBox(height: MmSpace.s16),
+                _MarksBar(label: RhythmCopy.barBest, marks: best.best.marks, max: best.best.max, best: true),
+                const SizedBox(height: MmSpace.s8),
+                _MarksBar(label: RhythmCopy.barLatest, marks: best.latest.marks, max: best.latest.max, best: false),
+              ],
+              const SizedBox(height: MmSpace.s12),
               Text(
                 best.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(best.mode)) : RhythmCopy.latestLine(marksText(best.latest)),
                 style: type.small.copyWith(color: colors.ink2),
@@ -202,6 +208,50 @@ class _BestPanel extends StatelessWidget {
       ),
     );
     return lit ? LitEdge(child: panel) : panel;
+  }
+}
+
+/// Best or latest marks as a bar out of the paper's full marks, so two mocks of the same type can
+/// be read against each other at a glance. The bar is the observed marks over the maximum; a
+/// negative mark draws nothing.
+class _MarksBar extends StatelessWidget {
+  const _MarksBar({required this.label, required this.marks, required this.max, required this.best});
+
+  final String label;
+  final num marks;
+  final int max;
+  final bool best;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final fraction = max <= 0 ? 0.0 : (marks / max).clamp(0.0, 1.0).toDouble();
+    return Row(
+      children: [
+        SizedBox(width: 56, child: Text(label, style: type.caption.copyWith(color: colors.ink2))),
+        Expanded(
+          child: ClipRRect(
+            borderRadius: MmRadius.pillAll,
+            child: SizedBox(
+              height: 8,
+              child: Stack(
+                children: [
+                  Positioned.fill(child: ColoredBox(color: colors.ink.withValues(alpha: 0.10))),
+                  Positioned.fill(
+                    child: FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: fraction,
+                      child: ColoredBox(color: best ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink3),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

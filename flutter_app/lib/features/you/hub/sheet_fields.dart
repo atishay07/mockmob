@@ -4,11 +4,12 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/copy.dart' show RhythmCopy;
+import '../../rhythm/logic/plan_week.dart' show PlanDay;
+import '../../rhythm/widgets/plan_week_strip.dart';
+import '../../rhythm/widgets/week_dial.dart';
 import '../copy.dart';
 import '../widgets/subject_art.dart';
 import '../widgets/you_page.dart' show PillKey;
-import '../../rhythm/logic/plan_week.dart' show PlanDay;
-import '../../rhythm/widgets/plan_week_strip.dart';
 
 /// One field of the sheet card, ruled off like the header boxes of an answer sheet: a hairline
 /// above, a small label, then the value.
@@ -107,50 +108,93 @@ class _RankRing extends StatelessWidget {
   }
 }
 
-/// The chosen subjects as an equal two-column grid, each beside its coloured glyph tile. Every
-/// cell is the same width, so two names never sit at unequal widths on one row.
+/// The chosen subjects as a row of art tiles: each subject's rendered object on its own light
+/// field, its name beneath. The row scrolls sideways with a peek when it is wider than the phone.
+/// Every tile has the same size, so two names never sit at unequal widths.
 class SubjectList extends StatelessWidget {
-  const SubjectList({super.key, required this.subjects});
+  const SubjectList({super.key, required this.subjects, this.padding = EdgeInsets.zero});
 
   final List<String> subjects;
 
+  /// Space before the first and after the last tile, so the row can bleed to the screen edge.
+  final EdgeInsetsGeometry padding;
+
   @override
   Widget build(BuildContext context) {
-    final rows = <Widget>[];
-    for (var i = 0; i < subjects.length; i += 2) {
-      rows.add(
-        Padding(
-          padding: EdgeInsets.only(top: i == 0 ? 0 : MmSpace.s12),
-          child: Row(
-            children: [
-              Expanded(child: _SubjectCell(subjects[i])),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: i + 1 < subjects.length ? _SubjectCell(subjects[i + 1]) : const SizedBox.shrink()),
-            ],
-          ),
-        ),
-      );
-    }
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: padding,
+      child: Row(
+        children: [
+          for (var i = 0; i < subjects.length; i++) ...[
+            if (i > 0) const SizedBox(width: MmSpace.s12),
+            SubjectTile(subjects[i]),
+          ],
+        ],
+      ),
+    );
   }
 }
 
-class _SubjectCell extends StatelessWidget {
-  const _SubjectCell(this.id);
+class SubjectTile extends StatelessWidget {
+  const SubjectTile(this.id, {super.key});
 
   final String id;
 
+  static const double width = 96;
+  static const double height = 128;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.mmColors;
     final type = context.mmType;
-    return Row(
-      children: [
-        SubjectArt(id, size: 36),
-        const SizedBox(width: MmSpace.s12),
-        Expanded(
-          child: Text(subjectDisplayName(id), style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+    final light = SubjectLight.forSubject(id);
+    final brightness = Theme.of(context).brightness;
+    return SizedBox(
+      width: width,
+      height: height,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.raised,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colors.line),
         ),
-      ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(19),
+          child: Stack(
+            children: [
+              if (light != null)
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: LightField(
+                      pools: [LightPool(color: light.of(brightness), center: const Alignment(0, -0.45), radius: 0.62)],
+                    ),
+                  ),
+                ),
+              Column(
+                children: [
+                  const SizedBox(height: MmSpace.s12),
+                  SubjectArt(id, size: 64),
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                        child: Text(
+                          subjectDisplayName(id),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: type.label.copyWith(fontSize: 13, height: 16 / 13, color: colors.ink),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -167,27 +211,44 @@ class SubjectsField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final field = SheetField(
-      first: first,
-      label: YouCopy.fieldSubjects,
-      trailing: onEdit == null
-          ? null
-          : Row(
-              mainAxisSize: MainAxisSize.min,
+    final type = context.mmType;
+    const side = MmSpace.gutter + 4;
+    final field = Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: side),
+            child: Row(
               children: [
-                Text(YouCopy.editSubjects, style: context.mmType.labelLarge.copyWith(fontSize: 14)),
-                const SizedBox(width: MmSpace.s4),
-                Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+                Expanded(child: Text(YouCopy.fieldSubjects, style: type.caption.copyWith(color: colors.ink3))),
+                if (onEdit != null) ...[
+                  Text(YouCopy.editSubjects, style: type.labelLarge.copyWith(fontSize: 14)),
+                  const SizedBox(width: MmSpace.s4),
+                  Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+                ],
               ],
             ),
-      child: SubjectList(subjects: subjects),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          SubjectList(subjects: subjects, padding: const EdgeInsets.symmetric(horizontal: side)),
+        ],
+      ),
     );
-    if (onEdit == null) return field;
+    final ruled = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (!first) Padding(padding: const EdgeInsets.symmetric(horizontal: side), child: SizedBox(height: 1, child: ColoredBox(color: colors.line))),
+        field,
+      ],
+    );
+    if (onEdit == null) return ruled;
     return Semantics(
       button: true,
       label: '${YouCopy.editSubjectsLabel}. ${subjects.map(subjectDisplayName).join(', ')}',
       excludeSemantics: true,
-      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: field),
+      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: ruled),
     );
   }
 }
@@ -206,7 +267,8 @@ class SheetWeek {
         onShowMe = null,
         onRetry = null,
         done = null,
-        goal = null;
+        goal = null,
+        paused = false;
 
   const SheetWeek.failed(this.onRetry)
       : state = SheetWeekState.failed,
@@ -217,7 +279,8 @@ class SheetWeek {
         planDays = null,
         onShowMe = null,
         done = null,
-        goal = null;
+        goal = null,
+        paused = false;
 
   const SheetWeek.off()
       : state = SheetWeekState.off,
@@ -229,7 +292,8 @@ class SheetWeek {
         onShowMe = null,
         onRetry = null,
         done = null,
-        goal = null;
+        goal = null,
+        paused = false;
 
   const SheetWeek.ready({
     required this.days,
@@ -240,6 +304,7 @@ class SheetWeek {
     this.onShowMe,
     this.done,
     this.goal,
+    this.paused = false,
   })  : state = SheetWeekState.ready,
         onRetry = null;
 
@@ -253,9 +318,12 @@ class SheetWeek {
   /// "2 of 4 study days".
   final String? count;
 
-  /// The two numbers behind [count], for the monumental figure. Null falls back to the words.
+  /// The two numbers behind [count], for the dial. Null falls back to the words.
   final int? done;
   final int? goal;
+
+  /// The week is paused: the dial is dashed and the note carries the pause.
+  final bool paused;
 
   /// "Weeks in rhythm: 3", or the pause.
   final String? note;
@@ -269,13 +337,23 @@ class SheetWeek {
   final VoidCallback? onRetry;
 }
 
-/// The rhythm field: this week in the room's one lit pane. The count stands as a monumental
-/// number over the seven answer bubbles. The pane opens the rhythm screen.
+/// The rhythm field: this week in the room's one lit pane. The ring (one segment inked per study
+/// day, the count in the middle) sits beside the plain words, with the planned week beneath. The
+/// pane opens the rhythm screen.
 class WeekField extends StatelessWidget {
   const WeekField({super.key, required this.week, required this.onOpen});
 
   final SheetWeek week;
   final VoidCallback onOpen;
+
+  /// The line beside the ring: what is left, or that the week is done, or the pause.
+  String? _headline() {
+    final done = week.done;
+    final goal = week.goal;
+    if (week.paused) return week.note;
+    if (done == null || goal == null) return null;
+    return done >= goal ? RhythmCopy.weekDoneSentence : RhythmCopy.toGo(goal - done);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +363,13 @@ class WeekField extends StatelessWidget {
     final Widget body = switch (week.state) {
       SheetWeekState.loading => const SkeletonGroup(
           label: 'Loading this week',
-          child: Align(alignment: Alignment.centerLeft, child: Skeleton(width: 250, height: 30, radius: 15)),
+          child: Row(
+            children: [
+              Skeleton.circle(size: 112),
+              SizedBox(width: MmSpace.s16),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Skeleton.line(width: 140), SizedBox(height: 10), Skeleton.line(width: 100)])),
+            ],
+          ),
         ),
       SheetWeekState.failed => Row(
           children: [
@@ -295,41 +379,7 @@ class WeekField extends StatelessWidget {
           ],
         ),
       SheetWeekState.off => Text(YouCopy.rhythmOffLine, style: type.small.copyWith(color: colors.ink2)),
-      SheetWeekState.ready => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (week.done != null && week.goal != null) ...[
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: ExcludeSemantics(
-                  child: MonumentalNumber(
-                    value: '${week.done}',
-                    unit: RhythmCopy.ofGoal(week.goal!),
-                    style: type.figure.copyWith(fontSize: 56, height: 52 / 56),
-                  ),
-                ),
-              ),
-              const SizedBox(height: MmSpace.s8),
-            ],
-            // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
-            // from the rhythm's own words, and the marks are named in a one-line key.
-            if (week.planDays != null) ...[
-              PlanWeekStrip(days: week.planDays!, bubble: 22, daySemantics: true, animateIn: true),
-              const SizedBox(height: MmSpace.s4),
-              PlanWeekKey(days: week.planDays!),
-            ] else
-              WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
-            if (week.note != null) ...[
-              const SizedBox(height: MmSpace.s8),
-              Text(week.note!, style: type.caption.copyWith(color: colors.ink2)),
-            ],
-            if (week.onShowMe != null) ...[
-              const SizedBox(height: MmSpace.s4),
-              ShowMePill(onTap: week.onShowMe!, semanticsLabel: YouCopy.showMeWeek),
-            ],
-          ],
-        ),
+      SheetWeekState.ready => _ready(context),
     };
 
     final pane = LitEdge(
@@ -340,13 +390,10 @@ class WeekField extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Expanded(child: Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2))),
-                  if (ready) Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
-                ],
-              ),
-              const SizedBox(height: MmSpace.s8),
+              if (!ready) ...[
+                Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s8),
+              ],
               body,
             ],
           ),
@@ -358,6 +405,61 @@ class WeekField extends StatelessWidget {
       button: true,
       label: [YouCopy.rowRhythm, ?week.count, ?week.note].join('. '),
       child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onOpen, child: pane),
+    );
+  }
+
+  Widget _ready(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final headline = _headline();
+    final hasDial = week.done != null && week.goal != null;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (hasDial) ...[
+              WeekDial(done: week.done!, goal: week.goal!, size: 120, paused: week.paused),
+              const SizedBox(width: MmSpace.s16),
+            ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2))),
+                      Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+                    ],
+                  ),
+                  if (headline != null) ...[
+                    const SizedBox(height: MmSpace.s4),
+                    Text(headline, style: type.subhead),
+                  ],
+                  if (!week.paused && week.note != null) ...[
+                    const SizedBox(height: MmSpace.s8),
+                    Text(week.note!, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s12),
+        // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
+        // from the rhythm's own words, and the marks are named in a one-line key.
+        if (week.planDays != null) ...[
+          PlanWeekStrip(days: week.planDays!, bubble: 22, daySemantics: true, animateIn: true),
+          const SizedBox(height: MmSpace.s4),
+          PlanWeekKey(days: week.planDays!),
+        ] else
+          WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
+        if (week.onShowMe != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          ShowMePill(onTap: week.onShowMe!, semanticsLabel: YouCopy.showMeWeek),
+        ],
+      ],
     );
   }
 }

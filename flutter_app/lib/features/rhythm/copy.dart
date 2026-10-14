@@ -113,6 +113,12 @@ abstract final class RhythmCopy {
   // Closed weeks.
   static const String closedWeeks = 'Closed weeks';
 
+  // The run ribbon.
+  static const String runTitle = 'Your run';
+  static const String ribbonNow = 'Now';
+  static String ribbonSummary(int met, int total) => 'Goal met in $met of the last $total weeks.';
+  static const String planTitle = 'Plan';
+
   static String closedWeekRow(String weekOf, int days, int goal) => 'Week of $weekOf, $days of $goal days.';
 
   // Celebrations setting.
@@ -176,6 +182,8 @@ abstract final class RhythmCopy {
 
   static String latestLine(String marks) => 'Latest: $marks.';
 
+  static const String barBest = 'Best';
+  static const String barLatest = 'Latest';
   static String bestMarks(String marks, int outOf) => '$marks of $outOf marks';
 
   static String bestDates(String bestDate, String latestDate) => 'Best on $bestDate. Latest on $latestDate.';
@@ -292,6 +300,9 @@ abstract final class RhythmCopy {
   static String stepEarned(String name, String date) => '$name, landed on $date';
   static String stepNext(String name, String condition) => 'Next: $name. $condition';
   static String stepLater(String name) => '$name, after that';
+  static String trackCountOf(int landed, int total) => '$landed of $total landed';
+  static String ofLanded(int total) => 'of $total landed';
+  static String landedSummary(int landed, int total) => '$landed of $total milestones landed';
   static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
 
   // Mobi on the milestones screen.

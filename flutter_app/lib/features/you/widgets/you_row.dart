@@ -10,9 +10,13 @@ import '../../../core/widgets/widgets.dart';
 /// edge light along the top with the lamp's warm catch, and hairlines between the rows inset by
 /// [inset]. Never nest a panel in a panel.
 class YouPanel extends StatelessWidget {
-  const YouPanel({super.key, required this.children, this.inset = MmSpace.gutter, this.margin = youPanelMargin});
+  const YouPanel({super.key, required this.children, this.inset = MmSpace.gutter, this.margin = youPanelMargin, this.flat = false});
 
   final List<Widget> children;
+
+  /// No pane at all: the rows sit on the ground between two hairlines. Used where a list should
+  /// read as part of the page and not as one more box (Progress and CUET tools on the hub).
+  final bool flat;
 
   /// Where the hairline between two rows starts (64 lines up with text beside an icon well).
   final double inset;
@@ -30,6 +34,15 @@ class YouPanel extends StatelessWidget {
         ));
       }
       rows.add(children[i]);
+    }
+    if (flat) {
+      return Padding(
+        padding: margin,
+        child: DecoratedBox(
+          decoration: BoxDecoration(border: Border.symmetric(horizontal: BorderSide(color: colors.line))),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows),
+        ),
+      );
     }
     return Padding(
       padding: margin,
@@ -155,7 +168,12 @@ class YouRow extends StatelessWidget {
     this.external = false,
     this.hairline = false,
     this.destructive = false,
+    this.flat = false,
   });
+
+  /// A row on the ground (inside a flat panel): the icon stands bare, the value is a step larger,
+  /// and the row's padding is the 4 dp the section titles use.
+  final bool flat;
 
   final IconData icon;
   final String title;
@@ -179,10 +197,14 @@ class YouRow extends StatelessWidget {
       onTap: onTap,
       hairline: hairline,
       semanticsLabel: label,
+      padding: flat ? const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
       child: Row(
         children: [
-          IconWell(icon, color: destructive ? colors.badText : null),
-          const SizedBox(width: MmSpace.s12),
+          if (flat)
+            SizedBox.square(dimension: 28, child: Icon(icon, size: 22, color: destructive ? colors.badText : colors.ink))
+          else
+            IconWell(icon, color: destructive ? colors.badText : null),
+          SizedBox(width: flat ? MmSpace.s16 : MmSpace.s12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +221,7 @@ class YouRow extends StatelessWidget {
             const SizedBox(width: MmSpace.s8),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 140),
-              child: Text(value!, style: type.caption.copyWith(color: colors.ink2), textAlign: TextAlign.end),
+              child: Text(value!, style: (flat ? type.small : type.caption).copyWith(color: colors.ink2), textAlign: TextAlign.end),
             ),
           ],
           const SizedBox(width: MmSpace.s8),

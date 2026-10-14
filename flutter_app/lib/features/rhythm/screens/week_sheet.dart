@@ -18,6 +18,7 @@ import '../logic/week_view.dart';
 import '../widgets/rhythm_page.dart';
 import '../logic/plan_week.dart';
 import '../widgets/plan_week_strip.dart';
+import '../widgets/week_dial.dart';
 
 class WeekSheet extends ConsumerStatefulWidget {
   const WeekSheet({super.key});
@@ -210,6 +211,8 @@ class _Loaded extends StatelessWidget {
       if (rhythm.weeksMetStreak > 0 && rhythm.bestRun > rhythm.weeksMetStreak) '${RhythmCopy.bestRun(rhythm.bestRun)}.',
     ].join(' ');
 
+    final mocks = rhythm.mocksThisWeek ?? 0;
+    final repairs = rhythm.repairsThisWeek ?? 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -217,6 +220,27 @@ class _Loaded extends StatelessWidget {
           Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.small.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s8),
         ],
+        // The ring and the count in words: what the week is and what is left of it.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            WeekDial(done: week.studyDays, goal: week.goal, size: 96, paused: week.status == WeekStatus.paused, showWords: false),
+            const SizedBox(width: MmSpace.s16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(week.label, style: type.subhead),
+                  if (secondary != null) ...[
+                    const SizedBox(height: MmSpace.s4),
+                    Text(secondary, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s16),
         strip,
         const SizedBox(height: MmSpace.s4),
         PlanWeekKey(days: days),
@@ -224,12 +248,6 @@ class _Loaded extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),
           FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
-        ],
-        const SizedBox(height: MmSpace.s16),
-        Text(week.label, style: type.subhead),
-        if (secondary != null) ...[
-          const SizedBox(height: MmSpace.s4),
-          Text(secondary, style: type.body.copyWith(color: colors.ink2)),
         ],
         if (outlook?.kind == OutlookKind.outOfReach && onPauseWeek != null) ...[
           const SizedBox(height: MmSpace.s12),
@@ -239,8 +257,20 @@ class _Loaded extends StatelessWidget {
         Divider(height: 1, thickness: 1, color: colors.line),
         const SizedBox(height: MmSpace.s16),
         if (counts != null) ...[
-          Text(counts, style: type.body),
-          const SizedBox(height: MmSpace.s4),
+          // The week's work as two small figures; the sentence is what a screen reader hears.
+          Semantics(
+            container: true,
+            label: counts,
+            excludeSemantics: true,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (mocks > 0) Expanded(child: _WorkFigure(value: mocks, label: mocks == 1 ? 'mock' : 'mocks')),
+                if (repairs > 0) Expanded(child: _WorkFigure(value: repairs, label: repairs == 1 ? 'mistake repaired' : 'mistakes repaired')),
+              ],
+            ),
+          ),
+          const SizedBox(height: MmSpace.s16),
         ],
         Text(run, style: type.body.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
@@ -253,6 +283,27 @@ class _Loaded extends StatelessWidget {
             FlushQuietKey(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
           ],
         ),
+      ],
+    );
+  }
+}
+
+/// A count of the week's work: the number in condensed Bricolage with its plain label beneath.
+class _WorkFigure extends StatelessWidget {
+  const _WorkFigure({required this.value, required this.label});
+
+  final int value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('$value', style: type.figureCompact),
+        Text(label, style: type.caption.copyWith(color: colors.ink2)),
       ],
     );
   }

@@ -239,6 +239,28 @@ class GroupHeading extends StatelessWidget {
   }
 }
 
+/// A section title in Bricolage 22: the step of hierarchy between a screen title and a row. Sentence
+/// case, ink, with an optional action at the end of the line. [padding] defaults to the 4 dp inset
+/// the rhythm screens use under their gutter; the hub passes its own.
+class SectionTitle extends StatelessWidget {
+  const SectionTitle(this.text, {super.key, this.trailing, this.padding, this.bottom = MmSpace.s12});
+
+  final String text;
+  final Widget? trailing;
+  final EdgeInsetsGeometry? padding;
+  final double bottom;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final title = Semantics(header: true, child: Text(text, style: type.title));
+    return Padding(
+      padding: padding ?? EdgeInsets.fromLTRB(4, 0, 0, bottom),
+      child: trailing == null ? title : Row(children: [Expanded(child: title), trailing!]),
+    );
+  }
+}
+
 /// A glass pill as wide as its label and 48 dp tall: the way a You page offers a side action (Try
 /// again, Remove, See every event) with a visible shape and a full touch target. It is sized to
 /// its label by [IntrinsicWidth] instead of the key's own intrinsic mode, which would draw the

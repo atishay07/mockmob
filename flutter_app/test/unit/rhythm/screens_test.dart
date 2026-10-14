@@ -73,6 +73,9 @@ void main() {
   group('You rhythm screen', () {
     testWidgets('Edit goal picks study days and saves the goal only after the server acknowledges', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
+      // The hero is taller than the first screen now, so the Plan rows are scrolled to.
+      await tester.ensureVisible(find.text('Weekly goal'));
+      await tester.pump();
       await tester.tap(find.text('Weekly goal'));
       await settle(tester);
       expect(find.text('Your study days'), findsOneWidget);
@@ -100,6 +103,9 @@ void main() {
           rhythmSeenRepositoryProvider.overrideWithValue(RhythmSeenRepository(LocalScope(db, () => 'u1', () => kNow))),
         ],
       );
+      // The hero is taller than the first screen now, so the Plan rows are scrolled to.
+      await tester.ensureVisible(find.text('Weekly goal'));
+      await tester.pump();
       await tester.tap(find.text('Weekly goal'));
       await settle(tester);
       await tester.tap(find.text('Save study days'));

@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/materials/fake_glass.dart';
+import '../../../core/widgets/materials/lit_edge.dart';
 import '../../../core/widgets/mobi.dart';
 import '../../../core/widgets/receipt_line.dart';
 import '../copy.dart';
@@ -42,8 +44,11 @@ class CelebrationMoment extends StatefulWidget {
   State<CelebrationMoment> createState() => _CelebrationMomentState();
 }
 
-class _CelebrationMomentState extends State<CelebrationMoment> with SingleTickerProviderStateMixin {
+class _CelebrationMomentState extends State<CelebrationMoment> with TickerProviderStateMixin {
   late final AnimationController _fade = AnimationController(vsync: this, duration: Motion.card);
+
+  /// The light band that crosses the pane once (700 ms) when a first or a week lands.
+  late final AnimationController _sweep = AnimationController(vsync: this, duration: const Duration(milliseconds: 860));
   bool _started = false;
 
   @override
@@ -55,12 +60,16 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
       _fade.value = 1;
     } else {
       _fade.forward();
+      if (widget.celebration.mobiHop || widget.celebration.ring) {
+        _sweep.forward();
+      }
     }
   }
 
   @override
   void dispose() {
     _fade.dispose();
+    _sweep.dispose();
     super.dispose();
   }
 
@@ -100,27 +109,72 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
       ],
     );
 
-    final body = Container(
-      width: double.infinity,
+    final row = Padding(
       padding: const EdgeInsets.all(MmSpace.s16),
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (c.ring) ...[const RingSweep(label: RhythmCopy.weekDoneLabel), const SizedBox(width: MmSpace.s12)],
+          if (c.ring) ...[const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52), const SizedBox(width: MmSpace.s16)],
           Expanded(child: text),
           if (c.mobiHop) ...[
             const SizedBox(width: MmSpace.s12),
-            const Mobi(pose: MobiPose.celebrating, size: 56, motion: MobiMotion.hop),
+            const Mobi(pose: MobiPose.celebrating, size: 76, motion: MobiMotion.hop),
           ],
         ],
+      ),
+    );
+    final body = SizedBox(
+      width: double.infinity,
+      child: LitEdge(
+        child: FakeGlass(
+          lamp: true,
+          child: Stack(
+            children: [
+              row,
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(painter: _SweepPainter(progress: _sweep, color: colors.volt, night: colors.isNight)),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
 
     return FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body);
   }
+}
+
+/// One soft diagonal band of light crossing the moment from left to right, once.
+class _SweepPainter extends CustomPainter {
+  _SweepPainter({required this.progress, required this.color, required this.night}) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final Color color;
+  final bool night;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 160 ms of lead so the pane is up before the light crosses it, then 700 ms.
+    final t = Motion.sweepCurve.transform(((progress.value * 860 - 160) / 700).clamp(0.0, 1.0));
+    if (t <= 0 || t >= 1) return;
+    final w = size.width * 0.34;
+    final x = -w + (size.width + 2 * w) * t;
+    canvas.save();
+    canvas.translate(x, 0);
+    final rect = Rect.fromLTWH(0, -8, w, size.height + 16);
+    canvas.transform(Matrix4.skewX(-0.35).storage);
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          colors: [color.withValues(alpha: 0), color.withValues(alpha: night ? 0.20 : 0.28), color.withValues(alpha: 0)],
+        ).createShader(rect),
+    );
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_SweepPainter old) => old.color != color || old.night != night;
 }
