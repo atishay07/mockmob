@@ -11,7 +11,7 @@ import '../copy.dart';
 import 'hero_stage.dart';
 
 /// Height the loaded move hero usually takes, so the swap does not shift the page.
-const double heroSkeletonHeight = 468;
+const double heroSkeletonHeight = 496;
 
 class TodaySkeleton extends StatefulWidget {
   const TodaySkeleton({super.key, this.delay = const Duration(milliseconds: 400)});
@@ -54,27 +54,31 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
                 padding: const EdgeInsets.all(MmSpace.cardPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  // The loaded hero's shape: overline and subject, the number with its meaning,
+                  // the sentence, the length chooser and the key, at their real heights.
                   children: [
                     const Skeleton.line(width: 96, height: 12),
                     const SizedBox(height: MmSpace.s8),
-                    const Skeleton.line(width: 120),
-                    const Spacer(),
+                    const Skeleton.line(width: 150, height: 24),
+                    const SizedBox(height: MmSpace.s16),
                     const Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Skeleton(width: 64, height: 92, radius: 14),
+                        Skeleton(width: 68, height: 100, radius: 14),
                         SizedBox(width: MmSpace.s12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Skeleton.line(width: 110, height: 18), SizedBox(height: 6), Skeleton.line(width: 84, height: 18)],
+                          children: [Skeleton.line(width: 96, height: 18), SizedBox(height: 6), Skeleton.line(width: 72, height: 18)],
                         ),
                       ],
                     ),
-                    const SizedBox(height: MmSpace.s16),
+                    const SizedBox(height: MmSpace.s20),
                     const Skeleton.line(),
                     const SizedBox(height: MmSpace.s8),
                     const Skeleton.line(width: 180),
-                    const SizedBox(height: MmSpace.s24),
+                    const Spacer(),
+                    const Skeleton(height: 48, radius: 24),
+                    const SizedBox(height: MmSpace.s20),
                     const Skeleton(height: 56, radius: 28),
                     const SizedBox(height: MmSpace.s20),
                   ],

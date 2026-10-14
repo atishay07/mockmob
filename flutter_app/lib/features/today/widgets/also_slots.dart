@@ -1,6 +1,7 @@
-// What did not win the hero still shows, as one compact glass row each: a second open thing,
-// another sealed result, or tonight's move while a mock is still open. Secondary weight: a glass
-// pill, never a second volt.
+// What did not win the hero still shows, right under it, as one row each on the ground (no box
+// under the stage; ui-blitz/today.md 2): a second open thing, another sealed result, or tonight's
+// move while a mock is still open. A short ink tick ties the row to the stage above it.
+// Secondary weight: a quiet glass key, never a second volt.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -44,14 +45,21 @@ class _Slot extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final blocked = offline && slot.action.startsSession;
-    return FakeGlass(
-      borderRadius: MmRadius.panelAll,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, 0, MmSpace.s4),
+      child: IntrinsicHeight(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // The tick: a short ink rule at the row's left edge.
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Container(width: 2, decoration: BoxDecoration(color: colors.lineStrong, borderRadius: MmRadius.pillAll)),
+            ),
+            const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(slot.title, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
@@ -61,12 +69,14 @@ class _Slot extends StatelessWidget {
               ),
             ),
             const SizedBox(width: MmSpace.s12),
-            KeyButton.secondary(
-              label: slot.action.label,
-              expanded: false,
-              minHeight: MmTarget.min,
-              loading: retrying && slot.action.target is RetryLoad,
-              onPressed: blocked ? null : () => onAction(slot.action),
+            Center(
+              child: KeyButton.secondary(
+                label: slot.action.label,
+                expanded: false,
+                minHeight: MmTarget.min,
+                loading: retrying && slot.action.target is RetryLoad,
+                onPressed: blocked ? null : () => onAction(slot.action),
+              ),
             ),
           ],
         ),

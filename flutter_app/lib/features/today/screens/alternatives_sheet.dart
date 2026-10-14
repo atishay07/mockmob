@@ -19,14 +19,18 @@ import '../data/today_providers.dart';
 import '../logic/links.dart';
 import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../logic/move_builder.dart';
+import '../widgets/session_glyph.dart';
 
 class AlternativeRow {
-  const AlternativeRow({required this.title, required this.note, required this.location, required this.icon});
+  const AlternativeRow({required this.title, required this.note, required this.location, required this.icon, this.glyph});
 
   final String title;
   final String note;
   final String location;
   final IconData icon;
+
+  /// The drawn sheet that shows the session's shape; plan rows from the server have none.
+  final SessionGlyphKind? glyph;
 }
 
 /// The rows for [subject] (public or internal id), with the plan's native alternatives first.
@@ -35,10 +39,10 @@ List<AlternativeRow> alternativeRows({String? subject, List<({String title, Stri
     for (final a in plan.take(2))
       if (ActionRouter.resolve(a.href) case NativeTarget(:final location))
         AlternativeRow(title: a.title, note: a.note ?? '', location: location, icon: LucideIcons.sparkles),
-    AlternativeRow(title: TodayCopy.altFullMock, note: TodayCopy.altFullMockLine, location: TodayLinks.fullMock(subject: subject), icon: LucideIcons.fileText),
-    AlternativeRow(title: TodayCopy.altQuick, note: TodayCopy.altQuickLine, location: TodayLinks.quick(subject: subject), icon: LucideIcons.zap),
-    AlternativeRow(title: TodayCopy.altChapter, note: TodayCopy.altChapterLine, location: AppRoutes.practiceSetup('chapter'), icon: LucideIcons.bookOpen),
-    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, icon: LucideIcons.listChecks),
+    AlternativeRow(title: TodayCopy.altFullMock, note: TodayCopy.altFullMockLine, location: TodayLinks.fullMock(subject: subject), icon: LucideIcons.fileText, glyph: SessionGlyphKind.fullMock),
+    AlternativeRow(title: TodayCopy.altQuick, note: TodayCopy.altQuickLine, location: TodayLinks.quick(subject: subject), icon: LucideIcons.zap, glyph: SessionGlyphKind.quick),
+    AlternativeRow(title: TodayCopy.altChapter, note: TodayCopy.altChapterLine, location: AppRoutes.practiceSetup('chapter'), icon: LucideIcons.bookOpen, glyph: SessionGlyphKind.chapter),
+    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, icon: LucideIcons.listChecks, glyph: SessionGlyphKind.review),
   ];
 }
 
@@ -125,10 +129,14 @@ class AlternativesSheetBody extends StatelessWidget {
             ),
             const SizedBox(height: MmSpace.s20),
           ],
-          for (final r in rows) ...[
+          // The plan's own suggestions as rows, then the usual ways to practise as a 2 by 2 set
+          // of tiles, each with its drawn sheet: the shape says how big the session is.
+          for (final r in rows.where((r) => r.glyph == null)) ...[
             _AlternativeTile(row: r, onTap: () => onRow(r)),
             const SizedBox(height: MmSpace.s8),
           ],
+          _TileGrid(rows: [for (final r in rows) if (r.glyph != null) r], onRow: onRow),
+          const SizedBox(height: MmSpace.s8),
           if (onNotToday != null) ...[
             const SizedBox(height: MmSpace.s4),
             Center(child: KeyButton.quiet(label: TodayCopy.notToday, onPressed: onNotToday)),
@@ -189,6 +197,81 @@ class _AlternativeTile extends ConsumerWidget {
                 Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Two tiles a row; a lone last tile keeps half the width so the set stays a grid.
+class _TileGrid extends StatelessWidget {
+  const _TileGrid({required this.rows, required this.onRow});
+
+  final List<AlternativeRow> rows;
+  final ValueChanged<AlternativeRow> onRow;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < rows.length; i += 2) ...[
+          if (i > 0) const SizedBox(height: MmSpace.s8),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: _GlyphTile(row: rows[i], onTap: () => onRow(rows[i]))),
+                const SizedBox(width: MmSpace.s8),
+                Expanded(child: i + 1 < rows.length ? _GlyphTile(row: rows[i + 1], onTap: () => onRow(rows[i + 1])) : const SizedBox.shrink()),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// One way to practise as a tile: its drawn sheet, the title and what you get. Opens its screen
+/// when tapped (no selection ring), with the selection tick.
+class _GlyphTile extends ConsumerWidget {
+  const _GlyphTile({required this.row, required this.onTap});
+
+  final AlternativeRow row;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: row.note.isEmpty ? row.title : '${row.title}. ${row.note}',
+      focusRadius: MmRadius.keyAll,
+      onTap: () {
+        ref.read(hapticsProvider).selection();
+        onTap();
+      },
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: MmSelection.fill(colors, selected: false, pressed: pressed),
+          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: false)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s12, MmSpace.s16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 34, child: SessionGlyph(kind: row.glyph!)),
+              const SizedBox(height: MmSpace.s12),
+              Text(row.title, style: type.labelLarge.copyWith(color: colors.ink)),
+              if (row.note.isNotEmpty) ...[
+                const SizedBox(height: 2),
+                Text(row.note, style: type.caption.copyWith(color: colors.ink2)),
+              ],
+            ],
           ),
         ),
       ),

@@ -33,7 +33,7 @@ class SealedHeroCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s16),
             const FoldedSheet(height: 176),
             const SizedBox(height: MmSpace.s20),
-            Semantics(header: true, child: Text(sealed.title, style: type.title)),
+            Semantics(header: true, child: Text(sealed.title, style: type.headline)),
             const SizedBox(height: MmSpace.s4),
             Text(sealed.line, style: type.body.copyWith(color: colors.ink2)),
             if (sealed.moreLine != null) ...[

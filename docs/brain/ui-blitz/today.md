@@ -71,6 +71,11 @@ The owner named it. It becomes a real timeline with progress and the next milest
 - The caption keeps the category in words ("Last year's DU closing scores, unreserved").
 - "Target vs score": Today has no honest CUET score for the student (a short check is never projected to a CUET score), so the scale shows the targets against each other and the 1000 scale, and nothing pretends to place the student on it. Empty state: one line and "Choose your colleges".
 
+### 2.5a What did not win the hero, and "Something else instead"
+
+- A second open thing (another sealed result, tonight's move while a mock is open) sits right under the stage as a row on the ground with a short ink tick at its left edge and a quiet glass key; no second box.
+- The alternatives sheet stops being four identical rows. The plan's own suggestions stay rows; the four usual ways to practise become a 2 by 2 set of tiles, each with a small drawn answer sheet that shows the session's shape: a 10 by 5 sheet for a full mock (50 questions), two rows of five for a quick practice, a sheet with only its own row lit for one chapter, and a wrong mark turning into an inked one for Review. Every bubble is a question. Tap: `selectionClick`, then the screen opens.
+
 ### 2.6 Choreography of the whole screen
 
 On the first build with data (not on every rebuild, not on tab reselect): header 0 ms, week 60 ms, hero 120 ms, the sections 220 ms and 280 ms. Each: opacity 0 to 1 and 16 dp rise, 420 ms `emphasized`. All transform and opacity, in one controller, each piece in a RepaintBoundary. Reduced motion (system or in-app): everything in place at once. Total under 800 ms; every control is live from the first frame.

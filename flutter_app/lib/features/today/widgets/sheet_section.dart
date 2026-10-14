@@ -5,9 +5,11 @@
 // proportion. A result that has not been opened stays sealed here too: no marks, no bar, so
 // Today never spoils a reveal. Each row opens its result.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart' show minusSign;
+import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -37,7 +39,7 @@ class SheetSection extends StatelessWidget {
   }
 }
 
-class _PaperRow extends StatelessWidget {
+class _PaperRow extends ConsumerWidget {
   const _PaperRow({required this.row, required this.onTap});
 
   final SheetRow row;
@@ -50,13 +52,16 @@ class _PaperRow extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final figure = type.figureCompact.copyWith(fontSize: 32, height: 32 / 32, letterSpacing: -0.3);
     return MmPressable(
       semanticsLabel: _semantics,
-      onTap: onTap,
+      onTap: () {
+        ref.read(hapticsProvider).selection();
+        onTap();
+      },
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
       builder: (context, pressed, _) => Padding(
