@@ -21,12 +21,13 @@ test('only supported subjects can be picked; a row without practice is not offer
 
 test('saved subjects practice cannot open are listed with a reason, in saved order', () => {
   const stale = staleSubjects(['applied_mathematics', 'accountancy', 'retired_subject', 'assamese', 'hindi'], CATALOG);
-  // Hindi's row does not say whether practice opens: unknown is not flagged as "cannot".
-  assert.deepEqual(stale.map((s) => s.id), ['applied_mathematics', 'retired_subject', 'assamese']);
+  // Hindi's row does not say whether practice opens. It is not offered as a tile, so it is listed to stay removable.
+  assert.deepEqual(stale.map((s) => s.id), ['applied_mathematics', 'retired_subject', 'assamese', 'hindi']);
   assert.equal(stale[0].reason, 'Examined with Mathematics (319). Choose that subject.');
   assert.equal(stale[1].name, 'Retired subject');
   assert.match(stale[1].reason, /no longer on the CUET list/);
   assert.equal(stale[2].reason, 'Practice is not open for this subject.');
+  assert.equal(stale[3].reason, 'Practice is not open for this subject.');
   assert.deepEqual(staleSubjects(['accountancy'], CATALOG), []);
 });
 

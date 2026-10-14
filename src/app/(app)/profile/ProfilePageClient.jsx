@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Field, TextInput } from '@/components/ui/Input';
 import { PageHead } from '@/components/ui/PageHead';
@@ -118,32 +117,10 @@ function UsageDataSection() {
 }
 
 function SignInSection() {
-  const router = useRouter();
-  const { signOut } = useAuth();
-  const [busy, setBusy] = useState(false);
-
-  async function signOutHere() {
-    if (busy) return;
-    setBusy(true);
-    try {
-      await signOut();
-      router.push('/');
-    } finally {
-      setBusy(false);
-    }
-  }
-
   return (
     <AccountSection id="sign-in" title="Sign-in" lead="Where your account is signed in.">
       <div className="acct-row">
         <SignOutOtherDevicesSection />
-      </div>
-      <div className="acct-row acct-row--split">
-        <div>
-          <p className="acct-row__title">Sign out of this browser</p>
-          <p className="acct-help">Your practice stays with your account. Sign in again any time.</p>
-        </div>
-        <Button variant="secondary" size="sm" loading={busy} onClick={signOutHere}>{busy ? 'Signing out' : 'Sign out'}</Button>
       </div>
     </AccountSection>
   );

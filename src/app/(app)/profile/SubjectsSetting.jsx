@@ -79,7 +79,7 @@ export default function SubjectsSetting({ user, refreshSession }) {
     setNote({ tone: null, text: '' });
     try {
       await apiPatch(`/api/users/${user.id}`, { subjects: draft });
-      await refreshSession({ silent: true });
+      try { await refreshSession({ silent: true }); } catch { /* saved; the session catches up on the next load */ }
       setNote({ tone: 'ok', text: `Subjects saved at ${formatTime12(new Date())}. Practice and Today now use them.` });
       close();
     } catch (error) {
@@ -95,7 +95,7 @@ export default function SubjectsSetting({ user, refreshSession }) {
   return (
     <AccountSection id="subjects" title="Subjects" lead="Practice and Today plan from these. Five at most, like the exam.">
       {editing ? (
-        <div className="acct-row acct-subjects-edit" ref={editorRef} tabIndex={-1} aria-label="Edit subjects">
+        <div className="acct-row acct-subjects-edit" ref={editorRef} tabIndex={-1} role="group" aria-labelledby="subjects-title">
           {catalogState === 'ready' ? (
             <>
               <StaleSubjects catalog={catalog} selected={draft} onRemove={toggle} disabled={saving} />

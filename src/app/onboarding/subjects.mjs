@@ -77,7 +77,8 @@ export function subjectName(catalog, id) {
 
 /**
  * Saved subjects that practice cannot open (not offered, merged, or no longer on the list).
- * A row that does not say either way is not flagged: unknown is not "cannot".
+ * Only a row marked supported can be picked, so any other saved row is listed here (a row that
+ * does not say is also not offered as a tile, and must stay removable).
  * Returns [{ id, name, reason }], in the saved order.
  */
 export function staleSubjects(selected, catalog) {
@@ -85,7 +86,7 @@ export function staleSubjects(selected, catalog) {
   return (Array.isArray(selected) ? selected : [])
     .map((id) => {
       const row = rows.find((subject) => subject?.id === id);
-      if (row && (row.practice === 'supported' || row.practice === undefined || row.practice === null)) return null;
+      if (row && row.practice === 'supported') return null;
       return {
         id,
         name: row?.name || humanize(id),

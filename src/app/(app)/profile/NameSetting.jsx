@@ -66,7 +66,7 @@ export default function NameSetting({ user, refreshSession }) {
     setNote({ tone: null, text: '' });
     try {
       await apiPatch(`/api/users/${user.id}`, { name: clean });
-      await refreshSession({ silent: true });
+      try { await refreshSession({ silent: true }); } catch { /* saved; the session catches up on the next load */ }
       setNote({ tone: 'ok', text: `Name saved at ${formatTime12(new Date())}.` });
       close();
     } catch (error) {
@@ -82,7 +82,7 @@ export default function NameSetting({ user, refreshSession }) {
     <div className="acct-row acct-name">
       {editing ? (
         <form className="acct-name__form" onSubmit={save} noValidate onKeyDown={(event) => { if (event.key === 'Escape' && !saving) close(); }}>
-          <Field label="Display name" hint="Shown on your account and the practice board. Up to 80 characters." error={invalid}>
+          <Field label="Display name" hint="Shown on your account. Up to 80 characters." error={invalid}>
             <TextInput
               ref={inputRef}
               value={draft}

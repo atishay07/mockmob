@@ -108,14 +108,14 @@ export default function OnboardingPageClient({ preview = false }) {
       });
       if (!response.ok) throw new Error('save_failed');
       finishing.current = true;
-      await refreshSession();
+      try { await refreshSession(); } catch { /* the save is committed; the next page load re-reads the session */ }
       const chosen = [...selected];
       if (isEdit && !preview) {
         router.push('/dashboard');
         return;
       }
       setDone({ at: new Date(), subjects: chosen });
-      setCheckSubject(pickableSubjects(catalog).find((subject) => chosen.includes(subject.id))?.id || chosen[0] || null);
+      setCheckSubject(pickableSubjects(catalog).find((subject) => chosen.includes(subject.id))?.id || null);
     } catch (failure) {
       finishing.current = false;
       setError(saveFailure(response && !response.ok ? response : null, failure));
@@ -248,7 +248,7 @@ function FirstCheck({ headingRef, done, catalog, checkSubject, onPick, preview }
       <div className="ob-mobi ob-mobi--done" aria-hidden="true"><Mascot pose="pointing" eager /></div>
       <header className="ui-pagehead ui-pagehead--moment">
         <h1 className="ui-pagehead__title" id="ob-done-title" ref={headingRef} tabIndex={-1}>Start your first check</h1>
-        <p className="ui-pagehead__lead">Ten questions in one subject, about 10 minutes. The result shows where your marks went.</p>
+        <p className="ui-pagehead__lead">Ten questions in one subject. The result shows where your marks went.</p>
       </header>
 
       <p className="ob-done__saved" role="status">
