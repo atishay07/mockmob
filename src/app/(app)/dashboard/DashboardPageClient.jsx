@@ -3,36 +3,39 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { AppIcon, CreditAmount, ModeIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { AppIcon, ModeIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
 import { SkeletonCard, ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
-import { useToast } from '@/components/ToastProvider';
+import { useResumableTest } from '@/components/VisitorSync';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
-import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
+import {
+  accessSummary, arrivedWithSetup, confirmLine, costValue, isFirstCheck, planSetup, practiceLead, sessionTally,
+} from '@/../data/practice_landing.mjs';
+import NextStepStrip, { usePracticePlan } from './NextStepStrip';
+import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
 
 export default function DashboardPageClient() {
   const { user, status: authStatus } = useAuth();
-  const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const resume = useResumableTest();
 
   const [subjects, setSubjects] = useState([]);
   const [attempts, setAttempts] = useState([]);
-  const [leaderboard, setLeaderboard] = useState([]);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
   const [loadNonce, setLoadNonce] = useState(0);
   const [stats, setStats] = useState({ state: 'loading' });
   const [learningSummary, setLearningSummary] = useState(null);
-  const [submissions, setSubmissions] = useState([]);
-  const [subRefreshing, setSubRefreshing] = useState(false);
+  // The student has started choosing their own session on this page.
+  const [touched, setTouched] = useState(false);
 
   const [selSubj, setSelSubj] = useState(null);
   const [chapters, setChapters] = useState([]);
@@ -62,7 +65,7 @@ export default function DashboardPageClient() {
   const [quoteNonce, setQuoteNonce] = useState(0);
 
   // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
-  // before redirecting. When the user lands back here (Arena), pop the modal
+  // before redirecting. When the user lands back here (Practice), pop the modal
   // once and clear the flag so it doesn't re-trigger on a refresh.
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -82,13 +85,11 @@ export default function DashboardPageClient() {
     if (authStatus === 'loading' || !user?.id) return;
 
     let alive = true;
-    // Optional panels cannot hold the practice setup behind slow inventory or leaderboard reads.
+    // Optional reads (question counts, plan flags) cannot hold the practice setup behind them.
     const optional = (path, apply, fallback) => apiGet(path)
       .then(value => { if (alive) apply(value ?? fallback); })
       .catch(() => { if (alive) apply(fallback); });
-    optional('/api/leaderboard', setLeaderboard, []);
     optional('/api/stats', setStats, { state: 'unavailable' });
-    optional('/api/questions/mine', value => setSubmissions(Array.isArray(value) ? value : []), []);
     optional('/api/learning/summary', setLearningSummary, null);
     async function load() {
       try {
@@ -113,18 +114,6 @@ export default function DashboardPageClient() {
     load();
     return () => { alive = false; };
   }, [user, authStatus, loadNonce, searchParams]);
-
-  async function refreshSubmissions() {
-    setSubRefreshing(true);
-    try {
-      const myQs = await apiGet('/api/questions/mine');
-      setSubmissions(Array.isArray(myQs) ? myQs : []);
-    } catch {
-      // non-fatal
-    } finally {
-      setSubRefreshing(false);
-    }
-  }
 
   useEffect(() => {
     if (!selSubj) return;
@@ -157,17 +146,20 @@ export default function DashboardPageClient() {
       .filter((subject) => subject.practice !== 'supported'),
     [subjects, user],
   );
-  const myRankIdx = leaderboard.findIndex((entry) => entry.userId === user?.id);
-  const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
-  const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
   const requestedMode = searchParams.get('mode');
   const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : [...MODE_LIST, 'nta'].includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
-  const balance = user?.creditBalance || 0;
   const quoteCount = mode.fixedCount || count;
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
+  const arrived = arrivedWithSetup(searchParams);
+  const planWanted = status === 'ready' && attempts.length > 0 && !resume && !arrived;
+  const planRead = usePracticePlan(planWanted, user?.id);
+  const lead = status === 'ready'
+    ? practiceLead({ attempts, resume, plan: planRead.plan, planState: planRead.state === 'idle' ? 'loading' : planRead.state, arrivedWithSetup: arrived, touched })
+    : null;
+  const suggested = lead?.strip === 'setup' ? planSetup(planRead.plan?.primary, TEST_MODES) : null;
   const filteredChapters = useMemo(() => {
     const needle = chapterSearch.trim().toLowerCase();
     if (!needle) return chapters;
@@ -202,6 +194,7 @@ export default function DashboardPageClient() {
   function chooseMode(id) {
     const next = TEST_MODES[id];
     if (!next) return;
+    setTouched(true);
     setSelMode(id);
     setCount((current) => resolveCount(next, current));
     if (!next.allowDifficultyOverride) setDifficultyMode('auto');
@@ -209,24 +202,14 @@ export default function DashboardPageClient() {
 
   if (status === 'loading') {
     return (
-      <div className="flex flex-col gap-6">
-        <div>
-          <div className="eyebrow mb-2">Practice</div>
+      <div className="pr view" role="status" aria-label="Loading practice">
+        <div className="pl-head-skeleton">
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="glass p-4">
-              <div className="h-4 w-24 skeleton mb-4" />
-              <div className="h-8 w-20 skeleton" />
-            </div>
-          ))}
-        </div>
-        <SkeletonCard lines={5} />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <SkeletonCard lines={3} />
-          <SkeletonCard lines={3} />
+        <div className="pr-layout">
+          <SkeletonCard lines={5} />
+          <SkeletonCard lines={4} />
         </div>
       </div>
     );
@@ -268,46 +251,73 @@ export default function DashboardPageClient() {
     const seconds = quoteMatches && quote.durationSec ? quote.durationSec : mode.fixedDurationSec || quoteCount * (mode.durationPerQuestionSec || 60);
     return Math.round(seconds / 60);
   })();
-  const approximate = quoteMatches && quote.durationEstimated;
-  const costLabel = quoteStatus === 'ready' && quoteMatches
-    ? !quote.launchable ? 'Not available'
-      : isPremium ? 'Included with access'
-        : quote.creditCost === 0 ? 'Free: today’s included set'
-          : `${quote.creditCost} credits`
-    : '—';
+  const approximate = Boolean(quoteMatches && quote.durationEstimated);
+  const matchingQuote = quoteMatches ? quote : null;
+  const firstCheck = isFirstCheck({ lead, modeId: effectiveModeId, count: quoteCount });
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
-        : `Start ${mode.label}`;
+        : firstCheck ? 'Start your 10-question check'
+          : `Start ${mode.label}`;
+  const confirm = confirmLine({ count: quoteCount, minutes, approximate, quoteState: quoteStatus, quote: matchingQuote, isPremium });
+  const access = accessSummary({ isPremium, premiumUntil: user?.premiumUntil, creditBalance: user?.creditBalance });
+  const firstName = user?.name ? user.name.trim().split(/\s+/)[0] : '';
+  // With no subject to practise, the page's job is choosing subjects, whatever else is true.
+  const headKind = lead?.kind === 'resume' ? 'resume' : mySubs.length === 0 ? 'setup' : lead?.kind === 'first' ? 'first' : 'setup';
+  // A suggestion this page cannot apply (an unknown mode) is treated as already set, so no dead button shows.
+  const setupMatches = !suggested || (suggested.mode === effectiveModeId && (suggested.count === null || suggested.count === quoteCount));
+  const markTouched = () => setTouched(true);
 
   return (
     <div className="pr view">
-      {!isPremium && (
-        <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
+      {!isPremium && access.balance !== null && (
+        <CreditsRemainingModal open={showCreditsModal} credits={access.balance} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
 
-      <header className="pr-head">
-        <div>
-          <div className="eyebrow">Practice</div>
-          <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a mode. Every session is timed, marked +5 / −1 on the server and saved to Radar.</p>
-        </div>
-        <div className="pr-wallet" aria-label="Your credits">
-          <div className="pr-wallet__row">
-            <span className="pr-wallet__label">Practice credits</span>
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={false} size={18} />
+      <header className="pr-head pl-head" data-kind={headKind}>
+        {headKind === 'resume' ? (
+          <>
+            <div>
+              <h1 className="display-md">Your test is waiting</h1>
+              <p>{resume.minutesLeft} {resume.minutesLeft === 1 ? 'minute' : 'minutes'} left on your {resume.label}. Your answers are saved on this device.</p>
+            </div>
+            <div className="pl-head__action">
+              <Button asChild variant="volt" size="md"><Link href={resume.href}><AppIcon name="practice" size={18} />Resume your test</Link></Button>
+            </div>
+          </>
+        ) : headKind === 'first' ? (
+          <div>
+            <h1 className="display-md">{firstName ? `${firstName}, start with a 10-question check` : 'Start with a 10-question check'}</h1>
+            <p>Ten questions in one subject, marked like CUET: +5 for a right answer, −1 for a wrong one. Your result shows which mistakes to review first.</p>
           </div>
-          <p className="pr-wallet__note">{isPremium ? 'Quick Practice and Full Mock cost nothing with your access.' : 'Quick Practice costs 10 credits and Full Mock costs 50.'}</p>
-        </div>
+        ) : (
+          <div>
+            <h1 className="display-md">{firstName ? `${firstName}, what are we practising?` : 'What are we practising?'}</h1>
+            <p>Every session is timed and marked like CUET: +5 for a right answer, −1 for a wrong one.</p>
+          </div>
+        )}
       </header>
+
+      {lead && mySubs.length > 0 ? (
+        <NextStepStrip
+          strip={lead.strip}
+          plan={planRead.plan}
+          dominant={!lead.setupDominant}
+          setupMatches={setupMatches}
+          onRetry={planRead.retry}
+          onApplySetup={() => {
+            if (!suggested) return;
+            chooseMode(suggested.mode);
+            if (suggested.count) setCount(suggested.count);
+          }}
+        />
+      ) : null}
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
 
       {launchSuccess && <div className="pr-alert" data-tone="success" role="status"><StatusIcon kind="success" />{launchSuccess}</div>}
 
       {linkedSubjectUnavailable && <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning"/><div><strong>The lesson’s subject is not in your available practice subjects.</strong><p>Choose an available subject below, or add the lesson’s subject before starting practice.</p><Link href="/onboarding?edit=true">Edit subjects</Link></div></div>}
-
-
 
       {staleSubs.length > 0 && (
         <div className="pr-alert" data-tone="warning" role="status">
@@ -322,7 +332,6 @@ export default function DashboardPageClient() {
 
       {mySubs.length === 0 ? (
         <EmptyState
-          eyebrow="Subjects"
           title={staleSubs.length ? 'Choose a subject with practice' : 'Pick your subjects first'}
           message={staleSubs.length ? 'None of your saved subjects has practice yet. Add a supported CUET subject to start.' : 'Choose the CUET UG subjects you want to practise.'}
           actionLabel="Edit subjects"
@@ -331,9 +340,10 @@ export default function DashboardPageClient() {
       ) : (
         <div className="pr-layout">
           <div className="pr-steps">
+            {headKind === 'resume' ? <h2 className="pl-setup-title">Or start a new session</h2> : null}
             <section className="pr-step" aria-labelledby="pr-s1">
               <div className="pr-step__head">
-                <h2 id="pr-s1"><span>1</span>Subject</h2>
+                <h2 id="pr-s1">Subject</h2>
                 <Link href="/onboarding?edit=true" className="pr-link">Edit subjects</Link>
               </div>
               <div className="pr-subjects">
@@ -342,7 +352,7 @@ export default function DashboardPageClient() {
                   const count = stats.subjectCounts?.[subject.internalId || subject.id];
                   return (
                     <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject"
-                      onClick={() => { setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
+                      onClick={() => { markTouched(); setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
                       <span className="pr-subject__icon"><SubjectIcon id={subject.internalId || subject.id} size={20} /></span>
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
@@ -357,7 +367,7 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step" aria-labelledby="pr-s2">
-              <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Same checked library in every mode.</span></div>
+              <div className="pr-step__head"><h2 id="pr-s2">Mode</h2><span className="pr-hint">Same checked library in every mode.</span></div>
               <div className="pr-modes">
                 {MODE_LIST.map((id) => {
                   const m = TEST_MODES[id];
@@ -388,12 +398,10 @@ export default function DashboardPageClient() {
                     <span className="pr-nta__copy">
                       <span className="pr-mode__top">
                         <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
-                        <span className="pr-nta__kicker">Closest to exam day</span>
                         <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
                       </span>
                       <span className="pr-mode__name">NTA Mode</span>
-                      <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, a countdown that submits for you. Original practice questions, not official papers.</span>
-                      <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
+                      <span className="pr-mode__spec">The closest practice to exam day. 50 questions in 60 minutes on an exam-style screen with a question palette, mark for review, clear response and a countdown that submits for you. Original practice questions, not official papers.</span>
                     </span>
                     <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
                     {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
@@ -417,25 +425,25 @@ export default function DashboardPageClient() {
             })()}
 
             <section className="pr-step" aria-labelledby="pr-s3">
-              <div className="pr-step__head"><h2 id="pr-s3"><span>3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
+              <div className="pr-step__head"><h2 id="pr-s3">Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `${approximate ? 'About ' : ''}${minutes} minutes`}</span></div>
               {mode.fixedCount ? (
                 <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
               ) : (
-                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n) }))} onChange={setCount} />
+                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n) }))} onChange={(n) => { markTouched(); setCount(n); }} />
               )}
             </section>
 
             <details className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)}>
               <summary>
                 <span>Fine-tune</span>
-                <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional · balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`} · ${selectedChapters.length ? `${selectedChapters.length} chapters` : 'all chapters'}`}</span>
+                <span className="pr-hint">{fineTuneHint(difficultyMode, selectedChapters.length)}</span>
                 <AppIcon name="expand" size={16} className="pr-fine__chev" />
               </summary>
               {mode.allowDifficultyOverride && (
                 <div className="pr-fine__block">
                   <div className="pr-fine__label">Difficulty {!isPremium ? <span className="pr-badge" data-tone="locked"><AppIcon name="lock" size={12} />Needs access</span> : null}</div>
                   <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
-                    options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode} />
+                    options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={(d) => { markTouched(); setDifficultyMode(d); }} />
                 </div>
               )}
               {chapters.length > 0 && (
@@ -444,9 +452,9 @@ export default function DashboardPageClient() {
                   <label className="sr-only" htmlFor="pr-chapter-search">Search chapters</label>
                   <input id="pr-chapter-search" className="input" value={chapterSearch} onChange={(event) => setChapterSearch(event.target.value)} placeholder="Search chapters" />
                   <div className="pr-chapters">
-                    <button type="button" aria-pressed={selectedChapters.length === 0} onClick={() => { setSelChapter(null); setSelectedChapters([]); }}>All chapters</button>
+                    <button type="button" aria-pressed={selectedChapters.length === 0} onClick={() => { markTouched(); setSelChapter(null); setSelectedChapters([]); }}>All chapters</button>
                     {filteredChapters.map((chapter) => (
-                      <button key={chapter.id || chapter.name} type="button" aria-pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => togglePremiumChapter(chapter.name)}>{chapter.name}</button>
+                      <button key={chapter.id || chapter.name} type="button" aria-pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => { markTouched(); togglePremiumChapter(chapter.name); }}>{chapter.name}</button>
                     ))}
                     {filteredChapters.length === 0 && <p className="pr-hint">No chapter matches that search.</p>}
                   </div>
@@ -455,16 +463,32 @@ export default function DashboardPageClient() {
             </details>
           </div>
 
-          <aside className="pr-summary" aria-label="Session summary">
-            <h2>Your session</h2>
+          <aside className="pr-summary pl-summary" aria-label="Session summary">
+            <h2>{headKind === 'resume' ? 'A new session' : firstCheck ? 'Your first check' : 'Your session'}</h2>
             <dl>
-              <div><dt>Subject</dt><dd>{selectedSubject?.name || '—'}</dd></div>
+              <div><dt>Subject</dt><dd>{selectedSubject?.name || 'Not chosen'}</dd></div>
               <div><dt>Mode</dt><dd>{mode.label}</dd></div>
               <div><dt>Questions</dt><dd>{quoteCount}</dd></div>
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
-              <div><dt>Marking</dt><dd>+5 / −1</dd></div>
-              <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
+              <div><dt>Marking</dt><dd>+5 right, −1 wrong</dd></div>
+              <div data-emph="true"><dt>Cost</dt><dd>{costValue({ quoteState: quoteStatus, quote: matchingQuote, isPremium })}</dd></div>
+              {!isPremium ? <div><dt>Your credits</dt><dd>{access.balance === null ? 'Not available' : access.balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
+            <p className="pl-confirm" aria-live="polite">{confirm}</p>
+            <Button variant={lead?.setupDominant === false ? 'outline' : 'volt'} size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable}
+              onClick={() => {
+                if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
+                if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
+                setCreditError(null);
+                setIsLaunching(true);
+                launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
+                setLaunchSuccess(`Starting ${mode.label}…`);
+                const tonight = new URLSearchParams();
+                for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
+                router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
+              }}>
+              <AppIcon name="practice" size={18} />{startLabel}
+            </Button>
             <p className="pr-summary__reason" role="status" aria-live="polite">
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
@@ -473,35 +497,11 @@ export default function DashboardPageClient() {
                 <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
             </p>
-            <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable}
-              onClick={() => {
-                if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
-                if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
-                setCreditError(null);
-                setIsLaunching(true);
-                launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
-                setLaunchSuccess(`Launching ${mode.label}…`);
-                toast.success('Entering the arena…');
-                const tonight = new URLSearchParams();
-                for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
-                router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
-              }}>
-              <AppIcon name="practice" size={18} />{startLabel}
-            </Button>
           </aside>
         </div>
       )}
 
-      <ArenaCompanion compact pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
-
-      <dl className="pr-stats">
-        <div><dt><AppIcon name="review" />Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : stats.state === 'loading' ? 'Checking…' : 'Unavailable'}</dd></div>
-        <div><dt><AppIcon name="practice" />Sessions</dt><dd>{attempts.length}</dd></div>
-        <div><dt><AppIcon name="progress" />Average score</dt><dd>{attempts.length ? `${avg}%` : '—'}</dd></div>
-        <div><dt><AppIcon name="ranks" />Leaderboard</dt><dd>{rank ? `#${rank}` : '—'}</dd></div>
-      </dl>
-
-      <div className="pr-lower">
+      <div className="pr-lower pl-lower">
         <section className="pr-panel" aria-labelledby="pr-recent">
           <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review mistakes</Link>}</div>
           {attempts.length === 0 ? (
@@ -511,11 +511,13 @@ export default function DashboardPageClient() {
               {attempts.slice(0, 5).map((attempt) => {
                 const subject = subjects.find((entry) => entry.id === attempt.subject);
                 const tone = attempt.score >= 70 ? 'good' : attempt.score >= 40 ? 'mid' : 'low';
+                const tally = sessionTally(attempt);
+                const day = Number.isFinite(Date.parse(attempt.completedAt)) ? new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '';
                 return (
                   <li key={attempt.id}>
                     <Link href={`/result/${attempt.id}`}>
                       <span className="pr-recent__icon"><SubjectIcon id={subject?.internalId || attempt.subject} size={18} /></span>
-                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} · {attempt.correct}/{attempt.total} correct</i></span>
+                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{[day, tally].filter(Boolean).join(', ')}</i></span>
                       <span className="pr-recent__score" data-tone={tone}>{attempt.score}%</span>
                     </Link>
                   </li>
@@ -525,43 +527,26 @@ export default function DashboardPageClient() {
           )}
         </section>
 
-        <section className="pr-panel" aria-labelledby="pr-access">
-          <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
-          <p className="pr-panel__lead">{isPremium
-            ? `Quick Practice, Full Mock, Smart Practice and NTA Mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}, subject to available questions.`
-            : 'Adds Smart Practice and NTA Mode, and removes per-session credits for Quick Practice and Full Mock, subject to available questions.'}</p>
-          <div className="pr-panel__row">
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} />
-            {!isPremium && <Link className="pr-link" href="/pricing">See Pro</Link>}
-          </div>
-        </section>
-
-        <section className="pr-panel" aria-labelledby="pr-bank">
-          <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
-          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn credits for Quick Practice and Full Mock.</p>
-          <Link href="/upload" className="pr-link pr-link--strong">Upload a question<AppIcon name="contribute" size={16} /></Link>
-          {submissions.length > 0 && (
-            <>
-              <div className="pr-panel__head pr-panel__head--sub"><h3>My submissions</h3>
-                <button type="button" className="pr-link" onClick={refreshSubmissions} disabled={subRefreshing}><AppIcon name="refresh" size={14} />{subRefreshing ? 'Refreshing' : 'Refresh'}</button>
-              </div>
-              <ul className="pr-subs">
-                {submissions.slice(0, 5).map((q) => {
-                  const s = SUBMISSION_STATUS[q.status] || SUBMISSION_STATUS.pending;
-                  return (
-                    <li key={q.id}>
-                      <span className="pr-subs__q" title={q.question}>{q.question}</span>
-                      <span className="pr-badge" data-tone={s.tone}><StatusIcon kind={s.icon} size={12} />{s.label}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
-          )}
+        <section className="pr-panel" aria-labelledby="pr-access" data-plan={access.plan}>
+          <div className="pr-panel__head"><h2 id="pr-access">{access.title}</h2></div>
+          <p className="pl-access__status">{access.status}</p>
+          <p className="pr-panel__lead">{access.detail}</p>
+          {access.action ? <Link className="pr-link" href={access.action.href}>{access.action.label}</Link> : null}
+          {access.earn ? (
+            <p className="pl-access__earn">{access.earn.line} <Link className="pr-link" href={access.earn.href}>{access.earn.label}</Link></p>
+          ) : null}
         </section>
       </div>
     </div>
   );
+}
+
+// "Optional. Balanced mix, all chapters." No middle-dot strings.
+function fineTuneHint(difficultyMode, chapterCount) {
+  if (difficultyMode === 'auto' && chapterCount === 0) return 'Optional. Balanced mix, all chapters.';
+  const difficulty = difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode[0].toUpperCase()}${difficultyMode.slice(1)} only`;
+  const chapters = chapterCount === 0 ? 'all chapters' : `${chapterCount} ${chapterCount === 1 ? 'chapter' : 'chapters'}`;
+  return `${difficulty}, ${chapters}.`;
 }
 
 const MODE_SPECS = {
@@ -569,12 +554,6 @@ const MODE_SPECS = {
   full: '50 questions, 60 minutes',
   smart: 'Weights chapters you have missed',
   nta: '50 questions, 60 minutes, exam console',
-};
-
-const SUBMISSION_STATUS = {
-  live: { label: 'Approved', icon: 'success', tone: 'good' },
-  pending: { label: 'In review', icon: 'info', tone: 'mid' },
-  rejected: { label: 'Rejected', icon: 'error', tone: 'low' },
 };
 
 // A single-choice control: one tab stop per option, state exposed with aria-checked.
