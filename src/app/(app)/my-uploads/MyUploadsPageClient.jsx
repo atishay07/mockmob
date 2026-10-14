@@ -27,7 +27,7 @@ export default function MyUploadsPageClient() {
   const filtered = questions.filter((question) => filter === 'all' || contributionState(question.status) === filter);
   const count = (key) => questions.filter((question) => contributionState(question.status) === key).length;
   return <div className="con-page student-page student-page--my-uploads">
-    <ArenaHead eyebrow="My uploads" title="Your questions, and where they stand." lede="Your latest 20 contributions. Awaiting checks means held, not published." aside={<Link href="/upload" className="ex-action">Contribute a question ↗</Link>} />
+    <ArenaHead eyebrow="My uploads" title="Your questions, and where they stand." lede="Your latest 20 contributions. Awaiting checks means held, not published." aside={<Link href="/upload" className="ex-action">Contribute a question</Link>} />
     {state === 'ready' && <ArenaStats items={Object.entries(STATES).map(([key, value]) => ({ label: value.label, value: count(key) }))} />}
     <div className="con-filters" role="group" aria-label="Filter contributions">{['all', 'pending', 'live', 'held'].map((key) => <button key={key} type="button" className="ex-action" aria-pressed={filter === key} onClick={() => setFilter(key)}>{key === 'all' ? 'All' : STATES[key].label}</button>)}<button type="button" className="ex-action" disabled={state === 'loading'} onClick={refresh}>Refresh</button></div>
     {state === 'loading' && <SkeletonCard lines={5} />}

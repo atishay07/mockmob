@@ -112,3 +112,8 @@ html[data-theme='light'] .rl__summary::before { background: radial-gradient(clos
 .swp-empty b { color: var(--ink); font: 700 1.05rem var(--font-display); }
 .swp-empty span { line-height: 1.55; }
 .rl__summary dd { font-variant-numeric: tabular-nums; }
+
+/* Owner decision D6 (14 Oct 2026): glass and glow live on chrome only (header, dock, sheets). This panel
+   is content, so it is a solid raised surface with no blur and no light behind it. */
+.rl__summary { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); }
+.rl__summary::before { content: none; }

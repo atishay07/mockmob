@@ -166,7 +166,8 @@ export function rightLine(totals) {
   const pct = Math.round((totals.correct / totals.questions) * 100);
   return {
     value: `${totals.correct} of ${totals.questions}`,
-    detail: totals.questions < 20 ? 'Answered right. Too few questions for a percentage' : `Answered right, about ${pct}%`,
+    // The tile is already labelled 'Answered right', so the detail does not repeat it.
+    detail: totals.questions < 20 ? 'Too few questions for a percentage' : `About ${pct}%`,
   };
 }
 

@@ -15,13 +15,16 @@ import { previewCompass, previewInsights } from './previewRecord';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MockMobAIHub from '@/components/ai/MockMobAIHub';
 import AssistantDrawer from '@/components/ai/AssistantDrawer';
+import AskHead from '@/app/(app)/mentor/AskHead';
+import '@/app/(app)/mentor/ask.css';
 import AdmissionCompassPageClient from '@/app/(app)/admission-compass/AdmissionCompassPageClient';
 import AnalyticsPageClient from '@/app/(app)/analytics/AnalyticsPageClient';
 import SavedPageClient from '@/app/(app)/saved/SavedPageClient';
 import TodayPage from '@/app/(app)/today/page';
-import RecoveryOverview from '@/components/RecoveryOverview';
+import ReviewPageClient from '@/app/(app)/review/ReviewPageClient';
+import ProgressPageClient from '@/app/(app)/progress/ProgressPageClient';
+import ExplorePageClient from '@/app/(app)/explore/ExplorePageClient';
 import RecoveryJourney from '@/app/(app)/recovery/page';
-import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
 import { UploadForm } from '@/components/feed/UploadForm';
 import MyUploadsPageClient from '@/app/(app)/my-uploads/MyUploadsPageClient';
 import ProfilePageClient from '@/app/(app)/profile/ProfilePageClient';
@@ -215,6 +218,15 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
     }
+    if (url.pathname === '/api/me/repair-record' && method === 'GET') {
+      const page = new URLSearchParams(window.location.search);
+      if (page.get('record') === 'down') return json({ error: 'unavailable' }, 503);
+      const day = 86_400_000;
+      return json({ repairs: page.get('record') === 'empty' || state === 'empty' ? [] : [
+        { attemptId: 'fixture-attempt', questionId: 'preview-q1', subject: 'accountancy', chapter: 'Partnership Fundamentals', foundAt: new Date(Date.now() - 3 * day).toISOString(), repairedAt: new Date(Date.now() - 2 * day).toISOString(), checkedState: 'not_available', retriedAt: null },
+        { attemptId: 'fixture-attempt-2', questionId: 'preview-q2', subject: 'economics', chapter: 'Money and Banking', foundAt: new Date(Date.now() - 5 * day).toISOString(), repairedAt: new Date(Date.now() - day).toISOString(), checkedState: 'not_available', retriedAt: null },
+      ] });
+    }
     if (url.pathname === '/api/bookmarks' && method === 'GET') return json({ questions: state === 'empty' ? [] : fixtureFeed('accountancy').slice(0, 2), questionIds: [], count: state === 'empty' ? 0 : 2 });
     if (url.pathname === '/api/learning/plan') {
       const attempts = fixture.get('tonight') === 'done' ? [{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1', ...tonightMetadata({ tonightKey: 'preview-tonight-key', tonightMinutes: 30, mode: 'quick', count: 20 }) } }] : [];
@@ -297,7 +309,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'progress' ? <div className="student-page student-page--progress"><RecoveryOverview view="progress" /></div> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <div className="student-page student-page--mentor askx"><AskHead /><MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /></div> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><ReviewPageClient /></div> : view === 'progress' ? <div className="student-page student-page--progress"><ProgressPageClient /></div> : view === 'explore' ? <ExplorePageClient /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

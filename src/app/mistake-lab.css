@@ -106,7 +106,7 @@
 }
 
 .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
-.lp-kicker { margin: 0 0 0.6rem; font: 600 0.78rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); }
+.lp-kicker { margin: 0 0 0.6rem; font: 600 0.875rem var(--font-body); color: var(--accent-text); }
 
 .ml__short { display: none; }
 .ml__controls { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }

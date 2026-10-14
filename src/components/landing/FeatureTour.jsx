@@ -177,9 +177,9 @@ export default function FeatureTour({ slides = [] }) {
                   <p className="ft__summary">{slide.chip || slide.line}</p>
                   {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                   {slide.memberHref ? <>
-                    <Link href={slide.href} className="lp-link ft__cta vs-guest-only">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
-                    <Link href={slide.memberHref} className="lp-link ft__cta vs-member-only">{slide.memberCta || slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
-                  </> : <Link href={slide.href} className="lp-link ft__cta">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>}
+                    <Link href={slide.href} className="lp-link ft__cta vs-guest-only">{slide.cta}</Link>
+                    <Link href={slide.memberHref} className="lp-link ft__cta vs-member-only">{slide.memberCta || slide.cta}</Link>
+                  </> : <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>}
                 </div>
               </article>
             </li>

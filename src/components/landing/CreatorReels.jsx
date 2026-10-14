@@ -90,7 +90,7 @@ function Card({ item, active, onPlay }) {
             <span className="rl__who"><b>{item.creator}</b><i>@{item.handle}{item.note ? ` · ${item.note}` : ''}</i></span>
             <span className="rl__play" aria-hidden="true"><Play size={18} fill="currentColor" /></span>
           </span>
-          <span className="rl__load-label">Load preview <span aria-hidden="true">↗</span></span>
+          <span className="rl__load-label">Load preview</span>
         </button>
       )}
     </li>

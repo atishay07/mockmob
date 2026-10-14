@@ -124,3 +124,8 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
   }
 }
 @keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
+
+/* Owner decision D6 (14 Oct 2026): glass and glow live on chrome only (header, dock, sheets). This panel
+   is content, so it is a solid raised surface with no blur and no light behind it. */
+.lp-proof { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); }
+.lp-proof::before { content: none; }

@@ -106,17 +106,17 @@
 .pp-handover { display:flex; align-items:center; gap:18px; padding-bottom:10px; }
 .pp-evidence { display:grid; gap:8px; padding:22px 0; border-block:1px solid var(--pp-line-strong, #354139); }
 .pp-evidence__head, .pp-plan__handoff { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 18px; }
-.pp-evidence__head > span, .pp-ask__heading > div > span { font:600 11px/1.4 var(--font-mono); letter-spacing:.05em; text-transform:uppercase; color:var(--pp-ink-3, #a7b3a2); }
+.pp-evidence__head > span, .pp-ask__heading > div > span { font:600 12px/1.4 var(--font-mono); color:var(--pp-ink-3, #a7b3a2); }
 .pp-evidence h3 { margin:0; font:700 22px/1.25 var(--font-display); letter-spacing:-.02em; }
 .pp-evidence p { margin:0; max-width:65ch; color:var(--pp-ink-2, #c5cebf); font-size:14px; line-height:1.6; }
 .pp-evidence small, .pp-plan__handoff > span { color:var(--pp-ink-3, #a7b3a2); font-size:12px; line-height:1.5; }
 .pp-evidence__head button, .pp-plan__handoff button { display:inline-flex; align-items:center; gap:8px; min-height:44px; background:none; border:0; padding:0; color:var(--pp-accent, #d2f000); font-size:13px; font-weight:650; cursor:pointer; }
 /* Checked facts behind the shared next step: record observations and product rules, labelled. */
 .pp-facts { display:grid; gap:8px; padding-top:4px; }
-.pp-facts h4 { margin:0; font:600 11px/1.4 var(--font-mono); letter-spacing:.05em; text-transform:uppercase; color:var(--pp-ink-3, #a7b3a2); }
+.pp-facts h4 { margin:0; font:600 12px/1.4 var(--font-mono); color:var(--pp-ink-3, #a7b3a2); }
 .pp-facts ul { display:grid; gap:6px; margin:0; padding:0; list-style:none; }
 .pp-facts li { display:grid; grid-template-columns:auto minmax(0, 1fr); align-items:baseline; gap:4px 10px; font-size:13.5px; line-height:1.55; color:var(--pp-ink-2, #c5cebf); overflow-wrap:anywhere; }
-.pp-facts__basis { font:600 10.5px/1.4 var(--font-mono); letter-spacing:.04em; text-transform:uppercase; color:var(--pp-ink-3, #a7b3a2); white-space:nowrap; }
+.pp-facts__basis { font:600 11.5px/1.4 var(--font-mono); color:var(--pp-ink-3, #a7b3a2); white-space:nowrap; }
 .pp-facts__basis--record { color:var(--pp-accent, #d2f000); }
 .pp-facts small { color:var(--pp-ink-3, #a7b3a2); font-size:12px; line-height:1.5; }
 @media (max-width: 360px) { .pp-facts li { grid-template-columns:minmax(0, 1fr); } }

@@ -1,9 +1,10 @@
 "use client";
 
 // Explore questions: untimed practice, one question at a time (web redesign W2.4).
-// The feed logic is the same as components/feed/DiscoveryFeed.jsx (still used by the development
-// preview); this page adds the kit page head, kit fields and states, and a side column without
-// kickers or arrow glyphs. Held questions stay out of practice; votes never certify an answer.
+// The feed logic is the same as components/feed/DiscoveryFeed.jsx, which nothing renders any more
+// (the development preview uses this page too; delete it in W4.3). This page adds the kit page
+// head, kit fields and states, and a side column without kickers or arrow glyphs. Held questions
+// stay out of practice; votes never certify an answer.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { PageHead } from '@/components/ui/PageHead';

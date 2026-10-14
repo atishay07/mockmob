@@ -96,8 +96,8 @@ test('repair rows say when, where and what is next', () => {
 
 test('answered right keeps its denominator and avoids false precision', () => {
   assert.deepEqual(rightLine({ questions: 0, correct: 0 }), { value: 'None yet', detail: 'Finish a session to start your record' });
-  assert.deepEqual(rightLine({ questions: 8, correct: 6 }), { value: '6 of 8', detail: 'Answered right. Too few questions for a percentage' });
-  assert.deepEqual(rightLine({ questions: 40, correct: 30 }), { value: '30 of 40', detail: 'Answered right, about 75%' });
+  assert.deepEqual(rightLine({ questions: 8, correct: 6 }), { value: '6 of 8', detail: 'Too few questions for a percentage' });
+  assert.deepEqual(rightLine({ questions: 40, correct: 30 }), { value: '30 of 40', detail: 'About 75%' });
 });
 
 test('the evidence note drops internal words', () => {

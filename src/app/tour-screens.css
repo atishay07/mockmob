@@ -8,10 +8,10 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 26px 50px -30px rgba(0,0,0,.75); font-family: var(--font-body); }
 .ts[data-step='0'] *, .ts[data-step='0'] *::before, .ts[data-step='0'] *::after { transition: none !important; animation: none !important; }
 
-.ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .66rem var(--font-display); letter-spacing: .07em; text-transform: uppercase; color: var(--ts-ink2); }
+.ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .72rem var(--font-display); color: var(--ts-ink2); }
 .ts__live { flex: 0 0 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--ts-volt); animation: ts-breathe 2.4s ease-in-out infinite; }
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .58rem; letter-spacing: .05em; }
+.ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .62rem; }
 .ts__timer { font: 700 .82rem var(--font-mono, ui-monospace, monospace); letter-spacing: 0; color: var(--ts-volt); font-variant-numeric: tabular-nums; }
 .ts__body { display: flex; flex-direction: column; gap: .6rem; padding: .85rem; }
 
@@ -81,7 +81,7 @@
 .ts__bars li[data-low='true'] .ts__bars-track i { background: var(--ts-bad); }
 .ts__bars li[data-in='false'] .ts__bars-track i { transform: scaleX(0); }
 .ts__bars em { font: 700 .7rem var(--font-mono, ui-monospace, monospace); font-style: normal; text-align: right; color: var(--ts-ink2); }
-.ts__flag { padding: .08rem .4rem; border-radius: 99px; background: rgba(255,122,102,.18); color: var(--ts-bad); font: 700 .58rem var(--font-body); text-transform: uppercase; letter-spacing: .05em; }
+.ts__flag { padding: .08rem .4rem; border-radius: 99px; background: rgba(255,122,102,.18); color: var(--ts-bad); font: 700 .64rem var(--font-body); }
 
 /* 5. PrepOS */
 .ts__bubble { margin: 0; max-width: 88%; font-size: .78rem; line-height: 1.4; }

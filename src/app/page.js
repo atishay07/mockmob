@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -124,7 +124,6 @@ export default function LandingPage() {
               <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill vs-guest-only" data-hero style={{ '--h': 0 }}>
                 <span className="lp-pill__dot" aria-hidden="true" />
                 CUET UG 2027
-                <ArrowRight size={14} aria-hidden="true" />
               </a>{/* The sample below is hidden from students who are signed in, so their pill is a label, not a dead link. */}
               <span className="lp-pill vs-static vs-member-only"><span className="lp-pill__dot" aria-hidden="true" />CUET UG 2027</span><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <ReturningNote />
@@ -150,9 +149,8 @@ export default function LandingPage() {
               </ul>
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
                 Free DU eligibility and cutoff calculator
-                <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link vs-guest-only"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
+              <a href="#exam-experience" className="lp-hero__exam-link vs-guest-only"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day</a>
             </div>
 
             <div className="lp-stage vs-guest-only" id="try-practice" data-hero style={{ '--h': 2 }}>
@@ -207,7 +205,6 @@ export default function LandingPage() {
         <section className="lp-sec" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">Mistake lab</p>
               <h2 className="lp-h2">See exactly where your marks went.</h2>
               <p className="lp-sub">
                 Replay the answer changes, slow questions and skips. Then pick one useful move. The example below shows how.
@@ -224,7 +221,6 @@ export default function LandingPage() {
           <section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">DU Compass</p>
                 <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
                 <p className="lp-sub">
                   Compare a score with published 2026 DU cutoffs, by college, category and round. Historical context for your plan, not an admission promise.
@@ -236,7 +232,7 @@ export default function LandingPage() {
                   <p className="lp-cpro__badge">Compass Pro</p>
                   <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
                   <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
-                  <Link href="/pricing" className="lp-link">See what Pro includes<ArrowRight size={16} aria-hidden="true" /></Link>
+                  <Link href="/pricing" className="lp-link">See what Pro includes</Link>
                 </div>
                 <ul className="lp-cpro__list">
                   <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
@@ -268,7 +264,7 @@ export default function LandingPage() {
                 <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
                 <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form. Recheck when 2027 rules arrive.</p>
               </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects</Link>
             </Reveal>
             <CollegeDestinations />
           </div>
@@ -289,7 +285,6 @@ export default function LandingPage() {
         <section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">MockMob on Instagram</p>
               <h2 className="lp-h2">Featured by CUET creators.</h2>
               <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Tap a reel to watch it here.</p>
             </Reveal>
@@ -302,7 +297,6 @@ export default function LandingPage() {
           <section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
               <Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">Wall of love</p>
                 <h2 className="lp-h2">The mob speaks.</h2>
               </Reveal>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
@@ -335,9 +329,9 @@ export default function LandingPage() {
                   <li><Check size={16} aria-hidden="true" />Everything in Free</li>
                   {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary vs-guest-only">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary vs-guest-only">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
                 {/* Signed in on the free plan: the same upgrade path, without the sign-up wording. A Pro student sees no button. */}
-                <Link href="/pricing" className="mm-btn mm-btn--primary vs-member-only vs-hide-pro">Go Pro<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary vs-member-only vs-hide-pro">Go Pro</Link>
               </div>
             </Reveal>
           </div>

@@ -1,5 +1,5 @@
 import AIMentorTerminal from '@/components/ai/AIMentorTerminal';
-import { PageHead } from '@/components/ui/PageHead';
+import AskHead from './AskHead';
 import './ask.css';
 
 export const dynamic = 'force-dynamic';
@@ -12,10 +12,7 @@ export const metadata = { title: 'Ask about your record | MockMob' };
 export default function MentorPage() {
   return (
     <div className="student-page student-page--mentor askx">
-      <PageHead
-        title="Ask about your record"
-        lead="PrepOS answers from your own saved practice: your next step, your weak chapters, how a session went. Questions about your record are free. An optional written reply uses 1 PrepOS credit."
-      />
+      <AskHead />
       <AIMentorTerminal />
     </div>
   );
