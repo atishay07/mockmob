@@ -87,7 +87,9 @@ class PlanSealBackdrop extends StatelessWidget {
             if (colors.isNight)
               Positioned.fromRect(rect: geo.image, child: SceneImage(SceneArt.planSeal, width: geo.image.width, height: geo.image.height))
             else
-              Positioned.fill(child: CustomPaint(painter: _ImpressionPainter(geo: geo, ground: colors.ground, edge: colors.voltEdge))),
+              Positioned.fill(
+                child: CustomPaint(painter: _ImpressionPainter(geo: geo, ground: colors.ground, paper: colors.raised, line: colors.lineStrong)),
+              ),
           ],
         );
         return IgnorePointer(
@@ -125,20 +127,72 @@ class PlanSealBackdrop extends StatelessWidget {
   }
 }
 
-/// Day's blind impression: a toothed ring and a disc pressed into the paper, lit from the top
-/// left (a pale edge up-left, a soft shade down-right), and two faint rings around it.
+/// Day's sheet, drawn in code where Night has the painting: the same answer sheet seen square-on
+/// (perforated left edge, four groups of bubble columns) on the paper ground, with a blind
+/// impression in its middle (a toothed ring and a disc pressed in, lit from the top left) and two
+/// faint rings around it. It sits exactly where the Night sheet does, so the seal lands the same.
 class _ImpressionPainter extends CustomPainter {
-  const _ImpressionPainter({required this.geo, required this.ground, required this.edge});
+  const _ImpressionPainter({required this.geo, required this.ground, required this.paper, required this.line});
 
   final SealGeometry geo;
   final Color ground;
-  final Color edge;
+  final Color paper;
+  final Color line;
+
+  /// The Night painting's sheet, as shares of the painting.
+  static const Rect sheetShare = Rect.fromLTRB(0.045, 0.215, 0.95, 0.765);
+
+  void _sheet(Canvas canvas) {
+    final img = geo.image;
+    final r = Rect.fromLTRB(
+      img.left + sheetShare.left * img.width,
+      img.top + sheetShare.top * img.height,
+      img.left + sheetShare.right * img.width,
+      img.top + sheetShare.bottom * img.height,
+    );
+    // A soft contact shadow, then the sheet.
+    canvas.drawRect(r.shift(const Offset(0, 6)).inflate(2), Paint()..color = const Color(0x14000000));
+    canvas.drawRect(r.shift(const Offset(0, 2)), Paint()..color = const Color(0x12000000));
+    canvas.drawRect(r, Paint()..color = paper);
+    final ink = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1
+      ..color = line.withValues(alpha: 0.55);
+    // Perforations down the left edge.
+    final holes = Paint()..color = Color.lerp(ground, line, 0.5)!;
+    final step = r.height / 34;
+    for (var y = r.top + step; y < r.bottom - step / 2; y += step) {
+      canvas.drawCircle(Offset(r.left + r.width * 0.035, y), r.width * 0.008, holes);
+    }
+    // Four groups of four bubble columns.
+    final left = r.left + r.width * 0.11;
+    final groupW = (r.right - r.width * 0.04 - left) / 4;
+    const rows = 26;
+    final rowStep = (r.height * 0.86) / rows;
+    final bubbleR = math.min(groupW / 11, rowStep * 0.32);
+    for (var g = 0; g < 4; g++) {
+      final gx = left + g * groupW;
+      if (g > 0) {
+        canvas.drawLine(Offset(gx - groupW * 0.06, r.top + r.height * 0.06), Offset(gx - groupW * 0.06, r.bottom - r.height * 0.06), ink);
+      }
+      for (var col = 0; col < 4; col++) {
+        final x = gx + groupW * (0.14 + col * 0.2);
+        for (var row = 0; row < rows; row++) {
+          final y = r.top + r.height * 0.07 + row * rowStep;
+          canvas.drawCircle(Offset(x, y), bubbleR, ink);
+        }
+      }
+    }
+    // The impression sits on clean paper: the bubbles stop short of it.
+    canvas.drawCircle(geo.centre, geo.teeth * 1.22, Paint()..color = paper);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
+    _sheet(canvas);
     final c = geo.centre;
-    final shade = Color.lerp(ground, const Color(0xFF8A7E66), 0.35)!;
-    final light = Color.lerp(ground, const Color(0xFFFFFFFF), 0.7)!;
+    final shade = Color.lerp(paper, const Color(0xFF8A7E66), 0.35)!;
+    final light = Color.lerp(paper, const Color(0xFFFFFFFF), 0.7)!;
     for (final k in [1.55, 2.05]) {
       canvas.drawCircle(
         c,
@@ -152,8 +206,8 @@ class _ImpressionPainter extends CustomPainter {
     final teeth = SealPainter.teethPath(c, geo.teeth, geo.teeth * 0.9);
     canvas.drawPath(teeth.shift(const Offset(1.2, 1.6)), Paint()..color = shade.withValues(alpha: 0.55));
     canvas.drawPath(teeth.shift(const Offset(-1, -1.2)), Paint()..color = light);
-    canvas.drawPath(teeth, Paint()..color = Color.lerp(ground, shade, 0.18)!);
-    canvas.drawCircle(c, geo.disc, Paint()..color = Color.lerp(ground, shade, 0.08)!);
+    canvas.drawPath(teeth, Paint()..color = Color.lerp(paper, shade, 0.18)!);
+    canvas.drawCircle(c, geo.disc, Paint()..color = Color.lerp(paper, shade, 0.08)!);
     canvas.drawCircle(
       c,
       geo.disc,
@@ -165,7 +219,8 @@ class _ImpressionPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ImpressionPainter old) => old.geo.centre != geo.centre || old.ground != ground;
+  bool shouldRepaint(_ImpressionPainter old) =>
+      old.geo.centre != geo.centre || old.geo.image != geo.image || old.ground != ground || old.paper != paper || old.line != line;
 }
 
 /// The volt seal: 40 teeth, a pressed rim, a disc and an embossed check. While the student

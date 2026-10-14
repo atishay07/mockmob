@@ -24,6 +24,7 @@ class MobiStage extends StatefulWidget {
     this.bubbleWidth = 260,
     this.semanticLabel,
     this.seed = 7,
+    this.bubble = true,
   });
 
   final MobiController? controller;
@@ -42,6 +43,10 @@ class MobiStage extends StatefulWidget {
   final double bubbleWidth;
   final String? semanticLabel;
   final int seed;
+
+  /// Draw the speech bubble above Mobi. Off when the screen places the line itself (the welcome
+  /// sets it beside the painted room's sheet); Mobi still talks while the line is up.
+  final bool bubble;
 
   @override
   State<MobiStage> createState() => _MobiStageState();
@@ -88,9 +93,10 @@ class _MobiStageState extends State<MobiStage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ValueListenableBuilder<MobiSpeech?>(
-          valueListenable: _controller.speech,
-          builder: (context, speech, _) => speech == null
+        if (widget.bubble)
+          ValueListenableBuilder<MobiSpeech?>(
+            valueListenable: _controller.speech,
+            builder: (context, speech, _) => speech == null
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.only(bottom: MmSpace.s4),

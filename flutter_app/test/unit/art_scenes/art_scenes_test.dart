@@ -61,6 +61,13 @@ Future<_CountingHaptics> _atPlan(WidgetTester tester, {CelebrationMode mode = Ce
   return haptics;
 }
 
+/// Plays [ms] of time in 50 ms frames (a single long pump only starts a new animation).
+Future<void> _run(WidgetTester tester, int ms) async {
+  for (var t = 0; t < ms; t += 50) {
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+}
+
 bool _sealedIn(WidgetTester tester) {
   final container = ProviderScope.containerOf(tester.element(find.byType(OnboardingFlow)));
   return _isSealed(container);
@@ -143,13 +150,11 @@ void main() {
       await _atPlan(tester);
       expect(_moment(tester).reveal, 0);
       final hold = await tester.startGesture(tester.getCenter(find.byType(HoldToSeal)));
-      await tester.pump(const Duration(milliseconds: 500));
+      await _run(tester, 500);
       expect(_moment(tester).reveal, greaterThan(0.9));
       expect(_moment(tester).press, greaterThan(0.2));
       await hold.up();
-      for (var i = 0; i < 5; i++) {
-        await tester.pump(const Duration(milliseconds: 100));
-      }
+      await _run(tester, 500);
       expect(_moment(tester).reveal, 0, reason: 'a hold let go early returns the plan card');
       expect(_sealedIn(tester), isFalse);
       expect(find.text(OnboardingCopy.planSet), findsNothing);
@@ -158,13 +163,13 @@ void main() {
     testWidgets('a full hold strikes once: a firm tap, the flecks, then the words', (tester) async {
       final haptics = await _atPlan(tester);
       final hold = await tester.startGesture(tester.getCenter(find.byType(HoldToSeal)));
-      await tester.pump(const Duration(milliseconds: 1300));
-      await tester.pump(const Duration(milliseconds: 50));
+      await _run(tester, 1300);
+      await _run(tester, 50);
       expect(_sealedIn(tester), isTrue);
       expect(haptics.medium, 1);
       expect(_moment(tester).burst, greaterThan(0), reason: 'Full throws the foil flecks once');
       await hold.up();
-      await tester.pump(const Duration(milliseconds: 900));
+      await _run(tester, 900);
       expect(_moment(tester).reveal, 1, reason: 'once struck, the sheet stays');
       expect(find.text(OnboardingCopy.planSet), findsOneWidget);
       expect(find.widgetWithText(KeyButton, OnboardingCopy.next), findsOneWidget);
@@ -175,9 +180,9 @@ void main() {
       final haptics = await _atPlan(tester);
       final link = find.widgetWithText(KeyButton, OnboardingCopy.sealIt);
       await tester.tap(link);
-      await tester.pump(const Duration(milliseconds: 40));
+      await _run(tester, 40);
       if (link.evaluate().isNotEmpty) await tester.tap(link, warnIfMissed: false);
-      await tester.pump(const Duration(milliseconds: 400));
+      await _run(tester, 400);
       expect(haptics.medium, 1);
       expect(_sealedIn(tester), isTrue);
       await tester.pump(const Duration(seconds: 3));
@@ -186,7 +191,7 @@ void main() {
     testWidgets('Quiet strikes with no flecks', (tester) async {
       final haptics = await _atPlan(tester, mode: CelebrationMode.quiet);
       await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
-      await tester.pump(const Duration(milliseconds: 400));
+      await _run(tester, 400);
       expect(haptics.medium, 0);
       expect(_moment(tester).burst, 0);
       expect(_moment(tester).land, greaterThan(0));
@@ -196,7 +201,7 @@ void main() {
     testWidgets('Day draws the impression in code, no painted night room', (tester) async {
       await _atPlan(tester, brightness: Brightness.light);
       await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
-      await tester.pump(const Duration(milliseconds: 400));
+      await _run(tester, 400);
       expect(find.byType(SceneImage), findsNothing);
       expect(_moment(tester).reveal, 1);
       await tester.pump(const Duration(seconds: 3));

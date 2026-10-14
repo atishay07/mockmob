@@ -174,6 +174,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     size: mobiSize,
                     entrance: widget.entrance,
                     lamp: false,
+                    bubble: false,
                     semanticLabel: switch (widget.entrance) {
                       MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
                       MobiAct.sleepy => OnboardingCopy.mobiSleepy,

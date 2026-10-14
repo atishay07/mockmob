@@ -21,6 +21,7 @@ import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/steps/save_step.dart';
 import 'package:mockmob/features/onboarding/widgets/answer_sheet_card.dart';
 import 'package:mockmob/features/onboarding/widgets/first_move_hero.dart';
+import 'package:mockmob/features/onboarding/widgets/plan_seal_moment.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 
 import '../../golden/onboarding/support.dart';
@@ -244,10 +245,16 @@ void main() {
     bool waveOut(WidgetTester tester) =>
         find.byWidgetPredicate((w) => w is CustomPaint && w.foregroundPainter?.runtimeType.toString() == '_WavePainter').evaluate().isNotEmpty;
 
-    testWidgets('Full: a firm tap and one ring wave', (tester) async {
+    // In the flow the seal strikes the painted sheet (PlanSealBackdrop): its one light event is
+    // the foil flecks thrown from the rim, not a ring on the card, which is out of sight.
+    double flecks(WidgetTester tester) => tester.widget<PlanSealBackdrop>(find.byType(PlanSealBackdrop)).moment.burst;
+
+    testWidgets('Full: a firm tap and one burst of foil flecks', (tester) async {
       final h = await seal(tester, CelebrationMode.full);
+      await tester.pump(const Duration(milliseconds: 50));
       expect(h.medium, 1);
-      expect(waveOut(tester), isTrue);
+      expect(flecks(tester), greaterThan(0));
+      expect(waveOut(tester), isFalse, reason: 'one light event, not two');
       await tester.pump(const Duration(seconds: 3));
     });
 
@@ -255,6 +262,7 @@ void main() {
       final h = await seal(tester, CelebrationMode.quiet);
       expect(h.medium, 0);
       expect(waveOut(tester), isFalse);
+      expect(flecks(tester), 0);
       await tester.pump(const Duration(seconds: 3));
     });
 

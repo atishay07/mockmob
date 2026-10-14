@@ -265,7 +265,8 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           revealed: _flip.isCompleted,
           compact: compact,
           stamp: _stamp,
-          wave: ref.watch(celebrationModeProvider) == CelebrationMode.full,
+          // In the seal moment the flecks are the one light event; the card is out of sight.
+          wave: ref.watch(celebrationModeProvider) == CelebrationMode.full && !_momentOn,
         );
 
     // The sheet sinks a little under the finger while the seal charges, and rebounds as the seal

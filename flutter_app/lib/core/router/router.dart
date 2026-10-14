@@ -241,11 +241,11 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             // Over the dock like Start, so it can also be pushed from a page outside the shell
             // (Compass's Practise keys): a push of a route inside the shell from there would
             // build the shell a second time. Reached with `go`, Back still lands on Practice.
-            page('setup/:mode', practiceSetupScreen, root: true),
+            page('setup/:mode', practiceSetupScreen, transition: MmTransition.container, root: true),
             // The untimed question stream (the website's Explore), full screen over the dock.
             page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.fade, root: true),
-            page('result/:attemptId', practiceResultScreen, transition: MmTransition.rise, root: true),
+            page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
           ]),
         ]),
         StatefulShellBranch(routes: [
@@ -256,7 +256,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.
             page('repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
-            page('repair/:attemptId/:questionId', reviewRepairScreen, root: true),
+            page('repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
           ]),
         ]),
         // You: the student's sheet, the CUET tools and settings. Its own pages cover the bar
@@ -321,8 +321,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
 
     // Result and recap: focus pages that rise into place (results, endings and You rise; steps
     // sideways push).
-    page('/result/:attemptId', resultScreen, transition: MmTransition.rise, root: true, routes: [
-      page('sealed', resultSealedScreen, transition: MmTransition.rise, root: true),
+    page('/result/:attemptId', resultScreen, transition: MmTransition.container, root: true, routes: [
+      page('sealed', resultSealedScreen, transition: MmTransition.container, root: true),
       page('recap/:card', resultRecapScreen, transition: MmTransition.rise, root: true),
     ]),
 

@@ -3,7 +3,6 @@
 // task can change size, and the screen's one volt pill. The number sits beside the object, so
 // the card reads top to bottom without a hole; changing the duration rolls the number and
 // reshapes the task in place without moving the pill.
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -32,7 +31,6 @@ class MoveHeroCard extends StatelessWidget {
     this.retrying = false,
     this.mobiController,
     this.primaryKey,
-    this.keysCovered,
   });
 
   final MoveHero move;
@@ -50,11 +48,6 @@ class MoveHeroCard extends StatelessWidget {
   /// On the primary key, so the screen can tell whether it is in view (when it is not, the bar's
   /// capsule carries tonight's move).
   final GlobalKey? primaryKey;
-
-  /// True while the pinned bar stands in for the card's keys: what sits under the primary key
-  /// (the quiet alternative and its caption) is then under the bar's ground, so it takes no
-  /// touches and is not announced; the bar carries both keys.
-  final ValueListenable<bool>? keysCovered;
 
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
@@ -191,31 +184,28 @@ class MoveHeroCard extends StatelessWidget {
               loading: retrying && m.primary.target is RetryLoad,
             ),
           ),
-          _UnderBar(
-            covered: keysCovered,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (m.secondary != null) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  Center(
-                    child: KeyButton.quiet(
-                      label: m.secondary!.label,
-                      onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
-                    ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (m.secondary != null) ...[
+                const SizedBox(height: MmSpace.s4),
+                Center(
+                  child: KeyButton.quiet(
+                    label: m.secondary!.label,
+                    onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
                   ),
-                ],
-                if (m.caption != null || m.dismissedLine != null) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  Text(
-                    m.dismissedLine ?? m.caption!,
-                    textAlign: TextAlign.center,
-                    style: type.caption.copyWith(color: colors.ink3),
-                  ),
-                ],
+                ),
               ],
-            ),
+              if (m.caption != null || m.dismissedLine != null) ...[
+                const SizedBox(height: MmSpace.s4),
+                Text(
+                  m.dismissedLine ?? m.caption!,
+                  textAlign: TextAlign.center,
+                  style: type.caption.copyWith(color: colors.ink3),
+                ),
+              ],
+            ],
           ),
         ],
       ),
@@ -243,30 +233,6 @@ class _NeedsConnection extends StatelessWidget {
         const SizedBox(width: MmSpace.s6),
         Flexible(child: Text(TodayCopy.connectToStart, style: context.mmType.small.copyWith(color: colors.ink2), textAlign: TextAlign.center)),
       ],
-    );
-  }
-}
-
-/// The part of the card under its primary key. While [covered] is true the pinned bar's ground
-/// hides it: it ignores touches (a tap there scrolls nothing and opens nothing unseen) and leaves
-/// the semantics tree, since the bar's own keys say the same.
-class _UnderBar extends StatelessWidget {
-  const _UnderBar({required this.covered, required this.child});
-
-  final ValueListenable<bool>? covered;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final listenable = covered;
-    if (listenable == null) return child;
-    return ValueListenableBuilder<bool>(
-      valueListenable: listenable,
-      child: child,
-      builder: (context, hidden, child) => IgnorePointer(
-        ignoring: hidden,
-        child: ExcludeSemantics(excluding: hidden, child: child!),
-      ),
     );
   }
 }
