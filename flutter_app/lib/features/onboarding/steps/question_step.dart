@@ -14,6 +14,7 @@ import '../data/subjects.dart';
 import '../data/warmup_pool.dart';
 import '../model/answers.dart';
 import '../state/answers_controller.dart';
+import '../widgets/pace_line.dart';
 import '../widgets/step_layout.dart';
 import '../widgets/warmup_option.dart';
 
@@ -103,19 +104,27 @@ class _QuestionStepState extends ConsumerState<QuestionStep> {
               // The measured time is the payoff: a monumental number that rolls in.
               Semantics(
                 liveRegion: true,
-                label: OnboardingCopy.rightIn((result.millis / 1000).round()),
+                label: '${OnboardingCopy.rightIn((result.millis / 1000).round())} '
+                    '${OnboardingCopy.paceSpoken((result.millis / 1000).round())}',
                 excludeSemantics: true,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    MonumentalNumber(value: '${math.max(1, (result.millis / 1000).round())}', style: type.figure),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(
-                      child: Text(
-                        OnboardingCopy.rightSeconds((result.millis / 1000).round()),
-                        style: type.cardTitle.copyWith(color: colors.ink),
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MonumentalNumber(value: '${math.max(1, (result.millis / 1000).round())}', style: type.figure),
+                        const SizedBox(width: MmSpace.s12),
+                        Expanded(
+                          child: Text(
+                            OnboardingCopy.rightSeconds((result.millis / 1000).round()),
+                            style: type.cardTitle.copyWith(color: colors.ink),
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: MmSpace.s12),
+                    PaceLine(seconds: result.millis / 1000),
                   ],
                 ),
               )

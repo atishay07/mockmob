@@ -299,7 +299,7 @@ class _PlanRowState extends State<_PlanRow> with SingleTickerProviderStateMixin 
                           fontSize: 11,
                           height: 1,
                           fontWeight: FontWeight.w800,
-                          color: on ? (colors.isNight ? colors.voltInk : colors.ground) : colors.ink3,
+                          color: on ? colors.voltInk : colors.ink3,
                         ),
                       ),
                     ],

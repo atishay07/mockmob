@@ -120,6 +120,10 @@ abstract final class OnboardingCopy {
   static const String trapLead = 'That\'s the trap. The ten-second fix';
 
   /// Beside the measured seconds, set as a monumental number.
+  /// The tick on the pace line under a right warm-up answer.
+  static const String examPace = 'Exam pace, about a minute';
+  static String paceSpoken(int seconds) =>
+      seconds <= 60 ? 'Inside exam pace, about a minute a question.' : 'Slower than exam pace, about a minute a question.';
   static String rightSeconds(int seconds) => seconds <= 1 ? 'second. Right.' : 'seconds. Right.';
   static String optionSemantics(String letter, String text) => 'Option $letter, $text';
   static const String correctAnswer = 'Correct answer';
@@ -177,6 +181,16 @@ abstract final class OnboardingCopy {
   static const String mobiFirstMove = 'Ten minutes. I\'ll be here after.';
   static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
   static const String saveNow = 'Save my sheet';
+
+  // The first seven days under the first move.
+  static const String weekAheadTitle = 'Your first week';
+  static const String today = 'Today';
+  static String weekAheadPace(int minutes, String time) => '$minutes min, around $time';
+  static String weekAheadSpoken(List<String> days, int minutes, String time) {
+    if (days.isEmpty) return '$weekAheadTitle: rest this week.';
+    final list = days.length == 1 ? days.first : '${days.sublist(0, days.length - 1).join(', ')} and ${days.last}';
+    return '$weekAheadTitle: $list, $minutes minutes around $time.';
+  }
 
   // After sign-in (the "Before you start" sheet).
   static const String savingSheet = 'Saving your sheet';

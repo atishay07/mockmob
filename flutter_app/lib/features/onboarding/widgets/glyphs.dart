@@ -54,11 +54,11 @@ class _TrapPainter extends CustomPainter {
 }
 
 /// The skyline of a course's colleges: its top closing scores as bars, highest first, each as
-/// tall as its score between 750 and 1000 on a hairline floor. A steep, crowded course and a
+/// tall as its score between 800 and 1000 on a hairline floor. A steep, crowded course and a
 /// short one read differently at a glance. Real CSAS 2026 figures only; the top bar takes
 /// [accent].
 class LadderGlyph extends StatelessWidget {
-  const LadderGlyph({super.key, required this.scores, required this.color, this.accent, this.height = 26, this.rungs = 8});
+  const LadderGlyph({super.key, required this.scores, required this.color, this.accent, this.height = 30, this.rungs = 8});
 
   final List<double> scores;
   final Color color;
@@ -66,7 +66,7 @@ class LadderGlyph extends StatelessWidget {
   final double height;
   final int rungs;
 
-  static const double _bar = 5;
+  static const double _bar = 7;
   static const double _gap = 3;
 
   @override
@@ -101,14 +101,14 @@ class _LadderPainter extends CustomPainter {
         canvas.drawCircle(Offset(x + LadderGlyph._bar / 2, floor - 2), 1.2, paint..color = color.withValues(alpha: 0.45));
         continue;
       }
-      final f = ((scores[i] - 750) / 250).clamp(0.1, 1.0);
+      final f = ((scores[i] - 800) / 200).clamp(0.08, 1.0);
       final h = (floor - 1) * f;
       paint.color = i == 0 && accent != null ? accent! : color.withValues(alpha: math.max(0.5, 1 - i * 0.07));
       canvas.drawRRect(
         RRect.fromRectAndCorners(
           Rect.fromLTWH(x, floor - h, LadderGlyph._bar, h),
-          topLeft: const Radius.circular(1.5),
-          topRight: const Radius.circular(1.5),
+          topLeft: const Radius.circular(2),
+          topRight: const Radius.circular(2),
         ),
         paint,
       );

@@ -191,7 +191,7 @@ class _MinuteBubbles extends ConsumerWidget {
                                 style: type.figureCompact.copyWith(
                                   fontSize: 30,
                                   height: 1,
-                                  color: on ? (colors.isNight ? colors.voltInk : colors.ground) : colors.ink,
+                                  color: on ? colors.voltInk : colors.ink,
                                 ),
                               ),
                             ],

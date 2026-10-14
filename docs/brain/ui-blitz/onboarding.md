@@ -63,7 +63,7 @@ Haptics: `selectionClick` on every choice; `lightImpact` when a sheet bubble ink
 - "Not sure yet" stays as a quiet full-width row under the grid.
 
 ### Colleges: "Which colleges would you say yes to tomorrow?"
-- A real ladder: a vertical rail runs through the bubbles, each college is a rung with its score in condensed figures at the right. A pick inks its bubble with the pick number (1, 2, 3) in voltInk, so the order is visible. Picked rungs take the raised fill; others are flat on the ground, with no box. The category chip and "Any college is fine" stay above; the bar line stays below and engraves when it changes.
+- A real ladder: a vertical rail runs through the bubbles, each college is a rung with its score in condensed figures at the right. A pick inks its bubble with the pick number (1, 2, 3) in voltInk, so the order is visible. Picked rungs take the raised fill; others are flat on the ground, with no box. The category chip and "Any college is fine" stay above; the bar line stays below and engraves when it changes. Second pass: a picked rung no longer takes the tile's edge light (three lit rungs in a row read as a stack of boxes); the raised fill and the numbered bubble carry the pick.
 
 ### Subjects: "Your subjects. How solid is each, honestly?"
 - The eligibility line stays on top. Included subjects are one surface each (no inner box): the subject object on its lamp light, the name, and a three-bubble confidence row (Shaky, Okay, Strong) drawn like an OMR question: three labelled bubbles, the chosen one inked. 48 dp targets; TalkBack reads "How solid is Accountancy, Shaky, selected". Rows still reorder weakest first on the spring (FlipItem).
@@ -74,7 +74,7 @@ Haptics: `selectionClick` on every choice; `lightImpact` when a sheet bubble ink
 
 ### The warm-up question
 - Calm work layer: no lamp scene, no art. A small live clock beside the subject and chapter shows the measured seconds (its own repaint boundary; it stops on answer).
-- Right: the right option inks with the lit edge; under the options, a result row: the measured seconds as a monumental number that rolls, "seconds. Right." beside it. Mobi cheers.
+- Right: the right option inks with the lit edge; under the options, a result row: the measured seconds as a monumental number that rolls, "seconds. Right." beside it. Mobi cheers. Second pass: under it, a pace line from nothing to two minutes with a tick at exam pace ("Exam pace, about a minute", the same figure the first-move framing already uses); the volt mark travels out to the student's time on the glide in 500 ms (the number roll's length) and inks the line behind it. TalkBack reads "Right, in 41 seconds. Inside exam pace, about a minute a question." Reduced motion draws it landed.
 - Wrong: the wrong option shows the wrong surface and crossed bubble, the right one inks; "That's the trap. The ten-second fix" with the fix on a solid panel. Mobi shrugs. No haptic.
 
 ### Pace: "Pick a pace you can keep."
@@ -92,6 +92,7 @@ Haptics: `selectionClick` on every choice; `lightImpact` when a sheet bubble ink
 
 ### First move
 - Mobi at 120 dp says his line and points at the start key (existing). The hero card keeps the monumental 10. Entrance as section 3.
+- New (second pass): the lower half of the screen was an empty void (`first_move_night`). Under the hero, flat on the ground (no card), "Your first week": the next seven days from today read off the student's own pace, a ring per study day, the rest mark per rest day, today ringed and labelled, with "20 min, around 8:00 PM" beside the title. Nothing is inked because nothing is done yet. It lifts in after the hero. TalkBack reads it as one sentence ("Your first week: Wednesday, Thursday and Saturday, 20 minutes around 8:00 PM.").
 
 ## 5. States kept
 
@@ -102,6 +103,14 @@ Loading (the welcome key waits for the stored sheet), unreadable or newer sheet 
 - HIGH: monumental condensed numbers inside choices, the word-by-word headline rise with a small overshoot, a foil moment for the seal, the dark lamp-lit room.
 - Revolut: one task per screen with immediate micro-feedback (the weeks, the ladder, the sessions, the measured seconds); the entry UI becomes the result (the sheet flips into the plan).
 - FamApp: personality spent on choices that make the plan feel owned (the sheet, the seal, Mobi), a single illustration and claim per screen, no tutorial carousel.
+
+## 6.1 Second pass (14 October, after the usage-limit cut)
+
+The first builder's WIP compiled and analyzed clean; the goldens in that commit were partly stale (worry, rhythm and others rendered before the code changed). This pass re-rendered every golden, looked at each, and fixed what showed:
+- Figures and pick numbers on an inked (volt) bubble were drawn in the Daylight ground colour on Daylight (the 20 in the minutes bubble, plan row numbers, ladder pick numbers): near-invisible on volt. Volt ink is the same in both themes, so they are voltInk in both.
+- Course tiles: the skyline mapped scores 750 to 1000, so every course's bars looked the same height. It now maps 800 to 1000 with wider, taller bars, so a steep course and a short one read differently.
+- First move: "Your first week" fills the empty lower half with the student's own week (section 4).
+- Warm-up: the pace line (section 4).
 
 ## 7. Acceptance
 

@@ -95,7 +95,9 @@ class ChoiceTile extends ConsumerWidget {
           curve: Motion.glide,
           decoration: ShapeDecoration(color: fill, shape: mmShapeBorder(radius, side: side)),
           child: CustomPaint(
-            foregroundPainter: flat && !selected
+            // A flat row never takes the edge light: lit, a run of picked rungs reads as a stack
+            // of boxes instead of one ladder.
+            foregroundPainter: flat
                 ? null
                 : EdgeLightPainter(
                     borderRadius: radius,

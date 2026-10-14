@@ -10,6 +10,7 @@ import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/entrance.dart';
 import '../widgets/first_move_hero.dart';
+import '../widgets/week_ahead.dart';
 
 /// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
 /// server, so the start key asks for the account first; "Tonight" keeps it waiting here. Mobi
@@ -127,6 +128,19 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                         onStart: widget.onStart,
                         onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
                         startKey: _start,
+                      ),
+                    ),
+                    const SizedBox(height: MmSpace.s32),
+                    EntranceItem.answer(
+                      2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                        child: WeekAhead(
+                          days: widget.answers.days,
+                          minutes: widget.answers.minutes,
+                          window: widget.answers.window,
+                          now: ref.watch(nowProvider)(),
+                        ),
                       ),
                     ),
                   ],

@@ -148,7 +148,7 @@ class _LadderRow extends StatelessWidget {
                     Text(
                       '$pick',
                       style: type.label.copyWith(
-                        color: colors.isNight ? colors.voltInk : colors.ground,
+                        color: colors.voltInk,
                         fontWeight: FontWeight.w800,
                         height: 1,
                       ),
