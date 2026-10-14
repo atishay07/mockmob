@@ -9,6 +9,18 @@ html[data-visitor='member'] .vs-guest-only,
 html[data-visitor='member'][data-visitor-plan='pro'] .vs-hide-pro { display: none !important; }
 /* vs-hide-pro: shown to everyone except a Pro student (an upgrade button they have no use for). */
 
+/* Member stages (web redesign W1.1, plan section 4). <html data-visitor-stage='first'> marks a member
+   with no scored session yet (S3); the flag comes from the stored hint. Without it a member counts as
+   started, so the default is the ordinary member view.
+   vs-first-only    only a member who has not finished a session yet
+   vs-started-only  every other member (always paired with vs-member-only)
+   vs-pro-only      only a Pro member */
+html:not([data-visitor='member']) .vs-first-only,
+html:not([data-visitor-stage='first']) .vs-first-only,
+html[data-visitor='member'][data-visitor-stage='first'] .vs-started-only,
+html:not([data-visitor='member']) .vs-pro-only,
+html:not([data-visitor-plan='pro']) .vs-pro-only { display: none !important; }
+
 /* The menu sheet's account row while the sign-in check runs: same height as a link, no wording. */
 .mm-nav__sheet-pending { display: flex; align-items: center; min-height: 52px; border-top: 1px solid var(--line); }
 .mm-nav__sheet-pending span { width: 5.5rem; height: .9rem; border-radius: 999px; background: var(--paper-sunken, var(--line)); }
@@ -44,3 +56,8 @@ html[data-visitor='member'][data-visitor-plan='pro'] .vs-hide-pro { display: non
 .vs-card__list svg { flex: none; width: 1.1rem; height: 1.1rem; color: var(--ink-3); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 @media (min-width: 960px) { .vs-card { padding: 1.4rem; } }
 @media (prefers-reduced-motion: no-preference) { .vs-card__list a { transition: background-color .2s ease; } }
+
+/* The footer gains a "Your practice" column for members (W1.1); five columns from 960px. */
+@media (min-width: 960px) {
+  html[data-visitor='member'] .mm-foot__cols { grid-template-columns: 1.3fr repeat(4, minmax(0, 1fr)); gap: 2rem; }
+}

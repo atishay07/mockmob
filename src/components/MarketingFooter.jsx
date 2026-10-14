@@ -1,33 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { FOOTER_COLUMNS, FOOTER_MEMBER_LINKS } from '@/lib/navigation';
 
-const PRODUCT_LINKS = [
-  ['DU eligibility & cutoff calculator', '/cuet-cutoff-calculator'],
-  ['CUET subject combination planner', '/cuet-subject-combination'],
-  ['Free CUET mock test', '/cuet-mock-test-free'],
-  ['Previous year questions', '/cuet-previous-year-questions'],
-  ['Online practice tests', '/cuet-practice-tests-online'],
-  ['Features', '/features'],
-  ['Pricing', '/pricing'],
-];
-
-const SUBJECT_LINKS = [
-  ['English', '/cuet/english'],
-  ['Accountancy', '/cuet/accountancy'],
-  ['Economics', '/cuet/economics'],
-  ['Business Studies', '/cuet/business-studies'],
-  ['CUET 2027 guide', '/cuet-2027'],
-];
-
-const COMPANY_LINKS = [
-  ['About', '/about'],
-  ['Contact', '/contact'],
-  ['Privacy', '/privacy'],
-  ['Terms', '/terms'],
-  ['Refunds', '/refunds'],
-];
-
+// Links come from src/lib/navigation.js. Guests see the columns they always had; a signed-in student
+// gets their own column first (shown through <html data-visitor>, so the server HTML is the same for
+// everyone). The non-affiliation line stays here (owner decision D8).
 export function MarketingFooter() {
   return (
     <footer className="mm-foot">
@@ -50,38 +28,29 @@ export function MarketingFooter() {
             </a>
           </div>
 
-          <div>
-            <h3>Practice</h3>
+          <div className="vs-member-only">
+            <h3>Your practice</h3>
             <ul>
-              {PRODUCT_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
+              {FOOTER_MEMBER_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h3>Subjects</h3>
-            <ul>
-              {SUBJECT_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3>Company</h3>
-            <ul>
-              {COMPANY_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {FOOTER_COLUMNS.map((column) => (
+            <div key={column.id}>
+              <h3>{column.label}</h3>
+              <ul>
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>{link.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="mm-foot__base">

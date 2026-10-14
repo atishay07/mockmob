@@ -1,429 +1,120 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import React, { useCallback, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Logo } from '@/components/Logo';
-import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useWalletSummary } from '@/components/useWalletSummary';
-import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { PipActor } from '@/components/brand/PipActor';
+import { useResumableTest } from '@/components/VisitorSync';
+import { appNavigation, shellGate, titleForPath } from '@/lib/navigation';
+import { AppBottomBar, AppSidebar, AppTopbar } from '@/components/shell/AppNav';
+import { GuideTour, useGuideTour } from '@/components/shell/GuideTour';
+import { ShellPageSkeleton, ShellUnavailable } from '@/components/shell/ShellStates';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
 import './arena-support.css';
 import '@/components/study/study.css';
-import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 
-const TOUR_STEPS = [
-  { title: 'Today', target: 'nav-today', body: 'Your next useful step: what to practise now and what is due for review.' },
-  { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
-  { title: 'Review', target: 'nav-review', body: 'Go back over sessions that matter and check concepts again on fresh questions.' },
-  { title: 'Progress', target: 'nav-progress', body: 'See which concepts have passed fresh, delayed checks, and which need more evidence.' },
-];
-// Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
-const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
-
+// The signed-in shell. It no longer waits for the sign-in check before drawing anything
+// (plan section 6, fix 1): while the first check runs, a member (by the stored hint, through
+// <html data-visitor>) sees the real shell with a page skeleton, and the page itself mounts once the
+// session is confirmed, so nothing private is ever drawn from the hint. Anyone the hint does not know
+// as a member sees the session screen instead; CSS picks between the two, so the server HTML is
+// the same for everyone. Only a confirmed signed-out check sends the visitor to log in, and a check
+// that could not reach MockMob keeps the shell with a "Can't reach MockMob" state.
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut, refreshSession } = useAuth();
   const { isModerator } = useRole();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const menuOpener = useRef(null);
-  const [tourOpen, setTourOpen] = useState(false);
-  const [tourStep, setTourStep] = useState(0);
-  const [tourTarget, setTourTarget] = useState(null);
-  const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
   const activePath = previewRoute || pathname;
   const isTestRoute = activePath.startsWith('/test');
   const wallet = useWalletSummary(user?.id);
+  const resume = useResumableTest();
+  const gate = shellGate({ status, path: pathname, moderator: isModerator });
+  const confirmed = gate === 'ready' || gate === 'checking';
+  const tour = useGuideTour({ userId: user?.id, ready: gate === 'ready' && !isTestRoute });
 
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const sheet = document.getElementById('arena-sheet');
-    const opener = menuOpener.current;
-    const header = sheet?.closest('.arena-topbar');
-    const dock = document.querySelector('.arena-bottomnav');
-    const fitMenu = () => {
-      const bottom = dock?.getBoundingClientRect();
-      const available = (bottom?.height ? Math.min(innerHeight, bottom.top) : innerHeight) - (header?.getBoundingClientRect().bottom || 64) - 12;
-      if (sheet) sheet.style.maxHeight = `${Math.max(80, available)}px`;
-    };
-    const resize = new ResizeObserver(fitMenu);
-    if (header) resize.observe(header);
-    if (dock) resize.observe(dock);
-    fitMenu();
-    window.addEventListener('resize', fitMenu);
-    window.addEventListener('scroll', fitMenu, { passive: true });
-    const frame = requestAnimationFrame(() => sheet?.querySelector('a')?.focus({ preventScroll: true }));
-    const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
-    const closeOutside = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
-    const closeOnExit = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
-    const desktop = matchMedia('(min-width: 1024px)');
-    const closeOnDesktop = () => { if (desktop.matches) setMobileMenuOpen(false); };
-    document.addEventListener('keydown', closeOnEscape);
-    document.addEventListener('pointerdown', closeOutside);
-    document.addEventListener('focusin', closeOnExit);
-    desktop.addEventListener('change', closeOnDesktop);
-    return () => {
-      cancelAnimationFrame(frame);
-      resize.disconnect();
-      window.removeEventListener('resize', fitMenu);
-      window.removeEventListener('scroll', fitMenu);
-      document.removeEventListener('keydown', closeOnEscape);
-      document.removeEventListener('pointerdown', closeOutside);
-      document.removeEventListener('focusin', closeOnExit);
-      desktop.removeEventListener('change', closeOnDesktop);
-    };
-  }, [mobileMenuOpen]);
-
-  const toggleMenu = (event) => {
-    menuOpener.current = event.currentTarget;
-    setMobileMenuOpen(open => !open);
-  };
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (gate === 'signedOut') {
       // A returning student lands on login (not signup) and comes back to this page after.
       router.replace(loginPathFor(`${window.location.pathname}${window.location.search}`));
     }
-  }, [status, router]);
+  }, [gate, router]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [pathname]);
 
   useEffect(() => {
-    if (status !== 'authenticated') return;
-    if (pathname.startsWith('/moderation') && !isModerator) {
-      router.replace('/dashboard');
-    }
-  }, [status, pathname, isModerator, router]);
+    if (gate === 'checking') router.replace('/dashboard');
+  }, [gate, router]);
 
+  const handleSignOut = useCallback(async () => { await signOut(); router.push('/'); }, [signOut, router]);
+  const retry = useCallback(() => refreshSession({ silent: false }), [refreshSession]);
 
-  useEffect(() => {
-    if (!tourOpen || typeof window === 'undefined') {
-      return;
-    }
-
-    const updateTarget = () => {
-      const current = TOUR_STEPS[tourStep];
-      const node = [...document.querySelectorAll(`[data-tour="${current.target}"]`)]
-        .find((candidate) => {
-          const rect = candidate.getBoundingClientRect();
-          const style = window.getComputedStyle(candidate);
-          return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-        });
-      if (!node) {
-        setTourTarget(null);
-        return;
-      }
-      node.scrollIntoView({ block: 'center', inline: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-      window.setTimeout(() => {
-        const rect = node.getBoundingClientRect();
-        const padding = 8;
-        const cardWidth = Math.min(380, window.innerWidth - 32);
-        const cardHeight = 260;
-        const left = Math.min(
-          Math.max(16, rect.left),
-          Math.max(16, window.innerWidth - cardWidth - 16),
-        );
-        const placeBelow = rect.bottom + 18 + cardHeight < window.innerHeight;
-        const top = placeBelow
-          ? rect.bottom + 18
-          : Math.max(16, rect.top - cardHeight - 18);
-
-        setTourTarget({
-          left: Math.max(8, rect.left - padding),
-          top: Math.max(8, rect.top - padding),
-          width: rect.width + padding * 2,
-          height: rect.height + padding * 2,
-          cardLeft: left,
-          cardTop: top,
-        });
-      }, 220);
-    };
-
-    updateTarget();
-    window.addEventListener('resize', updateTarget);
-    window.addEventListener('scroll', updateTarget, { passive: true });
-    return () => {
-      window.removeEventListener('resize', updateTarget);
-      window.removeEventListener('scroll', updateTarget);
-    };
-  }, [tourOpen, tourStep]);
-
-  if (status === 'unavailable') {
-    return (
-      <AuthSessionScreen
-        errorTitle="Can't reach MockMob"
-        error="You are still signed in. We could not load your account just now. Check your connection, then try again."
-        actionLabel="Try again"
-        onAction={() => refreshSession({ silent: false })}
-      />
-    );
+  // Confirmed signed out: no shell, no page. The redirect above is already on its way.
+  if (gate === 'signedOut') {
+    return <AuthSessionScreen title="Taking you to log in" message="You are signed out on this device." />;
   }
 
-  if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
-    return (
-      <AuthSessionScreen
-        message={status === 'authenticated' ? 'Checking your access...' : 'Loading your session...'}
-      />
-    );
-  }
-
-  const showStudy=studyEnabled || previewRoute==='/learn';
-  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
-  const mobileTabs=showStudy ? MOBILE_STUDY_NAV : navGroups.flatMap(group=>group.items).filter(tab=>['today','dashboard','explore','review'].includes(tab.id));
-  const allTabs = navGroups.flatMap((group) => group.items);
-  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
-  const renderNavLink = (tab, onNavigate) => (
-    <Link
-      key={tab.id}
-      href={previewLinks?.[tab.id] || tab.href || `/${tab.id}`}
-      className="arena-nav-link"
-      style={{ '--i': allTabs.indexOf(tab) }}
-      aria-current={isActive(tab.id) ? 'page' : undefined}
-      data-tour={`nav-${tab.id}`}
-      onClick={onNavigate}
-    >
-      <AppIcon name={tab.icon} />
-      {tab.label}
-    </Link>
-  );
-  const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
-    || (activePath.startsWith('/result') ? 'Result' : '');
-
-  function closeTour() {
-    setTourOpen(false);
-    setTourStep(0);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(tourSeenKey, 'true');
-    }
-  }
+  const showStudy = studyEnabled || previewRoute === '/learn';
+  const nav = appNavigation({ studyEnabled: showStudy, moderator: isModerator, testRoute: isTestRoute });
+  const title = titleForPath(activePath, nav);
+  const page = gate === 'ready' ? children
+    : gate === 'unavailable' ? <ShellUnavailable onRetry={retry} />
+    : <ShellPageSkeleton label={gate === 'checking' ? 'Checking your access' : 'Loading your page'} />;
 
   return (
-    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <aside className="arena-sidebar" aria-label="Arena navigation">
-        <Logo />
-        {navGroups.map((group) => (
-          <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
-            <p className="arena-nav-label">{group.label}</p>
-            {group.items.map((tab) => renderNavLink(tab))}
-          </nav>
-        ))}
-        <div className="arena-sidebar__foot">
-          <button
-            type="button"
-            className="arena-chip"
-            data-tour="guide-button"
-            onClick={() => { setTourStep(0); setTourOpen(true); }}
-          >
-            <AppIcon name="guide" /> Guide
-          </button>
-        </div>
-      </aside>
+    <>
+      {/* While the first check runs only a hinted member sees the shell (vs-member-only). */}
+      <div className={gate === 'pending' ? 'vs-member-only' : undefined}>
+        <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} data-shell-gate={gate} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <AppSidebar nav={nav} activePath={activePath} previewLinks={previewLinks} />
 
-      {!isTestRoute && (
-      <header className="arena-topbar">
-        <div className="arena-topbar__row">
-          <span className="arena-topbar__logo"><Logo /></span>
-          {currentTitle ? <span className="arena-topbar__title">{currentTitle}</span> : null}
-
-          <div className="arena-topbar__end">
-            {isModerator && (
-              <Link href="/moderation" className="arena-chip arena-chip--mod arena-md-up">
-                <AppIcon name="moderation" /> Moderator
-              </Link>
-            )}
-            <Link href="/pricing" className="arena-chip arena-chip--credits" data-tour="credits-pill" aria-label={user?.isPremium ? 'Practice credits: unlimited with Pro' : `Practice credits: ${user?.creditBalance || 0}`}>
-              <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
-            </Link>
-            {wallet.status !== 'idle' && (
-              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `PrepOS credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'PrepOS credits unavailable'}>
-                <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
-              </Link>
-            )}
-            {user?.isPremium && (
-              <span className="arena-chip arena-chip--pro arena-sm-up">Pro</span>
-            )}
-            <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
-            <Link href="/profile" className="arena-profile arena-desktop-only">
-              <Avatar name={user?.name} size="sm" />
-              <span>{user?.name ?? 'Account'}</span>
-            </Link>
-            <button
-              type="button"
-              onClick={async () => { await signOut(); router.push('/'); }}
-              title="Sign out"
-              aria-label="Sign out"
-              className="arena-iconbtn arena-iconbtn--danger arena-desktop-only"
-            >
-              <AppIcon name="signout" />
-            </button>
-            <button
-              type="button"
-              data-tour="mobile-menu-toggle"
-              className="arena-iconbtn arena-mobile-only"
-              onClick={toggleMenu}
-              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={mobileMenuOpen}
-              aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined}
-            >
-              {mobileMenuOpen ? <StatusIcon kind="close" /> : (
-                <span className="inline-flex flex-col gap-1" aria-hidden="true">
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="arena-sheet arena-mobile-only" id="arena-sheet">
-            {navGroups.map((group) => (
-              <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
-                <p className="arena-nav-label">{group.label}</p>
-                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
-              </nav>
-            ))}
-            <div className="arena-sheet__account">
-              <Link href="/profile" className="flex min-w-0 items-center gap-2 no-underline" onClick={() => setMobileMenuOpen(false)}>
-                <Avatar name={user?.name} size="sm" />
-                <span className="truncate text-sm font-semibold text-zinc-200">{user?.name ?? 'Account'}</span>
-              </Link>
-              <div className="flex items-center gap-2">
-                <span className="arena-theme"><ThemeToggle /></span>
-                <button
-                  type="button"
-                  className="arena-chip"
-                  data-tour="guide-button"
-                  onClick={() => { setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); }}
-                >
-                  <AppIcon name="guide" /> Guide
-                </button>
-                <button
-                  type="button"
-                  onClick={async () => { await signOut(); router.push('/'); }}
-                  title="Sign out"
-                  aria-label="Sign out"
-                  className="arena-iconbtn arena-iconbtn--danger"
-                >
-                  <AppIcon name="signout" />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {isModerator && (
-          <div className="arena-modbar">
-            <AppIcon name="moderation" /> Moderator access is active for this account.
-          </div>
-        )}
-      </header>
-      )}
-
-      <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
-        <div className="arena-backdrop" aria-hidden="true" />
-        <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-          {children}
-        </div>
-      </main>
-      {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
-        {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
-        <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
-      </nav>}
-      {!isTestRoute && tourOpen && (
-        <div className="pointer-events-none fixed inset-0 z-[80]">
-          {tourTarget ? (
-            <>
-              <div className="fixed left-0 right-0 top-0 bg-black/62 backdrop-blur-[2px]" style={{ height: tourTarget.top }} />
-              <div className="fixed left-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top, width: tourTarget.left, height: tourTarget.height }} />
-              <div className="fixed bg-black/62 backdrop-blur-[2px]" style={{ left: tourTarget.left + tourTarget.width, right: 0, top: tourTarget.top, height: tourTarget.height }} />
-              <div className="fixed bottom-0 left-0 right-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top + tourTarget.height }} />
-            </>
-          ) : (
-            <div className="fixed inset-0 bg-black/62 backdrop-blur-[2px]" />
-          )}
-          {tourTarget && (
-            <div
-              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_34px_rgba(210,240,0,0.42)]"
-              style={{
-                left: tourTarget.left,
-                top: tourTarget.top,
-                width: tourTarget.width,
-                height: tourTarget.height,
-              }}
+          {!isTestRoute && (
+            <AppTopbar
+              title={title}
+              user={user}
+              confirmed={confirmed}
+              isModerator={isModerator}
+              wallet={wallet}
+              resume={resume}
+              onGuide={tour.start}
+              onSignOut={handleSignOut}
             />
           )}
-          <div
-            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[var(--a-raised)] p-5 shadow-[var(--a-shadow-2)]"
-            style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
-          >
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <span className="arena-tour-pip"><PipActor pose={TOUR_POSES[tourStep] || 'greeting'} blink={tourStep + 1} motion={tourStep ? `nod-${tourStep % 2}` : 'land-0'} /></span>
-              <div className="flex-1">
-                <div className="mono-label text-volt">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
-                <h2 className="mt-1 font-display text-[22px] font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
-              </div>
-              <button
-                type="button"
-                className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-white/10 text-zinc-400"
-                onClick={closeTour}
-                aria-label="Close guide"
-              >
-                <span className="text-2xl leading-none">&times;</span>
-              </button>
+
+          <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
+            <div className="arena-backdrop" aria-hidden="true" />
+            <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
+              {page}
             </div>
-            <p className="text-sm leading-6 text-zinc-300">{TOUR_STEPS[tourStep].body}</p>
-            <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-volt" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
-            </div>
-            <div className="mt-5 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                className="inline-flex min-h-11 items-center rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
-                disabled={tourStep === 0}
-                onClick={() => setTourStep((step) => Math.max(0, step - 1))}
-              >
-                Back
-              </button>
-              {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
-                  Finish
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
-                  onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
-                >
-                  Next
-                </button>
-              )}
-            </div>
-          </div>
+          </main>
+          {!isTestRoute && (
+            <AppBottomBar nav={nav} activePath={activePath} previewLinks={previewLinks} resume={resume} isPremium={confirmed ? Boolean(user?.isPremium) : null} />
+          )}
+          {!isTestRoute ? <GuideTour tour={tour} /> : null}
+          <style>{`
+            .app-shell--test .app-main--test {
+              padding: 0;
+            }
+            .app-shell--test .test-content-host {
+              width: 100%;
+              max-width: none;
+              margin: 0;
+            }
+          `}</style>
         </div>
-      )}
-      <style>{`
-        .app-shell--test .app-main--test {
-          padding: 0;
-        }
-        .app-shell--test .test-content-host {
-          width: 100%;
-          max-width: none;
-          margin: 0;
-        }
-      `}</style>
-    </div>
+      </div>
+      {gate === 'pending' ? (
+        <div className="vs-guest-only">
+          <AuthSessionScreen message="Loading your session..." />
+        </div>
+      ) : null}
+    </>
   );
 }
