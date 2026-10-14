@@ -21,6 +21,7 @@ import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/data/repair_run.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
@@ -154,6 +155,156 @@ void main() {
     expect(api.calls, hasLength(2));
     expect(api.calls[0].$2, isNot(api.calls[1].$2));
     expect(state().current!.outcome, isA<OutcomeExplained>());
+  });
+
+  group('failures from the repair route (all sent with charged: 0)', () {
+    // What the repair route answers: the code, the status, `charged: 0` and the sentence for the student.
+    ApiError failure(int status, ApiErrorKind kind, String code, String message) =>
+        ApiError(status: status, kind: kind, code: code, details: {'charged': 0, 'message': message});
+    final timeout = failure(504, ApiErrorKind.server, 'provider_timeout', 'This one took too long. You were not charged.');
+    final unavailable = failure(
+      503,
+      ApiErrorKind.unavailable,
+      'provider_unavailable',
+      'Repairs aren’t available right now. Try again in a little while. You were not charged.',
+    );
+    final wallet = failure(503, ApiErrorKind.unavailable, 'wallet_unavailable', 'We couldn’t reach your credits. Nothing was charged. Try again.');
+    final budget = failure(503, ApiErrorKind.unavailable, 'budget_reached', 'Repairs are paused until 1 November. You were not charged.');
+
+    Future<void> begin() async {
+      run().open('m7-q0');
+      run().begin();
+      await settle();
+    }
+
+    OutcomeFailed failed() => state().current!.outcome! as OutcomeFailed;
+
+    test('provider_timeout says it took too long and not offline, keeps the run going, and the retry gets a fresh id', () async {
+      api.answers.add(timeout);
+      await begin();
+      expect(failed().failure, RepairFailure.tookTooLong);
+      expect(failed().failure.canRetry, isTrue);
+      expect(state().keyOnly, isFalse);
+      expect(ReviewCopy.tookTooLong, 'This took too long. You were not charged.');
+      await run().retry();
+      await settle();
+      expect(api.calls, hasLength(2));
+      expect(api.calls[1].$2, isNot(api.calls[0].$2), reason: 'a charged: 0 failure released the id');
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('a call the app stopped waiting for is a timeout, not offline, and the retry keeps its id', () async {
+      api.answers.add(const ApiError(kind: ApiErrorKind.timeout, code: 'timeout'));
+      await begin();
+      expect(failed().failure, RepairFailure.tookTooLong);
+      expect(state().keyOnly, isFalse);
+      await run().retry();
+      await settle();
+      expect(api.calls[1].$2, api.calls[0].$2, reason: 'no answer arrived, so the server may still hold this id: it charges once per id');
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('provider_unavailable shows the server message, keeps the run going, and the retry gets a fresh id', () async {
+      api.answers.add(unavailable);
+      await begin();
+      expect(failed().failure, RepairFailure.providerUnavailable);
+      expect(failed().message, unavailable.serverMessage);
+      expect(failed().failure.canRetry, isTrue);
+      expect(state().keyOnly, isFalse);
+      await run().retry();
+      await settle();
+      expect(api.calls[1].$2, isNot(api.calls[0].$2));
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('wallet_unavailable shows the server message, keeps the run going, and the retry gets a fresh id', () async {
+      api.answers.add(wallet);
+      await begin();
+      expect(failed().failure, RepairFailure.walletUnavailable);
+      expect(failed().message, wallet.serverMessage);
+      expect(state().keyOnly, isFalse);
+      await run().retry();
+      await settle();
+      expect(api.calls[1].$2, isNot(api.calls[0].$2));
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('unusable_output shows the server message and the retry gets a fresh id', () async {
+      api.answers.add(failure(502, ApiErrorKind.server, 'unusable_output', 'The repair could not be prepared reliably this time. You were not charged.'));
+      await begin();
+      expect(failed().failure, RepairFailure.unavailable);
+      expect(failed().message, 'The repair could not be prepared reliably this time. You were not charged.');
+      await run().retry();
+      await settle();
+      expect(api.calls[1].$2, isNot(api.calls[0].$2));
+    });
+
+    test('budget_reached says when repairs are back, offers no retry, and the run keeps going to the next mistake', () async {
+      api.answers.add(budget);
+      await begin();
+      expect(failed().failure, RepairFailure.budgetReached);
+      expect(failed().message, 'Repairs are paused until 1 November. You were not charged.');
+      expect(failed().failure.canRetry, isFalse);
+      expect(state().keyOnly, isFalse, reason: 'only paused turns the run into key reviews');
+      run().next();
+      await settle();
+      expect(api.calls, hasLength(2), reason: 'the next mistake is still asked for');
+      expect(state().current!.item.questionId, isNot('m7-q0'));
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('budget_reached without a sentence still names the date: the first of next month in India', () async {
+      api.answers.add(const ApiError(status: 503, kind: ApiErrorKind.unavailable, code: 'budget_reached', details: {'charged': 0}));
+      await begin();
+      expect(failed().message, 'Repairs are paused until 1 November. You were not charged.');
+    });
+
+    test('paused is the one that turns the rest of the run into key reviews, without more calls', () async {
+      api.answers.add(const ApiError(status: 503, kind: ApiErrorKind.unavailable, code: 'paused', details: {'charged': 0}));
+      await begin();
+      expect((state().current!.outcome! as OutcomeKeyReview).reason, KeyReviewReason.paused);
+      expect(state().keyOnly, isTrue);
+      run().next();
+      await settle();
+      expect(api.calls, hasLength(1));
+      expect(state().current!.outcome, isA<OutcomeKeyReview>());
+    });
+
+    test('a failure that did not say charged: 0 keeps the id (in_progress)', () async {
+      api.answers.add(const ApiError(status: 409, kind: ApiErrorKind.conflict, code: 'in_progress'));
+      await begin();
+      expect(failed().failure, RepairFailure.inProgress);
+      await run().retry();
+      await settle();
+      expect(api.calls[1].$2, api.calls[0].$2);
+    });
+
+    test('a second failure after the fresh id gets another fresh id, never the released one', () async {
+      api.answers
+        ..add(unavailable)
+        ..add(timeout);
+      await begin();
+      await run().retry();
+      await settle();
+      await run().retry();
+      await settle();
+      expect(api.calls, hasLength(3));
+      expect({api.calls[0].$2, api.calls[1].$2, api.calls[2].$2}, hasLength(3));
+      expect(state().current!.outcome, isA<OutcomeExplained>());
+    });
+
+    test('a reopened repair that fails with charged: 0 leaves its record alone', () async {
+      final repo = container.read(repairLocalRepositoryProvider);
+      await repo.recordOutcome(attemptId: 'm7', questionId: 'm7-q0', status: RepairLocalStatus.explained, requestId: 'req-original-0000000');
+      final before = await local('m7-q0');
+      await settle();
+      api.answers.add(unavailable);
+      await begin();
+      expect(failed().failure, RepairFailure.providerUnavailable);
+      final after = await local('m7-q0');
+      expect(after!.status, RepairLocalStatus.explained);
+      expect(after.requestId, before!.requestId);
+    });
   });
 
   test('not_a_mistake removes the step quietly and moves on', () async {

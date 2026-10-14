@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
+import '../../../core/copy/formatters.dart' show formatDayMonth;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/repair.dart';
@@ -12,6 +13,7 @@ import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../rhythm/rhythm.dart' show Celebration, CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
+import '../copy.dart';
 import 'mistake_index.dart';
 import 'repair_api.dart';
 import 'repair_state.dart';
@@ -89,7 +91,9 @@ class RepairRun extends Notifier<RepairRunState?> {
     unawaited(_loadCurrent());
   }
 
-  /// Calls the repair again for the current mistake (same `requestId`).
+  /// Calls the repair again for the current mistake. The `requestId` is the one stored for it: the
+  /// same one after a dropped connection or a timeout (the server charges once per id), a fresh one
+  /// after a failure the server answered with `charged: 0` (see [_call]).
   Future<void> retry() => _loadCurrent();
 
   /// Shows the key explanation for the current mistake instead of an AI explanation.
@@ -245,7 +249,19 @@ class RepairRun extends Notifier<RepairRunState?> {
         final fresh = await _repo.requestIdFor(attemptId, qid);
         return _call(step, fresh, wasRepaired: wasRepaired, allowRelease: false);
       }
-      return _mapError(e);
+      final outcome = _mapError(e);
+      // `charged: 0` means the server released this request, so reusing its id would only answer
+      // `operation_released` and waste the student's next tap. Store a fresh id now; the retry
+      // reads it. A call with no answer (offline, a timeout) has no such body and keeps its id, so
+      // it can never be charged twice. A reopened repair never touches its record.
+      if (outcome is OutcomeFailed && e.chargedNothing && !wasRepaired) {
+        try {
+          await _repo.release(attemptId, qid);
+        } on Object {
+          // The failure still shows; the retry then falls back to one `operation_released` round trip.
+        }
+      }
+      return outcome;
     }
   }
 
@@ -261,14 +277,26 @@ class RepairRun extends Notifier<RepairRunState?> {
     }
     if (e.hasCode(ApiCodes.inProgress)) return const OutcomeFailed(RepairFailure.inProgress);
     if (e.isRateLimited) return const OutcomeFailed(RepairFailure.rateLimited);
+    // A repair that ran out of time on the server, or one the app stopped waiting for: not "offline".
+    if (e.hasCode(ApiCodes.providerTimeout) || e.kind == ApiErrorKind.timeout) return const OutcomeFailed(RepairFailure.tookTooLong);
+    // Each of these keeps the run going; the server's own sentence says what happened to the credit.
+    if (e.hasCode(ApiCodes.budgetReached)) {
+      return OutcomeFailed(RepairFailure.budgetReached, message: e.serverMessage ?? ReviewCopy.repairsPausedUntil(_nextBudgetMonth()));
+    }
+    if (e.hasCode(ApiCodes.walletUnavailable)) return OutcomeFailed(RepairFailure.walletUnavailable, message: e.serverMessage);
+    if (e.hasCode(ApiCodes.providerUnavailable)) return OutcomeFailed(RepairFailure.providerUnavailable, message: e.serverMessage);
     if (e.isOffline) return const OutcomeFailed(RepairFailure.offline);
     return switch (e.kind) {
       ApiErrorKind.notFound => const OutcomeFailed(RepairFailure.notFound),
       ApiErrorKind.validation => const OutcomeFailed(RepairFailure.cannotRepair),
-      ApiErrorKind.server || ApiErrorKind.unavailable => const OutcomeFailed(RepairFailure.unavailable),
+      ApiErrorKind.server || ApiErrorKind.unavailable => OutcomeFailed(RepairFailure.unavailable, message: e.serverMessage),
       _ => const OutcomeFailed(RepairFailure.unknown),
     };
   }
+
+  /// "1 November": the first day of the next month in India, when the monthly student-AI budget
+  /// resets. Only used when a `budget_reached` answer arrives without its own sentence.
+  String _nextBudgetMonth() => repairBudgetResetLabel(ref.read(nowProvider)());
 
   Future<void> _keyReview(KeyReviewReason reason) async {
     final s = state;
@@ -301,6 +329,14 @@ class RepairRun extends Notifier<RepairRunState?> {
     if (s.index >= steps.length) return finish();
     unawaited(_loadCurrent());
   }
+}
+
+/// "1 November": the first day of the month after [now] on the Indian calendar, when the monthly
+/// student-AI budget resets (the server counts its month in IST, `nextMonthStart` in
+/// `data/repair_failures.js`).
+String repairBudgetResetLabel(DateTime now) {
+  final ist = now.toUtc().add(const Duration(hours: 5, minutes: 30));
+  return formatDayMonth(DateTime.utc(ist.year, ist.month + 1));
 }
 
 final repairRunProvider = NotifierProvider.family<RepairRun, RepairRunState?, String>(RepairRun.new);
