@@ -12,7 +12,7 @@ export default function StudyProgress({ review = false }) {
   return <section className="study-record" aria-label={review ? 'Cards to review' : 'Study record'}>
     <h2>{review ? (due ? `${due} ${due === 1 ? 'card is' : 'cards are'} due for review` : 'Your lessons and reviews') : 'Your study record'}</h2>
     <div className="study-facts"><span><b>{record.progress.lessonsRead}</b> of {record.progress.lessonsAvailable} lessons read</span><span><b>{record.progress.cardsStarted}</b> cards in review</span><span><b>{record.progress.recallReviews}</b> recall answers</span></div>
-    <p>Lessons and recall keep ideas fresh. Marks come only from practice and mocks, so they are recorded separately; a recall rating schedules the next review and does not certify mastery.</p>
+    <p>Lessons and recall keep ideas fresh. Marks come only from practice and mocks, so they are recorded separately; a recall rating only schedules the next review.</p>
     {record.active ? <Link className="study-button" href={`/study/${record.active.id}`}>Continue your saved {record.active.mode === 'learn' ? 'lesson' : 'review'}</Link> : null}
     <Link className="study-button" href={record.queue.availableCount ? '/learn?recall=due' : '/learn'}>{record.queue.availableCount ? (due ? 'Review due cards' : 'Lock in new cards') : 'Open Learn'}</Link>
   </section>;

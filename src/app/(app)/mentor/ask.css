@@ -1,0 +1,7 @@
+/* Ask about your record (PrepOS), web redesign W2.4. The page head is the kit PageHead in
+   page.js; the assistant (components/ai/MockMobAIHub.jsx) still renders its older ArenaHead as
+   its first child on the full page, so that one is hidden here. Remove this rule once the hub
+   stops rendering its own head. */
+.app-shell .askx > .pr-head { display: none; }
+/* Line up with the assistant, which is centred at max-w-4xl (56rem). */
+.askx > .ui-pagehead { width: 100%; max-width: 56rem; margin-inline: auto; margin-bottom: var(--mm-space-s24); }

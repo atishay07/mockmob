@@ -132,7 +132,7 @@ export default function LearningNextAction({ compact = false }) {
           <div className="na__body na-sk na-sk--compact" role="status" aria-label="Loading your next step"><i className="na-sk__eyebrow" /><i className="na-sk__line" /><i className="na-sk__line na-sk__line--short" /></div>
         ) : (
           <>
-            <div className="na__body"><span className="na__eyebrow">Your next step</span><b className="na__title">{plan.primary.title}</b><p className="na__reason">{plan.primary.reason}</p>
+            <div className="na__body"><b className="na__title">{plan.primary.title}</b><p className="na__reason">{plan.primary.reason}</p>
               {stale ? <span className="na__age" role={announce}>{refreshFailed ? <>{age}. It could not be updated. <button type="button" className="pr-link" onClick={retry}>Try again</button></> : `${age}. Updating now.`}</span> : null}
             </div>
             <Link className="btn-volt md na__cta" href={plan.primary.href}>Start</Link>

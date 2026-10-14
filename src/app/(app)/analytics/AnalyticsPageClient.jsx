@@ -1,125 +1,145 @@
 "use client";
 
-// Radar: where the student's marks are going. The record view (ledger, leaks, chapters, changed
-// answers, pace, week on week) is the same free, model-free analysis PrepOS uses, so the two never
-// disagree. The score trend keeps the attempt-level chart. No invented composite scores.
-import React, { useEffect, useMemo, useState } from 'react';
+// Weak chapters (Radar): where the student's marks are going. The record view (ledger, leaks,
+// chapters, changed answers, pace, week on week) is the same free, model-free analysis that Ask
+// uses, so the two never disagree. Beside it, the score by session as plain bars (no chart
+// library: it themes with the tokens and costs nothing on a budget phone) and the subjects.
+// No invented composite scores; every figure names its sample. Web redesign W2.4.
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
+import { useRouter } from 'next/navigation';
 import { apiGet } from '@/lib/fetcher';
-import LearningNextAction from '@/components/LearningNextAction';
+import { PageHead } from '@/components/ui/PageHead';
+import { EmptyState, ErrorState, OfflineState } from '@/components/ui/Skeleton';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { AppIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { RecordSkeleton, looksOffline } from '../review/RecordParts';
+import { radarLead, radarStage, subjectLine, trendBars, trendCaption } from './radarModel.mjs';
+import './radar.css';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
-
-// Chart.js paints on a canvas, so it cannot read CSS variables. Read the live Arena tokens and
-// re-read when the theme switches.
-function useChartColors() {
-  const [colors, setColors] = useState({ ink: '#93a08f', line: 'rgba(244,245,240,0.08)', accent: '#d2f000' });
-  useEffect(() => {
-    const read = () => {
-      const s = getComputedStyle(document.documentElement);
-      const pick = (name, fallback) => s.getPropertyValue(name).trim() || fallback;
-      setColors({ ink: pick('--a-ink-3', '#93a08f'), line: pick('--a-line', 'rgba(244,245,240,0.08)'), accent: pick('--a-accent-text', '#d2f000') });
-    };
-    const t = window.setTimeout(read, 0);
-    window.addEventListener('mm-theme', read);
-    return () => { window.clearTimeout(t); window.removeEventListener('mm-theme', read); };
-  }, []);
-  return colors;
+function ScoreBars({ timeline, now }) {
+  const bars = trendBars(timeline, { now });
+  if (bars.length < 2) return <p className="rdr-quiet">{trendCaption(timeline)}</p>;
+  return (
+    <figure className="rdr-trend">
+      <ol className="rdr-bars" aria-label="Score by session, oldest first">
+        {bars.map((b) => (
+          <li key={b.key} data-latest={b.latest ? 'true' : undefined} style={{ '--rdr-h': `${b.height}%` }}>
+            <span className="rdr-bar" aria-hidden="true" title={`${b.label}: ${b.score}%`} />
+            {b.latest ? <span className="rdr-bar__value" aria-hidden="true">{b.score}%</span> : null}
+            <span className="sr-only">{b.label}: {b.score}%</span>
+          </li>
+        ))}
+      </ol>
+      <figcaption>{trendCaption(timeline)}</figcaption>
+    </figure>
+  );
 }
 
 export default function AnalyticsPageClient() {
+  const router = useRouter();
   const { user, status: authStatus } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [now] = useState(() => Date.now());
   const record = useInsights(user?.id);
-  const colors = useChartColors();
   const pro = Boolean(user?.isPremium);
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return undefined;
     let alive = true;
-    apiGet(`/api/analytics?userId=${user.id}`).then((d) => { if (alive) setData(d); }).catch((e) => { if (alive) setError(e.message); });
+    apiGet(`/api/analytics?userId=${encodeURIComponent(user.id)}`)
+      .then((d) => { if (alive) { setData(d); setError(null); } })
+      .catch((e) => { if (alive) setError({ offline: looksOffline(e) }); });
     return () => { alive = false; };
   }, [user, authStatus, retryCount]);
 
-  const lineData = useMemo(() => data && ({
-    labels: data.timeline.map((t) => t.test),
-    datasets: [{ label: 'Score %', data: data.timeline.map((t) => t.score), borderColor: colors.accent, backgroundColor: 'transparent', borderWidth: 2, pointBackgroundColor: colors.accent, pointRadius: 3, fill: false, tension: 0.35 }],
-  }), [data, colors]);
-  const lineOptions = useMemo(() => ({
-    responsive: true, maintainAspectRatio: false,
-    scales: {
-      y: { min: 0, max: 100, grid: { color: colors.line }, ticks: { color: colors.ink, callback: (v) => `${v}%` }, border: { display: false } },
-      x: { grid: { display: false }, ticks: { color: colors.ink, maxTicksLimit: 6 }, border: { display: false } },
-    },
-    plugins: { legend: { display: false } },
-  }), [colors]);
+  const totals = data?.totals;
+  const questions = totals ? (totals.correct || 0) + (totals.wrong || 0) + (totals.unattempted || 0) : 0;
+  const sessions = data?.totalAttempts || 0;
+  const stage = radarStage(sessions);
+  const lead = useMemo(() => radarLead({ totalAttempts: sessions, questions, device: data?.scoring?.device || 0 }), [sessions, questions, data]);
+  const retry = () => { setData(null); setError(null); setRetryCount((n) => n + 1); };
 
-  if (error) return <div className="container-std pt-8"><ErrorState message={error} onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
-  if (authStatus === 'loading' || !data) {
+  const head = (
+    <PageHead
+      title="Weak chapters"
+      lead={lead}
+      actions={stage === 'cold' ? null : (
+        <Link href="/mentor?tab=ask" className="ui-btn ui-btn--secondary btn-outline ui-btn--sm">
+          <AppIcon name="prepos" size={18} /><span className="ui-btn__label">Ask about your record</span>
+        </Link>
+      )}
+    />
+  );
+
+  if (error) {
     return (
-      <div className="container-std pb-20">
-        <div className="mb-8"><div className="eyebrow mb-2">Radar</div><div className="h-10 w-72 skeleton mb-2" /></div>
-        <SkeletonCard className="h-[200px]" lines={5} />
+      <div className="rdr">
+        {head}
+        {error.offline
+          ? <OfflineState message="Your weak chapters load again once you are back online." onRetry={retry} />
+          : <ErrorState title="Your record did not load" message="Your sessions are safe. Try again in a moment." onRetry={retry} />}
+      </div>
+    );
+  }
+  if (authStatus === 'loading' || !data) return <div className="rdr">{head}<RecordSkeleton label="Loading your weak chapters" rows={4} /></div>;
+
+  if (stage === 'cold') {
+    return (
+      <div className="rdr">
+        {head}
+        <EmptyState
+          title="Weak chapters show after your first session"
+          message="Radar needs real answers to read. Finish one practice session and it starts showing where marks are being lost."
+          actionLabel="Start practice"
+          onAction={() => router.push('/dashboard')}
+        />
       </div>
     );
   }
 
-  const { timeline, subjects, totalAttempts, totals } = data;
-  const totalQ = totals.correct + totals.wrong + totals.unattempted;
+  const subjects = Array.isArray(data.subjects) ? data.subjects : [];
 
   return (
-    <div className="rd view">
-      <header className="rd-head">
-        <div>
-          <div className="eyebrow">Radar</div>
-          <h1 className="display-md">Where your marks are going</h1>
-          <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
-        </div>
-        <Link href="/mentor?tab=ask" className="rd-ask"><AppIcon name="prepos" size={18} />Ask PrepOS about your record</Link>
-      </header>
+    <div className="rdr">
+      {head}
+      {stage === 'thin' ? (
+        <p className="rdr-thin" role="note">
+          <StatusIcon kind="info" size={16} />
+          <span>{sessions === 1 ? 'One session is a start, not a pattern.' : 'Two sessions are a start, not a pattern.'} Chapters firm up after a few more sessions.</span>
+        </p>
+      ) : null}
 
-      <LearningNextAction compact />
-
-      <div className="rd-cols">
-        <div className="pp-arena rd-main">
-          <RecordView state={record} pro={pro} onNavigate={(href) => { window.location.assign(href); }} />
+      <div className="rdr-cols">
+        <div className="pp-arena rdr-main">
+          <RecordView state={record} pro={pro} onNavigate={(href) => router.push(href)} />
         </div>
 
-        <aside className="rd-side">
-          <section className="rd-card" aria-labelledby="rd-trend">
-            <h2 id="rd-trend">Score by session</h2>
-            <div className="rd-chart">
-              {timeline.length > 1
-                ? <Line data={lineData} options={lineOptions} aria-label="Score by session" role="img" />
-                : <p className="pr-empty">{timeline.length === 0 ? 'Finish a session to start your trend.' : 'One more session and the trend line appears.'}</p>}
-            </div>
-            {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions. Each session is a different set of questions, so read it as a rough guide.</p>}
+        <aside className="rdr-side" aria-label="Scores and subjects">
+          <section className="rdr-block" aria-labelledby="rdr-trend">
+            <h2 id="rdr-trend">Score by session</h2>
+            <ScoreBars timeline={data.timeline} now={now} />
           </section>
 
-          {subjects.length > 0 && (
-            <section className="rd-card" aria-labelledby="rd-subj">
-              <h2 id="rd-subj">By subject</h2>
-              <ul className="rd-subjects">
+          {subjects.length > 0 ? (
+            <section className="rdr-block" aria-labelledby="rdr-subjects">
+              <h2 id="rdr-subjects">By subject</h2>
+              <ul className="rdr-subjects">
                 {subjects.map((s) => (
                   <li key={s.id}>
-                    <span className="rd-subjects__icon"><SubjectIcon id={s.id} size={16} /></span>
-                    <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'} · avg {s.avg}%</i></span>
-                    <span className="rd-subjects__acc" aria-label={`${s.accuracy}% accuracy`}>{s.accuracy}%</span>
+                    <span className="rdr-subjects__icon" aria-hidden="true"><SubjectIcon id={s.id} size={18} /></span>
+                    <span className="rdr-subjects__name"><b>{s.name}</b><span>{subjectLine(s)}</span></span>
+                    <span className="rdr-subjects__acc"><b>{s.accuracy}%</b><span>right</span></span>
                   </li>
                 ))}
               </ul>
-              <Link href={`/admission-compass`} className="rd-link">Where can these subjects take you? <AppIcon name="compass" size={16} /></Link>
+              <Link href="/admission-compass" className="rdr-link"><AppIcon name="compass" size={16} />See which DU courses these subjects open</Link>
             </section>
-          )}
+          ) : null}
         </aside>
       </div>
     </div>
