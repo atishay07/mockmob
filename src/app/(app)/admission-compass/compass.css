@@ -1,0 +1,42 @@
+/* DU Compass page frame, web redesign W2.4. Tokens only; prefix cmpx-. The calculator and
+   Compass Pro keep their own styles (du.css, arena.css). Selectors carry .cmpx so they win over
+   the older .app-shell .cmp-* rules whichever stylesheet loads first. */
+.cmpx { padding-bottom: var(--mm-space-s48); }
+.cmpx .cmpx-head { display: grid; gap: var(--mm-space-s24); align-items: end; }
+.cmpx .cmpx-head > .ui-pagehead { margin-bottom: 0; }
+@media (min-width: 1000px) { .cmpx .cmpx-head { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 40px; } }
+
+/* What Compass checks: three plain lines on hairlines, no numbers, no card. */
+.cmpx .cmpx-guide { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--mm-line); }
+.cmpx .cmpx-guide li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--mm-space-s12); align-items: start; padding: var(--mm-space-s12) 0; border-bottom: 1px solid var(--mm-line); }
+.cmpx .cmpx-guide svg { margin-top: 2px; color: var(--mm-ink-2); }
+.cmpx .cmpx-guide span { display: grid; gap: 2px; font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body); color: var(--mm-ink-3); }
+.cmpx .cmpx-guide b { font: 600 15px/1.35 var(--mm-font-body); color: var(--mm-ink); }
+
+.cmpx .cmpx-note {
+  display: flex;
+  gap: var(--mm-space-s8);
+  align-items: flex-start;
+  margin: 0;
+  max-width: 80ch;
+  font: var(--mm-type-small-weight) var(--mm-type-small-size)/var(--mm-type-small-line) var(--mm-font-body);
+  color: var(--mm-ink-2);
+}
+.cmpx .cmpx-note svg { flex-shrink: 0; margin-top: 2px; color: var(--mm-ink-3); }
+
+/* The practice bridge: a solid raised surface (no decorative volt wash). */
+.app-shell .cmpx .cmpx-bridge {
+  border-color: var(--mm-line);
+  border-radius: var(--mm-radius-panel);
+  background: var(--mm-raised);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-card);
+}
+.app-shell .cmpx .cmpx-bridge .cmp-bridge__icon { color: var(--mm-ink-2); background: var(--mm-sunken); border-color: transparent; }
+.app-shell .cmpx .cmpx-bridge b { font: var(--mm-type-card-title-weight) var(--mm-type-card-title-size)/var(--mm-type-card-title-line) var(--mm-font-body); }
+.app-shell .cmpx .cmpx-bridge a { color: var(--mm-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--mm-line-strong); }
+
+.app-shell .cmpx .cmpx-sources { border-radius: var(--mm-radius-small); background: transparent; border-color: var(--mm-line); }
+.app-shell .cmpx .cmpx-sources li { display: grid; gap: 2px; }
+.app-shell .cmpx .cmpx-sources li span { color: var(--mm-ink-3); font-size: 13px; }
+.app-shell .cmpx .cmpx-sources a { color: var(--mm-ink); text-decoration: underline; text-underline-offset: 3px; }
+.app-shell .cmpx .cmpx-sources summary:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; border-radius: 6px; }
