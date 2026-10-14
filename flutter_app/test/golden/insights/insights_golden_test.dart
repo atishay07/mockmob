@@ -17,6 +17,7 @@ import 'package:mockmob/features/insights/screens/stream_screen.dart';
 import 'package:mockmob/features/insights/widgets/entry_points.dart';
 import 'package:mockmob/features/insights/widgets/trend_chart.dart';
 
+import '../../helpers/golden_harness.dart' show settleImages;
 import '../../unit/insights/support/insights_fixtures.dart';
 import 'insights_golden_support.dart';
 
@@ -80,11 +81,13 @@ void main() {
   // The note flips below a dot near the top, and stays out of the heading above the chart.
   insightsGolden(
     'trend_picked_top',
-    () => Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_topSeries]))),
+    () => Builder(
+      builder: (context) => Scaffold(
+        backgroundColor: context.mmColors.ground,
+        body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_topSeries]))),
+      ),
     ),
-    size: const Size(384, 420),
+    size: const Size(384, 500),
     after: (tester) async {
       final chart = tester.getRect(find.byType(CustomPaint).last);
       // The last dot, at the top right of the plot.
@@ -102,7 +105,7 @@ void main() {
           body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_midSeries]))),
         ),
       ),
-      size: const Size(384, 420),
+      size: const Size(384, 500),
       after: (tester) async {
         final chart = tester.getRect(find.byType(CustomPaint).last);
         // The first dot sits at the left of the plot (after the marks scale), the last at the right.
@@ -116,6 +119,19 @@ void main() {
   insightsGolden('record_top', () => const InsightsScreen());
   insightsGolden('record_full_free', () => const InsightsScreen(), size: const Size(384, 3000));
   insightsGolden('record_full_pro', () => const InsightsScreen(), size: const Size(384, 3300), overrides: () => insightsOverrides(pro: true));
+  // The lower half of the page (pace, week, subjects), which the 3300 px frame above ends before.
+  insightsGolden(
+    'record_lower',
+    () => const InsightsScreen(),
+    size: const Size(384, 1180),
+    overrides: () => insightsOverrides(pro: true),
+    after: (tester) async {
+      await tester.drag(find.byType(ListView).first, const Offset(0, -9000));
+      await tester.pump(const Duration(seconds: 2));
+      // The subject art decodes on the real event loop.
+      await settleImages(tester);
+    },
+  );
   insightsGolden(
     'record_thin',
     () => const InsightsScreen(),
@@ -242,6 +258,26 @@ void main() {
 
   // ---- Ask ----
   insightsGolden('ask_start', () => const AskScreen());
+  insightsGolden('ask_start_full', () => const AskScreen(), size: const Size(384, 1020));
+  insightsGolden('ask_start_text130', () => const AskScreen(), size: const Size(384, 1300), textScale: 1.3);
+  insightsGolden(
+    'ask_pending',
+    () => const AskScreen(),
+    overrides: () => insightsOverrides(ask: const AskState(messages: [AskMessage.student('Explain Partnership: admission of a partner in simple words'), AskMessage.sending()])),
+  );
+  insightsGolden(
+    'ask_reply_followups',
+    () => const AskScreen(),
+    overrides: () => insightsOverrides(
+      ask: const AskState(messages: [
+        AskMessage.student('How is my week going?'),
+        AskMessage.reply(
+          'Last 7 days: 3 sessions, 40 questions, 128 net marks, 79% accuracy (likely range 66 to 88%). The week before: 2 sessions, 84 net marks.',
+          origin: AskOrigin.phone,
+        ),
+      ]),
+    ),
+  );
   insightsGolden(
     'ask_conversation',
     () => const AskScreen(),

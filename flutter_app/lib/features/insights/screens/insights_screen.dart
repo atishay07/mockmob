@@ -18,6 +18,7 @@ import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
 import '../widgets/insights_bits.dart';
+import '../widgets/motion_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
 import '../widgets/record_sections.dart';
@@ -156,7 +157,7 @@ class InsightsScreen extends ConsumerWidget {
     final ev = attempts == null ? null : RecordEvidence(attempts, now: ref.watch(nowProvider)());
     final series = trendSeries(attempts ?? const <Attempt>[]);
     final subjects = subjectLines(attempts ?? const <Attempt>[]);
-    const gap = SizedBox(height: MmSpace.group + MmSpace.s8);
+    const gap = SizedBox(height: MmSpace.group);
 
     VoidCallback? actionFor(Finding f) {
       // The chapter finding opens that chapter, not the whole subject.
@@ -171,21 +172,29 @@ class InsightsScreen extends ConsumerWidget {
 
     final head = <Widget>[
       LedgerHero(insights: v, evidence: ev?.ledger),
-      const SizedBox(height: MmSpace.s20),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: KeyButton.secondary(label: InsightsCopy.askKey, expanded: false, onPressed: () => context.push(InsightsPaths.ask)),
-      ),
+      const SizedBox(height: MmSpace.s12),
+      AskMobiStrip(onTap: () => context.push(InsightsPaths.ask)),
     ];
+    // A section reveals as it is built (the list builds lazily, so as it nears the viewport).
+    Widget section(String title, Widget child, {String? caption}) => RiseIn(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // A hairline and space set sections apart; only the hero and the lead finding are cards.
+            children: [Divider(height: 1, color: context.mmColors.line), const SizedBox(height: MmSpace.s24), SectionTitle(title, caption: caption), child],
+          ),
+        );
     final chapters = <Widget>[
       if (v.ranked.isNotEmpty || v.thin.isNotEmpty) ...[
         gap,
-        const SectionTitle(InsightsCopy.chaptersHeading, caption: InsightsCopy.chaptersCaption),
-        ChaptersSection(
-          ranked: v.ranked,
-          thin: v.thin,
-          pro: inputs.pro,
-          onPractise: (c) => context.push(InsightsPaths.practiseChapter(canonicalSubjectId(c.subject), c.chapter)),
+        section(
+          InsightsCopy.chaptersHeading,
+          ChaptersSection(
+            ranked: v.ranked,
+            thin: v.thin,
+            pro: inputs.pro,
+            onPractise: (c) => context.push(InsightsPaths.practiseChapter(canonicalSubjectId(c.subject), c.chapter)),
+          ),
+          caption: InsightsCopy.chaptersCaption,
         ),
       ],
     ];
@@ -194,14 +203,14 @@ class InsightsScreen extends ConsumerWidget {
     if (ev == null && inputs.attemptsPending) {
       return [
         ...head,
-        if (v.findings.isNotEmpty) ...[gap, const SectionTitle(InsightsCopy.findingsHeading), const _BlockSkeleton(height: 160)],
+        if (v.findings.isNotEmpty) ...[gap, const SectionTitle(InsightsCopy.findingsHeading), const _BlockSkeleton(height: 220)],
         gap,
         const SectionTitle(InsightsCopy.trendHeading),
-        const _BlockSkeleton(height: 210),
+        const _BlockSkeleton(height: 250),
         ...chapters,
         gap,
         const SectionTitle(InsightsCopy.subjectsHeading),
-        const _BlockSkeleton(height: 150),
+        const _BlockSkeleton(height: 170),
       ];
     }
 
@@ -231,34 +240,40 @@ class InsightsScreen extends ConsumerWidget {
       ...head,
       if (findings.isNotEmpty) ...[
         gap,
-        const SectionTitle(InsightsCopy.findingsHeading),
-        FindingsPanel(findings: findings, onAction: actionFor, evidence: (f) => ev.forFinding(f, v)),
+        section(
+          InsightsCopy.findingsHeading,
+          FindingsPanel(findings: findings, onAction: actionFor, evidence: (f) => ev.forFinding(f, v)),
+        ),
       ],
       if (series.isNotEmpty) ...[
         gap,
-        const SectionTitle(InsightsCopy.trendHeading),
-        TrendSection(series: series),
+        section(InsightsCopy.trendHeading, TrendSection(series: series)),
       ],
       ...chapters,
       if (showChanges) ...[
         gap,
-        const SectionTitle(InsightsCopy.changesHeading),
-        if (inputs.pro) ChangesSection(changes: c, evidence: ev.changes) else const ProRow(InsightsCopy.proChanges),
+        section(
+          InsightsCopy.changesHeading,
+          inputs.pro ? ChangesSection(changes: c, evidence: ev.changes) : const ProRow(InsightsCopy.proChanges),
+        ),
       ],
       if (showPace) ...[
         gap,
-        const SectionTitle(InsightsCopy.paceHeading),
-        if (inputs.pro) PaceSection(pace: p, evidence: ev.pace) else const ProRow(InsightsCopy.proPace),
+        section(
+          InsightsCopy.paceHeading,
+          inputs.pro ? PaceSection(pace: p, evidence: ev.pace) : const ProRow(InsightsCopy.proPace),
+        ),
       ],
       if (showWeek) ...[
         gap,
-        const SectionTitle(InsightsCopy.weekHeading),
-        WeekSection(thisWeek: v.thisWeek, lastWeek: v.lastWeek, activeDays: v.activeDaysLast14, evidence: ev.lastTwoWeeks),
+        section(
+          InsightsCopy.weekHeading,
+          WeekSection(thisWeek: v.thisWeek, lastWeek: v.lastWeek, activeDays: v.activeDaysLast14, evidence: ev.lastTwoWeeks, now: ev.now),
+        ),
       ],
       if (subjects.isNotEmpty) ...[
         gap,
-        const SectionTitle(InsightsCopy.subjectsHeading),
-        SubjectsSection(lines: subjects),
+        section(InsightsCopy.subjectsHeading, SubjectsSection(lines: subjects)),
       ],
     ];
   }
@@ -319,12 +334,13 @@ class _RecordSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Skeleton.line(width: 220),
+            // The hero card: the figure, then the sheet of bubbles.
+            Skeleton(height: 400, radius: MmRadius.panel),
             SizedBox(height: MmSpace.s12),
-            Skeleton(width: 180, height: 88),
-            SizedBox(height: MmSpace.s16),
-            Skeleton(height: 14, radius: 7),
+            Skeleton(height: 64, radius: MmRadius.key),
             SizedBox(height: MmSpace.group),
+            Skeleton.line(width: 180),
+            SizedBox(height: MmSpace.s12),
             Skeleton(height: 220, radius: MmRadius.panel),
           ],
         ),

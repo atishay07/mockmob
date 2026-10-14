@@ -35,6 +35,40 @@ class EvidencePill extends StatelessWidget {
   }
 }
 
+/// The quiet form of Show me for a row inside a group: the line that says what the row rests on
+/// is itself the way in ("Based on 9 questions" and a chevron), so a section carries one pill and
+/// its other rows carry none.
+class BasisLink extends StatelessWidget {
+  const BasisLink({super.key, required this.text, required this.attempts, required this.what});
+
+  final String text;
+  final List<Attempt> attempts;
+  final String what;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink3);
+    if (attempts.isEmpty) return Text(text, style: style);
+    return MmPressable(
+      semanticsLabel: '$text. ${InsightsCopy.showMeSessions(attempts.length)}',
+      focusRadius: MmRadius.smallAll,
+      onTap: () => openEvidence(context, attempts, what: what),
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(child: Text(text, style: style.copyWith(color: pressed ? colors.ink : colors.ink2))),
+            const SizedBox(width: MmSpace.s4),
+            Icon(LucideIcons.chevronRight, size: 14, color: colors.ink3),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Opens the sessions behind a claim.
 void openEvidence(BuildContext context, List<Attempt> attempts, {required String what}) {
   if (attempts.isEmpty) return;
