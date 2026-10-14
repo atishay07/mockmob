@@ -16,6 +16,7 @@ import 'mobi_rig.dart';
 class MobiSim {
   MobiSim({int seed = 7, MobiStance stance = MobiStance.stand})
       : _rand = math.Random(seed),
+        _fidgetRand = math.Random(seed * 31 + 5),
         _stance = stance {
     _stanceRig = MobiMoves.stance(stance);
     _rig = _stanceRig;
@@ -30,12 +31,16 @@ class MobiSim {
     _blinkWait = 1.6 + _rand.nextDouble() * 2.0;
     _glanceWait = 4.5 + _rand.nextDouble() * 4.0;
     _beatWait = 2.4 + _rand.nextDouble() * 1.6;
+    _fidgetWait = 9 + _fidgetRand.nextDouble() * 6;
   }
 
   /// How long the loading scan runs before it settles into quiet thinking beats.
   static const double loadingScanFor = 12;
 
   final math.Random _rand;
+
+  /// A separate stream for fidgets, so adding them left every other beat's timing unchanged.
+  final math.Random _fidgetRand;
 
   MobiStance _stance;
   late MobiRig _stanceRig;
@@ -76,6 +81,12 @@ class MobiSim {
   double _beatT = -1;
   double _beatWait = 0;
 
+  // Fidgets: now and then, standing at ease, a small beat of personality (a smile at the
+  // student, a weight shift with a toe tap, an antenna flick).
+  double _fidgetT = -1;
+  double _fidgetWait = 0;
+  int _fidget = 0;
+
   // A tap on Mobi.
   double _boopT = -1;
   double _boopSide = 1;
@@ -107,6 +118,7 @@ class MobiSim {
       _blinkT >= 0 ||
       _glanceT >= 0 ||
       _beatT >= 0 ||
+      _fidgetT >= 0 ||
       _boopT >= 0 ||
       _attendLeft > 0 ||
       _scanning ||
@@ -131,12 +143,14 @@ class MobiSim {
         MobiStance.point || MobiStance.read || MobiStance.loading || MobiStance.sleep => false,
       };
   bool get _beats => _stance == MobiStance.listen;
+  bool get _fidgets => _stance == MobiStance.stand;
 
   /// Seconds until the next idle beat.
   double get idleWait {
     var w = math.min(_breathWait, _blinkWait);
     if (_glances) w = math.min(w, _glanceWait);
     if (_beats) w = math.min(w, _beatWait);
+    if (_fidgets) w = math.min(w, _fidgetWait);
     return math.max(0, w);
   }
 
@@ -146,6 +160,7 @@ class MobiSim {
     _blinkWait -= seconds;
     _glanceWait -= seconds;
     _beatWait -= seconds;
+    _fidgetWait -= seconds;
     _holdT += seconds;
   }
 
@@ -165,6 +180,7 @@ class MobiSim {
     _breathT = -1;
     _glanceT = -1;
     _beatT = -1;
+    _fidgetT = -1;
   }
 
   /// Talks for [seconds] on top of whatever Mobi is doing.
@@ -356,7 +372,7 @@ class MobiSim {
     if (_glances) {
       if (_glanceT < 0) {
         _glanceWait -= h;
-        if (_glanceWait <= 0 && !quiet && _attendLeft <= 0 && _lookTarget == null && _talkW == 0) {
+        if (_glanceWait <= 0 && !quiet && _attendLeft <= 0 && _lookTarget == null && _talkW == 0 && _fidgetT < 0) {
           _glanceT = 0;
           _glanceDur = 0.7 + _rand.nextDouble() * 0.9;
           final side = _rand.nextBool() ? 1.0 : -1.0;
@@ -400,6 +416,29 @@ class MobiSim {
       }
     } else {
       _beatT = -1;
+    }
+
+    // Fidgets, standing at ease only, never over an act, a line, a look or a glance.
+    if (_fidgets) {
+      if (_fidgetT < 0) {
+        _fidgetWait -= h;
+        if (_fidgetWait <= 0) {
+          if (!quiet && _talkW == 0 && _attendLeft <= 0 && _lookTarget == null && _glanceT < 0) {
+            _fidgetT = 0;
+            _fidget = _fidgetRand.nextInt(3);
+            _fidgetWait = 12 + _fidgetRand.nextDouble() * 10;
+          } else {
+            _fidgetWait = 1.5;
+          }
+        }
+      }
+      if (_fidgetT >= 0) {
+        _fidgetT += h;
+        r = MobiMoves.fidget(_fidget, _fidgetT, r);
+        if (_fidgetT >= MobiMoves.fidgetLength) _fidgetT = -1;
+      }
+    } else {
+      _fidgetT = -1;
     }
 
     // Blink: a fast close, a short hold and a slower open; sometimes two. Never while asleep.

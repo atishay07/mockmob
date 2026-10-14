@@ -172,6 +172,30 @@ void main() {
       expect(sim.rig.squash.abs(), lessThan(0.03));
     });
 
+    test('standing at ease, Mobi fidgets now and then, and still rests between beats', () {
+      final sim = MobiSim(seed: 4);
+      var smiled = false, flashed = false, tapped = false;
+      var rested = false;
+      for (var i = 0; i < 60 * 90; i++) {
+        final r = sim.step(1 / 60);
+        if (r.eyeL.smile > 0.3) smiled = true;
+        if (r.glow > 0.3) flashed = true;
+        if (r.bootL.rot > 0.1) tapped = true;
+        if (!sim.busy) rested = true;
+      }
+      expect(smiled || flashed || tapped, isTrue, reason: 'at least one fidget in 90 s');
+      expect(rested, isTrue, reason: 'the ticker can still sleep between beats');
+    });
+
+    test('no fidgets while holding a stance', () {
+      final sim = MobiSim(seed: 4)..play(MobiAct.read);
+      for (var i = 0; i < 60 * 60; i++) {
+        final r = sim.step(1 / 60);
+        expect(r.eyeL.smile, lessThan(0.3));
+        expect(r.bootL.rot, lessThan(0.1));
+      }
+    });
+
     test('still deterministic for a seed', () {
       final a = MobiSim(seed: 5);
       final b = MobiSim(seed: 5);

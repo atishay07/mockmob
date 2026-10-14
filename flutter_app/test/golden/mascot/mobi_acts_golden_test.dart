@@ -53,6 +53,13 @@ void main() {
         ...framesOf(MobiAct.sleep, const [0.4, 1.2, 3.0]),
       ]));
   nightGolden(
+    'mobi_frames_fidgets',
+    () => MobiSheet(title: 'Idle fidgets', frames: [
+      for (final (kind, name) in const [(0, 'smile'), (1, 'shift'), (2, 'flick')])
+        for (final t in const [0.15, 0.5, 0.8]) ('$name ${(t * 1000).round()} ms', MobiMoves.fidget(kind, t, const MobiRig())),
+    ]),
+  );
+  nightGolden(
     'mobi_frames_wake',
     () => MobiSheet(
       title: 'Asleep, then a tap',

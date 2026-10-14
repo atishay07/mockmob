@@ -606,6 +606,47 @@ abstract final class MobiMoves {
     );
   }
 
+  /// How long a fidget lasts, in seconds.
+  static const double fidgetLength = 1.3;
+
+  /// A small idle beat at [t] seconds: 0 smiles at the student (eyes come to the middle, warm,
+  /// a small nod), 1 shifts its weight with a toe tap, 2 flicks the antenna with a dip and a
+  /// flash of the bulb.
+  static MobiRig fidget(int kind, double t, MobiRig b) {
+    switch (kind) {
+      case 0:
+        final w = ease(t, 0, 0.22, Curves.easeOut) * (1 - ease(t, 1.0, 1.3));
+        return b.copyWith(
+          lookX: b.lookX * (1 - w),
+          lookY: b.lookY * (1 - w),
+          eyeL: _eye(b.eyeL, smile: 0.62 * w),
+          eyeR: _eye(b.eyeR, smile: 0.62 * w),
+          y: b.y + 1.1 * bump(t, 0.2, 0.62),
+          tilt: b.tilt + 0.02 * bump(t, 0.1, 1.2),
+        );
+      case 1:
+        final shift = ease(t, 0, 0.4) * (1 - ease(t, 0.85, 1.3));
+        final tap = bump(t, 0.38, 0.62) + 0.8 * bump(t, 0.62, 0.84);
+        return b.copyWith(
+          x: b.x + 1.4 * shift,
+          tilt: b.tilt + 0.028 * shift,
+          squash: b.squash - 0.012 * shift,
+          bootL: b.bootL.copyWith(rot: b.bootL.rot + 0.2 * tap, dy: b.bootL.dy - 0.6 * tap),
+          lookX: b.lookX - 0.3 * shift,
+          lookY: b.lookY + 0.25 * shift,
+        );
+      default:
+        final dip = bump(t, 0, 0.16);
+        return b.copyWith(
+          y: b.y + 1.6 * dip - 0.9 * bump(t, 0.16, 0.4),
+          squash: b.squash - 0.03 * dip + 0.015 * bump(t, 0.16, 0.4),
+          glow: b.glow + 0.55 * bump(t, 0.1, 0.9),
+          lookX: b.lookX + 0.35 * bump(t, 0.12, 1.1),
+          lookY: b.lookY - 0.8 * bump(t, 0.12, 1.1),
+        );
+    }
+  }
+
   /// One listening nod (0.7 s) at [t].
   static MobiRig listenNod(double t, MobiRig b) => b.copyWith(
         y: b.y + 1.6 * bump(t, 0, 0.32) + 0.9 * bump(t, 0.32, 0.6),
