@@ -3,13 +3,22 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { Icon } from '@/components/ui/Icons';
+import { PublicHero, PageToc, PageClose, uniqueSlugs } from '@/components/PublicPage';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 
-// Read-mode surface inside a Persuade site: comprehension and wayfinding come
-// first, and the conversion rail sits at the end of the article rather than
-// interrupting it. `page.eyebrow` is deliberately not rendered.
+// The read-mode page for the CUET guides and subject hubs (web redesign W2.2). Comprehension and
+// wayfinding come first: a contents list beside the text on desktop, a measure of about 66
+// characters, and the closing panel at the end of the article rather than in the middle of it.
+// The closing panel is member-aware (a signed-in student sees Continue practice, not Start free);
+// the guest HTML is unchanged for crawlers. `page.eyebrow` is deliberately not rendered.
 export function SeoContentPage({ page }) {
+  const faqId = 'frequently-asked-questions';
+  const sectionIds = uniqueSlugs(page.sections.map((section) => section.heading));
+  const toc = [
+    ...page.sections.map((section, index) => ({ id: sectionIds[index], label: section.heading })),
+    { id: faqId, label: 'Frequently asked questions' },
+  ];
+
   return (
     <div className="mm">
       <JsonLd
@@ -30,84 +39,72 @@ export function SeoContentPage({ page }) {
       />
       <NavBar />
 
-      <main>
+      <main id="main-content">
         <article>
-          <header className="mm-article__head">
-            <div className="mm-wrap mm-wrap--tight">
+          <PublicHero
+            tone="read"
+            title={page.h1}
+            lead={page.intro}
+            crumbs={(
               <nav className="mm-crumbs" aria-label="Breadcrumb">
                 <Link href="/">Home</Link>
                 <span aria-hidden="true">/</span>
                 <span>{page.breadcrumb}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title">{page.h1}</h1>
-              <p className="mm-article__intro">{page.intro}</p>
-            </div>
-          </header>
+            )}
+          />
 
-          <div className="mm-wrap mm-wrap--tight mm-article">
-            {page.sections.map((section) => (
-              <section key={section.heading} className="mm-article__section">
-                <h2 className="mm-h2">{section.heading}</h2>
-                {section.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
+          <div className="mm-wrap">
+            <div className="pp-article">
+              <PageToc items={toc} />
 
-                {section.chips ? (
-                  <ul className="mm-article__chips">
-                    {section.chips.map((chip) => (
-                      <li key={chip}>{chip}</li>
-                    ))}
-                  </ul>
-                ) : null}
+              <div className="pp-prose">
+                {page.sections.map((section, sectionIndex) => {
+                  const id = sectionIds[sectionIndex];
+                  return (
+                    <section key={`${section.heading}-${sectionIndex}`} id={id} className="pp-prose__section" aria-labelledby={`${id}-heading`}>
+                      <h2 id={`${id}-heading`}>{section.heading}</h2>
+                      {section.body.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))}
 
-                {section.links ? (
-                  <div className="mm-article__links">
-                    {section.links.map((link) => (
-                      <Link key={link.href} href={link.href} className="mm-chip">
-                        {link.label}
-                        <Icon
-                          name="arrow"
-                          style={{ width: '14px', height: '14px' }}
-                          aria-hidden="true"
-                        />
-                      </Link>
+                      {section.chips ? (
+                        <ul className="pp-tags">
+                          {section.chips.map((chip, index) => (
+                            <li key={`${chip}-${index}`} className="ui-tag">{chip}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+
+                      {section.links ? (
+                        <div className="pp-links">
+                          {section.links.map((link) => (
+                            <Link key={link.href} href={link.href} className="pp-pill">
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+                      ) : null}
+                    </section>
+                  );
+                })}
+
+                <section id={faqId} className="pp-prose__section" aria-labelledby={`${faqId}-heading`}>
+                  <h2 id={`${faqId}-heading`}>Frequently asked questions</h2>
+                  <div className="mm-faqs">
+                    {page.faqs.map((faq) => (
+                      <details key={faq.question} className="mm-faq">
+                        <summary>{faq.question}</summary>
+                        <div className="mm-faq__body">{faq.answer}</div>
+                      </details>
                     ))}
                   </div>
-                ) : null}
-              </section>
-            ))}
-
-            <section className="mm-article__section">
-              <h2 className="mm-h2">Frequently asked questions</h2>
-              <div className="mm-faqs">
-                {page.faqs.map((faq) => (
-                  <details key={faq.question} className="mm-faq">
-                    <summary>{faq.question}</summary>
-                    <div className="mm-faq__body">{faq.answer}</div>
-                  </details>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <aside className="mm-close">
-            <div className="mm-wrap mm-wrap--tight">
-              <h2 className="mm-h2">Reading about it is not practice.</h2>
-              <p className="mm-body">
-                Create a free account and sit a timed mock on this syllabus tonight. No card, and
-                the first drill on the home page needs no signup at all.
-              </p>
-              <div className="mm-actions" style={{ marginTop: '1.75rem' }}>
-                <Link href="/signup" className="mm-btn mm-btn--primary">
-                  Start a free mock
-                  <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
-                </Link>
-                <Link href="/pricing" className="mm-btn mm-btn--secondary">
-                  See what Pro unlocks
-                </Link>
+                </section>
               </div>
             </div>
-          </aside>
+          </div>
+
+          <PageClose secondary={[{ href: '/pricing', label: 'See what Pro includes', hideForPro: true }]} />
         </article>
       </main>
 

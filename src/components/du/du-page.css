@@ -1,0 +1,51 @@
+/* The two DU tool pages (cutoff calculator, subject combination planner) on the Night Sheet tokens
+   (web redesign W2.2). Both pages load this file. It restyles the page around the tools (the head,
+   the notes, the sources, the questions) and leaves the tools themselves (components/du) alone.
+   No backdrop art: the old aurora, grid and dots are gone from the markup; the head is type and
+   space. Colour comes from the --mm-* roles, so Night and Daylight both read. */
+
+.du-page .du-hero { isolation: auto; padding-block: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 2.5vw, 2rem); }
+.du-page .du-hero__inner { gap: var(--mm-space-s20); }
+.du-page .du-title {
+  max-width: 24ch;
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-type-headline-size);
+  line-height: var(--mm-type-headline-line);
+  font-weight: var(--mm-type-headline-weight);
+  letter-spacing: var(--mm-type-headline-tracking);
+  font-stretch: 87%;
+  color: var(--mm-ink);
+}
+/* The second sentence is quieter, not a coloured word. */
+.du-page .du-title span { margin-top: 0.1em; color: var(--mm-ink-2); font-weight: 500; }
+.du-page .lp-lead { max-width: 56ch; color: var(--mm-ink-2); }
+.du-page .lp-trust { color: var(--mm-ink-3); }
+
+.du-page .du-info { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.du-page .du-info--band { border-block: 1px solid var(--mm-line); background: var(--mm-sunken); }
+.du-page .lp-h2 {
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-type-headline-size);
+  line-height: var(--mm-type-headline-line);
+  font-weight: var(--mm-type-headline-weight);
+  letter-spacing: var(--mm-type-headline-tracking);
+  font-stretch: 87%;
+  color: var(--mm-ink);
+}
+.du-page .lp-sub { color: var(--mm-ink-2); }
+.du-page .lp-h4 { font-family: var(--mm-font-body); font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.005em; color: var(--mm-ink); }
+.du-page .du-steps li { border-top-color: var(--mm-line); }
+.du-page .du-steps p { color: var(--mm-ink-2); }
+.du-page .du-sources a { border-color: var(--mm-line); background: var(--mm-raised); color: var(--mm-ink); }
+.du-page .du-sources em { color: var(--mm-ink-3); }
+@media (hover: hover) and (pointer: fine) {
+  .du-page .du-sources a:hover { border-color: var(--mm-ink-3); }
+}
+.du-page .du-sources a:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 3px; }
+.du-page .du-disclaimer { color: var(--mm-ink-3); }
+.du-page .du-disclaimer .lp-link { display: inline; min-height: 0; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-color: var(--mm-accent-text); }
+.du-page .du-info .mm-faqs { margin-top: var(--mm-space-s24); }
+
+@media print {
+  .du-page .pp-close, .du-page .mm-dock { display: none !important; }
+}

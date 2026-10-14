@@ -3,39 +3,44 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
+import { PublicHero } from '@/components/PublicPage';
+import { buttonClass } from '@/components/ui/Button';
 import { breadcrumbJsonLd, seoMetadata, siteConfig } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'Contact MockMob — Support and Payment Questions',
+  title: 'Contact MockMob: support and payment questions',
   description:
     'Contact MockMob for account help, payment questions, and reports about a practice question.',
   path: '/contact',
 });
 
+// Each lane is a different mail subject, so the message lands with the right context.
 const CHANNELS = [
   {
     title: 'Student support',
     body: 'Account access, mock issues, credits, or anything broken. Include the email you signed up with.',
-    subject: 'Support%20request',
+    action: 'Email support',
+    subject: 'Support request',
     note: 'Include the email on your account so we can find the right record.',
   },
   {
     title: 'Payments and refunds',
     body: 'Charged but access not active, duplicate payment, or a refund request. Include your Razorpay payment ID if you have it.',
-    subject: 'Payment%20issue',
+    action: 'Email about a payment',
+    subject: 'Payment issue',
     note: 'Include your Razorpay payment ID if you have it. Do not send card or bank credentials.',
   },
   {
     title: 'Report a wrong question',
     body: 'Spotted a possible answer-key or question issue? Send the question text or a screenshot so we can investigate it.',
-    subject: 'Question%20report',
-    note: 'Uncertain content is held until its evidence checks are complete.',
+    action: 'Report a question',
+    subject: 'Question report',
   },
   {
     title: 'Partnership enquiries',
     body: 'For school, institute, or creator enquiries, describe the idea and the audience you have in mind.',
+    action: 'Email about a partnership',
     subject: 'Partnership',
-    note: 'We will review the request and reply if there is a fit.',
   },
 ];
 
@@ -51,39 +56,37 @@ export default function ContactPage() {
       />
       <NavBar />
 
-      <main>
-        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
-          <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">Tell us what happened.</h1>
-            <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '48ch' }}>
-              No ticket walls, no chatbots pretending to help. Pick the lane that matches your
-              question so it lands with the right context.
-            </p>
-          </div>
-        </section>
+      <main id="main-content">
+        <PublicHero
+          enter
+          title="Tell us what happened."
+          lead="No ticket walls, no chatbots pretending to help. Pick the lane that matches your question so it lands with the right context."
+        />
 
-        <section className="mm-section">
-          <div className="mm-wrap mm-wrap--tight">
-            <ul className="mm-channels">
+        <section className="pp-section" style={{ paddingTop: 0 }} aria-label="Ways to reach us">
+          <div className="mm-wrap">
+            <ul className="pp-lanes">
               {CHANNELS.map((channel) => (
-                <li key={channel.title} className="mm-channel">
-                  <h2 className="mm-h3">{channel.title}</h2>
-                  <p className="mm-channel__body">{channel.body}</p>
+                <li key={channel.title} className="pp-lane">
+                  <div className="pp-lane__copy">
+                    <h2 className="pp-h3">{channel.title}</h2>
+                    <p className="pp-lane__body">{channel.body}</p>
+                    {channel.note ? <p className="pp-lane__note">{channel.note}</p> : null}
+                  </div>
                   <a
-                    className="mm-btn mm-btn--secondary mm-channel__cta"
-                    href={`mailto:${siteConfig.email}?subject=${channel.subject}`}
+                    className={buttonClass({ variant: 'secondary', size: 'lg' })}
+                    href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(channel.subject)}`}
                   >
-                    {siteConfig.email}
+                    {channel.action}
                   </a>
-                  <p className="mm-channel__note">{channel.note}</p>
                 </li>
               ))}
             </ul>
 
-            <p className="mm-small" style={{ marginTop: '2.5rem' }}>
-              You can also reach us on{' '}
+            <p className="pp-small" style={{ marginTop: '2rem', maxWidth: '64ch' }}>
+              Every lane goes to {siteConfig.email}. You can also reach us on{' '}
               <a
-                className="mm-link"
+                className="pp-link"
                 href="https://www.instagram.com/mockmob.in/"
                 target="_blank"
                 rel="noreferrer"
@@ -91,25 +94,16 @@ export default function ContactPage() {
                 Instagram
               </a>
               . For policy details, see{' '}
-              <Link href="/terms" className="mm-link">
-                Terms
-              </Link>
-              ,{' '}
-              <Link href="/privacy" className="mm-link">
-                Privacy
-              </Link>
-              , and{' '}
-              <Link href="/refunds" className="mm-link">
-                Refunds
-              </Link>
-              .
+              <Link href="/terms" className="pp-link">Terms</Link>,{' '}
+              <Link href="/privacy" className="pp-link">Privacy</Link>, and{' '}
+              <Link href="/refunds" className="pp-link">Refunds</Link>.
             </p>
           </div>
         </section>
       </main>
 
       <MarketingFooter />
-      <MobileDock note="Support replies within 24h." />
+      <MobileDock note="Questions? Email us." />
     </div>
   );
 }

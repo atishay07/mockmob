@@ -1,0 +1,109 @@
+/* Pricing on the Night Sheet tokens (web redesign W2.2). The plan cards and the comparison table keep
+   their markup (components/ui/PricingCard.jsx and page.js); this restyles them: Pro is the one lit
+   card (volt top edge, not a heavy ink border), the Free card is a plain raised card, the price is
+   Bricolage with condensed figures, and the comparison table loses its caps, its mono labels and
+   its inverted header. No colour carries state alone: every cell says Included or Not included. */
+
+.pp-pricing .mm-plans { gap: var(--mm-space-s16); }
+@media (min-width: 860px) { .pp-pricing .mm-plans { gap: var(--mm-space-s24); } }
+
+@media (min-width: 860px) { .pp-pricing .mm-plans { align-items: stretch; } }
+.pp-pricing .mm-plan {
+  --plan-pad: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-sheet);
+  background: var(--mm-raised);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-card);
+  padding: var(--plan-pad);
+}
+.pp-pricing .mm-plan[data-featured='true'] {
+  border-width: 1px;
+  border-color: var(--mm-line-strong);
+  box-shadow: inset 0 2px 0 var(--mm-volt), var(--mm-shadow-card);
+  padding-top: var(--plan-pad);
+}
+/* The flag sits level with the plan name, so the two cards start on the same line. */
+.pp-pricing .mm-plan__flag {
+  position: absolute;
+  top: var(--plan-pad);
+  right: var(--plan-pad);
+  left: auto;
+  margin: 0;
+  padding: 3px 10px;
+  border-radius: var(--mm-radius-pill);
+  background: var(--mm-volt-wash);
+  color: var(--mm-accent-text);
+  font: 600 var(--mm-type-label-size)/var(--mm-type-label-line) var(--mm-font-body);
+  letter-spacing: 0;
+}
+.pp-pricing .mm-plan__name { font: 650 1.125rem/1.3 var(--mm-font-body); color: var(--mm-ink-2); }
+.pp-pricing .mm-plan__price {
+  margin-top: var(--mm-space-s8);
+  font-family: var(--mm-font-display);
+  font-size: clamp(3rem, 2rem + 4vw, 4.25rem);
+  font-weight: 700;
+  font-stretch: 75%;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--mm-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pp-pricing .mm-plan__price span { font: 500 0.9375rem/1.2 var(--mm-font-body); font-stretch: 100%; letter-spacing: 0; color: var(--mm-ink-3); }
+.pp-pricing .mm-plan__desc { color: var(--mm-ink-2); }
+.pp-pricing .mm-plan__features { border-top-color: var(--mm-line); align-content: start; }
+.pp-pricing .mm-plan__features li { color: var(--mm-ink-2); }
+.pp-pricing .mm-plan__features li svg { color: var(--mm-ink-3); }
+.pp-pricing .mm-plan[data-featured='true'] .mm-plan__features li svg { color: var(--mm-accent-text); }
+.pp-pricing .mm-plan__footnote { color: var(--mm-ink-3); }
+
+/* Comparison table */
+.pp-pricing .mm-cmp { border: 1px solid var(--mm-line); border-radius: var(--mm-radius-panel); background: var(--mm-raised); box-shadow: var(--mm-shadow-card); }
+.pp-pricing .mm-cmp__group {
+  border-top-color: var(--mm-line);
+  background: var(--mm-sunken);
+  font: 650 0.9375rem/1.3 var(--mm-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--mm-ink-2);
+}
+.pp-pricing .mm-cmp__row { border-top-color: var(--mm-line); }
+/* The Compass rows are marked with a wash, not a thick side border. */
+.pp-pricing .mm-cmp__row[data-popular='true'] { background: var(--mm-volt-wash); box-shadow: none; }
+.pp-pricing .mm-cmp__row[data-popular='true'] + .mm-cmp__row[data-popular='true'] { border-top-color: var(--mm-line); }
+.pp-pricing .mm-cmp__feature { font: 600 0.9375rem/1.4 var(--mm-font-body); color: var(--mm-ink); }
+.pp-pricing .mm-cmp__row[data-popular='true'] .mm-cmp__feature { font-weight: 700; }
+.pp-pricing .mm-cmp__cell { color: var(--mm-ink-2); }
+.pp-pricing .mm-cmp__cell::before { font: 600 0.8125rem/1.2 var(--mm-font-body); letter-spacing: 0; text-transform: none; color: var(--mm-ink-3); }
+.pp-pricing .mm-cmp__yes { color: var(--mm-ink); }
+.pp-pricing .mm-cmp__yes svg { color: var(--mm-accent-text); }
+.pp-pricing .mm-cmp__no { color: var(--mm-ink-3); }
+@media (min-width: 760px) {
+  .pp-pricing .mm-cmp__head { background: var(--mm-sunken); color: var(--mm-ink-2); border-bottom: 1px solid var(--mm-line); }
+  .pp-pricing .mm-cmp__head > div { font: 650 0.9375rem/1.3 var(--mm-font-body); letter-spacing: 0; text-transform: none; }
+  .pp-pricing .mm-cmp__cell { border-left-color: var(--mm-line); }
+}
+
+/* PrepOS credits (/pricing/prepos): the wallet figures and the packs, when checkout is open */
+.pp-metrics { display: grid; gap: 0; margin: 0; border-block: 1px solid var(--mm-line); }
+@media (min-width: 720px) { .pp-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pp-metrics > div { display: grid; gap: var(--mm-space-s4); padding: var(--mm-space-s20) 0; border-top: 1px solid var(--mm-line); }
+.pp-metrics > div:first-child { border-top: 0; }
+@media (min-width: 720px) {
+  .pp-metrics > div { padding: var(--mm-space-s24); border-top: 0; border-left: 1px solid var(--mm-line); }
+  .pp-metrics > div:first-child { padding-left: 0; border-left: 0; }
+}
+.pp-metrics dt { font: 500 var(--mm-type-small-size)/1.3 var(--mm-font-body); color: var(--mm-ink-3); }
+.pp-metrics dd { margin: 0; font-family: var(--mm-font-display); font-size: var(--mm-type-figure-compact-size); line-height: 1; font-weight: 700; font-stretch: 75%; letter-spacing: -0.005em; color: var(--mm-ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.pp-packs { display: grid; gap: var(--mm-space-s16); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 860px) { .pp-packs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--mm-space-s24); align-items: stretch; } }
+.pp-packs > li { display: flex; min-width: 0; }
+.pp-pack.ui-surface { display: grid; align-content: start; gap: var(--mm-space-s12); width: 100%; }
+.pp-pack__top { display: flex; align-items: center; justify-content: space-between; gap: var(--mm-space-s8); min-height: 24px; }
+.pp-pack__top .pp-small { margin: 0; }
+.pp-pack__credits { margin: 0; font-family: var(--mm-font-display); font-size: var(--mm-type-title-size); line-height: 1.2; font-weight: 650; color: var(--mm-ink); }
+.pp-pack__desc { margin: 0; min-height: 3em; font: 400 0.9375rem/1.55 var(--mm-font-body); color: var(--mm-ink-2); }
+.pp-pack__price { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--mm-space-s12); padding-top: var(--mm-space-s16); border-top: 1px solid var(--mm-line); }
+.pp-pack__price > div { display: grid; gap: 2px; }
+.pp-pack__price strong { font-family: var(--mm-font-display); font-size: var(--mm-type-figure-compact-size); line-height: 1; font-weight: 700; font-stretch: 75%; color: var(--mm-ink); font-variant-numeric: tabular-nums; }
+.pp-pack__price .pp-small { margin: 0; text-align: right; }

@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavBar } from '@/components/NavBar';
-import { MarketingFooter } from '@/components/MarketingFooter';
+import { LegalPage } from '@/components/LegalPage';
 import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
@@ -9,58 +8,41 @@ export const metadata = seoMetadata({
   path: '/terms',
 });
 
+const SECTIONS = [
+  {
+    heading: 'Using MockMob',
+    body: ['MockMob is an exam preparation platform. You agree to use it for lawful study, practice, and community contribution purposes only.'],
+  },
+  {
+    heading: 'Accounts',
+    body: ['You are responsible for the accuracy of your account information and for activity under your account. Do not share login access, abuse credits, scrape content, or bypass premium restrictions.'],
+  },
+  {
+    heading: 'Community submissions',
+    body: ['When you upload questions or explanations, you confirm you have the right to share them and allow MockMob to review, edit, display, rank, remove, or use them to improve the question pool.'],
+  },
+  {
+    heading: 'Premium access',
+    body: ['Pro access unlocks premium features such as unlimited mocks, Radar, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.'],
+  },
+  {
+    heading: 'Exam affiliation',
+    body: ['MockMob is not affiliated with NTA, DU, CUET, or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.'],
+  },
+  {
+    heading: 'Misuse',
+    body: ['We may restrict or terminate access for spam, cheating, harassment, reverse engineering, payment abuse, harmful uploads, or attempts to compromise the platform.'],
+  },
+];
+
 export default function TermsPage() {
   return (
-    <div className="mm">
-      <NavBar />
-      <main className="container-narrow px-5 pb-20 pt-10">
-        <div className="eyebrow mb-3">{'// Legal'}</div>
-        <h1 className="display-lg mb-5">Terms of Service</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 2 October 2026</p>
-
-        <div className="legal-copy">
-          <section>
-            <h2>Using MockMob</h2>
-            <p>MockMob is an exam preparation platform. You agree to use it for lawful study, practice, and community contribution purposes only.</p>
-          </section>
-          <section>
-            <h2>Accounts</h2>
-            <p>You are responsible for the accuracy of your account information and for activity under your account. Do not share login access, abuse credits, scrape content, or bypass premium restrictions.</p>
-          </section>
-          <section>
-            <h2>Community submissions</h2>
-            <p>When you upload questions or explanations, you confirm you have the right to share them and allow MockMob to review, edit, display, rank, remove, or use them to improve the question pool.</p>
-          </section>
-          <section>
-            <h2>Premium access</h2>
-            <p>Pro access unlocks premium features such as unlimited mocks, Radar, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
-          </section>
-          <section>
-            <h2>Exam affiliation</h2>
-            <p>MockMob is not affiliated with NTA, DU, CUET, or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.</p>
-          </section>
-          <section>
-            <h2>Misuse</h2>
-            <p>We may restrict or terminate access for spam, cheating, harassment, reverse engineering, payment abuse, harmful uploads, or attempts to compromise the platform.</p>
-          </section>
-        </div>
-      </main>
-      <MarketingFooter />
-      <style>{`
-        .legal-copy {
-          display: grid;
-          gap: 22px;
-          color: var(--ink-2);
-          line-height: 1.8;
-        }
-        .legal-copy h2 {
-          color: var(--ink);
-          font-family: var(--font-display);
-          font-size: 22px;
-          font-weight: 800;
-          margin-bottom: 8px;
-        }
-      `}</style>
-    </div>
+    <LegalPage
+      current="terms"
+      title="Terms of service"
+      updated="2 October 2026"
+      updatedIso="2026-10-02"
+      sections={SECTIONS}
+    />
   );
 }
