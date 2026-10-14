@@ -151,7 +151,7 @@ abstract final class MobiMoves {
   static const MobiArm fist = MobiArm(angle: -0.72, bend: 1.2, front: 1, reach: 0.9, twist: -0.45);
 
   /// Mitten to chin.
-  static const MobiArm chin = MobiArm(angle: -0.8, bend: 1.1, front: 1, reach: 1.0, twist: -0.35);
+  static const MobiArm chin = MobiArm(angle: -1.3, bend: 1.3, front: 1, reach: 1.04, twist: -0.55);
 
   /// The resting rig of a stance. [pointAngle] and [pointSide] aim the pointing arm.
   static MobiRig stance(MobiStance s, {double pointAngle = 1.5, double pointSide = 1}) {

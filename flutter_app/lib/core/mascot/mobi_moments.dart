@@ -2,7 +2,7 @@ import 'mobi_acts.dart';
 
 /// What happened, in the student's day, that Mobi should react to. Screens name the moment;
 /// [MobiMoments.act] picks the act, so reactions stay consistent across the app.
-enum MobiMoment {
+enum MobiEvent {
   /// A screen opens with Mobi on it for the first time today.
   arrive,
 
@@ -37,17 +37,17 @@ enum MobiMoment {
 /// The act for each moment, and the late-night override.
 abstract final class MobiMoments {
   /// The act Mobi plays for [moment].
-  static MobiAct act(MobiMoment moment) => switch (moment) {
-        MobiMoment.arrive => MobiAct.hello,
-        MobiMoment.rightAnswer => MobiAct.correct,
-        MobiMoment.wrongAnswer => MobiAct.encourage,
-        MobiMoment.waiting => MobiAct.loading,
-        MobiMoment.typing => MobiAct.listen,
-        MobiMoment.milestone => MobiAct.proud,
-        MobiMoment.sessionDone => MobiAct.cheer,
-        MobiMoment.showAction => MobiAct.nudge,
-        MobiMoment.allClear => MobiAct.rest,
-        MobiMoment.setback => MobiAct.oops,
+  static MobiAct act(MobiEvent moment) => switch (moment) {
+        MobiEvent.arrive => MobiAct.hello,
+        MobiEvent.rightAnswer => MobiAct.correct,
+        MobiEvent.wrongAnswer => MobiAct.encourage,
+        MobiEvent.waiting => MobiAct.loading,
+        MobiEvent.typing => MobiAct.listen,
+        MobiEvent.milestone => MobiAct.proud,
+        MobiEvent.sessionDone => MobiAct.cheer,
+        MobiEvent.showAction => MobiAct.nudge,
+        MobiEvent.allClear => MobiAct.rest,
+        MobiEvent.setback => MobiAct.oops,
       };
 
   /// How Mobi greets at [now] (local time): asleep from 1 AM to 5 AM, sleepy from 11 PM, and

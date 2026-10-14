@@ -183,13 +183,13 @@ void main() {
 
   group('MobiMoments', () {
     test('maps moments onto acts', () {
-      expect(MobiMoments.act(MobiMoment.rightAnswer), MobiAct.correct);
-      expect(MobiMoments.act(MobiMoment.wrongAnswer), MobiAct.encourage);
-      expect(MobiMoments.act(MobiMoment.waiting), MobiAct.loading);
-      expect(MobiMoments.act(MobiMoment.milestone), MobiAct.proud);
-      expect(MobiMoments.act(MobiMoment.typing), MobiAct.listen);
-      expect(MobiMoments.act(MobiMoment.showAction), MobiAct.nudge);
-      for (final m in MobiMoment.values) {
+      expect(MobiMoments.act(MobiEvent.rightAnswer), MobiAct.correct);
+      expect(MobiMoments.act(MobiEvent.wrongAnswer), MobiAct.encourage);
+      expect(MobiMoments.act(MobiEvent.waiting), MobiAct.loading);
+      expect(MobiMoments.act(MobiEvent.milestone), MobiAct.proud);
+      expect(MobiMoments.act(MobiEvent.typing), MobiAct.listen);
+      expect(MobiMoments.act(MobiEvent.showAction), MobiAct.nudge);
+      for (final m in MobiEvent.values) {
         expect(MobiMoments.act(m), isA<MobiAct>());
       }
     });
