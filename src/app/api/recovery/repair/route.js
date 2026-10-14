@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { checkRateLimit } from '@/lib/server/rateLimit';
 import { repairMistake } from '@/services/recovery/mistakeRepair';
+import { actionFromHref } from '@/lib/server/actionFields';
 
 // POST { attemptId, questionId, requestId } -> AI Mistake Repair for one wrong answer.
 export async function POST(request) {
@@ -16,5 +17,6 @@ export async function POST(request) {
   const user = await Database.getUserById(session.user.id);
   if (!user) return Response.json({ ok: false, error: 'user_not_found' }, { status: 404, headers });
   const { http, body: result } = await repairMistake({ user, attemptId: body.attemptId, questionId: body.questionId, requestId: body.requestId });
-  return Response.json(result, { status: http, headers });
+  const out = result && typeof result.practiceHref === 'string' ? { ...result, practiceAction: actionFromHref(result.practiceHref) } : result;
+  return Response.json(out, { status: http, headers });
 }

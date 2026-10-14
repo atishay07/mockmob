@@ -4,7 +4,7 @@ import { Database } from '@/../data/db';
 
 export async function POST(request, { params }) {
   try {
-    const session = await auth();
+    const session = await auth(request);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

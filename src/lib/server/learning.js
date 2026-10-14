@@ -10,6 +10,7 @@ import { validatePathway, createEpisode, advanceEpisode, publicEpisode, learning
 import { tonightCompletion, studyMilestones } from '@/../data/study_progress';
 import { pathwayDigest } from '@/../data/pathway_validation';
 import { studyRecord, getStudyPreferences } from './study';
+import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
@@ -82,7 +83,8 @@ export async function learningRecord(userId, { subject, minutes } = {}) {
       }
     } catch { suite = { studyState:'unavailable' }; } // Existing practice remains usable during rollback.
   }
-  return { ...plan, ...suite, episodes,
+  const withActions = withPlanActions({ ...plan, ...suite });
+  return { ...withActions, episodes,
     pathwayState: available.length ? 'available' : 'blocked_content', supportedConcepts: available.map(p => ({ id: p.id, subject: p.subject, title: p.title })),
     recordState: episodeResult.error ? 'unavailable' : 'ready', ordinaryAttemptCount: attempts.length,
     tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes) };

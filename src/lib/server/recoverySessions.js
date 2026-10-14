@@ -6,6 +6,7 @@ import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../d
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { randomUUID } from 'node:crypto';
 import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract';
+import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { episodeCheckQuestion, respondEpisode } from './learning';
 import { replayExposures } from '@/../data/mistake_replay';
 import { studyExposures } from './studyExposure';
@@ -126,8 +127,12 @@ export async function finishSession(userId, input) {
   for (const event of current.events) if (event.type === 'answer') answers[event.qid] = event.answer;
   // Final ordinary answers are accepted only before the deadline. Grace uploads
   // can use acknowledged answers, never supply additional answering time.
-  const finalAnswers = ordinary && Date.now() <= Date.parse(row.expires_at) && input.answers ? input.answers : answers;
-  const score = ordinary ? scorePracticeSubmission(row.questions, finalAnswers, invalidTelemetry ? [] : current.events, Math.min(duration, elapsed + 2000)) : scoreSession(row.questions, answers, current.events, Math.min(duration, elapsed + 2000));
+  // A per-answer check (B13) makes that answer final: the logged answer wins over later events and
+  // over any answer the client submits for the same question.
+  const checked = await checkedAnswersForSubmit(db, row.id, userId);
+  const eventAnswers = applyCheckedAnswers(answers, checked);
+  const finalAnswers = applyCheckedAnswers(ordinary && Date.now() <= Date.parse(row.expires_at) && input.answers ? input.answers : answers, checked);
+  const score = ordinary ? scorePracticeSubmission(row.questions, finalAnswers, invalidTelemetry ? [] : current.events, Math.min(duration, elapsed + 2000)) : scoreSession(row.questions, eventAnswers, current.events, Math.min(duration, elapsed + 2000));
   if (invalidTelemetry) score.recovery.telemetry = 'invalid';
   const result = { ...score, subject: row.subject, questionsSnapshot: row.questions,
     expected_event_count: current.events.length,
