@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,7 @@ import '../data/mistake_index.dart';
 import '../data/repair_run.dart';
 import '../data/review_providers.dart';
 import '../widgets/ending_sheet.dart';
+import '../widgets/foil_burst.dart';
 import '../widgets/life_row.dart';
 import '../widgets/share_card.dart';
 import '../data/ending_model.dart';
@@ -43,6 +45,11 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
   late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
   bool _started = false;
   bool _lifeInked = false;
+
+  /// The full celebration is playing (rings, a tick per ring, the foil burst): only when the
+  /// student has it on, something was repaired, and motion is not reduced.
+  bool _celebrating = false;
+  int _ticked = 0;
   Timer? _reviewAsk;
 
   @override
@@ -56,9 +63,19 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
       _ink.value = 1;
       _lifeInked = true;
     } else {
-      // The sheet arrives (320 ms), then the rings draw, then the life row inks.
+      _celebrating = true;
+      // The sheet arrives (320 ms), then the rings draw one by one (each with a tick), then the
+      // thread draws to Repaired and the foil burst plays once.
       Future<void>.delayed(Motion.result, () {
         if (mounted) _ink.forward();
+      });
+      final rings = model.repairedNowIds.length;
+      _ink.addListener(() {
+        if (!mounted || rings == 0 || _ticked >= math.min(rings, 6)) return;
+        if (_ink.value >= _ticked / (rings + 1)) {
+          _ticked++;
+          unawaited(ref.read(hapticsProvider).tick());
+        }
       });
       _ink.addStatusListener((s) {
         if (s == AnimationStatus.completed && mounted) setState(() => _lifeInked = true);
@@ -164,23 +181,32 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           Text(ReviewCopy.nothingRepaired(model.setAside, model.reviewed), style: type.body.copyWith(color: colors.ink2)),
                         ] else ...[
                           // Mobi celebrates beside the number, not squeezed above the keys.
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Stack(
+                            clipBehavior: Clip.none,
                             children: [
-                              Expanded(
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: MonumentalNumber(
-                                    value: '${model.repaired}',
-                                    unit: 'repaired',
-                                    roll: full,
-                                    semanticsLabel: '${model.repaired} ${ReviewCopy.endingUnit(model.repaired)}',
+                              // Behind the number, never over it: the foil burst plays once when the
+                              // rings have all drawn.
+                              if (_celebrating)
+                                Positioned(left: -40, right: -40, top: -90, bottom: -90, child: FoilBurst(play: _lifeInked)),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: MonumentalNumber(
+                                        value: '${model.repaired}',
+                                        unit: 'repaired',
+                                        roll: full,
+                                        semanticsLabel: '${model.repaired} ${ReviewCopy.endingUnit(model.repaired)}',
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  if (full && !(momentShown && moment.mobiHop))
+                                    const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
+                                ],
                               ),
-                              if (full && !(momentShown && moment.mobiHop))
-                                const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
                             ],
                           ),
                           const SizedBox(height: MmSpace.s8),

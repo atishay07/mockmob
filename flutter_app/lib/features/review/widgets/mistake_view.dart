@@ -1,14 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/models/attempt.dart';
 import '../../../core/models/question.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/mistake_index.dart' show MistakeStage;
 import '../data/repair_state.dart';
+import 'life_row.dart';
 import 'outcome_views.dart';
 import 'question_panel.dart';
+import 'run_track.dart';
 
 /// Callbacks of the per-mistake screen.
 class MistakeActions {
@@ -104,6 +110,7 @@ class MistakeView extends StatelessWidget {
         ];
       case OutcomeExplained(:final response):
         return [
+          StageMoment(repaired: run.current?.countsAsRepaired ?? false),
           if (response.explanation != null) WorkedExplanation(explanation: response.explanation!),
           ConceptRow(chapter: run.chapter),
           RetryCard(subjectId: run.subjectId, chapter: run.chapter),
@@ -186,21 +193,20 @@ class _KeyReview extends StatelessWidget {
   }
 }
 
-/// Progress in real work ("1 of 3 mistakes") as bubbles, and "Finish for now" always in reach.
+/// Progress in real work ("1 of 3 mistakes") as the run track, and "Finish for now" always in reach.
 class _TopBar extends StatelessWidget {
   const _TopBar({required this.run, required this.onFinishForNow});
 
   final RepairRunState run;
   final VoidCallback onFinishForNow;
 
-  BubbleState _state(int i) {
+  RunSegmentState _segment(int i) {
     final s = run.steps[i];
-    if (s.countsAsRepaired) return BubbleState.filled;
+    if (s.countsAsRepaired || s.outcome is OutcomeExplained) return RunSegmentState.done;
     return switch (s.outcome) {
-      OutcomeExplained() => BubbleState.filled,
-      OutcomeKeyReview() => BubbleState.marked,
-      OutcomeSetAside() => BubbleState.blank,
-      _ => BubbleState.wrong,
+      OutcomeKeyReview() => RunSegmentState.reviewed,
+      OutcomeSetAside() => RunSegmentState.setAside,
+      _ => i == run.index ? RunSegmentState.current : RunSegmentState.upcoming,
     };
   }
 
@@ -210,23 +216,70 @@ class _TopBar extends StatelessWidget {
     final n = run.steps.length;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.s4, MmSpace.s8),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Semantics(liveRegion: true, child: Text(ReviewCopy.progress(run.index + 1, n), style: type.labelLarge)),
-                const SizedBox(height: 6),
-                BubbleRow(states: [for (var i = 0; i < n; i++) _state(i)], bubbleSize: 12, gap: 6, emphasis: run.index),
-              ],
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Semantics(liveRegion: true, child: Text(ReviewCopy.progress(run.index + 1, n), style: type.labelLarge)),
+              ),
+              KeyButton.quiet(label: ReviewCopy.finishForNow, onPressed: onFinishForNow),
+            ],
           ),
-          KeyButton.quiet(label: ReviewCopy.finishForNow, onPressed: onFinishForNow),
+          Padding(
+            padding: const EdgeInsets.only(right: MmSpace.s12),
+            child: RunTrack(segments: [for (var i = 0; i < n; i++) _segment(i)]),
+          ),
         ],
       ),
     );
   }
+}
+
+/// The stage thread over a worked explanation: Found sits lit, and 160 ms later (the moment the
+/// explanation has landed) the line draws to Repaired and the bubble inks. Checked and Holds stay
+/// dashed. Only a repair the server acknowledged ([repaired]) completes the stage.
+class StageMoment extends StatefulWidget {
+  const StageMoment({super.key, required this.repaired});
+
+  final bool repaired;
+
+  @override
+  State<StageMoment> createState() => _StageMomentState();
+}
+
+class _StageMomentState extends State<StageMoment> {
+  Timer? _timer;
+  late MistakeStage _stage = MistakeStage.found;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (!widget.repaired) return;
+    if (Motion.reduced(context)) {
+      _stage = MistakeStage.repaired;
+    } else {
+      _timer = Timer(const Duration(milliseconds: 160), () {
+        if (mounted) setState(() => _stage = MistakeStage.repaired);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: MmSpace.s24),
+    child: LifeRow(stage: _stage, bubbleSize: 16),
+  );
 }
 
 /// The question of [questionId] in [attempt], or null.

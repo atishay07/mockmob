@@ -26,7 +26,18 @@ abstract final class ReviewCopy {
     return '$head ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
   }
 
-  static String tonightKey(int n, int? minutes) =>
+  /// The line beside the hero's number, which already says how many: where they come from.
+  static String tonightSource(String source, int n, int chapterOpen) {
+    final rest = chapterOpen - n;
+    if (rest <= 0) return 'From $source. You can stop after any one.';
+    return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
+  }
+
+  /// The hero's key: the number of mistakes is the figure above it, so the key carries the time.
+  static String tonightKey(int? minutes) => minutes == null ? 'Start repairing' : 'Start, about $minutes minutes';
+
+  /// What a screen reader says for the same key: it does say how many.
+  static String tonightKeySpoken(int n, int? minutes) =>
       minutes == null ? 'Repair ${plural(n, 'mistake')}' : 'Repair ${plural(n, 'mistake')}, about $minutes minutes';
 
   /// The one Hinglish caption on the tab.
@@ -51,6 +62,12 @@ abstract final class ReviewCopy {
     if (repaired > 0) '$repaired repaired',
     if (setAside > 0) '$setAside set aside',
   ].join('. ');
+
+  /// "from Mock 2" or "from Mock 1 and Mock 2": where a chapter's open mistakes were found.
+  static String fromPapers(List<String> sources) => 'from ${_join(sources)}';
+
+  static String _join(List<String> parts) =>
+      parts.length <= 2 ? parts.join(' and ') : '${parts.sublist(0, parts.length - 1).join(', ')} and ${parts.last}';
 
   static String repairGroupKey(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';
 
@@ -121,6 +138,8 @@ abstract final class ReviewCopy {
 
   static String entryLead(int n, int? minutes) =>
       '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
+  /// The line under the entry's number, which already says how many.
+  static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
   static String creditLine(int balance) => 'Uses 1 explanation credit for each mistake. You have $balance.';
   static String shortfallLine(int needed, int balance) =>
       'This repair needs $needed explanation credits. You have $balance. '

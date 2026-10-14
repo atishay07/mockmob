@@ -150,26 +150,24 @@ class ConceptRow extends ConsumerWidget {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s24),
-      child: MmPressable(
-        onTap: () => context.push(AppRoutes.learnUnit(link.unitId)),
-        pressedScale: 0.985,
-        focusRadius: MmRadius.keyAll,
-        semanticsLabel: '${ReviewCopy.concept}: ${link.title}',
-        builder: (context, pressed, _) => DecoratedBox(
-          decoration: ShapeDecoration(
-            color: colors.raised,
-            shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line)),
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 56),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Divider(height: 1, color: colors.line),
+          MmPressable(
+            onTap: () => context.push(AppRoutes.learnUnit(link.unitId)),
+            pressedScale: 0.985,
+            focusRadius: MmRadius.keyAll,
+            semanticsLabel: '${ReviewCopy.concept}: ${link.title}',
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 64),
               child: Row(
                 children: [
                   Icon(LucideIcons.bookOpen, size: 20, color: colors.ink2),
                   const SizedBox(width: MmSpace.s12),
                   Expanded(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(ReviewCopy.concept, style: type.caption.copyWith(color: colors.ink2)),
@@ -182,7 +180,7 @@ class ConceptRow extends ConsumerWidget {
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -203,25 +201,18 @@ class RetryCard extends ConsumerWidget {
     final type = context.mmType;
     return switch (offer) {
       RetryAvailable(:final subjectId, :final cost, :final free) => Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s24),
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            color: colors.raised,
-            shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(MmSpace.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(ReviewCopy.retryTitle(chapter), style: type.cardTitle),
-                const SizedBox(height: MmSpace.s4),
-                Text(ReviewCopy.retryLine(cost, free), style: type.small.copyWith(color: colors.ink2)),
-                const SizedBox(height: MmSpace.s12),
-                KeyButton.secondary(label: ReviewCopy.retryKey, onPressed: () => context.push(retryRoute(subjectId, chapter))),
-              ],
-            ),
-          ),
+        padding: const EdgeInsets.only(top: MmSpace.s8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Divider(height: 1, color: colors.line),
+            const SizedBox(height: MmSpace.s16),
+            Text(ReviewCopy.retryTitle(chapter), style: type.cardTitle),
+            const SizedBox(height: MmSpace.s4),
+            Text(ReviewCopy.retryLine(cost, free), style: type.small.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s12),
+            KeyButton.secondary(label: ReviewCopy.retryKey, onPressed: () => context.push(retryRoute(subjectId, chapter))),
+          ],
         ),
       ),
       RetryShortOfCredits() => Padding(
