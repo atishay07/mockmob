@@ -99,7 +99,7 @@
   .rv-stage { grid-template-columns: var(--rv-bubble) minmax(0, 1fr) auto; column-gap: var(--mm-space-s12); row-gap: 2px; align-items: baseline; }
   .rv-stage__bubble { grid-row: 1 / span 2; align-self: start; margin: 2px 0 0; }
   .rv-stage__label { grid-column: 2; }
-  .rv-stage__value { grid-column: 3; grid-row: 1 / span 2; align-self: center; font-size: 30px; }
+  .rv-stage__value { grid-column: 3; grid-row: 1 / span 2; align-self: center; font-size: var(--mm-type-headline-size); }
   .rv-stage__note { grid-column: 2; }
   .rv-thread[data-repaired='true'] .rv-stage[data-stage='found']::after {
     content: '';
@@ -197,8 +197,8 @@
 .rv-facts > div:nth-child(2n) { padding-left: var(--mm-space-s16); border-left: 1px solid var(--mm-line); }
 .rv-facts > div:nth-child(n + 3) { border-top: 1px solid var(--mm-line); }
 .rv-facts dt { font: var(--mm-type-label-weight) var(--mm-type-label-size)/var(--mm-type-label-line) var(--mm-font-body); color: var(--mm-ink-3); }
-.rv-facts dd { margin: 0; font-family: var(--mm-font-display); font-size: 28px; line-height: 1.1; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--mm-ink); overflow-wrap: anywhere; }
-.rv-facts p { margin: 0; font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body); color: var(--mm-ink-3); }
+.rv-facts dd { margin: 0; font-family: var(--mm-font-display); font-size: var(--mm-type-title-size); line-height: 1.1; font-weight: var(--mm-type-figure-compact-weight); letter-spacing: var(--mm-type-figure-compact-tracking); font-variant-numeric: tabular-nums; color: var(--mm-ink); overflow-wrap: anywhere; }
+.rv-facts dd + dd { margin: 0; font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body); letter-spacing: var(--mm-type-caption-tracking); font-variant-numeric: normal; color: var(--mm-ink-3); }
 @media (min-width: 768px) {
   .rv-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .rv-facts > div { padding-left: var(--mm-space-s16); }
@@ -209,7 +209,7 @@
 
 /* ---------- Loading: the page's own shape ---------- */
 .rv-skeleton { display: grid; gap: var(--mm-space-s24); }
-.rv-skeleton__thread { height: 168px; border-radius: var(--mm-radius-panel); }
+.rv-skeleton__thread { height: calc(var(--mm-space-s48) * 3.5); border-radius: var(--mm-radius-panel); }
 .rv-skeleton__rows { display: grid; gap: var(--mm-space-s12); }
 .rv-skeleton__row { height: 60px; border-radius: var(--mm-radius-small); }
 

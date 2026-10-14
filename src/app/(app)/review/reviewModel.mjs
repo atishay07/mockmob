@@ -120,7 +120,11 @@ export function stageThread({ totals, repairs, repairLimit = 100 }) {
       note: repaired === 0 ? 'Repair a wrong answer from its session' : 'Explained, from the session it was found in',
       state: repaired === 0 ? 'zero' : 'count',
     };
-  const checkedStage = known && checksOpen
+  const checkedStage = !known
+    ? (repairs === undefined
+      ? { key: 'checked', label: STAGE_LABEL.checked, value: '', note: 'Reading your repairs', state: 'loading' }
+      : { key: 'checked', label: STAGE_LABEL.checked, value: '', note: 'Could not be read just now', state: 'unknown' })
+    : checksOpen
     ? { key: 'checked', label: STAGE_LABEL.checked, value: String(checked), note: checked === 0 ? 'Waiting for a fresh question' : 'Right on a fresh question', state: checked === 0 ? 'zero' : 'count' }
     : { key: 'checked', label: STAGE_LABEL.checked, value: '', note: 'Fresh checks are not open yet', state: 'closed' };
   const holdsStage = { key: 'holds', label: STAGE_LABEL.holds, value: '', note: 'Opens after a later check', state: 'closed' };
@@ -130,6 +134,9 @@ export function stageThread({ totals, repairs, repairLimit = 100 }) {
 /** The one line under the thread. Honest about what is and is not counted yet. */
 export function threadCaption(thread) {
   const closed = thread.filter((s) => s.state === 'closed').map((s) => s.label);
+  if (thread.some((s) => s.key === 'checked' && s.state !== 'closed' && s.state !== 'count' && s.state !== 'zero')) {
+    return 'Each mistake moves from Found to Repaired, then Checked on a fresh question. Holds is not open yet.';
+  }
   if (closed.length === 2) return 'Each mistake moves from Found to Repaired. Checked and Holds come from fresh questions later, and are not open yet.';
   if (closed.length === 1) return 'Each mistake moves from Found to Repaired, then Checked on a fresh question. Holds is not open yet.';
   return 'Each mistake moves from Found to Repaired, then Checked and Holds on fresh questions.';
@@ -166,7 +173,7 @@ export function rightLine(totals) {
 /** The server note under Progress, rewritten without internal words. */
 export function evidenceNote(data) {
   if (!data) return '';
-  if (typeof data.note === 'string' && /unavailable/i.test(data.note)) {
+  if (typeof data.note === 'string' && /^Current question evidence is unavailable/i.test(data.note)) {
     return 'Question checks are unavailable right now, so improvement claims are paused.';
   }
   const left = num(data.invalidatedChecks);
@@ -185,7 +192,7 @@ export function checkRow(p) {
 }
 
 /** A playbook strategy as words. */
-const STRATEGY = { two_pass: 'Two passes through the paper', concept_repair: 'Repair the concept first', timed_practice: 'Practise against the clock' };
+const STRATEGY = { two_pass: 'Two passes through the paper', concept_repair: 'Repair the concept first', timed_practice: 'Practice against the clock' };
 export function strategyName(id) {
   return STRATEGY[id] || conceptName(id);
 }

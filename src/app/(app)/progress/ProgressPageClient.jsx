@@ -40,7 +40,7 @@ export default function ProgressPageClient() {
   if (state === 'offline') return <div className="rv-page">{head}<OfflineState message="Your progress loads again once you are back online. Nothing is lost." onRetry={retry} /></div>;
   if (state === 'error') return <div className="rv-page">{head}<ErrorState title="Your progress did not load" message="Your saved sessions are safe. Try again in a moment." onRetry={retry} /></div>;
 
-  const checks = Array.isArray(data.progress) ? data.progress : [];
+  const checks = (Array.isArray(data.progress) ? data.progress : []).filter((p) => Number(p?.sampleSize) > 0);
   const playbook = Array.isArray(data.playbook) ? data.playbook : [];
   const milestones = Array.isArray(data.milestones) ? data.milestones : [];
   const right = rightLine(totals);
@@ -66,10 +66,10 @@ export default function ProgressPageClient() {
       {head}
 
       <dl className="rv-facts" aria-label="Your record so far">
-        <div><dt>Sessions saved</dt><dd>{totals.sessions}</dd><p>{totals.lastAt ? `Last on ${shortDate(totals.lastAt, now)}` : 'None yet'}</p></div>
-        <div><dt>Answered right</dt><dd>{right.value}</dd><p>{right.detail}</p></div>
-        <div><dt>Fresh checks</dt><dd>{checks.length}</dd><p>{checks.length ? 'Concepts tested on unseen questions' : 'None yet'}</p></div>
-        <div><dt>Playbook</dt><dd>{playbook.length}</dd><p>{playbook.length ? 'Strategies you saved' : 'Nothing saved yet'}</p></div>
+        <div><dt>Sessions saved</dt><dd>{totals.sessions}</dd><dd>{totals.lastAt ? `Last on ${shortDate(totals.lastAt, now)}` : 'None yet'}</dd></div>
+        <div><dt>Answered right</dt><dd>{right.value}</dd><dd>{right.detail}</dd></div>
+        <div><dt>Fresh checks</dt><dd>{checks.length}</dd><dd>{checks.length ? 'Concepts tested on unseen questions' : 'None yet'}</dd></div>
+        <div><dt>Playbook</dt><dd>{playbook.length}</dd><dd>{playbook.length ? 'Strategies you saved' : 'Nothing saved yet'}</dd></div>
       </dl>
 
       <LearningNextAction compact />
@@ -95,7 +95,7 @@ export default function ProgressPageClient() {
             {checks.map((p) => { const r = checkRow(p); return <RecordRow key={`${p.concept}-${r.tag}`} title={r.title} lines={[r.detail]} tag={r.tag} />; })}
           </ul>
         ) : (
-          <p className="rv-quiet">No fresh checks yet. When a concept you practised comes back on a question you have not seen, the result shows here.</p>
+          <p className="rv-quiet">No fresh checks yet. When a concept you practiced comes back on a question you have not seen, the result shows here.</p>
         )}
       </RecordSection>
 

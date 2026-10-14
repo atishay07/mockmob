@@ -27,7 +27,7 @@ export default function SavedPageClient() {
       setUnsaved(new Set());
       setStatus('ready');
     } catch (e) {
-      setStatus(looksOffline(e) || e?.name === 'TypeError' ? 'offline' : 'error');
+      setStatus(looksOffline(e) ? 'offline' : 'error');
     }
   }, []);
 

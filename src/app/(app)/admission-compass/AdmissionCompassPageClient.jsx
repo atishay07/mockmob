@@ -29,8 +29,8 @@ function PracticeBridge({ userId }) {
       <span className="cmp-bridge__icon"><SubjectIcon id={top.subject} size={20} /></span>
       <div>
         <b>From your practice: {top.chapter}</b>
-        <p>{top.subjectName} has the most marks open in your record: {top.right} right, {top.wrong} wrong and {top.skip} blank over {top.n} questions. Cutoffs are history; the subjects you practise are the part you control.</p>
-        <Link href={`/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick`}>Practise {top.subjectName}</Link>
+        <p>{top.subjectName} has the most marks open in your record: {top.right} right, {top.wrong} wrong and {top.skip} blank over {top.n} questions. Cutoffs are history; the subjects you practice are the part you control.</p>
+        <Link href={`/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick`}>Practice {top.subjectName}</Link>
       </div>
     </aside>
   );

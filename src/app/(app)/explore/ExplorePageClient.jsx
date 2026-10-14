@@ -136,7 +136,7 @@ export default function ExplorePageClient() {
             </Field>
           </form>
           {subjectState === 'error' && <ErrorState title="Subjects did not load" message="Check your connection and try again." onRetry={() => { setSubjectState('loading'); setSubjectRetry((count) => count + 1); }} />}
-          {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => { setChapterState('loading'); setChapterRetry((count) => count + 1); }} />}
+          {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practice all chapters." onRetry={() => { setChapterState('loading'); setChapterRetry((count) => count + 1); }} />}
           <div className="ex-listhead">
             <h2>{subjectName}</h2>
             {hasFilters && <button type="button" className="ui-btn ui-btn--quiet ui-btn--sm" onClick={clearFilters}><span className="ui-btn__label">Clear filters</span></button>}

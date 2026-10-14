@@ -126,7 +126,7 @@ export default function ReviewPageClient() {
           <ul className="rv-items">
             {shownRepairs.map((row) => {
               const r = repairLines(row, now);
-              return <RecordRow key={`${row.attemptId}-${row.questionId}`} title={r.title} lines={[`${r.found} ${r.repaired}`, r.checked]} tag={r.stage === 'checked' ? 'Checked' : 'Repaired'} tone={r.stage === 'checked' ? 'good' : 'done'} />;
+              return <RecordRow key={`${row.attemptId}-${row.questionId}`} title={r.title} lines={row.checkedState === 'not_available' ? [`${r.found} ${r.repaired}`] : [`${r.found} ${r.repaired}`, r.checked]} tag={r.stage === 'checked' ? 'Checked' : 'Repaired'} tone={r.stage === 'checked' ? 'good' : 'done'} />;
             })}
           </ul>
         ) : null}

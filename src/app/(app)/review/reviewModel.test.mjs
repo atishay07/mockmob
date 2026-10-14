@@ -61,8 +61,12 @@ test('the thread never shows unknown as zero, and keeps Checked and Holds closed
   assert.equal(unknown[1].note, 'Your repairs could not be read just now');
   assert.equal(unknown[1].state, 'unknown');
   assert.equal(unknown[1].value, '');
-  assert.equal(unknown[2].state, 'closed');
+  assert.equal(unknown[2].state, 'unknown');
+  assert.equal(unknown[2].value, '');
+  assert.equal(loading[2].state, 'loading');
   assert.equal(unknown[3].state, 'closed');
+  assert.ok(!/not open yet/i.test(threadCaption(unknown).split('Holds')[0]));
+  assert.ok(!/Checked[^.]*not open/i.test(threadCaption(unknown)));
 
   const gateClosed = stageThread({ totals, repairs: [{ checkedState: 'not_available' }, { checkedState: 'not_available' }] });
   assert.deepEqual(gateClosed.map((s) => s.value), ['7', '2', '', '']);
@@ -98,6 +102,9 @@ test('answered right keeps its denominator and avoids false precision', () => {
 
 test('the evidence note drops internal words', () => {
   assert.equal(evidenceNote({ note: 'Current question evidence is unavailable, so improvement claims are paused.' }), 'Question checks are unavailable right now, so improvement claims are paused.');
+  const usual = (n) => `Fresh delayed checks provide concept evidence, not a causal score gain. ${n} checks with unavailable or changed question evidence are excluded.`;
+  assert.equal(evidenceNote({ note: usual(0), invalidatedChecks: 0 }), '');
+  assert.equal(evidenceNote({ note: usual(2), invalidatedChecks: 2 }), '2 older answers are left out because their questions were changed or withdrawn.');
   assert.equal(evidenceNote({ note: 'x', invalidatedChecks: 3 }), '3 older answers are left out because their questions were changed or withdrawn.');
   assert.equal(evidenceNote({ note: 'x', invalidatedChecks: 1 }), '1 older answer is left out because its question was changed or withdrawn.');
   assert.equal(evidenceNote({ note: 'x', invalidatedChecks: 0 }), '');
