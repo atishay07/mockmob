@@ -49,3 +49,14 @@ export function friendlyError(error) {
   if (error?.status === 429) return { text: 'Too many requests at once. Wait a few seconds and try again.', retry: true };
   return { text: 'That action could not be saved. Your answer is still here — try again.', retry: true };
 }
+
+/**
+ * How Mobi meets the end of a run, from the real counts only. Nothing is invented: right and
+ * total come from the saved answers. "That one stuck." is said only when every answer was right.
+ */
+export function doneReaction(right, total) {
+  if (!(total > 0)) return { act: 'nod', line: '' };
+  if (right >= total) return { act: 'celebrate', line: 'That one stuck.' };
+  if (right / total >= 0.5) return { act: 'cheer', line: 'Most of it stuck. The rest comes back in review.' };
+  return { act: 'encourage', line: 'Some of it needs another pass. Review brings it back.' };
+}

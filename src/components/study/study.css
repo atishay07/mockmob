@@ -82,8 +82,8 @@
 .sx-chapter__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--a-line); }
 .sx-chapter__head h2 { font-size: 1.125rem; padding-block: 8px; }
 .sx-units { list-style: none; margin: 0; padding: 0; }
-.sx-unit { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "main chev" "status chev"; gap: 8px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--a-line); color: var(--a-ink); }
-@media (min-width: 640px) { .sx-unit { grid-template-columns: 1fr auto auto; grid-template-areas: "main status chev"; } }
+.sx-unit { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "ring main chev" "ring status chev"; gap: 8px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--a-line); color: var(--a-ink); }
+@media (min-width: 640px) { .sx-unit { grid-template-columns: auto 1fr auto auto; grid-template-areas: "ring main status chev"; } }
 .sx-unit:hover b { text-decoration: underline; text-underline-offset: 3px; }
 .sx-unit__main { grid-area: main; min-width: 0; display: grid; gap: 4px; }
 .sx-unit__main b { font-family: var(--font-display); font-size: 1.0625rem; }
@@ -286,3 +286,41 @@
   .sx-table--stack td::before { content: attr(data-label); display: block; color: var(--a-ink-3); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em; }
   .sx-table--stack td:empty { display: none; }
 }
+
+/* Lesson state ring: New, In progress, Read, Review due, Done. Moves only after a real change. */
+.sx-ring { grid-area: ring; position: relative; display: grid; place-items: center; width: 36px; height: 36px; }
+.sx-ring svg { display: block; fill: none; stroke-width: 3; }
+.sx-ring__track { stroke: var(--a-line-strong); }
+.sx-ring[data-k='new'] .sx-ring__track { stroke-dasharray: 2.4 3.6; }
+.sx-ring__arc { stroke: var(--a-select); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--to, 0)); }
+.sx-ring[data-k='read'] .sx-ring__arc { stroke: var(--a-ink-3); }
+.sx-ring[data-k='due'] .sx-ring__arc { stroke: var(--a-warn-text); }
+.sx-ring__tick { stroke: var(--a-accent-text); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.sx-ring[data-changed='true'] .sx-ring__arc { animation: sx-ring-sweep 760ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 120ms both; }
+.sx-ring[data-changed='true'] .sx-ring__tick { stroke-dashoffset: 1; animation: mk-draw 420ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 700ms forwards; }
+@keyframes sx-ring-sweep { from { stroke-dashoffset: calc(1 - var(--from, 0)); } to { stroke-dashoffset: calc(1 - var(--to, 0)); } }
+.sx-ring__badge { position: absolute; top: -5px; right: -7px; min-width: 18px; height: 18px; padding: 0 4px; display: grid; place-items: center; border-radius: 9px; background: var(--a-warn-text); color: #1a1300; font: 800 11px/1 var(--font-display); font-style: normal; }
+.sx-ring[data-changed='true'] .sx-ring__badge { animation: mk-pop 380ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) 500ms both; }
+
+/* Review call to action: a stack of recall cards that breathes, and the top one leaves on Start. */
+.sx-stack { position: relative; display: block; width: 42px; height: 54px; margin-top: 2px; animation: sx-stack-breathe 4.2s ease-in-out infinite; }
+.sx-stack i { position: absolute; inset: 0; border-radius: 9px; border: 1.5px solid var(--a-volt-line); background: var(--a-raised); transform: translate3d(calc(var(--d, 0) * 4px), calc(var(--d, 0) * -4px), 0) rotate(calc(var(--d, 0) * 3deg)); box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5); }
+.sx-stack i:last-child::after { content: ''; position: absolute; left: 9px; right: 9px; top: 15px; height: 2px; border-radius: 2px; background: var(--a-volt-line); box-shadow: 0 8px 0 var(--a-line-strong), 0 16px 0 var(--a-line-strong); }
+.sx-stack[data-leaving='true'] i:last-child { animation: sx-stack-off 520ms cubic-bezier(0.5, 0, 0.75, 0) both; }
+@keyframes sx-stack-breathe { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(0, -2px, 0) scale(1.04); } }
+@keyframes sx-stack-off { to { transform: translate3d(90px, -14px, 0) rotate(18deg); opacity: 0; } }
+
+/* Completion: Mobi beside the real outcome. */
+.sx-done__top { display: flex; align-items: center; gap: 14px; }
+.sx-done__top .mobi-react { flex: 0 0 auto; }
+.sx-done__line { margin: 2px 0 0; font: 700 1.0625rem var(--font-display); color: var(--a-ink); }
+
+:root[data-motion='reduced'] .sx-stack, :root[data-motion='reduced'] .sx-ring__arc, :root[data-motion='reduced'] .sx-ring__tick { animation: none; }
+:root[data-motion='reduced'] .sx-ring[data-changed='true'] .sx-ring__tick { stroke-dashoffset: 0; }
+
+.study-facts__read { display: inline-flex; align-items: center; gap: 10px; }
+.study-ring { display: inline-block; width: 44px; height: 44px; }
+.study-ring svg { display: block; fill: none; stroke-width: 4; }
+.study-ring__track { stroke: var(--a-line-strong); }
+.study-ring__arc { stroke: var(--a-select); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--to, 0)); transition: stroke-dashoffset 900ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 150ms; }
+.study-ring[data-in='false'] .study-ring__arc { stroke-dashoffset: 1; }

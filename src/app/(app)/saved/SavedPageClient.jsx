@@ -154,7 +154,8 @@ export default function SavedPageClient() {
   // The server has already agreed. Fold the row away, then close the gap in state.
   const finishRemoval = useCallback(async (question, serverCount) => {
     const index = questionsRef.current.findIndex((q) => q.id === question.id);
-    await foldExit(rows.current.get(question.id));
+    // A hidden tab pauses animations, so the fold never waits longer than it should take.
+    await Promise.race([foldExit(rows.current.get(question.id)), new Promise((resolve) => window.setTimeout(resolve, 600))]);
     setQuestions((list) => list.filter((q) => q.id !== question.id));
     const next = Number.isFinite(serverCount) ? serverCount : Math.max(0, countRef.current - 1);
     setCount(next);

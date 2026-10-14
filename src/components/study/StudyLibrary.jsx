@@ -1,21 +1,72 @@
 "use client";
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpenText, Brain, Target, Timer, ChevronRight } from 'lucide-react';
 import { SubjectIcon } from '@/components/ui/Glyph';
+import { useInView } from '@/lib/motion';
 import { SUBJECTS, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
 
 const newKey = () => crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '');
 
+// What a lesson row's ring shows, from the real status: New (empty ring), In progress (an arc of the
+// steps already done), Read (a full arc, recall still to do), Review due (a badge), Done (a tick).
+function ringShape(u) {
+  if (u.status === 'in_progress' && u.inProgress?.total) return { k: 'arc', f: Math.max(0, Math.min(1, (u.inProgress.step - 1) / u.inProgress.total)) };
+  if (u.status === 'lock_in') return { k: 'read', f: 1 };
+  if (u.status === 'due') return { k: 'due', f: 1, n: u.memory?.due || 0 };
+  if (u.status === 'learned') return { k: 'done', f: 1 };
+  return { k: 'new', f: 0 };
+}
+
+// The ring remembers what it showed last time in this browser, so it only plays its move when
+// the lesson really changed since (after a run), and stays still otherwise.
+const RING_KEY = 'mm:unit-ring:v1';
+function readRing(id) {
+  try { const map = JSON.parse(window.localStorage.getItem(RING_KEY) || '{}'); return map[id] || null; } catch { return null; }
+}
+function writeRing(id, shape) {
+  try {
+    const map = JSON.parse(window.localStorage.getItem(RING_KEY) || '{}');
+    map[id] = { k: shape.k, f: shape.f };
+    window.localStorage.setItem(RING_KEY, JSON.stringify(map));
+  } catch { /* Without storage the ring just does not animate. */ }
+}
+
+function UnitRing({ unit }) {
+  const shape = ringShape(unit);
+  const [prev] = useState(() => (typeof window === 'undefined' ? null : readRing(unit.id)));
+  const [ref, seen] = useInView({ threshold: 0.6 });
+  const changed = Boolean(prev) && (prev.k !== shape.k || Math.abs((prev.f || 0) - shape.f) > 0.001);
+  useEffect(() => { if (seen) writeRing(unit.id, shape); }, [seen, unit.id, shape.k, shape.f]); // eslint-disable-line react-hooks/exhaustive-deps
+  const from = changed ? (prev.k === 'new' ? 0 : prev.f || 0) : shape.f;
+  return <span ref={ref} className="sx-ring" data-k={shape.k} data-changed={changed && seen ? 'true' : undefined} role={shape.k === 'new' ? 'img' : undefined} aria-label={shape.k === 'new' ? 'Not started' : undefined} aria-hidden={shape.k === 'new' ? undefined : true}>
+    <svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true">
+      <circle className="sx-ring__track" cx="18" cy="18" r="14" />
+      {shape.k !== 'new' && shape.k !== 'done' ? <circle className="sx-ring__arc" cx="18" cy="18" r="14" pathLength="1" transform="rotate(-90 18 18)" style={{ '--to': shape.f, '--from': from }} /> : null}
+      {shape.k === 'done' ? <><circle className="sx-ring__arc" cx="18" cy="18" r="14" pathLength="1" transform="rotate(-90 18 18)" style={{ '--to': 1, '--from': changed ? 0 : 1 }} /><path className="sx-ring__tick" d="M11.5 18.5l4.4 4.4 8.6-9.4" pathLength="1" /></> : null}
+    </svg>
+    {shape.k === 'due' && shape.n ? <i className="sx-ring__badge">{shape.n > 9 ? '9+' : shape.n}</i> : null}
+  </span>;
+}
+
+// A small stack of recall cards beside the review call to action. It breathes while it waits and
+// the top card slides off when the review starts.
+function CardStack({ count, leaving }) {
+  const depth = Math.max(1, Math.min(3, count || 1));
+  return <span className="sx-stack" data-leaving={leaving ? 'true' : undefined} aria-hidden="true">
+    {Array.from({ length: depth }, (_, i) => <i key={i} style={{ '--d': i }} />).reverse()}
+  </span>;
+}
+
 export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, initialSubject, prefsSlot }) {
   const firstSubject = SUBJECTS.some(s => s[0] === initialSubject) ? initialSubject : (catalog.nextUnit?.subject || catalog.preferences?.subjects?.[0] || 'english');
   const [subject, setSubject] = useState(firstSubject), [busy, setBusy] = useState(false), [error, setError] = useState(null);
-  const [reviewKey, setReviewKey] = useState(newKey);
+  const [reviewKey, setReviewKey] = useState(newKey), [leaving, setLeaving] = useState(false);
   const q = catalog.queue;
   const startReview = async () => {
-    setBusy(true); setError(null);
+    setBusy(true); setError(null); setLeaving(true);
     try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', requestKey: reviewKey })); }
-    catch (e) { setReviewKey(newKey()); setError(friendlyError(e)); } finally { setBusy(false); }
+    catch (e) { setReviewKey(newKey()); setError(friendlyError(e)); setLeaving(false); } finally { setBusy(false); }
   };
   const open = (e, id) => { if (onOpenUnit) { e.preventDefault(); onOpenUnit(id); } };
   const bySubject = useMemo(() => Object.fromEntries(SUBJECTS.map(([id]) => [id, catalog.units.filter(u => u.subject === id)])), [catalog.units]);
@@ -39,7 +90,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
       <p className="sx-lede">Short lessons on CUET chapters. Learn one concept, lock it in from memory, then prove it on exam-style questions.</p>
     </header>
     <section className="sx-hero" aria-labelledby="sx-hero-title">
-      <hero.icon size={22} aria-hidden="true" className="sx-hero__icon" />
+      {hero.action ? <CardStack count={q.dueCount || q.newCount} leaving={leaving} /> : <hero.icon size={22} aria-hidden="true" className="sx-hero__icon" />}
       <div className="sx-hero__body"><h2 id="sx-hero-title">{hero.title}</h2><p>{hero.text}</p></div>
       {hero.action ? <button className="btn-volt md" type="button" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}<ArrowRight size={16} aria-hidden="true" /></button>
         : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}<ArrowRight size={16} aria-hidden="true" /></Link>}
@@ -64,6 +115,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
         <Link className="sx-link sx-small" href={`/learn/summary?${new URLSearchParams({subject,chapter:chapter.title})}`}>Read or print the chapter summary</Link>
         <ul className="sx-units">{units.filter(u => u.chapter === chapter.title).map(u => <li key={u.id}>
           <Link href={`/learn/${u.id}`} onClick={e => open(e, u.id)} className="sx-unit">
+            <UnitRing unit={u} />
             <span className="sx-unit__main"><b>{u.title}</b><span className="sx-unit__summary">{u.summary}</span>
               <span className="sx-unit__meta"><Timer size={14} aria-hidden="true" />{u.estimatedMinutes} min{u.skill ? ` · ${u.skill}` : ''} · {u.cardCount} recall {u.cardCount === 1 ? 'card' : 'cards'}</span></span>
             {u.status !== 'new' ? <span className="sx-unit__status" data-status={u.status}>{u.status === 'in_progress' ? `Step ${u.inProgress.step}/${u.inProgress.total}` : u.status === 'due' ? `${u.memory.due} due` : u.status === 'learned' && u.memory.nextDue ? `Review ${whenDue(u.memory.nextDue)}` : STATUS[u.status]?.label}</span> : null}

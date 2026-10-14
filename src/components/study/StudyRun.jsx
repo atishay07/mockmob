@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Check, X, BookOpenText, Target, RotateCcw } from 'lucide-react';
 import { ReadingBlock, AnswerForm, Feedback, HearButton, usePronounce, Passage } from './StudyBlocks';
-import { BLOCK_LABEL, RATINGS, friendlyError, itemLabel, practiceHref, subjectName, whenDue } from './studyCopy';
+import MobiReact from '@/components/brand/MobiReact';
+import { BLOCK_LABEL, RATINGS, doneReaction, friendlyError, itemLabel, practiceHref, subjectName, whenDue } from './studyCopy';
 import StudyHelp from './StudyHelp';
 
 const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '');
@@ -102,8 +103,12 @@ function LessonDone({ run, api, onOpenRun }) {
     catch (e) { key.current = null; setError(friendlyError(e)); } finally { setBusy(false); }
   };
   const available = info?.recall?.available || 0;
+  const mood = doneReaction(right, checks.length);
   return <section className="sx-done">
-    <p className="sx-done__badge"><Check size={22} aria-hidden="true" />Lesson complete</p>
+    <div className="sx-done__top">
+      <MobiReact act={mood.act} size={92} label={mood.line || 'Lesson complete'} />
+      <div><p className="sx-done__badge"><Check size={22} aria-hidden="true" />Lesson complete</p>{mood.line ? <p className="sx-done__line">{mood.line}</p> : null}</div>
+    </div>
     <h1>{run.title}</h1>
     {checks.length ? <p className="sx-lede">You got {right} of {checks.length} quick {checks.length === 1 ? 'check' : 'checks'} right on the first try{right < checks.length ? ' — the recall cards will bring those ideas back.' : '.'}</p> : null}
     {info?.objectives?.length ? <><h2 className="sx-h3">This lesson covered</h2><ul className="sx-ticks">{info.objectives.map(o => <li key={o}><Check size={16} aria-hidden="true" />{o}</li>)}</ul></> : null}
@@ -132,8 +137,12 @@ function ReviewDone({ run }) {
   const forgot = reviewed.filter(r => r.rating === 1);
   const focus = run.focus?.chapter ? run.focus : null;
   const units = run.units || [];
+  const mood = doneReaction(reviewed.length - forgot.length, reviewed.length);
   return <section className="sx-done">
-    <p className="sx-done__badge"><Check size={22} aria-hidden="true" />Review complete</p>
+    <div className="sx-done__top">
+      <MobiReact act={mood.act} size={92} label={mood.line || 'Review complete'} />
+      <div><p className="sx-done__badge"><Check size={22} aria-hidden="true" />Review complete</p>{mood.line ? <p className="sx-done__line">{mood.line}</p> : null}</div>
+    </div>
     <h1>{reviewed.length ? `${reviewed.length - forgot.length} of ${reviewed.length} remembered` : 'Review saved'}</h1>
     <p className="sx-lede">Each card now has its next review date. Cards you found hard come back sooner; easy ones wait longer.</p>
     {reviewed.length ? <ul className="sx-reviewed">{reviewed.map((r, i) => <li key={`${r.cardId}-${i}`} className={r.rating === 1 ? 'is-wrong' : 'is-right'}>{r.rating === 1 ? <X size={16} aria-label="Forgot" /> : <Check size={16} aria-label="Remembered" />}<span>{r.title}</span><small>Next {whenDue(r.due)}</small></li>)}</ul> : null}
