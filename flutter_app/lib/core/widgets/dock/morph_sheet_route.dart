@@ -124,7 +124,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   }
 }
 
-/// The volt disc left at the origin: full at 0, swelling a little and gone by 40% of the morph.
+/// The volt disc left at the origin: full at 0, swelling a little and gone by 25% of the morph.
 class _OriginDisc extends CustomPainter {
   _OriginDisc({required this.animation, required this.color}) : super(repaint: animation);
 
@@ -133,10 +133,13 @@ class _OriginDisc extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final t = (animation.value / 0.4).clamp(0.0, 1.0);
+    // Gone by a quarter of the morph, its alpha falling fastest at first, so the volt never
+    // sits half-faded (olive) over the glass.
+    final t = (animation.value / 0.25).clamp(0.0, 1.0);
     if (t >= 1) return;
     final e = Motion.glide.transform(t);
-    canvas.drawCircle(size.center(Offset.zero), 23 * (1 + 0.25 * e), Paint()..color = color.withValues(alpha: 1 - e));
+    final alpha = (1 - e) * (1 - e);
+    canvas.drawCircle(size.center(Offset.zero), 23 * (1 + 0.2 * e), Paint()..color = color.withValues(alpha: alpha));
   }
 
   @override

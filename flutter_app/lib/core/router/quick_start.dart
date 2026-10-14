@@ -237,17 +237,17 @@ class QuickStartSheet extends ConsumerWidget {
                             )
                           : quick(QuickStartRowStyle.hero),
                       modes: [
-                        if (draft != null) quick(QuickStartRowStyle.tile),
-                        QuickStartRow(
-                          style: QuickStartRowStyle.tile,
+                        if (draft != null) quick,
+                        (style) => QuickStartRow(
+                          style: style,
                           glyph: SheetGlyph.mock,
                           title: 'Full mock',
                           note: '50 questions, 60 minutes, timed like the exam.',
                           onTap: () => go(AppRoutes.practiceSetup('full')),
                         ),
                         if (nta != null)
-                          QuickStartRow(
-                            style: QuickStartRowStyle.tile,
+                          (style) => QuickStartRow(
+                            style: style,
                             glyph: SheetGlyph.exam,
                             title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
                             note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
@@ -288,7 +288,12 @@ class QuickStartSheet extends ConsumerWidget {
   /// The ranked layout: the one hero choice, the practice modes as tiles two to a row (an odd
   /// last tile spans the row), then the quieter choices as one grouped list. Each block arrives
   /// in turn.
-  static Widget _ranked({required Widget hero, required List<Widget> modes, required List<Widget> rest, required Color line}) {
+  static Widget _ranked({
+    required Widget hero,
+    required List<QuickStartRow Function(QuickStartRowStyle style)> modes,
+    required List<Widget> rest,
+    required Color line,
+  }) {
     var index = 0;
     final blocks = <Widget>[MmStaggerItem(index: index++, child: hero)];
     for (var i = 0; i < modes.length; i += 2) {
@@ -301,13 +306,15 @@ class QuickStartSheet extends ConsumerWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(child: modes[i]),
+                    Expanded(child: modes[i](QuickStartRowStyle.tile)),
                     const SizedBox(width: MmSpace.s8),
-                    Expanded(child: modes[i + 1]),
+                    Expanded(child: modes[i + 1](QuickStartRowStyle.tile)),
                   ],
                 ),
               )
-            : modes[i],
+            // A mode alone on its line reads as a row: a tile stretched across the sheet is a
+            // tall empty box.
+            : modes[i](QuickStartRowStyle.row),
       ));
     }
     if (rest.isNotEmpty) {
@@ -441,12 +448,10 @@ class QuickStartRow extends StatelessWidget {
   Widget _row(BuildContext context, bool pressed) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return DecoratedBox(
+    final row = DecoratedBox(
       decoration: ShapeDecoration(
         color: surfaceFor(colors, pressed: pressed),
-        shape: grouped
-            ? const RoundedRectangleBorder()
-            : RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.08))),
+        shape: grouped ? const RoundedRectangleBorder() : const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 68),
@@ -468,6 +473,18 @@ class QuickStartRow extends StatelessWidget {
         ),
       ),
     );
+    if (grouped) return row;
+    // A row on its own: the same top edge light as the tiles, no outline.
+    return CustomPaint(
+      foregroundPainter: EdgeLightPainter(
+        borderRadius: MmRadius.keyAll,
+        top: colors.edgeTop,
+        bottom: colors.edgeBottom.withValues(alpha: 0),
+        sheen: false,
+        boost: pressed ? 1.6 : 1,
+      ),
+      child: row,
+    );
   }
 
   Widget _hero(BuildContext context, bool pressed) {
@@ -477,10 +494,13 @@ class QuickStartRow extends StatelessWidget {
       decoration: ShapeDecoration(color: surfaceFor(colors, pressed: pressed), shape: const RoundedSuperellipseBorder(borderRadius: _heroRadius)),
       child: CustomPaint(
         // The lamp pooled from the upper left, laid over the opaque fill: still opaque.
-        painter: LightFieldPainter([
-          LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(-1.1, -1.3), radius: 0.9, aspect: 1.6),
-          LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
-        ]),
+        painter: _ShapedLight(
+          radius: _heroRadius,
+          pools: [
+            LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(-1.1, -1.3), radius: 0.9, aspect: 1.6),
+            LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
+          ],
+        ),
         foregroundPainter: EdgeLightPainter(
           borderRadius: _heroRadius,
           top: colors.edgeTop,
@@ -551,6 +571,25 @@ class QuickStartRow extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The hero's light pools, kept inside its rounded shape (a clip on the canvas, no layer).
+class _ShapedLight extends CustomPainter {
+  _ShapedLight({required this.radius, required List<LightPool> pools}) : _light = LightFieldPainter(pools);
+
+  final BorderRadius radius;
+  final LightFieldPainter _light;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.clipRRect(radius.toRRect(Offset.zero & size));
+    _light.paint(canvas, size);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_ShapedLight old) => old.radius != radius || _light.shouldRepaint(old._light);
 }
 
 /// The hero's go-disc: a small volt bubble with the play glyph, the same ink as Start.
@@ -637,10 +676,13 @@ class _QuickGroup extends StatelessWidget {
       }
       rows.add(children[i]);
     }
-    return DecoratedBox(
-      position: DecorationPosition.foreground,
-      decoration: ShapeDecoration(
-        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.06))),
+    return CustomPaint(
+      // The group's one top edge light, no outline (the same as the tiles above it).
+      foregroundPainter: EdgeLightPainter(
+        borderRadius: MmRadius.keyAll,
+        top: colors.edgeTop,
+        bottom: colors.edgeBottom.withValues(alpha: 0),
+        sheen: false,
       ),
       child: ClipRSuperellipse(
         borderRadius: MmRadius.keyAll,
