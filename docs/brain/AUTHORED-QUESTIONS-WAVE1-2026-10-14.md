@@ -24,3 +24,5 @@ Result: 479 NTA-grade candidates.
 Content: docs/brain/reports/authored/wave1-candidates-2026-10-14.json (source "claude-authored-2026-10-14"). Raw files: tmp/authored/.
 
 Not done: publication to the live bank (needs owner approval). Then each published row needs the NTA score records (agent scores, fit scores, content hashes) so the engine can admit it. Wave 2 (Geography, Computer Science, Mathematics, General Test, Biology, English verbal, more History and Political Science) waits until the app UI blitz lands.
+
+Publication and score tooling (prepared 14 Oct, not run against any database): docs/brain/RUNBOOK-PUBLISH-AUTHORED-2026-10-14.md.

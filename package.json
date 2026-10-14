@@ -13,6 +13,7 @@
     "test:nta": "node --test data/tests/nta_engine.test.mjs data/tests/nta_review_fixes.test.mjs data/tests/nta_question_selector.test.mjs data/tests/nta_paper_pattern.test.mjs data/tests/nta_blueprints.test.mjs data/tests/nta_agent_scores.test.mjs data/tests/nta_session_state.test.mjs data/tests/option_text.test.mjs",
     "test:nta-e2e": "node --use-system-ca --test data/tests/nta_e2e_session.test.mjs data/tests/nta_e2e_state.test.mjs",
     "test:question-reorder": "node --test data/tests/question_reorder.test.mjs",
+    "test:authored-publish": "node --test data/tests/authored_publish.test.mjs",
     "test:study": "node --test data/tests/study_engine.test.mjs data/tests/study_content.test.mjs data/tests/study_database.test.mjs",
     "test:answer-integrity": "node --test data/tests/answer_integrity.test.mjs",
     "db:seed": "node scripts/seed.mjs",
