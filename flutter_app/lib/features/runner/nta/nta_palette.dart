@@ -42,6 +42,7 @@ class NtaPalettePanel extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final counts = NtaCounts.of(cells);
+    final bar = NtaBarColors.of(context);
     final inset = MediaQuery.viewPaddingOf(context);
     return ColoredBox(
       color: colors.raised,
@@ -85,10 +86,10 @@ class NtaPalettePanel extends StatelessWidget {
                   const SizedBox(height: MmSpace.s16),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
-                    decoration: const BoxDecoration(color: NtaSkin.bar, borderRadius: BorderRadius.vertical(top: Radius.circular(8))),
+                    decoration: BoxDecoration(color: bar.band, borderRadius: const BorderRadius.vertical(top: Radius.circular(8))),
                     child: Text(
                       '${NtaCopy.section}: $subject',
-                      style: type.label.copyWith(color: NtaSkin.onBar),
+                      style: type.label.copyWith(color: bar.onBand),
                     ),
                   ),
                   const SizedBox(height: MmSpace.s12),
@@ -128,6 +129,7 @@ class NtaCandidateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final bar = NtaBarColors.of(context);
     final n = name?.trim();
     final hasName = n != null && n.isNotEmpty;
     return Container(
@@ -143,10 +145,10 @@ class NtaCandidateCard extends StatelessWidget {
             width: 44,
             height: 44,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(color: NtaSkin.bar, shape: BoxShape.circle),
+            decoration: BoxDecoration(color: bar.avatar, shape: BoxShape.circle),
             child: hasName
-                ? Text(n.characters.first.toUpperCase(), style: type.cardTitle.copyWith(color: NtaSkin.onBar))
-                : const Icon(LucideIcons.user, size: 20, color: NtaSkin.onBar),
+                ? Text(n.characters.first.toUpperCase(), style: type.cardTitle.copyWith(color: bar.onAvatar))
+                : Icon(LucideIcons.user, size: 20, color: bar.onAvatar),
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
@@ -174,6 +176,7 @@ class _Legend extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final stacked = MediaQuery.textScalerOf(context).scale(1) >= 1.2;
     Widget item(NtaChipState s) => Row(
       children: [
         NtaChip(state: s, label: '${counts[s]}', size: const Size(36, 32), fontSize: 13),
@@ -186,23 +189,31 @@ class _Legend extends StatelessWidget {
       label: [for (final s in NtaChipState.values) '${counts[s]} ${s.label.toLowerCase()}'].join(', '),
       excludeSemantics: true,
       child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(child: item(NtaChipState.answered)),
-              Expanded(child: item(NtaChipState.notAnswered)),
-            ],
-          ),
-          const SizedBox(height: MmSpace.s8),
-          Row(
-            children: [
-              Expanded(child: item(NtaChipState.notVisited)),
-              Expanded(child: item(NtaChipState.marked)),
-            ],
-          ),
-          const SizedBox(height: MmSpace.s8),
-          item(NtaChipState.answeredMarked),
-        ],
+        children: stacked
+            // Large text: one state to a line, so "Marked for review" never wraps.
+            ? [
+                for (final (i, s) in NtaChipState.values.indexed) ...[
+                  if (i > 0) const SizedBox(height: MmSpace.s8),
+                  item(s),
+                ],
+              ]
+            : [
+                Row(
+                  children: [
+                    Expanded(child: item(NtaChipState.answered)),
+                    Expanded(child: item(NtaChipState.notAnswered)),
+                  ],
+                ),
+                const SizedBox(height: MmSpace.s8),
+                Row(
+                  children: [
+                    Expanded(child: item(NtaChipState.notVisited)),
+                    Expanded(child: item(NtaChipState.marked)),
+                  ],
+                ),
+                const SizedBox(height: MmSpace.s8),
+                item(NtaChipState.answeredMarked),
+              ],
       ),
     );
   }

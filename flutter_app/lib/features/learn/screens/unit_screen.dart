@@ -84,21 +84,24 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final load = ref.watch(lessonProvider(widget.unitId));
-    return Scaffold(
-      backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Align(alignment: Alignment.centerLeft, child: IconTap(icon: LucideIcons.arrowLeft, label: LearnCopy.backToLearn, onTap: _leave)),
-            if (load.value?.fromPhone ?? false) const InlineBanner.offlineStrip(),
-            Expanded(
-              child: load.when(
-                loading: () => const _UnitSkeleton(),
-                error: (error, _) => _errorBody(error),
-                data: _content,
+    return LearnBackScope(
+      fallback: AppRoutes.learn,
+      child: Scaffold(
+        backgroundColor: colors.ground,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Align(alignment: Alignment.centerLeft, child: IconTap(icon: LucideIcons.arrowLeft, label: LearnCopy.backToLearn, onTap: _leave)),
+              if (load.value?.fromPhone ?? false) const InlineBanner.offlineStrip(),
+              Expanded(
+                child: load.when(
+                  loading: () => const _UnitSkeleton(),
+                  error: (error, _) => _errorBody(error),
+                  data: _content,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

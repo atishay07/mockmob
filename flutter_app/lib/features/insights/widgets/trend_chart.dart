@@ -194,15 +194,15 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
 
   static const double _tooltipWidth = 176;
 
-  /// A small glass note above the picked dot: its day, marks and paper length, and Show me.
+  /// A small glass note by the picked dot: its day, marks and paper length, and Show me.
   Widget _tooltip(TrendPoint p, Offset at) {
     final colors = context.mmColors;
     final type = context.mmType;
     // The note is placed by its measured height (it grows with large text), never a guess:
-    // above the dot when it fits inside the chart, otherwise below it.
+    // above the dot, below it, or beside it, always inside the chart.
     return Positioned.fill(
       child: CustomSingleChildLayout(
-        delegate: _TooltipLayout(at: at, width: MediaQuery.textScalerOf(context).scale(_tooltipWidth)),
+        delegate: _TooltipLayout(at: at, width: MediaQuery.textScalerOf(context).scale(_tooltipWidth), plotLeft: _TrendGeometry.left),
         child: Semantics(
           container: true,
           liveRegion: true,
@@ -235,31 +235,43 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
   }
 }
 
-/// Puts the note above the dot when its measured height fits inside the chart, else below the
-/// dot (over the date row, never over the heading), keeping the note's width inside the chart.
+/// Places the note inside the chart, so it never covers the marks scale on the left or the
+/// dates under the plot. Above the dot when its measured height fits, else below it, else
+/// beside it (the side with room), vertically centred on the dot and kept inside the chart.
+/// Only a note taller than the whole chart (very large text) may run past its edge.
 /// The note is wider at large text so Show me never overflows.
 class _TooltipLayout extends SingleChildLayoutDelegate {
-  const _TooltipLayout({required this.at, required this.width});
+  const _TooltipLayout({required this.at, required this.width, required this.plotLeft});
 
   final Offset at;
   final double width;
+
+  /// Where the plot starts: the marks scale sits to its left and stays uncovered.
+  final double plotLeft;
 
   /// The gap between the dot and the note.
   static const double gap = 14;
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
-      BoxConstraints.tightFor(width: math.min(width, constraints.maxWidth));
+      BoxConstraints.tightFor(width: math.min(width, constraints.maxWidth - plotLeft));
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    final left = (at.dx - childSize.width / 2).clamp(0.0, (size.width - childSize.width).clamp(0.0, double.infinity));
+    double clampX(double x) => x.clamp(plotLeft, math.max(plotLeft, size.width - childSize.width));
+    double clampY(double y) => y.clamp(0.0, math.max(0.0, size.height - childSize.height));
     final above = at.dy - gap - childSize.height >= 0;
-    return Offset(left, above ? at.dy - gap - childSize.height : at.dy + gap);
+    if (above) return Offset(clampX(at.dx - childSize.width / 2), at.dy - gap - childSize.height);
+    final below = at.dy + gap + childSize.height <= size.height;
+    if (below) return Offset(clampX(at.dx - childSize.width / 2), at.dy + gap);
+    final centred = clampY(at.dy - childSize.height / 2);
+    if (at.dx + gap + childSize.width <= size.width) return Offset(at.dx + gap, centred);
+    if (at.dx - gap - childSize.width >= plotLeft) return Offset(at.dx - gap - childSize.width, centred);
+    return Offset(clampX(at.dx - childSize.width / 2), clampY(at.dy - gap - childSize.height));
   }
 
   @override
-  bool shouldRelayout(_TooltipLayout old) => old.at != at || old.width != width;
+  bool shouldRelayout(_TooltipLayout old) => old.at != at || old.width != width || old.plotLeft != plotLeft;
 }
 
 /// Where each session sits on the chart, shared by the painter, the taps and the note.

@@ -128,6 +128,24 @@ void main() {
     overrides: () => youOverrides(fakeAuth: FakeAuth(_freeUser)),
   );
 
+  // The balance did not load: a plain sentence and a Try again key (device walk-through P3-31).
+  sheetGolden(
+    'account_credits_unloaded',
+    () => const AccountScreen(),
+    size: const Size(384, 980),
+    overrides: () => youOverrides(
+      fakeAuth: FakeAuth(
+        const AuthSnapshot(
+          status: AuthStatus.signedIn,
+          userId: 'u1',
+          email: 'asha.verma@example.com',
+          name: 'Asha Verma',
+          subjects: ['accountancy', 'business_studies', 'economics', 'english'],
+        ),
+      ),
+    ),
+  );
+
   sheetGolden(
     'name_sheet',
     () => const AccountScreen(),

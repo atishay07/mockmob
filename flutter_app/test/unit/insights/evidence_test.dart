@@ -8,6 +8,8 @@ import 'package:mockmob/features/insights/data/insights_models.dart';
 import 'package:mockmob/features/insights/data/subject_names.dart';
 import 'package:mockmob/features/insights/data/trend.dart';
 import 'package:mockmob/features/insights/widgets/ask_messages.dart';
+import 'package:mockmob/features/insights/widgets/insights_bits.dart';
+import 'package:mockmob/features/insights/widgets/record_sections.dart';
 import 'package:mockmob/features/insights/widgets/trend_chart.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -98,6 +100,8 @@ void main() {
         );
 
     Future<(Rect chart, Rect note)> pick(WidgetTester tester, List<int> marks, double textScale) async {
+      // A fresh chart each time: the picked dot of the one before must not carry over.
+      await tester.pumpWidget(const SizedBox());
       await pumpMockmob(
         tester,
         Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [seriesAt(marks)])),
@@ -111,10 +115,14 @@ void main() {
       return (chart, tester.getRect(find.byType(FakeGlass)));
     }
 
-    testWidgets('a dot near the top gets its note below it, inside the chart', (tester) async {
+    testWidgets('a dot near the top gets its note inside the chart, off the marks scale and the dates', (tester) async {
       final (chart, note) = await pick(tester, [41, 44, 49], 1);
       expect(note.top, greaterThanOrEqualTo(chart.top));
-      expect(note.bottom, lessThanOrEqualTo(chart.bottom + 16));
+      // Never over the date row under the plot (the walk-through had Show me on the date).
+      expect(note.bottom, lessThanOrEqualTo(chart.bottom));
+      // Never over the marks scale ("25", "0") at the left of the plot.
+      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
+      expect(note.right, lessThanOrEqualTo(chart.right));
     });
 
     testWidgets('the note is wider at large text, so Show me does not overflow', (tester) async {
@@ -122,16 +130,75 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(note.width, greaterThan(176));
       expect(note.top, greaterThanOrEqualTo(chart.top));
+      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
     });
 
-    testWidgets('a dot too low for the note above it still keeps the note out of the heading', (tester) async {
+    testWidgets('a dot too low for the note above it still keeps the note inside the chart', (tester) async {
       for (final marks in [
         [20, 30, 25],
         [20, 10, 2],
+        [2, 4, 1],
       ]) {
         final (chart, note) = await pick(tester, marks, 1);
-        expect(note.top, greaterThanOrEqualTo(chart.top));
+        expect(note.top, greaterThanOrEqualTo(chart.top), reason: '$marks');
+        expect(note.bottom, lessThanOrEqualTo(chart.bottom), reason: '$marks');
+        expect(note.left, greaterThanOrEqualTo(chart.left + 30), reason: '$marks');
       }
+    });
+
+    testWidgets('a dot at the left edge of the plot keeps the note off the marks scale', (tester) async {
+      await pumpMockmob(
+        tester,
+        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [seriesAt([33, 8])])),
+        brightness: Brightness.dark,
+        disableAnimations: true,
+      );
+      final chart = tester.getRect(find.byType(CustomPaint).last);
+      await tester.tapAt(Offset(chart.left + 36, chart.center.dy));
+      await tester.pump();
+      final note = tester.getRect(find.byType(FakeGlass));
+      expect(note.left, greaterThanOrEqualTo(chart.left + 30));
+      expect(note.top, greaterThanOrEqualTo(chart.top));
+      expect(note.bottom, lessThanOrEqualTo(chart.bottom));
+    });
+  });
+
+  group('honest units', () {
+    test('the record never states net marks alone: it carries the marks on offer and the sessions', () {
+      expect(InsightsCopy.netOver(1346, 3250, 10), '+1346 net marks of 3250 on offer over 10 sessions');
+      expect(InsightsCopy.netOver(-4, 50, 1), '-4 net marks of 50 on offer over 1 session');
+    });
+
+    test('the Review entry row gives the share right, which means the same over papers of any length', () {
+      expect(InsightsCopy.insightsEntryNote(77, 10), '77% right over 10 sessions');
+      expect(InsightsCopy.insightsEntryNote(null, 1), '1 session');
+      expect(InsightsCopy.insightsEntryNote(77, 10), isNot(contains('net marks')));
+    });
+
+    testWidgets('the week compare says what its figures count', (tester) async {
+      final v = rich();
+      await pumpMockmob(
+        tester,
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: WeekSection(thisWeek: v.thisWeek, lastWeek: v.lastWeek, activeDays: v.activeDaysLast14),
+          ),
+        ),
+        brightness: Brightness.dark,
+        disableAnimations: true,
+      );
+      expect(find.text('+${v.thisWeek.net}'), findsOneWidget);
+      expect(find.text('net marks'), findsNWidgets(2));
+      expect(find.bySemanticsLabel('+${v.thisWeek.net} net marks'), findsOneWidget);
+    });
+
+    testWidgets('the Pro row is read out once, not as "Pro. Pro."', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpMockmob(tester, const Padding(padding: EdgeInsets.all(16), child: ProRow('3 more chapters with Pro')), brightness: Brightness.dark, disableAnimations: true);
+      expect(find.bySemanticsLabel('3 more chapters with Pro.'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'Pro\. Pro')), findsNothing);
+      handle.dispose();
     });
   });
 

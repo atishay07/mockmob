@@ -8,7 +8,8 @@ import 'nta_skin.dart';
 enum NtaKeyTone { purple, green, plain }
 
 /// A flat exam key, 48 dp, 10 dp corners: purple for Mark for Review & Next, green for Save &
-/// Next and Submit, plain for the rest. A press darkens the fill; nothing moves.
+/// Next and Submit, plain for the rest. A press darkens the fill; nothing moves. The label stays
+/// on one line.
 class NtaKey extends StatelessWidget {
   const NtaKey({super.key, required this.label, required this.onPressed, this.tone = NtaKeyTone.plain, this.icon, this.iconAfter = false});
 
@@ -51,15 +52,21 @@ class NtaKey extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (iconWidget != null && !iconAfter) ...[iconWidget, const SizedBox(width: MmSpace.s4)],
+                    // One line at every text size: a long exam label ("Mark for Review & Next")
+                    // shrinks a touch at 1.3x rather than wrapping to two lines.
                     Flexible(
-                      child: Text(
-                        label,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: context.mmType.label.copyWith(
-                          color: enabled ? ink : colors.ink4,
-                          fontSize: 14,
-                          fontWeight: tone == NtaKeyTone.plain ? FontWeight.w600 : FontWeight.w700,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          label,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: context.mmType.label.copyWith(
+                            color: enabled ? ink : colors.ink4,
+                            fontSize: 14,
+                            fontWeight: tone == NtaKeyTone.plain ? FontWeight.w600 : FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),

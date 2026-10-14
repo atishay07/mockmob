@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -11,7 +15,10 @@ import '../data/practice_catalog.dart';
 /// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
 /// below. Chosen and not chosen follow the shared answer-sheet selection ([MmSelection]). A last
 /// tile opens the remaining supported subjects. Scrolls sideways, bleeding to the screen edge.
-class SubjectTiles extends ConsumerWidget {
+///
+/// The chosen tile is always in view: a subject picked elsewhere (Compass, a link, the quick
+/// start) opens the strip already scrolled to it, and a later choice glides it into view.
+class SubjectTiles extends ConsumerStatefulWidget {
   const SubjectTiles({
     super.key,
     required this.choices,
@@ -37,33 +44,119 @@ class SubjectTiles extends ConsumerWidget {
 
   static const double width = 132;
   static const double height = 148;
+  static const double gap = MmSpace.s8;
+
+  /// The "More subjects" tile's width.
+  static const double moreWidth = 92;
+
+  /// The scroll offset that shows tile [index] whole, with [gutter] of air beside it, given the
+  /// strip's current [offset], its [viewport] width and how far it can scroll. Unchanged when
+  /// the tile already shows.
+  @visibleForTesting
+  static double offsetToShow({
+    required int index,
+    required double offset,
+    required double viewport,
+    required double maxExtent,
+    required double gutter,
+  }) {
+    final start = gutter + index * (width + gap);
+    final end = start + width;
+    var target = offset;
+    if (end + gutter > offset + viewport) target = end + gutter - viewport;
+    if (start - gutter < target) target = math.max(start - gutter, 0);
+    return target.clamp(0.0, math.max(maxExtent, 0.0));
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final count = choices.length + (onMore == null ? 0 : 1);
+  ConsumerState<SubjectTiles> createState() => _SubjectTilesState();
+}
+
+class _SubjectTilesState extends ConsumerState<SubjectTiles> {
+  ScrollController? _controller;
+  double _viewport = 0;
+
+  int get _selectedIndex => widget.choices.indexWhere((c) => c.id == widget.selectedId);
+
+  /// The width of everything the strip scrolls over, to know how far it can go.
+  double get _contentWidth {
+    final tiles = widget.choices.length;
+    final more = widget.onMore == null ? 0.0 : SubjectTiles.moreWidth + SubjectTiles.gap;
+    return widget.gutter * 2 + tiles * SubjectTiles.width + math.max(tiles - 1, 0) * SubjectTiles.gap + more;
+  }
+
+  double _target(double offset) {
+    final index = _selectedIndex;
+    if (index < 0 || _viewport <= 0) return offset;
+    return SubjectTiles.offsetToShow(
+      index: index,
+      offset: offset,
+      viewport: _viewport,
+      maxExtent: _contentWidth - _viewport,
+      gutter: widget.gutter,
+    );
+  }
+
+  @override
+  void didUpdateWidget(SubjectTiles old) {
+    super.didUpdateWidget(old);
+    if (old.selectedId == widget.selectedId && old.choices.length == widget.choices.length) return;
+    // The new choice glides into view once the strip has laid out with it.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final c = _controller;
+      if (!mounted || c == null || !c.hasClients) return;
+      final to = _target(c.offset);
+      if ((to - c.offset).abs() < 0.5) return;
+      final d = Motion.of(context, Motion.glideDuration);
+      if (d == Duration.zero) {
+        c.jumpTo(to);
+      } else {
+        unawaited(c.animateTo(to, duration: d, curve: Motion.glide));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final choices = widget.choices;
+    final count = choices.length + (widget.onMore == null ? 0 : 1);
     return Semantics(
       container: true,
       label: PracticeCopy.subjectLabel,
       child: SizedBox(
-        height: height,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: gutter),
-          clipBehavior: Clip.none,
-          itemCount: count,
-          separatorBuilder: (_, _) => const SizedBox(width: MmSpace.s8),
-          itemBuilder: (context, i) {
-            if (i == choices.length) return _MoreTile(onTap: onMore!);
-            final c = choices[i];
-            return SubjectTile(
-              id: c.id,
-              name: c.name,
-              questions: countFor?.call(c.id),
-              selected: c.id == selectedId,
-              onTap: () {
-                if (c.id == selectedId) return;
-                ref.read(hapticsProvider).selection();
-                onSelected(c.id);
+        height: SubjectTiles.height,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            _viewport = constraints.maxWidth;
+            // Opens already scrolled to the chosen tile, so it never starts off-screen.
+            _controller ??= ScrollController(initialScrollOffset: _target(0));
+            return ListView.separated(
+              controller: _controller,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: widget.gutter),
+              clipBehavior: Clip.none,
+              itemCount: count,
+              separatorBuilder: (_, _) => const SizedBox(width: SubjectTiles.gap),
+              itemBuilder: (context, i) {
+                if (i == choices.length) return _MoreTile(onTap: widget.onMore!);
+                final c = choices[i];
+                return SubjectTile(
+                  id: c.id,
+                  name: c.name,
+                  questions: widget.countFor?.call(c.id),
+                  selected: c.id == widget.selectedId,
+                  onTap: () {
+                    if (c.id == widget.selectedId) return;
+                    ref.read(hapticsProvider).selection();
+                    widget.onSelected(c.id);
+                  },
+                );
               },
             );
           },
@@ -168,7 +261,7 @@ class _MoreTile extends StatelessWidget {
       focusRadius: MmRadius.keyAll,
       onTap: onTap,
       builder: (context, pressed, _) => SizedBox(
-        width: 92,
+        width: SubjectTiles.moreWidth,
         height: SubjectTiles.height,
         child: DecoratedBox(
           decoration: ShapeDecoration(

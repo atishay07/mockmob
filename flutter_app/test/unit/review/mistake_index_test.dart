@@ -85,6 +85,12 @@ void main() {
       expect(ReviewCopy.aajKaRepair(10, 'Partnership: admission of a partner'), 'Aaj ka repair: 10 minutes, Partnership.');
     });
 
+    test('the spoken label over the wrong bubbles is singular for one question', () {
+      expect(ReviewCopy.wrongQuestionsSpoken([3]), 'Question 3, answered wrong');
+      expect(ReviewCopy.wrongQuestionsSpoken([3, 5]), 'Questions 3 and 5, answered wrong');
+      expect(ReviewCopy.wrongQuestionsSpoken([3, 5, 9]), 'Questions 3, 5 and 9, answered wrong');
+    });
+
     test('ending lines count only what happened', () {
       final night = DateTime(2026, 10, 13, 21, 30);
       expect(ReviewCopy.endingLine('Partnership: x', 3, 3, now: night), 'Partnership: all 3 repaired tonight.');

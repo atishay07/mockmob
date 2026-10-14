@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 import '../auth/auth_state.dart' show AuthStatus;
+import '../domain/repair_candidates.dart' show repairDurationOptions;
 import '../router/action_router.dart';
 
 /// The launcher's shortcut list (long-press on the app icon). Swapped for a fake in tests.
@@ -38,11 +39,27 @@ abstract final class ShortcutIcons {
   static const String practice = 'ic_shortcut_practice';
 }
 
+/// True when [repairLocation] opens a repair of exactly what the 10-minute chip holds (Today's
+/// table: 3 mistakes). With fewer open mistakes the table has no 10-minute chip and the repair
+/// is shorter, so the shortcut must not promise 10 minutes.
+bool opensTenMinuteRepair(String? repairLocation) {
+  final raw = repairLocation == null ? null : Uri.tryParse(repairLocation)?.queryParameters['count'];
+  final count = raw == null ? null : int.tryParse(raw);
+  if (count == null) return false;
+  return repairDurationOptions(count).any((o) => o.minutes == 10 && o.mistakes == count);
+}
+
 /// The shortcuts for the current state: Resume only while a session can be resumed, then the
-/// 10-minute repair and Practice 10. The launcher shows the first ones that fit.
-List<ShortcutItem> shortcutItems({required bool hasResume}) => [
+/// repair and Practice 10. The launcher shows the first ones that fit. The repair says
+/// "10-min repair" only when [tenMinuteRepair] (see [opensTenMinuteRepair]), else "Repair a
+/// mistake".
+List<ShortcutItem> shortcutItems({required bool hasResume, bool tenMinuteRepair = false}) => [
       if (hasResume) const ShortcutItem(type: AppShortcutType.resume, localizedTitle: 'Resume', icon: ShortcutIcons.resume),
-      const ShortcutItem(type: AppShortcutType.repair, localizedTitle: '10-min repair', icon: ShortcutIcons.repair),
+      ShortcutItem(
+        type: AppShortcutType.repair,
+        localizedTitle: tenMinuteRepair ? '10-min repair' : 'Repair a mistake',
+        icon: ShortcutIcons.repair,
+      ),
       const ShortcutItem(type: AppShortcutType.practice, localizedTitle: 'Practice 10', icon: ShortcutIcons.practice),
     ];
 
@@ -145,14 +162,15 @@ class ShortcutDispatcher {
 
   /// Puts the launcher list in step with the app: set while signed in, cleared on sign-out,
   /// untouched while the account is unknown so a cold launch still has its shortcuts.
-  Future<void> sync({required AuthStatus auth, required bool hasResume}) async {
+  Future<void> sync({required AuthStatus auth, required bool hasResume, String? repairLocation}) async {
     if (auth == AuthStatus.unknown) return;
-    final signature = auth == AuthStatus.signedIn ? (hasResume ? 'resume' : 'plain') : 'none';
+    final tenMinute = opensTenMinuteRepair(repairLocation);
+    final signature = auth == AuthStatus.signedIn ? '${hasResume ? 'resume' : 'plain'}${tenMinute ? '-10' : ''}' : 'none';
     if (signature == _synced) return;
     _synced = signature;
     try {
       if (auth == AuthStatus.signedIn) {
-        await surface.set(shortcutItems(hasResume: hasResume));
+        await surface.set(shortcutItems(hasResume: hasResume, tenMinuteRepair: tenMinute));
       } else {
         await surface.clear();
       }

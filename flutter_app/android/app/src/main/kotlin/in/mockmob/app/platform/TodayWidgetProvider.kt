@@ -20,6 +20,8 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.StaticLayout
+import android.text.TextPaint
 import android.util.SizeF
 import android.util.TypedValue
 import android.view.View
@@ -131,10 +133,13 @@ class TodayWidgetProvider : AppWidgetProvider() {
 
     /**
      * Builds the widget for a size of [widthDp] by [heightDp]. Widget text follows the phone's
-     * font size, so what fits is measured, not assumed: the move's title always keeps a line,
-     * then the "Updated" stamp (whole, or not at all, never cut to "Updated 9:..."), then the
-     * title's further lines. On the wide widget the week ring shrinks and its label goes before
-     * anything is cut off at the bottom.
+     * font size, so what fits is measured, not assumed. The move's title always keeps a line,
+     * then the key (the pill), then the "Updated" stamp (whole, or not at all, never cut to
+     * "Updated 9:..."), then the title's further lines and a larger type size. The move sits in
+     * the middle of the space left, so a tall widget grows its type instead of leaving a band.
+     * On the wide widget the week ring shrinks and its label goes before anything is cut off at
+     * the bottom; on the small one the ring gives way to the brand mark when the countdown's
+     * words would not fit beside it.
      */
     private fun build(context: Context, m: WidgetModel, widthDp: Float, heightDp: Float, tap: PendingIntent): RemoteViews {
         val wide = widthDp >= 230f && heightDp >= 120f
@@ -142,18 +147,13 @@ class TodayWidgetProvider : AppWidgetProvider() {
         val res = context.resources
         val density = res.displayMetrics.density
         val move = m.move
+        val week = m.week
+        val updated = m.updated
+        val title = move?.title ?: res.getString(R.string.widget_open)
 
-        v.setTextViewText(R.id.widget_title, move?.title ?: res.getString(R.string.widget_open))
-        // The brand mark stands in for what is missing: the move on the wide widget, the ring
-        // (top left) on the small one.
-        v.setViewVisibility(R.id.widget_mark, visibleIf(if (wide) move == null else m.week == null))
-        if (wide) {
-            v.setViewVisibility(R.id.widget_overline, visibleIf(move != null))
-            v.setTextViewText(R.id.widget_overline, move?.overline ?: "")
-            v.setViewVisibility(R.id.widget_action, visibleIf(move != null))
-            v.setTextViewText(R.id.widget_action, move?.action ?: "")
-        }
-        v.setTextViewText(R.id.widget_updated, m.updated ?: "")
+        v.setTextViewText(R.id.widget_title, title)
+        v.setTextViewText(R.id.widget_action, move?.action ?: "")
+        v.setTextViewText(R.id.widget_updated, updated ?: "")
 
         // The days to CUET first: its height and width count in the fit below.
         var cuetNumberDp = 0f
@@ -178,11 +178,12 @@ class TodayWidgetProvider : AppWidgetProvider() {
             v.setTextViewText(R.id.widget_cuet_label, open)
         }
 
-        val week = m.week
-        val updated = m.updated
-        val titleLine: Float
+        val titleWidthDp: Float
+        val titleSizes: List<Float>
+        val titleSpacing: Float
         var middleDp: Float
         var ringDp = if (wide) 52f else 44f
+        var showRing = week != null
         var showWeekLabel = wide
         if (wide) {
             val innerWidth = widthDp - 2 * WIDE_PADDING_DP
@@ -205,7 +206,6 @@ class TodayWidgetProvider : AppWidgetProvider() {
             val pillHeight = if (move != null) lineDp(context, 13f) + 14f else 0f
             val bottom = if (pillHeight > 0f || countdownHeight > 0f) 8f + maxOf(pillHeight, countdownHeight) else 0f
             middleDp = heightDp - 2 * WIDE_PADDING_DP - top - 6f - bottom
-            titleLine = lineDp(context, 16f, 1.1f)
             if (week != null) {
                 val full = 52f + 4f + lineDp(context, 11f)
                 if (middleDp < full) {
@@ -217,18 +217,60 @@ class TodayWidgetProvider : AppWidgetProvider() {
                     }
                 }
             }
+            val ringColumn = if (week == null) 0f else 12f + maxOf(ringDp, if (showWeekLabel) textWidthDp(context, week.label, 11f) else 0f)
+            titleWidthDp = innerWidth - ringColumn
+            titleSizes = listOf(22f, 20f, 18f, 16f)
+            titleSpacing = 1.1f
+            v.setViewVisibility(R.id.widget_mark, visibleIf(move == null))
+            v.setViewVisibility(R.id.widget_overline, visibleIf(move != null))
+            v.setTextViewText(R.id.widget_overline, move?.overline ?: "")
+            v.setViewVisibility(R.id.widget_action, visibleIf(move != null))
             v.setViewVisibility(R.id.widget_updated, visibleIf(updated != null))
         } else {
-            val tight = heightDp < 150f
-            val labelLines = if (tight) 1 else 2
+            val inner = widthDp - 2 * SMALL_PADDING_DP
+            // The countdown's words sit beside the ring (or the brand mark): two lines at most.
+            // When they would not fit beside the ring, the ring gives way to the smaller mark.
+            var labelLines = 1
+            if (cuetLabel != null) {
+                var beside = inner - (if (showRing) 44f else 32f) - 8f
+                if (showRing && linesNeeded(context, cuetLabel, 11f, beside, medium = false) > 2) {
+                    showRing = false
+                    beside = inner - 32f - 8f
+                }
+                labelLines = linesNeeded(context, cuetLabel, 11f, beside, medium = false).coerceIn(1, 2)
+            }
             v.setInt(R.id.widget_cuet_label, "setMaxLines", labelLines)
             val countdown = if (cuetLabel == null) 0f else cuetNumberDp + 3f + labelLines * lineDp(context, 11f)
-            val top = maxOf(if (week != null) 44f else 32f, countdown)
+            val top = maxOf(if (showRing) 44f else 32f, countdown)
             middleDp = heightDp - 2 * SMALL_PADDING_DP - top
-            titleLine = lineDp(context, 14f, 1.05f)
+            titleWidthDp = inner
+            titleSizes = listOf(16f, 14f)
+            titleSpacing = 1.05f
+            val titleLine = lineDp(context, 14f, titleSpacing)
+            // The key at the foot, when the title still keeps a line above it: the pill at 13 sp,
+            // or a size smaller on a narrow widget, or none when even that does not fit.
+            var showPill = false
+            if (move != null) {
+                val roomy = textWidthDp(context, move.action, 13f, bold = true) + 28f <= inner
+                val compact = !roomy && textWidthDp(context, move.action, 12f, bold = true) + 20f <= inner
+                if (roomy || compact) {
+                    val pillBlock = 8f + lineDp(context, if (roomy) 13f else 12f) + 14f
+                    if (middleDp - pillBlock >= titleLine) {
+                        showPill = true
+                        middleDp -= pillBlock
+                        if (compact) {
+                            val h = dp(context, 10f).toInt()
+                            val vPad = dp(context, 7f).toInt()
+                            v.setTextViewTextSize(R.id.widget_action, TypedValue.COMPLEX_UNIT_SP, 12f)
+                            v.setViewPadding(R.id.widget_action, h, vPad, h, vPad)
+                        }
+                    }
+                }
+            }
+            v.setViewVisibility(R.id.widget_action, visibleIf(showPill))
             var showUpdated = false
             if (updated != null) {
-                val lines = if (textWidthDp(context, updated, 11f) <= widthDp - 2 * SMALL_PADDING_DP) 1 else 2
+                val lines = if (textWidthDp(context, updated, 11f) <= inner) 1 else 2
                 val needed = 2f + lines * lineDp(context, 11f)
                 if (middleDp - needed >= titleLine) {
                     showUpdated = true
@@ -237,11 +279,16 @@ class TodayWidgetProvider : AppWidgetProvider() {
                 }
             }
             v.setViewVisibility(R.id.widget_updated, visibleIf(showUpdated))
+            // The brand mark stands in for the ring (top left) when there is none.
+            v.setViewVisibility(R.id.widget_mark, visibleIf(!showRing))
         }
-        v.setInt(R.id.widget_title, "setMaxLines", (middleDp / titleLine).toInt().coerceIn(1, 3))
+        // The largest type the middle holds, so a tall widget is filled by its words, not by a gap.
+        val titleSize = titleSizeSp(context, title, titleSizes, titleWidthDp, middleDp, titleSpacing)
+        v.setTextViewTextSize(R.id.widget_title, TypedValue.COMPLEX_UNIT_SP, titleSize)
+        v.setInt(R.id.widget_title, "setMaxLines", (middleDp / lineDp(context, titleSize, titleSpacing)).toInt().coerceIn(1, 3))
 
-        v.setViewVisibility(R.id.widget_week, visibleIf(week != null))
-        if (week != null) {
+        v.setViewVisibility(R.id.widget_week, visibleIf(showRing))
+        if (week != null && showRing) {
             val fraction = if (week.paused) 0f else min(week.done, week.goal).toFloat() / week.goal
             v.setImageViewBitmap(R.id.widget_ring_arc, arcMask(context, ringDp, fraction))
             if (week.paused) {
@@ -302,6 +349,35 @@ class TodayWidgetProvider : AppWidgetProvider() {
             val metrics = context.resources.displayMetrics
             val paint = Paint().apply { textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sizeSp, metrics) }
             return paint.fontSpacing * spacing / metrics.density
+        }
+
+        /**
+         * How many lines [text] takes at [sizeSp] in a box [widthDp] wide, at the phone's font
+         * size. [medium] measures the title's weight, else the regular weight of the small print.
+         */
+        fun linesNeeded(context: Context, text: String, sizeSp: Float, widthDp: Float, spacing: Float = 1f, medium: Boolean = true): Int {
+            val metrics = context.resources.displayMetrics
+            val paint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+                textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sizeSp, metrics)
+                if (medium) typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            }
+            val width = dp(context, widthDp.coerceAtLeast(1f)).toInt().coerceAtLeast(1)
+            return StaticLayout.Builder.obtain(text, 0, text.length, paint, width)
+                .setLineSpacing(0f, spacing)
+                .build()
+                .lineCount
+        }
+
+        /**
+         * The first (largest) of [sizes] at which [text] takes three lines at most and fits
+         * [heightDp]; the last (smallest) when none does.
+         */
+        fun titleSizeSp(context: Context, text: String, sizes: List<Float>, widthDp: Float, heightDp: Float, spacing: Float): Float {
+            for (size in sizes) {
+                val lines = linesNeeded(context, text, size, widthDp, spacing)
+                if (lines <= 3 && lines * lineDp(context, size, spacing) <= heightDp) return size
+            }
+            return sizes.last()
         }
 
         /** The width of [text] at [sizeSp], in dp, at the phone's font size. */

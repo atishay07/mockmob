@@ -62,6 +62,19 @@ final _topSeries = TrendSeries(
   ],
 );
 
+/// A format whose dots sit mid-chart: the note fits neither above nor below a dot, so it goes
+/// beside it, off the marks scale and the dates (walk-through round 3, record chart).
+final _midSeries = TrendSeries(
+  key: 'mid',
+  subject: 'business_studies',
+  mode: 'quick',
+  total: 10,
+  points: [
+    for (var i = 0; i < 3; i++)
+      TrendPoint(attemptId: 'mid$i', at: DateTime.utc(2026, 10, 10 + i * 2, 12), marks: [33, 8, 21][i], maxMarks: 50),
+  ],
+);
+
 void main() {
   // ---- The trend note ----
   // The note flips below a dot near the top, and stays out of the heading above the chart.
@@ -79,6 +92,25 @@ void main() {
       await tester.pump();
     },
   );
+
+  for (final (name, first) in [('trend_picked_side_first', true), ('trend_picked_side_last', false)]) {
+    insightsGolden(
+      name,
+      () => Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: context.mmColors.ground,
+          body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_midSeries]))),
+        ),
+      ),
+      size: const Size(384, 420),
+      after: (tester) async {
+        final chart = tester.getRect(find.byType(CustomPaint).last);
+        // The first dot sits at the left of the plot (after the marks scale), the last at the right.
+        await tester.tapAt(Offset(first ? chart.left + 36 : chart.right - 12, chart.center.dy));
+        await tester.pump();
+      },
+    );
+  }
 
   // ---- Your record ----
   insightsGolden('record_top', () => const InsightsScreen());

@@ -223,6 +223,26 @@ void main() {
       expect(find.text(InsightsCopy.recoveryFailed), findsOneWidget);
       await tester.tap(find.text(InsightsCopy.retry));
       expect(retried, 1);
+      await tester.pump(RecoverySections.minPending + const Duration(milliseconds: 50));
+    });
+
+    testWidgets('Try again shows it is working, even when the read fails at once, then says it still failed', (tester) async {
+      var retried = 0;
+      const failed = RemoteState<RecoveryRecord>(error: ApiError(kind: ApiErrorKind.server, code: 'x', status: 503));
+      await pump(tester, failed, onRetry: () async => retried++);
+      expect(find.text(InsightsCopy.retrying), findsNothing);
+      final before = tester.getSize(find.byType(RecoverySections));
+      await tester.tap(find.text(InsightsCopy.retry));
+      await tester.pump(const Duration(milliseconds: 100));
+      // A visible pending state, the same height, and the key cannot be tapped twice.
+      expect(find.text(InsightsCopy.retrying), findsOneWidget);
+      expect(find.text(InsightsCopy.recoveryFailed), findsNothing);
+      expect(tester.getSize(find.byType(RecoverySections)).height, before.height);
+      await tester.tap(find.text(InsightsCopy.retry), warnIfMissed: false);
+      expect(retried, 1);
+      await tester.pump(RecoverySections.minPending);
+      expect(find.text(InsightsCopy.retrying), findsNothing);
+      expect(find.text(InsightsCopy.recoveryFailedAgain), findsOneWidget);
     });
 
     testWidgets('offline with nothing on the phone says so', (tester) async {

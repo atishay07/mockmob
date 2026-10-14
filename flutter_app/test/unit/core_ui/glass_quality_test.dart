@@ -108,4 +108,52 @@ void main() {
       expect(await AppPrefs(MemoryPrefsStore()).theme(), ThemeChoice.dark);
     });
   });
+
+  group('GlassBoot first launch', () {
+    Future<(GlassBoot, AppPrefs)> boot({required bool lowMemory, String? saved, bool auto = false}) async {
+      final prefs = AppPrefs(MemoryPrefsStore());
+      if (saved != null) await prefs.setGlassQuality(saved);
+      if (auto) await prefs.setGlassAutoLite(true);
+      return (await GlassBoot.read(prefs, lowMemory: () async => lowMemory), prefs);
+    }
+
+    test('a low-memory phone with nothing chosen starts on Lite as the automatic step, not as a choice', () async {
+      final (glass, prefs) = await boot(lowMemory: true);
+      expect(glass.chosen, GlassQuality.full, reason: 'the student has chosen nothing');
+      expect(glass.autoLite, isTrue);
+      expect(await prefs.glassAutoLite(), isTrue, reason: 'kept, so the next launch is the same');
+      expect(await prefs.glassQuality(), isNull);
+
+      final container = ProviderContainer(overrides: [glassBootProvider.overrideWithValue(glass), appPrefsProvider.overrideWithValue(prefs)]);
+      addTearDown(container.dispose);
+      expect(container.read(glassQualityProvider), GlassQuality.lite);
+      final setting = container.read(glassQualityProvider.notifier);
+      expect(setting.chosen, GlassQuality.full);
+      expect(setting.autoLite, isTrue, reason: 'Appearance says so and offers Full again');
+    });
+
+    test('a phone with enough memory starts on Full', () async {
+      final (glass, _) = await boot(lowMemory: false);
+      expect(glass.autoLite, isFalse);
+      expect(glass.chosen, GlassQuality.full);
+    });
+
+    test('a saved choice is never overridden by the memory rule', () async {
+      final (full, _) = await boot(lowMemory: true, saved: 'full');
+      expect(full.autoLite, isFalse, reason: 'a student who picked Full keeps Full');
+      final (off, _) = await boot(lowMemory: true, saved: 'off');
+      expect(off.chosen, GlassQuality.off);
+    });
+
+    test('picking Full on a low-memory phone clears the automatic step for good', () async {
+      final (glass, prefs) = await boot(lowMemory: true);
+      final container = ProviderContainer(overrides: [glassBootProvider.overrideWithValue(glass), appPrefsProvider.overrideWithValue(prefs)]);
+      addTearDown(container.dispose);
+      container.read(glassQualityProvider);
+      await container.read(glassQualityProvider.notifier).choose(GlassQuality.full);
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+      final again = await GlassBoot.read(prefs, lowMemory: () async => true);
+      expect(again.autoLite, isFalse, reason: 'the saved Full choice outranks the memory rule on the next launch');
+    });
+  });
 }

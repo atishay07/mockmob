@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
@@ -114,4 +115,23 @@ class ConceptsHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Makes system Back on a deep-linked Learn screen go to [fallback] instead of leaving the app.
+/// With a screen underneath, Back pops as usual.
+class LearnBackScope extends StatelessWidget {
+  const LearnBackScope({super.key, required this.fallback, required this.child});
+
+  /// Where Back goes when nothing is under this screen (Practice for Learn, Learn for its pages).
+  final String fallback;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => PopScope(
+        canPop: context.canPop(),
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop && context.mounted) context.go(fallback);
+        },
+        child: child,
+      );
 }

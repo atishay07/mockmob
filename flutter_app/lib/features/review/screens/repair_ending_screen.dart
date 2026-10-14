@@ -226,7 +226,9 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s16),
                           Text(mobiLine, style: type.body),
                         ],
-                        const SizedBox(height: MmSpace.s24),
+                        // The pinned keys below carry their own top padding: a taller spacer here
+                        // left Share a card floating above a dead gap.
+                        const SizedBox(height: MmSpace.s4),
                       ],
                     ),
                   ),

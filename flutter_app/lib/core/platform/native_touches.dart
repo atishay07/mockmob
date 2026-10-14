@@ -57,8 +57,10 @@ class NativeTouches {
         _resumeSessionId = id;
         _sync();
       }, fireImmediately: true))
-      ..add(_ref.listen<String?>(quickStartRepairProvider.select((r) => r?.shortcutLocation), (_, location) => _repairLocation = location,
-          fireImmediately: true))
+      ..add(_ref.listen<String?>(quickStartRepairProvider.select((r) => r?.shortcutLocation), (_, location) {
+        _repairLocation = location;
+        _sync();
+      }, fireImmediately: true))
       ..add(_ref.listen<AuthStatus>(authSnapshotProvider.select((s) => s.status), (_, status) {
         _sync();
         if (status != AuthStatus.unknown) unawaited(shortcuts.replayPending());
@@ -96,7 +98,7 @@ class NativeTouches {
     }
   }
 
-  void _sync() => unawaited(shortcuts.sync(auth: _auth, hasResume: _resumeSessionId != null));
+  void _sync() => unawaited(shortcuts.sync(auth: _auth, hasResume: _resumeSessionId != null, repairLocation: _repairLocation));
 
   /// Opens a shortcut's location: remembered while the account is unknown, else `router.go`.
   void _open(String location) {

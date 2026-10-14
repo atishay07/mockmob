@@ -20,12 +20,15 @@ enum PlanDayMark {
 }
 
 class PlanDay {
-  const PlanDay({required this.index, required this.mark, this.isToday = false, this.date});
+  const PlanDay({required this.index, required this.mark, this.isToday = false, this.isPast = false, this.date});
 
   /// 0 = Monday.
   final int index;
   final PlanDayMark mark;
   final bool isToday;
+
+  /// The day is before today. An open past day is read as not studied, never as "yet".
+  final bool isPast;
 
   /// Day of the month, when the server's week is known.
   final int? date;
@@ -38,7 +41,7 @@ class PlanDay {
       PlanDayMark.done => 'study day, counted',
       PlanDayMark.planned => 'planned study day',
       PlanDayMark.rest => 'rest day',
-      PlanDayMark.open => 'no study yet',
+      PlanDayMark.open => isPast ? 'not studied' : 'no study yet',
     };
     return '$name${isToday ? ', today' : ''}, $state';
   }
@@ -53,6 +56,7 @@ List<PlanDay> planWeek({required List<bool> studied, int? todayIndex, Set<int>? 
       PlanDay(
         index: d,
         isToday: todayIndex == d,
+        isPast: todayIndex != null && d < todayIndex,
         date: dates != null && d < dates.length ? dates[d] : null,
         mark: d < studied.length && studied[d]
             ? PlanDayMark.done

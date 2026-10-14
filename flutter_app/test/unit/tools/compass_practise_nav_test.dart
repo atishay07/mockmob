@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/tools/compass/compass_practise.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
@@ -107,5 +109,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(handled, isTrue);
     expect(find.byType(CompassScreen), findsOneWidget, reason: 'Back returns to Compass');
+  });
+
+  testWidgets('a Practise chip carries one signal, the play icon: no answer bubble or radio', (tester) async {
+    await pump(tester);
+    final chips = find.descendant(of: find.byType(CompassPractise), matching: find.byType(ToolsActionChip));
+    expect(chips, findsWidgets);
+    expect(find.descendant(of: find.byType(CompassPractise), matching: find.byType(MmChip)), findsNothing);
+    expect(find.descendant(of: find.byType(CompassPractise), matching: find.byType(Radio<Object?>)), findsNothing);
+    for (final chip in chips.evaluate()) {
+      final icons = find.descendant(of: find.byWidget(chip.widget), matching: find.byType(Icon));
+      expect(icons, findsOneWidget, reason: 'the play icon only');
+    }
   });
 }

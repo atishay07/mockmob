@@ -63,13 +63,19 @@ class FirstFixCard extends StatelessWidget {
       tiles = const [];
     }
 
-    final primary = switch ((leader, blanksOnly)) {
-      (final l?, true) => KeyButton(
+    // The primary key always carries on to card 4, so the recap never dead-ends here. Blanks are
+    // not mistakes to repair, so there is no repair to choose: card 4 is "what is recorded", and
+    // practising the chapter is a quiet second key that leaves the recap.
+    final primary = KeyButton(
+      label: blanksOnly || tiles.isEmpty ? ResultCopy.nextWhatsNext : ResultCopy.nextChoose,
+      onPressed: onNext,
+    );
+    final practise = switch ((leader, blanksOnly)) {
+      (final l?, true) => KeyButton.quiet(
         label: ResultCopy.practiseChapter,
         onPressed: () => context.go(ResultNav.practiseChapter(m, l.chapter)),
       ),
-      _ when tiles.isEmpty => KeyButton(label: ResultCopy.nextWhatsNext, onPressed: onNext),
-      _ => KeyButton(label: ResultCopy.nextChoose, onPressed: onNext),
+      _ => null,
     };
 
     return RecapCardPage(
@@ -77,7 +83,16 @@ class FirstFixCard extends StatelessWidget {
       onBack: onBack,
       topPadding: lower ? MmSpace.s32 : MmSpace.s8,
       // One Mobi per recap, and it lives on card 4.
-      footer: primary,
+      footer: practise == null
+          ? primary
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                primary,
+                Wrap(alignment: WrapAlignment.center, children: [practise]),
+              ],
+            ),
       children: [
         _Header(subjectId: m.subjectId),
         Semantics(header: true, child: Text(title, style: context.mmType.moment)),

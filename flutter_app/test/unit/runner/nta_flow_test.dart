@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
+import 'package:mockmob/core/widgets/status_tint.dart' show statusTintColor;
+import 'package:mockmob/features/runner/nta/nta_copy.dart';
+import 'package:mockmob/features/runner/nta/nta_header.dart' show NtaBar;
 import 'package:mockmob/features/runner/nta/nta_paper_theme.dart';
 import 'package:mockmob/features/runner/nta/nta_question_paper.dart';
 import 'package:mockmob/features/runner/nta/nta_runner_screen.dart';
+import 'package:mockmob/features/runner/nta/nta_skin.dart';
+import 'package:mockmob/features/runner/screens/submit_screen.dart' show SubmitPage;
 
 import '../../helpers/fonts.dart';
 import 'support/fake_session.dart';
@@ -17,6 +23,13 @@ Future<void> _flush(WidgetTester tester) async {
   for (var i = 0; i < 4; i++) {
     await tester.pump(const Duration(milliseconds: 1));
   }
+}
+
+/// How many lines a text is laid out in: the distinct tops of its selection boxes.
+int _lineCount(WidgetTester tester, Finder text) {
+  final paragraph = tester.renderObject<RenderParagraph>(text);
+  final boxes = paragraph.getBoxesForSelection(TextSelection(baseOffset: 0, extentOffset: paragraph.text.toPlainText().length));
+  return {for (final b in boxes) b.top.round()}.length;
 }
 
 void _lifecycle(WidgetTester tester, List<AppLifecycleState> states) {
@@ -130,6 +143,67 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   });
 
+  testWidgets('the warning dims the strip over the status bar with the paper, and the exam colour returns after', (tester) async {
+    await pumpRunner(tester, session: _nta());
+    await _flush(tester);
+    expect(statusTintColor.value, NtaSkin.bar, reason: 'the exam bar runs under the status bar');
+
+    _lifecycle(tester, [AppLifecycleState.inactive, AppLifecycleState.hidden, AppLifecycleState.paused]);
+    _lifecycle(tester, [AppLifecycleState.hidden, AppLifecycleState.inactive, AppLifecycleState.resumed]);
+    await _flush(tester);
+    expect(find.text('Warning 1 of 3'), findsOneWidget);
+    // The same dim as the card's backdrop, so no bright blue band sits over the dimmed exam.
+    final dimmed = Color.alphaBlend(NtaPaper.colors.ground.withValues(alpha: 0.94), NtaSkin.bar);
+    expect(statusTintColor.value, dimmed);
+    expect(statusTintColor.value, isNot(NtaSkin.bar));
+
+    await tester.tap(find.text('Return to the exam'));
+    await _flush(tester);
+    expect(statusTintColor.value, NtaSkin.bar);
+    await tester.pump(const Duration(milliseconds: 300));
+  });
+
+  testWidgets('the exam keys keep each label on one line at 1.3x text', (tester) async {
+    await pumpRunner(tester, session: _nta(), textScale: 1.3);
+    await _flush(tester);
+    for (final label in [NtaCopy.markAndNext, NtaCopy.clearResponse, NtaCopy.previous, NtaCopy.saveAndNext]) {
+      expect(_lineCount(tester, find.text(label)), 1, reason: '"$label" wrapped');
+    }
+  });
+
+  testWidgets('the palette keeps its legend and foot keys on one line at 1.3x text', (tester) async {
+    await pumpRunner(tester, session: _nta(), textScale: 1.3);
+    await _flush(tester);
+    await tester.tap(find.bySemanticsLabel('Question palette'));
+    await settle(tester);
+    for (final label in [NtaCopy.marked, NtaCopy.answeredMarked, NtaCopy.questionPaper, NtaCopy.submitTestShort]) {
+      expect(_lineCount(tester, find.text(label)), 1, reason: '"$label" wrapped');
+    }
+  });
+
+  for (final brightness in [Brightness.light, Brightness.dark]) {
+    testWidgets('the exam look and the MockMob look differ at a glance in ${brightness.name} mode', (tester) async {
+      await pumpRunner(tester, session: _nta(), brightness: brightness);
+      await _flush(tester);
+      final container = ProviderScope.containerOf(tester.element(find.byType(NtaRunnerView)));
+
+      Color painted() {
+        final box = tester.widget<DecoratedBox>(find.descendant(of: find.byType(NtaBar), matching: find.byType(DecoratedBox)).first);
+        return (box.decoration as BoxDecoration).color!;
+      }
+
+      expect(painted(), NtaSkin.bar, reason: 'the exam look is the exam blue');
+      expect(statusTintColor.value, NtaSkin.bar);
+
+      container.read(ntaStyleProvider.notifier).set(NtaStyle.mockmob);
+      await _flush(tester);
+      expect(painted(), isNot(NtaSkin.bar), reason: 'the MockMob look has the app bar, not the exam blue');
+      expect(statusTintColor.value, painted(), reason: 'the status bar strip follows the bar');
+      expect(find.byType(NtaRunnerView), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 300));
+    });
+  }
+
   testWidgets('the third warning submits the answers already given', (tester) async {
     final s = _nta(answers: {'q1': 2})..nextOutcome = null;
     final h = await pumpRunner(tester, session: s);
@@ -178,7 +252,7 @@ void main() {
     expect(find.text('Submitting your answers'), findsNothing);
     expect(find.text('Exam summary'), findsNothing);
     await tester.tap(find.text('Continue'));
-    await settle(tester, ms: 2400);
+    await settle(tester, ms: SubmitPage.handOffDelay.inMilliseconds + 600);
     expect(h.location, startsWith('/result'), reason: 'Continue opens the submit page, which hands off to the result');
   });
 

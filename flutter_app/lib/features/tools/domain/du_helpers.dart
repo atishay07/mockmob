@@ -78,8 +78,15 @@ String duStreamShort(String stream) => switch (stream) {
 
 final NumberFormat _score = NumberFormat('#,##0.0', 'en_IN');
 
-/// A score out of 1000 with one decimal ("732.2"); a dash when there is none.
-String duFormatScore(double? value) => value == null ? '–' : _score.format(value);
+final NumberFormat _scoreWhole = NumberFormat('#,##0', 'en_IN');
+
+/// A score out of 1000 with one decimal ("732.2"), and none when it is whole ("720", never
+/// "720.0"); a dash when there is none.
+String duFormatScore(double? value) {
+  if (value == null) return '–';
+  final tenths = _score.format(value);
+  return tenths.endsWith('.0') ? _scoreWhole.format(value.round()) : tenths;
+}
 
 /// Parses a typed score: a number from 0 to 1000, or null.
 double? duParseScore(String text) {

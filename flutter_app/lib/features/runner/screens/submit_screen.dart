@@ -31,8 +31,10 @@ class SubmitPage extends ConsumerStatefulWidget {
 
   final RunnerSession session;
 
-  /// How long "Answers received. Saved on the server at ..." stays before the result opens.
-  static const Duration handOffDelay = Duration(milliseconds: 900);
+  /// How long "Answers received. Saved on the server at ..." stays before the result opens: long
+  /// enough to read the line, and for a tap on "See your answers" (or "Open your sheet") to land
+  /// before it goes by itself.
+  static const Duration handOffDelay = Duration(milliseconds: 2800);
 
   @override
   ConsumerState<SubmitPage> createState() => _SubmitPageState();

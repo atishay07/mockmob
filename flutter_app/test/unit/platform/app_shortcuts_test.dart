@@ -5,11 +5,13 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/platform/app_shortcuts.dart';
 import 'package:mockmob/core/router/action_router.dart';
 import 'package:mockmob/core/router/routes.dart';
+import 'package:mockmob/features/review/data/review_providers.dart' show tenMinuteRepairCount;
 import 'package:quick_actions/quick_actions.dart';
 
 class _Surface implements ShortcutSurface {
   void Function(String)? handler;
   final List<List<String>> sets = [];
+  final List<List<String>> setTitles = [];
   int clears = 0;
   bool failInitialize = false;
 
@@ -25,7 +27,10 @@ class _Surface implements ShortcutSurface {
   }
 
   @override
-  Future<void> set(List<ShortcutItem> items) async => sets.add([for (final i in items) i.type]);
+  Future<void> set(List<ShortcutItem> items) async {
+    sets.add([for (final i in items) i.type]);
+    setTitles.add([for (final i in items) i.localizedTitle]);
+  }
 
   @override
   Future<void> clear() async => clears++;
@@ -77,11 +82,46 @@ void main() {
     });
 
     test('titles are short sentence case with no punctuation noise', () {
-      final titles = [for (final i in shortcutItems(hasResume: true)) i.localizedTitle];
+      final titles = [for (final i in shortcutItems(hasResume: true, tenMinuteRepair: true)) i.localizedTitle];
       expect(titles, ['Resume', '10-min repair', 'Practice 10']);
-      for (final t in titles) {
+      for (final t in [...titles, ...[for (final i in shortcutItems(hasResume: true)) i.localizedTitle]]) {
         expect(t, isNot(contains('!')));
         expect(t.length, lessThanOrEqualTo(25));
+      }
+    });
+
+    test('the repair promises no length unless it is a 10-minute repair', () {
+      expect([for (final i in shortcutItems(hasResume: false)) i.localizedTitle], ['Repair a mistake', 'Practice 10']);
+      expect([for (final i in shortcutItems(hasResume: false, tenMinuteRepair: true)) i.localizedTitle], ['10-min repair', 'Practice 10']);
+    });
+  });
+
+  group('opensTenMinuteRepair', () {
+    final first = AppRoutes.reviewRepair('m7', 'm7-q0');
+
+    test('yes for the count the 10-minute chip holds (3 mistakes)', () {
+      expect(opensTenMinuteRepair('$first?count=3'), isTrue);
+    });
+
+    test('no when fewer mistakes are open, so the repair is shorter than 10 minutes', () {
+      expect(opensTenMinuteRepair('$first?count=1'), isFalse);
+      expect(opensTenMinuteRepair('$first?count=2'), isFalse);
+    });
+
+    test('no without a count, or without a repair', () {
+      expect(opensTenMinuteRepair(first), isFalse);
+      expect(opensTenMinuteRepair(null), isFalse);
+      expect(opensTenMinuteRepair('$first?count=many'), isFalse);
+    });
+  });
+
+  group('the repair the launcher opens', () {
+    test('holds the count the 10-minute chip holds, and is labelled 10-min only then', () {
+      final first = AppRoutes.reviewRepair('m7', 'm7-q0');
+      // Today's table: 3 mistakes in 10 minutes once 3 or more are open; fewer are all of them.
+      expect([for (final open in [1, 2, 3, 4, 5, 6, 12]) tenMinuteRepairCount(open)], [1, 2, 3, 3, 3, 3, 3]);
+      for (final open in [1, 2, 3, 4, 5, 6, 12]) {
+        expect(opensTenMinuteRepair('$first?count=${tenMinuteRepairCount(open)}'), open >= 3, reason: '$open open');
       }
     });
   });
@@ -226,6 +266,19 @@ void main() {
           ['repair', 'practice10'],
           ['resume', 'repair', 'practice10'],
           ['repair', 'practice10'],
+        ]);
+      });
+
+      test('the repair is titled 10-min only once tonight has a 10-minute repair, and follows it', () async {
+        final first = AppRoutes.reviewRepair('m7', 'm7-q0');
+        final d = make();
+        await d.sync(auth: AuthStatus.signedIn, hasResume: false, repairLocation: '$first?count=1');
+        await d.sync(auth: AuthStatus.signedIn, hasResume: false, repairLocation: '$first?count=1');
+        await d.sync(auth: AuthStatus.signedIn, hasResume: false, repairLocation: '$first?count=3');
+        await d.sync(auth: AuthStatus.signedIn, hasResume: false, repairLocation: '$first?count=3');
+        expect(surface.setTitles, [
+          ['Repair a mistake', 'Practice 10'],
+          ['10-min repair', 'Practice 10'],
         ]);
       });
 

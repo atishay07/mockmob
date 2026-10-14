@@ -67,7 +67,8 @@ class _ObservationRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(o.label.toUpperCase(), style: type.caption.copyWith(color: labelColor, letterSpacing: 0.8, fontWeight: FontWeight.w600)),
+          // Sentence case, plainly: no tracked capitals.
+          Text(o.label, style: type.caption.copyWith(color: labelColor, fontWeight: FontWeight.w600)),
           const SizedBox(height: MmSpace.s4),
           Text(o.headline, style: type.cardTitle.copyWith(fontSize: 17)),
           const SizedBox(height: MmSpace.s4),

@@ -56,6 +56,11 @@ void main() {
     await pump(tester);
     await tester.scrollUntilVisible(find.text('Repair this mistake').last, 300);
     expect(find.text('Correct answer'), findsWidgets);
+    // The not attempted rows are folded under one header until it is tapped.
+    expect(find.textContaining(', Not attempted'), findsNothing);
+    await tester.scrollUntilVisible(find.text('Not attempted (9)'), 300);
+    await tester.tap(find.text('Not attempted (9)'));
+    await tester.pumpAndSettle();
     final blankHeader = find.textContaining(', Not attempted');
     await tester.scrollUntilVisible(blankHeader.first, 300);
     await tester.tap(blankHeader.first);

@@ -30,7 +30,10 @@ final pendingRunIdsProvider = FutureProvider.autoDispose<List<String>>((ref) => 
 /// summary, the lesson to pick up, each subject's lessons with their status words and chapter
 /// summaries, the chapters without a lesson yet, and the offline switches.
 class LearnScreen extends ConsumerStatefulWidget {
-  const LearnScreen({super.key});
+  const LearnScreen({super.key, this.slowAfter = const Duration(seconds: 15)});
+
+  /// How long the skeleton may stand in for a first load before it gives way to an error with Try again.
+  final Duration slowAfter;
 
   @override
   ConsumerState<LearnScreen> createState() => _LearnScreenState();
@@ -42,8 +45,32 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   String? _startMessage;
   bool _howMarked = false;
 
+  /// Armed while the first load has nothing to show; when it fires the skeleton gives way to an error.
+  Timer? _slowTimer;
+  bool _slow = false;
+
+  void _armSlow() {
+    if (_slowTimer != null || _slow) return;
+    _slowTimer = Timer(widget.slowAfter, () {
+      _slowTimer = null;
+      if (mounted) setState(() => _slow = true);
+    });
+  }
+
+  void _disarmSlow() {
+    _slowTimer?.cancel();
+    _slowTimer = null;
+    _slow = false;
+  }
+
+  void _retry() {
+    setState(_disarmSlow);
+    unawaited(_refresh());
+  }
+
   @override
   void dispose() {
+    _slowTimer?.cancel();
     _scroll.dispose();
     super.dispose();
   }
@@ -105,42 +132,57 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     if (catalog == null) {
       body = _emptyBody(state);
     } else if (catalog.isDisabled) {
+      _disarmSlow();
       _leave();
       body = const SizedBox.shrink();
     } else {
+      _disarmSlow();
       body = _content(catalog, state);
     }
 
-    return Scaffold(
-      backgroundColor: colors.ground,
-      body: Stack(
-        children: [
-          Positioned(top: 0, left: 0, right: 0, height: 380, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
-          SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
-                ConceptsHeader(onBack: () => context.canPop() ? context.pop() : context.go(AppRoutes.practice)),
-                Expanded(child: body),
-              ],
+    return LearnBackScope(
+      fallback: AppRoutes.practice,
+      child: Scaffold(
+        backgroundColor: colors.ground,
+        body: Stack(
+          children: [
+            Positioned(top: 0, left: 0, right: 0, height: 380, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
+            SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
+                  ConceptsHeader(onBack: () => context.canPop() ? context.pop() : context.go(AppRoutes.practice)),
+                  Expanded(child: body),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _emptyBody(RemoteState<LearnCatalog> state) {
     if (state.isFailedEmpty) {
+      _disarmSlow();
       final offline = state.error?.isOffline ?? false;
       return StateView(
         kind: offline ? StateViewKind.offline : StateViewKind.error,
         title: offline ? LearnCopy.offlineTitle : LearnCopy.loadFailedTitle,
         message: offline ? LearnCopy.offlineMessage : LearnCopy.loadFailedMessage,
-        primary: StateAction(LearnCopy.tryAgain, () => unawaited(_refresh())),
+        primary: StateAction(LearnCopy.tryAgain, _retry),
       );
     }
+    if (_slow) {
+      return StateView(
+        kind: StateViewKind.error,
+        title: LearnCopy.loadSlowTitle,
+        message: LearnCopy.loadSlowMessage,
+        primary: StateAction(LearnCopy.tryAgain, _retry),
+      );
+    }
+    _armSlow();
     return const _LearnSkeleton();
   }
 

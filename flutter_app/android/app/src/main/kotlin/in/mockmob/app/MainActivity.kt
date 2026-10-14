@@ -27,6 +27,12 @@ class MainActivity : FlutterActivity() {
     private var releaseAsked = false
     private var pendingRelease: MethodChannel.Result? = null
 
+    /** The splash while it fades off the Flutter "mo". */
+    private var fadingView: View? = null
+
+    /** Dart asked for the splash to go at once, with no fade (its opening is already handing off). */
+    private var liftAtOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // The Flutter brand opening's first frame is the splash's "mo", so the splash is held
@@ -49,24 +55,41 @@ class MainActivity : FlutterActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    /** Fades the held splash off the Flutter "mo", then answers Dart once that frame is drawn. */
+    /** Fades the held splash off the Flutter "mo", then answers Dart once that frame is drawn. If
+     *  Dart asked for it to go at once, it is removed with no fade (even mid-fade), so a splash
+     *  "mo" is never faded over the first screen. */
     private fun releaseSplash() {
-        val view = splashView
+        val view = splashView ?: fadingView?.takeIf { liftAtOnce }
         if (view == null) {
-            if (releaseAsked) answerRelease()
+            // Already gone, or fading (the fade answers when it ends).
+            if (releaseAsked && splashGone) answerRelease()
             return
         }
         splashView = null
+        if (liftAtOnce) {
+            fadingView = null
+            view.animate().cancel()
+            removeSplash(view)
+            return
+        }
+        fadingView = view
         view.animate()
             .alpha(0f)
             .setDuration(SPLASH_FADE_MS)
             .setInterpolator(LinearInterpolator())
             .withEndAction {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) (view as SplashScreenView).remove()
-                splashGone = true
-                window.decorView.postOnAnimation { answerRelease() }
+                if (fadingView === view) {
+                    fadingView = null
+                    removeSplash(view)
+                }
             }
             .start()
+    }
+
+    private fun removeSplash(view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) (view as SplashScreenView).remove()
+        splashGone = true
+        window.decorView.postOnAnimation { answerRelease() }
     }
 
     private fun answerRelease() {
@@ -88,7 +111,9 @@ class MainActivity : FlutterActivity() {
                             pendingRelease?.success(false)
                             pendingRelease = result
                             releaseAsked = true
-                            if (splashView != null) {
+                            // `false` asks for no fade (see OpeningGlass.liftNow in Dart).
+                            if (call.arguments == false) liftAtOnce = true
+                            if (splashView != null || (liftAtOnce && fadingView != null)) {
                                 releaseSplash()
                             } else {
                                 // A start without a system splash (some launches have none): go.

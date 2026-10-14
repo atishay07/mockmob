@@ -117,7 +117,7 @@ class _MistakeSheet extends StatelessWidget {
     final colors = context.mmColors;
     final numbers = [for (final i in items) i.number];
     return Semantics(
-      label: 'Questions ${numbers.join(', ')}, answered wrong',
+      label: ReviewCopy.wrongQuestionsSpoken(numbers),
       excludeSemantics: true,
       child: LayoutBuilder(
         builder: (context, constraints) {

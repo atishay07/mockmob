@@ -70,7 +70,7 @@ class LedgerHero extends StatelessWidget {
         if (evidence != null && evidence!.isNotEmpty) EvidencePill(attempts: evidence!, what: InsightsCopy.behindLedger),
         if (a.known) ...[
           const SizedBox(height: MmSpace.s8),
-          Text(InsightsCopy.netOver(net, insights.sessions), style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
+          Text(InsightsCopy.netOver(net, insights.questions * 5, insights.sessions), style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s12),
         Text(InsightsCopy.ledgerNote, style: type.caption.copyWith(color: colors.ink3)),

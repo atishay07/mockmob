@@ -13,6 +13,7 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'mobi_moment.dart';
+import 'move_keys.dart';
 import 'number_block.dart';
 import 'show_me_tag.dart';
 
@@ -26,6 +27,7 @@ class MoveHeroCard extends StatelessWidget {
     this.offline = false,
     this.retrying = false,
     this.mobiController,
+    this.primaryKey,
   });
 
   final MoveHero move;
@@ -39,6 +41,9 @@ class MoveHeroCard extends StatelessWidget {
 
   /// Lets the screen make Mobi react later (a tap on a chip, coming back to the tab).
   final MobiController? mobiController;
+
+  /// On the primary key, so the screen can tell whether it is in view (see [StickyMoveBar]).
+  final GlobalKey? primaryKey;
 
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
@@ -137,11 +142,15 @@ class MoveHeroCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: MmSpace.s20),
-          KeyButton(
-            label: m.primary.label,
-            onPressed: blocked ? null : () => onAction(m.primary),
-            loading: retrying && m.primary.target is RetryLoad,
-            disabledReason: blocked ? TodayCopy.connectToStart : null,
+          LayoutBuilder(
+            key: primaryKey,
+            builder: (context, box) => KeyButton(
+              label: fitKeyLabel(context, m.primary, box.maxWidth),
+              semanticsLabel: m.primary.label,
+              onPressed: blocked ? null : () => onAction(m.primary),
+              loading: retrying && m.primary.target is RetryLoad,
+              disabledReason: blocked ? TodayCopy.connectToStart : null,
+            ),
           ),
           if (m.secondary != null)
             Center(

@@ -47,7 +47,13 @@ class MoveFacts {
     final unopened = {for (final u in inputs.unopened) u.attemptId};
     final eligible = [for (final a in all) if (!unopened.contains(a.id)) a];
     attempts = all;
-    basis = _first(eligible, isRepairBasis);
+    // Review's pick: the newest paper that can carry a repair and still has an open mistake.
+    // A newer paper that is mostly blank (blanks are never repairs) must not hide an older
+    // paper's mistakes. When none has any, the newest basis stays, so "repaired" and "nothing
+    // open" are still told from the newest paper.
+    final newestBasis = _first(eligible, isRepairBasis);
+    basis = _first(eligible, (a) => isRepairBasis(a) && repairCandidates(a, repairedIds: inputs.repaired[a.id] ?? const {}).isNotEmpty) ??
+        newestBasis;
     latestMock = _first(eligible, (a) => a.isMock);
     final b = basis;
     if (b != null) {
@@ -201,6 +207,7 @@ MoveHero buildMove(TodayInputs i) {
           GoTo(i.profile?.firstMoveRoute ?? TodayLinks.quick(subject: subject, purpose: 'baseline')),
           startsSession: true,
           actionType: 'practice',
+          shortLabel: TodayCopy.startNowShort,
         ),
         secondary: TodayAction(TodayCopy.fullMockInstead, GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
       );
@@ -343,6 +350,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
       GoTo(TodayLinks.repair(b.id, tonight.items.first.questionId, n)),
       startsSession: true,
       actionType: 'repair',
+      shortLabel: TodayCopy.startRepairShort(choice.minutes),
     ),
     secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
     // The date is in the meaning line; the basis line only says when one paper is all there is.
@@ -405,7 +413,7 @@ MoveHero _mixed(
     headline: headlineFor(),
     number: '$minutes',
     numberLabel: TodayCopy.questionsOfMixed,
-    meaning: TodayCopy.noStrongWeakness,
+    meaning: f.dismissed ? TodayCopy.noStrongWeakness : TodayCopy.noOpenMistakes,
     durationPrompt: TodayCopy.practiceLength,
     durations: options,
     selectedMinutes: minutes,

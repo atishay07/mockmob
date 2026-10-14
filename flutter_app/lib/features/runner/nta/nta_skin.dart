@@ -24,15 +24,23 @@ class NtaSkin {
     final colors = context.mmColors;
     final dark = Theme.of(context).brightness == Brightness.dark;
     const nightRadio = Color(0xFF7DB0EE);
+    final exam = NtaExamLook.of(context);
+    // The MockMob look takes its accents from the app (volt on Night, its olive on Daylight)
+    // where the exam look keeps the exam's blue, so the two never read as one.
+    final accent = colors.accentText;
     return NtaSkin._(
       colors: colors,
       dark: dark,
-      radio: dark ? nightRadio : const Color(0xFF2769BD),
-      selectedRow: dark ? Color.lerp(colors.raised, nightRadio, 0.12)! : const Color(0xFFEAF5FF),
-      selectedEdge: dark ? Color.lerp(colors.raised, nightRadio, 0.55)! : const Color(0xFF9CC0DE),
-      currentRing: dark ? const Color(0xFFA9CBE6) : const Color(0xFF306A92),
-      tabLine: dark ? const Color(0xFFA9CBE6) : bar,
-      type: NtaTypeSet._(NtaExamLook.of(context), context.mmType),
+      radio: !exam ? accent : (dark ? nightRadio : const Color(0xFF2769BD)),
+      selectedRow: !exam
+          ? Color.lerp(colors.raised, accent, dark ? 0.12 : 0.1)!
+          : (dark ? Color.lerp(colors.raised, nightRadio, 0.12)! : const Color(0xFFEAF5FF)),
+      selectedEdge: !exam
+          ? Color.lerp(colors.raised, accent, 0.55)!
+          : (dark ? Color.lerp(colors.raised, nightRadio, 0.55)! : const Color(0xFF9CC0DE)),
+      currentRing: !exam ? accent : (dark ? const Color(0xFFA9CBE6) : const Color(0xFF306A92)),
+      tabLine: !exam ? accent : (dark ? const Color(0xFFA9CBE6) : bar),
+      type: NtaTypeSet._(exam, context.mmType),
     );
   }
 
@@ -89,6 +97,104 @@ class NtaSkin {
   static const double radius = 3;
   static const BorderRadius radiusAll = BorderRadius.all(Radius.circular(radius));
   static const BorderRadius keyRadius = BorderRadius.all(Radius.circular(4));
+}
+
+/// The colours of the exam's top bar and the bands that echo it (the palette's section band, the
+/// summary's header, the candidate's initial). The NTA look is the exam's blue with white ink;
+/// the MockMob look is the app's own chrome (a raised bar on the ground, ink text, the app's
+/// accent for progress), so the two looks differ at the first glance, in Daylight too.
+@immutable
+class NtaBarColors {
+  const NtaBarColors._({
+    required this.fill,
+    required this.edge,
+    required this.on,
+    required this.on2,
+    required this.track,
+    required this.progress,
+    required this.chip,
+    required this.chipEdge,
+    required this.splash,
+    required this.highlight,
+    required this.band,
+    required this.onBand,
+    required this.onBand2,
+    required this.avatar,
+    required this.onAvatar,
+    required this.statusIcons,
+  });
+
+  factory NtaBarColors.of(BuildContext context) => NtaExamLook.of(context) ? exam : NtaBarColors.fromApp(context.mmColors);
+
+  /// The MockMob look's bar, from the app's own colours [c].
+  factory NtaBarColors.fromApp(MmColors c) {
+    return NtaBarColors._(
+      fill: c.raised,
+      edge: c.line,
+      on: c.ink,
+      on2: c.ink2,
+      track: c.line,
+      progress: c.accentText,
+      chip: c.sunken,
+      chipEdge: c.line,
+      splash: c.ink.withValues(alpha: 0.1),
+      highlight: c.ink.withValues(alpha: 0.06),
+      band: c.sunken,
+      onBand: c.ink,
+      onBand2: c.ink2,
+      avatar: c.volt,
+      onAvatar: c.voltInk,
+      statusIcons: c.isNight ? Brightness.light : Brightness.dark,
+    );
+  }
+
+  /// The exam's own bar (nta-classic.css).
+  static const NtaBarColors exam = NtaBarColors._(
+    fill: NtaSkin.bar,
+    edge: NtaSkin.barEdge,
+    on: NtaSkin.onBar,
+    on2: NtaSkin.onBar2,
+    track: NtaSkin.barTrack,
+    progress: NtaSkin.volt,
+    chip: Color(0x1FFFFFFF),
+    chipEdge: Color(0x4DFFFFFF),
+    splash: Color(0x22FFFFFF),
+    highlight: Color(0x14FFFFFF),
+    band: NtaSkin.bar,
+    onBand: NtaSkin.onBar,
+    onBand2: NtaSkin.onBar2,
+    avatar: NtaSkin.bar,
+    onAvatar: NtaSkin.onBar,
+    statusIcons: Brightness.light,
+  );
+
+  /// The bar and the strip under the status bar.
+  final Color fill;
+  final Color edge;
+
+  /// Text and icons on the bar, and the quieter second line.
+  final Color on;
+  final Color on2;
+
+  /// The progress line: its track and its fill.
+  final Color track;
+  final Color progress;
+
+  /// The clock's chip, and the press colours of the bar's keys.
+  final Color chip;
+  final Color chipEdge;
+  final Color splash;
+  final Color highlight;
+
+  /// The section band of the palette and the summary, the ink on it, and the candidate's initial.
+  final Color band;
+  final Color onBand;
+  final Color onBand2;
+  final Color avatar;
+  final Color onAvatar;
+
+  /// The status bar's icons over [fill].
+  final Brightness statusIcons;
 }
 
 /// Marks the subtree as the exam look (the NTA style): the paper the student will meet on exam

@@ -36,6 +36,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   final Map<String, GlobalKey> _keys = {};
   bool _seeded = false;
 
+  /// The "Not attempted" group is folded until opened (or until a link lands inside it).
+  bool _blankOpen = false;
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +60,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     target ??= groups.wrong.firstOrNull;
     if (target == null) return;
     _open.add(target.qid);
+    // A linked blank question sits in the folded "Not attempted" group: open the group on it.
+    if (target.verdict == Verdict.blank) _blankOpen = true;
     if (focus != null) {
       final qid = target.qid;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -138,6 +143,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
               keyFor: _keyFor,
               onToggle: _toggle,
               model: model,
+              blankOpen: _blankOpen,
+              onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
             ),
           ],
         ),
@@ -183,8 +190,10 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return SizedBox(
-      height: 56,
+    // The title wraps to more lines rather than losing its subject to an ellipsis: "Replay
+    // recap" and the back key take the rest of the row. The bar is 56 dp for one line.
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
           const SizedBox(width: MmSpace.s4),
@@ -201,7 +210,7 @@ class _TopBar extends StatelessWidget {
           Expanded(
             child: Semantics(
               header: true,
-              child: Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 1, overflow: TextOverflow.ellipsis),
+              child: Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 3, overflow: TextOverflow.ellipsis),
             ),
           ),
           if (onReplay != null) KeyButton.quiet(label: ResultCopy.replay, onPressed: onReplay),

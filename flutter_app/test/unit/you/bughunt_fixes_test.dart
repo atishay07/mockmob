@@ -297,7 +297,7 @@ void main() {
         const AccountScreen(),
         wrapInScaffold: false,
         disableAnimations: true,
-        size: const Size(360, 1500),
+        size: const Size(360, 1700),
         overrides: youOverrides(fakeAuth: auth, drafts: drafts),
       );
       return auth;
@@ -328,16 +328,16 @@ void main() {
       await tester.tap(key, warnIfMissed: false);
       await tester.pumpAndSettle();
       expect(find.text(YouCopy.signOutTitle), findsOneWidget);
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(find.text('Stay signed in'));
       await tester.pumpAndSettle();
       expect(find.text(YouCopy.signOutTitle), findsNothing, reason: 'one sheet was open, not two');
     });
 
-    testWidgets('the key works again after Cancel', (tester) async {
+    testWidgets('the key works again after Staying', (tester) async {
       final auth = await pump(tester, draftsWithUnsent(0));
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(find.text('Stay signed in'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();

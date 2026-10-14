@@ -97,21 +97,23 @@ class NtaStyleTheme extends ConsumerWidget {
 /// Puts an NTA screen on the exam paper (or leaves it in the app theme in the MockMob style),
 /// paints the status bar the exam's blue with light icons, and, while [secure], keeps the paper
 /// out of screenshots and the recents preview.
-class NtaPaperTheme extends StatelessWidget {
+class NtaPaperTheme extends ConsumerWidget {
   const NtaPaperTheme({super.key, required this.child, this.secure = false});
 
   final Widget child;
   final bool secure;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // The strip under the status bar follows the look: the exam's blue, or the app's own chrome.
+    final bar = ref.watch(ntaStyleProvider) == NtaStyle.nta ? NtaBarColors.exam : NtaBarColors.fromApp(context.mmColors);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: bar.statusIcons,
+        statusBarBrightness: bar.statusIcons == Brightness.light ? Brightness.dark : Brightness.light,
       ),
-      child: StatusTint(color: NtaSkin.bar, secure: secure, child: NtaStyleTheme(child: child)),
+      child: StatusTint(color: bar.fill, secure: secure, child: NtaStyleTheme(child: child)),
     );
   }
 }

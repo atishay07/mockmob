@@ -225,7 +225,20 @@ class WeekSection extends StatelessWidget {
             if (w.sessions == 0)
               Text(InsightsCopy.weekNone, style: type.body.copyWith(color: colors.ink3))
             else ...[
-              Text(w.net > 0 ? '+${w.net}' : '${w.net}', style: type.figureCompact.copyWith(fontSize: 32, height: 1.1, fontFeatures: _tabular)),
+              // The figure says what it counts: net marks, beside the sessions and questions
+              // they come from.
+              Semantics(
+                label: '${w.net > 0 ? '+' : ''}${w.net} ${InsightsCopy.netLabel}',
+                excludeSemantics: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(w.net > 0 ? '+${w.net}' : '${w.net}', style: type.figureCompact.copyWith(fontSize: 32, height: 1.1, fontFeatures: _tabular)),
+                    Text(InsightsCopy.netLabel, style: type.caption.copyWith(color: colors.ink2)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: MmSpace.s4),
               Text(InsightsCopy.weekLine(w.sessions, w.questions), style: type.caption.copyWith(color: colors.ink2)),
               if (w.accuracy.known) Text('${w.accuracy.pct}% right of ${w.accuracy.n}', style: type.caption.copyWith(color: colors.ink2)),
             ],

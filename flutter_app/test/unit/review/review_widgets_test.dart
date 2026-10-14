@@ -31,10 +31,52 @@ void main() {
     expect(find.textContaining("'s repair, "), findsOneWidget);
     expect(find.textContaining('Repair 3 mistakes'), findsOneWidget);
     expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    expect(find.text('See the answer'), findsNWidgets(3));
-    expect(find.text('Try it again'), findsNWidgets(3));
     expect(find.text('Checked on fresh questions: not available yet.'), findsOneWidget);
     expect(find.textContaining('mastered'), findsNothing);
+  });
+
+  testWidgets('skipped questions sit in one collapsed group with their count until it is opened', (tester) async {
+    await pump(tester, const ReviewScreen());
+    // Closed: the count and the way in, no per-question action pair.
+    expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
+    expect(find.text('See the answer'), findsNothing);
+    expect(find.text('Try it again'), findsNothing);
+    final group = find.bySemanticsLabel(RegExp(r'^Not attempted in Mock 2 \(3\)\..*Show the questions$'));
+    expect(group, findsOneWidget);
+
+    await tester.tap(find.text('Not attempted in Mock 2 (3)'));
+    await tester.pumpAndSettle();
+    expect(find.text('See the answer'), findsNWidgets(3));
+    expect(find.text('Try it again'), findsNWidgets(3));
+    expect(find.bySemanticsLabel(RegExp(r'Hide the questions$')), findsOneWidget);
+
+    await tester.tap(find.text('Not attempted in Mock 2 (3)'));
+    await tester.pumpAndSettle();
+    expect(find.text('See the answer'), findsNothing);
+  });
+
+  testWidgets('the repair ending leaves no dead gap under Share a card', (tester) async {
+    // A phone-height viewport, so the list scrolls and its end can be measured.
+    await pumpMockmob(
+      tester,
+      const RepairEndingScreen(attemptId: 'm7'),
+      size: const Size(384, 640),
+      disableAnimations: true,
+      wrapInScaffold: false,
+      overrides: reviewOverrides(
+        records: [repairedRecord],
+        run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
+      ),
+    );
+    final list = find.byType(ListView);
+    await tester.drag(list, const Offset(0, -2000));
+    await tester.pumpAndSettle();
+    final share = tester.getRect(find.widgetWithText(KeyButton, 'Share a card').first);
+    final viewport = tester.getRect(list);
+    expect(share.height, greaterThanOrEqualTo(48));
+    // The list ends one list padding (16) plus a 4 dp spacer under the key; the pinned keys add
+    // their own top padding. Anything over 32 dp is the dead gap the device walk-through saw.
+    expect(viewport.bottom - share.bottom, lessThanOrEqualTo(32));
   });
 
   testWidgets('the next key waits while the explanation is being made', (tester) async {

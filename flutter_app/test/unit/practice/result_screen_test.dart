@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptDetailProvider;
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MobiCharacter;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MobiCharacter, QuestionStrip;
 import 'package:mockmob/features/practice/practice_result_screen.dart' show PracticeResultScreen;
 import 'package:mockmob/features/practice/widgets/finish_stage.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
@@ -264,6 +264,19 @@ void main() {
     await tester.scrollUntilVisible(find.text('One question left blank'), 200, scrollable: find.byType(Scrollable).first);
     expect(find.text('What this set shows'), findsOneWidget);
     expect(find.text('Question 10'), findsOneWidget);
+    // Sentence case, like the rest of the page: no tracked capitals (walk-through P3-5).
+    expect(find.text('Blanks'), findsOneWidget);
+    expect(find.text('BLANKS'), findsNothing);
+  });
+
+  testWidgets('the answer sheet of ten bubbles sits in the middle of its card (walk-through P3-7)', (tester) async {
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
+    await tester.pump(const Duration(milliseconds: 500));
+    final strip = tester.getRect(find.byType(QuestionStrip).first);
+    final card = tester.getRect(find.ancestor(of: find.byType(QuestionStrip).first, matching: find.byType(DecoratedBox)).first);
+    const pad = 16.0;
+    expect(strip.left - card.left, closeTo(pad, 0.5), reason: 'the first bubble starts at the card padding');
+    expect(card.right - strip.right, closeTo(pad, 0.5), reason: 'and the last one ends at the same distance from the right');
   });
 
   group('the finish moment never waits on a blank band (owner: "it is just loading the score")', () {

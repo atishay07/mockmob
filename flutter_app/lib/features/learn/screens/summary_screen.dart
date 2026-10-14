@@ -33,33 +33,36 @@ class LearnSummaryScreen extends ConsumerWidget {
     final colors = context.mmColors;
     final load = ref.watch(chapterSummaryProvider((subject, chapter)));
     final summary = load.value;
-    return Scaffold(
-      backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                IconTap(icon: LucideIcons.arrowLeft, label: LearnCopy.backToLearn, onTap: () => _leave(context)),
-                const Spacer(),
-                if (summary != null && summary.lessons.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(right: MmSpace.s8),
-                    child: KeyButton.quiet(
-                      label: LearnCopy.shareAsText,
-                      onPressed: () => unawaited(SharePlus.instance.share(ShareParams(text: summary.asText(), subject: summary.chapter))),
+    return LearnBackScope(
+      fallback: AppRoutes.learn,
+      child: Scaffold(
+        backgroundColor: colors.ground,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  IconTap(icon: LucideIcons.arrowLeft, label: LearnCopy.backToLearn, onTap: () => _leave(context)),
+                  const Spacer(),
+                  if (summary != null && summary.lessons.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(right: MmSpace.s8),
+                      child: KeyButton.quiet(
+                        label: LearnCopy.shareAsText,
+                        onPressed: () => unawaited(SharePlus.instance.share(ShareParams(text: summary.asText(), subject: summary.chapter))),
+                      ),
                     ),
-                  ),
-              ],
-            ),
-            Expanded(
-              child: load.when(
-                loading: () => const _SummarySkeleton(),
-                error: (error, _) => _error(context, ref, error),
-                data: (s) => s.lessons.isEmpty ? _empty(context) : _Reader(summary: s),
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: load.when(
+                  loading: () => const _SummarySkeleton(),
+                  error: (error, _) => _error(context, ref, error),
+                  data: (s) => s.lessons.isEmpty ? _empty(context) : _Reader(summary: s),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -79,7 +82,7 @@ class LearnSummaryScreen extends ConsumerWidget {
     return StateView(
       kind: offline ? StateViewKind.offline : StateViewKind.error,
       title: offline ? LearnCopy.summaryOfflineTitle : LearnCopy.summaryFailedTitle,
-      message: offline ? LearnCopy.summaryOfflineMessage : LearnCopy.loadFailedMessage,
+      message: offline ? LearnCopy.summaryOfflineMessage : LearnCopy.summaryFailedMessage(api),
       primary: StateAction(LearnCopy.tryAgain, () => ref.invalidate(chapterSummaryProvider((subject, chapter)))),
       secondary: StateAction(LearnCopy.backToLearn, () => _leave(context)),
     );

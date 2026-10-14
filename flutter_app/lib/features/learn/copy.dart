@@ -1,6 +1,7 @@
 // Every user-facing string of the Learn feature (spec 5.9). Sentence case, no middle dots,
 // no emoji, no appended arrows, no exclamation successes, 12-hour times.
 
+import '../../core/api/api_error.dart';
 import '../../core/copy/copy.dart';
 import '../../core/models/study.dart';
 
@@ -46,6 +47,20 @@ abstract final class LearnCopy {
   static const String summaryOfflineTitle = 'This summary is not on this phone';
   static const String summaryOfflineMessage = 'Connect to read it.';
   static const String summaryFailedTitle = 'We could not open this summary';
+
+  /// Says what failed when the phone is online: the server, the rate limit, the sign-in, or a
+  /// reply the app could not read. Never blames the connection.
+  static String summaryFailedMessage(ApiError? error) => switch (error?.kind) {
+        ApiErrorKind.server || ApiErrorKind.unavailable => 'MockMob could not send it just now. Try again in a moment.',
+        ApiErrorKind.rateLimited => 'Too many requests at once. Wait a minute, then try again.',
+        ApiErrorKind.unauthorized => 'Your sign-in has ended. Sign in again to read it.',
+        ApiErrorKind.forbidden => 'This summary is not part of your account.',
+        _ => 'Something went wrong opening it. Try again.',
+      };
+
+  // The first load took too long: the skeleton gives way to this.
+  static const String loadSlowTitle = 'Concepts are taking too long';
+  static const String loadSlowMessage = 'MockMob has not answered yet. Try again.';
 
   static String dueSummary(int n) => '${plural(n, 'card')} due.';
 

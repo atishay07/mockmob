@@ -306,13 +306,23 @@ class QuickStartRow extends StatelessWidget {
   /// the count lands without moving the rows below.
   final int noteLines;
 
+  /// A row's fill. Opaque in both themes and at every glass level: the sheet behind it is a
+  /// faint wash of the page (never blurred), and a row that only tinted it let the page's text
+  /// show through the row (device walk-through, 14 Oct). The ink tint is laid over the sheet's own
+  /// paper colour instead of over whatever is behind.
+  @visibleForTesting
+  static Color surfaceFor(MmColors colors, {required bool pressed}) {
+    final tint = pressed ? 0.08 : (colors.isNight ? 0.04 : 0.03);
+    return Color.alphaBlend(colors.ink.withValues(alpha: tint), colors.raised);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     Widget row(bool pressed) => DecoratedBox(
       decoration: ShapeDecoration(
-        color: pressed ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: colors.isNight ? 0.04 : 0.03),
+        color: surfaceFor(colors, pressed: pressed),
         shape: RoundedSuperellipseBorder(
           borderRadius: MmRadius.keyAll,
           side: BorderSide(color: colors.ink.withValues(alpha: 0.08)),

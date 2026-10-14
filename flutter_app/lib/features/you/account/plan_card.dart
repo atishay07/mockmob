@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_state.dart';
 import '../../../core/copy/copy.dart';
@@ -9,13 +10,35 @@ import '../edit_copy.dart';
 /// The plan as the server reports it (WEB-PARITY F3): Free or Pro, the practice credit balance
 /// (or unlimited practice on Pro) and when Pro access ends. Read-only: the app never sells, so
 /// there is no price and no purchase key, only a plain line saying where plans are managed.
-class PlanCard extends StatelessWidget {
+class PlanCard extends ConsumerStatefulWidget {
   const PlanCard({super.key, required this.auth});
 
   final AuthSnapshot auth;
 
   @override
+  ConsumerState<PlanCard> createState() => _PlanCardState();
+}
+
+class _PlanCardState extends ConsumerState<PlanCard> {
+  bool _retrying = false;
+
+  /// Reads the profile again. The card watches the snapshot, so a balance that arrives replaces
+  /// the message by itself; a failure leaves the message and the key.
+  Future<void> _retry() async {
+    if (_retrying) return;
+    setState(() => _retrying = true);
+    try {
+      await ref.read(authSnapshotProvider.notifier).reload();
+    } on Object {
+      // The message stays and the key comes back.
+    } finally {
+      if (mounted) setState(() => _retrying = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final auth = widget.auth;
     final colors = context.mmColors;
     final type = context.mmType;
     final pro = auth.isPro;
@@ -45,7 +68,15 @@ class PlanCard extends StatelessWidget {
         ),
       );
     } else {
-      figure = Text(EditCopy.creditsUnknown, style: type.body.copyWith(color: colors.ink2));
+      figure = Row(
+        children: [
+          Expanded(child: Text(EditCopy.creditsUnknown, style: type.body.copyWith(color: colors.ink2))),
+          KeyButton.quiet(
+            label: _retrying ? EditCopy.creditsRetrying : EditCopy.creditsRetry,
+            onPressed: _retrying ? null : _retry,
+          ),
+        ],
+      );
     }
 
     return LitEdge(

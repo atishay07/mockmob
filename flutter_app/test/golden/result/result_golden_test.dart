@@ -13,6 +13,19 @@ import '../../helpers/golden_harness.dart';
 import '../../unit/result/support/fixtures.dart';
 import '../../unit/result/support/harness.dart';
 
+/// The first Business Studies mock after six Accountancy ones: a long title, and (with [blanksOnly])
+/// a leading chapter that lost marks to blanks alone.
+({RecapModel model, AttemptDetail detail}) _firstBusinessStudies({bool blanksOnly = false}) {
+  final paper = blanksOnly
+      ? [
+          for (var i = 0; i < 6; i++) ('Business environment', V.blank),
+          for (var i = 0; i < 10; i++) ('Nature and purpose of business', V.right),
+        ]
+      : null;
+  final d = detail(attemptBody: attemptJson(subject: 'business_studies', paper: paper));
+  return (model: mock7(withDetail: d, attempts: [...history(), d.attempt]), detail: d);
+}
+
 RecapData _data(RecapModel m, {AttemptDetail? d}) {
   final det = d ?? detail();
   return RecapData(model: m, attempt: det.attempt, detail: det, fetchedAt: DateTime(2026, 10, 12, 22, 44));
@@ -132,6 +145,12 @@ void main() {
       await _shot(tester, 'card3_$tag');
     });
 
+    testWidgets('card 3, blanks only ($tag)', (tester) async {
+      final f = _firstBusinessStudies(blanksOnly: true);
+      await _open(tester, '/result/a7/recap/3', f.model, b: b, d: f.detail);
+      await _shot(tester, 'card3_blanks_$tag');
+    });
+
     testWidgets('card 4 ($tag)', (tester) async {
       await _open(tester, '/result/a7/recap/4', mock7(), b: b);
       await _shot(tester, 'card4_$tag');
@@ -230,6 +249,26 @@ void main() {
   testWidgets('large text: card 1 (night)', (tester) async {
     await _open(tester, '/result/a7/recap/1', mock7(), textScale: 1.5);
     await _shot(tester, 'large_card1_night');
+  });
+  testWidgets('large text 1.3x: card 4 (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/4', mock7(), size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_card4_night');
+  });
+  testWidgets('large text 1.3x: full result, long title (day)', (tester) async {
+    final f = _firstBusinessStudies();
+    await _open(tester, '/result/a7', f.model, b: Brightness.light, d: f.detail, size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_full_top_day');
+  });
+  testWidgets('full result, blanks folded (night)', (tester) async {
+    final f = _firstBusinessStudies(blanksOnly: true);
+    await _open(tester, '/result/a7', f.model, d: f.detail);
+    await tester.scrollUntilVisible(find.text('Not attempted (6)'), 300, scrollable: find.byType(Scrollable).first);
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 200));
+    await tester.pump(const Duration(milliseconds: 600));
+    await _shot(tester, 'full_blanks_folded_night');
+    await tester.tap(find.text('Not attempted (6)'));
+    await _frames(tester, 500);
+    await _shot(tester, 'full_blanks_open_night');
   });
   testWidgets('large text: card 4 (night)', (tester) async {
     await _open(tester, '/result/a7/recap/4', mock7(), textScale: 1.5);

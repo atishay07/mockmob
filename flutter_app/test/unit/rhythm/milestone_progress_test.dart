@@ -84,6 +84,20 @@ void main() {
       expect(days[2].mark, PlanDayMark.done);
     });
 
+    test('a day that passed is read as rest or not studied, never "no study yet"', () {
+      final days = planWeek(studied: [true, false, false, false, false, false, false], todayIndex: 3, planned: {0, 1, 3, 5});
+      expect(days[0].describe(), 'Monday, study day, counted');
+      expect(days[1].describe(), 'Tuesday, not studied');
+      expect(days[2].describe(), 'Wednesday, rest day');
+      expect(days[3].describe(), 'Thursday, today, planned study day');
+      expect(days[5].describe(), 'Saturday, planned study day');
+      // With no plan, a passed day is still not studied; today and ahead have no study yet.
+      final noPlan = planWeek(studied: List.filled(7, false), todayIndex: 2);
+      expect(noPlan[1].describe(), 'Tuesday, not studied');
+      expect(noPlan[2].describe(), 'Wednesday, today, no study yet');
+      expect(noPlan[4].describe(), 'Friday, no study yet');
+    });
+
     test('without a plan nothing is drawn as rest', () {
       final days = planWeek(studied: List.filled(7, false), todayIndex: 0);
       expect(days.every((d) => d.mark == PlanDayMark.open), isTrue);

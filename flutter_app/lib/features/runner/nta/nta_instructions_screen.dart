@@ -172,7 +172,9 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                         KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back)
                       else ...[
                         // The line keeps its space once the box is ticked, so the page does not move.
+                        // It is the reason the key is off, so it is read while the key is.
                         ExcludeSemantics(
+                          excluding: _declared,
                           child: AnimatedOpacity(
                             duration: const Duration(milliseconds: 120),
                             opacity: _declared ? 0 : 1,

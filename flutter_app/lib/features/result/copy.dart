@@ -37,9 +37,10 @@ abstract final class ResultCopy {
   // ---- Effort, separate from the score (brief 1.1) -----------------------------------------
 
   /// Mobi's line on card 4: "Third full paper this month." Effort, said once, never after a
-  /// lower or held result.
-  static String effort(int monthCount, {required bool firstEver}) {
-    if (firstEver) return 'Your first full paper.';
+  /// lower or held result. The first mock is counted per subject, so the line names it ("Your
+  /// first Business Studies paper."): a student with seven Accountancy papers is not on a first.
+  static String effort(int monthCount, {required bool firstInSubject, required String subject}) {
+    if (firstInSubject) return 'Your first $subject paper.';
     if (monthCount <= 1) return 'First full paper this month.';
     final word = ordinalWord(monthCount);
     return '${word[0].toUpperCase()}${word.substring(1)} full paper this month.';
@@ -85,9 +86,10 @@ abstract final class ResultCopy {
   static String wrong(int n) => '$n wrong';
   static String notAttempted(int n) => '$n not attempted';
   static String sum(int c, int w, int u) => '$c + $w + $u = ${plural(c + w + u, 'question')}.';
-  static String previous(String mock, int marks, int max) => '$mock, same format: ${formatSignedNumber(marks)} out of $max.';
+  // Scores read "115 of 250" everywhere on screen (the figure, the comparison, Recent papers).
+  static String previous(String mock, int marks, int max) => '$mock, same format: ${formatSignedNumber(marks)} of $max.';
   static String higherCompare(String prev, int pm, String now, int m, int max) =>
-      '$prev: ${formatSignedNumber(pm)} out of $max. $now: ${formatSignedNumber(m)} out of $max.';
+      '$prev: ${formatSignedNumber(pm)} of $max. $now: ${formatSignedNumber(m)} of $max.';
   static const noEarlier = 'No earlier mock to compare.';
   static const lowerLine = 'Your result is ready. Start with one repeated pattern.';
   static const showFirstFix = 'Show me the first thing to fix';
@@ -190,6 +192,9 @@ abstract final class ResultCopy {
   static const sectionAnswers = 'Answer by answer';
   static String groupWrong(int n) => 'Wrong answers ($n)';
   static String groupBlank(int n) => 'Not attempted ($n)';
+
+  /// The "Not attempted" header for TalkBack: it shows or hides the rows.
+  static String groupBlankToggle(int n, {required bool open}) => '${plural(n, 'question')} not attempted. ${open ? 'Hide' : 'Show'} them.';
   static String groupCorrect(int n) => 'Correct ($n)';
   static String groupHeld(int n) => 'Being checked ($n)';
   static String question(int n) => 'Question $n';

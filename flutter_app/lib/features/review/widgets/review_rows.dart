@@ -3,19 +3,99 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/models/attempt.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import 'answer_sheet.dart';
+import 'review_bits.dart' show SolidPanel;
 
 /// The quiet group of skipped questions (spec 5.8): never a repair key, only the answer and a
-/// try that is not recorded.
-class NotAttemptedGroup extends StatelessWidget {
-  const NotAttemptedGroup({super.key, required this.group});
+/// try that is not recorded. One collapsed panel with the count: skipped questions are not
+/// mistakes, so 47 of them never push the repair record and the past results off the tab.
+class NotAttemptedGroup extends StatefulWidget {
+  const NotAttemptedGroup({super.key, required this.group, this.initiallyExpanded = false});
 
   final BlankGroup group;
+  final bool initiallyExpanded;
+
+  @override
+  State<NotAttemptedGroup> createState() => _NotAttemptedGroupState();
+}
+
+class _NotAttemptedGroupState extends State<NotAttemptedGroup> {
+  late bool _expanded = widget.initiallyExpanded;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final group = widget.group;
+    final heading = ReviewCopy.notAttemptedHeading(group.source, group.items.length);
+    return SolidPanel(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MmPressable(
+            onTap: () => setState(() => _expanded = !_expanded),
+            pressedScale: 0.985,
+            focusRadius: MmRadius.panelAll,
+            semanticsLabel: '$heading. ${ReviewCopy.notAttemptedNote} ${ReviewCopy.groupExpandHint(_expanded)}',
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: MmTarget.min),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(heading, style: type.cardTitle),
+                          const SizedBox(height: MmSpace.s4),
+                          Text(ReviewCopy.notAttemptedNote, style: type.caption.copyWith(color: colors.ink2)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: MmSpace.s8),
+                    AnimatedRotation(
+                      turns: _expanded ? 0.5 : 0,
+                      duration: Motion.of(context, Motion.ui),
+                      curve: Motion.glide,
+                      child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // The size snaps (no layout animation inside a scrolling list); the rows fade in.
+          AnimatedSwitcher(
+            duration: Motion.of(context, Motion.card),
+            switchInCurve: Motion.glide,
+            switchOutCurve: Motion.exit,
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [?current]),
+            child: !_expanded
+                ? const SizedBox(key: ValueKey('closed'), width: double.infinity)
+                : Column(
+                    key: const ValueKey('open'),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [for (final item in group.items) _BlankRow(item: item)],
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BlankRow extends StatelessWidget {
+  const _BlankRow({required this.item});
+
+  final BlankItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -24,63 +104,54 @@ class NotAttemptedGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(header: true, child: Text(ReviewCopy.notAttemptedHeading(group.source, group.items.length), style: type.cardTitle)),
-        const SizedBox(height: MmSpace.s4),
-        Text(ReviewCopy.notAttemptedNote, style: type.caption.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s8),
-        for (final item in group.items) ...[
-          Divider(height: 1, color: colors.line),
-          Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 2),
-                  child: Bubble(state: BubbleState.blank, size: 16, animate: false),
-                ),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(text: ReviewCopy.questionLabel(item.number), style: type.labelLarge),
-                        TextSpan(
-                          text: '  ${item.chapter}',
-                          style: type.caption.copyWith(color: colors.ink2),
-                        ),
-                      ],
-                    ),
+        Divider(height: 1, color: colors.line),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 2),
+                child: Bubble(state: BubbleState.blank, size: 16, animate: false),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: ReviewCopy.questionLabel(item.number), style: type.labelLarge),
+                      TextSpan(text: '  ${item.chapter}', style: type.caption.copyWith(color: colors.ink2)),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Wrap(
-              children: [
-                KeyButton.quiet(
-                  label: ReviewCopy.seeAnswer,
-                  semanticsLabel: '${ReviewCopy.seeAnswer}, ${ReviewCopy.questionLabel(item.number)}',
-                  onPressed: () => showAnswerSheet(
-                    context,
-                    attemptId: item.attemptId,
-                    questionId: item.questionId,
-                    number: item.number,
-                    tryFirst: false,
-                  ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: MmSpace.s16 + 16),
+          child: Wrap(
+            children: [
+              KeyButton.quiet(
+                label: ReviewCopy.seeAnswer,
+                semanticsLabel: '${ReviewCopy.seeAnswer}, ${ReviewCopy.questionLabel(item.number)}',
+                onPressed: () => showAnswerSheet(
+                  context,
+                  attemptId: item.attemptId,
+                  questionId: item.questionId,
+                  number: item.number,
+                  tryFirst: false,
                 ),
-                KeyButton.quiet(
-                  label: ReviewCopy.tryAgain,
-                  semanticsLabel: '${ReviewCopy.tryAgain}, ${ReviewCopy.questionLabel(item.number)}',
-                  onPressed: () =>
-                      showAnswerSheet(context, attemptId: item.attemptId, questionId: item.questionId, number: item.number, tryFirst: true),
-                ),
-              ],
-            ),
+              ),
+              KeyButton.quiet(
+                label: ReviewCopy.tryAgain,
+                semanticsLabel: '${ReviewCopy.tryAgain}, ${ReviewCopy.questionLabel(item.number)}',
+                onPressed: () =>
+                    showAnswerSheet(context, attemptId: item.attemptId, questionId: item.questionId, number: item.number, tryFirst: true),
+              ),
+            ],
           ),
-        ],
+        ),
       ],
     );
   }

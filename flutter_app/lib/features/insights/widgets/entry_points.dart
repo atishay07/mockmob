@@ -67,7 +67,7 @@ class ReviewInsightsRows extends StatelessWidget {
   }
 }
 
-/// A row to the record with its net marks, when known.
+/// A row to the record with the share answered right, when known.
 class InsightsEntry extends ConsumerWidget {
   const InsightsEntry({super.key});
 
@@ -76,7 +76,7 @@ class InsightsEntry extends ConsumerWidget {
     final v = ref.watch(insightsRepositoryProvider).value;
     final note = v == null
         ? null
-        : (v.isReady ? InsightsCopy.insightsEntryNote(v.ledger.net, v.sessions) : InsightsCopy.insightsEntryEmpty);
+        : (v.isReady ? InsightsCopy.insightsEntryNote(v.accuracy.known ? v.accuracy.pct : null, v.sessions) : InsightsCopy.insightsEntryEmpty);
     return EntryRow(
       icon: LucideIcons.chartNoAxesColumn,
       title: InsightsCopy.insightsEntryTitle,

@@ -51,8 +51,8 @@ void main() {
       ('only a five-question practice', ashaInputs(attempts: [shortQuick]), NextMoveState.thinHistory),
       ('a recent mock with mistakes', ashaInputs(), NextMoveState.ready),
       (
-        'every mistake repaired on this phone',
-        ashaInputs(repaired: {'m7': {for (final q in [3, 5, 7, 8, 22, 31]) 'm7-q$q'}}),
+        'every mistake in the record repaired on this phone',
+        ashaInputs(repaired: repairedAll(ashaRecord(now))),
         NextMoveState.repairedCheckNotDue,
       ),
       ('a recent mock with no mistakes', ashaInputs(attempts: [cleanMock]), NextMoveState.noStrongWeakness),
@@ -156,7 +156,7 @@ void main() {
       'a stale record': (c) => _move(ashaInputs(attempts: [staleMock], selectedMinutes: c)),
       'a thin record': (c) => _move(ashaInputs(attempts: [shortQuick], selectedMinutes: c)),
       'a repaired record': (c) => _move(ashaInputs(
-            repaired: {'m7': {for (final q in [3, 5, 7, 8, 22, 31]) 'm7-q$q'}},
+            repaired: repairedAll(ashaRecord(tuesdayEvening)),
             selectedMinutes: c,
           )),
     };
@@ -456,8 +456,8 @@ void main() {
       final copy = File('lib/features/today/copy.dart').readAsStringSync();
       expect(copy, isNot(contains('CSAS')));
       expect(copy, isNot(contains('Round 1')));
-      expect(TodayCopy.ladderCaption(null), 'Last year${String.fromCharCode(39)}s DU closing scores, unreserved, out of 1000');
-      expect(TodayCopy.ladderCaption('OBC'), 'Last year${String.fromCharCode(39)}s DU closing scores, OBC, out of 1000');
+      expect(TodayCopy.ladderCaption(null), 'Last year${String.fromCharCode(39)}s DU closing scores, unreserved');
+      expect(TodayCopy.ladderCaption('OBC'), 'Last year${String.fromCharCode(39)}s DU closing scores, OBC');
       final dates = File('lib/core/domain/cuet_dates.dart').readAsStringSync();
       expect(dates, isNot(contains('CSAS')));
       expect(dates.toLowerCase(), isNot(contains('counselling')));

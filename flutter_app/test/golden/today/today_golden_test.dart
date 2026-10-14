@@ -111,12 +111,16 @@ void main() {
 
   todayGolden('today_returning', () => _view(ashaInputs(returning: true, now: now.add(const Duration(days: 4)))));
   todayGolden('today_late_night', () => _view(ashaInputs(now: tuesdayLate)));
+  // A 360 by 780 phone: the card's key is under the dock at rest, so the pinned bar holds it.
+  todayGolden('today_late_night_short', () => _view(ashaInputs(now: tuesdayLate)), size: const Size(360, 780));
+  // At 1.3x the key is below the fold and its label is the short one, on one line.
+  todayGolden('today_ready_text130_short', () => _view(ashaInputs()), size: const Size(360, 780), textScale: 1.3);
   todayGolden('today_offline', () => _view(ashaInputs(offline: true)));
   todayGolden('today_loading', () => _view(TodayInputs(now: now, firstName: 'Asha', week: tuesdayWeek)));
   todayGolden('today_error', () => _view(TodayInputs(now: now, firstName: 'Asha', attemptsFailed: true, week: tuesdayWeek)));
   todayGolden(
     'today_repaired',
-    () => _view(ashaInputs(repaired: {'m7': {for (final q in [3, 5, 7, 8, 22, 31]) 'm7-q$q'}})),
+    () => _view(ashaInputs(repaired: repairedAll(ashaRecord(tuesdayEvening)))),
   );
 
   screenGolden(

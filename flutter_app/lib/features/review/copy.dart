@@ -58,6 +58,14 @@ abstract final class ReviewCopy {
   static String groupExpandHint(bool expanded) => expanded ? 'Hide the questions' : 'Show the questions';
 
   static String questionLabel(int number) => 'Question $number';
+
+  /// What a screen reader says over the strip of wrong bubbles: one question is singular, several
+  /// are listed with "and" before the last ("Questions 3, 5 and 9, answered wrong").
+  static String wrongQuestionsSpoken(List<int> numbers) {
+    if (numbers.length == 1) return '${questionLabel(numbers.single)}, answered wrong';
+    final head = numbers.sublist(0, numbers.length - 1).join(', ');
+    return 'Questions $head and ${numbers.last}, answered wrong';
+  }
   static String foundIn(String source, String date) => 'Found in $source on $date';
 
   static String notAttemptedHeading(String source, int n) => 'Not attempted in $source ($n)';

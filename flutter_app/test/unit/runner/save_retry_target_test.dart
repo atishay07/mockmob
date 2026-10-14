@@ -8,7 +8,7 @@ import '../../helpers/fonts.dart';
 import 'support/fake_session.dart';
 import 'support/harness.dart';
 
-/// "Not saved yet. Tap to retry" sits on the 32 dp meta line. It must take a 48 dp finger
+/// "Not saved yet. Tap to retry" sits on the 36 dp meta line (two caption lines). It must take a 48 dp finger
 /// (review round 3, pkg-04 #3) without growing the line, so nothing under it moves.
 void main() {
   setUpAll(loadAppFonts);
@@ -27,7 +27,7 @@ void main() {
 
   int retries(FakeRunnerSession s) => s.calls.where((c) => c == 'restored').length;
 
-  testWidgets('the retry takes taps from a 48 dp band while the line stays 32 dp', (tester) async {
+  testWidgets('the retry takes taps from a 48 dp band while the line keeps its height', (tester) async {
     final s = session();
     await pumpRunner(tester, session: s);
     await settle(tester);
@@ -37,8 +37,8 @@ void main() {
     final x = tester.getCenter(find.text(RunnerCopy.notSavedYet)).dx;
 
     await tester.tapAt(Offset(x, line.center.dy));
-    await tester.tapAt(Offset(x, line.top - 7));
-    await tester.tapAt(Offset(x, line.bottom + 7));
+    await tester.tapAt(Offset(x, line.top - 5));
+    await tester.tapAt(Offset(x, line.bottom + 5));
     expect(retries(s), 3);
 
     // Outside the band the tap is not the retry's.

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
@@ -12,6 +13,7 @@ import '../copy.dart';
 import 'nta_copy.dart';
 import 'nta_integrity.dart';
 import 'nta_paper_theme.dart';
+import 'nta_skin.dart';
 
 /// Opens [builder] as a solid drawer from the right edge (the exam's palette panel on a phone).
 /// Pops with whatever the panel returns.
@@ -73,6 +75,9 @@ class NtaWarningOverlay extends StatelessWidget {
   /// "Continue" on the ended card.
   final VoidCallback? onContinue;
 
+  /// How far the paper is dimmed behind the card.
+  static const double _scrimOpacity = 0.94;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -81,95 +86,111 @@ class NtaWarningOverlay extends StatelessWidget {
     final n = integrity.strikes;
     final reason = (integrity.lastViolation ?? NtaViolation.left).reason;
     final title = ended ? NtaCopy.endedTitle : NtaCopy.warningTitle(n);
+    // The dim over the paper. The strip over the status bar is painted by the app above everything
+    // (the exam bar's colour), so it is given the dimmed colour too, or one bright band would
+    // sit over the dimmed exam.
+    final scrim = colors.ground.withValues(alpha: _scrimOpacity);
+    final strip = Color.alphaBlend(scrim, NtaBarColors.of(context).fill);
+    final stripIcons = ThemeData.estimateBrightnessForColor(strip) == Brightness.dark ? Brightness.light : Brightness.dark;
     // A modal: it names the route, scopes the semantics tree to itself and, with the paper
     // beneath it excluded, "Return to the exam" is the one control TalkBack can reach.
     return Positioned.fill(
-      child: Semantics(
-        scopesRoute: true,
-        explicitChildNodes: true,
-        namesRoute: true,
-        label: title,
-        child: ColoredBox(
-          color: colors.ground.withValues(alpha: 0.94),
-          child: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(MmSpace.gutter),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
-                  child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                      color: colors.raised,
-                      shape: RoundedSuperellipseBorder(
-                        borderRadius: MmRadius.panelAll,
-                        side: BorderSide(color: colors.lineStrong),
-                      ),
-                      shadows: colors.glassShadow,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(MmSpace.s20),
-                      child: Semantics(
-                        liveRegion: true,
-                        container: true,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Mobi reacts to the card, never to the paper: a shrug at a warning,
-                            // sitting down once the session has ended.
-                            Center(
-                              child: ExcludeSemantics(
-                                child: MobiCharacter(size: 84, entrance: ended ? MobiAct.rest : MobiAct.oops, seed: 17 + n),
-                              ),
-                            ),
-                            const SizedBox(height: MmSpace.s8),
-                            Row(
+      child: StatusTint(
+        color: strip,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: stripIcons,
+            statusBarBrightness: stripIcons == Brightness.light ? Brightness.dark : Brightness.light,
+          ),
+          child: Semantics(
+            scopesRoute: true,
+            explicitChildNodes: true,
+            namesRoute: true,
+            label: title,
+            child: ColoredBox(
+              color: scrim,
+              child: SafeArea(
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(MmSpace.gutter),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 440),
+                      child: DecoratedBox(
+                        decoration: ShapeDecoration(
+                          color: colors.raised,
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: MmRadius.panelAll,
+                            side: BorderSide(color: colors.lineStrong),
+                          ),
+                          shadows: colors.glassShadow,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(MmSpace.s20),
+                          child: Semantics(
+                            liveRegion: true,
+                            container: true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(LucideIcons.shieldAlert, size: 22, color: n >= 2 ? colors.badText : colors.warnText),
-                                const SizedBox(width: MmSpace.s8),
-                                Expanded(
-                                  child: Semantics(
-                                    header: true,
-                                    child: Text(title, style: type.title),
+                                // Mobi reacts to the card, never to the paper: a shrug at a warning,
+                                // sitting down once the session has ended.
+                                Center(
+                                  child: ExcludeSemantics(
+                                    child: MobiCharacter(size: 84, entrance: ended ? MobiAct.rest : MobiAct.oops, seed: 17 + n),
                                   ),
                                 ),
+                                const SizedBox(height: MmSpace.s8),
+                                Row(
+                                  children: [
+                                    Icon(LucideIcons.shieldAlert, size: 22, color: n >= 2 ? colors.badText : colors.warnText),
+                                    const SizedBox(width: MmSpace.s8),
+                                    Expanded(
+                                      child: Semantics(
+                                        header: true,
+                                        child: Text(title, style: type.title),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: MmSpace.s12),
+                                _StrikeBars(strikes: n),
+                                const SizedBox(height: MmSpace.s16),
+                                Text(
+                                  ended ? NtaCopy.endedBody : NtaCopy.warningBody(reason, n),
+                                  style: type.body.copyWith(color: colors.ink),
+                                ),
+                                if (!ended) ...[
+                                  const SizedBox(height: MmSpace.s16),
+                                  for (final rule in NtaCopy.rules)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: MmSpace.s6),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 3),
+                                            child: Icon(LucideIcons.dot, size: 14, color: colors.ink3),
+                                          ),
+                                          const SizedBox(width: MmSpace.s6),
+                                          Expanded(
+                                            child: Text(rule, style: type.small.copyWith(color: colors.ink2)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  const SizedBox(height: MmSpace.s16),
+                                  KeyButton(label: NtaCopy.returnKey, onPressed: integrity.acknowledge, hapticOnCommit: false, autofocus: true),
+                                ] else ...[
+                                  const SizedBox(height: MmSpace.s16),
+                                  _EndedStatus(submitState: submitState),
+                                  const SizedBox(height: MmSpace.s16),
+                                  KeyButton(label: NtaCopy.endedContinue, onPressed: onContinue, hapticOnCommit: false, autofocus: true),
+                                ],
                               ],
                             ),
-                            const SizedBox(height: MmSpace.s12),
-                            _StrikeBars(strikes: n),
-                            const SizedBox(height: MmSpace.s16),
-                            Text(
-                              ended ? NtaCopy.endedBody : NtaCopy.warningBody(reason, n),
-                              style: type.body.copyWith(color: colors.ink),
-                            ),
-                            if (!ended) ...[
-                              const SizedBox(height: MmSpace.s16),
-                              for (final rule in NtaCopy.rules)
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: MmSpace.s6),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 3),
-                                        child: Icon(LucideIcons.dot, size: 14, color: colors.ink3),
-                                      ),
-                                      const SizedBox(width: MmSpace.s6),
-                                      Expanded(
-                                        child: Text(rule, style: type.small.copyWith(color: colors.ink2)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              const SizedBox(height: MmSpace.s16),
-                              KeyButton(label: NtaCopy.returnKey, onPressed: integrity.acknowledge, hapticOnCommit: false, autofocus: true),
-                            ] else ...[
-                              const SizedBox(height: MmSpace.s16),
-                              _EndedStatus(submitState: submitState),
-                              const SizedBox(height: MmSpace.s16),
-                              KeyButton(label: NtaCopy.endedContinue, onPressed: onContinue, hapticOnCommit: false, autofocus: true),
-                            ],
-                          ],
+                          ),
                         ),
                       ),
                     ),

@@ -3,6 +3,7 @@
 // cached record, and never billed. Keep the wording in step with the website.
 
 import 'insights_models.dart';
+import 'subject_names.dart';
 
 const int _minChapterSample = 4;
 const int _maxRecordQuestionChars = 140;
@@ -25,7 +26,12 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
       detail: '${top.subjectName}: ${top.right} right, ${top.wrong} wrong, ${top.skip} left blank out of ${top.n} questions over '
           '${_plural(top.sessions, 'session')}. Those ${top.wrong + top.skip} questions were worth ${top.open} marks.',
       actionLabel: 'Practise ${top.chapter}',
-      actionHref: '/dashboard?subject=${Uri.encodeComponent(top.subject)}&mode=quick',
+      // The key says "Practise <chapter>", so the link carries the chapter: without it the app
+      // opens all-chapters Quick practice for the subject.
+      actionHref: Uri(
+        path: '/dashboard',
+        queryParameters: {'mode': 'chapter', 'subject': canonicalSubjectId(top.subject), 'chapter': top.chapter},
+      ).toString(),
     ));
   } else if (insights.thin.isNotEmpty) {
     final t = insights.thin.first;

@@ -38,7 +38,7 @@ Future<PendingRead> pendingWork(WidgetRef ref) async {
 
 /// Asks before signing out, and warns first when work is only on this phone ("3 answers are on
 /// this phone and not sent. Sign out anyway?", "2 study updates are waiting to send"). The safe
-/// key is the dominant one. Returns true when the student confirmed.
+/// key (Stay signed in) is always the dominant one; signing out is the quiet glass key. Returns true when the student confirmed.
 Future<bool> confirmSignOut(BuildContext context, {required PendingWorkCount pending, bool unknown = false}) async {
   final choice = await showMmSheet<bool>(
     context: context,
@@ -84,22 +84,18 @@ class _SignOutSheet extends ConsumerWidget {
           ],
         ],
         const SizedBox(height: MmSpace.s24),
-        if (warn) ...[
-          KeyButton(label: YouCopy.signOutStay, onPressed: () => Navigator.of(context).pop(false)),
-          const SizedBox(height: MmSpace.s12),
-          KeyButton.secondary(
-            label: YouCopy.signOutAnyway,
-            hapticOnCommit: false,
-            onPressed: () {
-              ref.read(hapticsProvider).warn();
-              Navigator.of(context).pop(true);
-            },
-          ),
-        ] else ...[
-          KeyButton(label: YouCopy.signOut, onPressed: () => Navigator.of(context).pop(true)),
-          const SizedBox(height: MmSpace.s8),
-          Align(child: KeyButton.quiet(label: YouCopy.cancel, onPressed: () => Navigator.of(context).pop(false))),
-        ],
+        // Staying is the dominant key whether or not work is at risk; signing out is the quiet
+        // glass key, never the volt primary (device walk-through P3-30).
+        KeyButton(label: YouCopy.signOutStay, onPressed: () => Navigator.of(context).pop(false)),
+        const SizedBox(height: MmSpace.s12),
+        KeyButton.secondary(
+          label: warn ? YouCopy.signOutAnyway : YouCopy.signOut,
+          hapticOnCommit: !warn,
+          onPressed: () {
+            if (warn) ref.read(hapticsProvider).warn();
+            Navigator.of(context).pop(true);
+          },
+        ),
       ],
     );
   }

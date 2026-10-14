@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/you/account/account_screen.dart';
 import 'package:mockmob/features/you/account/delete_screen.dart';
 import 'package:mocktail/mocktail.dart';
@@ -22,7 +23,7 @@ Future<FakeAuth> _pumpAccount(
     wrapInScaffold: false,
     disableAnimations: true,
     // Tall enough for the Security section and the sign-out key below it to be built.
-    size: const Size(360, 1500),
+    size: const Size(360, 1700),
     overrides: youOverrides(fakeAuth: auth, drafts: draftsWithUnsent(unsent)),
   );
   return auth;
@@ -43,8 +44,19 @@ void main() {
       await _pumpAccount(tester);
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
-      expect(find.text('Credit balance not loaded'), findsOneWidget);
+      expect(find.text('We could not load your credit balance.'), findsOneWidget);
+      expect(find.text('Credit balance not loaded'), findsNothing);
       expect(find.text('Your plan and credits as of the last check.'), findsNothing);
+    });
+
+    testWidgets('an unloaded credit balance has a Try again key that reads the profile again', (tester) async {
+      final auth = await _pumpAccount(tester);
+      final retry = find.text('Try again');
+      expect(retry, findsOneWidget);
+      expect(tester.getSize(find.ancestor(of: retry, matching: find.byType(KeyButton)).first).height, greaterThanOrEqualTo(48));
+      await tester.tap(retry);
+      await tester.pumpAndSettle();
+      expect(auth.reloads, 1);
     });
 
     testWidgets('Pro with a date reads "Pro is active until 31 July 2027."', (tester) async {
@@ -67,6 +79,10 @@ void main() {
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
       expect(find.text('Sign out of MockMob?'), findsOneWidget);
+      // Staying is the volt primary; signing out is the quiet glass key (P3-30).
+      KeyVariant variantOf(String label) => tester.widget<KeyButton>(find.widgetWithText(KeyButton, label).last).variant;
+      expect(variantOf('Stay signed in'), KeyVariant.primary);
+      expect(variantOf('Sign out'), KeyVariant.secondary);
       expect(find.textContaining('are on this phone and not sent'), findsNothing);
       await tester.tap(find.text('Sign out').last);
       await tester.pumpAndSettle();
@@ -116,7 +132,7 @@ void main() {
         const DeleteScreen(),
         wrapInScaffold: false,
         disableAnimations: true,
-        size: const Size(360, 1500),
+        size: const Size(360, 1700),
         overrides: youOverrides(fakeAuth: auth, api: api, drafts: draftsWithUnsent(unsent)),
       );
       await tester.pump();

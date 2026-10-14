@@ -96,7 +96,8 @@ class ProRow extends StatelessWidget {
     final type = context.mmType;
     return Semantics(
       container: true,
-      label: '$text. Pro.',
+      // The tag only repeats what the text says, so a text that already names Pro is read once.
+      label: text.contains('Pro') ? '$text.' : '$text. Pro.',
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: ShapeDecoration(

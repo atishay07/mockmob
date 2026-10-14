@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 import '../widgets/also_slots.dart';
 import '../widgets/move_hero.dart';
+import '../widgets/move_keys.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/road_section.dart';
 import '../widgets/sealed_hero.dart';
@@ -81,6 +82,74 @@ class _TodayBodyState extends State<TodayBody> {
   /// The move card: the header Mobi points at it.
   final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
+  /// The move card's primary key and the stack that holds the page, to tell whether that key is
+  /// out of view (under the dock or below the fold) and the pinned bar should stand in for it.
+  final GlobalKey _primaryKey = GlobalKey(debugLabel: 'today-primary');
+  final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
+  final ValueNotifier<bool> _pinned = ValueNotifier(false);
+  ScrollController? _ownScroll;
+  bool _measureQueued = false;
+
+  /// The tab root's dock clearance, set by the shell. Without it (no dock) nothing is pinned.
+  double _dockTop = 0;
+  bool _hasDock = false;
+
+  ScrollController get _scroll => widget.controller ?? (_ownScroll ??= ScrollController());
+
+  /// How far above the dock's top edge the shell's ground fade (`DockScrim`) reaches. The bar
+  /// rests on the fade's top edge: under it, the fade would wash the key out.
+  static const double _scrimRise = 48;
+
+  /// Ground kept under the key, down to the dock: the card's own key and its chips pass under
+  /// the bar, and the shell's fade alone would leave them half-seen between bar and dock.
+  static const double _barPad = _scrimRise;
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_queueMeasure);
+  }
+
+  @override
+  void didUpdateWidget(TodayBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      (oldWidget.controller ?? _ownScroll)?.removeListener(_queueMeasure);
+      _scroll.addListener(_queueMeasure);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scroll.removeListener(_queueMeasure);
+    _ownScroll?.dispose();
+    _pinned.dispose();
+    super.dispose();
+  }
+
+  void _queueMeasure() {
+    if (_measureQueued || !mounted) return;
+    _measureQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _measureQueued = false;
+      if (mounted) _measure();
+    });
+  }
+
+  /// Pinned when the card's primary key is not wholly above the bar's resting place: partly under
+  /// the dock, or past the fold. Where the key's bottom meets that line the bar and the key are
+  /// in the same place, so the hand-over does not jump.
+  void _measure() {
+    final key = _primaryKey.currentContext?.findRenderObject();
+    final stack = _stackKey.currentContext?.findRenderObject();
+    var pinned = false;
+    if (_hasDock && key is RenderBox && stack is RenderBox && key.attached && key.hasSize && stack.attached && stack.hasSize) {
+      final bottom = key.localToGlobal(Offset(0, key.size.height), ancestor: stack).dy;
+      pinned = bottom > stack.size.height - _dockTop - _scrimRise + 0.5;
+    }
+    if (_pinned.value != pinned) _pinned.value = pinned;
+  }
+
   Widget _hero() {
     final hero = widget.view.hero;
     final cb = widget.callbacks;
@@ -92,6 +161,7 @@ class _TodayBodyState extends State<TodayBody> {
           offline: widget.view.offline,
           retrying: widget.retrying,
           mobiController: widget.mobiController,
+          primaryKey: _primaryKey,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
@@ -117,6 +187,15 @@ class _TodayBodyState extends State<TodayBody> {
     final callbacks = widget.callbacks;
     final insights = widget.insights;
     final roadFooter = widget.roadFooter;
+    // The shell lifts a tab root's bottom padding by the dock's clearance; the dock's own top
+    // edge is 24 dp lower than that padding (the rest is air for the last row).
+    _hasDock = padding.bottom >= MmDock.clearanceAbove;
+    _dockTop = padding.bottom - (MmDock.clearanceAbove - MmDock.height - MmDock.lift);
+    final hero = view.hero;
+    final pinnable = hero is MoveHero && !(view.offline && hero.primary.startsSession);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _measure();
+    });
     final children = <Widget>[
       TodayHeader(
         header: view.header,
@@ -141,7 +220,7 @@ class _TodayBodyState extends State<TodayBody> {
     ];
 
     final scroll = CustomScrollView(
-      controller: widget.controller,
+      controller: _scroll,
       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       slivers: [
         SliverPadding(
@@ -160,6 +239,7 @@ class _TodayBodyState extends State<TodayBody> {
     return ColoredBox(
       color: colors.ground,
       child: Stack(
+        key: _stackKey,
         children: [
           // The lamp in the corner of the room, behind the top row and the hero.
           Positioned(left: 0, right: 0, top: 0, height: 520, child: IgnorePointer(child: LightField.lamp(context, strength: 0.9))),
@@ -177,9 +257,61 @@ class _TodayBodyState extends State<TodayBody> {
                     ),
             ),
           ),
+          if (_hasDock && pinnable)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: _dockTop,
+              child: ValueListenableBuilder<bool>(
+                valueListenable: _pinned,
+                builder: (context, pinned, _) => StickyMoveHost(
+                  pinned: pinned,
+                  builder: (context) => Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                      child: _StickyScrim(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, 0, MmSpace.cardGutter, _barPad),
+                          child: StickyMoveBar(move: hero, onAction: callbacks.onAction, retrying: widget.retrying),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 
+}
+
+/// Ground behind the pinned bar: a short fade in above it, then solid down to the dock. The
+/// card's own key (still moving under it) and text scrolling by never read around the bar. It
+/// covers only the bar's own strip, so the page stays touchable everywhere else.
+class _StickyScrim extends StatelessWidget {
+  const _StickyScrim({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final ground = context.mmColors.ground;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: MmSpace.s16,
+          width: double.infinity,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [ground.withValues(alpha: 0), ground]),
+            ),
+          ),
+        ),
+        ColoredBox(color: ground, child: SizedBox(width: double.infinity, child: child)),
+      ],
+    );
+  }
 }

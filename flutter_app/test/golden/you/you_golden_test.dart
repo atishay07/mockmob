@@ -22,6 +22,16 @@ import 'package:mocktail/mocktail.dart';
 import '../../unit/you/you_test_support.dart';
 import 'you_golden_kit.dart';
 
+/// The Security section pushed the sign-out key below the fold, and the list builds lazily: scroll
+/// to the end so the key is fully on screen, then open its sheet.
+Future<void> _openSignOut(WidgetTester tester) async {
+  await tester.scrollUntilVisible(find.text('Sign out'), 200, scrollable: find.byType(Scrollable).first);
+  await tester.drag(find.byType(Scrollable).first, const Offset(0, -600));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Sign out'));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   setUpGoldenFonts();
 
@@ -155,10 +165,16 @@ void main() {
     () => const AccountScreen(),
     overrides: () => youOverrides(drafts: draftsWithUnsent(3)),
     interact: (tester) async {
-      // The Security section pushed the sign-out key below the fold, and the list builds lazily.
-      await tester.scrollUntilVisible(find.text('Sign out'), 200, scrollable: find.byType(Scrollable).first);
-      await tester.tap(find.text('Sign out'));
-      await tester.pumpAndSettle();
+      await _openSignOut(tester);
+    },
+  );
+
+  sheetGolden(
+    'sign_out_plain',
+    () => const AccountScreen(),
+    overrides: () => youOverrides(drafts: draftsWithUnsent(0)),
+    interact: (tester) async {
+      await _openSignOut(tester);
     },
   );
 

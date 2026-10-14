@@ -34,9 +34,13 @@ class OpenAlternatives extends TodayTarget {
 }
 
 class TodayAction {
-  const TodayAction(this.label, this.target, {this.startsSession = false, this.actionType});
+  const TodayAction(this.label, this.target, {this.startsSession = false, this.actionType, this.shortLabel});
 
   final String label;
+
+  /// Says the same in fewer words, for a key where [label] would break onto a second line
+  /// (large text on a small phone). Never a different promise: same verb, same length.
+  final String? shortLabel;
   final TodayTarget target;
 
   /// Needs the network: disabled with "Connect to start." while offline.

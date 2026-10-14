@@ -110,7 +110,9 @@ abstract final class EditCopy {
   static const planFree = 'Free';
   static const planPro = 'Pro';
   static String credits(int n) => n == 1 ? '1 practice credit' : '$n practice credits';
-  static const creditsUnknown = 'Credit balance not loaded';
+  static const creditsUnknown = 'We could not load your credit balance.';
+  static const creditsRetry = 'Try again';
+  static const creditsRetrying = 'Trying again';
   static const unlimited = 'Unlimited practice';
   static const planOverline = 'Your plan';
   static const creditUnit = 'practice credits';

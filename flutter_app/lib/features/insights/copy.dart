@@ -18,7 +18,10 @@ abstract final class InsightsCopy {
   static const signIn = 'Sign in';
   static const notNow = 'Not now';
   static String accuracyHeroLine(int low, int high) => 'of answered right, likely $low to $high%';
-  static String netOver(int net, int sessions) => '${net > 0 ? '+' : ''}$net net marks over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
+  // Net marks are never stated alone: papers differ in length, so a sum over sessions means
+  // nothing by itself. It always carries the marks that were on offer.
+  static String netOver(int net, int offered, int sessions) =>
+      '${net > 0 ? '+' : ''}$net net marks of $offered on offer over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
 
   // The figure when the share answered right is not known yet (sparse record).
   static const sparseTitle = 'Answer 10 questions to see your share right';
@@ -116,11 +119,15 @@ abstract final class InsightsCopy {
   static const playbookNoReflection = 'No reason written.';
   static const playbookEvidence = 'More evidence needed';
   static const recoveryFailed = 'Your checks and playbook did not load.';
+  static const recoveryFailedAgain = 'They still did not load. Try again in a moment.';
+  static const retrying = 'Trying again';
   static const recoveryOffline = 'You are offline. Checks and playbook show here once they have loaded.';
 
   // ---- Entry points ------------------------------------------------------------------------
   static const insightsEntryTitle = 'Where your marks go';
-  static String insightsEntryNote(int net, int sessions) => '$net net marks over ${_n(sessions, 'session')}';
+  // The share right means the same over papers of any length; a sum of net marks does not.
+  static String insightsEntryNote(int? pctRight, int sessions) =>
+      pctRight == null ? _n(sessions, 'session') : '$pctRight% right over ${_n(sessions, 'session')}';
   static const insightsEntryEmpty = 'Appears after your first session';
   static const savedEntryTitle = 'Saved questions';
   static String savedEntryNote(int n) => n == 0 ? 'Nothing saved yet' : '$n saved';

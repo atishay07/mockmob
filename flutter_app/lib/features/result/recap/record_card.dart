@@ -58,7 +58,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   String? get _mobiLine {
     if (!m.variant.allowsTokens) return ResultCopy.nextStepLine;
     if (m.monthMockCount <= 0) return null;
-    return ResultCopy.effort(m.monthMockCount, firstEver: m.variant == RecapVariant.firstMock);
+    return ResultCopy.effort(m.monthMockCount, firstInSubject: m.variant == RecapVariant.firstMock, subject: m.subjectName);
   }
 
   MobiPose get _mobiPose => switch (m.variant) {
@@ -93,6 +93,18 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     final asks = askReminder ? (ref.watch(reminderAskCountProvider).value ?? 0) : 0;
     final token = m.variant.allowsTokens ? m.firstMockTokenAt : null;
 
+    // Side by side when they fit. At large text they would stack and take a quarter of the screen
+    // (the length chips fell under the scroll edge), so they close the scrolling card instead and
+    // only the primary key stays pinned.
+    final largeText = MediaQuery.textScalerOf(context).scale(14) / 14 > 1.15;
+    final quietKeys = Wrap(
+      alignment: WrapAlignment.center,
+      children: [
+        if (hasRepair) KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
+        KeyButton.quiet(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
+      ],
+    );
+
     return RecapCardPage(
       onNext: null,
       onBack: widget.onBack,
@@ -107,14 +119,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             )
           else
             KeyButton(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
-          // Side by side when they fit; stacked at large text sizes.
-          Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              if (hasRepair) KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
-              KeyButton.quiet(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
-            ],
-          ),
+          if (!largeText) quietKeys,
         ],
       ),
       children: [
@@ -159,6 +164,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           const SizedBox(height: MmSpace.s20),
           Text(ResultCopy.skipHint, style: type.small.copyWith(color: colors.ink3)),
         ],
+        if (largeText) ...[const SizedBox(height: MmSpace.s12), quietKeys],
       ],
     );
   }

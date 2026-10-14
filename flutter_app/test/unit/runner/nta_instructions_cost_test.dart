@@ -128,4 +128,22 @@ void main() {
     expect(starter.starts.single?.creditCost, 3);
     expect(router.routerDelegate.currentConfiguration.uri.toString(), '/run/sess-9');
   });
+
+  testWidgets('the reason the Start key is off is beside it until the declaration is ticked', (tester) async {
+    final quote = _quote(cost: 1, expiresAt: _now.add(const Duration(seconds: 60)));
+    await pump(tester, [quote]);
+
+    // The helper ticked the declaration: the line has gone but kept its space, and is not read.
+    final hint = find.text(NtaStartCopy.startHint);
+    double opacity() => tester.widget<AnimatedOpacity>(find.ancestor(of: hint, matching: find.byType(AnimatedOpacity))).opacity;
+    bool excluded() => tester.widget<ExcludeSemantics>(find.ancestor(of: hint, matching: find.byType(ExcludeSemantics)).first).excluding;
+    expect(opacity(), 0);
+    expect(excluded(), isTrue);
+
+    await tester.ensureVisible(find.text(NtaStartCopy.declare));
+    await tester.tap(find.text(NtaStartCopy.declare));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(opacity(), 1, reason: 'unticked: the line says why Start is off');
+    expect(excluded(), isFalse, reason: 'and TalkBack reads it with the key');
+  });
 }

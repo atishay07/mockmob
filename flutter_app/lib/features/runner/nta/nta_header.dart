@@ -21,13 +21,14 @@ class NtaBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     final skin = NtaSkin.of(context);
+    final bar = NtaBarColors.of(context);
     final top = MediaQuery.viewPaddingOf(context).top;
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.3,
       child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: NtaSkin.bar,
-          border: Border(bottom: BorderSide(color: NtaSkin.barEdge)),
+        decoration: BoxDecoration(
+          color: bar.fill,
+          border: Border(bottom: BorderSide(color: bar.edge)),
         ),
         child: Padding(
           padding: EdgeInsets.fromLTRB(leading == null ? MmSpace.gutter : MmSpace.s4, top + MmSpace.s8, MmSpace.s8, MmSpace.s8),
@@ -49,7 +50,7 @@ class NtaBar extends StatelessWidget {
                             Text(
                               NtaCopy.modeLine,
                               style: type.caption.copyWith(
-                                color: NtaSkin.onBar2,
+                                color: bar.on2,
                                 height: 1.2,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,
@@ -60,7 +61,7 @@ class NtaBar extends StatelessWidget {
                               subject,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: skin.type.barTitle.copyWith(color: NtaSkin.onBar),
+                              style: skin.type.barTitle.copyWith(color: bar.on),
                             ),
                           ],
                         ),
@@ -93,7 +94,8 @@ class NtaProgressRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.mmType.caption.copyWith(color: NtaSkin.onBar2);
+    final bar = NtaBarColors.of(context);
+    final style = context.mmType.caption.copyWith(color: bar.on2);
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s8),
       child: Column(
@@ -102,7 +104,7 @@ class NtaProgressRow extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(NtaCopy.questionOf(current, total), style: style.copyWith(color: NtaSkin.onBar)),
+                child: Text(NtaCopy.questionOf(current, total), style: style.copyWith(color: bar.on)),
               ),
               Text(NtaCopy.answeredCount(answered), style: style),
             ],
@@ -116,10 +118,10 @@ class NtaProgressRow extends StatelessWidget {
                 child: LayoutBuilder(
                   builder: (context, c) => Stack(
                     children: [
-                      const Positioned.fill(child: ColoredBox(color: NtaSkin.barTrack)),
+                      Positioned.fill(child: ColoredBox(color: bar.track)),
                       SizedBox(
                         width: total == 0 ? 0 : c.maxWidth * current / total,
-                        child: const ColoredBox(color: NtaSkin.volt),
+                        child: ColoredBox(color: bar.progress),
                       ),
                     ],
                   ),
@@ -143,6 +145,7 @@ class NtaTimerChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final clock = NtaSkin.of(context).type.clock;
+    final bar = NtaBarColors.of(context);
     return RepaintBoundary(
       child: ValueListenableBuilder<Duration>(
         valueListenable: remaining,
@@ -155,20 +158,20 @@ class NtaTimerChip extends StatelessWidget {
               constraints: const BoxConstraints(minWidth: 92, minHeight: 40),
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
               decoration: BoxDecoration(
-                color: low ? NtaSkin.lowFill : const Color(0x1FFFFFFF),
+                color: low ? NtaSkin.lowFill : bar.chip,
                 borderRadius: NtaSkin.keyRadius,
-                border: Border.all(color: low ? NtaSkin.lowEdge : const Color(0x4DFFFFFF)),
+                border: Border.all(color: low ? NtaSkin.lowEdge : bar.chipEdge),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(LucideIcons.clock, size: 15, color: NtaSkin.onBar),
+                  Icon(LucideIcons.clock, size: 15, color: bar.on),
                   const SizedBox(width: MmSpace.s6),
                   Text(
                     NtaCopy.clock(left),
                     textScaler: TextScaler.noScaling,
-                    style: clock.copyWith(color: NtaSkin.onBar),
+                    style: clock.copyWith(color: bar.on),
                   ),
                 ],
               ),
@@ -192,6 +195,7 @@ class NtaBarKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
+    final bar = NtaBarColors.of(context);
     return Semantics(
       button: true,
       label: semanticsLabel,
@@ -201,8 +205,8 @@ class NtaBarKey extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: NtaSkin.keyRadius,
-          splashColor: const Color(0x22FFFFFF),
-          highlightColor: const Color(0x14FFFFFF),
+          splashColor: bar.splash,
+          highlightColor: bar.highlight,
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
             child: Padding(
@@ -211,10 +215,10 @@ class NtaBarKey extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, size: 20, color: NtaSkin.onBar),
+                  Icon(icon, size: 20, color: bar.on),
                   if (label != null) ...[
                     const SizedBox(width: MmSpace.s6),
-                    Text(label!, style: type.label.copyWith(color: NtaSkin.onBar)),
+                    Text(label!, style: type.label.copyWith(color: bar.on)),
                   ],
                 ],
               ),

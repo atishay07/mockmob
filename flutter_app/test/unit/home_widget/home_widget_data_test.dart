@@ -242,6 +242,27 @@ void main() {
       expect(constant('CUET_END'), isoDate(CuetDates.windowEnd));
     });
 
+    test('the countdown says the exam date is expected, as Today does', () {
+      final strings = File('android/app/src/main/res/values/widget_strings.xml').readAsStringSync();
+      final items = RegExp(r'<item quantity="(?:one|other)">([^<]+)</item>').allMatches(strings).map((m) => m.group(1)!).toList();
+      expect(items, ['day to expected CUET', 'days to expected CUET']);
+      expect(strings, contains('translatable="false">days to expected CUET</string>'), reason: 'the picker preview too');
+      expect(strings, isNot(matches(RegExp(r'(?<!expected )CUET</'))), reason: 'no bare "to CUET" countdown');
+      // Today's own copy, which the widget agrees with.
+      expect(TodayCopy.daysToWindowLabel(199), contains('expected'));
+    });
+
+    test('the 2x2 layout carries the compact start key, and the 4x2 centres its move', () {
+      const res = 'android/app/src/main/res/layout';
+      final small = File('$res/widget_today_small.xml').readAsStringSync();
+      final wide = File('$res/widget_today_wide.xml').readAsStringSync();
+      expect(small, contains('@+id/widget_action'));
+      // No empty weighted spacer between the top row and the title: the move fills that band.
+      expect(small, isNot(matches(RegExp(r'<FrameLayout\s+android:layout_width="match_parent"\s+android:layout_height="0dp"'))));
+      // The 4x2's middle row centres the title and the ring in the space the key and header leave.
+      expect(wide, matches(RegExp(r'android:gravity="center_vertical"\s+android:orientation="horizontal">\s+<TextView\s+android:id="@\+id/widget_title"')));
+    });
+
     test('rhythm turned off: no ring', () {
       final data = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched));
       expect(data!.toJson().containsKey('week'), isFalse);

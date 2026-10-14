@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Home-screen widget, 2x2: the week ring and the days to CUET on top, the move under them.
-     The whole widget is the key. As inflated here it is the plain "Open MockMob" state. -->
+<!-- Home-screen widget, 2x2: the week ring and the days to the expected CUET window on top, the
+     move centred in the space left, and the key at the foot when there is room for it. The whole
+     widget is the tap target. As inflated here it is the plain "Open MockMob" state. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
@@ -84,33 +85,57 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
+        <!-- The move sits in the middle of what the top row and the key leave, so no band is left
+             empty above or below it. -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/widget_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingMultiplier="1.05"
+                android:maxLines="3"
+                android:text="@string/widget_open"
+                android:textColor="@color/widget_ink"
+                android:textSize="14sp" />
+
+            <!-- maxLines is set when drawn: one or two lines, whichever keeps the time whole. -->
+            <TextView
+                android:id="@+id/widget_updated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/widget_ink_support"
+                android:textSize="11sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- The compact key: the same volt pill as the 4x2, shown when it fits. -->
         <TextView
-            android:id="@+id/widget_title"
-            android:layout_width="match_parent"
+            android:id="@+id/widget_action"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/widget_pill"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:lineSpacingMultiplier="1.05"
-            android:maxLines="3"
-            android:text="@string/widget_open"
-            android:textColor="@color/widget_ink"
-            android:textSize="14sp" />
-
-        <!-- maxLines is set when drawn: one or two lines, whichever keeps the time whole. -->
-        <TextView
-            android:id="@+id/widget_updated"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/widget_ink_support"
-            android:textSize="11sp"
+            android:paddingStart="14dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="7dp"
+            android:singleLine="true"
+            android:textColor="@color/widget_volt_ink"
+            android:textSize="13sp"
+            android:textStyle="bold"
             android:visibility="gone" />
     </LinearLayout>
 </FrameLayout>

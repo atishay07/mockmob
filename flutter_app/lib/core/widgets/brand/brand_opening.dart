@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -281,19 +282,47 @@ abstract final class OpeningTimeline {
 /// drawn under the Android system splash, and Android has lifted the splash off it (a short fade
 /// in `MainActivity`, over a "mo" that matches it). The opening's clock starts then, so the hold,
 /// the blink and the ink all play where the student can see them.
+///
+/// On a slow start (a debug build on a 2 GB phone drew its first frame after 5.9 s) the "mo"
+/// simply holds under the splash for as long as that takes; nothing of the opening is spent
+/// out of sight.
 abstract final class OpeningGlass {
   static const MethodChannel _channel = MethodChannel('in.mockmob.app/splash');
+
+  /// How long the opening waits for Android to answer once it has asked. Android answers after
+  /// its 150 ms fade, or after 600 ms when no splash came; this is only a net for a channel
+  /// that never answers.
+  static const Duration answerCap = Duration(seconds: 4);
+
+  static bool get _android => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
   static Future<void> wait() async {
     final binding = WidgetsBinding.instance;
     if (!binding.firstFrameRasterized) await binding.waitUntilFirstFrameRasterized;
     // One more frame, so the "mo" under the splash is a settled one.
     await binding.endOfFrame;
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
+    if (!_android) return;
+    await release();
+  }
+
+  /// Asks Android to fade the splash off the "mo"; completes once it has, or after [cap].
+  @visibleForTesting
+  static Future<void> release({Duration cap = answerCap}) async {
     try {
-      await _channel.invokeMethod<bool>('release');
+      await _channel.invokeMethod<bool>('release').timeout(cap);
     } on Object {
-      // No channel (an older build): the splash is already gone; start now.
+      // No channel (an older build), or no answer in time: start now.
+    }
+  }
+
+  /// Takes the splash off at once, with no fade. Only for a hand-off that starts before Android
+  /// said the splash was gone, so its "mo" is never faded over the first screen.
+  static Future<void> liftNow() async {
+    if (!_android) return;
+    try {
+      await _channel.invokeMethod<bool>('release', false).timeout(answerCap);
+    } on Object {
+      // Nothing to lift.
     }
   }
 }
@@ -335,15 +364,18 @@ class BrandOpening extends ConsumerStatefulWidget {
 
 class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProviderStateMixin {
   /// If the platform never says the "mo" is on the glass, the opening starts this long after its
-  /// first build anyway (a safety net, longer than any splash).
-  static const double _glassCap = 2500;
+  /// first build anyway. Only a net for a platform that never answers: it must outlast the
+  /// slowest start (a first frame at 5.9 s on a 2 GB phone in debug) plus Android's own 3 s hold,
+  /// or the opening would play, and hand off, under the splash (the "mo" then held, cut to the
+  /// first screen, and faded over it as a ghost).
+  static const double _glassCap = 10000;
 
   static final ThemeData _dark = buildTheme(Brightness.dark);
 
-  late final AnimationController _clock = AnimationController(
+  /// Milliseconds since the first build, with no end: a slow start can never run it out before
+  /// the opening has played.
+  late final AnimationController _clock = AnimationController.unbounded(
     vsync: this,
-    upperBound: OpeningTimeline.maxMs + _glassCap,
-    duration: Duration(milliseconds: (OpeningTimeline.maxMs + _glassCap).round()),
     animationBehavior: AnimationBehavior.preserve,
   );
   late final AnimationController _fade = AnimationController(
@@ -380,9 +412,39 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     return math.max(0.0, c - seen);
   }
 
+  /// Whether the platform said the "mo" is on the glass (not just the [_glassCap] net).
+  bool _confirmed = false;
+
   void _markSeen() {
-    if (_seenAt != null || !mounted) return;
+    if (!mounted) return;
+    _confirmed = true;
+    // A late answer after the net started the timeline restarts it from the "mo", which is what
+    // has been on the glass, unless the hand-off has begun.
+    if (_seenAt != null || _fading) return;
     _seenAt = _clock.value;
+  }
+
+  /// Runs the unfold's poses and paint once, off screen, while the splash still covers the "mo",
+  /// so a slow phone (or a debug build compiling them) does not pay for it in the unfold's own
+  /// frames.
+  void _warmUp() {
+    if (_reduced || !mounted) return;
+    final size = MediaQuery.sizeOf(context);
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    if (size.isEmpty) return;
+    final recorder = ui.PictureRecorder();
+    final canvas = ui.Canvas(recorder);
+    for (var t = OpeningTimeline.expandAt; t <= OpeningTimeline.settledAt; t += 100) {
+      BrandLogoPainter.paintPose(
+        canvas,
+        size,
+        OpeningTimeline.poseAt(t, size, devicePixelRatio: dpr),
+        form: BrandLogoForm.wordmark,
+        letterColor: LogoGeometry.warmWhite,
+        devicePixelRatio: dpr,
+      );
+    }
+    recorder.endRecording().dispose();
   }
 
   double get _t => widget.progress != null ? widget.progress!.clamp(0.0, 1.0) * OpeningTimeline.settledAt : _now;
@@ -400,7 +462,9 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
       if (s == AnimationStatus.completed) _finish();
     });
     unawaited((widget.shown ?? OpeningGlass.wait()).then((_) => _markSeen(), onError: (Object _) => _markSeen()));
-    _clock.forward();
+    // After the first frame, still under the splash.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _warmUp());
+    unawaited(_clock.animateWith(_Stopwatch()));
   }
 
   @override
@@ -452,6 +516,9 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     if (_fading) return;
     _prepaint();
     _fading = true;
+    // Only after the net: Android has not said its splash is gone, so take it off at once
+    // rather than let its "mo" fade over the first screen.
+    if (!_confirmed) unawaited(OpeningGlass.liftNow());
     widget.onReveal?.call();
     // Hands the status bar icons to the first screen.
     setState(() {});
@@ -538,6 +605,18 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
       ),
     );
   }
+}
+
+/// Milliseconds since it started, for ever.
+class _Stopwatch extends Simulation {
+  @override
+  double x(double time) => time * 1000;
+
+  @override
+  double dx(double time) => 1000;
+
+  @override
+  bool isDone(double time) => false;
 }
 
 class _ByTime extends Animatable<double> {

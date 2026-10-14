@@ -70,7 +70,11 @@ void main() {
     test('answers a chapter question from the record, with its action', () {
       final a = answerFromInsights('Where am I losing marks?', rich())!;
       expect(a.reply, startsWith('Partnership: admission of a partner is where the most marks are open.'));
-      expect(a.actions.single.$2, '/dashboard?subject=accountancy&mode=quick');
+      // "Practise <chapter>" must land on that chapter's setup, not all-chapters Quick practice.
+      final location = InsightsPaths.locationFor(a.actions.single.$2);
+      expect(location, InsightsPaths.practiseChapter('accountancy', 'Partnership: admission of a partner'));
+      expect(Uri.parse(location!).queryParameters['chapter'], 'Partnership: admission of a partner');
+      expect(Uri.parse(location).path, '/practice/setup/chapter');
     });
 
     test('pace detail is Pro on a free account', () {

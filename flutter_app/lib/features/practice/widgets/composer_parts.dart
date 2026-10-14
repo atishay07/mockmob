@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,8 +50,10 @@ class LengthPicker extends StatelessWidget {
 
 /// Balanced, Easy, Medium or Hard. Choosing a level is a Pro feature on the server
 /// (`PREMIUM_REQUIRED`), so a free account sees the control set to Balanced, disabled, with a
-/// quiet Pro tag and the plain reason; there is no purchase path in the app.
-class DifficultyPicker extends StatelessWidget {
+/// quiet Pro tag and the plain reason; there is no purchase path in the app. A tap on the locked
+/// control answers with the lightest tick and the reason lighting up for a moment (colour only,
+/// so nothing moves).
+class DifficultyPicker extends ConsumerStatefulWidget {
   const DifficultyPicker({super.key, required this.value, required this.isPro, required this.onChanged});
 
   final PracticeDifficulty value;
@@ -63,9 +68,46 @@ class DifficultyPicker extends StatelessWidget {
   };
 
   @override
+  ConsumerState<DifficultyPicker> createState() => _DifficultyPickerState();
+}
+
+class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with SingleTickerProviderStateMixin {
+  /// 0 to 1 and back: how strongly the reason is lit.
+  late final AnimationController _lit;
+
+  @override
+  void initState() {
+    super.initState();
+    _lit = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
+  }
+
+  @override
+  void dispose() {
+    _lit.dispose();
+    super.dispose();
+  }
+
+  /// A tap on the locked control: the reason is already on the page, so point at it.
+  void _explain() {
+    unawaited(ref.read(hapticsProvider).selection());
+    _lit.forward(from: 0);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final isPro = widget.isPro;
+    // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
+    // same choice reads as a short list of rows there, with nothing cut.
+    final control = MediaQuery.textScalerOf(context).scale(1) >= _listTextScale
+        ? _DifficultyRows(value: isPro ? widget.value : PracticeDifficulty.balanced, onChanged: isPro ? widget.onChanged : null)
+        : MmSegmented<PracticeDifficulty>(
+            semanticsLabel: PracticeCopy.difficultyLabel,
+            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d))],
+            value: isPro ? widget.value : PracticeDifficulty.balanced,
+            onChanged: isPro ? widget.onChanged : null,
+          );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -76,20 +118,21 @@ class DifficultyPicker extends StatelessWidget {
           ],
         ),
         const SizedBox(height: MmSpace.s8),
-        // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
-        // same choice reads as a short list of rows there, with nothing cut.
-        if (MediaQuery.textScalerOf(context).scale(1) >= _listTextScale)
-          _DifficultyRows(value: isPro ? value : PracticeDifficulty.balanced, onChanged: isPro ? onChanged : null)
+        if (isPro)
+          control
         else
-          MmSegmented<PracticeDifficulty>(
-            semanticsLabel: PracticeCopy.difficultyLabel,
-            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, label(d))],
-            value: isPro ? value : PracticeDifficulty.balanced,
-            onChanged: isPro ? onChanged : null,
-          ),
+          // The disabled control ignores taps itself; this hears them (a tap on a child with no
+          // handler still reaches the parent's recognizer).
+          GestureDetector(behavior: HitTestBehavior.translucent, onTap: _explain, child: control),
         if (!isPro) ...[
           const SizedBox(height: MmSpace.s8),
-          Text(PracticeCopy.difficultyProNote, style: type.small.copyWith(color: colors.ink2)),
+          AnimatedBuilder(
+            animation: _lit,
+            builder: (context, _) => Text(
+              PracticeCopy.difficultyProNote,
+              style: type.small.copyWith(color: Color.lerp(colors.ink2, colors.ink, math.sin(math.pi * _lit.value))),
+            ),
+          ),
         ],
       ],
     );

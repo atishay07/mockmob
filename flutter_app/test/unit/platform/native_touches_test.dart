@@ -39,6 +39,7 @@ class _Surface implements ShortcutSurface {
   void Function(String)? handler;
   String? launchedWith;
   final List<List<String>> sets = [];
+  final List<List<String>> setTitles = [];
   int clears = 0;
 
   @override
@@ -49,7 +50,10 @@ class _Surface implements ShortcutSurface {
   }
 
   @override
-  Future<void> set(List<ShortcutItem> items) async => sets.add([for (final i in items) i.type]);
+  Future<void> set(List<ShortcutItem> items) async {
+    sets.add([for (final i in items) i.type]);
+    setTitles.add([for (final i in items) i.localizedTitle]);
+  }
 
   @override
   Future<void> clear() async => clears++;
@@ -186,6 +190,34 @@ void main() {
     surface.handler!('repair');
     await _settle();
     expect(router.went, ['/review/repair/m7/m7-q0?count=3'], reason: 'three mistakes, not the whole chapter');
+  });
+
+  test('the launcher says "10-min repair" only when tonight has a 10-minute repair', () async {
+    Future<_Surface> launch(QuickRepair repair) async {
+      final surface = _Surface();
+      final container = ProviderContainer(
+        overrides: [
+          authSnapshotProvider.overrideWith(() => _Auth(_signedIn)),
+          routerProvider.overrideWithValue(_Router()),
+          shortcutSurfaceProvider.overrideWithValue(surface),
+          nativePrefsProvider.overrideWithValue(NativePrefs(MemoryPrefsStore())),
+          playUpdateGatewayProvider.overrideWithValue(_NoPlay()),
+          nowProvider.overrideWithValue(() => now),
+          latestSessionDraftProvider.overrideWith((ref) => Stream.value(null)),
+          quickStartRepairProvider.overrideWithValue(repair),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.listen(nativeTouchesProvider, (_, _) {});
+      await _settle();
+      return surface;
+    }
+
+    final three = await launch(const QuickRepair(location: '/review/repair/m7/m7-q0', chapter: 'Partnership', tenMinuteLocation: '/review/repair/m7/m7-q0?count=3'));
+    expect(three.setTitles.last, ['10-min repair', 'Practice 10']);
+    // One mistake open: Today has no 10-minute chip, so the shortcut makes no length promise.
+    final one = await launch(const QuickRepair(location: '/review/repair/m7/m7-q0', chapter: 'Partnership', tenMinuteLocation: '/review/repair/m7/m7-q0?count=1'));
+    expect(one.setTitles.last, ['Repair a mistake', 'Practice 10']);
   });
 }
 

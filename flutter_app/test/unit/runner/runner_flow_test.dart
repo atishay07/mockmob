@@ -190,6 +190,25 @@ void main() {
       expect(h.location, '/practice/result/att-1');
     });
 
+    testWidgets('the receipt waits long enough to be read and its key tapped before the result opens by itself', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(3), mode: 'quick', mockNumber: null, currentIndex: 2, answers: all(3));
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Review and submit'));
+      await settle(tester);
+      await tester.tap(find.text('Submit practice'));
+      await _flush(tester);
+
+      // The key showed for about 0.4 s on the device, then the result replaced it.
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(h.location, isNot(startsWith('/practice/result')), reason: 'still on the receipt, so it can be read');
+      expect(find.text('Answers received. Saved on the server at 10:42 PM.'), findsOneWidget);
+      expect(find.text('See your answers'), findsOneWidget);
+
+      await tester.pump(SubmitPage.handOffDelay);
+      await settle(tester);
+      expect(h.location, '/practice/result/att-1', reason: 'it still moves on by itself');
+    });
+
     testWidgets('keep working goes back to the question', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(3), currentIndex: 2);
       final h = await pumpRunner(tester, session: s);

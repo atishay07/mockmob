@@ -17,7 +17,7 @@ import 'insights_bits.dart';
 /// `GET /api/recovery` once when the page opens. It stays out of the way until it has something
 /// true to say: nothing while the read has not started, a placeholder while it runs, one plain
 /// row with Try again when it failed and nothing is on the phone.
-class RecoverySections extends StatelessWidget {
+class RecoverySections extends StatefulWidget {
   const RecoverySections({super.key, required this.state, required this.onRetry});
 
   final RemoteState<RecoveryRecord> state;
@@ -26,13 +26,58 @@ class RecoverySections extends StatelessWidget {
   /// Whether this draws anything, so the page can skip its spacing too.
   static bool shows(RemoteState<RecoveryRecord> s) => s.value != null || s.loading || s.isFailedEmpty;
 
+  /// How long the retry row says "Trying again" at least, so a read that fails at once still
+  /// shows that the tap was heard instead of changing nothing.
+  static const Duration minPending = Duration(milliseconds: 700);
+
+  @override
+  State<RecoverySections> createState() => _RecoverySectionsState();
+}
+
+class _RecoverySectionsState extends State<RecoverySections> {
+  bool _retrying = false;
+  bool _retried = false;
+  bool _sawFailure = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _sawFailure = widget.state.isFailedEmpty;
+  }
+
+  @override
+  void didUpdateWidget(RecoverySections old) {
+    super.didUpdateWidget(old);
+    if (widget.state.isFailedEmpty) _sawFailure = true;
+  }
+
+  Future<void> _retry() async {
+    if (_retrying) return;
+    setState(() {
+      _retrying = true;
+      _retried = true;
+    });
+    try {
+      await Future.wait([widget.onRetry(), Future<void>.delayed(RecoverySections.minPending)]);
+    } finally {
+      if (mounted) setState(() => _retrying = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = widget.state;
     final record = state.value;
     if (record == null) {
-      if (state.isFailedEmpty) {
+      // The row stays one row through a retry: "Trying again" in place of the message, never
+      // a skeleton swapped in for a frame.
+      final retrying = _retrying || (state.loading && _sawFailure);
+      if (state.isFailedEmpty || retrying) {
         final offline = state.error?.isOffline ?? false;
-        return _Failed(message: offline ? InsightsCopy.recoveryOffline : InsightsCopy.recoveryFailed, onRetry: onRetry);
+        final message = offline
+            ? InsightsCopy.recoveryOffline
+            : (_retried ? InsightsCopy.recoveryFailedAgain : InsightsCopy.recoveryFailed);
+        return _Failed(message: message, retrying: retrying, onRetry: _retry);
       }
       if (state.loading) return const _Loading();
       return const SizedBox.shrink();
@@ -214,9 +259,10 @@ class _Loading extends StatelessWidget {
 }
 
 class _Failed extends StatelessWidget {
-  const _Failed({required this.message, required this.onRetry});
+  const _Failed({required this.message, required this.retrying, required this.onRetry});
 
   final String message;
+  final bool retrying;
   final Future<void> Function() onRetry;
 
   @override
@@ -234,9 +280,13 @@ class _Failed extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s12, MmSpace.s8, MmSpace.s12),
           child: Row(
             children: [
-              Expanded(child: Text(message, style: context.mmType.small.copyWith(color: colors.ink))),
+              if (retrying) ...[MmSpinner(color: colors.ink2), const SizedBox(width: MmSpace.s12)],
+              Expanded(
+                child: Text(retrying ? InsightsCopy.retrying : message, style: context.mmType.small.copyWith(color: retrying ? colors.ink2 : colors.ink)),
+              ),
               const SizedBox(width: MmSpace.s8),
-              KeyButton.quiet(label: InsightsCopy.retry, onPressed: () => onRetry()),
+              // Same key, same place, while it works: it cannot be tapped twice.
+              KeyButton.quiet(label: InsightsCopy.retry, onPressed: retrying ? null : () => unawaited(onRetry())),
             ],
           ),
         ),

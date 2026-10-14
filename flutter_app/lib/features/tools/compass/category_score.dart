@@ -19,7 +19,7 @@ Future<void> showCategoryScoreSheet(BuildContext context) => showMmSheet<void>(
           if (s == null) return const SizedBox.shrink();
           return Padding(
             padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-            child: CategoryScorePanel(state: s, padding: EdgeInsets.zero),
+            child: CategoryScorePanel(state: s, padding: EdgeInsets.zero, onDone: () => Navigator.of(sheet).maybePop()),
           );
         },
       ),
@@ -28,10 +28,19 @@ Future<void> showCategoryScoreSheet(BuildContext context) => showMmSheet<void>(
 /// Category chips (the five main lists, then "Other quota" in a sheet) and the optional
 /// programme-specific score that labels each college row.
 class CategoryScorePanel extends ConsumerStatefulWidget {
-  const CategoryScorePanel({super.key, required this.state, this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4)});
+  const CategoryScorePanel({
+    super.key,
+    required this.state,
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
+    this.onDone,
+  });
 
   final CompassState state;
   final EdgeInsetsGeometry padding;
+
+  /// When set, the panel ends with a Done key and the keyboard's action key does the same: both
+  /// close the sheet. A score that is not a number from 0 to 1000 keeps it open, with the error shown.
+  final VoidCallback? onDone;
 
   @override
   ConsumerState<CategoryScorePanel> createState() => _CategoryScorePanelState();
@@ -94,6 +103,10 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]')), LengthLimitingTextInputFormatter(7)],
               onChanged: controller.setScore,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) {
+                if (!ref.read(compassControllerProvider).requireValue.scoreInvalid) widget.onDone?.call();
+              },
               style: type.timer.copyWith(fontSize: 22),
               decoration: InputDecoration(
                 hintText: ToolsCopy.scoreHint,
@@ -108,6 +121,10 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
             ToolsCopy.scoreHelp(duFormatScore(s.catalog.meta.scoreMax)),
             style: type.caption.copyWith(color: colors.ink2),
           ),
+          if (widget.onDone != null) ...[
+            const SizedBox(height: MmSpace.s20),
+            KeyButton(label: ToolsCopy.done, onPressed: s.scoreInvalid ? null : widget.onDone),
+          ],
         ],
       ),
     );

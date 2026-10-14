@@ -21,6 +21,7 @@ class NtaSubmitSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final bar = NtaBarColors.of(context);
     final counts = NtaCounts.of(sheetCellsOf(session));
     final subject = NtaCopy.subject(session.subject);
 
@@ -49,14 +50,14 @@ class NtaSubmitSummary extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-            decoration: const BoxDecoration(
-              color: NtaSkin.bar,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
+            decoration: BoxDecoration(
+              color: bar.band,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
             ),
             child: Row(
               children: [
-                Expanded(child: Text(NtaCopy.summaryTitle, style: type.label.copyWith(color: NtaSkin.onBar))),
-                Text('${NtaCopy.section}: $subject', style: type.label.copyWith(color: NtaSkin.onBar2)),
+                Expanded(child: Text(NtaCopy.summaryTitle, style: type.label.copyWith(color: bar.onBand))),
+                Text('${NtaCopy.section}: $subject', style: type.label.copyWith(color: bar.onBand2)),
               ],
             ),
           ),

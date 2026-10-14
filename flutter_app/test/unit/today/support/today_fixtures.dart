@@ -99,6 +99,11 @@ List<Attempt> ashaRecord(DateTime now) => [
       accountancyMock('m1', daysBefore(now, 18), wrongAt: {7, 8, 13, 21, 29, 32, 40, 41, 44, 47}),
     ];
 
+/// Every wrong answer of every paper in [attempts] marked repaired on this phone, by paper id.
+Map<String, Set<String>> repairedAll(List<Attempt> attempts) => {
+      for (final a in attempts) a.id: {for (final q in a.questions) if (a.detailFor(q.id)?.isCorrect == false) q.id},
+    };
+
 const TodayProfile ashaProfile = TodayProfile(
   ladder: [
     LadderPick(college: 'Shri Ram College of Commerce', course: 'B.Com (Hons)', closingScore: 924.3, outOf: 1000),

@@ -38,6 +38,7 @@ abstract final class TodayCopy {
   static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   static const String startNow = 'Start now, about 10 minutes';
+  static const String startNowShort = 'Start now, 10 min';
   static const String fullMockInstead = 'Sit a full mock instead';
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
@@ -76,6 +77,9 @@ abstract final class TodayCopy {
   }
 
   static String startRepair(int minutes) => 'Start repair, about $minutes minutes';
+
+  /// The same key for large text: the chips above it already say "10 min".
+  static String startRepairShort(int minutes) => 'Start repair, $minutes min';
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
   static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
   static const String earlySignal = 'From one paper. Another mock sharpens this.';
@@ -92,6 +96,9 @@ abstract final class TodayCopy {
   static const String repairedLine = 'Fresh checks are not open yet. Practise another skill while those settle.';
   static const String practiseAnother = 'Practise another skill';
   static const String questionsOfMixed = 'mixed\nquestions';
+  /// Said only when the record holds no open mistake (blanks are not mistakes). A repair the
+  /// student hid for today keeps [noStrongWeakness]: the mistakes are there, just set aside.
+  static const String noOpenMistakes = 'No open mistakes to repair right now.';
   static const String noStrongWeakness = 'Nothing stands out right now.';
   static String startMixed(int count) => 'Start mixed practice, $count questions';
 
@@ -118,7 +125,9 @@ abstract final class TodayCopy {
   static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
       ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
       : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
-  static const String lateNight = 'Late one tonight. Ten minutes, then sleep.';
+  /// Mobi's line on Today's card. Practice and Review keep "Late one tonight. Ten minutes, then
+  /// sleep.", so Today says its own: the card's move is already short.
+  static const String lateNight = 'Still up? One short move, then sleep.';
   static const String mobiWelcomeBack = 'Good to see you.';
   static const String mobiDayOne = "Let's find your marks.";
 
@@ -191,9 +200,26 @@ abstract final class TodayCopy {
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';
   static const String weekNeedsOutOfReach = 'This week: the goal is out of reach. Each study day still goes on the sheet.';
-  static String ladderCaption(String? category) => category == null
-      ? 'Last year\'s DU closing scores, unreserved, out of 1000'
-      : 'Last year\'s DU closing scores, $category, out of 1000';
+  /// The scale ("of 1000") is on every row, so the caption names only the year and the category;
+  /// it stays on one line instead of leaving "1000" alone on a second.
+  static String ladderCaption(String? category) => 'Last year\'s DU closing scores, ${categoryWords(category)}';
+
+  /// A college-portal category in words a student says: "UR" is "unreserved", never the portal code.
+  /// A name in common use (SC, ST, EWS, PwBD) stays; an unknown value is shown as it came, so
+  /// the caption never hides the category it was built for.
+  static String categoryWords(String? category) {
+    final code = category?.trim() ?? '';
+    return switch (code.toUpperCase()) {
+      '' || 'UR' => 'unreserved',
+      'OBC-NCL' => 'OBC',
+      'SIKH' => 'Sikh minority',
+      'KM' => 'Kashmiri migrant',
+      'SGC' => 'single girl child',
+      'ORPHAN-FEMALE' => 'orphan (female)',
+      'ORPHAN-MALE' => 'orphan (male)',
+      _ => code,
+    };
+  }
   static const String ladderTitle = 'Your colleges';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
