@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/controls/mm_switch.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/notification_prefs.dart';

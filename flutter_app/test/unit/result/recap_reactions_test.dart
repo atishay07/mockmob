@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/domain/domain.dart';
 import 'package:mockmob/core/mascot/mascot.dart';

@@ -3,7 +3,6 @@
 // moments. Pure logic first, then the widgets that carry it.
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart' show kLongPressTimeout;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';

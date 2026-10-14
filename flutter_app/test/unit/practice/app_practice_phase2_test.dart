@@ -92,7 +92,7 @@ class _DialState extends State<_Dial> {
 /// Performs a TalkBack [action] on the dial's semantics node.
 void _act(WidgetTester tester, SemanticsAction action) {
   final node = tester.getSemantics(find.byType(LengthDial));
-  tester.binding.pipelineOwner.semanticsOwner!.performAction(node.id, action);
+  node.owner!.performAction(node.id, action);
 }
 
 void main() {
