@@ -21,7 +21,7 @@ void main() {
         ('listen', MobiMoves.keyPose(MobiAct.listen)),
         ('nudge', MobiMoves.keyPose(MobiAct.nudge)),
         ('sleep', MobiMoves.keyPose(MobiAct.sleep)),
-        ('think', MobiMoves.keyPose(MobiAct.think)),
+        ('wake', MobiMoves.keyPose(MobiAct.wake)),
         ('hello', MobiMoves.keyPose(MobiAct.hello)),
       ],
     ),
@@ -52,6 +52,15 @@ void main() {
         ...framesOf(MobiAct.loading, const [0.5, 1.0, 1.4]),
         ...framesOf(MobiAct.sleep, const [0.4, 1.2, 3.0]),
       ]));
+  nightGolden(
+    'mobi_frames_wake',
+    () => MobiSheet(
+      title: 'Asleep, then a tap',
+      frames: framesOf(MobiAct.wake, const [0.0, 0.06, 0.16, 0.3, 0.42, 0.6, 0.85, 1.04, 1.2], setup: (sim) => sim
+        ..play(MobiAct.sleep)
+        ..run(3)),
+    ),
+  );
   nightGolden('mobi_frames_hello_appear', () => MobiSheet(title: 'Appear, then hello', frames: [
         ...framesOf(MobiAct.appear, const [0.08, 0.2, 0.32, 0.5, 0.75]),
         ...framesOf(MobiAct.hello, const [0.1, 0.4, 1.5, 1.66]),

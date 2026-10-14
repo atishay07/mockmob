@@ -82,7 +82,13 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   Duration _last = Duration.zero;
   Timer? _rest;
   double _restFor = 0;
+  Timer? _still;
   bool _reduced = false;
+
+  /// Quick, per-answer reactions. Under reduced motion their key pose shows for the act's length
+  /// and then gives way to the stance; the bigger moments (hello, cheer, celebrate, proud) hold
+  /// their pose until the next act, as before.
+  static const Set<MobiAct> _reactions = {MobiAct.correct, MobiAct.encourage, MobiAct.wake};
   bool _started = false;
   bool _routed = false;
   int _taps = 0;
@@ -144,6 +150,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     _route(false);
     widget.controller?.detach(this);
     _rest?.cancel();
+    _still?.cancel();
     _ticker.dispose();
     _rig.dispose();
     super.dispose();
@@ -208,9 +215,19 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   @override
   void play(MobiAct act, {double? seconds}) {
     if (_reduced) {
+      _still?.cancel();
+      _still = null;
       if (MobiMoves.stanceAfter(act) != null && act != MobiAct.appear) {
         _sim.play(act);
         _rig.value = MobiMoves.keyPose(act, pointAngle: _sim.pointAngle, pointSide: _sim.pointSide);
+        // A reaction still shows, without motion: its key pose for the act's length, then the
+        // stance again. Nothing ticks.
+        if (_reactions.contains(act)) {
+          _still = Timer(Duration(milliseconds: (MobiMoves.duration(act) * 1000).round()), () {
+            _still = null;
+            if (mounted) _rig.value = MobiMoves.keyPose(_actForStance(), pointAngle: _sim.pointAngle, pointSide: _sim.pointSide);
+          });
+        }
       }
       return;
     }
@@ -292,7 +309,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     if (_reduced) return;
     if (_sim.stance == MobiStance.sleep || _sim.stance == MobiStance.sleepy) {
       _taps = 0;
-      play(MobiAct.appear);
+      play(MobiAct.wake);
       return;
     }
     final now = DateTime.now();

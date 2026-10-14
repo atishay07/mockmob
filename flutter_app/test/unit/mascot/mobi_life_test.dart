@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
+import 'package:mockmob/core/mascot/mobi_painter.dart';
 
 import '../../helpers/golden_harness.dart';
 
@@ -19,7 +20,28 @@ void main() {
     test('are appended, so existing acts keep their order', () {
       const original = ['idle', 'appear', 'hello', 'talk', 'cheer', 'celebrate', 'think', 'point', 'sleepy', 'oops', 'rest', 'read'];
       expect(MobiAct.values.take(original.length).map((a) => a.name), original);
-      expect(MobiAct.values.skip(original.length).map((a) => a.name), ['correct', 'encourage', 'loading', 'sleep', 'nudge', 'proud', 'listen']);
+      expect(
+        MobiAct.values.skip(original.length).map((a) => a.name),
+        ['correct', 'encourage', 'loading', 'sleep', 'nudge', 'proud', 'listen', 'wake'],
+      );
+    });
+
+    test('wake: eyes open at once, a startled hop, then standing', () {
+      final sim = MobiSim()..play(MobiAct.sleep);
+      sim.run(3);
+      expect(sim.rig.eyeL.open, lessThan(0.1));
+      sim.play(MobiAct.wake);
+      final early = sim.run(0.12);
+      expect(early.eyeL.open, greaterThan(0.9), reason: 'the eyes snap open before the body has stood');
+      var top = 0.0;
+      for (var i = 0; i < 20; i++) {
+        final y = sim.step(1 / 60).y;
+        if (y < top) top = y;
+      }
+      expect(top, lessThan(-2), reason: 'a startled hop');
+      sim.run(MobiMoves.duration(MobiAct.wake));
+      expect(sim.stance, MobiStance.stand);
+      expect(sim.act, isNull);
     });
 
     test('one-shot moments return to standing; held ones change the stance', () {
@@ -212,6 +234,21 @@ void main() {
       expect(tester.binding.hasScheduledFrame, isTrue);
       await tester.pumpAndSettle();
       await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('under reduced motion a quick reaction shows still, then gives way, with no ticking', (tester) async {
+      final controller = MobiController();
+      addTearDown(controller.dispose);
+      await pumpMockmob(tester, Center(child: MobiCharacter(controller: controller, entrance: MobiAct.idle)), disableAnimations: true);
+      MobiRig rig() => (tester.widget<CustomPaint>(find.descendant(of: find.byType(MobiCharacter), matching: find.byType(CustomPaint))).painter! as MobiPainter).rig.value;
+      expect(rig().eyeL.happy, 0);
+      controller.play(MobiAct.correct);
+      await tester.pump();
+      expect(rig().eyeL.happy, greaterThan(0.5), reason: 'the key pose shows');
+      expect(tester.binding.hasScheduledFrame, isFalse, reason: 'nothing animates');
+      await tester.pump(const Duration(milliseconds: 1200));
+      expect(rig().eyeL.happy, 0, reason: 'back to standing');
+      expect(rig().bubble, lessThan(0));
     });
 
     testWidgets('controller glance waits for Mobi to appear', (tester) async {

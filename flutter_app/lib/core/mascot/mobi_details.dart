@@ -63,18 +63,34 @@ abstract final class MobiDetails {
     // Warm eyes: the oval gives way to a soft, full crescent (a smile that is not a squeeze).
     final cres = (1 - arc) * _smooth(0.3, 0.5, e.smile);
     if (cres > 0) {
+      // The top of the eye stays a round dome; a lower lid curves up into it. The horns meet at a
+      // blunt angle, so it reads as a smile with volume, not a sly arch.
       final k = e.open.clamp(0.0, 1.2);
-      final top = center.dy - 1 - 12.5 * k;
-      final foot = center.dy + 3.2;
-      final inner = center.dy + 0.6 - 4.8 * k;
+      final rx = w * 0.8;
+      final ry = fullH * 0.5 * k;
+      final foot = center.dy + 2.6;
       final path = Path()
-        ..moveTo(center.dx - w * 0.9, foot)
-        ..quadraticBezierTo(center.dx, top, center.dx + w * 0.9, foot)
-        ..quadraticBezierTo(center.dx, inner, center.dx - w * 0.9, foot)
+        ..moveTo(center.dx - rx, foot)
+        ..arcToPoint(Offset(center.dx + rx, foot), radius: Radius.elliptical(rx, math.max(ry, 0.1)))
+        ..quadraticBezierTo(center.dx, foot - ry * 1.04, center.dx - rx, foot)
         ..close();
-      c.drawPath(path, Paint()..color = MobiPalette.eye.withValues(alpha: cres));
+      final ink = MobiPalette.eye.withValues(alpha: cres);
+      c.drawPath(path, Paint()..color = ink);
+      // Round the horns, so the crescent reads warm rather than sly.
+      c.drawPath(path, _stroke(ink, 1.5));
     }
-    if (arc < 1 && cres < 1) {
+    // A shut eye is a soft lid line curving down, not a slit: asleep, the peak of a blink, the
+    // eyes before they blink on.
+    final shut = 1 - _smooth(0.05, 0.22, e.open);
+    final lidLine = shut * (1 - arc) * (1 - cres);
+    if (lidLine > 0.01) {
+      final y = center.dy + fullH * 0.16;
+      final path = Path()
+        ..moveTo(center.dx - w * 0.82, y - 0.6)
+        ..quadraticBezierTo(center.dx, y + 4.6, center.dx + w * 0.82, y - 0.6);
+      c.drawPath(path, _stroke(MobiPalette.eye.withValues(alpha: lidLine), 2.9));
+    }
+    if (arc < 1 && cres < 1 && shut < 1) {
       final h = math.max(2.4, fullH * e.open.clamp(0.0, 1.2) * closing);
       final rect = Rect.fromCenter(center: center + Offset(0, (fullH - h) * 0.18), width: w, height: h);
       c.save();
@@ -89,7 +105,7 @@ abstract final class MobiDetails {
           ..lineTo(rect.left - 2, rect.bottom + 2)
           ..close());
       }
-      final alpha = (1 - arc) * (1 - cres / (1 - arc).clamp(0.001, 1.0));
+      final alpha = (1 - arc) * (1 - cres / (1 - arc).clamp(0.001, 1.0)) * (1 - shut);
       c.drawRRect(
         RRect.fromRectXY(rect, w / 2, math.min(h / 2, fullH / 2)),
         Paint()

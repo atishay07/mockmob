@@ -74,6 +74,10 @@ enum MobiAct {
   /// Listening while the student types or speaks: leans in, eyes a little wider, a slow nod now
   /// and then. Held.
   listen,
+
+  /// Woken (a tap on a sleeping Mobi, the first open after a night): a start with wide eyes and
+  /// a little hop, a quick look round, then a happy blink and standing. Plays once.
+  wake,
 }
 
 /// How Mobi stands between acts.
@@ -99,7 +103,8 @@ abstract final class MobiMoves {
         MobiAct.appear ||
         MobiAct.correct ||
         MobiAct.encourage ||
-        MobiAct.proud =>
+        MobiAct.proud ||
+        MobiAct.wake =>
           MobiStance.stand,
         MobiAct.talk => null,
       };
@@ -125,6 +130,7 @@ abstract final class MobiMoves {
         MobiAct.nudge => 1.05,
         MobiAct.proud => 2.2,
         MobiAct.listen => 0.55,
+        MobiAct.wake => 1.2,
       };
 
   /// How long, and with what curve, Mobi moves into [s].
@@ -309,6 +315,7 @@ abstract final class MobiMoves {
         MobiAct.nudge => _nudge(t, base),
         MobiAct.proud => _proud(t, base),
         MobiAct.listen => base.copyWith(y: base.y + 1.6 * bump(t, 0.1, 0.5), lookY: base.lookY + 0.25 * bump(t, 0.1, 0.5)),
+        MobiAct.wake => _wake(t, base),
       };
 
   static MobiRig _appear(double t, MobiRig b) {
@@ -551,6 +558,38 @@ abstract final class MobiMoves {
     );
   }
 
+  /// Woken: the eyes snap open wide, a startled hop with the mittens flung out and the bulb
+  /// flashing, a landing squash, a quick look left and right, then a happy blink.
+  static MobiRig _wake(double t, MobiRig b) {
+    final startle = ease(t, 0, 0.07, Curves.easeOut) * (1 - ease(t, 0.42, 0.7));
+    final air = hop(t, 0.05, 0.34, 9);
+    final land = bump(t, 0.32, 0.5);
+    final fling = ease(t, 0.02, 0.12, Curves.easeOut) * (1 - ease(t, 0.36, 0.66, Curves.easeOutBack));
+    final round = bump(t, 0.5, 0.74) - bump(t, 0.74, 0.98);
+    final happy = ease(t, 0.98, 1.06) * (1 - ease(t, 1.1, 1.2));
+    // The eyes do not wait for the stance blend: they are open the moment Mobi wakes.
+    MobiEye eye(MobiEye e) {
+      final open = e.open + (1.24 - e.open) * startle;
+      final settled = math.max(open, ease(t, 0, 0.08));
+      return e.copyWith(open: settled, happy: math.max(e.happy, happy), lid: e.lid * (1 - startle));
+    }
+
+    const flung = MobiArm(angle: 1.2, bend: -0.6, reach: 1.15, twist: -0.6);
+    final r = b.copyWith(
+      y: b.y + air + 2.2 * land,
+      squash: b.squash + 0.08 * bump(t, 0.02, 0.18) - 0.07 * land,
+      tilt: b.tilt - 0.04 * bump(t, 0.02, 0.22) + 0.015 * round,
+      armL: MobiArm.lerp(b.armL, flung, fling),
+      armR: MobiArm.lerp(b.armR, flung, fling),
+      eyeL: eye(b.eyeL),
+      eyeR: eye(b.eyeR),
+      lookX: b.lookX + 0.62 * round,
+      lookY: b.lookY * (1 - startle) - 0.12 * startle,
+      glow: b.glow + 0.85 * bump(t, 0, 0.5),
+    );
+    return _spread(_withBoots(r, air * 0.85, bump(t, 0.06, 0.34)), land);
+  }
+
   // ---- Held stance motion ------------------------------------------------------------------
 
   /// The loading scan at [t] seconds into the stance with strength [w] (0 to 1): eyes sweep
@@ -604,6 +643,7 @@ abstract final class MobiMoves {
       MobiAct.sleep => base.copyWith(zzz: 0.45),
       MobiAct.nudge => _nudge(0.47, base),
       MobiAct.proud => _proud(1.0, base).copyWith(glint: -1),
+      MobiAct.wake => _wake(0.2, base).copyWith(y: -5),
       _ => base,
     };
   }
