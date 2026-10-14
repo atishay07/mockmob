@@ -21,12 +21,16 @@ class _Recorder implements HapticDriver {
   Future<void> mediumImpact() async => calls.add('medium');
 }
 
+// Built once: a fresh ThemeData on every pump would make MaterialApp's AnimatedTheme run its
+// 200 ms tween each time, which reads as a running animation in these tests.
+final Map<Brightness, ThemeData> _themes = {for (final b in Brightness.values) b: buildTheme(b)};
+
 Widget _app(Widget child, {bool reduced = false, List<Override> overrides = const [], Brightness brightness = Brightness.dark}) {
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: buildTheme(brightness),
+      theme: _themes[brightness],
       builder: (context, app) => MediaQuery(data: MediaQuery.of(context).copyWith(disableAnimations: reduced), child: app!),
       home: Scaffold(body: child),
     ),
@@ -270,6 +274,9 @@ void main() {
       await tester.pumpAndSettle();
       final sheetHeight = tester.getSize(find.byType(MmSheetScaffold)).height;
       final gesture = await tester.startGesture(tester.getCenter(find.text('This week')));
+      // The first move only wins the drag (touch slop); the sheet follows the moves after it.
+      await gesture.moveBy(const Offset(0, 24));
+      await tester.pump();
       await gesture.moveBy(Offset(0, sheetHeight * 0.3));
       await tester.pump();
       expect(driver.calls, isEmpty);
@@ -318,7 +325,7 @@ void main() {
       await tester.pumpWidget(branches(0));
       await tester.pumpWidget(branches(1));
       await tester.pump(const Duration(milliseconds: 20));
-      await tester.tapAt(const Offset(20, 20), warnIfMissed: false);
+      await tester.tapAt(const Offset(20, 20));
       expect(hits, 0);
     });
 

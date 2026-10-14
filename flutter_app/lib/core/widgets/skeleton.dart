@@ -78,7 +78,6 @@ class SkeletonGroup extends StatefulWidget {
 class _SkeletonGroupState extends State<SkeletonGroup> with SingleTickerProviderStateMixin {
   final GlobalKey _group = GlobalKey(debugLabel: 'skeleton-group');
   AnimationController? _controller;
-  int _sweeps = 0;
   bool _decided = false;
 
   bool get _wanted => widget.shimmer ?? SkeletonGroup.shimmerByDefault;
@@ -89,15 +88,9 @@ class _SkeletonGroupState extends State<SkeletonGroup> with SingleTickerProvider
     if (_decided) return;
     _decided = true;
     if (!_wanted || Motion.reduced(context)) return;
-    _controller = AnimationController(vsync: this, duration: Motion.shimmerSweep + Motion.shimmerRest)
-      ..addStatusListener(_loop)
+    // One controller runs every sweep and rest in a single pass, then stops for good.
+    _controller = AnimationController(vsync: this, duration: (Motion.shimmerSweep + Motion.shimmerRest) * Motion.shimmerSweeps)
       ..forward();
-  }
-
-  void _loop(AnimationStatus status) {
-    if (status != AnimationStatus.completed) return;
-    _sweeps++;
-    if (_sweeps < Motion.shimmerSweeps) _controller?.forward(from: 0);
   }
 
   @override
@@ -226,7 +219,10 @@ class _RenderShimmerBlock extends RenderBox {
 
     // The band runs only during the sweep part of the cycle, then rests out of sight.
     final cycle = Motion.shimmerSweep.inMicroseconds / (Motion.shimmerSweep + Motion.shimmerRest).inMicroseconds;
-    final raw = _progress.value / cycle;
+    final whole = _progress.value;
+    if (whole <= 0 || whole >= 1) return;
+    // Where this sweep is: the controller runs every sweep in one pass.
+    final raw = ((whole * Motion.shimmerSweeps) % 1.0) / cycle;
     if (raw <= 0 || raw >= 1) return;
     final t = Curves.easeInOut.transform(raw);
 

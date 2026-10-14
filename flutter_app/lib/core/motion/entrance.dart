@@ -79,19 +79,44 @@ class _MmStaggerState extends State<MmStagger> with SingleTickerProviderStateMix
     super.didChangeDependencies();
     if (_decided) return;
     _decided = true;
+    final route = widget.driver == MmStaggerDriver.route ? ModalRoute.of(context) : null;
+    // A pushed page is first built offstage (the hero controller measures it) with its
+    // animation standing at 1, and the page is not rebuilt when it comes onstage. Look again
+    // after that frame, when the route's own animation is running.
+    if (route != null && route.offstage) {
+      if (widget.enabled && !Motion.reduced(context)) _lookAgain(route, 3);
+      return;
+    }
     if (!widget.enabled || Motion.reduced(context)) return;
     switch (widget.driver) {
       case MmStaggerDriver.self:
         _controller = AnimationController(vsync: this, duration: _total)..forward();
         _active = true;
       case MmStaggerDriver.route:
-        final animation = ModalRoute.of(context)?.animation;
+        final animation = route?.animation;
         // Only while the route is still arriving: a finished route never moves its content.
         if (animation != null && animation.status == AnimationStatus.forward) {
           _route = animation;
           _active = true;
         }
     }
+  }
+
+  void _lookAgain(ModalRoute<Object?> route, int tries) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (route.offstage) {
+        if (tries > 1) _lookAgain(route, tries - 1);
+        return;
+      }
+      final animation = route.animation;
+      if (animation != null && animation.status == AnimationStatus.forward) {
+        setState(() {
+          _route = animation;
+          _active = true;
+        });
+      }
+    });
   }
 
   @override

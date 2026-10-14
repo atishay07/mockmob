@@ -328,6 +328,7 @@ class _DockTabState extends State<_DockTab> with TickerProviderStateMixin {
     final tab = widget.tab;
     final active = widget.active;
     final ink = colors.isNight ? colors.volt : colors.accentText;
+    final icon = Icon(active ? tab.activeIcon : tab.icon, key: ValueKey(active), size: 24, color: active ? colors.ink : colors.ink2);
 
     return MmPressable(
       semanticsLabel: widget.semanticsLabel,
@@ -383,18 +384,17 @@ class _DockTabState extends State<_DockTab> with TickerProviderStateMixin {
                       alignment: Alignment.center,
                       child: child,
                     ),
-                    child: AnimatedSwitcher(
-                      duration: reduced ? Duration.zero : Motion.ui,
-                      switchInCurve: Motion.glide,
-                      switchOutCurve: Motion.exit,
-                      transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
-                      child: Icon(
-                        active ? tab.activeIcon : tab.icon,
-                        key: ValueKey(active),
-                        size: 24,
-                        color: active ? colors.ink : colors.ink2,
-                      ),
-                    ),
+                    // Reduced motion swaps the outline for the filled icon in place (a switcher
+                    // would still play out the fade it started before the setting changed).
+                    child: reduced
+                        ? icon
+                        : AnimatedSwitcher(
+                            duration: Motion.ui,
+                            switchInCurve: Motion.glide,
+                            switchOutCurve: Motion.exit,
+                            transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                            child: icon,
+                          ),
                   ),
                   if (widget.showDot)
                     Positioned(

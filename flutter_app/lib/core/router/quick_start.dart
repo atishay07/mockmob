@@ -488,27 +488,28 @@ class QuickStartRow extends StatelessWidget {
           sheen: false,
           boost: pressed ? 1.6 : 1,
         ),
+        // Editorial, not a list row: the glyph, the title and the go-disc share the top line;
+        // the note runs the full width under them, so a count landing on it never wraps the
+        // card taller on a narrow phone.
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 96),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s12, MmSpace.s16),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                SheetGlyphTile(glyph, size: 48),
-                const SizedBox(width: MmSpace.s12 + 2),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(title, style: type.cardTitle.copyWith(fontSize: 20, height: 1.2)),
-                      const SizedBox(height: 4),
-                      _note(context),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    SheetGlyphTile(glyph, size: 48),
+                    const SizedBox(width: MmSpace.s12 + 2),
+                    Expanded(child: Text(title, style: type.cardTitle.copyWith(fontSize: 20, height: 1.2))),
+                    const SizedBox(width: MmSpace.s12),
+                    ExcludeSemantics(child: _GoDisc(pressed: pressed)),
+                  ],
                 ),
-                const SizedBox(width: MmSpace.s12),
-                ExcludeSemantics(child: _GoDisc(pressed: pressed)),
+                const SizedBox(height: MmSpace.s12),
+                Padding(padding: const EdgeInsetsDirectional.only(end: MmSpace.s4), child: _note(context)),
               ],
             ),
           ),

@@ -212,7 +212,10 @@ class _MmSheetHandleState extends State<MmSheetHandle> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final route = ModalRoute.of(context)?.animation;
+    final modal = ModalRoute.of(context);
+    // A route built offstage (for heroes) shows its animation standing at 1: wait for onstage.
+    if (modal != null && modal.offstage) return;
+    final route = modal?.animation;
     if (route == _route) return;
     _route?.removeListener(_changed);
     _route = route;
@@ -291,7 +294,9 @@ class _MmSheetBodyRevealState extends State<MmSheetBodyReveal> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final route = ModalRoute.of(context)?.animation;
+    final modal = ModalRoute.of(context);
+    if (modal != null && modal.offstage) return;
+    final route = modal?.animation;
     if (route == _route) return;
     _route = route;
     _landed = route == null || Motion.reduced(context) || route.status != AnimationStatus.forward;

@@ -116,7 +116,8 @@ class StartFace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final discScale = (pressed ? 0.93 : 1.0) * (1 + 0.025 * breath);
+    final pressScale = pressed ? 0.93 : 1.0;
+    final breathScale = 1 + 0.025 * breath;
     return SizedBox.square(
       dimension: MmDock.startSize,
       child: CustomPaint(
@@ -129,16 +130,21 @@ class StartFace extends StatelessWidget {
           // The face's press scale is MmPressable's alone (0.96 on the shared spring); the disc
           // inside sinks a little further and its ink deepens, like the volt key.
           child: Center(
+            // The press eases (an implicit animation on a two-state target); the breath is
+            // already a smooth curve, so it scales directly and never restarts the ease.
             child: AnimatedScale(
-              scale: discScale,
+              scale: pressScale,
               duration: pressed ? Motion.press : Motion.release,
               curve: Motion.out,
-              child: CustomPaint(
-                size: const Size.square(disc),
-                painter: _StartDisc(
-                  fill: pressed ? Color.lerp(colors.volt, colors.voltEdge, 0.16)! : colors.volt,
-                  glyph: colors.voltInk,
-                  rim: colors.voltEdge,
+              child: Transform.scale(
+                scale: breathScale,
+                child: CustomPaint(
+                  size: const Size.square(disc),
+                  painter: _StartDisc(
+                    fill: pressed ? Color.lerp(colors.volt, colors.voltEdge, 0.16)! : colors.volt,
+                    glyph: colors.voltInk,
+                    rim: colors.voltEdge,
+                  ),
                 ),
               ),
             ),
