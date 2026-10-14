@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
@@ -16,6 +16,7 @@ import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
 import '@/components/recovery/result.css';
 import { plainOptionTexts } from '@/../data/option_text';
+import { mobiReaction, repairKeyLabel, repairCandidates, verdictWord } from './reaction';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -64,6 +65,11 @@ export default function ResultPageClient({ previewId = null }) {
   const [reported, setReported] = useState({});
   const [reportError, setReportError] = useState(null);
   const [retry, setRetry] = useState(0);
+  const [reading, setReading] = useState(null); // the answer row the reader Mobi glances at
+  const [arrived, setArrived] = useState(null); // { number, n }: focus ring after a jump
+  const [peek, setPeek] = useState(null); // a bubble's label shown by a long press
+  const pressRef = useRef(null);
+  const suppressRef = useRef(false);
 
   useEffect(() => {
     let alive = true;
@@ -84,6 +90,8 @@ export default function ResultPageClient({ previewId = null }) {
     setOpen(s => new Set(s).add(row.q.id));
     setVisited(s => new Set(s).add(row.q.id));
     if (repair) setAutoRepair(row.q.id);
+    setReading(row.q.id);
+    setArrived((prev) => ({ number, n: (prev?.n || 0) + 1 }));
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const el = document.getElementById(`q-${number}`);
       el?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
@@ -107,6 +115,20 @@ export default function ResultPageClient({ previewId = null }) {
     if (next) jumpTo(next.number, { repair: true });
   }, [analysis, handled, jumpTo]);
 
+  // Long press on a bubble shows its label instead of jumping.
+  useEffect(() => {
+    if (!peek) return undefined;
+    const timer = setTimeout(() => setPeek(null), 1800);
+    return () => clearTimeout(timer);
+  }, [peek]);
+  const startBubblePress = useCallback((event, number) => {
+    suppressRef.current = false;
+    if (event.pointerType !== 'touch') return;
+    clearTimeout(pressRef.current);
+    pressRef.current = setTimeout(() => { suppressRef.current = true; setPeek(number); }, 450);
+  }, []);
+  const endBubblePress = useCallback(() => clearTimeout(pressRef.current), []);
+
   const settled = useCallback((qid, status) => {
     if (REPAIR_OUTCOMES.includes(status)) setRepairOutcomes(s => ({ ...s, [qid]: status }));
   }, []);
@@ -118,7 +140,14 @@ export default function ResultPageClient({ previewId = null }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : 0;
   const isPass = attempt.score >= 40;
-  const toggle = (qid) => { setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
+  const toggle = (qid) => { if (!open.has(qid)) setReading(qid); setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
+  // Mobi's reaction follows the server's recap tone, the same table as the app; none in NTA mode.
+  const reaction = mobiReaction(attempt);
+  const candidates = repairCandidates(analysis, handled, attempt.answerReviews);
+  const repairKey = repairKeyLabel(candidates);
+  const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
+  const rippleStep = firstWrong > 0 ? Math.min(35, Math.round(700 / firstWrong)) : 0;
+  const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}`;
 
   async function handleReport(row) {
     const qid = row?.q?.id;
@@ -158,8 +187,8 @@ export default function ResultPageClient({ previewId = null }) {
   return (
     <div className="container-narrow student-page student-page--result rp pb-20">
       {/* ---------- 1. Summary ---------- */}
-      <header className="rp-hero">
-        <div className="rp-hero__pip pip-drill-result"><Mascot pose={isPass ? 'celebrating' : 'encouraging'} alt={isPass ? 'Mobi celebrating a finished session.' : 'Mobi encouraging you after a hard session.'} /></div>
+      <header className="rp-hero" data-mobi={reaction ? undefined : 'none'}>
+        {reaction ? <div className="rp-hero__pip pip-drill-result" data-react={reaction.act}><Mascot pose={reaction.pose} alt={reaction.alt} /></div> : null}
         <div className="rp-hero__main">
           <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
           <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>
@@ -171,14 +200,20 @@ export default function ResultPageClient({ previewId = null }) {
           <div data-kind="blank"><dt>Blank</dt><dd><span className="rp-stat__value">{marks.blank}</span><small>0</small></dd></div>
           <div><dt>Accuracy</dt><dd><span className="rp-stat__value">{`${accuracy}%`}</span><small>of answered</small></dd></div>
         </dl>
-        <ol className="rp-strip" aria-label="Questions in this session">
+        <ol className="rp-strip" aria-label="Answer map: press a question to open it" style={{ '--rp-step': `${rippleStep}ms` }}>
           {analysis.rows.map(r => (
             <li key={r.q.id} style={{ '--i': r.index }}>
-              <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined} onClick={() => jumpTo(r.number)}
-                aria-label={`Question ${r.number}: ${r.verdict === 'skipped' ? 'blank' : r.verdict}${r.changed ? ', answer changed' : ''}`}>{r.number}</button>
+              <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined}
+                data-ripple={firstWrong >= 0 && r.index <= firstWrong ? (r.index === firstWrong ? 'end' : '') : undefined}
+                data-label={bubbleLabel(r)} data-peek={peek === r.number || undefined}
+                onPointerDown={(event) => startBubblePress(event, r.number)} onPointerUp={endBubblePress} onPointerCancel={endBubblePress} onPointerLeave={endBubblePress}
+                onContextMenu={(event) => { if (event.nativeEvent.pointerType === 'touch' || suppressRef.current) event.preventDefault(); }}
+                onClick={() => { if (suppressRef.current) { suppressRef.current = false; return; } jumpTo(r.number); }}
+                aria-label={bubbleLabel(r).replace(/^Q/, 'Question ')}>{r.number}</button>
             </li>
           ))}
         </ol>
+        {repairKey ? <div className="rp-hero__next"><button type="button" className="rp-repair-key" onClick={() => jumpTo(candidates[0].number, { repair: true })}>{repairKey}</button></div> : null}
       </header>
 
       {/* ---------- 2. Score Recovery Lab ---------- */}
@@ -215,6 +250,7 @@ export default function ResultPageClient({ previewId = null }) {
             const review = attempt.answerReviews?.[q.id];
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
+                {arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
                 <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={isOpen} aria-controls={`q-${number}-body`} onClick={() => toggle(q.id)}>
                   <span className="rp-q__badge" aria-hidden="true">{number}</span>
                   <span className="rp-q__summary">
@@ -256,6 +292,7 @@ export default function ResultPageClient({ previewId = null }) {
                     ) : null}
                     {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
                     <div className="rp-q__foot">
+                      {reaction && reading === q.id ? <span className="rp-reader" key={`reader-${q.id}`}><Mascot pose="thinking" facing="left" alt="" /></span> : null}
                       <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
                         {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
                       </button>

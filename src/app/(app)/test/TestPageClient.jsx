@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
@@ -15,6 +15,8 @@ import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../d
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
+import './practice-run.css';
+import { Mascot } from '@/components/brand/Mascot';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -149,6 +151,28 @@ function normalizeQuestionPayload(payload) {
   return { questions: [], meta: payload?.meta || null };
 }
 
+// Practice runner (every mode except NTA): swipe, strike-out and the submit sheet.
+const SWIPE_COMMIT_PX = 72;
+const SWIPE_FLICK = 0.45; // px per ms
+const LONG_PRESS_MS = 460;
+const STRIKE_NOTE_KEY = 'mm:strikeNote:v1';
+const LEGEND = [
+  ['answered', 'Answered'],
+  ['marked', 'Marked'],
+  ['visited', 'Not answered'],
+  ['notvisited', 'Not visited'],
+  ['marked-answered', 'Answered and marked'],
+];
+const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const rubberBand = (dx) => Math.sign(dx) * 64 * (1 - 1 / (Math.abs(dx) / 160 + 1));
+
+// Mobi on the practice submit sheet (never a mock, never NTA): reads the sheet, then one gesture.
+function SheetMobi({ act }) {
+  const pose = act === 'nod' ? 'encouraging' : act === 'point' ? 'pointing' : 'thinking';
+  const alt = act === 'reading' ? 'Mobi reading your answer sheet.' : act === 'nod' ? 'Mobi nodding: every question is answered.' : act === 'point' ? 'Mobi pointing at the first question not answered.' : 'Mobi tilting its head at the questions marked for review.';
+  return <div className="pr-mobi" data-act={act} key={act}><Mascot pose={pose} facing="right" eager alt={alt} /></div>;
+}
+
 function resolveRunnerDurationSec(mode, questions) {
   return resolveDurationSec(mode, questions);
 }
@@ -198,6 +222,32 @@ function TestRunner() {
   const mobilePaletteDialogRef = useRef(null);
   const fullscreenTarget = useRef(null);
   const finishExamRef = useRef(null);
+  const practiceRun = !isNtaMode;
+  const isMockMode = isNtaMode || modeId === 'full';
+  // Hand-off between questions: the block being left, drawn under the incoming one until it fades.
+  const [ghost, setGhost] = useState(null); // { startIdx, dir, from, n }
+  const [navDir, setNavDir] = useState(1);
+  const idxRef = useRef(0);
+  const liveRef = useRef(null);
+  const swipeRef = useRef(null);
+  const suppressClickRef = useRef(false);
+  // Crossed-out options live only in memory: never saved, never sent.
+  const [struck, setStruck] = useState({});
+  const pressRef = useRef(null);
+  const lastStrikeAt = useRef(0);
+  const [strikeNote, setStrikeNote] = useState(() => {
+    if (typeof window === 'undefined' || modeId === 'nta') return false;
+    try { return !window.localStorage.getItem(STRIKE_NOTE_KEY); } catch { return false; }
+  });
+  const [undoClear, setUndoClear] = useState(null); // { qid, answer, number, n }
+  const [paletteFilter, setPaletteFilter] = useState(null);
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [mobiAct, setMobiAct] = useState('reading');
+  const reviewDialogRef = useRef(null);
+  const reviewReturnRef = useRef(null);
+  const [ackSeq, setAckSeq] = useState(0);
+  const [lastAnswerSeq, setLastAnswerSeq] = useState(0);
+  const glideRefs = useRef({});
 
   // The start receipt is added to the address after the server answers; it must not look like a new launch.
   const launchKey = useMemo(() => { const p = new URLSearchParams(searchParams.toString()); p.delete('startReceipt'); return p.toString(); }, [searchParams]);
@@ -412,10 +462,11 @@ function TestRunner() {
     const sync=async()=>{
       if (busy || submittedRef.current || Date.now() > endsAt || !eventsRef.current.length) return;
       busy=true;
+      const sentSeq = eventsRef.current.at(-1)?.seq || 0;
       try {
         await api('/api/sessions',{method:'PUT',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({sessionId:selectionMeta.sessionId,events:eventsRef.current})});
-        if(alive)setSyncStatus('saved');
+        if(alive){setSyncStatus('saved');setAckSeq((seen) => Math.max(seen, sentSeq));}
       } catch { if(alive)setSyncStatus('pending'); }
       finally { busy=false; }
     };
@@ -423,13 +474,26 @@ function TestRunner() {
     return()=>{alive=false;clearInterval(timer);window.removeEventListener('online',sync);};
   },[selectionMeta?.sessionId,selectionMeta?.sessionTicket,loading,endsAt]);
 
-  const gotoQuestion = useCallback((nextIdx) => {
+  useEffect(() => { idxRef.current = idx; }, [idx]);
+  const gotoQuestion = useCallback((nextIdx, { from = 0 } = {}) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
+    if (practiceRun && questionsRef.current.length) {
+      const leaving = getQuestionBlock(questionsRef.current, idxRef.current).startIdx;
+      const arriving = getQuestionBlock(questionsRef.current, safe).startIdx;
+      if (leaving !== arriving) {
+        const dir = arriving > leaving ? 1 : -1;
+        setNavDir(dir);
+        setStrikeNote(false);
+        // Rapid Next and Previous presses each count; the newest hand-off replaces the last.
+        if (!prefersReducedMotion()) setGhost((prev) => ({ startIdx: leaving, dir, from, n: (prev?.n || 0) + 1 }));
+      }
+    }
+    idxRef.current = safe;
     setIdx(safe);
     if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit');
     const patch = visitedForBlock(questionsRef.current, safe);
     setVisited((prev) => ({ ...prev, ...patch }));
-  }, [recordEvent]);
+  }, [recordEvent, practiceRun]);
 
   useEffect(() => {
     if (!endsAt) return;
@@ -495,12 +559,14 @@ function TestRunner() {
   const canAnswer = integrity.canAnswer;
   useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
   const chooseAnswer = useCallback((qid, answer) => {
-    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return;
+    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
     recordEvent(qid, 'answer', answer);
+    setLastAnswerSeq(eventsRef.current.at(-1)?.seq || 0);
     setAnswers(prev => {
       const next = { ...prev }; if (answer === null) delete next[qid]; else next[qid] = answer;
       answersRef.current = next; return next;
     });
+    return true;
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
@@ -514,6 +580,16 @@ function TestRunner() {
     markedRef.current = next;
     setMarked(next);
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
+
+  const toggleStrike = useCallback((qid, option) => {
+    lastStrikeAt.current = Date.now();
+    setStrikeNote(false);
+    setStruck((prev) => {
+      const next = new Set(prev[qid] || []);
+      if (next.has(option)) next.delete(option); else next.add(option);
+      return { ...prev, [qid]: [...next] };
+    });
+  }, []);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -529,6 +605,14 @@ function TestRunner() {
       const tag = event.target?.tagName;
       if (mobilePaletteOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
+      if (practiceRun && reviewOpen) return;
+      // Shift + 1 to 4 crosses an option out (practice only; held in memory, never sent).
+      if (practiceRun && event.shiftKey && /^Digit[1-5]$/.test(event.code)) {
+        const active = questionsRef.current[idx];
+        const option = Number(event.code.slice(5)) - 1;
+        if (active?.id && option < (active.options?.length || 0)) { event.preventDefault(); toggleStrike(active.id, option); }
+        return;
+      }
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
         gotoQuestion(block.startIdx - 1);
@@ -543,7 +627,7 @@ function TestRunner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, canAnswer]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, canAnswer, practiceRun, reviewOpen, toggleStrike]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -596,6 +680,96 @@ function TestRunner() {
     }
     shownBlockRef.current = currentBlockStart;
   }, [currentBlockStart]);
+
+  // The selection glides from the old option to the new one. Measured only when an answer or the
+  // question changes (and on resize), never per frame.
+  const placeGlides = useCallback(() => {
+    for (const [qid, glide] of Object.entries(glideRefs.current)) {
+      if (!glide?.isConnected) { delete glideRefs.current[qid]; continue; }
+      const selected = glide.parentElement?.querySelector('.nta-option.is-selected');
+      if (!selected) { glide.style.opacity = '0'; continue; }
+      glide.style.height = `${selected.offsetHeight}px`;
+      glide.style.transform = `translate3d(0, ${selected.offsetTop}px, 0)`;
+      glide.style.opacity = '1';
+      if (glide.dataset.placed !== '1') { void glide.offsetHeight; glide.dataset.placed = '1'; }
+    }
+  }, []);
+  useLayoutEffect(() => { if (practiceRun) placeGlides(); }, [practiceRun, placeGlides, answers, idx, questions, loading]);
+  useEffect(() => {
+    if (!practiceRun) return undefined;
+    window.addEventListener('resize', placeGlides);
+    return () => window.removeEventListener('resize', placeGlides);
+  }, [practiceRun, placeGlides]);
+
+  // Press and hold (or right-click) an option to cross it out.
+  const cancelPress = useCallback(() => {
+    clearTimeout(pressRef.current?.timer);
+    pressRef.current = null;
+  }, []);
+  const startPress = useCallback((event, qid, option) => {
+    if (event.button > 0) return;
+    cancelPress();
+    pressRef.current = { x: event.clientX, y: event.clientY, timer: setTimeout(() => {
+      pressRef.current = null;
+      suppressClickRef.current = true;
+      toggleStrike(qid, option);
+      navigator.vibrate?.(8);
+    }, LONG_PRESS_MS) };
+  }, [cancelPress, toggleStrike]);
+  const movePress = useCallback((event) => {
+    const press = pressRef.current;
+    if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 10) cancelPress();
+  }, [cancelPress]);
+  const strikeFromMenu = useCallback((event, qid, option) => {
+    event.preventDefault();
+    if (Date.now() - lastStrikeAt.current < 800) return; // the long press already did it
+    cancelPress();
+    toggleStrike(qid, option);
+  }, [cancelPress, toggleStrike]);
+
+  // The strike note shows once on this device.
+  const strikeNoteVisible = practiceRun && strikeNote && !loading && questions.length > 0;
+  useEffect(() => {
+    if (!strikeNoteVisible) return;
+    try { window.localStorage.setItem(STRIKE_NOTE_KEY, '1'); } catch { /* the note may show again; harmless */ }
+  }, [strikeNoteVisible]);
+
+  // The outgoing block leaves when its fade ends; this timer covers a page whose animations are paused.
+  useEffect(() => {
+    if (!ghost) return undefined;
+    const timer = setTimeout(() => setGhost((current) => (current?.n === ghost.n ? null : current)), 420);
+    return () => clearTimeout(timer);
+  }, [ghost]);
+
+  // 'Answer cleared. Undo' stays for four seconds.
+  useEffect(() => {
+    if (!undoClear) return undefined;
+    const timer = setTimeout(() => setUndoClear(null), 4000);
+    return () => clearTimeout(timer);
+  }, [undoClear]);
+
+  // Submit sheet: Mobi reads it, then reacts once; Escape closes; Tab stays inside.
+  useEffect(() => {
+    if (!reviewOpen) return undefined;
+    const dialog = reviewDialogRef.current;
+    const timer = setTimeout(() => setMobiAct('react'), prefersReducedMotion() ? 0 : 900);
+    dialog?.querySelector('[data-autofocus]')?.focus();
+    const onKey = (event) => {
+      if (event.key === 'Escape') { event.preventDefault(); setReviewOpen(false); return; }
+      if (event.key !== 'Tab' || !dialog) return;
+      const controls = [...dialog.querySelectorAll('button:not(:disabled)')].filter((control) => control.tabIndex !== -1);
+      if (!controls.length) return;
+      const first = controls[0]; const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('keydown', onKey);
+      reviewReturnRef.current?.focus?.();
+    };
+  }, [reviewOpen]);
 
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
@@ -665,9 +839,36 @@ function TestRunner() {
 
   const toggleMarked = (qid) => setMark(qid, !markedRef.current[qid]);
 
-  const clearAnswer = (qid) => chooseAnswer(qid, null);
+  const clearAnswer = (qid) => {
+    const before = answersRef.current[qid];
+    const cleared = chooseAnswer(qid, null);
+    if (practiceRun && before !== undefined && cleared) {
+      const number = questions.findIndex((question) => question.id === qid) + 1;
+      setUndoClear((prev) => ({ qid, answer: before, number, n: (prev?.n || 0) + 1 }));
+    }
+  };
+  const undoClearAnswer = () => {
+    if (!undoClear) return;
+    chooseAnswer(undoClear.qid, undoClear.answer);
+    setUndoClear(null);
+  };
+
+  // Ready: every question answered and the server has acknowledged the last answer (a session
+  // held on this device has no server save until submission, so its device save is the save).
+  const serverSaves = !!selectionMeta?.sessionId && !selectionMeta?.sessionTicket;
+  const allReady = practiceRun && questions.length > 0 && pendingCount === 0 && !submitting && !pendingSubmission
+    && (!serverSaves || ackSeq >= lastAnswerSeq);
+  const firstBlank = questions.findIndex((question) => answers[question.id] === undefined);
+
+  const openReview = () => {
+    reviewReturnRef.current = document.activeElement;
+    setMobiAct('reading');
+    setMobilePaletteOpen(false);
+    setReviewOpen(true);
+  };
 
   const confirmAndSubmit = () => {
+    if (practiceRun) { openReview(); return; }
     if (pendingCount > 0 || markedCount > 0) {
       const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
       if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) return;
@@ -679,6 +880,58 @@ function TestRunner() {
     if (isLastBlock) confirmAndSubmit();
     else gotoQuestion(block.endIdx + 1);
   };
+
+  // Swipe between questions on touch: the question follows the finger, commits past 72 px or on a
+  // fast flick, rubber-bands at the first question, and on the last one a commit opens the submit sheet.
+  const springBack = () => {
+    const el = liveRef.current;
+    if (!el) return;
+    el.classList.add('is-springing');
+    el.style.transform = '';
+    setTimeout(() => el.classList.remove('is-springing'), 320);
+  };
+  const onStagePointerDown = (event) => {
+    suppressClickRef.current = false;
+    if (event.pointerType !== 'touch' || !event.isPrimary || reviewOpen) return;
+    swipeRef.current = { id: event.pointerId, x0: event.clientX, y0: event.clientY, axis: null, dx: 0, shown: 0, lastX: event.clientX, lastT: event.timeStamp, v: 0 };
+  };
+  const onStagePointerMove = (event) => {
+    const gesture = swipeRef.current;
+    if (!gesture || gesture.id !== event.pointerId) return;
+    const dx = event.clientX - gesture.x0;
+    const dy = event.clientY - gesture.y0;
+    if (!gesture.axis) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      gesture.axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? 'x' : 'y';
+      if (gesture.axis === 'x') { cancelPress(); try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* capture is a convenience */ } }
+    }
+    if (gesture.axis !== 'x') return;
+    const dt = event.timeStamp - gesture.lastT;
+    if (dt > 0) gesture.v = (event.clientX - gesture.lastX) / dt;
+    gesture.lastX = event.clientX; gesture.lastT = event.timeStamp;
+    gesture.dx = dx;
+    gesture.shown = dx > 0 && block.startIdx === 0 ? rubberBand(dx) : dx < 0 && isLastBlock ? dx * 0.5 : dx;
+    if (liveRef.current) liveRef.current.style.transform = `translate3d(${gesture.shown}px, 0, 0)`;
+  };
+  const onStagePointerEnd = (event) => {
+    const gesture = swipeRef.current;
+    if (!gesture || gesture.id !== event.pointerId) return;
+    swipeRef.current = null;
+    if (gesture.axis !== 'x') return;
+    suppressClickRef.current = true;
+    const commit = event.type === 'pointerup' && (Math.abs(gesture.dx) > SWIPE_COMMIT_PX || (Math.abs(gesture.v) > SWIPE_FLICK && Math.abs(gesture.dx) > 24));
+    if (commit && gesture.dx < 0 && !isLastBlock) gotoQuestion(block.endIdx + 1, { from: gesture.shown });
+    else if (commit && gesture.dx > 0 && block.startIdx > 0) gotoQuestion(block.startIdx - 1, { from: gesture.shown });
+    else { springBack(); if (commit && gesture.dx < 0 && isLastBlock && !submitting) openReview(); }
+  };
+  const onStageClickCapture = (event) => {
+    if (!suppressClickRef.current) return;
+    suppressClickRef.current = false;
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+
 
   const markAndNext = () => {
     setMark(q.id, true);
@@ -728,13 +981,24 @@ function TestRunner() {
       </h2>
 
       <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
+        {practiceRun && <span className="pr-glide" aria-hidden="true" ref={(el) => { if (el) glideRefs.current[question.id] = el; }} />}
         {question.options.map((opt, optionIndex) => {
           const selected = answers[question.id] === optionIndex;
+          const isStruck = practiceRun && (struck[question.id] || []).includes(optionIndex);
+          const pressProps = practiceRun ? {
+            onPointerDown: (event) => startPress(event, question.id, optionIndex),
+            onPointerMove: movePress,
+            onPointerUp: cancelPress,
+            onPointerCancel: cancelPress,
+            onPointerLeave: cancelPress,
+            onContextMenu: (event) => strikeFromMenu(event, question.id, optionIndex),
+          } : {};
           return (
             <button
               key={`${question.id}-${optionIndex}`}
               type="button"
-              className={`nta-option ${selected ? 'is-selected' : ''}`}
+              className={`nta-option ${selected ? 'is-selected' : ''} ${isStruck ? 'is-struck' : ''}`}
+              {...pressProps}
               onClick={() => {
                 chooseAnswer(question.id, optionIndex);
                 // Inside a passage set, the answered question becomes current, so Clear response
@@ -746,12 +1010,73 @@ function TestRunner() {
             >
               <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
               <span className="nta-option-text">{plainOptionTexts(question.options)[optionIndex] ?? optionLabel(opt)}</span>
+              {isStruck && <><span className="pr-strike" aria-hidden="true" /><span className="pr-sr">, crossed out</span></>}
             </button>
           );
         })}
       </div>
+      {strikeNoteVisible && question.id === q.id && <p className="pr-note">Press and hold an option to cross it out.</p>}
     </section>
   );
+
+  // The block being left, drawn without controls so nothing in it can be focused or pressed.
+  const renderGhost = () => {
+    if (!ghost || ghost.startIdx === block.startIdx || !questions[ghost.startIdx]) return null;
+    const left = getQuestionBlock(questions, ghost.startIdx);
+    return (
+      <div
+        key={`ghost-${ghost.n}`}
+        className="pr-ghost"
+        aria-hidden="true"
+        style={{ '--pr-dir': ghost.dir, '--pr-from': `${ghost.from || 0}px` }}
+        onAnimationEnd={(event) => { if (event.target === event.currentTarget) setGhost((current) => (current?.n === ghost.n ? null : current)); }}
+      >
+        {left.isPassage && (
+          <div className="nta-passage">
+            <div className="nta-passage-head"><span>Passage</span><strong>{left.passageTitle}</strong></div>
+            <p>{left.passageText}</p>
+          </div>
+        )}
+        <div className="nta-question-list">
+          {left.entries.map(({ question, index }) => (
+            <div key={question.id} className="nta-question-block">
+              <div className="nta-question-meta"><div><span className="nta-question-number">Question {index + 1}</span></div></div>
+              <p className="nta-question-text">{question.question}</p>
+              <div className="nta-options">
+                {question.options.map((opt, optionIndex) => (
+                  <div key={optionIndex} className={`nta-option ${answers[question.id] === optionIndex ? 'is-ghost-selected' : ''}`}>
+                    <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
+                    <span className="nta-option-text">{plainOptionTexts(question.options)[optionIndex] ?? optionLabel(opt)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const legendCounts = Object.fromEntries(LEGEND.map(([state]) => [state, 0]));
+  for (const question of questions) legendCounts[chipStateFor(question.id)] += 1;
+  const filterMatches = paletteFilter ? questions.map((question, index) => (chipStateFor(question.id) === paletteFilter ? index : -1)).filter((index) => index >= 0) : [];
+  const nextMatch = filterMatches.length ? (filterMatches.find((index) => index > idx) ?? filterMatches[0]) : -1;
+  const goToNextMatch = () => { gotoQuestion(nextMatch); setMobilePaletteOpen(false); };
+  const renderLegend = () => (
+    <div className="pr-legend" role="group" aria-label="Show questions by state">
+      {LEGEND.map(([state, label]) => (
+        <button key={state} type="button" aria-pressed={paletteFilter === state} onClick={() => setPaletteFilter((current) => (current === state ? null : state))}>
+          <i className={`legend ${state}`} aria-hidden="true" /> {label} <b>{legendCounts[state]}</b>
+        </button>
+      ))}
+      {paletteFilter && (nextMatch >= 0
+        ? <button type="button" className="pr-goto" key={`goto-${paletteFilter}`} onClick={goToNextMatch}>Go to question {nextMatch + 1}</button>
+        : <p className="pr-note" role="status">No questions in this state.</p>)}
+    </div>
+  );
+  const nextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit test') : classicInterface ? 'Save & next' : 'Next';
+  const mobileNextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : classicInterface ? 'Save & next' : 'Next';
+  const morph = (label) => (practiceRun ? <span className="pr-label" key={label}>{label}</span> : label);
 
   const renderPalette = (compact = false) => (
     <div className={compact ? 'nta-palette-grid is-compact' : 'nta-palette-grid'}>
@@ -761,7 +1086,7 @@ function TestRunner() {
           <button
             key={question.id}
             type="button"
-            className={`nta-palette-chip nta-palette-chip--${state} ${questionIndex === idx ? 'is-current' : ''}`}
+            className={`nta-palette-chip nta-palette-chip--${state} ${questionIndex === idx ? 'is-current' : ''} ${practiceRun && paletteFilter && paletteFilter !== state ? 'is-dimmed' : ''}`}
             onClick={() => {
               gotoQuestion(questionIndex);
               setMobilePaletteOpen(false);
@@ -776,7 +1101,7 @@ function TestRunner() {
   );
 
   return (
-    <div ref={fullscreenTarget} className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
+    <div ref={fullscreenTarget} className={practiceRun ? 'nta-runner pr-run' : 'nta-runner'} data-interface={classicInterface ? 'nta' : 'mockmob'}>
       <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
       {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
       {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
@@ -876,19 +1201,39 @@ function TestRunner() {
               </div>
             </div>
 
-            {block.isPassage && (
-              <article className="nta-passage" aria-label="Passage">
-                <div className="nta-passage-head">
-                  <span>Passage</span>
-                  <strong>{block.passageTitle}</strong>
-                </div>
-                <p>{block.passageText}</p>
-              </article>
-            )}
+            {(() => {
+              const content = <>
+                {block.isPassage && (
+                  <article className="nta-passage" aria-label="Passage">
+                    <div className="nta-passage-head">
+                      <span>Passage</span>
+                      <strong>{block.passageTitle}</strong>
+                    </div>
+                    <p>{block.passageText}</p>
+                  </article>
+                )}
 
-            <div className="nta-question-list">
-              {block.entries.map((entry) => renderQuestion(entry.question, entry.index))}
-            </div>
+                <div className="nta-question-list">
+                  {block.entries.map((entry) => renderQuestion(entry.question, entry.index))}
+                </div>
+              </>;
+              if (!practiceRun) return content;
+              return (
+                <div
+                  className="pr-stage"
+                  onPointerDown={onStagePointerDown}
+                  onPointerMove={onStagePointerMove}
+                  onPointerUp={onStagePointerEnd}
+                  onPointerCancel={onStagePointerEnd}
+                  onClickCapture={onStageClickCapture}
+                >
+                  {renderGhost()}
+                  <div key={`block-${block.startIdx}`} ref={liveRef} className="pr-live" data-entering={ghost ? '' : undefined} style={{ '--pr-dir': navDir }}>
+                    {content}
+                  </div>
+                </div>
+              );
+            })()}
 
             <div className="nta-navigation">
               {classicInterface && <>
@@ -905,11 +1250,11 @@ function TestRunner() {
               </button>
               <button
                 type="button"
-                className={`nta-nav-button ${isLastBlock ? 'is-primary' : ''}`}
+                className={`nta-nav-button ${isLastBlock ? 'is-primary' : ''} ${allReady && isLastBlock ? 'is-ready' : ''}`}
                 onClick={goNext}
                 disabled={submitting}
               >
-                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit test') : classicInterface ? 'Save & next' : 'Next'}
+                {morph(nextLabel)}
                 {!isLastBlock && <Icon name="chevR" />}
               </button>
             </div>
@@ -926,15 +1271,15 @@ function TestRunner() {
               </div>
             </div>
             {renderPalette()}
-            <div className="nta-legend">
+            {practiceRun ? renderLegend() : <div className="nta-legend">
               <span><i className="legend answered" /> Answered</span>
               <span><i className="legend marked" /> Marked</span>
               <span><i className="legend visited" /> Not answered</span>
               <span><i className="legend notvisited" /> Not visited</span>
               <span><i className="legend marked-answered" /> Answered & marked for review</span>
-            </div>
-            <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
-              {submitting ? 'Submitting...' : 'Submit test'}
+            </div>}
+            <button type="button" className={`nta-submit-button ${allReady ? 'is-ready' : ''}`} onClick={confirmAndSubmit} disabled={submitting}>
+              {morph(submitting ? 'Submitting...' : 'Submit test')}
             </button>
           </aside>
         </div>
@@ -950,15 +1295,15 @@ function TestRunner() {
           </button>
         )}
         <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)} aria-label={`Question palette, ${answered} of ${questions.length} answered`}>
-          {classicInterface ? `Palette ${answered}/${questions.length}` : 'Palette'}
+          {classicInterface ? `Palette ${answered}/${questions.length}` : morph(allReady ? 'All answered' : 'Palette')}
         </button>
         {classicInterface && (
           <button type="button" className="nta-m-review" onClick={markAndNext}>
             Mark for review & next
           </button>
         )}
-        <button type="button" className={classicInterface ? 'is-primary nta-m-save' : 'is-primary'} onClick={goNext} disabled={submitting}>
-          {isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : classicInterface ? 'Save & next' : 'Next'} {!isLastBlock && !classicInterface && <Icon name="chevR" />}
+        <button type="button" className={`${classicInterface ? 'is-primary nta-m-save' : 'is-primary'} ${allReady && isLastBlock ? 'is-ready' : ''}`} onClick={goNext} disabled={submitting}>
+          {morph(mobileNextLabel)} {!isLastBlock && !classicInterface && <Icon name="chevR" />}
         </button>
       </div>
 
@@ -982,9 +1327,44 @@ function TestRunner() {
               <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
             </div>
             {renderPalette(true)}
-            <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
+            {practiceRun && renderLegend()}
+            <button type="button" className={`nta-submit-button ${allReady ? 'is-ready' : ''}`} onClick={confirmAndSubmit} disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit test'}
             </button>
+          </div>
+        </div>
+      )}
+
+      {practiceRun && <span className="pr-sr" role="status">{allReady ? `All ${questions.length} answered${serverSaves ? ' and saved' : ''}. Ready to submit.` : ''}</span>}
+
+      {practiceRun && undoClear && (
+        <div className="pr-undo" role="status" key={`undo-${undoClear.n}`}>
+          <span>Answer cleared.</span>
+          <button type="button" onClick={undoClearAnswer} aria-label={`Undo: restore the answer to question ${undoClear.number}`}>Undo</button>
+          <i aria-hidden="true" />
+        </div>
+      )}
+
+      {practiceRun && reviewOpen && (
+        <div ref={reviewDialogRef} className="pr-sheet" role="dialog" aria-modal="true" aria-labelledby="pr-sheet-title">
+          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={() => setReviewOpen(false)} />
+          <div className="pr-sheet__panel">
+            <h2 id="pr-sheet-title">{isMockMode ? 'Submit this mock?' : 'Submit this practice?'}</h2>
+            <dl className="pr-sheet__counts">
+              <div><dt>Answered</dt><dd>{answered}</dd></div>
+              <div><dt>Not answered</dt><dd>{pendingCount}</dd></div>
+              <div><dt>Marked</dt><dd>{markedCount}</dd></div>
+            </dl>
+            <div className={isMockMode ? 'pr-sheet__say is-plain' : 'pr-sheet__say'}>
+              {!isMockMode && <SheetMobi act={mobiAct === 'reading' ? 'reading' : pendingCount > 0 ? 'point' : markedCount > 0 ? 'tilt' : 'nod'} />}
+              {pendingCount > 0 && firstBlank >= 0
+                ? <button type="button" className="pr-sheet__go" onClick={() => { setReviewOpen(false); gotoQuestion(firstBlank); }}>{pendingCount} not answered. Go to {firstBlank + 1}?</button>
+                : <p>{markedCount > 0 ? `${markedCount} marked for review. Every question has an answer.` : `All ${questions.length} answered.`}</p>}
+            </div>
+            <div className="pr-sheet__actions">
+              <button type="button" data-autofocus onClick={() => setReviewOpen(false)}>Keep answering</button>
+              <button type="button" className="is-primary" disabled={submitting} onClick={() => { setReviewOpen(false); submitTest(); }}>Submit now</button>
+            </div>
           </div>
         </div>
       )}

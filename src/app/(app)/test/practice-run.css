@@ -1,0 +1,158 @@
+/* Practice runner motion (every mode except NTA). Scoped to .pr-run, which the NTA mode never carries.
+   Transforms and opacity only; Arena tokens so Night and Day both work. Reduced motion drops every
+   movement and keeps the same information as text. */
+.pr-run {
+  --pr-ease: cubic-bezier(.2, .8, .2, 1);
+  --pr-spring: cubic-bezier(.34, 1.36, .5, 1);
+  --pr-accent: var(--a-accent-text, #d2f000);
+}
+
+/* ---------- Question hand-off: the outgoing block holds until the incoming one is half visible ---------- */
+.pr-stage { display: grid; touch-action: pan-y pinch-zoom; }
+.pr-stage > * { grid-area: 1 / 1; min-width: 0; }
+.pr-live { position: relative; z-index: 1; will-change: transform; }
+.pr-live[data-entering] { animation: pr-in 240ms var(--pr-ease) both; }
+.pr-ghost { position: relative; z-index: 0; pointer-events: none; user-select: none; animation: pr-out 240ms var(--pr-ease) both; }
+.pr-ghost .nta-question-meta { min-height: 44px; }
+@keyframes pr-in {
+  from { opacity: 0; transform: translate3d(calc(var(--pr-dir, 1) * 28px), 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pr-out {
+  0% { opacity: 1; transform: translate3d(var(--pr-from, 0px), 0, 0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(calc(var(--pr-from, 0px) + var(--pr-dir, 1) * -36px), 0, 0); }
+}
+.pr-live.is-springing { transition: transform 300ms var(--pr-spring); }
+
+/* ---------- Options: strike, glide ---------- */
+.pr-run .nta-options { position: relative; isolation: isolate; }
+.pr-run .nta-option {
+  position: relative; z-index: 1;
+  -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+  transition: border-color 200ms var(--pr-ease), background-color 200ms var(--pr-ease), transform 140ms var(--pr-ease);
+}
+.pr-run .nta-option:active:not(:disabled) { transform: scale(.985); }
+.pr-run .nta-option.is-selected { border-color: transparent; background: transparent; }
+.pr-run .nta-option-letter { transition: background-color 200ms var(--pr-ease), color 200ms var(--pr-ease); }
+.pr-glide {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 0; height: 0; opacity: 0; pointer-events: none;
+  border-radius: 8px; border: 1px solid color-mix(in oklab, var(--pr-accent) 72%, transparent);
+  background: color-mix(in oklab, var(--pr-accent) 9%, transparent);
+  transition: opacity 180ms var(--pr-ease);
+}
+.pr-glide[data-placed='1'] { transition: opacity 180ms var(--pr-ease), transform 320ms var(--pr-spring), height 320ms var(--pr-ease); }
+
+.pr-run .nta-option.is-struck .nta-option-text,
+.pr-run .nta-option.is-struck .nta-option-letter { opacity: .45; }
+.pr-strike {
+  position: absolute; left: 52px; right: 14px; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px;
+  background: var(--a-ink-2, #d4d4d8); transform-origin: left center; pointer-events: none;
+  animation: pr-strike 260ms var(--pr-ease) both;
+}
+@keyframes pr-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.pr-note {
+  margin: 12px 0 0; display: flex; align-items: center; gap: 8px;
+  font-size: 13px; line-height: 1.45; color: var(--a-ink-3, #a1a1aa);
+  animation: pr-rise 320ms var(--pr-ease) both;
+}
+.pr-note::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; flex: none; }
+@keyframes pr-rise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+
+/* ---------- Labels and the ready beat ---------- */
+.pr-label { display: inline-block; animation: pr-label 220ms var(--pr-ease) both; }
+@keyframes pr-label { from { opacity: 0; transform: translate3d(0, 55%, 0); } to { opacity: 1; transform: none; } }
+.pr-run .is-ready { position: relative; animation: pr-beat 560ms var(--pr-spring) 1 both; }
+.pr-run .is-ready::after {
+  content: ''; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--pr-accent) 70%, transparent);
+  animation: pr-ring 760ms var(--pr-ease) 1 both;
+}
+@keyframes pr-beat { 0% { transform: none; } 35% { transform: scale(1.045); } 100% { transform: none; } }
+@keyframes pr-ring { from { box-shadow: 0 0 0 0 color-mix(in oklab, var(--pr-accent) 70%, transparent); } to { box-shadow: 0 0 0 12px transparent; } }
+
+/* ---------- Palette legend filter ---------- */
+.pr-legend { display: grid; gap: 4px; }
+.pr-legend button {
+  min-height: 36px; display: flex; align-items: center; gap: 8px; width: 100%; padding: 0 8px;
+  border: 1px solid transparent; border-radius: 7px; background: transparent; cursor: pointer; text-align: left;
+  color: var(--text-subtle); font: 800 10px/1.2 var(--font-mono); letter-spacing: .05em;
+  transition: background-color 160ms var(--pr-ease), border-color 160ms var(--pr-ease), color 160ms var(--pr-ease);
+}
+.pr-legend button:hover { background: var(--a-hover, rgba(255,255,255,.04)); color: var(--a-ink-2, #d4d4d8); }
+.pr-legend button[aria-pressed='true'] { border-color: var(--a-line-hover, rgba(255,255,255,.24)); background: var(--a-hover, rgba(255,255,255,.05)); color: var(--a-ink, #f4f6ed); }
+.pr-legend button b { margin-left: auto; font-variant-numeric: tabular-nums; }
+.pr-legend button:focus-visible, .pr-goto:focus-visible, .pr-sheet button:focus-visible, .pr-undo button:focus-visible { outline: 2px solid var(--a-focus, var(--volt)); outline-offset: 2px; }
+.pr-run .nta-palette-chip { transition: opacity 200ms var(--pr-ease), transform 200ms var(--pr-ease); }
+.pr-run .nta-palette-chip.is-dimmed { opacity: .28; transform: scale(.92); }
+.pr-goto {
+  min-height: 40px; width: 100%; border-radius: 8px; cursor: pointer;
+  border: 1px solid color-mix(in oklab, var(--pr-accent) 50%, transparent); background: transparent;
+  color: var(--a-ink, #f4f6ed); font: 800 12px/1 var(--font-display); animation: pr-rise 220ms var(--pr-ease) both;
+}
+
+/* ---------- Answer cleared, undo ---------- */
+.pr-undo {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+  display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; border-radius: 12px;
+  border: 1px solid var(--a-line, rgba(255,255,255,.12)); background: var(--a-raised, #151712); color: var(--a-ink, #f4f6ed);
+  box-shadow: 0 16px 40px rgba(0,0,0,.32); font-size: 14px;
+  transform: translate3d(-50%, 0, 0); animation: pr-toast 260ms var(--pr-spring) both;
+}
+.pr-undo button {
+  min-height: 40px; padding: 0 14px; border-radius: 8px; border: 0; cursor: pointer;
+  background: var(--a-hover, rgba(255,255,255,.08)); color: var(--pr-accent); font: 800 13px/1 var(--font-display);
+}
+.pr-undo i { position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--pr-accent); opacity: .5; transform-origin: left; animation: pr-drain 4s linear both; }
+@keyframes pr-toast { from { opacity: 0; transform: translate3d(-50%, 12px, 0); } to { opacity: 1; transform: translate3d(-50%, 0, 0); } }
+@keyframes pr-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@media (max-width: 1023px) { .pr-undo { bottom: calc(78px + env(safe-area-inset-bottom, 0px)); } }
+
+/* ---------- Submit sheet ---------- */
+.pr-sheet { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 16px; }
+.pr-sheet__backdrop { position: absolute; inset: 0; border: 0; background: rgba(0,0,0,.6); animation: pr-fade 200ms ease both; }
+.pr-sheet__panel {
+  position: relative; width: min(100%, 460px); display: grid; gap: 16px; padding: 20px;
+  border-radius: 16px; border: 1px solid var(--a-line, rgba(255,255,255,.12)); background: var(--a-raised, #12140f);
+  box-shadow: 0 24px 80px rgba(0,0,0,.4); animation: pr-panel 300ms var(--pr-spring) both;
+}
+.pr-sheet__panel h2 { margin: 0; font: 800 20px/1.2 var(--font-display); color: var(--a-ink, #f4f6ed); }
+.pr-sheet__counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.pr-sheet__counts div { padding: 10px; border-radius: 10px; border: 1px solid var(--a-line, rgba(255,255,255,.08)); background: var(--a-hover, rgba(255,255,255,.025)); }
+.pr-sheet__counts dt { font-size: 12px; color: var(--a-ink-3, #a1a1aa); }
+.pr-sheet__counts dd { margin: 2px 0 0; font: 800 22px/1.1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--a-ink, #f4f6ed); }
+.pr-sheet__say { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; min-height: 72px; }
+.pr-sheet__say p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #d4d4d8); }
+.pr-sheet__say button.pr-sheet__go { min-height: 44px; padding: 0 14px; border-radius: 10px; cursor: pointer; border: 1px solid color-mix(in oklab, var(--pr-accent) 55%, transparent); background: transparent; color: var(--a-ink, #f4f6ed); font: 700 14px/1.3 var(--font-display); text-align: left; }
+.pr-sheet__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pr-sheet__actions button { min-height: 48px; border-radius: 10px; cursor: pointer; font: 800 14px/1 var(--font-display); border: 1px solid var(--a-line, rgba(255,255,255,.14)); background: transparent; color: var(--a-ink, #f4f6ed); }
+.pr-sheet__actions button.is-primary { background: var(--volt); border-color: var(--volt); color: #050600; }
+.pr-sheet__actions button:disabled { opacity: .45; cursor: not-allowed; }
+@keyframes pr-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pr-panel { from { opacity: 0; transform: translate3d(0, 18px, 0) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* Mobi on the submit sheet: reads it, then answers with one gesture. */
+.pr-mobi { width: 64px; height: 76px; display: grid; place-items: end center; }
+.pr-mobi img { width: 100%; height: auto; transform-origin: 50% 90%; }
+.pr-mobi[data-act='reading'] img { animation: pr-read 900ms ease-in-out both; }
+.pr-mobi[data-act='nod'] img { animation: pr-nod 640ms var(--pr-spring) both; }
+.pr-mobi[data-act='point'] img { animation: pr-point 520ms var(--pr-spring) both; }
+.pr-mobi[data-act='tilt'] img { animation: pr-tilt 600ms var(--pr-spring) both; }
+@keyframes pr-read { 0% { transform: translate3d(-3px, 0, 0) rotate(-3deg); } 50% { transform: translate3d(3px, 1px, 0) rotate(2deg); } 100% { transform: none; } }
+@keyframes pr-nod { 0% { transform: none; } 30% { transform: translate3d(0, 4px, 0) rotate(4deg); } 60% { transform: translate3d(0, -2px, 0); } 100% { transform: none; } }
+@keyframes pr-point { from { transform: translate3d(-6px, 0, 0); } to { transform: none; } }
+@keyframes pr-tilt { from { transform: none; } to { transform: rotate(-7deg); } }
+
+.pr-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-live[data-entering], .pr-ghost, .pr-strike, .pr-note, .pr-label, .pr-run .is-ready, .pr-run .is-ready::after,
+  .pr-goto, .pr-undo, .pr-undo i, .pr-sheet__backdrop, .pr-sheet__panel, .pr-mobi img { animation: none !important; }
+  .pr-ghost { display: none; }
+  .pr-glide, .pr-glide[data-placed='1'], .pr-run .nta-option, .pr-run .nta-palette-chip, .pr-live.is-springing { transition: none !important; }
+  .pr-run .nta-palette-chip.is-dimmed { transform: none; }
+}
+
+.pr-sheet__say.is-plain { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+.pr-ghost .nta-option.is-ghost-selected { border-color: color-mix(in oklab, var(--pr-accent) 72%, transparent); background: color-mix(in oklab, var(--pr-accent) 9%, transparent); }
+.pr-ghost .nta-option.is-ghost-selected .nta-option-letter { background: var(--volt); color: #050600; }
