@@ -74,7 +74,7 @@ export default function NextStepStrip({ strip, plan, dominant, setupMatches, onA
     <section className="pl-strip" data-kind="step" aria-label="Your next step">
       <span className="pl-strip__icon" aria-hidden="true"><AppIcon name="today" size={18} /></span>
       <div className="pl-strip__body">
-        <p className="pl-strip__reason"><b>Next step:</b> {reason || step.title}</p>
+        <p className="pl-strip__reason">{reason ? <><b>Next step:</b> {reason}</> : <b>Your next step</b>}</p>
       </div>
       <Link className={`${dominant ? 'btn-volt' : 'btn-outline'} md pl-strip__cta`} href={step.href}>{step.title}</Link>
     </section>

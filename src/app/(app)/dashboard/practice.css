@@ -19,7 +19,6 @@
 .app-shell .pl-strip__reason b { color: var(--a-ink); font-weight: 700; }
 .app-shell .pl-strip__cta { flex: 0 0 auto; min-height: 44px; max-width: 100%; white-space: normal; text-align: center; text-decoration: none; }
 .app-shell .pl-strip__cta[aria-disabled="true"] { background: transparent; border-color: transparent; box-shadow: none; color: var(--a-ink-3); cursor: default; }
-.app-shell .pl-strip__set { flex: 0 0 auto; font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
 .app-shell .pl-strip__retry { flex: 0 0 auto; min-height: 44px; }
 .app-shell .pl-strip__skeleton i { display: block; height: 12px; width: 70%; border-radius: 6px; background: var(--a-sunken); }
 .app-shell .pl-strip__skeleton i:first-of-type { width: 40%; height: 14px; }
