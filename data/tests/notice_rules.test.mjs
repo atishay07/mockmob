@@ -192,9 +192,9 @@ test('a notice on the timed test cannot be dismissed, and a dismissal for it is 
 });
 
 test('a dismissible notice waits until dismissals are read, so it never flashes in and vanishes', () => {
-  const note = resultReportNotice();
-  assert.equal(chooseNotice([note], { surface: 'result', dismissalsReady: false }), null);
-  assert.equal(chooseNotice([note], { surface: 'result', dismissalsReady: true }).id, 'result-report-pointer');
+  const note = creditsZeroNotice({ creditBalance: 0 });
+  assert.equal(chooseNotice([note], { surface: 'app', visitor: member, dismissalsReady: false }), null);
+  assert.equal(chooseNotice([note], { surface: 'app', visitor: member, dismissalsReady: true }).id, 'credits-zero');
   // Notices the person must act on do not wait.
   assert.equal(chooseNotice(runnerNotices({ online: false }), { surface: 'runner', dismissalsReady: false }).id, 'runner-offline');
 });
@@ -217,9 +217,9 @@ test('stored dismissals tolerate anything: corrupt text, wrong shapes, blocked s
 
 test('dismissals round trip through storage under the versioned key', () => {
   const store = memoryStorage();
-  assert.equal(writeDismissed(store, dismissNotice({}, resultReportNotice())), true);
-  assert.deepEqual(JSON.parse(store.data[NOTICE_STORAGE_KEY]), { 'result-report-pointer': 'v1' });
-  assert.deepEqual(readDismissed(store), { 'result-report-pointer': 'v1' });
+  assert.equal(writeDismissed(store, dismissNotice({}, creditsZeroNotice({ creditBalance: 0 }))), true);
+  assert.deepEqual(JSON.parse(store.data[NOTICE_STORAGE_KEY]), { 'credits-zero': 'zero' });
+  assert.deepEqual(readDismissed(store), { 'credits-zero': 'zero' });
   assert.match(NOTICE_STORAGE_KEY, /:v1$/);
 });
 
@@ -327,4 +327,38 @@ test('dismissing hands focus to the slot, and the shared component owns its styl
   assert.match(slot, /tabIndex=\{-1\}/);
   assert.match(slot, /\.focus\(\)/);
   assert.doesNotMatch(slot, /@\/app\//);
+  // The empty slot shows a focus line while it holds focus, so focus never disappears after a dismiss.
+  assert.match(read('src/components/notices/notices.css'), /\.notice-slot:not\(\[data-tone\]\):focus\s*\{[^}]*outline: 2px solid/);
+});
+
+test('the live region holds only the notice text, never the buttons or links', () => {
+  const slot = read('src/components/notices/NoticeSlot.jsx');
+  const live = slot.match(/<div role="status" className="notice__live">([\s\S]*?)<\/div>/);
+  assert.ok(live, 'the inline slot has a live region');
+  assert.match(live[1], /notice__text/);
+  assert.doesNotMatch(live[1], /<button|<Link|NoticeControls/);
+  assert.equal((slot.match(/role="status"/g) || []).length, 2, 'one for the toast, one for the inline slot');
+});
+
+test('the Play notice never links back to this site and has no action without a listing address', () => {
+  const on = { playListingLive: true, isAndroid: true, isMember: true };
+  assert.equal(appOnPlayNotice(on).action, null);
+  assert.equal(appOnPlayNotice({ ...on, playUrl: '/app' }).action, null);
+  assert.equal(appOnPlayNotice({ ...on, playUrl: 'http://play.example/x' }).action, null);
+  const url = 'https://play.google.com/store/apps/details?id=x';
+  assert.equal(appOnPlayNotice({ ...on, playUrl: url }).action.href, url);
+});
+
+test('the result pointer stays on the page as it did before, with no dismissal', () => {
+  const note = resultReportNotice();
+  assert.equal(note.dismissible, false);
+  assert.deepEqual(dismissNotice({}, note), {});
+  assert.equal(chooseNotice([note], { surface: 'result', dismissalsReady: false }).id, 'result-report-pointer');
+});
+
+test('a slot that is not allowed to show returns nothing, and an unknown path is allowed', () => {
+  assert.equal(slotShows('result', '/test'), true);
+  assert.equal(slotShows('app', '/today'), true);
+  assert.equal(slotShows('app', null), true);
+  assert.equal(slotShows('app', '/test'), false);
 });

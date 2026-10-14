@@ -22,7 +22,8 @@ export function NoticeSlot({ surface }) {
   const slotRef = useRef(null);
   const dismiss = ctx?.dismiss;
   // The dismiss button unmounts when it is pressed, which would drop a keyboard user on <body>.
-  // Focus goes to the slot, where they were on the page, so Tab carries on from there.
+  // Focus goes to the slot, where they were on the page, so Tab carries on from there. An empty slot
+  // shows a focus line while it holds focus (notices.css), so they can see where they are.
   const onDismiss = useCallback((notice) => {
     dismiss?.(notice);
     slotRef.current?.focus();
@@ -34,9 +35,14 @@ export function NoticeSlot({ surface }) {
     : null;
 
   if (placementFor(surface) === 'toast') return <RunnerToast notice={notice} />;
+  // The slot is the row when a notice is showing. Only the text sits inside the live region: the
+  // controls stay outside it, so a screen reader does not read them out each time a notice changes.
   return (
-    <div role="status" className="notice-slot" tabIndex={-1} ref={slotRef}>
-      {notice ? <InlineNotice key={`${notice.id}:${notice.stateKey}`} notice={notice} onDismiss={onDismiss} /> : null}
+    <div className="notice-slot" tabIndex={-1} ref={slotRef} data-tone={notice ? notice.tone : undefined}>
+      <div role="status" className="notice__live">
+        {notice ? <p className="notice__text">{notice.text}</p> : null}
+      </div>
+      {notice ? <NoticeControls key={`${notice.id}:${notice.stateKey}`} notice={notice} onDismiss={onDismiss} /> : null}
     </div>
   );
 }
@@ -54,12 +60,11 @@ export function RunnerToast({ notice }) {
   );
 }
 
-function InlineNotice({ notice, onDismiss }) {
+function NoticeControls({ notice, onDismiss }) {
   const [why, setWhy] = useState(false);
   const whyId = useId();
   return (
-    <div className="notice" data-tone={notice.tone}>
-      <p className="notice__text">{notice.text}</p>
+    <>
       <div className="notice__actions">
         {notice.action ? <Link className="notice__action" href={notice.action.href}>{notice.action.label}</Link> : null}
         <button type="button" className="notice__why-toggle" aria-expanded={why} aria-controls={whyId} onClick={() => setWhy((open) => !open)}>
@@ -72,7 +77,7 @@ function InlineNotice({ notice, onDismiss }) {
         ) : null}
       </div>
       <p id={whyId} className="notice__why" hidden={!why}>{notice.why}</p>
-    </div>
+    </>
   );
 }
 

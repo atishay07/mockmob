@@ -2,9 +2,10 @@
    A notice is a plain row on the page surface, not a card: no blur, no glow, no gradient. State is
    carried by the words and a left edge, never by colour alone. */
 
-/* An empty slot is still in the page for screen readers (a live region that is inserted already
-   filled is often not announced) but takes no room and adds no gap in a grid or flex parent. */
-.notice-slot:empty {
+/* The slot is the row while a notice shows (data-tone is set). With no notice it is still in the page
+   for screen readers (a live region inserted already filled is often not announced) but takes no room
+   and adds no gap in a grid or flex parent. */
+.notice-slot:not([data-tone]) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -12,10 +13,20 @@
   overflow: hidden;
   clip-path: inset(50%);
 }
+/* After a dismiss, focus rests on the empty slot: show a short line so keyboard focus stays visible. */
+.notice-slot:not([data-tone]):focus {
+  position: relative;
+  width: auto;
+  height: 2px;
+  margin: 0 0 12px;
+  overflow: visible;
+  clip-path: none;
+  outline: 2px solid var(--a-focus, currentColor);
+  outline-offset: 2px;
+}
+.notice-slot[data-tone]:focus { outline: none; }
 
-.notice-slot:focus { outline: none; }
-
-.notice {
+.notice-slot[data-tone] {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -30,15 +41,17 @@
   font-size: 14px;
   line-height: 1.5;
 }
-.notice[data-tone='warn'],
-.notice[data-tone='error'] {
+.notice-slot[data-tone='warn'],
+.notice-slot[data-tone='error'] {
   border-left-color: var(--a-warn-text, #b8860b);
   color: var(--a-ink, inherit);
 }
-.notice__text {
+.notice__live {
   flex: 1 1 18rem;
-  margin: 0;
   min-width: 0;
+}
+.notice__text {
+  margin: 0;
   overflow-wrap: anywhere;
 }
 .notice__actions {
@@ -82,6 +95,6 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .notice { animation: notice-in .18s cubic-bezier(.16, 1, .3, 1) both; }
+  .notice-slot[data-tone] { animation: notice-in .18s cubic-bezier(.16, 1, .3, 1) both; }
 }
 @keyframes notice-in { from { opacity: 0; } }
