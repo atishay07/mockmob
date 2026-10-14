@@ -5,6 +5,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../helpers/fonts.dart';
+import 'frame_sequence.dart';
 import '../../helpers/golden_harness.dart';
 import 'night_support.dart';
 
@@ -96,8 +97,66 @@ void main() {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
+    // The shimmer across time: the band early in a sweep, mid sweep, late, at rest between
+    // sweeps, and after the fourth sweep when it has stopped for good (left to right).
+    testWidgets('skeleton shimmer (frames), $tag', (tester) async {
+      await pumpMockmob(
+        tester,
+        Builder(builder: (context) => ColoredBox(color: context.mmColors.ground, child: _skeletons())),
+        brightness: brightness,
+        size: kNightSize,
+      );
+      final sheet = await frameSheet(
+        tester,
+        root: find.byType(Scaffold).first,
+        atMs: const [0, 300, 700, 1000, 7500],
+        crop: const Rect.fromLTWH(0, 0, 384, 540),
+        scale: 0.5,
+        columns: 5,
+      );
+      await expectLater(sheet, matchesGoldenFile('goldens/skeleton_frames_$tag.png'));
+      await tester.pumpAndSettle();
+    });
+
     // Today to Review, 110 ms in: the leading edge has reached Review, the trailing edge is still
     // leaving Today, so the lit tile is a stretched, thinner drop of light.
+    // The liquid tile across its whole travel, both ways (frames 0, 40, 80, 130, 200 and 420 ms,
+    // top to bottom): the volt edge must follow the tile's own corners at every stretch, at both
+    // ends of the dock, and never be cut by the pill.
+    for (final (name, from, to) in const [('right', 0, 2), ('left', 2, 0)]) {
+      testWidgets('dock travel $name (frames), $tag', (tester) async {
+        final index = ValueNotifier(from);
+        addTearDown(index.dispose);
+        await pumpMockmob(
+          tester,
+          GoldenRoom(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: BackdropGroup(
+                child: ValueListenableBuilder<int>(
+                  valueListenable: index,
+                  builder: (context, i, _) => SplitDock(currentIndex: i, onTab: (_) {}, onStart: (_) {}),
+                ),
+              ),
+            ),
+          ),
+          brightness: brightness,
+          size: kNightSize,
+        );
+        await tester.pump(StartButton.breathDuration);
+        index.value = to;
+        await tester.pump();
+        final sheet = await frameSheet(
+          tester,
+          root: find.byType(Scaffold).first,
+          atMs: const [0, 40, 80, 130, 200, 420],
+          crop: const Rect.fromLTWH(0, 853 - 104, 384, 104),
+        );
+        await expectLater(sheet, matchesGoldenFile('goldens/dock_travel_${name}_$tag.png'));
+        await tester.pumpAndSettle();
+      });
+    }
+
     testWidgets('dock mid-switch (liquid tile), $tag', (tester) async {
       final index = ValueNotifier(0);
       addTearDown(index.dispose);

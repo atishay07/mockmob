@@ -97,7 +97,7 @@ final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 /// list (Repair the next mistake when there is one, Ask your record), never more than five
 /// choices. They arrive in order with the sheet. Costs are not here; they live on the confirm
 /// sheet each choice opens.
-class QuickStartSheet extends ConsumerWidget {
+class QuickStartSheet extends ConsumerStatefulWidget {
   const QuickStartSheet({super.key});
 
   /// The title band's fill: the sheet's own tint at full strength. The sheet lets 1.5% of the
@@ -112,7 +112,103 @@ class QuickStartSheet extends ConsumerWidget {
   static String titleFor(DateTime now) => isEvening(now) ? "What's it going to be tonight?" : "Pick today's work";
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QuickStartSheet> createState() => _QuickStartSheetState();
+
+  /// The ranked layout: the one hero choice, the practice modes as tiles two to a row (an odd
+  /// last tile spans the row), then the quieter choices as one grouped list. Each block arrives
+  /// in turn.
+  static Widget _ranked({
+    required GlobalKey heroKey,
+    required Widget hero,
+    required List<QuickStartRow Function(QuickStartRowStyle style)> modes,
+    required List<Widget> rest,
+    required Color line,
+  }) {
+    var index = 0;
+    final blocks = <Widget>[MmStaggerItem(index: index++, child: KeyedSubtree(key: heroKey, child: hero))];
+    for (var i = 0; i < modes.length; i += 2) {
+      blocks.add(const SizedBox(height: MmSpace.s8));
+      final pair = i + 1 < modes.length;
+      blocks.add(MmStaggerItem(
+        index: index++,
+        child: pair
+            ? IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: modes[i](QuickStartRowStyle.tile)),
+                    const SizedBox(width: MmSpace.s8),
+                    Expanded(child: modes[i + 1](QuickStartRowStyle.tile)),
+                  ],
+                ),
+              )
+            // A mode alone on its line reads as a row: a tile stretched across the sheet is a
+            // tall empty box.
+            : modes[i](QuickStartRowStyle.row),
+      ));
+    }
+    if (rest.isNotEmpty) {
+      blocks.add(const SizedBox(height: MmSpace.s8));
+      blocks.add(MmStaggerItem(index: index++, child: _QuickGroup(line: line, children: rest)));
+    }
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: blocks);
+  }
+
+  /// Whether [location] is a top-level screen outside the tab shell (it has no tab beneath it,
+  /// so `go` would leave nothing to go back to).
+  @visibleForTesting
+  static bool opensOutsideShell(String location) {
+    final path = Uri.parse(location).path;
+    return path == AppRoutes.ask || path == AppRoutes.examNta || path.startsWith('/run/');
+  }
+}
+
+/// The sheet's state: Mobi's controller and the hero row's key. Once the sheet has landed Mobi
+/// points at the recommended choice; while a finger is down Mobi looks at it, and it points
+/// back at the hero when the finger lifts. Under reduced motion Mobi holds the pointing pose.
+class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _hero = GlobalKey(debugLabel: 'quick-start-hero');
+  Animation<double>? _route;
+  bool _landed = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final animation = ModalRoute.of(context)?.animation;
+    if (identical(animation, _route)) return;
+    _route?.removeStatusListener(_onRouteStatus);
+    _route = animation;
+    if (animation == null || animation.isCompleted) {
+      _land();
+    } else {
+      animation.addStatusListener(_onRouteStatus);
+    }
+  }
+
+  void _onRouteStatus(AnimationStatus status) {
+    if (status == AnimationStatus.completed) _land();
+  }
+
+  void _land() {
+    if (_landed) return;
+    _landed = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _pointAtHero());
+  }
+
+  void _pointAtHero() {
+    if (mounted && _landed) _mobi.pointAtWidget(_hero);
+  }
+
+  @override
+  void dispose() {
+    _route?.removeStatusListener(_onRouteStatus);
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final type = context.mmType;
     // The Resume row is decided from the live draft on the first frame; only its answer count
     // waits for the journal, so the lit edge never jumps from Quick 10 to Resume.
@@ -167,7 +263,7 @@ class QuickStartSheet extends ConsumerWidget {
             // The title band: grab handle, title and Mobi on an opaque fill, edge to edge.
             ColoredBox(
               key: const ValueKey('quick-start-title-band'),
-              color: titleBandFor(context.mmColors, GlassScope.of(context)),
+              color: QuickStartSheet.titleBandFor(context.mmColors, GlassScope.of(context)),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
                 child: Column(
@@ -193,12 +289,13 @@ class QuickStartSheet extends ConsumerWidget {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                              child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
+                              child: Semantics(header: true, child: Text(QuickStartSheet.titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
                             ),
                           ),
                           const SizedBox(width: MmSpace.s8),
-                          // Mobi weighs the choice with the student; it never sits in the dock itself.
-                          const _SettleIn(child: Mobi(pose: MobiPose.think, size: 52)),
+                          // Mobi weighs the choice with the student, then points at the recommended one; it never
+                          // sits in the dock itself.
+                          _SettleIn(child: Mobi(pose: MobiPose.think, size: 64, controller: _mobi)),
                         ],
                       ),
                     ),
@@ -212,11 +309,17 @@ class QuickStartSheet extends ConsumerWidget {
                 child: SingleChildScrollView(
                   // The choices arrive with the sheet, in order, after the glass has opened; a
                   // sheet that is already up never moves them.
-                  child: MmStagger(
+                  child: Listener(
+                    behavior: HitTestBehavior.translucent,
+                    onPointerDown: (e) => _mobi.lookAt(e.position),
+                    onPointerUp: (_) => _pointAtHero(),
+                    onPointerCancel: (_) => _pointAtHero(),
+                    child: MmStagger(
                     driver: MmStaggerDriver.route,
                     routeStart: 0.32,
                     routeStep: 0.07,
-                    child: _ranked(
+                    child: QuickStartSheet._ranked(
+                      heroKey: _hero,
                       hero: draft != null
                           ? QuickStartRow(
                               key: const ValueKey('quick-start-resume'),
@@ -233,6 +336,7 @@ class QuickStartSheet extends ConsumerWidget {
                                   : 'Pick up at $answered of ${draft.view.questions.length}.',
                               lit: true,
                               noteLines: 2,
+                              light: SubjectLight.forSubject(draft.subject)?.of(Theme.of(context).brightness),
                               onTap: () => go(AppRoutes.run(draft.sessionId)),
                             )
                           : quick(QuickStartRowStyle.hero),
@@ -250,6 +354,7 @@ class QuickStartSheet extends ConsumerWidget {
                             style: style,
                             glyph: SheetGlyph.exam,
                             title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
+                            light: SubjectLight.forSubject(nta.subject)?.of(Theme.of(context).brightness),
                             note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
                             onTap: () => go(nta.location),
                           ),
@@ -276,6 +381,7 @@ class QuickStartSheet extends ConsumerWidget {
                       line: context.mmColors.line,
                     ),
                   ),
+                  ),
                 ),
               ),
             ),
@@ -283,53 +389,6 @@ class QuickStartSheet extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  /// The ranked layout: the one hero choice, the practice modes as tiles two to a row (an odd
-  /// last tile spans the row), then the quieter choices as one grouped list. Each block arrives
-  /// in turn.
-  static Widget _ranked({
-    required Widget hero,
-    required List<QuickStartRow Function(QuickStartRowStyle style)> modes,
-    required List<Widget> rest,
-    required Color line,
-  }) {
-    var index = 0;
-    final blocks = <Widget>[MmStaggerItem(index: index++, child: hero)];
-    for (var i = 0; i < modes.length; i += 2) {
-      blocks.add(const SizedBox(height: MmSpace.s8));
-      final pair = i + 1 < modes.length;
-      blocks.add(MmStaggerItem(
-        index: index++,
-        child: pair
-            ? IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: modes[i](QuickStartRowStyle.tile)),
-                    const SizedBox(width: MmSpace.s8),
-                    Expanded(child: modes[i + 1](QuickStartRowStyle.tile)),
-                  ],
-                ),
-              )
-            // A mode alone on its line reads as a row: a tile stretched across the sheet is a
-            // tall empty box.
-            : modes[i](QuickStartRowStyle.row),
-      ));
-    }
-    if (rest.isNotEmpty) {
-      blocks.add(const SizedBox(height: MmSpace.s8));
-      blocks.add(MmStaggerItem(index: index++, child: _QuickGroup(line: line, children: rest)));
-    }
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: blocks);
-  }
-
-  /// Whether [location] is a top-level screen outside the tab shell (it has no tab beneath it,
-  /// so `go` would leave nothing to go back to).
-  @visibleForTesting
-  static bool opensOutsideShell(String location) {
-    final path = Uri.parse(location).path;
-    return path == AppRoutes.ask || path == AppRoutes.examNta || path.startsWith('/run/');
   }
 }
 
@@ -382,6 +441,7 @@ class QuickStartRow extends StatelessWidget {
     this.noteLines = 1,
     this.style = QuickStartRowStyle.row,
     this.grouped = false,
+    this.light,
   });
 
   final SheetGlyph glyph;
@@ -397,6 +457,10 @@ class QuickStartRow extends StatelessWidget {
 
   /// A row inside the sheet's grouped list: no box of its own, the group draws one around all.
   final bool grouped;
+
+  /// The subject's light (its field colour), pooled in the corner of a hero or tile that belongs
+  /// to a subject: the lead mark of the choice, instead of a coloured tile. Null for none.
+  final Color? light;
 
   /// A row's fill. Opaque in both themes and at every glass level: the sheet behind it is a
   /// faint wash of the page (never blurred), and a row that only tinted it let the page's text
@@ -459,7 +523,7 @@ class QuickStartRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
           child: Row(
             children: [
-              SheetGlyphTile(glyph),
+              SheetGlyphTile(glyph, bare: true),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(
@@ -498,7 +562,10 @@ class QuickStartRow extends StatelessWidget {
           radius: _heroRadius,
           pools: [
             LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(-1.1, -1.3), radius: 0.9, aspect: 1.6),
-            LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
+            if (light != null)
+              LightPool(color: light!.withValues(alpha: colors.isNight ? 0.9 : 0.7), center: const Alignment(1.1, 0.9), radius: 0.7, aspect: 1.5)
+            else
+              LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
           ],
         ),
         foregroundPainter: EdgeLightPainter(
@@ -544,6 +611,12 @@ class QuickStartRow extends StatelessWidget {
     return DecoratedBox(
       decoration: ShapeDecoration(color: surfaceFor(colors, pressed: pressed), shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll)),
       child: CustomPaint(
+        painter: light == null
+            ? null
+            : _ShapedLight(
+                radius: MmRadius.keyAll,
+                pools: [LightPool(color: light!.withValues(alpha: colors.isNight ? 0.9 : 0.7), center: const Alignment(1.2, 1.2), radius: 0.9, aspect: 1.3)],
+              ),
         foregroundPainter: EdgeLightPainter(
           borderRadius: MmRadius.keyAll,
           top: colors.edgeTop,
@@ -559,8 +632,8 @@ class QuickStartRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SheetGlyphTile(glyph, size: 36),
-                const SizedBox(height: MmSpace.s12),
+                SheetGlyphTile(glyph, size: 36, bare: true),
+                const SizedBox(height: MmSpace.s8),
                 Text(title, style: type.labelLarge),
                 const SizedBox(height: 2),
                 _note(context),

@@ -29,16 +29,31 @@ enum SheetGlyph {
   ask,
 }
 
-/// A [SheetGlyph] in a 40 dp tile.
+/// A [SheetGlyph] in a 40 dp tile, or [bare] (the drawing alone in the same square, no tile and
+/// no outline: for rows and tiles that are not the one hero choice).
 class SheetGlyphTile extends StatelessWidget {
-  const SheetGlyphTile(this.glyph, {super.key, this.size = 40});
+  const SheetGlyphTile(this.glyph, {super.key, this.size = 40, this.bare = false});
 
   final SheetGlyph glyph;
   final double size;
+  final bool bare;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    if (bare) {
+      return ExcludeSemantics(
+        child: SizedBox.square(
+          dimension: size,
+          child: switch (glyph) {
+            SheetGlyph.quick => Icon(LucideIcons.zap, size: size * 0.6, color: colors.ink),
+            SheetGlyph.chapter => Icon(LucideIcons.bookOpen, size: size * 0.6, color: colors.ink),
+            SheetGlyph.mock => Icon(LucideIcons.timer, size: size * 0.6, color: colors.ink),
+            _ => CustomPaint(painter: SheetGlyphPainter(glyph, colors: colors)),
+          },
+        ),
+      );
+    }
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: ShapeDecoration(

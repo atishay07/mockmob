@@ -43,9 +43,11 @@ class Skeleton extends StatelessWidget {
           : _ShimmerBlock(
               shape: resolved,
               base: colors.raised2,
+              // A band the eye can follow on the ground: warm paper light on Night (24%), white on
+              // Daylight (70%).
               band: colors.isNight
-                  ? Color.lerp(colors.ink, colors.lamp, 0.35)!.withValues(alpha: 0.075)
-                  : const Color(0xFFFFFFFF).withValues(alpha: 0.6),
+                  ? Color.lerp(colors.ink, colors.lamp, 0.35)!.withValues(alpha: 0.24)
+                  : const Color(0xFFFFFFFF).withValues(alpha: 0.7),
               progress: scope.progress,
               group: scope.group,
             ),
@@ -247,8 +249,13 @@ class _RenderShimmerBlock extends RenderBox {
   }
 }
 
-/// A ready-made card placeholder in the shape of a plain surface: a title line, two text lines
-/// and, when [hero], a monumental number block. Put several in one `SkeletonGroup`.
+/// A ready-made placeholder in the shape of what will arrive, with no box around it (a card of
+/// grey bars announces nothing; the real screen's text and numbers sit on the ground, so the
+/// placeholder does too). Put several in one `SkeletonGroup`.
+///
+/// [hero] mirrors the focal block of a screen: a small caption, the title, one monumental
+/// number with its meaning beside it, and the action pill. Otherwise it mirrors a plain block: a
+/// heading line and two lines of text.
 class MmSkeletonCard extends StatelessWidget {
   const MmSkeletonCard({super.key, this.hero = false});
 
@@ -256,41 +263,45 @@ class MmSkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(hero ? 28 : 24)),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(hero ? 24 : 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Skeleton.line(width: 96, height: 12),
-            const SizedBox(height: 12),
-            const Skeleton.line(width: 180, height: 20),
-            if (hero) ...[
-              const SizedBox(height: 20),
-              const Row(children: [Skeleton(width: 72, height: 84, radius: 14), SizedBox(width: 16), Skeleton.line(width: 120, height: 18)]),
-              const SizedBox(height: 20),
-              const Skeleton(height: 52, radius: 26),
-            ] else ...[
-              const SizedBox(height: 16),
-              const Skeleton.line(),
-              const SizedBox(height: 8),
-              const Skeleton.line(width: 200),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (hero) ...[
+          const Skeleton.line(width: 84, height: 11),
+          const SizedBox(height: 10),
+          const Skeleton.line(width: 168, height: 22),
+          const SizedBox(height: 22),
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Skeleton(width: 92, height: 88, radius: 20),
+              SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Skeleton.line(width: 132, height: 16), SizedBox(height: 10), Skeleton.line(width: 96, height: 12)],
+                ),
+              ),
             ],
-          ],
-        ),
-      ),
+          ),
+          const SizedBox(height: 22),
+          const Skeleton(height: 52, radius: 26),
+        ] else ...[
+          const Skeleton.line(width: 120, height: 18),
+          const SizedBox(height: 14),
+          const Skeleton.line(),
+          const SizedBox(height: 8),
+          const Skeleton.line(width: 220),
+        ],
+      ],
     );
   }
 }
 
-/// Placeholder rows in the shape of an `MmRowGroup`: a leading circle, a title and a note per
-/// row, divided by inset hairlines.
+/// Placeholder rows in the shape of an `MmRowGroup`, without its box: a leading mark, a title and
+/// a note per row, divided by inset hairlines, the line widths varying so the stack does not read
+/// as a table of identical bars.
 class MmSkeletonRows extends StatelessWidget {
   const MmSkeletonRows({super.key, this.rows = 3});
 
@@ -299,39 +310,36 @@ class MmSkeletonRows extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(color: colors.raised, shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(24))),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var i = 0; i < rows; i++) ...[
-            if (i > 0)
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 68),
-                child: SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.8))),
-              ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < rows; i++) ...[
+          if (i > 0)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              child: Row(
-                children: [
-                  const Skeleton.circle(size: 40),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Skeleton.line(width: 120 + 24.0 * (i % 3), height: 14),
-                        const SizedBox(height: 8),
-                        Skeleton.line(width: 180 - 20.0 * (i % 2), height: 12),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              padding: const EdgeInsetsDirectional.only(start: 56),
+              child: SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.8))),
             ),
-          ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            child: Row(
+              children: [
+                const Skeleton.circle(size: 40),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Skeleton.line(width: 110 + 28.0 * (i % 3), height: 14),
+                      const SizedBox(height: 8),
+                      Skeleton.line(width: 190 - 24.0 * (i % 2), height: 12),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
-      ),
+      ],
     );
   }
 }

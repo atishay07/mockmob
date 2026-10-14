@@ -232,7 +232,9 @@ class _LiquidTilePainter extends CustomPainter {
     final local = rect.size;
     EdgeLightPainter(borderRadius: MmRadius.pillAll, top: edgeTop, bottom: edgeBottom.withValues(alpha: 0), sheen: false)
         .paint(canvas, local);
-    LitEdgePainter(color: volt, radius: 24, width: 1.5, wrap: 0.4).paint(canvas, local);
+    // The edge follows the tile's own corner (half its height), so the light wraps the shoulder
+    // instead of cutting across it, at every stretch of the travel.
+    LitEdgePainter(color: volt, radius: local.height / 2, width: 1.5, wrap: 0.4).paint(canvas, local);
     canvas.restore();
   }
 

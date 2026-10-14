@@ -25,7 +25,7 @@ class StateAction {
 /// up to two actions (the volt pill and a quiet one). Empty shows the living Mobi reading,
 /// offline shows Mobi resting, error shows Mobi thinking, in both themes. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass the recovery
 /// action here.
-class StateView extends StatelessWidget {
+class StateView extends StatefulWidget {
   const StateView({
     super.key,
     required this.kind,
@@ -45,8 +45,41 @@ class StateView extends StatelessWidget {
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
 
+  @override
+  State<StateView> createState() => _StateViewState();
+}
+
+class _StateViewState extends State<StateView> {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _action = GlobalKey(debugLabel: 'state-view-action');
+
+  StateViewKind get kind => widget.kind;
+  String get title => widget.title;
+  String? get message => widget.message;
+  StateAction? get primary => widget.primary;
+  StateAction? get secondary => widget.secondary;
+  MobiPose get pose => widget.pose;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mobi's eyes lead the reader to the way out: once the screen is laid out it looks at the
+    // main action (a held glance, not an idle loop). Still under reduced motion.
+    if (widget.primary != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mobi.lookAtWidget(_action);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
   Widget _art(BuildContext context, double size) {
-    if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle);
+    if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle, controller: _mobi);
     // The living Mobi in both themes: reading over an empty sheet, resting while offline,
     // thinking over an error. The lamp-lit raster vignettes stay only behind the MOBI_RASTER
     // fallback, and only on Night, where they melt into the ground.
@@ -61,9 +94,9 @@ class StateView extends StatelessWidget {
       }
     }
     return switch (kind) {
-      StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle),
-      StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle),
-      StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle),
+      StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle, controller: _mobi),
+      StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle, controller: _mobi),
+      StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle, controller: _mobi),
     };
   }
 
@@ -146,7 +179,7 @@ class StateView extends StatelessWidget {
                   const SizedBox(height: MmSpace.s24),
                   MmStaggerItem(
                     index: 3,
-                    child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading),
+                    child: KeyedSubtree(key: _action, child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading)),
                   ),
                 ],
                 if (secondary != null) ...[
