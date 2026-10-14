@@ -108,8 +108,22 @@ Built and verified with goldens (384 x 853, night and day) and unit tests:
 - Finish for now (2.6): `ResultClosing` files the student's own sheet under a volt seal (ring and check draw in), Mobi waves, the receipt line engraves in; 900 ms inside the existing 1.6 s. Goldens `closing_350ms_*`, `closing_1000ms_*`.
 - Tests: `test/unit/practice/choice_and_dial_test.dart` (deck arrangement, a glyph per id, tap haptic, reduced motion, dial semantics, tap and drag ticks, 1.3x text fit, closing). Four existing tests now find the length stops inside `LengthDial` instead of `MmSegmented<int>` (intended: the control was replaced; every assertion is unchanged).
 
+## 5b. Design review pass (14 Oct, third pass)
+
+Applied from the review of the second build; goldens re-rendered and opened (night and day).
+
+- Glyphs are now objects, not line icons (`choice_glyphs.dart`): a solid bolt, an answer sheet part inked, an open book with a ribbon, a target with a wrong bubble at its heart, a stopwatch with a dark face, the NTA palette on its panel, a wrong bubble with a volt ring, a speech bubble. Lit top left to shaded bottom right, a soft drop, drawn in a 24-unit box so one vector serves 40 dp rows and the 104 dp lead. The ghost watermarks are gone (they ran under the copy).
+- Deck roles are visibly different (`choice_deck.dart`): the lead is a hero (104 dp lit object, its own lamp pool and a volt wash, 30 sp title, go disc); pairs are borderless tonal tiles with a 72 dp object; a wide row is a ruled list row with a chevron and no card; quiet stays an outline. `solid` is removed; `ChoiceDeck.onSheet` steps tiles to the sunken tone on the quick-start sheet so they hold on Daylight.
+- The exam band is a full-bleed sunken ground ruled top and bottom (`ChoiceDeck.bleed` takes the page gutter), no rounded container; the tiles inside are borderless.
+- Ticket (`composer_ticket.dart`): a real ticket shape (`TicketBorder`, one path from the card minus two notches), dashed perforation, the subject object at 96 dp (72 dp from 1.2x text) in its own light, the length rolling on the stub. The subject name wraps between words and steps down rather than being cut. The start screen uses the ticket as its own card. On a mock the Difficulty control follows "What you get" instead of sitting under the ticket.
+- Length dial: stops are taller with 28 sp numbers, empty bubbles are full-strength ink 3 rings (3:1 or better), bubbles are larger.
+- Subject chips fade out where more chips wait past an edge.
+- Finish: the figure has clearance above and below, "of 10" sits clear of the digit, and a good set bursts with 24 larger shards, dark-cored bubbles, two rings and a volt flash.
+- Finish for now: the filed sheet is a real card (score, numbered bubbles) under a seal centred on its top edge, with the counts line and the receipt below; `NumberedSheet` is shared with the finish moment.
+- Not done here: the quick-start sheet is still wired in `lib/core/router/quick_start.dart` (core), so the device shows the old list until the merge in section 6. No emulator run yet.
+
 ## 6. For the merge
 
-- `lib/core/router/quick_start.dart` (core, not this track): replace the Column of `QuickStartRow`s with `QuickStartDeck(options: [...])` from `features/practice/widgets/quick_start_deck.dart`, building `ChoiceOption(id:, glyph: QuickStartDeck.glyphFor(id), title:, note:, onTap:)` in the same order and under the same conditions. Ids: `resume`, `quick`, `mock`, `nta`, `repair`, `ask` (Ask is drawn quiet). Pass `noteLines: 2` for the resume option (its count arrives late). The first option leads, so the `lit:` logic goes. Tests in core that look up `QuickStartRow` or the key `quick-start-resume` need the deck's keys (`choice-<id>`).
+- `lib/core/router/quick_start.dart` (core, not this track): replace the Column of `QuickStartRow`s with `QuickStartDeck(options: [...])` from `features/practice/widgets/quick_start_deck.dart`, building `ChoiceOption(id:, glyph: QuickStartDeck.glyphFor(id), title:, note:, onTap:)` in the same order and under the same conditions. Ids: `resume`, `quick`, `mock`, `nta`, `repair`, `ask` (Ask is drawn quiet; the deck is drawn `onSheet`). Pass `noteLines: 2` for the resume option (its count arrives late). The first option leads, so the `lit:` logic goes. Tests in core that look up `QuickStartRow` or the key `quick-start-resume` need the deck's keys (`choice-<id>`).
 - `test/golden/core/sheets_golden_test.dart` and `buttons_golden_test.dart` render the quick-start sheet; their goldens change once the sheet uses the deck.
 - No files outside `lib/features/practice/**`, `test/golden/practice`, `test/unit/practice` and this doc were edited.

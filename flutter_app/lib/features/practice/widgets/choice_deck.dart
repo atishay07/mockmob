@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show OverflowBoxFit;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -42,24 +43,26 @@ class ChoiceOption {
   final int? noteLines;
 }
 
-/// How a row of the deck is laid out. Hierarchy comes from shape and size, not colour.
+/// How a row of the deck is laid out. Hierarchy comes from shape and size, not colour: the lead is
+/// a hero with its own light, pairs are borderless tonal tiles, a wide row is a ruled list row, a
+/// quiet row is an outline.
 sealed class ChoiceRow {
   const ChoiceRow();
 
-  /// The recommended choice: full width, lit, a go disc. One per screen at most.
+  /// The recommended choice: a hero, full width, lit, a large object and a go disc. One per screen at most.
   const factory ChoiceRow.lead(ChoiceOption option) = LeadRow;
 
-  /// Two tiles side by side, equal height.
+  /// Two borderless tonal tiles side by side, equal height.
   const factory ChoiceRow.pair(ChoiceOption first, ChoiceOption second) = PairRow;
 
-  /// One tile across, glyph at the left.
+  /// A list row: no card, the object at the left, a rule under it.
   const factory ChoiceRow.wide(ChoiceOption option) = WideRow;
 
   /// A tertiary choice: hairline only, no fill.
   const factory ChoiceRow.quiet(ChoiceOption option) = QuietRow;
 
-  /// A titled band of rows on a sunken ground ("Exam conditions"), so a group reads as a group
-  /// without a card around cards.
+  /// A titled band of rows on a full-bleed sunken ground ("Exam conditions"), so a group reads as
+  /// a group without a card around cards.
   const factory ChoiceRow.band({required String title, required List<ChoiceRow> rows, String? note}) = BandRow;
 
   List<ChoiceOption> get options;
@@ -132,19 +135,23 @@ List<ChoiceRow> arrangeChoices(List<ChoiceOption> options, {bool leadFirst = tru
   return rows;
 }
 
-/// The chooser: rows of distinct tiles that rise in one after another (40 ms apart, 300 ms
-/// glide) and whose drawn glyphs play their gesture on press. The lead's glyph plays once as it
+/// The chooser: rows of distinct shapes that rise in one after another (40 ms apart, 300 ms
+/// glide) and whose drawn objects play their gesture on press. The lead's object plays once as it
 /// lands. Still under reduced motion.
 class ChoiceDeck extends StatelessWidget {
-  const ChoiceDeck({super.key, required this.rows, this.gap = MmSpace.s8, this.animateIn = true, this.solid = false});
+  const ChoiceDeck({super.key, required this.rows, this.gap = MmSpace.s8, this.animateIn = true, this.bleed = 0, this.onSheet = false});
 
   final List<ChoiceRow> rows;
   final double gap;
   final bool animateIn;
 
-  /// Tiles drawn opaque over the sheet's own colour (the quick-start sheet lets a faint wash of
-  /// the page through, and a tinted tile would let the page's text show).
-  final bool solid;
+  /// How far a band runs past the deck's own width on each side: the page's gutter, so the band's
+  /// ground reaches the screen edges while its tiles stay on the gutter.
+  final double bleed;
+
+  /// The deck sits on a sheet (raised ground): its tiles step down to the sunken tone, so they
+  /// still read on Daylight where a raised tile would vanish into the sheet.
+  final bool onSheet;
 
   static const Duration stagger = Duration(milliseconds: 40);
 
@@ -153,7 +160,7 @@ class ChoiceDeck extends StatelessWidget {
     final children = <Widget>[];
     var slot = 0;
     for (var i = 0; i < rows.length; i++) {
-      if (i > 0) children.add(SizedBox(height: rows[i] is BandRow || rows[i - 1] is BandRow ? MmSpace.s16 : gap));
+      if (i > 0) children.add(SizedBox(height: rows[i] is BandRow || rows[i - 1] is BandRow ? MmSpace.s24 : gap));
       children.add(_row(rows[i], slot));
       slot += rows[i] is BandRow ? (rows[i] as BandRow).rows.length + 1 : 1;
     }
@@ -165,7 +172,7 @@ class ChoiceDeck extends StatelessWidget {
   Widget _row(ChoiceRow row, int slot) {
     switch (row) {
       case LeadRow(:final option):
-        return _rise(slot, LeadChoice(option: option, solid: solid, key: ValueKey('choice-${option.id ?? option.title}')));
+        return _rise(slot, LeadChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
       case PairRow(:final first, :final second):
         return _rise(
           slot,
@@ -174,25 +181,26 @@ class ChoiceDeck extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  child: TileChoice(option: first, solid: solid, key: ValueKey('choice-${first.id ?? first.title}')),
+                  child: TileChoice(option: first, onSheet: onSheet, key: ValueKey('choice-${first.id ?? first.title}')),
                 ),
                 SizedBox(width: gap),
                 Expanded(
-                  child: TileChoice(option: second, solid: solid, key: ValueKey('choice-${second.id ?? second.title}')),
+                  child: TileChoice(option: second, onSheet: onSheet, key: ValueKey('choice-${second.id ?? second.title}')),
                 ),
               ],
             ),
           ),
         );
       case WideRow(:final option):
-        return _rise(slot, WideChoice(option: option, solid: solid, key: ValueKey('choice-${option.id ?? option.title}')));
+        return _rise(slot, WideChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
       case QuietRow(:final option):
         return _rise(slot, QuietChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
       case BandRow(:final title, :final note, :final rows):
         return _Band(
           title: title,
           note: note,
-          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, solid: solid),
+          bleed: bleed,
+          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet),
           rise: (child) => _rise(slot, child),
         );
     }
@@ -251,7 +259,7 @@ class _RiseState extends State<_Rise> with SingleTickerProviderStateMixin {
   );
 }
 
-/// Shared press behaviour for every tile: the spring sink from [MmPressable], the glyph's
+/// Shared press behaviour for every choice: the spring sink from [MmPressable], the object's
 /// gesture the moment a finger lands, a light tick on commit. [entranceDelay] plays the gesture
 /// once after mounting (the lead, as the deck lands).
 class _ChoicePress extends ConsumerStatefulWidget {
@@ -318,60 +326,11 @@ class _ChoicePressState extends ConsumerState<_ChoicePress> with SingleTickerPro
   }
 }
 
-Color _tileFill(MmColors colors, {required bool pressed, required bool solid}) {
-  final tint = pressed ? 0.08 : (colors.isNight ? 0.035 : 0.02);
-  return Color.alphaBlend(colors.ink.withValues(alpha: tint), colors.raised);
-}
-
-/// The surface every filled tile shares: an opaque raised fill, a hairline and the glass edge
-/// light along the top.
-class _TileSurface extends StatelessWidget {
-  const _TileSurface({required this.pressed, required this.solid, required this.child, this.ghost, this.ghostOffset = Offset.zero});
-
-  final bool pressed;
-  final bool solid;
-  final Widget child;
-
-  /// The tile's large faint glyph, bleeding off the bottom right corner by [ghostOffset].
-  final Widget? ghost;
-  final Offset ghostOffset;
-
-  static const BorderRadius radius = MmRadius.panelAll;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final g = ghost;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: _tileFill(colors, pressed: pressed, solid: solid),
-        shape: RoundedSuperellipseBorder(
-          borderRadius: radius,
-          side: BorderSide(color: colors.line),
-        ),
-      ),
-      child: CustomPaint(
-        foregroundPainter: EdgeLightPainter(
-          borderRadius: radius,
-          top: colors.edgeTop,
-          bottom: colors.edgeBottom.withValues(alpha: 0),
-          boost: pressed ? MmElevation.pressedEdgeBoost : 1,
-          sheen: false,
-        ),
-        child: g == null
-            ? child
-            : MmClip(
-                borderRadius: radius,
-                child: Stack(
-                  children: [
-                    Positioned(right: ghostOffset.dx, bottom: ghostOffset.dy, child: g),
-                    child,
-                  ],
-                ),
-              ),
-      ),
-    );
-  }
+/// A tonal step above the ground the deck sits on: no hairline, the glass edge light along the top
+/// does the edging.
+Color _tonalFill(MmColors colors, {required bool pressed, required bool onSheet}) {
+  final base = colors.isNight || onSheet ? colors.raised2 : colors.raised;
+  return pressed ? Color.alphaBlend(colors.ink.withValues(alpha: 0.07), base) : base;
 }
 
 class _Tag extends StatelessWidget {
@@ -418,13 +377,17 @@ Widget _note(BuildContext context, String note, TextStyle style, int? lines) {
   );
 }
 
-/// The recommended choice: full width, the lit edge and its glow, a lamp pool behind the glyph,
-/// a headline title and a volt go disc. Its glyph plays once as the deck lands.
+/// The recommended choice, a hero: full width, the lit edge and its glow, its own pool of lamp
+/// light behind a large lit object, a headline title and a volt go disc. The object plays once as
+/// the deck lands.
 class LeadChoice extends StatelessWidget {
-  const LeadChoice({super.key, required this.option, this.solid = false});
+  const LeadChoice({super.key, required this.option});
 
   final ChoiceOption option;
-  final bool solid;
+
+  /// The object's box, and the room kept for it above the title.
+  static const double objectSize = 104;
+  static const double objectRoom = 88;
 
   @override
   Widget build(BuildContext context) {
@@ -439,48 +402,62 @@ class LeadChoice extends StatelessWidget {
         child: MmClip(
           borderRadius: MmRadius.panelAll,
           child: ColoredBox(
-            color: _tileFill(colors, pressed: pressed, solid: solid),
+            color: Color.alphaBlend(colors.ink.withValues(alpha: pressed ? 0.08 : (colors.isNight ? 0.035 : 0.02)), colors.raised),
             child: Stack(
               children: [
-                // The lamp pooled behind the glyph only, never behind the title.
-                // The lead's own graphic: its glyph large and faint off the top right corner.
+                // The tile's own light: a lamp pool where the object sits, and a faint volt wash
+                // low on the left that the title reads over (never behind the object's detail).
                 Positioned(
-                  right: -28,
-                  top: -34,
-                  child: ChoiceGhost(kind: o.glyph, motion: motion, size: 156, angle: 0.18),
-                ),
-                Positioned(
-                  left: -60,
-                  top: -60,
-                  width: 200,
-                  height: 180,
+                  right: -90,
+                  top: -90,
+                  width: 320,
+                  height: 280,
                   child: LightField(
                     pools: [
                       LightPool(
-                        color: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.2),
+                        color: colors.lamp.withValues(alpha: colors.isNight ? 0.30 : 0.24),
                         center: Alignment.center,
                         radius: 0.5,
                       ),
                     ],
                   ),
                 ),
+                Positioned(
+                  left: -80,
+                  bottom: -90,
+                  width: 280,
+                  height: 200,
+                  child: LightField(
+                    pools: [
+                      LightPool(
+                        color: colors.volt.withValues(alpha: colors.isNight ? 0.07 : 0.14),
+                        center: Alignment.center,
+                        radius: 0.5,
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  right: MmSpace.s12,
+                  top: MmSpace.s8,
+                  child: Transform.rotate(
+                    angle: 0.08,
+                    child: ChoiceGlyph(kind: o.glyph, size: objectSize, lit: true, motion: motion),
+                  ),
+                ),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 136),
+                  constraints: const BoxConstraints(minHeight: 196),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s16),
+                    padding: const EdgeInsets.all(MmSpace.s16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ChoiceGlyph(kind: o.glyph, size: 56, lit: true, motion: motion),
-                            const Spacer(),
-                            if (o.tag != null) _Tag(o.tag!),
-                          ],
+                        SizedBox(
+                          height: objectRoom,
+                          child: Align(alignment: Alignment.topLeft, child: o.tag == null ? null : _Tag(o.tag!)),
                         ),
-                        const SizedBox(height: MmSpace.s12),
+                        const SizedBox(height: MmSpace.s8),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -489,7 +466,7 @@ class LeadChoice extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(o.title, style: type.headline.copyWith(fontSize: 26, height: 29 / 26)),
+                                  Text(o.title, style: type.headline.copyWith(fontSize: 30, height: 32 / 30)),
                                   const SizedBox(height: MmSpace.s4),
                                   _note(context, o.note, type.small.copyWith(fontSize: 15, color: colors.ink2), o.noteLines),
                                   if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
@@ -544,47 +521,68 @@ class _GoDisc extends StatelessWidget {
   }
 }
 
-/// A tile of a pair: glyph top left, the title and a short note at the bottom.
+/// A tile of a pair: borderless, a tonal step above the ground, its object large at the top left
+/// and the title and a short note at the bottom.
 class TileChoice extends StatelessWidget {
-  const TileChoice({super.key, required this.option, this.solid = false});
+  const TileChoice({super.key, required this.option, this.onSheet = false});
 
   final ChoiceOption option;
-  final bool solid;
+  final bool onSheet;
+
+  static const double objectSize = 72;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final o = option;
+    const radius = MmRadius.panelAll;
     return _ChoicePress(
       option: o,
-      builder: (context, pressed, motion) => _TileSurface(
-        pressed: pressed,
-        solid: solid,
-        ghost: ChoiceGhost(kind: o.glyph, motion: motion, size: 118),
-        ghostOffset: const Offset(-26, -30),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 128),
-          child: Padding(
-            padding: const EdgeInsets.all(MmSpace.s12 + 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ChoiceGlyph(kind: o.glyph, motion: motion),
-                    const Spacer(),
-                    if (o.tag != null) _Tag(o.tag!),
-                  ],
-                ),
-                const SizedBox(height: MmSpace.s16),
-                const Spacer(),
-                Text(o.title, style: type.cardTitle.copyWith(fontSize: 16)),
-                const SizedBox(height: 2),
-                _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
-                if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
-              ],
+      builder: (context, pressed, motion) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: _tonalFill(colors, pressed: pressed, onSheet: onSheet),
+          shape: const RoundedSuperellipseBorder(borderRadius: radius),
+          shadows: colors.isNight || onSheet ? null : colors.cardShadow,
+        ),
+        child: CustomPaint(
+          foregroundPainter: EdgeLightPainter(
+            borderRadius: radius,
+            top: colors.edgeTop,
+            bottom: colors.edgeBottom.withValues(alpha: 0),
+            boost: pressed ? MmElevation.pressedEdgeBoost : 1,
+            sheen: false,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 156),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Transform.translate(
+                        offset: const Offset(-4, 0),
+                        child: ChoiceGlyph(kind: o.glyph, size: objectSize, motion: motion),
+                      ),
+                      const Spacer(),
+                      if (o.tag != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: MmSpace.s4),
+                          child: _Tag(o.tag!),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: MmSpace.s12),
+                  const Spacer(),
+                  Text(o.title, style: type.cardTitle.copyWith(fontSize: 17)),
+                  const SizedBox(height: 2),
+                  _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
+                  if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+                ],
+              ),
             ),
           ),
         ),
@@ -593,12 +591,14 @@ class TileChoice extends StatelessWidget {
   }
 }
 
-/// One tile across: the glyph at the left, the title and note beside it, facts below.
+/// One row across, read as a list row: no card, the object at the left, the title and note beside
+/// it, a chevron at the right and a rule under it.
 class WideChoice extends StatelessWidget {
-  const WideChoice({super.key, required this.option, this.solid = false});
+  const WideChoice({super.key, required this.option});
 
   final ChoiceOption option;
-  final bool solid;
+
+  static const double objectSize = 56;
 
   @override
   Widget build(BuildContext context) {
@@ -607,30 +607,30 @@ class WideChoice extends StatelessWidget {
     final o = option;
     return _ChoicePress(
       option: o,
-      pressedScale: 0.98,
-      builder: (context, pressed, motion) => _TileSurface(
-        pressed: pressed,
-        solid: solid,
-        ghost: ChoiceGhost(kind: o.glyph, motion: motion, size: 104, angle: 0.12),
-        ghostOffset: const Offset(-16, -34),
+      radius: MmRadius.smallAll,
+      pressedScale: 0.985,
+      builder: (context, pressed, motion) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: pressed ? colors.ink.withValues(alpha: 0.06) : null,
+          border: Border(bottom: BorderSide(color: colors.line)),
+        ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 84),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12 + 2, MmSpace.s12 + 2, MmSpace.s16, MmSpace.s12 + 2),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ChoiceGlyph(kind: o.glyph, size: 48, motion: motion),
-                const SizedBox(width: MmSpace.s12 + 2),
+                ChoiceGlyph(kind: o.glyph, size: objectSize, motion: motion),
+                const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: 2),
                       Row(
                         children: [
-                          Flexible(child: Text(o.title, style: type.cardTitle.copyWith(fontSize: 16))),
+                          Flexible(child: Text(o.title, style: type.cardTitle.copyWith(fontSize: 17))),
                           if (o.tag != null) ...[const SizedBox(width: MmSpace.s8), _Tag(o.tag!)],
                         ],
                       ),
@@ -640,6 +640,8 @@ class WideChoice extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(width: MmSpace.s8),
+                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
               ],
             ),
           ),
@@ -649,7 +651,7 @@ class WideChoice extends StatelessWidget {
   }
 }
 
-/// A tertiary choice: hairline only, the glyph small, one line.
+/// A tertiary choice: hairline only, the object small, one line.
 class QuietChoice extends StatelessWidget {
   const QuietChoice({super.key, required this.option});
 
@@ -678,7 +680,7 @@ class QuietChoice extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
             child: Row(
               children: [
-                ChoiceGlyph(kind: o.glyph, size: 36, motion: motion),
+                ChoiceGlyph(kind: o.glyph, size: 40, motion: motion),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
@@ -699,33 +701,34 @@ class QuietChoice extends StatelessWidget {
   }
 }
 
-/// A titled group on a sunken ground: a background change, not a card around cards.
+/// A titled group on a full-bleed sunken ground, ruled top and bottom: a change of ground, not a
+/// card around cards. The tiles inside keep the page's gutter.
 class _Band extends StatelessWidget {
-  const _Band({required this.title, required this.child, required this.rise, this.note});
+  const _Band({required this.title, required this.child, required this.rise, required this.bleed, this.note});
 
   final String title;
   final String? note;
   final Widget child;
   final Widget Function(Widget child) rise;
+  final double bleed;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
+    final band = DecoratedBox(
+      decoration: BoxDecoration(
         color: colors.sunken,
-        // A ground change only, no outline: the tiles inside are the only edges.
-        shape: const RoundedSuperellipseBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
+        border: Border.symmetric(horizontal: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s12, MmSpace.s8, MmSpace.s8),
+        padding: EdgeInsets.fromLTRB(bleed, MmSpace.s16, bleed, MmSpace.s16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             rise(
               Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s8, 0, MmSpace.s8, MmSpace.s12),
+                padding: const EdgeInsets.only(bottom: MmSpace.s12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -747,6 +750,15 @@ class _Band extends StatelessWidget {
             child,
           ],
         ),
+      ),
+    );
+    if (bleed <= 0) return band;
+    return LayoutBuilder(
+      builder: (context, constraints) => OverflowBox(
+        minWidth: constraints.maxWidth + 2 * bleed,
+        maxWidth: constraints.maxWidth + 2 * bleed,
+        fit: OverflowBoxFit.deferToChild,
+        child: band,
       ),
     );
   }

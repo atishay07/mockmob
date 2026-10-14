@@ -12,6 +12,8 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/rhythm.dart' show LateNightLine;
 import '../copy.dart';
+import '../model/finish_reaction.dart';
+import 'numbered_sheet.dart';
 import 'practice_app_bar.dart';
 
 class ResultLoadFailed extends StatelessWidget {
@@ -25,18 +27,22 @@ class ResultLoadFailed extends StatelessWidget {
 }
 
 /// The ending after "Finish for now": the sheet is filed. Mobi waves above the student's own
-/// sheet, which settles into its tray (a 16 dp drop and a slight shrink, 420 ms emphasized); a
-/// volt seal draws its ring and check over the sheet's corner; then the receipt line engraves in.
-/// About 900 ms in all, inside the 1.6 s before Today takes over. Reduced motion shows the end at
-/// once. The receipt line is in the tree from the first frame (only its opacity moves), so a
-/// screen reader hears it at once.
+/// sheet, a card with the score and every numbered bubble, which settles into its tray (a 16 dp
+/// drop and a slight shrink, 420 ms emphasized); a volt seal sitting on the card's top edge draws
+/// its ring and check; then the counts and the receipt line engrave in. About 900 ms in all,
+/// inside the 1.6 s before Today takes over. Reduced motion shows the end at once. The receipt
+/// line is in the tree from the first frame (only its opacity moves), so a screen reader hears it
+/// at once.
 class ResultClosing extends StatefulWidget {
-  const ResultClosing({super.key, required this.text, this.cells = const []});
+  const ResultClosing({super.key, required this.text, this.cells = const [], this.marks});
 
   final String text;
 
   /// The student's sheet, in question order. Empty draws the seal and the line alone.
   final List<QuestionCell> cells;
+
+  /// The server's counts, when the screen has them; otherwise they are read off [cells].
+  final FinishMarks? marks;
 
   static const Duration duration = Duration(milliseconds: 900);
 
@@ -48,9 +54,18 @@ class _ResultClosingState extends State<ResultClosing> with SingleTickerProvider
   late final AnimationController _c = AnimationController(vsync: this, duration: ResultClosing.duration);
 
   // The beats, as intervals of the whole.
-  late final Animation<double> _file = CurvedAnimation(parent: _c, curve: const Interval(0, 0.47, curve: Motion.emphasized));
-  late final Animation<double> _seal = CurvedAnimation(parent: _c, curve: const Interval(0.28, 0.75, curve: Curves.easeOutCubic));
-  late final Animation<double> _line = CurvedAnimation(parent: _c, curve: const Interval(0.62, 0.93, curve: Motion.glide));
+  late final Animation<double> _file = CurvedAnimation(
+    parent: _c,
+    curve: const Interval(0, 0.47, curve: Motion.emphasized),
+  );
+  late final Animation<double> _seal = CurvedAnimation(
+    parent: _c,
+    curve: const Interval(0.28, 0.75, curve: Curves.easeOutCubic),
+  );
+  late final Animation<double> _line = CurvedAnimation(
+    parent: _c,
+    curve: const Interval(0.62, 0.93, curve: Motion.glide),
+  );
   bool _started = false;
 
   @override
@@ -71,48 +86,81 @@ class _ResultClosingState extends State<ResultClosing> with SingleTickerProvider
     super.dispose();
   }
 
+  /// The marks to show: the server's, or what the sheet itself says.
+  FinishMarks? get _marks {
+    final given = widget.marks;
+    if (given != null) return given;
+    final cells = widget.cells;
+    if (cells.isEmpty) return null;
+    int n(bool Function(QuestionCell) test) => cells.where(test).length;
+    return FinishMarks(
+      correct: n((c) => c == QuestionCell.right),
+      wrong: n((c) => c == QuestionCell.wrong || c == QuestionCell.repaired),
+      blank: n((c) => c == QuestionCell.blank),
+      total: cells.length,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
+    final marks = _marks;
     return Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          Positioned(top: 0, left: 0, right: 0, height: 420, child: IgnorePointer(child: LightField.lamp(context, strength: 0.7))),
+          Positioned(top: 0, left: 0, right: 0, height: 460, child: IgnorePointer(child: LightField.lamp(context, strength: 0.7))),
           SafeArea(
             child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 420),
-                child: Padding(
-                  padding: const EdgeInsets.all(MmSpace.s24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Center(child: MobiCharacter(size: 112, entrance: MobiAct.hello, seed: 23)),
-                      const SizedBox(height: MmSpace.s12),
-                      AnimatedBuilder(
-                        animation: _file,
-                        builder: (context, child) {
-                          final f = _file.value;
-                          return Transform.translate(
-                            offset: Offset(0, -16 * (1 - f)),
-                            child: Transform.scale(scale: 1.03 - 0.03 * f, child: child),
-                          );
-                        },
-                        child: _FiledSheet(cells: widget.cells, seal: _seal),
-                      ),
-                      const SizedBox(height: MmSpace.s24),
-                      AnimatedBuilder(
-                        animation: _line,
-                        builder: (context, child) => Opacity(
-                          opacity: _line.value,
-                          child: Transform.translate(offset: Offset(0, 6 * (1 - _line.value)), child: child),
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Padding(
+                    padding: const EdgeInsets.all(MmSpace.s24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Center(child: MobiCharacter(size: 128, entrance: MobiAct.hello, seed: 23)),
+                        // The seal rises half its height above the card; this keeps it clear of Mobi.
+                        const SizedBox(height: MmSpace.s24 + _FiledSheet.sealSize / 2),
+                        AnimatedBuilder(
+                          animation: _file,
+                          builder: (context, child) {
+                            final f = _file.value;
+                            return Transform.translate(
+                              offset: Offset(0, -16 * (1 - f)),
+                              child: Transform.scale(scale: 1.03 - 0.03 * f, child: child),
+                            );
+                          },
+                          child: _FiledSheet(cells: widget.cells, marks: marks, seal: _seal),
                         ),
-                        child: Semantics(liveRegion: true, child: ReceiptLine(text: widget.text)),
-                      ),
-                      const LateNightLine(),
-                    ],
+                        const SizedBox(height: MmSpace.s24),
+                        AnimatedBuilder(
+                          animation: _line,
+                          builder: (context, child) => Opacity(
+                            opacity: _line.value,
+                            child: Transform.translate(offset: Offset(0, 6 * (1 - _line.value)), child: child),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (marks != null) ...[
+                                Text(
+                                  PracticeCopy.countsLine(marks.correct, marks.wrong, marks.blank),
+                                  textAlign: TextAlign.center,
+                                  style: type.lead.copyWith(color: colors.ink),
+                                ),
+                                const SizedBox(height: MmSpace.s16),
+                              ],
+                              Semantics(liveRegion: true, child: ReceiptLine(text: widget.text)),
+                            ],
+                          ),
+                        ),
+                        const LateNightLine(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -124,56 +172,71 @@ class _ResultClosingState extends State<ResultClosing> with SingleTickerProvider
   }
 }
 
-/// The filed sheet: the student's bubbles on a raised card, a volt seal over its top right corner.
+/// The filed sheet: a raised card with the score and the student's numbered bubbles, and the volt
+/// seal sitting on the middle of its top edge.
 class _FiledSheet extends StatelessWidget {
-  const _FiledSheet({required this.cells, required this.seal});
+  const _FiledSheet({required this.cells, required this.marks, required this.seal});
 
   final List<QuestionCell> cells;
+  final FinishMarks? marks;
   final Animation<double> seal;
 
-  static const double sealSize = 52;
+  static const double sealSize = 56;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
+    final m = marks;
     return Stack(
       clipBehavior: Clip.none,
       children: [
         ExcludeSemantics(
-          child: DecoratedBox(
-            decoration: ShapeDecoration(
-              color: colors.raised,
-              shape: RoundedSuperellipseBorder(
-                borderRadius: MmRadius.panelAll,
-                side: BorderSide(color: colors.line),
+          child: LitEdge(
+            child: DecoratedBox(
+              decoration: ShapeDecoration(
+                color: colors.raised,
+                shape: RoundedSuperellipseBorder(
+                  borderRadius: MmRadius.panelAll,
+                  side: BorderSide(color: colors.line),
+                ),
+                shadows: colors.cardShadow,
               ),
-              shadows: colors.cardShadow,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s20, MmSpace.s16 + sealSize / 2, MmSpace.s20),
-              child: cells.isEmpty
-                  ? const SizedBox(height: 24)
-                  : LayoutBuilder(
-                      builder: (context, constraints) {
-                        final columns = cells.length <= 10 ? cells.length : 10;
-                        final cell = ((constraints.maxWidth - (columns - 1) * 4) / columns).clamp(12.0, 22.0);
-                        return Align(
-                          alignment: Alignment.centerLeft,
-                          child: QuestionStrip(cells: cells, columns: columns, cellSize: cell, gap: 4),
-                        );
-                      },
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s20, sealSize / 2 + MmSpace.s16, MmSpace.s20, MmSpace.s20),
+                child: m == null || cells.isEmpty
+                    ? const SizedBox(height: 28)
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Center(
+                            child: MonumentalNumber(
+                              value: PracticeCopy.figureNumber(m.correct),
+                              unit: '  ${PracticeCopy.figureUnit(m.total)}',
+                              style: type.figureCompact.copyWith(fontSize: 64),
+                              roll: false,
+                            ),
+                          ),
+                          const SizedBox(height: MmSpace.s16),
+                          NumberedSheet(cells: cells),
+                        ],
+                      ),
+              ),
             ),
           ),
         ),
         Positioned(
-          top: -sealSize / 3,
-          right: -MmSpace.s4,
+          top: -sealSize / 2,
+          left: 0,
+          right: 0,
           child: ExcludeSemantics(
-            child: RepaintBoundary(
-              child: CustomPaint(
-                size: const Size.square(sealSize),
-                painter: _SealPainter(t: seal, colors: colors),
+            child: Center(
+              child: RepaintBoundary(
+                child: CustomPaint(
+                  size: const Size.square(sealSize),
+                  painter: _SealPainter(t: seal, colors: colors),
+                ),
               ),
             ),
           ),

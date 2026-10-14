@@ -222,7 +222,11 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                             const SizedBox(height: MmSpace.s20),
                             Text(PracticeCopy.gettingReady, style: type.title, textAlign: TextAlign.center),
                             const SizedBox(height: MmSpace.s8),
-                            Text(PracticeCopy.gettingReadyNote, style: type.small.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                            Text(
+                              PracticeCopy.gettingReadyNote,
+                              style: type.small.copyWith(color: colors.ink2),
+                              textAlign: TextAlign.center,
+                            ),
                             const SizedBox(height: MmSpace.s32),
                             // The paper being drawn, so the subject and length chosen are seen
                             // while the questions come: its ticket rises in once it is known.
@@ -241,18 +245,17 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
 }
 
 /// The paper on its way: the same ticket the confirm step shows (the subject's object, the mode,
-/// the subject and the length), on a raised card. It rises in once the selection is known and
+/// the subject and the length on its stub). It rises in once the selection is known and
 /// keeps its height before then, so nothing jumps.
 class _PaperTicket extends ConsumerWidget {
   const _PaperTicket({required this.selection});
 
   final PracticeSelection? selection;
 
-  static const double height = 102;
+  static const double height = 124;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.mmColors;
     final s = selection;
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final Widget child;
@@ -261,26 +264,13 @@ class _PaperTicket extends ConsumerWidget {
     } else {
       final mode = modeTitle(s.mode);
       final subject = subjectNameFor(s.subjectId, catalog);
-      child = DecoratedBox(
+      child = ComposerTicket(
         key: ValueKey('${s.subjectId}-${s.count}'),
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: MmRadius.panelAll,
-            side: BorderSide(color: colors.line),
-          ),
-          shadows: colors.cardShadow,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(MmSpace.s16),
-          child: ComposerTicket(
-            subjectId: s.subjectId,
-            eyebrow: mode,
-            subject: subject,
-            count: s.mode.usesCount ? s.count : mockQuestionCount,
-            semanticsLabel: PracticeCopy.confirmTitle(mode, subject),
-          ),
-        ),
+        subjectId: s.subjectId,
+        eyebrow: mode,
+        subject: subject,
+        count: s.mode.usesCount ? s.count : mockQuestionCount,
+        semanticsLabel: PracticeCopy.confirmTitle(mode, subject),
       );
     }
     return ConstrainedBox(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,10 +13,12 @@ import '../copy.dart';
 import '../data/practice_catalog.dart';
 import 'subject_accent.dart';
 
-/// The head of the confirm step, read like a ticket: the subject's object in its own light, the
-/// mode and the subject, and the length as a big number on the right. A new subject slides its
-/// object in; a new length rolls the number. So the paper about to start is seen, not only read
-/// (owner feedback 1110: "starting from Business Studies ... redirecting me to Accountancy").
+/// The head of the confirm step, a ticket: a card with a half-round notch cut into its top and
+/// bottom edge where the stub tears off, a dashed perforation between the notches, the subject's
+/// object at hero scale in its own light on the left, the mode and the subject beside it, and the
+/// length as a big number on the stub. A new subject slides its object in; a new length rolls the
+/// number. So the paper about to start is seen, not only read (owner feedback 1110: "starting
+/// from Business Studies ... redirecting me to Accountancy").
 class ComposerTicket extends StatelessWidget {
   const ComposerTicket({
     super.key,
@@ -32,7 +35,12 @@ class ComposerTicket extends StatelessWidget {
   final int count;
   final String semanticsLabel;
 
-  static const double object = 68;
+  /// The subject object's box, and its smaller size from large text up (the name needs the room).
+  static const double object = 96;
+  static const double objectLarge = 72;
+
+  /// The stub's width, measured from the right edge to the perforation.
+  static const double stubWidth = 84;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +48,12 @@ class ComposerTicket extends StatelessWidget {
     final type = context.mmType;
     final reduced = Motion.reduced(context);
     final glide = reduced ? Duration.zero : Motion.glideDuration;
+    final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.language;
+    final size = MediaQuery.textScalerOf(context).scale(1) >= 1.2 ? objectLarge : object;
+    final shape = TicketBorder(
+      stub: stubWidth,
+      side: BorderSide(color: colors.line),
+    );
 
     Widget slideIn(Widget child, Animation<double> a, {Offset from = const Offset(0.18, 0)}) => FadeTransition(
       opacity: a,
@@ -53,57 +67,198 @@ class ComposerTicket extends StatelessWidget {
       header: true,
       label: semanticsLabel,
       excludeSemantics: true,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox.square(
-            dimension: object,
-            child: AnimatedSwitcher(
-              duration: glide,
-              switchInCurve: Curves.linear,
-              switchOutCurve: Motion.exit,
-              transitionBuilder: (child, a) => slideIn(child, a),
-              child: _SubjectObject(key: ValueKey(subjectId), subjectId: subjectId),
-            ),
-          ),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: colors.raised, shape: shape, shadows: colors.cardShadow),
+        child: CustomPaint(
+          foregroundPainter: _PerforationPainter(color: colors.lineStrong, stub: stubWidth, notch: shape.notch),
+          child: ClipPath(
+            clipper: ShapeBorderClipper(shape: shape),
+            child: Stack(
               children: [
-                Text(
-                  eyebrow,
-                  style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2),
-                ),
-                const SizedBox(height: 2),
-                AnimatedSwitcher(
-                  duration: glide,
-                  layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-                  transitionBuilder: (child, a) => slideIn(child, a, from: const Offset(0, 0.35)),
-                  child: Text(subject, key: ValueKey(subject), style: type.screenTitle.copyWith(fontSize: 24)),
-                ),
-                const SizedBox(height: MmSpace.s6),
-                DecoratedBox(
-                  decoration: ShapeDecoration(color: context.subjectAccentOf(subjectId), shape: const StadiumBorder()),
-                  child: const SizedBox(width: 28, height: 3),
+                // The subject's own light washes the ticket from the object's side.
+                Positioned.fill(child: LightField.subject(context, light, center: const Alignment(-0.85, 0), strength: 0.85)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, 0, MmSpace.s12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox.square(
+                              dimension: size,
+                              child: AnimatedSwitcher(
+                                duration: glide,
+                                switchInCurve: Curves.linear,
+                                switchOutCurve: Motion.exit,
+                                transitionBuilder: (child, a) => slideIn(child, a),
+                                child: _SubjectObject(key: ValueKey('$subjectId-$size'), subjectId: subjectId, size: size),
+                              ),
+                            ),
+                            const SizedBox(width: MmSpace.s8),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: MmSpace.s4),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      eyebrow,
+                                      style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    LayoutBuilder(
+                                      builder: (context, constraints) {
+                                        final name = _fitName(
+                                          context,
+                                          subject,
+                                          type.screenTitle.copyWith(fontSize: 24, height: 1.08),
+                                          constraints.maxWidth,
+                                        );
+                                        return AnimatedSwitcher(
+                                          duration: glide,
+                                          layoutBuilder: (current, previous) =>
+                                              Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                                          transitionBuilder: (child, a) => slideIn(child, a, from: const Offset(0, 0.35)),
+                                          child: Text(
+                                            subject,
+                                            key: ValueKey(subject),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: name,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: MmSpace.s8),
+                                    DecoratedBox(
+                                      decoration: ShapeDecoration(color: context.subjectAccentOf(subjectId), shape: const StadiumBorder()),
+                                      child: const SizedBox(width: 32, height: 3),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: stubWidth,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: MmSpace.s4),
+                          child: _CountFigure(count: count),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: MmSpace.s8),
-          _CountFigure(count: count),
-        ],
+        ),
       ),
     );
   }
 }
 
+/// [style] for a subject name in [width], stepped down (never below 14) until its longest word
+/// fits on a line, so a name may wrap between words but is never cut inside one.
+TextStyle _fitName(BuildContext context, String name, TextStyle style, double width) {
+  final scaler = MediaQuery.textScalerOf(context);
+  final words = name.split(' ');
+  var size = style.fontSize ?? 24;
+  for (; size > 14; size -= 1) {
+    var widest = 0.0;
+    for (final word in words) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: word,
+          style: style.copyWith(fontSize: size),
+        ),
+        textDirection: TextDirection.ltr,
+        textScaler: scaler,
+      )..layout();
+      if (tp.width > widest) widest = tp.width;
+      tp.dispose();
+    }
+    if (widest <= width) break;
+  }
+  return style.copyWith(fontSize: size);
+}
+
+/// A rounded card with a half-round notch bitten out of its top and bottom edge, [stub] from the
+/// right: the shape of a ticket. Built as one path from the card and two circles (the notches),
+/// outlined by [side] along its whole edge, notches included.
+class TicketBorder extends ShapeBorder {
+  const TicketBorder({this.stub = 84, this.notch = 9, this.radius = 24, this.side = BorderSide.none});
+
+  final double stub;
+  final double notch;
+  final double radius;
+  final BorderSide side;
+
+  Path _path(Rect rect) {
+    final x = rect.right - stub;
+    return Path.combine(
+      PathOperation.difference,
+      Path()..addRRect(RRect.fromRectAndRadius(rect, Radius.circular(radius))),
+      Path()
+        ..addOval(Rect.fromCircle(center: Offset(x, rect.top), radius: notch))
+        ..addOval(Rect.fromCircle(center: Offset(x, rect.bottom), radius: notch)),
+    );
+  }
+
+  @override
+  EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
+
+  @override
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) => _path(rect);
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) => _path(rect);
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+    if (side.style == BorderStyle.none) return;
+    canvas.drawPath(_path(rect.deflate(side.width / 2)), side.toPaint());
+  }
+
+  @override
+  ShapeBorder scale(double t) => TicketBorder(stub: stub * t, notch: notch * t, radius: radius * t, side: side.scale(t));
+}
+
+/// The dashed tear line between the two notches.
+class _PerforationPainter extends CustomPainter {
+  const _PerforationPainter({required this.color, required this.stub, required this.notch});
+
+  final Color color;
+  final double stub;
+  final double notch;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final x = size.width - stub;
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.2
+      ..strokeCap = StrokeCap.round;
+    for (var y = notch + 6; y < size.height - notch - 6; y += 8) {
+      canvas.drawLine(Offset(x, y), Offset(x, math.min(y + 3.5, size.height - notch - 4)), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_PerforationPainter old) => old.color != color || old.stub != stub || old.notch != notch;
+}
+
 /// The subject's object on a round pool of its light.
 class _SubjectObject extends StatelessWidget {
-  const _SubjectObject({super.key, required this.subjectId});
+  const _SubjectObject({super.key, required this.subjectId, required this.size});
 
   final String subjectId;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +270,8 @@ class _SubjectObject extends StatelessWidget {
         ClipOval(child: LightField.subject(context, light, center: Alignment.center, strength: 1)),
         if (art != null)
           Padding(
-            padding: const EdgeInsets.all(4),
-            child: ArtImage(art, width: ComposerTicket.object - 8),
+            padding: const EdgeInsets.all(2),
+            child: ArtImage(art, width: size - 4),
           ),
       ],
     );
@@ -136,13 +291,13 @@ class _CountFigure extends StatelessWidget {
     final type = context.mmType;
     final reduced = Motion.reduced(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         ClipRect(
           child: AnimatedSwitcher(
             duration: reduced ? Duration.zero : Motion.glideDuration,
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerRight, children: [...previous, ?current]),
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.center, children: [...previous, ?current]),
             transitionBuilder: (child, a) {
               final entering = child.key == ValueKey(count);
               final slide = Tween(begin: Offset(0, entering ? 0.6 : -0.6), end: Offset.zero).chain(CurveTween(curve: Motion.emphasized));
@@ -151,11 +306,7 @@ class _CountFigure extends StatelessWidget {
                 child: SlideTransition(position: slide.animate(a), child: child),
               );
             },
-            child: Text(
-              '$count',
-              key: ValueKey(count),
-              style: type.figureCompact.copyWith(fontSize: 44, height: 44 / 44),
-            ),
+            child: Text('$count', key: ValueKey(count), style: type.figureCompact.copyWith(fontSize: 56, height: 1)),
           ),
         ),
         Text(PracticeCopy.questionsUnit, style: type.caption.copyWith(color: colors.ink2)),
@@ -187,10 +338,32 @@ class _SubjectChipsState extends ConsumerState<SubjectChips> {
   final ScrollController _scroll = ScrollController();
   final GlobalKey _selectedKey = GlobalKey();
 
+  /// Whether more chips wait past the left or right edge: the strip fades out there, so a chip
+  /// cut by the edge reads as "scrolls", not as a clipped label.
+  bool _fadeLeft = false;
+  bool _fadeRight = false;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _reveal(animate: false));
+    _scroll.addListener(_edges);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _reveal(animate: false);
+      _edges();
+    });
+  }
+
+  void _edges() {
+    if (!mounted || !_scroll.hasClients) return;
+    final m = _scroll.position;
+    final left = m.pixels > 2;
+    final right = m.pixels < m.maxScrollExtent - 2;
+    if (left != _fadeLeft || right != _fadeRight) {
+      setState(() {
+        _fadeLeft = left;
+        _fadeRight = right;
+      });
+    }
   }
 
   @override
@@ -209,8 +382,32 @@ class _SubjectChipsState extends ConsumerState<SubjectChips> {
 
   @override
   void dispose() {
-    _scroll.dispose();
+    _scroll
+      ..removeListener(_edges)
+      ..dispose();
     super.dispose();
+  }
+
+  /// The strip, faded to nothing over its last [fade] dp on each side that has more chips. Always
+  /// wrapped, so the list keeps its scroll position when a fade comes or goes.
+  Widget _faded(Widget strip) {
+    const fade = 28.0;
+    return ShaderMask(
+      blendMode: BlendMode.dstIn,
+      shaderCallback: (rect) {
+        final f = (fade / rect.width).clamp(0.0, 0.5);
+        return LinearGradient(
+          colors: [
+            _fadeLeft ? const Color(0x00FFFFFF) : const Color(0xFFFFFFFF),
+            const Color(0xFFFFFFFF),
+            const Color(0xFFFFFFFF),
+            _fadeRight ? const Color(0x00FFFFFF) : const Color(0xFFFFFFFF),
+          ],
+          stops: [0, f, 1 - f, 1],
+        ).createShader(rect);
+      },
+      child: strip,
+    );
   }
 
   @override
@@ -221,28 +418,36 @@ class _SubjectChipsState extends ConsumerState<SubjectChips> {
       label: PracticeCopy.subjectLabel,
       child: SizedBox(
         height: SubjectChips.height,
-        child: ListView.separated(
-          controller: _scroll,
-          scrollDirection: Axis.horizontal,
-          clipBehavior: Clip.none,
-          itemCount: choices.length + (widget.onMore == null ? 0 : 1),
-          separatorBuilder: (_, _) => const SizedBox(width: MmSpace.s8),
-          itemBuilder: (context, i) {
-            if (i == choices.length) return _MoreChip(onTap: widget.onMore!);
-            final c = choices[i];
-            final selected = c.id == widget.selectedId;
-            return _SubjectChip(
-              key: selected ? _selectedKey : ValueKey(c.id),
-              id: c.id,
-              name: c.name,
-              selected: selected,
-              onTap: () {
-                if (selected) return;
-                unawaited(ref.read(hapticsProvider).selection());
-                widget.onSelected(c.id);
-              },
-            );
+        child: NotificationListener<ScrollMetricsNotification>(
+          onNotification: (_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) => _edges());
+            return false;
           },
+          child: _faded(
+            ListView.separated(
+              controller: _scroll,
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
+              itemCount: choices.length + (widget.onMore == null ? 0 : 1),
+              separatorBuilder: (_, _) => const SizedBox(width: MmSpace.s8),
+              itemBuilder: (context, i) {
+                if (i == choices.length) return _MoreChip(onTap: widget.onMore!);
+                final c = choices[i];
+                final selected = c.id == widget.selectedId;
+                return _SubjectChip(
+                  key: selected ? _selectedKey : ValueKey(c.id),
+                  id: c.id,
+                  name: c.name,
+                  selected: selected,
+                  onTap: () {
+                    if (selected) return;
+                    unawaited(ref.read(hapticsProvider).selection());
+                    widget.onSelected(c.id);
+                  },
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

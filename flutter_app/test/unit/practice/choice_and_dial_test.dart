@@ -1,12 +1,16 @@
 // UI blitz, practice track (14 Oct): the chooser's layout rules, the length dial's semantics,
 // taps, drag and haptics, and the filed-sheet ending after "Finish for now".
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/practice/data/practice_catalog.dart' show SubjectChoice;
 import 'package:mockmob/features/practice/widgets/choice_deck.dart';
+import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
+import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:mockmob/features/practice/widgets/quick_start_deck.dart';
 import 'package:mockmob/features/practice/widgets/result_states.dart';
@@ -45,7 +49,9 @@ Future<_Recorder> _pump(WidgetTester tester, Widget child, {double textScale = 1
             child: child!,
           ),
           home: Scaffold(
-            body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: child)),
+            body: SafeArea(
+              child: Padding(padding: const EdgeInsets.all(16), child: child),
+            ),
           ),
         ),
       ),
@@ -69,12 +75,8 @@ class _DialState extends State<_Dial> {
   int count = 10;
 
   @override
-  Widget build(BuildContext context) => LengthDial(
-    count: count,
-    counts: const [5, 10, 15, 20],
-    semanticsLabel: 'Questions',
-    onChanged: (c) => setState(() => count = c),
-  );
+  Widget build(BuildContext context) =>
+      LengthDial(count: count, counts: const [5, 10, 15, 20], semanticsLabel: 'Questions', onChanged: (c) => setState(() => count = c));
 }
 
 void main() {
@@ -98,7 +100,9 @@ void main() {
     });
 
     test('every quick-start id draws its own glyph', () {
-      final kinds = {for (final id in ['resume', 'quick', 'mock', 'nta', 'repair', 'ask']) QuickStartDeck.glyphFor(id)};
+      final kinds = {
+        for (final id in ['resume', 'quick', 'mock', 'nta', 'repair', 'ask']) QuickStartDeck.glyphFor(id),
+      };
       expect(kinds.length, 6);
       expect(QuickStartDeck.glyphFor('ask'), ChoiceGlyphKind.ask);
     });
@@ -123,11 +127,52 @@ void main() {
       expect(haptics.calls, ['light']);
     });
 
+    testWidgets('no choice carries a watermark behind its text: each object sits clear of the copy', (tester) async {
+      await _pump(
+        tester,
+        SingleChildScrollView(
+          child: QuickStartDeck(
+            options: [
+              for (final id in ['quick', 'mock', 'nta', 'repair', 'ask']) _o(id),
+            ],
+          ),
+        ),
+        reduceMotion: true,
+      );
+      for (final id in ['mock', 'nta']) {
+        final tile = tester.getRect(find.byKey(ValueKey('choice-$id')));
+        final glyph = tester.getRect(find.descendant(of: find.byKey(ValueKey('choice-$id')), matching: find.byType(ChoiceGlyph)));
+        final title = tester.getRect(find.text('Title $id'));
+        expect(tile.contains(glyph.center), isTrue, reason: id);
+        expect(glyph.bottom <= title.top, isTrue, reason: '$id: the object ends above its title');
+      }
+    });
+
+    testWidgets('a band runs past the deck by its bleed and keeps its tiles on the deck width', (tester) async {
+      await _pump(
+        tester,
+        SingleChildScrollView(
+          child: ChoiceDeck(
+            bleed: 16,
+            animateIn: false,
+            rows: [
+              ChoiceRow.band(title: 'Exam conditions', rows: [ChoiceRow.pair(_o('mock'), _o('nta'))]),
+            ],
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      // The page pads the deck by 16, so a band bled by 16 reaches the screen edges.
+      final band = tester.getRect(find.ancestor(of: find.text('Exam conditions'), matching: find.byType(DecoratedBox)).first);
+      expect(band.left, 0);
+      expect(band.right, 384);
+      expect(tester.getRect(find.byKey(const ValueKey('choice-mock'))).left, 16);
+    });
+
     testWidgets('under reduced motion the deck is in place on the first frame', (tester) async {
       await _pump(tester, QuickStartDeck(options: [_o('quick'), _o('mock'), _o('nta')]), reduceMotion: true);
-      final opacities = tester.widgetList<Opacity>(
-        find.ancestor(of: find.byType(LeadChoice), matching: find.byType(Opacity)),
-      );
+      final opacities = tester.widgetList<Opacity>(find.ancestor(of: find.byType(LeadChoice), matching: find.byType(Opacity)));
       expect(opacities.every((o) => o.opacity == 1), isTrue);
     });
   });
@@ -179,22 +224,85 @@ void main() {
     });
   });
 
+  group('the ticket', () {
+    for (final scale in [1.0, 1.3]) {
+      testWidgets('at ${scale}x text a long name wraps between words and the stub stays whole', (tester) async {
+        await _pump(
+          tester,
+          const ComposerTicket(
+            subjectId: 'bst',
+            eyebrow: 'Quick practice',
+            subject: 'Business Studies',
+            count: 20,
+            semanticsLabel: 'Quick practice, Business Studies',
+          ),
+          textScale: scale,
+        );
+        await tester.pump(const Duration(milliseconds: 500));
+        expect(tester.takeException(), isNull);
+        final name = tester.getRect(find.text('Business Studies'));
+        final card = tester.getRect(find.byType(ComposerTicket));
+        expect(card.contains(name.bottomRight), isTrue);
+        // The stub's number sits right of the perforation, the name left of it.
+        expect(name.right <= tester.getRect(find.text('20')).left, isTrue);
+        // No word is cut: each word of the name fits on its own line.
+        final paragraph = tester.renderObject<RenderParagraph>(find.text('Business Studies'));
+        expect(paragraph.didExceedMaxLines, isFalse);
+      });
+    }
+
+    testWidgets('the number on the stub rolls when the length changes', (tester) async {
+      Widget ticket(int n) =>
+          ComposerTicket(subjectId: 'acc', eyebrow: 'Quick practice', subject: 'Accountancy', count: n, semanticsLabel: 'x');
+      await _pump(tester, ticket(10));
+      await tester.pump(const Duration(milliseconds: 500));
+      await _pump(tester, ticket(15));
+      await tester.pump(const Duration(milliseconds: 80));
+      // Mid-roll both numbers are in the tree.
+      expect(find.text('10'), findsOneWidget);
+      expect(find.text('15'), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(find.text('10'), findsNothing);
+      expect(find.text('15'), findsOneWidget);
+    });
+
+    testWidgets('the ticket shape has a notch cut into its top and bottom edge', (tester) async {
+      const shape = TicketBorder(stub: 80, notch: 9);
+      const rect = Rect.fromLTWH(0, 0, 300, 120);
+      final path = shape.getOuterPath(rect);
+      expect(path.contains(const Offset(220, 0.5)), isFalse, reason: 'the top notch');
+      expect(path.contains(const Offset(220, 119.5)), isFalse, reason: 'the bottom notch');
+      expect(path.contains(const Offset(150, 0.5)), isTrue);
+      expect(path.contains(const Offset(220, 60)), isTrue);
+    });
+  });
+
+  group('the subject strip', () {
+    testWidgets('fades where chips wait past the edge', (tester) async {
+      final choices = [
+        for (final id in ['accountancy', 'english', 'economics', 'business', 'maths'])
+          SubjectChoice(id, id[0].toUpperCase() + id.substring(1)),
+      ];
+      await _pump(tester, SubjectChips(choices: choices, selectedId: 'accountancy', onSelected: (_) {}, onMore: () {}));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.descendant(of: find.byType(SubjectChips), matching: find.byType(ShaderMask)), findsOneWidget);
+    });
+  });
+
   group('Finish for now files the sheet', () {
     testWidgets('the receipt is there from the first frame and the seal lands', (tester) async {
       await _pump(
         tester,
-        const ResultClosing(
-          text: 'Practice recorded at 11:51 PM.',
-          cells: [QuestionCell.right, QuestionCell.wrong, QuestionCell.blank],
-        ),
+        const ResultClosing(text: 'Practice recorded at 11:51 PM.', cells: [QuestionCell.right, QuestionCell.wrong, QuestionCell.blank]),
       );
       expect(find.text('Practice recorded at 11:51 PM.'), findsOneWidget);
       expect(find.byType(QuestionStrip), findsOneWidget);
+      // The card says the score and numbers its bubbles; the counts line sits under it.
+      expect(find.text('1'), findsWidgets);
+      expect(find.text('1 right, 1 wrong, 1 not attempted'), findsOneWidget);
       await tester.pump(ResultClosing.duration);
       await tester.pump(const Duration(milliseconds: 100));
-      final line = tester.widget<Opacity>(
-        find.ancestor(of: find.byType(ReceiptLine), matching: find.byType(Opacity)).first,
-      );
+      final line = tester.widget<Opacity>(find.ancestor(of: find.byType(ReceiptLine), matching: find.byType(Opacity)).first);
       expect(line.opacity, 1);
       await tester.pump(const Duration(seconds: 3));
     });

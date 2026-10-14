@@ -227,7 +227,7 @@ void main() {
       tester,
       location: '/practice',
       routes: _routes(),
-      size: const Size(384, 1400),
+      size: const Size(384, 1700),
       overrides: practiceOverrides(quotes: _quotes(), learn: catalog(due: 4)),
     );
     await settle(tester);

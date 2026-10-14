@@ -12,7 +12,8 @@ import '../../core/repositories/pending_result_repository.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
-import '../insights/data/saved_repository.dart' show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
+import '../insights/data/saved_repository.dart'
+    show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
 import 'copy.dart';
 import 'data/default_subject.dart' show publicIdOf;
 import 'data/practice_catalog.dart';
@@ -248,7 +249,13 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final recordedAt = receivedState.hasValue ? (receivedState.value ?? attempt.completedAt).toLocal() : null;
     final chapter = ref.watch(practiceNoteProvider(id)).value?.chapter;
 
-    if (_finished) return ResultClosing(text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal()), cells: model.cells);
+    if (_finished) {
+      return ResultClosing(
+        text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal()),
+        cells: model.cells,
+        marks: FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total),
+      );
+    }
 
     final large = MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
     final failedKeys = detail == null && detailState.error != null && !detailState.loading;

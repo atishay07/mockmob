@@ -7,13 +7,15 @@ export 'choice_deck.dart' show ChoiceOption;
 export 'choice_glyphs.dart' show ChoiceGlyphKind;
 
 /// The quick-start sheet's choices (the sheet the Start button morphs into) as a deck instead of
-/// five identical rows: the first choice leads (Resume when a session is open, else Quick 10),
-/// full width with the lit edge and a go disc; the next ones pair up; an odd one runs wide; and
-/// "Ask your record" (id [askId]) closes the deck as a quiet row.
+/// five identical rows: the first choice leads as a hero (Resume when a session is open, else
+/// Quick 10), full width with the lit edge, a large lit object and a go disc; the next ones pair up
+/// as borderless tiles; an odd one runs as a ruled list row; and "Ask your record" (id [askId])
+/// closes the deck as a quiet outlined row.
 ///
 /// The sheet itself lives in `lib/core/router/quick_start.dart`, which decides which choices
-/// exist and where each goes; it hands them here in its own order. Tiles are drawn opaque
-/// ([ChoiceDeck.solid]) because the sheet lets a faint wash of the page through.
+/// exist and where each goes; it hands them here in its own order. The deck is drawn
+/// [ChoiceDeck.onSheet], and every filled surface is opaque, so the faint wash of the page the
+/// sheet lets through never shows in a tile.
 class QuickStartDeck extends StatelessWidget {
   const QuickStartDeck({super.key, required this.options});
 
@@ -34,5 +36,5 @@ class QuickStartDeck extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) => ChoiceDeck(rows: arrangeChoices(options, quiet: const {askId}), solid: true);
+  Widget build(BuildContext context) => ChoiceDeck(rows: arrangeChoices(options, quiet: const {askId}), onSheet: true);
 }

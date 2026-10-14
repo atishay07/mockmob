@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -7,30 +8,31 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 
-/// The kinds of session a choice can start, each with its own drawn glyph and gesture.
+/// The kinds of session a choice can start, each its own drawn object and gesture.
 enum ChoiceGlyphKind {
-  /// Five bubbles, three inked: a paper in progress. The next one inks.
+  /// An answer sheet part inked: a paper in progress. The next bubble inks.
   resume,
 
-  /// A lightning bolt: a quick set. It flashes and throws sparks.
+  /// A solid lightning bolt: a quick set. It flashes and throws sparks.
   quick,
 
-  /// An open book: one or more chapters. A page turns.
+  /// An open book with a ribbon: one or more chapters. A page turns.
   chapter,
 
-  /// Rings closing on a wrong bubble: practice that leans toward your misses.
+  /// A target with a wrong bubble at its heart and a ring closing round it: practice that leans
+  /// toward your misses.
   smart,
 
-  /// A stopwatch: a full timed paper. The crown dips and the hand sweeps a turn.
+  /// A stopwatch with a dark face: a full timed paper. The crown dips and the hand sweeps a turn.
   mock,
 
-  /// The exam's own question palette: the exam-day screen. The cells fill one by one.
+  /// The exam's own question palette on its panel: the exam-day screen. The cells dip in a wave.
   nta,
 
   /// A wrong bubble that a volt ring closes around: the mistake about to be repaired.
   repair,
 
-  /// A speech bubble whose dots hop in turn: ask about your record.
+  /// A solid speech bubble whose dots hop in turn: ask about your record.
   ask,
 }
 
@@ -39,8 +41,7 @@ enum ChoiceGlyphKind {
 const Duration choiceGlyphGesture = Duration(milliseconds: 640);
 
 /// Drives a glyph's gesture: [play] runs it once (a press), and [playAfter] once after a delay
-/// (the leading choice's entrance). Nothing runs under reduced motion. One player can drive
-/// several glyphs (a tile's disc glyph and its large ghost move together).
+/// (the leading choice's entrance). Nothing runs under reduced motion.
 class GlyphPlayer {
   GlyphPlayer(TickerProvider vsync) : _c = AnimationController(vsync: vsync, duration: choiceGlyphGesture);
 
@@ -68,17 +69,19 @@ class GlyphPlayer {
   }
 }
 
-/// A code-drawn glyph on its disc, posed at [motion] (a [GlyphPlayer.progress]; still when
-/// null). Decorative: the choice it sits in names itself.
+/// A code-drawn object, posed at [motion] (a [GlyphPlayer.progress]; still when null). Each one is
+/// a small solid thing with a lit face and a shaded edge, drawn in a 24-unit box, so the same
+/// vector holds from a 40 dp list row to the 96 dp lead. Decorative: the choice it sits in names
+/// itself.
 class ChoiceGlyph extends StatelessWidget {
-  const ChoiceGlyph({super.key, required this.kind, this.size = 44, this.lit = false, this.motion});
+  const ChoiceGlyph({super.key, required this.kind, this.size = 48, this.lit = false, this.motion});
 
   final ChoiceGlyphKind kind;
 
-  /// The disc's diameter. The glyph takes about 56% of it.
+  /// The object's box; the object fills about 92% of it.
   final double size;
 
-  /// The leading choice: a volt rim on the disc and the glyph's accent at rest.
+  /// The leading choice: volt where the object has an accent, and a pool of volt light behind.
   final bool lit;
   final Animation<double>? motion;
 
@@ -98,75 +101,29 @@ class ChoiceGlyph extends StatelessWidget {
   }
 }
 
-/// The same glyph drawn large and faint in one colour, bleeding off a tile's corner: the tile's
-/// own graphic, so no two tiles read alike. It moves with the tile's glyph.
-class ChoiceGhost extends StatelessWidget {
-  const ChoiceGhost({super.key, required this.kind, this.size = 120, this.motion, this.angle = -0.14, this.alpha});
-
-  final ChoiceGlyphKind kind;
-  final double size;
-  final Animation<double>? motion;
-  final double angle;
-
-  /// Defaults to 7% ink on Night and 6% on Daylight.
-  final double? alpha;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final a = alpha ?? (colors.isNight ? 0.07 : 0.06);
-    return ExcludeSemantics(
-      child: IgnorePointer(
-        child: RepaintBoundary(
-          child: Transform.rotate(
-            angle: angle,
-            child: SizedBox.square(
-              dimension: size,
-              child: CustomPaint(
-                painter: ChoiceGlyphPainter(
-                  kind: kind,
-                  colors: colors,
-                  t: motion ?? kAlwaysDismissedAnimation,
-                  mono: colors.ink.withValues(alpha: a),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Paints the disc and the glyph at gesture progress [t] (0 and 1 are the same resting pose).
+/// Paints the object at gesture progress [t] (0 and 1 are the same resting pose).
+///
+/// Colour: the body is the page's ink (paper on Night, charcoal on Daylight) shaded from a lit top
+/// left to a darker bottom right; faces and details are the opposite polarity; the accent is volt
+/// on Night and its readable olive on Daylight, except where it is a fill on [lit] objects.
 class ChoiceGlyphPainter extends CustomPainter {
-  ChoiceGlyphPainter({required this.kind, required this.colors, required this.t, this.lit = false, this.mono}) : super(repaint: t);
+  ChoiceGlyphPainter({required this.kind, required this.colors, required this.t, this.lit = false}) : super(repaint: t);
 
   final ChoiceGlyphKind kind;
   final MmColors colors;
   final Animation<double> t;
   final bool lit;
 
-  /// Draws the glyph alone (no disc) in this one colour: the ghost behind a tile.
-  final Color? mono;
+  static const Color _white = Color(0xFFFFFFFF);
+  static const Color _black = Color(0xFF000000);
 
-  Color get _volt => mono ?? (colors.isNight ? colors.volt : colors.accentText);
-  Color get _ink => mono ?? colors.ink;
-  Color get _ink2 => mono ?? colors.ink2;
+  Color get _body => colors.ink;
 
-  /// A bubble: the shared answer-sheet bubble, or a plain ring or disc in the ghost's colour.
-  void _bubble(Canvas canvas, Offset c, double r, BubbleState state, {double fill = 1, Offset origin = Offset.zero}) {
-    final m = mono;
-    if (m == null) {
-      BubblePaint(colors).paint(canvas, c, r, state, fill: fill, origin: origin);
-      return;
-    }
-    if (state == BubbleState.hollow) {
-      canvas.drawCircle(c, r, _stroke(m, (r * 0.12).clamp(1.0, 2.0)));
-    } else {
-      canvas.drawCircle(c, r * (state == BubbleState.filled ? fill : 1), Paint()..color = m);
-    }
-  }
+  /// The face: the opposite polarity of the body, so details on it read.
+  Color get _face => colors.isNight ? colors.sunken : colors.ground;
+
+  /// An accent on the face or on the tile behind the object.
+  Color get _accent => colors.isNight ? colors.volt : colors.accentText;
 
   /// 0 at both ends, 1 in the middle of the gesture.
   static double bell(double p) => math.sin(math.pi * p.clamp(0.0, 1.0));
@@ -186,18 +143,47 @@ class ChoiceGlyphPainter extends CustomPainter {
     ..color = color
     ..isAntiAlias = true;
 
+  /// A solid fill that goes from lit (top left) through [c] to shaded (bottom right) across [r].
+  Paint _solid(Color c, Rect r, {double hi = 0.2, double lo = 0.3}) => Paint()
+    ..isAntiAlias = true
+    ..shader = ui.Gradient.linear(
+      r.topLeft,
+      r.bottomRight,
+      [Color.lerp(c, _white, hi)!, c, Color.lerp(c, _black, lo)!],
+      const [0, 0.45, 1],
+    );
+
+  /// The soft shadow an object throws down and to the right.
+  void _drop(Canvas canvas, Path path, {double dy = 0.9, double alpha = 0.34}) {
+    canvas.drawPath(
+      path.shift(Offset(0.2, dy)),
+      Paint()
+        ..color = _black.withValues(alpha: colors.isNight ? alpha : alpha * 0.55)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.9),
+    );
+  }
+
+  /// A thin light along the top left edge of a solid shape: the catch of the light.
+  void _rim(Canvas canvas, Path path, Rect r, {double width = 0.5, double alpha = 0.55}) {
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = width
+        ..strokeJoin = StrokeJoin.round
+        ..shader = ui.Gradient.linear(r.topLeft, r.bottomRight, [_white.withValues(alpha: alpha), _white.withValues(alpha: 0)]),
+    );
+  }
+
+  void _bubble(Canvas canvas, Offset c, double r, BubbleState state, {double fill = 1, Offset origin = Offset.zero}) =>
+      BubblePaint(colors).paint(canvas, c, r, state, fill: fill, origin: origin);
+
   @override
   void paint(Canvas canvas, Size size) {
-    final r = size.shortestSide / 2;
+    // The object lives in a 24-unit box and fills about 92% of the widget, so a ring or a spark
+    // just outside it still sits inside.
+    final unit = size.shortestSide * 0.92 / 24;
     final c = size.center(Offset.zero);
-    if (mono == null) {
-      // The disc: a step above the surface it sits on, with a hairline; a volt rim when lit.
-      canvas.drawCircle(c, r, Paint()..color = colors.isNight ? colors.raised2 : colors.sunken);
-      canvas.drawCircle(c, r - 0.5, _stroke(lit ? _volt : colors.line, lit ? 1.5 : 1));
-    }
-
-    // The glyph lives in a 24-unit box, about 56% of the disc (all of it for a ghost).
-    final unit = size.shortestSide * (mono == null ? 0.56 : 0.92) / 24;
     canvas
       ..save()
       ..translate(c.dx - 12 * unit, c.dy - 12 * unit)
@@ -224,53 +210,78 @@ class ChoiceGlyphPainter extends CustomPainter {
     canvas.restore();
   }
 
+  // ---- quick: a solid bolt --------------------------------------------------------------
+
   static final Path _bolt = Path()
-    ..moveTo(13.5, 2)
-    ..lineTo(4.5, 13.5)
-    ..lineTo(11.2, 13.5)
-    ..lineTo(10.2, 22)
-    ..lineTo(19.5, 10)
-    ..lineTo(12.8, 10)
+    ..moveTo(14.2, 1.2)
+    ..lineTo(3.6, 13.6)
+    ..lineTo(10.6, 13.6)
+    ..lineTo(9.2, 22.8)
+    ..lineTo(20.4, 9.6)
+    ..lineTo(13.2, 9.6)
     ..close();
 
   void _quick(Canvas canvas, double p) {
     final b = bell(p);
+    if (lit) {
+      // A pool of volt light the bolt sits in.
+      canvas.drawCircle(
+        const Offset(12, 12),
+        12,
+        Paint()
+          ..shader = ui.Gradient.radial(const Offset(12, 12), 12, [
+            colors.volt.withValues(alpha: 0.34 + 0.2 * b),
+            colors.volt.withValues(alpha: 0),
+          ]),
+      );
+    }
     canvas
       ..save()
       ..translate(12, 12)
       ..scale(1 + 0.1 * b)
       ..translate(-12, -12);
-    final flash = lit ? 1.0 : b;
-    if (flash > 0.01) canvas.drawPath(_bolt, Paint()..color = _volt.withValues(alpha: _volt.a * flash));
-    canvas
-      ..drawPath(_bolt, _stroke(Color.lerp(_ink, lit ? colors.voltInk : _ink, flash)!, 1.6))
-      ..restore();
+    _drop(canvas, _bolt);
+    final base = lit ? colors.volt : Color.lerp(_body, colors.volt, b)!;
+    final rect = _bolt.getBounds();
+    canvas.drawPath(_bolt, _solid(base, rect, hi: 0.28, lo: lit ? 0.22 : 0.32));
+    _rim(canvas, _bolt, rect, width: 0.6, alpha: 0.7);
+    // The bolt's shaded half: a darker facet down its right side.
+    final facet = Path()
+      ..moveTo(13.2, 9.6)
+      ..lineTo(20.4, 9.6)
+      ..lineTo(9.2, 22.8)
+      ..lineTo(11.6, 12.4)
+      ..close();
+    canvas.drawPath(facet, Paint()..color = _black.withValues(alpha: lit ? 0.13 : 0.1));
+    canvas.restore();
     if (b < 0.02) return;
-    // Three sparks thrown out from the bolt's tips.
-    const sparks = [(Offset(3.5, 6), -2.6), (Offset(21, 15.5), 0.35), (Offset(6.5, 21), 2.4)];
-    final spark = _stroke(_volt.withValues(alpha: _volt.a * b), 1.4);
+    // Four sparks thrown out from the bolt's tips.
+    const sparks = [(Offset(2.6, 6.4), -2.7), (Offset(22, 15.4), 0.3), (Offset(5.2, 22), 2.5), (Offset(19.6, 3.4), -0.75)];
+    final spark = _stroke(_accent.withValues(alpha: _accent.a * b), 1.5);
     for (final (o, angle) in sparks) {
       final dir = Offset(math.cos(angle), math.sin(angle));
-      final start = o + dir * (1.5 * p);
-      canvas.drawLine(start, start + dir * (3.2 * b), spark);
+      final start = o + dir * (1.4 * p);
+      canvas.drawLine(start, start + dir * (3.4 * b), spark);
     }
   }
+
+  // ---- chapter: an open book ------------------------------------------------------------
 
   static Path _page({required bool right}) {
     final path = Path();
     if (right) {
       path
-        ..moveTo(12, 6.5)
-        ..cubicTo(14.8, 5, 18.2, 4.6, 21, 5.4)
-        ..lineTo(21, 18.6)
-        ..cubicTo(18.2, 17.8, 14.8, 18.2, 12, 19.8)
+        ..moveTo(12, 6.2)
+        ..cubicTo(14.8, 4.6, 18.4, 4.2, 21.4, 5.2)
+        ..lineTo(21.4, 18.6)
+        ..cubicTo(18.4, 17.6, 14.8, 18, 12, 19.8)
         ..close();
     } else {
       path
-        ..moveTo(12, 6.5)
-        ..cubicTo(9.2, 5, 5.8, 4.6, 3, 5.4)
-        ..lineTo(3, 18.6)
-        ..cubicTo(5.8, 17.8, 9.2, 18.2, 12, 19.8)
+        ..moveTo(12, 6.2)
+        ..cubicTo(9.2, 4.6, 5.6, 4.2, 2.6, 5.2)
+        ..lineTo(2.6, 18.6)
+        ..cubicTo(5.6, 17.6, 9.2, 18, 12, 19.8)
         ..close();
     }
     return path;
@@ -278,19 +289,41 @@ class ChoiceGlyphPainter extends CustomPainter {
 
   static final Path _leftPage = _page(right: false);
   static final Path _rightPage = _page(right: true);
+  static final Path _ribbon = Path()
+    ..moveTo(15.4, 4.5)
+    ..lineTo(18.2, 4.8)
+    ..lineTo(18.2, 12.4)
+    ..lineTo(16.8, 11.2)
+    ..lineTo(15.4, 12.4)
+    ..close();
 
   void _chapter(Canvas canvas, double p) {
-    final ink = _stroke(_ink, 1.5);
-    final lines = _stroke(_ink.withValues(alpha: 0.45), 1);
+    // The cover: the pages' outline thickened and darkened, so the book has an edge and a depth.
+    final cover = Path()
+      ..addPath(_leftPage, Offset.zero)
+      ..addPath(_rightPage, Offset.zero);
     canvas
-      ..drawPath(_leftPage, ink)
-      ..drawPath(_rightPage, ink);
-    for (final y in [9.5, 12.5]) {
+      ..save()
+      ..translate(0, 0.7);
+    _drop(canvas, cover, dy: 1.1);
+    canvas.drawPath(cover, _stroke(Color.lerp(_body, _black, 0.62)!, 2.6));
+    canvas.restore();
+    final rect = cover.getBounds();
+    canvas
+      ..drawPath(_leftPage, _solid(_body, rect, hi: 0.1, lo: 0.34))
+      ..drawPath(_rightPage, _solid(_body, rect, hi: 0.22, lo: 0.2));
+    // The gutter: the dark crease where the pages meet.
+    canvas.drawLine(const Offset(12, 6.2), const Offset(12, 19.8), _stroke(_black.withValues(alpha: 0.4), 0.9));
+    final line = _stroke(_face.withValues(alpha: 0.4), 0.7);
+    for (final y in [8.6, 11.2, 13.8]) {
       canvas
-        ..drawLine(Offset(5.5, y), Offset(9.5, y + 0.4), lines)
-        ..drawLine(Offset(14.5, y + 0.4), Offset(18.5, y), lines);
+        ..drawLine(Offset(4.6, y), Offset(9.8, y + 0.5), line)
+        ..drawLine(Offset(14.2, y + 0.5), Offset(19.4, y), line);
     }
-    if (lit) canvas.drawLine(const Offset(12, 6.5), const Offset(12, 19.8), _stroke(_volt, 1.6));
+    // The ribbon bookmark, volt with a dark edge so it holds on paper.
+    canvas
+      ..drawPath(_ribbon, Paint()..color = colors.volt)
+      ..drawPath(_ribbon, _stroke(colors.voltInk.withValues(alpha: 0.55), 0.5));
     if (p <= 0.001 || p >= 0.999) return;
     // The turning page: the right page folded about the spine, foreshortened by the turn.
     final fold = math.cos(math.pi * p);
@@ -299,51 +332,85 @@ class ChoiceGlyphPainter extends CustomPainter {
       ..translate(12, 0)
       ..scale(fold, 1)
       ..translate(-12, 0)
-      // The page is opaque, so the page under it does not show through (the ghost stays a line).
-      ..drawPath(_rightPage, Paint()..color = mono == null ? colors.raised : const Color(0x00000000))
-      ..drawPath(_rightPage, _stroke(Color.lerp(_ink, _volt, bell(p))!, 1.5))
+      ..drawPath(_rightPage, _solid(_body, rect, hi: 0.3, lo: 0.1))
+      ..drawPath(_rightPage, _stroke(Color.lerp(_black.withValues(alpha: 0.35), _accent, bell(p))!, 0.7))
       ..restore();
   }
+
+  // ---- smart: a target ------------------------------------------------------------------
 
   void _smart(Canvas canvas, double p) {
     final b = bell(p);
     const c = Offset(12, 12);
-    final outer = 10.4 - 2.6 * b;
-    canvas.drawCircle(c, outer, _stroke(_ink.withValues(alpha: 0.3 + 0.4 * b), 1.2));
-    // The inner ring is volt and draws itself around the miss during the gesture.
-    const inner = 7.2;
+    final disc = Path()..addOval(Rect.fromCircle(center: c, radius: 8.4));
+    _drop(canvas, disc);
+    canvas.drawPath(disc, _solid(_body, disc.getBounds(), hi: 0.22, lo: 0.3));
+    _rim(canvas, disc, disc.getBounds());
+    canvas
+      ..drawCircle(c, 6.1, _stroke(_face.withValues(alpha: 0.7), 0.9))
+      ..drawCircle(c, 3.9, _stroke(_face.withValues(alpha: 0.5), 0.7));
+    _bubble(canvas, c, 2.9 * (1 - 0.14 * b), BubbleState.wrong);
+    // The ring outside the target draws itself round the miss during the gesture.
+    const ring = 10.9;
     final sweep = p <= 0.001 || p >= 0.999 ? 2 * math.pi : 2 * math.pi * Curves.easeOutCubic.transform(p);
-    if (sweep < 2 * math.pi) canvas.drawCircle(c, inner, _stroke(_ink.withValues(alpha: 0.18), 1.5));
-    canvas.drawArc(Rect.fromCircle(center: c, radius: inner), -math.pi / 2, sweep, false, _stroke(_volt, 1.6));
-    _bubble(canvas, c, 4.2 * (1 - 0.12 * b), BubbleState.wrong);
+    if (sweep < 2 * math.pi) canvas.drawCircle(c, ring, _stroke(_accent.withValues(alpha: 0.2), 1.3));
+    canvas.drawArc(Rect.fromCircle(center: c, radius: ring), -math.pi / 2, sweep, false, _stroke(_accent, 1.6));
   }
+
+  // ---- mock: a stopwatch ----------------------------------------------------------------
 
   void _mock(Canvas canvas, double p) {
     final b = bell(p);
     const c = Offset(12, 13.4);
-    final ink = _stroke(_ink, 1.5);
-    canvas.drawCircle(c, 7.6, ink);
-    // Quarter ticks.
-    final tick = _stroke(_ink.withValues(alpha: 0.5), 1.1);
-    for (var i = 0; i < 4; i++) {
-      final a = i * math.pi / 2;
-      final d = Offset(math.cos(a), math.sin(a));
-      canvas.drawLine(c + d * 5.4, c + d * 6.4, tick);
-    }
     // The crown dips as if pressed.
     final dip = 1.3 * b;
+    final crownStem = RRect.fromRectAndRadius(Rect.fromLTWH(10.8, 3.6 + dip, 2.4, 2.8), const Radius.circular(0.6));
+    final crownCap = RRect.fromRectAndRadius(Rect.fromLTWH(9, 2.1 + dip, 6, 2.2), const Radius.circular(1.1));
+    final bezel = Path()..addOval(Rect.fromCircle(center: c, radius: 8.6));
+    _drop(canvas, bezel);
     canvas
-      ..drawLine(Offset(12, 4.4 + dip), Offset(12, 5.8), ink)
-      ..drawLine(Offset(10, 3.6 + dip), Offset(14, 3.6 + dip), ink)
-      ..drawLine(const Offset(18.2, 7.4), const Offset(19.4, 6.2), ink);
+      ..drawRRect(crownStem, Paint()..color = Color.lerp(_body, _black, 0.4)!)
+      ..drawRRect(crownCap, _solid(_body, crownCap.outerRect, hi: 0.2, lo: 0.3))
+      // The side button.
+      ..save()
+      ..translate(19.1, 7.1)
+      ..rotate(0.8)
+      ..drawRRect(
+        RRect.fromRectAndRadius(const Rect.fromLTWH(-1.1, -2, 2.2, 3.4), const Radius.circular(0.7)),
+        Paint()..color = Color.lerp(_body, _black, 0.25)!,
+      )
+      ..restore()
+      ..drawPath(bezel, _solid(_body, bezel.getBounds(), hi: 0.24, lo: 0.32));
+    _rim(canvas, bezel, bezel.getBounds());
+    // The dark face, with its ticks and the hand.
+    canvas.drawCircle(c, 6.6, Paint()..color = _face);
+    final tick = _stroke(_body.withValues(alpha: 0.7), 0.8);
+    for (var i = 0; i < 12; i++) {
+      final a = i * math.pi / 6;
+      final d = Offset(math.cos(a), math.sin(a));
+      final major = i % 3 == 0;
+      canvas.drawLine(c + d * (major ? 4.7 : 5.4), c + d * 6, major ? tick : _stroke(_body.withValues(alpha: 0.4), 0.6));
+    }
     // The hand sweeps one full turn and lands back at twelve.
     final angle = -math.pi / 2 + 2 * math.pi * p;
-    final hand = Offset(math.cos(angle), math.sin(angle)) * 5.2;
-    final handColor = lit ? _volt : Color.lerp(_ink, _volt, b)!;
+    final hand = Offset(math.cos(angle), math.sin(angle)) * 4.6;
+    final handColor = _accent;
+    // A wedge of swept time trails the hand while it moves.
+    if (p > 0.001 && p < 0.999) {
+      canvas.drawArc(
+        Rect.fromCircle(center: c, radius: 5.4),
+        -math.pi / 2,
+        2 * math.pi * p,
+        true,
+        Paint()..color = handColor.withValues(alpha: 0.16),
+      );
+    }
     canvas
-      ..drawLine(c, c + hand, _stroke(handColor, 1.7))
-      ..drawCircle(c, 1.2, Paint()..color = handColor);
+      ..drawLine(c, c + hand, _stroke(handColor, 1.3))
+      ..drawCircle(c, 1.1, Paint()..color = handColor);
   }
+
+  // ---- nta: the question palette --------------------------------------------------------
 
   void _nta(Canvas canvas, double p) {
     // The exam palette's own colours: answered, not answered, marked, not visited.
@@ -356,74 +423,115 @@ class ChoiceGlyphPainter extends CustomPainter {
       [marked, answered, notVisited],
       [notVisited, notVisited, notVisited],
     ];
-    const cell = 5.6;
-    const gap = 1.9;
-    const origin = 12 - (cell * 1.5 + gap);
+    final panelRect = RRect.fromRectAndRadius(const Rect.fromLTWH(2.2, 2.4, 19.6, 19.6), const Radius.circular(3.2));
+    final panel = Path()..addRRect(panelRect);
+    _drop(canvas, panel);
+    canvas.drawPath(panel, _solid(const Color(0xFFF1EEE6), panelRect.outerRect, hi: 0.5, lo: 0.12));
+    canvas.drawPath(panel, _stroke(_black.withValues(alpha: 0.22), 0.5));
+    // The palette's header band.
+    canvas.drawRRect(
+      RRect.fromRectAndCorners(
+        const Rect.fromLTWH(2.2, 2.4, 19.6, 3.4),
+        topLeft: const Radius.circular(3.2),
+        topRight: const Radius.circular(3.2),
+      ),
+      Paint()..color = const Color(0xFF2F4A7D),
+    );
+    const cell = 4.4;
+    const gap = 1.5;
+    const originX = 12 - (cell * 1.5 + gap);
+    const originY = 7.1;
     for (var row = 0; row < 3; row++) {
       for (var col = 0; col < 3; col++) {
         final i = row * 3 + col;
         // A wave runs through the palette: each cell dips and refills in turn.
         final dipT = p <= 0.001 ? 0.0 : bump(p, 0.18 + i * 0.075, 0.34);
         final s = cell * (1 - 0.42 * dipT);
-        final cx = origin + col * (cell + gap) + cell / 2;
-        final cy = origin + row * (cell + gap) + cell / 2;
+        final cx = originX + col * (cell + gap) + cell / 2;
+        final cy = originY + row * (cell + gap) + cell / 2;
         final rect = Rect.fromCenter(center: Offset(cx, cy), width: s, height: s);
         final fill = states[row][col];
-        if (mono != null) {
-          // The ghost: answered cells solid, the rest outlined.
-          final rr = RRect.fromRectAndRadius(rect, const Radius.circular(1.4));
-          canvas.drawRRect(rr, fill == notVisited ? _stroke(mono!, 0.8) : (Paint()..color = mono!));
-          continue;
-        }
-        canvas.drawRRect(RRect.fromRectAndRadius(rect, const Radius.circular(1.4)), Paint()..color = fill);
-        if (fill == notVisited) {
-          canvas.drawRRect(RRect.fromRectAndRadius(rect.deflate(0.25), const Radius.circular(1.4)), _stroke(const Color(0xFFB3B3B3), 0.5));
-        }
+        final rr = RRect.fromRectAndRadius(rect, const Radius.circular(1.2));
+        canvas.drawRRect(rr, Paint()..color = fill);
+        if (fill == notVisited) canvas.drawRRect(rr.deflate(0.25), _stroke(const Color(0xFFA9A9A9), 0.5));
       }
     }
   }
+
+  // ---- repair: the miss being closed ----------------------------------------------------
 
   void _repair(Canvas canvas, double p) {
     final b = bell(p);
     const c = Offset(12, 12);
+    final disc = Path()..addOval(Rect.fromCircle(center: c, radius: 7));
+    _drop(canvas, disc, alpha: 0.4);
+    _bubble(canvas, c, 7 * (1 - 0.12 * b), BubbleState.wrong);
+    _rim(canvas, disc, disc.getBounds(), alpha: 0.4);
+    const ring = 10.6;
     final sweep = p <= 0.001 || p >= 0.999 ? 2 * math.pi : 2 * math.pi * Curves.easeOutCubic.transform(p);
-    if (sweep < 2 * math.pi) canvas.drawCircle(c, 10, _stroke(_ink.withValues(alpha: 0.18), 1.6));
-    canvas.drawArc(Rect.fromCircle(center: c, radius: 10), -math.pi / 2, sweep, false, _stroke(_volt, 1.7));
-    _bubble(canvas, c, 6.6 * (1 - 0.12 * b), BubbleState.wrong);
+    if (sweep < 2 * math.pi) canvas.drawCircle(c, ring, _stroke(_accent.withValues(alpha: 0.2), 1.1));
+    canvas.drawArc(Rect.fromCircle(center: c, radius: ring), -math.pi / 2, sweep, false, _stroke(_accent, 1.3));
   }
 
-  static final RRect _askBody = RRect.fromRectAndRadius(
-    Rect.fromCenter(center: const Offset(12, 10.5), width: 19, height: 13.5),
-    const Radius.circular(5),
-  );
-  static final Path _askTail = Path()
-    ..moveTo(7, 16.8)
-    ..lineTo(5.6, 21)
-    ..lineTo(11, 17.2);
+  // ---- ask: a speech bubble -------------------------------------------------------------
+
+  static final RRect _askBody = RRect.fromRectAndRadius(const Rect.fromLTWH(2.4, 3.4, 19.2, 14), const Radius.circular(5.4));
+  static final Path _askShape = Path()
+    ..addRRect(_askBody)
+    ..moveTo(6.6, 16.6)
+    ..lineTo(4.6, 21.8)
+    ..lineTo(11.6, 17.2)
+    ..close();
 
   void _ask(Canvas canvas, double p) {
-    final ink = _stroke(_ink2, 1.5);
-    canvas
-      ..drawRRect(_askBody, ink)
-      ..drawPath(_askTail, ink);
+    _drop(canvas, _askShape);
+    canvas.drawPath(_askShape, _solid(_body, _askShape.getBounds(), hi: 0.24, lo: 0.3));
+    _rim(canvas, _askShape, _askShape.getBounds());
     for (var i = 0; i < 3; i++) {
       final hop = p <= 0.001 ? 0.0 : bump(p, 0.22 + i * 0.2, 0.36);
-      _bubble(canvas, Offset(12 + (i - 1) * 4.8, 10.5 - 2.6 * hop), 1.6, BubbleState.filled);
+      canvas.drawCircle(Offset(12 + (i - 1) * 4.6, 10.4 - 2.6 * hop), 1.55, Paint()..color = i == 1 && lit ? colors.voltEdge : _face);
     }
   }
 
+  // ---- resume: an answer sheet part inked -----------------------------------------------
+
   void _resume(Canvas canvas, double p) {
     final b = bell(p);
-    for (var i = 0; i < 5; i++) {
-      final center = Offset(12 + (i - 2) * 4.7, 12);
-      if (i < 3) {
-        _bubble(canvas, center, 1.9, BubbleState.filled);
-      } else if (i == 3 && b > 0.01) {
-        _bubble(canvas, center, 1.9, BubbleState.hollow);
-        _bubble(canvas, center, 1.9, BubbleState.filled, fill: b, origin: const Offset(-0.6, 0.4));
+    final card = RRect.fromRectAndRadius(const Rect.fromLTWH(3.6, 1.8, 16.8, 20.4), const Radius.circular(3));
+    final path = Path()..addRRect(card);
+    _drop(canvas, path);
+    canvas.drawPath(path, _solid(_body, card.outerRect, hi: 0.24, lo: 0.26));
+    _rim(canvas, path, card.outerRect);
+    // The sheet's header strip.
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(const Rect.fromLTWH(6.4, 4.2, 7, 1.5), const Radius.circular(0.75)),
+      Paint()..color = _face.withValues(alpha: 0.5),
+    );
+    // Three rows of four bubbles: five inked, the sixth inks as the gesture plays.
+    const r = 1.32;
+    for (var i = 0; i < 12; i++) {
+      final row = i ~/ 4;
+      final col = i % 4;
+      final centre = Offset(7.35 + col * 3.1, 9.6 + row * 4.1);
+      if (i < 5) {
+        _inked(canvas, centre, r, 1);
+      } else if (i == 5) {
+        canvas.drawCircle(centre, r, _stroke(_face.withValues(alpha: 0.6), 0.55));
+        if (b > 0.01) _inked(canvas, centre, r, b);
       } else {
-        _bubble(canvas, center, 1.9, BubbleState.hollow);
+        canvas.drawCircle(centre, r, _stroke(_face.withValues(alpha: 0.6), 0.55));
       }
+    }
+  }
+
+  void _inked(Canvas canvas, Offset c, double r, double fill) {
+    final rr = r * fill;
+    if (lit) {
+      canvas
+        ..drawCircle(c, rr, Paint()..color = colors.volt)
+        ..drawCircle(c, rr, _stroke(colors.voltInk.withValues(alpha: 0.7), 0.5));
+    } else {
+      canvas.drawCircle(c, rr, Paint()..color = _face);
     }
   }
 

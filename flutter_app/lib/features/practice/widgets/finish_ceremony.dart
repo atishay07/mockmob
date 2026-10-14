@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -107,7 +108,7 @@ class StampPainter extends CustomPainter {
   final bool burst;
   final double centerX;
 
-  static const int pieces = 14;
+  static const int pieces = 24;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -120,13 +121,27 @@ class StampPainter extends CustomPainter {
     // The ink ring: spreads and thins as it fades.
     final ringT = Curves.easeOutCubic.transform(a);
     final ringColor = burst ? volt : colors.ink3;
+    if (burst) {
+      // A flash of volt light behind the figure as it lands, gone by the time the shards slow.
+      final flash = math.pow(1 - a, 1.6).toDouble();
+      final radius = base * (1.6 + 1.4 * ringT);
+      canvas.drawCircle(
+        c,
+        radius,
+        Paint()
+          ..shader = ui.Gradient.radial(c, radius, [
+            volt.withValues(alpha: (colors.isNight ? 0.34 : 0.3) * flash),
+            volt.withValues(alpha: 0),
+          ]),
+      );
+    }
     canvas.drawCircle(
       c,
       base * (0.9 + 0.9 * ringT),
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 3.2 * (1 - ringT) + 0.6
-        ..color = ringColor.withValues(alpha: ringColor.a * 0.55 * (1 - ringT)),
+        ..strokeWidth = (burst ? 5 : 3.2) * (1 - ringT) + 0.8
+        ..color = ringColor.withValues(alpha: ringColor.a * (burst ? 0.85 : 0.55) * (1 - ringT)),
     );
     if (!burst) return;
     // A second, later ring for a good set.
@@ -134,11 +149,11 @@ class StampPainter extends CustomPainter {
     if (ring2 > 0) {
       canvas.drawCircle(
         c,
-        base * (0.9 + 1.25 * ring2),
+        base * (0.9 + 1.5 * ring2),
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4 * (1 - ring2) + 0.4
-          ..color = volt.withValues(alpha: volt.a * 0.35 * (1 - ring2)),
+          ..strokeWidth = 2.4 * (1 - ring2) + 0.6
+          ..color = volt.withValues(alpha: volt.a * 0.6 * (1 - ring2)),
       );
     }
 
@@ -147,22 +162,33 @@ class StampPainter extends CustomPainter {
     final fade = 1 - Curves.easeInQuad.transform(a);
     for (var i = 0; i < pieces; i++) {
       // Fixed, uneven angles and reaches, so the burst never looks like a clock face.
-      final angle = -math.pi / 2 + i * (2 * math.pi / pieces) + (i.isEven ? 0.13 : -0.09);
-      final reach = base * (1.05 + 0.85 * travel * (0.75 + 0.25 * ((i * 7) % 5) / 4));
+      final angle = -math.pi / 2 + i * (2 * math.pi / pieces) + (i.isEven ? 0.11 : -0.08);
+      final reach = base * (1.05 + 1.3 * travel * (0.7 + 0.3 * ((i * 7) % 5) / 4));
       final dir = Offset(math.cos(angle), math.sin(angle));
       final p = c + dir * reach;
       if (i % 3 == 0) {
-        // An answer bubble.
-        canvas.drawCircle(p, 3.4 * (1 - 0.4 * a), Paint()..color = volt.withValues(alpha: volt.a * fade));
+        // An answer bubble, with a dark core so it reads as a bubble and not a dot.
+        final r = 5.2 * (1 - 0.4 * a);
+        canvas
+          ..drawCircle(p, r, Paint()..color = volt.withValues(alpha: volt.a * fade))
+          ..drawCircle(
+            p,
+            r,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1
+              ..color = colors.voltInk.withValues(alpha: 0.5 * fade),
+          );
       } else {
-        final len = 9 * (1 - 0.6 * a);
+        final len = 15 * (1 - 0.55 * a);
+        final shardVolt = i % 3 == 1;
         canvas.drawLine(
           p,
           p + dir * len,
           Paint()
-            ..strokeWidth = 2.2
+            ..strokeWidth = 3
             ..strokeCap = StrokeCap.round
-            ..color = (i % 3 == 1 ? volt : colors.ink2).withValues(alpha: fade * (i % 3 == 1 ? 1 : 0.7)),
+            ..color = (shardVolt ? volt : colors.ink).withValues(alpha: fade * (shardVolt ? 1 : 0.85)),
         );
       }
     }

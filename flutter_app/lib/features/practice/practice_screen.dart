@@ -175,6 +175,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                             // Keyed by subject, so a new subject's deck rises in again: the modes
                             // below visibly belong to the subject just picked.
                             key: ValueKey('modes-$subject'),
+                            bleed: MmSpace.gutter,
                             rows: [
                               ChoiceRow.pair(
                                 ChoiceOption(
@@ -205,7 +206,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                 ),
                               ChoiceRow.band(
                                 title: PracticeCopy.examBandTitle,
-                                
+
                                 rows: [
                                   _examRow(
                                     full: ChoiceOption(

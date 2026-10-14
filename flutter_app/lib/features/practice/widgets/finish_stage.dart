@@ -12,7 +12,7 @@ import '../copy.dart';
 import '../model/finish_reaction.dart';
 import 'finish_ceremony.dart';
 import 'marks_bar.dart';
-import 'sheet_columns.dart';
+import 'numbered_sheet.dart';
 
 /// The finish moment of a practice (owner feedback 1110, WEB-PARITY A13). It opens only after
 /// the server has acknowledged the submit (the result route is reached from the receipt). The
@@ -171,7 +171,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     final first = widget.cells.indexOf(QuestionCell.wrong);
     final box = _sheetKey.currentContext?.findRenderObject();
     if (first < 0 || box is! RenderBox || !box.hasSize || !mounted) return;
-    final g = _InkSheet.geometry(widget.cells.length, box.size.width);
+    final g = NumberedSheet.geometry(widget.cells.length, box.size.width);
     final local = Offset(
       g.left + (first % g.columns) * (g.cell + g.gap) + g.cell / 2,
       (first ~/ g.columns) * (g.cell + g.gap) + g.cell / 2,
@@ -215,7 +215,8 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (overline.isNotEmpty) Text(overline, style: type.caption.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s4),
+          // Room for the stamp's ring above the figure, so it never lands on the line over it.
+          const SizedBox(height: MmSpace.s16),
           Semantics(
             header: true,
             label: PracticeCopy.figureSemantics(m.correct, m.total),
@@ -227,11 +228,17 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
               child: AnimatedBuilder(
                 animation: _c,
                 builder: (context, _) =>
-                    MonumentalNumber(value: PracticeCopy.figureNumber(_tally()), unit: PracticeCopy.figureUnit(m.total), roll: false),
+                    // The thin spaces keep "of 10" clear of the digit it follows.
+                    MonumentalNumber(
+                      value: PracticeCopy.figureNumber(_tally()),
+                      unit: '\u2009\u2009${PracticeCopy.figureUnit(m.total)}',
+                      roll: false,
+                    ),
               ),
             ),
           ),
-          const SizedBox(height: MmSpace.s8),
+          // And room under it, clear of the ring spreading out from behind the figure.
+          const SizedBox(height: MmSpace.s20),
           Text(PracticeCopy.countsLine(m.correct, m.wrong, m.blank), style: type.lead.copyWith(color: colors.ink)),
           if (widget.cells.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s20),
@@ -298,27 +305,9 @@ class _InkSheet extends StatelessWidget {
   final ValueChanged<int>? onCellTap;
   final Key? stripKey;
 
-  static const double gap = 6;
-
-  /// Where the bubbles sit in a strip [width] wide: ten or fewer spread evenly across the card
-  /// (no half-empty row), more in the sheet's columns.
-  static ({int columns, double cell, double gap, double left}) geometry(int count, double width) {
-    if (count <= 10) {
-      // The bubbles shrink a little rather than run past the card's right padding.
-      final cell = ((width - (count - 1) * gap) / count).clamp(16.0, 28.0);
-      final spread = count <= 1 ? 0.0 : ((width - count * cell) / (count - 1)).clamp(gap, 40.0);
-      final used = count * cell + (count - 1) * spread;
-      return (columns: count, cell: cell, gap: spread, left: ((width - used) / 2).clamp(0.0, width));
-    }
-    final columns = sheetColumns(count);
-    final cell = ((width - (columns - 1) * gap) / columns).clamp(16.0, 28.0);
-    return (columns: columns, cell: cell, gap: gap, left: 0.0);
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.raised,
@@ -331,52 +320,7 @@ class _InkSheet extends StatelessWidget {
         foregroundPainter: SheetSweepPainter(sweep: sweep, colors: colors, radius: MmRadius.panel),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s16),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final g = geometry(cells.length, constraints.maxWidth);
-              Widget strip = Padding(
-                key: stripKey,
-                padding: EdgeInsets.only(left: g.left),
-                child: QuestionStrip(cells: cells, columns: g.columns, cellSize: g.cell, gap: g.gap, reveal: reveal),
-              );
-              // One row of ten or fewer reads like the real sheet: each bubble has its number under it.
-              if (cells.length <= 10) {
-                strip = Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    strip,
-                    const SizedBox(height: MmSpace.s6),
-                    ExcludeSemantics(
-                      child: CustomPaint(
-                        size: const Size.fromHeight(14),
-                        painter: SheetNumeralsPainter(
-                          count: cells.length,
-                          left: g.left,
-                          cell: g.cell,
-                          gap: g.gap,
-                          color: colors.ink3,
-                          style: type.caption.copyWith(fontSize: 11, height: 1.2),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-              if (onCellTap == null) return strip;
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapUp: (details) {
-                  final x = details.localPosition.dx - g.left;
-                  final col = x < 0 ? -1 : x ~/ (g.cell + g.gap);
-                  final row = details.localPosition.dy ~/ (g.cell + g.gap);
-                  final index = row * g.columns + col;
-                  if (col >= 0 && col < g.columns && index >= 0 && index < cells.length) onCellTap!(index);
-                },
-                child: strip,
-              );
-            },
-          ),
+          child: NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, stripKey: stripKey),
         ),
       ),
     );

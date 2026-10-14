@@ -28,7 +28,7 @@ class LengthDial extends ConsumerStatefulWidget {
   /// sheet (the longest length) hangs under it, so no stop is ever cut.
   static double heightFor(TextScaler scaler, List<int> counts) {
     final longest = counts.isEmpty ? perRow : counts.reduce((a, b) => a > b ? a : b);
-    return 8 + _StopState.top + scaler.scale(_StopState.numberLine) + _StopState.gap + _SheetPainter.sizeFor(longest).height + 12;
+    return 8 + _StopState.top + scaler.scale(_StopState.numberLine) + _StopState.gap + _SheetPainter.sizeFor(longest).height + 16;
   }
 
   /// Bubbles per row of a stop's sheet.
@@ -172,9 +172,9 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
     value: widget.selected ? 1 : 0,
   );
 
-  static const double top = 12;
-  static const double numberLine = 24;
-  static const double gap = 6;
+  static const double top = 14;
+  static const double numberLine = 32;
+  static const double gap = 8;
 
   /// 18 ms between bubbles plus the last bubble's own 200 ms.
   static Duration _inkDuration(int count) => Duration(milliseconds: 200 + 18 * count);
@@ -208,7 +208,7 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
         const SizedBox(height: top),
         AnimatedDefaultTextStyle(
           duration: Motion.of(context, Motion.ui),
-          style: widget.style.copyWith(fontSize: 22, height: numberLine / 22, color: selected ? colors.ink : colors.ink2),
+          style: widget.style.copyWith(fontSize: 28, height: numberLine / 28, color: selected ? colors.ink : colors.ink2),
           child: Text('${widget.count}'),
         ),
         const SizedBox(height: gap),
@@ -232,8 +232,8 @@ class _SheetPainter extends CustomPainter {
   final int totalMs;
   final MmColors colors;
 
-  static const double r = 2.5;
-  static const double gap = 2.3;
+  static const double r = 3;
+  static const double gap = 2.6;
 
   static Size sizeFor(int count) {
     final rows = (count / LengthDial.perRow).ceil();
@@ -245,13 +245,19 @@ class _SheetPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final b = BubblePaint(colors);
     final now = ink.value * totalMs;
+    final ring = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.1
+      ..color = colors.ink3;
     for (var i = 0; i < count; i++) {
       final row = i ~/ LengthDial.perRow;
       final col = i % LengthDial.perRow;
       final c = Offset(r + col * (2 * r + gap), r + row * (2 * r + gap));
       // Bubble i starts inking at 18 ms * i and takes 200 ms.
       final fill = ((now - 18 * i) / 200).clamp(0.0, 1.0);
-      b.paint(canvas, c, r, BubbleState.hollow, dim: 0.9);
+      // An empty bubble is a full-strength ring in the third ink tone (3:1 or better on the
+      // dial's ground), so every length shows as a sheet you can count, not a faint texture.
+      canvas.drawCircle(c, r - 0.5, ring);
       if (fill > 0) b.paint(canvas, c, r, BubbleState.filled, fill: Curves.easeOut.transform(fill));
     }
   }
