@@ -74,7 +74,8 @@ export function renderTokensCss(tokens) {
     fixed.push(`${base}-size: ${t.size}; ${base}-line: ${t.line}; ${base}-weight: ${t.weight}; ${base}-tracking: ${t.tracking};`);
   }
   fixed.push('/* Space, radii, targets */');
-  for (const [k, v] of Object.entries(space)) fixed.push(`--mm-space-${kebab(k)}: ${v}px;`);
+  // The step scale keeps its key whole (--mm-space-s8), which is the name the kit's CSS uses.
+  for (const [k, v] of Object.entries(space)) fixed.push(`--mm-space-${/^s\d+$/.test(k) ? k : kebab(k)}: ${v}px;`);
   for (const [k, v] of Object.entries(radius)) fixed.push(`--mm-radius-${kebab(k)}: ${v}px;`);
   for (const [k, v] of Object.entries(target)) fixed.push(`--mm-target-${kebab(k)}: ${v}px;`);
   fixed.push('/* Motion */');

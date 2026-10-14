@@ -212,3 +212,10 @@ test('the product route list matches src/app/(app) plus onboarding', async () =>
   for (const dir of dirs) assert.ok(PRODUCT_ROUTES.includes(dir), `missing product route ${dir}`);
   assert.ok(PRODUCT_ROUTES.includes('onboarding'));
 });
+
+test('every var(--mm-*) the UI kit reads is defined (an undefined one silently drops the whole declaration)', () => {
+  const kit = readFileSync(new URL('../../src/components/ui/ui.css', import.meta.url), 'utf8');
+  const defined = new Set([...(renderTokensCss(tokens) + kit).matchAll(/(--mm-[a-zA-Z0-9-]+)\s*:/g)].map((m) => m[1]));
+  const missing = [...new Set([...kit.matchAll(/var\((--mm-[a-zA-Z0-9-]+)/g)].map((m) => m[1]))].filter((name) => !defined.has(name));
+  assert.deepEqual(missing, []);
+});
