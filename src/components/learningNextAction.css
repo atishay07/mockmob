@@ -1,0 +1,29 @@
+/* Next-step card: plan body, age line and a loading skeleton with the final card's shape.
+   Heights follow the loaded card (title, two reason lines, two study steps, the action row and
+   the note), so nothing below it moves when the plan arrives. */
+.app-shell .na__plan { display: grid; gap: 12px; min-width: 0; }
+.app-shell .na__age { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .na__age .pr-link { font-size: inherit; }
+
+.app-shell .na-sk { display: grid; gap: 12px; align-content: start; }
+.app-shell .na-sk i { display: block; border-radius: 8px; background: var(--a-sunken); }
+.app-shell .na-sk__title { width: min(70%, 420px); height: 30px; }
+.app-shell .na-sk__line { width: min(100%, 560px); height: 14px; }
+.app-shell .na-sk__line--short { width: min(62%, 360px); margin-top: -4px; }
+.app-shell .na-sk__rows { display: grid; gap: 8px; }
+.app-shell .na-sk__rows i { width: min(100%, 520px); height: 52px; border-radius: 12px; }
+.app-shell .na-sk__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.app-shell .na-sk__btn { width: 200px; height: 44px; border-radius: 12px; }
+.app-shell .na-sk__alt { width: 150px; height: 44px; border-radius: 12px; }
+.app-shell .na-sk__note { width: min(90%, 520px); height: 12px; }
+
+/* Compact strip: same three rows as the loaded strip. */
+.app-shell .na-sk--compact { gap: 6px; min-height: 58px; }
+.app-shell .na-sk__eyebrow { width: 84px; height: 10px; }
+.app-shell .na-sk--compact .na-sk__line { height: 16px; width: min(100%, 320px); }
+.app-shell .na-sk--compact .na-sk__line--short { height: 12px; margin-top: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-shell .na-sk i { animation: na-sk-pulse 1.4s ease-in-out infinite; }
+}
+@keyframes na-sk-pulse { 50% { opacity: 0.55; } }
