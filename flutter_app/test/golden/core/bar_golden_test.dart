@@ -9,6 +9,7 @@ import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../you/you_golden_kit.dart' show loadMaterialIcons;
 import 'frame_sequence.dart';
 import 'night_support.dart';
 
@@ -17,6 +18,16 @@ const double _inset = 20;
 
 /// How much of the bottom of the frame each row shows: the bar, the capsule and some content.
 const double _cropHeight = 196;
+
+/// The sheets are captured at 2x, near a phone's density, so the 24 dp icons are judged as a
+/// student sees them.
+const double _ratio = 2;
+
+/// The app's type and the Material icon font the bar's glyphs come from.
+Future<void> _loadFonts() async {
+  await loadAppFonts();
+  await loadMaterialIcons();
+}
 
 /// One state of the bar.
 class _Shot {
@@ -29,6 +40,7 @@ class _Shot {
     this.quality,
     this.textScale = 1,
     this.width,
+    this.youInitial = 'A',
   });
 
   final int branch;
@@ -41,6 +53,9 @@ class _Shot {
 
   /// A narrower phone (the bar is laid out for this width, at the left of the frame).
   final double? width;
+
+  /// You's initial; null draws the person glyph.
+  final String? youInitial;
 }
 
 /// The bottom of a phone in one [_Shot]: the room behind, the bar's scrim, the capsule and the bar.
@@ -65,7 +80,7 @@ class _Scene extends StatelessWidget {
           compact: shot.compact ? _alwaysCompact : null,
           startPressed: shot.startPressed,
           quality: shot.quality,
-          youInitial: 'A',
+          youInitial: shot.youInitial,
           onTab: (_) {},
           onStart: (_) {},
         );
@@ -122,7 +137,7 @@ final ValueNotifier<bool> _alwaysCompact = ValueNotifier(true);
 
 /// A contact sheet named `<name>_<night|day>.png`: one row per shot, top to bottom.
 void _barSheet(String name, List<_Shot> shots, {Size size = kNightSize}) {
-  setUpAll(loadAppFonts);
+  setUpAll(_loadFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
@@ -144,6 +159,7 @@ void _barSheet(String name, List<_Shot> shots, {Size size = kNightSize}) {
         root: find.byType(Scaffold).first,
         atMs: [for (var i = 0; i < shots.length; i++) 0],
         crop: Rect.fromLTWH(0, size.height - _cropHeight, size.width, _cropHeight),
+        pixelRatio: _ratio,
         beforeFrame: (i) async {
           shot.value = i;
           await tester.pump();
@@ -156,13 +172,16 @@ void _barSheet(String name, List<_Shot> shots, {Size size = kNightSize}) {
 }
 
 void main() {
-  // Each place on the bar, then compact (scrolled down), then Start held down.
+  // Each place on the bar, then You with no name (the person glyph), compact (scrolled down)
+  // on Review and on You, then Start held down.
   _barSheet('bar_tabs', const [
     _Shot(branch: 0),
     _Shot(branch: 1),
     _Shot(branch: 2),
     _Shot(branch: 3),
+    _Shot(branch: 3, youInitial: null),
     _Shot(branch: 2, compact: true),
+    _Shot(branch: 3, compact: true),
     _Shot(branch: 0, startPressed: true),
   ]);
 
@@ -202,23 +221,26 @@ void main() {
     _Shot(branch: 1, quality: GlassQuality.off),
   ]);
 
-  // Large text (labels scale down, never clip, the bar keeps its height) and a 320 dp phone,
-  // where the Start slot narrows to 68 and the tabs to 52.
+  // Large text (labels scale down, never clip, the bar keeps its height; the icons never scale)
+  // and a 320 dp phone, where the Start slot narrows to 68 and the tabs to 52, expanded and
+  // compact.
   _barSheet('bar_text', [
     const _Shot(branch: 1, textScale: 1.3, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, textScale: 2, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, width: 320, badges: BarBadges(reviewCount: 3)),
     _Shot(branch: 1, width: 320, textScale: 1.3, live: BarMove(title: 'Business Studies practice', detail: '20 min', onStart: () {})),
+    const _Shot(branch: 3, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
   ]);
 
-  setUpAll(loadAppFonts);
+  setUpAll(_loadFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
 
     // The lens from Practice to Review, across Start, at 0, 40, 80, 130, 200 and 420 ms (top to
     // bottom): the leading edge runs ahead, the trailing edge follows, the lens slides under
-    // Start (which dips), and Review's bubble inks only once the lens has nearly arrived (no volt
-    // on the target before the leading edge passes 70% of its travel).
+    // Start (which dips), the old icon empties to its outline (160 ms), and the new one fills
+    // (200 ms) only once the lens has nearly arrived (no volt on the target before the leading
+    // edge passes 70% of its travel). Then Review back to Today, leftward.
     for (final (name, from, to) in const [('right', 1, 2), ('left', 2, 0)]) {
       testWidgets('bar travel $name (frames), $tag', (tester) async {
         final branch = ValueNotifier(from);
@@ -237,6 +259,7 @@ void main() {
           root: find.byType(Scaffold).first,
           atMs: const [0, 40, 80, 130, 200, 420],
           crop: const Rect.fromLTWH(0, 853 - _inset - MmBar.lift - MmBar.height - 8, 384, MmBar.height + 16),
+          pixelRatio: _ratio,
         );
         await expectLater(sheet, matchesGoldenFile('goldens/bar_travel_${name}_$tag.png'));
         await tester.pumpAndSettle();

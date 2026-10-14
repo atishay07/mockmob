@@ -17,8 +17,9 @@ import 'subject_identity.dart';
 /// photo-real object instead ([SubjectRender]: the ledger tied with string, the brass stamp, the
 /// scale with an onion): centred and wholly inside its box, never cropped, with a soft contact
 /// shadow, on a quiet well when framed. The 24 dp glyph and a subject without a render keep the
-/// drawing below. Marked, a framed tile shows the volt ring and tick and an open emblem one inked
-/// volt bubble; the idle float, the picker's dim and lift, and the semantics are the same.
+/// drawing below. Marked, a framed tile shows the volt ring and tick; an open emblem carries no
+/// mark of its own (a photo has no bubble to ink), so its row's check or ring says it, as below.
+/// The idle float, the picker's dim and lift, and the semantics are the same.
 ///
 /// - [size] is the side in dp, legible from 24 to 160. Use the four sizes of [EmblemSizes]
 ///   (24, 40, 56, 136) so a subject is the same object on every screen. Detail follows size (see

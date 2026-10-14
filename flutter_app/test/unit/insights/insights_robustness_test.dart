@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;

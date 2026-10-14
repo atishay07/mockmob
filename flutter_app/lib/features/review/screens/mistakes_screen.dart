@@ -48,6 +48,7 @@ class MistakesScreen extends ConsumerWidget {
       body = ReviewStateView(
         kind: StateViewKind.empty,
         pose: MobiPose.read,
+        scene: index.attempts.isEmpty ? null : StateScene.allClear,
         title: index.attempts.isEmpty ? ReviewCopy.emptyTitle : ReviewCopy.allClearTitle,
         message: index.attempts.isEmpty ? ReviewCopy.emptyMessage : ReviewCopy.allClearMessage,
         primary: index.attempts.isEmpty ? StateAction(ReviewCopy.emptyAction, () => context.go(AppRoutes.practice)) : null,

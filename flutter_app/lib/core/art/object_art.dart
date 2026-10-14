@@ -103,7 +103,7 @@ class SubjectRender {
   /// tile's margin. Never cropped.
   Rect rectIn(double side, {required bool framed}) {
     final inner = framed
-        ? Rect.fromLTRB(side * 0.13, side * 0.11, side * 0.87, side * 0.85)
+        ? Rect.fromLTRB(side * 0.085, side * 0.075, side * 0.915, side * 0.875)
         : Rect.fromLTRB(side * 0.03, side * 0.04, side * 0.97, side * 0.92);
     final fitted = applyBoxFit(BoxFit.contain, Size(width.toDouble(), height.toDouble()), inner.size).destination;
     return Alignment.center.inscribe(fitted, inner);
@@ -190,7 +190,8 @@ class ObjectEmblem extends StatelessWidget {
   Widget build(BuildContext context) {
     final side = size;
     final rect = render.rectIn(side, framed: framed);
-    final dpr = MediaQuery.maybeDevicePixelRatioOf(context) ?? 1.0;
+    // The same ratio [SubjectRender.precache] reads, so a precached picture is the one drawn.
+    final dpr = MediaQuery.maybeDevicePixelRatioOf(context) ?? View.of(context).devicePixelRatio;
     final night = palette.isNight;
     // The ground point in the picture's own box: the float leans about it.
     final foot = Offset(rect.width * render.footX, rect.height * render.ground);
@@ -243,9 +244,7 @@ class ObjectEmblem extends StatelessWidget {
             },
           ),
         ),
-        Positioned.fill(
-          child: CustomPaint(painter: _MarkPainter(palette: palette, ink: ink, framed: framed, object: rect, side: side)),
-        ),
+        if (framed) Positioned.fill(child: CustomPaint(painter: _TickPainter(palette: palette, ink: ink))),
       ],
     );
 
@@ -429,46 +428,25 @@ class _ContactShadowPainter extends CustomPainter {
       old.night != night || old.framed != framed || old.center != center || old.footWidth != footWidth || old.idle != idle || old.phase != phase;
 }
 
-/// The mark: on a framed tile the volt tick in its lower right corner (the ring is on the well);
-/// on an open emblem one inked volt bubble at the object's lower right, the sheet's mark.
-class _MarkPainter extends CustomPainter {
-  _MarkPainter({required this.palette, required this.ink, required this.framed, required this.object, required this.side}) : super(repaint: ink);
+/// The picked tick in the framed tile's lower right corner (the ring is on the well). An open
+/// emblem draws no mark of its own: a photo has no printed bubble to ink, and a volt dot on the
+/// object reads as a stray; the row's own check or ring says it is chosen.
+class _TickPainter extends CustomPainter {
+  _TickPainter({required this.palette, required this.ink}) : super(repaint: ink);
 
   final EmblemPalette palette;
   final Animation<double> ink;
-  final bool framed;
-  final Rect object;
-  final double side;
 
   @override
   void paint(Canvas canvas, Size size) {
     final k = ink.value.clamp(0.0, 1.0);
     if (k <= 0.02) return;
-    if (framed) {
-      final s = size.shortestSide / 100;
-      canvas.save();
-      canvas.scale(s);
-      paintSelectedBadge(canvas, palette, k);
-      canvas.restore();
-      return;
-    }
-    final p = palette;
-    final r = math.max(3.5, side * 0.07);
-    final c = Offset(math.min(object.right, side - r - 1) - r * 0.4, math.min(object.bottom, side - r - 1) - r * 0.3);
-    final pop = Curves.easeOutBack.transform(k);
-    if (p.isNight) {
-      canvas.drawCircle(c, r * 2.6, Paint()..shader = ui.Gradient.radial(c, r * 2.6, [p.voltGlow.withValues(alpha: p.voltGlow.a * k), p.voltGlow.withValues(alpha: 0)]));
-    }
     canvas.save();
-    canvas.translate(c.dx, c.dy);
-    canvas.scale(pop);
-    // A dark seat under the bubble so it holds on any part of the render.
-    canvas.drawCircle(Offset.zero, r + 1.4, Paint()..color = p.isNight ? const Color(0xE60E0C09) : p.voltRing);
-    canvas.drawCircle(Offset.zero, r, Paint()..color = p.volt);
-    canvas.drawCircle(Offset(-r * 0.34, -r * 0.38), r * 0.26, Paint()..color = const Color(0x8CFFFFFF));
+    canvas.scale(size.shortestSide / 100);
+    paintSelectedBadge(canvas, palette, k);
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(_MarkPainter old) => old.palette != palette || old.ink != ink || old.framed != framed || old.object != object || old.side != side;
+  bool shouldRepaint(_TickPainter old) => old.palette != palette || old.ink != ink;
 }

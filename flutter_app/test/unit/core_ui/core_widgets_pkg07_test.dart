@@ -284,40 +284,6 @@ void main() {
     });
   });
 
-  group('bar answer-bubble ink (DOCK.md 5.4, MOTION.md 5.2)', () {
-    BarIconPainter icon(WidgetTester tester, BarIconKind kind) => tester
-        .widgetList<CustomPaint>(find.byType(CustomPaint))
-        .map((w) => w.painter)
-        .whereType<BarIconPainter>()
-        .firstWhere((p) => p.kind == kind);
-
-    Widget bar(int branch) => Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: branch, onTab: (_) {}, onStart: (_) {}));
-
-    testWidgets('the new bubble waits for the lens, then inks; the old one drains', (tester) async {
-      await tester.pumpWidget(_app(bar(1)));
-      await tester.pump();
-      expect(icon(tester, BarIconKind.practice).ink.value, 1);
-
-      await tester.pumpWidget(_app(bar(2)));
-      await tester.pump(const Duration(milliseconds: 40));
-      expect(icon(tester, BarIconKind.review).ink.value, 0, reason: 'no volt on the target before the lens arrives');
-      expect(icon(tester, BarIconKind.practice).ink.value, lessThan(1), reason: 'the old bubble starts draining');
-      await _pumpFor(tester, const Duration(milliseconds: 600));
-      expect(icon(tester, BarIconKind.review).ink.value, 1);
-      expect(icon(tester, BarIconKind.practice).ink.value, 0);
-      expect(icon(tester, BarIconKind.review).tick.value, 1, reason: "Review's tick draws after the ink");
-    });
-
-    testWidgets('under reduced motion the bubble shows filled at once and the tick whole', (tester) async {
-      await tester.pumpWidget(_app(bar(0), reduced: true));
-      await tester.pumpWidget(_app(bar(2), reduced: true));
-      await tester.pump();
-      expect(icon(tester, BarIconKind.review).ink.value, 1);
-      expect(icon(tester, BarIconKind.review).tick.value, 1);
-      expect(icon(tester, BarIconKind.today).ink.value, 0);
-    });
-  });
-
   group('MobiLoader (design-system-06)', () {
     testWidgets('nothing for 300 ms, then Mobi loading, then the status line after a second', (tester) async {
       await tester.pumpWidget(_app(const MobiLoader(status: 'Opening your record')));

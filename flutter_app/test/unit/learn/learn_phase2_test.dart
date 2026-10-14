@@ -85,7 +85,7 @@ void main() {
   });
 
   group('the page header', () {
-    testWidgets('is the app's one page header: the back arrow on the gutter, a 48 dp reach, and it goes back', (tester) async {
+    testWidgets('is the one page header of the app: the back arrow on the gutter, a 48 dp reach, and it goes back', (tester) async {
       var back = 0;
       await pumpMockmob(
         tester,
@@ -97,8 +97,15 @@ void main() {
       final arrow = tester.getRect(find.byIcon(LucideIcons.arrowLeft));
       expect(arrow.left, 16, reason: 'the glyph sits on the gutter');
       expect(tester.getTopLeft(find.text(LearnCopy.title)).dx, 56, reason: 'the title follows the arrow at 16 dp');
+      final press = await tester.startGesture(arrow.center);
+      await tester.pump(); // the press spring's first frame
+      await tester.pump(const Duration(milliseconds: 80));
+      final sink = tester.widget<Transform>(find.descendant(of: find.byType(MmPressable), matching: find.byType(Transform)).first).transform.storage[0];
+      expect(sink, lessThan(1), reason: 'the key sinks on the next frames of the touch');
+      await press.up();
+      expect(back, 1);
       await tester.tapAt(Offset(arrow.left - 12, arrow.center.dy));
-      expect(back, 1, reason: 'the target reaches past the glyph');
+      expect(back, 2, reason: 'the target reaches past the glyph');
     });
   });
 

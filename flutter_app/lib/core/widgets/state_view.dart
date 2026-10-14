@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
-import 'art/mm_art.dart';
+import 'art/scene_art.dart';
 import 'key_button.dart';
 import 'materials/light_field.dart';
 import 'mobi.dart';
+
+// The painted scenes travel with the state view, so features reach them through the barrel.
+export 'art/scene_art.dart' show SceneArt, SceneImage, SceneVignette, StateScene;
 
 enum StateViewKind { empty, error, offline }
 
@@ -36,6 +39,7 @@ class StateView extends StatefulWidget {
     this.primary,
     this.secondary,
     this.pose = MobiPose.idle,
+    this.scene,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -46,6 +50,18 @@ class StateView extends StatefulWidget {
 
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
+
+  /// The painted scene Mobi sits in. Offline always has its own (the unplugged desk); an empty
+  /// state shows the all-clear room only when it says so, because "nothing yet" is not "all
+  /// marked". Errors have none.
+  final StateScene? scene;
+
+  /// The scene this state shows, if any.
+  StateScene? get shownScene => switch (kind) {
+        StateViewKind.offline => StateScene.offline,
+        StateViewKind.empty => scene == StateScene.allClear ? StateScene.allClear : null,
+        StateViewKind.error => null,
+      };
 
   /// How long the main action runs before the screen says so in words (MOTION.md P1-7).
   static const Duration slowAfter = Duration(seconds: 12);
@@ -114,19 +130,6 @@ class _StateViewState extends State<StateView> {
 
   Widget _art(BuildContext context, double size) {
     if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle, controller: _mobi);
-    // The living Mobi in both themes: reading over an empty sheet, resting while offline,
-    // thinking over an error. The lamp-lit raster vignettes stay only behind the MOBI_RASTER
-    // fallback, and only on Night, where they melt into the ground.
-    if (Mobi.rasterFallback && context.mmColors.isNight) {
-      switch (kind) {
-        case StateViewKind.empty:
-          return _Vignette(art: MmArt.emptyAllClear, height: size * 1.3);
-        case StateViewKind.offline:
-          return _Vignette(art: MmArt.emptyOffline, height: size * 1.3);
-        case StateViewKind.error:
-          break;
-      }
-    }
     return switch (kind) {
       StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle, controller: _mobi),
       StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle, controller: _mobi),
@@ -157,6 +160,7 @@ class _StateViewState extends State<StateView> {
     final type = context.mmType;
     // Large enough to be the screen's picture, not a speck on an empty canvas (SPACING.md 6: 140).
     final artSize = compact ? 96.0 : 140.0;
+    final scene = widget.shownScene;
 
     // The stack sits at the optical centre, about 42% down the free height (SPACING.md 6), not the
     // geometric one: dead-centre reads as sinking.
@@ -176,7 +180,11 @@ class _StateViewState extends State<StateView> {
                 MmStaggerItem(
                   index: 0,
                   rise: 8,
-                  child: SizedBox(
+                  child: scene != null
+                      // The painted room is the picture: Mobi sits in its lit ellipse, the scene
+                      // brings its own lamp, so no extra light pool is laid under it.
+                      ? SceneVignette(scene: scene, maxHeight: compact ? 150 : 248, controller: _mobi)
+                      : SizedBox(
                     height: artSize * 1.3,
                     child: Stack(
                       alignment: Alignment.bottomCenter,
@@ -233,52 +241,6 @@ class _StateViewState extends State<StateView> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// A landscape vignette with Mobi, settling once like Mobi does. Only for the MOBI_RASTER fallback.
-class _Vignette extends StatefulWidget {
-  const _Vignette({required this.art, required this.height});
-
-  final MmArt art;
-  final double height;
-
-  @override
-  State<_Vignette> createState() => _VignetteState();
-}
-
-class _VignetteState extends State<_Vignette> with SingleTickerProviderStateMixin {
-  late final AnimationController _settle = AnimationController(vsync: this, duration: Mobi.settleDuration);
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_settle.isAnimating || _settle.value > 0) return;
-    if (Motion.reduced(context)) {
-      _settle.value = 1;
-    } else {
-      _settle.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    _settle.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _settle,
-        builder: (context, child) {
-          final e = Motion.emphasized.transform(_settle.value);
-          return Transform.translate(offset: Offset(0, 6 * (1 - e)), child: child);
-        },
-        child: ArtImage(widget.art, height: widget.height),
       ),
     );
   }

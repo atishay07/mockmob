@@ -1,7 +1,11 @@
 // Goldens for the photo-real subject objects (SubjectEmblem.objectArt): every render at the hero
 // size, the 56 and 40 dp sizes framed and open, the marked and picker states, and the objects in
 // place on a Today hero card, a row of Practice tiles and a list of 40 dp rows. Night and Day.
+import 'dart:io';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart';
 import 'package:mockmob/core/theme/theme.dart';
@@ -35,19 +39,35 @@ Future<void> _precacheObjects(WidgetTester tester) async {
   await tester.pump();
 }
 
+/// Runs [build] once per theme as `goldens/<name>_<night|day>.png`. With `MM_PREVIEW_DIR` set,
+/// also writes a DPR 2 render there for close review (not compared).
 void _golden(String name, Widget Function() build, {required Size size}) {
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
+      final boundary = GlobalKey();
       await pumpMockmob(
         tester,
-        Builder(builder: (context) => ColoredBox(color: context.mmColors.ground, child: build())),
+        RepaintBoundary(
+          key: boundary,
+          child: Builder(builder: (context) => ColoredBox(color: context.mmColors.ground, child: build())),
+        ),
         brightness: brightness,
         size: size,
         disableAnimations: true,
       );
       await _precacheObjects(tester);
       await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_$tag.png'));
+      final dir = Platform.environment['MM_PREVIEW_DIR'];
+      if (dir != null && dir.isNotEmpty) {
+        final box = boundary.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+        await tester.runAsync(() async {
+          final image = await box.toImage(pixelRatio: 2);
+          final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+          image.dispose();
+          await File('$dir/${name}_$tag.png').writeAsBytes(bytes!.buffer.asUint8List());
+        });
+      }
     });
   }
 }
@@ -247,6 +267,6 @@ void main() {
   tearDown(() => SubjectEmblem.objectArt = false);
 
   _golden('object_art_hero', _hero, size: const Size(620, 720));
-  _golden('object_art_small', _small, size: const Size(620, 780));
+  _golden('object_art_small', _small, size: const Size(620, 920));
   _golden('object_art_cards', _cards, size: const Size(400, 820));
 }

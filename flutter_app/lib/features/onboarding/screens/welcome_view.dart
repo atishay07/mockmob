@@ -1,4 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -59,9 +62,6 @@ class WelcomeView extends StatefulWidget {
   /// Welcome is a moment (type and art, no cards): it sits on the moment gutter (SPACING.md 1.1).
   static const double gutter = MmSpace.s24;
 
-  /// Where the desk's back edge sits in the scene.
-  static const double deskAt = 0.82;
-
   @override
   State<WelcomeView> createState() => _WelcomeViewState();
 }
@@ -90,14 +90,39 @@ class _WelcomeViewState extends State<WelcomeView> {
     super.dispose();
   }
 
+  /// The line Mobi is saying now, so a rebuild never says it twice.
+  String? _said;
+
+  void _sayOnce(String? line) {
+    if (line == _said) return;
+    _said = line;
+    if (line == null) {
+      _mobi.hush();
+    } else {
+      _mobi.say(line);
+    }
+  }
+
   void _wake() {
     // The character plays its own wake on the tap; the line follows it.
     if (widget.entrance != MobiAct.sleep || _woken) return;
     setState(() => _woken = true);
   }
 
+  /// Welcome is lamp-lit in both themes, like the opening it follows: one dark room, one
+  /// painting, so Day does not get a second, paler first impression.
+  static final ThemeData _night = buildTheme(Brightness.dark);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Theme(
+        data: _night,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: Builder(builder: _room),
+        ),
+      );
+
+  Widget _room(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final size = MediaQuery.sizeOf(context);
@@ -115,41 +140,68 @@ class _WelcomeViewState extends State<WelcomeView> {
     final bubbleRoom = size.height >= 760 + (scale - 1) * 250;
     final sayLine = bubbleRoom ? line : null;
 
-    // The room fills everything above the words, so the desk meets the headline at every
-    // height instead of leaving a band of empty floor between them.
+    // The painted room fills the screen behind everything; Mobi stands in its lit ellipse, as
+    // large as the painting says (shrunk only to stay under the wordmark), and his line sits above
+    // him to the left, over the bookshelf, ending before the pinned sheet so it never covers it.
+    final wordmarkBottom = pad.top + MmSpace.s16 + 26 + MmSpace.s16;
     final room = LayoutBuilder(
       builder: (context, box) {
-        final h = box.maxHeight;
-        final deskY = h * WelcomeView.deskAt;
-        final mobiSize = (h * 0.5).clamp(130.0, 250.0);
+        final layout = WelcomeHeroLayout.of(size, room: box.maxHeight, topLimit: wordmarkBottom);
+        final mobiSize = layout.mobiHeight;
+        final mobiBox = mobiSize * 1.5;
+        final bubbleMax = math.max(0.0, layout.image.left + layout.image.width * WelcomeHeroLayout.sheetLeft - WelcomeView.gutter);
         return Stack(
           clipBehavior: Clip.none,
           children: [
-            Positioned.fill(child: WelcomeScene(deskAt: WelcomeView.deskAt, animate: widget.animate)),
-            // Mobi stands on the desk, as large as the room allows; his line rises above him.
+            // Runs past the room's foot (under the words): the painting ends in the ground.
             Positioned(
-              right: size.width * 0.12,
-              bottom: h - deskY - h * 0.07,
-              child: Listener(
-                onPointerUp: (_) => _wake(),
-                child: MobiStage(
-                  controller: _mobi,
-                  size: mobiSize,
-                  entrance: widget.entrance,
-                  say: sayLine,
-                  bubbleWidth: (size.width * 0.62).clamp(200.0, 300.0),
-                  semanticLabel: switch (widget.entrance) {
-                    MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
-                    MobiAct.sleepy => OnboardingCopy.mobiSleepy,
-                    _ => OnboardingCopy.mobiHello,
-                  },
+              left: 0,
+              top: 0,
+              width: size.width,
+              height: size.height,
+              child: IgnorePointer(child: WelcomeHero(layout: layout, animate: widget.animate)),
+            ),
+            if (mobiSize >= 80)
+              Positioned(
+                left: layout.feet.dx - mobiBox / 2,
+                width: mobiBox,
+                top: layout.feet.dy - mobiSize,
+                height: mobiSize,
+                child: Listener(
+                  onPointerUp: (_) => _wake(),
+                  child: MobiStage(
+                    controller: _mobi,
+                    size: mobiSize,
+                    entrance: widget.entrance,
+                    lamp: false,
+                    semanticLabel: switch (widget.entrance) {
+                      MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
+                      MobiAct.sleepy => OnboardingCopy.mobiSleepy,
+                      _ => OnboardingCopy.mobiHello,
+                    },
+                  ),
                 ),
               ),
-            ),
+            if (sayLine != null && bubbleMax >= 160)
+              Positioned(
+                left: WelcomeView.gutter,
+                width: bubbleMax,
+                bottom: box.maxHeight - (layout.feet.dy - mobiSize) + MmSpace.s4,
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: ValueListenableBuilder<MobiSpeech?>(
+                    valueListenable: _mobi.speech,
+                    builder: (context, speech, _) => speech == null
+                        ? const SizedBox.shrink()
+                        : MobiBubble(key: ValueKey(speech.id), speech: speech, maxWidth: bubbleMax),
+                  ),
+                ),
+              ),
           ],
         );
       },
     );
+    _sayOnce(sayLine);
 
     // The words build after Mobi has started his wave: the headline rises word by word, the
     // promise lifts, then the key (ui-blitz onboarding, Welcome).

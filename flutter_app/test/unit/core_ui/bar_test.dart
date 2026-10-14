@@ -1,6 +1,7 @@
-// The bar (docs/brain/ui-phase2/DOCK.md 9.3): slots, scrubbing, the capsule's priority and
-// stand-downs, dismissal, badges, insets, semantics and the accessibility guidelines. Plus the
-// Start sheet robustness fixes (today-01, today-03) and the morph's content timing (C8).
+// The bar (docs/brain/ui-phase2/DOCK.md 9.3): slots, scrubbing, the icons and their motion, the
+// capsule's priority and stand-downs, dismissal, badges, insets, semantics and the
+// accessibility guidelines. Plus the Start sheet robustness fixes (today-01, today-03) and the
+// morph's content timing (C8).
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart' show DebugSemanticsDumpOrder, SemanticsAction, SemanticsNode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,8 +32,24 @@ class _Driver implements HapticDriver {
   Future<void> mediumImpact() async => calls.add('medium');
 }
 
-Widget _bar({int branch = 0, ValueChanged<int>? onTab, BarBadges badges = BarBadges.none}) =>
-    Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: branch, badges: badges, onTab: onTab ?? (_) {}, onStart: (_) {}));
+Widget _bar({int branch = 0, ValueChanged<int>? onTab, BarBadges badges = BarBadges.none, ValueNotifier<bool>? compact, String? youInitial}) => Align(
+  alignment: Alignment.bottomCenter,
+  child: MmBottomBar(currentBranch: branch, badges: badges, compact: compact, youInitial: youInitial, onTab: onTab ?? (_) {}, onStart: (_) {}),
+);
+
+/// The bar's icon of [kind]: its CustomPaint, its painter, how far it is filled, and its settle.
+Finder _iconOf(BarIconKind kind) =>
+    find.byWidgetPredicate((w) => w is CustomPaint && w.painter is BarIconPainter && (w.painter! as BarIconPainter).glyph == kind.glyph);
+
+BarIconPainter _painterOf(WidgetTester tester, BarIconKind kind) => tester.widget<CustomPaint>(_iconOf(kind)).painter! as BarIconPainter;
+
+double _onOf(WidgetTester tester, BarIconKind kind) => _painterOf(tester, kind).on.value;
+
+double _scaleOf(WidgetTester tester, BarIconKind kind) =>
+    tester.widget<ScaleTransition>(find.ancestor(of: _iconOf(kind), matching: find.byType(ScaleTransition)).first).scale.value;
+
+BarLensPainter _lens(WidgetTester tester) =>
+    tester.widgetList<CustomPaint>(find.byType(CustomPaint)).map((w) => w.painter).whereType<BarLensPainter>().first;
 
 const _resume = BarResume(sessionId: 's1', paper: 'Accountancy mock', total: 50, answered: 23);
 const _marked = BarMarked(attemptId: 'a8', paper: 'Mock 8', subject: 'Accountancy');
@@ -115,6 +132,155 @@ void main() {
       await tester.dragFrom(Offset(24, y), const Offset(200, 0));
       await tester.pumpAndSettle();
       expect(taps, isEmpty);
+    });
+  });
+
+  group('icons (DOCK.md 4, revised after the owner review on 14 Oct)', () {
+    test('one family: filled Rounded when active, outlined at rest, from the Material font', () {
+      expect(BarIconKind.today.glyph, const BarGlyph(active: Icons.home_rounded, idle: Icons.home_outlined));
+      expect(BarIconKind.practice.glyph, const BarGlyph(active: Icons.quiz_rounded, idle: Icons.quiz_outlined));
+      expect(BarIconKind.review.glyph, const BarGlyph(active: Icons.fact_check_rounded, idle: Icons.fact_check_outlined));
+      expect(BarIconKind.you.glyph, const BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
+      for (final kind in BarIconKind.values) {
+        expect(kind.glyph.active.fontFamily, 'MaterialIcons', reason: '$kind: no icon package');
+        expect(kind.glyph.idle.fontFamily, 'MaterialIcons');
+        expect(kind.glyph.active, isNot(kind.glyph.idle), reason: '$kind: the active state is a shape, not only a colour');
+      }
+      expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Review, You');
+    });
+
+    test('colours: volt on Night, ink on Daylight (no volt on the white lens), ink 2 at rest', () {
+      final night = BarIconColors.of(MmColors.dark);
+      expect(night.active, const Color(0xFFD2F000));
+      expect(night.idle, const Color(0xFFBDB6A6));
+      expect(night.onActive, MmColors.dark.voltInk);
+      final day = BarIconColors.of(MmColors.light);
+      expect(day.active, const Color(0xFF17150F));
+      expect(day.idle, const Color(0xFF454036));
+      expect(day.active, isNot(MmColors.light.volt));
+    });
+
+    test('the fill leads and the outline holds, so the shape never thins mid-way', () {
+      expect(BarIconPainter.fillAt(0), 0);
+      expect(BarIconPainter.outlineAt(0), 1);
+      expect(BarIconPainter.fillAt(1), 1);
+      expect(BarIconPainter.outlineAt(1), 0);
+      for (var t = 0.0; t <= 1.0; t += 0.02) {
+        expect(BarIconPainter.fillAt(t) + BarIconPainter.outlineAt(t), greaterThanOrEqualTo(1 - 1e-9), reason: 'at $t');
+      }
+    });
+
+    testWidgets("You is the student's initial, or the person glyph with no name", (tester) async {
+      await pumpMockmob(tester, _bar(branch: 3, youInitial: 'A'));
+      expect(_painterOf(tester, BarIconKind.you).initial, 'A');
+      await pumpMockmob(tester, _bar(branch: 3));
+      expect(_painterOf(tester, BarIconKind.you).initial, isNull);
+    });
+
+    testWidgets('arrival waits for the lens (70% of its travel), fills over 200 ms and settles from 0.9; departure empties over 160 ms', (tester) async {
+      final branch = ValueNotifier(1);
+      addTearDown(branch.dispose);
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<int>(valueListenable: branch, builder: (context, b, _) => _bar(branch: b)),
+        size: const Size(360, 780),
+      );
+      expect(_onOf(tester, BarIconKind.practice), 1);
+      expect(_onOf(tester, BarIconKind.review), 0);
+
+      final geo = BarGeometry(360);
+      final from = geo.lensEdges(1).$2;
+      final to = geo.lensEdges(3).$2;
+      branch.value = 2;
+      await tester.pump();
+      int? arrivedAt;
+      var lowest = 1.0;
+      var highest = 0.0;
+      for (var t = 4; t <= 800; t += 4) {
+        await tester.pump(const Duration(milliseconds: 4));
+        final review = _onOf(tester, BarIconKind.review);
+        final practice = _onOf(tester, BarIconKind.practice);
+        if (arrivedAt == null && review > 0) {
+          arrivedAt = t;
+          final lead = (_lens(tester).right.value - from) / (to - from);
+          expect(lead, greaterThanOrEqualTo(0.7), reason: 'no volt on the target before the lens arrives');
+        }
+        if (t == 80) expect(practice, inExclusiveRange(0, 1), reason: 'the old icon is emptying');
+        if (t >= 168) expect(practice, 0, reason: 'empties over 160 ms');
+        final a = arrivedAt;
+        if (a != null) {
+          final scale = _scaleOf(tester, BarIconKind.review);
+          lowest = scale < lowest ? scale : lowest;
+          highest = scale > highest ? scale : highest;
+          if (t - a <= 180) expect(review, lessThan(1), reason: 'still filling at ${t - a} ms');
+          if (t - a >= 200) expect(review, 1, reason: 'filled by 200 ms');
+        }
+      }
+      expect(arrivedAt, isNotNull);
+      expect(lowest, inInclusiveRange(0.9, 0.92), reason: 'settles from 0.9');
+      expect(highest, lessThanOrEqualTo(1.01), reason: 'a calm spring, no visible overshoot');
+      expect(_scaleOf(tester, BarIconKind.review), closeTo(1, 0.001));
+    });
+
+    testWidgets('under reduced motion the icons swap at once', (tester) async {
+      final branch = ValueNotifier(0);
+      addTearDown(branch.dispose);
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<int>(valueListenable: branch, builder: (context, b, _) => _bar(branch: b)),
+        disableAnimations: true,
+      );
+      branch.value = 2;
+      await tester.pump();
+      expect(_onOf(tester, BarIconKind.review), 1);
+      expect(_onOf(tester, BarIconKind.today), 0);
+      expect(_scaleOf(tester, BarIconKind.review), 1);
+    });
+
+    testWidgets('labels are w600 active or not, so nothing shifts', (tester) async {
+      await pumpMockmob(tester, _bar(branch: 2));
+      for (final label in const ['Today', 'Practice', 'Review', 'You']) {
+        expect(tester.widget<Text>(find.text(label)).style!.fontWeight, FontWeight.w600, reason: label);
+      }
+    });
+
+    testWidgets('icons are never clipped: 320 dp, compact, and text at 1.3x and 2.0x', (tester) async {
+      for (final (width, compact, scale) in const [
+        (320.0, false, 1.0),
+        (320.0, true, 2.0),
+        (320.0, false, 2.0),
+        (360.0, false, 1.3),
+        (360.0, true, 1.3),
+        (411.0, false, 2.0),
+      ]) {
+        final notifier = ValueNotifier(compact);
+        addTearDown(notifier.dispose);
+        await pumpMockmob(tester, _bar(branch: 3, compact: notifier, youInitial: 'W'), size: Size(width, 780), textScale: scale);
+        await tester.pumpAndSettle();
+        final bar = tester.getRect(find.byType(MmBottomBar));
+        final painted = Rect.fromLTRB(bar.left, bar.bottom - (compact ? MmBar.compactHeight : MmBar.height), bar.right, bar.bottom);
+        final geo = BarGeometry(width);
+        final why = '$width dp, ${compact ? 'compact' : 'expanded'}, text ${scale}x';
+        for (final kind in BarIconKind.values) {
+          final icon = tester.getRect(_iconOf(kind));
+          final slot = branchToSlot(kind.index);
+          final slotLeft = bar.left + geo.slotLeft(slot);
+          final slotRight = slotLeft + geo.slotWidth(slot);
+          expect(icon.size, const Size(24, 24), reason: '$kind never scales with text, $why');
+          expect(icon.left, greaterThanOrEqualTo(slotLeft), reason: '$kind, $why');
+          expect(icon.right, lessThanOrEqualTo(slotRight), reason: '$kind, $why');
+          expect(icon.top, greaterThanOrEqualTo(painted.top + 4), reason: '$kind inside the glass, $why');
+          expect(icon.bottom, lessThanOrEqualTo(painted.bottom - 4), reason: '$kind inside the glass, $why');
+          if (!compact) {
+            final name = kBarTabs[kind.index].label;
+            final label = tester.getRect(find.text(name));
+            expect(label.left, greaterThanOrEqualTo(slotLeft), reason: '$name, $why');
+            expect(label.right, lessThanOrEqualTo(slotRight), reason: '$name, $why');
+            expect(label.top, greaterThanOrEqualTo(icon.bottom), reason: '$name, $why');
+            expect(label.bottom, lessThanOrEqualTo(painted.bottom), reason: '$name, $why');
+          }
+        }
+      }
     });
   });
 
@@ -320,6 +486,23 @@ void main() {
         'Review, tab 3 of 4',
         'You, tab 4 of 4',
       ]);
+      handle.dispose();
+    });
+
+    testWidgets('each tab is a button, and only the open one is selected', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpMockmob(tester, _bar(branch: 2));
+      for (final (label, selected) in const [
+        ('Today, tab 1 of 4', false),
+        ('Practice, tab 2 of 4', false),
+        ('Review, tab 3 of 4', true),
+        ('You, tab 4 of 4', false),
+      ]) {
+        expect(
+          tester.getSemantics(find.bySemanticsLabel(label)),
+          isSemantics(label: label, isButton: true, isSelected: selected, hasTapAction: true),
+        );
+      }
       handle.dispose();
     });
   });

@@ -20,6 +20,7 @@ class ReviewStateView extends StatefulWidget {
     this.primary,
     this.secondary,
     this.pose = MobiPose.idle,
+    this.scene,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -30,6 +31,16 @@ class ReviewStateView extends StatefulWidget {
 
   /// [MobiPose.idle] lets the kind choose: reading for empty, resting for offline, thinking for error.
   final MobiPose pose;
+
+  /// The painted room Mobi sits in: offline always shows the unplugged desk; an empty state
+  /// shows the all-clear room only when it says so ("nothing yet" is not "all repaired").
+  final StateScene? scene;
+
+  StateScene? get shownScene => switch (kind) {
+        StateViewKind.offline => StateScene.offline,
+        StateViewKind.empty => scene == StateScene.allClear ? StateScene.allClear : null,
+        StateViewKind.error => null,
+      };
 
   @override
   State<ReviewStateView> createState() => _ReviewStateViewState();
@@ -74,6 +85,7 @@ class _ReviewStateViewState extends State<ReviewStateView> {
         final bounded = box.hasBoundedHeight;
         final compact = bounded && box.maxHeight < 560;
         final art = compact ? 120.0 : 176.0;
+        final scene = widget.shownScene;
         return SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: bounded ? box.maxHeight : 0),
@@ -93,7 +105,10 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                         MmStaggerItem(
                           index: 0,
                           rise: 8,
-                          child: SizedBox(
+                          child: scene != null
+                              // The painted room brings its own lamp: no extra pool under it.
+                              ? SceneVignette(scene: scene, maxHeight: compact ? 150 : 248, controller: _mobi)
+                              : SizedBox(
                             height: art * 1.45,
                             child: Stack(
                               clipBehavior: Clip.none,

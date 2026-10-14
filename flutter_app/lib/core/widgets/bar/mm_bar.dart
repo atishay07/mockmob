@@ -90,8 +90,8 @@ abstract interface class StartDragTarget {
 /// Review and You.
 ///
 /// * Tap a tab: a `selectionClick`, the lens travels on two springs (its leading edge quick, its
-///   trailing edge slow, so it stretches toward the new tab and gathers itself), the old icon's
-///   bubble drains and the new one inks from the side the lens came from.
+///   trailing edge slow, so it stretches toward the new tab and gathers itself), the old icon
+///   goes back to its outline and the new one fills as the lens arrives.
 /// * Press an inactive tab: the lens's near edge leans toward it before the travel.
 /// * Scrub: a horizontal drag that starts on a tab (never on Start, never inside the system's
 ///   back-gesture strips) moves the lens 1:1, with a click at each tab boundary; the lens slides
@@ -142,7 +142,7 @@ class MmBottomBar extends ConsumerStatefulWidget {
   /// Plays the first appearance (once per cold start).
   final bool entrance;
 
-  /// You's initial, or null for Mobi's visor.
+  /// You's initial, or null for the person glyph.
   final String? youInitial;
 
   /// Start's TalkBack shortcut ("Resume Accountancy mock"), with [onStartResume].
@@ -157,6 +157,10 @@ class MmBottomBar extends ConsumerStatefulWidget {
   /// The lens's leading edge (quick) and trailing edge (slow).
   static final SpringDescription edgeLead = SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 240), bounce: 0.14);
   static final SpringDescription edgeTrail = SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0.04);
+
+  /// An arriving icon fills over [iconIn]; a departing one empties to its outline over [iconOut].
+  static const Duration iconIn = Duration(milliseconds: 200);
+  static const Duration iconOut = Duration(milliseconds: 160);
 
   /// An icon settling as it arrives: 420 ms, bounce 0.12.
   static final SpringDescription iconSettle = SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0.12);
@@ -180,11 +184,9 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   late final AnimationController _enter = AnimationController(vsync: this, duration: MmBottomBar.entranceDuration, value: 1);
   late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 360), value: 1);
 
-  late final List<AnimationController> _on = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: const Duration(milliseconds: 160))];
-  late final List<AnimationController> _ink = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: Motion.ink)];
-  late final List<AnimationController> _tick = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: const Duration(milliseconds: 220), value: 1)];
+  /// Each tab's icon, 0 outlined to 1 filled (and its label, ink 2 to ink).
+  late final List<AnimationController> _on = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: MmBottomBar.iconIn, reverseDuration: MmBottomBar.iconOut)];
   late final List<AnimationController> _settle = [for (var i = 0; i < 4; i++) AnimationController.unbounded(vsync: this, value: 1)];
-  final List<ValueNotifier<double>> _inkFrom = [for (var i = 0; i < 4; i++) ValueNotifier<double>(-1)];
 
   late final Listenable _edges = Listenable.merge([_left, _right]);
 
@@ -214,14 +216,12 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     super.initState();
     // Create every controller now, never lazily in dispose (a deactivated element cannot look
     // up its TickerMode): the entrance ones exist only when touched otherwise.
-    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._tick, ..._settle]) {
+    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._settle]) {
       assert(!c.isAnimating);
     }
     _shown = widget.currentBranch;
     for (var i = 0; i < 4; i++) {
-      final active = i == _shown;
-      _on[i].value = active ? 1 : 0;
-      _ink[i].value = active ? 1 : 0;
+      _on[i].value = i == _shown ? 1 : 0;
     }
     _edges.addListener(_watchEdges);
     widget.compact?.addListener(_compactChanged);
@@ -272,11 +272,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   void dispose() {
     widget.compact?.removeListener(_compactChanged);
     _edges.removeListener(_watchEdges);
-    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._on, ..._ink, ..._tick, ..._settle]) {
+    for (final c in [_left, _right, _collapse, _labelsOut, _dip, _press, _ripple, _enter, _pop, ..._on, ..._settle]) {
       c.dispose();
-    }
-    for (final n in _inkFrom) {
-      n.dispose();
     }
     super.dispose();
   }
@@ -345,19 +342,16 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     trail.animateWith(Motion.spring(MmBottomBar.edgeTrail, trail.value, trailTo, velocity: velocity != 0 ? velocity * 0.6 : trail.velocity));
   }
 
-  /// Makes [branch] the active one: the old bubble drains, the lens travels, the new bubble inks
-  /// as the lens arrives.
+  /// Makes [branch] the active one: the old icon goes back to its outline, the lens travels, the
+  /// new icon fills as the lens arrives.
   void _select(int branch, {double velocity = 0}) {
     final slot = branchToSlot(branch);
     if (branch == _shown) {
       _glideTo(slot, velocity: velocity);
       return;
     }
-    final fromCenter = (_left.value + _right.value) / 2;
-    final rightward = _geo.slotCenter(slot) > fromCenter;
     _depart(_shown);
     _shown = branch;
-    _inkFrom[branch].value = rightward ? -1 : 1;
     if (_reduced) {
       _glideTo(slot);
       _arrive(branch);
@@ -369,33 +363,26 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     _watchEdges();
   }
 
+  /// The filled icon empties back to its outline (160 ms).
   void _depart(int branch) {
     if (_arriving == branch) _arriving = null;
     if (_reduced) {
       _on[branch].value = 0;
-      _ink[branch].value = 0;
       return;
     }
-    _on[branch].animateBack(0, duration: const Duration(milliseconds: 160), curve: Motion.exit);
-    _ink[branch].animateBack(0, duration: const Duration(milliseconds: 160), curve: Motion.exit);
+    _on[branch].animateBack(0, curve: Motion.exit);
   }
 
+  /// The outlined icon fills (200 ms) and settles from 0.9 to 1. Called once the lens's leading
+  /// edge has passed 70% of its travel, so no volt shows on the target before the lens is there.
   void _arrive(int branch) {
     if (branch != _shown) return;
     if (_reduced) {
       _on[branch].value = 1;
-      _ink[branch].value = 1;
-      _tick[branch].value = 1;
       _settle[branch].value = 1;
       return;
     }
-    _on[branch].animateTo(1, duration: const Duration(milliseconds: 160), curve: Motion.glide);
-    final ink = _ink[branch];
-    final tick = _tick[branch];
-    if (branch == 2) tick.value = 0;
-    ink.animateTo(1, duration: Motion.ink).whenCompleteOrCancel(() {
-      if (mounted && _shown == branch && branch == 2) tick.forward(from: 0);
-    });
+    _on[branch].animateTo(1, curve: Motion.glide);
     _settle[branch].value = 0.9;
     _settle[branch].animateWith(Motion.spring(MmBottomBar.iconSettle, 0.9, 1));
   }
@@ -472,10 +459,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final after = slotToBranch(_geo.nearestTabSlot(center))!;
     if (after != before) ref.read(hapticsProvider).selection();
     if (after != _shown) {
-      final rightward = _geo.slotCenter(branchToSlot(after)) > _geo.slotCenter(branchToSlot(_shown));
       _depart(_shown);
       _shown = after;
-      _inkFrom[after].value = rightward ? -1 : 1;
       _arrive(after);
     }
   }
@@ -679,14 +664,11 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         scale: _settle[branch],
         child: CustomPaint(
           painter: BarIconPainter(
-            kind: tab.icon,
+            glyph: tab.icon.glyph,
             colors: iconColors,
             on: _on[branch],
-            ink: _ink[branch],
-            tick: _tick[branch],
-            inkFrom: _inkFrom[branch],
             initial: branch == 3 ? widget.youInitial : null,
-            initialStyle: TextStyle(fontFamily: MmFonts.hanken, fontSize: 11, fontWeight: FontWeight.w700),
+            initialStyle: const TextStyle(fontFamily: MmFonts.hanken, fontWeight: FontWeight.w700),
           ),
         ),
       ),

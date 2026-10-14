@@ -244,11 +244,14 @@ void main() {
       expect(find.descendant(of: find.byType(SubjectEmblem), matching: find.byType(Opacity)), findsNothing);
     });
 
-    testWidgets('marking paints the volt mark (ring and tick framed, a bubble open)', (tester) async {
-      for (final framed in const [true, false]) {
-        final off = await _render(tester, SubjectEmblem(subject: 'sociology', size: 56, framed: framed));
-        final on = await _render(tester, SubjectEmblem(subject: 'sociology', size: 56, framed: framed, marked: true));
-        expect(_voltPixels(on) - _voltPixels(off), greaterThan(framed ? 300 : 60), reason: 'framed $framed');
+    testWidgets('marked, a framed tile shows the volt ring and tick; an open emblem adds no dot', (tester) async {
+      for (final b in Brightness.values) {
+        final off = await _render(tester, const SubjectEmblem(subject: 'sociology', size: 56), brightness: b);
+        final on = await _render(tester, const SubjectEmblem(subject: 'sociology', size: 56, marked: true), brightness: b);
+        expect(_voltPixels(on) - _voltPixels(off), greaterThan(300), reason: b.name);
+        final openOff = await _render(tester, const SubjectEmblem(subject: 'sociology', size: 56, framed: false), brightness: b);
+        final openOn = await _render(tester, const SubjectEmblem(subject: 'sociology', size: 56, framed: false, marked: true), brightness: b);
+        expect(_voltPixels(openOn), _voltPixels(openOff), reason: b.name);
       }
     });
 
@@ -288,9 +291,9 @@ Matcher _contains(Rect inner) => predicate<Rect>(
     );
 
 /// Paints [emblem] alone (no image decode needed: the mark is paint) and returns RGBA pixels.
-Future<Uint8List> _render(WidgetTester tester, Widget emblem) async {
+Future<Uint8List> _render(WidgetTester tester, Widget emblem, {Brightness brightness = Brightness.dark}) async {
   final key = GlobalKey();
-  await _pump(tester, RepaintBoundary(key: key, child: emblem), disableAnimations: true);
+  await _pump(tester, RepaintBoundary(key: key, child: emblem), disableAnimations: true, brightness: brightness);
   await tester.pumpAndSettle();
   final bytes = await tester.runAsync(() async {
     final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;

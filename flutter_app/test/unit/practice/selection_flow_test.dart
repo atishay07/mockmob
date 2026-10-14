@@ -64,7 +64,7 @@ void main() {
     await _settle(tester, 2);
     final quick = find.text('Quick practice').first;
     // The modes sit below the suggestion and the tiles: scroll the page (not the tile strip) to them.
-    await tester.scrollUntilVisible(quick, 200, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text('Quick practice'), 200, scrollable: find.byType(Scrollable).first);
     await tester.pump();
     await tester.tap(quick);
     await _settle(tester);
