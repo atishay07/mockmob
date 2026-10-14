@@ -181,7 +181,7 @@ class _Scale extends StatelessWidget {
     return ExcludeSemantics(
       child: RepaintBoundary(
         child: CustomPaint(
-          size: const Size(double.infinity, 76),
+          size: const Size(double.infinity, 80),
           painter: _ScalePainter(
             scores: scores,
             dream: dream,
@@ -209,6 +209,7 @@ class _ScalePainter extends CustomPainter {
 
   static const double _axisY = 52;
   static const double _r = 10;
+  static const double _groove = 6;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -221,16 +222,36 @@ class _ScalePainter extends CustomPainter {
 
     // The axis and a tick every 50, labelled every 50 (every 100 when the range is wide).
     final step = hi - lo > 300 ? 100.0 : 50.0;
-    canvas.drawLine(Offset(inset, _axisY), Offset(size.width - inset, _axisY), Paint()
-      ..color = colors.lineStrong
-      ..strokeWidth = 1.5);
+    // The axis is a groove, the same material as the road above it; the stretch between the
+    // lowest and the highest pick is inked, so how wide the picks spread reads at a glance.
+    final groove = RRect.fromRectAndRadius(
+      Rect.fromLTRB(inset - 3, _axisY - _groove / 2, size.width - inset + 3, _axisY + _groove / 2),
+      const Radius.circular(_groove / 2),
+    );
+    canvas.drawRRect(groove, Paint()..color = colors.ink.withValues(alpha: colors.isNight ? 0.07 : 0.06));
+    canvas.drawRRect(
+      groove.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = colors.line,
+    );
     for (var v = lo; v <= hi + 0.1; v += 50) {
       final tx = x(v);
       final major = (v - lo) % step == 0;
-      canvas.drawLine(Offset(tx, _axisY - (major ? 4 : 2)), Offset(tx, _axisY + (major ? 4 : 2)), Paint()
+      canvas.drawLine(Offset(tx, _axisY + _groove / 2 + 2), Offset(tx, _axisY + _groove / 2 + (major ? 6 : 4)), Paint()
         ..color = colors.lineStrong
         ..strokeWidth = 1);
-      if (major) _text(canvas, v.toStringAsFixed(0), tick, Offset(tx, _axisY + 15));
+      if (major) _text(canvas, v.toStringAsFixed(0), tick, Offset(tx, _axisY + 18));
+    }
+    final highest = scores.reduce(math.max);
+    final spreadT = rise.value;
+    if (x(highest) - x(lowest) > 1) {
+      final a = x(lowest), b = a + (x(highest) - a) * spreadT;
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTRB(a - 3, _axisY - _groove / 2, b + 3, _axisY + _groove / 2), const Radius.circular(_groove / 2)),
+        Paint()..color = colors.ink.withValues(alpha: colors.isNight ? 0.42 : 0.36),
+      );
     }
 
     // Picks, lowest row first; a pick too close to one already placed stands a row higher.
@@ -251,7 +272,7 @@ class _ScalePainter extends CustomPainter {
       canvas.drawLine(Offset(p.x, yOf(p.row) + _r), Offset(p.x, _axisY), Paint()
         ..color = colors.ink.withValues(alpha: 0.35 * t)
         ..strokeWidth = 1);
-      canvas.drawCircle(Offset(p.x, _axisY), 2.5, Paint()..color = colors.ink.withValues(alpha: t));
+      canvas.drawCircle(Offset(p.x, _axisY), 3, Paint()..color = colors.ink.withValues(alpha: t));
     }
     // Then the bubbles, each on a disc of the ground so a stem passing behind one stops at it.
     final bubbles = BubblePaint(colors);
