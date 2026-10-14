@@ -3,10 +3,8 @@
 // Radar: where the student's marks are going. The record view (ledger, leaks, chapters, changed
 // answers, pace, week on week) is the same free, model-free analysis PrepOS uses, so the two never
 // disagree. The score trend keeps the attempt-level chart. No invented composite scores.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler } from 'chart.js';
-import { Line } from 'react-chartjs-2';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from '@/components/LearningNextAction';
@@ -14,8 +12,15 @@ import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
 import { AppIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { useInView } from '@/lib/motion';
+import TrendScrub from './TrendScrub';
+import './analytics.css';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
+// A thin bar that inks in when its row scrolls into view. The figure beside it carries the number.
+function SubjectBar({ pct, delay = 0 }) {
+  const [ref, seen] = useInView({ threshold: 0.5 });
+  return <span className="rd-bar" ref={ref} data-in={seen ? 'true' : 'false'} style={{ '--w': Math.max(0, Math.min(100, pct)) / 100, '--rd-delay': `${delay}ms` }} aria-hidden="true"><i /></span>;
+}
 
 // Chart.js paints on a canvas, so it cannot read CSS variables. Read the live Arena tokens and
 // re-read when the theme switches.
@@ -49,19 +54,6 @@ export default function AnalyticsPageClient() {
     apiGet(`/api/analytics?userId=${user.id}`).then((d) => { if (alive) setData(d); }).catch((e) => { if (alive) setError(e.message); });
     return () => { alive = false; };
   }, [user, authStatus, retryCount]);
-
-  const lineData = useMemo(() => data && ({
-    labels: data.timeline.map((t) => t.test),
-    datasets: [{ label: 'Score %', data: data.timeline.map((t) => t.score), borderColor: colors.accent, backgroundColor: 'transparent', borderWidth: 2, pointBackgroundColor: colors.accent, pointRadius: 3, fill: false, tension: 0.35 }],
-  }), [data, colors]);
-  const lineOptions = useMemo(() => ({
-    responsive: true, maintainAspectRatio: false,
-    scales: {
-      y: { min: 0, max: 100, grid: { color: colors.line }, ticks: { color: colors.ink, callback: (v) => `${v}%` }, border: { display: false } },
-      x: { grid: { display: false }, ticks: { color: colors.ink, maxTicksLimit: 6 }, border: { display: false } },
-    },
-    plugins: { legend: { display: false } },
-  }), [colors]);
 
   if (error) return <div className="container-std pt-8"><ErrorState message={error} onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
   if (authStatus === 'loading' || !data) {
@@ -97,9 +89,9 @@ export default function AnalyticsPageClient() {
         <aside className="rd-side">
           <section className="rd-card" aria-labelledby="rd-trend">
             <h2 id="rd-trend">Score by session</h2>
-            <div className="rd-chart">
+            <div className="rd-chart rd-chart--scrub">
               {timeline.length > 1
-                ? <Line data={lineData} options={lineOptions} aria-label="Score by session" role="img" />
+                ? <TrendScrub timeline={timeline} colors={colors} />
                 : <p className="pr-empty">{timeline.length === 0 ? 'Finish a session to start your trend.' : 'One more session and the trend line appears.'}</p>}
             </div>
             {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions. Each session is a different set of questions, so read it as a rough guide.</p>}
@@ -109,11 +101,12 @@ export default function AnalyticsPageClient() {
             <section className="rd-card" aria-labelledby="rd-subj">
               <h2 id="rd-subj">By subject</h2>
               <ul className="rd-subjects">
-                {subjects.map((s) => (
+                {subjects.map((s, i) => (
                   <li key={s.id}>
                     <span className="rd-subjects__icon"><SubjectIcon id={s.id} size={16} /></span>
                     <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'} · avg {s.avg}%</i></span>
                     <span className="rd-subjects__acc" aria-label={`${s.accuracy}% accuracy`}>{s.accuracy}%</span>
+                    <SubjectBar pct={s.accuracy} delay={i * 80} />
                   </li>
                 ))}
               </ul>

@@ -157,3 +157,39 @@
   .prepos-console > nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
   .prepos-console > nav button { min-width:0; padding:8px 4px; line-height:1.35; overflow-wrap:anywhere; }
 }
+
+/* Bars ink in once they are on screen (transform only). */
+.pp-stack i { transform-origin: left center; transition: transform 700ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--i, 0) * 120ms); }
+.pp-stack[data-in='false'] i { transform: scaleX(0); }
+.pp-changes i { transform-origin: left center; transition: transform 700ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 120ms; }
+.pp-changes[data-in='false'] i { transform: scaleX(0); }
+
+/* What moved since the last look. */
+.pp-look { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin: -8px 0 0; padding: 8px 14px; border-radius: 14px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.12)); background: var(--pp-wash, rgba(244, 245, 240, 0.03)); font-size: 13.5px; color: var(--pp-ink-2, #d4dacd); animation: mk-rise 420ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 700ms both; }
+.pp-look b { font: 700 14px var(--font-display); color: var(--pp-ink, #f2f4ec); }
+.pp-look i { font-style: normal; font-size: 12.5px; color: var(--pp-ink-3, #9aa795); }
+.pp-look__arrow { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 9px; font-weight: 800; background: var(--pp-line, rgba(244, 245, 240, 0.07)); }
+.pp-look[data-dir='up'] .pp-look__arrow { color: var(--pp-accent, #d2f000); background: rgba(210, 240, 0, 0.1); }
+.pp-look[data-dir='down'] .pp-look__arrow { color: var(--pp-bad, #ff9d92); background: rgba(255, 157, 146, 0.1); }
+
+/* Your answer sheet: one bubble per question, grouped by outcome. */
+.as { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.12)); border-radius: 16px; background: var(--pp-wash, rgba(244, 245, 240, 0.03)); touch-action: pan-y; cursor: crosshair; }
+.as i { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pp-line-strong, rgba(244, 245, 240, 0.28)); transition: transform 240ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)), opacity 200ms ease, background-color 320ms ease, border-color 320ms ease; transition-delay: 0ms; }
+.as[data-in='false'] i { transform: scale(0.4); opacity: 0.25; background: transparent; }
+.as[data-in='true'] i[data-k='right'] { background: var(--pp-accent, #d2f000); border-color: var(--pp-accent, #d2f000); }
+.as[data-in='true'] i[data-k='wrong'] { background: var(--pp-bad, #ff9d92); border-color: var(--pp-bad, #ff9d92); }
+.as[data-in='true'] i { animation: as-ink 480ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) calc(var(--i, 0) * 9ms) both; }
+@keyframes as-ink { 0% { transform: scale(0.4); opacity: 0.25; background-color: transparent; } 100% { transform: none; opacity: 1; } }
+.as[data-active] i { opacity: 0.32; animation: none; }
+.as[data-active='right'] i[data-k='right'], .as[data-active='wrong'] i[data-k='wrong'], .as[data-active='skip'] i[data-k='skip'] { opacity: 1; transform: scale(1.22); }
+.as__label { margin: 10px 0 0; min-height: 22px; font: 700 14px var(--font-display); color: var(--pp-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.as__label[data-k='right'] { color: var(--pp-accent, #d2f000); }
+.as__label[data-k='wrong'] { color: var(--pp-bad, #ff9d92); }
+.as__legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 8px; }
+.as__legend button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.22)); background: transparent; color: var(--pp-ink-2, #d4dacd); font: 700 13px var(--font-display); font-variant-numeric: tabular-nums; cursor: pointer; }
+.as__legend button i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--pp-line-strong, rgba(244, 245, 240, 0.35)); }
+.as__legend button[data-k='right'] i { background: var(--pp-accent, #d2f000); border-color: var(--pp-accent, #d2f000); }
+.as__legend button[data-k='wrong'] i { background: var(--pp-bad, #ff9d92); border-color: var(--pp-bad, #ff9d92); }
+.as__legend button[aria-pressed='true'] { border-color: var(--pp-accent, #d2f000); color: var(--pp-ink, #f2f4ec); }
+.as__legend button:focus-visible { outline: 2px solid var(--pp-accent, #d2f000); outline-offset: 3px; }
+@media (min-width: 640px) { .as i { width: 18px; height: 18px; } }

@@ -1,0 +1,23 @@
+/* Radar: the scrubbable trend and the subject bars. Transform and opacity only. */
+
+.tr { display: grid; gap: 10px; }
+.tr__plot { position: relative; touch-action: pan-y; cursor: crosshair; border-radius: 12px; }
+.tr__plot:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; }
+.tr__plot svg { display: block; overflow: visible; }
+.tr__dot { transition: opacity 320ms ease, r 200ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
+.tr__rule { transition: opacity 200ms ease; }
+.tr__halo { transform-box: fill-box; transform-origin: center; animation: tr-halo 520ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+@keyframes tr-halo { from { transform: scale(0.8); opacity: 0.9; } to { transform: scale(2.6); opacity: 0; } }
+.tr__chip { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-sunken); font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); animation: mk-rise 260ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+.tr__chip b { font: 700 14px var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.tr__chip i { font-style: normal; font-size: 12px; color: var(--a-ink-3); }
+.tr__chip[data-tone='up'] { border-color: var(--a-volt-line); }
+.tr__chip[data-tone='up'] b { color: var(--a-accent-text); }
+.tr__chip[data-tone='down'] b { color: var(--a-bad-text); }
+
+.rd-bar { grid-column: 2 / -1; display: block; height: 5px; margin-top: 4px; border-radius: 999px; background: var(--a-line); overflow: hidden; }
+.rd-bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--a-select); transform: scaleX(var(--w, 1)); transform-origin: left center; transition: transform 800ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) var(--rd-delay, 0ms); }
+.rd-bar[data-in='false'] i { transform: scaleX(0); }
+
+:root[data-motion='reduced'] .tr__halo { animation: none; opacity: 0; }
+.app-shell .rd-chart--scrub { height: auto; }

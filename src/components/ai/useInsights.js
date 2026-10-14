@@ -22,3 +22,31 @@ export function useInsights(userId) {
   }, [userId]);
   return state.userId === userId ? state : { userId, status: 'loading', insights: null, findings: [] };
 }
+
+// What the student saw last time, so the Record can say what changed since then. Only the one
+// real figure (accuracy, in whole percent) is kept, per student, in this browser. Every access is
+// inside try/catch: private windows and blocked storage just mean there is nothing to compare.
+const lookKey = (userId) => `mm:record-look:v1:${userId}`;
+
+/** The accuracy shown at the last look, or null when there is none. */
+export function readLastLook(userId) {
+  if (!userId) return null;
+  try {
+    const raw = window.localStorage.getItem(lookKey(userId));
+    const value = raw ? JSON.parse(raw)?.pct : null;
+    return Number.isFinite(value) ? value : null;
+  } catch { return null; }
+}
+
+/** Remembers the figure shown now, for the next look. */
+export function rememberLook(userId, pct) {
+  if (!userId || !Number.isFinite(pct)) return;
+  try { window.localStorage.setItem(lookKey(userId), JSON.stringify({ pct, at: Date.now() })); } catch { /* Nothing to remember it in. */ }
+}
+
+/** The change, in words, or null when nothing moved. Points are percentage points of accuracy. */
+export function lookChange(from, now) {
+  if (!Number.isFinite(from) || !Number.isFinite(now) || from === now) return null;
+  const d = Math.abs(now - from);
+  return { delta: now - from, text: `${now > from ? 'Up' : 'Down'} ${d} point${d === 1 ? '' : 's'} since your last look` };
+}

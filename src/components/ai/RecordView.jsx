@@ -2,8 +2,12 @@
 
 // "Your record": the student's own sessions, explained. Every figure states its sample;
 // nothing here uses a model or credits, and nothing claims a cause or a prediction.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
+import MobiReact from '@/components/brand/MobiReact';
+import { useCountUp, useInView } from '@/lib/motion';
+import AnswerSheet from './AnswerSheet';
+import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
 import { MIN_CHAPTER_SAMPLE } from '../../../data/prepos_insights';
 
@@ -13,16 +17,46 @@ const day = (t) => new Date(t).toLocaleDateString('en-IN', { day: 'numeric', mon
 
 function Stack({ right, wrong, skip, label }) {
   const total = right + wrong + skip || 1;
+  const [ref, seen] = useInView({ threshold: 0.4 });
   return (
-    <span className="pp-stack" role="img" aria-label={label}>
-      <i data-k="right" style={{ flexBasis: `${(right / total) * 100}%` }} />
-      <i data-k="wrong" style={{ flexBasis: `${(wrong / total) * 100}%` }} />
-      <i data-k="skip" style={{ flexBasis: `${(skip / total) * 100}%` }} />
+    <span className="pp-stack" ref={ref} data-in={seen ? 'true' : 'false'} role="img" aria-label={label}>
+      <i data-k="right" style={{ flexBasis: `${(right / total) * 100}%`, '--i': 0 }} />
+      <i data-k="wrong" style={{ flexBasis: `${(wrong / total) * 100}%`, '--i': 1 }} />
+      <i data-k="skip" style={{ flexBasis: `${(skip / total) * 100}%`, '--i': 2 }} />
     </span>
   );
 }
 
 const FREE_CHAPTERS = 3;
+
+// The marks ledger. The accuracy figure rolls from what the student saw last time to what is true
+// now, and a line says what moved. Mobi hops only for a real rise of 5 points or more.
+function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
+  const [from] = useState(() => readLastLook(userId));
+  const now = accuracy.pct;
+  const change = lookChange(from, now);
+  const shown = useCountUp(now ?? 0, { from: from ?? undefined, duration: 800 });
+  useEffect(() => { rememberLook(userId, now); }, [userId, now]);
+  return (
+    <>
+      <dl className="pp-ledger">
+        <div data-emph="true"><dt>Net marks</dt><dd>{signed(ledger.net)}</dd><small>+5 per right, −1 per wrong</small></div>
+        <div><dt>Right</dt><dd>{right}</dd></div>
+        <div><dt>Wrong</dt><dd>{wrong}</dd></div>
+        <div><dt>Blank</dt><dd>{blank}</dd></div>
+        <div><dt>Accuracy</dt><dd>{now === null ? '—' : `${shown}%`}</dd><small>{now === null ? 'No attempted questions' : `Likely ${accuracy.low}–${accuracy.high}% (${accuracy.n} answered)`}</small></div>
+      </dl>
+      {change ? (
+        <p className="pp-look" data-dir={change.delta > 0 ? 'up' : 'down'} role="status">
+          {change.delta >= 5 ? <MobiReact act="cheer" size={40} /> : null}
+          <span className="pp-look__arrow" aria-hidden="true">{change.delta > 0 ? '↑' : '↓'}</span>
+          <b>{change.text}</b>
+          <i>Accuracy was {from}%.</i>
+        </p>
+      ) : null}
+    </>
+  );
+}
 
 function ProLock({ what, onNavigate }) {
   return (
@@ -36,6 +70,7 @@ function ProLock({ what, onNavigate }) {
 
 export default function RecordView({ state, onNavigate, pro = false }) {
   const [showThin, setShowThin] = useState(false);
+  const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
 
   if (status === 'loading') return <p className="pp-note" role="status">Reading your sessions…</p>;
@@ -68,13 +103,9 @@ export default function RecordView({ state, onNavigate, pro = false }) {
     <div className="pp-record">
       <p className="pp-note">Based on {insights.sessions} session{insights.sessions === 1 ? '' : 's'} and {insights.questions} questions, {day(insights.window.first)} to {day(insights.window.last)}. Free to read, no credits used.</p>
 
-      <dl className="pp-ledger">
-        <div data-emph="true"><dt>Net marks</dt><dd>{signed(ledger.net)}</dd><small>+5 per right, −1 per wrong</small></div>
-        <div><dt>Right</dt><dd>{right}</dd></div>
-        <div><dt>Wrong</dt><dd>{wrong}</dd></div>
-        <div><dt>Blank</dt><dd>{blank}</dd></div>
-        <div><dt>Accuracy</dt><dd>{accuracy.pct === null ? '—' : `${accuracy.pct}%`}</dd><small>{accuracy.pct === null ? 'No attempted questions' : `Likely ${accuracy.low}–${accuracy.high}% (${accuracy.n} answered)`}</small></div>
-      </dl>
+      <Ledger userId={state.userId} ledger={ledger} accuracy={accuracy} right={right} wrong={wrong} blank={blank} />
+
+      <AnswerSheet right={right} wrong={wrong} blank={blank} />
 
       {findings.length > 0 && (
         <section aria-labelledby="pp-f">
@@ -127,7 +158,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
         ) : changes.count === 0 ? (
           <p className="pp-note">No changed answers recorded{changes.sessionsWithTelemetry === 0 ? ' (no session has a usable replay yet)' : ''}.</p>
         ) : (
-          <div className="pp-changes">
+          <div className="pp-changes" ref={changesRef} data-in={changesSeen ? 'true' : 'false'}>
             <div><span>Helped</span><i data-k="gain" style={{ width: `${(changes.marksGained / maxChange) * 100}%` }} /><b>{signed(changes.marksGained)}</b><small>{changes.gains}</small></div>
             <div><span>Hurt</span><i data-k="loss" style={{ width: `${(changes.marksLost / maxChange) * 100}%` }} /><b>{signed(-changes.marksLost)}</b><small>{changes.losses}</small></div>
             <p className="pp-note">Net {signed(changes.net)} marks across {changes.count} changes in {changes.sessionsWithTelemetry} replayed session{changes.sessionsWithTelemetry === 1 ? '' : 's'}. This shows what happened, not why you changed.</p>
