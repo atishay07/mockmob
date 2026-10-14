@@ -4,8 +4,8 @@ import LoginPageClient from './LoginPageClient';
 import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'Login to MockMob',
-  description: 'Log in to MockMob to continue CUET mock tests, saved questions, analytics, and practice history.',
+  title: 'Log in to MockMob',
+  description: 'Log in to MockMob to continue your CUET practice, saved questions and the chapters to repair.',
   path: '/login',
 });
 

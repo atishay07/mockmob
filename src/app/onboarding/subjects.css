@@ -1,0 +1,147 @@
+/* Subject tiles (W2.3), shared by onboarding and Account. Tokens only (shared/tokens.css). */
+
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mm-space-s12);
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 640px) {
+  .sp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.sp-tile {
+  --sp-light: var(--sp-night);
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--mm-space-s4);
+  min-width: 0;
+  min-height: 132px;
+  padding: var(--mm-space-s16);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-key);
+  background: var(--mm-raised);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top);
+  color: var(--mm-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--mm-dur-release) var(--mm-ease-out),
+    background-color var(--mm-dur-ui) var(--mm-ease-out),
+    border-color var(--mm-dur-ui) var(--mm-ease-out),
+    box-shadow var(--mm-dur-ui) var(--mm-ease-out);
+}
+[data-theme='light'] .sp-tile, .mm-day .sp-tile { --sp-light: var(--sp-day); }
+
+.sp-tile__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--mm-space-s8);
+}
+/* The subject's light field sits behind its art only, never behind the name. */
+.sp-tile__art {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--sp-light) 0%, var(--sp-light) 58%, transparent 100%);
+  color: var(--mm-ink);
+}
+.sp-tile__art svg { width: 22px; height: 22px; }
+
+/* The answer-sheet bubble: hollow at rest, inked when chosen. */
+.sp-tile__bubble {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mm-line-strong);
+  transition: border-color var(--mm-dur-ui) var(--mm-ease-out);
+}
+.sp-tile__bubble::after {
+  content: '';
+  position: absolute;
+  inset: 2.5px;
+  border-radius: 50%;
+  background: var(--ui-bubble-ink, var(--mm-volt));
+  transform: scale(0.3);
+  opacity: 0;
+  transition: transform var(--mm-dur-ink) var(--mm-ease-glide), opacity var(--mm-dur-ink) var(--mm-ease-glide);
+}
+
+.sp-tile__name {
+  min-width: 0;
+  font: var(--mm-type-card-title-weight) var(--mm-type-card-title-size)/var(--mm-type-card-title-line) var(--mm-font-body);
+  letter-spacing: var(--mm-type-card-title-tracking);
+  color: var(--mm-ink);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.sp-tile__meta {
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sp-tile:hover:not(:disabled) { border-color: var(--mm-line-strong); }
+}
+.sp-tile:active:not(:disabled) { transform: scale(0.98); transition-duration: var(--mm-dur-press); }
+.sp-tile:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 3px; }
+.sp-tile[aria-pressed='true'] {
+  background: var(--ui-selected-fill, var(--mm-raised-2));
+  border-color: color-mix(in srgb, var(--mm-ink) 70%, transparent);
+  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--mm-ink) 70%, transparent), var(--mm-shadow-card);
+}
+.sp-tile[aria-pressed='true'] .sp-tile__bubble { border-color: var(--ui-bubble-ink, var(--mm-volt)); }
+.sp-tile[aria-pressed='true'] .sp-tile__bubble::after { transform: scale(1); opacity: 1; }
+.sp-tile:disabled { cursor: not-allowed; }
+.sp-tile:disabled:not([aria-pressed='true']) .sp-tile__name { color: var(--mm-ink-2); }
+
+.sp-none {
+  margin: 0;
+  padding: var(--mm-space-s16);
+  border: 1px dashed var(--mm-line-strong);
+  border-radius: var(--mm-radius-key);
+  font: 400 15px/1.5 var(--mm-font-body);
+  color: var(--mm-ink-2);
+}
+
+/* Loading: placeholders the shape of a tile. */
+.sp-tile--ghost { cursor: default; box-shadow: none; }
+.sp-ghost-art { width: 44px; height: 44px; margin-bottom: var(--mm-space-s8); border-radius: 50%; }
+.sp-ghost-line { height: 14px; width: 80%; }
+.sp-ghost-line--short { width: 46%; }
+
+/* Saved subjects practice cannot open. */
+.sp-stale {
+  display: grid;
+  gap: var(--mm-space-s8);
+  padding: var(--mm-space-s16);
+  border: 1px dashed var(--mm-line-strong);
+  border-radius: var(--mm-radius-key);
+}
+.sp-stale__title {
+  margin: 0;
+  font: var(--mm-type-label-large-weight) var(--mm-type-label-large-size)/var(--mm-type-label-large-line) var(--mm-font-body);
+  color: var(--mm-ink);
+}
+.sp-stale__list { display: grid; gap: var(--mm-space-s4); margin: 0; padding: 0; list-style: none; }
+.sp-stale__row { display: flex; align-items: center; justify-content: space-between; gap: var(--mm-space-s12); }
+.sp-stale__text { display: grid; gap: 2px; min-width: 0; }
+.sp-stale__text b { font: 600 15px/1.35 var(--mm-font-body); color: var(--mm-ink); overflow-wrap: anywhere; }
+.sp-stale__text span { font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body); color: var(--mm-ink-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-tile, .sp-tile__bubble, .sp-tile__bubble::after { transition-duration: 0ms !important; }
+  .sp-tile:active { transform: none !important; }
+}
