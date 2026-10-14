@@ -9,6 +9,7 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart'
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/auth/after_sign_in.dart';
 import 'package:mockmob/features/auth/sign_in_gateway.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 /// A gateway whose answers the test decides.
 class FakeGateway implements SignInGateway {
@@ -165,6 +166,8 @@ List<Override> authOverrides({
       if (gateway.sheetOpens) unawaited(markBeforeYouStartOffered(store));
     }),
     signInPrefsStoreProvider.overrideWithValue(store),
+    // The sign-in celebration reads the Celebrations setting (MOTION.md P0-6).
+    rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     nowProvider.overrideWithValue(c.call),
     networkStatusProvider.overrideWith(() => FakeNetwork(network)),
   ];

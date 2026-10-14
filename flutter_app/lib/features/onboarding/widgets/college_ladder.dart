@@ -139,7 +139,7 @@ class _LadderRow extends StatelessWidget {
           ruleFrom: _inset + _bubble + MmSpace.s12,
         ),
         child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s8 + 6),
+        padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s12),
         child: Row(
           children: [
             SizedBox.square(

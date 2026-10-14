@@ -17,6 +17,7 @@ import 'package:mockmob/features/result/sheet/sheet_body.dart';
 import 'package:mockmob/features/result/widgets/result_space.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 
+import '../../helpers/fonts.dart';
 import 'support/fixtures.dart';
 import 'support/harness.dart';
 
@@ -68,6 +69,7 @@ class _Detail extends AttemptDetailRepository {
 }
 
 void main() {
+  setUpAll(loadAppFonts);
   final d = detail();
 
   group('result-01: card 4 never offers a 0-minute repair', () {
@@ -102,11 +104,11 @@ void main() {
         overrides: [recapDataProvider('a7').overrideWith((ref) => ref.watch(holder)), ...base.skip(1)],
       );
       await tester.pump(const Duration(seconds: 2));
-      expect(find.textContaining('0-minute'), findsNothing);
+      expect(find.textContaining(RegExp(r'(^|\D)0-minute')), findsNothing);
 
       ProviderScope.containerOf(tester.element(find.byType(RecordCard))).read(holder.notifier).set(_data(full));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.textContaining('0-minute'), findsNothing);
+      expect(find.textContaining(RegExp(r'(^|\D)0-minute')), findsNothing);
       expect(find.text(ResultCopy.startRepair(full.defaultRepairMinutes)), findsOneWidget);
     });
   });
@@ -126,6 +128,7 @@ void main() {
       expect(find.text(ResultCopy.tryAgain), findsOneWidget);
       await tester.tap(find.text(ResultCopy.backToReview));
       await tester.pump(const Duration(seconds: 1));
+      debugPrint('TEXTS ${tester.widgetList<Text>(find.byType(Text)).map((t) => t.data).toList()}');
       expect(find.text('AT /review'), findsOneWidget);
     });
 

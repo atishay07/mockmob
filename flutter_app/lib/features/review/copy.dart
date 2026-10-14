@@ -9,6 +9,9 @@ abstract final class ReviewCopy {
   // ---- The tab --------------------------------------------------------------------------
 
   static const title = 'Review';
+
+  /// The header key that opens Ask Mobi (it answers from the record).
+  static const askKey = 'Ask Mobi';
   static String tonightOverline(DateTime now, String subject) => "${tonightOrTodayTitle(now)}'s repair, $subject";
   static const mistakesHeading = 'Mistakes to repair';
   static const recordHeading = 'Repair record';

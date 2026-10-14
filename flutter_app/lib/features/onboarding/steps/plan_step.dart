@@ -117,8 +117,13 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// The seal has been struck: setting the hold to full below completes it, which asks to seal
+  /// again before the sheet's new state has reached this widget.
+  bool _struck = false;
+
   void _seal() {
-    if (widget.answers.sealed) return;
+    if (widget.answers.sealed || _struck) return;
+    _struck = true;
     final mode = ref.read(celebrationModeProvider);
     switch (mode) {
       case CelebrationMode.full:

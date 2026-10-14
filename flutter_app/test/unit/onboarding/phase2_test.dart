@@ -144,7 +144,8 @@ void main() {
       await tester.tap(find.text(OnboardingCopy.startOver));
       await tester.pumpAndSettle();
       expect(find.text(OnboardingCopy.startOverTitle), findsOneWidget, reason: 'asked first');
-      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.startOverConfirm));
+      // Welcome's own quiet key carries the same words; the sheet's confirm key is the last one.
+      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.startOverConfirm).last);
       await tester.pumpAndSettle();
       expect(find.text(OnboardingCopy.stageTitle), findsOneWidget, reason: 'the deck opens on a new sheet');
     });

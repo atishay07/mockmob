@@ -103,19 +103,21 @@ class _WhenInViewState extends State<WhenInView> {
     if (_fired) return;
     final position = Scrollable.maybeOf(context, axis: Axis.vertical)?.position;
     if (!identical(position, _position)) {
-      _position?.removeListener(_check);
+      _position?.removeListener(_queue);
       _position = position;
-      _position?.addListener(_check);
+      _position?.addListener(_queue);
     }
     _queue();
   }
 
   @override
   void dispose() {
-    _position?.removeListener(_check);
+    _position?.removeListener(_queue);
     super.dispose();
   }
 
+  /// The scroll position tells us before the frame has laid the list out, so where this box is is
+  /// still where it was a moment ago: look after the frame, never inside the notification.
   void _queue() {
     if (_queued || _fired) return;
     _queued = true;
@@ -141,7 +143,7 @@ class _WhenInViewState extends State<WhenInView> {
     }
     if (!visible) return;
     _fired = true;
-    _position?.removeListener(_check);
+    _position?.removeListener(_queue);
     _position = null;
     widget.onVisible();
   }

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
 import '../../../core/motion/motion.dart';
+import '../../../core/motion/pull_refresh.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
@@ -67,7 +68,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
       padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
-      child: ReviewTabHeader(title: ReviewCopy.title, notice: attempts.isStale ? HeaderNotice.offline : null),
+      child: ReviewTabHeader(
+        title: ReviewCopy.title,
+        notice: attempts.isStale ? HeaderNotice.offline : null,
+        // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
+        onAsk: () => context.push(AppRoutes.ask),
+      ),
     );
 
     Widget body;
@@ -104,15 +110,17 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           Positioned(left: 0, right: 0, top: 0, height: 360, child: IgnorePointer(child: LightField.lamp(context, strength: 0.55))),
           SafeArea(
             bottom: false,
-            child: RefreshIndicator(
+            // Pull to refresh is the app's own ring (MOTION C10): the page never moves, numbers roll
+            // from the ones they showed, and the entrance does not replay.
+            child: MmPullRefresh(
               onRefresh: _refresh,
-              color: colors.ink,
-              backgroundColor: colors.raised,
               // One authored entrance when the loaded tab first shows: the hero, then the map, then
               // what sits under it, in reading order. Scrolling never replays it.
               child: MmStagger(
                 child: ListView(
                   controller: _scroll,
+                  // The ring draws the pull, so a short page must still take a drag.
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.only(bottom: pad.bottom + MmSpace.s32),
                   children: [header, ..._content(context, index, inputs)],
                 ),

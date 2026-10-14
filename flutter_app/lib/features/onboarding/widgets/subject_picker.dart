@@ -137,7 +137,7 @@ class _SearchField extends StatelessWidget {
         fillColor: colors.sunken,
         isDense: true,
         constraints: const BoxConstraints(minHeight: 52),
-        contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
         enabledBorder: border(colors.line, 1),
         focusedBorder: border(colors.focusRing, 1.5),
       ),

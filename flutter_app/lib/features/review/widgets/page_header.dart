@@ -4,6 +4,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 
 /// "Offline. Showing last loaded data." as a legible 14 sp line with its glyph, living inside a
 /// header row that is already tall enough for it: it adds no height, so nothing below it moves
@@ -38,10 +40,13 @@ class HeaderNotice extends StatelessWidget {
 /// screen is the last loaded copy, the offline line under the title. The row keeps the 56 dp every
 /// tab root has, so the line costs no height.
 class ReviewTabHeader extends StatelessWidget {
-  const ReviewTabHeader({super.key, required this.title, this.notice});
+  const ReviewTabHeader({super.key, required this.title, this.notice, this.onAsk});
 
   final String title;
   final String? notice;
+
+  /// Opens Ask Mobi. Null leaves the header as a title alone (the loading and error states).
+  final VoidCallback? onAsk;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,52 @@ class ReviewTabHeader extends StatelessWidget {
               ],
             ),
           ),
+          if (onAsk != null) ...[const SizedBox(width: MmSpace.s12), _AskPill(onTap: onAsk!)],
         ],
+      ),
+    );
+  }
+}
+
+/// "Ask Mobi" in the Review header: a ghost pill (a 1 dp line, no fill, so the one volt key on the
+/// screen stays the hero's), drawn 40 dp tall and answering a finger anywhere in a 48 dp box.
+class _AskPill extends StatelessWidget {
+  const _AskPill({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmHitSlop.toTarget(
+      visual: 40,
+      child: MmPressable(
+        onTap: onTap,
+        focusRadius: MmRadius.pillAll,
+        haptic: MmPressHaptic.selection,
+        highlight: true,
+        semanticsLabel: 'Ask Mobi, a question about your record',
+        builder: (context, pressed, _) => DecoratedBox(
+          decoration: ShapeDecoration(
+            color: pressed ? colors.raised2 : null,
+            shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+          ),
+          child: SizedBox(
+            height: 40,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ExcludeSemantics(child: Icon(LucideIcons.messageCircle, size: 16, color: colors.ink)),
+                  const SizedBox(width: MmSpace.s8),
+                  Text(ReviewCopy.askKey, style: type.labelLarge.copyWith(color: colors.ink)),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

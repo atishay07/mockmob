@@ -57,7 +57,16 @@ class GuideBar extends StatelessWidget {
             Positioned(
               left: mobiLeft,
               bottom: 0,
-              child: MobiCharacter(controller: controller, size: mobiSize, entrance: MobiAct.hello, interactive: true, seed: 11),
+              // An input-heavy screen: he does not twitch at every tap. The flow glances on purpose, at
+              // the thing the student just changed (GuideGlance), and the sheet's bubble inks.
+              child: MobiCharacter(
+                controller: controller,
+                size: mobiSize,
+                entrance: MobiAct.hello,
+                interactive: true,
+                watchTaps: false,
+                seed: 11,
+              ),
             ),
             Positioned(
               left: mobiLeft + mobiWidth + 2,

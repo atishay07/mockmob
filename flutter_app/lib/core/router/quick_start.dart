@@ -37,10 +37,17 @@ class ResumeOffer {
 
 /// The open session Start can resume, known at once from the live draft, so the sheet draws its
 /// Resume row on the first frame. Its answer count follows in [resumeOfferProvider].
+///
+/// [nowProvider] is a plain clock that never ticks, so the provider re-reads itself when the
+/// draft stops being resumable (at its end, or at the end of the submission grace): a sheet or
+/// capsule left open past 10:40 PM never offers a session that has ended (today-03).
 final resumeDraftProvider = Provider.autoDispose<SessionDraft?>((ref) {
   final draft = ref.watch(latestSessionDraftProvider).value;
-  final now = ref.watch(nowProvider)();
-  if (draft == null || !resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) return null;
+  final nowMs = ref.watch(nowProvider)().millisecondsSinceEpoch;
+  if (draft == null || !resumableDraft(draft, sessionId: draft.sessionId, nowMs: nowMs)) return null;
+  final until = draft.endsAtWallMs > nowMs ? draft.endsAtWallMs : draft.endsAtWallMs + submissionGraceMs;
+  final timer = Timer(Duration(milliseconds: until - nowMs + 1), ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
   return draft;
 });
 
@@ -200,6 +207,10 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
   Animation<double>? _route;
   bool _landed = false;
 
+  /// A row has been chosen and the sheet is on its way out: further taps do nothing, so a
+  /// second tap can neither pop the page under the sheet nor push a second run (today-01).
+  bool _leaving = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -247,6 +258,8 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
     final reduced = Motion.reduced(context);
 
     void go(String location) {
+      if (_leaving) return;
+      setState(() => _leaving = true);
       final router = GoRouter.of(context);
       Navigator.of(context).pop();
       // Screens that sit outside the tab shell are pushed over it, so system Back returns to the
@@ -326,30 +339,35 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                 child: SingleChildScrollView(
                   // The choices arrive with the sheet, in order, while the glass opens; a sheet
                   // that is already up never moves them.
-                  child: Listener(
-                    behavior: HitTestBehavior.translucent,
-                    onPointerDown: (e) => _mobi.lookAt(e.position),
-                    onPointerUp: (_) => _pointAtHero(),
-                    onPointerCancel: (_) => _pointAtHero(),
-                    child: MmStagger(
-                      driver: MmStaggerDriver.route,
-                      // The choices come up with the growing glass (from 12% of the morph), so the
-                      // shape is never an empty slab on its way up.
-                      routeStart: 0.12,
-                      routeStep: 0.06,
-                      routeLength: 0.4,
-                      child: MmStaggerItem(
-                        index: 0,
-                        child: _StartRows(
-                          heroKey: _hero,
-                          draft: draft,
-                          answered: answered,
-                          go: go,
-                          onPractice: () {
-                            final router = GoRouter.of(context);
-                            Navigator.of(context).pop();
-                            router.go(AppRoutes.practice);
-                          },
+                  child: AbsorbPointer(
+                    absorbing: _leaving,
+                    child: Listener(
+                      behavior: HitTestBehavior.translucent,
+                      onPointerDown: (e) => _mobi.lookAt(e.position),
+                      onPointerUp: (_) => _pointAtHero(),
+                      onPointerCancel: (_) => _pointAtHero(),
+                      child: MmStagger(
+                        driver: MmStaggerDriver.route,
+                        // The choices arrive once the glass has its shape (MOTION.md C8: 38% to 78%
+                        // of the morph, with the route's content reveal).
+                        routeStart: 0.38,
+                        routeStep: 0.06,
+                        routeLength: 0.4,
+                        child: MmStaggerItem(
+                          index: 0,
+                          child: _StartRows(
+                            heroKey: _hero,
+                            draft: draft,
+                            answered: answered,
+                            go: go,
+                            onPractice: () {
+                              if (_leaving) return;
+                              setState(() => _leaving = true);
+                              final router = GoRouter.of(context);
+                              Navigator.of(context).pop();
+                              router.go(AppRoutes.practice);
+                            },
+                          ),
                         ),
                       ),
                     ),

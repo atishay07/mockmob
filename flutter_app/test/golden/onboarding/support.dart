@@ -111,6 +111,9 @@ void onboardingGolden(
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
+      // Mobi's once-a-run and once-a-day gates must not carry from one golden to the next.
+      MobiRation.reset();
+      addTearDown(MobiRation.reset);
       tester.view.padding = const FakeViewPadding(top: 56, bottom: 40);
       final boundary = GlobalKey();
       await pumpMockmob(

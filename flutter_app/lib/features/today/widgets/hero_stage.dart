@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart';
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -105,7 +106,9 @@ class HeroStage extends StatelessWidget {
     );
 
     if (!lit) return framed;
-    return LitEdge(glow: true, borderRadius: heroBorderRadius, child: framed);
+    // The volt glow under the lit edge is a Night thing: on paper a glow is a grey smudge, and the
+    // olive edge alone carries the light (MOTION.md 1.4).
+    return LitEdge(glow: MmLight.glows(context), borderRadius: heroBorderRadius, child: framed);
   }
 }
 

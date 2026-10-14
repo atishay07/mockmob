@@ -31,6 +31,8 @@ class _RecordingMobi extends MobiController {
 
 void main() {
   setUpAll(loadAppFonts);
+  setUp(MobiRation.reset);
+  tearDown(MobiRation.reset);
 
   Future<_RecordingMobi> pump(WidgetTester tester, OnboardingAnswers answers, {Size size = kPhone}) async {
     final mobi = _RecordingMobi();

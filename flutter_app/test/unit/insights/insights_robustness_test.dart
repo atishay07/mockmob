@@ -181,7 +181,11 @@ void main() {
         wrapInScaffold: false,
       );
       await tester.tap(find.text(InsightsCopy.next));
+      // The key itself ignores a second tap for 300 ms; one that lands later still names q2.
       await tester.tap(find.text(InsightsCopy.next));
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.tap(find.text(InsightsCopy.next));
+      await tester.pump(const Duration(milliseconds: 400));
       await tester.tap(find.text(InsightsCopy.previous));
       expect(spy.calls, ['next:q2', 'next:q2', 'previous:q2']);
     });
@@ -450,6 +454,7 @@ void main() {
       expect(t, 0, reason: 'built a little ahead of the screen, but not drawn until it is in view');
 
       await tester.drag(find.byType(ListView), const Offset(0, -300));
+      await tester.pump(); // the frame after the scroll sees it and starts the draw
       await tester.pump();
       await tester.pump(Motion.drawIn + const Duration(milliseconds: 50));
       expect(t, 1);
@@ -490,6 +495,7 @@ void main() {
       expect(find.text('0'), findsOneWidget);
 
       await tester.drag(find.byType(ListView), const Offset(0, -300));
+      await tester.pump();
       await tester.pump();
       await tester.pump(Motion.countUp + const Duration(milliseconds: 50));
       expect(find.text('42'), findsOneWidget);

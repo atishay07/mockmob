@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -42,25 +43,29 @@ void main() {
     });
   });
 
-  group('SplitDock', () {
-    testWidgets('names each tab with its position and marks the active one selected', (tester) async {
+  group('MmBottomBar', () {
+    testWidgets('names each tab with its position out of four and marks the active one selected', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 1)));
 
-      expect(tabSemanticsLabel(1), 'Practice, tab 2 of 3');
-      for (var i = 0; i < 3; i++) {
-        final data = tester.getSemantics(find.bySemanticsLabel(tabSemanticsLabel(i))).getSemanticsData();
+      expect(barTabSemanticsLabel(1), 'Practice, tab 2 of 4');
+      for (var i = 0; i < 4; i++) {
+        final data = tester.getSemantics(find.bySemanticsLabel(barTabSemanticsLabel(i))).getSemanticsData();
         expect(data.flagsCollection.isSelected, i == 1 ? Tristate.isTrue : Tristate.isFalse, reason: 'tab $i');
         expect(data.flagsCollection.isButton, isTrue);
       }
-      expect(find.bySemanticsLabel(StartButton.semanticsLabel), findsOneWidget);
+      expect(find.bySemanticsLabel(MmBottomBar.startSemanticsLabel), findsOneWidget);
       handle.dispose();
     });
 
-    testWidgets('the Review dot adds a spoken hint and no number', (tester) async {
+    testWidgets("Review's count is spoken and drawn; the dot adds a hint and no number", (tester) async {
       final handle = tester.ensureSemantics();
-      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, dot: true)));
-      expect(find.bySemanticsLabel('Review, tab 3 of 3, new result'), findsOneWidget);
+      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewCount: 3))));
+      expect(find.bySemanticsLabel('Review, tab 3 of 4, 3 to repair tonight'), findsOneWidget);
+      expect(find.text('3'), findsOneWidget);
+
+      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewDot: true))));
+      expect(find.bySemanticsLabel('Review, tab 3 of 4, a result is waiting'), findsOneWidget);
       expect(find.textContaining(RegExp(r'\d')), findsNothing);
       handle.dispose();
     });
@@ -79,26 +84,41 @@ void main() {
       expect(taps, [2]);
       expect(driver.selections, 1);
 
-      await tester.tap(find.text('Today'));
+      await tester.tap(find.text('You'));
       await tester.pump();
-      expect(taps, [2, 0]);
-      expect(driver.selections, 1, reason: 'a re-tap of the current tab is not a change');
+      expect(taps, [2, 3]);
+      expect(driver.selections, 2);
     });
 
-    testWidgets('Start reports its rect for the morph', (tester) async {
+    testWidgets('a re-tap of the open tab reports the tap with no haptic', (tester) async {
+      final driver = _CountingDriver();
+      final taps = <int>[];
+      await pumpMockmob(
+        tester,
+        Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, onTap: taps.add)),
+        overrides: <Override>[hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: driver))],
+      );
+      await tester.tap(find.text('Today'));
+      await tester.pump();
+      expect(taps, [0]);
+      expect(driver.selections, 0);
+    });
+
+    testWidgets('Start reports its 60 by 40 key rect for the morph', (tester) async {
       final starts = <Rect>[];
       await pumpMockmob(
         tester,
         Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, onStart: starts.add)),
         size: const Size(384, 853),
       );
-      await tester.tap(find.bySemanticsLabel(StartButton.semanticsLabel));
-      await tester.pump(const Duration(milliseconds: 300));
+      await tester.tap(find.text('Start'));
+      await tester.pump(const Duration(milliseconds: 400));
       expect(starts, hasLength(1));
       expect(starts.single.width, closeTo(60, 1));
+      expect(starts.single.height, closeTo(40, 1));
     });
 
-    testWidgets('labels clamp the text scale at 1.2', (tester) async {
+    testWidgets('labels clamp the text scale at 1.2 and stay on one line', (tester) async {
       await pumpMockmob(
         tester,
         const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)),
@@ -111,10 +131,15 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the pill is 60 dp tall and the tabs are at least 48 dp wide', (tester) async {
-      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)));
-      expect(tester.getSize(find.byType(DockPill)).height, 60);
-      expect(tester.getSize(find.byType(StartButton)).height, greaterThanOrEqualTo(48));
+    testWidgets('the bar is 64 dp tall and every slot is at least 52 by 64', (tester) async {
+      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)), size: const Size(320, 700));
+      expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height);
+      for (final label in ['Today', 'Practice', 'Review', 'You']) {
+        final slot = find.ancestor(of: find.text(label), matching: find.byType(GestureDetector)).first;
+        final size = tester.getSize(slot);
+        expect(size.width, greaterThanOrEqualTo(52), reason: label);
+        expect(size.height, MmBar.height, reason: label);
+      }
     });
   });
 
@@ -326,14 +351,14 @@ void main() {
 }
 
 class _Nav extends ConsumerWidget {
-  const _Nav({required this.index, this.dot = false, this.onTap, this.onStart});
+  const _Nav({required this.index, this.badges = BarBadges.none, this.onTap, this.onStart});
 
   final int index;
-  final bool dot;
+  final BarBadges badges;
   final ValueChanged<int>? onTap;
   final ValueChanged<Rect>? onStart;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) =>
-      SplitDock(currentIndex: index, showReviewDot: dot, onTab: onTap ?? (_) {}, onStart: onStart ?? (_) {});
+      MmBottomBar(currentBranch: index, badges: badges, onTab: onTap ?? (_) {}, onStart: onStart ?? (_) {});
 }

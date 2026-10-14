@@ -52,14 +52,19 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
     final type = context.mmType;
     final found = widget.found;
     final open = (found - widget.repaired - widget.setAside).clamp(0, found);
+    final label = type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600);
     return Semantics(
       label: ReviewCopy.repairsProgressSemantics(widget.repaired, found),
       excludeSemantics: true,
       child: Row(
         children: [
-          Text(
-            ReviewCopy.repairsProgress(widget.repaired, found),
-            style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+          // The count rolls on from the number it showed when a repair is finished (never from
+          // zero, and not at all on first show): the words around it stay put.
+          MmCountUp(
+            value: widget.repaired,
+            from: widget.repaired,
+            format: (v) => ReviewCopy.repairsProgress(v.round(), found),
+            style: label,
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(

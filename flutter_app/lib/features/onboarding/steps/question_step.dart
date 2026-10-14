@@ -197,7 +197,7 @@ class _ClockState extends ConsumerState<_Clock> {
         child: Row(
           children: [
             Icon(LucideIcons.timer, size: 15, color: ink),
-            const SizedBox(width: MmSpace.s6),
+            const SizedBox(width: MmSpace.s4),
             Text(text, style: type.label.copyWith(color: ink)),
           ],
         ),

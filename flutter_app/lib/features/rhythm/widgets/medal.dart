@@ -52,9 +52,9 @@ class Medal extends StatefulWidget {
   State<Medal> createState() => _MedalState();
 }
 
-class _MedalState extends State<Medal> with SingleTickerProviderStateMixin {
-  /// The band's pass, 0 to 1. The settle is a spring on an unbounded controller of the same
-  /// ticker, so one ticker serves both.
+class _MedalState extends State<Medal> with TickerProviderStateMixin {
+  /// The band's pass, 0 to 1, and the settle: a spring on an unbounded controller. Two
+  /// controllers, so two tickers.
   AnimationController? _band;
   AnimationController? _scale;
   Timer? _wait;

@@ -9,6 +9,7 @@ import '../data/calendar.dart';
 import '../model/answers.dart';
 import '../model/choices.dart';
 import '../state/answers_controller.dart';
+import '../widgets/answer_sheet_card.dart' show WeeksReadout;
 import '../widgets/choice_tile.dart';
 import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
@@ -58,10 +59,19 @@ class StageStep extends ConsumerWidget {
               0,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: MmSpace.s16),
-                child: WeekTrack(
-                  nearWeeks: nearWeeks,
-                  farWeeks: farWeeks,
-                  litWeeks: stage == null ? null : CuetCalendar.weeksTo(stage.cuetYear, now),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    WeekTrack(
+                      nearWeeks: nearWeeks,
+                      farWeeks: farWeeks,
+                      litWeeks: stage == null ? null : CuetCalendar.weeksTo(stage.cuetYear, now),
+                    ),
+                    const SizedBox(height: MmSpace.s12),
+                    // The weeks land here, under the road, at the same height before and after the
+                    // choice, so nothing below moves when the number rolls in.
+                    SizedBox(height: 48, child: WeeksReadout(stage: stage, now: now, compact: true)),
+                  ],
                 ),
               ),
             ),
@@ -86,7 +96,7 @@ class StageStep extends ConsumerWidget {
 }
 
 /// A stage as a tile: the choice in the student's words, and when that CUET is. The weeks to it
-/// are said once, on the ruler above and on the sheet, so no tile repeats a figure that is the
+/// are said once, under the road above, so no tile repeats a figure that is the
 /// same on three of four; a spoken label still carries them.
 class _StageTile extends StatelessWidget {
   const _StageTile({required this.stage, required this.weeks, required this.selected, required this.onTap});

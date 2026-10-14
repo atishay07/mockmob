@@ -6,6 +6,8 @@ import 'package:mockmob/core/router/action_router.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
+import 'package:mockmob/core/repositories/dismissal_repository.dart' show DismissalKey;
+import 'package:mockmob/features/today/data/today_providers.dart' show todayDismissalsProvider;
 import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 
@@ -28,7 +30,11 @@ void main() {
     expect(move.meaning, contains(tonight.chapter));
 
     // Review's pick for Start is the same first mistake, in the same chapter.
-    final container = ProviderContainer(overrides: [reviewIndexProvider.overrideWithValue(index)]);
+    // No "Not today" dismissals: Start reads the same dismissals Today does (ROBUSTNESS today-02).
+    final container = ProviderContainer(overrides: [
+      reviewIndexProvider.overrideWithValue(index),
+      todayDismissalsProvider.overrideWith((ref) => Stream.value(const <DismissalKey>{})),
+    ]);
     addTearDown(container.dispose);
     final quick = container.read(quickRepairFromReviewProvider)!;
     expect(quick.location, first);

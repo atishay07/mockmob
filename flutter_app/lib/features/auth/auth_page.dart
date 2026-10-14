@@ -502,10 +502,13 @@ class _BackKeyState extends State<BackKey> {
                 ),
                 child: SizedBox.square(
                   dimension: 44,
-                  child: Icon(
-                    LucideIcons.arrowLeft,
-                    size: 22,
-                    color: colors.ink,
+                  // Centre keeps the glyph at its own 22 dp, so its left edge is the content edge.
+                  child: Center(
+                    child: Icon(
+                      LucideIcons.arrowLeft,
+                      size: 22,
+                      color: colors.ink,
+                    ),
                   ),
                 ),
               ),

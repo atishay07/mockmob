@@ -151,7 +151,7 @@ class AnswerSheetCard extends StatelessWidget {
                     ),
                     SizedBox(height: short ? MmSpace.s8 : MmSpace.s12),
                     _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate),
-                    if (!compact && !short) ...[const SizedBox(height: MmSpace.s16), _Weeks(stage: answers.stage, now: now, animate: animate)],
+                    if (!compact && !short) ...[const SizedBox(height: MmSpace.s16), WeeksReadout(stage: answers.stage, now: now, animate: animate)],
                     if (shown.isNotEmpty) ...[
                       const SizedBox(height: MmSpace.s12),
                       Container(height: 1, color: colors.line),
@@ -363,13 +363,17 @@ class _BurstPainter extends CustomPainter {
   bool shouldRepaint(_BurstPainter old) => old.color != color || old.progress != progress;
 }
 
-/// The weeks to the expected window, rolled in condensed type, or a quiet placeholder.
-class _Weeks extends StatelessWidget {
-  const _Weeks({required this.stage, required this.now, required this.animate});
+/// The weeks to the expected window, rolled in condensed type, or a quiet placeholder. On the
+/// sheet's cold reveal, and under the road on the first step (where the one-line strip has no
+/// room for it, and the student chooses after the reveal has gone), so the weeks always land
+/// where the student is looking. [compact] sets it in the 40 sp figure.
+class WeeksReadout extends StatelessWidget {
+  const WeeksReadout({super.key, required this.stage, required this.now, this.animate = true, this.compact = false});
 
   final Stage? stage;
   final DateTime now;
   final bool animate;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -385,9 +389,9 @@ class _Weeks extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (weeks != null)
-          MonumentalNumber(value: '$weeks', style: type.figure, roll: animate, semanticsLabel: '$weeks weeks')
+          MonumentalNumber(value: '$weeks', style: compact ? type.figureCompact : type.figure, roll: animate, semanticsLabel: '$weeks weeks')
         else
-          Text('--', style: type.figure.copyWith(color: colors.ink4)),
+          Text('--', style: (compact ? type.figureCompact : type.figure).copyWith(color: colors.ink4)),
         const SizedBox(width: MmSpace.s12),
         Expanded(
           child: Text(caption, style: type.small.copyWith(color: colors.ink2, height: 1.3)),

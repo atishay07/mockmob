@@ -359,7 +359,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                                       answers: answers,
                                       now: ref.watch(nowProvider)(),
                                       current: step.id,
-                                      compact: _compact(step, answers),
+                                      // Compact on every step: the weeks to the window are read under the road on the first
+                                      // step itself, so the reveal card does not say them twice.
+                                      compact: true,
                                       // A one-line strip on every step; the whole card only for
                                       // the first step's cold reveal.
                                       slim: step.id != Steps.stage || _sheetRevealed,
@@ -416,13 +418,6 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   /// neither has the sheet above; the plan flips its own copy.
   bool _showsSheet(DeckStep step) => switch (step.kind) {
         StepKind.reveal || StepKind.firstMove || StepKind.check || StepKind.account => false,
-        _ => true,
-      };
-
-  /// The sheet shows its weeks while there is room for them; long steps keep it compact.
-  bool _compact(DeckStep step, OnboardingAnswers a) => switch (step.id) {
-        Steps.stage => false,
-        Steps.course => a.course != null,
         _ => true,
       };
 

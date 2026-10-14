@@ -32,6 +32,12 @@ List<GoRoute> _routes() => [
   stubRoute('/practice'),
 ];
 
+/// Whether the start screen's own back guard lets back through (its PopScope is the outermost).
+bool _startScreenCanPop(WidgetTester tester) {
+  final scope = find.descendant(of: find.byType(PracticeStartScreen), matching: find.byWidgetPredicate((w) => w is PopScope));
+  return (tester.widget(scope.first) as PopScope).canPop;
+}
+
 Future<void> _settle(WidgetTester tester) async {
   for (var i = 0; i < 6; i++) {
     await tester.pump(const Duration(milliseconds: 150));
@@ -64,7 +70,6 @@ Widget _deck(Map<String, int> taps) => ProviderScope(
 Widget _finish({required CelebrationMode mode, required FinishTone tone, bool fresh = true}) => ProviderScope(
   overrides: [
     celebrationModeProvider.overrideWithValue(mode),
-    hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
     ...practiceOverrides(),
   ],
   child: MaterialApp(
@@ -98,7 +103,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 80));
       expect(taps['quick'], 1);
       // Once the guard has passed, a new tap is a new start.
-      await tester.pump(ChoiceDeck.tapGuard);
+      // The guard runs on the wall clock, which a pump does not move.
+      await tester.runAsync(() => Future<void>.delayed(ChoiceDeck.tapGuard + const Duration(milliseconds: 100)));
       await tester.tap(find.text('Quick 10'));
       await tester.pump();
       expect(taps['quick'], 2);
@@ -126,13 +132,11 @@ void main() {
         routes: _routes(),
         overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => dailyFree()), starter: starter),
       );
-      PopScope<Object?> scope() => tester.widget<PopScope<Object?>>(
-        find.descendant(of: find.byType(PracticeStartScreen), matching: find.byType(PopScope<Object?>)).first,
-      );
+      bool canPop() => _startScreenCanPop(tester);
       await _settle(tester);
       expect(starter.started, hasLength(1));
       // The server is creating the session: back must not drop it on the floor.
-      expect(scope().canPop, isFalse);
+      expect(canPop(), isFalse);
       starter.hold!.complete();
       await _settle(tester);
       expect(router.state.uri.path, '/run/sess-1');
@@ -147,10 +151,7 @@ void main() {
         overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => dailyFree()), starter: starter),
       );
       await _settle(tester);
-      final scope = tester.widget<PopScope<Object?>>(
-        find.descendant(of: find.byType(PracticeStartScreen), matching: find.byType(PopScope<Object?>)).first,
-      );
-      expect(scope.canPop, isTrue);
+      expect(_startScreenCanPop(tester), isTrue);
     });
   });
 

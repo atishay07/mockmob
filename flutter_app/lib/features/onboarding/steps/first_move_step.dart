@@ -55,7 +55,9 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
   @override
   void initState() {
     super.initState();
-    _mobi.say(OnboardingCopy.mobiFirstMove);
+    // He speaks once per run on this screen (MOTION.md 1.3); a Back and forward again finds him
+    // quiet, with the card to read.
+    _mobi.sayOnce('onboarding_first_move', OnboardingCopy.mobiFirstMove);
   }
 
   @override
@@ -87,6 +89,8 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
   void _armNudge() {
     if (_nudgeSpent) return;
     _nudgeSpent = true;
+    // Once per screen per day, however often the step is opened.
+    if (!MobiRation.nudgeToday('onboarding_first_move')) return;
     _nudge = Timer(FirstMoveStep.nudgeAfter, () {
       _nudge = null;
       if (mounted) _mobi.play(MobiAct.nudge);

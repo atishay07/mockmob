@@ -206,15 +206,17 @@ void main() {
       expect(_scaleOf(tester, label), closeTo(1, 0.002));
     });
 
-    testWidgets('Start reaches 0.96 (not 0.90) and returns to 1', (tester) async {
-      await tester.pumpWidget(_app(Center(child: StartButton(onPressed: () {}))));
-      final face = find.byType(StartFace);
-      final gesture = await tester.startGesture(tester.getCenter(face));
+    testWidgets('the Start key sinks to 0.94 while held and returns to 1 (DOCK.md 5.2)', (tester) async {
+      await tester.pumpWidget(_app(Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}))));
+      final word = find.text('Start');
+      final gesture = await tester.startGesture(tester.getCenter(word));
       await _pumpFor(tester, const Duration(milliseconds: 400));
-      expect(_scaleOf(tester, face), closeTo(0.96, 0.002));
+      expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(1, 0.001));
+      expect(_scaleOf(tester, word), closeTo(0.94, 0.002));
       await gesture.up();
-      await _pumpFor(tester, const Duration(milliseconds: 400));
-      expect(_scaleOf(tester, face), closeTo(1, 0.002));
+      await _pumpFor(tester, const Duration(milliseconds: 600));
+      expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(0, 0.001));
+      expect(_scaleOf(tester, word), closeTo(1, 0.002));
     });
 
     testWidgets('under reduced motion the press is instant', (tester) async {
@@ -228,61 +230,84 @@ void main() {
     });
   });
 
-  group('split dock compact state (design-system-01)', () {
-    Widget dock(ValueNotifier<bool> compact) => Align(
+  group('bar compact state (DOCK.md 5.4)', () {
+    Widget bar(ValueNotifier<bool> compact) => Align(
           alignment: Alignment.bottomCenter,
-          child: SplitDock(currentIndex: 0, onTab: (_) {}, onStart: (_) {}, compact: compact),
+          child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}, compact: compact),
         );
 
-    testWidgets('mounted while compact, under reduced motion: 8 dp lower at 0.94', (tester) async {
+    double labelOpacity(WidgetTester tester) =>
+        tester.widget<FadeTransition>(find.ancestor(of: find.text('Practice'), matching: find.byType(FadeTransition)).first).opacity.value;
+
+    testWidgets('mounted while compact, under reduced motion: labels gone, the height steps at once', (tester) async {
       final compact = ValueNotifier(true);
       addTearDown(compact.dispose);
-      await tester.pumpWidget(_app(dock(ValueNotifier(false)), reduced: true));
-      final restBottom = tester.getRect(find.byType(DockPill)).bottom;
-      final restSize = tester.getSize(find.byType(DockPill));
-
-      await tester.pumpWidget(_app(dock(compact), reduced: true));
+      await tester.pumpWidget(_app(bar(compact), reduced: true));
       await tester.pump();
-      final rect = tester.getRect(find.byType(DockPill));
-      expect(rect.height / restSize.height, closeTo(0.94, 0.001));
-      expect(rect.bottom - restBottom, closeTo(8, 0.01));
+      expect(labelOpacity(tester), 0);
+      expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height, reason: 'the box never relayouts; the glass is clipped');
 
       compact.value = false;
       await tester.pump();
-      expect(_scaleOf(tester, find.byType(DockPill)), closeTo(1, 0.001), reason: 'reduced motion jumps back');
+      await tester.pump(const Duration(milliseconds: 130));
+      expect(labelOpacity(tester), 1, reason: 'reduced motion: a 120 ms cross-fade of the labels');
     });
 
     testWidgets('mounted while compact with motion: compact from the first frame', (tester) async {
       final compact = ValueNotifier(true);
       addTearDown(compact.dispose);
-      await tester.pumpWidget(_app(dock(compact)));
-      expect(_scaleOf(tester, find.byType(DockPill)), closeTo(0.94, 0.001));
+      await tester.pumpWidget(_app(bar(compact)));
+      expect(labelOpacity(tester), 0);
+      expect(_scaleOf(tester, find.text('Start')), closeTo(14 / 15, 0.002), reason: 'the word goes from 15 to 14 with the key');
+    });
+
+    testWidgets('collapses over 240 ms and expands over 300 ms, labels first out', (tester) async {
+      final compact = ValueNotifier(false);
+      addTearDown(compact.dispose);
+      await tester.pumpWidget(_app(bar(compact)));
+      compact.value = true;
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 125));
+      expect(labelOpacity(tester), lessThan(0.05), reason: 'labels fade over the first 120 ms');
+      await _pumpFor(tester, const Duration(milliseconds: 200));
+      compact.value = false;
+      await tester.pump();
+      await _pumpFor(tester, const Duration(milliseconds: 320));
+      expect(labelOpacity(tester), closeTo(1, 0.001));
     });
   });
 
-  group('dock answer-bubble ink (navigation-03)', () {
-    bool isInk(Widget w) =>
-        w is DecoratedBox && w.decoration is BoxDecoration && (w.decoration as BoxDecoration).shape == BoxShape.circle;
+  group('bar answer-bubble ink (DOCK.md 5.4, MOTION.md 5.2)', () {
+    BarIconPainter icon(WidgetTester tester, BarIconKind kind) => tester
+        .widgetList<CustomPaint>(find.byType(CustomPaint))
+        .map((w) => w.painter)
+        .whereType<BarIconPainter>()
+        .firstWhere((p) => p.kind == kind);
 
-    testWidgets('the landing tab inks, then the ink clears', (tester) async {
-      Widget pill(int i) => Center(child: DockPill(currentIndex: i, onTap: (_) {}));
-      await tester.pumpWidget(_app(pill(0)));
-      await _pumpFor(tester, const Duration(milliseconds: 500));
-      expect(find.byWidgetPredicate(isInk), findsNothing);
+    Widget bar(int branch) => Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: branch, onTab: (_) {}, onStart: (_) {}));
 
-      await tester.pumpWidget(_app(pill(2)));
-      await tester.pump(const Duration(milliseconds: 60));
-      expect(find.byWidgetPredicate(isInk), findsOneWidget);
-      await _pumpFor(tester, const Duration(milliseconds: 500));
-      expect(find.byWidgetPredicate(isInk), findsNothing);
+    testWidgets('the new bubble waits for the lens, then inks; the old one drains', (tester) async {
+      await tester.pumpWidget(_app(bar(1)));
+      await tester.pump();
+      expect(icon(tester, BarIconKind.practice).ink.value, 1);
+
+      await tester.pumpWidget(_app(bar(2)));
+      await tester.pump(const Duration(milliseconds: 40));
+      expect(icon(tester, BarIconKind.review).ink.value, 0, reason: 'no volt on the target before the lens arrives');
+      expect(icon(tester, BarIconKind.practice).ink.value, lessThan(1), reason: 'the old bubble starts draining');
+      await _pumpFor(tester, const Duration(milliseconds: 600));
+      expect(icon(tester, BarIconKind.review).ink.value, 1);
+      expect(icon(tester, BarIconKind.practice).ink.value, 0);
+      expect(icon(tester, BarIconKind.review).tick.value, 1, reason: "Review's tick draws after the ink");
     });
 
-    testWidgets('no ink under reduced motion', (tester) async {
-      Widget pill(int i) => Center(child: DockPill(currentIndex: i, onTap: (_) {}));
-      await tester.pumpWidget(_app(pill(0), reduced: true));
-      await tester.pumpWidget(_app(pill(1), reduced: true));
-      await tester.pump(const Duration(milliseconds: 60));
-      expect(find.byWidgetPredicate(isInk), findsNothing);
+    testWidgets('under reduced motion the bubble shows filled at once and the tick whole', (tester) async {
+      await tester.pumpWidget(_app(bar(0), reduced: true));
+      await tester.pumpWidget(_app(bar(2), reduced: true));
+      await tester.pump();
+      expect(icon(tester, BarIconKind.review).ink.value, 1);
+      expect(icon(tester, BarIconKind.review).tick.value, 1);
+      expect(icon(tester, BarIconKind.today).ink.value, 0);
     });
   });
 

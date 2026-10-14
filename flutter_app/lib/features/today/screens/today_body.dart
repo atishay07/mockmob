@@ -311,7 +311,11 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
                   ? scroll
                   // The app's own pull (C10): changed numbers roll from the values they showed, and
                   // the page's entrance never replays (it belongs to the page, not to the data).
-                  : MmPullRefresh(onRefresh: refresh, child: scroll),
+                  // No stretch either: the ring is the only thing that answers the pull.
+                  : MmPullRefresh(
+                      onRefresh: refresh,
+                      child: ScrollConfiguration(behavior: ScrollConfiguration.of(context).copyWith(overscroll: false), child: scroll),
+                    ),
             ),
           ),
         ],

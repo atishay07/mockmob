@@ -62,6 +62,8 @@ void main() {
         overrides: [reviewIndexProvider.overrideWithValue(index), todayDismissalsProvider.overrideWith((ref) => dismissals)],
       );
       addTearDown(container.dispose);
+      // A provider nobody listens to is paused, so its stream would never deliver to a bare read.
+      container.listen(todayDismissalsProvider, (_, _) {});
       return container;
     }
 
@@ -133,7 +135,7 @@ void main() {
     testWidgets('the emblem is never cropped by the card and the title keeps clear of it', (tester) async {
       await pumpTab(tester);
       final card = tester.getRect(find.byType(MmSurface).first);
-      final emblem = tester.getRect(find.byType(SubjectEmblem));
+      final emblem = tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.byType(SubjectEmblem)));
       expect(emblem.size, const Size(136, 136));
       expect(emblem.top, greaterThanOrEqualTo(card.top), reason: 'not cropped by the top edge');
       expect(emblem.right, lessThanOrEqualTo(card.right), reason: 'its ink ends on the card edge');
@@ -167,7 +169,7 @@ void main() {
     testWidgets('at 130% text the emblem gives way and nothing overflows', (tester) async {
       await pumpTab(tester, textScale: 1.3);
       expect(tester.takeException(), isNull);
-      expect(tester.getRect(find.byType(SubjectEmblem)).width, lessThan(136));
+      expect(tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.byType(SubjectEmblem))).width, lessThan(136));
     });
 
     testWidgets('after 11 PM the hero says it is fine to stop and still has no Mobi', (tester) async {
@@ -245,7 +247,7 @@ void main() {
         wrapInScaffold: false,
         overrides: reviewOverrides(run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1)),
       );
-      final caption = tester.getRect(find.text('Checked and Holds come later, from fresh questions.'));
+      final caption = tester.getRect(find.text('Checked comes later, on fresh questions.'));
       final receipt = tester.getRect(find.textContaining('Repair finished. Recorded at'));
       expect(receipt.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4), reason: 'the receipt follows the thread, no hole');
       final key = tester.getRect(find.widgetWithText(KeyButton, 'Repair 1 more mistake'));
@@ -337,7 +339,9 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Partnership: admission of a partner'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 90));
+      // The chapter's content fades in over the back two thirds of its 320 ms opening; by 200 ms
+      // the first row (30 ms apart, 160 ms fade) is whole and the fifth is still arriving.
+      await tester.pump(const Duration(milliseconds: 200));
       double opacity(int row) {
         final fade = find.ancestor(of: find.byType(MistakeRow).at(row), matching: find.byType(FadeTransition));
         // Every ancestor fade multiplies: the section's own, then the row's.

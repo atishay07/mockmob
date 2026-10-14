@@ -202,7 +202,10 @@ void main() {
     final seal = find.byWidgetPredicate((w) => w is KeyButton && w.label == OnboardingCopy.sealIt);
     expect(seal, findsOneWidget);
     expect(find.byType(HoldToSeal), findsOneWidget, reason: 'the hold stays, as the one dominant control');
-    expect(tester.getSize(seal).height, greaterThanOrEqualTo(48));
+    // Painted at 40, answering a finger anywhere in a 48 dp box (MmHitSlop, SPACING.md 3.3).
+    expect(tester.getSize(seal).height, 40);
+    final slop = tester.widget<MmHitSlop>(find.ancestor(of: seal, matching: find.byType(MmHitSlop)).first).slop;
+    expect(tester.getSize(seal).height + slop.vertical, greaterThanOrEqualTo(48));
     expect(tester.getTopLeft(seal).dy, greaterThan(tester.getBottomLeft(find.byType(HoldToSeal)).dy - 1), reason: 'the link sits under the hold');
     expect(tester.getSize(find.byType(HoldToSeal)).width, greaterThan(300), reason: 'the hold takes the full width');
     await tester.tap(seal);

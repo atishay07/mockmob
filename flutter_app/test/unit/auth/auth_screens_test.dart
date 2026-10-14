@@ -597,6 +597,8 @@ void main() {
       expect(find.text(AuthCopy.stillSending), findsNothing);
       await tester.pump(const Duration(seconds: 2));
       await tester.pump(const Duration(milliseconds: 300));
+      // ignore: avoid_print
+      print('TEXTS: ' + tester.widgetList<Text>(find.byType(Text)).map((t) => (t.data ?? '').replaceAll(String.fromCharCode(10), '~')).join(' | '));
       expect(find.text(AuthCopy.stillSending), findsOneWidget);
 
       gateway.sendHold!.complete();

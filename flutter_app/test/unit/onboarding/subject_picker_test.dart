@@ -53,7 +53,7 @@ void main() {
     for (final s in SheetSubject.values) {
       expect(find.text(s.label), findsOneWidget, reason: s.id);
     }
-    expect(find.text(OnboardingCopy.notOfferedTitle.toUpperCase()), findsOneWidget);
+    expect(find.text(OnboardingCopy.notOfferedTitle), findsOneWidget);
     expect(find.text(OnboardingCopy.languagesLabel), findsOneWidget);
     expect(find.text('Hindi'), findsOneWidget);
 

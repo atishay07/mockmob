@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -74,36 +75,51 @@ void main() {
     }
   }
 
-  group('the header Mobi nudges toward the move card once (MOBI-05)', () {
+  group('the header Mobi nudges toward the move card after 4 s, once a day (MOTION 1.3, P0-9)', () {
     late int nudges;
     setUp(() {
       nudges = 0;
+      MobiRation.reset();
       HeaderMobi.debugOnNudge = () => nudges++;
     });
-    tearDown(() => HeaderMobi.debugOnNudge = null);
+    tearDown(() {
+      HeaderMobi.debugOnNudge = null;
+      MobiRation.reset();
+    });
 
-    testWidgets('after his first-open line, when nothing touched the screen; never twice', (tester) async {
+    testWidgets('only after 4 s with nothing touched; never twice', (tester) async {
       HeaderMobi.resetGreeting();
       await pumpToday(tester);
-      await wait(tester, const Duration(milliseconds: 1000));
-      expect(nudges, 0, reason: 'at 1.6 s the line he started at 1.1 s is not cut off');
-      await wait(tester, const Duration(seconds: 5));
+      await wait(tester, const Duration(seconds: 3));
+      expect(nudges, 0, reason: 'at 3.6 s it is too soon: sooner reads as nagging');
+      await wait(tester, const Duration(seconds: 6));
       expect(nudges, 1);
-      await wait(tester, const Duration(seconds: 5));
+      await wait(tester, const Duration(seconds: 6));
       expect(nudges, 1, reason: 'once per screen');
     });
 
-    testWidgets('a touch before 1.2 s cancels it for good', (tester) async {
+    testWidgets('once a day: a second visit the same day does not nudge again', (tester) async {
       await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 8));
+      expect(nudges, 1);
+      await tester.pumpWidget(const SizedBox());
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 8));
+      expect(nudges, 1, reason: 'the gate is per screen per day');
+    });
+
+    testWidgets('a touch before 4 s cancels it for good', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 2));
       final gesture = await tester.startGesture(const Offset(192, 1500));
       await gesture.up();
-      await wait(tester, const Duration(seconds: 6));
+      await wait(tester, const Duration(seconds: 8));
       expect(nudges, 0);
     });
 
     testWidgets('never under reduced motion', (tester) async {
       await pumpToday(tester, reduced: true);
-      await wait(tester, const Duration(seconds: 6));
+      await wait(tester, const Duration(seconds: 8));
       expect(nudges, 0);
     });
   });
@@ -112,7 +128,7 @@ void main() {
     testWidgets('lands after the card has arrived, with one selection tick', (tester) async {
       final haptics = _CountingHaptics();
       await pumpToday(tester, haptics: haptics);
-      expect(haptics.selections, 0, reason: 'at 640 ms the stage has landed (540 ms); the number lands at 780 ms');
+      expect(haptics.selections, 0, reason: 'at 640 ms the stage has landed (540 ms); the number lands at 660 ms');
       await wait(tester, const Duration(milliseconds: 300));
       expect(haptics.selections, 1);
       await wait(tester, const Duration(seconds: 2));

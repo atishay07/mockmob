@@ -98,7 +98,7 @@ class _Day extends StatelessWidget {
     return Column(
       children: [
         Text(initial, style: type.caption.copyWith(fontWeight: FontWeight.w600, color: ink)),
-        const SizedBox(height: MmSpace.s6),
+        const SizedBox(height: MmSpace.s4),
         SizedBox(height: 34, child: Center(child: mark)),
         const SizedBox(height: MmSpace.s4),
         Text(

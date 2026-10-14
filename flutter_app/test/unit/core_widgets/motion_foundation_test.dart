@@ -337,34 +337,43 @@ void main() {
     });
   });
 
-  group('dock life', () {
-    testWidgets('Start breathes twice on arrival, then rests; never under reduced motion', (tester) async {
-      await tester.pumpWidget(_app(Center(child: StartButton(onPressed: () {}))));
+  group('bar life (DOCK.md 5.2 and 5.4)', () {
+    Widget bar(int i, {bool reduced = false, bool entrance = false}) => _app(
+          Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: i, onTab: (_) {}, onStart: (_) {}, entrance: entrance)),
+          reduced: reduced,
+        );
+
+    testWidgets('Start never breathes: at rest the bar runs nothing', (tester) async {
+      await tester.pumpWidget(bar(0));
+      await tester.pump(const Duration(milliseconds: 50));
+      expect(tester.hasRunningAnimations, isFalse, reason: 'no idle loops');
+    });
+
+    testWidgets('the first appearance rises, pops Start once and stops; instant under reduced motion', (tester) async {
+      await tester.pumpWidget(bar(0, entrance: true));
       await tester.pump(const Duration(milliseconds: 100));
       expect(tester.hasRunningAnimations, isTrue);
-      await tester.pump(StartButton.breathDuration);
-      await tester.pump(const Duration(milliseconds: 50));
-      expect(tester.hasRunningAnimations, isFalse, reason: 'two breaths, never a loop');
+      await tester.pump(MmBottomBar.entranceDuration);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(tester.hasRunningAnimations, isFalse, reason: 'one pop, never a loop');
 
-      await tester.pumpWidget(_app(Center(child: StartButton(onPressed: () {})), reduced: true));
-      await tester.pump(const Duration(milliseconds: 50));
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(bar(0, entrance: true, reduced: true));
+      await tester.pump();
       expect(tester.hasRunningAnimations, isFalse);
     });
 
-    testWidgets('a tab switch pops the icon and settles; reduced motion swaps it still', (tester) async {
-      Widget pill(int i, {bool reduced = false}) => _app(
-            Align(alignment: Alignment.bottomCenter, child: DockPill(currentIndex: i, onTap: (_) {})),
-            reduced: reduced,
-          );
-      await tester.pumpWidget(pill(0));
-      await tester.pumpWidget(pill(2));
+    testWidgets('a tab switch travels and settles; reduced motion jumps', (tester) async {
+      await tester.pumpWidget(bar(0));
+      await tester.pumpWidget(bar(2));
       await tester.pump(const Duration(milliseconds: 60));
       expect(tester.hasRunningAnimations, isTrue);
       await tester.pumpAndSettle();
       expect(tester.hasRunningAnimations, isFalse);
 
-      await tester.pumpWidget(pill(0, reduced: true));
-      await tester.pumpWidget(pill(1, reduced: true));
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(bar(0, reduced: true));
+      await tester.pumpWidget(bar(1, reduced: true));
       await tester.pump();
       expect(tester.hasRunningAnimations, isFalse);
     });
