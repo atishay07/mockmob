@@ -17,9 +17,16 @@ export 'choice_glyphs.dart' show ChoiceGlyphKind;
 /// [ChoiceDeck.onSheet], and every filled surface is opaque, so the faint wash of the page the
 /// sheet lets through never shows in a tile.
 class QuickStartDeck extends StatelessWidget {
-  const QuickStartDeck({super.key, required this.options});
+  const QuickStartDeck({super.key, required this.options, this.leadKey, this.animateIn = true});
 
   final List<ChoiceOption> options;
+
+  /// Set on the lead choice's box, so the sheet's Mobi can point at it.
+  final GlobalKey? leadKey;
+
+  /// Whether the rows rise in by themselves. The sheet passes false when its own route-driven
+  /// entrance brings the deck in after the glass has opened.
+  final bool animateIn;
 
   /// The id that marks the quiet "Ask your record" choice.
   static const String askId = 'ask';
@@ -36,5 +43,5 @@ class QuickStartDeck extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) => ChoiceDeck(rows: arrangeChoices(options, quiet: const {askId}), onSheet: true);
+  Widget build(BuildContext context) => ChoiceDeck(rows: arrangeChoices(options, quiet: const {askId}), onSheet: true, leadKey: leadKey, animateIn: animateIn);
 }

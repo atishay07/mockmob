@@ -160,7 +160,10 @@ MoveHero buildMove(TodayInputs i) {
   HeroArt artFor(String? subject) => switch (mood) {
         TodayMood.returning => const HeroArt.mobi(MmArt.mobiGreet),
         TodayMood.lateNight => const HeroArt.mobi(MmArt.mobiSleepy),
-        _ => HeroArt.object(MmArt.subjectObject(subject == null ? null : canonicalSubject(subject)) ?? MmArt.objLanguage),
+        _ => HeroArt.object(
+              MmArt.subjectObject(subject == null ? null : canonicalSubject(subject)) ?? MmArt.objLanguage,
+              subject: subject == null ? null : canonicalSubject(subject),
+            ),
       };
   String? headlineFor() => switch (mood) {
         TodayMood.returning => TodayCopy.returningHeadline(f.attempts.isEmpty ? null : i.daysSince(f.attempts.first.completedAt)),

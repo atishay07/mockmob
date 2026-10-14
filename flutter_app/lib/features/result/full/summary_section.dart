@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -17,6 +18,9 @@ class SummarySection extends StatelessWidget {
 
   final RecapModel model;
 
+  /// The subject emblem's side beside the figure.
+  static const double emblemSize = 104;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -25,39 +29,54 @@ class SummarySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(ResultCopy.submittedOn(m.submittedAt), style: type.small.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s12),
-        if (m.isHeld) ...[
-          Text(ResultCopy.heldTitle, style: type.headline),
-          const SizedBox(height: MmSpace.s6),
-          Text(ResultCopy.heldBody(m.heldCount), style: type.body.copyWith(color: colors.ink2)),
-        ] else ...[
-          Semantics(
-            container: true,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: MonumentalNumber(
-                  value: formatSignedNumber(m.marks),
-                  unit: ResultCopy.outOf(m.maxMarks),
-                  style: type.figureHero,
-                  roll: false,
-                  semanticsLabel: ResultCopy.figureLabel(m.marks, m.maxMarks),
-                ),
+        // The paper's subject stands beside the date and the figure: its code-drawn emblem on its
+        // own light, drifting slowly (one moving emblem on this screen).
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(ResultCopy.submittedOn(m.submittedAt), style: type.small.copyWith(color: colors.ink3)),
+                  const SizedBox(height: MmSpace.s12),
+                  if (m.isHeld) ...[
+                    Text(ResultCopy.heldTitle, style: type.headline),
+                    const SizedBox(height: MmSpace.s6),
+                    Text(ResultCopy.heldBody(m.heldCount), style: type.body.copyWith(color: colors.ink2)),
+                  ] else ...[
+                    Semantics(
+                      container: true,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: MonumentalNumber(
+                            value: formatSignedNumber(m.marks),
+                            unit: ResultCopy.outOf(m.maxMarks),
+                            style: type.figureHero,
+                            roll: false,
+                            semanticsLabel: ResultCopy.figureLabel(m.marks, m.maxMarks),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
-          ),
+            const SizedBox(width: MmSpace.s8),
+            SubjectEmblem(subject: m.subjectId, size: SummarySection.emblemSize, framed: false, animate: true),
+          ],
+        ),
+        if (!m.isHeld) ...[
           const SizedBox(height: MmSpace.s8),
           // The same meter as the sheet's marks box, so the recap and the record agree.
           MarksMeter(marks: m.marks, max: m.maxMarks),
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.countsWithDenominators(m.correct, m.wrong, m.unattempted, m.questionCount), style: type.body),
           const SizedBox(height: MmSpace.s4),
-          Text(
-            '${ResultCopy.arithmetic(m.correct, m.wrong, m.marks)}. ${ResultCopy.scheme}',
-            style: type.small.copyWith(color: colors.ink2),
-          ),
+          Text('${ResultCopy.arithmetic(m.correct, m.wrong, m.marks)}. ${ResultCopy.scheme}', style: type.small.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s20),
         LayoutBuilder(
@@ -73,7 +92,8 @@ class SummarySection extends StatelessWidget {
                   child: SizedBox(
                     width: g.width,
                     // The number lines grow with the text size, so the sheet grows with them.
-                    height: g.naturalBodyHeight +
+                    height:
+                        g.naturalBodyHeight +
                         BubbleGrid.heightFor(
                           rows: g.rows,
                           bubbleSize: g.bubble,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -127,7 +128,7 @@ class SubjectLine extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          SubjectObject(id: subject.id, size: 40),
+          SubjectObject(id: subject.id, size: 44, marked: chosen),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
@@ -146,17 +147,20 @@ class SubjectLine extends StatelessWidget {
   }
 }
 
-/// A subject's object from the shared art set, on a faint lamp-lit tile so every object reads
-/// at the same weight. [ghost] greys it for a subject MockMob does not offer yet.
+/// A subject's code-drawn emblem standing on its own light, its volt mark inked once the subject
+/// is on the sheet ([marked]). [ghost] greys the shared raster object for a subject MockMob does
+/// not offer yet.
 class SubjectObject extends StatelessWidget {
-  const SubjectObject({super.key, required this.id, this.size = 40, this.ghost = false});
+  const SubjectObject({super.key, required this.id, this.size = 40, this.ghost = false, this.marked = false});
 
   final String id;
   final double size;
   final bool ghost;
+  final bool marked;
 
   @override
   Widget build(BuildContext context) {
+    if (!ghost) return SubjectEmblem(subject: id, size: size, framed: false, marked: marked);
     final colors = context.mmColors;
     final art = MmArt.subjectObject(id) ?? MmArt.objLanguage;
     return SizedBox.square(

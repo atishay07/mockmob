@@ -18,6 +18,7 @@ import '../widgets/materials/light_field.dart';
 import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
+import '../../features/practice/widgets/quick_start_deck.dart';
 import 'routes.dart';
 
 export '../widgets/bubbles/sheet_glyph.dart' show SheetGlyph;
@@ -114,46 +115,6 @@ class QuickStartSheet extends ConsumerStatefulWidget {
   @override
   ConsumerState<QuickStartSheet> createState() => _QuickStartSheetState();
 
-  /// The ranked layout: the one hero choice, the practice modes as tiles two to a row (an odd
-  /// last tile spans the row), then the quieter choices as one grouped list. Each block arrives
-  /// in turn.
-  static Widget _ranked({
-    required GlobalKey heroKey,
-    required Widget hero,
-    required List<QuickStartRow Function(QuickStartRowStyle style)> modes,
-    required List<Widget> rest,
-    required Color line,
-  }) {
-    var index = 0;
-    final blocks = <Widget>[MmStaggerItem(index: index++, child: KeyedSubtree(key: heroKey, child: hero))];
-    for (var i = 0; i < modes.length; i += 2) {
-      blocks.add(const SizedBox(height: MmSpace.s8));
-      final pair = i + 1 < modes.length;
-      blocks.add(MmStaggerItem(
-        index: index++,
-        child: pair
-            ? IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: modes[i](QuickStartRowStyle.tile)),
-                    const SizedBox(width: MmSpace.s8),
-                    Expanded(child: modes[i + 1](QuickStartRowStyle.tile)),
-                  ],
-                ),
-              )
-            // A mode alone on its line reads as a row: a tile stretched across the sheet is a
-            // tall empty box.
-            : modes[i](QuickStartRowStyle.row),
-      ));
-    }
-    if (rest.isNotEmpty) {
-      blocks.add(const SizedBox(height: MmSpace.s8));
-      blocks.add(MmStaggerItem(index: index++, child: _QuickGroup(line: line, children: rest)));
-    }
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: blocks);
-  }
-
   /// Whether [location] is a top-level screen outside the tab shell (it has no tab beneath it,
   /// so `go` would leave nothing to go back to).
   @visibleForTesting
@@ -233,15 +194,6 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
       }
     }
 
-    QuickStartRow quick(QuickStartRowStyle style) => QuickStartRow(
-      style: style,
-      glyph: SheetGlyph.quick,
-      title: 'Quick 10',
-      note: '10 questions, about 10 minutes.',
-      lit: style == QuickStartRowStyle.hero,
-      onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
-    );
-
     // The sheet never grows past the screen: the header stays put and the rows scroll, so no row
     // is clipped on a short phone or at large text.
     final media = MediaQuery.of(context);
@@ -315,72 +267,76 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                     onPointerUp: (_) => _pointAtHero(),
                     onPointerCancel: (_) => _pointAtHero(),
                     child: MmStagger(
-                    driver: MmStaggerDriver.route,
-                    routeStart: 0.32,
-                    routeStep: 0.07,
-                    child: QuickStartSheet._ranked(
-                      heroKey: _hero,
-                      hero: draft != null
-                          ? QuickStartRow(
-                              key: const ValueKey('quick-start-resume'),
-                              style: QuickStartRowStyle.hero,
-                              glyph: SheetGlyph.resume,
-                              // The title never changes when the answered count resolves; the count lives on the
-                              // note line, which already holds a sentence.
-                              title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
-                              note: draft.isMock
-                                  ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
-                                        '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
-                                  : answered == null
-                                  ? 'Pick up where you left off.'
-                                  : 'Pick up at $answered of ${draft.view.questions.length}.',
-                              lit: true,
-                              noteLines: 2,
-                              light: SubjectLight.forSubject(draft.subject)?.of(Theme.of(context).brightness),
-                              onTap: () => go(AppRoutes.run(draft.sessionId)),
-                            )
-                          : quick(QuickStartRowStyle.hero),
-                      modes: [
-                        if (draft != null) quick,
-                        (style) => QuickStartRow(
-                          style: style,
-                          glyph: SheetGlyph.mock,
-                          title: 'Full mock',
-                          note: '50 questions, 60 minutes, timed like the exam.',
-                          onTap: () => go(AppRoutes.practiceSetup('full')),
+                      driver: MmStaggerDriver.route,
+                      routeStart: 0.32,
+                      routeStep: 0.07,
+                      // The choices as a deck (practice track): the first leads as a hero with its
+                      // lit object, the next pair up as tiles, Ask closes as a quiet row.
+                      child: MmStaggerItem(
+                        index: 0,
+                        child: QuickStartDeck(
+                          leadKey: _hero,
+                          animateIn: false,
+                          options: [
+                            if (draft != null)
+                              ChoiceOption(
+                                id: 'resume',
+                                glyph: QuickStartDeck.glyphFor('resume'),
+                                // The title never changes when the answered count resolves; the count lives on
+                                // the note line, which already holds a sentence.
+                                title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
+                                note: draft.isMock
+                                    ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
+                                          '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
+                                    : answered == null
+                                    ? 'Pick up where you left off.'
+                                    : 'Pick up at $answered of ${draft.view.questions.length}.',
+                                noteLines: 2,
+                                onTap: () => go(AppRoutes.run(draft.sessionId)),
+                              ),
+                            ChoiceOption(
+                              id: 'quick',
+                              glyph: QuickStartDeck.glyphFor('quick'),
+                              title: 'Quick 10',
+                              note: '10 questions, about 10 minutes.',
+                              onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
+                            ),
+                            ChoiceOption(
+                              id: 'mock',
+                              glyph: QuickStartDeck.glyphFor('mock'),
+                              title: 'Full mock',
+                              note: '50 questions, 60 minutes, timed like the exam.',
+                              onTap: () => go(AppRoutes.practiceSetup('full')),
+                            ),
+                            if (nta != null)
+                              ChoiceOption(
+                                id: 'nta',
+                                glyph: QuickStartDeck.glyphFor('nta'),
+                                title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
+                                note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
+                                onTap: () => go(nta.location),
+                              ),
+                            if (repair != null)
+                              ChoiceOption(
+                                id: 'repair',
+                                glyph: QuickStartDeck.glyphFor('repair'),
+                                title: 'Repair the next mistake',
+                                note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
+                                onTap: () => go(repair.location),
+                              ),
+                            // Never more than five choices: Ask gives way to a resume.
+                            if (draft == null || nta == null || repair == null)
+                              ChoiceOption(
+                                id: QuickStartDeck.askId,
+                                glyph: QuickStartDeck.glyphFor(QuickStartDeck.askId),
+                                title: 'Ask your record',
+                                note: 'Questions about your marks and chapters, answered from what you have done.',
+                                onTap: () => go(AppRoutes.ask),
+                              ),
+                          ],
                         ),
-                        if (nta != null)
-                          (style) => QuickStartRow(
-                            style: style,
-                            glyph: SheetGlyph.exam,
-                            title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
-                            light: SubjectLight.forSubject(nta.subject)?.of(Theme.of(context).brightness),
-                            note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
-                            onTap: () => go(nta.location),
-                          ),
-                      ],
-                      rest: [
-                        if (repair != null)
-                          QuickStartRow(
-                            glyph: SheetGlyph.repair,
-                            title: 'Repair the next mistake',
-                            note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-                            grouped: true,
-                            onTap: () => go(repair.location),
-                          ),
-                        // Never more than five choices: Ask gives way to a resume.
-                        if (draft == null || nta == null || repair == null)
-                          QuickStartRow(
-                            glyph: SheetGlyph.ask,
-                            title: 'Ask your record',
-                            note: 'Questions about your marks and chapters, answered from what you have done.',
-                            grouped: true,
-                            onTap: () => go(AppRoutes.ask),
-                          ),
-                      ],
-                      line: context.mmColors.line,
+                      ),
                     ),
-                  ),
                   ),
                 ),
               ),
@@ -724,43 +680,4 @@ class _GoDiscPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_GoDiscPainter old) => old.fill != fill || old.glyph != glyph;
-}
-
-/// The quieter choices in one opaque surface, divided by an inset hairline.
-class _QuickGroup extends StatelessWidget {
-  const _QuickGroup({required this.children, required this.line});
-
-  final List<Widget> children;
-  final Color line;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final rows = <Widget>[];
-    for (var i = 0; i < children.length; i++) {
-      if (i > 0) {
-        rows.add(ColoredBox(
-          color: QuickStartRow.surfaceFor(colors, pressed: false),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.only(start: 64),
-            child: SizedBox(height: 1, child: ColoredBox(color: line)),
-          ),
-        ));
-      }
-      rows.add(children[i]);
-    }
-    return CustomPaint(
-      // The group's one top edge light, no outline (the same as the tiles above it).
-      foregroundPainter: EdgeLightPainter(
-        borderRadius: MmRadius.keyAll,
-        top: colors.edgeTop,
-        bottom: colors.edgeBottom.withValues(alpha: 0),
-        sheen: false,
-      ),
-      child: ClipRSuperellipse(
-        borderRadius: MmRadius.keyAll,
-        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: rows),
-      ),
-    );
-  }
 }

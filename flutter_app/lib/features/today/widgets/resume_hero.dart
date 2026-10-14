@@ -23,7 +23,7 @@ class ResumeHeroCard extends StatelessWidget {
     final art = MmArt.subjectObject(resume.subjectId);
     return HeroStage(
       subjectId: resume.subjectId,
-      art: art == null ? null : HeroArtView(art: HeroArt.object(art)),
+      art: art == null ? null : HeroArtView(art: HeroArt.object(art, subject: resume.subjectId)),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding),
         child: Column(

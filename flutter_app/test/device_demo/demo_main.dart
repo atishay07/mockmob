@@ -39,6 +39,7 @@ import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/router/app_shell.dart';
 import 'package:mockmob/core/router/quick_start.dart';
+import 'package:mockmob/core/widgets/skeleton.dart' show SkeletonGroup;
 import 'package:mockmob/core/widgets/status_tint.dart' show SecureWindow, secureWindowProvider;
 import 'package:mockmob/features/insights/data/insights_repository.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
@@ -304,6 +305,8 @@ List<Override> _overrides() {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
+  SkeletonGroup.shimmerByDefault = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   runApp(ProviderScope(overrides: _overrides(), child: const MockMobApp()));
 }

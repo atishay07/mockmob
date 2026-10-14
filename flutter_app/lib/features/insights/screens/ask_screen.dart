@@ -168,7 +168,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final now = next.messages;
     if (now.isEmpty) return;
     if (!(prev?.busy ?? false) && next.busy) {
-      _mobi.play(MobiAct.think);
+      // The bulb pulses while the reply is on its way (it settles by itself after 12 s).
+      _mobi.play(MobiAct.loading);
       return;
     }
     // The pending bubble became a reply or a failure.
@@ -301,6 +302,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                   onSend: _send,
                   note: paused ? InsightsCopy.askPausedLine : InsightsCopy.askCostLine(credits?.explanationBalance),
                   bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom,
+                  // Mobi leans in to listen while the student types, and stands at ease after.
+                  onFocusChange: (focused) {
+                    if (!mounted || ref.read(askControllerProvider).busy) return;
+                    _mobi.play(focused ? MobiAct.listen : MobiAct.idle);
+                  },
                 ),
               ],
             ),
@@ -406,9 +412,17 @@ class _AskHeader extends StatelessWidget {
 /// it. The disc is volt when there is something to send and goes quiet when there is not; while a
 /// reply is on its way it shows the inking bubbles.
 class _Composer extends StatefulWidget {
-  const _Composer({required this.controller, required this.busy, required this.onSend, required this.note, required this.bottomInset});
+  const _Composer({
+    required this.controller,
+    required this.busy,
+    required this.onSend,
+    required this.note,
+    required this.bottomInset,
+    this.onFocusChange,
+  });
 
   final TextEditingController controller;
+  final ValueChanged<bool>? onFocusChange;
   final bool busy;
   final Future<void> Function([String?]) onSend;
   final String note;
@@ -424,7 +438,10 @@ class _ComposerState extends State<_Composer> {
   @override
   void initState() {
     super.initState();
-    _focus.addListener(() => setState(() {}));
+    _focus.addListener(() {
+      setState(() {});
+      widget.onFocusChange?.call(_focus.hasFocus);
+    });
   }
 
   @override

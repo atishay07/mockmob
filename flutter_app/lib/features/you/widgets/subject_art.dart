@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// A subject's mark: under 56 dp its line glyph on its colour tile (the renders turn muddy that
-/// small); larger, the lamp-lit object, with the subject's initials on a paper disc if the art is
-/// missing (never a wrong object).
+/// A subject's mark: its code-drawn emblem standing on its own light (legible from 24 dp up),
+/// with the subject's initials on a paper disc for a subject the art set does not know (never a
+/// wrong object).
 class SubjectArt extends StatelessWidget {
   const SubjectArt(this.subjectId, {super.key, this.size = 36});
 
@@ -15,13 +15,10 @@ class SubjectArt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (size < 56) return SubjectGlyphTile(subjectId, size: size);
-    final art = MmArt.subjectObject(subjectId);
-    final monogram = _Monogram(subjectDisplayName(subjectId), size: size);
-    return SizedBox.square(
-      dimension: size,
-      child: art == null ? monogram : ArtImage(art, height: size, placeholder: monogram),
-    );
+    if (SubjectIdentity.of(subjectId)?.hasEmblem ?? false) {
+      return SubjectEmblem(subject: subjectId, size: size, framed: false);
+    }
+    return SizedBox.square(dimension: size, child: _Monogram(subjectDisplayName(subjectId), size: size));
   }
 }
 

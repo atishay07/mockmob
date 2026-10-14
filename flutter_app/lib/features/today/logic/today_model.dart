@@ -77,11 +77,15 @@ class DurationChoice {
 
 /// What sits in the hero's art corner.
 class HeroArt {
-  const HeroArt.object(this.art) : isMobi = false;
-  const HeroArt.mobi(this.art) : isMobi = true;
+  const HeroArt.object(this.art, {this.subject}) : isMobi = false;
+  const HeroArt.mobi(this.art) : isMobi = true, subject = null;
 
   final MmArt art;
   final bool isMobi;
+
+  /// The subject whose code-drawn emblem stands in the corner, when the move belongs to one. The
+  /// raster [art] is kept only as the fallback when no subject is known.
+  final String? subject;
 }
 
 sealed class TodayHero {

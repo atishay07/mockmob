@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../router/transitions.dart' show MmPageTransitionsBuilder;
 import 'fonts.dart';
 import 'mm_colors.dart';
 import 'mm_type.dart';
@@ -16,23 +17,6 @@ export 'tokens.dart';
 extension MmThemeContext on BuildContext {
   MmColors get mmColors => Theme.of(this).extension<MmColors>() ?? MmColors.light;
   MmType get mmType => Theme.of(this).extension<MmType>() ?? MmType.light;
-}
-
-/// The page transition used by plain `Navigator` pushes (dialogs, the occasional `MaterialPageRoute`).
-/// go_router pages use `MmTransitionPage` instead.
-class _FadeOnlyTransitionsBuilder extends PageTransitionsBuilder {
-  const _FadeOnlyTransitionsBuilder();
-
-  @override
-  Widget buildTransitions<T>(
-    PageRoute<T> route,
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return FadeTransition(opacity: animation, child: child);
-  }
 }
 
 // On states are volt, the one interactive accent; a check glyph marks "on" so the state never
@@ -144,12 +128,12 @@ ThemeData buildTheme(Brightness brightness) {
     materialTapTargetSize: MaterialTapTargetSize.padded,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
-        TargetPlatform.android: _FadeOnlyTransitionsBuilder(),
-        TargetPlatform.iOS: _FadeOnlyTransitionsBuilder(),
-        TargetPlatform.fuchsia: _FadeOnlyTransitionsBuilder(),
-        TargetPlatform.linux: _FadeOnlyTransitionsBuilder(),
-        TargetPlatform.macOS: _FadeOnlyTransitionsBuilder(),
-        TargetPlatform.windows: _FadeOnlyTransitionsBuilder(),
+        TargetPlatform.android: MmPageTransitionsBuilder(),
+        TargetPlatform.iOS: MmPageTransitionsBuilder(),
+        TargetPlatform.fuchsia: MmPageTransitionsBuilder(),
+        TargetPlatform.linux: MmPageTransitionsBuilder(),
+        TargetPlatform.macOS: MmPageTransitionsBuilder(),
+        TargetPlatform.windows: MmPageTransitionsBuilder(),
       },
     ),
     bottomSheetTheme: BottomSheetThemeData(

@@ -139,9 +139,20 @@ List<ChoiceRow> arrangeChoices(List<ChoiceOption> options, {bool leadFirst = tru
 /// glide) and whose drawn objects play their gesture on press. The lead's object plays once as it
 /// lands. Still under reduced motion.
 class ChoiceDeck extends StatelessWidget {
-  const ChoiceDeck({super.key, required this.rows, this.gap = MmSpace.s8, this.animateIn = true, this.bleed = 0, this.onSheet = false});
+  const ChoiceDeck({
+    super.key,
+    required this.rows,
+    this.gap = MmSpace.s8,
+    this.animateIn = true,
+    this.bleed = 0,
+    this.onSheet = false,
+    this.leadKey,
+  });
 
   final List<ChoiceRow> rows;
+
+  /// Set on the lead's box, so a caller can aim at it (Mobi points at the recommended choice).
+  final GlobalKey? leadKey;
   final double gap;
   final bool animateIn;
 
@@ -172,7 +183,8 @@ class ChoiceDeck extends StatelessWidget {
   Widget _row(ChoiceRow row, int slot) {
     switch (row) {
       case LeadRow(:final option):
-        return _rise(slot, LeadChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
+        final lead = LeadChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}'));
+        return _rise(slot, leadKey == null ? lead : KeyedSubtree(key: leadKey, child: lead));
       case PairRow(:final first, :final second):
         return _rise(
           slot,

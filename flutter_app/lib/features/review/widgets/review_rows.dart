@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/attempt.dart';
@@ -283,7 +284,7 @@ class PastResultRow extends StatelessWidget {
                 child: Row(
                   children: [
                     // The paper's subject, not a wrong-answer bubble: the row is a result.
-                    SubjectGlyphTile(attempt.subject),
+                    SubjectEmblem(subject: attempt.subject, size: 40, framed: false),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(

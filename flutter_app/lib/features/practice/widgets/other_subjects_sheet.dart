@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -49,7 +50,7 @@ class OtherSubjectsList extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
                     child: Row(
                       children: [
-                        SubjectGlyphTile(s.id),
+                        SubjectEmblem(subject: s.id, size: 40, framed: false),
                         const SizedBox(width: MmSpace.s12),
                         Expanded(child: Text(s.name, style: type.labelLarge)),
                         Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
@@ -226,7 +227,7 @@ class _ChapterRow extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (showSubject) ...[SubjectGlyphTile(g.subjectId, size: _stripGlyph), const SizedBox(width: MmSpace.s12)],
+                      if (showSubject) ...[SubjectEmblem(subject: g.subjectId, size: _stripGlyph, framed: false), const SizedBox(width: MmSpace.s12)],
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

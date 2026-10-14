@@ -14,6 +14,7 @@ import 'core/router/quick_start.dart';
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
+import 'core/widgets/skeleton.dart' show SkeletonGroup;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
@@ -26,6 +27,8 @@ void main() {
 Future<void> _start() async {
   WidgetsFlutterBinding.ensureInitialized();
   _installErrorHandling();
+  // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
+  SkeletonGroup.shimmerByDefault = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   // The saved glass quality, so a saved Lite or Off is right on the first frame.
   final glass = await GlassBoot.read(AppPrefs(SharedPrefsStore()));

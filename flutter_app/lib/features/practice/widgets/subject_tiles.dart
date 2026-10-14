@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -45,6 +46,9 @@ class SubjectTiles extends ConsumerStatefulWidget {
 
   static const double width = 132;
   static const double height = 148;
+
+  /// The subject emblem's side in a tile: what the name block leaves above it.
+  static double emblemSize(bool withCount) => withCount ? 84 : 96;
   static const double gap = MmSpace.s8;
 
   /// The "More subjects" tile's width.
@@ -181,7 +185,6 @@ class SubjectTile extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final light = SubjectLight.forSubject(id);
-    final art = MmArt.subjectObject(id);
     final accent = context.subjectAccentOf(id);
     final reduced = Motion.reduced(context);
     return MmPressable(
@@ -216,20 +219,24 @@ class SubjectTile extends StatelessWidget {
                         Positioned.fill(
                           child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: 0.7 + 0.3 * t),
                         ),
-                      if (art != null)
-                        Positioned(
-                          left: 16,
-                          right: 12,
-                          top: 18,
-                          bottom: questions == null ? 44 : 56,
+                      Positioned(
+                        left: 12,
+                        right: 12,
+                        top: 12,
+                        bottom: questions == null ? 40 : 52,
+                        child: Align(
+                          alignment: Alignment.topLeft,
                           child: AnimatedScale(
-                            // The object dips under the finger and settles larger once chosen.
+                            // The object dips under the finger and settles larger once chosen; its
+                            // volt mark inks when the subject is picked (the ring is on the tile).
                             scale: (pressed ? 0.94 : 1) * (1 + 0.07 * t),
                             duration: reduced ? Duration.zero : Motion.ui,
                             curve: Motion.out,
-                            child: ArtImage(art, width: SubjectTiles.width - 28, opacity: 0.86 + 0.14 * t),
+                            alignment: Alignment.topLeft,
+                            child: SubjectEmblem(subject: id, size: SubjectTiles.emblemSize(questions != null), framed: false, marked: selected),
                           ),
                         ),
+                      ),
                       Positioned(
                         left: 10,
                         right: 8,

@@ -5,6 +5,7 @@
 // left (brief section 5: no art behind text that is read). The only raised panel on Today.
 import 'package:flutter/material.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -23,6 +24,9 @@ const double heroArtWidth = 212;
 /// How far the art runs past the panel's top and right edges: the object is cropped by the
 /// corner, so it reads as a prop in the room, not a thumbnail in a box.
 const double heroArtBleed = 44;
+
+/// The subject emblem's side inside the art corner.
+const double heroEmblemSize = 168;
 
 /// What content beside the art keeps clear of, from the panel's right edge: the object's lit
 /// face is the visible part of the art, and the line under it (the number) may overlap its base.
@@ -229,6 +233,13 @@ class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStat
     final art = widget.art;
     final Widget image = art.isMobi
         ? Align(alignment: const Alignment(0.3, 0.2), child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
+        : art.subject != null
+        // The subject's code-drawn emblem, unframed on its own light, drifting slowly. It sits low
+        // and left in the corner so the panel's edge only grazes it.
+        ? Align(
+            alignment: const Alignment(-0.5, 0.6),
+            child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
+          )
         : Padding(
             padding: const EdgeInsets.all(4),
             child: ArtImage(art.art, width: heroArtWidth - 8, height: heroArtHeight - 8),
