@@ -86,7 +86,7 @@ class PlanSheet extends StatelessWidget {
                     header: true,
                     child: Text(
                       plan.headline,
-                      style: type.moment.copyWith(fontSize: compact ? 28 : 32, height: compact ? 30 / 28 : 34 / 32),
+                      style: type.moment.copyWith(fontSize: compact ? 28 : 36, height: compact ? 30 / 28 : 38 / 36),
                       textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
                     ),
                   ),
@@ -101,6 +101,7 @@ class PlanSheet extends StatelessWidget {
                       delay: stagger * i,
                       animate: animate,
                       gap: compact ? MmSpace.s8 : MmSpace.s12,
+                      last: i == plan.lines.length - 1,
                     ),
                   const SizedBox(height: MmSpace.s4),
                   Row(
@@ -221,8 +222,10 @@ class _PlanRow extends StatefulWidget {
     required this.delay,
     required this.animate,
     required this.gap,
+    required this.last,
   });
 
+  final bool last;
   final int number;
   final String text;
   final bool show;
@@ -277,8 +280,14 @@ class _PlanRowState extends State<_PlanRow> with SingleTickerProviderStateMixin 
     final type = context.mmType;
     const size = 24.0;
     final on = _printed;
-    return Padding(
-      padding: EdgeInsets.only(bottom: widget.gap),
+    // Ruled like a form: a hairline under each answer but the last, from the text to the edge.
+    final half = widget.gap / 2;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: widget.last ? null : Border(bottom: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+      padding: EdgeInsets.fromLTRB(0, half - 1, 0, half - 1),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -316,6 +325,7 @@ class _PlanRowState extends State<_PlanRow> with SingleTickerProviderStateMixin 
                 : Text(widget.text, style: type.small.copyWith(color: Colors.transparent, height: 1.4)),
           ),
         ],
+      ),
       ),
     );
   }

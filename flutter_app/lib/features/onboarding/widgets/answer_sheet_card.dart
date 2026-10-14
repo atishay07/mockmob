@@ -70,7 +70,10 @@ class AnswerSheetCard extends StatelessWidget {
     final steps = kOnboardingDeck.sheetSteps.where((s) => s.visibleFor(answers)).toList();
     final done = steps.where((s) => answers.isDone(s.id)).length;
     final lines = sheetLines(answers);
-    final keep = full ? lines.length : (compact ? 1 : 2);
+    // Below about 680 dp the sheet gives the answers the room: the title row and the bubbles stay
+    // (that is the progress), the engraved line under them waits (TalkBack still reads it).
+    final short = !full && MediaQuery.sizeOf(context).height < 680;
+    final keep = short ? 0 : (full ? lines.length : (compact ? 1 : 2));
     final shown = lines.length <= keep ? lines : lines.sublist(lines.length - keep);
 
     return Semantics(
@@ -94,7 +97,7 @@ class AnswerSheetCard extends StatelessWidget {
                   child: TimingMarks(color: colors.ink.withValues(alpha: colors.isNight ? 0.14 : 0.18)),
                 ),
                 Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s16),
+              padding: EdgeInsets.fromLTRB(MmSpace.s20, short ? MmSpace.s12 : MmSpace.s16, MmSpace.s20, short ? MmSpace.s12 : MmSpace.s16),
               child: _Grow(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,9 +111,9 @@ class AnswerSheetCard extends StatelessWidget {
                         Text('$done of ${steps.length}', style: type.caption.copyWith(color: colors.ink3)),
                       ],
                     ),
-                    const SizedBox(height: MmSpace.s12),
+                    SizedBox(height: short ? MmSpace.s8 : MmSpace.s12),
                     _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate),
-                    if (!compact) ...[const SizedBox(height: MmSpace.s16), _Weeks(stage: answers.stage, now: now, animate: animate)],
+                    if (!compact && !short) ...[const SizedBox(height: MmSpace.s16), _Weeks(stage: answers.stage, now: now, animate: animate)],
                     if (shown.isNotEmpty) ...[
                       const SizedBox(height: MmSpace.s12),
                       Container(height: 1, color: colors.line),

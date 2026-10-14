@@ -43,44 +43,42 @@ class SubjectRow extends ConsumerWidget {
       builder: (context, pressed, _) => SubjectLine(subject: subject, chosen: included, dim: !included, bubble: !included),
     );
 
-    // On the sheet: one raised surface with the paper rim and the confidence row inside it (no
-    // box in a box). Not on the sheet: flat on the ground, a hollow bubble at the end.
-    return AnimatedContainer(
-      duration: Motion.of(context, Motion.glideDuration),
-      curve: Motion.glide,
-      decoration: ShapeDecoration(
-        color: included ? MmSelection.fill(colors, selected: true) : Colors.transparent,
-        shape: mmShapeBorder(
-          MmRadius.keyAll,
-          side: included ? MmSelection.side(colors, selected: true) : BorderSide(color: colors.line),
-        ),
-      ),
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          header,
-          _Grow(
-            child: included
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(height: 1, margin: const EdgeInsets.only(left: 52), color: colors.line),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 44, bottom: MmSpace.s4),
+    // On the sheet: a flat wash of the lamp's light under the name and the confidence bubbles, no
+    // border and no box inside a box. Off the sheet: bare on the ground. A hairline, inset to the
+    // name, separates one subject from the next.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AnimatedContainer(
+          duration: Motion.of(context, Motion.glideDuration),
+          curve: Motion.glide,
+          decoration: BoxDecoration(
+            color: included ? colors.lamp.withValues(alpha: colors.isNight ? 0.07 : 0.12) : Colors.transparent,
+            borderRadius: BorderRadius.circular(MmRadius.key),
+          ),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              header,
+              _Grow(
+                child: included
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 52, bottom: MmSpace.s8),
                         // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
                         child: ConfidenceBubbles(
                           subject: subject.label,
                           value: confidence ?? Confidence.okay,
                           onChanged: onConfidence,
                         ),
-                      ),
-                    ],
-                  )
-                : const SizedBox(width: double.infinity),
+                      )
+                    : const SizedBox(width: double.infinity),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Container(height: 1, margin: const EdgeInsets.only(left: 64, right: MmSpace.s4), color: colors.line),
+      ],
     );
   }
 }

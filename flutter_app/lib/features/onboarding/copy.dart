@@ -62,6 +62,8 @@ abstract final class OnboardingCopy {
   static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
   static const String weeksShort = 'weeks';
+  static const String trackToday = 'Today';
+  static String trackMay(int year) => 'May $year';
   static String stageWeeksUnit(int year) => 'to May $year';
   static const String stageWeeksProbably = 'to May 2027, probably';
   static String stageWeeksSpoken(int year) => 'weeks to the expected May $year window';

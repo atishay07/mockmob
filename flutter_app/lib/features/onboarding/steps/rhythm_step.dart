@@ -60,7 +60,7 @@ class RhythmStep extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: MmSpace.s24),
+          const SizedBox(height: MmSpace.s32),
           EntranceItem.answer(
             1,
             child: Column(
@@ -77,7 +77,7 @@ class RhythmStep extends ConsumerWidget {
             ),
           ),
           if (sessions > 0) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s32),
             EntranceItem.answer(
               2,
               child: Semantics(
@@ -106,7 +106,7 @@ class RhythmStep extends ConsumerWidget {
               ),
             ),
           ],
-          const SizedBox(height: MmSpace.s24),
+          const SizedBox(height: MmSpace.s32),
           EntranceItem.answer(
             3,
             child: Column(
@@ -234,11 +234,11 @@ class _TimeTile extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: '${window.label}, ${window.time}',
       bubble: BubbleSpot.none,
-      minHeight: 56,
+      minHeight: 64,
       padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s8, MmSpace.s12, MmSpace.s8),
       child: Row(
         children: [
-          GlyphMedallion(size: 36, lit: selected, child: Icon(icon, size: 17, color: selected ? colors.ink : colors.ink2)),
+          GlyphMedallion(size: 44, lit: selected, child: Icon(icon, size: 21, color: selected ? colors.ink : colors.ink2)),
           const SizedBox(width: MmSpace.s8),
           Expanded(
             child: Column(

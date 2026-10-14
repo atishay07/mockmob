@@ -48,7 +48,7 @@ class ConfidenceBubbles extends ConsumerWidget {
                       children: [
                         Bubble(
                           state: c == value ? BubbleState.filled : BubbleState.hollow,
-                          size: 20,
+                          size: 22,
                           inkOrigin: const Offset(-0.5, 0.2),
                         ),
                         const SizedBox(width: MmSpace.s8),

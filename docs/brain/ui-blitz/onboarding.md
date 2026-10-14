@@ -112,6 +112,12 @@ The first builder's WIP compiled and analyzed clean; the goldens in that commit 
 - First move: "Your first week" fills the empty lower half with the student's own week (section 4).
 - Warm-up: the pace line (section 4).
 
+## 6.2 Third pass (14 October, after the design review)
+
+Done: the welcome is Mobi first (about half the room, the desk reduced to one row of inking bubbles, no paper sheet); choice tiles lose the rim and the empty radio, a chosen tile takes a flat lamp wash and an inked tick; the stage step gains a drawn road (one tick per week, May 2027 and May 2028 marked, the chosen window lit); subjects are bare rows with hairlines and a lamp wash only when on the sheet; the college ladder has no filled rungs, only the rail, hairlines and inked numbered bubbles; the plan sheet is ruled like a form with a 36 px headline; first-week rest days are a short bar, study days volt rings, today a filled disc; the pace step has 32 dp between sections and 44 dp time medallions; below 680 dp the sheet drops its weeks and engraved line (TalkBack still reads it).
+
+Not done, with reasons: the resting breath and blink already exist in `MobiSim` (the goldens are stills, so they cannot show it) and that code is outside this track; the sheet-into-Today handoff needs the shell and Today; splitting the pace step into two needs a deck change; the top-bar Mobi stays 64 dp because the bar is 56 dp.
+
 ## 7. Acceptance
 
 Goldens for every step in both themes at 384 x 853, 360 x 780, 360 x 640 and 1.3x text, opened and compared with the previous ones; the onboarding unit tests; `flutter analyze` on the feature.

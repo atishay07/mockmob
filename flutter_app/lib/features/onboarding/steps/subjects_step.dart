@@ -70,15 +70,12 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
           key: ValueKey(s),
           child: EntranceItem.answer(
             order.indexOf(s) + (line == null ? 0 : 1),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s8),
-              child: SubjectRow(
-                subject: s,
-                included: a.subjects.contains(s),
-                confidence: a.confidence[s],
-                onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
-                onConfidence: (v) => c.setConfidence(s, v),
-              ),
+            child: SubjectRow(
+              subject: s,
+              included: a.subjects.contains(s),
+              confidence: a.confidence[s],
+              onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
+              onConfidence: (v) => c.setConfidence(s, v),
             ),
           ),
         );

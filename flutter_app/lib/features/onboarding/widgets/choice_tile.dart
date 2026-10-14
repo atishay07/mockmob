@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
@@ -64,11 +65,9 @@ class ChoiceTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
-    final dot = Bubble(
-      state: selected ? BubbleState.filled : BubbleState.hollow,
-      size: bubbleSize,
-      inkOrigin: const Offset(-0.5, -0.6),
-    );
+    // The answer mark is not drawn until the tile is chosen: no empty radio on every tile, the
+    // bubble inks in (with its tick) when the student picks it.
+    final dot = _ChosenMark(selected: selected, size: bubbleSize, hollowToo: flat);
     return MmPressable(
       semanticsLabel: semanticsLabel,
       selected: exclusive ? selected : null,
@@ -84,20 +83,26 @@ class ChoiceTile extends ConsumerWidget {
               onTap!();
             },
       builder: (context, pressed, _) {
-        final fill = flat && !selected
-            ? (pressed ? colors.raised : Colors.transparent)
-            : MmSelection.fill(colors, selected: selected, pressed: pressed);
-        // A flat row lifts onto a raised fill when chosen, with no rim: its own mark (the inked,
-        // numbered bubble) says it is chosen, and a stack of rims would read as boxes.
-        final side = flat ? const BorderSide(color: Colors.transparent, width: 1.5) : MmSelection.side(colors, selected: selected);
+        // A flat row (a rung on a ladder) never has a surface: its inked, numbered bubble says it
+        // is chosen. A tile is a raised surface with no rim; chosen, it takes a flat wash of the
+        // lamp's light instead of a frame, so a grid of them does not read as a grid of boxes.
+        final Color fill;
+        if (flat) {
+          fill = pressed ? colors.raised : Colors.transparent;
+        } else if (selected) {
+          fill = Color.alphaBlend(
+            colors.lamp.withValues(alpha: colors.isNight ? 0.17 : 0.22),
+            colors.isNight ? colors.raised2 : colors.raised,
+          );
+        } else {
+          fill = Color.lerp(colors.raised, colors.raised2, pressed ? 0.7 : 0)!;
+        }
         return AnimatedContainer(
           duration: Motion.of(context, Motion.ui),
           curve: Motion.glide,
-          decoration: ShapeDecoration(color: fill, shape: mmShapeBorder(radius, side: side)),
+          decoration: ShapeDecoration(color: fill, shape: mmShapeBorder(radius, side: BorderSide.none)),
           child: CustomPaint(
-            // A flat row never takes the edge light: lit, a run of picked rungs reads as a stack
-            // of boxes instead of one ladder.
-            foregroundPainter: flat
+            foregroundPainter: flat || selected
                 ? null
                 : EdgeLightPainter(
                     borderRadius: radius,
@@ -130,6 +135,37 @@ class ChoiceTile extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// The inked tick of a chosen tile: a volt bubble with a check, appearing as the student picks
+/// it. Nothing is drawn for an unchosen tile (unless [hollowToo]).
+class _ChosenMark extends StatelessWidget {
+  const _ChosenMark({required this.selected, required this.size, required this.hollowToo});
+
+  final bool selected;
+  final double size;
+  final bool hollowToo;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final bubble = Bubble(
+      state: selected ? BubbleState.filled : BubbleState.hollow,
+      size: size,
+      inkOrigin: const Offset(-0.5, -0.6),
+    );
+    return AnimatedOpacity(
+      duration: Motion.of(context, Motion.ui),
+      opacity: selected || hollowToo ? 1 : 0,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          bubble,
+          if (selected) Icon(LucideIcons.check, size: size * 0.6, color: colors.voltInk),
+        ],
+      ),
     );
   }
 }

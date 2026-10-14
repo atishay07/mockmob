@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/choices.dart';
 
@@ -76,16 +75,27 @@ class _Day extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final ink = today ? colors.ink : (study ? colors.ink2 : colors.ink3);
+    final volt = colors.isNight ? colors.volt : colors.accentText;
+    // A study day is a volt ring, today's is filled solid; a rest day is a short bar, not a
+    // greyed ring, so rest reads as chosen rather than switched off.
+    final Widget mark = study
+        ? DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: today ? volt : Colors.transparent,
+              border: Border.all(color: volt, width: today ? 0 : 2),
+            ),
+            child: const SizedBox.square(dimension: 26),
+          )
+        : DecoratedBox(
+            decoration: BoxDecoration(color: colors.ink3, borderRadius: BorderRadius.circular(1)),
+            child: const SizedBox(width: 14, height: 2),
+          );
     return Column(
       children: [
         Text(initial, style: type.caption.copyWith(fontWeight: FontWeight.w600, color: ink)),
         const SizedBox(height: MmSpace.s6),
-        SizedBox(
-          height: 34,
-          child: Center(
-            child: Bubble(state: study ? BubbleState.hollow : BubbleState.rest, size: 26, emphasis: today, animate: false),
-          ),
-        ),
+        SizedBox(height: 34, child: Center(child: mark)),
         const SizedBox(height: MmSpace.s4),
         Text(
           today ? OnboardingCopy.today : '$date',

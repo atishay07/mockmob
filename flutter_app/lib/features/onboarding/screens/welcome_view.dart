@@ -62,15 +62,15 @@ class WelcomeView extends StatelessWidget {
       builder: (context, box) {
         final h = box.maxHeight;
         final deskY = h * deskAt;
-        final mobiSize = (h * 0.36).clamp(110.0, 190.0);
+        final mobiSize = (h * 0.5).clamp(130.0, 250.0);
         return Stack(
           clipBehavior: Clip.none,
           children: [
             Positioned.fill(child: WelcomeScene(deskAt: deskAt, animate: animate)),
-            // Mobi stands on the desk to the right of the sheet; his line rises above him.
+            // Mobi stands on the desk, as large as the room allows; his line rises above him.
             Positioned(
-              right: size.width * 0.04,
-              bottom: h - deskY - h * 0.1,
+              right: size.width * 0.12,
+              bottom: h - deskY - h * 0.07,
               child: MobiStage(
                 size: mobiSize,
                 entrance: lateNight ? MobiAct.sleepy : MobiAct.hello,

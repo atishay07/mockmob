@@ -12,6 +12,7 @@ import '../state/answers_controller.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
+import '../widgets/week_track.dart';
 
 /// Step 3: where the student is. Four tiles, two by two, each leading with what the choice means:
 /// the real number of weeks to that student's expected CUET window. The weeks then roll onto the
@@ -31,6 +32,8 @@ class StageStep extends ConsumerWidget {
       Stage.classEleven => OnboardingCopy.classElevenNote,
       _ => null,
     };
+    final nearWeeks = CuetCalendar.weeksTo(2027, now);
+    final farWeeks = CuetCalendar.weeksTo(2028, now);
     Widget tile(int i) {
       final s = Stage.values[i];
       return EntranceItem.answer(
@@ -50,6 +53,18 @@ class StageStep extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (nearWeeks != null && farWeeks != null)
+            EntranceItem.answer(
+              0,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s16),
+                child: WeekTrack(
+                  nearWeeks: nearWeeks,
+                  farWeeks: farWeeks,
+                  litWeeks: stage == null ? null : CuetCalendar.weeksTo(stage.cuetYear, now),
+                ),
+              ),
+            ),
           for (var i = 0; i < Stage.values.length; i += 2) ...[
             IntrinsicHeight(
               child: Row(

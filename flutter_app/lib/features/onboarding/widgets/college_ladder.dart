@@ -86,8 +86,9 @@ class _CollegeLadderState extends State<CollegeLadder> {
 }
 
 /// One rung: the bubble on the rail (inked with the pick number once picked), the college, and
-/// its closing score in condensed figures. Unpicked rungs sit flat on the ground; a pick lifts
-/// onto a raised surface with the paper rim.
+/// its closing score in condensed figures. Every rung sits flat on the ground, a hairline between;
+/// a pick is only an inked, numbered bubble and the name in full ink, so three picks read as one
+/// ladder with three marks, not three boxes.
 class _LadderRow extends StatelessWidget {
   const _LadderRow({
     required this.offering,
@@ -128,7 +129,14 @@ class _LadderRow extends StatelessWidget {
       onTap: onTap,
       padding: EdgeInsets.zero,
       child: CustomPaint(
-        painter: _RailPainter(x: _inset + _bubble / 2, first: first, last: last, color: colors.lineStrong),
+        painter: _RailPainter(
+          x: _inset + _bubble / 2,
+          first: first,
+          last: last,
+          color: colors.lineStrong,
+          rule: colors.line,
+          ruleFrom: _inset + _bubble + MmSpace.s12,
+        ),
         child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s8 + 6),
         child: Row(
@@ -178,8 +186,18 @@ class _LadderRow extends StatelessWidget {
 
 /// One segment of the ladder's rail: from the rung above to the rung below, through the bubble.
 class _RailPainter extends CustomPainter {
-  const _RailPainter({required this.x, required this.first, required this.last, required this.color});
+  const _RailPainter({
+    required this.x,
+    required this.first,
+    required this.last,
+    required this.color,
+    required this.rule,
+    required this.ruleFrom,
+  });
 
+  /// The hairline under each rung but the last, from the college name to the score.
+  final Color rule;
+  final double ruleFrom;
   final double x;
   final bool first;
   final bool last;
@@ -196,10 +214,20 @@ class _RailPainter extends CustomPainter {
         ..color = color
         ..strokeWidth = 1.5,
     );
+    if (!last) {
+      canvas.drawLine(
+        Offset(ruleFrom, size.height - 0.5),
+        Offset(size.width - _LadderRow._inset, size.height - 0.5),
+        Paint()
+          ..color = rule
+          ..strokeWidth = 1,
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(_RailPainter old) => old.x != x || old.first != first || old.last != last || old.color != color;
+  bool shouldRepaint(_RailPainter old) =>
+      old.x != x || old.first != first || old.last != last || old.color != color || old.rule != rule || old.ruleFrom != ruleFrom;
 }
 
 /// A college's name as shown: DU's "(W)" marks a women's college, so it is dropped where the
