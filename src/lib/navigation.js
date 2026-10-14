@@ -139,13 +139,14 @@ export function headerActionsFor(visitor = {}, resume = null) {
 
 /**
  * The dock actions for a member, all variants (the dock renders them and CSS picks one): Resume
- * your test while a saved test exists, else Start your first check before the first scored session,
- * else Continue practice.
+ * your test while a saved test exists, else Start your 10-question check before the first scored
+ * session (the label the day-one hero and closing line use), else Continue practice. The header
+ * keeps the shorter Start your first check so a member's bar fits at 1024px.
  */
 export function memberDockActions(resume = null) {
   if (resume) return [{ id: 'resume', label: 'Resume your test', href: resume.href, show: 'member' }];
   return [
-    { id: 'first-check', label: 'Start your first check', href: FIRST_CHECK_HREF, show: 'memberFirst' },
+    { id: 'first-check', label: 'Start your 10-question check', href: FIRST_CHECK_HREF, show: 'memberFirst' },
     { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF, show: 'memberStarted' },
   ];
 }

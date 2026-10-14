@@ -125,6 +125,19 @@ export function startedFromSummary(body) {
   return body.items.length > 0;
 }
 
+/**
+ * Whether this member has a scored session, asked cheaply. `peek` is the read-only attempts read;
+ * `confirm` is the ordinary read, which also finalises expired sessions into attempts. The peek
+ * alone can miss an attempt that is not finalised yet, so "none yet" is only believed after
+ * `confirm` agrees. true and undefined (unknown) come straight from the peek. A confirm that
+ * throws propagates, so the caller leaves the stage unknown.
+ */
+export async function readStarted(peek, confirm) {
+  const first = startedFromSummary(await peek());
+  if (first !== false) return first;
+  return startedFromSummary(await confirm());
+}
+
 export const STARTED_CHECK_GAP_MS = 20000;
 const ON_TEST = /^\/test(\/|$)/;
 

@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {
   ARENA_FIRST_KEY, DEFAULT_START_ON, FIRST_CHECK_HREF, PRACTICE_HREF, START_ON_KEY, START_ON_OPTIONS, STARTED_CHECK_GAP_MS, VISITOR_BOOT_SCRIPT, VISITOR_KEY,
   findResumableTest, firstName, forgetArenaFirst, forgetStartOn, memberCopy, nextHint, parseHint, parseStartOn, readStartOn, serializeHint,
-  shouldCheckStarted, stageOf, startDestination, startRedirectPlan, startedFromSummary, visitorState, writeStartOn,
+  readStarted, shouldCheckStarted, stageOf, startDestination, startRedirectPlan, startedFromSummary, visitorState, writeStartOn,
 } from '../visitor_state.mjs';
 
 const free = { id: 'u1', name: 'Aarav Mehta', isPremium: false, creditBalance: 8 };
@@ -109,6 +109,22 @@ test('the attempts summary is read strictly', () => {
   assert.equal(startedFromSummary({ items: [{ id: 'a' }], nextCursor: null }), true);
   assert.equal(startedFromSummary({ items: [], nextCursor: null }), false);
   for (const body of [null, undefined, 'x', {}, { items: 'none' }, { error: 'unavailable' }]) assert.equal(startedFromSummary(body), undefined);
+});
+
+test('an empty peek is confirmed by the finalising read before day one is believed', async () => {
+  const calls = [];
+  const reader = (name, body) => async () => { calls.push(name); return body; };
+  const has = { items: [{ id: 'a' }] };
+  const none = { items: [] };
+  assert.equal(await readStarted(reader('peek', has), reader('confirm', none)), true);
+  assert.deepEqual(calls, ['peek'], 'a found attempt needs no second read');
+  calls.length = 0;
+  assert.equal(await readStarted(reader('peek', none), reader('confirm', has)), true, 'an expired session finalised by the second read');
+  assert.deepEqual(calls, ['peek', 'confirm']);
+  assert.equal(await readStarted(reader('peek', none), reader('confirm', none)), false);
+  assert.equal(await readStarted(reader('peek', { error: 'x' }), reader('confirm', none)), undefined, 'an unreadable peek stays unknown');
+  assert.equal(await readStarted(reader('peek', none), reader('confirm', { error: 'x' })), undefined, 'an unreadable confirm stays unknown');
+  await assert.rejects(() => readStarted(reader('peek', none), async () => { throw new Error('offline'); }), /offline/);
 });
 
 test('the day-one check runs only when useful, never on the test screen, and not too often', () => {

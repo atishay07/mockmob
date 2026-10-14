@@ -4,7 +4,7 @@ import MemberDockAction from '@/components/MemberDockAction';
 
 // Thumb-zone action bar. Mobile only: on desktop the header action carries this job, so the bar is
 // display:none rather than duplicated. A visitor gets the page's own action (Start free by default);
-// a signed-in student gets their one action instead (Resume your test, Start your first check or
+// a signed-in student gets their one action instead (Resume your test, Start your 10-question check or
 // Continue practice), chosen through <html data-visitor> so there is no flash while the sign-in
 // check runs.
 export function MobileDock({ note = 'Free to start. No card.', label, href }) {

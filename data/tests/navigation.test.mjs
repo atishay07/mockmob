@@ -103,6 +103,7 @@ test('the dock action for a member', () => {
     { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF, show: 'memberStarted' },
   );
   assert.equal(memberPrimaryAction({ stage: 'first' }).href, FIRST_CHECK_HREF);
+  assert.equal(memberPrimaryAction({ stage: 'first' }).label, 'Start your 10-question check');
   assert.equal(memberPrimaryAction({ stage: 'first', resume }).label, 'Resume your test');
 });
 
