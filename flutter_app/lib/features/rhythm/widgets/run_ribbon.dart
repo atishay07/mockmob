@@ -242,6 +242,7 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
             liveRegion: true,
             child: AnimatedSwitcher(
               duration: Motion.of(context, const Duration(milliseconds: 160)),
+              layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
               child: Text(caption, key: ValueKey(caption), style: type.small.copyWith(color: colors.ink2)),
             ),
           ),
