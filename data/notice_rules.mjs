@@ -343,7 +343,8 @@ export const CAPTION_RULES = [
     id: 'provisional-2027',
     text: '2027 exam specifications remain provisional until officially confirmed.',
     homes: ['footer', 'at-the-date'],
-    notInPageBody: ['src/app/(app)/today/page.jsx'],
+    // Until the footer carries it, the line stays on Today (the footer package removes it then).
+    carriedBy: ['src/components/MarketingFooter.jsx', 'src/app/(app)/today/page.jsx'],
   },
   {
     id: 'access-and-credits-preserved',
@@ -381,6 +382,6 @@ export function captionHomes(id) {
 
 /** Lines the footer should carry (the footer itself belongs to the navigation package). */
 export const FOOTER_CAPTIONS = Object.freeze({
-  provisional2027: 'CUET UG 2027 dates, paper rules and marking are provisional until NTA publishes them.',
+  provisional2027: CAPTION_RULES.find((rule) => rule.id === 'provisional-2027').text,
   nonAffiliation: CAPTION_RULES.find((rule) => rule.id === 'non-affiliation').text,
 });

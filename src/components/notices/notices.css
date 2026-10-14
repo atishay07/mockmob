@@ -13,6 +13,8 @@
   clip-path: inset(50%);
 }
 
+.notice-slot:focus { outline: none; }
+
 .notice {
   display: flex;
   flex-wrap: wrap;

@@ -2,16 +2,18 @@
 
 import React, { useMemo } from 'react';
 import { runnerNotice } from '@/../data/runner_notice.mjs';
-import { runnerNotices } from '@/../data/notice_rules.mjs';
-import { Notices } from '@/components/notices/NoticeSlot';
+import { chooseNotice, runnerNotices } from '@/../data/notice_rules.mjs';
+import { RunnerToast } from '@/components/notices/NoticeSlot';
 
 // The toast that overlays the test, only while the student has something to do (offline, or a submit
 // waiting for a connection). It never pushes the question down: when the connection drops, nothing
 // the student is reading or tapping moves. It is the shared notice slot for the test screen: the
-// words come from data/notice_rules.mjs and the toast shape and its live region from NoticeSlot.
+// words and the choice come from data/notice_rules.mjs and the toast shape and its live region from
+// NoticeSlot. The choice is made during render, not through a provider and an effect, so the toast
+// is in the same paint as the state change on the screen where timing matters most.
 export function RunnerBanner({ state }) {
-  const candidates = useMemo(() => runnerNotices(state), [state]);
-  return <Notices surface="runner" candidates={candidates} />;
+  const notice = useMemo(() => chooseNotice(runnerNotices(state), { surface: 'runner' }), [state]);
+  return <RunnerToast notice={notice} />;
 }
 
 // The save state, shown beside the submit control. Quiet while everything is fine.

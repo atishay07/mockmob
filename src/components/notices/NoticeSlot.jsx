@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useContext, useId, useState } from 'react';
+import React, { useCallback, useContext, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
 import { chooseNotice, placementFor, slotShows } from '@/../data/notice_rules.mjs';
 import { NoticeBoundary, NoticeContext, useNoticeSource } from './NoticeProvider';
 import './notices.css';
-import '@/app/(app)/test/runner-notice.css';
+import './runner-notice.css';
 
 // One slot per surface, one notice in it. The status region stays in the page and only its content
 // comes and goes: a status region inserted already filled is often not announced, and this is how a
@@ -19,22 +19,37 @@ import '@/app/(app)/test/runner-notice.css';
 //         dismiss button.
 export function NoticeSlot({ surface }) {
   const ctx = useContext(NoticeContext);
+  const slotRef = useRef(null);
+  const dismiss = ctx?.dismiss;
+  // The dismiss button unmounts when it is pressed, which would drop a keyboard user on <body>.
+  // Focus goes to the slot, where they were on the page, so Tab carries on from there.
+  const onDismiss = useCallback((notice) => {
+    dismiss?.(notice);
+    slotRef.current?.focus();
+  }, [dismiss]);
   const pathname = usePathname();
   const show = slotShows(surface, pathname);
   const notice = ctx && show
     ? chooseNotice(ctx.candidates, { surface, dismissed: ctx.dismissed, visitor: ctx.visitor, dismissalsReady: ctx.ready })
     : null;
 
-  if (placementFor(surface) === 'toast') {
-    return (
-      <div role="status" className="runner-notice">
-        {notice ? <div className="runner-sync-state runner-sync-state--warn">{notice.text}</div> : null}
-      </div>
-    );
-  }
+  if (placementFor(surface) === 'toast') return <RunnerToast notice={notice} />;
   return (
-    <div role="status" className="notice-slot">
-      {notice ? <InlineNotice key={`${notice.id}:${notice.stateKey}`} notice={notice} onDismiss={ctx.dismiss} /> : null}
+    <div role="status" className="notice-slot" tabIndex={-1} ref={slotRef}>
+      {notice ? <InlineNotice key={`${notice.id}:${notice.stateKey}`} notice={notice} onDismiss={onDismiss} /> : null}
+    </div>
+  );
+}
+
+/**
+ * The toast over the timed test. It takes the chosen notice as a prop so the test screen can choose
+ * during render, with no provider and no effect between a state change and the toast: when the
+ * connection drops, the toast is in the same paint.
+ */
+export function RunnerToast({ notice }) {
+  return (
+    <div role="status" className="runner-notice">
+      {notice ? <div className="runner-sync-state runner-sync-state--warn">{notice.text}</div> : null}
     </div>
   );
 }

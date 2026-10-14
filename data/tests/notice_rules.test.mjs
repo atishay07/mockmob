@@ -284,16 +284,19 @@ test('every caption has a home, and only the homes the rules allow', () => {
   assert.deepEqual(captionHomes('nope'), []);
 });
 
-test('the provisional-2027 line is not in the body of Today any more', () => {
+test('the provisional-2027 caption is never lost: one wording, and at least one home carries it', () => {
+  const rule = CAPTION_RULES.find((r) => r.id === 'provisional-2027');
+  assert.equal(FOOTER_CAPTIONS.provisional2027, rule.text);
+  const squash = (text) => text.replace(/\s+/g, ' ');
+  const carriers = rule.carriedBy.filter((file) => squash(read(file)).includes(rule.text));
+  assert.ok(carriers.length > 0, 'neither the footer nor Today carries the provisional-2027 caption');
+});
+
+test('the cut caption stays cut, and Today carries no other caption', () => {
   const today = read('src/app/(app)/today/page.jsx');
-  for (const rule of CAPTION_RULES) {
-    for (const file of rule.notInPageBody || []) {
-      const source = read(file);
-      assert.equal(source.includes(rule.text), false, `${rule.id} is still in ${file}`);
-    }
+  for (const rule of CAPTION_RULES.filter((r) => r.homes.includes('cut'))) {
+    for (const file of rule.notInPageBody || []) assert.equal(read(file).includes(rule.text), false, `${rule.id} is still in ${file}`);
   }
-  assert.doesNotMatch(today, /provisional/i);
-  assert.doesNotMatch(today, /na__note/);
   assert.doesNotMatch(today, /credits are preserved/i);
 });
 
@@ -309,9 +312,19 @@ test('non-affiliation lives in the footer and About, as D8 decided', () => {
 
 test('the test screen and the result page use the shared notice slot, not their own strips', () => {
   const runner = read('src/app/(app)/test/RunnerNotice.jsx');
-  assert.match(runner, /surface="runner"/);
+  assert.match(runner, /surface: 'runner'/);
   assert.match(runner, /notices\/NoticeSlot/);
+  // The toast is chosen during render: no provider and no effect between a state change and the toast.
+  assert.match(runner, /RunnerToast/);
+  assert.doesNotMatch(runner, /<Notices/);
   const result = read('src/app/(app)/result/[id]/ResultPageClient.jsx');
   assert.match(result, /<Notices surface="result"/);
   assert.doesNotMatch(result, /className="rp-note"/);
+});
+
+test('dismissing hands focus to the slot, and the shared component owns its stylesheet', () => {
+  const slot = read('src/components/notices/NoticeSlot.jsx');
+  assert.match(slot, /tabIndex=\{-1\}/);
+  assert.match(slot, /\.focus\(\)/);
+  assert.doesNotMatch(slot, /@\/app\//);
 });

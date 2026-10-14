@@ -38,8 +38,11 @@ export default function ShellNotices() {
   // dismissal so the notice can return if the state does.
   useEffect(() => {
     if (!confirmed || !forget) return;
-    forget(EVALUATED, candidates.map((notice) => notice.id));
-  }, [confirmed, forget, candidates]);
+    // Only evaluate what the account can actually answer: with no numeric balance the credits-zero
+    // notice has not been judged, so its dismissal is left alone.
+    const evaluated = Number.isFinite(creditBalance) ? EVALUATED : EVALUATED.filter((id) => id !== 'credits-zero');
+    forget(evaluated, candidates.map((notice) => notice.id));
+  }, [confirmed, forget, candidates, creditBalance]);
 
   return null;
 }
