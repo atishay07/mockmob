@@ -9,13 +9,13 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/fake_glass.dart';
 import '../../../core/widgets/materials/lit_edge.dart';
-import '../../../core/widgets/mobi.dart';
 import '../../../core/widgets/receipt_line.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../widgets/rhythm_page.dart' show FlushQuietKey;
 import 'celebration_controller.dart';
 import 'celebration_event.dart' show CelebrationLevel;
+import '../widgets/proud_mobi.dart';
 import '../widgets/week_dial.dart';
 import 'ring_sweep.dart';
 
@@ -161,7 +161,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
                 ),
                 if (c.mobiHop) ...[
                   const SizedBox(width: MmSpace.s8),
-                  Mobi(pose: MobiPose.celebrating, size: mobiSize, motion: MobiMotion.hop),
+                  ProudMobi(size: mobiSize),
                 ],
               ],
             ),

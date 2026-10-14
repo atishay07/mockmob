@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/models/notification_prefs.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/permissions/permission_requester.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../you/widgets/you_row.dart' show YouPanel;
 import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../logic/reminder_plan.dart' show repairReadyKey;
@@ -127,142 +127,153 @@ class SettingsBody extends StatelessWidget {
 
     final mutedUntil = _mutedUntil;
 
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(
-        MmSpace.gutter,
-        0,
-        MmSpace.gutter,
-        MmSpace.s48,
-      ),
-      children: [
-        ?header,
-        if (mutedUntil != null) ...[
-          InlineBanner(
-            message: NotificationsCopy.mutedBanner(mutedUntil),
-            actionLabel: NotificationsCopy.unmute,
-            onAction: actions.onUnmute,
-          ),
-          const SizedBox(height: MmSpace.s16),
-        ],
-        if (hintKey != null) ...[
-          InlineBanner(
-            message: NotificationsCopy.fewerReminders(_reminderName(hintKey)),
-            actionLabel: NotificationsCopy.fewerRemindersDismiss,
-            onAction: () => actions.onHintSeen(hintKey),
-          ),
-          const SizedBox(height: MmSpace.s16),
-        ],
-        if (permission case final known?)
-          PermissionPanel(permission: known, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings)
-        else if (permissionReading)
-          const PermissionPanelSkeleton(),
-        const SectionHeading(NotificationsCopy.dayHeading),
-        YouPanel(
-          margin: EdgeInsets.zero,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.gutter),
+    // One authored entrance, riding the page's own transition: the title, the permission pane,
+    // then the day and the channels. The groups further down are simply there.
+    Widget group(int index, List<Widget> children) => MmStaggerItem(
+          index: index,
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
+        );
+
+    return MmStagger(
+      driver: MmStaggerDriver.route,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(
+          MmSpace.gutter,
+          0,
+          MmSpace.gutter,
+          MmSpace.s48,
+        ),
+        children: [
+          if (header != null) MmStaggerItem(index: 0, child: header!),
+          if (mutedUntil != null) ...[
+            InlineBanner(
+              message: NotificationsCopy.mutedBanner(mutedUntil),
+              actionLabel: NotificationsCopy.unmute,
+              onAction: actions.onUnmute,
+            ),
+            const SizedBox(height: MmRhythm.group),
+          ],
+          if (hintKey != null) ...[
+            InlineBanner(
+              message: NotificationsCopy.fewerReminders(_reminderName(hintKey)),
+              actionLabel: NotificationsCopy.fewerRemindersDismiss,
+              onAction: () => actions.onHintSeen(hintKey),
+            ),
+            const SizedBox(height: MmRhythm.group),
+          ],
+          if (permission case final known?)
+            MmStaggerItem(
+              index: 1,
+              child: PermissionPanel(permission: known, onTurnOn: actions.onTurnOn, onOpenSettings: actions.onOpenSettings),
+            )
+          else if (permissionReading)
+            const PermissionPanelSkeleton(),
+          group(2, [
+            const SectionHeading(NotificationsCopy.dayHeading),
+            MmSurface.plain(
               child: DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
             ),
-          ],
-        ),
-        const SectionHeading(NotificationsCopy.channelsHeading),
-        if (blocked) ...[
-          const QuietNote(NotificationsCopy.blockedChannels),
-          const SizedBox(height: MmSpace.s8),
-        ],
-        YouPanel(
-          margin: EdgeInsets.zero,
-          children: [
-            ChannelRow(
-              title: NotificationsCopy.channelResult,
-              body: NotificationsCopy.channelResultBody,
-              value: prefs.channelOn(NotificationChannelKeys.resultReady),
-              onChanged: (on) => actions.onChannel(NotificationChannelKeys.resultReady, on),
-              dimmed: blocked,
+          ]),
+          group(3, [
+            const SectionHeading(NotificationsCopy.channelsHeading),
+            if (blocked) ...[
+              const QuietNote(NotificationsCopy.blockedChannels),
+              const SizedBox(height: MmSpace.s8),
+            ],
+            MmRowGroup(
+              dividerIndent: MmSpace.s20,
+              children: [
+                ChannelRow(
+                  title: NotificationsCopy.channelResult,
+                  body: NotificationsCopy.channelResultBody,
+                  value: prefs.channelOn(NotificationChannelKeys.resultReady),
+                  onChanged: (on) => actions.onChannel(NotificationChannelKeys.resultReady, on),
+                  dimmed: blocked,
+                ),
+                ChannelRow(
+                  title: NotificationsCopy.channelStudy,
+                  body: NotificationsCopy.channelStudyBody,
+                  value: _on(NotificationChannelKeys.studyWindow),
+                  note: _pausedNote(NotificationChannelKeys.studyWindow),
+                  onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
+                  dimmed: _dim(blocked),
+                ),
+                ChannelRow(
+                  title: NotificationsCopy.channelRepair,
+                  body: NotificationsCopy.channelRepairBody,
+                  value: _on(repairReadyKey),
+                  note: _pausedNote(repairReadyKey),
+                  onChanged: (on) => actions.onChannel(repairReadyKey, on),
+                  dimmed: _dim(blocked),
+                ),
+                ChannelRow(
+                  title: NotificationsCopy.channelWeekly,
+                  body: NotificationsCopy.channelWeeklyBody,
+                  value: _on(NotificationChannelKeys.weeklyPlan),
+                  note: _pausedNote(NotificationChannelKeys.weeklyPlan),
+                  onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
+                  dimmed: _dim(blocked),
+                ),
+                if (freshChecksOpen)
+                  ChannelRow(
+                    title: NotificationsCopy.channelCheck,
+                    body: NotificationsCopy.channelCheckBody,
+                    value: _on(NotificationChannelKeys.checkDue),
+                    note: _pausedNote(NotificationChannelKeys.checkDue),
+                    onChanged: (on) => actions.onChannel(NotificationChannelKeys.checkDue, on),
+                    dimmed: blocked,
+                  ),
+              ],
             ),
-            ChannelRow(
-              title: NotificationsCopy.channelStudy,
-              body: NotificationsCopy.channelStudyBody,
-              value: _on(NotificationChannelKeys.studyWindow),
-              note: _pausedNote(NotificationChannelKeys.studyWindow),
-              onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
-              dimmed: _dim(blocked),
+          ]),
+          const SectionHeading(NotificationsCopy.windowHeading),
+          if (window == null)
+            const QuietNote(NotificationsCopy.windowEmpty)
+          else ...[
+            MmRowGroup(
+              dividerIndent: MmSpace.s20,
+              children: [
+                ValueRow(label: NotificationsCopy.windowStarts, value: formatClock(window.start), onTap: actions.onWindowStart),
+                ValueRow(label: NotificationsCopy.windowEnds, value: formatClock(window.end), onTap: actions.onWindowEnd),
+              ],
             ),
-            ChannelRow(
-              title: NotificationsCopy.channelRepair,
-              body: NotificationsCopy.channelRepairBody,
-              value: _on(repairReadyKey),
-              note: _pausedNote(repairReadyKey),
-              onChanged: (on) => actions.onChannel(repairReadyKey, on),
-              dimmed: _dim(blocked),
-            ),
-            ChannelRow(
-              title: NotificationsCopy.channelWeekly,
-              body: NotificationsCopy.channelWeeklyBody,
-              value: _on(NotificationChannelKeys.weeklyPlan),
-              note: _pausedNote(NotificationChannelKeys.weeklyPlan),
-              onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
-              dimmed: _dim(blocked),
-            ),
-            if (freshChecksOpen)
-              ChannelRow(
-                title: NotificationsCopy.channelCheck,
-                body: NotificationsCopy.channelCheckBody,
-                value: _on(NotificationChannelKeys.checkDue),
-                note: _pausedNote(NotificationChannelKeys.checkDue),
-                onChanged: (on) => actions.onChannel(NotificationChannelKeys.checkDue, on),
-                dimmed: blocked,
+            if (prefs.studyWindowInQuietHours) ...[
+              const SizedBox(height: MmRhythm.item),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
               ),
+            ],
+            const SizedBox(height: MmRhythm.item),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.secondary(
+                label: NotificationsCopy.windowRemove,
+                expanded: false,
+                onPressed: actions.onRemoveWindow,
+              ),
+            ),
           ],
-        ),
-        const SectionHeading(NotificationsCopy.windowHeading),
-        if (window == null)
-          const QuietNote(NotificationsCopy.windowEmpty)
-        else ...[
-          YouPanel(
-            margin: EdgeInsets.zero,
+          const SectionHeading(NotificationsCopy.quietHeading),
+          MmRowGroup(
+            dividerIndent: MmSpace.s20,
             children: [
-              ValueRow(label: NotificationsCopy.windowStarts, value: formatClock(window.start), onTap: actions.onWindowStart),
-              ValueRow(label: NotificationsCopy.windowEnds, value: formatClock(window.end), onTap: actions.onWindowEnd),
+              ValueRow(label: NotificationsCopy.quietStarts, value: formatClock(prefs.quietStart), onTap: actions.onQuietStart),
+              ValueRow(label: NotificationsCopy.quietEnds, value: formatClock(prefs.quietEnd), onTap: actions.onQuietEnd),
             ],
           ),
-          if (prefs.studyWindowInQuietHours) ...[
-            const SizedBox(height: MmSpace.s12),
-            Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
-            ),
-          ],
-          const SizedBox(height: MmSpace.s12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.secondary(
-              label: NotificationsCopy.windowRemove,
-              expanded: false,
-              onPressed: actions.onRemoveWindow,
-            ),
+          QuietNote(quietOff ? NotificationsCopy.dayQuietOff : NotificationsCopy.quietBody),
+          const SectionHeading(NotificationsCopy.capHeading),
+          CapChips(value: cap, onChanged: actions.onCap),
+          const QuietNote(NotificationsCopy.capBody),
+          const SectionHeading(NotificationsCopy.muteHeading),
+          MuteSection(
+            mutedUntil: reminder.mutedUntil,
+            onMute: actions.onMute,
+            onUnmute: actions.onUnmute,
           ),
         ],
-        const SectionHeading(NotificationsCopy.quietHeading),
-        YouPanel(
-          margin: EdgeInsets.zero,
-          children: [
-            ValueRow(label: NotificationsCopy.quietStarts, value: formatClock(prefs.quietStart), onTap: actions.onQuietStart),
-            ValueRow(label: NotificationsCopy.quietEnds, value: formatClock(prefs.quietEnd), onTap: actions.onQuietEnd),
-          ],
-        ),
-        QuietNote(quietOff ? NotificationsCopy.dayQuietOff : NotificationsCopy.quietBody),
-        const SectionHeading(NotificationsCopy.capHeading),
-        CapChips(value: cap, onChanged: actions.onCap),
-        const QuietNote(NotificationsCopy.capBody),
-        const SectionHeading(NotificationsCopy.muteHeading),
-        MuteSection(
-          mutedUntil: reminder.mutedUntil,
-          onMute: actions.onMute,
-          onUnmute: actions.onUnmute,
-        ),
-      ],
+      ),
     );
   }
 }

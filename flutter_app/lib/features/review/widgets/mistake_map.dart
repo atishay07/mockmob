@@ -516,6 +516,8 @@ class MistakeRow extends StatelessWidget {
       onTap: tappable ? onTap : null,
       pressedScale: 0.985,
       focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       semanticsLabel: label,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),

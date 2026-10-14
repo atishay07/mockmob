@@ -3,6 +3,8 @@
 /// exclamation marks, no arrows in buttons, 12-hour times, no defensive footers.
 library;
 
+import '../../core/copy/formatters.dart' show categoryWords;
+
 abstract final class OnboardingCopy {
   // Shared.
   static const String back = 'Back';
@@ -31,7 +33,10 @@ abstract final class OnboardingCopy {
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
 
-  /// After 11 PM: Mobi says it, yawning.
+  /// From 1 to 5 AM Mobi sleeps on the desk until a tap wakes him.
+  static const String mobiAsleep = 'Mobi, the MockMob mascot, asleep. Tap to wake him';
+
+  /// From 11 PM until 5 AM: Mobi says it, yawning (from 1 AM, once a tap has woken him).
   static const String lateNight = 'Late one tonight. Two minutes, then sleep.';
 
   // Mobi's lines. Short, about what happens next, never about the person.
@@ -70,14 +75,14 @@ abstract final class OnboardingCopy {
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
-  static const String courseSupport = 'Commerce at DU, with how many colleges offered seats last year.';
+  static const String courseSupport = 'Commerce at DU, with how many colleges offered seats in Round 1, 2026.';
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
   static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';
   static const String notSureNote = 'Fine. The plan works without it.';
   static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
-  static const String ladderSupport = 'Last year\'s DU closing scores, out of 1000. Pick up to three.';
-  static String showing(String category) => 'Showing $category';
+  static const String ladderSupport = 'Round 1 minimum, 2026, out of 1000. Pick up to three.';
+  static String showing(String category) => 'Showing ${categoryWords(category)}';
   static const String categoryTitle = 'Category for the figures';
   static const String categoryNote = 'It only changes which figures you see.';
   static const String openToAny = 'Any college is fine';
@@ -87,8 +92,8 @@ abstract final class OnboardingCopy {
   static const String changeCourse = 'Change course';
   static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
   static String barLine(String college, String score, int perPaper) =>
-      '$college needed $score of 1000 last year. That\'s about $perPaper of 250 a paper.';
-  static String noSeatsFor(String category) => 'No seats went to $category here last year.';
+      '$college needed $score of 1000 in Round 1, 2026. That\'s about $perPaper of 250 a paper.';
+  static String noSeatsFor(String category) => 'No seats went to ${categoryWords(category)} here in Round 1, 2026.';
 
   // Subjects.
   static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';

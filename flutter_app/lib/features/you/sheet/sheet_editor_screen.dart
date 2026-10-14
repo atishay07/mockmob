@@ -135,7 +135,7 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
             YouRow(
               icon: LucideIcons.tag,
               title: EditCopy.rowCategory,
-              value: target.category,
+              value: categoryTitle(target.category),
               onTap: () => showCategorySheet(context, ref),
             ),
           ],

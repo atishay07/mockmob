@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/motion/motion.dart';
@@ -75,7 +76,6 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
     final n = pick.items.length;
     final minutes = repairMinutes(n);
     final light = SubjectLight.forSubject(pick.subjectId);
-    final object = MmArt.subjectObject(pick.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
 
     final lit = colors.isNight ? colors.volt : colors.accentText;
@@ -116,29 +116,30 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
             child: CustomPaint(painter: LitEdgePainter(color: lit, radius: 0, width: 1.5)),
           ),
         ),
-        if (object != null)
-          Positioned(
-            right: -bleed - 30,
-            top: -2,
-            child: IgnorePointer(
-              child: RepaintBoundary(
-                child: AnimatedBuilder(
-                  animation: _artCurve,
-                  child: ArtImage(object, width: 184, height: 184),
-                  builder: (context, child) {
-                    final t = _artCurve.value;
-                    return Opacity(
-                      opacity: t.clamp(0.0, 1.0),
-                      child: Transform.translate(
-                        offset: Offset(0, 10 * (1 - t)),
-                        child: Transform.scale(scale: 0.93 + 0.07 * t, child: child),
-                      ),
-                    );
-                  },
-                ),
+        // The subject's emblem leans in from the corner: the one emblem on this screen that
+        // drifts. It settles in over the card's arrival.
+        Positioned(
+          right: -bleed - 24,
+          top: 0,
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _artCurve,
+                child: SubjectEmblem(subject: pick.subjectId, size: 168, framed: false, animate: true),
+                builder: (context, child) {
+                  final t = _artCurve.value;
+                  return Opacity(
+                    opacity: t.clamp(0.0, 1.0),
+                    child: Transform.translate(
+                      offset: Offset(0, 10 * (1 - t)),
+                      child: Transform.scale(scale: 0.93 + 0.07 * t, child: child),
+                    ),
+                  );
+                },
               ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
           child: Column(
@@ -169,6 +170,9 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
                 value: '$n',
                 unit: n == 1 ? 'mistake' : 'mistakes',
                 style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
+                // The roll waits for the hero to arrive, then lands with one tick.
+                delay: Motion.enterDuration,
+                onLanded: () => mmHapticsOf(context)?.selection(),
                 semanticsLabel: '${plural(n, 'mistake')} to repair',
               ),
               const SizedBox(height: MmSpace.s8),
@@ -241,6 +245,8 @@ class _ShowMeLink extends StatelessWidget {
       onTap: onTap,
       pressedScale: 0.97,
       focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       semanticsLabel: semanticsLabel,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 48, minWidth: 48),

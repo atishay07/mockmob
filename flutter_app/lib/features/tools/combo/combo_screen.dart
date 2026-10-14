@@ -68,7 +68,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
     final result = plan.value ?? DuComboPlan.empty;
 
     return [
-      _Step(done: s.targets.isNotEmpty, title: ToolsCopy.targetsHeading, note: ToolsCopy.targetsHint(duMaxTargets, s.targets.length)),
+      _Step(done: s.targets.isNotEmpty, title: ToolsCopy.targetsHeading, note: ToolsCopy.targetsHint(duMaxTargets, s.targets.length), top: 0),
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
@@ -219,11 +219,12 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
 
 /// A step heading with an answer bubble that inks once the step has an answer.
 class _Step extends StatelessWidget {
-  const _Step({required this.done, required this.title, this.note});
+  const _Step({required this.done, required this.title, this.note, this.top = MmRhythm.section});
 
   final bool done;
   final String title;
   final String? note;
+  final double top;
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +232,7 @@ class _Step extends StatelessWidget {
       child: ToolsHeading(
         title,
         note: note,
+        top: top,
         leading: Bubble(state: done ? BubbleState.filled : BubbleState.hollow, size: 14, semanticsLabel: done ? 'Answered' : 'Not answered yet'),
       ),
     );

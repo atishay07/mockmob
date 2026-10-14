@@ -3,10 +3,13 @@
 // result improved or held, waves for any other submission, yawns after 11 PM, points at the move
 // card when one is ready (aimed at the card itself, again after layout and scroll) and says his
 // short line about it the first time the move is ready in an app run (never under reduced
-// motion), and says one short line when tapped. When the hero already has Mobi (day one, coming back, late night) the
+// motion), and says one short line when tapped. If the student has not touched the screen 1.2 s
+// after he first points, he nudges toward the card once (two short jabs), never again on that
+// screen (ui-blitz/mobi.md, the one action). When the hero already has Mobi (day one, coming back, late night) the
 // header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -26,6 +29,13 @@ class HeaderMobi extends StatefulWidget {
   /// Whether he has already said his line about a ready move in this app run.
   static bool _greeted = false;
 
+  /// How long he waits after first pointing, with no touch on the screen, before he nudges.
+  static const Duration nudgeAfter = Duration(milliseconds: 1200);
+
+  /// Called each time he nudges (tests only: the act itself is drawn, not read back).
+  @visibleForTesting
+  static VoidCallback? debugOnNudge;
+
   /// Lets a test see the first-open line again.
   @visibleForTesting
   static void resetGreeting() => _greeted = false;
@@ -38,6 +48,15 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   final MobiController _mobi = MobiController();
   Timer? _hush;
   Timer? _first;
+
+  /// The one nudge on this screen: armed when he first points, cancelled by any touch.
+  Timer? _nudge;
+  bool _nudgeArmed = false;
+  bool _listening = false;
+
+  /// He is talking: a nudge due now waits for the line to finish.
+  Timer? _talking;
+  bool _nudgeAfterTalk = false;
   int _tap = 0;
   ScrollPosition? _position;
   Offset? _aimedVector;
@@ -89,6 +108,9 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _position?.removeListener(_reaim);
     _hush?.cancel();
     _first?.cancel();
+    _nudge?.cancel();
+    _talking?.cancel();
+    _stopListening();
     _mobi.dispose();
     super.dispose();
   }
@@ -114,6 +136,46 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     if (last != null && (vector - last).distance < 1.5) return;
     _aimedVector = vector;
     _mobi.pointAtWidget(key);
+    _armNudge();
+  }
+
+  /// After the first point: if no finger lands on the screen within [HeaderMobi.nudgeAfter], he
+  /// nudges toward the card once. Any touch (a tap, the start of a scroll) cancels it for good.
+  /// Not under reduced motion, where he holds a still pose.
+  void _armNudge() {
+    if (_nudgeArmed || Motion.reduced(context)) return;
+    _nudgeArmed = true;
+    GestureBinding.instance.pointerRouter.addGlobalRoute(_onPointer);
+    _listening = true;
+    _nudge = Timer(HeaderMobi.nudgeAfter, _nudgeNow);
+  }
+
+  void _onPointer(PointerEvent event) {
+    if (event is! PointerDownEvent) return;
+    _nudge?.cancel();
+    _nudgeAfterTalk = false;
+    _stopListening();
+  }
+
+  void _stopListening() {
+    if (!_listening) return;
+    _listening = false;
+    GestureBinding.instance.pointerRouter.removeGlobalRoute(_onPointer);
+  }
+
+  void _nudgeNow() {
+    if (!mounted || widget.cue.kind != HeaderMobiKind.point) {
+      _stopListening();
+      return;
+    }
+    // Mid-line (the first-open greeting): the nudge follows the line instead of cutting it off.
+    if (_talking?.isActive ?? false) {
+      _nudgeAfterTalk = true;
+      return;
+    }
+    _stopListening();
+    _mobi.play(MobiAct.nudge);
+    HeaderMobi.debugOnNudge?.call();
   }
 
   /// The first time a move is ready in this app run he points and says so, once the page has
@@ -134,6 +196,12 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
 
   void _speak(String line) {
     _mobi.say(line, live: true);
+    _talking?.cancel();
+    _talking = Timer(Duration(milliseconds: (MobiTyping.duration(line) * 1000).round() + 250), () {
+      if (!_nudgeAfterTalk) return;
+      _nudgeAfterTalk = false;
+      _nudgeNow();
+    });
     _hush?.cancel();
     _hush = Timer(Duration(milliseconds: (MobiTyping.duration(line) * 1000).round() + 3200), () {
       if (mounted) _mobi.hush();

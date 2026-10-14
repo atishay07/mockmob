@@ -38,54 +38,6 @@ class SectionHeading extends StatelessWidget {
   }
 }
 
-/// The subject's colour as a small pool of light (brief section 3) holding either its object
-/// ([art], for a page's one hero) or a wrong-answer bubble (list rows, so the object art is not
-/// repeated down the page).
-class SubjectMark extends StatelessWidget {
-  const SubjectMark({super.key, required this.subjectId, this.size = 48, this.art = true});
-
-  final String subjectId;
-  final double size;
-  final bool art;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final light = SubjectLight.forSubject(subjectId);
-    final object = art ? MmArt.subjectObject(subjectId) : null;
-    final brightness = Theme.of(context).brightness;
-    return ExcludeSemantics(
-      child: SizedBox.square(
-        dimension: size,
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      (light?.of(brightness) ?? colors.raised2).withValues(alpha: colors.isNight ? 1 : 0.9),
-                      (light?.of(brightness) ?? colors.raised2).withValues(alpha: 0),
-                    ],
-                    stops: const [0.25, 1],
-                  ),
-                ),
-              ),
-            ),
-            if (object != null)
-              ArtImage(object, height: size * 0.86, width: size * 0.86)
-            else
-              Bubble(state: BubbleState.wrong, size: size * 0.36, animate: false),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 /// "Show me": the evidence behind a claim (brief 12.1). A small glass tag with a few bubbles,
 /// opening the exact questions.
 class ShowMeTag extends StatelessWidget {
@@ -102,28 +54,6 @@ class ShowMeTag extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: semanticsLabel ?? 'Show me, the questions behind this',
       marks: [for (var i = 0; i < 3; i++) i < wrong ? BubbleState.wrong : BubbleState.hollow],
-    );
-  }
-}
-
-/// A plain solid surface for the work layer: raised, hairline, continuous corners.
-class SolidPanel extends StatelessWidget {
-  const SolidPanel({super.key, required this.child, this.padding = const EdgeInsets.all(MmSpace.s16), this.color, this.borderColor});
-
-  final Widget child;
-  final EdgeInsetsGeometry padding;
-  final Color? color;
-  final Color? borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: color ?? colors.raised,
-        shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: borderColor ?? colors.line)),
-      ),
-      child: Padding(padding: padding, child: child),
     );
   }
 }

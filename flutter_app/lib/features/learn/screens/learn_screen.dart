@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -213,86 +214,115 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
-                    child: Text(LearnCopy.subtitle, style: type.body.copyWith(color: colors.ink2)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
-                    child: HowConcepts(withMobi: firstVisit || _howMarked),
-                  ),
-                  if (hasResume) ...[
-                    ResumeCard(
-                      run: LearnActiveRun(
-                        id: active.id,
-                        title: active.title,
-                        position: runPosition(active.mode, active.step, active.total),
-                      ),
-                      pendingCount: pending.contains(active.id) ? 1 : 0,
-                      onContinue: () => _open(AppRoutes.learnRun(active.id)),
-                    ),
-                    const SizedBox(height: MmSpace.s16),
-                  ],
-                  DueCard(
-                    queue: StudyQueueView.of(catalog),
-                    recallEnabled: catalog.core.recallEnabled,
-                    primary: !hasResume,
-                    starting: _starting,
-                    message: _startMessage,
-                    onStart: _startRecall,
-                    showMobi: !(firstVisit || _howMarked) && catalog.units.isNotEmpty,
-                  ),
-                  if (!hasResume && catalog.next != null && catalog.next!.id.isNotEmpty) ...[
-                    const SizedBox(height: MmSpace.s16),
-                    NextLessonCard(lesson: catalog.next!, onOpen: () => _open(AppRoutes.learnUnit(catalog.next!.id))),
-                  ],
-                  const SizedBox(height: MmSpace.group),
-                  if (catalog.units.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: MmSpace.s24),
+              // One authored entrance when the content first arrives: the words, the card that
+              // holds the one action, then the lessons in reading order. Never on scroll.
+              child: MmStagger(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    MmStaggerItem(
+                      index: 0,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Mobi(pose: MobiPose.read, size: 112, say: LearnCopy.noLessonsMobi),
-                          const SizedBox(height: MmSpace.s16),
-                          Text(LearnCopy.noLessonsTitle, style: type.title, textAlign: TextAlign.center),
-                          const SizedBox(height: MmSpace.s8),
-                          Text(
-                            LearnCopy.noLessonsMessage,
-                            style: type.body.copyWith(color: colors.ink2),
-                            textAlign: TextAlign.center,
+                          Padding(
+                            padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
+                            child: Text(LearnCopy.subtitle, style: type.body.copyWith(color: colors.ink2)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
+                            child: HowConcepts(withMobi: firstVisit || _howMarked),
                           ),
                         ],
                       ),
                     ),
-                  for (final subject in shown) ...[
-                    if (catalog.unitsOf(subject.id).isNotEmpty)
-                      SubjectLessons(
-                        subject: subject,
-                        units: catalog.unitsOf(subject.id),
-                        onOpen: (unit) => _open(AppRoutes.learnUnit(unit.id)),
-                        onReadChapter: (chapter) => unawaited(_open(LearnPaths.summary(subject.id, chapter))),
-                      )
-                    else
-                      SubjectHeader(subject: subject),
-                    UntaughtChapters(
-                      chapters: catalog.untaughtOf(subject.id),
-                      onPractise: (chapter) => unawaited(context.push<void>(LearnPaths.practiseChapter(subject.id, chapter))),
+                    if (hasResume) ...[
+                      MmStaggerItem(
+                        index: 1,
+                        child: ResumeCard(
+                        run: LearnActiveRun(
+                          id: active.id,
+                          title: active.title,
+                          position: runPosition(active.mode, active.step, active.total),
+                        ),
+                        pendingCount: pending.contains(active.id) ? 1 : 0,
+                        onContinue: () => _open(AppRoutes.learnRun(active.id)),
+                        ),
+                      ),
+                      const SizedBox(height: MmRhythm.item),
+                    ],
+                    MmStaggerItem(
+                      index: hasResume ? 2 : 1,
+                      child: DueCard(
+                        queue: StudyQueueView.of(catalog),
+                        recallEnabled: catalog.core.recallEnabled,
+                        primary: !hasResume,
+                        starting: _starting,
+                        message: _startMessage,
+                        onStart: _startRecall,
+                        showMobi: !(firstVisit || _howMarked) && catalog.units.isNotEmpty,
+                      ),
                     ),
-                    const SizedBox(height: MmSpace.s24),
+                    if (!hasResume && catalog.next != null && catalog.next!.id.isNotEmpty) ...[
+                      const SizedBox(height: MmRhythm.item),
+                      MmStaggerItem(
+                        index: 2,
+                        child: NextLessonCard(lesson: catalog.next!, onOpen: () => _open(AppRoutes.learnUnit(catalog.next!.id))),
+                      ),
+                    ],
+                    const SizedBox(height: MmSpace.group),
+                    if (catalog.units.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: MmSpace.s24),
+                        child: Column(
+                          children: [
+                            const Mobi(pose: MobiPose.read, size: 112, say: LearnCopy.noLessonsMobi),
+                            const SizedBox(height: MmSpace.s16),
+                            Text(LearnCopy.noLessonsTitle, style: type.title, textAlign: TextAlign.center),
+                            const SizedBox(height: MmSpace.s8),
+                            Text(
+                              LearnCopy.noLessonsMessage,
+                              style: type.body.copyWith(color: colors.ink2),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    for (final (i, subject) in shown.indexed) ...[
+                      MmStaggerItem(
+                        index: 3 + i,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (catalog.unitsOf(subject.id).isNotEmpty)
+                              SubjectLessons(
+                                subject: subject,
+                                units: catalog.unitsOf(subject.id),
+                                onOpen: (unit) => _open(AppRoutes.learnUnit(unit.id)),
+                                onReadChapter: (chapter) => unawaited(_open(LearnPaths.summary(subject.id, chapter))),
+                              )
+                            else
+                              SubjectHeader(subject: subject),
+                            UntaughtChapters(
+                              chapters: catalog.untaughtOf(subject.id),
+                              onPractise: (chapter) => unawaited(context.push<void>(LearnPaths.practiseChapter(subject.id, chapter))),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: MmRhythm.group),
+                    ],
+                    if (catalog.units.isNotEmpty) ...[
+                      const SizedBox(height: MmSpace.s8),
+                      OfflinePacks(
+                        subjects: subjects,
+                        state: offline,
+                        onChanged: (subject, keep) =>
+                            unawaited(ref.read(offlineLearnProvider.notifier).setKept(subject, keep: keep)),
+                      ),
+                    ],
                   ],
-                  if (catalog.units.isNotEmpty) ...[
-                    const SizedBox(height: MmSpace.s8),
-                    OfflinePacks(
-                      subjects: subjects,
-                      state: offline,
-                      onChanged: (subject, keep) =>
-                          unawaited(ref.read(offlineLearnProvider.notifier).setKept(subject, keep: keep)),
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
           ),
@@ -302,6 +332,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   }
 }
 
+/// The shape of what is coming: the focal card, then a subject's heading and its rows. Bars sit
+/// on the ground, one light sweeps across them.
 class _LearnSkeleton extends StatelessWidget {
   const _LearnSkeleton();
 
@@ -313,11 +345,9 @@ class _LearnSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Skeleton(height: 168, radius: MmRadius.panel),
-            SizedBox(height: MmSpace.group),
-            Skeleton(width: 140, height: 20),
-            SizedBox(height: MmSpace.s12),
-            Skeleton(height: 180, radius: MmRadius.panel),
+            MmSkeletonCard(hero: true),
+            SizedBox(height: MmRhythm.section),
+            MmSkeletonRows(rows: 3),
           ],
         ),
       ),

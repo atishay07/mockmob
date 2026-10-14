@@ -15,11 +15,6 @@ import '../result_nav.dart';
 import '../widgets/breakdown_section.dart';
 import 'answer_row.dart';
 
-Widget _sectionTitle(BuildContext context, String text) => Padding(
-  padding: const EdgeInsets.only(top: MmSpace.group, bottom: MmSpace.s12),
-  child: Semantics(header: true, child: Text(text, style: context.mmType.title)),
-);
-
 /// Held, keys unavailable and corrected keys: said plainly, never a silent rewrite.
 List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {required VoidCallback onRetry}) {
   final corrected = data.detail?.answerReviews.values.where((r) => r.isCorrected).length ?? 0;
@@ -39,41 +34,49 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
   ];
 }
 
-List<Widget> whereSection(BuildContext context, RecapModel m) => [
-  _sectionTitle(context, ResultCopy.sectionWhere),
-  BreakdownSection(breakdown: m.breakdown, flow: true),
-];
+/// Where the marks went: the same flow as recap card 2, at rest.
+Widget whereSection(BuildContext context, RecapModel m) => MmSection(
+  title: ResultCopy.sectionWhere,
+  child: BreakdownSection(breakdown: m.breakdown, flow: true),
+);
 
-/// The first thing to fix, from the observed chapter breakdown, with the repair key.
-List<Widget> firstFixSection(BuildContext context, RecapModel m) {
+/// The first thing to fix, from the observed chapter breakdown, with the repair key. Null when
+/// there is nothing to fix.
+Widget? firstFixSection(BuildContext context, RecapModel m) {
   final leader = m.chapters.leader;
   final colors = context.mmColors;
   final type = context.mmType;
-  if (leader == null && m.candidates.isEmpty) return const [];
-  return [
-    _sectionTitle(context, ResultCopy.sectionFirstFix),
-    if (leader != null) ...[
-      Text(leader.chapter, style: type.cardTitle),
-      const SizedBox(height: MmSpace.s4),
-      Text(
-        leader.wrong == 0
-            ? ResultCopy.blanksEvidence(leader.unattempted, leader.questions)
-            : '${ResultCopy.costMost} ${ResultCopy.chapterCounts(leader.questions, leader.correct, leader.wrong, leader.unattempted)}',
-        style: type.body.copyWith(color: colors.ink2),
-      ),
-    ] else
-      Text(ResultCopy.wrongByNumber(m.chapters.wrongNumbers.length), style: type.body.copyWith(color: colors.ink2)),
-    if (m.candidates.isNotEmpty) ...[
-      const SizedBox(height: MmSpace.s16),
-      KeyButton(
-        label: '${ResultCopy.repairN(m.tonightCount)}, about ${repairMinutes(m.tonightCount)} minutes',
-        onPressed: () => context.go(ResultNav.repair(m)),
-      ),
-    ],
-  ];
+  if (leader == null && m.candidates.isEmpty) return null;
+  return MmSection(
+    title: ResultCopy.sectionFirstFix,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (leader != null) ...[
+          Text(leader.chapter, style: type.cardTitle),
+          const SizedBox(height: MmSpace.s4),
+          Text(
+            leader.wrong == 0
+                ? ResultCopy.blanksEvidence(leader.unattempted, leader.questions)
+                : '${ResultCopy.costMost} ${ResultCopy.chapterCounts(leader.questions, leader.correct, leader.wrong, leader.unattempted)}',
+            style: type.body.copyWith(color: colors.ink2),
+          ),
+        ] else
+          Text(ResultCopy.wrongByNumber(m.chapters.wrongNumbers.length), style: type.body.copyWith(color: colors.ink2)),
+        if (m.candidates.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s16),
+          KeyButton(
+            label: '${ResultCopy.repairN(m.tonightCount)}, about ${repairMinutes(m.tonightCount)} minutes',
+            onPressed: () => context.go(ResultNav.repair(m)),
+          ),
+        ],
+      ],
+    ),
+  );
 }
 
-List<Widget> answersSection(
+/// Every answer, grouped: wrong, being checked, not attempted (folded) and correct.
+Widget answersSection(
   BuildContext context, {
   required AnswerGroups groups,
   required bool keysOff,
@@ -113,21 +116,26 @@ List<Widget> answersSection(
     ];
   }
 
-  return [
-    _sectionTitle(context, ResultCopy.sectionAnswers),
-    ...group(ResultCopy.groupWrong(groups.wrong.length), groups.wrong),
-    ...group(ResultCopy.groupHeld(groups.held.length), groups.held),
-    // Blanks have nothing to learn from or repair, so they sit folded under one row (a paper can
-    // have dozens, each as tall as a real answer). A tile on card 3 opens the row on its question.
-    if (groups.blank.isNotEmpty)
-      BlankGroup(
-        count: groups.blank.length,
-        open: blankOpen,
-        onToggle: onToggleBlank ?? () {},
-        children: group('', groups.blank, titled: false),
-      ),
-    ...group(ResultCopy.groupCorrect(groups.correct.length), groups.correct),
-  ];
+  return MmSection(
+    title: ResultCopy.sectionAnswers,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ...group(ResultCopy.groupWrong(groups.wrong.length), groups.wrong),
+        ...group(ResultCopy.groupHeld(groups.held.length), groups.held),
+        // Blanks have nothing to learn from or repair, so they sit folded under one row (a paper can
+        // have dozens, each as tall as a real answer). A tile on card 3 opens the row on its question.
+        if (groups.blank.isNotEmpty)
+          BlankGroup(
+            count: groups.blank.length,
+            open: blankOpen,
+            onToggle: onToggleBlank ?? () {},
+            children: group('', groups.blank, titled: false),
+          ),
+        ...group(ResultCopy.groupCorrect(groups.correct.length), groups.correct),
+      ],
+    ),
+  );
 }
 
 /// The "Not attempted" group folded under one row: bubble, count, chevron. Open, it shows every
@@ -153,6 +161,8 @@ class BlankGroup extends StatelessWidget {
           onTap: onToggle,
           pressedScale: 0.985,
           focusRadius: MmRadius.smallAll,
+          haptic: MmPressHaptic.selection,
+          highlight: true,
           semanticsLabel: ResultCopy.groupBlankToggle(count, open: open),
           selected: open,
           builder: (context, pressed, _) => ConstrainedBox(

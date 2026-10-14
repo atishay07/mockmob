@@ -3,6 +3,7 @@
 // task can change size, and the screen's one volt pill. The number sits beside the object, so
 // the card reads top to bottom without a hole; changing the duration rolls the number and
 // reshapes the task in place without moving the pill.
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
@@ -30,6 +31,7 @@ class MoveHeroCard extends StatelessWidget {
     this.retrying = false,
     this.mobiController,
     this.primaryKey,
+    this.keysCovered,
   });
 
   final MoveHero move;
@@ -46,6 +48,11 @@ class MoveHeroCard extends StatelessWidget {
 
   /// On the primary key, so the screen can tell whether it is in view (see [StickyMoveBar]).
   final GlobalKey? primaryKey;
+
+  /// True while the pinned bar stands in for the card's keys: what sits under the primary key
+  /// (the quiet alternative and its caption) is then under the bar's ground, so it takes no
+  /// touches and is not announced; the bar carries both keys.
+  final ValueListenable<bool>? keysCovered;
 
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
@@ -169,21 +176,30 @@ class MoveHeroCard extends StatelessWidget {
               disabledReason: blocked ? TodayCopy.connectToStart : null,
             ),
           ),
-          if (m.secondary != null)
-            Center(
-              child: KeyButton.quiet(
-                label: m.secondary!.label,
-                onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
-              ),
+          _UnderBar(
+            covered: keysCovered,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (m.secondary != null)
+                  Center(
+                    child: KeyButton.quiet(
+                      label: m.secondary!.label,
+                      onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
+                    ),
+                  ),
+                if (m.caption != null || m.dismissedLine != null) ...[
+                  Text(
+                    m.dismissedLine ?? m.caption!,
+                    textAlign: TextAlign.center,
+                    style: type.caption.copyWith(color: colors.ink3),
+                  ),
+                  const SizedBox(height: MmSpace.s8),
+                ],
+              ],
             ),
-          if (m.caption != null || m.dismissedLine != null) ...[
-            Text(
-              m.dismissedLine ?? m.caption!,
-              textAlign: TextAlign.center,
-              style: type.caption.copyWith(color: colors.ink3),
-            ),
-            const SizedBox(height: MmSpace.s8),
-          ],
+          ),
         ],
       ),
     );
@@ -192,6 +208,30 @@ class MoveHeroCard extends StatelessWidget {
       subjectId: m.subjectId,
       art: mobi ? null : HeroArtView(art: m.art),
       child: content,
+    );
+  }
+}
+
+/// The part of the card under its primary key. While [covered] is true the pinned bar's ground
+/// hides it: it ignores touches (a tap there scrolls nothing and opens nothing unseen) and leaves
+/// the semantics tree, since the bar's own keys say the same.
+class _UnderBar extends StatelessWidget {
+  const _UnderBar({required this.covered, required this.child});
+
+  final ValueListenable<bool>? covered;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final listenable = covered;
+    if (listenable == null) return child;
+    return ValueListenableBuilder<bool>(
+      valueListenable: listenable,
+      child: child,
+      builder: (context, hidden, child) => IgnorePointer(
+        ignoring: hidden,
+        child: ExcludeSemantics(excluding: hidden, child: child!),
+      ),
     );
   }
 }

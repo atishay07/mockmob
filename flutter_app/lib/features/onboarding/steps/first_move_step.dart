@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -14,7 +17,8 @@ import '../widgets/week_ahead.dart';
 
 /// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
 /// server, so the start key asks for the account first; "Tonight" keeps it waiting here. Mobi
-/// stands above the card, says his line and points down at the start key.
+/// stands above the card, says his line and points down at the start key; if no finger lands for
+/// 1.2 s he nudges at it once.
 class FirstMoveStep extends ConsumerStatefulWidget {
   const FirstMoveStep({super.key, required this.answers, required this.onStart, this.mobi});
 
@@ -40,6 +44,12 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
   Offset? _aimed;
   bool _queued = false;
 
+  /// One nudge per visit: if no finger lands within [_nudgeAfter] of the first point, Mobi jabs
+  /// at the start key twice and keeps pointing.
+  Timer? _nudge;
+  bool _nudgeSpent = false;
+  static const Duration _nudgeAfter = Duration(milliseconds: 1200);
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +58,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
 
   @override
   void dispose() {
+    _nudge?.cancel();
     if (widget.mobi == null) _mobi.dispose();
     super.dispose();
   }
@@ -67,7 +78,24 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
       if (_aimed != null && (rel - _aimed!).distance < 1) return;
       _aimed = rel;
       _mobi.pointAtWidget(_start);
+      _armNudge();
     });
+  }
+
+  void _armNudge() {
+    if (_nudgeSpent) return;
+    _nudgeSpent = true;
+    _nudge = Timer(_nudgeAfter, () {
+      _nudge = null;
+      if (mounted) _mobi.play(MobiAct.nudge);
+    });
+  }
+
+  /// Any touch means the student is already acting: the nudge is not needed.
+  void _touched(PointerDownEvent _) {
+    _nudgeSpent = true;
+    _nudge?.cancel();
+    _nudge = null;
   }
 
   @override
@@ -76,7 +104,9 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
     final move = FirstMove.of(widget.answers);
     _queuePoint();
     return StepEntrance(
-      child: Column(
+      child: Listener(
+        onPointerDown: _touched,
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
@@ -128,6 +158,9 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                         onStart: widget.onStart,
                         onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
                         startKey: _start,
+                        // The 10 rolls once the card has lifted in, and lands with a tick.
+                        numberDelay: Entrance.answer(0) + const Duration(milliseconds: 80),
+                        onNumberLanded: () => ref.read(hapticsProvider).selection(),
                       ),
                     ),
                     const SizedBox(height: MmSpace.s32),
@@ -151,6 +184,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
         ),
       ],
       ),
+      ),
     );
   }
 }
@@ -164,6 +198,8 @@ class FirstMoveHeroFor extends StatelessWidget {
     required this.onStart,
     required this.onLater,
     this.startKey,
+    this.numberDelay = Duration.zero,
+    this.onNumberLanded,
   });
 
   final OnboardingAnswers answers;
@@ -171,6 +207,8 @@ class FirstMoveHeroFor extends StatelessWidget {
   final VoidCallback onStart;
   final VoidCallback onLater;
   final GlobalKey? startKey;
+  final Duration numberDelay;
+  final VoidCallback? onNumberLanded;
 
   @override
   Widget build(BuildContext context) => FirstMoveHero(
@@ -180,5 +218,7 @@ class FirstMoveHeroFor extends StatelessWidget {
         onLater: onLater,
         laterChosen: answers.tonight,
         startKey: startKey,
+        numberDelay: numberDelay,
+        onNumberLanded: onNumberLanded,
       );
 }

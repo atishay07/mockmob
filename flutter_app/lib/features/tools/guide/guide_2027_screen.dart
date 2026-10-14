@@ -43,23 +43,25 @@ class Guide2027Screen extends ConsumerWidget {
         SliverToBoxAdapter(child: _Section(section: guideSubjects)),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s12),
-            child: YouPanel(
+            padding: const EdgeInsets.only(top: MmRhythm.item),
+            child: ToolsPanel(
+              dividerIndent: ToolsLinkRow.dividerIndent,
               children: [
-                YouRow(icon: LucideIcons.layoutGrid, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
-                YouRow(icon: LucideIcons.compass, title: ToolsCopy.compassTitle, note: ToolsCopy.compassQuestion, onTap: () => context.push(ToolsPaths.compass)),
+                ToolsLinkRow(icon: LucideIcons.layoutGrid, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
+                ToolsLinkRow(icon: LucideIcons.compass, title: ToolsCopy.compassTitle, note: ToolsCopy.compassQuestion, onTap: () => context.push(ToolsPaths.compass)),
               ],
             ),
           ),
         ),
         const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.guideCommonQuestions)),
-        SliverToBoxAdapter(child: YouPanel(children: [for (final (q, a) in guideFaqs) _Faq(question: q, answer: a)])),
+        SliverToBoxAdapter(child: ToolsPanel(children: [for (final (q, a) in guideFaqs) _Faq(question: q, answer: a)])),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s24),
-            child: YouPanel(
+            padding: const EdgeInsets.only(top: MmRhythm.section),
+            child: ToolsPanel(
+              dividerIndent: ToolsLinkRow.dividerIndent,
               children: [
-                YouRow(
+                ToolsLinkRow(
                   icon: LucideIcons.bookOpen,
                   title: ToolsCopy.pyqTitle,
                   note: ToolsCopy.pyqNote,
@@ -191,7 +193,7 @@ class _FaqState extends State<_Faq> {
       children: [
         Semantics(
           expanded: _open,
-          child: RowFrame(
+          child: ToolsRowFrame(
             onTap: () => setState(() => _open = !_open),
             semanticsLabel: widget.question,
             child: Row(
@@ -213,7 +215,7 @@ class _FaqState extends State<_Faq> {
           alignment: Alignment.topCenter,
           child: _open
               ? Padding(
-                  padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s20, 0, MmSpace.s20, MmSpace.s16),
                   child: Text(widget.answer, style: type.small.copyWith(color: colors.ink2)),
                 )
               : const SizedBox(width: double.infinity),

@@ -20,10 +20,12 @@ class ResumeHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final art = MmArt.subjectObject(resume.subjectId);
+    // The open paper's subject stands in the corner as its code-drawn emblem.
+    final subject = resume.subjectId;
+    final art = subject == null ? null : HeroArtView(art: HeroArt.object(subject: subject));
     return HeroStage(
-      subjectId: resume.subjectId,
-      art: art == null ? null : HeroArtView(art: HeroArt.object(art, subject: resume.subjectId)),
+      subjectId: subject,
+      art: art,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding),
         child: Column(

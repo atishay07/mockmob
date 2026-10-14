@@ -36,7 +36,7 @@ class MobiCharacter extends StatefulWidget {
     this.shadow = true,
     this.seed = 7,
     this.watchTaps = true,
-    this.lite = false,
+    this.lite,
     this.head = false,
   });
 
@@ -65,8 +65,13 @@ class MobiCharacter extends StatefulWidget {
   /// Glance toward taps anywhere on screen for a moment. Costs nothing until a tap.
   final bool watchTaps;
 
-  /// Lite detail for small sizes and lists (see [MobiPainter.lite]).
-  final bool lite;
+  /// Lite detail for small sizes and lists (see [MobiPainter.lite]). Null (the default) picks it
+  /// by size: lite under [liteBelow] dp.
+  final bool? lite;
+
+  /// Below this height a Mobi paints lite detail unless [lite] says otherwise: at row and header
+  /// sizes the fine detail is under a pixel and only costs paint time.
+  static const double liteBelow = 72;
 
   /// Only the head (body, visor, eyes, antenna) in a square [size] box: avatars and rows.
   final bool head;
@@ -141,7 +146,13 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       old.controller?.detach(this);
       widget.controller?.attach(this);
     }
-    if (old.entrance != widget.entrance) play(widget.entrance);
+    if (old.entrance != widget.entrance) {
+      // Seen again after the late-night window: a Mobi that was sleepy or asleep wakes once
+      // (ending on its feet) instead of jumping to the day's entrance.
+      final wasLate = old.entrance == MobiAct.sleep || old.entrance == MobiAct.sleepy;
+      final isLate = widget.entrance == MobiAct.sleep || widget.entrance == MobiAct.sleepy;
+      play(wasLate && !isLate ? MobiAct.wake : widget.entrance);
+    }
     if (old.watchTaps != widget.watchTaps) _route(widget.watchTaps);
   }
 
@@ -338,7 +349,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     Widget child = RepaintBoundary(
       child: CustomPaint(
         size: box,
-        painter: MobiPainter(rig: _rig, palette: palette, shadow: widget.shadow, lite: widget.lite, head: widget.head),
+        painter: MobiPainter(rig: _rig, palette: palette, shadow: widget.shadow, lite: widget.lite ?? widget.size < MobiCharacter.liteBelow, head: widget.head),
       ),
     );
     if (widget.interactive && !_reduced) {

@@ -33,6 +33,7 @@ class ChapterField extends StatelessWidget {
           onTap: onTap,
           focusRadius: MmRadius.keyAll,
           pressedScale: 0.985,
+          haptic: MmPressHaptic.selection,
           semanticsLabel: '${PracticeCopy.chapterLabel}, $text',
           builder: (context, pressed, _) => DecoratedBox(
             decoration: ShapeDecoration(
@@ -50,7 +51,9 @@ class ChapterField extends StatelessWidget {
                   children: [
                     Icon(LucideIcons.bookOpen, size: 18, color: chosen ? colors.ink : colors.ink2),
                     const SizedBox(width: MmSpace.s12),
-                    Expanded(child: Text(text, style: type.labelLarge.copyWith(color: chosen ? colors.ink : colors.ink2))),
+                    Expanded(
+                      child: Text(text, style: type.labelLarge.copyWith(color: chosen ? colors.ink : colors.ink2)),
+                    ),
                     if (chapters.length > 1) ...[
                       const SizedBox(width: MmSpace.s8),
                       Text('${chapters.length}', style: type.label.copyWith(color: colors.ink2)),
@@ -78,12 +81,8 @@ Future<List<String>?> showChapterPicker(BuildContext context, {required String s
     context: context,
     title: PracticeCopy.chooseChapterTitle,
     heightFactor: 0.86,
-    builder: (sheetContext) => ChapterList(
-      subjectId: subjectId,
-      chosen: chosen,
-      multi: multi,
-      onSingle: (name) => Navigator.of(sheetContext).pop([name]),
-    ),
+    builder: (sheetContext) =>
+        ChapterList(subjectId: subjectId, chosen: chosen, multi: multi, onSingle: (name) => Navigator.of(sheetContext).pop([name])),
     footer: (sheetContext) => _UseKey(chosen: chosen, multi: multi, onUse: () => Navigator.of(sheetContext).pop(chosen.value)),
   ).whenComplete(() {
     chosen.dispose();
@@ -153,7 +152,10 @@ class _ChapterListState extends ConsumerState<ChapterList> {
         child: Column(
           children: [
             for (var i = 0; i < 6; i++)
-              const Padding(padding: EdgeInsets.symmetric(vertical: MmSpace.s12), child: Skeleton.line(height: 16)),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: MmSpace.s12),
+                child: Skeleton.line(height: 16),
+              ),
           ],
         ),
       ),
@@ -205,7 +207,10 @@ class _SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    OutlineInputBorder border(Color c, double w) => OutlineInputBorder(borderRadius: MmRadius.keyAll, borderSide: BorderSide(color: c, width: w));
+    OutlineInputBorder border(Color c, double w) => OutlineInputBorder(
+      borderRadius: MmRadius.keyAll,
+      borderSide: BorderSide(color: c, width: w),
+    );
     return TextField(
       onChanged: onChanged,
       style: type.body,
@@ -252,7 +257,10 @@ class _Units extends StatelessWidget {
         children.add(
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s20, MmSpace.s4, MmSpace.s4),
-            child: Semantics(header: true, child: Text(unit.name, style: type.label.copyWith(color: colors.ink3))),
+            child: Semantics(
+              header: true,
+              child: Text(unit.name, style: type.label.copyWith(color: colors.ink3)),
+            ),
           ),
         );
       }
@@ -291,31 +299,27 @@ class _ChapterRow extends StatelessWidget {
       selected: selected,
       focusRadius: MmRadius.keyAll,
       pressedScale: 0.985,
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: pressed ? colors.ink.withValues(alpha: 0.06) : Colors.transparent,
-          shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 52),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    name,
-                    style: type.body.copyWith(
-                      fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                      color: enabled ? colors.ink : colors.ink3,
-                    ),
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 52),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s12),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  name,
+                  style: type.body.copyWith(
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                    color: enabled ? colors.ink : colors.ink3,
                   ),
                 ),
-                const SizedBox(width: MmSpace.s12),
-                // The bubble is the selection state: filled when this chapter is in the session.
-                Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 18),
-              ],
-            ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              // The bubble is the selection state: filled when this chapter is in the session.
+              Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 18),
+            ],
           ),
         ),
       ),

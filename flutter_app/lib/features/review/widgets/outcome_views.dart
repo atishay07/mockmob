@@ -158,6 +158,8 @@ class ConceptRow extends ConsumerWidget {
             onTap: () => context.push(AppRoutes.learnUnit(link.unitId)),
             pressedScale: 0.985,
             focusRadius: MmRadius.keyAll,
+            haptic: MmPressHaptic.selection,
+            highlight: true,
             semanticsLabel: '${ReviewCopy.concept}: ${link.title}',
             builder: (context, pressed, _) => ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 64),

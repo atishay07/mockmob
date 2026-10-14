@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/you/edit_copy.dart';
 
 /// The owner's slop list, applied to every string of the You feature (binding rules of spec 0).
 void main() {
@@ -58,7 +59,25 @@ void main() {
     final all = [source, File('lib/features/you/edit_copy.dart').readAsStringSync()].join('\n');
     expect(all, isNot(contains('admission.uod')));
     expect(all, isNot(contains('CSAS')));
-    expect(all, isNot(contains('Round 1')));
+    // The figures are the 2026 Round 1 minimum scores (owner decision, DU data audit U1-3): the note
+    // names the year and the round instead of "last year", and never the portal's own wording.
+    expect(all, isNot(contains('last year')));
+    expect(EditCopy.collegesNote('UR'), 'Pick up to three. Figures are Round 1 minimum scores, 2026, for unreserved, out of 1000.');
+    expect(EditCopy.noSeat, 'No seat in Round 1, 2026');
+  });
+
+  test('a category is said in words, never as the portal code', () {
+    expect(categoryTitle('UR'), 'Unreserved');
+    expect(categoryTitle('OBC-NCL'), 'OBC');
+    expect(categoryTitle('SIKH'), 'Sikh minority');
+    expect(categoryTitle('KM'), 'Kashmiri migrant');
+    expect(categoryTitle('SGC'), 'Single girl child');
+    expect(categoryTitle('ORPHAN-FEMALE'), 'Orphan (female)');
+    expect(categoryTitle('ORPHAN-MALE'), 'Orphan (male)');
+    expect(categoryTitle('PwBD'), 'PwBD');
+    expect(categoryTitle('EWS'), 'EWS');
+    expect(categoryTitle(null), 'Unreserved');
+    expect(EditCopy.collegesNote('SGC'), contains('for single girl child,'));
   });
 
   test('times are written in 12-hour form', () {

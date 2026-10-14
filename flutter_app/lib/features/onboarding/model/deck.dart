@@ -89,7 +89,7 @@ final OnboardingDeck kOnboardingDeck = OnboardingDeck(
       kind: StepKind.ladder,
       bubble: 'Aim',
       writes: ['courseId', 'colleges', 'category', 'openToAny', 'courseUndecided'],
-      changesNow: 'The college ladder with last year\'s DU closing scores; picks engrave onto the sheet.',
+      changesNow: 'The college ladder with Round 1 minimum scores, 2026; picks engrave onto the sheet.',
       paysOffLater: 'The dream ladder on Today and in You; the eligibility line on the next step.',
     ),
     const DeckStep(

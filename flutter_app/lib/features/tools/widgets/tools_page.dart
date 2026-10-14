@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_page.dart';
+import '../../you/widgets/you_row.dart' show IconWell;
 
 export '../../you/widgets/you_page.dart' show BackKey, GlassDisc, GroupHeading, youGutter;
-export '../../you/widgets/you_row.dart' show IconWell, RowFrame, YouPanel, YouRow;
+export '../../you/widgets/you_row.dart' show IconWell;
 
 /// The frame of a tools screen, matching You (the tools live behind it): the lit back key, a
 /// Bricolage title, an optional lead line, then [slivers], at most 600 dp wide, with the desk
 /// lamp's pool in the upper left. Solid work layer: nothing is drawn behind what you read.
+///
+/// One authored entrance, riding the page's own transition: the title, the lead and then the
+/// first blocks arrive 45 ms apart. Nothing moves once the page is up, and scrolling never
+/// replays it.
 class ToolsPage extends StatelessWidget {
   const ToolsPage({super.key, required this.title, required this.slivers, this.lead, this.large = true, this.controller});
 
@@ -21,6 +27,21 @@ class ToolsPage extends StatelessWidget {
   /// The 28 sp headline, or the 22 sp title for a long programme name.
   final bool large;
   final ScrollController? controller;
+
+  /// How many blocks after the lead arrive in the entrance (the stagger caps at eight in all).
+  static const int _entranceBlocks = 5;
+
+  /// The first [_entranceBlocks] box slivers, each as the next item of the entrance.
+  static List<Widget> _entering(List<Widget> slivers) {
+    var next = 2;
+    return [
+      for (final sliver in slivers)
+        if (next < 2 + _entranceBlocks && sliver is SliverToBoxAdapter && sliver.child != null)
+          SliverToBoxAdapter(child: MmStaggerItem(index: next++, child: sliver.child!))
+        else
+          sliver,
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +75,9 @@ class ToolsPage extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                child: CustomScrollView(
+                child: MmStagger(
+                  driver: MmStaggerDriver.route,
+                  child: CustomScrollView(
                   controller: controller,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   slivers: [
@@ -65,22 +88,29 @@ class ToolsPage extends StatelessWidget {
                       ),
                     ),
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
-                        child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
+                      child: MmStaggerItem(
+                        index: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
+                          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
+                        ),
                       ),
                     ),
                     if (lead != null)
                       SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter + 4, 0),
-                          child: Text(lead!, style: type.body.copyWith(color: colors.ink2)),
+                        child: MmStaggerItem(
+                          index: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter + 4, 0),
+                            child: Text(lead!, style: type.body.copyWith(color: colors.ink2)),
+                          ),
                         ),
                       ),
-                    const SliverToBoxAdapter(child: SizedBox(height: MmSpace.s20)),
-                    ...slivers,
+                    const SliverToBoxAdapter(child: SizedBox(height: MmRhythm.group)),
+                    ..._entering(slivers),
                     SliverToBoxAdapter(child: SizedBox(height: MmSpace.s48 + MediaQuery.viewPaddingOf(context).bottom)),
                   ],
+                  ),
                 ),
               ),
             ),
@@ -191,6 +221,135 @@ class ToolsSearchField extends StatelessWidget {
                   },
                 ),
         ),
+      ),
+    );
+  }
+}
+
+/// A group of rows in one plain surface, in the page gutter: the rows are divided by hairlines
+/// that start at [dividerIndent] and each presses edge to edge. Use it instead of a stack of
+/// identical boxes.
+class ToolsPanel extends StatelessWidget {
+  const ToolsPanel({
+    super.key,
+    required this.children,
+    this.dividerIndent = MmSpace.s20,
+    this.margin = const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+  });
+
+  final List<Widget> children;
+
+  /// 64 lines up with the text beside a 36 dp icon well; 20 is a row without a leading mark.
+  final double dividerIndent;
+  final EdgeInsetsGeometry margin;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: margin,
+        child: MmRowGroup(dividerIndent: dividerIndent, children: children),
+      );
+}
+
+/// A navigation row of a [ToolsPanel]: an icon well, a title, an optional note, an optional
+/// live value and a quiet chevron (or the external glyph for a page that opens outside the app).
+class ToolsLinkRow extends StatelessWidget {
+  const ToolsLinkRow({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+    this.note,
+    this.value,
+    this.external = false,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? note;
+
+  /// A short live fact on the right ("14 of 70").
+  final String? value;
+  final bool external;
+  final VoidCallback onTap;
+
+  /// Where a [ToolsPanel]'s hairlines start for these rows.
+  static const double dividerIndent = 64;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmRow(
+      title: title,
+      subtitle: note,
+      leading: ExcludeSemantics(child: IconWell(icon)),
+      semanticsLabel: [title, ?note, ?value].join('. '),
+      onTap: onTap,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (value != null) ...[
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 120),
+              child: Text(value!, style: type.caption.copyWith(color: colors.ink2), textAlign: TextAlign.end),
+            ),
+            const SizedBox(width: MmSpace.s8),
+          ],
+          Icon(external ? LucideIcons.externalLink : LucideIcons.chevronRight, size: 16, color: colors.ink3),
+        ],
+      ),
+    );
+  }
+}
+
+/// One free-form row of a [ToolsPanel] (a programme, a college, a switch): at least 56 dp, the
+/// whole row the target, the press veil and a selection tick. [onTap] null makes it information
+/// only. [toggled] marks a switch row for TalkBack.
+class ToolsRowFrame extends StatelessWidget {
+  const ToolsRowFrame({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.semanticsLabel,
+    this.toggled,
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
+  });
+
+  final Widget child;
+  final VoidCallback? onTap;
+  final String? semanticsLabel;
+  final bool? toggled;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget frame() => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 56),
+          child: Padding(padding: padding, child: Align(alignment: Alignment.centerLeft, child: child)),
+        );
+    final tap = onTap;
+    if (tap == null) {
+      if (semanticsLabel == null) return frame();
+      return Semantics(container: true, label: semanticsLabel, excludeSemantics: true, child: frame());
+    }
+    // One node for TalkBack: the row's words, button or switch, and the tap.
+    return Semantics(
+      container: true,
+      button: toggled == null,
+      toggled: toggled,
+      label: semanticsLabel,
+      onTap: () {
+        mmFireHaptic(context, MmPressHaptic.selection);
+        tap();
+      },
+      excludeSemantics: semanticsLabel != null,
+      child: MmPressable(
+        pressedScale: 0.985,
+        focusRadius: BorderRadius.zero,
+        haptic: MmPressHaptic.selection,
+        highlight: true,
+        onTap: tap,
+        builder: (context, pressed, _) => frame(),
       ),
     );
   }

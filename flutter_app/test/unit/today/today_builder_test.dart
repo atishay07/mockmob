@@ -495,9 +495,13 @@ void main() {
     test('no road copy or date names the CSAS rounds', () {
       final copy = File('lib/features/today/copy.dart').readAsStringSync();
       expect(copy, isNot(contains('CSAS')));
-      expect(copy, isNot(contains('Round 1')));
-      expect(TodayCopy.ladderCaption(null), 'Last year${String.fromCharCode(39)}s DU closing scores, unreserved');
-      expect(TodayCopy.ladderCaption('OBC'), 'Last year${String.fromCharCode(39)}s DU closing scores, OBC');
+      // The road ends at the exam window: no stop names a counselling round. The colleges'
+      // caption does name its source ("Round 1 minimum, 2026"), which is not a stop.
+      for (final stop in buildRoad(ashaInputs())!.stops) {
+        expect('${stop.title} ${stop.when} ${stop.note ?? ''}', isNot(contains('Round')), reason: stop.title);
+      }
+      expect(TodayCopy.ladderCaption(null), 'Round 1 minimum, 2026, unreserved');
+      expect(TodayCopy.ladderCaption('OBC'), 'Round 1 minimum, 2026, OBC');
       final dates = File('lib/core/domain/cuet_dates.dart').readAsStringSync();
       expect(dates, isNot(contains('CSAS')));
       expect(dates.toLowerCase(), isNot(contains('counselling')));

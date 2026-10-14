@@ -39,10 +39,10 @@ class ProgrammeRow extends StatelessWidget {
     final collegesLine = group.hasCutoffs ? ToolsCopy.colleges(group.colleges) : ToolsCopy.noCutoffList;
     final v = roundOneVerdict(group, category, score);
     final label = [group.name, collegesLine, ?range, if (verdict.secondary) ToolsCopy.secondaryNote, ?v?.$1].join('. ');
-    return RowFrame(
+    return ToolsRowFrame(
       onTap: onTap,
       semanticsLabel: label,
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 14, MmSpace.s12, 14),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s16, 14),
       child: Row(
         children: [
           Expanded(
@@ -89,10 +89,10 @@ class NearRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final gaps = [for (final g in verdict.nearest?.gaps ?? const <DuGap>[]) duDescribeGap(g, catalog)].join(', ');
-    return RowFrame(
+    return ToolsRowFrame(
       onTap: onTap,
       semanticsLabel: '${verdict.group.name}. Not open yet. $gaps',
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 12, MmSpace.s12, 12),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s20, 12, MmSpace.s16, 12),
       child: Row(
         children: [
           Expanded(

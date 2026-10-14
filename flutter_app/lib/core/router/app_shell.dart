@@ -15,6 +15,11 @@ import 'routes.dart';
 /// Shows the dot on Review. The default is false; the result module or the app root overrides it.
 final reviewDotProvider = Provider<bool>((ref) => false);
 
+/// The open session the dock's Start can resume (its id), or null. A new id makes Start breathe
+/// twice. Null by default, so a shell under test never opens the session journal; `main.dart`
+/// wires it to [resumeDraftProvider].
+final dockResumeKeyProvider = Provider<Object?>((ref) => null);
+
 /// Published when the student taps the tab they are already on, so that tab's screen can scroll
 /// to the top. A fresh [serial] marks a new tap.
 class TabReselectEvent {
@@ -127,6 +132,7 @@ class _AppShellState extends ConsumerState<AppShell> {
       onStart: _onStart,
       showReviewDot: ref.watch(reviewDotProvider),
       compact: _compact,
+      startBreatheKey: ref.watch(dockResumeKeyProvider),
     );
     if (covered) dock = GlassScope(quality: GlassQuality.lite, child: dock);
 

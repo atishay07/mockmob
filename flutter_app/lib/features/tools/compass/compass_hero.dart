@@ -77,12 +77,7 @@ class CompassHero extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MonumentalNumber(
-                  value: '$open',
-                  unit: 'of ${s.total}',
-                  style: type.figure,
-                  semanticsLabel: '$open of ${s.total}',
-                ),
+                ToolsNumber(value: '$open', unit: 'of ${s.total}', semanticsLabel: '$open of ${s.total}'),
                 const SizedBox(height: MmSpace.s8),
                 Text(ToolsCopy.programmesOpen, style: type.labelLarge),
                 const SizedBox(height: 2),

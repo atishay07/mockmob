@@ -7,7 +7,7 @@
 import 'du_models.dart';
 
 const Map<String, String> duCategoryLabels = {
-  'UR': 'Unreserved (UR)',
+  'UR': 'Unreserved',
   'OBC-NCL': 'OBC-NCL',
   'SC': 'SC',
   'ST': 'ST',
@@ -228,7 +228,7 @@ DuSeatStatus duSeatStatus(double score, DuSeat seat, int categoryIndex) {
   if (cleared(0)) return const DuSeatStatus(DuSeatStatusId.r1, 'Clears Round I');
   if (cleared(1)) return const DuSeatStatus(DuSeatStatusId.r2, 'Clears Round II');
   if (cleared(2)) return const DuSeatStatus(DuSeatStatusId.r3, 'Clears Round III');
-  return const DuSeatStatus(DuSeatStatusId.below, 'Below last year');
+  return const DuSeatStatus(DuSeatStatusId.below, 'Below Round 1, 2026');
 }
 
 /// One Bulletin combination checked against the student's subjects.

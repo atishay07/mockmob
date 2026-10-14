@@ -25,7 +25,7 @@ Future<void> showSourcesSheet(BuildContext context, List<DuDocument> sources) {
             Text(ToolsCopy.sourcesLead, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s12),
             for (final s in sources)
-              RowFrame(
+              ToolsRowFrame(
                 padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
                 semanticsLabel: '${s.title}. ${s.use}. Opens in the browser',
                 onTap: () {

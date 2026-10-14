@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../core/motion/motion.dart';
 import '../copy.dart';
 import '../data/review_providers.dart';
 import '../widgets/page_header.dart';
@@ -40,28 +41,43 @@ class RecordScreen extends ConsumerWidget {
         primary: StateAction(ReviewCopy.recordEmptyAction, () => context.go(AppRoutes.review)),
       );
     } else {
-      body = ListView(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Icon(LucideIcons.smartphone, size: 16, color: colors.ink2),
+      // The page arrives with its route: the note first, then the thread, in order.
+      body = MmStagger(
+        driver: MmStaggerDriver.route,
+        child: ListView(
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, pad.bottom + MmSpace.s32),
+          children: [
+            MmStaggerItem(
+              index: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Icon(LucideIcons.smartphone, size: 16, color: colors.ink2),
+                      ),
+                      const SizedBox(width: MmSpace.s8),
+                      Expanded(
+                        child: Text(ReviewCopy.onThisPhone, style: type.small.copyWith(color: colors.ink2)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: MmSpace.s8),
+                  Text(ReviewCopy.checksGate, style: type.small.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmRhythm.group),
+                ],
               ),
-              const SizedBox(width: MmSpace.s8),
-              Expanded(
-                child: Text(ReviewCopy.onThisPhone, style: type.small.copyWith(color: colors.ink2)),
+            ),
+            for (var i = 0; i < entries.length; i++)
+              MmStaggerItem(
+                index: i + 1,
+                child: RecordEntry(item: entries[i], clock: clock, first: i == 0, last: i == entries.length - 1),
               ),
-            ],
-          ),
-          const SizedBox(height: MmSpace.s8),
-          Text(ReviewCopy.checksGate, style: type.small.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s24),
-          for (var i = 0; i < entries.length; i++)
-            RecordEntry(item: entries[i], clock: clock, first: i == 0, last: i == entries.length - 1),
-        ],
+          ],
+        ),
       );
     }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/formatters.dart' show categoryWords;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -235,7 +236,7 @@ class _RailPainter extends CustomPainter {
 String displayCollege(String college) =>
     college.contains('Women') ? college.replaceAll(' (W)', '').trim() : college;
 
-/// The category chip above the ladder ("Showing UR"), which opens the category list.
+/// The category chip above the ladder ("Showing unreserved"), which opens the category list.
 class CategoryChip extends StatelessWidget {
   const CategoryChip({super.key, required this.category, required this.onTap});
 
@@ -248,6 +249,7 @@ class CategoryChip extends StatelessWidget {
     final type = context.mmType;
     return MmPressable(
       semanticsLabel: '${OnboardingCopy.showing(category)}. Change category',
+      haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -276,7 +278,14 @@ class CategoryChip extends StatelessWidget {
   }
 }
 
-/// The category list, in a glass sheet. Returns the chosen category.
+/// A category as a chip says it: the student's words, capitalised ("Unreserved", "OBC"). The
+/// sheet still returns the code.
+String categoryChipLabel(String category) {
+  final words = categoryWords(category);
+  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
+}
+
+/// The category list, in a glass sheet. Returns the chosen category (the code).
 Future<String?> showCategorySheet(BuildContext context, String current) {
   return showMmSheet<String>(
     context: context,
@@ -291,7 +300,7 @@ Future<String?> showCategorySheet(BuildContext context, String current) {
           spacing: MmSpace.s8,
           children: [
             for (final c in DuCatalog.categories)
-              MmChip(label: c, selected: c == current, onTap: () => Navigator.of(context).pop(c)),
+              MmChip(label: categoryChipLabel(c), selected: c == current, onTap: () => Navigator.of(context).pop(c)),
           ],
         ),
       ],

@@ -36,6 +36,7 @@ class LedgerHero extends StatelessWidget {
     final net = l.net;
     final a = insights.accuracy;
     final counts = SheetCounts.of(l.right, l.wrong, l.blank);
+    final haptics = mmHapticsOf(context);
     return LitEdge(
       glow: true,
       child: FakeGlass(
@@ -59,7 +60,15 @@ class LedgerHero extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: MonumentalNumber(value: '${a.pct}', unit: '%', style: type.figureHero, semanticsLabel: '${a.pct} percent of answered questions right'),
+                      child: MonumentalNumber(
+                        value: '${a.pct}',
+                        unit: '%',
+                        style: type.figureHero,
+                        semanticsLabel: '${a.pct} percent of answered questions right',
+                        // The roll lands after the page has arrived, with one tick.
+                        delay: const Duration(milliseconds: 260),
+                        onLanded: () => haptics?.selection(),
+                      ),
                     )
                   else
                     _SparseCard(answered: l.right + l.wrong),

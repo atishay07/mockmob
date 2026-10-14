@@ -11,9 +11,16 @@ import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 
-/// Records where Mobi was asked to point.
+/// Records where Mobi was asked to point, and what he was asked to play.
 class _RecordingMobi extends MobiController {
   final List<Offset> points = [];
+  final List<MobiAct> acts = [];
+
+  @override
+  void play(MobiAct act) {
+    acts.add(act);
+    super.play(act);
+  }
 
   @override
   void pointAt(Offset globalPoint) {
@@ -64,6 +71,23 @@ void main() {
     final start = find.byWidgetPredicate((w) => w is KeyButton && w.label == OnboardingCopy.startNow);
     expect(mobi.points.length, greaterThan(before));
     expect(mobi.points.last, offsetMoreOrLessEquals(tester.getCenter(start), epsilon: 0.5));
+  });
+
+  testWidgets('with no touch for 1.2 s Mobi nudges at the start key, once', (tester) async {
+    final mobi = await pump(tester, student);
+    expect(mobi.acts, isNot(contains(MobiAct.nudge)));
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(mobi.acts.where((a) => a == MobiAct.nudge), hasLength(1));
+    await tester.pump(const Duration(seconds: 3));
+    expect(mobi.acts.where((a) => a == MobiAct.nudge), hasLength(1), reason: 'one nudge per visit');
+  });
+
+  testWidgets('a finger landing first means no nudge', (tester) async {
+    final mobi = await pump(tester, student);
+    final gesture = await tester.startGesture(tester.getTopLeft(find.byType(SingleChildScrollView)) + const Offset(2, 2));
+    await gesture.up();
+    await tester.pump(const Duration(seconds: 2));
+    expect(mobi.acts, isNot(contains(MobiAct.nudge)));
   });
 
   testWidgets('a Physics-only student is offered practice, in plain words', (tester) async {

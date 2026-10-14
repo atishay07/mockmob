@@ -1,6 +1,6 @@
 // "The road to May" as plain values: the weeks to the expected CUET window, the stops on the way
 // (registration, boards, the exam window: every date comes from CuetDates), and the student's
-// dream ladder with last year's closing scores. The road ends with the exam window: from 1 May
+// dream ladder with its Round 1 minimum scores (2026). The road ends with the exam window: from 1 May
 // 2027 the window is open, and once it closes the card is gone. Calendar arithmetic and the
 // student's own choices only: no projections of marks or chances.
 import '../../../core/domain/cuet_dates.dart';

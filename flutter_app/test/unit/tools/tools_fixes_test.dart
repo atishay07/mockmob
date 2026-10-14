@@ -15,7 +15,6 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
-import 'package:mockmob/features/you/widgets/you_row.dart' show YouPanel;
 import 'package:mockmob/features/tools/compass/compass_controller.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/cutoff_table.dart';
@@ -90,7 +89,7 @@ void main() {
       expect(find.text('Not listed'), findsNothing);
       expect(find.text(ToolsCopy.proNoCutoff), findsNothing);
       expect(find.text(ToolsCopy.proNeedsFull), findsNothing);
-      expect(find.descendant(of: find.byType(YouPanel), matching: find.byType(SkeletonGroup)), findsWidgets);
+      expect(find.descendant(of: find.byType(MmRowGroup), matching: find.byType(SkeletonGroup)), findsWidgets);
     });
 
     testWidgets('when the cutoffs fail to load a row says so and offers Try again', (tester) async {

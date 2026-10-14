@@ -219,6 +219,8 @@ class _PlaybookRow extends StatelessWidget {
       onTap: () => unawaited(context.push<void>(AppRoutes.result(attemptId))),
       semanticsLabel: '$label ${InsightsCopy.openSession}',
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       builder: (context, pressed, _) => ConstrainedBox(constraints: const BoxConstraints(minHeight: MmTarget.min), child: row),
     );
   }

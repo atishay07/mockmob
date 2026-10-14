@@ -386,13 +386,10 @@ class _Ask extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s8),
         ],
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.sunken,
-            borderRadius: MmRadius.panelAll,
-            border: Border.all(color: colors.line),
-          ),
-          child: Padding(
+        // The examples sit in one sunken well (no outline): they arrive in order, once, on the
+        // shared stagger, after the glass has opened. Under reduced motion they are just there.
+        MmStagger(
+          child: MmSurface.inset(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
             child: Column(
               children: [
@@ -411,16 +408,16 @@ class _Ask extends StatelessWidget {
                           body: NotificationsCopy.exampleResultBody,
                         )
                 else ...[
-                  StaggerIn(
+                  const MmStaggerItem(
                     index: 0,
-                    child: const NotificationPreview(
+                    child: NotificationPreview(
                       icon: LucideIcons.clipboardCheck,
                       channel: NotificationsCopy.exampleResultChannel,
                       body: NotificationsCopy.exampleResultBody,
                     ),
                   ),
                   const _PreviewRule(),
-                  StaggerIn(
+                  MmStaggerItem(
                     index: 1,
                     child: NotificationPreview(
                       icon: LucideIcons.wrench,
@@ -429,7 +426,7 @@ class _Ask extends StatelessWidget {
                     ),
                   ),
                   const _PreviewRule(),
-                  StaggerIn(
+                  MmStaggerItem(
                     index: 2,
                     child: NotificationPreview(
                       icon: LucideIcons.clock,

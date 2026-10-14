@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'core/art/subject_emblem.dart' show SubjectEmblem;
 import 'core/permissions/permission_requester.dart';
 import 'core/repositories/repositories.dart';
 import 'core/router/app_shell.dart';
@@ -29,6 +30,8 @@ Future<void> _start() async {
   _installErrorHandling();
   // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
   SkeletonGroup.shimmerByDefault = true;
+  // Animated subject emblems drift in the app; tests keep the static default so screens settle.
+  SubjectEmblem.idleEnabled = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   // The saved glass quality, so a saved Lite or Off is right on the first frame.
   final glass = await GlassBoot.read(AppPrefs(SharedPrefsStore()));
@@ -38,12 +41,14 @@ Future<void> _start() async {
       // The Review tab dot follows results that arrived but have not been opened.
       overrides: [
         glassBootProvider.overrideWithValue(glass),
-        // Start's "Repair the next mistake" opens tonight's first mistake (one pick for Today,
-        // Review and Start).
+        // Start's "Repair the next mistake" opens the ten-minute run from tonight's first mistake
+        // (one pick for Today, Review and Start; the launcher's 10-min repair opens the same).
         quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
         // Start's NTA row follows Practice's quote for the student's practice subject.
         quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
         reviewDotProvider.overrideWith((ref) => ref.watch(hasUnopenedResultProvider)),
+        // The dock's Start breathes when a session can be resumed.
+        dockResumeKeyProvider.overrideWith((ref) => ref.watch(resumeDraftProvider)?.sessionId),
         // Module 11: the Android 13 notification permission.
         permissionRequesterProvider.overrideWith((ref) => ref.watch(androidPermissionRequesterProvider)),
       ],

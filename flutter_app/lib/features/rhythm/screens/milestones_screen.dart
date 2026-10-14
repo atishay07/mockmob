@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/models/rhythm.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/theme/theme.dart';
@@ -21,6 +23,7 @@ import '../logic/milestone_tracks.dart';
 import '../logic/milestone_progress.dart';
 import '../widgets/rhythm_page.dart';
 import '../widgets/medal.dart';
+import '../widgets/proud_mobi.dart';
 import '../widgets/milestone_track_card.dart';
 
 class MilestoneRowData {
@@ -133,44 +136,48 @@ class MilestoneTimeline extends StatelessWidget {
     final mobiLine = none ? RhythmCopy.milestonesMobiEmpty : (all ? RhythmCopy.milestonesMobiComplete : null);
     final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
     final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _Summary(tracks: tracks, landed: landed, total: total),
-        if (asOf != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
-            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
-          ),
-        if (mobiLine != null)
-          Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s16),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Mobi(
-                pose: all ? MobiPose.celebrating : MobiPose.pointing,
-                size: 72,
-                motion: all ? MobiMotion.hop : MobiMotion.settle,
-                say: mobiLine,
+    // One entrance as the page arrives: the summary, Mobi at the ends, then each path in order.
+    return MmStagger(
+      driver: MmStaggerDriver.route,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MmStaggerItem(index: 0, child: _Summary(tracks: tracks, landed: landed, total: total)),
+          if (asOf != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
+              child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+            ),
+          if (mobiLine != null)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: all
+                    ? ProudMobi(size: 72, say: mobiLine)
+                    : Mobi(pose: MobiPose.pointing, size: 72, motion: MobiMotion.settle, say: mobiLine),
               ),
             ),
-          ),
-        for (var k = 0; k < tracks.length; k++) ...[
-          const SizedBox(height: MmSpace.s32),
-          Divider(height: 1, thickness: 1, color: colors.line),
-          const SizedBox(height: MmSpace.s32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: MilestoneTrackCard(
-              track: tracks[k],
-              dateOf: (d) => formatAchievedDate(d, zone, now),
-              progress: progress,
-              freshIds: freshIds,
-              onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+          for (var k = 0; k < tracks.length; k++) ...[
+            const SizedBox(height: MmSpace.s32),
+            Divider(height: 1, thickness: 1, color: colors.line),
+            const SizedBox(height: MmSpace.s32),
+            MmStaggerItem(
+              index: k + 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: MilestoneTrackCard(
+                  track: tracks[k],
+                  dateOf: (d) => formatAchievedDate(d, zone, now),
+                  progress: progress,
+                  freshIds: freshIds,
+                  onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }
@@ -178,7 +185,7 @@ class MilestoneTimeline extends StatelessWidget {
 /// "3 of 9 landed" as a monumental figure over nine small coins grouped by path, so the shape of
 /// the whole shows at a glance. The coins are brass when the server dated the step and rings when
 /// it did not.
-class _Summary extends StatelessWidget {
+class _Summary extends ConsumerWidget {
   const _Summary({required this.tracks, required this.landed, required this.total});
 
   final List<TrackView> tracks;
@@ -186,7 +193,7 @@ class _Summary extends StatelessWidget {
   final int total;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.only(left: 4),
@@ -198,6 +205,8 @@ class _Summary extends StatelessWidget {
             unit: RhythmCopy.ofLanded(total),
             style: type.figure.copyWith(fontSize: 72, height: 66 / 72),
             semanticsLabel: RhythmCopy.landedSummary(landed, total),
+            delay: Motion.enterDuration,
+            onLanded: () => ref.read(hapticsProvider).selection(),
           ),
           const SizedBox(height: MmSpace.s16),
           // Nine coins, as large as the width allows (up to 30 dp), grouped 3 | 4 | 2 with a plain gap.
@@ -237,11 +246,10 @@ class _MilestoneSkeleton extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Skeleton.line(width: 240),
-        SizedBox(height: 28),
-        Skeleton.line(width: 200),
-        SizedBox(height: 28),
-        Skeleton.line(width: 220),
+        // The summary figure, then a path's trail: a coin, its step name and what lands it.
+        Skeleton.line(width: 96, height: 56),
+        SizedBox(height: MmRhythm.group),
+        MmSkeletonRows(rows: 4),
       ],
     );
   }

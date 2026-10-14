@@ -6,7 +6,6 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import 'mistake_map.dart' show MistakeBar;
-import 'review_bits.dart';
 
 /// "3 of 12 repaired": how many of the mistakes found so far are repaired, read from the index
 /// and nothing else. The bar beside it is the map's own: one segment per mistake, volt where
@@ -96,7 +95,7 @@ class NoTonightCard extends StatelessWidget {
       if (inUnopenedResult) ReviewCopy.noTonightUnopened,
     ];
     final offer = this.offer;
-    return SolidPanel(
+    return MmSurface.plain(
       padding: const EdgeInsets.all(MmSpace.cardPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

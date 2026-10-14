@@ -21,6 +21,7 @@ import '../logic/week_view.dart';
 import 'rhythm_page.dart';
 import '../logic/plan_week.dart';
 import 'plan_week_strip.dart';
+import 'proud_mobi.dart';
 import 'run_ribbon.dart';
 import 'week_dial.dart';
 
@@ -76,70 +77,102 @@ class RhythmBody extends StatelessWidget {
     final ribbon = ribbonWeeks(rhythm, week);
     final goal = snapshot.goal?.daysPerWeek ?? rhythm.daysGoal;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (snapshot.stale && snapshot.fetchedAt != null) ...[
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-            child: Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.caption.copyWith(color: colors.ink3)),
-          ),
-        ],
-        if (errorText != null) ...[
-          InlineBanner(message: errorText!, tone: BannerTone.error),
-          const SizedBox(height: MmSpace.s12),
-        ],
-        if (savedText != null) ...[
-          Padding(padding: const EdgeInsets.only(left: 4), child: ReceiptLine(text: savedText!)),
-          const SizedBox(height: MmSpace.s12),
-        ],
-        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan),
-        const SizedBox(height: MmSpace.s40),
-        // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
-        // a run there is one plain line (never a zero).
-        const SectionTitle(RhythmCopy.runTitle),
-        _RunStats(rhythm: rhythm, note: note),
-        if (ribbon.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s16),
-          RunRibbon(weeks: ribbon),
-        ],
-        const SizedBox(height: MmSpace.s40),
-        const SectionTitle(RhythmCopy.planTitle),
-        YouPanel(
-          margin: EdgeInsets.zero,
-          inset: MmSpace.gutter,
-          children: [
-            _SettingRow(label: RhythmCopy.goalLabel, value: RhythmCopy.goalValue(goal), onTap: busy ? null : onEditGoal),
-            _SettingRow(
-              label: RhythmCopy.studyDaysLabel,
-              value: plan == null || plan!.isEmpty
-                  ? RhythmCopy.studyDaysNotSet
-                  : plan!.length == 7
-                      ? RhythmCopy.everyDay
-                      : joinWithAnd([for (final d in plan!.toList()..sort()) weekdayNames[d].substring(0, 3)]),
-              onTap: busy ? null : onEditGoal,
+    // One authored entrance as the page arrives (route driver): this week first, then the run,
+    // the plan, the pause and the celebrations in reading order. Nothing moves once it is up.
+    return MmStagger(
+      driver: MmStaggerDriver.route,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (snapshot.stale && snapshot.fetchedAt != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+              child: Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.caption.copyWith(color: colors.ink3)),
             ),
           ],
-        ),
-        if (!rhythmOff) ...[
-          const SizedBox(height: MmSpace.s40),
-          _PauseGroup(
-            paused: week.status == WeekStatus.paused,
-            busy: busy,
-            onThisWeek: onPauseThisWeek,
-            onTwoWeeks: onPauseTwoWeeks,
-            onUntilOn: onPauseUntilOn,
-            onResume: onResume,
+          if (errorText != null) ...[
+            InlineBanner(message: errorText!, tone: BannerTone.error),
+            const SizedBox(height: MmRhythm.item),
+          ],
+          if (savedText != null) ...[
+            Padding(padding: const EdgeInsets.only(left: 4), child: ReceiptLine(text: savedText!)),
+            const SizedBox(height: MmRhythm.item),
+          ],
+          MmStaggerItem(index: 0, child: rhythmOff ? _OffPanel(onTurnOn: onTurnOn) : WeekHero(week: week, plan: plan)),
+          const SizedBox(height: MmRhythm.section),
+          // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
+          // a run there is one plain line (never a zero).
+          MmStaggerItem(
+            index: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SectionTitle(RhythmCopy.runTitle),
+                _RunStats(rhythm: rhythm, note: note),
+                if (ribbon.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s16),
+                  RunRibbon(weeks: ribbon),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: MmRhythm.section),
+          MmStaggerItem(
+            index: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SectionTitle(RhythmCopy.planTitle),
+                YouPanel(
+                  margin: EdgeInsets.zero,
+                  inset: MmSpace.gutter,
+                  children: [
+                    _SettingRow(label: RhythmCopy.goalLabel, value: RhythmCopy.goalValue(goal), onTap: busy ? null : onEditGoal),
+                    _SettingRow(
+                      label: RhythmCopy.studyDaysLabel,
+                      value: plan == null || plan!.isEmpty
+                          ? RhythmCopy.studyDaysNotSet
+                          : plan!.length == 7
+                              ? RhythmCopy.everyDay
+                              : joinWithAnd([for (final d in plan!.toList()..sort()) weekdayNames[d].substring(0, 3)]),
+                      onTap: busy ? null : onEditGoal,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          if (!rhythmOff) ...[
+            const SizedBox(height: MmRhythm.section),
+            MmStaggerItem(
+              index: 3,
+              child: _PauseGroup(
+                paused: week.status == WeekStatus.paused,
+                busy: busy,
+                onThisWeek: onPauseThisWeek,
+                onTwoWeeks: onPauseTwoWeeks,
+                onUntilOn: onPauseUntilOn,
+                onResume: onResume,
+              ),
+            ),
+          ],
+          const SizedBox(height: MmRhythm.section),
+          MmStaggerItem(
+            index: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SectionTitle(RhythmCopy.celebrationsTitle),
+                CelebrationsPicker(mode: mode, onMode: onMode),
+                if (!rhythmOff) ...[
+                  const SizedBox(height: MmRhythm.group),
+                  FlushQuietKey(label: RhythmCopy.turnOff, onPressed: onTurnOff),
+                ],
+              ],
+            ),
           ),
         ],
-        const SizedBox(height: MmSpace.s40),
-        const SectionTitle(RhythmCopy.celebrationsTitle),
-        CelebrationsPicker(mode: mode, onMode: onMode),
-        if (!rhythmOff) ...[
-          const SizedBox(height: MmSpace.s24),
-          FlushQuietKey(label: RhythmCopy.turnOff, onPressed: onTurnOff),
-        ],
-      ],
+      ),
     );
   }
 }
@@ -210,7 +243,7 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
                 ),
                 WeekDial(done: week.studyDays, goal: week.goal, size: 188, paused: paused),
                 if (week.met)
-                  const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.celebrating, size: 76, motion: MobiMotion.hop))
+                  const Align(alignment: Alignment(1, 0.95), child: ProudMobi(size: 76))
                 else if (paused)
                   const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.rest, size: 72)),
               ],
@@ -307,7 +340,7 @@ class _RunStats extends StatelessWidget {
   }
 }
 
-class _Stat extends StatelessWidget {
+class _Stat extends ConsumerWidget {
   const _Stat({required this.value, required this.label, required this.semantics});
 
   final String value;
@@ -315,7 +348,7 @@ class _Stat extends StatelessWidget {
   final String semantics;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     return Semantics(
@@ -327,7 +360,13 @@ class _Stat extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(value, style: type.figure.copyWith(fontSize: 56, height: 54 / 56)),
+            // Rolls in after the screen has arrived and ticks once where it lands.
+            MonumentalNumber(
+              value: value,
+              style: type.figure.copyWith(fontSize: 56, height: 54 / 56),
+              delay: Motion.enterDuration,
+              onLanded: () => ref.read(hapticsProvider).selection(),
+            ),
             const SizedBox(height: MmSpace.s4),
             Text(label, style: type.caption.copyWith(color: colors.ink2)),
           ],

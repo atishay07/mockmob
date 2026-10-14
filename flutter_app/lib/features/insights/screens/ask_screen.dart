@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,7 +51,19 @@ class AskScreen extends ConsumerStatefulWidget {
 class _AskScreenState extends ConsumerState<AskScreen> {
   late final TextEditingController _text = TextEditingController(text: widget.seed);
   final ScrollController _scroll = ScrollController();
+  /// Mobi in the header, once there is a conversation.
   final MobiController _mobi = MobiController();
+
+  /// Mobi on the stage before the first message. A second controller: the stage's pending
+  /// lines and acts must never replay on the header Mobi.
+  final MobiController _stageMobi = MobiController();
+
+  /// The lead prompt tile and the follow-up rail, so Mobi can glance at what is new.
+  final GlobalKey _leadTileKey = GlobalKey();
+  final GlobalKey _railKey = GlobalKey();
+  Timer? _glanceTimer;
+  bool _stageGlanced = false;
+  bool _railShown = false;
 
   /// How many messages were already there when this screen opened or have since settled: those
   /// appear at once; later ones arrive with motion.
@@ -69,7 +83,9 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   void dispose() {
     _text.dispose();
     _scroll.dispose();
+    _glanceTimer?.cancel();
     _mobi.dispose();
+    _stageMobi.dispose();
     super.dispose();
   }
 
@@ -155,6 +171,15 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       ..showSnackBar(SnackBar(content: Text(line), behavior: SnackBarBehavior.floating));
   }
 
+  /// Mobi looks at something that has just arrived (a prompt, the follow-ups), once the
+  /// arriving content has settled into place.
+  void _glanceAt(MobiController who, GlobalKey key, {Duration after = const Duration(milliseconds: 700)}) {
+    _glanceTimer?.cancel();
+    _glanceTimer = Timer(after, () {
+      if (mounted) who.glanceAtWidget(key);
+    });
+  }
+
   void _toEnd() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) _scroll.animateTo(_scroll.position.maxScrollExtent, duration: const Duration(milliseconds: 240), curve: Curves.easeOutCubic);
@@ -228,6 +253,19 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 
     void sendPrompt(AskPrompt p) => _send(p.text);
 
+    // Mobi glances at the first prompt tile as the prompts arrive, and at the follow-ups when a
+    // reply brings new ones. Once each; the glance is a look, not a loop.
+    if (!conversation && !_stageGlanced) {
+      _stageGlanced = true;
+      _glanceAt(_stageMobi, _leadTileKey, after: const Duration(milliseconds: 1400));
+    }
+    if (followUps.isNotEmpty && !_railShown) {
+      _railShown = true;
+      _glanceAt(_mobi, _railKey, after: const Duration(milliseconds: 800));
+    } else if (followUps.isEmpty) {
+      _railShown = false;
+    }
+
     return Scaffold(
       backgroundColor: colors.ground,
       resizeToAvoidBottomInset: true,
@@ -294,7 +332,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                 if (followUps.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                    child: RiseIn(delay: const Duration(milliseconds: 500), dy: 8, child: FollowUpRail(prompts: followUps, onTap: sendPrompt)),
+                    child: RiseIn(
+                      key: _railKey,
+                      delay: const Duration(milliseconds: 500),
+                      dy: 8,
+                      child: FollowUpRail(prompts: followUps, onTap: sendPrompt),
+                    ),
                   ),
                 _Composer(
                   controller: _text,
@@ -305,7 +348,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                   // Mobi leans in to listen while the student types, and stands at ease after.
                   onFocusChange: (focused) {
                     if (!mounted || ref.read(askControllerProvider).busy) return;
-                    _mobi.play(focused ? MobiAct.listen : MobiAct.idle);
+                    // Whichever Mobi is on screen: the stage's before the first message, the
+                    // header's once there is a conversation.
+                    final who = ref.read(askControllerProvider).messages.isEmpty ? _stageMobi : _mobi;
+                    who.play(focused ? MobiAct.listen : MobiAct.idle);
                   },
                 ),
               ],
@@ -326,7 +372,13 @@ class _AskScreenState extends ConsumerState<AskScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(child: RiseIn(delay: d(ms), child: PromptTile(prompt: a, lead: lead, onTap: () => send(a)))),
+              Expanded(
+                child: RiseIn(
+                  key: lead ? _leadTileKey : null,
+                  delay: d(ms),
+                  child: PromptTile(prompt: a, lead: lead, onTap: () => send(a)),
+                ),
+              ),
               const SizedBox(width: MmSpace.s12),
               Expanded(child: RiseIn(delay: d(ms + 70), child: PromptTile(prompt: b, onTap: () => send(b)))),
             ],
@@ -335,6 +387,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     return [
       Center(
         child: MobiStage(
+          controller: _stageMobi,
           size: 132,
           say: InsightsCopy.askGreeting(name, ready ? record.sessions : null),
           semanticLabel: 'Mobi',

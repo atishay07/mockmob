@@ -19,24 +19,6 @@ enum MmArt {
   mobiRead('mobi-read'),
   emptyAllClear('empty-allclear', fallback: MmArt.mobiRead),
   emptyOffline('empty-offline', fallback: MmArt.mobiSleepy),
-  objAccountancy('obj-accountancy'),
-  objBusiness('obj-business'),
-  objEconomics('obj-economics'),
-  objEnglish('obj-english'),
-  objGeneralTest('obj-generaltest'),
-  objMathematics('obj-mathematics'),
-  objPhysics('obj-physics'),
-  objChemistry('obj-chemistry'),
-  objBiology('obj-biology'),
-  objHistory('obj-history'),
-  objPoliticalScience('obj-politicalscience'),
-  objGeography('obj-geography'),
-  objPsychology('obj-psychology'),
-  objSociology('obj-sociology'),
-  objComputerScience('obj-computerscience'),
-
-  /// The open notebook: the language papers and every subject without its own object.
-  objLanguage('obj-language'),
   tokenFirstMock('token-first-mock'),
   tokenFirstRepair('token-first-repair'),
   tokenHeld('token-held');
@@ -47,32 +29,6 @@ enum MmArt {
   final MmArt? fallback;
 
   String get asset => 'assets/art/$file.webp';
-
-  /// The rendered object for a subject id (public or internal, as `GET /api/subjects` and the
-  /// attempts send them). Every subject has one: the 15 practice subjects their own, the
-  /// languages and the subjects MockMob does not offer the open notebook. Null only for no id.
-  static MmArt? subjectObject(String? subjectId) {
-    final id = subjectId?.trim().toLowerCase() ?? '';
-    if (id.isEmpty) return null;
-    return switch (id) {
-      'accountancy' => objAccountancy,
-      'business_studies' || 'business' => objBusiness,
-      'economics' => objEconomics,
-      'english' => objEnglish,
-      'general_test' || 'gat' => objGeneralTest,
-      'mathematics' || 'applied_mathematics' || 'maths' => objMathematics,
-      'physics' => objPhysics,
-      'chemistry' => objChemistry,
-      'biology' => objBiology,
-      'history' => objHistory,
-      'political_science' => objPoliticalScience,
-      'geography' => objGeography,
-      'psychology' => objPsychology,
-      'sociology' => objSociology,
-      'computer_science' => objComputerScience,
-      _ => objLanguage,
-    };
-  }
 }
 
 /// Shows an [MmArt] image, decoded at the size it is drawn, falling back to [MmArt.fallback] and

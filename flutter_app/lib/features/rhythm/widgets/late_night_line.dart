@@ -15,7 +15,7 @@ import '../logic/dates.dart';
 import '../logic/late_night.dart';
 
 /// The late-night line (spec 6.8) for the end of a finished session. It shows only when the
-/// "Late-night lines" setting is on, the student's own clock is between 11 PM and 7 AM, and it
+/// "Late-night lines" setting is on, the student's own clock is between 11 PM and 5 AM, and it
 /// has not been shown yet tonight. The night is remembered the moment the line appears, so it
 /// never repeats. It can be dismissed and never blocks anything.
 class LateNightLine extends ConsumerStatefulWidget {

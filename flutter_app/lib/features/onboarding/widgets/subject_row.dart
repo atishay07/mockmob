@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/art/art.dart';
+import '../../../core/art/subject_emblem.dart' show SubjectEmblem;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -148,36 +148,14 @@ class SubjectLine extends StatelessWidget {
 }
 
 /// A subject's code-drawn emblem standing on its own light, its volt mark inked once the subject
-/// is on the sheet ([marked]). [ghost] greys the shared raster object for a subject MockMob does
-/// not offer yet.
+/// is on the sheet ([marked]).
 class SubjectObject extends StatelessWidget {
-  const SubjectObject({super.key, required this.id, this.size = 40, this.ghost = false, this.marked = false});
+  const SubjectObject({super.key, required this.id, this.size = 40, this.marked = false});
 
   final String id;
   final double size;
-  final bool ghost;
   final bool marked;
 
   @override
-  Widget build(BuildContext context) {
-    if (!ghost) return SubjectEmblem(subject: id, size: size, framed: false, marked: marked);
-    final colors = context.mmColors;
-    final art = MmArt.subjectObject(id) ?? MmArt.objLanguage;
-    return SizedBox.square(
-      dimension: size,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: RadialGradient(
-            center: const Alignment(-0.3, -0.5),
-            colors: [colors.lamp.withValues(alpha: ghost ? 0.04 : (colors.isNight ? 0.16 : 0.12)), colors.lamp.withValues(alpha: 0)],
-          ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(size * 0.06),
-          child: ArtImage(art, height: size * 0.88, ghost: ghost, opacity: ghost ? 0.7 : null),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SubjectEmblem(subject: id, size: size, framed: false, marked: marked);
 }

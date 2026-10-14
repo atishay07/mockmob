@@ -35,6 +35,8 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
           semanticsLabel: '${LearnCopy.untaughtHeading}. ${LearnCopy.untaughtCount(widget.chapters.length)}. '
               '${_open ? LearnCopy.hideChapters : LearnCopy.showChapters}',
           focusRadius: MmRadius.panelAll,
+          haptic: MmPressHaptic.selection,
+          highlight: true,
           onTap: () => setState(() => _open = !_open),
           builder: (context, pressed, _) => ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),

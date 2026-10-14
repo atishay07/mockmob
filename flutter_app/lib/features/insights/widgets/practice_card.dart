@@ -207,8 +207,9 @@ class _RevealState extends State<_Reveal> with SingleTickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Mobi reacts beside the verdict: a cheer for a right answer, a small shrug
-                  // for a wrong one. The stream is untimed, so a reaction never distracts a mock.
+                  // Mobi reacts beside the verdict: a nod for a right answer, a lean in with warm
+                  // eyes for a wrong one. The stream is untimed, so a reaction never distracts a
+                  // mock, and the face does not follow taps.
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -219,7 +220,12 @@ class _RevealState extends State<_Reveal> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(width: MmSpace.s8),
-                      MobiCharacter(size: 44, entrance: right ? MobiAct.cheer : MobiAct.oops, seed: 31 + q.id.hashCode % 7),
+                      MobiFace(
+                        size: 44,
+                        entrance: MobiMoments.act(right ? MobiEvent.rightAnswer : MobiEvent.wrongAnswer),
+                        watchTaps: false,
+                        seed: 31 + q.id.hashCode % 7,
+                      ),
                     ],
                   ),
                   const SizedBox(height: MmSpace.s12),

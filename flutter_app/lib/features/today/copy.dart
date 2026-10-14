@@ -217,9 +217,10 @@ abstract final class TodayCopy {
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';
   static const String weekNeedsOutOfReach = 'This week: the goal is out of reach. Each study day still goes on the sheet.';
-  /// The scale ("of 1000") is on every row, so the caption names only the year and the category;
-  /// it stays on one line instead of leaving "1000" alone on a second.
-  static String ladderCaption(String? category) => 'Last year\'s DU closing scores, ${categoryWords(category)}';
+  /// The scale ("of 1000") is on every row, so the caption names only the source and the
+  /// category; it stays on one line instead of leaving "1000" alone on a second. The figures are
+  /// the 2026 Round 1 minimum allocation scores, and the caption says so in plain words.
+  static String ladderCaption(String? category) => 'Round 1 minimum, 2026, ${categoryWords(category)}';
 
   /// A college-portal category in words a student says (the shared mapping in core).
   static String categoryWords(String? category) => fmt.categoryWords(category);
@@ -227,7 +228,7 @@ abstract final class TodayCopy {
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
   static const String changeColleges = 'Change';
-  static const String ladderEmpty = 'Pick up to three colleges and see where each one closed last year.';
+  static const String ladderEmpty = 'Pick up to three colleges and see where each one closed in Round 1, 2026.';
 
   // Why this sheet.
   static const String whyTitle = 'Why this';

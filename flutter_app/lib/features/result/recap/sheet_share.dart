@@ -143,6 +143,8 @@ class SheetKeepsakeRow extends StatelessWidget {
       onTap: onTap,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       semanticsLabel: ResultCopy.shareSheet,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 124),

@@ -70,42 +70,44 @@ class ResultQuestionRow extends StatelessWidget {
     final header = Semantics(
       expanded: expanded,
       child: MmPressable(
-      onTap: onToggle,
-      semanticsLabel: [
-        '${PracticeCopy.questionNumber(item.number)}, $_status',
-        ?item.chapter,
-        if (time != null) ResultCopy.timeSemantics(time!),
-        if (changed) ResultCopy.answerChanged,
-      ].join(', '),
-      focusRadius: MmRadius.keyAll,
-      pressedScale: 0.985,
-      builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 60),
-        child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
-        child: Row(
-          children: [
-            QuestionStrip(cells: [item.cell], columns: 1, cellSize: 22, gap: 0),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('${PracticeCopy.questionNumber(item.number)}, $_status', style: type.cardTitle.copyWith(fontSize: 16)),
-                  if (item.chapter != null) Text(item.chapter!, style: type.small.copyWith(color: colors.ink2)),
-                  if (time != null || changed)
-                    Text(
-                      [if (time != null) ResultCopy.timeOn(time!), if (changed) ResultCopy.answerChanged].join(', '),
-                      style: type.caption.copyWith(color: colors.ink3),
-                    ),
-                ],
-              ),
+        onTap: onToggle,
+        semanticsLabel: [
+          '${PracticeCopy.questionNumber(item.number)}, $_status',
+          ?item.chapter,
+          if (time != null) ResultCopy.timeSemantics(time!),
+          if (changed) ResultCopy.answerChanged,
+        ].join(', '),
+        focusRadius: MmRadius.keyAll,
+        pressedScale: 0.985,
+        haptic: MmPressHaptic.selection,
+        highlight: true,
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 60),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
+            child: Row(
+              children: [
+                QuestionStrip(cells: [item.cell], columns: 1, cellSize: 22, gap: 0),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${PracticeCopy.questionNumber(item.number)}, $_status', style: type.cardTitle.copyWith(fontSize: 16)),
+                      if (item.chapter != null) Text(item.chapter!, style: type.small.copyWith(color: colors.ink2)),
+                      if (time != null || changed)
+                        Text(
+                          [if (time != null) ResultCopy.timeOn(time!), if (changed) ResultCopy.answerChanged].join(', '),
+                          style: type.caption.copyWith(color: colors.ink3),
+                        ),
+                    ],
+                  ),
+                ),
+                ExcludeSemantics(child: Icon(expanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3)),
+              ],
             ),
-            ExcludeSemantics(child: Icon(expanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3)),
-          ],
+          ),
         ),
-      ),
-      ),
       ),
     );
 
@@ -314,7 +316,12 @@ class _Letter extends StatelessWidget {
         color: inked ? colors.volt : (wrong ? colors.wrongBorder : Colors.transparent),
         border: Border.all(color: inked ? colors.volt : (wrong ? colors.wrongBorder : colors.lineStrong), width: 1.5),
       ),
-      child: Text(letter, style: context.mmType.label.copyWith(color: inked ? colors.voltInk : (wrong ? (colors.isNight ? colors.wrongText : colors.wrongSurface) : colors.ink2))),
+      child: Text(
+        letter,
+        style: context.mmType.label.copyWith(
+          color: inked ? colors.voltInk : (wrong ? (colors.isNight ? colors.wrongText : colors.wrongSurface) : colors.ink2),
+        ),
+      ),
     );
   }
 }
@@ -360,7 +367,10 @@ class OptionLine extends StatelessWidget {
       child: DecoratedBox(
         decoration: ShapeDecoration(
           color: fill,
-          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: border, width: marked ? 1.5 : 1)),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: MmRadius.keyAll,
+            side: BorderSide(color: border, width: marked ? 1.5 : 1),
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s12),

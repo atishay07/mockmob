@@ -6,6 +6,7 @@ import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../core/motion/motion.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
@@ -60,28 +61,72 @@ class MistakesScreen extends ConsumerWidget {
         if (g.onlyStage(MistakeStage.repaired) case final r?) repaired.add(r);
         if (g.onlyStage(MistakeStage.setAside) case final a?) setAside.add(a);
       }
-      body = ListView(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
-        children: [
-          if (inputs.attempts.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s12)],
-          if (open.isNotEmpty) ...[
-            SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
-            RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
-            const SizedBox(height: MmSpace.s12),
-            MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups)),
+      // The page arrives with its route: the map first, then what is closed, in reading order.
+      body = MmStagger(
+        driver: MmStaggerDriver.route,
+        child: ListView(
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, pad.bottom + MmSpace.s32),
+          children: [
+            if (inputs.attempts.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmRhythm.item)],
+            if (open.isNotEmpty)
+              MmStaggerItem(
+                index: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
+                    RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
+                    const SizedBox(height: MmRhythm.item),
+                    MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups)),
+                  ],
+                ),
+              ),
+            if (repaired.isNotEmpty)
+              MmStaggerItem(
+                index: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: MmRhythm.section),
+                    const SectionHeading(ReviewCopy.repaired),
+                    MistakeMap(
+                      groups: repaired,
+                      clock: clock,
+                      onOpen: openRepair,
+                      scaleTo: mapScaleOf(index.groups),
+                      showSubject: spansSubjects(index.groups) || open.isEmpty,
+                    ),
+                  ],
+                ),
+              ),
+            if (setAside.isNotEmpty)
+              MmStaggerItem(
+                index: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: MmRhythm.section),
+                    const SectionHeading(ReviewCopy.setAsideHeading),
+                    MistakeMap(
+                      groups: setAside,
+                      clock: clock,
+                      onOpen: openRepair,
+                      scaleTo: mapScaleOf(index.groups),
+                      showSubject: spansSubjects(index.groups) || open.isEmpty,
+                    ),
+                  ],
+                ),
+              ),
+            if (index.blanks case final blanks?)
+              MmStaggerItem(
+                index: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: MmRhythm.group),
+                  child: NotAttemptedGroup(group: blanks),
+                ),
+              ),
           ],
-          if (repaired.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.group),
-            const SectionHeading(ReviewCopy.repaired),
-            MistakeMap(groups: repaired, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups), showSubject: spansSubjects(index.groups) || open.isEmpty),
-          ],
-          if (setAside.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.group),
-            const SectionHeading(ReviewCopy.setAsideHeading),
-            MistakeMap(groups: setAside, clock: clock, onOpen: openRepair, scaleTo: mapScaleOf(index.groups), showSubject: spansSubjects(index.groups) || open.isEmpty),
-          ],
-          if (index.blanks case final blanks?) ...[const SizedBox(height: MmSpace.s24), NotAttemptedGroup(group: blanks)],
-        ],
+        ),
       );
     }
 

@@ -96,8 +96,12 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   /// Any submit, however it started, is shown on the submit page.
   void onSubmitStage() {
     if (!mounted || _submitOpen || holdSubmitPage || session.submitState.value.stage == SubmitStage.idle) return;
+    final path = GoRouter.of(context).routerDelegate.currentConfiguration.uri.path;
     // Opened straight on `/run/:id/submit` (a restart, a deep link): the page is already up.
-    if (GoRouter.of(context).routerDelegate.currentConfiguration.uri.path.endsWith('/submit')) return;
+    if (path.endsWith('/submit')) return;
+    // The student already left this session (the submit page sent them to Today or Practice):
+    // a runner still being built under the departing page must not pop or push anything.
+    if (path != AppRoutes.run(session.sessionId)) return;
     final route = ModalRoute.of(context);
     if (route != null && !route.isCurrent) {
       // A sheet, drawer or page (the palette, the leave guard) is open over the runner.

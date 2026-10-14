@@ -245,7 +245,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             // The untimed question stream (the website's Explore), full screen over the dock.
             page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.fade, root: true),
-            page('result/:attemptId', practiceResultScreen, root: true),
+            page('result/:attemptId', practiceResultScreen, transition: MmTransition.rise, root: true),
           ]),
         ]),
         StatefulShellBranch(routes: [
@@ -255,15 +255,16 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('insights', reviewInsightsScreen),
             page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.
-            page('repair/:attemptId/ending', reviewRepairEndingScreen, root: true),
+            page('repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
             page('repair/:attemptId/:questionId', reviewRepairScreen, root: true),
           ]),
         ]),
       ],
     ),
 
-    // You: pushed from the avatar on every tab root, over the dock.
-    page(AppRoutes.you, youScreen, root: true, routes: [
+    // You: rises from the avatar on every tab root, over the dock (a focus page, not a step
+    // sideways). Its own pages push across from it.
+    page(AppRoutes.you, youScreen, transition: MmTransition.rise, root: true, routes: [
       page('goal', youGoalScreen, root: true),
       page('rhythm', youRhythmScreen, root: true),
       page('notifications', youNotificationsScreen, root: true),
@@ -317,10 +318,11 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       page('submit', runSubmitScreen, transition: MmTransition.fade, root: true),
     ]),
 
-    // Result and recap.
-    page('/result/:attemptId', resultScreen, root: true, routes: [
-      page('sealed', resultSealedScreen, root: true),
-      page('recap/:card', resultRecapScreen, root: true),
+    // Result and recap: focus pages that rise into place (results, endings and You rise; steps
+    // sideways push).
+    page('/result/:attemptId', resultScreen, transition: MmTransition.rise, root: true, routes: [
+      page('sealed', resultSealedScreen, transition: MmTransition.rise, root: true),
+      page('recap/:card', resultRecapScreen, transition: MmTransition.rise, root: true),
     ]),
 
     sheet(AppRoutes.permissionsNotifications, permissionsNotificationsScreen, footer: permissionsNotificationsFooter),

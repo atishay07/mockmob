@@ -135,6 +135,9 @@ class EntryRow extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: note == null ? title : '$title, $note',
       pressedScale: 0.98,
+      focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(

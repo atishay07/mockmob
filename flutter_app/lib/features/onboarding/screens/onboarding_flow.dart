@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/domain/next_move.dart' show isLateNight;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
@@ -224,13 +225,16 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     }
     if (!_inDeck) {
       final filled = kOnboardingDeck.sheetSteps.where((s) => answers.isDone(s.id)).length;
+      // The phone's own clock: before sign-in, the student's local time is the phone's.
+      final now = ref.watch(nowProvider)();
       final error = sheet.hasError ? _c.readError : null;
       return Scaffold(
         backgroundColor: colors.ground,
         body: WelcomeView(
           returning: loaded != null && answers.started && answers.step != null,
           filled: filled,
-          lateNight: _isLate(ref.watch(nowProvider)()),
+          lateNight: isLateNight(now),
+          entrance: MobiMoments.entranceAt(now),
           // Loading only while a read is in flight: a failed read leaves the key tappable.
           pending: _startWhenLoaded && sheet.isLoading,
           notice: switch (error?.failure) {
@@ -325,9 +329,6 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   /// The question is the calm work layer and the save step shows the sealed sheet itself, so
   /// neither has the sheet above; the plan flips its own copy.
-  /// 11 PM to 4 AM.
-  static bool _isLate(DateTime now) => now.hour >= 23 || now.hour < 4;
-
   bool _showsSheet(DeckStep step) => switch (step.kind) {
         StepKind.reveal || StepKind.firstMove || StepKind.check || StepKind.account => false,
         _ => true,

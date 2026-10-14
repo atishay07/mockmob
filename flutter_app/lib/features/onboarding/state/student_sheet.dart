@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/auth/auth.dart' show authSnapshotProvider;
+import '../../../core/copy/formatters.dart' show categoryWords;
 import '../data/calendar.dart';
 import '../data/du_catalog.dart';
 import '../data/subjects.dart';
@@ -41,8 +42,8 @@ class StudentSheet {
           if (course?.offeringAt(name) case final o?) SheetCollege(name: o.college, short: o.short, score: o.scoreFor(answers.category)),
       ];
 
-  /// Label for the college figures: "Last year's DU closing scores, UR, out of 1000".
-  String get collegeSource => '${DuCatalog.source}, ${answers.category}, out of ${DuCatalog.scale}';
+  /// Label for the college figures: "Round 1 minimum, 2026, unreserved, out of 1000".
+  String get collegeSource => '${DuCatalog.source}, ${categoryWords(answers.category)}, out of ${DuCatalog.scale}';
   String get category => answers.category;
 
   /// The subjects, weakest first, with how solid each felt.

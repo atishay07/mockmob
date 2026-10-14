@@ -51,7 +51,15 @@ class ResultListController extends ChangeNotifier {
 /// The per-question rows in three groups: wrong answers, not attempted, and correct. The two
 /// groups that need attention are always open; the correct group is one tap away.
 class ResultList extends StatelessWidget {
-  const ResultList({super.key, required this.model, required this.controller, required this.keyFor, this.saveFor, this.reportFor, this.analysis});
+  const ResultList({
+    super.key,
+    required this.model,
+    required this.controller,
+    required this.keyFor,
+    this.saveFor,
+    this.reportFor,
+    this.analysis,
+  });
 
   final PracticeResultModel model;
   final ResultListController controller;
@@ -146,22 +154,13 @@ class ResultPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < children.length; i++) ...[
-              if (i > 0) Divider(height: 1, thickness: 1, color: colors.line),
-              children[i],
-            ],
-          ],
-        ),
+    return MmSurface.plain(
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < children.length; i++) ...[if (i > 0) Divider(height: 1, thickness: 1, color: colors.line), children[i]],
+        ],
       ),
     );
   }
@@ -183,6 +182,8 @@ class _CorrectHeader extends StatelessWidget {
       semanticsLabel: PracticeCopy.sectionCorrect(count),
       focusRadius: MmRadius.keyAll,
       pressedScale: 0.985,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       builder: (_, _, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
         child: Padding(

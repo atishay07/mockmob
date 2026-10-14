@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/art/art.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/connectivity/connectivity.dart';
 import '../../core/models/practice_quote.dart';
@@ -46,6 +47,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   PracticeQuote? _lastFull;
   PracticeQuote? _lastSmart;
   PracticeQuote? _lastNta;
+
+  // The page stages one entrance when it first opens (MmStagger). The modes deck waits for the
+  // blocks above it that once; a deck that rises again for a new subject does not wait at all.
+  bool _entered = false;
+  static const int _deckSlot = 5;
 
   @override
   void dispose() {
@@ -104,6 +110,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
 
     final bottom = MediaQuery.paddingOf(context).bottom;
     const gutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
+    final deckDelay = _entered ? Duration.zero : Motion.staggerStep * _deckSlot;
+    _entered = true;
 
     return Scaffold(
       backgroundColor: colors.ground,
@@ -116,132 +124,155 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                child: ListView(
-                  controller: _scroll,
-                  padding: EdgeInsets.only(top: MmSpace.s8, bottom: bottom + MmSpace.s32),
-                  children: [
-                    const Padding(
-                      padding: gutter,
-                      child: TabRootHeader(title: PracticeCopy.tabTitle),
-                    ),
-                    const SizedBox(height: MmSpace.s16),
-                    if (offline) ...[
-                      const Padding(
-                        padding: gutter,
-                        child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
+                // One authored entrance, in reading order: the header, the suggestion, the subjects,
+                // the subject line, then the modes deck (its own rows) and the shelves.
+                child: MmStagger(
+                  child: ListView(
+                    controller: _scroll,
+                    padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: bottom + MmSpace.s32),
+                    children: [
+                      const MmStaggerItem(
+                        index: 0,
+                        child: Padding(
+                          padding: gutter,
+                          child: TabRootHeader(title: PracticeCopy.tabTitle),
+                        ),
                       ),
                       const SizedBox(height: MmSpace.s16),
-                    ],
-                    if (stale.isNotEmpty) ...[
+                      if (offline) ...[
+                        const Padding(
+                          padding: gutter,
+                          child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
+                        ),
+                        const SizedBox(height: MmSpace.s16),
+                      ],
+                      if (stale.isNotEmpty) ...[
+                        Padding(
+                          padding: gutter,
+                          child: StaleSubjectsBanner(entries: stale),
+                        ),
+                        const SizedBox(height: MmSpace.s16),
+                      ],
+                      const MmStaggerItem(
+                        index: 1,
+                        child: Padding(padding: gutter, child: SuggestionHero()),
+                      ),
+                      const SizedBox(height: MmRhythm.section),
+                      MmStaggerItem(
+                        index: 2,
+                        child: Padding(
+                          padding: gutter,
+                          child: SectionHeading(
+                            title: PracticeCopy.chooseOwn,
+                            action: PracticeCopy.editSubjects,
+                            onAction: () => openEditSubjects(context),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: MmRhythm.item),
+                      MmStaggerItem(
+                        index: 3,
+                        child: SubjectTiles(
+                          choices: choices,
+                          selectedId: subject,
+                          countFor: (id) => counts?[internalSubjectFor(id, catalog)],
+                          onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
+                          onMore: others.isEmpty ? null : () => _pickOther(others),
+                        ),
+                      ),
+                      const SizedBox(height: MmSpace.s16),
+                      // One list entry for the subject line and the modes, so the modes are built
+                      // with the subject line even when the page is long (large text, short phone).
                       Padding(
                         padding: gutter,
-                        child: StaleSubjectsBanner(entries: stale),
-                      ),
-                      const SizedBox(height: MmSpace.s16),
-                    ],
-                    const Padding(padding: gutter, child: SuggestionHero()),
-                    const SizedBox(height: MmSpace.group + MmSpace.s8),
-                    Padding(
-                      padding: gutter,
-                      child: SectionHeading(
-                        title: PracticeCopy.chooseOwn,
-                        action: PracticeCopy.editSubjects,
-                        onAction: () => openEditSubjects(context),
-                      ),
-                    ),
-                    const SizedBox(height: MmSpace.s12),
-                    SubjectTiles(
-                      choices: choices,
-                      selectedId: subject,
-                      countFor: (id) => counts?[internalSubjectFor(id, catalog)],
-                      onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
-                      onMore: others.isEmpty ? null : () => _pickOther(others),
-                    ),
-                    const SizedBox(height: MmSpace.s16),
-                    // One list entry for the subject line and the modes, so the modes are built
-                    // with the subject line even when the page is long (large text, short phone).
-                    Padding(
-                      padding: gutter,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _SubjectLine(
-                            subjectId: subject,
-                            name: subjectNameFor(subject, catalog),
-                            questions: counts?[internalSubjectFor(subject, catalog)],
-                          ),
-                          const SizedBox(height: MmSpace.s12),
-                          ChoiceDeck(
-                            // Keyed by subject, so a new subject's deck rises in again: the modes
-                            // below visibly belong to the subject just picked.
-                            key: ValueKey('modes-$subject'),
-                            bleed: MmSpace.gutter,
-                            rows: [
-                              ChoiceRow.pair(
-                                ChoiceOption(
-                                  id: 'quick',
-                                  glyph: ChoiceGlyphKind.quick,
-                                  title: PracticeCopy.quickTitle,
-                                  note: PracticeCopy.quickLine,
-                                  onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
-                                ),
-                                ChoiceOption(
-                                  id: 'chapter',
-                                  glyph: ChoiceGlyphKind.chapter,
-                                  title: PracticeCopy.chapterTitle,
-                                  note: PracticeCopy.chapterLine,
-                                  onTap: () => _chapter(subject),
-                                ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            MmStaggerItem(
+                              index: 4,
+                              child: _SubjectLine(
+                                subjectId: subject,
+                                name: subjectNameFor(subject, catalog),
+                                questions: counts?[internalSubjectFor(subject, catalog)],
                               ),
-                              if (showSmart)
-                                ChoiceRow.wide(
+                            ),
+                            const SizedBox(height: MmRhythm.item),
+                            ChoiceDeck(
+                              startDelay: deckDelay,
+                              // Keyed by subject, so a new subject's deck rises in again: the modes
+                              // below visibly belong to the subject just picked.
+                              key: ValueKey('modes-$subject'),
+                              bleed: MmSpace.gutter,
+                              rows: [
+                                ChoiceRow.pair(
                                   ChoiceOption(
-                                    id: 'smart',
-                                    glyph: ChoiceGlyphKind.smart,
-                                    title: PracticeCopy.smartTitle,
-                                    tag: smartGated ? PracticeCopy.proTag : null,
-                                    note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
-                                    onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
+                                    id: 'quick',
+                                    glyph: ChoiceGlyphKind.quick,
+                                    title: PracticeCopy.quickTitle,
+                                    note: PracticeCopy.quickLine,
+                                    onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                                  ),
+                                  ChoiceOption(
+                                    id: 'chapter',
+                                    glyph: ChoiceGlyphKind.chapter,
+                                    title: PracticeCopy.chapterTitle,
+                                    note: PracticeCopy.chapterLine,
+                                    onTap: () => _chapter(subject),
                                   ),
                                 ),
-                              ChoiceRow.band(
-                                title: PracticeCopy.examBandTitle,
-
-                                rows: [
-                                  _examRow(
-                                    full: ChoiceOption(
-                                      id: 'full',
-                                      glyph: ChoiceGlyphKind.mock,
-                                      title: PracticeCopy.fullMockTitle,
-                                      note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
-                                      onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                                if (showSmart)
+                                  ChoiceRow.wide(
+                                    ChoiceOption(
+                                      id: 'smart',
+                                      glyph: ChoiceGlyphKind.smart,
+                                      title: PracticeCopy.smartTitle,
+                                      tag: smartGated ? PracticeCopy.proTag : null,
+                                      note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
+                                      onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
                                     ),
-                                    nta: showNta
-                                        ? ChoiceOption(
-                                            id: 'nta',
-                                            glyph: ChoiceGlyphKind.nta,
-                                            title: PracticeCopy.ntaTitle,
-                                            tag: ntaGated ? PracticeCopy.proTag : null,
-                                            note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
-                                            // The exam's own instructions page: the clock starts only after it.
-                                            onTap: () => context.push(NtaRoutes.location(subject)),
-                                          )
-                                        : null,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                ChoiceRow.band(
+                                  title: PracticeCopy.examBandTitle,
+
+                                  rows: [
+                                    _examRow(
+                                      full: ChoiceOption(
+                                        id: 'full',
+                                        glyph: ChoiceGlyphKind.mock,
+                                        title: PracticeCopy.fullMockTitle,
+                                        note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
+                                        onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                                      ),
+                                      nta: showNta
+                                          ? ChoiceOption(
+                                              id: 'nta',
+                                              glyph: ChoiceGlyphKind.nta,
+                                              title: PracticeCopy.ntaTitle,
+                                              tag: ntaGated ? PracticeCopy.proTag : null,
+                                              note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
+                                              // The exam's own instructions page: the clock starts only after it.
+                                              onTap: () => context.push(NtaRoutes.location(subject)),
+                                            )
+                                          : null,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: MmSpace.group),
-                    Padding(
-                      padding: gutter,
-                      child: PracticeMoreRows(subject: subject),
-                    ),
-                    const ConceptsShelf(),
-                  ],
+                      const SizedBox(height: MmSpace.group),
+                      MmStaggerItem(
+                        index: 6,
+                        child: Padding(
+                          padding: gutter,
+                          child: PracticeMoreRows(subject: subject),
+                        ),
+                      ),
+                      const ConceptsShelf(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -278,7 +309,7 @@ class _SubjectLine extends StatelessWidget {
         excludeSemantics: true,
         child: Row(
           children: [
-            SubjectGlyphTile(subjectId, size: 28),
+            SubjectEmblem(subject: subjectId, size: 32, framed: false),
             const SizedBox(width: MmSpace.s8),
             Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge)),
             if (questions != null) ...[

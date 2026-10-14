@@ -29,7 +29,7 @@ final _lateNight = DateTime.utc(2026, 10, 12, 18);
 final _afternoon = DateTime.utc(2026, 10, 12, 8, 30);
 
 void main() {
-  testWidgets('shows once between 11 PM and 7 AM, then not again that night', (tester) async {
+  testWidgets('shows once between 11 PM and 5 AM, then not again that night', (tester) async {
     final store = MemoryPrefsStore();
     await tester.pumpWidget(_host(_lateNight, store: store));
     await tester.pumpAndSettle();

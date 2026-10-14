@@ -66,11 +66,14 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return ResultCopy.effort(m.monthMockCount, firstInSubject: m.variant == RecapVariant.firstMock, subject: m.subjectName);
   }
 
+  /// The first full mock is a milestone the server has marked: Mobi stands proud (stretches tall,
+  /// mittens on hips, three glints). A higher result cheers. A lower or held result gets the
+  /// encouraging nod, never a frown and never a celebration.
   MobiPose get _mobiPose => switch (m.variant) {
-    RecapVariant.firstMock => MobiPose.greet,
+    RecapVariant.firstMock => MobiPose.proud,
     RecapVariant.higher => MobiPose.cheer,
     RecapVariant.standard => MobiPose.rest,
-    RecapVariant.lower || RecapVariant.held => MobiPose.point,
+    RecapVariant.lower || RecapVariant.held => MobiPose.encourage,
   };
 
   int get _mistakes {

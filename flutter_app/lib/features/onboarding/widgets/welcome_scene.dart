@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
-/// The welcome room, drawn in code: a desk lamp in the top corner pouring a cone of warm light
-/// onto a desk, and one row of answer bubbles on the desk's edge that ink in turn. Mobi stands on
+/// The welcome room, drawn in code: a desk lamp in the top corner that clicks on as the room
+/// opens (a catch of the filament, then full light in 360 ms) and pours a cone of warm light onto
+/// a desk, and one row of answer bubbles on the desk's edge that ink in turn. Mobi stands on
 /// the desk, large, and is the picture (placed by the welcome screen). Nothing here is a picture, so it
 /// is sharp at any size, follows the theme, and costs one paint.
 class WelcomeScene extends StatefulWidget {
@@ -19,10 +20,9 @@ class WelcomeScene extends StatefulWidget {
 }
 
 class _WelcomeSceneState extends State<WelcomeScene> with SingleTickerProviderStateMixin {
-  late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
-
-  /// The sheet starts inking once Mobi has landed and begun his hello.
-  late final Animation<double> _inking = CurvedAnimation(parent: _ink, curve: const Interval(0.25, 1));
+  /// The scene's one clock: the lamp comes on over its first 360 ms, then the bubble inks once
+  /// Mobi has landed and begun his hello.
+  late final AnimationController _ink = AnimationController(vsync: this, duration: WelcomeScenePainter.length);
 
   @override
   void didChangeDependencies() {
@@ -46,7 +46,7 @@ class _WelcomeSceneState extends State<WelcomeScene> with SingleTickerProviderSt
     final palette = ScenePalette.of(context.mmColors);
     return RepaintBoundary(
       child: CustomPaint(
-        painter: WelcomeScenePainter(palette: palette, ink: _inking, deskAt: widget.deskAt),
+        painter: WelcomeScenePainter(palette: palette, clock: _ink, deskAt: widget.deskAt),
         child: const SizedBox.expand(),
       ),
     );
@@ -97,11 +97,31 @@ class ScenePalette {
 }
 
 class WelcomeScenePainter extends CustomPainter {
-  WelcomeScenePainter({required this.palette, required this.ink, required this.deskAt}) : super(repaint: ink);
+  WelcomeScenePainter({required this.palette, required this.clock, required this.deskAt}) : super(repaint: clock);
 
   final ScenePalette palette;
-  final Animation<double> ink;
+
+  /// 0 to 1 over [length]; at 1 (reduced motion, goldens) the room is lit and inked.
+  final Animation<double> clock;
   final double deskAt;
+
+  static const Duration length = Duration(milliseconds: 2000);
+
+  /// The lamp's first 360 ms of the clock.
+  static const double _lampOn = 0.18;
+
+  /// The bubble inks over the rest, after Mobi's hello has begun.
+  static const Interval _inking = Interval(0.25, 1);
+
+  /// How lit the lamp is at clock [t]: the filament catches (to 0.6 in 54 ms), dips once, then
+  /// the light rises to full on the emphasized curve. Never more than one flicker.
+  static double lampAt(double t) {
+    if (t >= _lampOn) return 1;
+    final x = (t / _lampOn).clamp(0.0, 1.0);
+    if (x < 0.15) return 0.6 * (x / 0.15);
+    if (x < 0.3) return 0.6 - 0.3 * ((x - 0.15) / 0.15);
+    return 0.3 + 0.7 * Motion.emphasized.transform((x - 0.3) / 0.7);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -109,7 +129,7 @@ class WelcomeScenePainter extends CustomPainter {
     final w = size.width, h = size.height;
     final deskY = h * deskAt;
     final p = palette;
-    final glow = p.night ? 1.0 : 0.7;
+    final glow = (p.night ? 1.0 : 0.7) * lampAt(clock.value);
 
     // The wall, lit from the lamp's corner.
     final bulb = Offset(w * 0.80, h * 0.17);
@@ -140,12 +160,13 @@ class WelcomeScenePainter extends CustomPainter {
         ).createShader(Rect.fromLTRB(0, coneTop, w, deskY)),
     );
 
-    _lamp(canvas, w, h, bulb);
+    _lamp(canvas, w, h, bulb, glow);
     _desk(canvas, size, deskY, glow);
     _sheet(canvas, w, h, deskY);
   }
 
-  void _lamp(Canvas canvas, double w, double h, Offset bulb) {
+  void _lamp(Canvas canvas, double w, double h, Offset bulb, double glow) {
+    final lit = glow / (palette.night ? 1.0 : 0.7);
     final p = palette;
     // The arm, coming in from off the top edge.
     canvas.drawPath(
@@ -183,14 +204,17 @@ class WelcomeScenePainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
-        ..color = p.lamp.withValues(alpha: 0.8),
+        ..color = p.lamp.withValues(alpha: 0.8 * lit),
     );
     final bulbRect = Rect.fromCenter(center: bulb.translate(0, h * 0.002), width: w * 0.2, height: h * 0.02);
+    if (lit <= 0) return;
     canvas.drawOval(
       bulbRect,
       Paint()
-        ..shader = RadialGradient(colors: [const Color(0xFFFFF4DA), p.lamp, p.lamp.withValues(alpha: 0)], stops: const [0, 0.45, 1])
-            .createShader(bulbRect),
+        ..shader = RadialGradient(
+          colors: [const Color(0xFFFFF4DA).withValues(alpha: lit), p.lamp.withValues(alpha: lit), p.lamp.withValues(alpha: 0)],
+          stops: const [0, 0.45, 1],
+        ).createShader(bulbRect),
     );
   }
 
@@ -234,7 +258,7 @@ class WelcomeScenePainter extends CustomPainter {
     final p = palette;
     const count = 5;
     final y = deskY + h * 0.115;
-    final progress = ink.value;
+    final progress = _inking.transform(clock.value);
     final ring = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
@@ -256,5 +280,5 @@ class WelcomeScenePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(WelcomeScenePainter old) => old.palette != palette || old.deskAt != deskAt || old.ink != ink;
+  bool shouldRepaint(WelcomeScenePainter old) => old.palette != palette || old.deskAt != deskAt || old.clock != clock;
 }

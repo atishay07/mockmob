@@ -61,17 +61,20 @@ String subjectDisplayName(String id) => switch (id) {
 };
 
 /// Where Start's "Repair the next mistake" goes: tonight's first mistake (the pick Today and
-/// Review make). Null hides the row. `main.dart` wires it to Review's index.
+/// Review make), opened as the ten-minute run. Null hides the row. `main.dart` wires it to
+/// Review's index.
 class QuickRepair {
   const QuickRepair({required this.location, required this.chapter, this.tenMinuteLocation});
 
+  /// The first mistake alone, with no count.
   final String location;
   final String chapter;
 
   /// The same first mistake with `count` set to what ten minutes holds, or null.
   final String? tenMinuteLocation;
 
-  /// Where the launcher's "10-min repair" opens: [tenMinuteLocation], else [location].
+  /// Where both Start's "Repair the next mistake" row and the launcher's "10-min repair" open:
+  /// [tenMinuteLocation], else [location].
   String get shortcutLocation => tenMinuteLocation ?? location;
 }
 
@@ -291,7 +294,10 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                                     : answered == null
                                     ? 'Pick up where you left off.'
                                     : 'Pick up at $answered of ${draft.view.questions.length}.',
-                                noteLines: 2,
+                                // The note keeps room for its longest form, so nothing moves when
+                                // the count lands. A mock's "Ends at 10:40 PM. 12 of 50 answered."
+                                // can run to three lines in the hero on a 360 dp phone.
+                                noteLines: draft.isMock ? 3 : 2,
                                 onTap: () => go(AppRoutes.run(draft.sessionId)),
                               ),
                             ChoiceOption(
@@ -322,7 +328,7 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                                 glyph: QuickStartDeck.glyphFor('repair'),
                                 title: 'Repair the next mistake',
                                 note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-                                onTap: () => go(repair.location),
+                                onTap: () => go(repair.shortcutLocation),
                               ),
                             // Never more than five choices: Ask gives way to a resume.
                             if (draft == null || nta == null || repair == null)

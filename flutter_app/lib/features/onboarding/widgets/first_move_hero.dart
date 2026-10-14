@@ -18,6 +18,8 @@ class FirstMoveHero extends StatelessWidget {
     required this.onLater,
     this.laterChosen = false,
     this.startKey,
+    this.numberDelay = Duration.zero,
+    this.onNumberLanded,
   });
 
   final FirstMove move;
@@ -31,7 +33,9 @@ class FirstMoveHero extends StatelessWidget {
   /// On the start key, so Mobi can point at it.
   final GlobalKey? startKey;
 
-  static const BorderRadius radius = MmRadius.panelAll;
+  /// The 10 rolls after the card has arrived, and [onNumberLanded] marks the landing (a tick).
+  final Duration numberDelay;
+  final VoidCallback? onNumberLanded;
 
   @override
   Widget build(BuildContext context) {
@@ -40,65 +44,57 @@ class FirstMoveHero extends StatelessWidget {
     final light = SubjectLight.forSubject(move.subject.id) ?? SubjectLight.accountancy;
     final later = move.laterLabel(now);
 
-    return LitEdge(
-      glow: true,
-      borderRadius: radius,
-      child: MmClip(
-        borderRadius: radius,
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: colors.raised),
-          child: Stack(
+    // The app's one hero surface (lamp, the subject's light, grain, edge light, volt lit edge),
+    // the same tier the student meets on Today next.
+    return MmSurface.hero(
+      lit: true,
+      light: light.of(Theme.of(context).brightness),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(move.subject.label, style: type.label.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmRhythm.item),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Positioned.fill(child: LightField.subject(context, light, center: const Alignment(0.7, -0.6))),
-              const Positioned.fill(child: Grain()),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(move.subject.label, style: type.label.copyWith(color: colors.ink2)),
-                    const SizedBox(height: MmSpace.s12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        MonumentalNumber(value: '${FirstMove.questions}', style: type.figureHero),
-                        const SizedBox(width: MmSpace.s12),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: MmSpace.s12),
-                            child: Text(move.unit, style: type.title.copyWith(fontSize: 20, height: 1.15)),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: MmSpace.s12),
-                    Text(OnboardingCopy.firstMoveChapter(move.chapter), style: type.body.copyWith(color: colors.ink2)),
-                    const SizedBox(height: 2),
-                    Text(move.framing, style: type.body.copyWith(color: colors.ink2)),
-                    const SizedBox(height: MmSpace.s20),
-                    KeyedSubtree(key: startKey, child: KeyButton(label: move.startLabel, onPressed: onStart)),
-                    const SizedBox(height: MmSpace.s8),
-                    if (laterChosen)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-                        child: Semantics(
-                          liveRegion: true,
-                          child: Text(
-                            OnboardingCopy.setFor(later),
-                            style: type.small.copyWith(color: colors.ink),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
-                    else
-                      KeyButton.secondary(label: later, onPressed: onLater),
-                  ],
+              MonumentalNumber(
+                value: '${FirstMove.questions}',
+                style: type.figureHero,
+                delay: numberDelay,
+                onLanded: onNumberLanded,
+              ),
+              const SizedBox(width: MmRhythm.item),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                  child: Text(move.unit, style: type.title.copyWith(fontSize: 20, height: 1.15)),
                 ),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: MmRhythm.item),
+          Text(OnboardingCopy.firstMoveChapter(move.chapter), style: type.body.copyWith(color: colors.ink2)),
+          const SizedBox(height: 2),
+          Text(move.framing, style: type.body.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s20),
+          KeyedSubtree(key: startKey, child: KeyButton(label: move.startLabel, onPressed: onStart)),
+          const SizedBox(height: MmSpace.s8),
+          if (laterChosen)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  OnboardingCopy.setFor(later),
+                  style: type.small.copyWith(color: colors.ink),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            )
+          else
+            KeyButton.secondary(label: later, onPressed: onLater),
+        ],
       ),
     );
   }

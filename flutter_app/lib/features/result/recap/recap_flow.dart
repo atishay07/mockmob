@@ -295,19 +295,42 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   }
 }
 
-/// Shown while the attempt is not known yet, or could not be read.
+/// Shown while the attempt is not known yet, or could not be read. Loading takes the shape of
+/// what will arrive: the folded sheet on the recap, the summary, the sheet and the answer rows on
+/// the full result ([page]).
 class RecapPlaceholder extends StatelessWidget {
-  const RecapPlaceholder({super.key, required this.data, required this.onRetry, required this.attemptId});
+  const RecapPlaceholder({super.key, required this.data, required this.onRetry, required this.attemptId, this.page = false});
 
   final RecapData data;
   final VoidCallback onRetry;
   final String attemptId;
 
+  /// The full result's shape instead of the sealed sheet's.
+  final bool page;
+
   @override
   Widget build(BuildContext context) {
     final error = data.error;
     final Widget body;
-    if (error == null) {
+    if (error == null && page) {
+      body = const SkeletonGroup(
+        label: ResultCopy.loading,
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              MmSkeletonCard(),
+              SizedBox(height: MmRhythm.group),
+              Center(child: Skeleton(width: 320, height: 220, radius: 10)),
+              SizedBox(height: MmRhythm.section),
+              MmSkeletonRows(rows: 4),
+            ],
+          ),
+        ),
+      );
+    } else if (error == null) {
       body = const Center(
         child: SkeletonGroup(label: ResultCopy.loading, child: Skeleton(width: 320, height: 420, radius: 12)),
       );

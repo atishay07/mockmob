@@ -54,9 +54,9 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
         SliverToBoxAdapter(child: CompassFeature(state: compass, greet: _firstOpen)),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s24),
-            child: YouPanel(
-              inset: 64,
+            padding: const EdgeInsets.only(top: MmRhythm.group),
+            child: ToolsPanel(
+              dividerIndent: ToolsLinkRow.dividerIndent,
               children: [
                 ToolRow(art: ToolArtKind.combo, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
                 ToolRow(art: ToolArtKind.guide, title: ToolsCopy.guideTitle, note: ToolsCopy.guideNote, onTap: () => context.push(ToolsPaths.guide2027)),
@@ -66,11 +66,11 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
         ),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s16),
-            child: YouPanel(
-              inset: 64,
+            padding: const EdgeInsets.only(top: MmRhythm.item),
+            child: ToolsPanel(
+              dividerIndent: ToolsLinkRow.dividerIndent,
               children: [
-                YouRow(
+                ToolsLinkRow(
                   icon: LucideIcons.bookOpen,
                   title: ToolsCopy.pyqTitle,
                   note: ToolsCopy.pyqNote,
@@ -78,7 +78,7 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
                   onTap: () => openWebPage(ref, ToolsPaths.pyqGuideWebPath),
                 ),
                 if (compass != null)
-                  YouRow(
+                  ToolsLinkRow(
                     icon: LucideIcons.fileText,
                     title: ToolsCopy.sourcesTitle,
                     note: ToolsCopy.sourcesNote,
@@ -88,7 +88,7 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
             ),
           ),
         ),
-        const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmSpace.s20)),
+        const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmRhythm.group)),
       ],
     );
   }
@@ -125,7 +125,7 @@ class CompassFeature extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s12),
           if (known) ...[
-            MonumentalNumber(value: '${s.eligible.length}', unit: 'of ${s.total}', style: type.figure, roll: false),
+            ToolsNumber(value: '${s.eligible.length}', unit: 'of ${s.total}', semanticsLabel: '${s.eligible.length} of ${s.total}'),
             const SizedBox(height: MmSpace.s8),
             Text(ToolsCopy.hubOpens(s.selection.count), style: type.body),
           ] else ...[

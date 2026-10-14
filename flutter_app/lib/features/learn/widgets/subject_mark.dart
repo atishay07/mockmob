@@ -1,36 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 
-/// The subject ids that have their own object art, and the language papers that share the open
-/// notebook. Anything else is a subject this build does not know yet: it gets its initials, never
-/// a borrowed object.
-const Set<String> _ownArt = {
-  'accountancy', 'business_studies', 'business', 'economics', 'english', 'general_test', 'gat',
-  'mathematics', 'applied_mathematics', 'maths', 'physics', 'chemistry', 'biology', 'history',
-  'political_science', 'geography', 'psychology', 'sociology', 'computer_science',
-};
-
-const Set<String> _languages = {
-  'hindi', 'sanskrit', 'bengali', 'tamil', 'telugu', 'kannada', 'malayalam', 'marathi', 'gujarati',
-  'odia', 'punjabi', 'assamese', 'urdu', 'french', 'german', 'spanish', 'japanese', 'russian',
-  'chinese', 'persian', 'arabic', 'italian', 'nepali', 'tibetan', 'sindhi', 'kashmiri', 'konkani',
-  'bodo', 'dogri', 'maithili', 'manipuri', 'santhali',
-};
-
-/// A subject id as the art table spells it: lower case, words joined by underscores.
-String normalSubjectId(String id) => id.trim().toLowerCase().replaceAll(RegExp(r'[\s-]+'), '_');
-
-/// The art for [subjectId], or null when this build has none for it.
-MmArt? learnSubjectArt(String subjectId) {
-  final id = normalSubjectId(subjectId);
-  if (_ownArt.contains(id) || _languages.contains(id)) return MmArt.subjectObject(id);
-  return null;
-}
-
-/// A subject's lamp-lit object at [size], with the subject's initials on a paper disc when this
-/// build has no art for the id or the file is missing. Decorative: the name sits beside it.
+/// A subject's drawn emblem at [size], with the subject's initials on a paper disc when this
+/// build has no emblem for the id. Decorative: the name sits beside it.
 class SubjectMark extends StatelessWidget {
   const SubjectMark({super.key, required this.subjectId, required this.name, this.size = 56});
 
@@ -40,12 +14,11 @@ class SubjectMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final art = learnSubjectArt(subjectId);
-    final monogram = SubjectMonogram(name: name, size: size);
+    final drawn = SubjectIdentity.of(subjectId)?.hasEmblem ?? false;
     return ExcludeSemantics(
       child: SizedBox.square(
         dimension: size,
-        child: art == null ? monogram : ArtImage(art, height: size, placeholder: monogram),
+        child: drawn ? SubjectEmblem(subject: subjectId, size: size, framed: false) : SubjectMonogram(name: name, size: size),
       ),
     );
   }

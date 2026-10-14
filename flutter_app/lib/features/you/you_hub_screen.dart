@@ -41,64 +41,14 @@ class YouHubScreen extends ConsumerStatefulWidget {
   ConsumerState<YouHubScreen> createState() => _YouHubScreenState();
 }
 
-class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerProviderStateMixin {
-  late final AnimationController _enter = AnimationController(vsync: this, duration: const Duration(milliseconds: 620));
-  bool _started = false;
+class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   bool _openFailed = false;
-
-  /// One staggered curve per block, made once: a curve attaches a listener to [_enter], so making
-  /// them in build would add five on every rebuild.
-  static const int _blocks = 5;
-  static const double _totalMs = 620;
-  late final List<CurvedAnimation> _rises = [
-    for (var i = 0; i < _blocks; i++)
-      () {
-        final start = (i * 60 / _totalMs).clamp(0.0, 0.6);
-        final end = (start + 300 / _totalMs).clamp(0.0, 1.0);
-        return CurvedAnimation(parent: _enter, curve: Interval(start, end, curve: Motion.glide));
-      }(),
-  ];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_started) return;
-    _started = true;
-    if (Motion.reduced(context)) {
-      _enter.value = 1;
-    } else {
-      _enter.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    for (final rise in _rises) {
-      rise.dispose();
-    }
-    _enter.dispose();
-    super.dispose();
-  }
 
   /// The website rows (only when no tools shelf is given): the page itself on www.mockmob.in,
   /// even though the ActionRouter now sends these paths to the native tools.
   Future<void> _openTool(String path) async {
     final ok = await ref.read(externalLinkOpenerProvider).open(Uri.https('www.mockmob.in', path));
     if (mounted) setState(() => _openFailed = !ok);
-  }
-
-  /// One block glides up 10 dp and fades in over 300 ms, each 60 ms after the one before. It
-  /// plays once when You opens and never again.
-  Widget _rise(int index, Widget child) {
-    final curve = _rises[index];
-    return FadeTransition(
-      opacity: curve,
-      child: AnimatedBuilder(
-        animation: curve,
-        builder: (context, child) => Transform.translate(offset: Offset(0, 10 * (1 - curve.value)), child: child),
-        child: child,
-      ),
-    );
   }
 
   SheetWeek _week(RhythmSnapshot snapshot, bool off) {
@@ -110,19 +60,16 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
       return SheetWeek.failed(() => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true));
     }
     final paused = week.status == WeekStatus.paused;
-    final days = [
-      for (final d in week.days) WeekBubbleDay(mark: d.studyDay ? WeekDayMark.done : WeekDayMark.open, isToday: d.isToday),
-    ];
+    final days = [for (final d in week.days) WeekBubbleDay(mark: d.studyDay ? WeekDayMark.done : WeekDayMark.open, isToday: d.isToday)];
     final note = paused ? week.label : (runNote(rhythm) ?? weeksInRhythmText(rhythm));
     final count = YouCopy.weekCount(week.studyDays, week.goal);
-    final study = [for (var i = 0; i < 7; i++) if (week.days[i].studyDay) weekdayNames[i]];
+    final study = [
+      for (var i = 0; i < 7; i++)
+        if (week.days[i].studyDay) weekdayNames[i],
+    ];
     final today = week.days.indexWhere((d) => d.isToday);
     return SheetWeek.ready(
-      planDays: planWeek(
-        studied: [for (final d in week.days) d.studyDay],
-        todayIndex: today < 0 ? null : today,
-        planned: ref.watch(studyDayPlanProvider),
-      ),
+      planDays: planWeek(studied: [for (final d in week.days) d.studyDay], todayIndex: today < 0 ? null : today, planned: ref.watch(studyDayPlanProvider)),
       days: days,
       count: count,
       done: week.studyDays,
@@ -161,47 +108,69 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                child: ListView(
-                  padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
-                      child: Row(
-                        children: [
-                          const BackKey(),
-                          const Spacer(),
-                          KeyButton.quiet(label: EditCopy.editSheet, semanticsLabel: EditCopy.editSheetLabel, onPressed: () => openYouPage(context, YouPaths.sheet)),
-                        ],
-                      ),
-                    ),
-                    const _ExpiredWorkNotice(),
-                    if (_openFailed)
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
-                        child: InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
-                      ),
-                    _rise(
-                      0,
+                child: MmStagger(
+                  driver: MmStaggerDriver.route,
+                  child: ListView(
+                    padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
+                    children: [
                       Padding(
-                        padding: youGutter,
-                        child: SheetCard(
-                          name: auth.name,
-                          email: auth.email,
-                          target: target,
-                          subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
-                          week: _week(snapshot, off),
-                          onOpenRhythm: () => context.push(AppRoutes.youRhythm),
-                          onEdit: () => openYouPage(context, YouPaths.sheet),
-                          onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+                        child: Row(
+                          children: [
+                            const BackKey(),
+                            const Spacer(),
+                            KeyButton.quiet(
+                              label: EditCopy.editSheet,
+                              semanticsLabel: EditCopy.editSheetLabel,
+                              onPressed: () => openYouPage(context, YouPaths.sheet),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    _rise(1, _shelf(snapshot, now)),
-                    _rise(2, const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubProgress), ProgressPanel()])),
-                    _rise(3, const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubSettings), SettingsPanel()])),
-                    _rise(4, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [const _HubTitle(YouCopy.hubTools), widget.tools ?? ToolsPanel(onOpen: _openTool)])),
-                    const HubFooter(),
-                  ],
+                      const _ExpiredWorkNotice(),
+                      if (_openFailed)
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
+                          child: InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
+                        ),
+                      MmStaggerItem(
+                        index: 0,
+                        child: Padding(
+                          padding: youGutter,
+                          child: SheetCard(
+                            name: auth.name,
+                            email: auth.email,
+                            target: target,
+                            subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
+                            week: _week(snapshot, off),
+                            onOpenRhythm: () => context.push(AppRoutes.youRhythm),
+                            onEdit: () => openYouPage(context, YouPaths.sheet),
+                            onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                          ),
+                        ),
+                      ),
+                      MmStaggerItem(index: 1, child: _shelf(snapshot, now)),
+                      MmStaggerItem(
+                        index: 2,
+                        child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubProgress), ProgressPanel()]),
+                      ),
+                      MmStaggerItem(
+                        index: 3,
+                        child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubSettings), SettingsPanel()]),
+                      ),
+                      MmStaggerItem(
+                        index: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const _HubTitle(YouCopy.hubTools),
+                            widget.tools ?? ToolsPanel(onOpen: _openTool),
+                          ],
+                        ),
+                      ),
+                      const HubFooter(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -239,12 +208,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                   padding: const EdgeInsets.only(left: MmSpace.s4),
                   child: Row(
                     children: [
-                      Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
-                      const SizedBox(width: MmSpace.s8),
-                      PillKey(
-                        label: YouCopy.tryAgain,
-                        onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true),
+                      Expanded(
+                        child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2)),
                       ),
+                      const SizedBox(width: MmSpace.s8),
+                      PillKey(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
                     ],
                   ),
                 )
@@ -283,7 +251,7 @@ class _HubTitle extends StatelessWidget {
     return SectionTitle(
       text,
       trailing: trailing,
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s40, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmRhythm.section, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
     );
   }
 }

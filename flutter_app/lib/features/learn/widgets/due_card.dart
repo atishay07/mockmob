@@ -7,33 +7,21 @@ import '../copy.dart';
 import '../models/learn_catalog.dart';
 import 'card_stack.dart';
 
-/// A raised panel used by the cards at the top of Learn.
+/// A surface of the cards at the top of Learn. [hero] makes it the screen's one focal card (the
+/// lamp light, the lit edge); every other card is a plain one. With [onTap] it presses, ticks and
+/// shows the press veil.
 class LearnPanel extends StatelessWidget {
-  const LearnPanel({super.key, required this.child, this.padding = const EdgeInsets.all(MmSpace.cardPadding)});
+  const LearnPanel({super.key, required this.child, this.hero = false, this.onTap, this.semanticsLabel});
 
   final Widget child;
-  final EdgeInsets padding;
+  final bool hero;
+  final VoidCallback? onTap;
+  final String? semanticsLabel;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
-        shadows: colors.cardShadow,
-      ),
-      child: CustomPaint(
-        foregroundPainter: EdgeLightPainter(
-          borderRadius: MmRadius.panelAll,
-          top: colors.edgeTop,
-          bottom: colors.edgeBottom.withValues(alpha: 0),
-          sheen: false,
-        ),
-        child: Padding(padding: padding, child: child),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => hero
+      ? MmSurface.hero(lit: true, onTap: onTap, semanticsLabel: semanticsLabel, child: child)
+      : MmSurface.plain(onTap: onTap, semanticsLabel: semanticsLabel, child: child);
 }
 
 /// "12 cards due." with the start key. No streak, no minutes and no due dates: the catalog
@@ -104,7 +92,10 @@ class _DueCardState extends State<DueCard> {
     final headline = due > 0 ? LearnCopy.dueSummary(due) : LearnCopy.nothingDue;
     final label = due > 0 ? LearnCopy.startReview : LearnCopy.startNewCards;
 
-    final panel = LearnPanel(
+    // The roll lands after the card has arrived, with one tick (resolved here, not at landing).
+    final haptics = mmHapticsOf(context);
+    return LearnPanel(
+      hero: primary && canStart,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -123,7 +114,12 @@ class _DueCardState extends State<DueCard> {
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: box.maxWidth * 0.5),
-                        child: MonumentalNumber(value: '$due', style: type.figureHero),
+                        child: MonumentalNumber(
+                          value: '$due',
+                          style: type.figureHero,
+                          delay: const Duration(milliseconds: 260),
+                          onLanded: () => haptics?.selection(),
+                        ),
                       ),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(
@@ -184,7 +180,6 @@ class _DueCardState extends State<DueCard> {
         ],
       ),
     );
-    return primary && canStart ? LitEdge(glow: true, child: panel) : panel;
   }
 }
 
@@ -217,7 +212,9 @@ class ResumeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // The run to pick up is the screen's one focal card while it exists.
     return LearnPanel(
+      hero: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -263,37 +260,28 @@ class NextLessonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Semantics(
-      button: true,
-      container: true,
-      label: '${LearnCopy.nextLessonHeading}. ${lesson.title}',
-      excludeSemantics: true,
+    return LearnPanel(
       onTap: onOpen,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onOpen,
-        child: LearnPanel(
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(LearnCopy.nextLessonHeading, style: type.label.copyWith(color: colors.ink2)),
-                    const SizedBox(height: MmSpace.s4),
-                    Text(lesson.title, style: type.subhead),
-                    if (lesson.reason != null) ...[
-                      const SizedBox(height: MmSpace.s4),
-                      Text(lesson.reason!, style: type.small.copyWith(color: colors.ink2)),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
-            ],
+      semanticsLabel: '${LearnCopy.nextLessonHeading}. ${lesson.title}',
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(LearnCopy.nextLessonHeading, style: type.label.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s4),
+                Text(lesson.title, style: type.subhead),
+                if (lesson.reason != null) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  Text(lesson.reason!, style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ],
+            ),
           ),
-        ),
+          const SizedBox(width: MmSpace.s12),
+          Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
+        ],
       ),
     );
   }

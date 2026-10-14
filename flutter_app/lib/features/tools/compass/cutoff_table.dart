@@ -171,7 +171,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
         if (rows.isEmpty)
           ToolsNote(ToolsCopy.noCollegeMatch, top: MmSpace.s8)
         else
-          YouPanel(
+          ToolsPanel(
             children: [
               for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, state: s),
             ],
@@ -190,8 +190,9 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
   }
 }
 
-/// One college: Round I, II and III cutoffs for the category in aligned columns ("UR" when the
-/// Unreserved list was the lower one), and, with a score, the round it would have cleared.
+/// One college: Round I, II and III cutoffs for the category in aligned columns (marked
+/// "Unreserved" when the Unreserved list was the lower one), and, with a score, the round it
+/// would have cleared.
 class SeatRow extends StatelessWidget {
   const SeatRow({super.key, required this.seat, required this.groupName, required this.state});
 
@@ -223,9 +224,9 @@ class SeatRow extends StatelessWidget {
       DuSeatStatusId.below => ToolTone.low,
       _ => ToolTone.quiet,
     };
-    return RowFrame(
+    return ToolsRowFrame(
       semanticsLabel: spoken,
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 14, MmSpace.gutter, 14),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s20, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -240,20 +241,13 @@ class SeatRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Round ${c.name}', style: type.caption.copyWith(color: colors.ink3)),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(duFormatScore(c.value), style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : colors.ink)),
-                          if (c.ur) ...[
-                            const SizedBox(width: 4),
-                            Tooltip(
-                              message: ToolsCopy.viaUr,
-                              child: Text('UR', style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w700)),
-                            ),
-                          ],
-                        ],
-                      ),
+                      Text(duFormatScore(c.value), style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : colors.ink)),
+                      if (c.ur)
+                        // The word, under the score: three columns leave no room beside it.
+                        Tooltip(
+                          message: ToolsCopy.viaUr,
+                          child: Text(ToolsCopy.viaUrBadge, style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600)),
+                        ),
                     ],
                   ),
                 ),

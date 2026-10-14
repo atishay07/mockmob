@@ -156,7 +156,7 @@ Future<void> showCategorySheet(BuildContext context, WidgetRef ref) => _pickOne<
       context,
       title: EditCopy.categorySheet,
       note: EditCopy.categoryNote,
-      options: [for (final c in DuCatalog.categories) (c, c, null)],
+      options: [for (final c in DuCatalog.categories) (c, categoryTitle(c), null)],
       current: ref.read(sheetEditorProvider).current.category,
       onPick: (_, category) {
         ref.read(sheetEditorProvider).setCategory(category);
@@ -208,7 +208,7 @@ class _CollegesBodyState extends ConsumerState<_CollegesBody> {
           MmSelectRow(
             multi: true,
             title: o.college,
-            note: o.scoreFor(category) == null ? EditCopy.noSeat : '${DuCatalog.format(o.scoreFor(category)!)} last year',
+            note: o.scoreFor(category) == null ? EditCopy.noSeat : DuCatalog.format(o.scoreFor(category)!),
             selected: picks.contains(o.college),
             trailing: picks.contains(o.college)
                 ? Text('${picks.indexOf(o.college) + 1}', style: type.labelLarge.copyWith(color: colors.ink2))

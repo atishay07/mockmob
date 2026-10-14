@@ -1,3 +1,4 @@
+import '../domain/next_move.dart' show isLateNightHour, lateNightEndHour;
 import 'mobi_acts.dart';
 
 /// What happened, in the student's day, that Mobi should react to. Screens name the moment;
@@ -50,15 +51,16 @@ abstract final class MobiMoments {
         MobiEvent.setback => MobiAct.oops,
       };
 
-  /// How Mobi greets at [now] (local time): asleep from 1 AM to 5 AM, sleepy from 11 PM, and
-  /// otherwise [otherwise].
+  /// How Mobi greets at [now] (local time). The whole late-night window (11 PM to 5 AM, the
+  /// shared [isLateNightHour]) is sleepy or asleep: sleepy until 1 AM, asleep from 1 AM until the
+  /// window closes. Outside it, [otherwise].
   static MobiAct entranceAt(DateTime now, {MobiAct otherwise = MobiAct.hello}) {
     final h = now.hour;
-    if (h >= 1 && h < 5) return MobiAct.sleep;
-    if (h >= 23 || h < 1) return MobiAct.sleepy;
-    return otherwise;
+    if (!isLateNightHour(h)) return otherwise;
+    return h >= 1 && h < lateNightEndHour ? MobiAct.sleep : MobiAct.sleepy;
   }
 
-  /// Whether [now] is late at night (11 PM to 5 AM), when Mobi says the short-session line.
-  static bool isLate(DateTime now) => now.hour >= 23 || now.hour < 5;
+  /// Whether [now] is late at night (the shared 11 PM to 5 AM window), when Mobi says the
+  /// short-session line.
+  static bool isLate(DateTime now) => isLateNightHour(now.hour);
 }

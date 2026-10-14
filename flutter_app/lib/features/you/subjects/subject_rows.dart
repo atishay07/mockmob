@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../edit_copy.dart';
@@ -92,7 +93,7 @@ class _StaleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (subjectGlyph(id) != null) return SubjectGlyphTile(id, size: 40);
+    if (SubjectIdentity.of(id)?.hasEmblem ?? false) return SubjectEmblem(subject: id, size: 40, framed: false);
     final colors = context.mmColors;
     return ExcludeSemantics(
       child: DecoratedBox(

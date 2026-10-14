@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/domain/next_move.dart' show isLateNightHour;
 import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../../../core/models/attempt.dart';
 import '../../../core/notifications/timezones.dart';
@@ -76,10 +77,7 @@ class ReviewClock {
   DateTime now() => local(_now());
 
   /// 11 PM to 5 AM in the student's day.
-  bool get isLateNight {
-    final h = now().hour;
-    return h >= 23 || h < 5;
-  }
+  bool get isLateNight => isLateNightHour(now().hour);
 }
 
 /// A concept that explains a chapter, opened through the Learn routes.

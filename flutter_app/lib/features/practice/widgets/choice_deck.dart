@@ -147,9 +147,14 @@ class ChoiceDeck extends StatelessWidget {
     this.bleed = 0,
     this.onSheet = false,
     this.leadKey,
+    this.startDelay = Duration.zero,
   });
 
   final List<ChoiceRow> rows;
+
+  /// Waits this long before the first row rises: a page that stages its own entrance (the
+  /// Practice tab) lets the blocks above arrive first.
+  final Duration startDelay;
 
   /// Set on the lead's box, so a caller can aim at it (Mobi points at the recommended choice).
   final GlobalKey? leadKey;
@@ -178,7 +183,7 @@ class ChoiceDeck extends StatelessWidget {
     return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
   }
 
-  Widget _rise(int slot, Widget child) => animateIn ? _Rise(delay: stagger * slot, child: child) : child;
+  Widget _rise(int slot, Widget child) => animateIn ? _Rise(delay: startDelay + stagger * slot, child: child) : child;
 
   Widget _row(ChoiceRow row, int slot) {
     switch (row) {
@@ -212,7 +217,7 @@ class ChoiceDeck extends StatelessWidget {
           title: title,
           note: note,
           bleed: bleed,
-          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet),
+          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet, startDelay: startDelay),
           rise: (child) => _rise(slot, child),
         );
     }

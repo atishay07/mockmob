@@ -9,8 +9,8 @@ import '../copy.dart';
 import 'select_chip.dart';
 import 'settings_rows.dart';
 
-/// The permission panel while Android is still being asked: the panel's shape only, so a
-/// student whose notifications are on never sees a blocked panel flash first.
+/// The permission pane while Android is still being asked: its shape only, so a student whose
+/// notifications are on never sees a blocked pane flash first.
 class PermissionPanelSkeleton extends StatelessWidget {
   const PermissionPanelSkeleton({super.key});
 
@@ -18,28 +18,7 @@ class PermissionPanelSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SkeletonGroup(
       label: NotificationsCopy.permissionReading,
-      child: FakeGlass(
-        child: Padding(
-          padding: EdgeInsets.all(MmSpace.cardPadding),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Skeleton.circle(size: 36),
-              SizedBox(width: MmSpace.s12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Skeleton.line(width: 180, height: 16),
-                    SizedBox(height: MmSpace.s8),
-                    Skeleton.line(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      child: MmSkeletonRows(rows: 1),
     );
   }
 }
@@ -85,45 +64,45 @@ class PermissionPanel extends StatelessWidget {
     final canAsk = permission == NotificationPermission.notAsked;
     final blocked = permission == NotificationPermission.denied || permission == NotificationPermission.unavailable;
 
-    final panel = FakeGlass(
-      child: Padding(
-        padding: const EdgeInsets.all(MmSpace.cardPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ExcludeSemantics(
-                  child: IconWell(icon, color: permission == NotificationPermission.granted ? colors.ink : colors.ink2),
-                ),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16))),
-                      const SizedBox(height: MmSpace.s4),
-                      Text(body, style: type.small.copyWith(color: colors.ink2)),
-                    ],
-                  ),
-                ),
-              ],
+            ExcludeSemantics(
+              child: IconWell(icon, color: permission == NotificationPermission.granted ? colors.ink : colors.ink2),
             ),
-            if (canAsk) ...[
-              const SizedBox(height: MmSpace.s16),
-              KeyButton(label: NotificationsCopy.permissionTurnOn, onPressed: onTurnOn),
-            ],
-            if (blocked && onOpenSettings != null) ...[
-              const SizedBox(height: MmSpace.s16),
-              KeyButton.secondary(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
-            ],
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16))),
+                  const SizedBox(height: MmSpace.s4),
+                  Text(body, style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
+        if (canAsk) ...[
+          const SizedBox(height: MmRhythm.group),
+          KeyButton(label: NotificationsCopy.permissionTurnOn, onPressed: onTurnOn),
+        ],
+        if (blocked && onOpenSettings != null) ...[
+          const SizedBox(height: MmRhythm.group),
+          KeyButton.secondary(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
+        ],
+      ],
     );
-    // The one lit element of the screen is the way to turn reminders on, when there is one.
-    return Semantics(container: true, child: canAsk ? LitEdge(child: panel) : panel);
+    // The focal pane of the screen is the one with something to do: lit (volt edge) when
+    // reminders can be turned on, a hero without the edge when Android blocks them. When all is
+    // well it is a plain pane and the day below takes the eye.
+    final pane = canAsk || blocked
+        ? MmSurface.hero(lit: canAsk, padding: const EdgeInsets.all(MmRhythm.plainPad), child: content)
+        : MmSurface.plain(child: content);
+    return Semantics(container: true, child: pane);
   }
 }
 

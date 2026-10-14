@@ -84,7 +84,7 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
               spacing: MmSpace.s8,
               children: [
                 for (final c in duMainCategories)
-                  MmChip(label: c, selected: s.category == c, onTap: () => controller.setCategory(c)),
+                  MmChip(label: categoryLabel(c), selected: s.category == c, onTap: () => controller.setCategory(c)),
                 MmChip(
                   label: other ? (duCategoryLabels[s.category] ?? s.category) : ToolsCopy.otherQuota,
                   selected: other,

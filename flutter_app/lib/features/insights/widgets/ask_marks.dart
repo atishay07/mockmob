@@ -1,78 +1,8 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-
-/// Mobi's face as a small painted mark: the lime folded diamond with its black visor and two
-/// white eyes. It marks every reply that Mobi wrote, so a conversation reads as with someone,
-/// and costs one paint (the living Mobi stays in the header).
-class MobiMark extends StatelessWidget {
-  const MobiMark({super.key, this.size = 28});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return ExcludeSemantics(
-      child: SizedBox.square(
-        dimension: size,
-        child: CustomPaint(painter: _MobiMarkPainter(volt: colors.volt, ink: colors.isNight ? const Color(0xFF0B0B08) : const Color(0xFF17150F), night: colors.isNight)),
-      ),
-    );
-  }
-}
-
-class _MobiMarkPainter extends CustomPainter {
-  const _MobiMarkPainter({required this.volt, required this.ink, required this.night});
-
-  final Color volt;
-  final Color ink;
-  final bool night;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final s = size.shortestSide;
-    final c = size.center(Offset.zero);
-    canvas.save();
-    canvas.translate(c.dx, c.dy);
-    canvas.rotate(math.pi / 4);
-    final side = s * 0.68;
-    final body = RRect.fromRectAndRadius(Rect.fromCenter(center: Offset.zero, width: side, height: side), Radius.circular(s * 0.17));
-    canvas.drawRRect(
-      body,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color.lerp(volt, Colors.white, 0.3)!, volt, Color.lerp(volt, Colors.black, 0.18)!],
-          stops: const [0, 0.5, 1],
-        ).createShader(body.outerRect),
-    );
-    canvas.restore();
-    final visor = RRect.fromRectAndRadius(Rect.fromCenter(center: c.translate(0, s * 0.02), width: s * 0.5, height: s * 0.24), Radius.circular(s * 0.12));
-    canvas.drawRRect(visor, Paint()..color = ink);
-    final eye = Paint()..color = const Color(0xFFFFFFFF);
-    canvas.drawCircle(c.translate(-s * 0.1, s * 0.02), s * 0.045, eye);
-    canvas.drawCircle(c.translate(s * 0.1, s * 0.02), s * 0.045, eye);
-    // The antenna: a short stalk and a lime ball.
-    canvas.drawLine(
-      c.translate(0, -s * 0.34),
-      c.translate(s * 0.05, -s * 0.46),
-      Paint()
-        ..color = ink
-        ..strokeWidth = math.max(1, s * 0.04)
-        ..strokeCap = StrokeCap.round,
-    );
-    canvas.drawCircle(c.translate(s * 0.06, -s * 0.47), s * 0.055, Paint()..color = volt);
-  }
-
-  @override
-  bool shouldRepaint(_MobiMarkPainter old) => old.volt != volt || old.ink != ink || old.night != night;
-}
 
 /// Three answer bubbles inking in turn: Mobi is working on a reply. Loops while it is on screen;
 /// under reduced motion the three sit half inked.

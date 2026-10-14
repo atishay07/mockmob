@@ -1,6 +1,10 @@
-// The first load (spec 5.3): static shapes at the real heights of the hero and the sheet rows, so
+// The first load (spec 5.3): shapes at the real heights of the hero and the paper rows, so
 // nothing jumps when the record arrives. It appears only after 400 ms; a fast load never
-// flashes it. No shimmer.
+// flashes it. The group's warm light band (on app-wide from main) sweeps across the hero bars
+// and the rows as one field (ui-blitz/motion.md 3.8), at most four times, then holds still;
+// reduced motion is static.
+// The hero keeps its own bars (the shared MmSkeletonCard has no sentence or length chooser and
+// puts the key straight under the number); the papers below use the shared MmSkeletonRows.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -86,14 +90,11 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
               ),
             ),
           ),
-          const SizedBox(height: MmSpace.group),
-          const Skeleton.line(width: 120, height: 20),
-          for (var i = 0; i < 3; i++) ...[
-            const SizedBox(height: MmSpace.s20),
-            const Skeleton.line(width: 200),
-            const SizedBox(height: MmSpace.s8),
-            const Skeleton(height: 8, radius: 4),
-          ],
+          const SizedBox(height: MmRhythm.section),
+          // "Recent papers" and its rows, on the ground as the loaded section is.
+          const Skeleton.line(width: 132, height: 22),
+          const SizedBox(height: MmRhythm.tight),
+          const MmSkeletonRows(rows: 3),
         ],
       ),
     );

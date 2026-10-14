@@ -71,6 +71,36 @@ void main() {
       expect(find.text('All 50 marks on the paper'), findsOneWidget);
     });
 
+    testWidgets('each number counts up with its ribbon and lands on its exact value (motion-08)', (tester) async {
+      final b = mock7().breakdown;
+      final grow = AnimationController(vsync: const TestVSync(), duration: MarksFlow.duration);
+      addTearDown(grow.dispose);
+      await pumpMockmob(
+        tester,
+        SingleChildScrollView(child: MarksFlow(breakdown: b, rows: breakdownLabels(b), grow: grow)),
+        brightness: Brightness.dark,
+        size: const Size(384, 853),
+      );
+      // Part way: the scored row's words have arrived but its number is still counting, while
+      // TalkBack already hears the final value.
+      grow.value = 0.38;
+      await tester.pump();
+      expect(MarksFlow.countAt(0.38, 0), inExclusiveRange(0, 1));
+      expect(find.text('115 marks'), findsNothing);
+      expect(find.text('115'), findsOneWidget, reason: 'the final number holds the space while the count runs');
+      expect(find.bySemanticsLabel(RegExp('115 marks')), findsOneWidget);
+      // The count lands exactly when the ribbon does.
+      for (var i = 0; i < 4; i++) {
+        final end = 0.60 + i * 0.09;
+        expect(MarksFlow.countAt(end, i), closeTo(1, 1e-6));
+        expect(MarksFlow.ribbonAt(end, i), closeTo(1, 1e-6));
+      }
+      grow.value = 1;
+      await tester.pump();
+      expect(find.text('115 marks'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('rows never overlap at 1.3x text on a 360 dp phone', (tester) async {
       final b = mock7().breakdown;
       await pumpMockmob(

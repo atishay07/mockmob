@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -253,7 +254,7 @@ class _PerforationPainter extends CustomPainter {
   bool shouldRepaint(_PerforationPainter old) => old.color != color || old.stub != stub || old.notch != notch;
 }
 
-/// The subject's object on a round pool of its light.
+/// The subject's emblem, framed: the object of the ticket, idling gently on its own sheet.
 class _SubjectObject extends StatelessWidget {
   const _SubjectObject({super.key, required this.subjectId, required this.size});
 
@@ -261,21 +262,7 @@ class _SubjectObject extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.language;
-    final art = MmArt.subjectObject(subjectId);
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        ClipOval(child: LightField.subject(context, light, center: Alignment.center, strength: 1)),
-        if (art != null)
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: ArtImage(art, width: size - 4),
-          ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => SubjectEmblem(subject: subjectId, size: size, animate: true);
 }
 
 /// The length as a condensed figure with "questions" under it. A new length rolls in from
@@ -490,7 +477,7 @@ class _SubjectChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SubjectGlyphTile(id, size: 32),
+            SubjectEmblem(subject: id, size: 32, framed: false, marked: selected),
             const SizedBox(width: MmSpace.s8),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -532,6 +519,7 @@ class _MoreChip extends StatelessWidget {
     return MmPressable(
       semanticsLabel: PracticeCopy.moreSubjects,
       focusRadius: radius,
+      haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => Container(
         height: SubjectChips.height,

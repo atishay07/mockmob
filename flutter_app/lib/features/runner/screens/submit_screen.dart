@@ -162,51 +162,63 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                     )
                   else
                     Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                    child: SizedBox(
-                      height: 60,
-                      child: Row(
-                        children: [
-                          if (idle) RoundIconKey(icon: LucideIcons.arrowLeft, semanticsLabel: RunnerCopy.keepWorking, onTap: _keepWorking),
-                          const Spacer(),
-                          if (idle && _s.isMock)
-                            RunnerTimer(remaining: _s.remaining, style: type.figureCompact.copyWith(fontSize: 30, height: 1)),
-                        ],
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+                      child: SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            if (idle)
+                              RoundIconKey(icon: LucideIcons.arrowLeft, semanticsLabel: RunnerCopy.keepWorking, onTap: _keepWorking),
+                            const Spacer(),
+                            if (idle && _s.isMock)
+                              RunnerTimer(remaining: _s.remaining, style: type.figureCompact.copyWith(fontSize: 30, height: 1)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.fromLTRB(MmSpace.gutter, nta ? MmSpace.s20 : MmSpace.s8, MmSpace.gutter, MmSpace.s24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Semantics(
-                            header: true,
-                            child: Text(
-                              nta && idle && !timeUp ? NtaCopy.submitTitle : _titleFor(state.stage, timeUp: timeUp),
-                              style: type.headline,
+                      // One authored entrance: the title, then the sheet (never in NTA mode, which keeps
+                      // its exam skin still). The key at the foot is never part of it.
+                      child: MmStagger(
+                        enabled: !nta,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            MmStaggerItem(
+                              index: 0,
+                              child: Semantics(
+                                header: true,
+                                child: Text(
+                                  nta && idle && !timeUp ? NtaCopy.submitTitle : _titleFor(state.stage, timeUp: timeUp),
+                                  style: type.headline,
+                                ),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: nta ? MmSpace.s12 : MmSpace.s20),
-                          ListenableBuilder(
-                            listenable: _s,
-                            builder: (context, _) => nta
-                                ? NtaSubmitSummary(session: _s, showConfirm: idle)
-                                : SubmitSheetCard(
-                                    session: _s,
-                                    lit: state.stage.index <= SubmitStage.received.index,
-                                    phase: _phaseOf(state.stage),
-                                    onGoTo: idle ? _goToQuestion : null,
-                                  ),
-                          ),
-                          if (idle && nta) ...[
-                            const SizedBox(height: MmSpace.s16),
-                            Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2)),
+                            SizedBox(height: nta ? MmSpace.s12 : MmRhythm.group),
+                            MmStaggerItem(
+                              index: 1,
+                              child: ListenableBuilder(
+                                listenable: _s,
+                                builder: (context, _) => nta
+                                    ? NtaSubmitSummary(session: _s, showConfirm: idle)
+                                    : SubmitSheetCard(
+                                        session: _s,
+                                        lit: state.stage.index <= SubmitStage.received.index,
+                                        phase: _phaseOf(state.stage),
+                                        onGoTo: idle ? _goToQuestion : null,
+                                      ),
+                              ),
+                            ),
+                            if (idle && nta) ...[
+                              const SizedBox(height: MmSpace.s16),
+                              Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2)),
+                            ],
+                            // Mobi is there for the hand-in only, once the server holds the sheet.
+                            if (!nta && state.stage == SubmitStage.received) const _HandInMobi(),
                           ],
-                          // Mobi is there for the hand-in only, once the server holds the sheet.
-                          if (!nta && state.stage == SubmitStage.received) const _HandInMobi(),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -223,11 +235,21 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       onGoPractice: () => _go(AppRoutes.practice),
                       submitLabel: nta ? NtaCopy.submitTestShort : null,
                       arriveReceipt: !nta,
-                      note: nta ? null : Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                      note: nta
+                          ? null
+                          : Text(
+                              RunnerCopy.cannotChange,
+                              style: type.body.copyWith(color: colors.ink2),
+                              textAlign: TextAlign.center,
+                            ),
                       submitKey: nta
                           ? SizedBox(
                               height: 52,
-                              child: NtaKey(label: NtaCopy.submitTestShort, tone: NtaKeyTone.green, onPressed: () => unawaited(_s.submit())),
+                              child: NtaKey(
+                                label: NtaCopy.submitTestShort,
+                                tone: NtaKeyTone.green,
+                                onPressed: () => unawaited(_s.submit()),
+                              ),
                             )
                           : null,
                     ),

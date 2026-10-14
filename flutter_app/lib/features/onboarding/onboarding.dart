@@ -1,5 +1,5 @@
 /// What other features may use from the onboarding: the student's sealed sheet (stage, course,
-/// colleges with last year's DU closing scores, subjects and confidence, worry, rhythm and the first
+/// colleges with their DU Round 1 minimum scores from 2026, subjects and confidence, worry, rhythm and the first
 /// move), whether it was written to the account, and two ready-made widgets for Today.
 ///
 /// ```dart

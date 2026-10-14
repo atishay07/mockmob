@@ -7,7 +7,6 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/mascot/mobi_details.dart';
 import 'package:mockmob/core/mascot/mobi_painter.dart';
 import 'package:mockmob/core/mascot/mobi_palette.dart';
@@ -288,7 +287,7 @@ void main() {
   });
 
   group('MobiLoader (design-system-06)', () {
-    testWidgets('nothing for 300 ms, then Mobi thinking, then the status line after a second', (tester) async {
+    testWidgets('nothing for 300 ms, then Mobi loading, then the status line after a second', (tester) async {
       await tester.pumpWidget(_app(const MobiLoader(status: 'Opening your record')));
       await tester.pump(const Duration(milliseconds: 250));
       expect(find.byType(MobiCharacter), findsNothing);
@@ -296,6 +295,8 @@ void main() {
 
       await tester.pump(const Duration(milliseconds: 100));
       expect(find.byType(MobiCharacter), findsOneWidget);
+      // MOBI-04: a wait plays the loading scan; think is kept for the error state.
+      expect(tester.widget<MobiCharacter>(find.byType(MobiCharacter)).entrance, MobiAct.loading);
       final early = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
       expect(early.opacity, 0, reason: 'the line waits for a slow load');
 
@@ -380,40 +381,6 @@ void main() {
       await _pumpFor(tester, const Duration(milliseconds: 700));
       expect(tester.takeException(), isNull);
       expect(tester.getRect(find.byType(MonumentalNumber)).right, lessThanOrEqualTo(344.5));
-    });
-  });
-
-  group('subject glyphs (web-parity-02)', () {
-    const supported = [
-      'accountancy', 'business_studies', 'economics', 'english', 'general_test', 'mathematics', 'physics', //
-      'chemistry', 'biology', 'computer_science', 'history', 'political_science', 'geography', 'psychology', 'sociology',
-    ];
-
-    test('all 15 supported subjects have a glyph of their own', () {
-      for (final id in supported) {
-        final glyph = subjectGlyph(id);
-        expect(glyph, isNotNull, reason: id);
-        expect(glyph, isNot(LucideIcons.languages), reason: id);
-      }
-      expect(supported.map(subjectGlyph).toSet(), hasLength(15));
-    });
-
-    test('languages keep the translate mark; anything else has none', () {
-      expect(subjectGlyph('hindi'), LucideIcons.languages);
-      expect(subjectGlyph('sanskrit'), LucideIcons.languages);
-      expect(subjectGlyph('astronomy'), isNull);
-      expect(subjectGlyph(null), isNull);
-      expect(subjectMonogram('physics'), 'Ph');
-      expect(subjectMonogram('home_science'), 'HS');
-      expect(subjectMonogram(''), '');
-    });
-
-    testWidgets('an unknown subject draws its initials, not a wrong object', (tester) async {
-      await tester.pumpWidget(_app(const Center(child: SubjectGlyphTile('home_science'))));
-      expect(find.text('HS'), findsOneWidget);
-      expect(find.byType(Icon), findsNothing);
-      await tester.pumpWidget(_app(const Center(child: SubjectGlyphTile('physics'))));
-      expect(find.byType(Icon), findsOneWidget);
     });
   });
 

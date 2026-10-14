@@ -7,7 +7,8 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/du_repository.dart';
 
-/// The shape of a tools screen while the DU files load: the focal pane and a few rows, no shimmer.
+/// The shape of a tools screen while the DU files load: the focal pane (its number, its words
+/// and its key) and the rows under it, on the ground with the warm light sweeping across them.
 class ToolsLoading extends StatelessWidget {
   const ToolsLoading({super.key, this.label = ToolsCopy.loadingTitle, this.rows = 4});
 
@@ -16,37 +17,16 @@ class ToolsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     return SkeletonGroup(
       label: label,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter + 4),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DecoratedBox(
-              decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.panelAll),
-              child: const Padding(
-                padding: EdgeInsets.all(MmSpace.cardPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Skeleton(width: 120, height: 48),
-                    SizedBox(height: MmSpace.s12),
-                    Skeleton.line(width: 220),
-                    SizedBox(height: MmSpace.s16),
-                    Row(children: [Skeleton(width: 84, height: 32, radius: 16), SizedBox(width: 8), Skeleton(width: 104, height: 32, radius: 16)]),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: MmSpace.s32),
-            for (var i = 0; i < rows; i++) ...[
-              const Skeleton.line(width: 240),
-              const SizedBox(height: MmSpace.s8),
-              const Skeleton.line(width: 140, height: 12),
-              const SizedBox(height: MmSpace.s20),
-            ],
+            const MmSkeletonCard(hero: true),
+            const SizedBox(height: MmRhythm.section),
+            MmSkeletonRows(rows: rows),
           ],
         ),
       ),

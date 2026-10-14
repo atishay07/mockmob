@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/plan.dart';
 import 'engraved_text.dart';
+import 'entrance.dart';
 import 'foil_seal.dart';
 import 'glyphs.dart';
 
@@ -82,13 +83,11 @@ class PlanSheet extends StatelessWidget {
                 children: [
                   Text(lead, style: type.caption.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s8),
-                  Semantics(
-                    header: true,
-                    child: Text(
-                      plan.headline,
-                      style: type.moment.copyWith(fontSize: compact ? 28 : 36, height: compact ? 30 / 28 : 38 / 36),
-                      textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
-                    ),
+                  _Headline(
+                    plan.headline,
+                    style: type.moment.copyWith(fontSize: compact ? 28 : 36, height: compact ? 30 / 28 : 38 / 36),
+                    textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
+                    rise: animate && !sealed,
                   ),
                   const SizedBox(height: MmSpace.s8),
                   Text(OnboardingCopy.planFrom(from), style: type.small.copyWith(color: colors.ink3)),
@@ -125,9 +124,36 @@ class PlanSheet extends StatelessWidget {
       ),
     );
 
+    // The glass card is cached in its own layer, so the edge light, the lamp sweep and the sink
+    // under the finger repaint only themselves, never the card.
     return CustomPaint(
       foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText),
-      child: _LampSweep(run: revealed && animate && !sealed, child: card),
+      child: RepaintBoundary(
+        child: _LampSweep(run: revealed && animate && !sealed, child: RepaintBoundary(child: card)),
+      ),
+    );
+  }
+}
+
+/// The plan's headline. As the sheet turns face up its words rise into place one after another
+/// (the moment-type rise, as on Welcome), so the plan lands with its name; at rest, a return, a
+/// sealed sheet or reduced motion it is plain text.
+class _Headline extends StatelessWidget {
+  const _Headline(this.text, {required this.style, required this.textScaler, required this.rise});
+
+  final String text;
+  final TextStyle style;
+  final TextScaler textScaler;
+  final bool rise;
+
+  @override
+  Widget build(BuildContext context) {
+    final words = RiseHeadline(text, style: style, textScaler: textScaler, at: const Duration(milliseconds: 120));
+    return Semantics(
+      header: true,
+      label: text,
+      excludeSemantics: true,
+      child: rise ? StepEntrance(child: words) : words,
     );
   }
 }

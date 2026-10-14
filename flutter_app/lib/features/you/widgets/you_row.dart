@@ -6,8 +6,8 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// A group of rows on one solid raised pane (the work layer): continuous corners, the room's
-/// edge light along the top with the lamp's warm catch, and hairlines between the rows inset by
+/// A group of rows on one plain raised surface ([MmSurface.plain]): continuous corners, the room's
+/// edge light along the top, and hairlines between the rows inset by
 /// [inset]. Never nest a panel in a panel.
 class YouPanel extends StatelessWidget {
   const YouPanel({super.key, required this.children, this.inset = MmSpace.gutter, this.margin = youPanelMargin, this.flat = false});
@@ -44,21 +44,15 @@ class YouPanel extends StatelessWidget {
         ),
       );
     }
+    // The ordinary card of the Night Sheet: raised, a top edge light, no border and no shadow
+    // (shadows belong under floating things). The rows run edge to edge inside it.
     return Padding(
       padding: margin,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.panelAll), shadows: colors.cardShadow),
-        child: CustomPaint(
-          foregroundPainter: EdgeLightPainter(
-            borderRadius: MmRadius.panelAll,
-            top: colors.edgeTop,
-            bottom: colors.edgeBottom,
-            sheen: false,
-          ),
-          child: MmClip(
-            borderRadius: MmRadius.panelAll,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows),
-          ),
+      child: MmSurface.plain(
+        padding: EdgeInsets.zero,
+        child: MmClip(
+          borderRadius: BorderRadius.circular(MmRhythm.plainRadius),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows),
         ),
       ),
     );

@@ -12,6 +12,7 @@ export '../mascot/mascot.dart';
 /// to the original flat artwork in `assets/mobi/`.
 ///
 /// The older pose names are kept so existing screens compile; they map onto the new renders.
+/// New poses go at the end so each existing pose keeps its idle seed.
 /// Mobi never shows a sad pose and is never in the runner or on a sealed sheet.
 enum MobiPose {
   greet(MmArt.mobiGreet, 'greeting'),
@@ -27,7 +28,19 @@ enum MobiPose {
   greeting(MmArt.mobiGreet, 'greeting'),
   idle(MmArt.mobiGreet, 'idle'),
   pointing(MmArt.mobiPoint, 'pointing'),
-  thinking(MmArt.mobiThink, 'thinking');
+  thinking(MmArt.mobiThink, 'thinking'),
+
+  /// A server-acknowledged milestone: stretches tall, mittens on hips, chin up.
+  proud(MmArt.mobiCheer, 'celebrating'),
+
+  /// After a wrong answer or a lower result: a small nod forward, never sad.
+  encourage(MmArt.mobiPoint, 'encouraging'),
+
+  /// While the student types to Mobi: leans in with the antenna up.
+  listen(MmArt.mobiRead, 'attentive'),
+
+  /// Waiting on the server or the AI: the loading loop (think stays for a setback).
+  loading(MmArt.mobiThink, 'thinking');
 
   const MobiPose(this.art, this._legacy);
 
@@ -51,6 +64,10 @@ enum MobiPose {
         sleepy => MobiAct.sleepy,
         read => MobiAct.read,
         attentive || idle => MobiAct.appear,
+        proud => MobiAct.proud,
+        encourage => MobiAct.encourage,
+        listen => MobiAct.listen,
+        loading => MobiAct.loading,
       };
 }
 
@@ -89,6 +106,7 @@ class Mobi extends StatefulWidget {
     this.sayLive = false,
     this.controller,
     this.interactive = false,
+    this.entrance,
   });
 
   final MobiPose pose;
@@ -114,6 +132,12 @@ class Mobi extends StatefulWidget {
 
   /// A tap makes Mobi react.
   final bool interactive;
+
+  /// The act played on appearing, in place of the [pose]'s own. For the time of day pass
+  /// `MobiMoments.entranceAt(now)` with the injected clock: sleepy from 11 PM, asleep from 1 AM
+  /// to 5 AM. A Mobi that was sleepy or asleep plays [MobiAct.wake] once when this moves past
+  /// the late-night window.
+  final MobiAct? entrance;
 
   static const Duration settleDuration = Duration(milliseconds: 420);
   static const Duration hopDuration = Duration(milliseconds: 400);
@@ -151,6 +175,8 @@ class _MobiState extends State<Mobi> {
   }
 
   MobiAct get _entrance {
+    final override = widget.entrance;
+    if (override != null) return override;
     final act = widget.pose.act;
     if (act == MobiAct.appear && widget.motion == MobiMotion.none) return MobiAct.idle;
     if (act == MobiAct.appear && widget.motion == MobiMotion.hop) return MobiAct.cheer;
@@ -169,6 +195,7 @@ class _MobiState extends State<Mobi> {
             semanticLabel: widget.semanticLabel,
             interactive: widget.interactive,
             seed: 7 + widget.pose.index * 13,
+            // Small Mobis (rows, headers) paint lite detail; MobiCharacter picks it by size.
           );
 
     if (widget.say == null) return body;

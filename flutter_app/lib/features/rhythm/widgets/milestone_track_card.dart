@@ -19,6 +19,7 @@ import '../logic/tokens.dart';
 import 'earned_token.dart';
 import 'locked_coin.dart';
 import 'medal.dart';
+import 'proud_mobi.dart';
 import 'rhythm_page.dart' show FlushQuietKey;
 
 /// What is engraved on the coin of each step: nine steps, nine different faces.
@@ -128,7 +129,7 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
             ),
             if (landed != null) ...[
               const SizedBox(width: MmSpace.s8),
-              const Mobi(pose: MobiPose.celebrating, size: 56, motion: MobiMotion.hop),
+              const ProudMobi(size: 56),
             ],
           ],
         ),

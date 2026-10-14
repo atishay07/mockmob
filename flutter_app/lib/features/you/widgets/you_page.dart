@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -64,14 +65,19 @@ class YouPage extends StatelessWidget {
   }
 
   Widget _scroll(BuildContext context, MmType type) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(child: YouHeader(title: title, showBack: showBack, large: large)),
-        SliverList.list(children: children),
-        SliverToBoxAdapter(
-          child: SizedBox(height: footer != null ? MmSpace.s24 : padBottom + MediaQuery.viewPaddingOf(context).bottom),
-        ),
-      ],
+    // One authored entrance as the page arrives (route driver): the body's blocks rise in reading
+    // order after the header. A page that is already up never moves, and scrolling never replays.
+    return MmStagger(
+      driver: MmStaggerDriver.route,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(child: YouHeader(title: title, showBack: showBack, large: large)),
+          SliverList.list(children: [for (var i = 0; i < children.length; i++) MmStaggerItem(index: i, child: children[i])]),
+          SliverToBoxAdapter(
+            child: SizedBox(height: footer != null ? MmSpace.s24 : padBottom + MediaQuery.viewPaddingOf(context).bottom),
+          ),
+        ],
+      ),
     );
   }
 }

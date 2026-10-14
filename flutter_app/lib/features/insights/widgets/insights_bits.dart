@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/subject_names.dart';
-import 'ask_marks.dart';
 
 /// The top row of a pushed insights page: back, the title, an optional trailing key.
 class InsightsHeader extends StatelessWidget {
@@ -311,6 +311,7 @@ class ActionLink extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: label,
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: MmTarget.min),
         // A text key in ink with a trailing arrow: no underline (a web idiom) and no volt text
@@ -338,9 +339,10 @@ class ActionLink extends StatelessWidget {
   }
 }
 
-/// A subject's object in its pool of light, so a row says which paper it is at a glance. Under
-/// 56 dp it is the subject's line glyph on its tile. A subject id this build does not know gets
-/// its initials, never another subject's mark (and is logged so the table can be filled in).
+/// A subject's drawn emblem standing on its own pool of light, so a row says which paper it is at
+/// a glance. Unframed: it sits on the row or the plate, never in a tile of its own. A subject id
+/// this build has no emblem for gets its initials, never another subject's mark (and is logged so
+/// the table can be filled in).
 class SubjectThumb extends StatelessWidget {
   const SubjectThumb({super.key, required this.subject, this.size = 44});
 
@@ -351,39 +353,12 @@ class SubjectThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final known = isKnownSubject(subject) || isLanguageSubject(subject);
+    final known = (isKnownSubject(subject) || isLanguageSubject(subject)) && (SubjectIdentity.of(subject)?.hasEmblem ?? false);
     if (!known) {
       if (_logged.add(subject)) debugPrint('Insights: no subject art for "$subject"; showing its initials');
       return _Monogram(name: subjectDisplayName(subject), size: size);
     }
-    if (size < 56) return SubjectGlyphTile(subject, size: size.clamp(32, 40));
-    final colors = context.mmColors;
-    final light = SubjectLight.forSubject(subject)?.of(Theme.of(context).brightness) ?? colors.raised2;
-    final object = MmArt.subjectObject(subject);
-    return ExcludeSemantics(
-      child: SizedBox.square(
-        dimension: size,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: [light.withValues(alpha: colors.isNight ? 0.9 : 0.8), light.withValues(alpha: 0)],
-              stops: const [0.2, 1],
-            ),
-          ),
-          child: object == null
-              ? null
-              : Center(
-                  child: ArtImage(
-                    object,
-                    width: size * 0.86,
-                    height: size * 0.86,
-                    placeholder: _Monogram(name: subjectDisplayName(subject), size: size * 0.86),
-                  ),
-                ),
-        ),
-      ),
-    );
+    return SubjectEmblem(subject: subject, size: size, framed: false);
   }
 }
 
@@ -440,6 +415,7 @@ class AskMobiStrip extends StatelessWidget {
     return MmPressable(
       semanticsLabel: '${InsightsCopy.askKey}. ${InsightsCopy.askStripNote}',
       focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => FakeGlass(
         borderRadius: MmRadius.keyAll,
@@ -451,7 +427,7 @@ class AskMobiStrip extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
             child: Row(
               children: [
-                const MobiMark(size: 34),
+                const MobiFace(size: 34, watchTaps: false),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(

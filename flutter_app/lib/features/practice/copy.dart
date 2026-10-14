@@ -12,7 +12,7 @@ abstract final class PracticeCopy {
   static const String concepts = 'Concepts';
   static const String moreHeading = 'Explore and plan';
   static const String toolsTitle = 'CUET tools';
-  static const String toolsNote = 'Which DU courses your subjects open, and last year’s cutoffs.';
+  static const String toolsNote = 'Which DU courses your subjects open, and the Round 1 minimums for 2026.';
   static const String allConcepts = 'See all';
   static const String moreSubjects = 'More subjects';
   static const String otherSubjectsTitle = 'More subjects';
@@ -20,6 +20,7 @@ abstract final class PracticeCopy {
 
   // The suggestion at the top.
   static const String suggestedOverline = 'Your next practice';
+
   /// The overline after 11 PM: points at the card's one set, with no length the set may not keep.
   static const String lateOverline = 'This one, then sleep';
   static const String resumeOverline = 'Still open';
@@ -71,7 +72,12 @@ abstract final class PracticeCopy {
   static const String ntaGatedLine = 'Comes with Pro. A Full mock is open to you now.';
 
   /// The paper's size and clock come from [NtaRules], the same source as the NTA instructions.
-  static const List<String> ntaChips = ['${NtaRules.questions} questions', '${NtaRules.minutes} minutes', 'Question palette', 'Mark for review'];
+  static const List<String> ntaChips = [
+    '${NtaRules.questions} questions',
+    '${NtaRules.minutes} minutes',
+    'Question palette',
+    'Mark for review',
+  ];
   static const String proTag = 'Pro';
 
   /// The band that holds the exam-shaped modes.
@@ -187,8 +193,7 @@ abstract final class PracticeCopy {
 
   // Pro gate, warm and true. No prices, no purchase links.
   static String proGateTitle(String mode) => '$mode comes with Pro';
-  static const String proGateBody =
-      'Everything else here is yours: Full mock, Quick practice and By chapter.';
+  static const String proGateBody = 'Everything else here is yours: Full mock, Quick practice and By chapter.';
   static const String takeFullInstead = 'Take a Full mock instead';
   static const String takeQuickInstead = 'Take Quick practice instead';
 
@@ -196,8 +201,7 @@ abstract final class PracticeCopy {
   /// A failure with no definite answer from the server (a timeout, an unknown error): the client
   /// cannot know whether credits moved, so it says it is checking (the balance is read again) and
   /// where to see it. "Nothing was charged" is only for the server's own refusals below.
-  static const String startFailed =
-      'We could not start the session. We are checking whether this was charged. Your credits show in You.';
+  static const String startFailed = 'We could not start the session. We are checking whether this was charged. Your credits show in You.';
   static const String notEnoughQuestions = 'We do not have enough questions for this yet. Nothing was charged.';
   static const String notEnoughCredits = 'You do not have enough credits for this. Nothing was charged.';
   static const String notIncluded = 'This comes with Pro. Nothing was charged.';

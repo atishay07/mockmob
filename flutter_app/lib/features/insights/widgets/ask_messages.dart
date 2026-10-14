@@ -59,8 +59,12 @@ class AskMessageView extends StatefulWidget {
 class _AskMessageViewState extends State<AskMessageView> {
   late bool _footer = !widget.animate;
 
-  /// The left edge of Mobi's column: the mark and its gap.
-  static const double _indent = 28 + MmSpace.s12;
+  /// The avatar's side, and the left edge of Mobi's column: the avatar and its gap.
+  static const double _face = 32;
+  static const double _indent = _face + MmSpace.s12;
+
+  /// Each face blinks and glances on its own schedule, so a thread never blinks in unison.
+  static int _faceSeed(AskMessage m) => 11 + (m.text.hashCode & 0xff) % 13;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +111,8 @@ class _AskMessageViewState extends State<AskMessageView> {
           duration: const Duration(milliseconds: 240),
           child: Row(
             children: [
-              const MobiMark(),
+              // Working on it: the eyes scan while the three bubbles ink.
+              MobiFace(size: _face, watchTaps: false, entrance: MobiAct.loading, seed: _faceSeed(m)),
               const SizedBox(width: MmSpace.s12),
               FakeGlass(
                 borderRadius: MmRadius.pillAll,
@@ -199,7 +204,9 @@ class _AskMessageViewState extends State<AskMessageView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(padding: EdgeInsets.only(top: 1), child: MobiMark()),
+          // A reply that has just landed arrives with a small nod of its own. The thread is a
+          // list of many, so the faces do not follow taps.
+          MobiFace(size: _face, watchTaps: false, entrance: widget.animate ? MobiAct.correct : MobiAct.idle, seed: _faceSeed(m)),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(

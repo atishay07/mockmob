@@ -9,7 +9,6 @@ import 'package:mockmob/core/home_widget/home_widget_data.dart';
 import 'package:mockmob/core/home_widget/home_widget_sync.dart';
 import 'package:mockmob/core/router/action_router.dart';
 import 'package:mockmob/core/router/routes.dart';
-import 'package:mockmob/core/widgets/art/mm_art.dart';
 import 'package:mockmob/features/rhythm/logic/week_view.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -35,7 +34,7 @@ MoveHero _move({TodayTarget target = const GoTo('/review/repair/m7/m7-q3?count=4
       state: NextMoveState.ready,
       mood: TodayMood.normal,
       overline: "Tonight's move",
-      art: const HeroArt.object(MmArt.heroDesk),
+      art: const HeroArt.object(),
       meaning: 'All 4 in Partnership fundamentals, from Mock 7 on 11 Oct.',
       primary: TodayAction(label, target),
       summary: 'Repair 4 mistakes from Mock 7',

@@ -183,6 +183,8 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
           retrying: widget.retrying,
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
+          // Only when the pinned bar can stand in for the card's keys.
+          keysCovered: _hasDock && !(widget.view.offline && hero.primary.startsSession) ? _pinned : null,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),

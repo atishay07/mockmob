@@ -33,32 +33,26 @@ class ProveCard extends ConsumerWidget {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.group),
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(MmSpace.s16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(header: true, child: Text(ResultCopy.proveTitle, style: type.cardTitle)),
-              const SizedBox(height: MmSpace.s4),
-              Text(ResultCopy.proveLine(chapter), style: type.small.copyWith(color: colors.ink)),
-              const SizedBox(height: MmSpace.s4),
-              Text(ResultCopy.proveNote, style: type.small.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: KeyButton.secondary(
-                  label: ResultCopy.proveKey,
-                  expanded: false,
-                  onPressed: () => context.push(locationFor(subjectId: subjectId, chapter: chapter, attemptId: attemptId)),
-                ),
+      child: MmSurface.plain(
+        padding: const EdgeInsets.all(MmSpace.s16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Semantics(header: true, child: Text(ResultCopy.proveTitle, style: type.cardTitle)),
+            const SizedBox(height: MmSpace.s4),
+            Text(ResultCopy.proveLine(chapter), style: type.small.copyWith(color: colors.ink)),
+            const SizedBox(height: MmSpace.s4),
+            Text(ResultCopy.proveNote, style: type.small.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.secondary(
+                label: ResultCopy.proveKey,
+                expanded: false,
+                onPressed: () => context.push(locationFor(subjectId: subjectId, chapter: chapter, attemptId: attemptId)),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

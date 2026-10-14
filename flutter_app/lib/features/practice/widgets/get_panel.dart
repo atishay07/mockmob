@@ -65,9 +65,7 @@ class GetPanel extends StatelessWidget {
           label: PracticeCopy.checkingCost,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Skeleton(height: 96, radius: MmRadius.key),
-            ],
+            children: [Skeleton(height: 96, radius: MmRadius.key)],
           ),
         ),
       );
@@ -129,19 +127,24 @@ class _Ticket extends StatelessWidget {
     // The title already names the mode and subject, and the line above says how many questions
     // and how long; the rows add only what is not said yet.
     final rows = <(String, String)>[
-      if (!selection.mode.isMock) (PracticeCopy.summaryChapters, chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters)),
+      if (!selection.mode.isMock)
+        (PracticeCopy.summaryChapters, chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters)),
       if (difficulty != null) (PracticeCopy.difficultyLabel, difficulty),
       (PracticeCopy.summaryMarking, PracticeCopy.markingValue),
       (PracticeCopy.summaryCost, costText ?? (quote.entitlementKind == 'access' ? PracticeCopy.costIncluded : PracticeCopy.costFree)),
     ];
     return Semantics(
       container: true,
-      label: '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
+      label:
+          '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: ShapeDecoration(
           color: colors.raised,
-          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.line)),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: MmRadius.keyAll,
+            side: BorderSide(color: colors.line),
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s8),
@@ -177,8 +180,16 @@ class _SummaryRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 96, child: Text(label, style: type.small.copyWith(color: colors.ink2))),
-          Expanded(child: Text(value, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600))),
+          SizedBox(
+            width: 96,
+            child: Text(label, style: type.small.copyWith(color: colors.ink2)),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+            ),
+          ),
         ],
       ),
     );
@@ -240,7 +251,10 @@ class _ProGate extends StatelessWidget {
       child: DecoratedBox(
         decoration: ShapeDecoration(
           color: colors.raised,
-          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.line)),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: MmRadius.keyAll,
+            side: BorderSide(color: colors.line),
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s16),
@@ -294,7 +308,10 @@ class _FreeRightNow extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(header: true, child: Text(PracticeCopy.freeRightNow, style: context.mmType.label.copyWith(color: context.mmColors.ink2))),
+        Semantics(
+          header: true,
+          child: Text(PracticeCopy.freeRightNow, style: context.mmType.label.copyWith(color: context.mmColors.ink2)),
+        ),
         const SizedBox(height: MmSpace.s4),
         if (dailyOpen) _FreeRow(label: PracticeCopy.freeDaily, onTap: onUseDailyCount),
         if (conceptsOpen) _FreeRow(label: PracticeCopy.freeLearn, onTap: onOpenConcepts),
@@ -317,12 +334,16 @@ class _FreeRow extends StatelessWidget {
       semanticsLabel: label,
       focusRadius: MmRadius.smallAll,
       pressedScale: 0.98,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       onTap: onTap,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 52),
         child: Row(
           children: [
-            Expanded(child: Text(label, style: context.mmType.labelLarge.copyWith(color: pressed ? colors.ink2 : colors.ink))),
+            Expanded(
+              child: Text(label, style: context.mmType.labelLarge.copyWith(color: pressed ? colors.ink2 : colors.ink)),
+            ),
             Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
           ],
         ),

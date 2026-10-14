@@ -28,6 +28,10 @@ const double heroArtBleed = 44;
 /// The subject emblem's side inside the art corner.
 const double heroEmblemSize = 168;
 
+/// How far the emblem lags the scroll, as a share of the art corner's height (about 25 dp over
+/// the whole viewport): with the emblem centred in the corner its travel stays inside the box.
+const double heroParallax = 0.12;
+
 /// What content beside the art keeps clear of, from the panel's right edge: the object's lit
 /// face is the visible part of the art, and the line under it (the number) may overlap its base.
 const double heroArtClear = heroArtWidth - heroArtBleed - 28;
@@ -191,7 +195,7 @@ class HeroArtView extends StatefulWidget {
 
   final HeroArt art;
 
-  static MobiPose poseFor(MmArt art) => switch (art) {
+  static MobiPose poseFor(MmArt? art) => switch (art) {
         MmArt.mobiSleepy => MobiPose.sleepy,
         MmArt.mobiThink => MobiPose.think,
         MmArt.mobiRead => MobiPose.read,
@@ -233,16 +237,17 @@ class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStat
     final art = widget.art;
     final Widget image = art.isMobi
         ? Align(alignment: const Alignment(0.3, 0.2), child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
-        : art.subject != null
-        // The subject's code-drawn emblem, unframed on its own light, drifting slowly. It sits low
-        // and left in the corner so the panel's edge only grazes it.
-        ? Align(
-            alignment: const Alignment(-0.5, 0.6),
-            child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
-          )
-        : Padding(
-            padding: const EdgeInsets.all(4),
-            child: ArtImage(art.art, width: heroArtWidth - 8, height: heroArtHeight - 8),
+        // The subject's code-drawn emblem, unframed on its own light, drifting slowly. It sits
+        // left in the corner so the panel's edge only grazes it, and lags the scroll a little
+        // (a prop standing deeper in the room than the card's words). The parallax box is the
+        // art corner; centred in it, the emblem never reaches the box's clip at either end of
+        // its travel ([heroParallax]).
+        : MmParallax(
+            factor: heroParallax,
+            child: Align(
+              alignment: const Alignment(-0.5, 0),
+              child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
+            ),
           );
     return RepaintBoundary(
       child: AnimatedBuilder(

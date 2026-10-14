@@ -206,7 +206,8 @@ void main() {
 
     testWidgets('card 2 shows the arithmetic on request, every number from the counts', (tester) async {
       await pump(tester, '/result/a7/recap/2');
-      await _run(tester, 1000);
+      // The flow starts at 260 ms and its numbers count up until their ribbons land (1200 ms).
+      await _run(tester, 1600);
       expect(find.text('115 marks'), findsOneWidget);
       expect(find.text('75 marks'), findsOneWidget);
       expect(find.text('5 for each of 9'), findsOneWidget);
@@ -329,13 +330,19 @@ void main() {
       await pump(tester, '/result/a7/recap/4', model: first);
       await _run(tester, 1000);
       expect(find.byType(Mobi), findsOneWidget);
-      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.greet);
+      // The first full mock is a milestone: Mobi stands proud (mobi-06).
+      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.proud);
 
       // A lower result is calm: no Mobi on card 1.
       final lower = detail(recap: {'tone': 'lower', 'previousMarks': 142, 'previousMax': 250, 'hasPrevious': true});
       await pump(tester, '/result/a7/recap/1', model: mock7(withDetail: lower), d: lower);
       await _run(tester, 1500);
       expect(find.byType(Mobi), findsNothing);
+      // On card 4 a lower result gets the encouraging nod, never a cheer or a frown (mobi-07).
+      await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: lower), d: lower);
+      await _run(tester, 1000);
+      expect(find.byType(Mobi), findsOneWidget);
+      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.encourage);
 
       final higher = detail(recap: {'tone': 'higher', 'previousMarks': 90, 'previousMax': 250, 'hasPrevious': true});
       await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: higher), d: higher);

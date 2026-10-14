@@ -5,6 +5,13 @@ library;
 
 import '../../core/copy/copy.dart';
 
+/// A category as a row or option title: the words a student says, first letter capitalised
+/// ("Unreserved", "Sikh minority"). The stored value stays the portal code.
+String categoryTitle(String? category) {
+  final words = categoryWords(category);
+  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
+}
+
 abstract final class EditCopy {
   // Subjects editor (WEB-PARITY F1).
   static const subjectsTitle = 'Your subjects';
@@ -64,10 +71,10 @@ abstract final class EditCopy {
   static const courseRestored = 'Your course and colleges are back.';
   static const collegesSheet = 'Your colleges, in order';
   static String collegesNote(String category) =>
-      'Pick up to three. Figures are last year\'s DU closing scores for $category, out of 1000.';
+      'Pick up to three. Figures are Round 1 minimum scores, 2026, for ${categoryWords(category)}, out of 1000.';
   static const collegesNeedCourse = 'Pick a course first. Colleges belong to a course.';
   static const collegesCap = 'Three is the most. Remove one to add another.';
-  static const noSeat = 'No seat last year';
+  static const noSeat = 'No seat in Round 1, 2026';
   static const categorySheet = 'Which category should college figures use?';
   static const categoryNote = 'Only changes the figures you see. It stays on this phone.';
   static const confidenceSheet = 'How solid does each subject feel?';

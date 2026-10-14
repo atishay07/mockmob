@@ -56,6 +56,7 @@ class _ChaptersSectionState extends State<ChaptersSection> {
           MmPressable(
             onTap: () => setState(() => _thinOpen = !_thinOpen),
             semanticsLabel: InsightsCopy.thinToggle(widget.thin.length),
+            haptic: MmPressHaptic.selection,
             builder: (context, pressed, _) => SizedBox(
               height: MmTarget.min,
               child: Row(

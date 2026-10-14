@@ -11,7 +11,7 @@ import 'package:mockmob/core/widgets/materials/glass_surface.dart';
 
 import '../core_data/support/fixtures.dart';
 
-Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false}) async {
+Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false, QuickRepair? repair}) async {
   tester.view.physicalSize = const Size(360, 640);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
@@ -57,7 +57,9 @@ Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded 
         resumeOfferProvider.overrideWith((ref) async => crowded ? ResumeOffer(draft: draft, answered: 12) : null),
         if (crowded) quickStartNtaProvider.overrideWith((ref) => const QuickNta(location: '/exam/nta', subject: 'english', proOnly: true)),
         if (crowded)
-          quickStartRepairProvider.overrideWith((ref) => const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow')),
+          quickStartRepairProvider.overrideWith((ref) => const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow'))
+        else if (repair != null)
+          quickStartRepairProvider.overrideWith((ref) => repair),
       ],
       child: MaterialApp.router(
         theme: buildTheme(Brightness.light),
@@ -109,6 +111,31 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('nta screen'), findsOneWidget);
     expect(router.canPop(), isTrue);
+  });
+
+  group('Repair the next mistake (U3-1)', () {
+    testWidgets('opens the ten-minute run, like the launcher shortcut', (tester) async {
+      final router = await _pump(
+        tester,
+        repair: const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow', tenMinuteLocation: '/review/repair/a/q?count=3'),
+      );
+      final row = find.text('Repair the next mistake');
+      await tester.scrollUntilVisible(row, 80, scrollable: find.byType(Scrollable).last);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+      expect(find.text('repair screen'), findsOneWidget);
+      expect(router.routerDelegate.currentConfiguration.uri.queryParameters['count'], '3');
+    });
+
+    testWidgets('without a ten-minute count it opens the first mistake alone', (tester) async {
+      final router = await _pump(tester, repair: const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow'));
+      final row = find.text('Repair the next mistake');
+      await tester.scrollUntilVisible(row, 80, scrollable: find.byType(Scrollable).last);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+      expect(find.text('repair screen'), findsOneWidget);
+      expect(router.routerDelegate.currentConfiguration.uri.toString(), '/review/repair/a/q');
+    });
   });
 
   test('only top-level screens are pushed', () {

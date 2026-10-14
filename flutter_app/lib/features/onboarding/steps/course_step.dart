@@ -15,7 +15,7 @@ import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
 /// Step 4, one evolving screen: pick the course from the six with their real 2026 college
-/// counts, then the ladder of colleges with last year's closing scores unfolds in place; picks
+/// counts, then the ladder of colleges with their Round 1 minimums from 2026 unfolds in place; picks
 /// engrave onto the sheet.
 class CourseStep extends ConsumerStatefulWidget {
   const CourseStep({super.key, required this.answers, required this.onNext});

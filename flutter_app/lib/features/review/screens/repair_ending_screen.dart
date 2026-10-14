@@ -28,7 +28,7 @@ import '../data/ending_model.dart';
 
 /// `/review/repair/:attemptId/ending` (spec 5.8 ending, celebration L1/L2): the handed-back
 /// sheet with tonight's repairs ringing in, the count, the life row, the receipt from the last
-/// acknowledgement, one Mobi hop, and the next move. Nothing here claims the repair holds.
+/// acknowledgement, one proud Mobi, and the next move. Nothing here claims the repair holds.
 ///
 /// The `repairFinished` moment is fired from here, after the first frame, into the
 /// `CelebrationSlot` this screen mounts in the receipt's place, so it is never spent unseen.
@@ -180,7 +180,8 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s8),
                           Text(ReviewCopy.nothingRepaired(model.setAside, model.reviewed), style: type.body.copyWith(color: colors.ink2)),
                         ] else ...[
-                          // Mobi celebrates beside the number, not squeezed above the keys.
+                          // Mobi stands proud beside the number (the repair is acknowledged by the server), not
+                          // squeezed above the keys.
                           Stack(
                             clipBehavior: Clip.none,
                             children: [
@@ -204,7 +205,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                                     ),
                                   ),
                                   if (full && !(momentShown && moment.mobiHop))
-                                    const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
+                                    const MobiCharacter(size: 96, entrance: MobiAct.proud, seed: 19),
                                 ],
                               ),
                             ],
@@ -305,24 +306,20 @@ class _FirstRepairCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final type = context.mmType;
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      padding: const EdgeInsets.all(MmSpace.s16),
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Semantics(container: true, header: true, child: Text(ReviewCopy.firstRepair, style: type.subhead)),
-          const SizedBox(height: MmSpace.s4),
-          receipt,
-        ],
+      child: MmSurface.plain(
+        padding: const EdgeInsets.all(MmSpace.s16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Semantics(container: true, header: true, child: Text(ReviewCopy.firstRepair, style: type.subhead)),
+            const SizedBox(height: MmSpace.s4),
+            receipt,
+          ],
+        ),
       ),
     );
   }

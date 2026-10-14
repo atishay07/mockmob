@@ -388,6 +388,7 @@ class _QuestionTile extends StatelessWidget {
     return MmPressable(
       onTap: onTap,
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
       semanticsLabel: ResultCopy.questionTile(number, word),
       builder: (context, pressed, _) => AnimatedContainer(
         duration: Motion.of(context, Motion.press),
@@ -428,6 +429,10 @@ class _Cost extends StatefulWidget {
 }
 
 class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
+  /// The block's own arrival on the card (its stagger turn plus most of its rise): the figure and
+  /// the meter start together after it.
+  static const Duration settle = Duration(milliseconds: 360);
+
   late final AnimationController _fill = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
   late final Animation<double> _curve = CurvedAnimation(parent: _fill, curve: Motion.emphasized);
   Timer? _wait;
@@ -441,7 +446,7 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
     if (Motion.reduced(context)) {
       _fill.value = 1;
     } else {
-      _wait = Timer(const Duration(milliseconds: 360), () {
+      _wait = Timer(settle, () {
         if (mounted) _fill.forward();
       });
     }
@@ -473,7 +478,14 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
             alignment: Alignment.centerLeft,
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: MonumentalNumber(value: '$cost', unit: ResultCopy.costUnit(missed), style: type.figureHero, roll: widget.roll),
+              // The figure rolls once its block has risen into place, landing with the meter.
+              child: MonumentalNumber(
+                value: '$cost',
+                unit: ResultCopy.costUnit(missed),
+                style: type.figureHero,
+                roll: widget.roll,
+                delay: _CostState.settle,
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s12),

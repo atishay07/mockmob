@@ -7,9 +7,10 @@ import '../widgets/entrance.dart';
 import '../widgets/welcome_scene.dart';
 
 /// Welcome (brief section 11, step 2): the lamp-lit desk drawn in code, Mobi standing on it and
-/// waving hello (yawning after 11 PM), the promise and one dominant key. Works with no network.
-/// A student with a sheet in progress gets "Pick up my sheet" instead.
-class WelcomeView extends StatelessWidget {
+/// waving hello (yawning from 11 PM, asleep from 1 to 5 AM until a tap wakes him), the promise and
+/// one dominant key. Works with no network. A student with a sheet in progress gets "Pick up my
+/// sheet" instead.
+class WelcomeView extends StatefulWidget {
   const WelcomeView({
     super.key,
     required this.onStart,
@@ -17,14 +18,19 @@ class WelcomeView extends StatelessWidget {
     this.returning = false,
     this.filled = 0,
     this.lateNight = false,
+    this.entrance = MobiAct.hello,
     this.animate = true,
     this.pending = false,
     this.notice,
     this.retry = false,
   });
 
-  /// After 11 PM: a sleepy Mobi and one honest line about the hour.
+  /// From 11 PM until 5 AM: one honest line about the hour.
   final bool lateNight;
+
+  /// How Mobi greets (MobiMoments.entranceAt): hello, sleepy from 11 PM, asleep from 1 to 5 AM.
+  /// Asleep, he says nothing until a tap wakes him.
+  final MobiAct entrance;
 
   final VoidCallback onStart;
   final VoidCallback onHaveAccount;
@@ -49,34 +55,81 @@ class WelcomeView extends StatelessWidget {
   static const double deskAt = 0.82;
 
   @override
+  State<WelcomeView> createState() => _WelcomeViewState();
+}
+
+class _WelcomeViewState extends State<WelcomeView> {
+  final MobiController _mobi = MobiController();
+
+  /// A tap woke a sleeping Mobi, so he says his line now.
+  bool _woken = false;
+
+  bool get _asleep => widget.entrance == MobiAct.sleep && !_woken;
+
+  @override
+  void didUpdateWidget(WelcomeView old) {
+    super.didUpdateWidget(old);
+    // Shown asleep, seen again after 5 AM: he wakes once, then greets as usual.
+    if (old.entrance == MobiAct.sleep && widget.entrance != MobiAct.sleep && !_woken) {
+      _woken = true;
+      _mobi.play(MobiAct.wake);
+    }
+  }
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  void _wake() {
+    // The character plays its own wake on the tap; the line follows it.
+    if (widget.entrance != MobiAct.sleep || _woken) return;
+    setState(() => _woken = true);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final size = MediaQuery.sizeOf(context);
     final pad = MediaQuery.paddingOf(context);
-    final line = lateNight ? OnboardingCopy.lateNight : (returning ? OnboardingCopy.mobiWelcomeBack : OnboardingCopy.mobiWelcome);
+    final lateNight = widget.lateNight;
+    final returning = widget.returning;
+    final notice = widget.notice;
+    final line = _asleep
+        ? null
+        : (lateNight ? OnboardingCopy.lateNight : (returning ? OnboardingCopy.mobiWelcomeBack : OnboardingCopy.mobiWelcome));
 
     // The room fills everything above the words, so the desk meets the headline at every
     // height instead of leaving a band of empty floor between them.
     final room = LayoutBuilder(
       builder: (context, box) {
         final h = box.maxHeight;
-        final deskY = h * deskAt;
+        final deskY = h * WelcomeView.deskAt;
         final mobiSize = (h * 0.5).clamp(130.0, 250.0);
         return Stack(
           clipBehavior: Clip.none,
           children: [
-            Positioned.fill(child: WelcomeScene(deskAt: deskAt, animate: animate)),
+            Positioned.fill(child: WelcomeScene(deskAt: WelcomeView.deskAt, animate: widget.animate)),
             // Mobi stands on the desk, as large as the room allows; his line rises above him.
             Positioned(
               right: size.width * 0.12,
               bottom: h - deskY - h * 0.07,
-              child: MobiStage(
-                size: mobiSize,
-                entrance: lateNight ? MobiAct.sleepy : MobiAct.hello,
-                say: line,
-                bubbleWidth: (size.width * 0.62).clamp(200.0, 300.0),
-                semanticLabel: lateNight ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiHello,
+              child: Listener(
+                onPointerUp: (_) => _wake(),
+                child: MobiStage(
+                  controller: _mobi,
+                  size: mobiSize,
+                  entrance: widget.entrance,
+                  say: line,
+                  bubbleWidth: (size.width * 0.62).clamp(200.0, 300.0),
+                  semanticLabel: switch (widget.entrance) {
+                    MobiAct.sleep => _woken ? OnboardingCopy.mobiSleepy : OnboardingCopy.mobiAsleep,
+                    MobiAct.sleepy => OnboardingCopy.mobiSleepy,
+                    _ => OnboardingCopy.mobiHello,
+                  },
+                ),
               ),
             ),
           ],
@@ -116,18 +169,18 @@ class WelcomeView extends StatelessWidget {
             Row(
               children: [
                 BubbleRow(
-                  states: [for (var i = 0; i < 7; i++) i < filled ? BubbleState.filled : BubbleState.hollow],
+                  states: [for (var i = 0; i < 7; i++) i < widget.filled ? BubbleState.filled : BubbleState.hollow],
                   bubbleSize: 12,
                   gap: 5,
                 ),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(child: Text(OnboardingCopy.welcomeBackLine(filled, 7), style: type.small.copyWith(color: colors.ink2))),
+                Expanded(child: Text(OnboardingCopy.welcomeBackLine(widget.filled, 7), style: type.small.copyWith(color: colors.ink2))),
               ],
             ),
             const SizedBox(height: MmSpace.s16),
           ],
           if (notice != null) ...[
-            Semantics(liveRegion: true, child: Text(notice!, style: type.small.copyWith(color: colors.ink2))),
+            Semantics(liveRegion: true, child: Text(notice, style: type.small.copyWith(color: colors.ink2))),
             const SizedBox(height: MmSpace.s12),
           ],
           EntranceItem(
@@ -137,12 +190,12 @@ class WelcomeView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 KeyButton(
-                  label: retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
-                  onPressed: onStart,
-                  loading: pending,
+                  label: widget.retry ? OnboardingCopy.tryAgain : (returning ? OnboardingCopy.continuePlan : OnboardingCopy.buildPlan),
+                  onPressed: widget.onStart,
+                  loading: widget.pending,
                 ),
                 const SizedBox(height: MmSpace.s4),
-                Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: onHaveAccount)),
+                Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: widget.onHaveAccount)),
               ],
             ),
           ),

@@ -1,0 +1,199 @@
+// Today's motion and press wiring after the UI blitz (blitz audit MOBI-05, MOTION-08, ART-02 and
+// the pinned bar's covered keys): the header Mobi nudges once when the screen is left untouched,
+// the hero number lands after its card with one selection tick, the resume hero draws its
+// subject's emblem without a raster, and the card's keys under the pinned bar are neither
+// announced nor tappable.
+import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
+import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/logic/today_builder.dart';
+import 'package:mockmob/features/today/logic/today_model.dart';
+import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/header_mobi.dart';
+import 'package:mockmob/features/today/widgets/hero_stage.dart';
+import 'package:mockmob/features/today/widgets/resume_hero.dart';
+import 'package:mockmob/features/today/widgets/today_entrance.dart';
+
+import '../../golden/today/today_golden_support.dart';
+import '../../helpers/fonts.dart';
+import '../../helpers/golden_harness.dart';
+import 'support/today_fixtures.dart';
+
+class _CountingHaptics implements HapticDriver {
+  int selections = 0;
+
+  @override
+  Future<void> selectionClick() async => selections++;
+
+  @override
+  Future<void> lightImpact() async {}
+
+  @override
+  Future<void> mediumImpact() async {}
+}
+
+void main() {
+  setUpAll(loadAppFonts);
+
+  final auth = authSnapshotProvider.overrideWithBuild(
+    (ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha Verma'),
+  );
+
+  Future<void> pumpToday(WidgetTester tester, {bool reduced = false, HapticDriver? haptics}) => pumpMockmob(
+        tester,
+        TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
+        size: const Size(384, 1900),
+        disableAnimations: reduced,
+        overrides: [
+          auth,
+          if (haptics != null) hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: haptics)),
+        ],
+      );
+
+  /// Labels of every node in the live semantics tree (what TalkBack can reach).
+  List<String> announced(WidgetTester tester) {
+    final out = <String>[];
+    bool visit(SemanticsNode node) {
+      if (node.label.isNotEmpty) out.add(node.label);
+      node.visitChildren(visit);
+      return true;
+    }
+
+    visit(tester.binding.renderViews.first.owner!.semanticsOwner!.rootSemanticsNode!);
+    return out;
+  }
+
+  // pumpMockmob plays the first 640 ms (it lets images decode); times below are from the open.
+  Future<void> wait(WidgetTester tester, Duration total) async {
+    for (var t = Duration.zero; t < total; t += const Duration(milliseconds: 100)) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+  }
+
+  group('the header Mobi nudges toward the move card once (MOBI-05)', () {
+    late int nudges;
+    setUp(() {
+      nudges = 0;
+      HeaderMobi.debugOnNudge = () => nudges++;
+    });
+    tearDown(() => HeaderMobi.debugOnNudge = null);
+
+    testWidgets('after his first-open line, when nothing touched the screen; never twice', (tester) async {
+      HeaderMobi.resetGreeting();
+      await pumpToday(tester);
+      await wait(tester, const Duration(milliseconds: 1000));
+      expect(nudges, 0, reason: 'at 1.6 s the line he started at 1.1 s is not cut off');
+      await wait(tester, const Duration(seconds: 5));
+      expect(nudges, 1);
+      await wait(tester, const Duration(seconds: 5));
+      expect(nudges, 1, reason: 'once per screen');
+    });
+
+    testWidgets('a touch before 1.2 s cancels it for good', (tester) async {
+      await pumpToday(tester);
+      final gesture = await tester.startGesture(const Offset(192, 1500));
+      await gesture.up();
+      await wait(tester, const Duration(seconds: 6));
+      expect(nudges, 0);
+    });
+
+    testWidgets('never under reduced motion', (tester) async {
+      await pumpToday(tester, reduced: true);
+      await wait(tester, const Duration(seconds: 6));
+      expect(nudges, 0);
+    });
+  });
+
+  group('the hero number (MOTION-08)', () {
+    testWidgets('lands after the card has arrived, with one selection tick', (tester) async {
+      final haptics = _CountingHaptics();
+      await pumpToday(tester, haptics: haptics);
+      expect(haptics.selections, 0, reason: 'at 640 ms the stage has landed (540 ms); the number lands at 780 ms');
+      await wait(tester, const Duration(milliseconds: 300));
+      expect(haptics.selections, 1);
+      await wait(tester, const Duration(seconds: 2));
+      expect(haptics.selections, 1, reason: 'after landing it never moves');
+    });
+
+    testWidgets('under reduced motion it is simply there: no roll, no tick', (tester) async {
+      final haptics = _CountingHaptics();
+      await pumpToday(tester, reduced: true, haptics: haptics);
+      await wait(tester, const Duration(seconds: 2));
+      expect(haptics.selections, 0);
+    });
+  });
+
+  testWidgets('the resume hero draws its subject emblem without looking up a raster (ART-02)', (tester) async {
+    Widget card(String? subject) => ResumeHeroCard(
+          resume: ResumeHero(sessionId: 's1', title: 'Mock 8', answered: 12, total: 50, line: 'Ends at 9:40 PM.', subjectId: subject),
+          onContinue: () {},
+        );
+    await pumpMockmob(tester, card('accountancy'), size: const Size(384, 700), disableAnimations: true);
+    expect(find.byType(HeroArtView), findsOneWidget);
+    expect(find.byType(SubjectEmblem), findsOneWidget);
+    await pumpMockmob(tester, card(null), size: const Size(384, 700), disableAnimations: true);
+    expect(find.byType(HeroArtView), findsNothing, reason: 'no subject, no prop');
+  });
+
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    testWidgets('the card keys under the pinned bar are neither announced nor tappable, ${brightness.name}', (tester) async {
+      await pumpMockmob(
+        tester,
+        PhoneFrame(child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero)),
+        brightness: brightness,
+        size: kTodaySize,
+        disableAnimations: true,
+        overrides: todayOverrides,
+      );
+      final handle = tester.ensureSemantics();
+      await tester.pump();
+      final alternative = TodayCopy.chooseSomethingElse;
+      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: "only the bar's key, which is on screen");
+      final hidden = find.text(alternative);
+      expect(hidden, findsOneWidget, reason: 'the card keeps its quiet key in layout');
+      expect(hidden.hitTestable(), findsNothing, reason: 'under the bar it takes no touch');
+      await expectLater(tester, meetsGuideline(textContrastGuideline));
+      handle.dispose();
+    });
+  }
+
+  testWidgets('a piece keeps its state when the entrance lands and on later rebuilds', (tester) async {
+    final controller = AnimationController(vsync: const TestVSync(), duration: todayEntranceDuration);
+    addTearDown(controller.dispose);
+    Widget page(String label) => Directionality(
+          textDirection: TextDirection.ltr,
+          child: TodayEntranceScope(
+            progress: controller,
+            child: TodayEnter(delay: Duration.zero, child: _Probe(label)),
+          ),
+        );
+    await tester.pumpWidget(page('a'));
+    final first = tester.state(find.byType(_Probe));
+    controller.value = 0.3;
+    await tester.pump();
+    controller.value = 1;
+    await tester.pump();
+    expect(tester.state(find.byType(_Probe)), same(first), reason: 'landing drops the Opacity, not the child');
+    await tester.pumpWidget(page('b'));
+    expect(tester.state(find.byType(_Probe)), same(first), reason: 'a rebuild after the entrance keeps it too');
+    expect(find.text('b'), findsOneWidget);
+  });
+}
+
+class _Probe extends StatefulWidget {
+  const _Probe(this.label);
+
+  final String label;
+
+  @override
+  State<_Probe> createState() => _ProbeState();
+}
+
+class _ProbeState extends State<_Probe> {
+  @override
+  Widget build(BuildContext context) => Text(widget.label);
+}

@@ -162,6 +162,7 @@ class _FilterKey extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: '$hint: $label',
       focusRadius: MmRadius.pillAll,
+      haptic: MmPressHaptic.selection,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: MmTarget.min),
         child: Center(

@@ -245,11 +245,14 @@ class SubjectsField extends StatelessWidget {
       ],
     );
     if (onEdit == null) return ruled;
-    return Semantics(
-      button: true,
-      label: '${YouCopy.editSubjectsLabel}. ${subjects.map(subjectDisplayName).join(', ')}',
-      excludeSemantics: true,
-      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: ruled),
+    return MmPressable(
+      onTap: onEdit,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.99,
+      focusRadius: BorderRadius.circular(MmRhythm.plainRadius),
+      semanticsLabel: '${YouCopy.editSubjectsLabel}. ${subjects.map(subjectDisplayName).join(', ')}',
+      builder: (context, pressed, focused) => ruled,
     );
   }
 }
@@ -410,10 +413,17 @@ class WeekField extends StatelessWidget {
       ],
     );
     if (week.state != SheetWeekState.ready && week.state != SheetWeekState.off) return pane;
-    return Semantics(
-      button: true,
-      label: [YouCopy.rowRhythm, ?week.count, ?week.note].join('. '),
-      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onOpen, child: pane),
+    // The whole pane is the way in to Rhythm: it sinks a touch under the finger, shows the press veil
+    // and ticks once. Each day keeps its own stop for TalkBack.
+    return MmPressable(
+      onTap: onOpen,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.985,
+      focusRadius: BorderRadius.circular(MmRhythm.plainRadius),
+      semanticsLabel: [YouCopy.rowRhythm, ?week.count, ?week.note].join('. '),
+      excludeSemantics: false,
+      builder: (context, pressed, focused) => pane,
     );
   }
 

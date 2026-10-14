@@ -4,7 +4,6 @@ library;
 
 export 'art/lamp_backdrop.dart';
 export 'art/mm_art.dart';
-export 'art/subject_glyph.dart';
 export 'brand/brand_logo.dart';
 export 'brand/brand_opening.dart';
 export 'brand/cold_open.dart';

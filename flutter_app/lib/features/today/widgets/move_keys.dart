@@ -83,6 +83,8 @@ class _AlternativeKey extends StatelessWidget {
       child: MmPressable(
         semanticsLabel: label,
         onTap: onTap,
+        // The same commit feel as the card's own "Choose something else" key.
+        haptic: MmPressHaptic.light,
         builder: (context, pressed, _) => SizedBox.square(
           dimension: MmTarget.min,
           child: FakeGlass(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -9,7 +10,7 @@ import '../model/answer_items.dart';
 /// One answer of the full result: a collapsed header (bubble, number, verdict in words, chapter)
 /// that opens to the question, the options with the student's choice and, only where the key rule
 /// allows, the correct option and the explanation. Solid and calm: the work layer.
-class AnswerRow extends StatelessWidget {
+class AnswerRow extends StatefulWidget {
   const AnswerRow({super.key, required this.item, required this.expanded, required this.onToggle, required this.keysOff, this.onRepair});
 
   final AnswerItem item;
@@ -19,6 +20,23 @@ class AnswerRow extends StatelessWidget {
   /// `answerReviewState == 'unavailable'`, or the detail could not be read.
   final bool keysOff;
   final VoidCallback? onRepair;
+
+  @override
+  State<AnswerRow> createState() => _AnswerRowState();
+}
+
+class _AnswerRowState extends State<AnswerRow> {
+  /// True once the student has opened this row by a tap. A row that is open when the page
+  /// arrives (the first wrong answer, a linked question) rides the page's own entrance instead.
+  bool _tapped = false;
+
+  AnswerItem get item => widget.item;
+
+  @override
+  void didUpdateWidget(AnswerRow old) {
+    super.didUpdateWidget(old);
+    if (!old.expanded && widget.expanded) _tapped = true;
+  }
 
   String get _status => switch (item.verdict) {
     Verdict.correct => ResultCopy.statusCorrect,
@@ -39,10 +57,13 @@ class AnswerRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final chapter = item.question.chapter;
+    final expanded = widget.expanded;
     final header = MmPressable(
-      onTap: onToggle,
+      onTap: widget.onToggle,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       semanticsLabel: '${ResultCopy.question(item.number)}, $_status${chapter == null ? '' : ', $chapter'}',
       selected: expanded,
       builder: (context, pressed, _) => ConstrainedBox(
@@ -62,7 +83,12 @@ class AnswerRow extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(expanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3),
+              AnimatedRotation(
+                turns: expanded ? 0.5 : 0,
+                duration: Motion.of(context, Motion.ui),
+                curve: Motion.out,
+                child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink3),
+              ),
             ],
           ),
         ),
@@ -72,10 +98,14 @@ class AnswerRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         header,
+        // The answer opens in place (no animated height in the scrolling list); after a tap its
+        // body fades and rises into the space once, under its header.
         if (expanded)
           Padding(
             padding: const EdgeInsets.only(bottom: MmSpace.s20),
-            child: _Body(item: item, keysOff: keysOff, onRepair: onRepair),
+            child: _tapped
+                ? MmEntrance(rise: 8, child: _Body(item: item, keysOff: widget.keysOff, onRepair: widget.onRepair))
+                : _Body(item: item, keysOff: widget.keysOff, onRepair: widget.onRepair),
           ),
       ],
     );
@@ -103,12 +133,8 @@ class _Body extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (q.passageText != null && q.passageText!.trim().isNotEmpty) ...[
-          Container(
-            padding: const EdgeInsets.all(MmSpace.s16),
-            decoration: ShapeDecoration(
-              color: colors.sunken,
-              shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
-            ),
+          // Nested in the answer: a sunken well, never a third border.
+          MmSurface.inset(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

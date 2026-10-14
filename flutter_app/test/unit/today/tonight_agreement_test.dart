@@ -27,15 +27,16 @@ void main() {
     expect(int.parse(move.number!), lessThanOrEqualTo(tonight.items.length));
     expect(move.meaning, contains(tonight.chapter));
 
-    // Start's "Repair the next mistake" goes to the same place.
+    // Review's pick for Start is the same first mistake, in the same chapter.
     final container = ProviderContainer(overrides: [reviewIndexProvider.overrideWithValue(index)]);
     addTearDown(container.dispose);
     final quick = container.read(quickRepairFromReviewProvider)!;
     expect(quick.location, first);
     expect(quick.chapter, tonight.chapter);
 
-    // The launcher's "10-min repair" starts on the same mistake with a 10-minute count, and
-    // the count survives the shortcut's trip through ActionRouter.
+    // Start's "Repair the next mistake" and the launcher's "10-min repair" both open the
+    // ten-minute run from that mistake ('$first?count=$ten'), and the count survives the
+    // shortcut's trip through ActionRouter.
     final ten = tonight.items.length < 3 ? tonight.items.length : 3;
     expect(quick.shortcutLocation, '$first?count=$ten');
     final target = ActionRouter.forShortcut(AppShortcutType.repair, repairLocation: quick.shortcutLocation);

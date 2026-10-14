@@ -3,9 +3,9 @@
 Usage (from flutter_app):
     python tool/convert_art.py [source folder] [--only PREFIX]
 Default source: ../tmp/design-concepts/assets
---only obj- converts the subject objects alone and leaves every other file in assets/art as it is.
+--only mobi- converts the Mobi poses alone and leaves every other file in assets/art as it is.
 
-Brief section 9: quality 82; objects and Mobi 512 px; the hero about 768 px wide; paper 512 px.
+Brief section 9: quality 82; Mobi 512 px; the hero about 768 px wide; paper 512 px.
 Transparent art is trimmed to its visible bounds (plus a little air) and keeps its alpha. The
 whole assets/art folder is kept under about 1.4 MB by lowering quality in steps if needed. Files that are not
 there yet are skipped, so the script can be run again when generation finishes.
@@ -32,14 +32,6 @@ SPEC = {
 }
 for pose in ("greet", "point", "think", "cheer", "rest", "sleepy", "read"):
     SPEC[f"mobi-{pose}"] = ((512, 512), True)
-# Every subject /api/subjects offers, plus "language" for the language papers and anything else.
-SUBJECT_OBJECTS = (
-    "accountancy", "business", "economics", "english", "generaltest", "mathematics", "physics",
-    "chemistry", "biology", "history", "politicalscience", "geography", "psychology", "sociology",
-    "computerscience", "language",
-)
-for subject in SUBJECT_OBJECTS:
-    SPEC[f"obj-{subject}"] = ((512, 512), True)
 for token in ("first-mock", "first-repair", "held"):
     SPEC[f"token-{token}"] = ((320, 320), True)
 

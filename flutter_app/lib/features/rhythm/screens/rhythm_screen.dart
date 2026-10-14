@@ -124,7 +124,7 @@ class _LoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The shape of the screen: the ring, a line under it, then the run.
+    // The shape of the screen: the ring, a line under it, the run block, then the two plan rows.
     return const SkeletonGroup(
       label: RhythmCopy.loadingRhythm,
       child: Column(
@@ -133,12 +133,10 @@ class _LoadingBody extends StatelessWidget {
           Center(child: Skeleton.circle(size: 188)),
           SizedBox(height: 16),
           Center(child: Skeleton.line(width: 220)),
-          SizedBox(height: 32),
-          Skeleton(height: 112),
-          SizedBox(height: 32),
-          Skeleton.line(width: 140),
-          SizedBox(height: 16),
-          Skeleton.line(width: 200),
+          SizedBox(height: MmRhythm.section),
+          MmSkeletonCard(),
+          SizedBox(height: MmRhythm.section),
+          MmSkeletonRows(rows: 2),
         ],
       ),
     );

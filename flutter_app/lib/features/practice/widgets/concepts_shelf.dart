@@ -103,6 +103,7 @@ class ConceptCard extends StatelessWidget {
     return MmPressable(
       semanticsLabel: '${unit.title}. $status. $meta',
       focusRadius: MmRadius.panelAll,
+      haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => SizedBox(
         width: 216,
@@ -117,13 +118,21 @@ class ConceptCard extends StatelessWidget {
                   children: [
                     Bubble(state: due ? BubbleState.filled : BubbleState.hollow, size: 10, animate: false),
                     const SizedBox(width: MmSpace.s8),
-                    Text(due ? LearnCopy.dueSummary(unit.dueCards).replaceAll('.', '') : status, style: type.caption.copyWith(color: colors.ink2)),
+                    Text(
+                      due ? LearnCopy.dueSummary(unit.dueCards).replaceAll('.', '') : status,
+                      style: type.caption.copyWith(color: colors.ink2),
+                    ),
                   ],
                 ),
                 const SizedBox(height: MmSpace.s12),
                 Text(unit.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.cardTitle.copyWith(fontSize: 16)),
                 const Spacer(),
-                Text(meta, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(color: colors.ink2)),
+                Text(
+                  meta,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: type.caption.copyWith(color: colors.ink2),
+                ),
               ],
             ),
           ),

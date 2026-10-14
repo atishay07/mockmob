@@ -38,28 +38,22 @@ class OtherSubjectsList extends StatelessWidget {
             semanticsLabel: s.name,
             focusRadius: MmRadius.keyAll,
             pressedScale: 0.985,
-            builder: (context, pressed, _) {
-              return DecoratedBox(
-                decoration: ShapeDecoration(
-                  color: pressed ? colors.ink.withValues(alpha: 0.06) : Colors.transparent,
-                  shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
+            haptic: MmPressHaptic.selection,
+            highlight: true,
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 56),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
+                child: Row(
+                  children: [
+                    SubjectEmblem(subject: s.id, size: 40, framed: false),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(child: Text(s.name, style: type.labelLarge)),
+                    Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                  ],
                 ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 56),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
-                    child: Row(
-                      children: [
-                        SubjectEmblem(subject: s.id, size: 40, framed: false),
-                        const SizedBox(width: MmSpace.s12),
-                        Expanded(child: Text(s.name, style: type.labelLarge)),
-                        Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
+              ),
+            ),
           ),
       ],
     );

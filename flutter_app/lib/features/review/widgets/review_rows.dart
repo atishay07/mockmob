@@ -177,6 +177,7 @@ class UnopenedResultRow extends StatelessWidget {
       onTap: onOpen,
       pressedScale: 0.985,
       focusRadius: MmRadius.panelAll,
+      haptic: MmPressHaptic.selection,
       semanticsLabel: '${ReviewCopy.unopened(label)} ${ReviewCopy.openResult}',
       builder: (context, pressed, _) => FakeGlass(
         pressed: pressed,
@@ -276,6 +277,8 @@ class PastResultRow extends StatelessWidget {
             onTap: onOpen,
             pressedScale: 0.985,
             focusRadius: MmRadius.keyAll,
+            haptic: MmPressHaptic.selection,
+            highlight: true,
             semanticsLabel: '$label, ${subjectName(attempt.subject)}. $line',
             builder: (context, pressed, _) => ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 60),
@@ -362,6 +365,8 @@ class EvidenceList extends StatelessWidget {
             onTap: () => onOpen(item),
             pressedScale: 0.985,
             focusRadius: MmRadius.keyAll,
+            haptic: MmPressHaptic.selection,
+            highlight: true,
             semanticsLabel: '${ReviewCopy.questionLabel(item.number)}, ${item.source}. ${questionText(item)}',
             builder: (context, pressed, _) => Padding(
               padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),

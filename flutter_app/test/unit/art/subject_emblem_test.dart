@@ -54,7 +54,35 @@ void main() {
     expect(EmblemPictures.length, first);
   });
 
+  // The app turns the idle drift on in main(); tests keep it off so screens settle (TEST-01).
+  void idleOn() {
+    SubjectEmblem.idleEnabled = true;
+    addTearDown(() => SubjectEmblem.idleEnabled = false);
+  }
+
+  testWidgets('tests keep the idle drift off, so pumpAndSettle settles', (tester) async {
+    expect(SubjectEmblem.idleEnabled, isFalse);
+    await _pump(tester, const SubjectEmblem(subject: 'physics', size: 96, animate: true));
+    await tester.pumpAndSettle();
+    expect(tester.hasRunningAnimations, isFalse);
+  });
+
+  testWidgets('offstage (TickerMode off) the drift pauses and resumes when shown', (tester) async {
+    idleOn();
+    Widget at(bool on) => TickerMode(enabled: on, child: const SubjectEmblem(subject: 'physics', size: 96, animate: true));
+    await _pump(tester, at(true));
+    await tester.pump(const Duration(seconds: 1));
+    expect(tester.hasRunningAnimations, isTrue);
+    await _pump(tester, at(false));
+    await tester.pumpAndSettle();
+    expect(tester.hasRunningAnimations, isFalse);
+    await _pump(tester, at(true));
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(tester.hasRunningAnimations, isTrue);
+  });
+
   testWidgets('idle motion runs only when asked for', (tester) async {
+    idleOn();
     await _pump(tester, const SubjectEmblem(subject: 'physics', size: 96));
     await tester.pump(const Duration(seconds: 1));
     expect(tester.hasRunningAnimations, isFalse);
@@ -69,12 +97,14 @@ void main() {
   });
 
   testWidgets('reduced motion (system) stops the idle drift', (tester) async {
+    idleOn();
     await _pump(tester, const SubjectEmblem(subject: 'chemistry', size: 96, animate: true), disableAnimations: true);
     await tester.pump(const Duration(seconds: 1));
     expect(tester.hasRunningAnimations, isFalse);
   });
 
   testWidgets('reduced motion (in-app setting) stops the idle drift', (tester) async {
+    idleOn();
     await _pump(
       tester,
       const ReducedMotionSetting(enabled: true, child: SubjectEmblem(subject: 'chemistry', size: 96, animate: true)),

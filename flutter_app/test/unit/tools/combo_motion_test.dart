@@ -1,6 +1,6 @@
 // The Combo planner's moments: ranked cards ink in, in order, when a plan lands (a cross-fade
-// under reduced motion), and Mobi thinks while a new plan is being checked instead of the old
-// list sitting there dimmed.
+// under reduced motion), and Mobi waits (the loading pose) while a new plan is being checked
+// instead of the old list sitting there dimmed.
 
 import 'dart:async';
 
@@ -71,7 +71,7 @@ void main() {
     });
   });
 
-  testWidgets('Mobi thinks while a plan is checked, the old list stays until the beat, the new one inks in', (tester) async {
+  testWidgets('Mobi waits while a plan is checked, the old list stays until the beat, the new one inks in', (tester) async {
     final gates = <Completer<DuComboPlan>>[];
     await pumpMockmob(
       tester,
@@ -93,9 +93,9 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 50));
 
-    // First plan: nothing to show yet, so Mobi thinks at once.
+    // First plan: nothing to show yet, so Mobi waits at once.
     expect(gates, hasLength(1));
-    expect(_mobi(MobiPose.think), findsOneWidget);
+    expect(_mobi(MobiPose.loading), findsOneWidget);
     expect(find.text(ToolsCopy.checking), findsOneWidget);
     expect(find.byType(ComboCard), findsNothing);
 
@@ -107,7 +107,7 @@ void main() {
     gates[0].complete(plan(5));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
-    expect(_mobi(MobiPose.think), findsNothing);
+    expect(_mobi(MobiPose.loading), findsNothing);
     expect(find.byType(ComboCard), findsWidgets);
     expect(find.text('Best fit'), findsOneWidget);
 
@@ -120,13 +120,13 @@ void main() {
 
     // Then Mobi takes its place.
     await tester.pump(ComboResults.beat + const Duration(milliseconds: 50));
-    expect(_mobi(MobiPose.think), findsOneWidget);
+    expect(_mobi(MobiPose.loading), findsOneWidget);
     expect(find.byType(ComboCard), findsNothing);
 
     gates[1].complete(plan(4));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
-    expect(_mobi(MobiPose.think), findsNothing);
+    expect(_mobi(MobiPose.loading), findsNothing);
     expect(find.byType(ComboCard), findsWidgets);
   });
 }

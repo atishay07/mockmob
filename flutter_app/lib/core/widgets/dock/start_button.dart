@@ -55,7 +55,8 @@ class _StartButtonState extends State<StartButton> with TickerProviderStateMixin
   @override
   void didUpdateWidget(StartButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.breatheKey != widget.breatheKey) _breatheOnce();
+    // A new session to resume breathes; one that ends (the key clears) does not.
+    if (oldWidget.breatheKey != widget.breatheKey && widget.breatheKey != null) _breatheOnce();
   }
 
   void _breatheOnce() {

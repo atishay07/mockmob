@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -92,7 +93,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
     final Widget body;
     if (model == null || attempt == null) {
-      body = RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
+      body = RecapPlaceholder(data: data, attemptId: id, page: true, onRetry: () => retryRecapData(ref, id));
     } else {
       final groups = buildAnswerGroups(
         attempt,
@@ -105,48 +106,60 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       );
       _seed(groups);
       final keysOff = model.keysUnavailable || data.detail == null;
+      final fix = firstFixSection(context, model);
+      // One authored entrance, riding the page's own transition: the figure first, then what
+      // it means, then the sections in reading order. A page that is already up never moves,
+      // and content that loads after the page has landed is simply there.
+      var turn = 0;
+      Widget item(Widget child) => MmStaggerItem(index: turn++, child: child);
       // Built in full (not lazily), so a linked question can be scrolled into view.
       body = SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (data.stale && data.fetchedAt != null) ...[
-              InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
-              const SizedBox(height: MmSpace.s12),
-            ],
-            if (progress != null) ...[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: KeyButton.secondary(
-                  label: ResultCopy.continueRecap(progress),
-                  expanded: false,
-                  onPressed: () => context.go(AppRoutes.resultRecap(id, progress)),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s48),
+        child: MmStagger(
+          driver: MmStaggerDriver.route,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (data.stale && data.fetchedAt != null) ...[
+                InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
+                const SizedBox(height: MmRhythm.item),
+              ],
+              if (progress != null) ...[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: KeyButton.secondary(
+                    label: ResultCopy.continueRecap(progress),
+                    expanded: false,
+                    onPressed: () => context.go(AppRoutes.resultRecap(id, progress)),
+                  ),
+                ),
+                const SizedBox(height: MmSpace.s16),
+              ],
+              if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
+                // A moment the rhythm module fired for this result; nothing is reserved without one.
+                CelebrationSlot(scope: CelebrationScope.result(id)),
+                const SizedBox(height: MmSpace.s16),
+              ],
+              item(SummarySection(model: model)),
+              ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+              if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model))],
+              if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
+              const SizedBox(height: MmRhythm.section),
+              item(
+                answersSection(
+                  context,
+                  groups: groups,
+                  keysOff: keysOff,
+                  isOpen: _open.contains,
+                  keyFor: _keyFor,
+                  onToggle: _toggle,
+                  model: model,
+                  blankOpen: _blankOpen,
+                  onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
                 ),
               ),
-              const SizedBox(height: MmSpace.s16),
             ],
-            if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
-              // A moment the rhythm module fired for this result; nothing is reserved without one.
-              CelebrationSlot(scope: CelebrationScope.result(id)),
-              const SizedBox(height: MmSpace.s16),
-            ],
-            SummarySection(model: model),
-            ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
-            if (!model.isHeld) ...whereSection(context, model),
-            ...firstFixSection(context, model),
-            ...answersSection(
-              context,
-              groups: groups,
-              keysOff: keysOff,
-              isOpen: _open.contains,
-              keyFor: _keyFor,
-              onToggle: _toggle,
-              model: model,
-              blankOpen: _blankOpen,
-              onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
-            ),
-          ],
+          ),
         ),
       );
     }

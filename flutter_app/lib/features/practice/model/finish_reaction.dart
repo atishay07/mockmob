@@ -1,8 +1,8 @@
 import '../../../core/widgets/mobi.dart' show MobiAct;
 
 /// How Mobi meets a finished practice. Chosen from the server's counts only, and never sad at
-/// the student: a good run gets a cheer, a mixed one Mobi thinking it over with them, a sheet
-/// left mostly blank Mobi reading it, and a set with nothing right a calm look at the first one.
+/// the student: a good run gets a cheer, a mixed one Mobi pointing at the first slip, a sheet
+/// left mostly blank Mobi reading it, and a set with nothing right Mobi encouraging them.
 enum FinishTone {
   /// 80% right or better: a celebration.
   great,
@@ -20,13 +20,13 @@ enum FinishTone {
   low;
 
   /// Mobi's act. A mixed set has him point at the first wrong bubble (see FinishStage); a set
-  /// with nothing right has him thinking it over, never sad.
+  /// with nothing right has him encourage, never sad.
   MobiAct get act => switch (this) {
     great => MobiAct.celebrate,
     good => MobiAct.cheer,
     mixed => MobiAct.point,
     blank => MobiAct.read,
-    low => MobiAct.think,
+    low => MobiAct.encourage,
   };
 
   /// Mobi points at the first wrong answer on the sheet.

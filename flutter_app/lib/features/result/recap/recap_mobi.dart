@@ -14,8 +14,9 @@ import '../../../core/widgets/widgets.dart';
 ///    points at the printed strip of answers);
 ///  * says a [line] as a plain line of text beside it, bobbing while the line arrives.
 ///
-/// It cheers only when [pose] is a cheer, which the card chooses only for a higher result. Under
-/// reduced motion Mobi holds its pose and the line is simply there.
+/// It cheers only when [pose] is a cheer, which the card chooses only for a higher result; it
+/// stands proud only for a milestone (the first full mock) and nods encouragement after a lower
+/// or held result. Under reduced motion Mobi holds its pose and the line is simply there.
 class RecapMobi extends StatefulWidget {
   const RecapMobi({
     super.key,
@@ -46,6 +47,9 @@ class RecapMobi extends StatefulWidget {
 }
 
 class _RecapMobiState extends State<RecapMobi> {
+  /// The earliest Mobi starts talking its line.
+  static const Duration _talkAfter = Duration(milliseconds: 650);
+
   final MobiController _controller = MobiController();
   Timer? _beat;
   bool _started = false;
@@ -64,7 +68,12 @@ class _RecapMobiState extends State<RecapMobi> {
         if (mounted) _controller.play(MobiAct.cheer);
       });
     } else if (widget.line != null && !reduced) {
-      _beat = Timer(const Duration(milliseconds: 650), () => _controller.say(widget.line!));
+      // Mobi finishes its arrival act first (a proud stretch or an encouraging nod is the
+      // moment), then talks the line in.
+      final act = Duration(milliseconds: (MobiMoves.duration(widget.pose.act) * 1000).round());
+      _beat = Timer(act > _talkAfter ? act : _talkAfter, () {
+        if (mounted) _controller.say(widget.line!);
+      });
     }
   }
 

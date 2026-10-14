@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/copy/formatters.dart';
+import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -132,31 +134,35 @@ class BestsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (asOf != null) ...[
+    // One entrance as the page arrives: the focal panel first, then the rest in reading order.
+    return MmStagger(
+      driver: MmStaggerDriver.route,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (asOf != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+              child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+            ),
+          ],
+          for (var i = 0; i < mocks.length; i++) ...[
+            if (i > 0) const SizedBox(height: MmRhythm.item + 4),
+            MmStaggerItem(index: i, child: _BestPanel(best: mocks[i], dates: _dates(mocks[i]), lit: i == 0)),
+          ],
           Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+            padding: const EdgeInsets.fromLTRB(4, MmRhythm.group, 0, 0),
+            child: Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
           ),
         ],
-        for (var i = 0; i < mocks.length; i++) ...[
-          if (i > 0) const SizedBox(height: MmSpace.s16),
-          _BestPanel(best: mocks[i], dates: _dates(mocks[i]), lit: i == 0),
-        ],
-        Padding(
-          padding: const EdgeInsets.fromLTRB(4, MmSpace.s24, 0, 0),
-          child: Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
-        ),
-      ],
+      ),
     );
   }
 }
 
 /// One comparable mock type: its name, the best marks as a monumental number with the
 /// denominator beside it, and the latest beneath when there are two or more.
-class _BestPanel extends StatelessWidget {
+class _BestPanel extends ConsumerWidget {
   const _BestPanel({required this.best, required this.dates, required this.lit});
 
   final PersonalBest best;
@@ -166,14 +172,11 @@ class _BestPanel extends StatelessWidget {
   final bool lit;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final title = RhythmCopy.bestFormat(modeLabel(best.mode), subjectDisplayName(best.subject), best.questions);
-    final panel = FakeGlass(
-      child: Padding(
-        padding: const EdgeInsets.all(MmSpace.s20),
-        child: Semantics(
+    final content = Semantics(
           container: true,
           label: [title, bestBody(best), ?dates].join(' '),
           excludeSemantics: true,
@@ -186,6 +189,8 @@ class _BestPanel extends StatelessWidget {
                 value: formatSignedNumber(best.best.marks),
                 unit: RhythmCopy.outOf(best.best.max),
                 style: type.figure,
+                delay: Motion.enterDuration,
+                onLanded: () => ref.read(hapticsProvider).selection(),
               ),
               if (best.attempts >= 2) ...[
                 const SizedBox(height: MmSpace.s16),
@@ -204,10 +209,9 @@ class _BestPanel extends StatelessWidget {
               ],
             ],
           ),
-        ),
-      ),
     );
-    return lit ? LitEdge(child: panel) : panel;
+    // The first panel is the screen's one focal surface; the others are plain cards.
+    return lit ? MmSurface.hero(lit: true, child: content) : MmSurface.plain(child: content);
   }
 }
 
@@ -263,11 +267,9 @@ class _BestsSkeleton extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Skeleton.line(width: 220, height: 18),
-        SizedBox(height: 12),
-        Skeleton.line(),
-        SizedBox(height: 8),
-        Skeleton.line(width: 180),
+        MmSkeletonCard(),
+        SizedBox(height: MmRhythm.group),
+        MmSkeletonCard(),
       ],
     );
   }

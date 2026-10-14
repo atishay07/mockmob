@@ -7,7 +7,8 @@ import '../theme/theme.dart';
 import 'mobi.dart';
 
 /// The designed loading state of a screen or a large slot: nothing for the first 300 ms (a fast
-/// load never flashes), then the living Mobi thinking, and after a second a one-line [status]
+/// load never flashes), then the living Mobi in its loading scan (eyes sweep the visor; it settles
+/// into quiet beats after 12 s), and after a second a one-line [status]
 /// fading in under it. Under reduced motion Mobi holds still. TalkBack hears [status] once, when Mobi
 /// appears.
 ///
@@ -78,7 +79,7 @@ class _MobiLoaderState extends State<MobiLoader> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Mobi(pose: MobiPose.think, size: widget.size),
+              Mobi(pose: MobiPose.loading, size: widget.size),
               AnimatedOpacity(
                 opacity: _saying ? 1 : 0,
                 duration: Motion.of(context, Motion.ui),

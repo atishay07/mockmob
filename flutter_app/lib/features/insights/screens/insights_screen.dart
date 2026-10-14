@@ -203,14 +203,14 @@ class InsightsScreen extends ConsumerWidget {
     if (ev == null && inputs.attemptsPending) {
       return [
         ...head,
-        if (v.findings.isNotEmpty) ...[gap, const SectionTitle(InsightsCopy.findingsHeading), const _BlockSkeleton(height: 220)],
+        if (v.findings.isNotEmpty) ...[gap, const SectionTitle(InsightsCopy.findingsHeading), const _BlockSkeleton(MmSkeletonCard())],
         gap,
         const SectionTitle(InsightsCopy.trendHeading),
-        const _BlockSkeleton(height: 250),
+        const _BlockSkeleton(MmSkeletonCard()),
         ...chapters,
         gap,
         const SectionTitle(InsightsCopy.subjectsHeading),
-        const _BlockSkeleton(height: 170),
+        const _BlockSkeleton(MmSkeletonRows(rows: 2)),
       ];
     }
 
@@ -279,14 +279,14 @@ class InsightsScreen extends ConsumerWidget {
   }
 }
 
-/// A grey block holding a section's place while the sessions load.
+/// The shape of a section, holding its place while the sessions load.
 class _BlockSkeleton extends StatelessWidget {
-  const _BlockSkeleton({required this.height});
+  const _BlockSkeleton(this.shape);
 
-  final double height;
+  final Widget shape;
 
   @override
-  Widget build(BuildContext context) => SkeletonGroup(child: Skeleton(height: height, radius: MmRadius.panel));
+  Widget build(BuildContext context) => SkeletonGroup(child: shape);
 }
 
 /// One plain row when the sessions could not be read and none are on the phone.
@@ -334,14 +334,12 @@ class _RecordSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // The hero card: the figure, then the sheet of bubbles.
-            Skeleton(height: 400, radius: MmRadius.panel),
-            SizedBox(height: MmSpace.s12),
-            Skeleton(height: 64, radius: MmRadius.key),
-            SizedBox(height: MmSpace.group),
-            Skeleton.line(width: 180),
-            SizedBox(height: MmSpace.s12),
-            Skeleton(height: 220, radius: MmRadius.panel),
+            // The hero: the caption, the figure with its meaning, then the sheet of bubbles.
+            MmSkeletonCard(hero: true),
+            SizedBox(height: MmRhythm.section),
+            MmSkeletonCard(),
+            SizedBox(height: MmRhythm.section),
+            MmSkeletonRows(rows: 3),
           ],
         ),
       ),

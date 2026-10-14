@@ -72,17 +72,17 @@ void main() {
 
   group('the colleges caption (P2-3)', () {
     test('UR is said as unreserved, never as the code', () {
-      expect(TodayCopy.ladderCaption('UR'), "Last year's DU closing scores, unreserved");
+      expect(TodayCopy.ladderCaption('UR'), "Round 1 minimum, 2026, unreserved");
       expect(TodayCopy.ladderCaption(null), TodayCopy.ladderCaption('UR'));
       expect(TodayCopy.ladderCaption('ur'), TodayCopy.ladderCaption('UR'));
     });
 
     test('other categories use the name a student says, and an unknown one is kept as it came', () {
-      expect(TodayCopy.ladderCaption('OBC-NCL'), "Last year's DU closing scores, OBC");
-      expect(TodayCopy.ladderCaption('EWS'), "Last year's DU closing scores, EWS");
-      expect(TodayCopy.ladderCaption('SIKH'), "Last year's DU closing scores, Sikh minority");
-      expect(TodayCopy.ladderCaption('SGC'), "Last year's DU closing scores, single girl child");
-      expect(TodayCopy.ladderCaption('XYZ'), "Last year's DU closing scores, XYZ");
+      expect(TodayCopy.ladderCaption('OBC-NCL'), "Round 1 minimum, 2026, OBC");
+      expect(TodayCopy.ladderCaption('EWS'), "Round 1 minimum, 2026, EWS");
+      expect(TodayCopy.ladderCaption('SIKH'), "Round 1 minimum, 2026, Sikh minority");
+      expect(TodayCopy.ladderCaption('SGC'), "Round 1 minimum, 2026, single girl child");
+      expect(TodayCopy.ladderCaption('XYZ'), "Round 1 minimum, 2026, XYZ");
     });
   });
 

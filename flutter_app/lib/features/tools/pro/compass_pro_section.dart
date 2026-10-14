@@ -58,7 +58,7 @@ class _CompassProSectionState extends ConsumerState<CompassProSection> {
     if (pro == null) {
       if (remote.error != null) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.section, MmSpace.gutter, 0),
           child: InlineBanner(
             tone: remote.error!.isOffline ? BannerTone.offline : BannerTone.error,
             message: remote.error!.isOffline ? ToolsCopy.offlineBody : ToolsCopy.proUnavailable,
@@ -69,7 +69,7 @@ class _CompassProSectionState extends ConsumerState<CompassProSection> {
       }
       if (remote.loading) {
         return const Padding(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s32, MmSpace.gutter + 4, 0),
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmRhythm.section, MmSpace.gutter + 4, 0),
           child: SkeletonGroup(
             label: ToolsCopy.proReading,
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Skeleton.line(width: 200), SizedBox(height: MmSpace.s12), Skeleton(width: 120, height: 48)]),
@@ -109,7 +109,7 @@ class _ProContent extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MonumentalNumber(value: '${total.mid}', unit: 'of ${total.max}', style: type.figure, semanticsLabel: '${total.mid} of ${total.max}'),
+                      ToolsNumber(value: '${total.mid}', unit: 'of ${total.max}', semanticsLabel: '${total.mid} of ${total.max}'),
                       const SizedBox(height: MmSpace.s8),
                       Text(ToolsCopy.proRange(total.low, total.high), style: type.labelLarge),
                       const SizedBox(height: 2),
@@ -133,7 +133,7 @@ class _ProContent extends ConsumerWidget {
           ),
         ),
         if (pro.next != null) ...[
-          const SizedBox(height: MmSpace.s12),
+          const SizedBox(height: MmRhythm.item),
           ToolsCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +171,7 @@ class _ProContent extends ConsumerWidget {
         if (shortlist.isEmpty)
           const ToolsNote(ToolsCopy.shortlistEmpty, top: 0)
         else
-          YouPanel(
+          ToolsPanel(
             children: [
               for (final t in shortlist) _TargetRow(target: t, state: state, band: pro.total),
             ],
@@ -338,7 +338,7 @@ class _TargetRow extends ConsumerWidget {
         ),
     };
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.s4, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s12, MmSpace.s4, MmSpace.s12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -478,7 +478,7 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
               children: [
                 for (final target in shortlistChoices(group, value.seats))
                   if (!taken.contains(target))
-                    RowFrame(
+                    ToolsRowFrame(
                       padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
                       semanticsLabel: _showsProgramme(target, group) ? '${target.college}. ${target.programme}' : target.college,
                       onTap: () {
@@ -527,7 +527,7 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
         const SizedBox(height: MmSpace.s8),
         Text(ToolsCopy.shortlistChooseProgramme, style: type.caption.copyWith(color: colors.ink3)),
         for (final g in shown)
-          RowFrame(
+          ToolsRowFrame(
             padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
             semanticsLabel: g.name,
             onTap: () => setState(() => _group = g),

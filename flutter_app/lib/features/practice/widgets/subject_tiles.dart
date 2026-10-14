@@ -207,7 +207,10 @@ class SubjectTile extends StatelessWidget {
             child: DecoratedBox(
               position: DecorationPosition.foreground,
               decoration: ShapeDecoration(
-                shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
+                shape: RoundedSuperellipseBorder(
+                  borderRadius: MmRadius.keyAll,
+                  side: MmSelection.side(colors, selected: selected),
+                ),
               ),
               child: MmClip(
                 borderRadius: MmRadius.keyAll,
@@ -233,7 +236,12 @@ class SubjectTile extends StatelessWidget {
                             duration: reduced ? Duration.zero : Motion.ui,
                             curve: Motion.out,
                             alignment: Alignment.topLeft,
-                            child: SubjectEmblem(subject: id, size: SubjectTiles.emblemSize(questions != null), framed: false, marked: selected),
+                            child: SubjectEmblem(
+                              subject: id,
+                              size: SubjectTiles.emblemSize(questions != null),
+                              framed: false,
+                              marked: selected,
+                            ),
                           ),
                         ),
                       ),
@@ -298,6 +306,7 @@ class _MoreTile extends StatelessWidget {
     return MmPressable(
       semanticsLabel: PracticeCopy.moreSubjects,
       focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => SizedBox(
         width: SubjectTiles.moreWidth,

@@ -24,7 +24,12 @@ class TodayEntranceScope extends InheritedWidget {
 }
 
 /// One piece of the entrance, starting [delay] after the page opens.
-class TodayEnter extends StatelessWidget {
+///
+/// The piece keeps its state when the entrance ends: while it moves the child sits under an
+/// Opacity and a Transform, and once it has landed (or on a later rebuild) it stands alone with
+/// no layer; a GlobalKey carries the child across that change, so nothing under it (Mobi, a
+/// rolling number, a sheet's sweep) is rebuilt from scratch and plays its own entrance twice.
+class TodayEnter extends StatefulWidget {
   const TodayEnter({super.key, required this.delay, required this.child, this.rise = 16, this.length = const Duration(milliseconds: 420)});
 
   final Duration delay;
@@ -35,13 +40,41 @@ class TodayEnter extends StatelessWidget {
   final Duration length;
 
   @override
+  State<TodayEnter> createState() => _TodayEnterState();
+}
+
+class _TodayEnterState extends State<TodayEnter> {
+  final GlobalKey _keep = GlobalKey(debugLabel: 'today-enter');
+
+  /// This piece's window of the entrance, made once per progress (not on every build).
+  CurvedAnimation? _window;
+
+  CurvedAnimation _windowOf(Animation<double> progress) {
+    final total = todayEntranceDuration.inMilliseconds;
+    final start = (widget.delay.inMilliseconds / total).clamp(0.0, 1.0);
+    final end = ((widget.delay + widget.length).inMilliseconds / total).clamp(start, 1.0);
+    final window = _window;
+    if (window != null && window.parent == progress) {
+      final curve = window.curve as Interval;
+      if (curve.begin == start && curve.end == end) return window;
+    }
+    window?.dispose();
+    return _window = CurvedAnimation(parent: progress, curve: Interval(start, end, curve: Motion.emphasized));
+  }
+
+  @override
+  void dispose() {
+    _window?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final child = KeyedSubtree(key: _keep, child: widget.child);
     final progress = TodayEntranceScope.of(context);
     if (progress == null || Motion.reduced(context) || progress.isCompleted) return child;
-    final total = todayEntranceDuration.inMilliseconds;
-    final start = (delay.inMilliseconds / total).clamp(0.0, 1.0);
-    final end = ((delay + length).inMilliseconds / total).clamp(start, 1.0);
-    final t = CurvedAnimation(parent: progress, curve: Interval(start, end, curve: Motion.emphasized));
+    final t = _windowOf(progress);
+    final rise = widget.rise;
     return AnimatedBuilder(
       animation: t,
       child: child,

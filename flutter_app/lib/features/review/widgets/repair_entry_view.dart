@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/models/ai_credits.dart';
@@ -107,7 +108,6 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
     final n = run.steps.length;
     final reopen = n == 1 && !run.steps.first.item.stage.isOpen;
     final light = SubjectLight.forSubject(run.subjectId);
-    final object = MmArt.subjectObject(run.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
     final numbers = [for (final s in run.steps) s.item.number];
 
@@ -172,29 +172,28 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                                     ],
                                   ),
                                 ),
-                                if (object != null)
-                                  Positioned(
-                                    right: -44,
-                                    top: -32,
-                                    child: IgnorePointer(
-                                      child: RepaintBoundary(
-                                        child: AnimatedBuilder(
-                                          animation: _artCurve,
-                                          child: ArtImage(object, width: 168, height: 168),
-                                          builder: (context, child) {
-                                            final t = _artCurve.value;
-                                            return Opacity(
-                                              opacity: t.clamp(0.0, 1.0),
-                                              child: Transform.translate(
-                                                offset: Offset(0, 10 * (1 - t)),
-                                                child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                Positioned(
+                                  right: -44,
+                                  top: -32,
+                                  child: IgnorePointer(
+                                    child: RepaintBoundary(
+                                      child: AnimatedBuilder(
+                                        animation: _artCurve,
+                                        child: SubjectEmblem(subject: run.subjectId, size: 160, framed: false, animate: true),
+                                        builder: (context, child) {
+                                          final t = _artCurve.value;
+                                          return Opacity(
+                                            opacity: t.clamp(0.0, 1.0),
+                                            child: Transform.translate(
+                                              offset: Offset(0, 10 * (1 - t)),
+                                              child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
+                                ),
                               ],
                             ),
                           ),
@@ -203,6 +202,9 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                             value: '$n',
                             unit: n == 1 ? 'mistake' : 'mistakes',
                             style: type.hero.copyWith(fontSize: 112, height: 96 / 112),
+                            // The roll waits for the page to arrive, then lands with one tick.
+                            delay: Motion.result,
+                            onLanded: () => mmHapticsOf(context)?.selection(),
                             semanticsLabel: reopen ? '${plural(n, 'mistake')}, already repaired' : '${plural(n, 'mistake')} to repair',
                           ),
                           const SizedBox(height: MmSpace.s8),

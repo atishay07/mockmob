@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../art/art.dart';
 import '../../copy/state_words.dart';
 import '../../theme/theme.dart';
 import '../art/mm_art.dart';
@@ -107,11 +108,11 @@ class LabSubjects extends StatelessWidget {
   const LabSubjects({super.key});
 
   static const _pairs = [
-    (SubjectLight.accountancy, MmArt.objAccountancy, 'Accountancy'),
-    (SubjectLight.businessStudies, MmArt.objBusiness, 'Business Studies'),
-    (SubjectLight.economics, MmArt.objEconomics, 'Economics'),
-    (SubjectLight.english, MmArt.objEnglish, 'English'),
-    (SubjectLight.generalTest, MmArt.objGeneralTest, 'General Test'),
+    (SubjectLight.accountancy, 'accountancy', 'Accountancy'),
+    (SubjectLight.businessStudies, 'business_studies', 'Business Studies'),
+    (SubjectLight.economics, 'economics', 'Economics'),
+    (SubjectLight.english, 'english', 'English'),
+    (SubjectLight.generalTest, 'general_test', 'General Test'),
   ];
 
   @override
@@ -121,7 +122,7 @@ class LabSubjects extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        for (final (light, art, name) in _pairs)
+        for (final (light, subject, name) in _pairs)
           ClipRRect(
             borderRadius: MmRadius.keyAll,
             child: SizedBox(
@@ -135,7 +136,7 @@ class LabSubjects extends StatelessWidget {
                   center: const Alignment(0.2, 0),
                   child: Stack(
                     children: [
-                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: ArtImage(art)),
+                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: Align(alignment: Alignment.centerRight, child: SubjectEmblem(subject: subject, size: 96, framed: false))),
                       Positioned(left: 10, bottom: 8, child: Text(name, style: context.mmType.caption)),
                     ],
                   ),

@@ -3,7 +3,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
-import 'tools_page.dart';
+import '../../../core/widgets/surfaces/mm_surface.dart' show MmRow;
 
 /// Which tool a hub row draws for itself.
 enum ToolArtKind {
@@ -90,7 +90,7 @@ class _ToolArtPainter extends CustomPainter {
 }
 
 /// A hub row that draws its own mark instead of a line icon: the art, a title, a note and the
-/// chevron, on the same row frame as every You row.
+/// chevron, as one row of a tools panel (its hairlines start at 64 dp).
 class ToolRow extends StatelessWidget {
   const ToolRow({super.key, required this.art, required this.title, required this.note, required this.onTap});
 
@@ -101,29 +101,13 @@ class ToolRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return RowFrame(
-      onTap: onTap,
+    return MmRow(
+      title: title,
+      subtitle: note,
+      leading: ToolArt(art),
       semanticsLabel: '$title. $note',
-      child: Row(
-        children: [
-          ToolArt(art),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
-                const SizedBox(height: 2),
-                Text(note, style: type.caption.copyWith(color: colors.ink2)),
-              ],
-            ),
-          ),
-          const SizedBox(width: MmSpace.s8),
-          Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
-        ],
-      ),
+      onTap: onTap,
+      trailing: Icon(LucideIcons.chevronRight, size: 16, color: context.mmColors.ink3),
     );
   }
 }

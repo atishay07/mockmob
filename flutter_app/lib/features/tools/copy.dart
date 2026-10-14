@@ -1,8 +1,18 @@
 // Every string the CUET tools show. Labels that come from the website's DU tools are verbatim.
 
+import '../../core/copy/copy.dart' show categoryWords;
+
+/// A category in the words a student says, for the start of a line or a chip: "Unreserved",
+/// "OBC", "Single girl child". One mapping with the rest of the app (`categoryWords`).
+String categoryLabel(String? category) {
+  final words = categoryWords(category);
+  return words.isEmpty ? words : '${words[0].toUpperCase()}${words.substring(1)}';
+}
+
 abstract final class ToolsCopy {
   // Hub.
   static const hubTitle = 'CUET tools';
+  static const allToolsRow = 'All CUET tools';
   static const hubLead = 'Plan the papers and the courses.';
   static const compassTitle = 'Admission Compass';
   static const compassQuestion = 'Which DU courses can your subjects get?';
@@ -39,7 +49,7 @@ abstract final class ToolsCopy {
 
   static const categoryHeading = 'Category and score';
   static String categorySummary(String category, String? score) =>
-      score == null ? '$category. No score yet' : '$category. Score $score';
+      score == null ? '${categoryLabel(category)}. No score yet' : '${categoryLabel(category)}. Score $score';
   static const optional = 'Optional';
   static const category = 'Category';
   static const otherQuota = 'Other quota';
@@ -73,7 +83,7 @@ abstract final class ToolsCopy {
 
   static String colleges(int n) => n == 1 ? '1 college' : '$n colleges';
   static const noCutoffList = 'No CUET cutoff list published';
-  static String roundOneRange(String category, String low, String high) => 'Round I, $category: $low to $high';
+  static String roundOneRange(String category, String low, String high) => 'Round I, ${categoryWords(category)}: $low to $high';
   static const verdictAbove = 'Above every Round I cutoff';
   static const verdictWithin = 'Within the Round I range';
   static const verdictBelow = 'Below every Round I cutoff';
@@ -108,6 +118,7 @@ abstract final class ToolsCopy {
   static String clearing(String score, int n, int total) =>
       'A score of $score was at or above a published 2026 cutoff in $n of $total college entries.';
   static const viaUr = 'Cleared on the Unreserved cutoff, which is lower';
+  static const viaUrBadge = 'Unreserved';
   static String showMore(int next, int left) => 'Show $next more ($left remaining)';
   static const loadingCutoffs = 'Loading college cutoffs';
   static const cutoffsError = 'We could not load the cutoffs for this programme.';
@@ -115,7 +126,7 @@ abstract final class ToolsCopy {
   static const scaleNote = 'Minimum allocation scores out of 1000.';
   static const unknownProgramme = 'This programme is not in the 2026 data';
   static const unknownProgrammeBody = 'It may have been renamed. Go back to the list and pick it again.';
-  static String categoryNow(String c) => 'Category $c';
+  static String categoryNow(String c) => 'Category: ${categoryWords(c)}';
   static const change = 'Change';
 
   // Combo.

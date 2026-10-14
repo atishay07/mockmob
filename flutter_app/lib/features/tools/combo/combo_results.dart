@@ -11,7 +11,7 @@ import '../domain/du_combos.dart';
 import '../domain/du_models.dart';
 import 'combo_card.dart';
 
-/// The ranked combinations. While a new plan is being checked Mobi thinks in place of the old
+/// The ranked combinations. While a new plan is being checked Mobi waits (the loading pose) in place of the old
 /// list (after a short beat, so a quick answer never flashes it). When the plan lands the cards
 /// ink in, in rank order.
 class ComboResults extends StatefulWidget {
@@ -108,7 +108,7 @@ class _Checking extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s16),
         child: Row(
           children: [
-            const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
+            const Mobi(pose: MobiPose.loading, size: 72, motion: MobiMotion.settle),
             const SizedBox(width: MmSpace.s12),
             Expanded(child: Text(ToolsCopy.checking, style: type.labelLarge.copyWith(color: colors.ink2))),
           ],

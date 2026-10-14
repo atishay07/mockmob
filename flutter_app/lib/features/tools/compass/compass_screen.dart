@@ -29,7 +29,7 @@ enum CompassSort { colleges, cutoff, name }
 const int _nearFirst = 5;
 
 /// Admission Compass (`/tools/compass`): the student's CUET subjects against DU's 2026-27
-/// Bulletin rules, then last year's cutoffs by category and round. The website's
+/// Bulletin rules, then the 2026 college cutoffs by category and round. The website's
 /// admission-compass and cutoff calculator in one native screen, on the same data.
 class CompassScreen extends ConsumerStatefulWidget {
   const CompassScreen({super.key});
@@ -103,10 +103,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       SliverToBoxAdapter(child: CompassHero(state: s)),
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.only(top: MmSpace.s16),
-          child: YouPanel(
+          padding: const EdgeInsets.only(top: MmRhythm.item),
+          child: ToolsPanel(
+            dividerIndent: ToolsLinkRow.dividerIndent,
             children: [
-              YouRow(
+              ToolsLinkRow(
                 icon: LucideIcons.slidersHorizontal,
                 title: ToolsCopy.categoryHeading,
                 note: ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
@@ -150,7 +151,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           if (list.where((r) => r.group.stream == st).toList() case final rows when rows.isNotEmpty) ...[
             SliverToBoxAdapter(child: GroupHeading(st, top: MmSpace.s20)),
             SliverToBoxAdapter(
-              child: YouPanel(
+              child: ToolsPanel(
                 children: [
                   for (final r in rows)
                     ProgrammeRow(verdict: r, category: s.category, score: score, onTap: () => open(r.group.id)),
@@ -171,7 +172,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ),
           if (nearOpen) ...[
             SliverToBoxAdapter(
-              child: YouPanel(children: [for (final r in nearShown) NearRow(verdict: r, catalog: s.catalog, onTap: () => open(r.group.id))]),
+              child: ToolsPanel(children: [for (final r in nearShown) NearRow(verdict: r, catalog: s.catalog, onTap: () => open(r.group.id))]),
             ),
             if (near.length > _nearFirst)
               SliverToBoxAdapter(
@@ -193,11 +194,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       SliverToBoxAdapter(child: CompassPractise(state: s)),
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
-          child: YouPanel(
-            margin: EdgeInsets.zero,
+          padding: const EdgeInsets.only(top: MmRhythm.section),
+          child: ToolsPanel(
+            dividerIndent: ToolsLinkRow.dividerIndent,
             children: [
-              YouRow(
+              ToolsLinkRow(
                 icon: LucideIcons.fileText,
                 title: ToolsCopy.sourcesTitle,
                 note: ToolsCopy.sourcesNote,
@@ -338,11 +339,8 @@ class _Filters extends StatelessWidget {
         ),
         if (showClearing)
           Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s4),
-            child: YouPanel(
-              margin: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-              children: [_ClearingSwitch(value: onlyClearing, onChanged: onClearing)],
-            ),
+            padding: const EdgeInsets.only(top: MmSpace.s8),
+            child: ToolsPanel(children: [_ClearingSwitch(value: onlyClearing, onChanged: onClearing)]),
           ),
       ],
     );
@@ -357,10 +355,9 @@ class _ClearingSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RowFrame(
+    return ToolsRowFrame(
       onTap: () => onChanged(!value),
       toggled: value,
-      tick: false,
       semanticsLabel: ToolsCopy.onlyClearing,
       child: Row(
         children: [

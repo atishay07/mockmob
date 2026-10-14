@@ -4,11 +4,12 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart' show Skeleton, SkeletonGroup;
+import '../../../core/widgets/widgets.dart' show MmPressHaptic, MmPressable, MmRhythm, MmSkeletonCard, MmSkeletonRows, SkeletonGroup;
 
-/// A group heading: sentence case, no eyebrow styling, 32 dp above to separate independent groups.
+/// A group heading in the Bricolage title cut, with the group gap above and the item gap
+/// below, so the page reads as a few clear groups and not one long list.
 class SectionHeading extends StatelessWidget {
-  const SectionHeading(this.text, {super.key, this.topGap = MmSpace.group});
+  const SectionHeading(this.text, {super.key, this.topGap = MmRhythm.group});
 
   final String text;
   final double topGap;
@@ -16,10 +17,10 @@ class SectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: topGap, bottom: MmSpace.s8, left: 4),
+      padding: EdgeInsets.only(top: topGap, bottom: MmRhythm.item, left: 4),
       child: Semantics(
         header: true,
-        child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2)),
+        child: Text(text, style: context.mmType.title),
       ),
     );
   }
@@ -42,8 +43,8 @@ class QuietNote extends StatelessWidget {
 }
 
 /// A row with a label and a time or value in a tappable pill (a picker opens). The whole row is
-/// the target, at least 56 dp tall.
-class ValueRow extends StatefulWidget {
+/// the target, at least 60 dp tall: it presses edge to edge with the veil and a selection tick.
+class ValueRow extends StatelessWidget {
   const ValueRow({
     super.key,
     required this.label,
@@ -58,93 +59,54 @@ class ValueRow extends StatefulWidget {
   final String? semanticsHint;
 
   @override
-  State<ValueRow> createState() => _ValueRowState();
-}
-
-class _ValueRowState extends State<ValueRow> {
-  bool _pressed = false;
-  bool _focused = false;
-
-  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final enabled = widget.onTap != null;
+    final enabled = onTap != null;
 
     return Semantics(
       button: true,
       enabled: enabled,
-      label: '${widget.label}, ${widget.value}',
-      hint: widget.semanticsHint ?? 'Changes the time',
-      onTap: widget.onTap,
+      label: '$label, $value',
+      hint: semanticsHint ?? 'Changes the time',
+      onTap: onTap,
       excludeSemantics: true,
-      child: FocusableActionDetector(
-        enabled: enabled,
-        onShowFocusHighlight: (v) => setState(() => _focused = v),
-        actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(
-            onInvoke: (_) {
-              widget.onTap?.call();
-              return null;
-            },
-          ),
-        },
-        child: Listener(
-          onPointerDown: (_) => setState(() => _pressed = true),
-          onPointerUp: (_) => setState(() => _pressed = false),
-          onPointerCancel: (_) => setState(() => _pressed = false),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: widget.onTap,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 60),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s6),
-                child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.label,
-                      style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink),
+      child: MmPressable(
+        onTap: onTap,
+        haptic: MmPressHaptic.selection,
+        highlight: true,
+        pressedScale: 0.985,
+        focusRadius: BorderRadius.zero,
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 60),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s6),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink)),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: 92),
+                  child: DecoratedBox(
+                    decoration: ShapeDecoration(
+                      color: pressed ? colors.line : (colors.isNight ? colors.sunken : colors.raised2),
+                      shape: StadiumBorder(side: BorderSide(color: colors.line)),
                     ),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minHeight: MmTarget.min,
-                      minWidth: 92,
-                    ),
-                    child: DecoratedBox(
-                      decoration: ShapeDecoration(
-                        color: _pressed ? colors.line : (colors.isNight ? colors.sunken : colors.raised2),
-                        shape: StadiumBorder(
-                          side: BorderSide(
-                            color: _focused ? colors.focusRing : colors.line,
-                            width: _focused ? 2 : 1,
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: MmSpace.s16,
-                        ),
-                        child: Center(
-                          widthFactor: 1,
-                          child: Text(
-                            widget.value,
-                            style: type.button.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: colors.ink,
-                            ),
-                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+                      child: Center(
+                        widthFactor: 1,
+                        child: Text(
+                          value,
+                          style: type.button.copyWith(fontSize: 16, fontWeight: FontWeight.w700, color: colors.ink),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -153,8 +115,8 @@ class _ValueRowState extends State<ValueRow> {
   }
 }
 
-/// A channel row: a title, one line saying what it is for, and a switch. The whole row toggles.
-/// [note] adds a warning or status line under the explanation.
+/// A channel row: a title, one line saying what it is for, and a switch. The whole row toggles
+/// and presses edge to edge. [note] adds a warning or status line under the explanation.
 class ChannelRow extends ConsumerWidget {
   const ChannelRow({
     super.key,
@@ -196,13 +158,16 @@ class ChannelRow extends ConsumerWidget {
       hint: note == null ? body : '$body $note',
       onTap: enabled ? toggle : null,
       excludeSemantics: true,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      // The toggle gives its own tick, so the press adds the veil and the give, no second haptic.
+      child: MmPressable(
         onTap: enabled ? toggle : null,
-        child: ConstrainedBox(
+        highlight: true,
+        pressedScale: 0.985,
+        focusRadius: BorderRadius.zero,
+        builder: (context, pressed, _) => ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 64),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -212,10 +177,7 @@ class ChannelRow extends ConsumerWidget {
                     children: [
                       Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: dimmed ? colors.ink2 : colors.ink)),
                       const SizedBox(height: 2),
-                      Text(
-                        body,
-                        style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2),
-                      ),
+                      Text(body, style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2)),
                       if (note != null) ...[
                         const SizedBox(height: MmSpace.s4),
                         Row(
@@ -223,24 +185,13 @@ class ChannelRow extends ConsumerWidget {
                           children: [
                             if (noteIsWarning)
                               Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 2,
-                                  right: MmSpace.s8,
-                                ),
-                                child: Icon(
-                                  LucideIcons.triangleAlert,
-                                  size: 16,
-                                  color: colors.warnText,
-                                ),
+                                padding: const EdgeInsets.only(top: 2, right: MmSpace.s8),
+                                child: Icon(LucideIcons.triangleAlert, size: 16, color: colors.warnText),
                               ),
                             Expanded(
                               child: Text(
                                 note!,
-                                style: type.small.copyWith(
-                                  color: noteIsWarning
-                                      ? colors.warnText
-                                      : colors.ink3,
-                                ),
+                                style: type.small.copyWith(color: noteIsWarning ? colors.warnText : colors.ink3),
                               ),
                             ),
                           ],
@@ -252,10 +203,7 @@ class ChannelRow extends ConsumerWidget {
                 const SizedBox(width: MmSpace.s12),
                 // The row handles the tap, so the switch sits outside the semantics tree.
                 IgnorePointer(
-                  child: Switch(
-                    value: value,
-                    onChanged: enabled && !dimmed ? (_) {} : null,
-                  ),
+                  child: Switch(value: value, onChanged: enabled && !dimmed ? (_) {} : null),
                 ),
               ],
             ),
@@ -275,7 +223,8 @@ class Hairline extends StatelessWidget {
       SizedBox(height: 1, child: ColoredBox(color: context.mmColors.line));
 }
 
-/// The settings list while the first read is in flight.
+/// The settings list while the first read is in flight: the permission pane's shape, then the
+/// rows, on the ground with the warm light sweeping across them.
 class LoadingRows extends StatelessWidget {
   const LoadingRows({super.key});
 
@@ -283,16 +232,11 @@ class LoadingRows extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SkeletonGroup(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Skeleton(height: 96, radius: MmRadius.panel),
-          SizedBox(height: MmSpace.s32),
-          Skeleton(height: 40),
-          SizedBox(height: MmSpace.s32),
-          Skeleton(height: 56),
-          SizedBox(height: MmSpace.s12),
-          Skeleton(height: 56),
-          SizedBox(height: MmSpace.s12),
-          Skeleton(height: 56),
+          MmSkeletonCard(hero: true),
+          SizedBox(height: MmRhythm.section),
+          MmSkeletonRows(rows: 4),
         ],
       ),
     );

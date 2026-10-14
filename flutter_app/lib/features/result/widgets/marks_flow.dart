@@ -112,15 +112,21 @@ class MarksFlow extends StatelessWidget {
           );
           if (g != null) {
             final child = w;
+            // The number counts up from 0 as its words arrive and lands on the exact value the
+            // moment its ribbon lands (one driver for the whole flow, so they cannot drift apart).
+            final target = int.tryParse(number);
+            final counts = target != null && target > 0;
             w = AnimatedBuilder(
               animation: g,
               child: child,
               builder: (context, child) {
                 final t = _wordsAt(g.value, i);
-                if (t >= 1) return child!;
+                final c = counts ? countAt(g.value, i) : 1.0;
+                if (t >= 1 && c >= 1) return child!;
+                final shown = c >= 1 ? child! : _counting(target!, number, unit, label, detail, c, numberStyle.copyWith(color: colors.ink), unitStyle, labelStyle, detailStyle, value);
                 return Opacity(
                   opacity: Motion.glide.transform(t),
-                  child: Transform.translate(offset: Offset(0, 12 * (1 - Motion.emphasized.transform(t))), child: child),
+                  child: Transform.translate(offset: Offset(0, 12 * (1 - Motion.emphasized.transform(t))), child: shown),
                 );
               },
             );
@@ -173,6 +179,59 @@ class MarksFlow extends StatelessWidget {
 
   /// Row [i]'s words arrive as its ribbon reaches them.
   static double _wordsAt(double t, int i) => ((t - 0.34 - i * 0.09) / 0.32).clamp(0.0, 1.0);
+
+  /// Row [i]'s number counts from when its words start to arrive until its ribbon lands
+  /// (`ribbonAt(t, i)` reaches 1 at the same moment).
+  static double countAt(double t, int i) => Motion.emphasized.transform(((t - 0.34 - i * 0.09) / 0.26).clamp(0.0, 1.0));
+
+  /// A row's words while its number counts: the running number sits right-aligned in the space
+  /// the final number takes, so the unit never shifts as digits are added. TalkBack hears the
+  /// final value only.
+  static Widget _counting(
+    int target,
+    String number,
+    String unit,
+    String label,
+    String? detail,
+    double c,
+    TextStyle numberStyle,
+    TextStyle unitStyle,
+    TextStyle labelStyle,
+    TextStyle detailStyle,
+    String value,
+  ) {
+    final running = '${(target * c).round()}';
+    return MergeSemantics(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(
+            label: value,
+            excludeSemantics: true,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Stack(
+                  alignment: AlignmentDirectional.centerEnd,
+                  children: [
+                    Text(number, style: numberStyle.copyWith(color: const Color(0x00000000))),
+                    Text(running, style: numberStyle),
+                  ],
+                ),
+                Text(unit, style: unitStyle),
+              ],
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(label, style: labelStyle),
+          if (detail != null) Text(detail, style: detailStyle),
+        ],
+      ),
+    );
+  }
 }
 
 class _FlowRow {

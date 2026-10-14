@@ -122,11 +122,15 @@ class WeekSheetBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Skeleton(height: 56),
-            SizedBox(height: MmSpace.s12),
-            Skeleton.line(width: 160),
-            SizedBox(height: MmSpace.s8),
-            Skeleton.line(width: 220),
+            Row(
+              children: [
+                Skeleton.circle(size: 92),
+                SizedBox(width: MmSpace.s16),
+                Expanded(child: MmSkeletonCard()),
+              ],
+            ),
+            SizedBox(height: MmRhythm.group),
+            MmSkeletonCard(),
           ],
         ),
       );
@@ -302,7 +306,7 @@ class _WorkFigure extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$value', style: type.figureCompact),
+        MmCountUp(value: value, style: type.figureCompact),
         Text(label, style: type.caption.copyWith(color: colors.ink2)),
       ],
     );

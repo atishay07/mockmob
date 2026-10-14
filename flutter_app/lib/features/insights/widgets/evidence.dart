@@ -53,6 +53,7 @@ class BasisLink extends StatelessWidget {
     return MmPressable(
       semanticsLabel: '$text. ${InsightsCopy.showMeSessions(attempts.length)}',
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
       onTap: () => openEvidence(context, attempts, what: what),
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: MmTarget.min),
@@ -152,6 +153,8 @@ class _EvidenceRow extends StatelessWidget {
     return MmPressable(
       semanticsLabel: '$paper. $when. $marks marks. ${InsightsCopy.openSession}',
       focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
       onTap: onTap,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),

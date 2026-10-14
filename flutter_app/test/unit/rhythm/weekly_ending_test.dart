@@ -53,11 +53,12 @@ void main() {
   });
 
   group('late-night line', () {
-    test('runs from 11 PM to 7 AM only', () {
+    test('runs from 11 PM to 5 AM only', () {
       expect(isLateNight(DateTime(2026, 10, 12, 23)), isTrue);
       expect(isLateNight(DateTime(2026, 10, 13, 3)), isTrue);
-      expect(isLateNight(DateTime(2026, 10, 13, 6, 59)), isTrue);
-      expect(isLateNight(DateTime(2026, 10, 13, 7)), isFalse);
+      expect(isLateNight(DateTime(2026, 10, 13, 4, 59)), isTrue);
+      expect(isLateNight(DateTime(2026, 10, 13, 5)), isFalse);
+      expect(isLateNight(DateTime(2026, 10, 13, 6, 59)), isFalse);
       expect(isLateNight(DateTime(2026, 10, 12, 22, 59)), isFalse);
       expect(lateNightLine(DateTime(2026, 10, 12, 12)), isNull);
       expect(lateNightLine(DateTime(2026, 10, 12, 23, 30)), 'That is a good place to stop for tonight.');
@@ -65,6 +66,7 @@ void main() {
 
     test('a night keeps one key across midnight', () {
       expect(lateNightKey(DateTime(2026, 10, 12, 23, 30)), lateNightKey(DateTime(2026, 10, 13, 1)));
+      expect(lateNightKey(DateTime(2026, 10, 12, 23, 30)), lateNightKey(DateTime(2026, 10, 13, 4, 59)));
       expect(lateNightKey(DateTime(2026, 10, 13, 23, 30)), isNot(lateNightKey(DateTime(2026, 10, 13, 1))));
     });
   });
