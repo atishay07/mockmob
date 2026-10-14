@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widget. The move, the week words and the "Updated" line come from Dart
+     (lib/core/home_widget); these are the states the widget draws with no data from the app. -->
+<resources>
+    <string name="widget_label">Next move</string>
+    <string name="widget_description">Your next move, this week\'s study days and the days to the expected CUET window.</string>
+    <string name="widget_open">Open MockMob</string>
+    <plurals name="widget_cuet_days">
+        <item quantity="one">day to expected CUET</item>
+        <item quantity="other">days to expected CUET</item>
+    </plurals>
+    <string name="widget_cuet_open">The CUET window is open</string>
+    <!-- Spoken by screen readers for the ring and the countdown. -->
+    <string name="widget_week_spoken">%1$d of %2$d study days this week</string>
+    <string name="widget_week_paused_spoken">This week is paused</string>
+    <string name="widget_cuet_spoken">%1$d %2$s</string>
+    <!-- The widget picker's preview (Android 12 and later draws this layout). -->
+    <string name="widget_preview_overline" translatable="false">Next move</string>
+    <string name="widget_preview_title" translatable="false">Repair 4 mistakes from Mock 7</string>
+    <string name="widget_preview_action" translatable="false">Start repair</string>
+    <string name="widget_preview_updated" translatable="false">Updated 9:40 PM</string>
+    <string name="widget_preview_ring" translatable="false">2/4</string>
+    <string name="widget_preview_week" translatable="false">study days</string>
+    <string name="widget_preview_cuet_number" translatable="false">199</string>
+    <string name="widget_preview_cuet" translatable="false">days to expected CUET</string>
+</resources>

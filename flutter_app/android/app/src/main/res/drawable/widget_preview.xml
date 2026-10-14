@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The widget picker's preview before Android 12 (which cannot draw a preview layout): the
+     4x2 widget in outline, on the night surface. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="250dp"
+    android:height="120dp"
+    android:viewportWidth="250"
+    android:viewportHeight="120">
+    <!-- The card. -->
+    <path
+        android:fillColor="#1B1A16"
+        android:pathData="M20,0.5 L230,0.5 A19.5,19.5 0 0,1 249.5,20 L249.5,100 A19.5,19.5 0 0,1 230,119.5 L20,119.5 A19.5,19.5 0 0,1 0.5,100 L0.5,20 A19.5,19.5 0 0,1 20,0.5 Z"
+        android:strokeWidth="1"
+        android:strokeColor="#312E27" />
+    <!-- Overline and the move. -->
+    <path android:fillColor="#A09989" android:pathData="M14,14 L66,14 L66,20 L14,20 Z" />
+    <path android:fillColor="#F4F0E6" android:pathData="M14,32 L160,32 L160,41 L14,41 Z" />
+    <path android:fillColor="#F4F0E6" android:pathData="M14,47 L110,47 L110,56 L14,56 Z" />
+    <!-- The key. -->
+    <path
+        android:fillColor="#D2F000"
+        android:pathData="M27,86 L83,86 A13,13 0 0,1 83,112 L27,112 A13,13 0 0,1 27,86 Z" />
+    <!-- The week ring, half full. -->
+    <path
+        android:pathData="M210,30 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"
+        android:strokeWidth="4"
+        android:strokeColor="#312E27" />
+    <path
+        android:pathData="M210,8 A22,22 0 0,1 210,52"
+        android:strokeWidth="4"
+        android:strokeColor="#D2F000"
+        android:strokeLineCap="round" />
+    <!-- The countdown. -->
+    <path android:fillColor="#F4F0E6" android:pathData="M168,94 L188,94 L188,106 L168,106 Z" />
+    <path android:fillColor="#A09989" android:pathData="M193,97 L236,97 L236,103 L193,103 Z" />
+</vector>

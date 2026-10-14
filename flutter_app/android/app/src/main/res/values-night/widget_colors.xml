@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widget, night: the warm charcoal raised surface, never pure black. -->
+<resources>
+    <color name="widget_surface">#1B1A16</color>
+    <color name="widget_line">#312E27</color>
+    <color name="widget_ink">#F4F0E6</color>
+    <color name="widget_ink_support">#A09989</color>
+    <color name="widget_track">#312E27</color>
+    <color name="widget_ring">#D2F000</color>
+    <color name="widget_volt">#D2F000</color>
+    <color name="widget_volt_ink">#0B1000</color>
+</resources>

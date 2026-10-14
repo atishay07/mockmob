@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widget (TodayWidgetProvider), day. From the app palette (lib/core/theme/mm_colors.dart):
+     the raised surface, its line, the ink ramp and the one volt accent. Night is in values-night. -->
+<resources>
+    <color name="widget_surface">#FFFDF8</color>
+    <color name="widget_line">#D8D1C2</color>
+    <color name="widget_ink">#17150F</color>
+    <color name="widget_ink_support">#655F53</color>
+    <color name="widget_track">#E9E4D8</color>
+    <!-- Volt reads too faint as a thin ring on the day surface, so the ring takes the volt edge. -->
+    <color name="widget_ring">#9DB400</color>
+    <color name="widget_volt">#D2F000</color>
+    <color name="widget_volt_ink">#0B1000</color>
+</resources>

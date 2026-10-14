@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher shortcut "10-min repair" (lib/core/platform/app_shortcuts.dart): the wrench glyph,
+     warm charcoal ink (the logo's #12110E) on a paper circle (the splash paper, #F3EFE4).
+     Rounded 2 dp stroke on a 24 dp grid, drawn at 1.2x and centred in the 48 dp circle, the
+     same line weight as the app's Lucide icons. Kept from resource shrinking in raw/keep.xml. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp" android:height="48dp"
+    android:viewportWidth="48" android:viewportHeight="48">
+    <path android:fillColor="#F3EFE4"
+        android:pathData="M24,24m-24,0a24,24 0 1,0 48,0a24,24 0 1,0 -48,0Z"/>
+    <group android:translateX="9.6" android:translateY="9.6" android:scaleX="1.2" android:scaleY="1.2">
+        <path android:strokeColor="#12110E" android:strokeWidth="2"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M14.7,6.3 a1,1 0 0,0 0,1.4 l1.6,1.6 a1,1 0 0,0 1.4,0 l3.77,-3.77 a6,6 0 0,1 -7.94,7.94 l-6.91,6.91 a2.12,2.12 0 0,1 -3,-3 l6.91,-6.91 a6,6 0 0,1 7.94,-7.94 l-3.76,3.76Z"/>
+    </group>
+</vector>

@@ -1,0 +1,289 @@
+import 'dart:async';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
+import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
+import '../data/practice_catalog.dart';
+
+/// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
+/// below. Chosen and not chosen follow the shared answer-sheet selection ([MmSelection]). A last
+/// tile opens the remaining supported subjects. Scrolls sideways, bleeding to the screen edge.
+///
+/// The chosen tile is always in view: a subject picked elsewhere (Compass, a link, the quick
+/// start) opens the strip already scrolled to it, and a later choice glides it into view.
+class SubjectTiles extends ConsumerStatefulWidget {
+  const SubjectTiles({
+    super.key,
+    required this.choices,
+    required this.selectedId,
+    required this.onSelected,
+    this.onMore,
+    this.countFor,
+    this.gutter = MmSpace.gutter,
+  });
+
+  final List<SubjectChoice> choices;
+
+  /// Usable questions in a subject (`/api/stats`), or null when unknown: then nothing is shown.
+  final int? Function(String id)? countFor;
+  final String selectedId;
+  final ValueChanged<String> onSelected;
+
+  /// Null hides the "More subjects" tile.
+  final VoidCallback? onMore;
+
+  /// Horizontal padding of the scroller, so the first tile lines up with the page.
+  final double gutter;
+
+  static const double width = 132;
+  static const double height = 148;
+  static const double gap = MmSpace.s8;
+
+  /// The "More subjects" tile's width.
+  static const double moreWidth = 92;
+
+  /// The scroll offset that shows tile [index] whole, with [gutter] of air beside it, given the
+  /// strip's current [offset], its [viewport] width and how far it can scroll. Unchanged when
+  /// the tile already shows.
+  @visibleForTesting
+  static double offsetToShow({
+    required int index,
+    required double offset,
+    required double viewport,
+    required double maxExtent,
+    required double gutter,
+  }) {
+    final start = gutter + index * (width + gap);
+    final end = start + width;
+    var target = offset;
+    if (end + gutter > offset + viewport) target = end + gutter - viewport;
+    if (start - gutter < target) target = math.max(start - gutter, 0);
+    return target.clamp(0.0, math.max(maxExtent, 0.0));
+  }
+
+  @override
+  ConsumerState<SubjectTiles> createState() => _SubjectTilesState();
+}
+
+class _SubjectTilesState extends ConsumerState<SubjectTiles> {
+  ScrollController? _controller;
+  double _viewport = 0;
+
+  int get _selectedIndex => widget.choices.indexWhere((c) => c.id == widget.selectedId);
+
+  /// The width of everything the strip scrolls over, to know how far it can go.
+  double get _contentWidth {
+    final tiles = widget.choices.length;
+    final more = widget.onMore == null ? 0.0 : SubjectTiles.moreWidth + SubjectTiles.gap;
+    return widget.gutter * 2 + tiles * SubjectTiles.width + math.max(tiles - 1, 0) * SubjectTiles.gap + more;
+  }
+
+  double _target(double offset) {
+    final index = _selectedIndex;
+    if (index < 0 || _viewport <= 0) return offset;
+    return SubjectTiles.offsetToShow(
+      index: index,
+      offset: offset,
+      viewport: _viewport,
+      maxExtent: _contentWidth - _viewport,
+      gutter: widget.gutter,
+    );
+  }
+
+  @override
+  void didUpdateWidget(SubjectTiles old) {
+    super.didUpdateWidget(old);
+    if (old.selectedId == widget.selectedId && old.choices.length == widget.choices.length) return;
+    // The new choice glides into view once the strip has laid out with it.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final c = _controller;
+      if (!mounted || c == null || !c.hasClients) return;
+      final to = _target(c.offset);
+      if ((to - c.offset).abs() < 0.5) return;
+      final d = Motion.of(context, Motion.glideDuration);
+      if (d == Duration.zero) {
+        c.jumpTo(to);
+      } else {
+        unawaited(c.animateTo(to, duration: d, curve: Motion.glide));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final choices = widget.choices;
+    final count = choices.length + (widget.onMore == null ? 0 : 1);
+    return Semantics(
+      container: true,
+      label: PracticeCopy.subjectLabel,
+      child: SizedBox(
+        height: SubjectTiles.height,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            _viewport = constraints.maxWidth;
+            // Opens already scrolled to the chosen tile, so it never starts off-screen.
+            _controller ??= ScrollController(initialScrollOffset: _target(0));
+            return ListView.separated(
+              controller: _controller,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: widget.gutter),
+              clipBehavior: Clip.none,
+              itemCount: count,
+              separatorBuilder: (_, _) => const SizedBox(width: SubjectTiles.gap),
+              itemBuilder: (context, i) {
+                if (i == choices.length) return _MoreTile(onTap: widget.onMore!);
+                final c = choices[i];
+                return SubjectTile(
+                  id: c.id,
+                  name: c.name,
+                  questions: widget.countFor?.call(c.id),
+                  selected: c.id == widget.selectedId,
+                  onTap: () {
+                    if (c.id == widget.selectedId) return;
+                    ref.read(hapticsProvider).selection();
+                    widget.onSelected(c.id);
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SubjectTile extends StatelessWidget {
+  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions});
+
+  final String id;
+  final String name;
+  final int? questions;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final light = SubjectLight.forSubject(id);
+    final art = MmArt.subjectObject(id);
+    return MmPressable(
+      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions!)}',
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      focusRadius: MmRadius.keyAll,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox(
+        width: SubjectTiles.width,
+        height: SubjectTiles.height,
+        child: DecoratedBox(
+          position: DecorationPosition.foreground,
+          decoration: ShapeDecoration(
+            shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
+          ),
+          child: MmClip(
+            borderRadius: MmRadius.keyAll,
+            child: ColoredBox(
+              color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+              child: Stack(
+                children: [
+                  if (light != null)
+                    Positioned.fill(
+                      child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: selected ? 1 : 0.7),
+                    ),
+                  if (art != null)
+                    Positioned(
+                      left: 16,
+                      right: 12,
+                      top: 18,
+                      bottom: questions == null ? 40 : 52,
+                      child: ArtImage(art, width: SubjectTiles.width - 28, opacity: selected ? 1 : 0.86),
+                    ),
+                  Positioned(
+                    left: 10,
+                    right: 8,
+                    bottom: 10,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // A long name ("Political Science") shrinks a little rather than losing letters.
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
+                        ),
+                        if (questions != null)
+                          Text(
+                            PracticeCopy.questionsAvailable(questions!),
+                            maxLines: 1,
+                            style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
+                          ),
+                      ],
+                    ),
+                  ),
+                  Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MoreTile extends StatelessWidget {
+  const _MoreTile({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: PracticeCopy.moreSubjects,
+      focusRadius: MmRadius.keyAll,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox(
+        width: SubjectTiles.moreWidth,
+        height: SubjectTiles.height,
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            color: pressed ? colors.raised2 : colors.ground,
+            shape: RoundedSuperellipseBorder(
+              borderRadius: MmRadius.keyAll,
+              side: BorderSide(color: colors.line),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(MmSpace.s12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(LucideIcons.plus, size: 20, color: colors.ink2),
+                const Spacer(),
+                Text(PracticeCopy.moreSubjects, style: type.label.copyWith(color: colors.ink2)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
