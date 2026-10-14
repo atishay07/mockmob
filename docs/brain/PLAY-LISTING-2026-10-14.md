@@ -277,3 +277,10 @@ Capture notes: screens 3 and 8 need an account that has NTA mode and Compass ope
 ## 6. Length check
 
 Counted by script on 14 Oct 2026 (Python `len` on each fenced block of section 1): short description 70 of 80, full description 3,200 of 4,000, release notes 413 of 500, app name 21 of 30. Screenshot captions are 19 to 28 characters. The text has no em dashes and no exclamation marks. Recount after any edit.
+
+## Permissions in the actual release build (checked 14 Oct 2026, 07:05 IST, aapt2 on the arm64 release APK)
+The merged manifest has 9 permissions, not the 5 in RELEASE.md. The four extra come from plugins:
+- VIBRATE: flutter_local_notifications (reminder vibration).
+- FOREGROUND_SERVICE and FOREGROUND_SERVICE_SHORT_SERVICE: workmanager / androidx.work (expedited background work runs as a short-service FGS). Short service is not a Play "special type" (no declaration video), but the Play Console foreground-service declaration should say the app uses it for short background sync of answers. FOREGROUND_SERVICE_DATA_SYNC is not declared.
+- USE_BIOMETRIC: from a plugin dependency (see the merger report); the app never asks for biometrics.
+Update RELEASE.md's permission row and the Data safety notes before the first upload.
