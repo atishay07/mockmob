@@ -31,6 +31,9 @@ abstract final class ResultCopy {
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';
 
+  /// Above the open sheet: "Mock 7 is marked." A first mock is acknowledged, never celebrated.
+  static String markedLine(String mock, {bool first = false}) => first ? '$mock is marked. Here is your map.' : '$mock is marked.';
+
   /// "Mock 7 result, sealed."
   static String sealedLabel(String mock) => '$mock result, sealed.';
 
@@ -70,11 +73,11 @@ abstract final class ResultCopy {
   static const skip = 'Skip to full result';
   static const previousCard = 'Previous card';
 
-  // ---- Evidence behind a claim ("Show me") --------------------------------------------------------
+  // ---- Evidence behind a claim --------------------------------------------------------
 
-  static const showMeWrong = 'Show me, the wrong answers behind this';
-  static const showMeBlank = 'Show me, the questions you left blank';
-  static const showMeQuestions = 'Show me, the questions behind this';
+  static const seeWrong = 'See the wrong answers';
+  static const seeBlank = 'See the blank answers';
+  static String seeQuestions(int n) => n == 1 ? 'See the question' : 'See the $n questions';
 
   // ---- Card 1, the marks ------------------------------------------------------------------
 
@@ -122,6 +125,7 @@ abstract final class ResultCopy {
   static String arithmetic(int correct, int wrong, int scored) => '$correct × 5 $minusSign $wrong = ${formatSignedNumber(scored)}';
   static const nextFix = 'The first thing to fix';
   static const barLabelStart = '0';
+  static String flowSource(int max) => 'All $max marks on the paper';
 
   // ---- Card 3, the first thing to fix -------------------------------------------------------
 
@@ -130,6 +134,10 @@ abstract final class ResultCopy {
   static const startWithWrong = 'Start with your wrong answers';
   static const nothingToFix = 'Nothing to repair in this mock.';
   static const costMost = 'This chapter cost the most marks in this mock.';
+
+  /// Beside the chapter's cost figure: "of 135 missed".
+  static String costUnit(int missed) => 'of $missed missed';
+  static String costLabel(int cost, int missed) => '$cost of the $missed marks you missed were in this chapter.';
   static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';
   static String blanksEvidence(int u, int q) => 'You did not attempt $u of $q questions here. Blank answers are not mistakes to repair.';
   static String wrongByNumber(int n) =>
@@ -150,7 +158,7 @@ abstract final class ResultCopy {
   // ---- Card 4, the record and the next ask ----------------------------------------------------
 
   static String inRecord(String mock) => '$mock is in your record.';
-  static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  static String savedAt(DateTime at) => 'Saved to your record at ${formatTime12(at)}.';
 
   /// The receipt line on card 4: a time only when the server's acknowledgment was received on
   /// this phone, otherwise the plain fact.
@@ -176,6 +184,19 @@ abstract final class ResultCopy {
   static const setReminder = 'Set a reminder';
   static const notNow = 'Not now';
   static const skipHint = 'Prefer to skip the reveal? Change it in You.';
+
+  // ---- Your sheet, to keep (card 4) ----------------------------------------------------------
+
+  static const shareSheet = 'Share your sheet';
+  static const shareSheetHint = 'Your answers as a card. No marks on it.';
+  static const shareTitle = 'Share your sheet';
+  static const share = 'Share';
+  static const addSubject = 'Add the subject';
+  static const shareFailed = 'Could not make the card. Try again.';
+  static String answeredOf(int n, int of) => '$n of $of answered';
+  static String shareText(String mock) => '$mock done on MockMob.';
+  static String shareCardLabel(String mock, int n, int of, DateTime day, String? subject) =>
+      '$mock${subject == null ? '' : ', $subject'}. ${answeredOf(n, of)}. ${formatDayMonth(day)}.';
   static String firstMockToken(DateTime at) => 'First full mock. Recorded on ${formatDayMonth(at)}.';
   static String finishLine(String mock, int mistakes) => mistakes == 0
       ? '$mock is in your record.'

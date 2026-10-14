@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show Brightness, DecoratedBox;
+import 'package:flutter/material.dart' show Brightness, ConstrainedBox;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +11,7 @@ import 'package:mockmob/features/result/copy.dart' show ResultCopy;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
 import 'package:mockmob/features/result/recap/record_card.dart';
+import 'package:mockmob/features/result/widgets/evidence_link.dart';
 import 'package:mockmob/features/result/model/recap_variant.dart';
 
 import '../../helpers/fonts.dart';
@@ -239,7 +240,7 @@ void main() {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
       expect(find.text('Mock 7 is in your record.'), findsOneWidget);
-      expect(find.text('Saved on the server at 10:44 PM.'), findsOneWidget);
+      expect(find.text('Saved to your record at 10:44 PM.'), findsOneWidget);
       expect(find.text('Fresh check: not available yet.'), findsNothing);
       expect(find.text('Third full paper this month.'), findsOneWidget);
       await tester.tap(find.text('5 min'));
@@ -289,42 +290,52 @@ void main() {
       expect(find.bySemanticsLabel('Card 1 of 4'), findsOneWidget);
     });
 
-    testWidgets('card 2 and card 3 carry a Show me pill that opens the evidence (result-05)', (tester) async {
+    testWidgets('card 2 and card 3 carry a text link that opens the evidence (result-05)', (tester) async {
       final router = await pump(tester, '/result/a7/recap/2');
       await _run(tester, 1000);
-      expect(find.byType(ShowMePill), findsOneWidget);
-      await tester.tap(find.byType(ShowMePill));
+      expect(find.byType(EvidenceLink), findsOneWidget);
+      await tester.tap(find.byType(EvidenceLink));
       await tester.pumpAndSettle();
       expect(_at(router), startsWith('/result/a7?q='));
 
       final router3 = await pump(tester, '/result/a7/recap/3');
       await _run(tester, 1000);
-      expect(find.byType(ShowMePill), findsOneWidget);
-      await tester.tap(find.byType(ShowMePill));
+      expect(find.byType(EvidenceLink), findsOneWidget);
+      await tester.tap(find.byType(EvidenceLink));
       await tester.pumpAndSettle();
       expect(_at(router3), startsWith('/result/a7?q='));
     });
 
-    testWidgets('the arithmetic toggle is a 32 dp pill on the gutter (result-09)', (tester) async {
+    testWidgets('the arithmetic toggle is a plain text action on the gutter, 48 dp tall (result-09)', (tester) async {
       await pump(tester, '/result/a7/recap/2');
       await _run(tester, 1000);
-      final pill = find.ancestor(of: find.text('Show the arithmetic'), matching: find.byType(DecoratedBox)).first;
-      expect(tester.getTopLeft(pill).dx, MmSpace.cardGutter);
-      expect(tester.getSize(pill).height, 32);
+      final label = find.text('Show the arithmetic');
+      expect(tester.getTopLeft(label).dx, MmSpace.cardGutter);
+      final target = find.ancestor(of: label, matching: find.byType(ConstrainedBox)).first;
+      expect(tester.getSize(target).height, greaterThanOrEqualTo(48));
       expect(tester.getTopLeft(find.text('Where the other 135 marks went')).dx, MmSpace.cardGutter);
     });
 
-    testWidgets('one Mobi per recap, on card 4 only (result-10)', (tester) async {
+    testWidgets('at most one Mobi on a card: reads on card 1, thinks on card 3, lives on card 4 (result-10)', (tester) async {
       final first = mock7(attempts: [detail().attempt]);
       expect(first.variant, RecapVariant.firstMock);
       await pump(tester, '/result/a7/recap/1', model: first);
       await _run(tester, 1500);
-      expect(find.byType(Mobi), findsNothing);
-      expect(find.byType(Mobi), findsNothing);
+      expect(find.byType(Mobi).evaluate().length, lessThanOrEqualTo(1));
+      await pump(tester, '/result/a7/recap/3', model: first);
+      await _run(tester, 1000);
+      expect(find.byType(Mobi), findsOneWidget);
+      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.think);
       await pump(tester, '/result/a7/recap/4', model: first);
       await _run(tester, 1000);
       expect(find.byType(Mobi), findsOneWidget);
       expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.greet);
+
+      // A lower result is calm: no Mobi on card 1.
+      final lower = detail(recap: {'tone': 'lower', 'previousMarks': 142, 'previousMax': 250, 'hasPrevious': true});
+      await pump(tester, '/result/a7/recap/1', model: mock7(withDetail: lower), d: lower);
+      await _run(tester, 1500);
+      expect(find.byType(Mobi), findsNothing);
 
       final higher = detail(recap: {'tone': 'higher', 'previousMarks': 90, 'previousMax': 250, 'hasPrevious': true});
       await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: higher), d: higher);
@@ -339,7 +350,7 @@ void main() {
       await pump(tester, '/result/a7/recap/4', model: m);
       await _run(tester, 1000);
       expect(find.text('Marked on the server.'), findsOneWidget);
-      expect(find.textContaining('Saved on the server at'), findsNothing);
+      expect(find.textContaining('Saved to your record at'), findsNothing);
     });
 
     testWidgets('Not now on the reminder row is counted through the shared policy (notifications-02)', (tester) async {

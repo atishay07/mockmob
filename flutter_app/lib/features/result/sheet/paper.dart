@@ -22,51 +22,61 @@ class NightObject extends StatelessWidget {
 /// Which corner of a paper face is folded over (the small notch that echoes Mobi's body).
 enum PaperNotch { none, topRight, bottomRight }
 
-/// The paper sheet's outline: soft 10 dp corners and an optional folded corner.
+/// The paper sheet's outline: soft 10 dp corners and an optional folded corner. [squareTop] and
+/// [squareBottom] give that edge square corners, where two faces meet along the crease.
 class PaperClipper extends CustomClipper<Path> {
-  const PaperClipper({this.notch = PaperNotch.none, this.radius = 10, this.notchSize = 22});
+  const PaperClipper({this.notch = PaperNotch.none, this.radius = 10, this.notchSize = 22, this.squareTop = false, this.squareBottom = false});
 
   final PaperNotch notch;
   final double radius;
   final double notchSize;
+  final bool squareTop;
+  final bool squareBottom;
 
   @override
-  Path getClip(Size size) => paperPath(size, notch: notch, radius: radius, notchSize: notchSize);
+  Path getClip(Size size) => paperPath(size, notch: notch, radius: radius, notchSize: notchSize, squareTop: squareTop, squareBottom: squareBottom);
 
   @override
-  bool shouldReclip(PaperClipper old) => old.notch != notch || old.radius != radius || old.notchSize != notchSize;
+  bool shouldReclip(PaperClipper old) =>
+      old.notch != notch || old.radius != radius || old.notchSize != notchSize || old.squareTop != squareTop || old.squareBottom != squareBottom;
 }
 
-Path paperPath(Size size, {PaperNotch notch = PaperNotch.none, double radius = 10, double notchSize = 22}) {
-  final r = Radius.circular(radius);
+Path paperPath(
+  Size size, {
+  PaperNotch notch = PaperNotch.none,
+  double radius = 10,
+  double notchSize = 22,
+  bool squareTop = false,
+  bool squareBottom = false,
+}) {
   final w = size.width;
   final h = size.height;
   final n = notchSize;
-  final path = Path()..moveTo(radius, 0);
+  final top = squareTop ? 0.0 : radius;
+  final bottom = squareBottom ? 0.0 : radius;
+  Path arc(Path p, Offset to, double r) => r <= 0 ? (p..lineTo(to.dx, to.dy)) : (p..arcToPoint(to, radius: Radius.circular(r)));
+  final path = Path()..moveTo(top, 0);
   if (notch == PaperNotch.topRight) {
     path
       ..lineTo(w - n, 0)
       ..lineTo(w, n);
   } else {
-    path
-      ..lineTo(w - radius, 0)
-      ..arcToPoint(Offset(w, radius), radius: r);
+    path.lineTo(w - top, 0);
+    arc(path, Offset(w, top), top);
   }
   if (notch == PaperNotch.bottomRight) {
     path
       ..lineTo(w, h - n)
       ..lineTo(w - n, h);
   } else {
-    path
-      ..lineTo(w, h - radius)
-      ..arcToPoint(Offset(w - radius, h), radius: r);
+    path.lineTo(w, h - bottom);
+    arc(path, Offset(w - bottom, h), bottom);
   }
-  path
-    ..lineTo(radius, h)
-    ..arcToPoint(Offset(0, h - radius), radius: r)
-    ..lineTo(0, radius)
-    ..arcToPoint(Offset(radius, 0), radius: r)
-    ..close();
+  path.lineTo(bottom, h);
+  arc(path, Offset(0, h - bottom), bottom);
+  path.lineTo(0, top);
+  arc(path, Offset(top, 0), top);
+  path.close();
   return path;
 }
 
@@ -75,7 +85,16 @@ Path paperPath(Size size, {PaperNotch notch = PaperNotch.none, double radius = 1
 /// film grain and the lamp's catch along the top edge. Static: it never repaints while the flap
 /// moves, because it sits inside the transform, not under it.
 class PaperFace extends StatelessWidget {
-  const PaperFace({super.key, required this.child, this.notch = PaperNotch.none, this.texture = false, this.tone = 0, this.edge = true});
+  const PaperFace({
+    super.key,
+    required this.child,
+    this.notch = PaperNotch.none,
+    this.texture = false,
+    this.tone = 0,
+    this.edge = true,
+    this.squareTop = false,
+    this.squareBottom = false,
+  });
 
   final Widget child;
   final PaperNotch notch;
@@ -87,12 +106,16 @@ class PaperFace extends StatelessWidget {
   final double tone;
   final bool edge;
 
+  /// Square corners along the top or bottom edge, where this face meets another along the crease.
+  final bool squareTop;
+  final bool squareBottom;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final base = Color.lerp(const Color(0xFF1C1A16), const Color(0xFF221F1A), tone)!;
     return ClipPath(
-      clipper: PaperClipper(notch: notch),
+      clipper: PaperClipper(notch: notch, squareTop: squareTop, squareBottom: squareBottom),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: base,
@@ -107,7 +130,7 @@ class PaperFace extends StatelessWidget {
               : null,
         ),
         child: CustomPaint(
-          foregroundPainter: edge ? _PaperEdgePainter(notch: notch, lamp: colors.lamp) : null,
+          foregroundPainter: edge ? _PaperEdgePainter(notch: notch, lamp: colors.lamp, squareTop: squareTop, squareBottom: squareBottom) : null,
           child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -123,15 +146,17 @@ class PaperFace extends StatelessWidget {
 
 /// Paper catches the lamp on its upper-left edge and falls into shadow toward the lower right.
 class _PaperEdgePainter extends CustomPainter {
-  const _PaperEdgePainter({required this.notch, required this.lamp});
+  const _PaperEdgePainter({required this.notch, required this.lamp, this.squareTop = false, this.squareBottom = false});
 
   final PaperNotch notch;
+  final bool squareTop;
+  final bool squareBottom;
   final Color lamp;
 
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final path = paperPath(size, notch: notch);
+    final path = paperPath(size, notch: notch, squareTop: squareTop, squareBottom: squareBottom);
     canvas.drawPath(
       path,
       Paint()
@@ -157,7 +182,7 @@ class _PaperEdgePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PaperEdgePainter old) => old.notch != notch || old.lamp != lamp;
+  bool shouldRepaint(_PaperEdgePainter old) => old.notch != notch || old.lamp != lamp || old.squareTop != squareTop || old.squareBottom != squareBottom;
 }
 
 /// The small folded-over corner on the flap's free edge: a lighter triangle of the same paper,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -7,10 +9,13 @@ import '../../../core/domain/domain.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../widgets/breakdown_section.dart';
+import '../widgets/evidence_link.dart';
+import '../widgets/marks_flow.dart';
 import '../result_nav.dart';
 import 'card_page.dart';
 
-/// Card 2 (spec 5.6.3): where the other marks went. The bar grows once, left to right.
+/// Card 2 (spec 5.6.3): where the other marks went, as a flow that draws once: the paper's column
+/// fills, then a ribbon runs to each place the marks went.
 class BreakdownCard extends StatefulWidget {
   const BreakdownCard({super.key, required this.model, required this.onNext, required this.onBack});
 
@@ -23,7 +28,8 @@ class BreakdownCard extends StatefulWidget {
 }
 
 class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _grow = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+  late final AnimationController _grow = AnimationController(vsync: this, duration: MarksFlow.duration);
+  Timer? _wait;
 
   @override
   void didChangeDependencies() {
@@ -32,7 +38,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
     if (Motion.reduced(context)) {
       _grow.value = 1;
     } else {
-      Future<void>.delayed(const Duration(milliseconds: 140), () {
+      // After the headline and the lead have landed (the card page's stagger).
+      _wait = Timer(const Duration(milliseconds: 260), () {
         if (mounted) _grow.forward();
       });
     }
@@ -40,6 +47,7 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
 
   @override
   void dispose() {
+    _wait?.cancel();
     _grow.dispose();
     super.dispose();
   }
@@ -79,9 +87,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
             const SizedBox(height: MmSpace.s4),
             Align(
               alignment: Alignment.centerLeft,
-              child: ShowMePill(
-                semanticsLabel: e.wrongSide ? ResultCopy.showMeWrong : ResultCopy.showMeBlank,
-                marks: [for (final _ in e.numbers.take(3)) e.wrongSide ? BubbleState.wrong : BubbleState.blank],
+              child: EvidenceLink(
+                label: e.wrongSide ? ResultCopy.seeWrong : ResultCopy.seeBlank,
                 onTap: () => ResultNav.toFullResult(context, widget.model.attemptId, question: e.numbers.first),
               ),
             ),
@@ -89,8 +96,8 @@ class _BreakdownCardState extends State<BreakdownCard> with SingleTickerProvider
           const SizedBox(height: MmSpace.s4),
         ],
         Text(widget.model.title, style: type.small.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s32),
-        BreakdownSection(breakdown: b, grow: _grow, caption: false),
+        const SizedBox(height: MmSpace.s24),
+        BreakdownSection(breakdown: b, grow: _grow, caption: false, flow: true),
       ],
     );
   }

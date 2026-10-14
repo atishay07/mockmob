@@ -83,7 +83,6 @@ class _PartPainter extends CustomPainter {
   final double radius;
   final bool track;
 
-  Color get _wrong => colors.wrongMark;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -106,7 +105,25 @@ class _PartPainter extends CustomPainter {
     canvas.restore();
   }
 
-  void _segment(Canvas canvas, Rect r, MarkPart part) {
+  void _segment(Canvas canvas, Rect r, MarkPart part) => paintMarkPart(canvas, r, part, colors);
+
+  @override
+  bool shouldRepaint(_PartPainter old) => old.colors != colors || old.radius != radius || !_same(old.parts);
+
+  bool _same(List<(MarkPart, double)> o) {
+    if (o.length != parts.length) return false;
+    for (var i = 0; i < o.length; i++) {
+      if (o[i] != parts[i]) return false;
+    }
+    return true;
+  }
+}
+
+/// Fills [r] with [part]'s own pattern: solid volt for scored, coral hatching for taken off, a
+/// coral outline for not earned on wrong answers, grey dots for not earned on blanks. Shared by the
+/// bar and the flow, so a part looks the same everywhere.
+void paintMarkPart(Canvas canvas, Rect r, MarkPart part, MmColors colors) {
+  final wrongColor = colors.wrongMark;
     switch (part) {
       case MarkPart.scored:
         canvas.drawRect(
@@ -119,11 +136,11 @@ class _PartPainter extends CustomPainter {
             ).createShader(r),
         );
       case MarkPart.takenOff:
-        canvas.drawRect(r, Paint()..color = _wrong.withValues(alpha: 0.28));
+        canvas.drawRect(r, Paint()..color = wrongColor.withValues(alpha: 0.28));
         canvas.save();
         canvas.clipRect(r);
         final hatch = Paint()
-          ..color = _wrong
+          ..color = wrongColor
           ..strokeWidth = 1.6;
         for (var x = r.left - r.height; x < r.right; x += 5) {
           canvas.drawLine(Offset(x, r.bottom), Offset(x + r.height, r.top), hatch);
@@ -135,7 +152,7 @@ class _PartPainter extends CustomPainter {
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.6
-            ..color = _wrong,
+            ..color = wrongColor,
         );
       case MarkPart.notEarnedBlank:
         final dot = Paint()..color = colors.ink3;
@@ -147,18 +164,6 @@ class _PartPainter extends CustomPainter {
           }
         }
     }
-  }
-
-  @override
-  bool shouldRepaint(_PartPainter old) => old.colors != colors || old.radius != radius || !_same(old.parts);
-
-  bool _same(List<(MarkPart, double)> o) {
-    if (o.length != parts.length) return false;
-    for (var i = 0; i < o.length; i++) {
-      if (o[i] != parts[i]) return false;
-    }
-    return true;
-  }
 }
 
 /// One aligned row of the breakdown: swatch, label (with its "5 for each of 15" detail) and the

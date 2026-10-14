@@ -88,6 +88,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     final data = ref.watch(recapDataProvider(id));
     final model = data.model;
     final attempt = data.attempt;
+    final progress = model == null ? null : ref.watch(recapProgressProvider(id)).value;
 
     final Widget body;
     if (model == null || attempt == null) {
@@ -103,7 +104,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         candidateIds: {for (final c in model.candidates) c.questionId},
       );
       _seed(groups);
-      final progress = ref.watch(recapProgressProvider(id)).value;
       final keysOff = model.keysUnavailable || data.detail == null;
       // Built in full (not lazily), so a linked question can be scrolled into view.
       body = SingleChildScrollView(
@@ -167,7 +167,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   _TopBar(
                     title: model?.title ?? '',
                     onBack: _back,
-                    onReplay: model == null ? null : () => context.go(AppRoutes.resultRecap(id, 1)),
+                    // One way back into the recap: "Continue" while it is unfinished, "Replay" once it is done.
+                    onReplay: model == null || progress != null ? null : () => context.go(AppRoutes.resultRecap(id, 1)),
                   ),
                   Expanded(child: body),
                 ],

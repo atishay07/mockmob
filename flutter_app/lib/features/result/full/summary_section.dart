@@ -5,6 +5,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
+import '../sheet/flap_faces.dart' show MarksMeter;
 import '../sheet/paper.dart';
 import '../sheet/sheet_body.dart';
 import '../sheet/sheet_geometry.dart';
@@ -40,7 +41,7 @@ class SummarySection extends StatelessWidget {
                 child: MonumentalNumber(
                   value: formatSignedNumber(m.marks),
                   unit: ResultCopy.outOf(m.maxMarks),
-                  style: type.figure,
+                  style: type.figureHero,
                   roll: false,
                   semanticsLabel: ResultCopy.figureLabel(m.marks, m.maxMarks),
                 ),
@@ -48,6 +49,9 @@ class SummarySection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: MmSpace.s8),
+          // The same meter as the sheet's marks box, so the recap and the record agree.
+          MarksMeter(marks: m.marks, max: m.maxMarks),
+          const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.countsWithDenominators(m.correct, m.wrong, m.unattempted, m.questionCount), style: type.body),
           const SizedBox(height: MmSpace.s4),
           Text(

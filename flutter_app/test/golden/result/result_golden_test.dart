@@ -55,7 +55,7 @@ Future<void> _open(
   AttemptDetail? d,
   int? progress,
   bool reminderDue = false,
-  Duration settle = const Duration(milliseconds: 1800),
+  Duration settle = const Duration(milliseconds: 2400),
   Size size = const Size(384, 853),
   double textScale = 1,
   TodayAction? nextMove,
@@ -76,7 +76,8 @@ Future<void> _open(
     ),
   );
   await settleImages(tester);
-  await tester.pump(settle);
+  // Real frames, so staggered and typed motion plays as it does on a phone.
+  await _frames(tester, settle.inMilliseconds);
   await settleImages(tester);
 }
 
@@ -105,12 +106,12 @@ void main() {
     final tag = b == Brightness.dark ? 'night' : 'day';
 
     testWidgets('sealed, folded ($tag)', (tester) async {
-      await _open(tester, '/result/a7/sealed', mock7(), b: b, settle: const Duration(milliseconds: 300));
+      await _open(tester, '/result/a7/sealed', mock7(), b: b, settle: const Duration(milliseconds: 900));
       await _shot(tester, 'sealed_folded_$tag');
     });
 
     testWidgets('sealed, unfolding at 50% ($tag)', (tester) async {
-      await _open(tester, '/result/a7/sealed', mock7(), b: b, settle: const Duration(milliseconds: 300));
+      await _open(tester, '/result/a7/sealed', mock7(), b: b, settle: const Duration(milliseconds: 900));
       final g = await _hold(tester, 90);
       await settleImages(tester);
       await _shot(tester, 'sealed_unfold50_$tag');
@@ -120,7 +121,7 @@ void main() {
 
     if (b == Brightness.dark) {
       testWidgets('sealed, unfolding at 25% and 80% (night)', (tester) async {
-        await _open(tester, '/result/a7/sealed', mock7(), settle: const Duration(milliseconds: 300));
+        await _open(tester, '/result/a7/sealed', mock7(), settle: const Duration(milliseconds: 900));
         final g = await _hold(tester, 45);
         await settleImages(tester);
         await _shot(tester, 'sealed_unfold25_night');
@@ -244,6 +245,16 @@ void main() {
     await _shot(tester, 'card4_first_night');
   });
 
+  testWidgets('card 4, share your sheet preview (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/4', mock7());
+    await tester.ensureVisible(find.text('Share your sheet'));
+    await tester.pump();
+    await tester.tap(find.text('Share your sheet'));
+    await _frames(tester, 700);
+    await settleImages(tester);
+    await _shot(tester, 'card4_share_night');
+  });
+
   testWidgets('full result, answers (night)', (tester) async {
     await _open(tester, '/result/a7?q=9', mock7());
     await _shot(tester, 'full_answers_night');
@@ -262,7 +273,7 @@ void main() {
   // The smallest supported frame (360 by 780) and large text, so nothing clips.
   const compact = Size(360, 780);
   testWidgets('compact: sealed (night)', (tester) async {
-    await _open(tester, '/result/a7/sealed', mock7(), size: compact, settle: const Duration(milliseconds: 300));
+    await _open(tester, '/result/a7/sealed', mock7(), size: compact, settle: const Duration(milliseconds: 900));
     await _shot(tester, 'compact_sealed_night');
   });
   testWidgets('compact: card 1 (night)', (tester) async {
@@ -280,6 +291,14 @@ void main() {
   testWidgets('large text 1.3x: card 4 (night)', (tester) async {
     await _open(tester, '/result/a7/recap/4', mock7(), size: compact, textScale: 1.3);
     await _shot(tester, 'large13_card4_night');
+  });
+  testWidgets('large text 1.3x: card 2, the flow rows grow to their words (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/2', mock7(), size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_card2_night');
+  });
+  testWidgets('large text 1.3x: card 3, the strip and tiles (night)', (tester) async {
+    await _open(tester, '/result/a7/recap/3', mock7(), size: compact, textScale: 1.3);
+    await _shot(tester, 'large13_card3_night');
   });
   testWidgets('large text 1.3x: full result, long title (day)', (tester) async {
     final f = _firstBusinessStudies();
@@ -311,7 +330,7 @@ void main() {
     await _shot(tester, 'card1_higher_night');
   });
 
-  testWidgets('card 1, mid-reveal: bubbles inking in order, light crossing (night)', (tester) async {
+  testWidgets('card 1, mid-reveal: the reader passing, rows inking as it reads (night)', (tester) async {
     await pumpResultRoute(
       tester,
       location: '/result/a7/recap/1',

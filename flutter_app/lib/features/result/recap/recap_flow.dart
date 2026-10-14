@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/platform/review_prompt.dart';
 import '../../../core/repositories/repositories.dart';
@@ -124,6 +125,8 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
       _card = next;
       if (next > 1) _visitedOtherCard = true;
     });
+    // A card snapping into place is a threshold: one selection tick.
+    unawaited(ref.read(hapticsProvider).tick());
     _actions.saveProgress(m.attemptId, next);
     if (next == RecapFlow.cardCount && _showSkipHint && !_hintShown) {
       _hintShown = true;
@@ -187,17 +190,32 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   Widget _transition(Widget child, Animation<double> animation) {
     final incoming = child.key == ValueKey('card-$_card');
     final reduced = Motion.reduced(context);
-    // Leaving card rises 24 dp and fades; the arriving card rises from 24 dp below (reversed
-    // when going back).
-    final from = reduced ? 0.0 : (_forward ? 24.0 : -24.0) * (incoming ? 1 : -1);
+    // Cards are a stack the student moves through. The arriving card rises 40 dp into place on
+    // the emphasized curve while it fades in; the leaving card sinks back (scale 0.96) and fades
+    // out on the exit curve in the first half. Going back reverses the direction.
+    final dir = _forward ? 1.0 : -1.0;
     return AnimatedBuilder(
       animation: animation,
       child: child,
       builder: (context, child) {
-        final t = Motion.glide.transform(animation.value);
+        final v = animation.value;
+        if (reduced) return Opacity(opacity: v, child: child);
+        if (incoming) {
+          if (v >= 1) return child!;
+          final t = Motion.emphasized.transform(v);
+          return Opacity(
+            opacity: Motion.glide.transform((v / 0.6).clamp(0.0, 1.0)),
+            child: Transform.translate(offset: Offset(0, 40 * dir * (1 - t)), child: child),
+          );
+        }
+        final e = Motion.exit.transform(((1 - v) / 0.5).clamp(0.0, 1.0));
         return Opacity(
-          opacity: t,
-          child: Transform.translate(offset: Offset(0, from * (1 - t)), child: child),
+          opacity: 1 - e,
+          child: Transform(
+            alignment: Alignment.topCenter,
+            transform: Matrix4.translationValues(0, -14 * dir * e, 0)..scaleByDouble(1 - 0.04 * e, 1 - 0.04 * e, 1, 1),
+            child: child,
+          ),
         );
       },
     );
@@ -259,7 +277,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
                   ),
                   Expanded(
                     child: AnimatedSwitcher(
-                      duration: Motion.reduced(context) ? Motion.reducedFade : Motion.card,
+                      duration: Motion.reduced(context) ? Motion.reducedFade : Motion.emphasizedDuration,
                       switchInCurve: Curves.linear,
                       switchOutCurve: Curves.linear,
                       transitionBuilder: _transition,

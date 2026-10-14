@@ -44,7 +44,11 @@ class SheetGeometry {
   static const double numberSpace = 16;
   static const double rowGap = 10;
 
-  static double _flap(double figure) => math.max(pad + headerHeight + 6 + figure * 0.9 + 8 + 36 + pad - 4, 206);
+  /// The marks meter under the figure, and the gap between it and the scheme line.
+  static const double meterHeight = 4;
+  static const double meterGap = 10;
+
+  static double _flap(double figure) => math.max(pad + headerHeight + 6 + figure * 0.9 + 8 + meterHeight + meterGap + 36 + pad - 4, 220);
 
   static double _body(int rows, double bubble) => pad + headerHeight + headerGap + gridHeight(rows, bubble) + pad;
 

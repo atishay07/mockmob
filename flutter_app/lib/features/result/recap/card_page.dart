@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import '../widgets/engrave.dart';
 
 /// The frame of recap cards 2 to 4: the card's content in a scroll view (it scrolls at large text
 /// sizes, never clips) and its keys pinned below. Swiping past the end goes to the next card,
@@ -13,6 +14,7 @@ class RecapCardPage extends StatefulWidget {
     required this.onNext,
     required this.onBack,
     this.topPadding = MmSpace.s8,
+    this.anchored,
   });
 
   final List<Widget> children;
@@ -22,6 +24,10 @@ class RecapCardPage extends StatefulWidget {
   final VoidCallback? onNext;
   final VoidCallback? onBack;
   final double topPadding;
+
+  /// Rests on the floor of the card, just above the keys, when the content is shorter than the
+  /// card (the card's one moment, such as Mobi). Follows the content when it scrolls.
+  final Widget? anchored;
 
   static const double swipeDistance = 64;
 
@@ -45,17 +51,64 @@ class _RecapCardPageState extends State<RecapCardPage> {
     return false;
   }
 
+  /// The card's content arrives in reading order after the card itself: each block rises 16 dp
+  /// and fades in, 55 ms after the one above it (480 ms each, emphasized), so the headline lands
+  /// first and the evidence follows it. Spacers are not animated. Reduced motion: all at once.
+  /// Blocks marked [RecapBleed] run nearly edge to edge; the rest sit in the card's gutters.
+  List<Widget> _staggered(List<Widget> children) {
+    var n = 0;
+    return [
+      for (final c in children)
+        if (c is SizedBox && c.child == null)
+          c
+        else
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: c is RecapBleed ? RecapBleed.gutter : MmSpace.cardGutter),
+            child: Arrive(
+              delay: Duration(milliseconds: 90 + 55 * (n++).clamp(0, 8)),
+              duration: const Duration(milliseconds: 480),
+              rise: 16,
+              child: c is RecapBleed ? c.child : c,
+            ),
+          ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final anchored = widget.anchored;
     return Column(
       children: [
         Expanded(
           child: NotificationListener<ScrollNotification>(
             onNotification: _onScroll,
-            child: SingleChildScrollView(
+            child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-              padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, widget.topPadding, MmSpace.cardGutter, MmSpace.s24),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: widget.children),
+              slivers: [
+                SliverPadding(
+                  padding: EdgeInsets.only(top: widget.topPadding, bottom: anchored == null ? MmSpace.s24 : 0),
+                  // Built in full, never lazily: every block is in the tree for TalkBack and for tests.
+                  sliver: SliverToBoxAdapter(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children)),
+                  ),
+                ),
+                if (anchored != null)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s16),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Arrive(
+                          delay: const Duration(milliseconds: 320),
+                          duration: const Duration(milliseconds: 520),
+                          rise: 20,
+                          child: anchored,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -63,4 +116,17 @@ class _RecapCardPageState extends State<RecapCardPage> {
       ],
     );
   }
+}
+
+/// Marks a block of a recap card that runs nearly edge to edge (a printed sheet), instead of
+/// sitting in the card's gutters.
+class RecapBleed extends StatelessWidget {
+  const RecapBleed({super.key, required this.child});
+
+  final Widget child;
+
+  static const double gutter = 8;
+
+  @override
+  Widget build(BuildContext context) => child;
 }

@@ -91,14 +91,16 @@ void main() {
 
   group('question tiles on card 3 (result-review-09)', () {
     test('six to a row only while each tile is at least 48 dp wide', () {
+      // The chapter strip sets its tiles 4 dp apart (it was 8 before the strip became a printed
+      // strip of the sheet), so 320 dp now takes six at 50 dp each.
       expect(firstFixTileColumns(352), 6);
-      expect(firstFixTileColumns(320), 5);
+      expect(firstFixTileColumns(320), 6);
       expect(firstFixTileColumns(280), 5);
       expect(firstFixTileColumns(240), 4);
       expect(firstFixTileColumns(30), 1);
       for (final w in [200.0, 240.0, 280.0, 320.0, 336.0, 352.0]) {
         final n = firstFixTileColumns(w);
-        expect((w - (n - 1) * 8) / n, greaterThanOrEqualTo(48), reason: 'width $w');
+        expect((w - (n - 1) * 4) / n, greaterThanOrEqualTo(48), reason: 'width $w');
       }
     });
 

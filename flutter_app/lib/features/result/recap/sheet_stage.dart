@@ -8,15 +8,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show MobiPose;
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../sheet/flap_faces.dart';
 import '../sheet/folded_sheet.dart';
+import '../../../core/widgets/widgets.dart' show BubbleGrid;
 import '../sheet/paper.dart';
+import '../sheet/read_line.dart';
 import '../sheet/sheet_body.dart';
 import '../sheet/sheet_geometry.dart';
+import '../widgets/engrave.dart';
 import 'marks_footer.dart';
+import 'recap_mobi.dart';
 import 'sealed_parts.dart';
 
 /// How the sheet arrives on card 1.
@@ -69,12 +74,19 @@ class SheetStage extends ConsumerStatefulWidget {
 }
 
 class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStateMixin {
+  static const double _mobiSize = 68;
+
   late final AnimationController _open;
   late final AnimationController _reveal;
   late final AnimationController _fade;
-  late final Animation<double> _ink;
+  late final Animation<double> _scan;
+  late final Animation<double> _meter;
   late final Animation<double> _sweep;
   late final Animation<double> _footer;
+  late final Animation<double> _tallyInk;
+
+  /// The rows of the grid as last laid out, so the tally counts what the reader has inked.
+  GridRows? _rows;
   Timer? _nudgeTimer;
   bool _opened = false;
   bool _figureIn = false;
@@ -95,14 +107,25 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   void initState() {
     super.initState();
     _open = AnimationController(vsync: this, value: _sealed ? 0 : 1);
-    _reveal = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    // The marking, 1800 ms: the reader passes down the sheet and the rows ink (0 to 900 ms), the
+    // figure rolls in and the meter fills as the read ends (800 to 1440 ms), then one warm light
+    // crosses the open sheet. The counts and the key are there from the start.
+    _reveal = AnimationController(vsync: this, duration: const Duration(milliseconds: 1800));
     _fade = AnimationController(vsync: this, duration: const Duration(milliseconds: 160));
-    _ink = CurvedAnimation(parent: _reveal, curve: const Interval(0.02, 0.62));
-    _sweep = CurvedAnimation(parent: _reveal, curve: const Interval(0.06, 0.53));
+    _scan = CurvedAnimation(
+      parent: _reveal,
+      curve: const Interval(0, 0.5, curve: Cubic(0.42, 0, 0.58, 1)),
+    );
+    _meter = CurvedAnimation(
+      parent: _reveal,
+      curve: const Interval(0.46, 0.8, curve: Motion.emphasized),
+    );
+    _sweep = CurvedAnimation(parent: _reveal, curve: const Interval(0.6, 0.98));
     _footer = CurvedAnimation(
       parent: _reveal,
-      curve: const Interval(0.55, 0.85, curve: Motion.glide),
+      curve: const Interval(0, 0.16, curve: Motion.glide),
     );
+    _tallyInk = _ReadInk(_scan, () => _rows);
     _reveal.addListener(_onReveal);
     _open.addStatusListener((s) {
       // A forward animation ends as "completed" wherever it stops (the nudge stops at 7%), so
@@ -221,7 +244,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
 
   void _onReveal() {
     final t = _reveal.value;
-    if (!_figureIn && t >= 0.28) setState(() => _figureIn = true);
+    if (!_figureIn && t >= 0.44) setState(() => _figureIn = true);
   }
 
   // ---- Dragging ------------------------------------------------------------------------------
@@ -287,9 +310,15 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
         geometry: g,
         open: open,
         outside: FlapOutside(model: m, geometry: g),
-        inside: FlapInside(model: m, geometry: g, showFigure: _figureIn, rollFigure: !_calm),
+        inside: FlapInside(model: m, geometry: g, showFigure: _figureIn, rollFigure: !_calm, meter: _calm ? null : _meter),
         // Nothing in the body reads the unfold, so it is not rebuilt on every frame of it.
-        body: SheetBody(geometry: g, cells: m.cells, sealed: !_opened, reveal: _calm ? kAlwaysCompleteAnimation : _ink),
+        body: SheetBody(
+          geometry: g,
+          cells: m.cells,
+          sealed: !_opened,
+          reveal: _calm ? kAlwaysCompleteAnimation : null,
+          scan: _calm ? null : _scan,
+        ),
         sweep: _calm ? null : _sweep,
       ),
     );
@@ -299,7 +328,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   Widget build(BuildContext context) {
     final m = widget.model;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
-    final footer = MarksFooter(model: m, onNext: widget.onNext, onFirstFix: widget.onFirstFix);
+    final footer = MarksFooter(model: m, onNext: widget.onNext, onFirstFix: widget.onFirstFix, ink: _calm ? null : _tallyInk);
     final controls = SealedControls(
       open: _open,
       onOpen: _opened ? null : _openByTap,
@@ -315,45 +344,104 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
             child: LayoutBuilder(
               builder: (context, c) {
                 final g = SheetGeometry.fit(maxWidth: c.maxWidth - 40, maxHeight: c.maxHeight - 8, questions: m.cells.length);
+                // The sheet's small print is clamped to 1.2x (NightObject), and so are its rows.
+                final numbers = BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2));
+                _rows = GridRows(
+                  count: g.rows,
+                  columns: g.columns,
+                  questions: m.cells.length,
+                  bubble: g.bubble,
+                  rowGap: SheetGeometry.rowGap,
+                  numberSpace: numbers > 0 ? numbers + 3 : 0,
+                );
                 // The sheet rests just above the counts; the space above is where the flap lands.
                 // It has a least height (flap and body); on a short phone, or at a large text
                 // size where the counts below take more room, the whole sheet scales down to the
                 // space instead of painting over the counts and the Open tab.
-                return Align(
+                final room = c.maxHeight - 8 - g.height;
+                final sheet = Align(
                   alignment: Alignment.bottomCenter,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: math.max(0, c.maxHeight - 8)),
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        width: g.width,
-                        height: g.height,
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            if (!_opened)
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                top: 0,
-                                height: g.flapHeight - 22,
-                                child: AnimatedBuilder(
-                                  animation: _open,
-                                  builder: (context, child) => Opacity(opacity: (1 - _open.value * 2.4).clamp(0.0, 1.0), child: child),
-                                  child: ExcludeSemantics(child: SealedHeadline(model: m)),
+                      child: _arrival(
+                        child: SizedBox(
+                          width: g.width,
+                          height: g.height,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              if (!_opened)
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  top: 0,
+                                  height: g.flapHeight - 22,
+                                  child: AnimatedBuilder(
+                                    animation: _open,
+                                    builder: (context, child) => Opacity(opacity: (1 - _open.value * 2.4).clamp(0.0, 1.0), child: child),
+                                    child: ExcludeSemantics(
+                                      child: _sealed
+                                          ? Engrave(
+                                              delay: const Duration(milliseconds: 260),
+                                              child: SealedHeadline(model: m),
+                                            )
+                                          : SealedHeadline(model: m),
+                                    ),
+                                  ),
                                 ),
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: _opened ? null : _openByTap,
+                                child: _crossFading ? _crossFade(g) : _sheet(g, open: _open),
                               ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: _opened ? null : _openByTap,
-                              child: _crossFading ? _crossFade(g) : _sheet(g, open: _open),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
+                );
+                // Once open, the space the flap left above the sheet carries one plain line,
+                // engraved as the reader starts, and Mobi reading the sheet beside it (cheering
+                // once, after the figure lands, only for a higher result; never after a lower or
+                // held one). Left out where the sheet needs that space. The sheet keeps its place
+                // in the tree either way, so opening never rebuilds it.
+                final showMobi = _opened && room >= 70 && m.variant.celebratory;
+                return Stack(
+                  children: [
+                    Positioned.fill(child: sheet),
+                    if (_opened && room >= 64)
+                      Positioned(
+                        left: MmSpace.cardGutter,
+                        right: MmSpace.cardGutter + (showMobi ? _mobiSize + 4 : 0),
+                        bottom: g.height + 8 + MmSpace.s16,
+                        child: Engrave(
+                          delay: _calm ? Duration.zero : const Duration(milliseconds: 120),
+                          child: Text(
+                            ResultCopy.markedLine(m.mockLabel, first: m.variant == RecapVariant.firstMock),
+                            style: context.mmType.headline,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ),
+                    if (showMobi)
+                      Positioned(
+                        right: MmSpace.cardGutter,
+                        bottom: g.height + 8 + MmSpace.s8,
+                        child: Arrive(
+                          delay: _calm ? Duration.zero : const Duration(milliseconds: 500),
+                          rise: 18,
+                          child: RecapMobi(
+                            pose: MobiPose.read,
+                            size: _mobiSize,
+                            cheerAfter: !_calm && m.variant == RecapVariant.higher ? const Duration(milliseconds: 1500) : null,
+                          ),
+                        ),
+                      ),
+                  ],
                 );
               },
             ),
@@ -383,6 +471,13 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     );
   }
 
+  /// A sealed sheet is set down on the desk: it rises 28 dp and settles out of a slight turn
+  /// (560 ms, emphasized). Everything on it is live from the first frame.
+  Widget _arrival({required Widget child}) {
+    if (!_sealed) return child;
+    return Arrive(duration: const Duration(milliseconds: 560), rise: 28, turn: -0.026, child: child);
+  }
+
   Widget _crossFade(SheetGeometry g) {
     return Stack(
       children: [
@@ -396,5 +491,23 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
         ),
       ],
     );
+  }
+}
+
+/// The ink's progress through the paper, read from the reader's progress and the grid's rows as
+/// last laid out (question order until the first layout).
+class _ReadInk extends Animation<double> with AnimationWithParentMixin<double> {
+  _ReadInk(this.parent, this.rows);
+
+  @override
+  final Animation<double> parent;
+  final GridRows? Function() rows;
+
+  @override
+  double get value {
+    final s = parent.value;
+    if (s >= 1) return 1;
+    final r = rows();
+    return r == null ? s : r.inkAt(r.lineY(s));
   }
 }
