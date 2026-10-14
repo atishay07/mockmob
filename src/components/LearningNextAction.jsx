@@ -1,19 +1,32 @@
 "use client";
 // The one shared next step (Today, Radar, Review, Progress, PrepOS all show the same plan).
 // Full form: a time choice, the step, why, and alternatives. Compact form: one slim card.
-import { useEffect, useState, useId } from 'react';
+import { useEffect, useRef, useState, useId } from 'react';
 import Link from 'next/link';
 import { api, apiGet } from '@/lib/fetcher';
 import { ArrowRight } from 'lucide-react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import InstallPractice from './InstallPractice';
+import { useCountUp } from '@/lib/motion/useCountUp';
 
 const TIMES = [10, 20, 30];
+
+// The planned minutes, rolling from the old choice to the new one. It first shows the real value.
+function MinutesRoll({ value }) {
+  const rolled = useCountUp(value, { duration: 520 });
+  return <span className="na__mins"><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span> min</span>;
+}
 
 export default function LearningNextAction({ compact = false }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
+  const [listening,setListening]=useState(false);
+  const listenTimer=useRef(0);
+  const planned = minutes ?? plan?.minutes ?? null;
+  useEffect(() => () => window.clearTimeout(listenTimer.current), []);
+  // Mobi tilts his head when you choose a time: an answer to the tap, then he settles.
+  const listen = () => { setListening(false); window.clearTimeout(listenTimer.current); window.requestAnimationFrame(() => { setListening(true); listenTimer.current = window.setTimeout(() => setListening(false), 950); }); };
   useEffect(() => {
     let alive = true;
     apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
@@ -22,6 +35,7 @@ export default function LearningNextAction({ compact = false }) {
   const retry = () => { setPlan(null); setError(''); setRetryCount(n => n + 1); };
   const chooseTime=async n=>{
     if(choosing || n===(minutes ?? plan?.minutes))return;
+    listen();
     if(!plan?.study?.preferences){setPlan(null);setError('');setMinutes(n);return;}
     setChoosing(true);setError('');
     try{
@@ -47,7 +61,7 @@ export default function LearningNextAction({ compact = false }) {
         ) : (
           <>
             <div className="na__body"><span className="na__eyebrow">Your next step</span><b className="na__title">{plan.primary.title}</b><p className="na__reason">{plan.primary.reason}</p></div>
-            <Link className="btn-volt md na__cta" href={plan.primary.href}>Start<ArrowRight size={16} aria-hidden="true" /></Link>
+            <Link className="btn-volt md na__cta mk-press" href={plan.primary.href}>Start<ArrowRight size={16} aria-hidden="true" /></Link>
           </>
         )}
       </section>
@@ -57,13 +71,13 @@ export default function LearningNextAction({ compact = false }) {
   return (<>
     <InstallPractice />
     <section className="na" aria-label="Your next step">
-      <ArenaCompanion pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Getting your next step.' : 'Your next step is ready.'}> {error ? 'Review still has your saved sessions.' : !plan ? 'Reading your available practice.' : 'Choose the time you have. Start with the step below.'}</ArenaCompanion>
+      <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Getting your next step.' : 'Your next step is ready.'}> {error ? 'Review still has your saved sessions.' : !plan ? 'Reading your available practice.' : 'Choose the time you have. Start with the step below.'}</ArenaCompanion>
       <div className="na__top">
-        <span className="na__eyebrow"><AppIcon name="today" size={14} />Tonight’s plan</span>
+        <span className="na__eyebrow"><AppIcon name="today" size={14} />Tonight’s plan{planned ? <MinutesRoll value={planned} /> : null}</span>
         <fieldset className="na__time">
           <legend className="sr-only">Time for practice</legend>
           <div className="na__seg" role="group" aria-label="Time for practice">
-            {TIMES.map(n => <button type="button" key={n} aria-pressed={(minutes ?? plan?.minutes) === n} disabled={choosing} onClick={()=>chooseTime(n)}>{n} min</button>)}
+            {TIMES.map(n => <button type="button" className="mk-press" key={n} aria-pressed={(minutes ?? plan?.minutes) === n} disabled={choosing} onClick={()=>chooseTime(n)}>{n} min</button>)}
           </div>
         </fieldset>
       </div>
@@ -78,7 +92,7 @@ export default function LearningNextAction({ compact = false }) {
           <p className="na__reason">{plan.primary.reason}</p>
           {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? ` · ${step.done}` : ''}</small></div></li>)}</ol> : null}
           <div className="na__actions">
-            <Link className="btn-volt md na__cta" href={startHref}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
+            <Link className="btn-volt md na__cta mk-press" href={startHref}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
             {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip to the next step</Link>}
             {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
             {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}

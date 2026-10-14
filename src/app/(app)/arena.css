@@ -1422,3 +1422,10 @@ html[data-theme='light'] .app-shell .cmp {
 .app-shell .student-page--today .rg { margin: 0; }
 @media (min-width: 900px) { .app-shell .pr-head.pr-head--solo { grid-template-columns: minmax(0, 1fr); } .app-shell .pr-head--solo h1 { max-width: 24ch; } }
 .app-shell .pr-head > .na__alt { justify-self: end; gap: 8px; }
+
+/* ---------- Next step: the minutes roll, keys spring (LearningNextAction) ---------- */
+.app-shell .na__mins { margin-left: 4px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--a-volt-line); background: var(--a-volt-wash); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .na__seg button.mk-press:active:not(:disabled) { transform: scale(0.94); }
+.app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)); }
+.app-shell .student-page--today .rc--compact { margin: 0; }
+.app-shell .student-page--today .pt { margin: 0; }
