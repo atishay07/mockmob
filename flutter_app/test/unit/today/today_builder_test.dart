@@ -101,6 +101,33 @@ void main() {
       expect(MoveHeroCard.moodLine(m), TodayCopy.lateNight);
     });
 
+    test('the greeting, Mobi and the default length share one late-night window (11 PM to 5 AM)', () {
+      // IST wall-clock times, as the instant the app would see.
+      DateTime ist(int h, int m) => DateTime.utc(2026, 10, 13, h, m).subtract(const Duration(hours: 5, minutes: 30));
+      final cases = <(int, int, bool, String)>[
+        (4, 59, true, 'Up late, Asha'),
+        (5, 0, false, 'Good morning, Asha'),
+        (6, 58, false, 'Good morning, Asha'),
+        (22, 59, false, 'Good evening, Asha'),
+        (23, 0, true, 'Up late, Asha'),
+      ];
+      for (final (h, m, late, greeting) in cases) {
+        final inputs = ashaInputs(now: ist(h, m));
+        final view = buildToday(inputs);
+        final move = _move(inputs);
+        final reason = 'at $h:${m.toString().padLeft(2, '0')}';
+        expect(view.header.greeting, greeting, reason: reason);
+        expect(move.mood == TodayMood.lateNight, late, reason: reason);
+        if (late) expect(move.selectedMinutes, 10, reason: reason);
+        expect(isLateNight(inputs.clock()), late, reason: reason);
+        final cue = view.header.mobi;
+        if (view.hero is MoveHero && !(view.hero as MoveHero).art.isMobi) {
+          expect(cue?.kind == HeaderMobiKind.sleepy, late, reason: reason);
+        }
+        expect(MoveHeroCard.moodLine(move) == TodayCopy.lateNight, late, reason: reason);
+      }
+    });
+
     test('returning after days away asks how long without repeating the name, says nothing was lost', () {
       final m = _move(ashaInputs(returning: true));
       expect(m.mood, TodayMood.returning);

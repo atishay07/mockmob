@@ -3,18 +3,22 @@
 // Sentence case, no exclamation marks, no arrows, 12-hour times, real dates.
 import '../../core/copy/formatters.dart';
 import '../../core/domain/cuet_dates.dart';
+import '../../core/domain/next_move.dart' show isLateNightHour;
 
 abstract final class TodayCopy {
   // Header.
   static String greeting(int hour, String? firstName) {
     final who = firstName == null || firstName.isEmpty ? null : firstName;
-    final part = switch (hour) {
-      >= 5 && < 12 => 'Morning',
-      >= 12 && < 17 => 'Afternoon',
-      >= 17 && < 23 => 'Evening',
-      _ => 'Up late',
-    };
-    // One pattern: "Good morning, Asha". After 11 PM the line changes to "Up late, Asha".
+    // Late night comes from the one shared definition, so the greeting and Mobi's late-night
+    // line change at the same minute.
+    final part = isLateNightHour(hour)
+        ? 'Up late'
+        : switch (hour) {
+            < 12 => 'Morning',
+            < 17 => 'Afternoon',
+            _ => 'Evening',
+          };
+    // One pattern: "Good morning, Asha". From 11 PM to 5 AM the line is "Up late, Asha".
     final salutation = part == 'Up late' ? 'Up late' : 'Good ${part.toLowerCase()}';
     if (who == null) return part == 'Up late' ? 'Up late tonight' : salutation;
     return '$salutation, $who';

@@ -6,6 +6,7 @@ import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/today/logic/today_model.dart' show GoTo, TodayAction;
 
 import '../../helpers/fonts.dart';
 import 'support/fixtures.dart';
@@ -42,6 +43,7 @@ void main() {
     AttemptDetail d, {
     Size size = const Size(384, 853),
     double textScale = 1,
+    TodayAction? nextMove,
   }) async {
     final router = await pumpResultRoute(
       tester,
@@ -52,6 +54,7 @@ void main() {
         attemptId: m.attemptId,
         data: RecapData(model: m, attempt: d.attempt, detail: d),
         ritual: const RecapRitual(sheetsOpened: 1),
+        nextMove: nextMove,
       ),
     );
     await _run(tester, 1500);
@@ -180,6 +183,56 @@ void main() {
       expect(ResultCopy.previous('Mock 6', 92, 250), 'Mock 6, same format: 92 of 250.');
       expect(ResultCopy.higherCompare('Mock 6', 92, 'Mock 7', 115, 250), 'Mock 6: 92 of 250. Mock 7: 115 of 250.');
       expect(ResultCopy.outOf(250), 'of 250');
+    });
+  });
+  group('card 4 with nothing to repair names the next move', () {
+    const mixed = TodayAction(
+      'Start mixed practice, 10 questions',
+      GoTo('/practice/setup/quick?count=10&subject=business_studies'),
+      startsSession: true,
+      actionType: 'practice',
+    );
+
+    testWidgets('a next move is the primary key; Finish for now and Choose something else are quiet below it', (tester) async {
+      final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
+      await open(tester, '/result/a7/recap/4', f.model, f.detail, nextMove: mixed);
+      expect(find.text('No wrong answers to repair from this mock.'), findsOneWidget);
+      final primary = find.text(mixed.label);
+      expect(primary, findsOneWidget);
+      final bottom = tester.getRect(primary).bottom;
+      expect(tester.getRect(find.text('Finish for now')).top, greaterThan(bottom));
+      expect(tester.getRect(find.text('Choose something else')).top, greaterThan(bottom));
+      // The key is a real 48 dp target.
+      final box = tester.renderObject<RenderBox>(find.ancestor(of: primary, matching: find.byType(Semantics)).first);
+      expect(box.size.height, greaterThanOrEqualTo(48));
+    });
+
+    testWidgets('the primary key opens that move', (tester) async {
+      final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
+      final router = await open(tester, '/result/a7/recap/4', f.model, f.detail, nextMove: mixed);
+      await tester.tap(find.text(mixed.label));
+      await tester.pumpAndSettle();
+      // Pushed over the recap, so Back returns to it.
+      expect(find.textContaining('AT /practice/setup/quick?count=10'), findsOneWidget);
+      expect(router.canPop(), isTrue);
+    });
+
+    testWidgets('with no next move, Finish for now is the primary key and Choose something else stays quiet', (tester) async {
+      final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
+      await open(tester, '/result/a7/recap/4', f.model, f.detail);
+      final finish = find.text('Finish for now');
+      expect(finish, findsOneWidget, reason: 'one Finish key, not a primary and a quiet copy');
+      expect(tester.getRect(find.text('Choose something else')).top, greaterThan(tester.getRect(finish).bottom));
+      final box = tester.renderObject<RenderBox>(find.ancestor(of: finish, matching: find.byType(Semantics)).first);
+      expect(box.size.height, greaterThanOrEqualTo(48));
+    });
+
+    testWidgets('a paper with something to repair keeps the repair as the primary key', (tester) async {
+      await open(tester, '/result/a7/recap/4', mock7(), detail(), nextMove: mixed);
+      expect(find.text('Start 10-minute repair'), findsOneWidget);
+      expect(find.text(mixed.label), findsNothing);
+      expect(find.text('Finish for now'), findsOneWidget);
+      expect(find.text('Choose something else'), findsOneWidget);
     });
   });
 }

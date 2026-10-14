@@ -2,6 +2,7 @@
 // action this app cannot open never becomes a "Start" key, the repair length chip on the sheet
 // matches the card, the last week of the road counts days, and the slot key is a 48 dp target.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/learning_plan.dart';
@@ -197,5 +198,28 @@ void main() {
         expect(tester.getSize(find.byType(KeyButton)).height, greaterThanOrEqualTo(MmTarget.min));
       });
     }
+  });
+  group('the next move offered outside Today (the recap card 4)', () {
+    TodayAction? offered(TodayInputs inputs) {
+      final container = ProviderContainer(overrides: [todayInputsProvider.overrideWithValue(inputs)]);
+      addTearDown(container.dispose);
+      return container.read(todayNextActionProvider);
+    }
+
+    test('is the same primary action Today builds', () {
+      final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(now, 1))]);
+      final action = offered(inputs);
+      expect(action, isNotNull);
+      expect(action!.label, buildMove(inputs).primary.label);
+      expect(action.target, isA<GoTo>());
+    });
+
+    test('is none while offline when the move starts a session', () {
+      expect(offered(ashaInputs(attempts: [accountancyMock('clean', daysBefore(now, 1))], offline: true)), isNull);
+    });
+
+    test('is none when Today itself would only offer to retry or open the alternatives', () {
+      expect(offered(TodayInputs(now: now, attemptsFailed: true)), isNull);
+    });
   });
 }

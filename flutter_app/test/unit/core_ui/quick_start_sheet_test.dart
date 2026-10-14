@@ -198,4 +198,96 @@ void main() {
       }
     }
   });
+  group('title band', () {
+    test('is opaque in both themes and at every glass level', () {
+      for (final colors in [MmColors.dark, MmColors.light]) {
+        for (final quality in GlassQuality.values) {
+          expect(
+            QuickStartSheet.titleBandFor(colors, quality).a,
+            1.0,
+            reason: 'night: ${colors.isNight}, quality: ${quality.name}',
+          );
+        }
+      }
+    });
+
+    for (final brightness in [Brightness.light, Brightness.dark]) {
+      for (final quality in [GlassQuality.full, GlassQuality.lite, GlassQuality.off]) {
+        testWidgets('the page behind the sheet never shows under the title, ${brightness.name}, ${quality.name}', (tester) async {
+          tester.view.physicalSize = const Size(360, 640);
+          tester.view.devicePixelRatio = 1;
+          addTearDown(tester.view.reset);
+          final key = GlobalKey();
+          final colors = brightness == Brightness.dark ? MmColors.dark : MmColors.light;
+          Widget app(bool withPage) => ProviderScope(
+            overrides: [
+              resumeDraftProvider.overrideWith((ref) => null),
+              resumeOfferProvider.overrideWith((ref) async => null),
+            ],
+            child: MaterialApp(
+              theme: buildTheme(brightness),
+              home: RepaintBoundary(
+                key: key,
+                child: GlassScope(
+                  quality: quality,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(child: ColoredBox(color: colors.ground)),
+                      // The worst page: solid ink under the whole sheet (as if its text filled it).
+                      if (withPage) Positioned.fill(child: ColoredBox(color: colors.ink)),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: GlassSurface(
+                            role: GlassRole.sheet,
+                            borderRadius: const BorderRadius.all(Radius.circular(30)),
+                            child: const Material(type: MaterialType.transparency, child: QuickStartSheet()),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          Future<ByteData> pixels(bool withPage) async {
+            await tester.pumpWidget(app(withPage));
+            await tester.pump(const Duration(milliseconds: 600));
+            return (await tester.runAsync(() async {
+              final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+              final image = await boundary.toImage();
+              return (await image.toByteData())!;
+            }))!;
+          }
+
+          final plain = await pixels(false);
+          final over = await pixels(true);
+          await tester.pumpWidget(app(true));
+          await tester.pump(const Duration(milliseconds: 600));
+          final band = tester.getRect(find.byKey(const ValueKey('quick-start-title-band')));
+          // Two strips with no content in them: above the grab handle, and the gap under the title.
+          // Both sit well inside the sheet's rounded corners.
+          var worst = 0;
+          var sampled = 0;
+          for (final (top, bottom) in [(band.top + 2, band.top + 10), (band.bottom - 10, band.bottom - 2)]) {
+            for (var x = (band.left + 40).toInt(); x < (band.right - 40).toInt(); x += 3) {
+              for (var y = top.toInt(); y < bottom.toInt(); y += 2) {
+                final i = (y * 360 + x) * 4;
+                sampled++;
+                for (var c = 0; c < 3; c++) {
+                  final d = (plain.getUint8(i + c) - over.getUint8(i + c)).abs();
+                  if (d > worst) worst = d;
+                }
+              }
+            }
+          }
+          expect(sampled, greaterThan(100));
+          expect(worst, 0, reason: 'the title band is opaque, so the page behind it cannot show');
+        });
+      }
+    }
+  });
 }

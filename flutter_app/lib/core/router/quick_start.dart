@@ -96,6 +96,15 @@ final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 class QuickStartSheet extends ConsumerWidget {
   const QuickStartSheet({super.key});
 
+  /// The title band's fill: the sheet's own tint at full strength. The sheet lets 1.5% of the
+  /// page through (a faint wash, never blurred), and under the title that was still enough to
+  /// ghost a line of the page's text (device re-check, 14 Oct). The band is opaque in both
+  /// themes and at every glass level, like the rows, and matches the sheet's resting colour so
+  /// no seam shows. Glass Off draws the sheet solid on the raised colour, so the band does too.
+  @visibleForTesting
+  static Color titleBandFor(MmColors colors, GlassQuality quality) =>
+      quality == GlassQuality.off ? colors.raised : colors.glassTint.withValues(alpha: 1);
+
   static String titleFor(DateTime now) => isEvening(now) ? "What's it going to be tonight?" : "Pick today's work";
 
   @override
@@ -134,46 +143,59 @@ class QuickStartSheet extends ConsumerWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: maxHeight),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
-        child: AnimatedSize(
-          duration: reduced ? Duration.zero : Motion.ui,
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // The same grab handle as every other sheet: it drags down to close.
-              Center(
-                child: SizedBox(
-                  width: 36,
-                  height: 4,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(color: context.mmColors.ink4, borderRadius: MmRadius.pillAll),
-                  ),
-                ),
-              ),
-              const SizedBox(height: MmSpace.s12),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+      child: AnimatedSize(
+        duration: reduced ? Duration.zero : Motion.ui,
+        curve: Motion.glide,
+        alignment: Alignment.topCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // The title band: grab handle, title and Mobi on an opaque fill, edge to edge.
+            ColoredBox(
+              key: const ValueKey('quick-start-title-band'),
+              color: titleBandFor(context.mmColors, GlassScope.of(context)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                        child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
+                    // The same grab handle as every other sheet: it drags down to close.
+                    Center(
+                      child: SizedBox(
+                        width: 36,
+                        height: 4,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: context.mmColors.ink4, borderRadius: MmRadius.pillAll),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: MmSpace.s8),
-                    // Mobi weighs the choice with the student; it never sits in the dock itself.
-                    const _SettleIn(child: Mobi(pose: MobiPose.think, size: 52)),
+                    const SizedBox(height: MmSpace.s12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                              child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
+                            ),
+                          ),
+                          const SizedBox(width: MmSpace.s8),
+                          // Mobi weighs the choice with the student; it never sits in the dock itself.
+                          const _SettleIn(child: Mobi(pose: MobiPose.think, size: 52)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: MmSpace.s12),
-              Flexible(
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s16, MmSpace.s12),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -244,8 +266,8 @@ class QuickStartSheet extends ConsumerWidget {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

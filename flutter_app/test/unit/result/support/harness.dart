@@ -14,9 +14,19 @@ import 'package:mockmob/features/notifications/notifications.dart' show prePromp
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/result_routes.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
+import 'package:mockmob/features/today/data/today_providers.dart' show TodayActions, todayActionsProvider, todayNextActionProvider;
+import 'package:mockmob/features/today/logic/today_model.dart' show TodayAction;
 import 'package:mockmob/features/you/you_providers.dart' show lateNightLinesProvider, PrefToggle;
 
 import '../../../helpers/golden_harness.dart';
+
+/// Today's analytics write, kept out of the result tests.
+class _QuietTodayActions extends TodayActions {
+  _QuietTodayActions(super.ref);
+
+  @override
+  void started(TodayAction action, {int? minutes}) {}
+}
 
 /// What the screens asked for.
 class ResultLog {
@@ -113,6 +123,9 @@ List<Override> resultOverrides({
   int reminderAsks = 0,
   ResultLog? log,
   FakeHaptics? haptics,
+
+  /// Today's next move as card 4 offers it when there is nothing to repair (null: none).
+  TodayAction? nextMove,
   List<Override> extra = const [],
 }) => [
   recapDataProvider(attemptId).overrideWithValue(data),
@@ -130,6 +143,8 @@ List<Override> resultOverrides({
   userIdProvider.overrideWithValue('u1'),
   rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
   lateNightLinesProvider.overrideWith(() => PrefToggle(initial: true, read: (_) async => true, write: (_, _) async {})),
+  todayNextActionProvider.overrideWithValue(nextMove),
+  todayActionsProvider.overrideWith(_QuietTodayActions.new),
   ...extra,
 ];
 

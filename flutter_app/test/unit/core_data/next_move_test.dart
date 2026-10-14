@@ -74,7 +74,7 @@ void main() {
   group('default minutes', () {
     final noon = DateTime(2026, 10, 12, 12);
     final late = DateTime(2026, 10, 12, 23, 30);
-    final early = DateTime(2026, 10, 12, 6, 59);
+    final early = DateTime(2026, 10, 12, 4, 59);
 
     test('returning gets 5, then late night 10, then the plan minutes', () {
       expect(defaultNextMoveMinutes(returning: true, localNow: noon, planMinutes: 20), 5);
@@ -84,11 +84,13 @@ void main() {
       expect(defaultNextMoveMinutes(returning: false, localNow: noon, planMinutes: 20), 20);
     });
 
-    test('late night runs 11 PM to 7 AM', () {
+    test('late night runs 11 PM to 5 AM', () {
       expect(isLateNight(DateTime(2026, 1, 1, 22, 59)), isFalse);
       expect(isLateNight(DateTime(2026, 1, 1, 23)), isTrue);
-      expect(isLateNight(DateTime(2026, 1, 1, 7)), isFalse);
       expect(isLateNight(DateTime(2026, 1, 1, 0)), isTrue);
+      expect(isLateNight(DateTime(2026, 1, 1, 4, 59)), isTrue);
+      expect(isLateNight(DateTime(2026, 1, 1, 5)), isFalse);
+      expect(isLateNight(DateTime(2026, 1, 1, 6, 58)), isFalse);
     });
   });
 

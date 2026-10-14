@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/today/logic/today_model.dart' show GoTo, TodayAction;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -57,6 +58,7 @@ Future<void> _open(
   Duration settle = const Duration(milliseconds: 1800),
   Size size = const Size(384, 853),
   double textScale = 1,
+  TodayAction? nextMove,
 }) async {
   await pumpResultRoute(
     tester,
@@ -70,6 +72,7 @@ Future<void> _open(
       ritual: ritual,
       progress: progress,
       reminderDue: reminderDue,
+      nextMove: nextMove,
     ),
   );
   await settleImages(tester);
@@ -154,6 +157,30 @@ void main() {
     testWidgets('card 4 ($tag)', (tester) async {
       await _open(tester, '/result/a7/recap/4', mock7(), b: b);
       await _shot(tester, 'card4_$tag');
+    });
+
+    testWidgets('card 4, nothing to repair, next move named ($tag)', (tester) async {
+      final f = _firstBusinessStudies(blanksOnly: true);
+      await _open(
+        tester,
+        '/result/a7/recap/4',
+        f.model,
+        b: b,
+        d: f.detail,
+        nextMove: const TodayAction(
+          'Start mixed practice, 10 questions',
+          GoTo('/practice/setup/quick?count=10&subject=business_studies'),
+          startsSession: true,
+          actionType: 'practice',
+        ),
+      );
+      await _shot(tester, 'card4_no_repair_next_$tag');
+    });
+
+    testWidgets('card 4, nothing to repair, no next move ($tag)', (tester) async {
+      final f = _firstBusinessStudies(blanksOnly: true);
+      await _open(tester, '/result/a7/recap/4', f.model, b: b, d: f.detail);
+      await _shot(tester, 'card4_no_repair_finish_$tag');
     });
 
     testWidgets('full result ($tag)', (tester) async {

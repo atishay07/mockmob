@@ -9,6 +9,9 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../notifications/notifications.dart' show PrePromptMoment;
+import '../../today/data/today_providers.dart' show todayActionsProvider, todayNextActionProvider;
+import '../../today/logic/today_model.dart' show GoTo, TodayAction;
+import '../../today/widgets/move_keys.dart' show fitKeyLabel;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot;
@@ -78,6 +81,18 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return m.tonightCount;
   }
 
+  /// Opens Today's next move the way Today does: a tab root switches tabs, anything else is pushed.
+  void _startNext(TodayAction action) {
+    if (action.startsSession) ref.read(todayActionsProvider).started(action);
+    final target = action.target;
+    if (target is! GoTo) return;
+    if (AppRoutes.tabRoots.contains(target.location)) {
+      context.go(target.location);
+    } else {
+      unawaited(context.push(target.location));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -97,11 +112,16 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     // (the length chips fell under the scroll edge), so they close the scrolling card instead and
     // only the primary key stays pinned.
     final largeText = MediaQuery.textScalerOf(context).scale(14) / 14 > 1.15;
+    // The primary key names the one thing to do next: the repair, else Today's own next move, else
+    // "Finish for now" (a key that promises nothing the app cannot do). "Choose something else"
+    // is always one quiet key away, and "Finish for now" is quiet whenever it is not the primary.
+    final next = hasRepair ? null : ref.watch(todayNextActionProvider);
+    final finishIsPrimary = !hasRepair && next == null;
     final quietKeys = Wrap(
       alignment: WrapAlignment.center,
       children: [
-        if (hasRepair) KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
-        KeyButton.quiet(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
+        KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
+        if (!finishIsPrimary) KeyButton.quiet(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
       ],
     );
 
@@ -117,8 +137,16 @@ class _RecordCardState extends ConsumerState<RecordCard> {
               label: ResultCopy.startRepair(_minutes),
               onPressed: () => context.go(ResultNav.repair(m, minutes: _minutes)),
             )
+          else if (next != null)
+            LayoutBuilder(
+              builder: (context, box) => KeyButton(
+                label: fitKeyLabel(context, next, box.maxWidth),
+                semanticsLabel: next.label,
+                onPressed: () => _startNext(next),
+              ),
+            )
           else
-            KeyButton(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives)),
+            KeyButton(label: ResultCopy.finishForNow, onPressed: widget.onFinish),
           if (!largeText) quietKeys,
         ],
       ),

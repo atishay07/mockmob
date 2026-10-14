@@ -82,8 +82,17 @@ NextMoveState nextMoveState(NextMoveInputs inputs) {
 /// The precedence order, for tests and documentation.
 List<NextMoveState> get nextMovePrecedence => [for (final (state, _) in _rules) state, NextMoveState.noStrongWeakness];
 
-/// 11 PM to 7 AM local time.
-bool isLateNight(DateTime local) => local.hour >= 23 || local.hour < 7;
+/// The one definition of late night: 11 PM up to, not including, 5 AM local time. Today's
+/// greeting ("Up late"), Mobi's late-night line and the default repair length all read this,
+/// so they never disagree. 5:00 AM is the first minute of "Good morning".
+const lateNightStartHour = 23;
+const lateNightEndHour = 5;
+
+/// Whether a local hour (0 to 23) falls in late night.
+bool isLateNightHour(int hour) => hour >= lateNightStartHour || hour < lateNightEndHour;
+
+/// 11 PM to 5 AM local time.
+bool isLateNight(DateTime local) => isLateNightHour(local.hour);
 
 /// Default minutes for the duration chooser: returning (3 or more days away) gets 5, otherwise
 /// late night gets 10, otherwise the plan's own minutes. The plan honours only 10, 20 and 30.

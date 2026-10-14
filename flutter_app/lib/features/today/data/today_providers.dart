@@ -230,6 +230,19 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
 
 final todayViewProvider = Provider<TodayView>((ref) => buildToday(ref.watch(todayInputsProvider)));
 
+/// Today's next move as one action a screen outside Today can offer by name (the recap's last
+/// card, when the paper left nothing to repair). It is the same move Today's card builds, so the
+/// two never name different things. Null when Today has no move that opens a screen (it would
+/// only offer to retry a load or open the alternatives), or when the move needs the network and
+/// the phone is offline: the caller then offers no named move.
+final todayNextActionProvider = Provider<TodayAction?>((ref) {
+  final inputs = ref.watch(todayInputsProvider);
+  final action = buildMove(inputs).primary;
+  if (action.target is! GoTo) return null;
+  if (inputs.offline && action.startsSession) return null;
+  return action;
+});
+
 /// Today's writes and reads on demand.
 class TodayActions {
   TodayActions(this._ref);
