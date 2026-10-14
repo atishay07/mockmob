@@ -1,0 +1,361 @@
+/* Log in and sign up (W2.3). Tokens only (shared/tokens.css); the kit buttons come from
+   src/components/ui/ui.css. The promise panel is pinned Night (.mm-night) on both themes; light
+   appears only as environment (the lamp pool behind Mobi), never behind text. One volt light
+   per screen: the form's primary button. */
+
+body:has(.as) { background: var(--mm-ground); }
+
+.as {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--mm-ground);
+  color: var(--mm-ink);
+  font-family: var(--mm-font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.as-grid { display: grid; min-height: 100vh; min-height: 100dvh; }
+
+/* ---------- The form side ---------- */
+.as-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 var(--mm-space-gutter) var(--mm-space-s32);
+}
+.as-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mm-space-s12);
+  min-height: 64px;
+}
+.as-top__switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font: 400 15px/1.4 var(--mm-font-body);
+  color: var(--mm-ink-2);
+  white-space: nowrap;
+}
+.as a:where(.as-top__switch a, .as-returning a, .as-legal a) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--mm-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--mm-line-strong);
+  transition: text-decoration-color var(--mm-dur-ui) var(--mm-ease-out);
+}
+.as a:where(.as-top__switch a, .as-returning a):hover { text-decoration-color: currentColor; }
+.as a:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 400px) {
+  .as-top__switch > span { display: none; }
+}
+
+.as-body {
+  display: grid;
+  gap: var(--mm-space-s20);
+  width: min(100%, 440px);
+  margin: var(--mm-space-s16) auto 0;
+}
+.as-head { display: grid; gap: var(--mm-space-s8); }
+.as-head__title {
+  margin: 0;
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-type-headline-size);
+  line-height: var(--mm-type-headline-line);
+  font-weight: var(--mm-type-headline-weight);
+  letter-spacing: var(--mm-type-headline-tracking);
+  font-stretch: 87%;
+  color: var(--mm-ink);
+  text-wrap: balance;
+}
+.as-head__lead {
+  margin: 0;
+  font: var(--mm-type-body-weight) var(--mm-type-body-size)/var(--mm-type-body-line) var(--mm-font-body);
+  color: var(--mm-ink-2);
+  text-wrap: pretty;
+}
+
+.as-returning, .as-notice {
+  margin: 0;
+  padding: var(--mm-space-s8) var(--mm-space-s16);
+  border-radius: var(--mm-radius-small);
+  background: var(--mm-sunken);
+  font: 400 15px/1.45 var(--mm-font-body);
+  color: var(--mm-ink-2);
+}
+.as-returning { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; }
+.as-notice { padding-block: var(--mm-space-s12); color: var(--mm-warn-text); }
+
+.as-card {
+  padding: var(--mm-space-s20);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius-panel);
+  background: var(--mm-raised);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top), var(--mm-shadow-card);
+}
+@media (min-width: 480px) {
+  .as-card { padding: var(--mm-space-s32); }
+}
+
+.as-wait { display: flex; align-items: flex-start; gap: var(--mm-space-s12); min-height: 96px; }
+.as-wait__spin { margin-top: 3px; color: var(--mm-ink-2); }
+.as-wait__title { margin: 0; font: 600 17px/1.3 var(--mm-font-body); color: var(--mm-ink); }
+.as-wait__msg { margin: 4px 0 0; font: 400 15px/1.45 var(--mm-font-body); color: var(--mm-ink-2); }
+
+.as-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--mm-space-s24);
+}
+.as .as-legal a {
+  font: 500 14px/1.3 var(--mm-font-body);
+  color: var(--mm-ink-3);
+  text-decoration-color: transparent;
+}
+.as .as-legal a:hover { color: var(--mm-ink); text-decoration-color: currentColor; }
+
+/* ---------- The form itself (SignupCard markup, restyled; its logic is untouched) ---------- */
+.as .auth-card { display: grid; gap: var(--mm-space-s16); }
+/* The page gives its own heading and the switch link (which also keeps `next`). */
+.as .auth-card__head, .as .auth-card__switch { display: none; }
+.as .auth-card .mm-btn { width: 100%; min-height: 52px; }
+.as .auth-card__google { width: 18px; height: 18px; }
+.as .auth-card__or {
+  display: flex;
+  align-items: center;
+  gap: var(--mm-space-s12);
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+.as .auth-card__or::before, .as .auth-card__or::after { content: ''; flex: 1; height: 1px; background: var(--mm-line); }
+.as .auth-card__form { display: grid; gap: var(--mm-space-s16); }
+.as .auth-field { display: grid; gap: var(--mm-space-s8); }
+.as .auth-field > span:first-child {
+  font: var(--mm-type-label-large-weight) var(--mm-type-label-large-size)/var(--mm-type-label-large-line) var(--mm-font-body);
+  color: var(--mm-ink);
+}
+.as .auth-card .input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px var(--mm-space-s16);
+  border: 1px solid var(--mm-line-strong);
+  border-radius: var(--mm-radius-small);
+  background: var(--mm-ground);
+  color: var(--mm-ink);
+  font: 400 16px/24px var(--mm-font-body);
+  box-shadow: none;
+}
+.as .auth-card .input::placeholder { color: var(--mm-ink-3); opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .as .auth-card .input:hover:not(:disabled):not(:focus):not([readonly]) { border-color: var(--mm-ink-3); }
+}
+.as .auth-card .input:focus {
+  border-color: var(--mm-focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mm-focus-ring) 22%, transparent);
+}
+.as .auth-card .input[readonly] { background: var(--mm-sunken); border-color: var(--mm-line); color: var(--mm-ink-2); }
+.as .auth-card .input:disabled { background: var(--mm-sunken); border-color: var(--mm-line); color: var(--mm-ink-3); opacity: 1; }
+.as .auth-field--code .input {
+  text-align: center;
+  font-family: var(--mm-font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  font-variant-numeric: tabular-nums;
+}
+.as .auth-field small {
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+.as .auth-card__status {
+  min-height: 0;
+  margin: 0;
+  font: 400 15px/1.45 var(--mm-font-body);
+  color: var(--mm-ink-2);
+}
+.as .auth-card__status:empty { display: none; }
+.as .auth-card__status[data-kind] { padding: var(--mm-space-s12) var(--mm-space-s16); border-radius: var(--mm-radius-small); }
+.as .auth-card__status[data-kind='error'] {
+  border: 1px solid var(--mm-wrong-border);
+  background: var(--mm-wrong-surface);
+  color: var(--mm-wrong-text);
+}
+.as .auth-card__status[data-kind='notice'] { background: var(--mm-sunken); color: var(--mm-ink-2); }
+.as .auth-card__actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 var(--mm-space-s16); }
+.as .auth-card__textbtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 2px;
+  border: 0;
+  background: none;
+  color: var(--mm-ink);
+  font: 600 15px/1.3 var(--mm-font-body);
+  font-variant-numeric: tabular-nums;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--mm-line-strong);
+  cursor: pointer;
+}
+.as .auth-card__textbtn:hover:not(:disabled) { text-decoration-color: currentColor; }
+.as .auth-card__textbtn:disabled { color: var(--mm-ink-3); text-decoration-color: transparent; cursor: default; }
+.as .auth-card__textbtn:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; border-radius: 4px; }
+.as .auth-card__fine {
+  margin: 0;
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+
+/* ---------- The promise panel (pinned Night) ---------- */
+.as-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-space-s32);
+  padding: var(--mm-space-s40) var(--mm-space-gutter) var(--mm-space-s32);
+  background: var(--mm-night-sunken);
+  color: var(--mm-ink);
+  border-top: 1px solid var(--mm-night-line);
+}
+/* Lamp light as environment: a warm pool behind Mobi, never behind the words. */
+.as-panel::before {
+  content: '';
+  position: absolute;
+  right: -12%;
+  bottom: -18%;
+  z-index: -1;
+  width: min(520px, 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--mm-lamp) 15%, transparent), transparent);
+  pointer-events: none;
+}
+.as .as-panel__logo { display: none; }
+.as-panel .logo .logo__img--light { display: none; }
+.as-panel .logo .logo__img--dark { display: block; }
+
+.as-promise {
+  position: relative;
+  display: grid;
+  gap: var(--mm-space-s16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* The margin rule of an answer sheet; the bubbles sit on it. */
+.as-promise::before {
+  content: '';
+  position: absolute;
+  top: 0.4em;
+  bottom: 0.4em;
+  left: 9px;
+  width: 1px;
+  background: var(--mm-line);
+}
+.as-promise__line {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--mm-space-s16);
+  font-family: var(--mm-font-display);
+  font-size: clamp(22px, 1.2vw + 14px, 32px);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-stretch: 87%;
+  color: var(--mm-ink-2);
+  text-wrap: balance;
+}
+.as-promise__line:first-child {
+  font-size: clamp(34px, 3vw + 14px, 60px);
+  line-height: 1.04;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  color: var(--mm-ink);
+  padding-bottom: var(--mm-space-s8);
+}
+.as-promise__bubble {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.3em;
+  margin-top: calc((1lh - 20px) / 2);
+  border-radius: 50%;
+  border: 1.5px solid var(--mm-line-strong);
+  background: var(--mm-night-sunken);
+}
+.as-promise__line:first-child .as-promise__bubble::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--mm-ink);
+}
+
+.as-panel__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--mm-space-s16);
+  margin-top: auto;
+}
+.as-panel__foot p {
+  margin: 0;
+  max-width: 28ch;
+  font: 400 15px/1.45 var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+.as-mobi { flex-shrink: 0; width: 84px; height: 98px; }
+.as-mobi > * { width: 100%; height: 100%; object-fit: contain; }
+
+/* One authored moment: the three promise lines arrive in order. */
+@keyframes as-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.as-promise__line {
+  animation: as-rise var(--mm-dur-emphasized) var(--mm-ease-emphasized) both;
+  animation-delay: calc(var(--as-i, 0) * 90ms + 80ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .as-promise__line { animation: none; }
+  .as a { transition: none; }
+}
+
+/* ---------- Desktop: promise on the left, the form on the right ---------- */
+@media (min-width: 1024px) {
+  .as-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .as-panel {
+    grid-column: 1;
+    grid-row: 1;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: var(--mm-space-s24) clamp(40px, 4vw, 72px) var(--mm-space-s40);
+    border-top: 0;
+    border-right: 1px solid var(--mm-night-line);
+    gap: var(--mm-space-s40);
+  }
+  .as .as-panel__logo { display: inline-flex; }
+  .as-promise { margin-top: auto; max-width: 560px; }
+  .as-panel__foot { margin-top: 0; }
+  .as-mobi { width: 104px; height: 120px; }
+  .as-main { grid-column: 2; grid-row: 1; padding: 0 clamp(32px, 4vw, 64px) var(--mm-space-s40); }
+  .as-top { justify-content: flex-end; min-height: 76px; }
+  .as .as-top__logo { display: none; }
+  .as-body { margin-block: auto; padding-block: var(--mm-space-s24); }
+}

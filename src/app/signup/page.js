@@ -4,8 +4,8 @@ import SignupPageClient from './SignupPageClient';
 import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'Create a Free MockMob Account',
-  description: 'Create a free MockMob account and start CUET mock tests, question practice, and progress tracking.',
+  title: 'Create a free MockMob account',
+  description: 'Create a free MockMob account for CUET UG practice: mock tests, chapter practice and a record of the marks you are losing.',
   path: '/signup',
 });
 

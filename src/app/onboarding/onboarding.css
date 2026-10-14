@@ -1,0 +1,160 @@
+/* Onboarding (W2.3). A product route: Night by default (shared/theme.mjs), Daylight when chosen.
+   Tokens only. Glass on chrome only: the top bar (.ui-chrome) and the save bar. */
+
+body:has(.ob) { background: var(--mm-ground); }
+
+.ob {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--mm-ground);
+  color: var(--mm-ink);
+  font-family: var(--mm-font-body);
+  font-size: 16px;
+}
+
+.ob-top__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mm-space-s16);
+  width: min(100%, 1040px);
+  margin-inline: auto;
+  padding: var(--mm-space-s8) var(--mm-space-s16);
+}
+.ob-top__end { display: flex; align-items: center; gap: var(--mm-space-s12); }
+.ob-top__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--mm-space-s8);
+  border-radius: var(--mm-radius-small);
+  color: var(--mm-ink-2);
+  font: var(--mm-type-label-large-weight) var(--mm-type-label-large-size)/var(--mm-type-label-large-line) var(--mm-font-body);
+  text-decoration: none;
+}
+.ob-top__link:hover { color: var(--mm-ink); }
+.ob-top__link:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 2px; }
+
+.ob-main {
+  width: min(100%, 880px);
+  margin-inline: auto;
+  /* The save bar is fixed: keep the last row of tiles clear of it. */
+  padding: var(--mm-space-s32) var(--mm-space-gutter) calc(176px + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 768px) {
+  .ob-main { padding-top: var(--mm-space-s48); }
+}
+
+.ob-intro { display: grid; justify-items: start; }
+.ob-intro .ui-pagehead { margin-bottom: var(--mm-space-s24); }
+.ob-intro .ui-pagehead__title { max-width: 18ch; }
+
+/* Mobi at the welcome only, in a small pool of lamp light (environment, never behind text). */
+.ob-mobi {
+  position: relative;
+  width: 76px;
+  height: 88px;
+  margin-bottom: var(--mm-space-s12);
+}
+.ob-mobi::before {
+  content: '';
+  position: absolute;
+  inset: 18% -40% -8%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--mm-lamp) 20%, transparent), transparent);
+  pointer-events: none;
+}
+.ob-mobi > * { position: relative; width: 100%; height: 100%; object-fit: contain; }
+
+.ob-pick { display: grid; gap: var(--mm-space-s16); }
+.ob-state { max-width: 560px; }
+
+/* ---------- Save bar: fixed chrome at the foot of the screen ---------- */
+.ob-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 40;
+  border-top: 1px solid var(--mm-line);
+  isolation: isolate;
+}
+.ob-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--mm-glass-tint-lite);
+  box-shadow: inset 0 1px 0 var(--mm-edge-top);
+  pointer-events: none;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  :root[data-glass='full'] .ob-bar::before {
+    background: var(--mm-glass-tint);
+    -webkit-backdrop-filter: blur(var(--mm-glass-blur-chrome)) saturate(1.4);
+    backdrop-filter: blur(var(--mm-glass-blur-chrome)) saturate(1.4);
+  }
+}
+:root[data-glass='off'] .ob-bar::before { background: var(--mm-raised); }
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .ob-bar::before { background: var(--mm-raised) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+}
+.ob-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mm-space-s16);
+  width: min(100%, 880px);
+  margin-inline: auto;
+  padding: var(--mm-space-s12) var(--mm-space-gutter) calc(var(--mm-space-s12) + env(safe-area-inset-bottom, 0px));
+}
+.ob-bar__status { display: grid; gap: 2px; min-width: 0; }
+.ob-bar__count {
+  margin: 0;
+  font: 600 18px/1.25 var(--mm-font-display);
+  color: var(--mm-ink);
+  font-variant-numeric: tabular-nums;
+}
+.ob-bar__note {
+  margin: 0;
+  min-height: 18px;
+  font: var(--mm-type-caption-weight) var(--mm-type-caption-size)/var(--mm-type-caption-line) var(--mm-font-body);
+  color: var(--mm-ink-3);
+}
+.ob-bar__note--bad { color: var(--mm-bad-text); }
+.ob-bar__save { flex-shrink: 0; }
+@media (max-width: 420px) {
+  .ob-bar__inner { flex-wrap: wrap; }
+  .ob-bar__status { flex: 1 1 100%; }
+  .ob-bar .ob-bar__save { width: 100%; }
+}
+
+/* ---------- The first check ---------- */
+.ob-done { display: grid; justify-items: start; gap: var(--mm-space-s16); max-width: 640px; }
+.ob-done .ui-pagehead { margin-bottom: 0; }
+.ob-done .ui-pagehead__title:focus { outline: none; }
+.ob-done .ui-pagehead__title:focus-visible { outline: 2px solid var(--mm-focus-ring); outline-offset: 4px; border-radius: 4px; }
+.ob-done__saved {
+  margin: 0;
+  font: var(--mm-type-small-weight) var(--mm-type-small-size)/var(--mm-type-small-line) var(--mm-font-body);
+  color: var(--mm-good-text);
+  font-variant-numeric: tabular-nums;
+}
+.ob-done__pick { display: grid; gap: var(--mm-space-s8); }
+.ob-done__label {
+  margin: 0;
+  font: var(--mm-type-label-large-weight) var(--mm-type-label-large-size)/var(--mm-type-label-large-line) var(--mm-font-body);
+  color: var(--mm-ink-2);
+}
+.ob-done__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--mm-space-s12); margin-top: var(--mm-space-s8); }
+@media (max-width: 520px) {
+  .ob-done__actions { flex-direction: column; align-items: stretch; width: 100%; }
+}
+
+/* One authored moment: the welcome settles in. Reduced motion shows it at once. */
+@keyframes ob-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.ob-intro, .ob-done { animation: ob-rise var(--mm-dur-emphasized) var(--mm-ease-emphasized) both; }
+@media (prefers-reduced-motion: reduce) {
+  .ob-intro, .ob-done { animation: none; }
+}
