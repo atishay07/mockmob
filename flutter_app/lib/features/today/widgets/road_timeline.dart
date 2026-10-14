@@ -14,6 +14,7 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
 import 'today_reveal.dart';
+import 'today_type.dart';
 
 class RoadTimeline extends StatelessWidget {
   const RoadTimeline({super.key, required this.today, required this.stops, required this.end});
@@ -24,7 +25,11 @@ class RoadTimeline extends StatelessWidget {
   /// The right edge, derived from the last stop (the road model's `end`).
   final DateTime end;
 
-  static const double height = 136;
+  /// The canvas at 1x text; larger text adds to it (see [heightFor]).
+  static const double height = 160;
+
+  /// The canvas height at the text scale: three rows of labels share it.
+  static double heightFor(TextScaler scaler) => height + (scaler.scale(12) - 12) * 3;
 
   @override
   Widget build(BuildContext context) => TodayReveal(child: Builder(builder: _drawn));
@@ -33,24 +38,26 @@ class RoadTimeline extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final draw = todayEnterValue(context, delay: const Duration(milliseconds: 80), length: const Duration(milliseconds: 620));
-    final small = type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w600, color: colors.ink3);
+    final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
+    final small = type.micro.copyWith(height: 1, fontWeight: FontWeight.w600, color: colors.ink3);
     return Semantics(
       label: 'Timeline from ${TodayCopy.nowLabel.toLowerCase()} to ${_monthName(end.subtract(const Duration(days: 1)))}',
       excludeSemantics: true,
       child: RepaintBoundary(
         child: CustomPaint(
-          size: const Size(double.infinity, height),
+          size: Size(double.infinity, heightFor(scaler)),
           painter: _RoadPainter(
             today: today,
             stops: stops,
             end: end,
             colors: colors,
             draw: draw,
+            scaler: scaler,
             label: small,
             lane: small.copyWith(color: colors.ink2),
             exam: small.copyWith(fontWeight: FontWeight.w700, color: colors.isNight ? colors.volt : colors.accentText),
             now: small.copyWith(fontWeight: FontWeight.w700, color: colors.ink),
-            stretch: type.caption.copyWith(fontSize: 12, height: 1, fontWeight: FontWeight.w700, color: colors.ink),
+            stretch: type.microStrong.copyWith(height: 1, color: colors.ink),
           ),
         ),
       ),
@@ -85,6 +92,7 @@ class _RoadPainter extends CustomPainter {
     required this.end,
     required this.colors,
     required this.draw,
+    required this.scaler,
     required this.label,
     required this.lane,
     required this.exam,
@@ -97,20 +105,23 @@ class _RoadPainter extends CustomPainter {
   final DateTime end;
   final MmColors colors;
   final Animation<double> draw;
+  final TextScaler scaler;
   final TextStyle label;
   final TextStyle lane;
   final TextStyle exam;
   final TextStyle now;
   final TextStyle stretch;
 
-  static const double _flagY = 7;
-  static const double _laneTop = 26;
-  static const double _laneStep = 26;
-  static const double _bar = 6;
-  static const double _bracketY = 86;
-  static const double _trackY = 106;
-  static const double _track = 10;
-  static const double _monthY = 128;
+  // Rows from the top, at 1x text: the Now flag, two lanes, the bracket, the track, the months.
+  // Labels are centred on their rows; larger text only adds room at the foot (see heightFor).
+  static const double _flagY = 8;
+  static const double _laneTop = 32;
+  static const double _laneStep = 30;
+  static const double _bar = 8;
+  static const double _bracketY = 102;
+  static const double _trackY = 128;
+  static const double _track = 15;
+  static const double _monthY = 154;
 
   // Text is laid out once per painter (its data and theme are fixed for its life); only the
   // draw-in progress repaints.
@@ -118,7 +129,7 @@ class _RoadPainter extends CustomPainter {
 
   TextPainter _tp(String text, TextStyle style) => _texts.putIfAbsent(
         '${identityHashCode(style)}|$text',
-        () => TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, maxLines: 1)..layout(),
+        () => TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout(),
       );
 
   @override
@@ -162,11 +173,11 @@ class _RoadPainter extends CustomPainter {
     final windowStart = stops.where((s) => s.kind == RoadStopKind.exam).firstOrNull?.start;
     if (windowStart != null) {
       final tick = Paint()
-        ..color = colors.ink.withValues(alpha: colors.isNight ? 0.26 : 0.24)
+        ..color = colors.ink.withValues(alpha: colors.isNight ? 0.3 : 0.28)
         ..strokeWidth = 1;
       for (var d = today.add(const Duration(days: 7)); d.isBefore(windowStart); d = d.add(const Duration(days: 7))) {
         final tx = x(d);
-        canvas.drawLine(Offset(tx, _trackY - 2.5), Offset(tx, _trackY + 2.5), tick);
+        canvas.drawLine(Offset(tx, _trackY - 3.5), Offset(tx, _trackY + 3.5), tick);
       }
     }
 
@@ -174,7 +185,7 @@ class _RoadPainter extends CustomPainter {
     final hair = Paint()..color = colors.line;
     for (var m = start; m.isBefore(end); m = DateTime.utc(m.year, m.month + 1)) {
       final next = DateTime.utc(m.year, m.month + 1);
-      if (m != start) canvas.drawRect(Rect.fromLTWH(x(m) - 0.5, _trackY + _track / 2 + 3, 1, 4), hair);
+      if (m != start) canvas.drawRect(Rect.fromLTWH(x(m) - 0.5, _trackY + _track / 2 + 3, 1, 5), hair);
       _text(canvas, _monthShort(m.month), label, Offset((x(m) + x(next)) / 2, _monthY));
     }
 
@@ -188,7 +199,7 @@ class _RoadPainter extends CustomPainter {
         case RoadStopKind.registration || RoadStopKind.boards:
           final y = _laneTop + row * _laneStep;
           row++;
-          final bar = RRect.fromRectAndRadius(Rect.fromLTRB(a, y + 8, b, y + 8 + _bar), const Radius.circular(_bar / 2));
+          final bar = RRect.fromRectAndRadius(Rect.fromLTRB(a, y + 9, b, y + 9 + _bar), const Radius.circular(_bar / 2));
           if (s.kind == RoadStopKind.registration) {
             canvas.drawRRect(bar, Paint()..color = color.withValues(alpha: 0.2));
             canvas.drawRRect(
@@ -205,13 +216,13 @@ class _RoadPainter extends CustomPainter {
           final lx = a + name.width > size.width ? size.width - name.width : a;
           name.paint(canvas, Offset(lx, y - name.height / 2));
         case RoadStopKind.exam:
-          final block = RRect.fromRectAndRadius(Rect.fromLTRB(a, _trackY - 8, b, _trackY + 8), const Radius.circular(8));
+          final block = RRect.fromRectAndRadius(Rect.fromLTRB(a, _trackY - 10, b, _trackY + 10), const Radius.circular(10));
           // The flag: the exam's name at the right of the first lane, a hairline down to it.
           final name = _tp(TodayCopy.laneExam, exam);
           final nx = (b - name.width).clamp(0.0, size.width - name.width);
           name.paint(canvas, Offset(nx, _laneTop - name.height / 2));
           final fx = (a + b) / 2;
-          canvas.drawRect(Rect.fromLTWH(fx - 0.5, _laneTop + 8, 1, _trackY - 8 - _laneTop - 10), Paint()..color = color.withValues(alpha: 0.45));
+          canvas.drawRect(Rect.fromLTWH(fx - 0.5, _laneTop + 9, 1, _trackY - 10 - _laneTop - 11), Paint()..color = color.withValues(alpha: 0.45));
           // A soft halo under the one volt mark at night, then the block.
           if (colors.isNight) canvas.drawRRect(block.inflate(4), Paint()..color = color.withValues(alpha: 0.14));
           canvas.drawRRect(block, Paint()..color = color);
@@ -260,15 +271,15 @@ class _RoadPainter extends CustomPainter {
     }
 
     // Now: a paper-white disc with a soft halo, pinned by a hairline to its flag above.
-    canvas.drawRect(Rect.fromLTWH(n - 0.5, _flagY + 7, 1, _trackY - _flagY - 7 - 8), Paint()..color = colors.ink.withValues(alpha: 0.45));
-    canvas.drawCircle(Offset(n, _trackY), 14, Paint()..color = colors.ink.withValues(alpha: 0.1 * t));
-    canvas.drawCircle(Offset(n, _trackY), 7, Paint()..color = colors.ink);
+    canvas.drawRect(Rect.fromLTWH(n - 0.5, _flagY + 8, 1, _trackY - _flagY - 8 - 9), Paint()..color = colors.ink.withValues(alpha: 0.45));
+    canvas.drawCircle(Offset(n, _trackY), 16, Paint()..color = colors.ink.withValues(alpha: 0.1 * t));
+    canvas.drawCircle(Offset(n, _trackY), 9, Paint()..color = colors.ink);
     canvas.drawCircle(
       Offset(n, _trackY),
-      7,
+      9,
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
+        ..strokeWidth = 2.5
         ..color = colors.ground,
     );
     _text(canvas, '${TodayCopy.nowLabel}, ${formatDayMonthShort(today)}', now, Offset(n, _flagY), alignLeft: n < 48);
@@ -284,7 +295,7 @@ class _RoadPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RoadPainter old) =>
-      old.today != today || old.end != end || old.colors != colors || old.stops != stops || old.draw != draw;
+      old.today != today || old.end != end || old.colors != colors || old.stops != stops || old.draw != draw || old.scaler != scaler;
 }
 
 /// How far a stop is from [today]: "On now" inside it, "in 5 days" under a week, else weeks.
@@ -354,6 +365,7 @@ class _StopRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final s = stop;
+    final current = isNext || distance == TodayCopy.onNow;
     final when = distance == null ? '' : ' ${isNext ? '${TodayCopy.nextTag}, ' : ''}${distance!}.';
     return Semantics(
       container: true,
@@ -368,12 +380,11 @@ class _StopRow extends StatelessWidget {
               width: 28,
               child: Column(
                 children: [
-                  const SizedBox(height: 5),
-                  _Key(kind: s.kind, strong: isNext || s.kind == RoadStopKind.exam),
+                  _Node(kind: s.kind, current: isNext || distance == TodayCopy.onNow),
                   if (!last)
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.only(bottom: 2),
                         child: Container(width: 1.5, color: colors.lineStrong),
                       ),
                     ),
@@ -396,7 +407,13 @@ class _StopRow extends StatelessWidget {
                             runSpacing: MmSpace.s4,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              Text(s.title, style: type.labelLarge),
+                              Text(
+                                s.title,
+                                style: type.labelLarge.copyWith(
+                                  color: current || distance == null || s.kind == RoadStopKind.exam ? colors.ink : colors.ink2,
+                                  fontWeight: current ? FontWeight.w700 : FontWeight.w600,
+                                ),
+                              ),
                               if (tagExpected) const _ExpectedTag(),
                             ],
                           ),
@@ -445,7 +462,7 @@ class _Distance extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
             child: Text(
               TodayCopy.nextTag,
-              style: type.caption.copyWith(fontSize: 11, height: 16 / 11, fontWeight: FontWeight.w700, color: colors.ground),
+              style: type.micro.copyWith(fontWeight: FontWeight.w700, color: colors.ground),
             ),
           ),
         ),
@@ -477,31 +494,36 @@ class _ExpectedTag extends StatelessWidget {
   }
 }
 
-/// The stop's mark, as it is drawn on the track: an outlined lane, a filled lane, the volt
-/// window. The next stop's mark is drawn a size up.
-class _Key extends StatelessWidget {
-  const _Key({required this.kind, this.strong = false});
+/// A stop's node on the timeline rail. The stop that is next (or on now) is a full-ink node with
+/// a halo; the exam window is the one volt node; the stops after it are quiet hollow rings. The
+/// colour of each is the colour of its lane or block on the track above.
+class _Node extends StatelessWidget {
+  const _Node({required this.kind, required this.current});
 
   final RoadStopKind kind;
-  final bool strong;
+  final bool current;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final color = roadStopColor(kind, colors);
-    final decoration = switch (kind) {
-      RoadStopKind.registration => BoxDecoration(
-          color: color.withValues(alpha: 0.18),
-          border: Border.all(color: color.withValues(alpha: 0.8)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-      RoadStopKind.boards => BoxDecoration(color: color.withValues(alpha: 0.55), borderRadius: BorderRadius.circular(4)),
-      RoadStopKind.exam => BoxDecoration(color: color, borderRadius: BorderRadius.circular(5)),
-    };
+    final exam = kind == RoadStopKind.exam;
+    final accent = roadStopColor(kind, colors);
+    final fill = exam ? accent : (current ? colors.ink : null);
+    final size = current ? 14.0 : 12.0;
     return SizedBox(
-      width: strong ? 20 : 16,
-      height: strong ? 12 : 10,
-      child: DecoratedBox(decoration: decoration),
+      width: 20,
+      height: 20,
+      child: Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: fill,
+            border: fill == null ? Border.all(color: accent, width: 1.5) : null,
+            boxShadow: current ? [BoxShadow(color: (exam ? accent : colors.ink).withValues(alpha: 0.18), spreadRadius: 3)] : null,
+          ),
+          child: SizedBox.square(dimension: size),
+        ),
+      ),
     );
   }
 }

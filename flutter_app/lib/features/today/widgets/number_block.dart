@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import 'today_type.dart';
 
 class NumberBlock extends StatelessWidget {
   const NumberBlock({super.key, required this.number, this.label, this.semanticsLabel, this.besideWidth});
@@ -27,8 +28,8 @@ class NumberBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final labelStyle = type.title.copyWith(fontSize: 20, height: 24 / 20, color: colors.ink, letterSpacing: -0.3);
-    final numberStyle = type.hero.copyWith(fontSize: number.length <= 2 ? 124 : 112, height: number.length <= 2 ? 104 / 124 : 96 / 112);
+    final labelStyle = type.stageLabel.copyWith(color: colors.ink);
+    final numberStyle = type.stageNumber(number);
     final figure = MonumentalNumber(value: number, color: colors.ink, style: numberStyle);
     return Semantics(
       container: true,

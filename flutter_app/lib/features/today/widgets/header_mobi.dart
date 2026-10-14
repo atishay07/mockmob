@@ -1,13 +1,15 @@
 // Mobi in Today's header, every day (owner feedback 13 Oct: "animated everywhere, like Duo"). A
 // 56 dp living Mobi beside the greeting: he breathes and blinks, cheers only when today's opened
 // result improved or held, waves for any other submission, yawns after 11 PM, points at the move
-// card when one is ready (aimed at the card itself, again after layout and scroll), and says one
-// short line when tapped. When the hero already has Mobi (day one, coming back, late night) the
+// card when one is ready (aimed at the card itself, again after layout and scroll) and says his
+// short line about it the first time the move is ready in an app run (never under reduced
+// motion), and says one short line when tapped. When the hero already has Mobi (day one, coming back, late night) the
 // header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 
@@ -21,6 +23,13 @@ class HeaderMobi extends StatefulWidget {
 
   static const double size = 56;
 
+  /// Whether he has already said his line about a ready move in this app run.
+  static bool _greeted = false;
+
+  /// Lets a test see the first-open line again.
+  @visibleForTesting
+  static void resetGreeting() => _greeted = false;
+
   @override
   State<HeaderMobi> createState() => _HeaderMobiState();
 }
@@ -28,6 +37,7 @@ class HeaderMobi extends StatefulWidget {
 class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   final MobiController _mobi = MobiController();
   Timer? _hush;
+  Timer? _first;
   int _tap = 0;
   ScrollPosition? _position;
   Offset? _aimedVector;
@@ -45,6 +55,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _reaim();
+    _greet();
   }
 
   @override
@@ -63,6 +74,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     if (old.cue.kind != widget.cue.kind) {
       _mobi.play(_entrance);
       _aimedVector = null;
+      _greet();
     }
     _reaim();
   }
@@ -76,6 +88,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _position?.removeListener(_reaim);
     _hush?.cancel();
+    _first?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -103,10 +116,23 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _mobi.pointAtWidget(key);
   }
 
+  /// The first time a move is ready in this app run he points and says so, once the page has
+  /// settled. Not under reduced motion: the line types in and floats over the greeting.
+  void _greet() {
+    if (HeaderMobi._greeted || widget.cue.kind != HeaderMobiKind.point || widget.cue.lines.isEmpty) return;
+    HeaderMobi._greeted = true;
+    _first = Timer(const Duration(milliseconds: 1100), () {
+      if (mounted && !Motion.reduced(context)) _speak(widget.cue.lines.first);
+    });
+  }
+
   void _onTap() {
     final lines = widget.cue.lines;
     if (lines.isEmpty) return;
-    final line = lines[_tap++ % lines.length];
+    _speak(lines[_tap++ % lines.length]);
+  }
+
+  void _speak(String line) {
     _mobi.say(line, live: true);
     _hush?.cancel();
     _hush = Timer(Duration(milliseconds: (MobiTyping.duration(line) * 1000).round() + 3200), () {

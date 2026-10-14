@@ -17,6 +17,7 @@ import 'move_keys.dart';
 import 'number_block.dart';
 import 'show_me_tag.dart';
 import 'today_entrance.dart';
+import 'today_type.dart';
 
 class MoveHeroCard extends StatelessWidget {
   const MoveHeroCard({
@@ -77,7 +78,7 @@ class MoveHeroCard extends StatelessWidget {
         if (m.subjectLine != null) ...[
           const SizedBox(height: 2),
           // The subject is the stage's title: headline size, one line.
-          _OneLine(m.subjectLine!, style: mobi ? type.title.copyWith(fontSize: 22, height: 26 / 22) : type.headline),
+          _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
         ],
       ],
     );
@@ -92,7 +93,7 @@ class MoveHeroCard extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           Padding(
             padding: EdgeInsets.only(right: besideArt),
-            child: Semantics(header: true, child: Text(m.headline!, style: type.labelLarge.copyWith(color: colors.ink, fontSize: 16, height: 22 / 16))),
+            child: Semantics(header: true, child: Text(m.headline!, style: type.stageLead.copyWith(color: colors.ink))),
           ),
         ],
         if (m.number != null) ...[

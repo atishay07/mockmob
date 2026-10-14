@@ -130,12 +130,13 @@ class AlternativesSheetBody extends StatelessWidget {
             const SizedBox(height: MmSpace.s20),
           ],
           // The plan's own suggestions as rows, then the usual ways to practise as a 2 by 2 set
-          // of tiles, each with its drawn sheet: the shape says how big the session is.
+          // of cells divided by hairlines, each with its drawn paper: the shape says how big it is.
           for (final r in rows.where((r) => r.glyph == null)) ...[
             _AlternativeTile(row: r, onTap: () => onRow(r)),
             const SizedBox(height: MmSpace.s8),
           ],
           _TileGrid(rows: [for (final r in rows) if (r.glyph != null) r], onRow: onRow),
+          Divider(height: 1, thickness: 1, color: colors.line),
           const SizedBox(height: MmSpace.s8),
           if (onNotToday != null) ...[
             const SizedBox(height: MmSpace.s4),
@@ -204,7 +205,9 @@ class _AlternativeTile extends ConsumerWidget {
   }
 }
 
-/// Two tiles a row; a lone last tile keeps half the width so the set stays a grid.
+/// Two ways to practise a row, divided by hairlines (a cross, not four boxes); a lone last one
+/// keeps half the width so the set stays a grid. The left column starts on the sheet's left
+/// edge, like everything else on it.
 class _TileGrid extends StatelessWidget {
   const _TileGrid({required this.rows, required this.onRow});
 
@@ -213,17 +216,18 @@ class _TileGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final line = context.mmColors.line;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < rows.length; i += 2) ...[
-          if (i > 0) const SizedBox(height: MmSpace.s8),
+          Divider(height: 1, thickness: 1, color: line),
           IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: _GlyphTile(row: rows[i], onTap: () => onRow(rows[i]))),
-                const SizedBox(width: MmSpace.s8),
+                Expanded(child: _GlyphTile(row: rows[i], onTap: () => onRow(rows[i]), start: true)),
+                VerticalDivider(width: 1, thickness: 1, color: line),
                 Expanded(child: i + 1 < rows.length ? _GlyphTile(row: rows[i + 1], onTap: () => onRow(rows[i + 1])) : const SizedBox.shrink()),
               ],
             ),
@@ -234,13 +238,16 @@ class _TileGrid extends StatelessWidget {
   }
 }
 
-/// One way to practise as a tile: its drawn sheet, the title and what you get. Opens its screen
-/// when tapped (no selection ring), with the selection tick.
+/// One way to practise: its drawn paper at 56 dp, the title and what you get. Opens its screen
+/// when tapped (no selection ring); it sinks and tints while pressed.
 class _GlyphTile extends ConsumerWidget {
-  const _GlyphTile({required this.row, required this.onTap});
+  const _GlyphTile({required this.row, required this.onTap, this.start = false});
 
   final AlternativeRow row;
   final VoidCallback onTap;
+
+  /// The left column: no inset on its own left edge.
+  final bool start;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -248,24 +255,21 @@ class _GlyphTile extends ConsumerWidget {
     final type = context.mmType;
     return MmPressable(
       semanticsLabel: row.note.isEmpty ? row.title : '${row.title}. ${row.note}',
-      focusRadius: MmRadius.keyAll,
+      focusRadius: MmRadius.smallAll,
       onTap: () {
         ref.read(hapticsProvider).selection();
         onTap();
       },
       builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: MmSelection.fill(colors, selected: false, pressed: pressed),
-          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: false)),
-        ),
+        decoration: BoxDecoration(color: pressed ? colors.ink.withValues(alpha: 0.05) : null),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s12, MmSpace.s16),
+          padding: EdgeInsets.fromLTRB(start ? 0 : MmSpace.s16, MmSpace.s20, MmSpace.s12, MmSpace.s20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 34, child: SessionGlyph(kind: row.glyph!)),
-              const SizedBox(height: MmSpace.s12),
+              SessionGlyph(kind: row.glyph!),
+              const SizedBox(height: MmSpace.s16),
               Text(row.title, style: type.labelLarge.copyWith(color: colors.ink)),
               if (row.note.isNotEmpty) ...[
                 const SizedBox(height: 2),

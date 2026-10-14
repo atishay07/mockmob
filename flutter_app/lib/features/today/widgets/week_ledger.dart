@@ -2,8 +2,9 @@
 // must earn its place). The count ("1 of 4 study days") and what the rest of the week asks,
 // then seven days on a rail: the stretch from Monday to today is inked, so the week visibly
 // fills as it goes, and each bubble is a state (counted, planned, rest, passed without study).
-// Today stands on a small raised tile. A one-line key names the marks on screen. The whole
-// ledger is one control: it sinks on press and opens the week sheet.
+// Today is marked by a lit volt edge along the top of its column (no tile, no box). The count
+// is a condensed figure, so the week has an anchor. A one-line key names the marks on screen.
+// The whole ledger is one control: it sinks on press and opens the week sheet.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -15,6 +16,8 @@ import '../../rhythm/logic/plan_week.dart';
 import '../../rhythm/widgets/plan_week_strip.dart' show PlanWeekKey;
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
+import 'today_tones.dart';
+import 'today_type.dart';
 
 class WeekLedger extends ConsumerWidget {
   const WeekLedger({super.key, required this.week, this.onTap});
@@ -22,7 +25,7 @@ class WeekLedger extends ConsumerWidget {
   final WeekModel week;
   final VoidCallback? onTap;
 
-  /// Height of the rail row at 1x text: the weekday letters, the bubbles and today's tile.
+  /// Height of the rail row at 1x text: the weekday letters, the bubbles and today's lit edge.
   static const double railHeight = 62;
 
   String describe() => [
@@ -67,7 +70,7 @@ class WeekLedger extends ConsumerWidget {
                       spacing: MmSpace.s8,
                       runSpacing: 2,
                       children: [
-                        Text(week.count, style: type.cardTitle.copyWith(color: colors.ink)),
+                        _Count(count: week.count),
                         if (week.outlook != null)
                           Text(
                             week.outlook!,
@@ -108,7 +111,7 @@ class _Rail extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
-    final letter = type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w500, color: colors.ink2, letterSpacing: 0.4);
+    final letter = type.micro.copyWith(fontWeight: FontWeight.w500, color: colors.ink2, letterSpacing: 0.4);
     // The rail's ink draws from Monday to today, then the counted days ink in, left to right.
     final draw = todayEnterValue(context, delay: const Duration(milliseconds: 120));
     final fill = todayEnterValue(context, delay: const Duration(milliseconds: 220), length: const Duration(milliseconds: 520));
@@ -168,19 +171,25 @@ class _RailPainter extends CustomPainter {
     double cx(int i) => col * (i + 0.5);
     final todayIndex = days.indexWhere((d) => d.isToday);
 
-    // Today's tile: a raised rounded column behind the letter and the bubble.
+    // Today: the screen's lit edge in small. A 1.5 dp volt line along the top of its column,
+    // and the light it throws a little way down, behind the letter and the bubble.
     if (todayIndex >= 0) {
-      final tile = RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset(cx(todayIndex), size.height / 2), width: (col - 6).clamp(32.0, 46.0), height: size.height),
-        const Radius.circular(16),
-      );
-      canvas.drawRRect(tile, Paint()..color = colors.isNight ? const Color(0x17FFF6E0) : const Color(0x12403520));
-      canvas.drawRRect(
-        tile.deflate(0.5),
+      final half = (col - 14).clamp(24.0, 40.0) / 2;
+      final x0 = cx(todayIndex) - half, x1 = cx(todayIndex) + half;
+      final lit = colors.litMark;
+      final wash = Rect.fromLTRB(x0, 0, x1, 34);
+      canvas.drawRect(
+        wash,
         Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1
-          ..color = colors.isNight ? const Color(0x2EFFF6E0) : const Color(0x24403520),
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [lit.withValues(alpha: colors.isNight ? 0.2 : 0.16), lit.withValues(alpha: 0)],
+          ).createShader(wash),
+      );
+      canvas.drawRRect(
+        RRect.fromLTRBR(x0, 0, x1, 1.5, const Radius.circular(0.75)),
+        Paint()..color = lit,
       );
     }
 
@@ -237,4 +246,31 @@ class _RailPainter extends CustomPainter {
       old.fill != fill ||
       old.letter != letter ||
       old.scaler != scaler;
+}
+
+/// "1 of 4 study days" with the figure in the condensed cut and the rest in the body, so the
+/// week has one number to read first. A count that does not start with a figure stays a line.
+class _Count extends StatelessWidget {
+  const _Count({required this.count});
+
+  final String count;
+
+  static final RegExp _shape = RegExp(r'^(\d+)\s+(.+)$');
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final m = _shape.firstMatch(count);
+    if (m == null) return Text(count, style: type.cardTitle.copyWith(color: colors.ink));
+    // One run of text: the figure and its words share a baseline and never split apart.
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: m.group(1), style: type.countFigure.copyWith(color: colors.ink)),
+          TextSpan(text: ' ${m.group(2)}', style: type.labelLarge.copyWith(color: colors.ink)),
+        ],
+      ),
+    );
+  }
 }

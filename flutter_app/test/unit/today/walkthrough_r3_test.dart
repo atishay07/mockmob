@@ -248,11 +248,11 @@ void main() {
         disableAnimations: true,
         overrides: todayOverrides,
       );
-      final count = find.text('1 of 4 study days');
+      // The count is one run of text (the figure in the condensed cut, then its words).
+      final count = find.text('1 of 4 study days', findRichText: true);
       expect(count, findsOneWidget);
-      final style = tester.widget<Text>(count).style!;
       final painter = TextPainter(
-        text: TextSpan(text: '1 of 4 study days', style: style),
+        text: tester.widget<RichText>(count).text,
         textDirection: TextDirection.ltr,
         textScaler: const TextScaler.linear(1.3),
       )..layout();

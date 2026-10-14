@@ -14,6 +14,7 @@ import '../logic/today_model.dart';
 import 'college_ladder.dart';
 import 'road_timeline.dart';
 import 'section_heading.dart';
+import 'today_type.dart';
 
 class RoadSection extends StatelessWidget {
   const RoadSection({super.key, required this.road, this.onChooseColleges});
@@ -93,12 +94,12 @@ class _Stat extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              MonumentalNumber(value: value, style: type.figure.copyWith(fontSize: 76, height: 68 / 76), roll: false),
+              MonumentalNumber(value: value, style: type.countdownFigure, roll: false),
               const SizedBox(width: MmSpace.s12),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(unit, style: type.labelLarge.copyWith(color: colors.ink, fontSize: 16, height: 21 / 16)),
+                  child: Text(unit, style: type.stageLead.copyWith(color: colors.ink)),
                 ),
               ),
             ],

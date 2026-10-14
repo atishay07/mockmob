@@ -9,6 +9,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
+import 'today_tones.dart';
 
 /// Corner radius of the hero panel.
 const double heroRadius = 28;
@@ -16,14 +17,16 @@ const BorderRadius heroBorderRadius = BorderRadius.all(Radius.circular(heroRadiu
 
 /// Size of the art corner. The object is drawn this big and bleeds a little past the top and
 /// right edges; content beside it keeps clear of [heroArtWidth] minus the bleed.
-const double heroArtHeight = 172;
-const double heroArtWidth = 172;
+const double heroArtHeight = 212;
+const double heroArtWidth = 212;
 
-/// How far the art runs past the panel's top and right edges.
-const double heroArtBleed = 14;
+/// How far the art runs past the panel's top and right edges: the object is cropped by the
+/// corner, so it reads as a prop in the room, not a thumbnail in a box.
+const double heroArtBleed = 44;
 
-/// What content beside the art keeps clear of, from the panel's right edge.
-const double heroArtClear = heroArtWidth - heroArtBleed - 8;
+/// What content beside the art keeps clear of, from the panel's right edge: the object's lit
+/// face is the visible part of the art, and the line under it (the number) may overlap its base.
+const double heroArtClear = heroArtWidth - heroArtBleed - 28;
 
 class HeroStage extends StatelessWidget {
   const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = heroArtWidth, this.lit = true, this.lampStrength = 1});
@@ -129,7 +132,7 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (Motion.reduced(context)) return const SizedBox.shrink();
-    final night = context.mmColors.isNight;
+    final peakColor = context.mmColors.sweepPeak;
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _t,
@@ -137,7 +140,7 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
           final v = _t.value;
           if (v <= 0.34 || v >= 1) return const SizedBox.shrink();
           final p = Motion.sweepCurve.transform((v - 0.34) / 0.66);
-          return CustomPaint(painter: _SweepPainter(progress: p, night: night), size: Size.infinite);
+          return CustomPaint(painter: _SweepPainter(progress: p, peak: peakColor), size: Size.infinite);
         },
       ),
     );
@@ -145,10 +148,12 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
 }
 
 class _SweepPainter extends CustomPainter {
-  const _SweepPainter({required this.progress, required this.night});
+  const _SweepPainter({required this.progress, required this.peak});
 
   final double progress;
-  final bool night;
+
+  /// The band's peak colour (see TodayTones.sweepPeak).
+  final Color peak;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -157,7 +162,6 @@ class _SweepPainter extends CustomPainter {
     // Brightest along the lit edge, fading down the stage in strips (no offscreen layer).
     const strips = 8;
     final h = size.height / strips;
-    final peak = night ? const Color(0x24FFF4D6) : const Color(0x38FFFFFF);
     for (var i = 0; i < strips; i++) {
       final a = peak.a * (1 - i / strips) * (1 - i / strips);
       final c = peak.withValues(alpha: a);
@@ -171,7 +175,7 @@ class _SweepPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SweepPainter old) => old.progress != progress || old.night != night;
+  bool shouldRepaint(_SweepPainter old) => old.progress != progress || old.peak != peak;
 }
 
 /// The hero's art corner: the subject's object in its lamp light, large and bleeding off the
