@@ -47,7 +47,7 @@ void main() {
   todayGolden('today_ready', () => _view(ashaInputs()));
   todayGolden('today_ready_full', () => _view(ashaInputs()), size: const Size(384, 1900), dock: false);
   todayGolden('today_practice', () => _view(ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))])));
-  screenGolden('today_road', () => _road(ashaInputs()), size: const Size(384, 860), dock: false);
+  screenGolden('today_road', () => _road(ashaInputs()), size: const Size(384, 1000), dock: false);
   screenGolden('today_road_window', () => _road(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))), size: const Size(384, 720), dock: false);
   todayGolden('today_ready_5min', () => _view(ashaInputs(selectedMinutes: 5)));
   todayGolden('today_ready_text130', () => _view(ashaInputs()), textScale: 1.3);

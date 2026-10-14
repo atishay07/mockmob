@@ -16,6 +16,8 @@ import 'mobi_moment.dart';
 import 'move_keys.dart';
 import 'number_block.dart';
 import 'show_me_tag.dart';
+import 'today_entrance.dart';
+import 'today_type.dart';
 
 class MoveHeroCard extends StatelessWidget {
   const MoveHeroCard({
@@ -67,7 +69,7 @@ class MoveHeroCard extends StatelessWidget {
     // A failed read says so in full contrast; every other body is the quieter second ink.
     final bodyColor = m.state == NextMoveState.historyUnavailable ? colors.ink : colors.ink2;
     // Beside the object: the overline, the subject and the number. Under Mobi: the full width.
-    final besideArt = mobi ? 0.0 : heroArtWidth - MmSpace.cardPadding + 4;
+    final besideArt = mobi ? 0.0 : heroArtClear - MmSpace.cardPadding;
 
     final top = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,29 +77,34 @@ class MoveHeroCard extends StatelessWidget {
         _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
         if (m.subjectLine != null) ...[
           const SizedBox(height: 2),
-          _OneLine(m.subjectLine!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+          // The subject is the stage's title: headline size, one line.
+          _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
         ],
       ],
     );
-    final lines = Padding(
-      padding: EdgeInsets.only(right: besideArt),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (mobi)
-            MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: moodLine(m), controller: mobiController, lines: top)
-          else
-            top,
-          if (m.headline != null && !headlineBelow) ...[
-            const SizedBox(height: MmSpace.s8),
-            Semantics(header: true, child: Text(m.headline!, style: type.labelLarge.copyWith(color: colors.ink, fontSize: 16, height: 22 / 16))),
-          ],
-          if (m.number != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            NumberBlock(number: m.number!, label: m.numberLabel),
-          ],
+    final lines = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: besideArt),
+          child: mobi ? MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: moodLine(m), controller: mobiController, lines: top) : top,
+        ),
+        if (m.headline != null && !headlineBelow) ...[
+          const SizedBox(height: MmSpace.s8),
+          Padding(
+            padding: EdgeInsets.only(right: besideArt),
+            child: Semantics(header: true, child: Text(m.headline!, style: type.stageLead.copyWith(color: colors.ink))),
+          ),
         ],
-      ),
+        if (m.number != null) ...[
+          SizedBox(height: mobi ? MmSpace.s12 : MmSpace.s8),
+          // The number stands clear of the object; its meaning goes beside it only when both
+          // fit that column, otherwise under it on one line (where the object has ended).
+          LayoutBuilder(
+            builder: (context, box) => NumberBlock(number: m.number!, label: m.numberLabel, besideWidth: box.maxWidth - besideArt),
+          ),
+        ],
+      ],
     );
 
     final evidence = m.evidenceId != null && onShowMe != null;
@@ -108,24 +115,34 @@ class MoveHeroCard extends StatelessWidget {
         children: [
           lines,
           SizedBox(height: mobi ? MmSpace.s16 : MmSpace.s12),
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.crossFade),
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-            child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
-          ),
-          if (headlineBelow) ...[
-            const SizedBox(height: MmSpace.s8),
-            Text(m.headline!, style: type.caption.copyWith(color: colors.ink2)),
-          ],
-          if (m.basisLine != null || evidence) ...[
-            const SizedBox(height: MmSpace.s8),
-            Row(
+          // First the number, then the details (Revolut's staging): the evidence rises in after.
+          TodayEnter(
+            delay: const Duration(milliseconds: 260),
+            rise: 8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (evidence) ...[ShowMeTag(onTap: onShowMe!, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
-                if (m.basisLine != null) Expanded(child: Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3))),
+                AnimatedSwitcher(
+                  duration: Motion.of(context, Motion.crossFade),
+                  layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+                  child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
+                ),
+                if (headlineBelow) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  Text(m.headline!, style: type.caption.copyWith(color: colors.ink2)),
+                ],
+                if (m.basisLine != null || evidence) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  Row(
+                    children: [
+                      if (evidence) ...[ShowMeTag(onTap: onShowMe!, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
+                      if (m.basisLine != null) Expanded(child: Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3))),
+                    ],
+                  ),
+                ],
               ],
             ),
-          ],
+          ),
           // Whenever the move can change size the chips are here, and the key says the same
           // length the chip does: a repair in minutes, practice in questions.
           if (m.durations.length > 1) ...[

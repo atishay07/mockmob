@@ -200,6 +200,18 @@ abstract final class TodayCopy {
   /// Said once above the stops when every date is still expected.
   static const String expectedDates = 'Expected dates';
   static const String nowLabel = 'Now';
+  /// How far a stop on the road is.
+  static const String onNow = 'On now';
+  static String inDays(int days) => days <= 0 ? 'Today' : 'in ${plural(days, 'day')}';
+  static String inWeeks(int weeks) => 'in ${plural(weeks, 'week')}';
+  /// The first stop still ahead.
+  static const String nextTag = 'Next';
+  /// The stops' short names where they are drawn on the road itself.
+  static const String laneRegistration = 'Registration';
+  static const String laneBoards = 'Boards';
+  static const String laneExam = 'CUET UG';
+  /// The stretch from Now to the next stop, written over it on the road ("15 weeks").
+  static String stretchTo(int days) => days < 7 ? plural(days < 1 ? 1 : days, 'day') : plural(days ~/ 7, 'week');
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';

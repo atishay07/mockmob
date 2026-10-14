@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
+import 'today_tones.dart';
 
 class SealedHeroCard extends StatelessWidget {
   const SealedHeroCard({super.key, required this.sealed, required this.onOpen, required this.onOpenDirectly});
@@ -33,7 +34,7 @@ class SealedHeroCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s16),
             const FoldedSheet(height: 176),
             const SizedBox(height: MmSpace.s20),
-            Semantics(header: true, child: Text(sealed.title, style: type.title)),
+            Semantics(header: true, child: Text(sealed.title, style: type.headline)),
             const SizedBox(height: MmSpace.s4),
             Text(sealed.line, style: type.body.copyWith(color: colors.ink2)),
             if (sealed.moreLine != null) ...[
@@ -63,7 +64,6 @@ class FoldedSheet extends StatelessWidget {
     final colors = context.mmColors;
     const radius = BorderRadius.all(Radius.circular(18));
     final crease = height * 0.45;
-    final paper = colors.isNight ? const Color(0xFF1A1915) : const Color(0xFFE9DFCB);
     return ExcludeSemantics(
       child: SizedBox(
         height: height,
@@ -78,7 +78,7 @@ class FoldedSheet extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      ColoredBox(color: paper),
+                      ColoredBox(color: colors.foldPaper),
                       // One cover of the tile (it has a visible seam when repeated); the image
                       // carries its own opacity, so no extra layer.
                       ArtImage(MmArt.paperTile, fit: BoxFit.cover, opacity: colors.isNight ? 0.9 : 0.2),
@@ -119,23 +119,21 @@ class _FoldPainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: colors.isNight
-              ? [const Color(0x33FFE2B0), const Color(0x66000000)]
-              : [const Color(0x55FFFFFF), const Color(0x1A2A2010)],
+          colors: colors.foldFlap,
         ).createShader(flap),
     );
     canvas.drawLine(
       Offset(0, crease),
       Offset(size.width, crease),
       Paint()
-        ..color = colors.isNight ? const Color(0xCC000000) : const Color(0x552A2010)
+        ..color = colors.foldCrease
         ..strokeWidth = 1.2,
     );
     canvas.drawLine(
       Offset(0, crease + 1.2),
       Offset(size.width, crease + 1.2),
       Paint()
-        ..color = colors.isNight ? const Color(0x2EFFF0D8) : const Color(0x99FFFFFF)
+        ..color = colors.foldLip
         ..strokeWidth = 1,
     );
     const notch = 22.0;
@@ -144,7 +142,7 @@ class _FoldPainter extends CustomPainter {
       ..lineTo(size.width, notch)
       ..lineTo(size.width - notch, notch)
       ..close();
-    canvas.drawPath(corner, Paint()..color = colors.isNight ? const Color(0xFF2C2A24) : const Color(0xFFD3CCBC));
+    canvas.drawPath(corner, Paint()..color = colors.foldCorner);
     canvas.drawPath(
       Path()
         ..moveTo(size.width - notch, 0)
@@ -152,7 +150,7 @@ class _FoldPainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1
-        ..color = colors.isNight ? const Color(0x40FFF0D8) : const Color(0x332A2010),
+        ..color = colors.foldCornerEdge,
     );
   }
 

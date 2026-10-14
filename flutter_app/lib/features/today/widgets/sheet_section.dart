@@ -1,15 +1,24 @@
-// "Recent papers" (brief 12, owner feedback 13 Oct on the dots): the last papers, each with its
-// marks, the change from the last paper of the same kind, and one bar that shows where the
-// marks went (right, wrong, blank) in proportion. The bar replaces a row of fifty tiny bubbles
-// that repeated the number beside it. A result that has not been opened stays sealed here too:
-// no marks, no bar, so Today never spoils a reveal. Each row opens its result.
+// "Recent papers" (brief 12, owner feedback 13 Oct on the dots; ui-blitz/today.md 2.3): the
+// last papers typeset on the ground, one row each between hairlines, no box. Each row has a
+// paper spine on its left edge (a slim vertical bar that shows where the marks went, right,
+// wrong, blank, in proportion, so the rows read as a stack of papers), its marks in the
+// condensed cut, and the change from the last paper of the same kind with a small up or down
+// mark. Headings, spines, text and hairlines all share one left edge. A result that has not been opened stays sealed here too: no marks, no bar, so
+// Today never spoils a reveal. Each row opens its result.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/formatters.dart' show minusSign;
+import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
+import 'section_heading.dart';
+import 'today_entrance.dart';
+import 'today_reveal.dart';
+import 'today_type.dart';
 
 class SheetSection extends StatelessWidget {
   const SheetSection({super.key, required this.rows, required this.onOpen});
@@ -20,38 +29,21 @@ class SheetSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(child: Semantics(header: true, child: Text(TodayCopy.yourSheet, style: type.title))),
-              Text(TodayCopy.sheetCaption(rows.length), style: type.caption.copyWith(color: colors.ink3)),
-            ],
-          ),
-        ),
-        const SizedBox(height: MmSpace.s12),
-        FakeGlass(
-          borderRadius: MmRadius.panelAll,
-          child: Column(
-            children: [
-              for (var k = 0; k < rows.length; k++) ...[
-                if (k > 0) Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: Divider(height: 1, thickness: 1, color: colors.line)),
-                _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
-              ],
-            ],
-          ),
-        ),
+        TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length)),
+        const SizedBox(height: MmSpace.s4),
+        for (var k = 0; k < rows.length; k++) ...[
+          if (k > 0) Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),
+          _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
+        ],
       ],
     );
   }
 }
 
-class _PaperRow extends StatelessWidget {
+class _PaperRow extends ConsumerWidget {
   const _PaperRow({required this.row, required this.onTap});
 
   final SheetRow row;
@@ -64,125 +56,177 @@ class _PaperRow extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final figure = type.title.copyWith(fontSize: 22, height: 26 / 22);
+    final figure = type.paperFigure;
     return MmPressable(
       semanticsLabel: _semantics,
-      onTap: onTap,
+      onTap: () {
+        ref.read(hapticsProvider).selection();
+        onTap();
+      },
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
       builder: (context, pressed, _) => Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12 + 2, MmSpace.gutter, MmSpace.s12 + 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(row.label, style: type.labelLarge.copyWith(fontSize: 16)),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${row.subject}, ${row.date}',
-                        style: type.caption.copyWith(color: colors.ink2),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: MmSpace.s12),
-                if (row.sealed)
-                  Row(
-                    children: [
-                      Icon(LucideIcons.mail, size: 16, color: colors.ink2),
-                      const SizedBox(width: MmSpace.s6),
-                      Text(TodayCopy.sealed, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
-                    ],
-                  )
-                else
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // The paper's spine: what the marks were made of, top to bottom. A sealed paper
+              // has an empty spine, so the left edge is the same on every row.
+              _Spine(right: row.right, wrong: row.wrong, blank: row.blank, sealed: row.sealed || row.states.isEmpty),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('${row.marks}', style: figure),
-                          const SizedBox(width: MmSpace.s4),
-                          Text(TodayCopy.marksOf(row.outOf ?? 0), style: type.caption.copyWith(color: colors.ink3)),
+                          Text(row.label, style: type.cardTitle),
+                          const SizedBox(height: 2),
+                          Text(
+                            '${row.subject}, ${row.date}',
+                            style: type.caption.copyWith(color: colors.ink2),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          if (!row.sealed && row.states.isNotEmpty) ...[
+                            const SizedBox(height: MmSpace.s6),
+                            Text(TodayCopy.splitLine(row.right, row.wrong, row.blank), style: type.micro.copyWith(color: colors.ink3)),
+                          ],
                         ],
                       ),
-                      if (row.change != null)
-                        Text(row.change!, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink2)),
-                    ],
-                  ),
-              ],
-            ),
-            if (!row.sealed && row.states.isNotEmpty) ...[
-              const SizedBox(height: MmSpace.s12),
-              _SplitBar(right: row.right, wrong: row.wrong, blank: row.blank),
-              const SizedBox(height: MmSpace.s6),
-              Text(
-                TodayCopy.splitLine(row.right, row.wrong, row.blank),
-                style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink3),
+                    ),
+                    const SizedBox(width: MmSpace.s12),
+                    if (row.sealed)
+                      Row(
+                        children: [
+                          Icon(LucideIcons.mail, size: 16, color: colors.ink2),
+                          const SizedBox(width: MmSpace.s6),
+                          Text(TodayCopy.sealed, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                        ],
+                      )
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text('${row.marks}', style: figure),
+                              const SizedBox(width: MmSpace.s4),
+                              Text(TodayCopy.marksOf(row.outOf ?? 0), style: type.caption.copyWith(color: colors.ink3)),
+                            ],
+                          ),
+                          if (row.change != null) ...[
+                            const SizedBox(height: 2),
+                            _Change(text: row.change!),
+                          ],
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ],
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-/// Where the marks went, in proportion: right in ink, wrong in coral, blank as an empty groove.
-class _SplitBar extends StatelessWidget {
-  const _SplitBar({required this.right, required this.wrong, required this.blank});
+/// "+33 on Mock 6" with a small mark for its direction, so the change reads before the words.
+class _Change extends StatelessWidget {
+  const _Change({required this.text});
 
-  final int right;
-  final int wrong;
-  final int blank;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        size: const Size(double.infinity, 6),
-        painter: _SplitPainter(right: right, wrong: wrong, blank: blank, colors: context.mmColors),
-      ),
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final up = text.startsWith('+');
+    final down = text.startsWith(minusSign) || text.startsWith('-');
+    final icon = up ? LucideIcons.arrowUpRight : (down ? LucideIcons.arrowDownRight : LucideIcons.minus);
+    final color = up ? colors.ink : colors.ink2;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 13, color: color),
+        const SizedBox(width: 2),
+        Text(text, style: type.micro.copyWith(color: color, fontWeight: up ? FontWeight.w600 : FontWeight.w500)),
+      ],
     );
   }
 }
 
-class _SplitPainter extends CustomPainter {
-  _SplitPainter({required this.right, required this.wrong, required this.blank, required this.colors});
+/// The paper's spine: a 6 dp bar the height of the row, where the marks went from the top down,
+/// right in ink, wrong in coral, blank as the empty groove. It draws down the first time the row
+/// comes into view. A sealed paper has the empty groove only: Today never spoils a result.
+class _Spine extends StatelessWidget {
+  const _Spine({required this.right, required this.wrong, required this.blank, required this.sealed});
+
+  final int right;
+  final int wrong;
+  final int blank;
+  final bool sealed;
+
+  static const double width = 6;
+
+  @override
+  Widget build(BuildContext context) => TodayReveal(
+        child: Builder(
+          builder: (context) => ExcludeSemantics(
+            child: RepaintBoundary(
+              child: CustomPaint(
+                size: const Size(width, 0),
+                painter: _SpinePainter(
+                  right: sealed ? 0 : right,
+                  wrong: sealed ? 0 : wrong,
+                  blank: sealed ? 0 : blank,
+                  colors: context.mmColors,
+                  draw: todayEnterValue(context, delay: const Duration(milliseconds: 40), length: const Duration(milliseconds: 560)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class _SpinePainter extends CustomPainter {
+  _SpinePainter({required this.right, required this.wrong, required this.blank, required this.colors, required this.draw}) : super(repaint: draw);
 
   final int right;
   final int wrong;
   final int blank;
   final MmColors colors;
+  final Animation<double> draw;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final groove = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(w / 2));
+    canvas.drawRRect(groove, Paint()..color = colors.ink.withValues(alpha: colors.isNight ? 0.1 : 0.08));
     final total = right + wrong + blank;
     if (total == 0) return;
-    final h = size.height;
-    final groove = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(h / 2));
-    canvas.drawRRect(groove, Paint()..color = colors.isNight ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: 0.07));
     canvas.save();
     canvas.clipRRect(groove);
+    canvas.clipRect(Rect.fromLTWH(0, 0, w, size.height * draw.value));
     const gap = 2.0;
-    var x = 0.0;
+    var y = 0.0;
     void segment(int n, Color color) {
       if (n == 0) return;
-      final w = size.width * n / total;
-      canvas.drawRect(Rect.fromLTWH(x, 0, (w - gap).clamp(1.0, size.width), h), Paint()..color = color);
-      x += w;
+      final h = size.height * n / total;
+      canvas.drawRect(Rect.fromLTWH(0, y, w, (h - gap).clamp(1.0, size.height)), Paint()..color = color);
+      y += h;
     }
 
     // Right in paper ink, not volt: the volt on Today belongs to tonight's move.
@@ -192,6 +236,6 @@ class _SplitPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SplitPainter old) =>
-      old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors;
+  bool shouldRepaint(_SpinePainter old) =>
+      old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors || old.draw != draw;
 }
