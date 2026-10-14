@@ -3,6 +3,9 @@ import 'package:flutter/widgets.dart';
 
 import 'reduced_motion.dart';
 
+export 'entrance.dart';
+export 'launch_rect.dart';
+export 'scroll_effects.dart';
 export 'springs.dart';
 
 /// Motion tokens (Night Sheet brief, section 7). Only opacity and transform animate, inside a
@@ -69,6 +72,51 @@ abstract final class Motion {
 
   /// Position change only.
   static const Cubic inOut = Cubic(0.77, 0, 0.175, 1);
+
+  // ---- Choreography (UI blitz, docs/brain/ui-blitz/motion.md) ------------------------------
+
+  /// Gap between staggered items.
+  static const Duration staggerStep = Duration(milliseconds: 45);
+
+  /// Items after this index arrive with it, so a long list never takes long.
+  static const int staggerCap = 8;
+
+  /// One staggered item's own travel.
+  static const Duration enterDuration = Duration(milliseconds: 360);
+
+  /// How far an entering item rises, in logical px.
+  static const double enterRise = 14;
+
+  /// Where an entering item starts its scale (never from 0).
+  static const double enterScale = 0.97;
+
+  /// Shared-axis travel of a pushed page, in logical px.
+  static const double axisTravel = 28;
+
+  /// The covered page moves this share of [axisTravel] the other way while a scrim rises.
+  static const double recedeShare = 0.22;
+
+  /// The ground scrim over a fully covered page.
+  static const double recedeScrim = 0.45;
+
+  /// Tab fade-through: the outgoing tab's fade, then the incoming tab's.
+  static const Duration fadeThroughOut = Duration(milliseconds: 90);
+  static const Duration fadeThroughIn = Duration(milliseconds: 210);
+
+  /// Where the incoming tab starts its scale.
+  static const double fadeThroughScale = 0.985;
+
+  /// A count-up of an inline figure.
+  static const Duration countUp = Duration(milliseconds: 720);
+
+  /// One skeleton light sweep, then a rest; at most [shimmerSweeps] of them.
+  static const Duration shimmerSweep = Duration(milliseconds: 1400);
+  static const Duration shimmerRest = Duration(milliseconds: 600);
+  static const int shimmerSweeps = 4;
+
+  /// Anything leaving for good: cubic-bezier(0.5, 0, 0.75, 0), 180 ms.
+  static const Cubic leave = Cubic(0.5, 0, 0.75, 0);
+  static const Duration leaveDuration = Duration(milliseconds: 180);
 
   /// [d], or zero when motion is reduced.
   static Duration of(BuildContext c, Duration d) => reduced(c) ? Duration.zero : d;

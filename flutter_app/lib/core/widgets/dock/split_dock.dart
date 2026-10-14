@@ -19,6 +19,7 @@ class SplitDock extends StatefulWidget {
     this.showReviewDot = false,
     this.compact,
     this.startPressed = false,
+    this.startBreatheKey,
   });
 
   final int currentIndex;
@@ -33,6 +34,9 @@ class SplitDock extends StatefulWidget {
 
   /// Draws Start pressed (goldens).
   final bool startPressed;
+
+  /// A change makes Start breathe twice (pass the open session's id: something to resume).
+  final Object? startBreatheKey;
 
   /// The pill's slot width for a screen [width]: 88 dp, narrower on small phones.
   static double slotFor(double width) {
@@ -65,6 +69,7 @@ class _SplitDockState extends State<SplitDock> {
           key: startKey,
           child: StartButton(
             pressed: startPressed,
+            breatheKey: widget.startBreatheKey,
             onPressed: () {
               final box = startKey.currentContext?.findRenderObject() as RenderBox?;
               final origin = box == null

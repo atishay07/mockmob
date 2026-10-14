@@ -95,49 +95,69 @@ class StateView extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 420),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: artSize * 1.5,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Positioned.fill(
-                      child: LightField(
-                        pools: [
-                          LightPool(
-                            color: colors.lamp.withValues(alpha: colors.isNight ? 0.18 : 0.16),
-                            center: const Alignment(-0.15, 0.15),
-                            radius: 0.24,
-                            aspect: 1.8,
+          // One entrance, in reading order: Mobi settles, then the title, the message and the
+          // way out. Still under reduced motion.
+          child: MmStagger(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MmStaggerItem(
+                  index: 0,
+                  rise: 8,
+                  child: SizedBox(
+                    height: artSize * 1.5,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Positioned.fill(
+                          child: LightField(
+                            pools: [
+                              LightPool(
+                                color: colors.lamp.withValues(alpha: colors.isNight ? 0.18 : 0.16),
+                                center: const Alignment(-0.15, 0.15),
+                                radius: 0.24,
+                                aspect: 1.8,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        _art(context, artSize),
+                      ],
                     ),
-                    _art(context, artSize),
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: MmSpace.s20),
-              Semantics(
-                header: true,
-                child: Text(title, style: type.title, textAlign: TextAlign.center),
-              ),
-              if (message != null) ...[
-                const SizedBox(height: MmSpace.s8),
-                Text(message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                const SizedBox(height: MmSpace.s20),
+                MmStaggerItem(
+                  index: 1,
+                  child: Semantics(
+                    header: true,
+                    child: Text(title, style: type.title, textAlign: TextAlign.center),
+                  ),
+                ),
+                if (message != null) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  MmStaggerItem(
+                    index: 2,
+                    child: Text(message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                  ),
+                ],
+                if (primary != null) ...[
+                  const SizedBox(height: MmSpace.s24),
+                  MmStaggerItem(
+                    index: 3,
+                    child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading),
+                  ),
+                ],
+                if (secondary != null) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  MmStaggerItem(
+                    index: 4,
+                    child: Align(child: KeyButton.quiet(label: secondary!.label, onPressed: secondary!.onPressed)),
+                  ),
+                ],
               ],
-              if (primary != null) ...[
-                const SizedBox(height: MmSpace.s24),
-                KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading),
-              ],
-              if (secondary != null) ...[
-                const SizedBox(height: MmSpace.s4),
-                Align(child: KeyButton.quiet(label: secondary!.label, onPressed: secondary!.onPressed)),
-              ],
-            ],
+            ),
           ),
         ),
       ),

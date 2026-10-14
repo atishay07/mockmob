@@ -18,6 +18,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
     required this.scrim,
     required this.reduced,
     this.semanticsLabel,
+    this.volt = const Color(0xFFD2F000),
     super.settings,
   });
 
@@ -27,6 +28,9 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   final Color scrim;
   final bool reduced;
   final String? semanticsLabel;
+
+  /// The colour of the disc the sheet grows out of (Start's volt).
+  final Color volt;
 
   static const double margin = 10;
 
@@ -67,7 +71,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
       child: Material(type: MaterialType.transparency, child: builder(context)),
     );
 
-    return Align(
+    final sheet = Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding: EdgeInsets.fromLTRB(margin, 0, margin, bottom),
@@ -101,7 +105,42 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
         ),
       ),
     );
+    if (reduced) return sheet;
+    // Start's volt disc stays where it was and dissolves as the glass grows out of it (and
+    // gathers again as the sheet closes into it), so the eye never loses the object it touched.
+    return Stack(
+      children: [
+        sheet,
+        Positioned.fromRect(
+          rect: origin,
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: CustomPaint(painter: _OriginDisc(animation: animation, color: volt)),
+            ),
+          ),
+        ),
+      ],
+    );
   }
+}
+
+/// The volt disc left at the origin: full at 0, swelling a little and gone by 40% of the morph.
+class _OriginDisc extends CustomPainter {
+  _OriginDisc({required this.animation, required this.color}) : super(repaint: animation);
+
+  final Animation<double> animation;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final t = (animation.value / 0.4).clamp(0.0, 1.0);
+    if (t >= 1) return;
+    final e = Motion.glide.transform(t);
+    canvas.drawCircle(size.center(Offset.zero), 23 * (1 + 0.25 * e), Paint()..color = color.withValues(alpha: 1 - e));
+  }
+
+  @override
+  bool shouldRepaint(_OriginDisc old) => old.animation != animation || old.color != color;
 }
 
 /// Lets the sheet follow a downward drag, then closes it or springs it back.

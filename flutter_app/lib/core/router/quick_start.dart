@@ -13,6 +13,8 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import '../widgets/dock/morph_sheet_route.dart' show MorphSheetRoute;
 import '../widgets/bubbles/sheet_glyph.dart';
+import '../widgets/materials/edge_light.dart';
+import '../widgets/materials/light_field.dart';
 import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
@@ -89,10 +91,12 @@ class QuickNta {
 
 final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 
-/// The quick-start sheet that Start morphs into: resume the open session when there is one,
-/// then Quick 10, Full mock, NTA mode (when offered), Repair the next mistake (only when there
-/// is one) and Ask your record, never more than five rows. Costs are not
-/// here; they live on the confirm sheet each choice opens.
+/// The quick-start sheet that Start morphs into, ranked instead of five equal boxes: one hero
+/// choice (resume the open session when there is one, else Quick 10), the practice modes as
+/// tiles (Quick 10, Full mock, NTA mode when offered), then the quieter choices in one grouped
+/// list (Repair the next mistake when there is one, Ask your record), never more than five
+/// choices. They arrive in order with the sheet. Costs are not here; they live on the confirm
+/// sheet each choice opens.
 class QuickStartSheet extends ConsumerWidget {
   const QuickStartSheet({super.key});
 
@@ -132,6 +136,15 @@ class QuickStartSheet extends ConsumerWidget {
         router.go(location);
       }
     }
+
+    QuickStartRow quick(QuickStartRowStyle style) => QuickStartRow(
+      style: style,
+      glyph: SheetGlyph.quick,
+      title: 'Quick 10',
+      note: '10 questions, about 10 minutes.',
+      lit: style == QuickStartRowStyle.hero,
+      onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
+    );
 
     // The sheet never grows past the screen: the header stays put and the rows scroll, so no row
     // is clipped on a short phone or at large text.
@@ -197,72 +210,71 @@ class QuickStartSheet extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s16, MmSpace.s12),
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (draft != null) ...[
+                  // The choices arrive with the sheet, in order, after the glass has opened; a
+                  // sheet that is already up never moves them.
+                  child: MmStagger(
+                    driver: MmStaggerDriver.route,
+                    routeStart: 0.32,
+                    routeStep: 0.07,
+                    child: _ranked(
+                      hero: draft != null
+                          ? QuickStartRow(
+                              key: const ValueKey('quick-start-resume'),
+                              style: QuickStartRowStyle.hero,
+                              glyph: SheetGlyph.resume,
+                              // The title never changes when the answered count resolves; the count lives on the
+                              // note line, which already holds a sentence.
+                              title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
+                              note: draft.isMock
+                                  ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
+                                        '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
+                                  : answered == null
+                                  ? 'Pick up where you left off.'
+                                  : 'Pick up at $answered of ${draft.view.questions.length}.',
+                              lit: true,
+                              noteLines: 2,
+                              onTap: () => go(AppRoutes.run(draft.sessionId)),
+                            )
+                          : quick(QuickStartRowStyle.hero),
+                      modes: [
+                        if (draft != null) quick(QuickStartRowStyle.tile),
                         QuickStartRow(
-                          key: const ValueKey('quick-start-resume'),
-                          glyph: SheetGlyph.resume,
-                          // The title never changes when the answered count resolves; the count lives on the
-                          // note line, which already holds a sentence.
-                          title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
-                          note: draft.isMock
-                              ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
-                                    '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
-                              : answered == null
-                              ? 'Pick up where you left off.'
-                              : 'Pick up at $answered of ${draft.view.questions.length}.',
-                          lit: true,
-                          noteLines: 2,
-                          onTap: () => go(AppRoutes.run(draft.sessionId)),
+                          style: QuickStartRowStyle.tile,
+                          glyph: SheetGlyph.mock,
+                          title: 'Full mock',
+                          note: '50 questions, 60 minutes, timed like the exam.',
+                          onTap: () => go(AppRoutes.practiceSetup('full')),
                         ),
-                        const SizedBox(height: MmSpace.s8),
+                        if (nta != null)
+                          QuickStartRow(
+                            style: QuickStartRowStyle.tile,
+                            glyph: SheetGlyph.exam,
+                            title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
+                            note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
+                            onTap: () => go(nta.location),
+                          ),
                       ],
-                      QuickStartRow(
-                        glyph: SheetGlyph.quick,
-                        title: 'Quick 10',
-                        note: '10 questions, about 10 minutes.',
-                        lit: draft == null,
-                        onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
-                      ),
-                      const SizedBox(height: MmSpace.s8),
-                      QuickStartRow(
-                        glyph: SheetGlyph.mock,
-                        title: 'Full mock',
-                        note: '50 questions, 60 minutes, timed like the exam.',
-                        onTap: () => go(AppRoutes.practiceSetup('full')),
-                      ),
-                      if (nta != null) ...[
-                        const SizedBox(height: MmSpace.s8),
-                        QuickStartRow(
-                          glyph: SheetGlyph.exam,
-                          title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
-                          note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
-                          onTap: () => go(nta.location),
-                        ),
+                      rest: [
+                        if (repair != null)
+                          QuickStartRow(
+                            glyph: SheetGlyph.repair,
+                            title: 'Repair the next mistake',
+                            note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
+                            grouped: true,
+                            onTap: () => go(repair.location),
+                          ),
+                        // Never more than five choices: Ask gives way to a resume.
+                        if (draft == null || nta == null || repair == null)
+                          QuickStartRow(
+                            glyph: SheetGlyph.ask,
+                            title: 'Ask your record',
+                            note: 'Questions about your marks and chapters, answered from what you have done.',
+                            grouped: true,
+                            onTap: () => go(AppRoutes.ask),
+                          ),
                       ],
-                      if (repair != null) ...[
-                        const SizedBox(height: MmSpace.s8),
-                        QuickStartRow(
-                          glyph: SheetGlyph.repair,
-                          title: 'Repair the next mistake',
-                          note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-                          onTap: () => go(repair.location),
-                        ),
-                      ],
-                      // Never more than five rows: Ask gives way to a resume.
-                      if (draft == null || nta == null || repair == null) ...[
-                        const SizedBox(height: MmSpace.s8),
-                        QuickStartRow(
-                          glyph: SheetGlyph.ask,
-                          title: 'Ask your record',
-                          note: 'Questions about your marks and chapters, answered from what you have done.',
-                          onTap: () => go(AppRoutes.ask),
-                        ),
-                      ],
-                    ],
+                      line: context.mmColors.line,
+                    ),
                   ),
                 ),
               ),
@@ -271,6 +283,38 @@ class QuickStartSheet extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// The ranked layout: the one hero choice, the practice modes as tiles two to a row (an odd
+  /// last tile spans the row), then the quieter choices as one grouped list. Each block arrives
+  /// in turn.
+  static Widget _ranked({required Widget hero, required List<Widget> modes, required List<Widget> rest, required Color line}) {
+    var index = 0;
+    final blocks = <Widget>[MmStaggerItem(index: index++, child: hero)];
+    for (var i = 0; i < modes.length; i += 2) {
+      blocks.add(const SizedBox(height: MmSpace.s8));
+      final pair = i + 1 < modes.length;
+      blocks.add(MmStaggerItem(
+        index: index++,
+        child: pair
+            ? IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: modes[i]),
+                    const SizedBox(width: MmSpace.s8),
+                    Expanded(child: modes[i + 1]),
+                  ],
+                ),
+              )
+            : modes[i],
+      ));
+    }
+    if (rest.isNotEmpty) {
+      blocks.add(const SizedBox(height: MmSpace.s8));
+      blocks.add(MmStaggerItem(index: index++, child: _QuickGroup(line: line, children: rest)));
+    }
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: blocks);
   }
 
   /// Whether [location] is a top-level screen outside the tab shell (it has no tab beneath it,
@@ -305,8 +349,21 @@ class _SettleIn extends StatelessWidget {
   }
 }
 
-/// One choice of the quick-start sheet: a bubble glyph in a 40 dp tile, the title and a note.
-/// The first choice carries the lit edge (the one light in the sheet).
+/// How a quick-start choice is drawn: ranked, not five equal boxes.
+enum QuickStartRowStyle {
+  /// A plain row (and the rows of the quieter group).
+  row,
+
+  /// The one recommended choice: taller, lamp-lit, a bigger glyph, the volt go-disc.
+  hero,
+
+  /// A practice mode, two to a row: glyph on top, title, note.
+  tile,
+}
+
+/// One choice of the quick-start sheet. Every style is opaque (the sheet behind it is a faint
+/// wash of the page, never blurred). The first choice carries the lit edge (the one light in the
+/// sheet). A tap gives a `selectionClick`.
 class QuickStartRow extends StatelessWidget {
   const QuickStartRow({
     super.key,
@@ -316,6 +373,8 @@ class QuickStartRow extends StatelessWidget {
     required this.onTap,
     this.lit = false,
     this.noteLines = 1,
+    this.style = QuickStartRowStyle.row,
+    this.grouped = false,
   });
 
   final SheetGlyph glyph;
@@ -327,6 +386,10 @@ class QuickStartRow extends StatelessWidget {
   /// Note lines the row always reserves. The Resume row reserves two, so its note can grow when
   /// the count lands without moving the rows below.
   final int noteLines;
+  final QuickStartRowStyle style;
+
+  /// A row inside the sheet's grouped list: no box of its own, the group draws one around all.
+  final bool grouped;
 
   /// A row's fill. Opaque in both themes and at every glass level: the sheet behind it is a
   /// faint wash of the page (never blurred), and a row that only tinted it let the page's text
@@ -338,17 +401,52 @@ class QuickStartRow extends StatelessWidget {
     return Color.alphaBlend(colors.ink.withValues(alpha: tint), colors.raised);
   }
 
+  static const BorderRadius _heroRadius = BorderRadius.all(Radius.circular(22));
+
   @override
   Widget build(BuildContext context) {
+    final radius = switch (style) {
+      QuickStartRowStyle.hero => _heroRadius,
+      _ when grouped => BorderRadius.zero,
+      _ => MmRadius.keyAll,
+    };
+    return MmPressable(
+      semanticsLabel: '$title. $note',
+      focusRadius: radius,
+      haptic: MmPressHaptic.selection,
+      pressedScale: grouped ? 0.985 : (style == QuickStartRowStyle.hero ? 0.975 : Springs.pressedScale),
+      onTap: onTap,
+      builder: (context, pressed, _) {
+        final face = switch (style) {
+          QuickStartRowStyle.hero => _hero(context, pressed),
+          QuickStartRowStyle.tile => _tile(context, pressed),
+          QuickStartRowStyle.row => _row(context, pressed),
+        };
+        return lit ? LitEdge(borderRadius: radius, child: face) : face;
+      },
+    );
+  }
+
+  Widget _note(BuildContext context, {int? maxLines}) {
     final colors = context.mmColors;
     final type = context.mmType;
-    Widget row(bool pressed) => DecoratedBox(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: noteLines <= 1 ? 0 : MediaQuery.textScalerOf(context).scale(type.caption.height! * type.caption.fontSize!) * noteLines,
+      ),
+      child: Text(note, style: type.caption.copyWith(color: colors.ink2), maxLines: maxLines, overflow: maxLines == null ? null : TextOverflow.ellipsis),
+    );
+  }
+
+  Widget _row(BuildContext context, bool pressed) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return DecoratedBox(
       decoration: ShapeDecoration(
         color: surfaceFor(colors, pressed: pressed),
-        shape: RoundedSuperellipseBorder(
-          borderRadius: MmRadius.keyAll,
-          side: BorderSide(color: colors.ink.withValues(alpha: 0.08)),
-        ),
+        shape: grouped
+            ? const RoundedRectangleBorder()
+            : RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.08))),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 68),
@@ -362,18 +460,7 @@ class QuickStartRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(title, style: type.labelLarge),
-                    const SizedBox(height: 2),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: noteLines <= 1
-                            ? 0
-                            : MediaQuery.textScalerOf(context).scale(type.caption.height! * type.caption.fontSize!) * noteLines,
-                      ),
-                      child: Text(note, style: type.caption.copyWith(color: colors.ink2)),
-                    ),
-                  ],
+                  children: [Text(title, style: type.labelLarge), const SizedBox(height: 2), _note(context)],
                 ),
               ),
             ],
@@ -381,11 +468,183 @@ class QuickStartRow extends StatelessWidget {
         ),
       ),
     );
-    return MmPressable(
-      semanticsLabel: '$title. $note',
-      focusRadius: MmRadius.keyAll,
-      onTap: onTap,
-      builder: (context, pressed, _) => lit ? LitEdge(borderRadius: MmRadius.keyAll, child: row(pressed)) : row(pressed),
+  }
+
+  Widget _hero(BuildContext context, bool pressed) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return DecoratedBox(
+      decoration: ShapeDecoration(color: surfaceFor(colors, pressed: pressed), shape: const RoundedSuperellipseBorder(borderRadius: _heroRadius)),
+      child: CustomPaint(
+        // The lamp pooled from the upper left, laid over the opaque fill: still opaque.
+        painter: LightFieldPainter([
+          LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(-1.1, -1.3), radius: 0.9, aspect: 1.6),
+          LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
+        ]),
+        foregroundPainter: EdgeLightPainter(
+          borderRadius: _heroRadius,
+          top: colors.edgeTop,
+          bottom: colors.edgeBottom.withValues(alpha: 0),
+          sheen: false,
+          boost: pressed ? 1.6 : 1,
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 96),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s12, MmSpace.s16),
+            child: Row(
+              children: [
+                SheetGlyphTile(glyph, size: 48),
+                const SizedBox(width: MmSpace.s12 + 2),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(title, style: type.cardTitle.copyWith(fontSize: 20, height: 1.2)),
+                      const SizedBox(height: 4),
+                      _note(context),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                ExcludeSemantics(child: _GoDisc(pressed: pressed)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _tile(BuildContext context, bool pressed) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return DecoratedBox(
+      decoration: ShapeDecoration(color: surfaceFor(colors, pressed: pressed), shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll)),
+      child: CustomPaint(
+        foregroundPainter: EdgeLightPainter(
+          borderRadius: MmRadius.keyAll,
+          top: colors.edgeTop,
+          bottom: colors.edgeBottom.withValues(alpha: 0),
+          sheen: false,
+          boost: pressed ? 1.6 : 1,
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 112),
+          child: Padding(
+            padding: const EdgeInsets.all(MmSpace.s12 + 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SheetGlyphTile(glyph, size: 36),
+                const SizedBox(height: MmSpace.s12),
+                Text(title, style: type.labelLarge),
+                const SizedBox(height: 2),
+                _note(context),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The hero's go-disc: a small volt bubble with the play glyph, the same ink as Start.
+class _GoDisc extends StatelessWidget {
+  const _GoDisc({required this.pressed});
+
+  final bool pressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return AnimatedScale(
+      scale: pressed ? 0.9 : 1,
+      duration: pressed ? Motion.press : Motion.release,
+      curve: Motion.out,
+      child: CustomPaint(
+        size: const Size.square(40),
+        painter: _GoDiscPainter(
+          fill: colors.volt,
+          glyph: colors.voltInk,
+        ),
+      ),
+    );
+  }
+}
+
+class _GoDiscPainter extends CustomPainter {
+  const _GoDiscPainter({required this.fill, required this.glyph});
+
+  final Color fill;
+  final Color glyph;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    final r = size.shortestSide / 2;
+    canvas.drawCircle(c, r, Paint()..color = fill);
+    final h = r * 0.46;
+    final path = Path()
+      ..moveTo(c.dx - h * 0.36, c.dy - h * 0.6)
+      ..lineTo(c.dx + h * 0.62, c.dy)
+      ..lineTo(c.dx - h * 0.36, c.dy + h * 0.6)
+      ..close();
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = glyph
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = glyph
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.2
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GoDiscPainter old) => old.fill != fill || old.glyph != glyph;
+}
+
+/// The quieter choices in one opaque surface, divided by an inset hairline.
+class _QuickGroup extends StatelessWidget {
+  const _QuickGroup({required this.children, required this.line});
+
+  final List<Widget> children;
+  final Color line;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final rows = <Widget>[];
+    for (var i = 0; i < children.length; i++) {
+      if (i > 0) {
+        rows.add(ColoredBox(
+          color: QuickStartRow.surfaceFor(colors, pressed: false),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 64),
+            child: SizedBox(height: 1, child: ColoredBox(color: line)),
+          ),
+        ));
+      }
+      rows.add(children[i]);
+    }
+    return DecoratedBox(
+      position: DecorationPosition.foreground,
+      decoration: ShapeDecoration(
+        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.ink.withValues(alpha: 0.06))),
+      ),
+      child: ClipRSuperellipse(
+        borderRadius: MmRadius.keyAll,
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: rows),
+      ),
     );
   }
 }
