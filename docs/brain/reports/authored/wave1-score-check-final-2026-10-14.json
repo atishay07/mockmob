@@ -3,7 +3,7 @@
  "version": "authored-scores-1",
  "source": "claude-authored-2026-10-14",
  "repairedTextPolicy": "admit",
- "at": "2026-10-14T06:48:32.696Z",
+ "at": "2026-10-14T07:10:09.069Z",
  "planned": 475,
  "agentEntries": 475,
  "hashChangedByRepair": 0,
@@ -12,18 +12,11 @@
  "engineIneligible": 0,
  "engineIneligibleReasons": {},
  "fitGate": {
-  "mirror": "data/nta_fit_scores.js on wip/cuet-fit (ntaFitGateReasons + the content-hash check)",
+  "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
   "minFit": 8,
   "pass": 475,
   "reasons": {},
-  "baseTablesMissing": [
-   "chemistry",
-   "english",
-   "history",
-   "political_science",
-   "psychology",
-   "sociology"
-  ]
+  "baseTablesMissing": []
  },
  "qualityAndFitBoth": 475,
  "passageSets": {
@@ -143,8 +136,8 @@
     "exportRows": 300,
     "exportRowsWithEvidence": 0,
     "faithful": true,
-    "eligibleWithout": 107,
-    "eligibleWith": 202,
+    "eligibleWithout": 57,
+    "eligibleWith": 152,
     "papersWithout": [
      {
       "status": "refused",
@@ -178,7 +171,77 @@
     "exportRows": 197,
     "exportRowsWithEvidence": 0,
     "faithful": true,
-    "eligibleWithout": 34,
+    "eligibleWithout": 23,
+    "eligibleWith": 104,
+    "papersWithout": [
+     {
+      "status": "refused",
+      "questions": 0
+     },
+     {
+      "status": "refused",
+      "questions": 0
+     },
+     {
+      "status": "refused",
+      "questions": 0
+     }
+    ],
+    "papersWith": [
+     {
+      "status": "closest",
+      "questions": 50
+     },
+     {
+      "status": "closest",
+      "questions": 50
+     },
+     {
+      "status": "closest",
+      "questions": 50
+     }
+    ]
+   },
+   "political_science": {
+    "exportRows": 198,
+    "exportRowsWithEvidence": 0,
+    "faithful": true,
+    "eligibleWithout": 30,
+    "eligibleWith": 111,
+    "papersWithout": [
+     {
+      "status": "refused",
+      "questions": 0
+     },
+     {
+      "status": "refused",
+      "questions": 0
+     },
+     {
+      "status": "refused",
+      "questions": 0
+     }
+    ],
+    "papersWith": [
+     {
+      "status": "closest",
+      "questions": 50
+     },
+     {
+      "status": "closest",
+      "questions": 50
+     },
+     {
+      "status": "closest",
+      "questions": 50
+     }
+    ]
+   },
+   "psychology": {
+    "exportRows": 87,
+    "exportRowsWithEvidence": 0,
+    "faithful": true,
+    "eligibleWithout": 36,
     "eligibleWith": 115,
     "papersWithout": [
      {
@@ -209,82 +272,12 @@
      }
     ]
    },
-   "political_science": {
-    "exportRows": 198,
-    "exportRowsWithEvidence": 0,
-    "faithful": true,
-    "eligibleWithout": 42,
-    "eligibleWith": 123,
-    "papersWithout": [
-     {
-      "status": "refused",
-      "questions": 0
-     },
-     {
-      "status": "refused",
-      "questions": 0
-     },
-     {
-      "status": "refused",
-      "questions": 0
-     }
-    ],
-    "papersWith": [
-     {
-      "status": "closest",
-      "questions": 50
-     },
-     {
-      "status": "closest",
-      "questions": 47
-     },
-     {
-      "status": "closest",
-      "questions": 50
-     }
-    ]
-   },
-   "psychology": {
-    "exportRows": 87,
-    "exportRowsWithEvidence": 0,
-    "faithful": true,
-    "eligibleWithout": 41,
-    "eligibleWith": 120,
-    "papersWithout": [
-     {
-      "status": "refused",
-      "questions": 0
-     },
-     {
-      "status": "refused",
-      "questions": 0
-     },
-     {
-      "status": "refused",
-      "questions": 0
-     }
-    ],
-    "papersWith": [
-     {
-      "status": "closest",
-      "questions": 50
-     },
-     {
-      "status": "closest",
-      "questions": 46
-     },
-     {
-      "status": "closest",
-      "questions": 50
-     }
-    ]
-   },
    "sociology": {
     "exportRows": 212,
     "exportRowsWithEvidence": 0,
     "faithful": true,
-    "eligibleWithout": 63,
-    "eligibleWith": 144,
+    "eligibleWithout": 53,
+    "eligibleWith": 134,
     "papersWithout": [
      {
       "status": "refused",

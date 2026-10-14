@@ -420,6 +420,14 @@ test('wave 1 final: all 475 are bound to their hash and the engine admits every 
   assert.deepEqual([coverage.fit.checked, coverage.fit.bound, coverage.fit.missing.length, coverage.fit.hashMismatch.length], [true, 475, 0, 0]);
 });
 
+test('the committed tables (merged 14 Oct) admit all 475 through the engine defaults, the tables the website reads', () => {
+  const rows = planPublication(wave1()).rows;
+  const refused = rows.map((row) => [row.id, ntaEligibility({ ...row, evidence: null }, { subject: row.subject }).reasons]).filter(([, reasons]) => reasons.length);
+  assert.deepEqual(refused, []);
+  const coverage = scoreCoverage(rows, { fitDir: 'data/nta_fit_scores', agentScores: agentTablesFrom('data/nta_agent_scores') });
+  assert.deepEqual([coverage.agent.bound, coverage.fit.checked, coverage.fit.bound], [475, true, 475]);
+});
+
 test('wave 1 as first built (479 candidates, original judges): admit gives 460 and names the 19 content refusals', () => {
   const { report, agentDir, fitDir } = mergedWave1('admit', FIRST_BUILD_ARGS);
   assert.equal(report.planned, 479);
