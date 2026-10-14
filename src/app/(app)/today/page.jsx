@@ -16,7 +16,9 @@ export default function Today() {
       <section className="pr ov">
         <ArenaHead eyebrow="Today" title={first ? `${first}, here is your next useful step.` : 'Your next useful step.'} lede="Choose how much time you have. The plan comes from your practice record and the content available right now." />
         <LearningNextAction />
-        <p className="na__note">2027 exam specifications remain provisional until officially confirmed. Existing access and credits are preserved.</p>
+        {/* D8 caption: stays here until the footer carries FOOTER_CAPTIONS.provisional2027 (W1.1).
+            Above the record line, which loads last, so nothing moves when that appears. */}
+        <p className="na__note">2027 exam specifications remain provisional until officially confirmed.</p>
         <RecordGlimpse />
       </section>
     </div>
