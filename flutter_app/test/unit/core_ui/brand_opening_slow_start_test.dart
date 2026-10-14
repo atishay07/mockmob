@@ -184,14 +184,71 @@ void main() {
   testWidgets('asking Android to lift the splash gives up on a silent channel', (tester) async {
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, (call) => Completer<Object?>().future);
     try {
-      var finished = false;
-      unawaited(OpeningGlass.release().then((_) => finished = true));
+      bool? answered;
+      unawaited(OpeningGlass.release().then((ok) => answered = ok));
       await tester.pump(OpeningGlass.answerCap - const Duration(milliseconds: 100));
-      expect(finished, isFalse);
+      expect(answered, isNull);
       await tester.pump(const Duration(milliseconds: 200));
-      expect(finished, isTrue);
+      expect(answered, isFalse, reason: 'a release nobody answered is not a splash that is gone');
     } finally {
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, null);
+    }
+  });
+
+  testWidgets('a release that Android answers says so', (tester) async {
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, (call) async => true);
+    try {
+      expect(await OpeningGlass.release(), isTrue);
+    } finally {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, null);
+    }
+  });
+
+  testWidgets('a release that Android never answers still hands off, and lifts the splash at once', (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    OpeningGlass.debugFirstFrameDrawn = true;
+    final asked = <Object?>[];
+    // Android answers the lift-now ask (it carries an argument) but sits on the fade-off ask.
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, (call) {
+      asked.add(call.arguments);
+      return call.arguments == null ? Completer<Object?>().future : Future<Object?>.value(true);
+    });
+    try {
+      var done = 0;
+      await _pump(tester, BrandOpening(onDone: () => done++));
+      // The platform asks for the fade-off and is not answered, so it is not confirmed.
+      await _run(tester, OpeningGlass.answerCap.inMilliseconds + 200);
+      expect(asked, [null], reason: 'only the fade-off was asked so far');
+      expect(done, 0);
+      // The "mo" starts after the cap; the hand-off must not trust an answer that never came.
+      await _run(tester, 1500);
+      expect(done, 1);
+      expect(asked, [null, false], reason: 'an unanswered release is lifted with no fade, never faded over the first screen');
+    } finally {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, null);
+      debugDefaultTargetPlatformOverride = null;
+      OpeningGlass.debugFirstFrameDrawn = false;
+    }
+  });
+
+  testWidgets('a release that Android answers is never asked to lift again at the hand-off', (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    OpeningGlass.debugFirstFrameDrawn = true;
+    final asked = <Object?>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, (call) async {
+      asked.add(call.arguments);
+      return true;
+    });
+    try {
+      var done = 0;
+      await _pump(tester, BrandOpening(onDone: () => done++));
+      await _run(tester, 1700);
+      expect(done, 1);
+      expect(asked, [null], reason: 'one ask, answered; nothing left to lift');
+    } finally {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(_splash, null);
+      debugDefaultTargetPlatformOverride = null;
+      OpeningGlass.debugFirstFrameDrawn = false;
     }
   });
 }

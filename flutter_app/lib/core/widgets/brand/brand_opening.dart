@@ -296,22 +296,33 @@ abstract final class OpeningGlass {
 
   static bool get _android => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
-  static Future<void> wait() async {
+  /// A widget test never rasterizes a frame, so [wait] would wait for one for good; a test that
+  /// goes through [wait] sets this to skip that wait.
+  @visibleForTesting
+  static bool debugFirstFrameDrawn = false;
+
+  /// Completes when the "mo" is on the glass. True when nothing is left over it: Android answered
+  /// that its splash is faded off, or there is no Android splash. False when Android never
+  /// answered, so its splash may still be up and the hand-off must take it off at once.
+  static Future<bool> wait() async {
     final binding = WidgetsBinding.instance;
-    if (!binding.firstFrameRasterized) await binding.waitUntilFirstFrameRasterized;
+    if (!debugFirstFrameDrawn && !binding.firstFrameRasterized) await binding.waitUntilFirstFrameRasterized;
     // One more frame, so the "mo" under the splash is a settled one.
     await binding.endOfFrame;
-    if (!_android) return;
-    await release();
+    if (!_android) return true;
+    return release();
   }
 
-  /// Asks Android to fade the splash off the "mo"; completes once it has, or after [cap].
+  /// Asks Android to fade the splash off the "mo"; completes once it has (true), or after [cap]
+  /// or on a missing channel (false: start now, but Android has not said its splash is gone).
   @visibleForTesting
-  static Future<void> release({Duration cap = answerCap}) async {
+  static Future<bool> release({Duration cap = answerCap}) async {
     try {
       await _channel.invokeMethod<bool>('release').timeout(cap);
+      return true;
     } on Object {
-      // No channel (an older build), or no answer in time: start now.
+      // No channel (an older build), or no answer in time.
+      return false;
     }
   }
 
@@ -412,12 +423,16 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     return math.max(0.0, c - seen);
   }
 
-  /// Whether the platform said the "mo" is on the glass (not just the [_glassCap] net).
+  /// Whether the platform said the "mo" is on the glass and its splash is gone (not just the
+  /// [_glassCap] net, and not a release that timed out).
   bool _confirmed = false;
 
-  void _markSeen() {
+  /// The "mo" is on the glass. [answered] is false when the platform did not say its splash is
+  /// gone (a release that timed out): the timeline still starts, but the hand-off lifts the
+  /// splash itself.
+  void _markSeen({bool answered = true}) {
     if (!mounted) return;
-    _confirmed = true;
+    if (answered) _confirmed = true;
     // A late answer after the net started the timeline restarts it from the "mo", which is what
     // has been on the glass, unless the hand-off has begun.
     if (_seenAt != null || _fading) return;
@@ -461,7 +476,9 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     _fade.addStatusListener((s) {
       if (s == AnimationStatus.completed) _finish();
     });
-    unawaited((widget.shown ?? OpeningGlass.wait()).then((_) => _markSeen(), onError: (Object _) => _markSeen()));
+    final shown = widget.shown;
+    final Future<bool> answered = shown != null ? shown.then((_) => true) : OpeningGlass.wait();
+    unawaited(answered.then((ok) => _markSeen(answered: ok), onError: (Object _) => _markSeen(answered: false)));
     // After the first frame, still under the splash.
     WidgetsBinding.instance.addPostFrameCallback((_) => _warmUp());
     unawaited(_clock.animateWith(_Stopwatch()));
@@ -538,8 +555,8 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     if (_fading) return;
     _prepaint();
     _fading = true;
-    // Only after the net: Android has not said its splash is gone, so take it off at once
-    // rather than let its "mo" fade over the first screen.
+    // Only after the net, or a release Android never answered: it has not said its splash is
+    // gone, so take it off at once rather than let its "mo" fade over the first screen.
     if (!_confirmed) unawaited(OpeningGlass.liftNow());
     widget.onReveal?.call();
     // Hands the status bar icons to the first screen.

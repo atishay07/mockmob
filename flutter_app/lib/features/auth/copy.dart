@@ -19,7 +19,7 @@ abstract final class AuthCopy {
   static const String googleInBrowser =
       'Finish signing in with Google in your browser, then come back.';
   static const String sessionExpired =
-      'Please sign in again. Your work is safe.';
+      'Sign in again. Your work is still on this phone.';
   static const String offlineBanner = 'You are offline. Connect to sign in.';
 
   // The account could not be opened at launch (not a sign-out).
