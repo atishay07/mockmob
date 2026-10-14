@@ -143,7 +143,7 @@ export function featureUnavailableNotice({ feature = '', reason = '', alternativ
     id: 'feature-unavailable', surface: 'app', tone: 'info', dismissible: true, audience: 'member',
     what: `${name} is not available right now. ${/[.?]$/.test(why) ? why : `${why}.`}`,
     next: String(alternative || '').trim() || 'Try again later.',
-    why: `${name} checks it can build something reliable before it starts.`,
+    why: `${name} reported that it cannot run right now.`,
     stateKey: `unavailable:${name}:${why.slice(0, 40)}`,
   });
 }
@@ -181,14 +181,18 @@ export function proEndingNotice({ isPremium = false, premiumUntil = null, now = 
   });
 }
 
-/** The Android app, only after the Play listing is live (D13), on Android, for a member. */
-export function appOnPlayNotice({ playListingLive = false, isAndroid = false, isMember = false } = {}) {
+/**
+ * The Android app, only after the Play listing is live (D13), on Android, for a member. `playUrl` is
+ * the listing's address from config. Without one the notice has no action, never a link to this site.
+ */
+export function appOnPlayNotice({ playListingLive = false, isAndroid = false, isMember = false, playUrl = '' } = {}) {
   if (!playListingLive || !isAndroid || !isMember) return null;
+  const href = /^https:\/\//.test(String(playUrl || '')) ? String(playUrl) : '';
   return make({
     id: 'app-on-play', surface: 'app', tone: 'info', dismissible: true, audience: 'member',
     what: 'MockMob is on Google Play.',
-    next: 'Your practice carries over when you sign in.',
-    action: { label: 'See the app', href: '/app' },
+    next: 'Sign in with the same account there.',
+    action: href ? { label: 'Open on Google Play', href } : null,
     why: 'You are on an Android phone and signed in.',
     stateKey: 'live',
   });
@@ -197,9 +201,9 @@ export function appOnPlayNotice({ playListingLive = false, isAndroid = false, is
 /** The result page's pointer to the per-question report button. */
 export function resultReportNotice() {
   return make({
-    id: 'result-report-pointer', surface: 'result', tone: 'info', dismissible: true,
+    id: 'result-report-pointer', surface: 'result', tone: 'info', dismissible: false,
     what: 'Spotted a mistake? Open the question and choose “Report a problem with this question”.',
-    why: 'Every question on this page can be reported. Dismiss this and it stays hidden on this device.',
+    why: 'Every question on this page can be reported.',
     stateKey: 'v1',
   });
 }
