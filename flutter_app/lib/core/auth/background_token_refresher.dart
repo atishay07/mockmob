@@ -8,6 +8,7 @@ import '../storage/secure_store.dart';
 import 'session_keeper.dart';
 import 'session_lock.dart';
 import 'session_vault.dart';
+import 'stored_session.dart';
 import 'token_client.dart';
 
 /// Token source for the headless WorkManager isolate (design spec 5.5.1, point 3).
@@ -26,6 +27,7 @@ class BackgroundTokenRefresher implements ApiTokenProvider {
     Dio? dio,
     DateTime Function()? now,
     Future<void> Function(Duration)? pause,
+    this.accountFor,
   })  : _config = config,
         _keeper = SessionKeeper(
           // The same hardened storage as the foreground (session_vault.dart).
@@ -38,30 +40,51 @@ class BackgroundTokenRefresher implements ApiTokenProvider {
   final AppConfig _config;
   final SessionKeeper _keeper;
 
+  /// The MockMob account the foreground last loaded for a Supabase user (stored by the auth
+  /// controller), or null when it never loaded one for that user on this phone.
+  final Future<String?> Function(String sessionUserId)? accountFor;
+
   bool _lost = false;
 
   /// True after the refresh token was rejected: the caller keeps `pendingSubmission` and stops.
   bool get sessionLost => _lost;
 
   @override
-  Future<String?> accessToken() async {
+  Future<String?> accessToken() async => (await _usableSession())?.accessToken;
+
+  /// The stored session, refreshed first when its access token is about to expire. Null when
+  /// signed out, offline with an expired token, or the refresh token was rejected.
+  Future<StoredSession?> _usableSession() async {
     final session = await _keeper.read();
     if (session == null) return null;
-    if (session.isFresh(_keeper.now())) return session.accessToken;
+    if (session.isFresh(_keeper.now())) return session;
     if (!_config.supabaseConfigured) return null;
     try {
-      return _tokenFrom(await _keeper.ensureFresh(staleAccessToken: session.accessToken));
+      return _sessionFrom(await _keeper.ensureFresh(staleAccessToken: session.accessToken));
     } on RefreshUnavailable {
       return null; // Offline: the next job run tries again.
     }
   }
 
-  /// The isolate has no profile, so it cannot say whose token this is: a write that names its
-  /// account is refused here rather than risk the wrong one.
+  /// The isolate has no profile. It names the account through the token's own Supabase user and
+  /// the account the foreground loaded for that user. When the foreground never loaded one for
+  /// it (another student signed in and the app has not opened since), it names none, and a call
+  /// that names its account is refused rather than risk the wrong one; it is kept for later.
   @override
   Future<ApiToken?> accountToken() async {
-    final token = await accessToken();
-    return token == null ? null : ApiToken(token);
+    final session = await _usableSession();
+    if (session == null) return null;
+    final token = session.accessToken;
+    final sessionUser = jwtSubject(token) ?? session.userId;
+    String? account;
+    if (sessionUser != null) {
+      try {
+        account = await accountFor?.call(sessionUser);
+      } on Object {
+        account = null; // Unreadable: the account stays unknown and named calls wait.
+      }
+    }
+    return ApiToken(token, userId: account);
   }
 
   @override
@@ -74,10 +97,12 @@ class BackgroundTokenRefresher implements ApiTokenProvider {
   @override
   Future<void> onSessionLost() async => _lost = true;
 
-  String? _tokenFrom(KeepResult result) {
+  String? _tokenFrom(KeepResult result) => _sessionFrom(result)?.accessToken;
+
+  StoredSession? _sessionFrom(KeepResult result) {
     switch (result) {
       case KeepFresh(:final session):
-        return session.accessToken;
+        return session;
       case KeepRejected():
         _lost = true;
         return null;

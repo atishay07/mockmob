@@ -20,9 +20,10 @@ class _LazyTokenProvider implements ApiTokenProvider {
   @override
   Future<String?> accessToken() async => (await _service())?.accessToken();
 
-  /// The token and, read in the same step, the session it came from. The account is the one
-  /// the auth controller loaded for that session; a token from any other session (one that
-  /// signed in since, whose profile has not loaded) names no account.
+  /// The token and the account it belongs to. The token names its own Supabase user (its `sub`
+  /// claim); a token that cannot be read is matched against the session it came from. The
+  /// account is the one the auth controller loaded for that Supabase user. A token of any other
+  /// user (one that signed in since, whose profile has not loaded) names no account.
   @override
   Future<ApiToken?> accountToken() async {
     final service = await _service();
@@ -30,7 +31,7 @@ class _LazyTokenProvider implements ApiTokenProvider {
     final token = await service.accessToken();
     if (token == null) return null;
     final session = service.session;
-    final sessionUser = session != null && session.accessToken == token ? session.user.id : null;
+    final sessionUser = jwtSubject(token) ?? (session != null && session.accessToken == token ? session.user.id : null);
     return ApiToken(token, userId: _ref.read(authSnapshotProvider.notifier).accountFor(sessionUser));
   }
 

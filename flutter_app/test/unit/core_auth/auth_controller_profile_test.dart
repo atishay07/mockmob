@@ -2,6 +2,7 @@
 // finishes after a sign-out cannot sign the student back in, and a profile load that fails in a
 // way other than the network ends in the load-failed state (with its retry), never on the splash.
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,8 +44,24 @@ class _FakeService extends Fake implements AuthService {
   @override
   Future<bool> syncFromStorage() async => false;
 
+  /// What happened, in order, for the tests that care about the order of sign-out steps.
+  final List<String> log = [];
+
+  /// Set to make clearing the tokens fail.
+  Object? signOutError;
+
+  /// When set, the token handed out instead of the session's own.
+  String? tokenOverride;
+
   @override
-  Future<void> signOutLocal() async => session = null;
+  Future<void> signOutLocal() async {
+    log.add('signOutLocal');
+    if (signOutError != null) throw signOutError!;
+    session = null;
+  }
+
+  @override
+  Future<String?> accessToken() async => tokenOverride ?? session?.accessToken;
 
   @override
   Future<void> verifyEmailCode(String email, String code) async {}
@@ -123,6 +140,7 @@ void main() {
   late _FakeService service;
   late ProviderContainer container;
   late _MeApi api;
+  late _Notifications notifications;
 
   Future<_Auth> start({AppDatabase? database, SyncCoordinator? sync}) async {
     final db = database ?? AppDatabase(NativeDatabase.memory());
@@ -132,8 +150,8 @@ void main() {
     final restored = StreamController<void>.broadcast();
     final analytics = _Analytics();
     when(analytics.discardAll).thenAnswer((_) async {});
-    final notifications = _Notifications();
-    when(notifications.cancelAll).thenAnswer((_) async {});
+    notifications = _Notifications();
+    when(notifications.cancelAll).thenAnswer((_) async => service.log.add('cancelAll'));
     container = ProviderContainer(retry: (_, _) => null, overrides: [
       authSnapshotProvider.overrideWith(_Auth.new),
       authServiceProvider.overrideWith((ref) async => service),
@@ -317,6 +335,101 @@ void main() {
 
       expect(now().loadFailed, isTrue);
       expect(now().status, isNot(AuthStatus.signedIn), reason: 'the earlier account\'s data was not cleared');
+    });
+  });
+
+  // Reminders planned for the account that signed out must not fire for the next student. A
+  // re-plan that was running when the first cancel went out can schedule them again, so they are
+  // cancelled once more after the tokens are gone, on sign-out and on account deletion alike.
+  group('reminders after sign-out', () {
+    for (final keep in [true, false]) {
+      test('are cancelled again once the tokens are gone (${keep ? 'sign-out' : 'account deletion'})', () async {
+        final auth = await start();
+        service.session = _session('a@x.com');
+        auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+        await auth.signOut(keepQueuedWork: keep);
+        expect(service.log, ['cancelAll', 'signOutLocal', 'cancelAll']);
+        expect(now().status, AuthStatus.signedOut);
+      });
+    }
+
+    test('a failure of the second cancel never stops the sign-out', () async {
+      final auth = await start();
+      service.session = _session('a@x.com');
+      auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+      var calls = 0;
+      when(notifications.cancelAll).thenAnswer((_) async {
+        calls++;
+        if (calls == 2) throw StateError('plugin');
+      });
+      await auth.signOut();
+      expect(calls, 2);
+      expect(now().status, AuthStatus.signedOut);
+    });
+
+    test('when the tokens could not be cleared, the student is still signed in and nothing runs after', () async {
+      final auth = await start();
+      service.session = _session('a@x.com');
+      service.signOutError = StateError('storage');
+      auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+      await expectLater(auth.signOut(), throwsStateError);
+      expect(service.log, ['cancelAll', 'signOutLocal']);
+      expect(now().status, AuthStatus.signedIn);
+    });
+  });
+
+  // The guard's foreground half: the API client is told which account each token belongs to.
+  group('the account a token belongs to', () {
+    Future<_Auth> signedInAsA() async {
+      final auth = await start();
+      service.session = _session('a@x.com');
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) async => _me('a', 'a@x.com'));
+      await auth.verifyEmailCode('a@x.com', '12345678');
+      await pumpEventQueue();
+      expect(now().userId, 'a');
+      return auth;
+    }
+
+    test('is the account whose profile was loaded for that Supabase user', () async {
+      final auth = await signedInAsA();
+      expect(auth.accountFor('supabase-a@x.com'), 'a');
+      expect(auth.accountFor('supabase-b@x.com'), isNull);
+      expect(auth.accountFor(null), isNull);
+      final token = await container.read(apiTokenProvider).accountToken();
+      expect(token?.value, 'token');
+      expect(token?.userId, 'a');
+    });
+
+    test('is unknown for a session that signed in since and has not loaded its profile', () async {
+      await signedInAsA();
+      // B's session replaced A's; the signed-in state still says A.
+      service.session = _session('b@x.com');
+      expect(now().userId, 'a');
+      expect((await container.read(apiTokenProvider).accountToken())?.userId, isNull);
+    });
+
+    test('is read from the token itself when it names its user', () async {
+      await signedInAsA();
+      String b64(Object o) => base64Url.encode(utf8.encode(jsonEncode(o))).replaceAll('=', '');
+      // A token of Supabase user B handed out while A's session object is still current.
+      service.tokenOverride = '${b64({'alg': 'HS256'})}.${b64({'sub': 'supabase-b@x.com'})}.sig';
+      expect((await container.read(apiTokenProvider).accountToken())?.userId, isNull);
+      service.tokenOverride = '${b64({'alg': 'HS256'})}.${b64({'sub': 'supabase-a@x.com'})}.sig';
+      expect((await container.read(apiTokenProvider).accountToken())?.userId, 'a');
+    });
+
+    test('is no one after sign-out', () async {
+      final auth = await signedInAsA();
+      await auth.signOut();
+      expect(auth.accountFor('supabase-a@x.com'), isNull);
+      expect(await container.read(apiTokenProvider).accountToken(), isNull);
+    });
+
+    test('is recorded for the background job', () async {
+      await signedInAsA();
+      final prefs = AppPrefs(store);
+      expect(await prefs.accountForSession('supabase-a@x.com'), 'a');
+      expect(await prefs.accountForSession('supabase-b@x.com'), isNull);
     });
   });
 }

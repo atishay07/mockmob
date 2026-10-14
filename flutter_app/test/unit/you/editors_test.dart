@@ -32,7 +32,7 @@ const _user = AuthSnapshot(
 
 MockApi _api({Object? error}) {
   final api = MockApi();
-  when(() => api.patch(any(), body: any(named: 'body'))).thenAnswer((invocation) async {
+  when(() => api.patch(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((invocation) async {
     if (error != null) throw error;
     final body = invocation.namedArguments[#body] as Map<String, Object?>;
     return ApiResponse(200, {'id': 'u1', ...body});
@@ -126,7 +126,7 @@ void main() {
       await tester.tap(find.text('Save subjects'));
       await tester.pump();
       await tester.pump();
-      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'), expectUserId: 'u1')).captured.single as Map;
       expect(body['subjects'], ['accountancy', 'business_studies', 'economics', 'english', 'general_test']);
       expect(auth.reloads, 1);
       expect(find.textContaining('Subjects saved at 10:39 PM'), findsOneWidget);
@@ -170,7 +170,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.text('Save name'));
       await tester.pumpAndSettle();
-      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'), expectUserId: 'u1')).captured.single as Map;
       expect(body, {'name': 'Asha V.'});
       expect(find.text('Name saved at 10:39 PM.'), findsOneWidget);
     });
@@ -192,24 +192,24 @@ void main() {
     test('stays on the phone while study preferences are off', () async {
       prefs({'state': 'disabled', 'minutes': 20});
       expect(await container.read(studyLengthProvider).save(30), LengthSync.notOpen);
-      verifyNever(() => api.put(any(), body: any(named: 'body')));
+      verifyNever(() => api.put(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId')));
     });
 
     test('does not write what the server already has', () async {
       prefs({'state': 'ready', 'minutes': 30, 'revision': 3});
       expect(await container.read(studyLengthProvider).save(30), LengthSync.unchanged);
-      verifyNever(() => api.put(any(), body: any(named: 'body')));
+      verifyNever(() => api.put(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId')));
     });
 
     test('writes with the revision it read, and reads again once after a conflict', () async {
       prefs({'state': 'ready', 'minutes': 20, 'revision': 3});
       var calls = 0;
-      when(() => api.put(StudyLength.path, body: any(named: 'body'))).thenAnswer((_) async {
+      when(() => api.put(StudyLength.path, body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((_) async {
         if (calls++ == 0) throw const ApiError(status: 409, kind: ApiErrorKind.conflict, code: 'conflict');
         return ApiResponse(200, const {});
       });
       expect(await container.read(studyLengthProvider).save(10), LengthSync.saved);
-      final bodies = verify(() => api.put(StudyLength.path, body: captureAny(named: 'body'))).captured;
+      final bodies = verify(() => api.put(StudyLength.path, body: captureAny(named: 'body'), expectUserId: any(named: 'expectUserId'))).captured;
       expect(bodies.last, {'minutes': 10, 'expectedRevision': 3});
       verify(() => api.get(StudyLength.path)).called(2);
     });

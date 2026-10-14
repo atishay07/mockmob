@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/onboarding/data/subjects.dart';
+import 'package:mockmob/features/onboarding/model/answers.dart';
+import 'package:mockmob/features/onboarding/model/choices.dart';
+import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/you/account/account_screen.dart';
 import 'package:mockmob/features/you/account/delete_screen.dart';
+import 'package:mockmob/features/you/account/sign_out_flow.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -160,30 +168,30 @@ void main() {
 
     testWidgets('the request key stays off until DELETE is typed, in any case', (tester) async {
       final (_, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
       expect(find.text('Type DELETE to confirm'), findsOneWidget);
       await tester.tap(find.text('Request deletion'), warnIfMissed: false);
       await tester.pump();
-      verifyNever(() => api.post(any(), body: any(named: 'body')));
+      verifyNever(() => api.post(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId')));
       await _typeDelete(tester, 'delet');
       await tester.tap(find.text('Request deletion'), warnIfMissed: false);
       await tester.pump();
-      verifyNever(() => api.post(any(), body: any(named: 'body')));
+      verifyNever(() => api.post(any(), body: any(named: 'body'), expectUserId: any(named: 'expectUserId')));
       await _typeDelete(tester, 'delete');
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
-      verify(() => api.post('/api/me/delete', body: {'source': 'android'})).called(1);
+      verify(() => api.post('/api/me/delete', body: {'source': 'android'}, expectUserId: 'u1')).called(1);
     });
 
     testWidgets('success shows the returned message and signs out only when the student continues', (tester) async {
       final (auth, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
       await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
-      verify(() => api.post('/api/me/delete', body: {'source': 'android'})).called(1);
+      verify(() => api.post('/api/me/delete', body: {'source': 'android'}, expectUserId: 'u1')).called(1);
       expect(find.text('Your request is with us'), findsOneWidget);
       expect(find.text('Your request is recorded. Sign out when you are ready.'), findsOneWidget);
       expect(find.textContaining('You will be signed out'), findsNothing, reason: 'sign-out is manual, so the page must not promise it');
@@ -198,7 +206,7 @@ void main() {
 
     testWidgets('a repeat request says it is already with us', (tester) async {
       final (_, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body')))
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId')))
           .thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 9, 20, 0)));
       await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
@@ -210,7 +218,7 @@ void main() {
 
     testWidgets('a failed request signs nobody out and offers another try', (tester) async {
       final (auth, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(offlineError());
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenThrow(offlineError());
       await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
@@ -222,7 +230,7 @@ void main() {
 
     testWidgets('a server fault is a plain "nothing was requested"', (tester) async {
       final (_, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(unavailableError());
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenThrow(unavailableError());
       await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
@@ -232,7 +240,7 @@ void main() {
 
     testWidgets('an unexpected error does not leave the key spinning', (tester) async {
       final (auth, api) = await pump(tester);
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(const FormatException('bad body'));
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenThrow(const FormatException('bad body'));
       await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
@@ -247,6 +255,54 @@ void main() {
       final all = tester.widgetList<Text>(find.byType(Text)).map((t) => (t.data ?? '').toLowerCase()).join(' ');
       expect(all.contains('has been deleted'), isFalse);
       expect(all.contains('is deleted'), isFalse);
+    });
+  });
+
+  // R3 of the 14 Oct audit: the deletion screen promises unsent answers are removed, so the
+  // account's unsent onboarding sheet goes too, and a plain sign-out keeps putting it away.
+  group('the unsent onboarding sheet at sign-out', () {
+    final sheet = OnboardingAnswers(
+      stage: Stage.classTwelve,
+      subjects: const [SheetSubject.english, SheetSubject.accountancy],
+      days: const {0, 2, 4},
+      window: StudyTime.late,
+      sealedAt: DateTime(2026, 10, 13, 21, 40),
+      owner: 'u1',
+    );
+
+    Future<(WidgetRef, AnswersStore, FakeAuth)> pumpWith(WidgetTester tester) async {
+      final store = AnswersStore(MemoryPrefsStore());
+      await store.save(sheet);
+      final auth = FakeAuth(youUser);
+      late WidgetRef captured;
+      await tester.pumpWidget(ProviderScope(
+        overrides: [
+          authSnapshotProvider.overrideWith(() => auth),
+          answersStoreProvider.overrideWithValue(store),
+        ],
+        child: Consumer(builder: (context, ref, _) {
+          captured = ref;
+          return const SizedBox();
+        }),
+      ));
+      // The sheet is not read here: the deletion reads it itself before removing it.
+      return (captured, store, auth);
+    }
+
+    testWidgets('account deletion removes it before signing out, with the queued writes', (tester) async {
+      final (ref, store, auth) = await pumpWith(tester);
+      await store.park(sheet.copyWith(window: StudyTime.early), DateTime.now());
+      await performSignOut(ref, keepQueuedWork: false);
+      expect(auth.lastKeepQueuedWork, isFalse);
+      expect(await store.parked('u1', DateTime.now()), isNull);
+      expect((await store.load()).blank, isTrue);
+    });
+
+    testWidgets('a plain sign-out leaves it to be put away for the account', (tester) async {
+      final (ref, store, auth) = await pumpWith(tester);
+      await performSignOut(ref);
+      expect(auth.lastKeepQueuedWork, isTrue);
+      expect((await store.load()).owner, 'u1', reason: 'the sign-out flow puts it away, not this step');
     });
   });
 }

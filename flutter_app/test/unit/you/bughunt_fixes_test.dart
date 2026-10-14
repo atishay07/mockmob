@@ -49,6 +49,7 @@ class _FakePrefs extends NotificationPrefsRepository {
     Map<String, bool>? channels,
     StudyWindow? studyWindow,
     bool clearStudyWindow = false,
+    String? expectUserId,
   }) async {
     updates++;
     return NotificationPrefs.defaults;
@@ -59,7 +60,7 @@ class _FakeLength extends StudyLength {
   _FakeLength(super.ref);
 
   @override
-  Future<LengthSync> save(int minutes) async => LengthSync.saved;
+  Future<LengthSync> save(int minutes, {String? expectUserId}) async => LengthSync.saved;
 }
 
 List<Override> _weekOverrides(FakeGoal goal, {StudentTarget? target}) => [
@@ -242,7 +243,7 @@ void main() {
   group('deletion receipt (you-06)', () {
     Future<void> request(WidgetTester tester, Map<String, Object?> body) async {
       final api = MockApi();
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer((_) async => ApiResponse(200, body));
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer((_) async => ApiResponse(200, body));
       await pumpMockmob(
         tester,
         const DeleteScreen(),

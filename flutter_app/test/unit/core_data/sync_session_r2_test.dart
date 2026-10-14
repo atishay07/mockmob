@@ -108,6 +108,111 @@ void main() {
     });
   });
 
+  // R1 of the 14 Oct audit: every session call names the paper's owner. Sent with another
+  // account's token, the server would refuse the paper (or say it has no such attempt), and that
+  // answer would end the first student's unsent paper. The guard refuses instead, and a refusal
+  // of the guard keeps the submit owed.
+  group("a paper goes out only with its owner's token", () {
+    late AppDatabase db;
+    late FakeHttpAdapter http;
+    late FakeTokens tokens;
+    late SessionDraftRepository drafts;
+    late PendingResultRepository pending;
+    late SessionJournal journal;
+    final now = DateTime.utc(2026, 10, 12, 17, 12);
+
+    setUp(() async {
+      db = newTestDb();
+      http = FakeHttpAdapter();
+      tokens = FakeTokens();
+      final scope = LocalScope(db, () => 'u1', () => now);
+      drafts = SessionDraftRepository(scope);
+      pending = PendingResultRepository(scope);
+      final clock = SessionClock(monotonicMs: () => 0, wallMs: () => 0)..anchor(serverNowMs: 0, startedAtMs: 0, expiresAtMs: 600000);
+      journal = await SessionJournal.open(db, userId: 'u1', sessionId: 'sess-1');
+      await journal.recordVisit('q1', clock);
+      await journal.recordAnswer('q1', 2, clock);
+    });
+
+    tearDown(() => db.close());
+
+    SessionSubmitter submitter() => SessionSubmitter(
+          api: ApiSessionApi(newApiClient(http, tokens: tokens)),
+          drafts: drafts,
+          pendingResults: pending,
+          cacheAttempt: (_) async {},
+          now: () => now,
+        );
+
+    test('with another account signed in, the submit is not sent and stays owed', () async {
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      // What the server would say to B about A's paper: without the guard this rejects it.
+      http.replies.add(const FakeReply(404, {'error': 'not_found'}));
+      final draft = draftOf(endsAtWallMs: 600000);
+      await drafts.save(draft);
+      final outcome = await submitter().submit(draft: draft, journal: journal, durationMs: 600000);
+      expect(http.requests, isEmpty, reason: "nothing of A's paper goes out with B's token");
+      expect(outcome, isA<SubmitPending>());
+      expect((outcome as SubmitPending).error.isAccountChanged, isTrue);
+      final kept = (await drafts.bySessionId('sess-1'))!;
+      expect(kept.pendingSubmission, isTrue, reason: 'still owed');
+      expect(kept.rejected, isFalse);
+      expect(kept.windowClosed, isFalse);
+      expect(await db.select(db.answerJournal).get(), isNotEmpty);
+    });
+
+    test('a switch after SESSION_EXPIRED never lets the other account close the paper', () async {
+      final draft = draftOf(endsAtWallMs: 600000);
+      await drafts.save(draft);
+      http.handler = (options) {
+        // B signs in while the first answer is on its way back.
+        tokens
+          ..token = 'tok-b'
+          ..userId = 'u2';
+        return const FakeReply(422, {'error': 'SESSION_EXPIRED'});
+      };
+      final outcome = await submitter().submit(draft: draft, journal: journal, durationMs: 600000);
+      expect(http.requests.map((r) => '${r.method} ${r.path}'), ['POST /api/attempts'], reason: "the attempt read is not asked with B's token");
+      expect(outcome, isA<SubmitPending>());
+      final kept = (await drafts.bySessionId('sess-1'))!;
+      expect(kept.windowClosed, isFalse, reason: "B's 404 would have closed A's paper");
+      expect(await db.select(db.answerJournal).get(), isNotEmpty);
+    });
+
+    test("the submit and the attempt read name the paper's owner", () async {
+      final api = FakeSessionApi()..submitFailure = const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'SESSION_EXPIRED');
+      final draft = draftOf(endsAtWallMs: 600000);
+      await drafts.save(draft);
+      await SessionSubmitter(api: api, drafts: drafts, pendingResults: pending, cacheAttempt: (_) async {}, now: () => now)
+          .submit(draft: draft, journal: journal, durationMs: 600000);
+      expect(api.submits.single['forUserId'], 'u1');
+      expect(api.fetchedFor, ['u1']);
+    });
+
+    test('the events PUT and the resume are refused the same way', () async {
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      final api = ApiSessionApi(newApiClient(http, tokens: tokens), userId: 'u1');
+      final put = await api.putEvents(sessionId: 'sess-1', events: journal.events).then<Object?>((_) => null, onError: (Object e) => e);
+      final resume = await api.resume('sess-1').then<Object?>((_) => null, onError: (Object e) => e);
+      expect((put! as ApiError).isAccountChanged, isTrue);
+      expect((resume! as ApiError).isAccountChanged, isTrue);
+      expect(http.requests, isEmpty);
+    });
+
+    test('with its owner signed in, the paper goes out as before', () async {
+      http.replies.add(const FakeReply(200, {'id': 'att-1', 'subject': 'accountancy', 'correct': 1, 'wrong': 0, 'unattempted': 0, 'total': 1}));
+      final draft = draftOf(endsAtWallMs: 600000);
+      await drafts.save(draft);
+      final outcome = await submitter().submit(draft: draft, journal: journal, durationMs: 600000);
+      expect(outcome, isA<SubmitReceived>());
+      expect(http.requests.single.headers['Authorization'], 'Bearer tok-1');
+    });
+  });
+
   group('sync-session-r2-02: a 2xx without an attempt keeps the answers', () {
     late AppDatabase db;
     late FakeHttpAdapter http;
@@ -467,8 +572,14 @@ class _HeldApi extends FakeSessionApi {
   final hold = Completer<void>();
 
   @override
-  Future<Map<String, dynamic>> submit({required String sessionId, String? sessionTicket, required Map<String, int> answers, required List<SessionEvent> events}) async {
+  Future<Map<String, dynamic>> submit({
+    required String sessionId,
+    String? sessionTicket,
+    required Map<String, int> answers,
+    required List<SessionEvent> events,
+    String? forUserId,
+  }) async {
     await hold.future;
-    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events);
+    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events, forUserId: forUserId);
   }
 }

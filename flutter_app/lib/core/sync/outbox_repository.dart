@@ -24,9 +24,16 @@ class OutboxItem {
     required this.nextAttemptAt,
     this.body,
     this.lastErrorCode,
+    this.userId,
   });
 
   final int id;
+
+  /// The account the write was queued for (the row's `user_id`, written at enqueue since the
+  /// table was created, so every stored item has one). A replay names it to the API client and
+  /// is never sent with another account's token. Null only for an item built by hand; it is
+  /// then sent for whoever flushes it, which only ever reads its own rows.
+  final String? userId;
 
   /// Caller-defined label (for example `study_event`) so the owning module can recognise it.
   final String kind;
@@ -98,6 +105,7 @@ class OutboxRepository {
         attempts: r.attempts,
         nextAttemptAt: DateTime.fromMillisecondsSinceEpoch(r.nextAttemptAtMs),
         lastErrorCode: r.lastErrorCode,
+        userId: r.userId,
       );
 
   /// Adds a write. With the same [idempotencyKey] twice, the second call returns the first.
@@ -189,6 +197,9 @@ class OutboxFlusher {
           item.path,
           body: item.body,
           options: ApiOptions(retries: 0, idempotencyKey: item.idempotencyKey),
+          // Its owner's token only. After an account switch the refusal (accountChanged) is an
+          // unauthorized error: the item is kept for its owner and the flush stops.
+          expectUserId: item.userId,
         );
         await repository.remove(item.id);
         results.add(OutboxResult(item, OutboxResultKind.sent, response: response));

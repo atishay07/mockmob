@@ -81,6 +81,8 @@ void main() {
 
     expect(find.text(AuthCopy.loadFailedTitle), findsOneWidget);
     expect(find.text(AuthCopy.tryingAgain), findsOneWidget);
+    // The key shows its spinner while the retry runs (StateAction.loading).
+    expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, AuthCopy.tryingAgain)).loading, isTrue);
     await tester.tap(find.text(AuthCopy.tryingAgain));
     await tester.pump();
     expect(auth.retries, 0);

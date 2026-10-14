@@ -116,7 +116,8 @@ void main() {
                   repair: const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25),
                 ),
               );
-              final main = start == NotificationPermission.denied && asks >= 2 ? 'Open settings' : 'Allow reminders';
+              // Once Android has stopped asking (denied), the main key opens settings, whatever the wording.
+              final main = start == NotificationPermission.denied ? 'Open settings' : 'Allow reminders';
               for (final label in [main, 'Not now']) {
                 final key = find.widgetWithText(KeyButton, label);
                 final rect = key.evaluate().isEmpty ? null : tester.getRect(key.first);

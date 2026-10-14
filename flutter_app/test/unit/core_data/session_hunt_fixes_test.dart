@@ -25,10 +25,16 @@ class _SlowApi extends FakeSessionApi {
   Completer<void>? putHold;
 
   @override
-  Future<Map<String, dynamic>> submit({required String sessionId, String? sessionTicket, required Map<String, int> answers, required List<SessionEvent> events}) async {
+  Future<Map<String, dynamic>> submit({
+    required String sessionId,
+    String? sessionTicket,
+    required Map<String, int> answers,
+    required List<SessionEvent> events,
+    String? forUserId,
+  }) async {
     final hold = submitHold;
     if (hold != null) await hold.future;
-    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events);
+    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events, forUserId: forUserId);
   }
 
   @override

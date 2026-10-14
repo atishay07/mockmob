@@ -48,6 +48,7 @@ class FakePrefsRepo extends NotificationPrefsRepository {
     Map<String, bool>? channels,
     StudyWindow? studyWindow,
     bool clearStudyWindow = false,
+    String? expectUserId,
   }) async {
     if (updateError != null) throw updateError!;
     final current = state.value ?? NotificationPrefs.defaults;

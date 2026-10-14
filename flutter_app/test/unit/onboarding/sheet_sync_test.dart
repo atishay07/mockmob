@@ -45,6 +45,7 @@ class _FakeAuth extends AuthController {
 
 const _newAccount = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com');
 const _existing = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'asha@example.com', subjects: ['english']);
+const _otherWithPlan = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com', subjects: ['english']);
 
 final _sealed = OnboardingAnswers(
   stage: Stage.classTwelve,
@@ -276,6 +277,57 @@ void main() {
     });
   });
 
+  // R3 of the 14 Oct audit: deleting the account removes its unsent sheet from the phone. A plain
+  // sign-out puts it away for a month; the deletion screen promises unsent answers are removed.
+  group('account deletion', () {
+    _FakeAuth authOf(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
+
+    test('removes the unsent sheet, and the sign-out after it puts nothing away', () async {
+      final c = start(auth: AuthSnapshot.signedOut);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      // A signs in to an account that already has a plan: the sheet stays on the phone, unsent.
+      authOf(c).become(_existing);
+      await settle();
+      expect(c.read(onboardingAnswersProvider).value!.owner, 'u1');
+      expect(c.read(onboardingAnswersProvider).value!.syncedFor, isNull);
+
+      await c.read(onboardingAnswersProvider.notifier).discard('u1');
+      authOf(c).become(AuthSnapshot.signedOut);
+      await settle();
+      await c.read(onboardingAnswersProvider.notifier).flushed();
+
+      final store = AnswersStore(sheetPrefs);
+      expect(await store.parked('u1', today), isNull, reason: 'nothing is put away for a deleted account');
+      expect((await store.load()).blank, isTrue, reason: 'the sheet left the phone');
+      expect(c.read(studentSheetProvider), isNull);
+    });
+
+    test("also removes a copy put away earlier, and leaves another account's sheet alone", () async {
+      final c = start(auth: _otherWithPlan);
+      await c.read(onboardingAnswersProvider.future);
+      final store = AnswersStore(sheetPrefs);
+      await store.park(_sealed.copyWith(owner: 'u1'), today);
+      final before = c.read(onboardingAnswersProvider).value;
+
+      await c.read(onboardingAnswersProvider.notifier).discard('u1');
+      expect(await store.parked('u1', today), isNull);
+      expect(c.read(onboardingAnswersProvider).value, same(before), reason: "u2's sheet is not u1's to remove");
+    });
+
+    test('a plain sign-out still puts the unsent sheet away for its account', () async {
+      final c = start(auth: AuthSnapshot.signedOut);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      authOf(c).become(_existing);
+      await settle();
+      authOf(c).become(AuthSnapshot.signedOut);
+      await settle();
+      await c.read(onboardingAnswersProvider.notifier).flushed();
+      expect((await AnswersStore(sheetPrefs).parked('u1', today))?.sealed, isTrue);
+    });
+  });
+
   group('another account on the same phone', () {
     const other = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com');
     _FakeAuth auth(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
@@ -433,7 +485,7 @@ void main() {
       final gate = http.hold = Completer<void>();
       c.read(sheetSyncProvider);
       await settle();
-      expect(writes(), isNotEmpty, reason: 'the first write is out with A's token');
+      expect(writes(), isNotEmpty, reason: "the first write is out with A's token");
       expect(writes().map((r) => r.headers['Authorization']).toSet(), {'Bearer tok-1'});
       // B signs in while that request is out; the signed-in state has not caught up yet.
       tokens

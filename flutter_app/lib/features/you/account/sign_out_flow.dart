@@ -8,6 +8,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/sync/pending_work.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../copy.dart';
 
 /// What is only on this phone, and whether it could be read.
@@ -103,6 +104,17 @@ class _SignOutSheet extends ConsumerWidget {
 
 /// Signs out through the auth controller, which clears tokens, local drafts and the usage-data
 /// queue. Queued study writes stay for the same account to send ([keepQueuedWork]); account
-/// deletion drops them. Throws on failure so the caller can say so.
-Future<void> performSignOut(WidgetRef ref, {bool keepQueuedWork = true}) =>
-    ref.read(authSnapshotProvider.notifier).signOut(keepQueuedWork: keepQueuedWork);
+/// deletion drops them, and the account's unsent onboarding sheet with them (otherwise the
+/// sign-out would put it away on this phone for a month). Throws on failure so the caller can
+/// say so.
+Future<void> performSignOut(WidgetRef ref, {bool keepQueuedWork = true}) async {
+  final userId = ref.read(authSnapshotProvider).userId;
+  if (!keepQueuedWork && userId != null) {
+    try {
+      await ref.read(onboardingAnswersProvider.notifier).discard(userId);
+    } on Object {
+      // The sign-out still goes ahead; a copy left behind expires with the put-away sheets.
+    }
+  }
+  await ref.read(authSnapshotProvider.notifier).signOut(keepQueuedWork: keepQueuedWork);
+}

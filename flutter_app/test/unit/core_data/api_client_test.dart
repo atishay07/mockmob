@@ -129,7 +129,7 @@ void main() {
   // onboarding-sheet-r2-03: a request reads the token when it goes out, so a write started for
   // one account must not leave with the token of an account that signed in while it waited.
   group('a write that names its account', () {
-    test('goes out as usual while the token is that account's', () async {
+    test("goes out as usual while the token is that account's", () async {
       http.replies.add(const FakeReply(200, {'daysPerWeek': 4}));
       final r = await api.put('/api/me/goal', body: {'daysPerWeek': 4}, expectUserId: 'u1');
       expect(r.status, 200);
@@ -148,7 +148,7 @@ void main() {
       expect(e.isAccountChanged, isTrue);
       expect(e.isUnauthorized, isTrue);
       expect(e.status, isNull, reason: 'nothing reached the server');
-      expect(http.requests, isEmpty, reason: 'nothing was sent with B's token');
+      expect(http.requests, isEmpty, reason: "nothing was sent with B's token");
     });
 
     test('every write method checks it: post, put, patch, delete and a replayed request', () async {
@@ -183,11 +183,11 @@ void main() {
       final e = await errorOf(api.put('/api/me/goal', body: const {}, expectUserId: 'u1'));
       expect(e.isAccountChanged, isTrue);
       expect(switching.refreshCalls, 1);
-      expect(http.requests, hasLength(1), reason: 'only the first, with A's token');
+      expect(http.requests, hasLength(1), reason: "only the first, with A's token");
       expect(http.requests.single.headers['Authorization'], 'Bearer tok-1');
     });
 
-    test('a write that names no account, and every read, are unaffected', () async {
+    test('a call that names no account goes out as before, write or read', () async {
       tokens.userId = null;
       http.replies
         ..add(const FakeReply(200, {}))
@@ -195,6 +195,38 @@ void main() {
       await api.put('/api/me/goal', body: const {});
       await api.get('/api/me/goal');
       expect(http.requests, hasLength(2));
+    });
+
+    test('a read that names its account is refused the same way', () async {
+      tokens
+        ..token = 'tok-b'
+        ..userId = 'u2';
+      final e = await errorOf(api.get('/api/attempts/sess-1', expectUserId: 'u1'));
+      expect(e.isAccountChanged, isTrue);
+      expect(http.requests, isEmpty);
+    });
+
+    test('a retry after a network failure checks the account again', () async {
+      // The first try fails in transit; B signs in before the retry goes out.
+      http.handler = (options) {
+        tokens
+          ..token = 'tok-b'
+          ..userId = 'u2';
+        return const FakeReply.network();
+      };
+      final e = await errorOf(api.put('/api/me/goal', body: const {}, expectUserId: 'u1', options: const ApiOptions(retries: 2)));
+      expect(e.isAccountChanged, isTrue);
+      expect(http.requests.map((r) => r.headers['Authorization']), ['Bearer tok-1'], reason: "the retry never went out with B's token");
+    });
+
+    test('a 401 is not sent again with the refused token once the session has ended', () async {
+      // The refresh reports success, but by the time the call is repeated nobody is signed in.
+      tokens.tokenAfterRefresh = null;
+      http.replies.add(const FakeReply(401, {'error': 'Unauthorized'}));
+      final e = await errorOf(api.put('/api/me/goal', body: const {}, expectUserId: 'u1'));
+      expect(e.isUnauthorized, isTrue);
+      expect(e.isAccountChanged, isFalse);
+      expect(http.requests, hasLength(1), reason: 'only the first, refused call went out');
     });
   });
 

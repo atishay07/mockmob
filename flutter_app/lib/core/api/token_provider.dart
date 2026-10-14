@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// An access token and the MockMob account it belongs to.
 class ApiToken {
   const ApiToken(this.value, {this.userId});
@@ -5,8 +7,9 @@ class ApiToken {
   final String value;
 
   /// The MockMob user id of the account the token was issued to. Null when the provider cannot
-  /// tell: a session whose profile has not loaded yet, or the background isolate, which never
-  /// knows. A write that names the account it is for is refused unless this matches.
+  /// tell: a session whose profile has not loaded yet, or (in the background isolate) a session
+  /// no profile was ever loaded for on this phone. A write that names the account it is for is
+  /// refused unless this matches.
   final String? userId;
 }
 
@@ -35,4 +38,19 @@ class RefreshUnavailable implements Exception {
 
   @override
   String toString() => 'RefreshUnavailable';
+}
+
+/// The `sub` claim of a Supabase access token: the Supabase user it was issued to. Read without
+/// checking the signature, which is the server's job; the app only asks whose its own token is.
+/// Null when [token] is not a readable JWT.
+String? jwtSubject(String token) {
+  final parts = token.split('.');
+  if (parts.length != 3) return null;
+  try {
+    final claims = jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+    final sub = claims is Map ? claims['sub'] : null;
+    return sub is String && sub.isNotEmpty ? sub : null;
+  } on FormatException {
+    return null;
+  }
 }

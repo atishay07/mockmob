@@ -123,6 +123,56 @@ void main() {
     expect((await repo.pending()).length, 1);
   });
 
+  // R2 of the 14 Oct audit: a replay names the item's owner, so a queued write is never sent
+  // with the token of an account that signed in after it was queued.
+  group("a replayed write goes out only with its owner's token", () {
+    test('each item carries the account it was queued for', () async {
+      final mine = await add(key: 'mine-key-0000001');
+      expect(mine.userId, 'u1');
+      expect((await repo.pending()).single.userId, 'u1');
+    });
+
+    test("with another account's token nothing is sent, the item is kept and the flush stops", () async {
+      final tokens = FakeTokens(userId: 'u2', token: 'tok-b');
+      flusher = OutboxFlusher(repository: repo, api: newApiClient(http, tokens: tokens, now: () => now), now: () => now);
+      await add(key: 'first-key-000001');
+      await add(key: 'second-key-00002');
+      final results = await flusher.flush();
+      expect(http.requests, isEmpty, reason: "nothing of u1's goes out with u2's token");
+      expect(results.single.kind, OutboxResultKind.retryLater, reason: 'stops at the first: nothing after it can go either');
+      expect(results.single.error?.isAccountChanged, isTrue);
+      final kept = await repo.pending();
+      expect(kept, hasLength(2), reason: 'never dropped');
+      expect(kept.first.lastErrorCode, 'account_changed');
+    });
+
+    test('with a token whose account is not known yet nothing is sent either', () async {
+      final tokens = FakeTokens(userId: null);
+      flusher = OutboxFlusher(repository: repo, api: newApiClient(http, tokens: tokens, now: () => now), now: () => now);
+      await add();
+      final results = await flusher.flush();
+      expect(http.requests, isEmpty);
+      expect(results.single.kind, OutboxResultKind.retryLater);
+      expect(await repo.pending(), hasLength(1));
+    });
+
+    test('once its owner is signed in again it goes out', () async {
+      final tokens = FakeTokens(userId: 'u2', token: 'tok-b');
+      flusher = OutboxFlusher(repository: repo, api: newApiClient(http, tokens: tokens, now: () => now), now: () => now);
+      await add();
+      await flusher.flush();
+      tokens
+        ..userId = 'u1'
+        ..token = 'tok-1';
+      now = now.add(const Duration(hours: 2));
+      http.replies.add(const FakeReply(200, {}));
+      final results = await flusher.flush();
+      expect(results.single.kind, OutboxResultKind.sent);
+      expect(http.requests.single.headers['Authorization'], 'Bearer tok-1');
+      expect(await repo.pending(), isEmpty);
+    });
+  });
+
   test('the pending count stream follows the table', () async {
     final seen = <int>[];
     final sub = repo.watchPendingCount().listen(seen.add);

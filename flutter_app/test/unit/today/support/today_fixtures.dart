@@ -145,6 +145,8 @@ TodayInputs ashaInputs({
   TodayProfile? profile = ashaProfile,
   Map<String, Set<String>> repaired = const {},
   Set<DismissalKey> dismissed = const {},
+  Duration attemptsAge = const Duration(minutes: 70),
+  Duration planAge = const Duration(minutes: 70),
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -152,10 +154,10 @@ TodayInputs ashaInputs({
     firstName: 'Asha',
     subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
     attempts: attempts ?? ashaRecord(at),
-    attemptsFetchedAt: at.subtract(const Duration(minutes: 70)),
+    attemptsFetchedAt: at.subtract(attemptsAge),
     attemptsStale: offline,
     plan: readyPlan(),
-    planFetchedAt: at.subtract(const Duration(minutes: 70)),
+    planFetchedAt: at.subtract(planAge),
     planStale: offline,
     week: tuesdayWeek,
     returning: returning,

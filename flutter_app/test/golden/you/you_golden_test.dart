@@ -190,7 +190,7 @@ void main() {
     () => const DeleteScreen(),
     overrides: () {
       final api = MockApi();
-      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer(
+      when(() => api.post('/api/me/delete', body: any(named: 'body'), expectUserId: any(named: 'expectUserId'))).thenAnswer(
         (_) async => ApiResponse(200, {
           'status': 'pending',
           'requestedAt': DateTime(2026, 10, 12, 22, 39).toUtc().toIso8601String(),

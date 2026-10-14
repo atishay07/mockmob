@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'prefs_store.dart';
 
 /// Appearance choice stored in preferences. Mapped to `ThemeMode` by the theme module.
@@ -24,6 +26,7 @@ class AppPrefs {
   static const _notifPermissionAsked = 'notif_permission_asked';
   static const _stopCollecting = 'analytics_stop_user';
   static const _lastUserId = 'last_user_id';
+  static const _sessionAccount = 'session_account';
   static const _keepOffline = 'learn_offline_subjects';
   static const _lastOpenedAt = 'last_opened_at';
   static const _cachedMe = 'cached_auth_me';
@@ -95,6 +98,27 @@ class AppPrefs {
   /// The MockMob user id seen last. A different id on the next launch means an account switch.
   Future<String?> lastUserId() => _prefs.getString(_lastUserId);
   Future<void> setLastUserId(String? id) => id == null ? _prefs.remove(_lastUserId) : _prefs.setString(_lastUserId, id);
+
+  /// The MockMob account last loaded on this phone for the Supabase user [sessionUserId], or
+  /// null when the last one loaded was for another Supabase user (or none was). Lets the
+  /// background job name the account a stored token belongs to, so it never sends one
+  /// account's queued work with another's token.
+  Future<String?> accountForSession(String sessionUserId) async {
+    final raw = await _prefs.getString(_sessionAccount);
+    if (raw == null) return null;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map || decoded['session'] != sessionUserId) return null;
+      final account = decoded['account'];
+      return account is String && account.isNotEmpty ? account : null;
+    } on FormatException {
+      return null;
+    }
+  }
+
+  /// Records that the profile of [userId] was loaded for the Supabase user [sessionUserId].
+  Future<void> setSessionAccount({required String sessionUserId, required String userId}) =>
+      _prefs.setString(_sessionAccount, jsonEncode({'session': sessionUserId, 'account': userId}));
 
   /// Subject ids the student chose to keep for offline use in Learn.
   Future<Set<String>> offlineLearnSubjects() async => (await _prefs.getStringList(_keepOffline))?.toSet() ?? <String>{};

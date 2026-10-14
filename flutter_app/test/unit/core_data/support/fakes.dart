@@ -127,6 +127,9 @@ class FakeSessionApi implements SessionApi {
   int resumeCalls = 0;
   int fetchCalls = 0;
 
+  /// The owner each attempt read named.
+  final List<String?> fetchedFor = [];
+
   @override
   Future<int> putEvents({required String sessionId, required List<SessionEvent> events}) async {
     final failure = putFailure?.call();
@@ -143,15 +146,22 @@ class FakeSessionApi implements SessionApi {
   }
 
   @override
-  Future<Map<String, dynamic>> submit({required String sessionId, String? sessionTicket, required Map<String, int> answers, required List<SessionEvent> events}) async {
-    submits.add({'sessionId': sessionId, 'sessionTicket': sessionTicket, 'answers': answers, 'events': List.of(events)});
+  Future<Map<String, dynamic>> submit({
+    required String sessionId,
+    String? sessionTicket,
+    required Map<String, int> answers,
+    required List<SessionEvent> events,
+    String? forUserId,
+  }) async {
+    submits.add({'sessionId': sessionId, 'sessionTicket': sessionTicket, 'answers': answers, 'events': List.of(events), 'forUserId': forUserId});
     if (submitFailure != null) throw submitFailure!;
     return submitResult;
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchAttempt(String attemptId) async {
+  Future<Map<String, dynamic>?> fetchAttempt(String attemptId, {String? forUserId}) async {
     fetchCalls++;
+    fetchedFor.add(forUserId);
     return attemptOnFetch;
   }
 }

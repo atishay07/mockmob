@@ -242,6 +242,28 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     await _writes;
   }
 
+  /// Removes [userId]'s sheet from the phone when its account is being deleted: the sheet on
+  /// screen (when it is that account's) and any copy put away for it. Unlike [leave], nothing is
+  /// kept for a later sign-in. Call it before the sign-out, so the sign-out has nothing of that
+  /// account's to put away. Throws when the put-away copy could not be removed.
+  Future<void> discard(String userId) async {
+    final store = ref.read(answersStoreProvider);
+    try {
+      // The stored sheet is read first, so one that has not loaded yet is removed too.
+      await future;
+    } on Object {
+      // Unreadable: handled below.
+    }
+    await _writes;
+    await store.dropParked(userId, ref.read(nowProvider)());
+    final a = state.value;
+    // A sheet that could not be read stays as it is (its backup is the student's to recover).
+    if (!ref.mounted || !_readOk || a == null || a.owner != userId) return;
+    state = const AsyncData(OnboardingAnswers.empty);
+    _queue(store.clear);
+    await _writes;
+  }
+
   /// Puts [a] away for its owner, unless it is blank, has no owner, or is already on its account.
   Future<void> _putAway(OnboardingAnswers a, AnswersStore store, DateTime now) async {
     if (a.owner == null || a.blank || a.syncedFor == a.owner) return;

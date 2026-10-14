@@ -66,9 +66,11 @@ class BackgroundEnvironment {
   static Future<BackgroundEnvironment> open() async {
     const config = AppConfig.fromEnvironment();
     final store = const FlutterSecureStore();
-    final tokens = BackgroundTokenRefresher(config: config, store: store, lock: await openSessionLock());
-    final db = AppDatabase.open();
     final prefs = AppPrefs(SharedPrefsStore());
+    // Names the account of the stored token, so a paper or a queued write is sent only with its
+    // owner's token.
+    final tokens = BackgroundTokenRefresher(config: config, store: store, lock: await openSessionLock(), accountFor: prefs.accountForSession);
+    final db = AppDatabase.open();
     final cached = await (db.select(db.cacheEntries)..where((t) => t.cacheKey.equals('notification-prefs'))).get();
     NotificationPrefs notificationPrefs = NotificationPrefs.defaults;
     if (cached.isNotEmpty) {
@@ -125,7 +127,7 @@ Future<bool> runSubmitSessionTask(BackgroundEnvironment env, Map<String, dynamic
   final clock = SessionClock()..restore(startedRefWallMs: draft.startedRefWallMs, endsAtWallMs: draft.endsAtWallMs);
 
   final submitter = SessionSubmitter(
-    api: ApiSessionApi(env.api),
+    api: ApiSessionApi(env.api, userId: userId),
     drafts: drafts,
     pendingResults: PendingResultRepository(scope),
     cacheAttempt: (attempt) => _cacheAttempt(env, userId, attempt),

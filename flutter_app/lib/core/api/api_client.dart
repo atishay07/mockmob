@@ -96,13 +96,16 @@ class ApiClient {
 
   static const _retryDelays = [Duration(milliseconds: 400), Duration(milliseconds: 1200)];
 
-  Future<ApiResponse> get(String path, {Map<String, Object?>? query, ApiOptions options = const ApiOptions()}) =>
-      _send('GET', path, query: query, options: options);
+  // Every call can take [expectUserId]: the MockMob user id it is for. When the token at hand
+  // belongs to anyone else, or to an account the token source cannot name (the student signed
+  // out and another account signed in while the call waited), nothing is sent and
+  // [ApiError.accountChanged] is thrown. Checked again when a 401 is retried with a refreshed
+  // token. Every write that can outlive the screen that started it names its account; a read
+  // names one when its answer decides what happens to the student's work (a submitted paper's
+  // attempt, for example).
 
-  // The writes take [expectUserId]: the MockMob user id the write is for. When the token at
-  // hand belongs to anyone else (the student signed out and another account signed in while the
-  // write waited), nothing is sent and [ApiError.accountChanged] is thrown. Checked again when
-  // a 401 is retried with a refreshed token.
+  Future<ApiResponse> get(String path, {Map<String, Object?>? query, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
+      _send('GET', path, query: query, options: options, expectUserId: expectUserId);
 
   Future<ApiResponse> post(String path, {Object? body, Map<String, Object?>? query, ApiOptions options = const ApiOptions(), String? expectUserId}) =>
       _send('POST', path, body: body, query: query, options: options, expectUserId: expectUserId);
@@ -292,14 +295,20 @@ class _AuthInterceptor extends Interceptor {
     try {
       options.extra[ApiClient._retriedKey] = true;
       final token = await _client._tokens.accountToken();
-      // The refreshed session may be another account's by now: a write for the first one is
+      // Signed out since the refresh: the call is not repeated with the token that was refused.
+      if (token == null || token.value.isEmpty) {
+        return handler.next(
+          DioException(requestOptions: options, type: DioExceptionType.unknown, error: const ApiError.signedOut()),
+        );
+      }
+      // The refreshed session may be another account's by now: a call for the first one is
       // not repeated with it.
-      if (token != null && !_forExpectedUser(options, token)) {
+      if (!_forExpectedUser(options, token)) {
         return handler.next(
           DioException(requestOptions: options, type: DioExceptionType.unknown, error: const ApiError.accountChanged()),
         );
       }
-      if (token != null) options.headers['Authorization'] = 'Bearer ${token.value}';
+      options.headers['Authorization'] = 'Bearer ${token.value}';
       final retried = await _client.dio.fetch<Object?>(options);
       handler.resolve(retried);
     } on DioException catch (e) {

@@ -303,6 +303,8 @@ class AuthController extends Notifier<AuthSnapshot> {
     }
     if (_stale(epoch, session)) return;
     await prefs.setLastUserId(user.id);
+    // The background job reads this to name the account its stored token belongs to.
+    await prefs.setSessionAccount(sessionUserId: session.user.id, userId: user.id);
     if (!fromCache) {
       await prefs.setCachedMe(jsonEncode({
         'user': {
@@ -493,6 +495,8 @@ class AuthController extends Notifier<AuthSnapshot> {
       await _bestEffort(() => prefs.setCachedMe(null));
     } finally {
       if (tokensCleared) {
+        // No token of this session is attributed to the account any more.
+        _profileSessionUser = null;
         // Once more, last: a re-plan that was running when the first cancel went out can have
         // scheduled this account's reminders again since. With the tokens gone none starts now.
         await _bestEffort(() => ref.read(notificationServiceProvider).cancelAll());

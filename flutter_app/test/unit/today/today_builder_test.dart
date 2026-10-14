@@ -414,6 +414,19 @@ void main() {
       expect(buildHeader(ashaInputs()).updatedLine, isNull);
     });
 
+    // The papers are the list's last full read, kept on the phone while the plan is read again:
+    // the line gives the older of the two times, so days-old papers never read as fresh.
+    test('the updated time is the older of the plan and the papers', () {
+      expect(
+        buildHeader(ashaInputs(offline: true, attemptsAge: const Duration(hours: 3, minutes: 10))).updatedLine,
+        'Updated 5:30 PM. You are offline.',
+      );
+      expect(
+        buildHeader(ashaInputs(offline: true, planAge: const Duration(hours: 3, minutes: 10))).updatedLine,
+        'Updated 5:30 PM. You are offline.',
+      );
+    });
+
     test('the week row draws the plan: counted, planned, rest', () {
       final week = buildHeader(ashaInputs()).week!;
       expect(week.days.map((d) => d.mark.name), ['done', 'planned', 'rest', 'planned', 'rest', 'planned', 'rest']);

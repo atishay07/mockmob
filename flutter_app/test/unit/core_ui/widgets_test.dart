@@ -279,6 +279,35 @@ void main() {
       expect(find.text('Go to Today'), findsOneWidget);
     });
 
+    // A running action: the main key turns its spinner in place, keeps its label and size, and
+    // ignores taps until it is done. The quiet second key has no spinner.
+    testWidgets('a loading main action shows it, keeps its size and ignores taps', (tester) async {
+      var retried = 0;
+      Future<void> pump({required bool loading}) => pumpMockmob(
+            tester,
+            StateView(
+              kind: StateViewKind.error,
+              title: 'We could not load this week',
+              message: 'Your record is as you left it.',
+              primary: StateAction('Try again', () => retried++, loading: loading),
+              secondary: StateAction('Go to Today', () {}, loading: loading),
+            ),
+            disableAnimations: true,
+          );
+      await pump(loading: false);
+      final idle = tester.getSize(find.widgetWithText(KeyButton, 'Try again'));
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Try again')).loading, isFalse);
+
+      await pump(loading: true);
+      final key = find.widgetWithText(KeyButton, 'Try again');
+      expect(tester.widget<KeyButton>(key).loading, isTrue);
+      expect(tester.getSize(key), idle, reason: 'nothing moves while it runs');
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Go to Today')).loading, isFalse);
+      await tester.tap(key, warnIfMissed: false);
+      await tester.pump();
+      expect(retried, 0, reason: 'a loading key ignores taps');
+    });
+
     testWidgets('scrolls instead of overflowing at large text', (tester) async {
       await pumpMockmob(
         tester,

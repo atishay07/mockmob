@@ -13,22 +13,31 @@ abstract class SessionApi {
   Future<SessionView> resume(String sessionId);
 
   /// `POST /api/attempts`: submits and returns the scored attempt JSON. Idempotent: a repeat
-  /// for an existing attempt returns the saved attempt.
+  /// for an existing attempt returns the saved attempt. [forUserId] is the paper's owner: the
+  /// submit is never sent with another account's token (`ApiError.accountChanged`).
   Future<Map<String, dynamic>> submit({
     required String sessionId,
     String? sessionTicket,
     required Map<String, int> answers,
     required List<SessionEvent> events,
+    String? forUserId,
   });
 
-  /// `GET /api/attempts/{id}`. Null on 404 (no such attempt for this account).
-  Future<Map<String, dynamic>?> fetchAttempt(String attemptId);
+  /// `GET /api/attempts/{id}`. Null on 404 (no such attempt for this account). [forUserId] as
+  /// for [submit]: a 404 closes the paper, so only its owner's token may ask.
+  Future<Map<String, dynamic>?> fetchAttempt(String attemptId, {String? forUserId});
 }
 
 class ApiSessionApi implements SessionApi {
-  ApiSessionApi(this._api);
+  ApiSessionApi(this._api, {this.userId});
 
   final ApiClient _api;
+
+  /// The account whose papers these calls are for. When set, no call goes out with another
+  /// account's token ([ApiError.accountChanged], which never ends a submit): sent with the
+  /// wrong token, the server would refuse the paper or say it has no such attempt, and that
+  /// answer would end the student's unsent paper.
+  final String? userId;
 
   @override
   Future<int> putEvents({required String sessionId, required List<SessionEvent> events}) async {
@@ -36,13 +45,14 @@ class ApiSessionApi implements SessionApi {
       '/api/sessions',
       body: {'sessionId': sessionId, 'events': [for (final e in events) e.toJson()]},
       options: const ApiOptions(retries: 0),
+      expectUserId: userId,
     );
     return (response.map['acknowledgedSequence'] as num?)?.toInt() ?? 0;
   }
 
   @override
   Future<SessionView> resume(String sessionId) async {
-    final response = await _api.post('/api/sessions', body: {'sessionId': sessionId}, options: const ApiOptions(retries: 0));
+    final response = await _api.post('/api/sessions', body: {'sessionId': sessionId}, options: const ApiOptions(retries: 0), expectUserId: userId);
     return SessionView.fromJson(response.map);
   }
 
@@ -52,6 +62,7 @@ class ApiSessionApi implements SessionApi {
     String? sessionTicket,
     required Map<String, int> answers,
     required List<SessionEvent> events,
+    String? forUserId,
   }) async {
     final response = await _api.post(
       '/api/attempts',
@@ -64,14 +75,20 @@ class ApiSessionApi implements SessionApi {
       // The final submit never waits behind a 429 hold from the events PUT: the grace window is
       // only 120 s and the syncer already runs its own back-off.
       options: const ApiOptions(retries: 0, bypassRateGate: true, receiveTimeout: Duration(seconds: 45)),
+      expectUserId: forUserId ?? userId,
     );
     return scoredAttempt(response);
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchAttempt(String attemptId) async {
+  Future<Map<String, dynamic>?> fetchAttempt(String attemptId, {String? forUserId}) async {
     try {
-      final response = await _api.get('/api/attempts/$attemptId', options: const ApiOptions(retries: 1, bypassRateGate: true));
+      // A 404 here closes the paper, so it is asked only with its owner's token.
+      final response = await _api.get(
+        '/api/attempts/$attemptId',
+        options: const ApiOptions(retries: 1, bypassRateGate: true),
+        expectUserId: forUserId ?? userId,
+      );
       return scoredAttempt(response);
     } on ApiError catch (e) {
       if (e.kind == ApiErrorKind.notFound) return null;

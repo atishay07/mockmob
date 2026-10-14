@@ -121,7 +121,9 @@ final syncCoordinatorProvider = Provider<SyncCoordinator>((ref) {
 final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
   final userId = ref.watch(userIdProvider);
   if (userId == null) throw const SignedOutException();
-  final api = ApiSessionApi(ref.watch(apiClientProvider));
+  // Every call names the paper's owner, so none goes out with the token of an account that
+  // signed in since.
+  final api = ApiSessionApi(ref.watch(apiClientProvider), userId: userId);
   final drafts = ref.watch(sessionDraftRepositoryProvider);
   final registry = ref.read(pendingWorkRegistryProvider.notifier);
   final scope = ref.watch(localScopeProvider);

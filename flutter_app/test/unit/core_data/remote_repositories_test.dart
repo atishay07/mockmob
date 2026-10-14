@@ -221,6 +221,71 @@ void main() {
       expect((await db.select(db.cachedAttempts).get()).length, 3);
     });
 
+    // The list's time is its last full read from the server. A submitted paper joining it does
+    // not make the rest of it fresher, on screen or after a restart.
+    group('the list keeps its own fetch time', () {
+      ProviderContainer restart() {
+        final quiet = FakeHttpAdapter();
+        final next = ProviderContainer(overrides: [
+          authSnapshotProvider.overrideWith(() => _FakeAuth(_signedIn)),
+          appDatabaseProvider.overrideWithValue(db),
+          apiClientProvider.overrideWithValue(newApiClient(quiet)),
+          nowProvider.overrideWithValue(() => now),
+        ]);
+        addTearDown(next.dispose);
+        return next;
+      }
+
+      test('a submit days later leaves it as it was', () async {
+        final readAt = now;
+        http.replies.add(FakeReply(200, jsonEncode(list(2))));
+        container.read(attemptsRepositoryProvider);
+        await until(() => container.read(attemptsRepositoryProvider).value != null && !container.read(attemptsRepositoryProvider).loading);
+        expect(container.read(attemptsRepositoryProvider).fetchedAt, readAt);
+
+        now = now.add(const Duration(days: 2));
+        await container.read(attemptsRepositoryProvider.notifier).upsertSubmitted(attemptJson(id: 'new', completedAt: 99999, questions: chapterOf('A', right: 1)));
+        expect(container.read(attemptsRepositoryProvider).value!.first.id, 'new');
+        expect(container.read(attemptsRepositoryProvider).fetchedAt, readAt, reason: 'the other papers are as old as before');
+
+        final next = restart();
+        next.read(attemptsRepositoryProvider);
+        await until(() => next.read(attemptsRepositoryProvider).value != null);
+        expect(next.read(attemptsRepositoryProvider).value!.length, 3);
+        expect(next.read(attemptsRepositoryProvider).fetchedAt?.millisecondsSinceEpoch, readAt.millisecondsSinceEpoch, reason: 'nor after a restart');
+      });
+
+      test("a list cached without that record takes its oldest row's time", () async {
+        final readAt = now;
+        http.replies.add(FakeReply(200, jsonEncode(list(2))));
+        container.read(attemptsRepositoryProvider);
+        await until(() => container.read(attemptsRepositoryProvider).value != null && !container.read(attemptsRepositoryProvider).loading);
+        // As an older version left it: rows only.
+        await (db.delete(db.cacheEntries)..where((t) => t.cacheKey.equals(attemptsListFetchKey))).go();
+        now = now.add(const Duration(days: 2));
+        await container.read(attemptsRepositoryProvider.notifier).upsertSubmitted(attemptJson(id: 'new', completedAt: 99999, questions: chapterOf('A', right: 1)));
+
+        final next = restart();
+        next.read(attemptsRepositoryProvider);
+        await until(() => next.read(attemptsRepositoryProvider).value != null);
+        expect(next.read(attemptsRepositoryProvider).fetchedAt?.millisecondsSinceEpoch, readAt.millisecondsSinceEpoch);
+      });
+
+      test('a full read moves it on', () async {
+        http.replies.add(FakeReply(200, jsonEncode(list(2))));
+        container.read(attemptsRepositoryProvider);
+        await until(() => container.read(attemptsRepositoryProvider).value != null && !container.read(attemptsRepositoryProvider).loading);
+        now = now.add(const Duration(days: 2));
+        http.replies.add(FakeReply(200, jsonEncode(list(3))));
+        await container.read(attemptsRepositoryProvider.notifier).refresh(force: true);
+        expect(container.read(attemptsRepositoryProvider).fetchedAt, now);
+        final next = restart();
+        next.read(attemptsRepositoryProvider);
+        await until(() => next.read(attemptsRepositoryProvider).value != null);
+        expect(next.read(attemptsRepositoryProvider).fetchedAt?.millisecondsSinceEpoch, now.millisecondsSinceEpoch);
+      });
+    });
+
     test('detail reads one attempt with its answer reviews and caches it', () async {
       http.replies.add(FakeReply(200, {...attemptJson(id: 'a1', questions: chapterOf('A', right: 1, wrong: 1)), 'answerReviews': {}, 'answerReviewState': 'ready'}));
       container.read(attemptDetailProvider('a1'));

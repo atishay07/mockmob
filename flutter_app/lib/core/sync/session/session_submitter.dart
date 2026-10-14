@@ -101,6 +101,10 @@ class SessionSubmitter {
         sessionTicket: draft.view.meta.sessionTicket,
         answers: journal.answers,
         events: journal.eventsWithin(durationMs),
+        // Only ever with the owner's token: sent with another account's, the server would refuse
+        // the paper and the refusal would end it. The guard's refusal is not definitive, so the
+        // submit stays owed and goes out once the owner is signed in again.
+        forUserId: draft.userId,
       );
       return await _received(draft, attempt, finalised: false);
     } on ApiError catch (e) {
@@ -134,7 +138,7 @@ class SessionSubmitter {
   /// (the result opens), a 404 means the window really closed.
   Future<SubmitOutcome> _afterExpiry(SessionDraft draft) async {
     try {
-      final attempt = await api.fetchAttempt(draft.sessionId);
+      final attempt = await api.fetchAttempt(draft.sessionId, forUserId: draft.userId);
       if (attempt != null) return _received(draft, attempt, finalised: true);
     } on ApiError catch (e) {
       // Could not ask (offline): keep the draft and say it is still being sent.

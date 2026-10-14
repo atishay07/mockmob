@@ -28,7 +28,7 @@ class _FailingGoalRepo extends FakeGoalRepo {
   _FailingGoalRepo(super.initial);
 
   @override
-  Future<Goal> save({required int daysPerWeek, String? pausedUntil}) async =>
+  Future<Goal> save({required int daysPerWeek, String? pausedUntil, String? expectUserId}) async =>
       throw const ApiError(kind: ApiErrorKind.network, code: 'network');
 }
 

@@ -8,6 +8,8 @@ import 'package:mockmob/core/api/token_provider.dart';
 import 'package:mockmob/core/auth/background_token_refresher.dart';
 import 'package:mockmob/core/auth/session_lock.dart';
 import 'package:mockmob/core/auth/stored_session.dart';
+import 'package:mockmob/core/storage/app_prefs.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/secure_store.dart';
 
 import 'support/fakes.dart';
@@ -121,12 +123,13 @@ void main() {
     late FakeHttpAdapter http;
     late DateTime now;
 
-    BackgroundTokenRefresher newRefresher() => BackgroundTokenRefresher(
+    BackgroundTokenRefresher newRefresher({Future<String?> Function(String sessionUserId)? accountFor}) => BackgroundTokenRefresher(
           config: testConfig,
           store: store,
           lock: SessionLock(lockFile, pollEvery: const Duration(milliseconds: 5)),
           dio: Dio()..httpClientAdapter = http,
           now: () => now,
+          accountFor: accountFor,
         );
 
     void storeSession({required int exp, String access = 'access-1', String refresh = 'refresh-1'}) {
@@ -215,6 +218,76 @@ void main() {
 
     test('no stored session means no token', () async {
       expect(await newRefresher().accessToken(), isNull);
+      expect(await newRefresher().accountToken(), isNull);
+    });
+
+    // The guard in the background: the job names the account of the stored token through the
+    // account the foreground last loaded for that Supabase user, so a paper or a queued write is
+    // sent only with its owner's token.
+    group('the account a stored token belongs to', () {
+      late AppPrefs prefs;
+
+      setUp(() => prefs = AppPrefs(MemoryPrefsStore()));
+
+      test('is the account the foreground loaded for that Supabase user', () async {
+        storeSession(exp: 1000000 + 3600);
+        await prefs.setSessionAccount(sessionUserId: 'sb-user', userId: 'u1');
+        final token = await newRefresher(accountFor: prefs.accountForSession).accountToken();
+        expect(token?.value, 'access-1');
+        expect(token?.userId, 'u1');
+      });
+
+      test('is read from the token itself first', () async {
+        // The token says Supabase user sb-b; the stored session's user field says otherwise.
+        String b64(Object o) => base64Url.encode(utf8.encode(jsonEncode(o))).replaceAll('=', '');
+        final token = '${b64({'alg': 'HS256'})}.${b64({'exp': 1000000 + 3600, 'sub': 'sb-b'})}.sig';
+        storeSession(exp: 1000000 + 3600, access: token);
+        await prefs.setSessionAccount(sessionUserId: 'sb-user', userId: 'u1');
+        expect((await newRefresher(accountFor: prefs.accountForSession).accountToken())?.userId, isNull);
+        await prefs.setSessionAccount(sessionUserId: 'sb-b', userId: 'u2');
+        expect((await newRefresher(accountFor: prefs.accountForSession).accountToken())?.userId, 'u2');
+      });
+
+      test('is unknown for a Supabase user no profile was loaded for on this phone', () async {
+        storeSession(exp: 1000000 + 3600);
+        await prefs.setSessionAccount(sessionUserId: 'sb-someone-else', userId: 'u1');
+        final token = await newRefresher(accountFor: prefs.accountForSession).accountToken();
+        expect(token?.value, 'access-1', reason: 'unnamed calls still work');
+        expect(token?.userId, isNull);
+      });
+
+      test('is unknown when nothing was recorded or the record cannot be read', () async {
+        storeSession(exp: 1000000 + 3600);
+        expect((await newRefresher(accountFor: prefs.accountForSession).accountToken())?.userId, isNull);
+        expect((await newRefresher().accountToken())?.userId, isNull);
+        expect((await newRefresher(accountFor: (_) async => throw StateError('prefs')).accountToken())?.userId, isNull);
+      });
+
+      test('follows a refreshed token', () async {
+        storeSession(exp: 1000000 + 20);
+        await prefs.setSessionAccount(sessionUserId: 'sb-user', userId: 'u1');
+        http.replies.add(const FakeReply(200, {'access_token': 'access-2', 'refresh_token': 'refresh-2', 'expires_in': 3600, 'token_type': 'bearer'}));
+        final token = await newRefresher(accountFor: prefs.accountForSession).accountToken();
+        expect(token?.value, 'access-2');
+        expect(token?.userId, 'u1');
+      });
+    });
+  });
+
+  group('jwtSubject', () {
+    test('reads the sub claim of a JWT', () {
+      String b64(Object o) => base64Url.encode(utf8.encode(jsonEncode(o))).replaceAll('=', '');
+      expect(jwtSubject('${b64({'alg': 'HS256'})}.${b64({'sub': 'sb-1', 'exp': 1})}.sig'), 'sb-1');
+    });
+
+    test('is null for anything that is not a readable JWT with a subject', () {
+      String b64(Object o) => base64Url.encode(utf8.encode(jsonEncode(o))).replaceAll('=', '');
+      expect(jwtSubject('tok-1'), isNull);
+      expect(jwtSubject('a.b'), isNull);
+      expect(jwtSubject('a.%%%.c'), isNull);
+      expect(jwtSubject('${b64({'alg': 'HS256'})}.${b64({'exp': 1})}.sig'), isNull);
+      expect(jwtSubject('${b64({'alg': 'HS256'})}.${b64(['sub'])}.sig'), isNull);
+      expect(jwtSubject('${b64({'alg': 'HS256'})}.${b64({'sub': ''})}.sig'), isNull);
     });
   });
 }
