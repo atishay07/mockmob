@@ -48,8 +48,9 @@ in tmp/nta-review-cleanup/CLEANUP-2026-10-13.md (owner approval needed before an
 
 ## 5. Chapters
 
-Not changed by these fixes. The separate CUET-fit work stores judged chapters for the engine to prefer
-over the database chapter.
+Not changed by these fixes. Since engine r5 (the CUET-fit merge, section 10) the fit judges' majority chapter
+and unit place a row before the database chapter (data/nta_engine.js placementOf); passage children keep the
+database chapter while it maps to the paper, so one passage stays in one set.
 
 ## 6. One concept per paper, without matching tags
 
@@ -94,3 +95,15 @@ possible without them, and how many questions repeat. scripts/nta-engine-run.mjs
 way and reports the repeats and the key positions.
 
 A refusal is worked out once more with a fixed seed, so a student who retries reads the same sentence.
+
+## 10. CUET fit (engine r5, merged from wip/cuet-fit on 14 Oct)
+
+Eligibility needs the quality gate above AND the CUET-fit gate (data/nta_fit_scores.js, rubric
+docs/brain/NTA-CUET-FIT-RUBRIC.md): three fit judges scored the row's current content, fewer than two raised a
+fit flag, and their median fit score is at least `NTA_MIN_FIT_SCORE` (8). Anything missing fails closed
+(`fit_not_judged`, `fit_question_changed`, ...). The judges' majority type is the row's type before the
+engine's heuristic (`classifyNtaType`; `heuristicNtaType` is the heuristic alone), and a type the subject's
+paper never asks is refused (`fit_type_not_in_pattern`). Among eligible rows the newest (by creation day) is
+preferred, then the higher score, then the higher fit median (owner, 13 Oct: "always pick the latest
+questions"). Any text change, such as a listed-order reorder, unbinds the fit entry as it unbinds the agent
+score: the row needs a fresh fit pass.

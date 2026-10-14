@@ -1,0 +1,16 @@
+{
+ "note": "Written by scripts/nta-fit-merge.mjs. Judge result files absent or unusable at merge time; those questions keep the judges they have and stay out of NTA mode until all three judged them.",
+ "merged_at": "2026-10-13T21:16:42.994Z",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "manifest_rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "batches": 297,
+ "result_files": 895,
+ "questions_judged": 2529,
+ "questions_judged_by_three": 2529,
+ "missing_count": 0,
+ "missing": [],
+ "invalid_files": [],
+ "invalid_results": [],
+ "other_flag_counts": {},
+ "orphans": []
+}

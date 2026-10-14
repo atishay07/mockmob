@@ -131,7 +131,7 @@ test('an evidence score counts only while it is signed, unchanged and agrees wit
   };
   const signed = { ...row, evidence: { record, signature: evidenceSignature(record, secret) } };
   const check = (value, key = secret) => ntaEligibility(value, { subject: 'accountancy', secret: key });
-  assert.deepEqual({ ...check(signed), type: undefined }, { eligible: true, reasons: [], score: 8.5, scoreSource: 'evidence_judges', type: undefined });
+  assert.deepEqual({ ...check(signed), type: undefined }, { eligible: true, reasons: [], score: 8.5, scoreSource: 'evidence_judges', type: undefined, fitScore: 9 });
   assert.ok(check(signed, '').reasons.includes('score_unverifiable_no_signing_key'));
   assert.ok(check({ ...signed, evidence: { ...signed.evidence, signature: 'f'.repeat(64) } }).reasons.includes('score_signature_invalid'));
   assert.ok(check({ ...signed, body: `${signed.body} changed`, question: `${signed.question} changed` }).reasons.includes('question_changed_since_scored'));

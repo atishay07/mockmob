@@ -823,13 +823,13 @@ test('bankLookalikes finds the same question in a local export and a near copy o
 });
 
 // ---------------------------------------------------------------------------------------------
-// The fit gate mirror against the real module, when a checkout that has it is available
+// The fit gate mirror against the real module (this checkout's since the CUET-fit merge; NTA_FIT_CHECKOUT names another)
 // ---------------------------------------------------------------------------------------------
 
-const FIT_CHECKOUT = process.env.NTA_FIT_CHECKOUT || path.resolve('..', 'mockmob-fit');
+const FIT_CHECKOUT = process.env.NTA_FIT_CHECKOUT || path.resolve('.');
 const fitModule = path.join(FIT_CHECKOUT, 'data', 'nta_fit_scores.js');
 
-test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for every wave-1 entry, final and first build', { skip: !fs.existsSync(fitModule) && 'no checkout with data/nta_fit_scores.js (set NTA_FIT_CHECKOUT)' }, async () => {
+test('the fit gate mirror agrees with data/nta_fit_scores.js for every wave-1 entry, final and first build', { skip: !fs.existsSync(fitModule) && 'no checkout with data/nta_fit_scores.js (set NTA_FIT_CHECKOUT)' }, async () => {
   const real = await import(pathToFileURL(fitModule).href);
   const mirror = await import('../../scripts/lib/authored-scores.mjs');
   assert.equal(mirror.FIT_RUBRIC_VERSION, real.NTA_FIT_RUBRIC_VERSION);
@@ -853,11 +853,14 @@ test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for
 test('the engine refuses nothing about the first-build rows that the scores can fix: every refusal is a content check', () => {
   const { report } = mergedWave1('admit', FIRST_BUILD_ARGS);
   assert.ok(Object.keys(report.engineIneligibleReasons).length > 0, 'the first build has the 19 content refusals');
-  const scoreReasons = ['no_score', 'score_below_threshold', 'question_changed_since_scored', 'agent_blocking_flag', 'agent_blind_key_mismatch', 'score_needs_both_judges', 'agent_score_uncalibrated', 'agent_score_rubric_outdated', 'seed_or_demo_row', 'id_not_uuid', 'not_published', 'key_disputed', 'nta_quarantined', 'agent_key_dispute'];
+  const scoreReasons = ['no_score', 'score_below_threshold', 'question_changed_since_scored', 'agent_blocking_flag', 'agent_blind_key_mismatch', 'score_needs_both_judges', 'agent_score_uncalibrated', 'agent_score_rubric_outdated', 'seed_or_demo_row', 'id_not_uuid', 'not_published', 'key_disputed', 'nta_quarantined', 'agent_key_dispute',
+    'fit_not_judged', 'fit_needs_three_judges', 'fit_flagged', 'fit_below_bar', 'fit_question_changed', 'fit_for_another_question', 'fit_rubric_outdated', 'fit_type_not_in_pattern'];
   for (const reason of Object.keys(report.engineIneligibleReasons)) assert.ok(!scoreReasons.includes(reason), reason);
-  // And one row end to end, through the engine's own gate.
+  // And one row end to end, through the engine's own gate (quality and CUET fit, with the merged tables of this test).
   const row = planPublication(wave1()).rows.find((r) => r.subject === 'history');
-  assert.equal(ntaEligibility({ ...row, evidence: null }, { subject: 'history', agentScores: agentTablesFrom(tables.agentDir) }).eligible, true);
+  const context = { subject: 'history', agentScores: agentTablesFrom(tables.agentDir), fitScores: agentTablesFrom(tables.fitDir) };
+  assert.deepEqual(ntaEligibility({ ...row, evidence: null }, context).reasons, []);
+  assert.deepEqual(ntaEligibility({ ...row, evidence: null }, { ...context, fitScores: {} }).reasons, ['fit_not_judged'], 'without a fit entry the engine refuses it');
 });
 
 test('the NTA pool reads the published rows through the agent-score path: every subject rows come back, English with their passages', async () => {

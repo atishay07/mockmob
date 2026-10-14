@@ -14,7 +14,7 @@
 //          (the ids this script will not rewrite; a list file for scripts/question-hold.mjs).
 // apply    re-plans every row from the live data and writes only the rows whose rewrite is identical to the dry
 //          run the owner approved. Rewritten rows are also withheld (the same hold as scripts/question-hold.mjs)
-//          until they are re-verified, because the stored evidence and agent scores are bound to the old text;
+//          until they are re-verified, because the stored evidence, agent scores and CUET-fit scores are bound to the old text;
 //          --keep-live leaves them visible instead.
 // restore  puts the original text (and the saved state) back, row by row, only where the row still holds
 //          exactly what apply wrote.

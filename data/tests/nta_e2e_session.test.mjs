@@ -79,7 +79,10 @@ for (const mode of ['asis', 'promoted']) {
       });
       const signingKey = mode === 'asis' ? PROD_KEY : h.TEST_SECRET;
       h.configure({ signingKey });
-      const rows = await h.loadSubject(internal, { mode, students: [{ id: 'prem' }, { id: 'free', premium: false, credits: 100 }, { id: 'other' }] });
+      // 'late' is a second premium student for the time-up sessions: they test the clock, so they start as a student's
+      // first paper. Since the CUET-fit gate (engine r5) a thin subject such as General Test serves a first paper but can
+      // refuse a later one for the same student (the 'next paper' step records that).
+      const rows = await h.loadSubject(internal, { mode, students: [{ id: 'prem' }, { id: 'free', premium: false, credits: 100 }, { id: 'other' }, { id: 'late' }] });
       const fake = h.fake;
       const rowsById = new Map(rows.map((row) => [row.id, row]));
       const key = h.generationKey(`${mode}${subject}`);
@@ -100,7 +103,8 @@ for (const mode of ['asis', 'promoted']) {
           assert.ok(res.body.message.length > 40, 'message too short to help a student');
           assert.match(res.body.message, /Full Mock|Practice|try again/i, 'refusal offers no next step');
           assert.ok(res.body.detail?.reason, 'no reason in the detail');
-          assert.doesNotMatch(JSON.stringify(res.body), /stack|TypeError|undefined|\[object/i);
+          // No leaked error: a stack property or frame, a TypeError, undefined. (Not the bare word "stack": Computer Science has a chapter "Stack".)
+          assert.doesNotMatch(JSON.stringify(res.body), /"stack"|\bat (?:\S+ \()?(?:file:|node:|[A-Za-z]:\\)|TypeError|undefined|\[object/i);
           assert.equal(res.body.questions, undefined);
           assert.equal(res.body.meta?.sessionTicket, undefined);
         });
@@ -321,15 +325,15 @@ for (const mode of ['asis', 'promoted']) {
       });
 
       // time-up on a ticket session: the deadline is 60 minutes; the server allows a 2 minute upload grace.
-      const late = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('late') }, 'prem');
+      const late = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('late') }, 'late');
       await step('time-up: a submit 61 minutes in (inside the grace) is scored; 63 minutes in is refused', async () => {
-        assert.equal(late.status, 200);
+        assert.equal(late.status, 200, JSON.stringify(late.body).slice(0, 300));
         const lateAnswers = { [late.body.questions[0].id]: 0 };
-        const refused = await atOffset(63 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'prem', { route: 'attempts', path: '/api/attempts' }));
+        const refused = await atOffset(63 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'late', { route: 'attempts', path: '/api/attempts' }));
         assert.equal(refused.status, 422);
         assert.equal(refused.body.error, 'SESSION_EXPIRED');
         const before = fake.table('attempts').length;
-        const graced = await atOffset(61 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'prem', { route: 'attempts', path: '/api/attempts' }));
+        const graced = await atOffset(61 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'late', { route: 'attempts', path: '/api/attempts' }));
         assert.equal(graced.status, 200);
         assert.equal(graced.body.correct + graced.body.wrong, 1);
         assert.equal(fake.table('attempts').length, before + 1);
@@ -338,7 +342,7 @@ for (const mode of ['asis', 'promoted']) {
 
       // Durable sessions (LEARNING_SESSIONS_ENABLED=true): the server keeps the session and its events.
       h.configure({ signingKey, durable: true });
-      await h.loadSubject(internal, { mode, students: [{ id: 'prem' }, { id: 'other' }] });
+      await h.loadSubject(internal, { mode, students: [{ id: 'prem' }, { id: 'other' }, { id: 'late' }] });
       const dkey = h.generationKey(`d${subject}`);
       const durable = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', includeMeta: '1', generationKey: dkey }, 'prem');
       await step('durable: the session is stored server side with no ticket and the same paper rules', () => {
@@ -390,19 +394,20 @@ for (const mode of ['asis', 'promoted']) {
         assert.equal(second.body.score, dplan.expected.percent);
         assert.equal(fake.table('attempts').length, 1);
       });
-      const dlate = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('dlate') }, 'prem');
+      const dlate = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('dlate') }, 'late');
       await step('durable time-up: after the deadline only answers already saved count; late body answers do not', async () => {
+        assert.equal(dlate.status, 200, JSON.stringify(dlate.body).slice(0, 300));
         const lq = dlate.body.questions;
         const saved = [{ seq: 1, qid: lq[0].id, type: 'visit', at: 1 }, { seq: 2, qid: lq[0].id, type: 'answer', answer: 0, at: 2 }];
-        assert.equal((await h.call('PUT', { sessionId: dlate.body.id, events: saved }, 'prem')).status, 200);
+        assert.equal((await h.call('PUT', { sessionId: dlate.body.id, events: saved }, 'late')).status, 200);
         const lateBody = { sessionId: dlate.body.id, answers: { [lq[0].id]: 0, [lq[1].id]: 0, [lq[2].id]: 0 }, events: [] };
-        const refused = await atOffset(63 * 60000, () => h.call('PATCH', lateBody, 'prem'));
+        const refused = await atOffset(63 * 60000, () => h.call('PATCH', lateBody, 'late'));
         assert.equal(refused.status, 422);
         assert.equal(refused.body.error, 'SESSION_EXPIRED');
         const lateEvent = [{ seq: 3, qid: lq[1].id, type: 'answer', answer: 0, at: 3 }];
-        const noSave = await atOffset(61 * 60000, () => h.call('PUT', { sessionId: dlate.body.id, events: lateEvent }, 'prem'));
+        const noSave = await atOffset(61 * 60000, () => h.call('PUT', { sessionId: dlate.body.id, events: lateEvent }, 'late'));
         assert.ok(noSave.status >= 400, 'an event after the deadline was acknowledged');
-        const graced = await atOffset(61 * 60000, () => h.call('PATCH', lateBody, 'prem'));
+        const graced = await atOffset(61 * 60000, () => h.call('PATCH', lateBody, 'late'));
         assert.equal(graced.status, 200, JSON.stringify(graced.body).slice(0, 200));
         assert.equal(graced.body.correct + graced.body.wrong, 1, 'a late answer outside the saved events was counted');
       });

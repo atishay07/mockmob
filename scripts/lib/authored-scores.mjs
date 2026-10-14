@@ -1,5 +1,5 @@
 // Pure helpers for scripts/authored-scores-merge.mjs: the authored wave's raw judge files in, the engine's agent
-// score entries (data/nta_agent_scores.js) and CUET-fit entries (data/nta_fit_scores.js on wip/cuet-fit) out.
+// score entries (data/nta_agent_scores.js) and CUET-fit entries (data/nta_fit_scores.js) out.
 // Files are read from disk where a loader says so; nothing here touches a database, the network or a model.
 //
 // The two score tables bind a score to a content hash (data/content_evidence.js contentHash of the live row).
@@ -14,7 +14,7 @@
 //          until a fresh judge pass on the final text is merged (`--fresh`), which then admits them.
 import fs from 'node:fs';
 import path from 'node:path';
-import { classifyNtaType, getNtaBlueprint } from '../../data/nta_engine.js';
+import { getNtaBlueprint, heuristicNtaType } from '../../data/nta_engine.js';
 import { NTA_AGENT_BLOCKING_FLAGS, NTA_AGENT_RUBRIC_VERSION, ntaAgentAdmissibleIds } from '../../data/nta_agent_scores.js';
 import { AUTHORED_SOURCE, AUTHORED_WAVE, contentHashOf } from './authored-wave.mjs';
 
@@ -22,8 +22,8 @@ export const SCORES_VERSION = 'authored-scores-1';
 export const QUALITY_JUDGES = Object.freeze(['j1', 'j2']);
 export const FIT_JUDGES = Object.freeze(['h1', 'h2', 'h3']);
 export const SOLVERS = Object.freeze(['s1', 's2', 's3', 's4', 's5']);
-// Constants of data/nta_fit_scores.js on wip/cuet-fit (that module is not on this branch). The tests compare them with the
-// module when a checkout that has it is found.
+// Constants of data/nta_fit_scores.js, mirrored here so the builder does not depend on the committed tables it is
+// writing. The tests compare them with the module.
 export const FIT_RUBRIC_VERSION = 'nta-cuet-fit-rubric-1';
 export const FIT_FLAGS = Object.freeze(['syllabus_not_entitled', 'not_cuet_format', 'off_pattern_for_subject', 'level_above_cbt', 'too_slow']);
 export const NTA_MIN_FIT_SCORE = 8;
@@ -621,9 +621,9 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
 }
 
 /**
- * A mirror of the fit gate in data/nta_fit_scores.js on wip/cuet-fit (ntaFitGateReasons plus the content-hash check of
- * ntaFitVerdict): three judges with provenance, fewer than two flagging, the median at the bar, the judged content is the
- * row's. That module is not on this branch; the tests compare this mirror with it when a checkout that has it is found.
+ * A mirror of the fit gate in data/nta_fit_scores.js (ntaFitGateReasons plus the content-hash check of ntaFitVerdict):
+ * three judges with provenance, fewer than two flagging, the median at the bar, the judged content is the row's. The
+ * check also runs the real gate (through ntaEligibility); the tests compare this mirror with the module.
  */
 export function fitGateReasons(entry, currentHash, { minFit = NTA_MIN_FIT_SCORE, table = null } = {}) {
   if (!entry) return ['fit_not_judged'];
@@ -647,7 +647,10 @@ export function positionsOf(rows) {
   return new Map(rows.map((row) => [row.id, { groupId: row.passage_group_id || null, orderIndex: row.order_index ?? null }]));
 }
 
+// engine_type_guess is the engine's own guess from the text (heuristicNtaType), as in the fit tables the CUET-fit pass
+// wrote. classifyNtaType would return the judges' stored type once the entry is in the committed tables, so a second
+// merge would write a different guess.
 export function engineTypeOf(candidate, row) {
   const blueprint = getNtaBlueprint(candidate.subject);
-  return classifyNtaType(row, candidate.subject, blueprint ? Object.keys(blueprint.typeQuotas) : undefined);
+  return heuristicNtaType(row, candidate.subject, blueprint ? Object.keys(blueprint.typeQuotas) : undefined);
 }

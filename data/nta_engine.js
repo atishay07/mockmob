@@ -19,6 +19,7 @@ import {
   stemGramWeights, structuralReasons, wordingReasons,
 } from './nta_item_checks.js';
 import { ntaAgentBlockingFlags, ntaAgentMean, ntaAgentScoreEntry, ntaAgentScoreIntegrity } from './nta_agent_scores.js';
+import { NTA_MIN_FIT_SCORE, ntaFitVerdict, ntaStoredFitTags } from './nta_fit_scores.js';
 import typesFile from './nta_blueprints/_types.json' with { type: 'json' };
 import english from './nta_blueprints/english.json' with { type: 'json' };
 import generalTest from './nta_blueprints/general_test.json' with { type: 'json' };
@@ -47,7 +48,14 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r4';
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r5';
+// The CUET-fit bar (data/nta_fit_scores.js): eligibility needs the quality gate above AND the median of
+// the three fit judges at or above this, with fewer than two judges raising a fit flag.
+export { NTA_MIN_FIT_SCORE };
+// Owner, 13 Oct 2026: "always pick the latest questions that we have, because our latest questions are
+// always the best quality". Among eligible questions the newest is preferred before the score; questions
+// created on the same day count as equally new (then score, then the seed).
+export const NTA_RECENCY_BUCKET_MS = 24 * 60 * 60 * 1000;
 // Version of the signed nta_question_index rows this engine accepts (scripts/nta-index-build.mjs).
 export const NTA_INDEX_VERSION = 'nta-index-1';
 
@@ -263,7 +271,10 @@ export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGN
 }
 
 /**
- * Hard gates for one row. Context: { subject, minScore, disputedIds:Set, heldFamilies:Set, secret, agentScores }.
+ * Hard gates for one row. Context: { subject, minScore, minFitScore, disputedIds:Set, heldFamilies:Set,
+ * secret, agentScores, fitScores (tests: replaces data/nta_fit_scores/*.json) }.
+ * Eligibility needs both the quality gate (score, provenance, keys, flags, content) and the CUET-fit
+ * gate (data/nta_fit_scores.js). Returns { eligible, reasons, score, scoreSource, type, fitScore }.
  */
 export function ntaEligibility(row, context = {}) {
   const subject = toInternalSubjectId(text(context.subject || row?.subject));
@@ -295,9 +306,17 @@ export function ntaEligibility(row, context = {}) {
   if (!content.accepted) reasons.push(...content.reasons);
   // The item must read like an NTA question and its options must fit its own stem.
   const bp = getNtaBlueprint(subject);
-  const type = classifyNtaType(row, subject, bp ? Object.keys(bp.typeQuotas) : undefined);
+  const allowedTypes = bp ? Object.keys(bp.typeQuotas) : undefined;
+  const type = classifyNtaType(row, subject, allowedTypes, { fitScores: context.fitScores });
   reasons.push(...structuralReasons(row, type), ...wordingReasons(row, type), ...corruptedWordingReasons(row), ...listedOrderKeyReasons(row, type));
-  return { eligible: reasons.length === 0, reasons: [...new Set(reasons)], score, scoreSource: source, type };
+  // The CUET-fit gate: three judges, the content they saw, fewer than two flags, median at the bar.
+  const minFit = Number.isFinite(context.minFitScore) ? context.minFitScore : NTA_MIN_FIT_SCORE;
+  const fit = ntaFitVerdict(row, { fitScores: context.fitScores, minFit });
+  reasons.push(...fit.reasons);
+  // The judges' type is the question's type; one the subject's paper never asks has no place in it.
+  const tags = ntaStoredFitTags(row, { fitScores: context.fitScores });
+  if (tags.type && bp && tags.type !== 'passage_set_item' && !new Set([...allowedTypes, 'single_mcq']).has(tags.type)) reasons.push('fit_type_not_in_pattern');
+  return { eligible: reasons.length === 0, reasons: [...new Set(reasons)], score, scoreSource: source, type, fitScore: fit.median };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -324,11 +343,22 @@ function optionShapeType(stem, options) {
 }
 
 /**
- * The CUET question type of a row, from _types.json. Passage children are 'passage_set_item'.
- * allowedTypes is the blueprint's typeQuotas keys; types outside it are never returned except
- * single_mcq.
+ * The CUET question type of a row. The stored type comes first: the majority (2 of 3) type the CUET-fit
+ * judges gave the current content (data/nta_fit_scores.js). Without one, the heuristic below decides.
+ * Passage children are always 'passage_set_item' (sets are built from them); a stored
+ * 'passage_set_item' on a row without a passage is ignored. allowedTypes is the blueprint's typeQuotas
+ * keys; types outside it are never returned except single_mcq. options: { fitScores } (tests).
  */
-export function classifyNtaType(row, subject, allowedTypes) {
+export function classifyNtaType(row, subject, allowedTypes, { fitScores } = {}) {
+  if (getPassageKey(row) || getPassageText(row)) return 'passage_set_item';
+  const stored = ntaStoredFitTags(row, { fitScores }).type;
+  const allowed = new Set([...(allowedTypes || TYPE_ORDER), 'single_mcq']);
+  if (stored && stored !== 'passage_set_item' && allowed.has(stored)) return stored;
+  return heuristicNtaType(row, subject, allowedTypes);
+}
+
+/** The engine's own type guess from the stem, the options and the database's type column. */
+export function heuristicNtaType(row, subject, allowedTypes) {
   const internal = toInternalSubjectId(text(subject));
   const publicId = toPublicSubjectId(internal);
   if (getPassageKey(row) || getPassageText(row)) return 'passage_set_item';
@@ -433,6 +463,49 @@ function distinctChildren(children) {
   return { kept, dropped };
 }
 
+// Where a row goes in the paper: the fit judges' majority chapter (and unit) first, the database's
+// chapter otherwise. Passage children keep the database chapter while it maps to the paper, so one
+// passage's children stay in one set.
+function placementOf(row, model, context) {
+  const tags = ntaStoredFitTags(row, { fitScores: context.fitScores });
+  const dbChapter = text(row.chapter);
+  const candidates = [];
+  if (getPassageKey(row) && (model.slotsByChapter.has(dbChapter) || model.excluded.has(dbChapter))) candidates.push([dbChapter, 'database']);
+  if (tags.chapter) candidates.push([text(tags.chapter), 'fit']);
+  candidates.push([dbChapter, 'database']);
+  for (const [chapter, source] of candidates) {
+    if (model.excluded.has(chapter)) return { chapter, slotIds: [], excluded: true, source };
+    let slotIds = model.slotsByChapter.get(chapter) || [];
+    if (!slotIds.length) continue;
+    if (source === 'fit' && tags.unit) {
+      const inUnit = slotIds.filter((slotId) => model.units[model.slots[slotId].unitId].name === tags.unit);
+      if (inUnit.length) slotIds = inUnit;
+    }
+    return { chapter, slotIds, excluded: false, source };
+  }
+  return { chapter: dbChapter, slotIds: [], excluded: false, source: 'database' };
+}
+
+// Creation time in ms, or null when the row has none.
+function createdAtOf(row) {
+  const value = Date.parse(text(row?.created_at ?? row?.createdAt));
+  return Number.isFinite(value) ? value : null;
+}
+
+// Selection preference (owner's recency rule): dated rows by creation day, newest first; rows without a
+// date after them; then the higher quality score, the higher fit
+// median, and the seed. So a newer 8 is preferred to an older 9.
+export function ntaPreferenceOrder(a, b) {
+  const da = a.createdAt === null || a.createdAt === undefined ? null : Math.floor(a.createdAt / NTA_RECENCY_BUCKET_MS);
+  const db = b.createdAt === null || b.createdAt === undefined ? null : Math.floor(b.createdAt / NTA_RECENCY_BUCKET_MS);
+  if ((da === null) !== (db === null)) return da === null ? 1 : -1;
+  if (da !== null && da !== db) return db - da;
+  return (Number(b.score) || 0) - (Number(a.score) || 0)
+    || (Number(b.fitScore) || 0) - (Number(a.fitScore) || 0)
+    || (Number(a.rank) || 0) - (Number(b.rank) || 0);
+}
+const preferenceOrder = ntaPreferenceOrder;
+
 function prepareCandidates(rows, model, context) {
   const subject = model.bp.internalSubject;
   const english = model.bp.subject === 'english';
@@ -452,10 +525,10 @@ function prepareCandidates(rows, model, context) {
       for (const reason of verdict.reasons) count(reason);
       continue;
     }
-    const chapter = text(row.chapter);
-    if (model.excluded.has(chapter)) { count('chapter_out_of_syllabus'); continue; }
-    const slotIds = model.slotsByChapter.get(chapter) || [];
-    if (!slotIds.length) { count('chapter_not_in_this_paper'); continue; }
+    const placed = placementOf(row, model, context);
+    if (placed.excluded) { count('chapter_out_of_syllabus'); continue; }
+    if (!placed.slotIds.length) { count('chapter_not_in_this_paper'); continue; }
+    const { chapter, slotIds } = placed;
     const features = itemFeatures(row, { english, agentScores: context.agentScores, gramWeights });
     items.push({
       id: row.id, row, chapter, slotIds,
@@ -464,7 +537,12 @@ function prepareCandidates(rows, model, context) {
       numerical: isNumericalItem(row),
       seen: seen.has(row.id),
       score: verdict.score,
+      fitScore: verdict.fitScore,
+      createdAt: createdAtOf(row),
+      placedBy: placed.source,
+      // rank: the seed's order, for layout and ties; pref: the selection order (recency first), set below.
       rank: jitter(context.seed, row.id),
+      pref: 0,
       families: familyKeys(row),
       features,
       objective: features.objective,
@@ -472,6 +550,10 @@ function prepareCandidates(rows, model, context) {
       order: Number(row.order_index ?? row.orderIndex ?? 0) || 0,
     });
   }
+
+  // Owner's recency rule: newest first (by creation day), then the higher score, then the seed.
+  items.sort(preferenceOrder);
+  items.forEach((item, index) => { item.pref = index; });
 
   const standalone = [];
   const groups = new Map();
@@ -496,13 +578,14 @@ function prepareCandidates(rows, model, context) {
     const { kept, dropped } = distinctChildren(inOrder);
     if (dropped) count('passage_child_repeats_another', dropped);
     if (kept.length < model.sets.size.min) { count('passage_set_too_small', kept.length); continue; }
-    // A long set is served with its best-ranked children, in the passage's own order.
-    const ordered = kept.slice().sort((a, b) => Number(a.seen) - Number(b.seen) || a.rank - b.rank);
+    // A long set is served with its preferred (newest) children, in the passage's own order.
+    const ordered = kept.slice().sort((a, b) => Number(a.seen) - Number(b.seen) || a.pref - b.pref);
     const chosen = ordered.slice(0, model.sets.size.max).sort((a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id)));
     const passage = getPassageText(chosen[0].row);
     sets.push({
       key, chapter: chosen[0].chapter, slotIds: chosen[0].slotIds, children: chosen,
       size: chosen.length, seen: chosen.some((child) => child.seen), rank: jitter(context.seed, key),
+      pref: Math.min(...chosen.map((child) => child.pref)),
       passageKey: passage.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().slice(0, 200),
       families: [...new Set(chosen.flatMap((child) => child.families))],
       words: length,
@@ -697,7 +780,7 @@ function better(a, b) {
   if ((a.minGain > 0) !== (b.minGain > 0)) return a.minGain > 0;
   if (a.minGain !== b.minGain) return a.minGain > b.minGain;
   if (a.targetGain !== b.targetGain) return a.targetGain > b.targetGain;
-  return a.item.rank < b.item.rank;
+  return a.item.pref < b.item.pref;
 }
 
 function pickSets(model, state, sets, limits) {
@@ -707,7 +790,7 @@ function pickSets(model, state, sets, limits) {
   const ordered = sets.slice().sort((a, b) =>
     Number(a.seen) - Number(b.seen)
     || Math.abs(a.size - model.sets.size.target) - Math.abs(b.size - model.sets.size.target)
-    || a.rank - b.rank);
+    || a.pref - b.pref);
   for (let pass = 0; pass < 2 && state.sets.length < want; pass += 1) {
     for (const set of ordered) {
       if (state.sets.length >= want) break;
@@ -815,8 +898,8 @@ function repair(model, state, limits, deadline) {
         if (!available(state, item)) continue;
         for (const slotId of item.slotIds) if (servesDimension(model, dimension, item, slotId)) incoming.push({ item, slotId });
       }
-      incoming.sort((a, b) => Number(a.item.seen) - Number(b.item.seen) || a.item.rank - b.item.rank);
-      const outgoing = state.picks.slice().sort((a, b) => Number(b.item.seen) - Number(a.item.seen) || b.item.rank - a.item.rank);
+      incoming.sort((a, b) => Number(a.item.seen) - Number(b.item.seen) || a.item.pref - b.item.pref);
+      const outgoing = state.picks.slice().sort((a, b) => Number(b.item.seen) - Number(a.item.seen) || b.item.pref - a.item.pref);
       for (const { item, slotId } of incoming.slice(0, REPAIR_CANDIDATES)) {
         const pick = outgoing.find((candidate) => removable(model, state, limits, candidate, item, slotId)
           && fitsAfterSwap(model, state, limits, candidate, item, slotId));

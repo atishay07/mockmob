@@ -18,7 +18,8 @@
 //          raw files, so they are required arguments: say who judged. --fresh=<dir> adds a later judge pass on the final
 //          text (same <batch>__j1|j2|h1|h2|h3.json names); it replaces the original results for the ids it covers.
 // check    builds the table entries from the records (nothing is written), then runs the NTA engine's own
-//          eligibility check (data/nta_engine.js ntaEligibility) offline on every planned row, and prints the counts.
+//          eligibility check (data/nta_engine.js ntaEligibility, quality gate and CUET-fit gate) offline on every planned
+//          row with the merged agent AND fit tables (not the committed ones), and prints the counts.
 //          --impact=<dir> also builds three NTA papers in a row per subject from a local export of the bank (scripts/nta-fixture-export.mjs),
 //          without and with the authored rows. English is skipped: its pool carries factory evidence, which needs the signing key.
 // merge    check, then writes data/nta_agent_scores/<subject>.json and data/nta_fit_scores/<subject>.json with the
@@ -196,7 +197,8 @@ export function runCheck(args) {
   let fitPass = 0;
   let both = 0;
   for (const row of plan.rows) {
-    const verdict = ntaEligibility({ ...row, evidence: null }, { subject: row.subject, agentScores: agentTables });
+    // The engine's fit gate reads the merged fit tables, not the committed ones (which may not hold the authored entries yet).
+    const verdict = ntaEligibility({ ...row, evidence: null }, { subject: row.subject, agentScores: agentTables, fitScores: fitTables });
     const subjectCounts = (bySubject[row.subject] ||= { planned: 0, eligible: 0, fitPass: 0, both: 0 });
     subjectCounts.planned += 1;
     if (verdict.eligible) { subjectCounts.eligible += 1; eligibleIds.add(row.id); }
@@ -235,10 +237,11 @@ export function runCheck(args) {
     engineEligible: plan.rows.length - ineligible.length,
     engineIneligible: ineligible.length,
     engineIneligibleReasons: reasonCounts,
-    fitGate: { mirror: 'data/nta_fit_scores.js on wip/cuet-fit (ntaFitGateReasons + the content-hash check)', minFit: NTA_MIN_FIT_SCORE, pass: fitPass, reasons: fitReasonCounts, baseTablesMissing: fitBaseMissing },
+    // engineEligible already includes the real fit gate; this is the mirror's count (the tests compare the two).
+    fitGate: { mirror: 'scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)', minFit: NTA_MIN_FIT_SCORE, pass: fitPass, reasons: fitReasonCounts, baseTablesMissing: fitBaseMissing },
     qualityAndFitBoth: both,
     passageSets: { servable: passageSets.filter((set) => set.servable).length, of: passageSets.length, blueprint: { passageWords: sets.passageWords, minChildren: sets.size.min }, sets: passageSets },
-    ...(args.impact ? { impact: { export: args.impact, subjects: impactOf(args.impact, { plan, tables: agentTables, args }) } } : {}),
+    ...(args.impact ? { impact: { export: args.impact, subjects: impactOf(args.impact, { plan, tables: agentTables, fitTables, args }) } } : {}),
     bySubject,
     ineligible,
   };
@@ -251,7 +254,7 @@ export function runCheck(args) {
  * Only subjects whose exported rows carry no factory evidence are faithful (the engine cannot verify evidence without the
  * signing key); the five short subjects of wave 1 have none.
  */
-function impactOf(dir, { plan, tables, args }) {
+function impactOf(dir, { plan, tables, fitTables, args }) {
   const out = {};
   for (const subject of AUTHORED_SUBJECTS.filter((name) => name !== 'english')) {
     const file = path.join(dir, `${subject}.json`);
@@ -259,13 +262,15 @@ function impactOf(dir, { plan, tables, args }) {
     const existing = readJson(file).filter((row) => row.status === 'live' && !row.is_deleted);
     const withEvidence = existing.filter((row) => row.evidence).length;
     const authored = plan.rows.filter((row) => row.subject === subject);
-    const before = { [subject]: loadTable(args.agentDir, subject) };
-    const after = { [subject]: tables[subject] };
-    const eligible = (rows, agentScores) => rows.filter((row) => ntaEligibility({ ...row, evidence: row.evidence ?? null }, { subject, agentScores }).eligible).length;
-    const papers = (rows, agentScores) => {
+    // Before: the committed agent and fit tables. After: the merged ones. (A committed table that already holds the
+    // authored entries changes nothing for the rows of the export.)
+    const before = { agentScores: { [subject]: loadTable(args.agentDir, subject) }, fitScores: { [subject]: loadTable(args.fitBase, subject) } };
+    const after = { agentScores: { [subject]: tables[subject] }, fitScores: { [subject]: fitTables[subject] } };
+    const eligible = (rows, scores) => rows.filter((row) => ntaEligibility({ ...row, evidence: row.evidence ?? null }, { subject, ...scores }).eligible).length;
+    const papers = (rows, scores) => {
       const previous = new Set();
       return [1, 2, 3].map((n) => {
-        const paper = assembleNtaPaper(rows, { subject, seed: `authored-impact-${n}`, agentScores, previousPaperIds: previous, seenIds: new Set() });
+        const paper = assembleNtaPaper(rows, { subject, seed: `authored-impact-${n}`, ...scores, previousPaperIds: previous, seenIds: new Set() });
         for (const row of paper.rows) previous.add(row.id);
         return { status: paper.status, questions: paper.rows.length };
       });
@@ -303,8 +308,8 @@ export function runMerge(args) {
   const { tables, fitTables, report } = runCheck(args);
   const agentOut = args.agentOut || args.agentDir;
   const fitOut = args.fitOut || args.fitBase;
-  // This checkout may have no fit tables (the fit gate is on wip/cuet-fit). Authored-only fit files would clash with the full
-  // tables on merge, so they are written only when the base exists or --fit-out is given.
+  // A checkout without data/nta_fit_scores (a branch from before the CUET-fit merge) gets no fit files: authored-only fit
+  // files would clash with the full tables on merge, so they are written only when the base exists or --fit-out is given.
   const writeFit = fs.existsSync(args.fitBase) || Boolean(args.fitOut);
   fs.mkdirSync(agentOut, { recursive: true });
   for (const subject of AUTHORED_SUBJECTS) fs.writeFileSync(path.join(agentOut, `${subject}.json`), stable(tables[subject], 2));
