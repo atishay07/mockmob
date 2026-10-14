@@ -13,11 +13,13 @@ import 'mobi_acts.dart';
 import 'mobi_controller.dart';
 import 'mobi_figure.dart';
 import 'mobi_geometry.dart';
+import 'mobi_mood.dart';
 import 'mobi_painter.dart';
 import 'mobi_palette.dart';
 import 'mobi_ration.dart';
 import 'mobi_rig.dart';
 import 'mobi_sim.dart';
+import 'mobi_tap_cycle.dart';
 
 /// The living Mobi: a vector character that breathes, blinks, glances about, sways its antenna,
 /// watches where the student taps and plays acts.
@@ -39,7 +41,18 @@ class MobiCharacter extends StatefulWidget {
     this.watchTaps = true,
     this.lite,
     this.head = false,
+    this.followPointer = false,
+    this.tapCycle,
   });
+
+  /// The eyes follow the finger (and, on the web, the pointer) anywhere on screen while it moves,
+  /// and drift back ahead 1.2 s after it stops. One flag for a screen that wants Mobi watching.
+  /// Off under reduced motion.
+  final bool followPointer;
+
+  /// With [interactive], repeated taps play this cycle's acts (see [MobiTapCycle]) instead of the
+  /// plain squash; each tap still gets a light haptic.
+  final MobiTapCycle? tapCycle;
 
   final MobiController? controller;
 
@@ -83,10 +96,10 @@ class MobiCharacter extends StatefulWidget {
   State<MobiCharacter> createState() => _MobiCharacterState();
 }
 
-class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProviderStateMixin implements MobiHost, MobiAttentionHost {
+class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProviderStateMixin implements MobiHost, MobiAttentionHost, MobiLifeHost {
   late final MobiSim _sim = MobiSim(seed: widget.seed);
   late final ValueNotifier<MobiRig> _rig = ValueNotifier(_sim.rig);
-  late final Ticker _ticker = createTicker(_onTick);
+  late final Ticker _ticker;
   Duration _last = Duration.zero;
   Timer? _rest;
   double _restFor = 0;
@@ -96,8 +109,12 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   /// Quick, per-answer reactions. Under reduced motion their key pose shows for the act's length
   /// and then gives way to the stance; the bigger moments (hello, cheer, celebrate, proud) hold
   /// their pose until the next act, as before.
-  static const Set<MobiAct> _reactions = {MobiAct.correct, MobiAct.encourage, MobiAct.wake};
+  static const Set<MobiAct> _reactions = MobiMoves.reactions;
   bool _started = false;
+  bool _tickerOn = true;
+  Timer? _followRelease;
+  static const Duration _followHold = Duration(milliseconds: 1200);
+  MobiTapRun? _tapRun;
   bool _routed = false;
   int _taps = 0;
   DateTime _lastTap = DateTime.fromMillisecondsSinceEpoch(0);
@@ -112,16 +129,38 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   /// it to the sheet's own Mobi (one Mobi per screen).
   bool _covered = false;
 
+  bool get _wantsRoute => widget.watchTaps || widget.followPointer;
+
   @override
   void initState() {
     super.initState();
-    _route(widget.watchTaps);
+    // Made here, not on first use: a ticker first asked for in dispose looks up an ancestor of a
+    // deactivated element.
+    _ticker = createTicker(_onTick);
+    _route(_wantsRoute);
+    _tapRun = widget.tapCycle?.start();
+  }
+
+  /// A still frame: [act]'s pose (or the stance's), with the mood's face over it. [settled] takes
+  /// the travel out (see [MobiMoves.settledPose]).
+  MobiRig _pose(MobiAct act, {bool settled = false}) {
+    final pose = settled
+        ? MobiMoves.settledPose(act, from: _sim.stance, pointAngle: _sim.pointAngle, pointSide: _sim.pointSide)
+        : MobiMoves.keyPose(act, pointAngle: _sim.pointAngle, pointSide: _sim.pointSide, from: _sim.stance);
+    return MobiMoods.apply(_sim.mood, pose);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _level = MobiCelebrations.of(context);
+    // Offscreen (a tab kept alive behind another, a route under a page) the ticker is muted and
+    // the idle timer does not wake it; it picks up again when shown.
+    final tickerOn = TickerMode.valuesOf(context).enabled;
+    if (tickerOn != _tickerOn) {
+      _tickerOn = tickerOn;
+      if (tickerOn && _started) _wake();
+    }
     final reduced = Motion.reduced(context);
     final covered = !(ModalRoute.of(context)?.isCurrent ?? true);
     if (_started && reduced == _reduced) {
@@ -131,11 +170,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     _reduced = reduced;
     if (reduced) {
       _sleep();
-      _rig.value = MobiMoves.keyPose(
-        _started ? (_sim.act ?? _actForStance()) : (MobiRation.underLevel(widget.entrance, _level) ?? MobiAct.idle),
-        pointAngle: _sim.pointAngle,
-        pointSide: _sim.pointSide,
-      );
+      _rig.value = _pose(_started ? (_sim.act ?? _actForStance()) : (MobiRation.underLevel(widget.entrance, _level) ?? MobiAct.idle));
     } else if (!_started) {
       play(widget.entrance);
     } else {
@@ -172,7 +207,23 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       final isLate = widget.entrance == MobiAct.sleep || widget.entrance == MobiAct.sleepy;
       play(wasLate && !isLate ? MobiAct.wake : widget.entrance);
     }
-    if (old.watchTaps != widget.watchTaps) _route(widget.watchTaps);
+    if (old.watchTaps != widget.watchTaps || old.followPointer != widget.followPointer) _route(_wantsRoute);
+    if (old.tapCycle != widget.tapCycle) _tapRun = widget.tapCycle?.start();
+    if (old.followPointer && !widget.followPointer) followGlobal(null);
+  }
+
+  bool _deactivated = false;
+
+  @override
+  void deactivate() {
+    _deactivated = true;
+    super.deactivate();
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    _deactivated = false;
   }
 
   @override
@@ -181,6 +232,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     widget.controller?.detach(this);
     _rest?.cancel();
     _still?.cancel();
+    _followRelease?.cancel();
     _ticker.dispose();
     _rig.dispose();
     super.dispose();
@@ -200,7 +252,12 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   }
 
   void _onPointer(PointerEvent event) {
-    if (event is! PointerDownEvent || _reduced || _covered || !mounted) return;
+    if (_reduced || _covered || !mounted || _deactivated) return;
+    if (widget.followPointer && (event is PointerDownEvent || event is PointerMoveEvent || event is PointerHoverEvent)) {
+      followGlobal(event.position);
+      return;
+    }
+    if (event is! PointerDownEvent || !widget.watchTaps) return;
     final box = context.findRenderObject();
     if (box is! RenderBox || !box.attached || !box.hasSize) return;
     // A tap on Mobi itself is handled by the tap reaction.
@@ -248,7 +305,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   }
 
   void _wake() {
-    if (_reduced || !mounted) return;
+    if (_reduced || !mounted || !_tickerOn) return;
     _rest?.cancel();
     _rest = null;
     if (!_ticker.isActive) {
@@ -273,21 +330,80 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     if (_reduced) {
       _still?.cancel();
       _still = null;
-      if (MobiMoves.stanceAfter(act) != null && act != MobiAct.appear) {
+      if ((MobiMoves.stanceAfter(act) != null || _reactions.contains(act)) && act != MobiAct.appear) {
+        _rig.value = _pose(act);
         _sim.play(act);
-        _rig.value = MobiMoves.keyPose(act, pointAngle: _sim.pointAngle, pointSide: _sim.pointSide);
         // A reaction still shows, without motion: its key pose for the act's length, then the
         // stance again. Nothing ticks.
-        if (_reactions.contains(act)) {
-          _still = Timer(Duration(milliseconds: (MobiMoves.duration(act) * 1000).round()), () {
-            _still = null;
-            if (mounted) _rig.value = MobiMoves.keyPose(_actForStance(), pointAngle: _sim.pointAngle, pointSide: _sim.pointSide);
-          });
-        }
+        if (_reactions.contains(act)) _holdStill(act);
       }
       return;
     }
     _sim.play(act, seconds: seconds);
+    _wake();
+  }
+
+  void _holdStill(MobiAct act) {
+    _still?.cancel();
+    _still = Timer(Duration(milliseconds: (MobiMoves.duration(act) * 1000).round()), () {
+      _still = null;
+      if (mounted) _rig.value = _pose(_actForStance());
+    });
+  }
+
+  // ---- MobiLifeHost ------------------------------------------------------------------------
+
+  @override
+  void setMood(MobiMood mood) {
+    _sim.setMood(mood);
+    if (_reduced) {
+      // No blend under reduced motion: the face changes in one step.
+      if (_still == null) _rig.value = _pose(_actForStance());
+    } else {
+      _wake();
+    }
+  }
+
+  @override
+  bool react(MobiAct requested) {
+    final act = MobiRation.underLevel(requested, _level);
+    if (act == null) return false;
+    if (_reduced) {
+      // No travel: the act's still pose where he stands, for the act's length, then his stance.
+      _sim.play(act);
+      _rig.value = _pose(act, settled: true);
+      if (_reactions.contains(act) || MobiRation.celebrations.contains(act) || act == MobiAct.hello) _holdStill(act);
+      return true;
+    }
+    play(act);
+    return true;
+  }
+
+  @override
+  void followGlobal(Offset? point) {
+    if (_reduced || !mounted) return;
+    if (point == null) {
+      _followRelease?.cancel();
+      _followRelease = null;
+      _sim.lookAt(null);
+      _wake();
+      return;
+    }
+    final g = _gaze(point);
+    if (g == null) return;
+    // Clamped a little inside the eyes' travel, so a finger at the screen's edge does not pin
+    // the eyes to the visor's rim.
+    _sim.lookAt(Offset(g.dx.clamp(-0.85, 0.85), g.dy.clamp(-0.8, 0.8)));
+    // Each new point restarts the hold: the eyes let go 1.2 s after the finger stops.
+    _followRelease?.cancel();
+    _followRelease = Timer(_followHold, _release);
+    _wake();
+  }
+
+  void _release() {
+    _followRelease = null;
+    if (!mounted) return;
+    _sim.lookAt(null);
     _wake();
   }
 
@@ -369,6 +485,21 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       return;
     }
     final now = DateTime.now();
+    final run = _tapRun;
+    if (run != null) {
+      final act = run.tap(now);
+      if (global != null) {
+        final g = _gaze(global);
+        if (g != null) _sim.glance(g, seconds: 0.5);
+      }
+      if (act != null) {
+        play(act);
+      } else {
+        _sim.boop();
+        _wake();
+      }
+      return;
+    }
     _taps = now.difference(_lastTap) < const Duration(milliseconds: 900) ? _taps + 1 : 1;
     _lastTap = now;
     if (_taps >= 3) {

@@ -145,6 +145,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           target: target,
                           subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
                           week: _week(snapshot, off),
+                          celebrations: prefs.mode,
                           onOpenRhythm: () => context.push(AppRoutes.youRhythm),
                           onEdit: () => openYouPage(context, YouPaths.sheet),
                           onEditSubjects: () => openYouPage(context, YouPaths.subjects),

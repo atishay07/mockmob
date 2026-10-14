@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/connectivity/connectivity.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
@@ -95,9 +96,24 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     if (error != null) throw error;
   }
 
+  /// A fresh catalog, read after a run, found nothing due where cards were due before it: Mobi
+  /// is proud, once. A cached or failed read never says so.
+  bool _cleared = false;
+
   Future<void> _open(String path) async {
+    final before = ref.read(learnCatalogProvider).value?.queue.dueCount ?? 0;
     await context.push<void>(path);
-    if (mounted) unawaited(_refresh());
+    if (!mounted) return;
+    try {
+      await _refresh();
+    } on Object {
+      // A failed read is shown by the screen itself; it is never read as "nothing due".
+    }
+    if (!mounted) return;
+    final state = ref.read(learnCatalogProvider);
+    final fresh = state.error == null && !state.fromCache && state.value != null;
+    final cleared = fresh && before > 0 && state.value!.queue.dueCount == 0;
+    if (cleared != _cleared) setState(() => _cleared = cleared);
   }
 
   Future<void> _startRecall() async {
@@ -234,6 +250,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     final pending = ref.watch(pendingRunIdsProvider).value ?? const <String>[];
     final offline =
         ref.watch(offlineLearnProvider).value ?? const OfflineLearnState();
+    final isOffline =
+        ref.watch(networkStatusProvider) == NetworkStatus.offline;
     final subjects = catalog.subjectsWithLessons;
     final shown = catalog.subjectsToShow;
     final firstVisit = !(ref.watch(conceptsHowSeenProvider).value ?? true);
@@ -341,6 +359,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                           recallEnabled: catalog.core.recallEnabled,
                           primary: !hasResume,
                           starting: _starting,
+                          cleared: _cleared,
                           message: _startMessage,
                           onStart: _startRecall,
                           showMobi:
@@ -400,6 +419,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                                 subject: subject,
                                 units: catalog.unitsOf(subject.id),
                                 upNext: nextInList && !hasResume ? next : null,
+                                onPhone: offline.lessons,
+                                offline: isOffline,
                                 onOpen: (unit) =>
                                     _open(AppRoutes.learnUnit(unit.id)),
                                 onReadChapter: (chapter) => unawaited(
@@ -437,6 +458,11 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                           ref
                               .read(offlineLearnProvider.notifier)
                               .setKept(subject, keep: keep),
+                        ),
+                        onRemove: (subject) => unawaited(
+                          ref
+                              .read(offlineLearnProvider.notifier)
+                              .removeKept(subject),
                         ),
                       ),
                     ],

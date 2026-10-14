@@ -44,7 +44,7 @@ class _YouRhythmScreenState extends ConsumerState<YouRhythmScreen> {
   }
 
   Future<void> _editGoal(int current) async {
-    final saved = await showGoalEditor(context, initialDays: current);
+    final saved = await showGoalEditor(context, initialDays: current, done: ref.read(rhythmSnapshotProvider).rhythm?.studyDays ?? 0);
     if (saved == null || !mounted) return;
     ref.read(hapticsProvider).settle();
     setState(() {

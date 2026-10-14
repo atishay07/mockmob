@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -10,6 +11,8 @@ import '../domain/du_combos.dart';
 import '../domain/du_helpers.dart';
 import '../widgets/action_chip.dart';
 import '../widgets/load_states.dart';
+import '../widgets/pop_on_select.dart';
+import '../widgets/ranked_reveal.dart';
 import '../widgets/subject_picker_sheet.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_page.dart';
@@ -30,14 +33,28 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
   final _search = TextEditingController();
   String _query = '';
 
+  /// Each bump shakes the targets (or the pool line) once, with the warn haptic: the student has
+  /// just reached a limit.
+  final ValueNotifier<int> _targetsLimit = ValueNotifier(0);
+  final ValueNotifier<int> _poolLimit = ValueNotifier(0);
+
   @override
   void dispose() {
+    _targetsLimit.dispose();
+    _poolLimit.dispose();
     _search.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<ComboState>>(comboControllerProvider, (previous, next) {
+      final was = previous?.value;
+      final now = next.value;
+      if (was == null || now == null) return;
+      if (now.targetsFull && !was.targetsFull) _targetsLimit.value++;
+      if (now.poolFull && !was.poolFull) _poolLimit.value++;
+    });
     final async = ref.watch(comboControllerProvider);
     final slivers = switch (async) {
       AsyncData(:final value) => _ready(context, value),
@@ -86,15 +103,27 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-          child: Wrap(
-            spacing: MmSpace.s8,
-            children: [
-              for (final g in quick)
-                if (s.targets.contains(g.id)) MmChip(label: g.name, selected: true, onTap: () => controller.toggleTarget(g.id)),
-              for (final g in quick)
-                if (!s.targets.contains(g.id))
-                  MmChip(label: g.name, selected: false, onTap: s.targetsFull ? null : () => controller.toggleTarget(g.id)),
-            ],
+          child: MmShake(
+            pulse: _targetsLimit,
+            child: Wrap(
+              spacing: MmSpace.s8,
+              children: [
+                for (final g in quick)
+                  if (s.targets.contains(g.id))
+                    PopOnSelect(
+                      key: ValueKey('target-${g.id}'),
+                      selected: true,
+                      child: MmChip(label: g.name, selected: true, onTap: () => controller.toggleTarget(g.id)),
+                    ),
+                for (final g in quick)
+                  if (!s.targets.contains(g.id))
+                    PopOnSelect(
+                      key: ValueKey('target-${g.id}'),
+                      selected: false,
+                      child: MmChip(label: g.name, selected: false, onTap: s.targetsFull ? null : () => controller.toggleTarget(g.id)),
+                    ),
+              ],
+            ),
           ),
         ),
       ),
@@ -106,12 +135,16 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
             child: Column(
               children: [
                 for (final id in others)
-                  MmSelectRow(
-                    title: s.catalog.group(id)?.name ?? id,
-                    note: ToolsCopy.remove,
-                    multi: true,
-                    selected: true,
-                    onTap: () => controller.toggleTarget(id),
+                  RankedReveal(
+                    key: ValueKey('other-$id'),
+                    index: 0,
+                    child: MmSelectRow(
+                      title: s.catalog.group(id)?.name ?? id,
+                      note: ToolsCopy.remove,
+                      multi: true,
+                      selected: true,
+                      onTap: () => controller.toggleTarget(id),
+                    ),
                   ),
               ],
             ),
@@ -161,11 +194,14 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                 ),
               ] else
                 // Once chosen, the subjects are one quiet line and an edit key, not another chip cloud.
-                Text(
-                  [for (final p in s.pool) p.name(s.catalog, short: true)].join(', '),
-                  style: type.body,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                MmShake(
+                  pulse: _poolLimit,
+                  child: Text(
+                    [for (final p in s.pool) p.name(s.catalog, short: true)].join(', '),
+                    style: type.body,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               if (s.pool.isEmpty) ...[
                 const SizedBox(height: MmSpace.s12),
@@ -184,6 +220,8 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                 value: s.maxPapers,
                 onChanged: controller.setMaxPapers,
               ),
+              const SizedBox(height: MmSpace.s12),
+              PaperBubbles(used: result.ranked.isEmpty || s.pool.isEmpty ? 0 : result.ranked.first.items.length, limit: s.maxPapers),
             ],
           ),
         ),
@@ -234,4 +272,38 @@ class _Step extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverToBoxAdapter(child: ToolsHeading(title, note: note, top: top));
+}
+
+/// A row of paper bubbles, one per paper the form allows (3, 4 or 5): inked for the papers the
+/// best combination uses, hollow for the rest, with the count in words beside it. The bubbles
+/// ink in turn when the figure changes; the real count is the line, so reduced motion loses
+/// nothing. Shown only once a combination exists.
+class PaperBubbles extends StatelessWidget {
+  const PaperBubbles({super.key, required this.used, required this.limit});
+
+  final int used;
+  final int limit;
+
+  @override
+  Widget build(BuildContext context) {
+    if (used <= 0) return const SizedBox.shrink();
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final reduced = Motion.reduced(context);
+    final line = ComboWords.papersUsed(used, limit);
+    return Semantics(
+      label: line,
+      excludeSemantics: true,
+      child: Row(
+        children: [
+          for (var i = 0; i < limit; i++) ...[
+            if (i > 0) const SizedBox(width: MmSpace.s6),
+            Bubble(state: i < used ? BubbleState.filled : BubbleState.hollow, size: 14, animate: !reduced),
+          ],
+          const SizedBox(width: MmSpace.s12),
+          Expanded(child: Text(line, style: type.caption.copyWith(color: colors.ink2))),
+        ],
+      ),
+    );
+  }
 }

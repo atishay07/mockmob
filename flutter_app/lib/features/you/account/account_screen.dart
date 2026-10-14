@@ -1,3 +1,4 @@
+import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -43,6 +44,15 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   bool _failed = false;
   DateTime? _nameSavedAt;
 
+  /// The 56 dp Mobi by the balance: a greeting after a saved name, a wave at a confirmed sign out.
+  final MobiController _mobi = MobiController();
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
   Future<void> _signOut() async {
     if (_signingOut) return;
     // Busy from the first tap, so a second tap cannot open a second sheet while the phone is read.
@@ -58,6 +68,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       setState(() => _signingOut = false);
       return;
     }
+    // The student has confirmed: Mobi waves goodbye while the sign out goes through.
+    _mobi.play(MobiAct.hello);
     try {
       await performSignOut(ref);
     } on Object {
@@ -72,7 +84,16 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
   Future<void> _editName() async {
     final saved = await showNameSheet(context);
-    if (saved != null && mounted) setState(() => _nameSavedAt = ref.read(nowProvider)());
+    if (saved != null && mounted) {
+      setState(() => _nameSavedAt = ref.read(nowProvider)());
+      ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.account);
+      // The sheet closes only after the server answered, so this is an acknowledged save: Mobi
+      // says hello to the name that is now on the account.
+      final first = saved.trim().split(RegExp(r'\s+')).first;
+      if (first.isNotEmpty) {
+        _mobi.say(YouCopy.hubGreeting(first), live: true);
+      }
+    }
   }
 
   @override
@@ -88,7 +109,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     return YouPage(
       title: YouCopy.accountTitle,
       children: [
-        PlanCard(auth: auth),
+        PlanCard(auth: auth, mobi: _mobi),
         const GroupHeading(YouCopy.accountProfile, top: MmSpace.s32),
         YouPanel(
           flat: true,

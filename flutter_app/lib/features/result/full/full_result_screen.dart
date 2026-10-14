@@ -5,17 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot, celebrationControllerProvider;
+import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
+import '../model/recap_variant.dart' show recapReaction;
 import '../recap/recap_flow.dart' show RecapPlaceholder;
+import '../widgets/answer_reactor.dart';
 import '../widgets/evidence_link.dart';
 import 'full_sections.dart';
 import 'summary_section.dart';
@@ -45,10 +48,65 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   /// The "Not attempted" group is folded until opened (or until a link lands inside it).
   bool _blankOpen = false;
 
+  /// The reader Mobi beside the answers heading, and the one-act-per-2.5-s reaction to the
+  /// answer the student opens. Left out of the tree on an NTA result.
+  final MobiController _mobi = MobiController();
+  late final AnswerReactor _reactor = AnswerReactor(_mobi);
+
+  /// The answers as last built, so a bubble of the map can find its row.
+  AnswerGroups? _groups;
+
   @override
   void initState() {
     super.initState();
     scheduleMicrotask(() => ref.read(resultActionsProvider).markSeen(widget.attemptId));
+  }
+
+  @override
+  void dispose() {
+    _reactor.dispose();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  /// A bubble of the answer map was tapped: open that row and scroll it under the bar. A blank
+  /// one sits in the folded group, so the group opens on it first.
+  void _openFromMap(int number) {
+    final groups = _groups;
+    if (groups == null) return;
+    AnswerItem? target;
+    for (final a in groups.all) {
+      if (a.number == number) target = a;
+    }
+    if (target == null) return;
+    unawaited(ref.read(hapticsProvider).tick());
+    final item = target;
+    setState(() {
+      _open.add(item.qid);
+      if (item.verdict == Verdict.blank) _blankOpen = true;
+    });
+    void scrollTo() {
+      if (!mounted) return;
+      final ctx = _keys[item.qid]?.currentContext;
+      if (ctx == null || !ctx.mounted) return;
+      Scrollable.ensureVisible(
+        ctx,
+        alignment: 0.08,
+        duration: Motion.of(context, Motion.emphasizedDuration),
+        curve: Motion.emphasized,
+      );
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => scrollTo());
+    // A row inside the folded group arrives while that group's height is still opening: look
+    // again once it has settled.
+    if (item.verdict == Verdict.blank) Future<void>.delayed(Motion.of(context, Motion.card) + const Duration(milliseconds: 30), scrollTo);
+  }
+
+  /// An answer was opened after the page was up: Mobi turns to it (full Celebrations only, never
+  /// under reduced motion).
+  void _onOpened(AnswerItem item, {required bool allowed}) {
+    _reactor.react(item.verdict, row: _keyFor(item.qid), allowed: allowed && !Motion.reduced(context));
   }
 
   GlobalKey _keyFor(String qid) => _keys.putIfAbsent(qid, GlobalKey.new);
@@ -110,6 +168,13 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         candidateIds: {for (final c in model.candidates) c.questionId},
       );
       _seed(groups);
+      _groups = groups;
+      // The same reaction table as the recap decides whether Mobi is here at all (not on an NTA
+      // result) and how it stands: late at night it sits sleepy and does not turn to answers.
+      final mode = ref.watch(celebrationModeProvider);
+      final reaction = recapReaction(variant: model.variant, mode: mode, isNta: model.isNta, hour: MobiRation.now().hour);
+      final mobiOn = reaction != null;
+      final mobiAllowed = reaction != null && mode == CelebrationMode.full && reaction.act != MobiAct.sleepy;
       final keysOff = model.keysUnavailable || data.detail == null;
       final fix = firstFixSection(context, model);
       // One authored entrance, riding the page's own transition: the figure first, then what
@@ -155,9 +220,18 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 CelebrationSlot(scope: CelebrationScope.result(id)),
                 const SizedBox(height: MmSpace.s16),
               ],
-              item(SummarySection(model: model)),
+              item(
+                SummarySection(
+                  model: model,
+                  mobi: mobiOn ? _mobi : null,
+                  mobiPose: reaction?.act == MobiAct.sleepy ? MobiPose.sleepy : MobiPose.read,
+                  onOpenQuestion: _openFromMap,
+                  arrival: widget.focusQuestion == null,
+                  onPeek: (_) => unawaited(ref.read(hapticsProvider).tick()),
+                ),
+              ),
               ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
-              if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model))],
+              if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model, onOpenQuestion: _openFromMap))],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               const SizedBox(height: MmRhythm.section),
               item(
@@ -171,6 +245,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   model: model,
                   blankOpen: _blankOpen,
                   onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
+                  onOpened: (item) => _onOpened(item, allowed: mobiAllowed),
                 ),
               ),
             ],

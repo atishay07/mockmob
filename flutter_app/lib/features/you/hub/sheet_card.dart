@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode;
 import '../copy.dart';
 import '../data/student_target.dart';
+import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart' show youText;
+import 'hub_mobi.dart';
 import 'sheet_fields.dart';
 
 /// The student's sheet for the season (brief section 12, You): the identity at the top of You.
@@ -15,7 +20,7 @@ import 'sheet_fields.dart';
 /// sheet: hairlines, no outer card, no box inside a box. It prints only what is known; a field
 /// with nothing in it is left off, and the sheet says what is missing with one way to fill it.
 /// The Edit key lives in the page's top row; the subjects field opens the subjects editor.
-class SheetCard extends StatelessWidget {
+class SheetCard extends StatefulWidget {
   const SheetCard({
     super.key,
     required this.name,
@@ -26,7 +31,15 @@ class SheetCard extends StatelessWidget {
     required this.onOpenRhythm,
     this.onEdit,
     this.onEditSubjects,
+    this.celebrations = CelebrationMode.full,
+    this.now,
   });
+
+  /// The Celebrations setting: Quiet swaps Mobi's proud for a nod, Off plays nothing.
+  final CelebrationMode celebrations;
+
+  /// The clock for Mobi's late-night rule (0 to 4 AM he is sleepy). Null reads the ration's clock.
+  final DateTime Function()? now;
 
   final String? name;
   final String? email;
@@ -46,9 +59,92 @@ class SheetCard extends StatelessWidget {
   final VoidCallback? onEditSubjects;
 
   @override
+  State<SheetCard> createState() => _SheetCardState();
+}
+
+class _SheetCardState extends State<SheetCard> {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _weekKey = GlobalKey();
+  Timer? _later;
+  bool _read = false;
+  MobiAct _entrance = MobiAct.idle;
+
+  DateTime _now() => (widget.now ?? MobiRation.now)();
+
+  @override
+  void initState() {
+    super.initState();
+    // Mobi reads the real week once, the first time it is known. A week still loading leaves him
+    // idle; the reading plays when it lands.
+    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations);
+    if (reading != null) {
+      _read = true;
+      _entrance = _consume(reading);
+    }
+  }
+
+  @override
+  void didUpdateWidget(SheetCard old) {
+    super.didUpdateWidget(old);
+    if (_read) return;
+    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations);
+    if (reading == null) return;
+    _read = true;
+    _mobi.play(_consume(reading));
+  }
+
+  @override
+  void dispose() {
+    _later?.cancel();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  /// Spends the reading's once-a-day gate and schedules its words or its point. Returns the act
+  /// to play now. A reading whose gate is already spent today is just a still Mobi.
+  MobiAct _consume(HubMobiReading reading) {
+    switch (reading.gate) {
+      case HubMobiGate.met:
+        if (!MobiRation.helloToday('you:week')) return MobiAct.idle;
+      case HubMobiGate.nudge:
+        if (!MobiRation.nudgeToday('you')) return MobiAct.idle;
+      case HubMobiGate.none:
+        // A plain hello is the first open of the day only.
+        if (reading.act == MobiAct.hello) return MobiRation.helloToday('you') ? MobiAct.hello : MobiAct.idle;
+    }
+    final line = reading.line;
+    if (line != null) {
+      // The words come after the act has landed: he never speaks over his own moment.
+      final wait = widget.celebrations == CelebrationMode.off ? Duration.zero : Duration(milliseconds: (MobiMoves.duration(reading.act) * 1000).round());
+      _later?.cancel();
+      _later = Timer(wait, () {
+        if (mounted) _mobi.sayOnce('you:week', line, live: true);
+      });
+    }
+    if (reading.pointAtWeek) {
+      // After 4 s with no touch, once a day: he points at the Rhythm field.
+      _later?.cancel();
+      _later = Timer(MobiRation.nudgeAfter, () {
+        if (!mounted) return;
+        _mobi.pointAtWidget(_weekKey);
+        _mobi.play(MobiAct.nudge);
+      });
+      return MobiAct.idle;
+    }
+    return reading.act;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final name = widget.name;
+    final email = widget.email;
+    final target = widget.target;
+    final subjects = widget.subjects;
+    final week = widget.week;
+    final onEdit = widget.onEdit;
+    final onEditSubjects = widget.onEditSubjects;
     final trimmed = name?.trim();
     final title = trimmed == null || trimmed.isEmpty ? YouCopy.sheetNameFallback : trimmed;
     final year = target.stage?.cuetYear ?? 2027;
@@ -78,21 +174,33 @@ class SheetCard extends StatelessWidget {
                       ],
                       if (email != null) ...[
                         const SizedBox(height: MmSpace.s4),
-                        Text(email!, style: type.caption.copyWith(color: colors.ink3), maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Text(email, style: type.caption.copyWith(color: colors.ink3), maxLines: 2, overflow: TextOverflow.ellipsis),
                       ],
+                      // Mobi's one factual line about the week (a met goal), typed in after he has
+                      // played his act. Plain text on the ground: no box, never over anything.
+                      ValueListenableBuilder<MobiSpeech?>(
+                        valueListenable: _mobi.speech,
+                        builder: (context, speech, _) => speech == null
+                            ? const SizedBox.shrink()
+                            : Padding(
+                                padding: const EdgeInsets.only(top: MmSpace.s8),
+                                child: MobiBubble(key: ValueKey(speech.id), speech: speech, boxed: false, maxWidth: 240),
+                              ),
+                      ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(width: MmSpace.s8),
-              // Mobi waves the first time You opens each day (sleepy late at night), then he is
-              // simply there: he breathes and blinks, and a tap makes him react.
-              const _YouMobi(),
+              // Mobi reads the week once a day (proud for a met goal, a nudge toward the Rhythm
+              // field one day short, sleepy from midnight to 5 AM), then he is simply there:
+              // he breathes and blinks, and each tap plays the next small act.
+              YouMobi(size: 120, controller: _mobi, entrance: _entrance, pose: MobiPose.greet),
             ],
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        WeekField(week: week, onOpen: onOpenRhythm),
+        KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: widget.onOpenRhythm)),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -108,28 +216,12 @@ class SheetCard extends StatelessWidget {
               ),
             if (subjects.isNotEmpty)
               SubjectsField(subjects: subjects, onEdit: onEditSubjects),
-            if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit!)),
+            if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit)),
           ],
         ),
       ],
     );
   }
-}
-
-/// Mobi at the top right of the sheet. His wave is asked for once, when the screen is first built,
-/// so it plays on the first open of the day and never again (MOTION.md 4.13).
-class _YouMobi extends StatefulWidget {
-  const _YouMobi();
-
-  @override
-  State<_YouMobi> createState() => _YouMobiState();
-}
-
-class _YouMobiState extends State<_YouMobi> {
-  late final MobiAct _entrance = MobiRation.greeting('you');
-
-  @override
-  Widget build(BuildContext context) => Mobi(pose: MobiPose.greet, size: 120, interactive: true, entrance: _entrance);
 }
 
 /// Shown when the sheet has no course or colleges yet: one line and the one volt key that fills

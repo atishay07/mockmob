@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The in-app "Touch feedback" switch (spec 3.3). On by default. The You module persists it.
@@ -92,3 +93,13 @@ class Haptics {
 }
 
 final hapticsProvider = Provider<Haptics>((ref) => Haptics(enabled: ref.watch(touchFeedbackProvider)));
+
+/// The app's [Haptics] from the nearest `ProviderScope`, or null outside one (a bare widget in a
+/// test), so a motion primitive never needs Riverpod to build.
+Haptics? hapticsOf(BuildContext context) {
+  try {
+    return ProviderScope.containerOf(context, listen: false).read(hapticsProvider);
+  } catch (_) {
+    return null;
+  }
+}

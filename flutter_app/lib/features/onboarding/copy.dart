@@ -56,6 +56,9 @@ abstract final class OnboardingCopy {
   static const String mobiWelcomeBack = 'Your sheet kept your place.';
   static String mobiRight(int seconds) => seconds <= 1 ? 'About a second. Clean.' : '$seconds seconds. Clean.';
   static const String mobiTrap = 'Classic trap. Fix below.';
+
+  /// Said when the hold is let go early: the plan is still his to seal, nothing is lost.
+  static const String mobiStillYours = 'Still yours to seal.';
   static const String mobiSealed = "Sealed. It's yours.";
   static const String mobiSave = 'Keep it with you.';
 

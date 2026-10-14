@@ -99,3 +99,23 @@ String closedWeekText(RhythmWeek week) {
   final weekOf = start == null ? week.weekStart : formatDayMonthDate(start);
   return RhythmCopy.closedWeekRow(weekOf, week.studyDays, week.goal);
 }
+
+/// The three ways to pause, as the server holds them: the Sunday of this week, the Sunday after
+/// next, and 100 days from the student's today (the longest pause the server accepts).
+enum PauseOption { thisWeek, twoWeeks, threeMonths }
+
+/// The day the run is back on for [option]: the Monday after the pause ends, from the student's
+/// own today as marked in [week]. Null when the week is a stale cache (no day is today), because
+/// then the date would be a guess.
+DateTime? pauseBackOn(PauseOption option, WeekView week) {
+  final todayIndex = week.days.indexWhere((d) => d.isToday);
+  if (todayIndex < 0) return null;
+  final today = week.days[todayIndex].date;
+  if (today == null) return null;
+  final monday = today.subtract(Duration(days: todayIndex));
+  return switch (option) {
+    PauseOption.thisWeek => monday.add(const Duration(days: 7)),
+    PauseOption.twoWeeks => monday.add(const Duration(days: 14)),
+    PauseOption.threeMonths => today.add(const Duration(days: 101)),
+  };
+}

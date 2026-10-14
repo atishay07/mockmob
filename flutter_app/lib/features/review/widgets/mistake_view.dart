@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/question.dart';
 import '../../../core/motion/motion.dart';
@@ -14,6 +15,8 @@ import '../data/repair_state.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';
 import 'question_panel.dart';
+import 'repair_mobi.dart';
+import 'review_bits.dart' show FlushKey;
 import 'run_track.dart';
 
 /// Callbacks of the per-mistake screen.
@@ -30,7 +33,15 @@ class MistakeActions {
 /// The question with the student's answer, then the correct answer once the server says it,
 /// what happened, the worked explanation and the optional retry.
 class MistakeView extends StatelessWidget {
-  const MistakeView({super.key, required this.run, required this.question, required this.actions, this.detail, this.renewDate});
+  const MistakeView({
+    super.key,
+    required this.run,
+    required this.question,
+    required this.actions,
+    this.detail,
+    this.renewDate,
+    this.scheme,
+  });
 
   final RepairRunState run;
 
@@ -44,6 +55,28 @@ class MistakeView extends StatelessWidget {
   /// When the explanation credits renew ("1 November"), for the used-up credits line.
   final String? renewDate;
   final MistakeActions actions;
+
+  /// The paper's marking scheme, for the free marks line. Null hides the line.
+  final MarkingScheme? scheme;
+
+  /// The letter of option [i] of the question ("B"), or null.
+  String? _letter(int? i) {
+    final q = question;
+    if (q == null || i == null || i < 0 || i >= q.options.length) return null;
+    return q.options[i].key;
+  }
+
+  /// "This answer cost 6 marks in this session: 5 not earned and 1 penalty.", or null when the
+  /// scheme is unknown or the key of this answer was corrected (its marks then changed).
+  String? _marksLine(String questionId) {
+    if (detail?.answerReviews[questionId]?.isCorrected ?? false) return null;
+    return marksAtStake(scheme)?.line;
+  }
+
+  Widget? _marks(BuildContext context) {
+    final line = _marksLine(run.current!.item.questionId);
+    return line == null ? null : MarksLine(text: line);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +111,17 @@ class MistakeView extends StatelessWidget {
                   const SizedBox(height: MmSpace.s8),
                   if (question == null)
                     Text(ReviewCopy.notFound, style: type.body.copyWith(color: colors.ink2))
+                  else if (outcome is OutcomeExplained)
+                    // Once explained the paid part leads: the question folds to one line.
+                    FoldedQuestion(
+                      key: ValueKey('fold-${step.item.key}'),
+                      line: ReviewCopy.foldedQuestion(step.item.number, _letter(chosen), _letter(keyIndex)),
+                      panel: QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
+                    )
                   else
                     QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
-                  ..._outcome(context, outcome),
+                  RepairMobi(stepKey: step.item.key, outcome: outcome),
+                  ..._outcome(context, outcome, chosenLetter: _letter(chosen)),
                 ],
               ),
               // The words run under the key: a short fade into the ground says there is more, in
@@ -128,7 +169,7 @@ class MistakeView extends StatelessWidget {
     );
   }
 
-  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome) {
+  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter}) {
     final colors = context.mmColors;
     final type = context.mmType;
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
@@ -149,7 +190,8 @@ class MistakeView extends StatelessWidget {
       case OutcomeExplained(:final response):
         return [
           StageMoment(repaired: run.current?.countsAsRepaired ?? false),
-          if (response.explanation != null) WorkedExplanation(explanation: response.explanation!),
+          if (response.explanation != null) WorkedExplanation(explanation: response.explanation!, chosenLetter: chosenLetter),
+          ?_marks(context),
           ConceptRow(chapter: run.chapter),
           RetryCard(subjectId: run.subjectId, chapter: run.chapter),
         ];
@@ -184,8 +226,94 @@ class MistakeView extends StatelessWidget {
           if (reason == KeyReviewReason.outOfCredits) NoticePanel(message: ReviewCopy.creditsUsedLine(renewDate)),
           if (reason == KeyReviewReason.paused) const NoticePanel(message: ReviewCopy.paused),
           _KeyReview(detail: detail, questionId: run.current!.item.questionId),
+          ?_marks(context),
         ];
     }
+  }
+}
+
+/// The free marks line: what this answer cost in its session, from the scheme alone.
+class MarksLine extends StatelessWidget {
+  const MarksLine({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Icon(LucideIcons.scale, size: 16, color: colors.ink3),
+          ),
+          const SizedBox(width: MmSpace.s8),
+          Expanded(child: Text(text, style: type.small.copyWith(color: colors.ink2))),
+        ],
+      ),
+    );
+  }
+}
+
+/// The question once the repair is on screen: one line, "Q7. Your pick B. Key C.", with "Show the
+/// question" to open it again. The two states cross-fade on top of each other (no size animation
+/// inside the scrolling list); the height settles when the fade ends.
+class FoldedQuestion extends StatefulWidget {
+  const FoldedQuestion({super.key, required this.line, required this.panel});
+
+  final String line;
+  final Widget panel;
+
+  @override
+  State<FoldedQuestion> createState() => _FoldedQuestionState();
+}
+
+class _FoldedQuestionState extends State<FoldedQuestion> {
+  bool _open = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final folded = Column(
+      key: const ValueKey('folded'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        DecoratedBox(
+          decoration: ShapeDecoration(
+            color: colors.sunken,
+            shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+            child: Text(widget.line, style: type.labelLarge.copyWith(color: colors.ink)),
+          ),
+        ),
+        FlushKey(label: ReviewCopy.showQuestion, onPressed: () => setState(() => _open = true)),
+      ],
+    );
+    final open = Column(
+      key: const ValueKey('open'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        widget.panel,
+        FlushKey(label: ReviewCopy.hideQuestion, onPressed: () => setState(() => _open = false)),
+      ],
+    );
+    return AnimatedSwitcher(
+      duration: Motion.of(context, Motion.crossFade),
+      switchInCurve: Motion.out,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      child: _open ? open : folded,
+    );
   }
 }
 

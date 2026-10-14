@@ -254,20 +254,36 @@ class _MarksBarPainter extends CustomPainter {
 
 /// One legend entry: the bubble that means it, then the words.
 class LegendItem extends StatelessWidget {
-  const LegendItem({super.key, required this.state, required this.text});
+  const LegendItem({super.key, required this.state, required this.text, this.onTap});
 
   final BubbleState state;
   final String text;
 
+  /// Makes the item a key: pressing it asks the answer sheet to ripple that kind of bubble. Null
+  /// leaves it plain text.
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final row = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Bubble(state: state, size: 14, animate: false),
         const SizedBox(width: MmSpace.s4),
         Text(text, style: context.mmType.caption.copyWith(color: context.mmColors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
       ],
+    );
+    final tap = onTap;
+    if (tap == null) return row;
+    return MmPressable(
+      onTap: tap,
+      semanticsLabel: text,
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min - 8),
+        child: Align(alignment: Alignment.centerLeft, widthFactor: 1, child: row),
+      ),
     );
   }
 }

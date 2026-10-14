@@ -1,4 +1,5 @@
 import '../models/attempt.dart';
+import 'tonight_pick.dart';
 
 /// A wrong answer that Mistake Repair may be offered for.
 class RepairCandidate {
@@ -101,4 +102,87 @@ RepairWalletShortfall? repairWalletShortfall({required int mistakes, required in
   if (balance == null) return null;
   final needed = repairCreditsNeeded(mistakes);
   return balance >= needed ? null : RepairWalletShortfall(needed: needed, balance: balance);
+}
+
+/// What one repair key opens: one chapter of one paper, the same run `RepairRun.open` builds
+/// (the tapped mistake first, then the chapter's other open mistakes by question number), so the
+/// words on a key always match the entry it opens.
+class RepairKeyScope {
+  const RepairKeyScope({required this.chapter, required this.firstQuestionId, required this.count, required this.othersInPaper});
+
+  /// The chapter as the run groups it ([chapterKey]: an unnamed chapter is "Other questions").
+  final String chapter;
+
+  /// The mistake the run opens on.
+  final String firstQuestionId;
+
+  /// The run's mistake count.
+  final int count;
+
+  /// Mistakes of the same paper in other chapters: the run does not hold them.
+  final int othersInPaper;
+
+  /// "About" minutes for the run, 3 per mistake rounded up to 5.
+  int get minutes => repairMinutes(count) ?? 0;
+
+  bool get hasNamedChapter => chapter != otherChapter;
+}
+
+/// The words for a repair key, from what it actually opens.
+abstract final class RepairCandidates {
+  /// The run a key on [candidates] (one paper's open mistakes) opens. With [startQuestionId] the
+  /// run starts there, in that question's chapter; without one it is tonight's chapter (the one
+  /// holding the most open mistakes, the pick Today, Review and Start make). [limit] keeps the run
+  /// to that many, as a `?count=` link does. Null when there is nothing to open.
+  static RepairKeyScope? scopeOf(List<RepairCandidate> candidates, {String? startQuestionId, int? limit}) {
+    if (candidates.isEmpty) return null;
+    RepairCandidate? start;
+    if (startQuestionId != null) {
+      for (final c in candidates) {
+        if (c.questionId == startQuestionId) start = c;
+      }
+      if (start == null) return null;
+    } else {
+      final pick = pickTonightChapter(candidates, chapterOf: (c) => c.chapter, numberOf: (c) => c.number);
+      if (pick == null) return null;
+      start = pick.items.first;
+    }
+    final chapter = chapterKey(start.chapter);
+    final inChapter = [
+      for (final c in candidates)
+        if (chapterKey(c.chapter) == chapter) c,
+    ];
+    var count = inChapter.length;
+    if (limit != null && limit > 0 && limit < count) count = limit;
+    return RepairKeyScope(
+      chapter: chapter,
+      firstQuestionId: start.questionId,
+      count: count,
+      othersInPaper: candidates.length - inChapter.length,
+    );
+  }
+
+  /// "Repair 1 mistake" or "Repair 3 mistakes": the count on the key is the run's count.
+  static String keyLabel(RepairKeyScope scope) => 'Repair ${_mistakes(scope.count)}';
+
+  /// The line under the key: "Principles of management, about 5 minutes." and, when the paper
+  /// has more in other chapters, "The other 4 are in Review."
+  static String describe(RepairKeyScope scope) {
+    final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
+    final rest = scope.othersInPaper <= 0
+        ? ''
+        : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
+    return '$where, about ${scope.minutes} minutes.$rest';
+  }
+
+  /// What a screen reader says for the key: the count, the chapter and the time in one sentence.
+  static String spoken(RepairKeyScope scope) => '${keyLabel(scope)}. ${describe(scope)}';
+
+  static String _mistakes(int n) => n == 1 ? '1 mistake' : '$n mistakes';
+}
+
+/// "Partnership" for "Partnership: admission of a partner" (the same rule as Review's copy).
+String shortChapterName(String chapter) {
+  final head = chapter.split(':').first.trim();
+  return head.isEmpty ? chapter : head;
 }

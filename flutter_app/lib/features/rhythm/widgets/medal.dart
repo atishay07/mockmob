@@ -23,7 +23,7 @@ import 'rhythm_layout.dart' show contactShadowColor;
 enum MedalStatus { landed, next, later }
 
 class Medal extends StatefulWidget {
-  const Medal({super.key, required this.status, this.icon, this.text, this.size = 44, this.animateLanding = false, this.delay = Duration.zero})
+  const Medal({super.key, required this.status, this.icon, this.text, this.size = 44, this.animateLanding = false, this.delay = Duration.zero, this.arc})
       : assert(icon != null || text != null);
 
   /// A coin without an engraving, for the small coins of a summary row.
@@ -31,7 +31,8 @@ class Medal extends StatefulWidget {
       : icon = null,
         text = null,
         animateLanding = false,
-        delay = Duration.zero;
+        delay = Duration.zero,
+        arc = null;
 
   final MedalStatus status;
 
@@ -48,6 +49,10 @@ class Medal extends StatefulWidget {
   /// Waits this long before the landing plays: the object above it settles first.
   final Duration delay;
 
+  /// How far along a coin that is next is, 0 to 1, drawn as a volt arc over its dashed ring that
+  /// draws in once. Only for a count the app holds exactly; null draws the ring alone.
+  final double? arc;
+
   @override
   State<Medal> createState() => _MedalState();
 }
@@ -57,6 +62,7 @@ class _MedalState extends State<Medal> with TickerProviderStateMixin {
   /// controllers, so two tickers.
   AnimationController? _band;
   AnimationController? _scale;
+  late final AnimationController _arcDraw = AnimationController(vsync: this, duration: Motion.drawIn);
   Timer? _wait;
   bool _started = false;
 
@@ -65,6 +71,13 @@ class _MedalState extends State<Medal> with TickerProviderStateMixin {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
+    if (widget.arc != null) {
+      if (Motion.reduced(context)) {
+        _arcDraw.value = 1;
+      } else {
+        _arcDraw.forward();
+      }
+    }
     if (!widget.animateLanding || widget.status != MedalStatus.landed || Motion.reduced(context)) return;
     final band = _band = AnimationController(vsync: this, duration: Motion.milestone);
     final scale = _scale = AnimationController.unbounded(vsync: this, value: 0.92);
@@ -82,7 +95,20 @@ class _MedalState extends State<Medal> with TickerProviderStateMixin {
   }
 
   @override
+  void didUpdateWidget(Medal old) {
+    super.didUpdateWidget(old);
+    if (old.arc != widget.arc && widget.arc != null) {
+      if (Motion.reduced(context)) {
+        _arcDraw.value = 1;
+      } else {
+        _arcDraw.forward(from: 0);
+      }
+    }
+  }
+
+  @override
   void dispose() {
+    _arcDraw.dispose();
     _wait?.cancel();
     _band?.dispose();
     _scale?.dispose();
@@ -117,7 +143,7 @@ class _MedalState extends State<Medal> with TickerProviderStateMixin {
       dimension: s,
       child: RepaintBoundary(
         child: CustomPaint(
-          painter: _MedalPainter(colors: colors, status: widget.status, progress: _band),
+          painter: _MedalPainter(colors: colors, status: widget.status, progress: _band, arc: widget.arc, arcDraw: _arcDraw),
           child: Center(child: mark),
         ),
       ),
@@ -163,11 +189,15 @@ class _Engraved extends StatelessWidget {
 }
 
 class _MedalPainter extends CustomPainter {
-  _MedalPainter({required this.colors, required this.status, required this.progress}) : super(repaint: progress);
+  _MedalPainter({required this.colors, required this.status, required this.progress, this.arc, this.arcDraw}) : super(repaint: Listenable.merge([progress, arcDraw]));
 
   final MmColors colors;
   final MedalStatus status;
   final Animation<double>? progress;
+
+  /// How far along a coin that is next is (0 to 1), and the clock that draws it in.
+  final double? arc;
+  final Animation<double>? arcDraw;
 
   // Brass: the metal is the same on Night and Daylight (see the file header), so these are
   // physical colours, not theme roles.
@@ -188,6 +218,22 @@ class _MedalPainter extends CustomPainter {
       case MedalStatus.next:
         // A stroke on the ground: volt on Night, the dark volt on Daylight (`accentText`).
         _dashed(canvas, c, r - 1.5, colors.accentText, 2.4);
+        final a = arc;
+        if (a != null && a > 0) {
+          // The real progress: a solid volt arc from twelve o'clock over the dashes, drawn in once.
+          final t = Curves.easeOutCubic.transform((arcDraw?.value ?? 1).clamp(0.0, 1.0));
+          canvas.drawArc(
+            Rect.fromCircle(center: c, radius: r - 1.5),
+            -math.pi / 2,
+            2 * math.pi * a.clamp(0.0, 1.0) * t,
+            false,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 3.4
+              ..strokeCap = StrokeCap.round
+              ..color = colors.accentText,
+          );
+        }
       case MedalStatus.later:
         canvas.drawCircle(
           c,
@@ -279,5 +325,5 @@ class _MedalPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MedalPainter old) => old.colors != colors || old.status != status || old.progress != progress;
+  bool shouldRepaint(_MedalPainter old) => old.colors != colors || old.status != status || old.progress != progress || old.arc != arc;
 }

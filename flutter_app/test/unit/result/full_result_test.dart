@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show BubbleGrid, BubbleState, Mobi;
+import 'package:mockmob/features/result/widgets/answer_map.dart' show AnswerMap;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/models.dart';
@@ -69,6 +72,55 @@ void main() {
     await tester.pump();
     expect(find.text('You did not answer this question.'), findsOneWidget);
     expect(find.text('Repair this mistake'), findsNWidgets(2)); // one key: its label plus its width reserve
+  });
+
+  group('the answer map and the reader Mobi', () {
+    Offset bubbleAt(WidgetTester tester, int number) {
+      final grid = find.byType(BubbleGrid);
+      final tl = tester.getTopLeft(grid);
+      final w = tester.getSize(grid).width;
+      const b = 20.0, numberSpace = 16.0, rowGap = 10.0;
+      final i = number - 1;
+      final x = (i % 10) * (w - b) / 9 + b / 2;
+      final y = (i ~/ 10) * (b + numberSpace + rowGap) + numberSpace + b / 2;
+      return tl + Offset(x, y);
+    }
+
+    testWidgets('a tap on a bubble opens that answer', (tester) async {
+      await pump(tester);
+      await tester.pump(const Duration(seconds: 1));
+      final cells = mock7().cells;
+      final right = cells.indexOf(BubbleState.filled) + 1;
+      AnswerRow row(int n) => tester.widget<AnswerRow>(find.byWidgetPredicate((w) => w is AnswerRow && w.item.number == n, skipOffstage: false));
+      expect(row(right).expanded, isFalse);
+      await tester.tapAt(bubbleAt(tester, right));
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(row(right).expanded, isTrue);
+    });
+
+    testWidgets('a long press names the question, the subject and the verdict until the finger lifts', (tester) async {
+      await pump(tester);
+      await tester.pump(const Duration(seconds: 1));
+      final wrong = mock7().cells.indexOf(BubbleState.wrong) + 1;
+      final gesture = await tester.startGesture(bubbleAt(tester, wrong));
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(find.text('Q$wrong, Accountancy: wrong'), findsOneWidget);
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Q$wrong, Accountancy: wrong'), findsNothing);
+    });
+
+    testWidgets('one reader Mobi on a full-mode result, none on an NTA result', (tester) async {
+      await pump(tester);
+      expect(find.byType(Mobi), findsOneWidget);
+    });
+
+    testWidgets('an NTA result has no Mobi at all', (tester) async {
+      final d = detail(attemptBody: attemptJson(mode: 'nta'));
+      await pump(tester, data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d));
+      expect(find.byType(Mobi), findsNothing);
+      expect(find.byType(AnswerMap), findsOneWidget, reason: 'the map itself is not Mobi');
+    });
   });
 
   testWidgets('a held answer shows no key and no explanation', (tester) async {

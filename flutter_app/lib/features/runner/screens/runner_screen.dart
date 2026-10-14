@@ -108,6 +108,8 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
           onLeave: () => unawaited(_confirmLeave()),
           onQuestions: () => unawaited(_openPalette()),
           onSelect: (qid, option) => unawaited(select(qid, option)),
+          onStrike: strike,
+          onReady: () => unawaited(ref.read(hapticsProvider).tick()),
           onPrevious: previous,
           onNext: next,
           onJump: _jump,

@@ -7,8 +7,10 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/reminder_state.dart';
+import '../logic/next_reminder.dart';
 import '../logic/reminder_plan.dart' show repairReadyKey;
 import '../widgets/day_shape.dart';
+import '../widgets/notification_header.dart';
 import '../widgets/settings_rows.dart';
 import '../widgets/settings_sections.dart';
 import '../widgets/time_sheet.dart';
@@ -59,7 +61,23 @@ class SettingsBody extends StatelessWidget {
     required this.actions,
     this.header,
     this.footerClearance = 0,
+    this.next,
+    this.mobi,
+    this.now,
+    this.onNextTap,
   });
+
+  /// What the scheduler left after its last plan (null before the first one). Drives the line
+  /// at the top and the dot on the day bar.
+  final NextReminder? next;
+
+  /// The header Mobi's controller (the screen cheers him when a save confirms). Null leaves the
+  /// header out (tests of the plain list).
+  final MobiController? mobi;
+  final DateTime? now;
+
+  /// Opens the time sheet for the study window's start.
+  final VoidCallback? onNextTap;
 
   final NotificationPrefs prefs;
 
@@ -90,6 +108,15 @@ class SettingsBody extends StatelessWidget {
     if (key == repairReadyKey) return reminder.repairReadyOn;
     return prefs.channelOn(key);
   }
+
+  /// Any reminder is switched on (and not stopped).
+  bool get _anyOn => [
+        NotificationChannelKeys.resultReady,
+        NotificationChannelKeys.studyWindow,
+        repairReadyKey,
+        NotificationChannelKeys.weeklyPlan,
+        if (freshChecksOpen) NotificationChannelKeys.checkDue,
+      ].any(_on);
 
   /// Mute for 7 days is running: reminders are on hold until it ends.
   DateTime? get _mutedUntil => reminder.mutedUntil;
@@ -159,6 +186,17 @@ class SettingsBody extends StatelessWidget {
         ),
         children: [
           if (header != null) MmStaggerItem(index: 0, child: header!),
+          if (mobi != null)
+            MmStaggerItem(
+              index: 0,
+              child: NotificationsHeader(
+                mobi: mobi!,
+                resting: _mutedUntil != null || !_anyOn,
+                next: next,
+                now: now ?? DateTime.now(),
+                onNextTap: window == null ? null : onNextTap,
+              ),
+            ),
           // One status at a time, the most blocking first: a pane that needs an action (Turn on, Open
           // Android settings), then a running mute, then the one-time hint. The mute also shows
           // under Take a break and as a note on each held channel, so nothing is lost.
@@ -182,7 +220,7 @@ class SettingsBody extends StatelessWidget {
           group(2, [
             SectionHeading(NotificationsCopy.dayHeading, topGap: leadShown ? MmSpace.s24 : 0),
             // The hero of the page: it sits straight on the ground, not in a card.
-            DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
+            DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window, nextMinute: next?.minuteOfDay),
           ]),
           group(3, [
             const SectionHeading(NotificationsCopy.channelsHeading),

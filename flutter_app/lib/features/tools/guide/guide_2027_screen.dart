@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,10 +37,15 @@ class Guide2027Screen extends ConsumerWidget {
               children: [
                 // Said once for the whole timeline, so no row has to repeat it.
                 Text(ToolsCopy.guideBasis, style: context.mmType.caption.copyWith(color: context.mmColors.ink2)),
+                if (guideNudge(now) case final nudge?) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  _GuideMobi(line: nudge.line),
+                ],
                 const SizedBox(height: MmSpace.s20),
                 for (var i = 0; i < guideTimeline.length; i++)
                   _TimelineRow(
                     milestone: guideTimeline[i],
+                    index: i,
                     now: now,
                     last: i == guideTimeline.length - 1,
                     // The rail below this node is volt while the next stop has already begun.
@@ -78,9 +85,12 @@ class Guide2027Screen extends ConsumerWidget {
 }
 
 class _TimelineRow extends StatelessWidget {
-  const _TimelineRow({required this.milestone, required this.now, required this.last, required this.reached});
+  const _TimelineRow({required this.milestone, required this.index, required this.now, required this.last, required this.reached});
 
   final GuideMilestone milestone;
+
+  /// Its place on the rail, which staggers the fill.
+  final int index;
   final DateTime now;
   final bool last;
 
@@ -110,11 +120,7 @@ class _TimelineRow extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: MmSpace.s4),
-                        child: SizedBox(
-                          width: 2.5,
-                          height: double.infinity,
-                          child: DecoratedBox(decoration: BoxDecoration(color: reached ? volt : colors.ink3, borderRadius: BorderRadius.circular(2))),
-                        ),
+                        child: _Rail(index: index, reached: reached, volt: volt, base: colors.ink3),
                       ),
                     ),
                 ],
@@ -135,6 +141,7 @@ class _TimelineRow extends StatelessWidget {
                         Flexible(child: Text(m.title, style: type.cardTitle)),
                         if (m.expected) ...[const SizedBox(width: MmSpace.s8), const _ExpectedTag()],
                         if (current) ...[const SizedBox(width: MmSpace.s8), const ToolTag(ToolsCopy.guideNow, tone: ToolTone.good)],
+                        if (guideDaysLeftChip(m, now) case final left?) ...[const SizedBox(width: MmSpace.s8), ToolTag(left)],
                       ],
                     ),
                     const SizedBox(height: MmSpace.s4),
@@ -173,16 +180,7 @@ class _Node extends StatelessWidget {
       );
     }
     if (current) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: fill,
-          border: Border.all(color: colors.isNight ? colors.raised : colors.voltEdge, width: colors.isNight ? 3 : 2),
-          // The halo is light on Night; on Daylight the heavier edge carries "now" (no glows).
-          boxShadow: colors.isNight ? [BoxShadow(color: fill.withValues(alpha: 0.55), blurRadius: 12, spreadRadius: 1)] : null,
-        ),
-        child: const SizedBox.square(dimension: 20),
-      );
+      return _PulsingNode(fill: fill, volt: colors.isNight ? colors.volt : colors.voltEdge, night: colors.isNight, ring: colors.isNight ? colors.raised : colors.voltEdge);
     }
     return DecoratedBox(
       decoration: BoxDecoration(shape: BoxShape.circle, color: colors.raised, border: Border.all(color: colors.ink3, width: 2)),
@@ -282,6 +280,183 @@ class _FaqState extends State<_Faq> {
               : const SizedBox(width: double.infinity),
         ),
       ],
+    );
+  }
+}
+
+/// The rail between two nodes. A volt segment (the next stop has begun) fills from the top once,
+/// 450 ms on Emphasized, each segment starting 140 ms after the one above; the rest is the quiet
+/// rail. Still under reduced motion.
+class _Rail extends StatefulWidget {
+  const _Rail({required this.index, required this.reached, required this.volt, required this.base});
+
+  final int index;
+  final bool reached;
+  final Color volt;
+  final Color base;
+
+  @override
+  State<_Rail> createState() => _RailState();
+}
+
+class _RailState extends State<_Rail> with SingleTickerProviderStateMixin {
+  late final AnimationController _t = AnimationController(vsync: this, value: 1);
+  bool _begun = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_begun) return;
+    _begun = true;
+    if (!widget.reached || Motion.reduced(context)) return;
+    final lead = Duration(milliseconds: 140 * widget.index);
+    final total = lead + Motion.drawIn;
+    _t.duration = total;
+    _t.value = 0;
+    _t.animateTo(1, curve: Interval(lead.inMicroseconds / total.inMicroseconds, 1, curve: Motion.emphasized));
+  }
+
+  @override
+  void dispose() {
+    _t.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 2.5,
+      height: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2),
+        child: AnimatedBuilder(
+          animation: _t,
+          builder: (context, _) => Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: widget.base),
+              if (widget.reached)
+                FractionallySizedBox(alignment: Alignment.topCenter, heightFactor: _t.value.clamp(0.0, 1.0), child: ColoredBox(color: widget.volt)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The node for "now": a lit disc whose halo breathes three times when the page opens, then
+/// rests (a loop would never let the page settle). Still, with the halo drawn, under reduced motion.
+class _PulsingNode extends StatefulWidget {
+  const _PulsingNode({required this.fill, required this.volt, required this.night, required this.ring});
+
+  final Color fill;
+  final Color volt;
+  final bool night;
+  final Color ring;
+
+  @override
+  State<_PulsingNode> createState() => _PulsingNodeState();
+}
+
+class _PulsingNodeState extends State<_PulsingNode> with SingleTickerProviderStateMixin {
+  late final AnimationController _t = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
+  bool _begun = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_begun) return;
+    _begun = true;
+    if (!Motion.reduced(context)) _t.repeat(count: 3);
+  }
+
+  @override
+  void dispose() {
+    _t.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: 20,
+      child: AnimatedBuilder(
+        animation: _t,
+        builder: (context, child) {
+          final running = _t.isAnimating;
+          final p = running ? Curves.easeOut.transform(_t.value) : 0.0;
+          return Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              if (running)
+                Transform.scale(
+                  scale: 1 + 0.9 * p,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: widget.volt.withValues(alpha: 0.6 * (1 - p)), width: 2)),
+                    child: const SizedBox.square(dimension: 20),
+                  ),
+                ),
+              child!,
+            ],
+          );
+        },
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: widget.fill,
+            border: Border.all(color: widget.ring, width: widget.night ? 3 : 2),
+            // The halo is light on Night; on Daylight the heavier edge carries "now" (no glows).
+            boxShadow: widget.night ? [BoxShadow(color: widget.fill.withValues(alpha: 0.55), blurRadius: 12, spreadRadius: 1)] : null,
+          ),
+          child: const SizedBox.square(dimension: 20),
+        ),
+      ),
+    );
+  }
+}
+
+/// Mobi reading, then nudging, beside the one line about a plan milestone within a week.
+class _GuideMobi extends StatefulWidget {
+  const _GuideMobi({required this.line});
+
+  final String line;
+
+  @override
+  State<_GuideMobi> createState() => _GuideMobiState();
+}
+
+class _GuideMobiState extends State<_GuideMobi> {
+  final MobiController _mobi = MobiController();
+  Timer? _nudge;
+
+  @override
+  void initState() {
+    super.initState();
+    _nudge = Timer(const Duration(milliseconds: 900), () => _mobi.react(MobiAct.nudge, key: 'guide-nudge'));
+  }
+
+  @override
+  void dispose() {
+    _nudge?.cancel();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      label: widget.line,
+      excludeSemantics: true,
+      child: Row(
+        children: [
+          Mobi(pose: MobiPose.read, size: 56, controller: _mobi),
+          const SizedBox(width: MmSpace.s12),
+          Expanded(child: Text(widget.line, style: context.mmType.labelLarge)),
+        ],
+      ),
     );
   }
 }

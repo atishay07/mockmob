@@ -10,6 +10,7 @@ import '../../../core/models/auth_me.dart' show AuthMe;
 import '../../../core/models/consent.dart' show AgeBand;
 import '../../../core/models/notification_prefs.dart' as prefs;
 import '../../../core/repositories/repositories.dart';
+import '../../auth/sign_in_controller.dart' show resumeSignInSheetProvider;
 import '../model/answers.dart';
 import 'answers_controller.dart';
 
@@ -115,6 +116,8 @@ class SheetSync extends Notifier<SheetSyncState> {
     });
     ref.listen(onboardingAnswersProvider, (_, _) => _maybeRun());
     scheduleMicrotask(_maybeRun);
+    // Always alive at the app root: also picks up a first-sign-in sheet a killed process owed.
+    ref.read(resumeSignInSheetProvider);
     return const SheetSyncState(SheetSyncPhase.idle);
   }
 
@@ -146,6 +149,9 @@ class SheetSync extends Notifier<SheetSyncState> {
       return;
     }
     if (_keptFor == userId) return;
+    // The copy of the profile cached on the phone cannot say the account is new: wait for the
+    // server's (the auth state changes again when it arrives, and this runs again).
+    if (!auth.profileFresh) return;
     unawaited(run());
   }
 
@@ -180,6 +186,8 @@ class SheetSync extends Notifier<SheetSyncState> {
       }
       // Only the account the sheet belongs to is ever written to.
       if (answers.owner != userId || (answers.syncedFor != null && answers.syncedFor != userId)) return;
+      // Never decide "new account" (or write) from the cached profile; see [_maybeRun].
+      if (!auth.profileFresh) return;
       _stillSignedInAs(userId);
       runFor = userId;
       state = const SheetSyncState(SheetSyncPhase.saving);

@@ -1,3 +1,4 @@
+import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ import '../../../core/settings/appearance_settings.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/you_motion.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
@@ -32,6 +34,8 @@ class ProgressPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.target,
+          motion: YouIconMotion.ping,
+          changeKey: ChangedRowKeys.rhythm,
           title: YouCopy.rowRhythm,
           note: rhythmNote(goal?.daysPerWeek, goal?.pausedUntil),
           onTap: () => context.push(AppRoutes.youRhythm),
@@ -75,10 +79,19 @@ class SettingsPanel extends ConsumerWidget {
       flat: true,
       inset: _flatInset,
       children: [
-        YouRow(flat: true, icon: LucideIcons.bell, title: YouCopy.rowNotifications, onTap: () => context.push(AppRoutes.youNotifications)),
+        YouRow(
+          flat: true,
+          icon: LucideIcons.bell,
+          motion: YouIconMotion.swing,
+          changeKey: ChangedRowKeys.notifications,
+          title: YouCopy.rowNotifications,
+          onTap: () => context.push(AppRoutes.youNotifications),
+        ),
         YouRow(
           flat: true,
           icon: LucideIcons.moonStar,
+          motion: YouIconMotion.tilt,
+          changeKey: ChangedRowKeys.appearance,
           title: YouCopy.rowAppearance,
           value: themeName(mode),
           onTap: () => context.push(AppRoutes.youAppearance),
@@ -86,6 +99,9 @@ class SettingsPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.shieldCheck,
+          motion: YouIconMotion.tick,
+          tickIcon: LucideIcons.shield,
+          changeKey: ChangedRowKeys.privacy,
           title: YouCopy.rowPrivacy,
           note: privacyNote(consent),
           onTap: () => context.push(AppRoutes.youPrivacy),
@@ -93,11 +109,13 @@ class SettingsPanel extends ConsumerWidget {
         YouRow(
           flat: true,
           icon: LucideIcons.user,
+          motion: YouIconMotion.hop,
+          changeKey: ChangedRowKeys.account,
           title: YouCopy.rowAccount,
           value: pro ? YouCopy.accountPro : credits == null ? null : YouCopy.accountCredits(credits),
           onTap: () => context.push(AppRoutes.youAccount),
         ),
-        YouRow(flat: true, icon: LucideIcons.lifeBuoy, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
+        YouRow(flat: true, icon: LucideIcons.lifeBuoy, motion: YouIconMotion.turn, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
       ],
     );
   }

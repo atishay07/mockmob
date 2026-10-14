@@ -6,11 +6,13 @@ import '../../core/api/api.dart' show nowProvider;
 import '../../core/auth/auth.dart'
     show
         AuthFailure,
+        authSnapshotProvider,
         GoogleOutcome,
         OAuthReturn,
         OAuthReturnKind,
         SignInException;
 import '../../core/router/router.dart' show intendedRouteProvider;
+import '../../core/storage/prefs_store.dart' show PrefsStore;
 import '../../core/router/router_redirect.dart' show IntendedRoute;
 import 'after_sign_in.dart';
 import 'sign_in_gateway.dart';
@@ -104,6 +106,7 @@ class SignInController extends Notifier<SignInState> {
   Future<void> verify(String code) async {
     if (state.isBusy || code.length != 8) return;
     final email = normalizeEmail(state.email);
+    _markPending();
     state = state.copyWith(
       busy: SignInBusy.verifying,
       clearProblem: true,
@@ -126,6 +129,7 @@ class SignInController extends Notifier<SignInState> {
   /// the controller waits for the callback link and reports a cancel or a failure from there.
   Future<void> signInWithGoogle() async {
     if (state.isBusy) return;
+    _markPending();
     state = state.copyWith(
       busy: SignInBusy.google,
       clearProblem: true,
@@ -160,7 +164,16 @@ class SignInController extends Notifier<SignInState> {
   /// A sign-in on the sign-in screen (the Google button or the password form) is starting. The
   /// router takes the remembered route as soon as the account loads, which is before
   /// [googleSignedIn] runs, so it is read now.
-  void signInStarting() => _rememberedAtStart = _remembered();
+  void signInStarting() {
+    _markPending();
+    _rememberedAtStart = _remembered();
+  }
+
+  /// Keeps on the phone that a sign-in is under way, so the first-sign-in sheet is still owed if
+  /// the process dies before it ends (see [resumeSignInSheetProvider]).
+  void _markPending() => unawaited(
+    markSignInPending(ref.read(signInPrefsStoreProvider), _now()),
+  );
 
   /// The sign-in screen's Google button or password form signed the student in (on the spot or
   /// through the browser): the first sign-in on this phone still gets its one sheet. The router
@@ -221,7 +234,10 @@ class SignInController extends Notifier<SignInState> {
     final gateway = ref.read(signInGatewayProvider);
     if (!await gateway.whenSignedIn() || !ref.mounted) return;
     final offer = await _sheetOffer(remembered);
-    if (!ref.mounted || !offer.forUser(gateway.userId)) return;
+    if (!ref.mounted) return;
+    // Decided now (shown, or not owed): nothing is left pending for a restarted app to offer.
+    unawaited(clearSignInPending(ref.read(signInPrefsStoreProvider)));
+    if (!offer.forUser(gateway.userId)) return;
     ref.read(afterSignInSheetLauncherProvider)();
   }
 
@@ -297,6 +313,44 @@ class SignInController extends Notifier<SignInState> {
 
 final signInControllerProvider =
     NotifierProvider<SignInController, SignInState>(SignInController.new);
+
+/// Picks up a sign-in whose flow died with the process: the student left for the mail app or the
+/// Google browser, Android killed the app, and the restarted app is signed in by the core
+/// listener alone, often without any sign-in screen on the way (splash straight to Today). When
+/// the phone still has a fresh record of a sign-in started before this launch, the first
+/// account that turns signed in is offered the sheet once, through the controller (which keeps
+/// out of the way of a flow of its own, and lets a remembered deep link win). Read once, at the
+/// app root, through the sheet sync.
+final resumeSignInSheetProvider = Provider<void>((ref) {
+  final PrefsStore prefs;
+  try {
+    prefs = ref.read(signInPrefsStoreProvider);
+  } on Object {
+    // No storage to read (a test without the plugin): nothing can be pending.
+    return;
+  }
+  var pending = false;
+
+  void offer() {
+    if (!pending) return;
+    // Once: the record is gone as soon as it is acted on, here or by a flow of the controller.
+    pending = false;
+    unawaited(ref.read(signInControllerProvider.notifier).signedInFromAuth());
+  }
+
+  ref.listen(authSnapshotProvider.select((s) => s.isSignedIn), (before, now) {
+    if (now && before != true) offer();
+  });
+  // Only what a previous process left behind counts; a sign-in this process starts is the
+  // controller's own to finish.
+  unawaited(
+    signInPendingFresh(prefs, ref.read(nowProvider)()).then((fresh) {
+      if (!ref.mounted || !fresh) return;
+      pending = true;
+      if (ref.read(authSnapshotProvider).isSignedIn) offer();
+    }),
+  );
+});
 
 /// The after-sign-in sheet decision, read before sign-in and settled once the account is known.
 class _SheetOffer {

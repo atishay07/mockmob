@@ -55,6 +55,7 @@ TodayView buildToday(TodayInputs i) {
     hero: hero,
     also: also,
     sheet: buildSheet(i),
+    trend: buildTrend(i),
     road: buildRoad(i),
     offline: i.offline,
   );
@@ -153,6 +154,8 @@ TodayHero? _resumeOrEnded(TodayInputs i) {
       answered: d.answered,
       total: d.total,
       line: '${TodayCopy.endsAt(i.clock(d.endsAt))} $saved',
+      savedAt: d.lastAckAt,
+      lead: TodayCopy.endsAt(i.clock(d.endsAt)),
       keyLabel: TodayCopy.resumeKey(d.isMock && d.mockNumber != null ? label : (d.isMock ? 'your mock' : 'your practice')),
       subjectId: canonicalSubject(d.subject),
     );
@@ -243,6 +246,39 @@ List<SheetRow> buildSheet(TodayInputs i) {
   return [
     for (final a in all.take(sheetRowsShown)) _row(i, all, a, sealed: unopened.contains(a.id), unopened: unopened),
   ];
+}
+
+/// How many papers the trend strip draws, at most.
+const int trendPapers = 6;
+
+/// The marks of the newest paper's kind (same subject, mode and length) across up to
+/// [trendPapers] papers, oldest first; null with fewer than three, or when any of them is sealed
+/// (the strip would spoil a reveal).
+PaperTrend? buildTrend(TodayInputs i) {
+  final all = i.attempts ?? const <Attempt>[];
+  if (all.isEmpty) return null;
+  final unopened = {for (final u in i.unopened) u.attemptId};
+  final latest = all.first;
+  final same = [
+    for (final a in all)
+      if (a.subject == latest.subject && a.mode == latest.mode && a.total == latest.total) a,
+  ].take(trendPapers).toList();
+  if (same.length < 3 || same.any((a) => unopened.contains(a.id))) return null;
+  return PaperTrend(
+    mock: latest.isMock,
+    subject: subjectName(latest.subject),
+    points: [
+      for (final a in same.reversed)
+        TrendPoint(
+          attemptId: a.id,
+          label: paperLabel(all, a),
+          date: formatDayMonthShort(i.date(a.completedAt)),
+          marks: a.marks,
+          outOf: a.maxMarks,
+          target: GoTo(a.isMock ? AppRoutes.result(a.id) : AppRoutes.practiceResult(a.id)),
+        ),
+    ],
+  );
 }
 
 /// The previous paper of the same subject, kind and length, older than [a]. Never one whose

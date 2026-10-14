@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart' show kTouchSlop;
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -25,6 +26,8 @@ class AnswerOption extends StatefulWidget {
     required this.onSelect,
     this.onLock,
     this.minHeight = 60,
+    this.struck = false,
+    this.onStrike,
   });
 
   final String letter;
@@ -41,6 +44,20 @@ class AnswerOption extends StatefulWidget {
   /// The row's least height: 60 dp, taller on a tall screen (see `QuestionView`), where the
   /// room is better spent on larger keys than on a gap above them.
   final double minHeight;
+
+  /// Crossed out by the student (a scratch mark kept in memory only): a hairline runs through the
+  /// text and the row dims to 55%, but it stays tappable; picking it brings it back.
+  final bool struck;
+
+  /// A long press: crosses the option out, or brings it back. Null when it cannot be struck (the
+  /// chosen option, or answering closed).
+  final VoidCallback? onStrike;
+
+  /// How dim a crossed-out row is.
+  static const double struckOpacity = 0.55;
+
+  /// The hairline drawing through the text.
+  static const Duration strikeDraw = Duration(milliseconds: 220);
 
   @override
   State<AnswerOption> createState() => _AnswerOptionState();
@@ -66,6 +83,13 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
     value: widget.selected ? 1 : 0,
   );
 
+  late final AnimationController _strike = AnimationController(
+    vsync: this,
+    duration: AnswerOption.strikeDraw,
+    value: widget.struck ? 1 : 0,
+  );
+  late final Animation<double> _dim = _strike.drive(Tween<double>(begin: 1, end: AnswerOption.struckOpacity));
+
   final GlobalKey _bubbleKey = GlobalKey();
   bool _pressed = false;
   bool _focused = false;
@@ -75,6 +99,15 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
   @override
   void didUpdateWidget(AnswerOption old) {
     super.didUpdateWidget(old);
+    if (widget.struck != old.struck) {
+      if (RunnerMotion.reduced(context)) {
+        _strike.value = widget.struck ? 1 : 0;
+      } else if (widget.struck) {
+        _strike.forward();
+      } else {
+        _strike.reverse();
+      }
+    }
     if (widget.selected == old.selected) return;
     if (RunnerMotion.reduced(context)) {
       _wash.value = widget.selected ? 1 : 0;
@@ -89,6 +122,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
   void dispose() {
     _press.dispose();
     _wash.dispose();
+    _strike.dispose();
     super.dispose();
   }
 
@@ -123,6 +157,13 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       if (box != null && box.hasSize) onLock(box.localToGlobal(box.size.center(Offset.zero)));
     }
     select();
+  }
+
+  void _longPress() {
+    final strike = widget.onStrike;
+    if (strike == null) return;
+    _up();
+    strike();
   }
 
   @override
@@ -160,7 +201,10 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       ),
     );
 
-    final focusShape = RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: colors.focusRing, width: 1.5));
+    final focusShape = RoundedSuperellipseBorder(
+      borderRadius: MmRadius.keyAll,
+      side: BorderSide(color: colors.focusRing, width: 1.5),
+    );
     // The wash is clipped to the row; a press lays a flat fill under it; focus rings the row.
     final Widget row = DecoratedBox(
       position: DecorationPosition.foreground,
@@ -179,17 +223,23 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
               constraints: BoxConstraints(minHeight: widget.minHeight),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(_leading, MmSpace.s12, MmSpace.s12, MmSpace.s12),
-                child: Row(
-                  children: [
-                    bubble,
-                    const SizedBox(width: MmSpace.s16),
-                    Expanded(
-                      child: Text(
-                        widget.text,
-                        style: type.body.copyWith(color: textColor, fontWeight: selected ? FontWeight.w600 : FontWeight.w500),
+                // A crossed-out row dims as a whole (an opacity, nothing reflows).
+                child: FadeTransition(
+                  opacity: _dim,
+                  child: Row(
+                    children: [
+                      bubble,
+                      const SizedBox(width: MmSpace.s16),
+                      Expanded(
+                        child: _StruckText(
+                          text: widget.text,
+                          style: type.body.copyWith(color: textColor, fontWeight: selected ? FontWeight.w600 : FontWeight.w500),
+                          progress: _strike,
+                          lineColor: colors.ink2,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -203,8 +253,11 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       inMutuallyExclusiveGroup: true,
       selected: selected,
       enabled: enabled,
-      label: RunnerCopy.optionSemantics(widget.letter, widget.text),
+      label: RunnerCopy.optionSemantics(widget.letter, widget.text, crossedOut: widget.struck),
       onTap: widget.onSelect == null ? null : _tap,
+      customSemanticsActions: widget.onStrike == null
+          ? null
+          : {CustomSemanticsAction(label: widget.struck ? RunnerCopy.unstrikeAction : RunnerCopy.strikeAction): _longPress},
       excludeSemantics: true,
       child: FocusableActionDetector(
         enabled: enabled,
@@ -228,6 +281,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: widget.onSelect == null ? null : _tap,
+            onLongPress: widget.onStrike == null ? null : _longPress,
             child: RepaintBoundary(child: row),
           ),
         ),
@@ -261,11 +315,92 @@ class _WashPainter extends CustomPainter {
     canvas.drawCircle(
       centre,
       radius,
-      Paint()
-        ..shader = RadialGradient(colors: [color, color, color.withValues(alpha: 0)], stops: const [0, 0.8, 1]).createShader(rect),
+      Paint()..shader = RadialGradient(colors: [color, color, color.withValues(alpha: 0)], stops: const [0, 0.8, 1]).createShader(rect),
     );
   }
 
   @override
   bool shouldRepaint(_WashPainter old) => old.color != color || old.bubbleCenter != bubbleCenter;
+}
+
+/// The option text with the strike hairline drawn through it, line by line from the start, as
+/// [progress] runs from 0 to 1 (and taken back the same way). It paints over the text and never
+/// changes its layout.
+class _StruckText extends StatelessWidget {
+  const _StruckText({required this.text, required this.style, required this.progress, required this.lineColor});
+
+  final String text;
+  final TextStyle style;
+  final Animation<double> progress;
+  final Color lineColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final effective = DefaultTextStyle.of(context).style.merge(style);
+    return CustomPaint(
+      foregroundPainter: _StrikePainter(
+        progress: progress,
+        text: text,
+        style: effective,
+        textScaler: MediaQuery.textScalerOf(context),
+        direction: Directionality.of(context),
+        color: lineColor,
+      ),
+      child: Text(text, style: style),
+    );
+  }
+}
+
+class _StrikePainter extends CustomPainter {
+  _StrikePainter({
+    required this.progress,
+    required this.text,
+    required this.style,
+    required this.textScaler,
+    required this.direction,
+    required this.color,
+  }) : super(repaint: progress);
+
+  final Animation<double> progress;
+  final String text;
+  final TextStyle style;
+  final TextScaler textScaler;
+  final TextDirection direction;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final t = Motion.glide.transform(progress.value.clamp(0.0, 1.0));
+    if (t <= 0) return;
+    // Laid out only while the line shows (a crossed-out row, or the 220 ms draw): the same text,
+    // style and width as the Text below, so the line sits on its lines.
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: direction,
+      textScaler: textScaler,
+    )..layout(maxWidth: size.width);
+    final lines = painter.computeLineMetrics();
+    painter.dispose();
+    final total = lines.fold<double>(0, (sum, l) => sum + l.width);
+    if (total <= 0) return;
+    var budget = total * t;
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.5
+      ..strokeCap = StrokeCap.round;
+    for (final line in lines) {
+      if (budget <= 0) break;
+      final run = math.min(budget, line.width);
+      // Through the middle of the lower-case letters.
+      final y = line.baseline - line.ascent * 0.3;
+      final x0 = direction == TextDirection.ltr ? line.left : line.left + line.width;
+      final x1 = direction == TextDirection.ltr ? x0 + run : x0 - run;
+      canvas.drawLine(Offset(x0, y), Offset(x1, y), paint);
+      budget -= run;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StrikePainter old) =>
+      old.text != text || old.style != style || old.textScaler != textScaler || old.color != color || old.direction != direction;
 }

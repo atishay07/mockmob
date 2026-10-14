@@ -38,6 +38,16 @@ abstract final class Springs {
   static final SpringDescription celebrate =
       SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 520), bounce: 0.22);
 
+  /// A switch thumb reaching its end: 240 ms, bounce 0.14, a slight overshoot that reads as a
+  /// physical detent.
+  static final SpringDescription toggle =
+      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 240), bounce: 0.14);
+
+  /// A released surface rising past rest (to about 1.03) before it settles; and a dragged row or
+  /// card springing home or away. 300 ms, bounce 0.
+  static final SpringDescription lift =
+      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 300), bounce: 0);
+
   /// The pressed scale of every tappable surface.
   static const double pressedScale = 0.96;
 }

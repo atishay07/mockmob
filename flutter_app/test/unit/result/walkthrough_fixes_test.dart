@@ -89,7 +89,7 @@ void main() {
       expect(find.text('Practise this chapter'), findsOneWidget);
       await tester.tap(find.text('See what is recorded'));
       await _run(tester, 900);
-      expect(find.bySemanticsLabel('Card 4 of 4'), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'^Card 4 of 4')), findsOneWidget);
       expect(find.text('Mock 1 is in your record.'), findsOneWidget);
     });
 

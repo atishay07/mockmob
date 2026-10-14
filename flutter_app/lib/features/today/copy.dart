@@ -138,6 +138,19 @@ abstract final class TodayCopy {
   static String answeredLabel(int total) => 'of $total\nanswered';
   static String endsAt(DateTime at) => 'Ends at ${formatTime12(at)}.';
   static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  /// How long ago the answers were last saved on the server, in words that stay true: a minute
+  /// is "a minute ago", an hour "an hour ago". Said from the real save time.
+  static String savedAgo(Duration since) {
+    final s = since.inSeconds;
+    if (s < 45) return 'Saved just now';
+    if (s < 90) return 'Saved a minute ago';
+    final m = since.inMinutes;
+    if (m < 60) return 'Saved $m minutes ago';
+    final h = since.inHours;
+    if (h < 24) return h == 1 ? 'Saved an hour ago' : 'Saved $h hours ago';
+    final d = since.inDays;
+    return d == 1 ? 'Saved yesterday' : 'Saved $d days ago';
+  }
   static const String answersOnPhone = 'Answers are on this phone.';
   static String resumeKey(String label) => 'Resume $label';
   static String endedRecorded(String label, DateTime at, int answered) =>
@@ -165,6 +178,9 @@ abstract final class TodayCopy {
   // Recent papers.
   static const String yourSheet = 'Recent papers';
   static String sheetCaption(int n) => n == 1 ? 'Your last paper' : 'Your last $n';
+  /// The strip above the papers: the marks of the last few of one kind, oldest to newest.
+  static String trendCaption(int n, bool mock) => 'Marks across your last $n ${mock ? 'mocks' : 'papers'}';
+  static String trendDot(String label, String date, int marks, int outOf) => '$label, $date. $marks of $outOf marks. Opens the result.';
   static const String sealed = 'Sealed';
   static String quickLabel(int total) => 'Quick $total';
   static String marksOf(int outOf) => 'of $outOf';
@@ -210,6 +226,8 @@ abstract final class TodayCopy {
   static const String laneExam = 'CUET UG';
   /// The stretch from Now to the next stop, written over it on the road ("15 weeks").
   static String stretchTo(int days) => days < 7 ? plural(days < 1 ? 1 : days, 'day') : plural(days ~/ 7, 'week');
+  /// How far a day under the finger is from today (the road's scrub readout).
+  static String scrubDistance(int days) => days == 0 ? 'today' : (days > 0 ? '${plural(days, 'day')} from now' : '${plural(-days, 'day')} ago');
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';

@@ -186,6 +186,8 @@ class ResumeHero extends TodayHero {
     required this.total,
     required this.line,
     this.keyLabel = 'Resume',
+    this.savedAt,
+    this.lead,
     this.subjectId,
   });
 
@@ -197,6 +199,12 @@ class ResumeHero extends TodayHero {
   final int answered;
   final int total;
   final String line;
+
+  /// When the server last acknowledged the answers (the device clock), for "Saved a minute ago".
+  final DateTime? savedAt;
+
+  /// "Ends at 9:10 PM." alone, for the card that says the save time in its own words.
+  final String? lead;
   @override
   final String? subjectId;
 }
@@ -387,12 +395,42 @@ class HeaderMobiCue {
   final List<String> lines;
 }
 
+
+/// One paper on the trend strip: its real marks, from an opened result.
+class TrendPoint {
+  const TrendPoint({required this.attemptId, required this.label, required this.date, required this.marks, required this.outOf, required this.target});
+
+  final String attemptId;
+
+  /// "Mock 7".
+  final String label;
+
+  /// "3 Oct".
+  final String date;
+  final int marks;
+  final int outOf;
+  final TodayTarget target;
+}
+
+/// The marks of the last up to six opened papers of the same kind and length, oldest first. Built
+/// only from at least three papers, none of them sealed (a sealed paper is never spoiled).
+class PaperTrend {
+  const PaperTrend({required this.points, required this.mock, required this.subject});
+
+  final List<TrendPoint> points;
+
+  /// The papers are mocks (otherwise practice papers).
+  final bool mock;
+  final String subject;
+}
+
 class TodayView {
   const TodayView({
     required this.header,
     this.hero,
     this.also = const [],
     this.sheet = const [],
+    this.trend,
     this.road,
     this.offline = false,
   });
@@ -403,6 +441,10 @@ class TodayView {
   final TodayHero? hero;
   final List<AlsoSlot> also;
   final List<SheetRow> sheet;
+
+  /// The marks across the last papers of the same kind, or null when there are fewer than three
+  /// or one of them is sealed.
+  final PaperTrend? trend;
   final RoadModel? road;
   final bool offline;
 

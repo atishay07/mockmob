@@ -126,6 +126,8 @@ class FakeRunnerSession extends ChangeNotifier implements RunnerSession {
   @override
   final String sessionId = 'sess-1';
   @override
+  final StrikeBook strikes = StrikeBook();
+  @override
   final String mode;
   @override
   final String subject;

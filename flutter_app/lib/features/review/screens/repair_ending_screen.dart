@@ -188,7 +188,13 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final nothing = model.repaired == 0;
     // What is still open in this chapter: in this paper (what the run covered) and in other papers,
     // said apart so the line never contradicts the entry's count.
-    final open = chapterOpenSplit(index, attemptId: widget.attemptId, chapter: model.chapter, subjectId: model.subjectId);
+    final open = chapterOpenSplit(
+      index,
+      attemptId: widget.attemptId,
+      chapter: model.chapter,
+      subjectId: model.subjectId,
+      resolved: model.resolvedKeys,
+    );
     // After nothing was repaired, the same mistakes can be tried again: the first one still open.
     final retry = nothing && index != null ? index.openIn(widget.attemptId, model.chapter) : const <MistakeItem>[];
     // The fired moment takes the receipt's place and, for a first repair, says so with its own

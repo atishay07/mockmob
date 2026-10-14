@@ -93,6 +93,16 @@ abstract final class LearnCopy {
 
   static String stepOf(int step, int total) => 'Step $step of $total';
 
+  /// A lesson row's note about where it can be opened from.
+  static const onThisPhone = 'On this phone';
+  static const needsConnection = 'Needs connection';
+
+  /// Mobi's line after a run of one card that was kept.
+  static const thatOneStuck = 'That one stuck.';
+
+  /// Mobi's line when many cards are waiting (above 20).
+  static const aLotWaiting = 'A lot is waiting. Start with a few.';
+
   // Lesson status words. Never "mastered".
   static String statusWord(StudyUnitStatus status) => switch (status) {
     StudyUnitStatus.newUnit => 'New',
@@ -117,6 +127,10 @@ abstract final class LearnCopy {
   static const String offlineHeading = 'On this phone';
   static const String keepForOffline = 'Keep for offline';
   static const String keepNothingYet = 'Nothing kept yet.';
+  static const String packRemove = 'Remove';
+  static const String packUndo = 'Undo';
+  static const String packRemoved = 'Removed from this phone.';
+  static String packRemoveLabel(String subject) => 'Remove kept lessons from this phone, $subject';
   static String keepSize(String size) => '$size kept on this phone';
   static const String connectToStart =
       'Connect to start. Your downloaded reviews still work.';

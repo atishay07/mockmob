@@ -80,6 +80,19 @@ abstract final class MobiRation {
 
   static final Map<String, DateTime> _lastFailure = {};
 
+  static final Map<String, DateTime> _lastReaction = {};
+
+  /// True when a reaction keyed [key] may play now: at most one per [gap] for each key, so a
+  /// screen that reacts to every save or every tap reads as a presence, not a twitch. Asking
+  /// with a true answer starts the gap.
+  static bool reactNow(String key, {Duration gap = glanceGap}) {
+    final at = now();
+    final last = _lastReaction[key];
+    if (last != null && at.difference(last) < gap) return false;
+    _lastReaction[key] = at;
+    return true;
+  }
+
   /// How far apart two failures on one screen can be and still be the same run.
   static const Duration failureRun = Duration(seconds: 90);
 
@@ -122,6 +135,7 @@ abstract final class MobiRation {
     _runs.clear();
     _failing.clear();
     _lastFailure.clear();
+    _lastReaction.clear();
     now = DateTime.now;
   }
 }

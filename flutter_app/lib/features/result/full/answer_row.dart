@@ -11,7 +11,7 @@ import '../model/answer_items.dart';
 /// that opens to the question, the options with the student's choice and, only where the key rule
 /// allows, the correct option and the explanation. Solid and calm: the work layer.
 class AnswerRow extends StatefulWidget {
-  const AnswerRow({super.key, required this.item, required this.expanded, required this.onToggle, required this.keysOff, this.onRepair});
+  const AnswerRow({super.key, required this.item, required this.expanded, required this.onToggle, required this.keysOff, this.onRepair, this.onOpened});
 
   final AnswerItem item;
   final bool expanded;
@@ -20,6 +20,10 @@ class AnswerRow extends StatefulWidget {
   /// `answerReviewState == 'unavailable'`, or the detail could not be read.
   final bool keysOff;
   final VoidCallback? onRepair;
+
+  /// The row went from folded to open after the page was up (a tap on its header or on its
+  /// bubble in the answer map), never for a row that arrived open. Called after the frame.
+  final VoidCallback? onOpened;
 
   @override
   State<AnswerRow> createState() => _AnswerRowState();
@@ -35,7 +39,14 @@ class _AnswerRowState extends State<AnswerRow> {
   @override
   void didUpdateWidget(AnswerRow old) {
     super.didUpdateWidget(old);
-    if (!old.expanded && widget.expanded) _tapped = true;
+    if (!old.expanded && widget.expanded) {
+      _tapped = true;
+      // After this frame: the callback drives other widgets (Mobi), which cannot be touched
+      // while the tree is still building.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onOpened?.call();
+      });
+    }
   }
 
   String get _status => switch (item.verdict) {

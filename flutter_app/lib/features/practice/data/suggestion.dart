@@ -155,6 +155,46 @@ PracticeSuggestion _fromLatest(Attempt latest, String subject, List<Attempt> all
   return SubjectSuggestion(subjectId: subject, attempt: latest);
 }
 
+/// A chapter that cost marks in the student's latest paper of a subject: the chapter picker's
+/// "From your record" chips. [marksLost] is the observed gap under that paper's own key (wrong
+/// answers cost 6, blanks 5), never a forecast.
+class RecordChapter {
+  const RecordChapter({required this.chapter, required this.marksLost});
+
+  final String chapter;
+  final int marksLost;
+}
+
+/// Up to [limit] chapters that cost the most marks in the latest paper in [subjectId], most
+/// costly first, only those with enough questions to be named. Empty when there is no paper, no
+/// loss, or no nameable chapter: the row is then not shown at all.
+List<RecordChapter> recordChaptersFor({
+  required List<Attempt>? attempts,
+  required String subjectId,
+  List<Subject>? catalog,
+  int limit = 3,
+}) {
+  Attempt? latest;
+  for (final a in attempts ?? const <Attempt>[]) {
+    if (publicSubjectOf(a.subject, catalog) != subjectId) continue;
+    if (latest == null || a.completedAt.isAfter(latest.completedAt)) latest = a;
+  }
+  if (latest == null) return const [];
+  final out = <RecordChapter>[];
+  for (final s in observedChapterBreakdown(latest).stats) {
+    if (out.length >= limit) break;
+    if (s.marksLost > 0 && s.canBeNamed && s.chapter.trim().isNotEmpty) out.add(RecordChapter(chapter: s.chapter.trim(), marksLost: s.marksLost));
+  }
+  return out;
+}
+
+/// [recordChaptersFor] from what is on the phone, for one subject.
+final practiceRecordChaptersProvider = Provider.autoDispose.family<List<RecordChapter>, String>((ref, subjectId) {
+  final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+  final catalog = ref.watch(practiceSubjectsProvider).value;
+  return recordChaptersFor(attempts: attempts, subjectId: subjectId, catalog: catalog);
+});
+
 /// The suggestion for the Practice tab, from what is already on the phone (drafts, cached
 /// attempts, the chosen subjects, the subject picked on the tiles). Never waits on the network:
 /// unknown attempts give the starting suggestion until they arrive. A tile change recomputes it.

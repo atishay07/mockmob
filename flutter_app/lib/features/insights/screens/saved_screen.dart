@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,12 +14,18 @@ import '../copy.dart';
 import '../data/insights_repository.dart';
 import '../data/practice_question.dart';
 import '../data/saved_repository.dart';
+import '../data/subject_names.dart';
 import '../insights_paths.dart';
+import '../widgets/edge_fade.dart';
+import '../widgets/gesture_motion.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/practice_card.dart';
+import '../widgets/saved_bits.dart';
 
 /// `/review/saved` (website Saved): the questions the student kept for another go. Practise
-/// them one at a time, or remove one; a removal shows only after the server confirms it.
+/// them one at a time, or remove one; a removal shows only after the server confirms it, and
+/// then the row folds toward the key that removed it while the rows below glide up. Undo
+/// unfolds it again.
 class SavedScreen extends ConsumerWidget {
   const SavedScreen({super.key});
 
@@ -24,16 +33,14 @@ class SavedScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final state = ref.watch(savedRepositoryProvider);
-    final marks = ref.watch(saveControllerProvider);
-    final pro = ref.watch(insightsProProvider);
     final list = state.value;
-    final pad = MediaQuery.paddingOf(context);
     Future<void> refresh() => ref.read(savedRepositoryProvider.notifier).refresh(force: true);
 
     Widget body;
     if (list == null) {
       if (state.isFailedEmpty) {
         final offline = state.error?.isOffline ?? false;
+        // A failed load shrugs once (StateView's oops, the first failure of a run); offline rests.
         body = StateView(
           kind: offline ? StateViewKind.offline : StateViewKind.error,
           title: InsightsCopy.savedErrorTitle,
@@ -44,42 +51,7 @@ class SavedScreen extends ConsumerWidget {
         body = const _SavedSkeleton();
       }
     } else {
-      // A removal the server confirmed leaves the list at once, before the re-read lands.
-      final questions = [for (final q in list.questions) if (marks.acked[q.id] != false) q];
-      if (questions.isEmpty && list.held == 0) {
-        body = StateView(
-          kind: StateViewKind.empty,
-          pose: MobiPose.read,
-          title: InsightsCopy.savedEmptyTitle,
-          message: InsightsCopy.savedEmptyMessage,
-          primary: StateAction(InsightsCopy.savedEmptyAction, () => context.push(InsightsPaths.stream)),
-        );
-      } else {
-        final count = marks.count ?? list.count;
-        body = MmPullRefresh(
-          onRefresh: refresh,
-          child: ListView(
-            // The pull is drawn by the ring, so the list must always take a drag, even when short.
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
-            children: [
-              if (state.isStale) ...[
-                const InlineBanner(message: InsightsCopy.staleNote, tone: BannerTone.offline),
-                const SizedBox(height: MmSpace.s16),
-              ],
-              Text(InsightsCopy.savedCount(count, pro ? null : (marks.limit ?? freeSaveLimit)), style: context.mmType.small.copyWith(color: colors.ink2)),
-              if (list.held > 0) Text(InsightsCopy.savedHeld(list.held), style: context.mmType.caption.copyWith(color: colors.ink3)),
-              const SizedBox(height: MmSpace.s16),
-              if (questions.isNotEmpty) KeyButton(label: InsightsCopy.savedPractise, onPressed: () => context.push(InsightsPaths.savedStreamFrom(null))),
-              const SizedBox(height: MmSpace.s24),
-              for (var i = 0; i < questions.length; i++) ...[
-                if (i > 0) Divider(height: 1, color: colors.line),
-                _SavedRow(question: questions[i], removing: marks.pending.contains(questions[i].id)),
-              ],
-            ],
-          ),
-        );
-      }
+      body = SavedBody(list: list, stale: state.isStale, onRefresh: refresh);
     }
 
     return Scaffold(
@@ -98,9 +70,222 @@ class SavedScreen extends ConsumerWidget {
   }
 }
 
+/// One row of the saved list as the body tracks it: the question, whether it is shown, and
+/// whether it arrived after the list was already on screen (so it unfolds in once).
+class SavedRowModel {
+  SavedRowModel(this.question, {this.shown = true, this.fresh = false});
+
+  PracticeQuestion question;
+  bool shown;
+  final bool fresh;
+}
+
+/// Merges the server's list with what the server has acknowledged this run, keeping a row that
+/// was just removed in place (marked not shown) so it can fold out. Pure, so tests can drive it.
+List<SavedRowModel> mergeSavedRows(List<SavedRowModel> previous, List<PracticeQuestion> questions, Map<String, bool> acked, {required bool built}) {
+  final want = [for (final q in questions) if (acked[q.id] != false) q];
+  final wantIds = {for (final q in want) q.id};
+  final prev = {for (final r in previous) r.question.id: r};
+  final next = <SavedRowModel>[
+    for (final q in want)
+      if (prev[q.id] case final old?)
+        (old..question = q..shown = true)
+      else
+        SavedRowModel(q, fresh: built),
+  ];
+  for (var i = 0; i < previous.length; i++) {
+    final r = previous[i];
+    if (wantIds.contains(r.question.id)) continue;
+    r.shown = false;
+    next.insert(i.clamp(0, next.length), r);
+  }
+  return next;
+}
+
+/// The loaded Saved page: the slot meter, subject filter, the list with its fold-out and swipes,
+/// and the empty state once the last row has folded away.
+class SavedBody extends ConsumerStatefulWidget {
+  const SavedBody({super.key, required this.list, required this.stale, required this.onRefresh});
+
+  final SavedList list;
+  final bool stale;
+  final Future<void> Function() onRefresh;
+
+  @override
+  ConsumerState<SavedBody> createState() => _SavedBodyState();
+}
+
+class _SavedBodyState extends ConsumerState<SavedBody> with SingleTickerProviderStateMixin {
+  List<SavedRowModel> _rows = [];
+  bool _built = false;
+  String? _subject;
+  final MobiController _mobi = MobiController();
+  bool _hopped = false;
+
+  /// The subject filter's quick fade (the rows under it swap, the new ones fading in).
+  late final AnimationController _fade;
+
+  @override
+  void initState() {
+    super.initState();
+    _fade = AnimationController(vsync: this, duration: const Duration(milliseconds: 220), value: 1);
+  }
+
+  @override
+  void dispose() {
+    _fade.dispose();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  void _setSubject(String? s) {
+    if (s == _subject) return;
+    setState(() => _subject = s);
+    if (!Motion.reduced(context)) _fade.forward(from: 0);
+  }
+
+  void _gone(String id) {
+    if (!mounted) return;
+    setState(() => _rows = [for (final r in _rows) if (r.shown || r.question.id != id) r]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final marks = ref.watch(saveControllerProvider);
+    final pro = ref.watch(insightsProProvider);
+    final list = widget.list;
+    final pad = MediaQuery.paddingOf(context);
+
+    // The first server-acknowledged save of the visit (an Undo) gets one small hop from Mobi.
+    ref.listen<SaveMarks>(saveControllerProvider, (prev, next) {
+      if (_hopped) return;
+      final saved = next.acked.entries.any((e) => e.value && prev?.acked[e.key] != true);
+      if (saved) {
+        _hopped = true;
+        _mobi.play(MobiAct.correct);
+      }
+    });
+
+    _rows = mergeSavedRows(_rows, list.questions, marks.acked, built: _built);
+    _built = true;
+    final subjects = <String>[];
+    for (final r in _rows) {
+      if (r.shown && !subjects.contains(r.question.subject)) subjects.add(r.question.subject);
+    }
+    // A filter whose subject has no rows left falls back to all of them.
+    final filter = subjects.contains(_subject) ? _subject : null;
+    if (filter != _subject) {
+      _subject = filter;
+    }
+    final shownRows = [for (final r in _rows) if (filter == null || r.question.subject == filter) r];
+
+    if (_rows.isEmpty && list.held == 0) return _SavedEmpty(onOpen: () => context.push(InsightsPaths.stream));
+
+    final count = marks.count ?? list.count;
+    final limit = pro ? null : (marks.limit ?? freeSaveLimit);
+    final live = _rows.where((r) => r.shown).length;
+    return MmPullRefresh(
+      onRefresh: widget.onRefresh,
+      child: ListView(
+        // The pull is drawn by the ring, so the list must always take a drag, even when short.
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
+        children: [
+          if (widget.stale) ...[
+            const InlineBanner(message: InsightsCopy.staleNote, tone: BannerTone.offline),
+            const SizedBox(height: MmSpace.s16),
+          ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(InsightsCopy.savedCount(count, limit), style: type.small.copyWith(color: colors.ink2)),
+                    // The pips are the free plan's slots; Pro has no limit, so only the count shows.
+                    if (limit != null) ...[
+                      const SizedBox(height: MmSpace.s8),
+                      SlotMeter(count: count, limit: limit),
+                    ],
+                    if (list.held > 0) ...[
+                      const SizedBox(height: MmSpace.s4),
+                      Text(InsightsCopy.savedHeld(list.held), style: type.caption.copyWith(color: colors.ink3)),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              SizedBox(
+                width: MobiFigure.widthFor(44),
+                height: 44,
+                child: MobiCharacter(controller: _mobi, size: 44, entrance: MobiAct.rest, seed: 31, watchTaps: false, shadow: false),
+              ),
+            ],
+          ),
+          if (subjects.length > 1) ...[
+            const SizedBox(height: MmSpace.s16),
+            _SubjectChips(subjects: subjects, selected: filter, onSelect: _setSubject),
+          ],
+          const SizedBox(height: MmSpace.s16),
+          if (live > 0) KeyButton(label: InsightsCopy.savedPractise, onPressed: () => context.push(InsightsPaths.savedStreamFrom(null))),
+          const SizedBox(height: MmSpace.s24),
+          for (var i = 0; i < shownRows.length; i++)
+            FadeTransition(
+              key: ValueKey('saved-${shownRows[i].question.id}'),
+              opacity: CurvedAnimation(parent: _fade, curve: Motion.out),
+              child: FoldExit(
+                visible: shownRows[i].shown,
+                fresh: shownRows[i].fresh,
+                onGone: () => _gone(shownRows[i].question.id),
+                child: Column(
+                  children: [
+                    if (i > 0) Divider(height: 1, color: colors.line),
+                    _SavedRow(question: shownRows[i].question, removing: marks.pending.contains(shownRows[i].question.id)),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The subjects that are actually in the list, as chips (never a subject with nothing saved).
+class _SubjectChips extends StatelessWidget {
+  const _SubjectChips({required this.subjects, required this.selected, required this.onSelect});
+
+  final List<String> subjects;
+  final String? selected;
+  final ValueChanged<String?> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return EdgeFade(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        child: Row(
+          children: [
+            MmChip(label: InsightsCopy.allSubjects, selected: selected == null, onTap: () => onSelect(null)),
+            for (final s in subjects) ...[
+              const SizedBox(width: MmSpace.s8),
+              MmChip(label: subjectDisplayName(s), selected: selected == s, onTap: () => onSelect(s)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// One saved question. The whole row practises it (the screen's one dominant action stays
 /// "Practise these"); removing is a quiet 48 dp icon at the end, and the removal says so with an
-/// Undo, so a slip costs nothing.
+/// Undo, so a slip costs nothing. A swipe does the same two things: right to practise, left to
+/// remove, with a tick once it will commit. TalkBack gets both as custom actions.
 class _SavedRow extends ConsumerWidget {
   const _SavedRow({required this.question, required this.removing});
 
@@ -137,40 +322,54 @@ class _SavedRow extends ConsumerWidget {
       }
     }
 
-    return AnimatedOpacity(
-      duration: Motion.crossFade,
-      opacity: removing ? 0.5 : 1,
+    void practise() => context.push(InsightsPaths.savedStreamFrom(q.id));
+    final onCoral = colors.isNight ? colors.ground : colors.raised;
+
+    return SwipeCommit(
+      enabled: !removing,
+      start: SwipeAction(label: InsightsCopy.swipePractise, icon: LucideIcons.play, background: colors.volt, foreground: colors.voltInk, onCommit: practise),
+      end: SwipeAction(label: InsightsCopy.swipeRemove, icon: LucideIcons.bookmarkMinus, background: colors.wrongMark, foreground: onCoral, onCommit: remove),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: MmPressable(
-              onTap: () => context.push(InsightsPaths.savedStreamFrom(q.id)),
-              semanticsLabel: 'Practise this question: ${q.body}',
-              focusRadius: MmRadius.smallAll,
-              pressedScale: 0.99,
-              highlight: true,
-              haptic: MmPressHaptic.selection,
-              builder: (context, pressed, _) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SubjectThumb(subject: q.subject),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(questionMeta(q), style: type.caption.copyWith(color: colors.ink3)),
-                          const SizedBox(height: MmSpace.s4),
-                          Text(q.body, style: type.body, maxLines: 3, overflow: TextOverflow.ellipsis),
-                        ],
+            // One node for TalkBack: the row's own label and button, with the two actions of a
+            // swipe offered beside it.
+            child: MergeSemantics(
+              child: Semantics(
+                customSemanticsActions: {
+                  CustomSemanticsAction(label: InsightsCopy.practiseThisAction): practise,
+                  if (!removing) CustomSemanticsAction(label: InsightsCopy.removeThisAction): remove,
+                },
+                child: MmPressable(
+                onTap: practise,
+                semanticsLabel: 'Practise this question: ${q.body}',
+                focusRadius: MmRadius.smallAll,
+                pressedScale: 0.99,
+                highlight: true,
+                haptic: MmPressHaptic.selection,
+                builder: (context, pressed, _) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SubjectThumb(subject: q.subject),
+                      const SizedBox(width: MmSpace.s12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(questionMeta(q), style: type.caption.copyWith(color: colors.ink3)),
+                            const SizedBox(height: MmSpace.s4),
+                            Text(q.body, style: type.body, maxLines: 3, overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
+            ),
             ),
           ),
           Padding(
@@ -183,8 +382,10 @@ class _SavedRow extends ConsumerWidget {
               builder: (context, pressed, _) => SizedBox.square(
                 dimension: MmTarget.min,
                 child: Center(
+                  // Pending: the bookmark dips inside a turning ring and the row stays fully
+                  // readable; no half-faded row.
                   child: removing
-                      ? SizedBox.square(dimension: 18, child: MmSpinner(color: colors.ink2))
+                      ? const PendingBookmark()
                       : Icon(LucideIcons.bookmarkMinus, size: 20, color: pressed ? colors.ink : colors.ink2),
                 ),
               ),
@@ -192,6 +393,105 @@ class _SavedRow extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Nothing saved: Mobi reads, and after 1.2 s points at the way to the stream. He does it once
+/// per visit and never under reduced motion, where he holds his reading pose.
+class _SavedEmpty extends StatefulWidget {
+  const _SavedEmpty({required this.onOpen});
+
+  final VoidCallback onOpen;
+
+  /// How long Mobi reads before he points at the key.
+  static const Duration pointAfter = Duration(milliseconds: 1200);
+
+  @override
+  State<_SavedEmpty> createState() => _SavedEmptyState();
+}
+
+class _SavedEmptyState extends State<_SavedEmpty> {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _action = GlobalKey(debugLabel: 'saved-empty-action');
+  Timer? _point;
+  bool _armed = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_armed) return;
+    _armed = true;
+    if (!Motion.reduced(context)) {
+      _point = Timer(_SavedEmpty.pointAfter, () {
+        if (mounted) _mobi.pointAtWidget(_action);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _point?.cancel();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return LayoutBuilder(
+      builder: (context, box) {
+        final compact = box.hasBoundedHeight && box.maxHeight < 600;
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: box.hasBoundedHeight ? box.maxHeight : 0),
+            child: Align(
+              alignment: const Alignment(0, -0.16),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Padding(
+                  padding: const EdgeInsets.all(MmSpace.s24),
+                  child: MmStagger(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        MmStaggerItem(
+                          index: 0,
+                          rise: 8,
+                          child: SizedBox(
+                            height: (compact ? 96.0 : 140.0) * 1.3,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Mobi(pose: MobiPose.read, size: compact ? 96 : 140, motion: MobiMotion.settle, controller: _mobi),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s12),
+                        MmStaggerItem(
+                          index: 1,
+                          child: Semantics(header: true, child: Text(InsightsCopy.savedEmptyTitle, style: type.title, textAlign: TextAlign.center)),
+                        ),
+                        const SizedBox(height: MmSpace.s8),
+                        MmStaggerItem(
+                          index: 2,
+                          child: Text(InsightsCopy.savedEmptyMessage, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                        ),
+                        const SizedBox(height: MmSpace.s24),
+                        MmStaggerItem(
+                          index: 3,
+                          child: KeyedSubtree(key: _action, child: KeyButton(label: InsightsCopy.savedEmptyAction, onPressed: widget.onOpen)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

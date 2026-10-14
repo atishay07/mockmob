@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/animation.dart';
 
 import 'mobi_acts.dart';
+import 'mobi_mood.dart';
 import 'mobi_rig.dart';
 
 /// Mobi's body in time: the stance, the act playing, idle beats (a breath, a blink, a glance, a
@@ -17,6 +18,7 @@ class MobiSim {
   MobiSim({int seed = 7, MobiStance stance = MobiStance.stand})
       : _rand = math.Random(seed),
         _fidgetRand = math.Random(seed * 31 + 5),
+        _microRand = math.Random(seed * 53 + 11),
         _stance = stance {
     _stanceRig = MobiMoves.stance(stance);
     _rig = _stanceRig;
@@ -32,6 +34,7 @@ class MobiSim {
     _glanceWait = 4.5 + _rand.nextDouble() * 4.0;
     _beatWait = 2.4 + _rand.nextDouble() * 1.6;
     _fidgetWait = 9 + _fidgetRand.nextDouble() * 6;
+    _microWait = 6 + _microRand.nextDouble() * 3;
   }
 
   /// How long the loading scan runs before it settles into quiet thinking beats.
@@ -41,6 +44,9 @@ class MobiSim {
 
   /// A separate stream for fidgets, so adding them left every other beat's timing unchanged.
   final math.Random _fidgetRand;
+
+  /// A third stream for micro-fidgets (15 Oct), for the same reason.
+  final math.Random _microRand;
 
   MobiStance _stance;
   late MobiRig _stanceRig;
@@ -87,6 +93,17 @@ class MobiSim {
   double _fidgetWait = 0;
   int _fidget = 0;
 
+  // Micro-fidgets: every 6 to 9 s standing at ease, a quick glance aside or an antenna twitch,
+  // so a Mobi left on screen never looks frozen between the longer fidgets.
+  double _microT = -1;
+  double _microWait = 0;
+  int _micro = 0;
+
+  // The mood: a persistent face under every act, blended over MobiMoods.blend.
+  MobiMood _mood = MobiMood.calm;
+  MobiMood _moodFrom = MobiMood.calm;
+  double _moodT = 1;
+
   // A tap on Mobi.
   double _boopT = -1;
   double _boopSide = 1;
@@ -119,6 +136,8 @@ class MobiSim {
       _glanceT >= 0 ||
       _beatT >= 0 ||
       _fidgetT >= 0 ||
+      _microT >= 0 ||
+      _moodT < 1 ||
       _boopT >= 0 ||
       _attendLeft > 0 ||
       _scanning ||
@@ -150,7 +169,7 @@ class MobiSim {
     var w = math.min(_breathWait, _blinkWait);
     if (_glances) w = math.min(w, _glanceWait);
     if (_beats) w = math.min(w, _beatWait);
-    if (_fidgets) w = math.min(w, _fidgetWait);
+    if (_fidgets) w = math.min(w, math.min(_fidgetWait, _microWait));
     return math.max(0, w);
   }
 
@@ -161,6 +180,7 @@ class MobiSim {
     _glanceWait -= seconds;
     _beatWait -= seconds;
     _fidgetWait -= seconds;
+    _microWait -= seconds;
     _holdT += seconds;
   }
 
@@ -181,6 +201,19 @@ class MobiSim {
     _glanceT = -1;
     _beatT = -1;
     _fidgetT = -1;
+    _microT = -1;
+  }
+
+  /// The face under every act.
+  MobiMood get mood => _mood;
+
+  /// Changes the face to [mood], blending over [MobiMoods.blend].
+  void setMood(MobiMood mood) {
+    if (mood == _mood && _moodT >= 1) return;
+    // Mid-blend, the new blend starts from the nearer of the two faces.
+    _moodFrom = _moodT >= 0.5 ? _mood : _moodFrom;
+    _mood = mood;
+    _moodT = 0;
   }
 
   /// Talks for [seconds] on top of whatever Mobi is doing.
@@ -292,6 +325,10 @@ class MobiSim {
     }
     var r = _currentStanceRig();
 
+    // The mood, under everything that follows.
+    if (_moodT < 1) _moodT = math.min(1, _moodT + h / (MobiMoods.blend.inMicroseconds / 1e6));
+    r = MobiMoods.between(_moodFrom, _mood, r, Curves.easeInOutCubic.transform(_moodT));
+
     // Held stance motion: the loading scan fades in, runs, then settles.
     if (_stance == MobiStance.loading) {
       final w = MobiMoves.ease(_holdT, 0.1, 0.6) * (1 - MobiMoves.ease(_holdT, loadingScanFor, loadingScanFor + 0.6));
@@ -302,7 +339,9 @@ class MobiSim {
     final act = _act;
     if (act != null) {
       _actT += h;
-      r = MobiMoves.act(act, math.min(_actT, _actDur), r);
+      final at = math.min(_actT, _actDur);
+      // The walk lasts as long as its trip, and eases out at the trip's end, not a fixed length.
+      r = act == MobiAct.walk ? MobiMoves.walk(at, r, _actDur) : MobiMoves.act(act, at, r);
       if (_actT >= _actDur) _act = null;
     }
 
@@ -450,6 +489,27 @@ class MobiSim {
       }
     } else {
       _fidgetT = -1;
+    }
+
+    // Micro-fidgets, under the same rules as fidgets, never over one.
+    if (_fidgets) {
+      if (_microT < 0) {
+        _microWait -= h;
+        if (_microWait <= 0) {
+          if (!quiet && _talkW == 0 && _attendLeft <= 0 && _lookTarget == null && _glanceT < 0 && _fidgetT < 0) {
+            _microT = 0;
+            _micro = _microRand.nextInt(2);
+          }
+          _microWait = 6 + _microRand.nextDouble() * 3;
+        }
+      }
+      if (_microT >= 0) {
+        _microT += h;
+        r = MobiMoves.micro(_micro, _microT, r);
+        if (_microT >= MobiMoves.microLength) _microT = -1;
+      }
+    } else {
+      _microT = -1;
     }
 
     // Blink: a fast close, a short hold and a slower open; sometimes two. Never while asleep.

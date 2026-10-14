@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
+import '../model/recap_variant.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -26,6 +27,7 @@ class RecapMobi extends StatefulWidget {
     this.lookAt,
     this.thinkFor = const Duration(milliseconds: 1500),
     this.cheerAfter,
+    this.controller,
   });
 
   final MobiPose pose;
@@ -42,6 +44,24 @@ class RecapMobi extends StatefulWidget {
   /// reduced motion.
   final Duration? cheerAfter;
 
+  /// Drives this Mobi from outside (card 2 glances at the ribbon the student picks). When given,
+  /// the caller owns it and disposes it.
+  final MobiController? controller;
+
+  /// The pose that plays [act] when Mobi appears. The reaction table speaks in acts, the Mobi
+  /// widget in poses.
+  static MobiPose poseFor(MobiAct act) => switch (act) {
+    MobiAct.proud => MobiPose.proud,
+    MobiAct.cheer || MobiAct.celebrate => MobiPose.cheer,
+    MobiAct.encourage => MobiPose.encourage,
+    MobiAct.sleepy => MobiPose.sleepy,
+    MobiAct.sleep => MobiPose.sleepy,
+    _ => MobiPose.rest,
+  };
+
+  /// The pose for [reaction], null (no Mobi) when there is none.
+  static MobiPose? poseOf(RecapReaction? reaction) => reaction == null ? null : poseFor(reaction.act);
+
   @override
   State<RecapMobi> createState() => _RecapMobiState();
 }
@@ -50,7 +70,7 @@ class _RecapMobiState extends State<RecapMobi> {
   /// The earliest Mobi starts talking its line.
   static const Duration _talkAfter = Duration(milliseconds: 650);
 
-  final MobiController _controller = MobiController();
+  late final MobiController _controller = widget.controller ?? MobiController();
   Timer? _beat;
   bool _started = false;
 
@@ -86,7 +106,7 @@ class _RecapMobiState extends State<RecapMobi> {
   @override
   void dispose() {
     _beat?.cancel();
-    _controller.dispose();
+    if (widget.controller == null) _controller.dispose();
     super.dispose();
   }
 

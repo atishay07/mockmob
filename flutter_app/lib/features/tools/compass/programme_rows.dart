@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
 import '../domain/du_eligibility.dart';
@@ -20,12 +21,16 @@ import '../widgets/tools_page.dart';
 /// One open programme: its name, how many colleges and the Round I range for the category, and,
 /// with a score, where the score sits in that range. Opens the programme.
 class ProgrammeRow extends StatelessWidget {
-  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap});
+  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap, this.couldClear = false});
 
   final DuVerdict verdict;
   final String category;
   final double? score;
   final VoidCallback onTap;
+
+  /// The student's score meets the lowest cutoff of some round (the website's `couldClear`): a
+  /// small volt dot springs in beside the name. False without a score.
+  final bool couldClear;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class ProgrammeRow extends StatelessWidget {
         : null;
     final collegesLine = group.hasCutoffs ? ToolsCopy.colleges(group.colleges) : ToolsCopy.noCutoffList;
     final v = roundOneVerdict(group, category, score);
-    final label = [group.name, collegesLine, ?range, if (verdict.secondary) ToolsCopy.secondaryNote, ?v?.$1].join('. ');
+    final label = [group.name, collegesLine, ?range, if (verdict.secondary) ToolsCopy.secondaryNote, ?v?.$1, if (couldClear) ToolsCopy.couldClearDot].join('. ');
     return ToolsRowFrame(
       onTap: onTap,
       semanticsLabel: label,
@@ -49,7 +54,12 @@ class ProgrammeRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(group.name, style: type.labelLarge.copyWith(fontSize: 16)),
+                Row(
+                  children: [
+                    Flexible(child: Text(group.name, style: type.labelLarge.copyWith(fontSize: 16))),
+                    if (couldClear) ...[const SizedBox(width: MmSpace.s8), const CouldClearDot()],
+                  ],
+                ),
                 const SizedBox(height: MmSpace.s2),
                 Text(collegesLine, style: type.caption.copyWith(color: colors.ink2)),
                 if (range != null) Text(range, style: type.caption.copyWith(color: colors.ink2)),
@@ -111,6 +121,31 @@ class NearRow extends StatelessWidget {
           Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
         ],
       ),
+    );
+  }
+}
+
+/// The could-clear dot: 8 dp of volt that springs in (0 to 1 with a small overshoot, 360 ms)
+/// when a score makes it true. Drawn at once under reduced motion.
+class CouldClearDot extends StatelessWidget {
+  const CouldClearDot({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final dot = ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: BoxDecoration(shape: BoxShape.circle, color: colors.isNight ? colors.volt : colors.accentText),
+        child: const SizedBox.square(dimension: 8),
+      ),
+    );
+    if (Motion.reduced(context)) return dot;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 360),
+      curve: Curves.easeOutBack,
+      builder: (context, t, child) => Transform.scale(scale: t.clamp(0.0, 1.3), child: child),
+      child: dot,
     );
   }
 }

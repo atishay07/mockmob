@@ -51,10 +51,11 @@ void main() {
     expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
     expect(find.text('8 right, 1 wrong, 1 not attempted'), findsOneWidget);
     expect(find.text('Accountancy practice, Admission of a partner'), findsOneWidget);
-    expect(find.text('Practice finished. Recorded at 11:51 PM.'), findsOneWidget);
+    // A By-chapter run: the receipt names the chapter as the page does.
+    expect(find.text('Chapter practice finished, Admission of a partner. Recorded at 11:51 PM.'), findsOneWidget);
     // 8 right, 1 wrong: 39 of 50; the wrong answer cost 6 of the 11 marks missed.
     expect(find.text('39 of 50 marks. 1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
-    expect(find.text('Repair this one'), findsWidgets);
+    expect(find.text('Repair 1 mistake'), findsWidgets);
     expect(find.text('Finish for now'), findsWidgets);
     expect(find.text('Wrong answers (1)'), findsOneWidget);
     expect(find.text('Not attempted (1)'), findsOneWidget);
@@ -226,7 +227,7 @@ void main() {
   testWidgets('a wrong answer offers Repair, which opens Mistake Repair for this set', (tester) async {
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
     await tester.pump(const Duration(milliseconds: 500));
-    await tester.tap(find.text('Repair this one'));
+    await tester.tap(find.text('Repair 1 mistake'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q9');
     expect(router.state.uri.queryParameters['count'], '1');
@@ -249,10 +250,12 @@ void main() {
     ];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(questions)));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Repair these 2'), findsWidgets);
-    expect(find.text('Repair these 5'), findsNothing);
-    expect(find.text('Planning. The other 3 are in Review.'), findsOneWidget);
-    await tester.tap(find.text('Repair these 2'));
+    // The key says what it opens in the words every repair key uses: the count, the chapter, the
+    // minutes and what stays in Review.
+    expect(find.text('Repair 2 mistakes'), findsWidgets);
+    expect(find.text('Repair 5 mistakes'), findsNothing);
+    expect(find.text('Planning, about 10 minutes. The other 3 are in Review.'), findsOneWidget);
+    await tester.tap(find.text('Repair 2 mistakes'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q4');
     expect(router.state.uri.queryParameters['count'], '2');

@@ -1,6 +1,9 @@
+import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
+import '../widgets/you_motion.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart' show nowProvider;
@@ -13,6 +16,15 @@ import '../data/goal_pause.dart';
 import '../widgets/you_page.dart';
 import 'goal_picker.dart';
 
+/// How Mobi leans for a goal of [days]: one to three he rests (a gentle week), four and five he
+/// nods, six he thinks it over, seven he encourages (the plain line says there is no rest).
+MobiAct goalMobiAct(int days) => switch (days) {
+      <= 3 => MobiAct.rest,
+      4 || 5 => MobiAct.correct,
+      6 => MobiAct.think,
+      _ => MobiAct.encourage,
+    };
+
 /// The weekly goal editor (spec 5.11 and 6.1): days per week, 1 to 7. The goal is what the
 /// server holds; the screen shows "saved" only after the server answers.
 class GoalScreen extends ConsumerStatefulWidget {
@@ -23,11 +35,44 @@ class GoalScreen extends ConsumerStatefulWidget {
 }
 
 class _GoalScreenState extends ConsumerState<GoalScreen> {
+  /// A small Mobi beside the question who leans with each pick.
+  final MobiController _mobi = MobiController();
+  MobiAct? _lastMobi;
   int? _picked;
   bool _saving = false;
   bool _changedElsewhere = false;
   String? _error;
   DateTime? _savedAt;
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  void _lean(int days) {
+    final act = goalMobiAct(days);
+    // A held pose (rest, think) is not replayed by the next pick that lands on the same pose;
+    // a nod or an encouragement answers every pick.
+    final held = act == MobiAct.rest || act == MobiAct.think;
+    if (held && act == _lastMobi) return;
+    _lastMobi = act;
+    _mobi.play(act);
+  }
+
+  /// Proud only after the server has accepted the save, and only as far as Celebrations allows.
+  void _proud() {
+    final mode = ref.read(rhythmPrefsProvider).mode;
+    final act = switch (mode) {
+      CelebrationMode.full => MobiAct.proud,
+      CelebrationMode.quiet => MobiAct.correct,
+      CelebrationMode.off => null,
+    };
+    if (act != null) {
+      _lastMobi = act;
+      _mobi.play(act);
+    }
+  }
 
   Future<void> _save(int days, String? pausedUntil) async {
     setState(() {
@@ -40,6 +85,8 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
       await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: days, pausedUntil: pausedUntil);
       _track(days);
       if (!mounted) return;
+      ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.rhythm);
+      _proud();
       setState(() {
         _saving = false;
         // What the student picked is now what the server holds: from here the picker follows
@@ -146,7 +193,19 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 const InlineBanner(message: YouCopy.goalStale),
                 const SizedBox(height: MmSpace.s16),
               ],
-              Text(YouCopy.goalQuestion, style: type.lead),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: Text(YouCopy.goalQuestion, style: type.lead)),
+                  const SizedBox(width: MmSpace.s12),
+                  YouMobi(
+                    size: 64,
+                    controller: _mobi,
+                    entrance: days <= 3 ? MobiAct.rest : (days == 6 ? MobiAct.think : MobiAct.idle),
+                    cycle: const [MobiAct.hello, MobiAct.correct],
+                  ),
+                ],
+              ),
               if (_changedElsewhere) ...[
                 const SizedBox(height: MmSpace.s12),
                 Semantics(
@@ -167,6 +226,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
             onChanged: _saving
                 ? null
                 : (value) => setState(() {
+                      _lean(value);
                       _picked = value;
                       _changedElsewhere = false;
                       _error = null;

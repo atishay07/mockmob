@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/attempts_repository.dart';
@@ -144,6 +145,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       run: run,
       question: questionIn(index?.attempt(widget.attemptId), run.current!.item.questionId),
       detail: detail,
+      scheme: markingSchemeOf(index?.attempt(widget.attemptId)),
       renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
       actions: MistakeActions(onNext: _run.next, onFinishForNow: () => _finishForNow(run), onRetry: _run.retry, onReadKey: _run.readKey),
     );

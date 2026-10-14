@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'card_motion.dart';
+
+/// A figure that rolls to a new value ([MmCountUp], from itself on first show), or the text as
+/// given when it is not a whole number.
+Widget _rollingNumber(String number, TextStyle style) {
+  final n = int.tryParse(number);
+  if (n == null) return Text(number, style: style);
+  return MmCountUp(value: n, from: n, style: style);
+}
 
 /// The one lit element at the top of Practice, built on the same hero composition as Today's move
 /// card (SPACING.md 4.1): a header band (overline, title, the length as a figure) with the
@@ -25,7 +35,15 @@ class SuggestionCard extends StatelessWidget {
     this.onShowMe,
     this.numberSemantics,
     this.offline = false,
+    this.actionKey,
+    this.sheet,
   });
+
+  /// Marks the Start key, so Mobi can point at it.
+  final GlobalKey? actionKey;
+
+  /// The painted answer sheet of an open session (the resume card only).
+  final Widget? sheet;
 
   final String subjectId;
   final String overline;
@@ -103,7 +121,9 @@ class SuggestionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
-                Text(number, style: type.figureCompact),
+                // A figure that changes (a pull brings a new answer count) rolls from what it showed;
+                // it never counts up from zero on first show.
+                _rollingNumber(number, type.figureCompact),
                 const SizedBox(width: MmSpace.s8),
                 Flexible(child: Text(unit, style: type.small.copyWith(color: colors.ink2), maxLines: 2)),
               ],
@@ -127,6 +147,7 @@ class SuggestionCard extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s12),
           Text(offline ? PracticeCopy.offlineStart : reason, style: type.small.copyWith(color: colors.ink)),
+          if (sheet != null) ...[const SizedBox(height: MmSpace.s12), sheet!],
           if (onShowMe != null) ...[
             const SizedBox(height: MmSpace.s4),
             Align(
@@ -136,7 +157,11 @@ class SuggestionCard extends StatelessWidget {
             const SizedBox(height: MmSpace.s4),
           ] else
             const SizedBox(height: MmSpace.s16),
-          KeyButton(label: actionLabel, onPressed: offline ? null : onAction),
+          KeyedSubtree(
+            key: actionKey,
+            // One light sweep across Start after 4 s with nothing touched, once per card.
+            child: StartSheen(enabled: !offline && onAction != null, child: KeyButton(label: actionLabel, onPressed: offline ? null : onAction)),
+          ),
         ],
       ),
     );
@@ -170,8 +195,11 @@ class SuggestionCard extends StatelessWidget {
             right: -artBleedRight,
             width: artBox,
             height: artBox,
+            // A slow float (6 s) on the whole box, and the object riding a little against the scroll.
             child: IgnorePointer(
-              child: Center(child: SubjectEmblem(subject: subjectId, size: emblemSize, framed: false)),
+              child: EmblemFloat(
+                child: MmParallax(factor: 0.1, child: Center(child: SubjectEmblem(subject: subjectId, size: emblemSize, framed: false))),
+              ),
             ),
           ),
           body,

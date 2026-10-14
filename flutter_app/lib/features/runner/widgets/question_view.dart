@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/models/question.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -25,6 +28,8 @@ class QuestionView extends StatelessWidget {
     this.leading,
     this.note,
     this.onLock,
+    this.isStruck,
+    this.onStrike,
   });
 
   final SessionQuestion question;
@@ -49,6 +54,12 @@ class QuestionView extends StatelessWidget {
 
   /// The global centre of the bubble an answer is about to be chosen on (the lock-in flight).
   final ValueChanged<Offset>? onLock;
+
+  /// Whether option i is crossed out (in memory only; see `StrikeBook`).
+  final bool Function(int option)? isStruck;
+
+  /// A long press on option i: crosses it out or brings it back.
+  final ValueChanged<int>? onStrike;
 
   /// The question itself is the hero of the screen: 19/28 at weight 600 for a long stem, and
   /// larger when the stem is short, so a one-line question fills the space it has instead of
@@ -98,7 +109,10 @@ class QuestionView extends StatelessWidget {
           children: [
             ...?leading,
             if (passage != null && passage.isNotEmpty) ...[
-              EnterItem(order: 0, child: _PassageWell(text: passage, range: passageRange)),
+              EnterItem(
+                order: 0,
+                child: _PassageWell(text: passage, range: passageRange),
+              ),
               const SizedBox(height: MmSpace.s16),
             ],
             EnterItem(
@@ -114,7 +128,10 @@ class QuestionView extends StatelessWidget {
             ),
             if (body != null && body.isNotEmpty) ...[
               const SizedBox(height: MmSpace.s12),
-              EnterItem(order: 1, child: Text(body, style: type.body.copyWith(color: colors.ink))),
+              EnterItem(
+                order: 1,
+                child: Text(body, style: type.body.copyWith(color: colors.ink)),
+              ),
             ],
             // The mark key (and the practice's one line) sit 16 dp under the question, not up beside
             // the top bar: on a short question the gap above the options stays air, and the things
@@ -163,27 +180,16 @@ class QuestionView extends StatelessWidget {
                       onSelect: canAnswer ? () => onSelect(i) : null,
                       onLock: onLock,
                       minHeight: optionHeight,
+                      // The chosen option is never crossed out; picking a crossed-out one brings it back.
+                      struck: selected != i && (isStruck?.call(i) ?? false),
+                      onStrike: canAnswer && selected != i && onStrike != null ? () => onStrike!(i) : null,
                     ),
                     rule,
                   ],
                 ),
               ),
             // Reserve the clear key's height so nothing below jumps when an answer appears.
-            ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: MmTarget.min + MmSpace.s12 * 2),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: selected != null && canAnswer
-                    ? KeyButton.secondary(
-                        label: RunnerCopy.clearAnswer,
-                        onPressed: () => onSelect(null),
-                        expanded: false,
-                        minHeight: MmTarget.min,
-                        hapticOnCommit: false,
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ),
+            _ClearBand(selected: selected, canAnswer: canAnswer, onSelect: onSelect),
           ],
         ),
       ],
@@ -238,6 +244,108 @@ class _PassageWell extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The 48 dp band under the options: "Clear my answer" while there is an answer, and for 4 s after
+/// clearing, "Answer cleared." with an Undo key in the same place, which puts the answer back
+/// through the same path as choosing it. The band's height never changes.
+class _ClearBand extends StatefulWidget {
+  const _ClearBand({required this.selected, required this.canAnswer, required this.onSelect});
+
+  final int? selected;
+  final bool canAnswer;
+  final ValueChanged<int?> onSelect;
+
+  /// How long the Undo stays.
+  static const Duration undoHold = Duration(seconds: 4);
+
+  @override
+  State<_ClearBand> createState() => _ClearBandState();
+}
+
+class _ClearBandState extends State<_ClearBand> {
+  int? _cleared;
+  Timer? _timer;
+
+  @override
+  void didUpdateWidget(_ClearBand old) {
+    super.didUpdateWidget(old);
+    // A new answer (or answering closing) ends the chance to undo.
+    if (_cleared != null && (widget.selected != null || !widget.canAnswer)) _drop();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _drop() {
+    _timer?.cancel();
+    _timer = null;
+    _cleared = null;
+  }
+
+  void _clear() {
+    final was = widget.selected;
+    if (was == null) return;
+    _timer?.cancel();
+    setState(() => _cleared = was);
+    _timer = Timer(_ClearBand.undoHold, () {
+      if (mounted) setState(_drop);
+    });
+    widget.onSelect(null);
+  }
+
+  void _undo() {
+    final back = _cleared;
+    if (back == null) return;
+    setState(_drop);
+    widget.onSelect(back);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final Widget content;
+    if (widget.selected != null && widget.canAnswer) {
+      content = KeyButton.secondary(
+        key: const ValueKey('clear'),
+        label: RunnerCopy.clearAnswer,
+        onPressed: _clear,
+        expanded: false,
+        minHeight: MmTarget.min,
+        hapticOnCommit: false,
+      );
+    } else if (_cleared != null && widget.canAnswer) {
+      content = Row(
+        key: const ValueKey('undo'),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(
+            liveRegion: true,
+            child: Text(RunnerCopy.answerCleared, style: type.body.copyWith(color: colors.ink2)),
+          ),
+          const SizedBox(width: MmSpace.s12),
+          KeyButton.secondary(label: RunnerCopy.undo, onPressed: _undo, expanded: false, minHeight: MmTarget.min, hapticOnCommit: false),
+        ],
+      );
+    } else {
+      content = const SizedBox.shrink(key: ValueKey('none'));
+    }
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: MmTarget.min + MmSpace.s12 * 2),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: AnimatedSwitcher(
+          duration: Motion.of(context, Motion.ui),
+          layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+          child: content,
         ),
       ),
     );

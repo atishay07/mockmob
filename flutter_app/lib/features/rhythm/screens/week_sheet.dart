@@ -36,7 +36,7 @@ class _WeekSheetState extends ConsumerState<WeekSheet> {
 
   Future<void> _changeDays(RhythmSnapshot snapshot) async {
     final goal = snapshot.goal?.daysPerWeek ?? snapshot.rhythm?.daysGoal ?? 4;
-    final saved = await showGoalEditor(context, initialDays: goal);
+    final saved = await showGoalEditor(context, initialDays: goal, done: snapshot.rhythm?.studyDays ?? 0);
     if (saved == null || !mounted) return;
     ref.read(hapticsProvider).settle();
     setState(() => _saved = ref.read(rhythmActionsProvider).studyDaysReceipt(saved));

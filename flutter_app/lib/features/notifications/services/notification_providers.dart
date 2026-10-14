@@ -15,6 +15,8 @@ import '../../../core/router/router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../data/reminder_store.dart';
+import '../copy.dart';
+import '../logic/next_reminder.dart';
 import '../logic/pre_prompt_policy.dart';
 import '../logic/reminder_plan.dart';
 import '../logic/repair_ready.dart';
@@ -81,8 +83,48 @@ final reminderTapHandlerProvider = Provider<ReminderTapHandler>((ref) {
     declined: (id) => scheduler().reminderDeclined(id),
     mute: () => scheduler().mute(),
     open: (route) => openReminderRoute(ref, route),
+    unmute: () => scheduler().unmute(),
+    acknowledge: (ack) => _acknowledge(ref, ack),
   );
 });
+
+/// The silent answer to Not tonight or Mute for 7 days: it replaces the reminder, says what the
+/// tap did and takes itself away. Mute's answer carries a Resume action and opens the settings.
+Future<void> _acknowledge(Ref ref, ReminderAck ack) {
+  final service = ref.read(notificationServiceProvider);
+  if (ack.muted) {
+    return service.acknowledge(
+      taskId: '${ackTaskPrefix}mute',
+      channel: NotificationChannels.studyReminders,
+      title: NotificationsCopy.ackMutedTitle,
+      body: NotificationsCopy.ackMutedBody,
+      payload: encodeReminderPayload(AppRoutes.youNotifications, '${ackTaskPrefix}mute'),
+      actions: const [NotificationActionSpec(id: ReminderActions.resume, label: NotificationsCopy.actionResume)],
+      lasts: const Duration(seconds: 15),
+    );
+  }
+  final id = ack.taskId;
+  final repair = id != null && id.startsWith(repairTaskPrefix);
+  return service.acknowledge(
+    // The same id as the reminder, so the answer replaces it in the shade.
+    taskId: id ?? '${ackTaskPrefix}not_tonight',
+    channel: repair ? NotificationChannels.repairReady : NotificationChannels.studyReminders,
+    title: repair ? NotificationsCopy.ackNotTonightTitle : NotificationsCopy.ackNotTonightStudyTitle,
+    body: repair ? NotificationsCopy.ackNotTonightBody : NotificationsCopy.ackNotTonightStudyBody,
+    payload: encodeReminderPayload(repair ? AppRoutes.reviewMistakes : AppRoutes.today, '${ackTaskPrefix}not_tonight'),
+  );
+}
+
+/// The next reminder, or why there is none, as the scheduler left it after its last plan. Null
+/// until the first plan of this run has finished (never guessed).
+class NextReminderNotifier extends Notifier<NextReminder?> {
+  @override
+  NextReminder? build() => null;
+
+  void set(NextReminder? next) => state = next;
+}
+
+final nextReminderProvider = NotifierProvider<NextReminderNotifier, NextReminder?>(NextReminderNotifier.new);
 
 final Provider<ReminderScheduler> reminderSchedulerProvider = Provider<ReminderScheduler>((ref) {
   final service = ref.watch(notificationServiceProvider);
@@ -92,6 +134,9 @@ final Provider<ReminderScheduler> reminderSchedulerProvider = Provider<ReminderS
     store: ref.watch(reminderStoreProvider),
     prefs: () => ref.read(notificationPrefsRepositoryProvider).value,
     repair: () => ref.read(repairReadyProvider),
+    onNext: (next) {
+      if (ref.mounted) ref.read(nextReminderProvider.notifier).set(next);
+    },
     // The tap callback must be registered the first time the engine starts.
     ensureReady: () => service.initialize(
       onTap: (tap) {

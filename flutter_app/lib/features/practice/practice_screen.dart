@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/art/art.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/connectivity/connectivity.dart';
+import '../../core/repositories/attempts_repository.dart';
 import '../../core/models/practice_quote.dart';
 import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
@@ -26,6 +29,7 @@ import 'widgets/mode_list.dart';
 import 'widgets/more_rows.dart';
 import 'widgets/other_subjects_sheet.dart';
 import 'widgets/plain_notice.dart';
+import 'widgets/practice_mobi.dart';
 import 'widgets/stale_subjects_banner.dart';
 import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
@@ -55,11 +59,86 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   bool _entered = false;
   static const int _deckSlot = 5;
 
+  /// Mobi lives in the header: the screen drives his looks and his thinking, the widget owns his
+  /// quiet clock and his tap. The entrance is decided once (a wave the first time today).
+  final MobiController _mobi = MobiController();
+  late final MobiAct _entrance;
+  final GlobalKey _heroKey = GlobalKey(debugLabel: 'practice-hero-start');
+  Timer? _lookBack;
+
+  /// Counts that were last read, kept when a refresh cannot read them, so they never vanish.
+  Map<String, int>? _lastCounts;
+
+  /// The last pull failed: a plain notice with a Retry shows under the header.
+  bool _refreshFailed = false;
+  bool _refreshing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Asked once, here: asking consumes the day's hello.
+    _entrance = MobiRation.greeting('practice');
+  }
+
   @override
   void dispose() {
+    _lookBack?.cancel();
+    _mobi.dispose();
     _scroll.dispose();
     super.dispose();
   }
+
+  /// Mobi looks at the tile just tapped, then back ahead.
+  void _lookAtTile(Offset global) {
+    _mobi.lookAt(global);
+    _lookBack?.cancel();
+    _lookBack = Timer(const Duration(milliseconds: 1600), () {
+      if (mounted) _mobi.lookAt(null);
+    });
+  }
+
+  /// The pull: subjects, counts, the suggestion's papers and the three quote families, read
+  /// again. A failure empties the ring (the widget's own) and says so under the header.
+  Future<void> _refresh() async {
+    setState(() {
+      _refreshFailed = false;
+      _refreshing = true;
+    });
+    try {
+      await _readAgain();
+    } finally {
+      if (mounted) setState(() => _refreshing = false);
+    }
+  }
+
+  Future<void> _readAgain() async {
+    final subject = ref.read(practiceSubjectProvider);
+    final queries = <QuoteQuery>[
+      PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery,
+      QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount),
+      PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery,
+    ];
+    ref.invalidate(practiceSuggestionProvider);
+    final subjects = ref.refresh(practiceSubjectsProvider.future);
+    final counts = ref.refresh(questionCountsProvider.future);
+    final quotes = [
+      for (final q in queries) ref.refresh(practiceQuoteProvider(q).future).then<bool>((_) => true, onError: (Object _) => false),
+    ];
+    final attempts = ref.read(attemptsRepositoryProvider.notifier).refresh();
+    await subjects;
+    final fresh = await counts;
+    await attempts;
+    final answered = await Future.wait(quotes);
+    // The counts read comes back empty when it failed; with counts already on screen, that is a failure.
+    if (fresh.isEmpty && (_lastCounts?.isNotEmpty ?? false)) throw StateError('counts');
+    if (answered.isNotEmpty && !answered.contains(true)) throw StateError('quotes');
+  }
+
+  void _onRefreshFailed(Object _) {
+    if (mounted) setState(() => _refreshFailed = true);
+  }
+
+  void _retryRefresh() => unawaited(_refresh().catchError(_onRefreshFailed));
 
   void _confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 
@@ -98,18 +177,22 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline && ref.watch(practiceSuggestionProvider) is ResumeSuggestion;
 
     // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
-    final full = _lastFull =
-        ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value ?? _lastFull;
-    final nta = _lastNta =
-        ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value ?? _lastNta;
+    final fullAsync = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery));
+    final ntaAsync = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount)));
+    final full = _lastFull = fullAsync.value ?? _lastFull;
+    final nta = _lastNta = ntaAsync.value ?? _lastNta;
     final showNta = nta != null && quoteOffersMode(nta);
     final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
     final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
-    final smart = _lastSmart = ref.watch(practiceQuoteProvider(smartQuery)).value ?? _lastSmart;
+    final smartAsync = ref.watch(practiceQuoteProvider(smartQuery));
+    final smart = _lastSmart = smartAsync.value ?? _lastSmart;
+    // Mobi thinks while the quotes for this subject have not answered (a quote can take seconds).
+    final quotesLoading = (fullAsync.isLoading && !fullAsync.hasValue) || (smartAsync.isLoading && !smartAsync.hasValue);
     final showSmart = smart != null && quoteOffersMode(smart);
     final smartGated = smart != null && costLineFor(smart).kind == CostKind.proGated;
     final stale = ref.watch(staleSubjectsProvider);
-    final counts = ref.watch(questionCountsProvider).value;
+    final fetchedCounts = ref.watch(questionCountsProvider).value;
+    final counts = _lastCounts = (fetchedCounts != null && fetchedCounts.isNotEmpty) ? fetchedCounts : (_lastCounts ?? fetchedCounts);
     final fullMinutes = full?.durationSec == null ? null : (full!.durationSec! / 60).round();
 
     final bottom = MediaQuery.paddingOf(context).bottom;
@@ -122,7 +205,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       body: Stack(
         children: [
           // The room's lamp, pooling from the upper left behind the header and the suggestion.
-          Positioned(top: 0, left: 0, right: 0, height: 420, child: IgnorePointer(child: LightField.lamp(context, strength: 0.8))),
+          // It tints toward the picked subject's light over 400 ms, so the room answers the tap.
+          Positioned(top: 0, left: 0, right: 0, height: 420, child: IgnorePointer(child: _SubjectLamp(subjectId: subject))),
           SafeArea(
             bottom: false,
             child: Center(
@@ -131,18 +215,47 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                 // One authored entrance, in reading order: the header, the suggestion, the subjects,
                 // the subject line, then the modes deck (its own rows) and the shelves.
                 child: MmStagger(
+                  // The app's own pull (MOTION.md C10): the ring is the only thing that answers it,
+                  // so the platform's stretch is off and the figures roll from what they showed.
+                  child: MmPullRefresh(
+                    onRefresh: _refresh,
+                    onError: _onRefreshFailed,
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
                   child: ListView(
                     controller: _scroll,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: bottom + MmSpace.s32),
                     children: [
-                      const MmStaggerItem(
+                      MmStaggerItem(
                         index: 0,
                         child: Padding(
                           padding: gutter,
-                          child: TabRootHeader(title: PracticeCopy.tabTitle),
+                          child: TabRootHeader(
+                            title: PracticeCopy.tabTitle,
+                            // 44 dp Mobi, resident: no bubble on this tab, he reacts.
+                            trailing: PracticeMobi(
+                              controller: _mobi,
+                              entrance: _entrance,
+                              loading: quotesLoading || _refreshing,
+                              aim: _heroKey,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: MmSpace.s16),
+                      if (_refreshFailed) ...[
+                        Padding(
+                          padding: gutter,
+                          child: PlainNotice(
+                            message: PracticeCopy.refreshFailed,
+                            tone: BannerTone.error,
+                            actionLabel: PracticeCopy.retry,
+                            onAction: _retryRefresh,
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s16),
+                      ],
                       if (offline) ...[
                         const Padding(
                           padding: gutter,
@@ -157,9 +270,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                         ),
                         const SizedBox(height: MmSpace.s16),
                       ],
-                      const MmStaggerItem(
+                      MmStaggerItem(
                         index: 1,
-                        child: Padding(padding: gutter, child: SuggestionHero()),
+                        child: Padding(padding: gutter, child: SuggestionHero(actionKey: _heroKey)),
                       ),
                       // Group gap: the heading under the hero belongs to the page, not to a new
                       // section, so no rule (SPACING.md 3.1).
@@ -184,6 +297,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           selectedId: subject,
                           countFor: (id) => counts?[internalSubjectFor(id, catalog)],
                           onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
+                          onPickedAt: _lookAtTile,
                           onMore: others.isEmpty ? null : () => _pickOther(others),
                         ),
                       ),
@@ -281,11 +395,42 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                       const ConceptsShelf(),
                     ],
                   ),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The room's lamp behind the header and the suggestion. It tints toward the picked subject's
+/// light over 400 ms (a third of the way, so it stays the room's lamp and never a coloured
+/// wash), and never moves: opacity and colour of one painter, in a RepaintBoundary.
+class _SubjectLamp extends StatelessWidget {
+  const _SubjectLamp({required this.subjectId});
+
+  final String subjectId;
+
+  /// How far the lamp's colour travels toward the subject's light.
+  static const double tint = 0.34;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final brightness = Theme.of(context).brightness;
+    final light = (SubjectLight.forSubject(subjectId) ?? SubjectLight.language).of(brightness);
+    final target = Color.lerp(colors.lamp, light, tint)!;
+    final alpha = (colors.isNight ? 0.2 : 0.14) * 0.8;
+    return TweenAnimationBuilder<Color?>(
+      tween: ColorTween(end: target),
+      duration: Motion.of(context, const Duration(milliseconds: 400)),
+      curve: Motion.glide,
+      builder: (context, color, _) => LightField(
+        pools: [LightPool(color: (color ?? target).withValues(alpha: alpha), center: const Alignment(-1, -1.1), radius: 1.05)],
       ),
     );
   }
@@ -317,13 +462,26 @@ class _SubjectLine extends StatelessWidget {
         excludeSemantics: true,
         child: Row(
           children: [
-            SubjectEmblem(subject: subjectId, size: EmblemSizes.glyph, framed: false),
+            // The emblem scales in from 0.6 each time the line changes subject: the pick lands here.
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.6, end: 1),
+              duration: Motion.of(context, Motion.emphasizedDuration),
+              curve: Curves.easeOutBack,
+              builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+              child: SubjectEmblem(subject: subjectId, size: EmblemSizes.glyph, framed: false),
+            ),
             const SizedBox(width: MmSpace.s8),
             // A group label (15 w600, second ink): the one level under the 22 sp section titles.
             Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge.copyWith(color: colors.ink2))),
             if (questions != null) ...[
               const SizedBox(width: MmSpace.s8),
-              Text(PracticeCopy.questionsAvailable(questions!), style: type.caption.copyWith(color: colors.ink3)),
+              // Rolls from what it showed when a pull brings a new count (never from zero on first show).
+              MmCountUp(
+                value: questions!,
+                from: questions!,
+                format: (v) => PracticeCopy.questionsAvailable(v.round()),
+                style: type.caption.copyWith(color: colors.ink3),
+              ),
             ],
           ],
         ),

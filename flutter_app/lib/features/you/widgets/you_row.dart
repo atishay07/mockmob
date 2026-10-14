@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/settings/settings_switch.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import 'you_motion.dart';
 
 /// A group of rows on one plain raised surface ([MmSurface.plain]): continuous corners, the room's
 /// edge light along the top, and hairlines between the rows inset by
@@ -74,10 +76,15 @@ class RowFrame extends ConsumerWidget {
     this.toggled,
     this.hairline = false,
     this.tick = true,
+    this.pressedBuilder,
     this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
   });
 
   final Widget child;
+
+  /// Builds the row's content from the pressed state when it has a part that answers the press
+  /// (an icon that moves). Used in place of [child] while the row is pressable.
+  final Widget Function(BuildContext context, bool pressed)? pressedBuilder;
   final VoidCallback? onTap;
   final String? semanticsLabel;
 
@@ -99,7 +106,10 @@ class RowFrame extends ConsumerWidget {
           ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
-            child: Padding(padding: padding, child: Align(alignment: Alignment.centerLeft, widthFactor: 1, child: child)),
+            child: Padding(
+              padding: padding,
+              child: Align(alignment: Alignment.centerLeft, widthFactor: 1, child: pressedBuilder != null ? pressedBuilder!(context, pressed) : child),
+            ),
           ),
         );
 
@@ -163,7 +173,20 @@ class YouRow extends StatelessWidget {
     this.hairline = false,
     this.destructive = false,
     this.flat = false,
+    this.motion = YouIconMotion.none,
+    this.tickIcon,
+    this.changeKey,
   });
+
+  /// How the icon answers a press (a bell swings, a buoy turns).
+  final YouIconMotion motion;
+
+  /// The bare glyph a [YouIconMotion.tick] draws its check over.
+  final IconData? tickIcon;
+
+  /// Names the setting this row opens. When a screen marks it changed
+  /// ([changedSettingsRowProvider]), the row draws a 600 ms volt hairline as the student comes back.
+  final String? changeKey;
 
   /// A row on the ground (inside a flat panel): the icon stands bare, the value is a step larger,
   /// and the row's padding is the 4 dp the section titles use.
@@ -187,17 +210,22 @@ class YouRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final label = [title, ?note, ?value].join('. ');
-    return RowFrame(
+    final iconColor = destructive ? colors.badText : (flat ? colors.ink : null);
+    Widget well(bool pressed) => flat
+        ? SizedBox.square(
+            dimension: 28,
+            child: Center(child: YouMovingIcon(icon: icon, size: 22, color: iconColor ?? colors.ink, pressed: pressed, motion: motion, tickIcon: tickIcon)),
+          )
+        : IconWell(icon, color: destructive ? colors.badText : null);
+    Widget row = RowFrame(
       onTap: onTap,
       hairline: hairline,
       semanticsLabel: label,
       padding: flat ? const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
-      child: Row(
+      child: const SizedBox.shrink(),
+      pressedBuilder: (context, pressed) => Row(
         children: [
-          if (flat)
-            SizedBox.square(dimension: 28, child: Icon(icon, size: 22, color: destructive ? colors.badText : colors.ink))
-          else
-            IconWell(icon, color: destructive ? colors.badText : null),
+          well(pressed),
           SizedBox(width: flat ? MmSpace.s16 : MmSpace.s12),
           Expanded(
             child: Column(
@@ -206,7 +234,8 @@ class YouRow extends StatelessWidget {
                 Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: destructive ? colors.badText : colors.ink)),
                 if (note != null) ...[
                   const SizedBox(height: 2),
-                  Text(note!, style: type.caption.copyWith(color: colors.ink2)),
+                  // A note that changes (a goal, a status) cross-fades instead of jumping.
+                  YouNote(note!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ],
             ),
@@ -215,7 +244,7 @@ class YouRow extends StatelessWidget {
             const SizedBox(width: MmSpace.s8),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 140),
-              child: Text(value!, style: (flat ? type.small : type.caption).copyWith(color: colors.ink2), textAlign: TextAlign.end),
+              child: YouSlideValue(value!, style: (flat ? type.small : type.caption).copyWith(color: colors.ink2)),
             ),
           ],
           const SizedBox(width: MmSpace.s8),
@@ -223,13 +252,16 @@ class YouRow extends StatelessWidget {
         ],
       ),
     );
+    final key = changeKey;
+    if (key != null) row = YouChangedHairline(id: key, inset: flat ? 28 + MmSpace.s16 : 0, child: row);
+    return row;
   }
 }
 
-/// A switch row. The whole row toggles; the switch is drawn by the theme (volt on, with a
-/// check glyph) so state never depends on colour alone. [flat] sits the row on the ground at the
-/// page's 16 dp gutter and draws the switch without the glyph (the thumb's side and the words
-/// carry the state).
+/// A switch row. The whole row toggles (48 dp or more, one TalkBack node with its toggled state);
+/// the switch is the shared [SettingsSwitch] (a spring thumb, the track inking to volt, the check
+/// drawing in). [flat] sits the row on the ground at the page's 16 dp gutter. The state word
+/// beside the switch ("On", "Off") cross-fades with it, so state never depends on colour alone.
 class YouSwitchRow extends StatelessWidget {
   const YouSwitchRow({
     super.key,
@@ -239,6 +271,7 @@ class YouSwitchRow extends StatelessWidget {
     this.note,
     this.hairline = false,
     this.flat = false,
+    this.stateWords = true,
   });
 
   final String title;
@@ -250,12 +283,17 @@ class YouSwitchRow extends StatelessWidget {
   final bool hairline;
   final bool flat;
 
+  /// Show the "On" / "Off" word beside the switch.
+  final bool stateWords;
+
+  static const String on = 'On';
+  static const String off = 'Off';
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final enabled = onChanged != null;
-    final toggle = IgnorePointer(child: Switch(value: value, onChanged: enabled ? (_) {} : null));
     return RowFrame(
       onTap: enabled ? () => onChanged!(!value) : null,
       toggled: value,
@@ -277,34 +315,18 @@ class YouSwitchRow extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: MmSpace.s16),
-          ExcludeSemantics(child: flat ? _CleanSwitch(child: toggle) : toggle),
+          const SizedBox(width: MmSpace.s12),
+          if (stateWords)
+            ExcludeSemantics(
+              child: SizedBox(
+                width: 28,
+                child: YouSlideValue(value ? on : off, style: type.caption.copyWith(color: value ? colors.ink : colors.ink3, fontWeight: FontWeight.w600)),
+              ),
+            ),
+          if (stateWords) const SizedBox(width: MmSpace.s8),
+          SettingsSwitch(value: value, enabled: enabled),
         ],
       ),
-    );
-  }
-}
-
-/// The theme's switch without the glyph inside the thumb.
-class _CleanSwitch extends StatelessWidget {
-  const _CleanSwitch({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final base = Theme.of(context);
-    final t = base.switchTheme;
-    return Theme(
-      data: base.copyWith(
-        switchTheme: SwitchThemeData(
-          trackColor: t.trackColor,
-          trackOutlineColor: t.trackOutlineColor,
-          thumbColor: t.thumbColor,
-          overlayColor: t.overlayColor,
-        ),
-      ),
-      child: child,
     );
   }
 }

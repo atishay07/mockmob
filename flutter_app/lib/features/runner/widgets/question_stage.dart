@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'runner_motion.dart';
 
 /// Shows the current question and, for a moment after a switch, the one that was just left under
-/// it (MOTION.md 1.1, finding 7). The arriving question starts at zero opacity and rises in, so
-/// swapping it in at once left a blank frame between the two; the leaving one now stays as a still
-/// picture, fully visible for its first quarter and fading out over [RunnerMotion.crossFade], while
-/// the arriving one is already coming up. At every moment at least one of them is on screen.
+/// it (MOTION.md 1.1, finding 7). The leaving one stays as a still picture at full opacity until the
+/// arriving question's text is half visible ([RunnerMotion.ghostHold]), then fades out over
+/// [RunnerMotion.ghostFade]; the arriving text starts at 0.35, so the two texts together never drop
+/// below 0.7 and a switch is never a blank frame. Each layer paints in its own RepaintBoundary.
 ///
 /// Nothing queues and nothing blocks. The leaving layer takes no touches and is hidden from screen
 /// readers, so a tap during the switch lands on the arriving question; a second switch while the
@@ -29,7 +29,9 @@ class QuestionStage extends StatefulWidget {
 class _QuestionStageState extends State<QuestionStage> with SingleTickerProviderStateMixin {
   late final AnimationController _fade;
 
-  late final Animation<double> _ghostOpacity = _fade.drive(CurveTween(curve: const Interval(0.25, 1))).drive(Tween<double>(begin: 1, end: 0));
+  late final Animation<double> _ghostOpacity = _fade
+      .drive(CurveTween(curve: Interval(RunnerMotion.ghostHold.inMicroseconds / RunnerMotion.crossFade.inMicroseconds, 1)))
+      .drive(Tween<double>(begin: 1, end: 0));
 
   // Each layer is keyed by a serial that never repeats, not by its question: going 1, 2, 1 must
   // arrive afresh, never reuse the layer that is still fading out.
@@ -74,18 +76,8 @@ class _QuestionStageState extends State<QuestionStage> with SingleTickerProvider
       fit: StackFit.expand,
       children: [
         if (leaving != null)
-          _Layer(
-            key: ValueKey<int>(leaving),
-            fade: _ghostOpacity,
-            ghost: true,
-            child: widget.layer(_leavingIndex, ghost: true),
-          ),
-        _Layer(
-          key: ValueKey<int>(_current),
-          fade: kAlwaysCompleteAnimation,
-          ghost: false,
-          child: widget.layer(widget.index, ghost: false),
-        ),
+          _Layer(key: ValueKey<int>(leaving), fade: _ghostOpacity, ghost: true, child: widget.layer(_leavingIndex, ghost: true)),
+        _Layer(key: ValueKey<int>(_current), fade: kAlwaysCompleteAnimation, ghost: false, child: widget.layer(widget.index, ghost: false)),
       ],
     );
   }
@@ -112,7 +104,10 @@ class _Layer extends StatelessWidget {
           onNotification: (_) => ghost,
           child: NotificationListener<ScrollNotification>(
             onNotification: (_) => ghost,
-            child: FadeTransition(opacity: fade, child: child),
+            child: FadeTransition(
+              opacity: fade,
+              child: RepaintBoundary(child: child),
+            ),
           ),
         ),
       ),

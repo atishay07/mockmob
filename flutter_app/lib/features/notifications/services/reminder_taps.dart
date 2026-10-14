@@ -7,6 +7,9 @@ import '../logic/reminder_plan.dart';
 /// - The notification itself and Start open the screen named in the payload.
 /// - Not tonight is a clear answer and changes nothing else.
 /// - Mute for 7 days pauses reminders on this phone.
+/// - Resume (on the answer to Mute) turns the reminders back on.
+/// Not tonight and Mute are each answered with a silent replacement notification ([acknowledge]),
+/// so the student sees the tap did something.
 /// A payload is only ever an in-app route: anything else is ignored.
 ///
 /// [handle] never throws: the route opens first and does not depend on the record write, and a
@@ -17,7 +20,15 @@ class ReminderTapHandler {
     required this.declined,
     required this.mute,
     required this.open,
+    this.unmute,
+    this.acknowledge,
   });
+
+  /// Turns reminders back on (the Resume action).
+  final Future<void> Function()? unmute;
+
+  /// Posts the silent answer to Not tonight or Mute.
+  final Future<void> Function(ReminderAck ack)? acknowledge;
 
   /// A reminder was tapped or started (the task id).
   final Future<void> Function(String taskId) opened;
@@ -36,9 +47,14 @@ class ReminderTapHandler {
     switch (tap.actionId) {
       case ReminderActions.notTonight:
         if (taskId != null) await _quietly(() => declined(taskId));
+        await _quietly(() async => acknowledge?.call(ReminderAck.notTonight(taskId)));
         return;
       case ReminderActions.mute:
         await _quietly(mute);
+        await _quietly(() async => acknowledge?.call(const ReminderAck.muted()));
+        return;
+      case ReminderActions.resume:
+        await _quietly(() async => unmute?.call());
         return;
     }
 
@@ -49,7 +65,8 @@ class ReminderTapHandler {
         // The router is not ready: the record below still counts the tap.
       }
     }
-    if (taskId != null) await _quietly(() => opened(taskId));
+    // The answers to Not tonight and Mute open their screen but are not reminders to count.
+    if (taskId != null && !taskId.startsWith(ackTaskPrefix)) await _quietly(() => opened(taskId));
   }
 
   static Future<void> _quietly(Future<void> Function() write) async {
@@ -59,4 +76,18 @@ class ReminderTapHandler {
       // Bookkeeping only: the student's tap has already done what they asked for.
     }
   }
+}
+
+/// What a silent answer is for.
+class ReminderAck {
+  const ReminderAck.notTonight(this.taskId) : muted = false;
+  const ReminderAck.muted()
+      : muted = true,
+        taskId = null;
+
+  /// True for Mute for 7 days, false for Not tonight.
+  final bool muted;
+
+  /// The reminder that was declined (Not tonight), so the answer can replace it in the shade.
+  final String? taskId;
 }

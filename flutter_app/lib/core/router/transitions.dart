@@ -287,8 +287,8 @@ class MmPageTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
-/// The tab switch (DOCK.md section 5.4, MOTION.md C1): the outgoing branch fades out in 90 ms on
-/// exit, drifting 6 dp against the travel; then the incoming branch fades in over 200 ms on
+/// The tab switch (DOCK.md section 5.4, MOTION.md C1): the outgoing branch fades out in about 90 ms
+/// on exit (the incoming one is already rising by 60 ms: no blank frame), drifting 6 dp against the travel; then the incoming branch fades in over 200 ms on
 /// glide, sliding 10 dp in from the side the bar's lens travelled toward (transforms only). The
 /// bar's visual order (Today, Practice, Start, Review, You) keeps branch order, so the branch
 /// index gives the direction. The branches stay mounted, like an `IndexedStack`, so
@@ -324,8 +324,13 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
   double get _split =>
       FadingBranchContainer.fadeOut.inMicroseconds / (FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn).inMicroseconds;
 
-  late final Animation<double> _in = CurvedAnimation(parent: _controller, curve: Interval(_split, 1, curve: Motion.glide));
-  late final Animation<double> _out = ReverseAnimation(CurvedAnimation(parent: _controller, curve: Interval(0, _split, curve: Motion.exit)));
+  /// The hand-over overlaps: the outgoing tab is fading over the first [_split] of the switch
+  /// while the incoming one starts at [_overlapStart], so there is never a frame with neither
+  /// on screen (they used to meet at zero opacity at 90 ms).
+  static const double _overlapStart = 0.22;
+
+  late final Animation<double> _in = CurvedAnimation(parent: _controller, curve: const Interval(_overlapStart, 1, curve: Motion.glide));
+  late final Animation<double> _out = ReverseAnimation(CurvedAnimation(parent: _controller, curve: Interval(0, _split + 0.1, curve: Motion.exit)));
 
   @override
   void initState() {

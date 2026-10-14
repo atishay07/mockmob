@@ -1,6 +1,8 @@
 // Today's layout for a given [TodayView]: the warm room (lamp light pooled behind the header),
 // the top row, the hero, anything else that is open, the week's ending card, "Your sheet" and
 // the road to May. Pure layout: goldens render it from fixtures.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -8,6 +10,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
+import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
@@ -77,7 +80,7 @@ class TodayBody extends StatefulWidget {
   State<TodayBody> createState() => _TodayBodyState();
 }
 
-class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMixin {
+class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// The move card: the header Mobi points at it.
   final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
@@ -105,6 +108,21 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   /// skeleton appears in place, so the masthead never fades out and back in.
   late final AnimationController _entrance = AnimationController(vsync: this, duration: todayEntranceDuration);
   bool _entranceDecided = false;
+
+  /// The primary key's short pulse (160 ms) when it comes back into view after tonight's capsule
+  /// stood in for it: the key is seen to be the thing the capsule was.
+  late final AnimationController _keyPulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 160));
+
+  /// The key was out of view at the last judgement (so its return is a pulse).
+  bool _keyWasOff = false;
+
+  /// Where the key last was on screen (global): the capsule grows from it when the key leaves the
+  /// screen and shrinks back toward it ([BarMove.originRect]).
+  Rect? _lastKeyRect;
+
+  /// A cue was played since the last pull began, so the refresh does not cue the same news twice.
+  bool _cuedSinceRefresh = false;
+  Timer? _settleMobi;
 
   @override
   void initState() {
@@ -145,6 +163,63 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
       (oldWidget.controller ?? _ownScroll)?.removeListener(_queueMeasure);
       _scroll.addListener(_queueMeasure);
     }
+    // News the student did not ask for (a sync, the clock): today counted by the server, or a
+    // read that failed. A pull that brings changes is answered in [_refresh].
+    final change = TodayReactions.compare(oldWidget.view, widget.view);
+    if (change.todayNewlyCounted) {
+      _cueAfterBuild(MobiAct.correct);
+    } else if (change.failedRead) {
+      final act = TodayReactions.actFor(change);
+      if (act != null) _cueAfterBuild(act);
+    }
+  }
+
+  /// The same, after this frame: a cue must not notify listeners while the tree is building.
+  void _cueAfterBuild(MobiAct act) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _cue(act);
+    });
+  }
+
+  /// Mobi answers a real event: the published cue (the header's Mobi can subscribe to it), and
+  /// the hero's own Mobi at once when the hero has him.
+  void _cue(MobiAct act) {
+    _cuedSinceRefresh = true;
+    todayMobiCue.cue(act);
+    final mobi = widget.mobiController;
+    final hero = widget.view.hero;
+    if (mobi == null || hero is! MoveHero || !hero.art.isMobi) return;
+    mobi.react(act);
+    // Listening is a held stance: he goes back to standing a moment after the student stops.
+    _settleMobi?.cancel();
+    if (act == MobiAct.listen) _settleMobi = Timer(const Duration(milliseconds: 2400), () => mobi.play(MobiAct.idle));
+  }
+
+  /// A pull: the page shows the new data before the ring lifts, a refresh that changed something
+  /// gets a nod from Mobi, one that changed nothing gets nothing, and a failed read gets his
+  /// shrug (once a run).
+  Future<void> _refresh() async {
+    final read = widget.callbacks.onRefresh;
+    if (read == null) return;
+    final before = widget.view;
+    _cuedSinceRefresh = false;
+    try {
+      await read();
+    } catch (_) {
+      if (mounted && MobiRation.oopsRun('today')) _cue(MobiAct.oops);
+      rethrow;
+    }
+    if (!mounted) return;
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted || _cuedSinceRefresh) return;
+    final act = TodayReactions.actFor(TodayReactions.compare(before, widget.view));
+    if (act != null) _cue(act);
+  }
+
+  void _minutes(int minutes) {
+    final hero = widget.view.hero;
+    if (hero is MoveHero && hero.selectedMinutes != minutes) _cue(MobiAct.listen);
+    widget.callbacks.onMinutes?.call(minutes);
   }
 
   @override
@@ -152,6 +227,8 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
     _scroll.removeListener(_queueMeasure);
     _ownScroll?.dispose();
     _publish(null);
+    _settleMobi?.cancel();
+    _keyPulse.dispose();
     _entrance.dispose();
     super.dispose();
   }
@@ -176,11 +253,23 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
     final key = _primaryKey.currentContext?.findRenderObject();
     final stack = _stackKey.currentContext?.findRenderObject();
     var off = false;
+    if (key is RenderBox && key.attached && key.hasSize) _lastKeyRect = key.localToGlobal(Offset.zero) & key.size;
     if (_bar != null && _pinnable(hero) && key is RenderBox && stack is RenderBox && key.attached && key.hasSize && stack.attached && stack.hasSize) {
       final bottom = key.localToGlobal(Offset(0, key.size.height), ancestor: stack).dy;
       off = bottom > stack.size.height - _barTop - MmBar.capsuleClearance + 0.5;
     }
+    // Back in view after the capsule stood in for it: one short pulse says it is the same move.
+    if (_keyWasOff && !off && !Motion.reduced(context)) _keyPulse.forward(from: 0);
+    _keyWasOff = off;
     _publish(off && hero is MoveHero ? _moveOf(hero) : null);
+  }
+
+  /// Where the primary key is right now (global), or null when it is not laid out: the capsule
+  /// asks for it when it arrives and again when it leaves, since the page may have scrolled.
+  Rect? _keyRectNow() {
+    final box = _primaryKey.currentContext?.findRenderObject();
+    if (box is! RenderBox || !box.attached || !box.hasSize) return null;
+    return box.localToGlobal(Offset.zero) & box.size;
   }
 
   bool _pinnable(TodayHero? hero) =>
@@ -198,6 +287,8 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
       detail: minutes == null ? null : '$minutes min',
       label: primary.label,
       onStart: () => widget.callbacks.onAction(primary),
+      originRect: _lastKeyRect,
+      originNow: _keyRectNow,
     );
   }
 
@@ -227,7 +318,8 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
           onAction: cb.onAction,
-          onMinutes: cb.onMinutes,
+          onMinutes: cb.onMinutes == null ? null : _minutes,
+          keyPulse: _keyPulse,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
         ),
       SealedHero() => SealedHeroCard(
@@ -285,7 +377,7 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
       // Section to section: 32, then the section's own hairline rule and heading (audit T8).
       if (view.sheet.isNotEmpty) ...[
         const SizedBox(height: MmSpace.group),
-        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, onOpen: callbacks.onTarget)),
+        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, trend: view.trend, onOpen: callbacks.onTarget)),
       ],
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),
@@ -332,7 +424,7 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
                   // the page's entrance never replays (it belongs to the page, not to the data).
                   // No stretch either: the ring is the only thing that answers the pull.
                   : MmPullRefresh(
-                      onRefresh: refresh,
+                      onRefresh: _refresh,
                       child: ScrollConfiguration(behavior: ScrollConfiguration.of(context).copyWith(overscroll: false), child: scroll),
                     ),
             ),

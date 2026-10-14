@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../haptics/haptics.dart';
 
@@ -20,13 +19,7 @@ enum MmPressHaptic {
 
 /// The app's [Haptics] from the nearest `ProviderScope`, or null outside one (a bare widget in a
 /// test), so a surface never needs Riverpod to build.
-Haptics? mmHapticsOf(BuildContext context) {
-  try {
-    return ProviderScope.containerOf(context, listen: false).read(hapticsProvider);
-  } catch (_) {
-    return null;
-  }
-}
+Haptics? mmHapticsOf(BuildContext context) => hapticsOf(context);
 
 /// Fires [haptic] through the app's [Haptics] (which honours the Touch feedback switch).
 void mmFireHaptic(BuildContext context, MmPressHaptic haptic) {

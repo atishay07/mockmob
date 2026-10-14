@@ -209,8 +209,8 @@ void main() {
       await gesture.up();
       await tester.pump(const Duration(milliseconds: 500));
       expect(tester.state<_DialState>(find.byType(_Dial)).count, 20);
-      // From the chosen 10: one tick for 15 and one for 20.
-      expect(haptics.calls, ['selection', 'selection']);
+      // From the chosen 10: a tick for 15, and the firmer detent at the last stop, 20.
+      expect(haptics.calls, ['selection', 'light']);
     });
 
     testWidgets('at 1.3x text every stop fits whole', (tester) async {

@@ -197,6 +197,28 @@ abstract final class NotificationsCopy {
   static const String repairTitle = 'Repair ready';
   static String repairBody(int mistakes, int minutes) =>
       'Your repair is ready: ${plural(mistakes, 'mistake')}, about $minutes minutes.';
+  // Answers to a tap on a reminder's action: a silent replacement that takes itself away.
+  static const String ackNotTonightTitle = 'Okay, no repair tonight';
+  static const String ackNotTonightBody = 'Your repair stays in Review whenever you want it.';
+  static const String ackMutedTitle = 'Reminders paused for 7 days';
+  static const String ackMutedBody = 'Turn them back on in You > Notifications.';
+  static const String actionResume = 'Resume';
+  static const String ackNotTonightStudyTitle = 'Okay, not tonight';
+  static const String ackNotTonightStudyBody = 'Start from Today whenever you are ready.';
+
+  // The next reminder line on the settings screen.
+  static const String nextLabel = 'Next reminder';
+  static const String nextNothing = 'Nothing scheduled';
+  static const String nextReasonOff = 'Every reminder is off.';
+  static const String nextReasonQuiet = 'Quiet hours cover your study window.';
+  static const String nextReasonCap = 'You have reached your weekly limit.';
+  static const String nextReasonBlocked = 'Android is blocking notifications.';
+  static const String nextStudy = 'study window';
+  static const String nextWeekly = 'weekly plan';
+  static String nextRepair(int mistakes) => 'repair ${plural(mistakes, 'mistake')}';
+  static const String nextOpensTime = 'Changes the study window start';
+
+  // The header Mobi's label (decorative: the screen's words carry the meaning).
   static const String weeklyTitle = 'Weekly plan';
   static const String weeklyBody = 'Your week is ready to look at.';
 }

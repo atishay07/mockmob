@@ -50,6 +50,35 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
   BarLive? _shown;
   bool _leaving = false;
 
+  // Tonight's move grows from the hero key's rect (and shrinks back toward it): while
+  // [_growLocal] is set the rise and the scale are off, so the two never play together.
+  final GlobalKey _slotKey = GlobalKey();
+  Rect? _growLocal;
+  double _growRadius = MmBar.capsuleHeight / 2;
+  bool _growPending = false;
+
+  /// The slot's global rect, or null when it is not laid out.
+  Rect? _slotRect() {
+    final box = _slotKey.currentContext?.findRenderObject();
+    if (box is! RenderBox || !box.attached || !box.hasSize) return null;
+    return box.localToGlobal(Offset.zero) & box.size;
+  }
+
+  /// Sets up a grow or shrink between the slot and [live]'s origin; false when there is none
+  /// to use (no rect, or reduced motion), and the caller falls back to the plain rise.
+  bool _prepareGrow(BarLive live, Rect? slot) {
+    if (live is! BarMove || Motion.reduced(context) || slot == null) return false;
+    final origin = live.resolveOrigin();
+    if (origin == null || origin.isEmpty || !origin.isFinite) return false;
+    // A key already where the slot is has nothing to travel.
+    if ((origin.center - slot.center).distance < 24 && (origin.size.width - slot.width).abs() < 24) return false;
+    _growLocal = origin.shift(-slot.topLeft);
+    _growRadius = live.originRadius ?? math.min(origin.shortestSide / 2, 40.0);
+    return true;
+  }
+
+  late final Animation<double> _growFade = CurvedAnimation(parent: _present, curve: const Interval(0.5, 1));
+
   @override
   void initState() {
     super.initState();
@@ -69,12 +98,33 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
       _leaving = false;
       if (wasHidden) {
         _swipe.value = 0;
-        _present.duration = reduced ? Motion.reducedFade : Motion.emphasizedDuration;
-        _present.forward(from: reduced ? _present.value : 0);
+        _growLocal = null;
+        _growPending = false;
+        final coming = next is BarMove && !reduced && next.resolveOrigin() != null;
+        if (coming) {
+          // The slot is not laid out until this frame is: measure after it, then grow.
+          _growPending = true;
+          _present.value = 0;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted || !_growPending) return;
+            _growPending = false;
+            final live = _shown;
+            final grew = live != null && _prepareGrow(live, _slotRect());
+            _present.duration = grew ? const Duration(milliseconds: 280) : Motion.emphasizedDuration;
+            _present.forward(from: 0);
+            if (grew) setState(() {});
+          });
+        } else {
+          _present.duration = reduced ? Motion.reducedFade : Motion.emphasizedDuration;
+          _present.forward(from: reduced ? _present.value : 0);
+        }
       }
     } else if (_shown != null && !_leaving) {
       _leaving = true;
-      _present.reverseDuration = reduced ? Motion.reducedFade : Motion.exitDuration;
+      final shrinks = _growPending ? false : _prepareGrow(_shown!, _slotRect());
+      if (!shrinks) _growLocal = null;
+      _growPending = false;
+      _present.reverseDuration = reduced ? Motion.reducedFade : (shrinks ? const Duration(milliseconds: 280) : Motion.exitDuration);
       _present.reverse().whenCompleteOrCancel(() {
         if (mounted && _leaving) setState(() => _shown = null);
       });
@@ -135,17 +185,27 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
     final reduced = Motion.reduced(context);
     final width = widget.width;
 
-    final content = _CapsuleContent(live: live, present: _present, reduced: reduced);
+    final growLocal = _growLocal;
+    final growing = growLocal != null;
+    final radius = _growRadius;
+    Widget content = _CapsuleContent(live: live, present: _present, reduced: reduced, growing: growing);
+    if (growing) content = FadeTransition(opacity: _growFade, child: content);
     Widget capsule = SizedBox(
+      key: _slotKey,
       width: width,
       height: LiveCapsule.boxHeight,
       child: BarGlass(
         quality: widget.quality,
         repaint: _present,
-        shape: (size) => RRect.fromRectAndRadius(
-          Rect.fromLTWH(0, 2, size.width, MmBar.capsuleHeight),
-          const Radius.circular(MmBar.capsuleHeight / 2),
-        ),
+        shape: (size) {
+          final slot = Rect.fromLTWH(0, 2, size.width, MmBar.capsuleHeight);
+          const slotRadius = MmBar.capsuleHeight / 2;
+          if (growLocal == null) return RRect.fromRectAndRadius(slot, const Radius.circular(slotRadius));
+          final g = Motion.emphasized.transform(_present.value.clamp(0.0, 1.0));
+          final rect = Rect.lerp(growLocal, slot, g)!;
+          final r = (radius + (slotRadius - radius) * g).clamp(0.0, rect.shortestSide / 2);
+          return RRect.fromRectAndRadius(rect, Radius.circular(r));
+        },
         child: Padding(padding: const EdgeInsets.symmetric(vertical: 2), child: content),
       ),
     );
@@ -175,13 +235,15 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
         final entering = _present.status != AnimationStatus.reverse;
         // In: 16 dp up, 0.92 to 1, fading in on emphasized. Out: 12 dp down, fading on exit.
         final e = reduced ? p : (entering ? Motion.emphasized.transform(p) : p);
-        final dy = reduced ? 0.0 : (entering ? 16 * (1 - e) : 12 * (1 - p));
-        final scale = reduced || !entering ? 1.0 : 0.92 + 0.08 * e;
+        // A grow or shrink moves the shape itself, so the rise and the scale stay off.
+        final dy = reduced || growing ? 0.0 : (entering ? 16 * (1 - e) : 12 * (1 - p));
+        final scale = reduced || growing || !entering ? 1.0 : 0.92 + 0.08 * e;
         // Sinks 8 dp and fades as the bar collapses (over its first 150 ms).
         final c = (widget.collapse.value / 0.625).clamp(0.0, 1.0);
         final swipe = _swipe.value;
         final swipeFade = 1 - (swipe.abs() / (width * 0.9)).clamp(0.0, 1.0);
-        final opacity = (entering ? Interval(0, 0.6).transform(p) : p) * (1 - c) * swipeFade;
+        final present = growing ? (p * 8).clamp(0.0, 1.0) : (entering ? Interval(0, 0.6).transform(p) : p);
+        final opacity = present * (1 - c) * swipeFade;
         return IgnorePointer(
           ignoring: c > 0.5 || _leaving,
           child: Opacity(
@@ -202,11 +264,14 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
 /// cross-fades over 200 ms and the shape stays. On arrival the glyph, text and action come in
 /// 40 ms apart.
 class _CapsuleContent extends StatelessWidget {
-  const _CapsuleContent({required this.live, required this.present, required this.reduced});
+  const _CapsuleContent({required this.live, required this.present, required this.reduced, this.growing = false});
 
   final BarLive live;
   final Animation<double> present;
   final bool reduced;
+
+  /// The glass is growing from the hero's key: the whole line fades in as one, not staggered.
+  final bool growing;
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +315,7 @@ class _CapsuleContent extends StatelessWidget {
     final action = live.action;
 
     Widget stagger(int i, Widget child) {
-      if (reduced) return child;
+      if (reduced || growing) return child;
       final start = (i * 40) / Motion.emphasizedDuration.inMilliseconds;
       final fade = CurvedAnimation(parent: present, curve: Interval(start, math.min(1, start + 0.6), curve: Motion.glide));
       return FadeTransition(opacity: fade, child: child);

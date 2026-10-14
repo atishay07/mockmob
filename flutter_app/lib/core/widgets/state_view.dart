@@ -41,6 +41,7 @@ class StateView extends StatefulWidget {
     this.secondary,
     this.pose = MobiPose.idle,
     this.scene,
+    this.art,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -56,6 +57,11 @@ class StateView extends StatefulWidget {
   /// state shows the all-clear room only when it says so, because "nothing yet" is not "all
   /// marked". Errors have none.
   final StateScene? scene;
+
+  /// Replaces the default Mobi in the illustration area (a Mobi reacting to this particular
+  /// state, a subject object). It sits in the same lamp pool, above the title, never over text.
+  /// Ignored when the state shows a painted [scene].
+  final Widget? art;
 
   /// The scene this state shows, if any.
   StateScene? get shownScene => switch (kind) {
@@ -133,6 +139,8 @@ class _StateViewState extends State<StateView> {
   }
 
   Widget _art(BuildContext context, double size) {
+    final custom = widget.art;
+    if (custom != null) return SizedBox(height: size, child: Center(child: custom));
     if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle, controller: _mobi);
     return switch (kind) {
       StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle, controller: _mobi),
@@ -235,8 +243,17 @@ class _StateViewState extends State<StateView> {
                   MmStaggerItem(
                     index: 2,
                     // A retry that runs long says so in words; the line swaps in place (the message
-                    // is already reserved, so nothing moves).
-                    child: Text(_slow ? StateView.slowWords : message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                    // is already reserved, so nothing moves), the new words over the old with no
+                    // blank frame between.
+                    child: MmOverlapSwitcher(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        _slow ? StateView.slowWords : message!,
+                        key: ValueKey<bool>(_slow),
+                        style: type.body.copyWith(color: colors.ink2),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ],
                 if (primary != null) ...[

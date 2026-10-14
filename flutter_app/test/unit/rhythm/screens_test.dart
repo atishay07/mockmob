@@ -146,7 +146,7 @@ void main() {
       await settle(tester);
       // The date is said once, in the week card; the pause group says only that the run is kept.
       expect(find.text('Rhythm is paused until 21 January.'), findsOneWidget);
-      final line = find.text('Paused weeks do not break your run.');
+      final line = find.text('Paused. Your run is kept.');
       await tester.scrollUntilVisible(line, 200, scrollable: find.byType(Scrollable).first);
       expect(line, findsOneWidget);
       expect(find.textContaining('Paused until'), findsNothing);
@@ -155,11 +155,14 @@ void main() {
 
     testWidgets('a pause preset sends the Sunday of this week and keeps the goal', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
-      final thisWeek = find.bySemanticsLabel('Pause rhythm, This week');
-      await tester.scrollUntilVisible(thisWeek, 200, scrollable: find.byType(Scrollable).first);
-      await tester.ensureVisible(thisWeek);
+      final key = find.text('Pause now');
+      await tester.scrollUntilVisible(key, 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(key);
       await tester.pumpAndSettle();
-      await tester.tap(thisWeek);
+      // Nothing is written by choosing a chip; the date it ends on is said first.
+      expect(goalRepo.savedPause, isEmpty);
+      expect(find.text('Back on 19 Oct.'), findsOneWidget);
+      await tester.tap(key);
       await settle(tester);
       expect(goalRepo.saved, [4]);
       expect(goalRepo.savedPause, ['2026-10-18']);
@@ -172,10 +175,17 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('2 weeks'));
       await settle(tester);
-      await tester.scrollUntilVisible(find.text('About 3 months'), 200, scrollable: find.byType(Scrollable).first);
-      await tester.ensureVisible(find.text('About 3 months'));
+      expect(find.text('Back on 26 Oct.'), findsOneWidget);
+      await tester.tap(find.text('Pause now'));
+      await settle(tester);
+      await tester.scrollUntilVisible(find.text('3 months'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(find.text('3 months'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('About 3 months'));
+      await tester.tap(find.text('3 months'));
+      await settle(tester);
+      // 100 days from Wednesday 14 October, then the day after it.
+      expect(find.text('Back on 23 Jan.'), findsOneWidget);
+      await tester.tap(find.text('Pause now'));
       await settle(tester);
       expect(goalRepo.savedPause, ['2026-10-25', '2027-01-22']);
     });

@@ -22,6 +22,35 @@ import '../models/run_item.dart';
 import '../widgets/run_pips.dart';
 import '../widgets/screen_bits.dart';
 
+/// How a finished run went, read only from the ratings the server holds for it. It chooses
+/// Mobi's act; it is never shown as a score.
+enum RunMood {
+  /// Five or more cards and every one came back Got it or Easy.
+  celebrate,
+
+  /// Most cards were kept: a happy hop.
+  cheer,
+
+  /// A good share came back Forgot or Hard (but not most of them): a warm nod, no tick.
+  encourage,
+
+  /// One card was reviewed and it stuck (Got it or Easy): a small hop and a line.
+  stuck,
+}
+
+/// The mood of a run from its [cards], rated Forgot 1, Hard 2, Got it 3, Easy 4. With no ratings
+/// (a lesson run) it is the plain [RunMood.cheer].
+RunMood runMood(List<ReviewedCard> cards) {
+  if (cards.isEmpty) return RunMood.cheer;
+  final kept = cards.where((c) => c.rating >= 3).length;
+  final again = cards.length - kept;
+  if (cards.length == 1) return kept == 1 ? RunMood.stuck : RunMood.encourage;
+  if (again == 0 && cards.length >= 5) return RunMood.celebrate;
+  // A third or more coming back Forgot or Hard is a run to be kind about.
+  if (again * 3 >= cards.length) return RunMood.encourage;
+  return RunMood.cheer;
+}
+
 /// The ending of a lesson or a review (spec 5.9, `/learn/run/:runId/done`). It only follows a run
 /// the server returned as complete, and says "Recorded" only from the server's own time.
 ///
@@ -233,6 +262,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     final due = ref.watch(learnCatalogProvider).value?.queue.dueCount ?? 0;
     final again = run.againCards;
     final pointAtList = again.isNotEmpty && run.mostlyForgot;
+    final mood = runMood(run.reviewedCards);
     final reduced = Motion.reduced(context);
     final mode = ref.watch(celebrationModeProvider);
     final off = mode == CelebrationMode.off;
@@ -257,7 +287,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: settled || reduced
-                  ? _mobiFor(pointAtList, calm: mode == CelebrationMode.quiet)
+                  ? _mobiFor(pointAtList, mood, calm: mode == CelebrationMode.quiet)
                   : const SizedBox.shrink(),
             ),
           ),
@@ -268,7 +298,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
             total: run.total,
             animate: !off,
             skip: _skipped,
-            onSettled: () => _onSettled(good: !pointAtList),
+            onSettled: () => _onSettled(good: !pointAtList && mood != RunMood.encourage),
           ),
         const SizedBox(height: MmSpace.s24),
         Semantics(
@@ -324,17 +354,19 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   static const double _mobiSize = 140;
   static const int _againShown = 5;
 
-  /// Mobi for a finished run: a cheer (Full), seated and still (Quiet), or pointing at the list
-  /// when most cards came back Forgot (a calm pose either way).
-  Widget _mobiFor(bool pointAtList, {required bool calm}) {
+  /// Mobi for a finished run, by what the ratings say: a big celebration when every one of five
+  /// or more cards stuck, a cheer for a good run, a warm nod when a good share came back Forgot
+  /// or Hard, a small hop and "That one stuck." for a single card kept, and pointing at the list
+  /// when most came back Forgot. Seated and still under Quiet (a calm pose either way).
+  Widget _mobiFor(bool pointAtList, RunMood mood, {required bool calm}) {
     if (!pointAtList) {
-      return calm
-          ? const Mobi(pose: MobiPose.rest, size: _mobiSize)
-          : const Mobi(
-              pose: MobiPose.cheer,
-              size: _mobiSize,
-              motion: MobiMotion.hop,
-            );
+      if (calm) return const Mobi(pose: MobiPose.rest, size: _mobiSize);
+      return switch (mood) {
+        RunMood.celebrate => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.celebrate),
+        RunMood.cheer => const Mobi(pose: MobiPose.cheer, size: _mobiSize, motion: MobiMotion.hop),
+        RunMood.encourage => const Mobi(pose: MobiPose.encourage, size: _mobiSize),
+        RunMood.stuck => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.correct, say: LearnCopy.thatOneStuck),
+      };
     }
     if (!_pointed) {
       _pointed = true;

@@ -213,6 +213,31 @@ class NotificationService {
     await _gateway.show(id: notificationIdFor(taskId), channel: channel, title: title, body: body, payload: payload, silent: true);
   }
 
+  final Map<String, Timer> _acknowledgements = {};
+
+  /// A silent answer to something the student did on a notification (Not tonight, Mute for 7
+  /// days): it replaces the reminder under the same task id, makes no sound, never counts against
+  /// the caps and takes itself away after [lasts]. The student sees that the tap did something.
+  Future<void> acknowledge({
+    required String taskId,
+    required NotificationChannelSpec channel,
+    required String title,
+    required String body,
+    String? payload,
+    List<NotificationActionSpec> actions = const [],
+    Duration lasts = const Duration(seconds: 10),
+  }) async {
+    await initialize();
+    await _ensureChannel(channel);
+    final id = notificationIdFor(taskId);
+    await _gateway.show(id: id, channel: channel, title: title, body: body, payload: payload, silent: true, actions: actions);
+    _acknowledgements.remove(taskId)?.cancel();
+    _acknowledgements[taskId] = Timer(lasts, () {
+      _acknowledgements.remove(taskId);
+      unawaited(_gateway.cancel(id).catchError((Object _) {}));
+    });
+  }
+
   /// Cancels a scheduled or shown notification by task id and frees its place in the caps.
   Future<void> cancel(String taskId) async {
     await initialize();
@@ -223,6 +248,10 @@ class NotificationService {
   /// Cancels everything (sign-out, account switch).
   Future<void> cancelAll() async {
     _clearEpoch++;
+    for (final t in _acknowledgements.values) {
+      t.cancel();
+    }
+    _acknowledgements.clear();
     await initialize();
     await _gateway.cancelAll();
     await _changeLedger((_) => const []);

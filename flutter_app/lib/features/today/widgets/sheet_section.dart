@@ -5,6 +5,8 @@
 // condensed cut, and the change from the last paper of the same kind with a small up or down
 // mark. Headings, spines, text and hairlines all share one left edge. A result that has not been opened stays sealed here too: no marks, no bar, so
 // Today never spoils a reveal. Each row opens its result.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -16,15 +18,19 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
+import 'paper_trend.dart';
 import 'section_heading.dart';
 import 'today_entrance.dart';
 import 'today_reveal.dart';
 import 'today_type.dart';
 
 class SheetSection extends StatelessWidget {
-  const SheetSection({super.key, required this.rows, required this.onOpen});
+  const SheetSection({super.key, required this.rows, required this.onOpen, this.trend});
 
   final List<SheetRow> rows;
+
+  /// The marks across the last papers of one kind, drawn between the heading and the rows.
+  final PaperTrend? trend;
   final void Function(TodayTarget target) onOpen;
 
   @override
@@ -35,9 +41,10 @@ class SheetSection extends StatelessWidget {
       children: [
         // Heading to its content: 12, which is the first row's own top padding (SPACING.md 3.1).
         TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length)),
+        if (trend != null) PaperTrendStrip(trend: trend!, onOpen: onOpen),
         for (var k = 0; k < rows.length; k++) ...[
           if (k > 0) Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),
-          _PaperRow(row: rows[k], onTap: () => onOpen(rows[k].target)),
+          _PaperRow(row: rows[k], index: k, onTap: () => onOpen(rows[k].target)),
         ],
       ],
     );
@@ -45,9 +52,12 @@ class SheetSection extends StatelessWidget {
 }
 
 class _PaperRow extends ConsumerWidget {
-  const _PaperRow({required this.row, required this.onTap});
+  const _PaperRow({required this.row, required this.index, required this.onTap});
 
   final SheetRow row;
+
+  /// The row's place from the top: its marks start counting 60 ms after the row above.
+  final int index;
   final VoidCallback onTap;
 
   String get _semantics {
@@ -115,24 +125,35 @@ class _PaperRow extends ConsumerWidget {
                         ],
                       )
                     else
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text('${row.marks}', style: figure),
-                              const SizedBox(width: MmSpace.s4),
-                              Text(TodayCopy.marksOf(row.outOf ?? 0), style: type.caption.copyWith(color: colors.ink3)),
-                            ],
-                          ),
-                          if (row.change != null) ...[
-                            const SizedBox(height: 2),
-                            _Change(text: row.change!),
-                          ],
-                        ],
+                      // The marks count up and the change arrow nudges once, as the row comes
+                      // into view; each row starts 60 ms after the one above it.
+                      TodayReveal(
+                        child: Builder(
+                          builder: (context) {
+                            final stagger = Duration(milliseconds: 60 * index);
+                            final count = todayEnterValue(context, delay: stagger, length: Motion.numberRoll);
+                            final nudge = todayEnterValue(context, delay: stagger + Motion.numberRoll, length: const Duration(milliseconds: 360), curve: Curves.linear);
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: [
+                                    CountedMarks(marks: row.marks ?? 0, style: figure, progress: count),
+                                    const SizedBox(width: MmSpace.s4),
+                                    Text(TodayCopy.marksOf(row.outOf ?? 0), style: type.caption.copyWith(color: colors.ink3)),
+                                  ],
+                                ),
+                                if (row.change != null) ...[
+                                  const SizedBox(height: 2),
+                                  _Change(text: row.change!, nudge: nudge),
+                                ],
+                              ],
+                            );
+                          },
+                        ),
                       ),
                   ],
                 ),
@@ -146,10 +167,12 @@ class _PaperRow extends ConsumerWidget {
 }
 
 /// "+33 on Mock 6" with a small mark for its direction, so the change reads before the words.
+/// The mark nudges once along its direction when the marks have counted ([nudge] runs 0 to 1).
 class _Change extends StatelessWidget {
-  const _Change({required this.text});
+  const _Change({required this.text, required this.nudge});
 
   final String text;
+  final Animation<double> nudge;
 
   @override
   Widget build(BuildContext context) {
@@ -159,12 +182,54 @@ class _Change extends StatelessWidget {
     final down = text.startsWith(minusSign) || text.startsWith('-');
     final icon = up ? LucideIcons.arrowUpRight : (down ? LucideIcons.arrowDownRight : LucideIcons.minus);
     final color = up ? colors.ink : colors.ink2;
+    final dir = up ? const Offset(1, -1) : (down ? const Offset(1, 1) : Offset.zero);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 13, color: color),
+        AnimatedBuilder(
+          animation: nudge,
+          child: Icon(icon, size: 13, color: color),
+          builder: (context, child) => Transform.translate(offset: dir * (2.5 * math.sin(math.pi * nudge.value)), child: child),
+        ),
         const SizedBox(width: 2),
         Text(text, style: type.micro.copyWith(color: color, fontWeight: up ? FontWeight.w600 : FontWeight.w500)),
+      ],
+    );
+  }
+}
+
+/// A paper's marks counting up from 0 to [marks] as [progress] runs 0 to 1 (a negative mark
+/// counts down to it). The width is the final number's, so the column never jitters, and the
+/// final figure is what TalkBack and the row's own label say.
+class CountedMarks extends StatelessWidget {
+  const CountedMarks({super.key, required this.marks, required this.style, required this.progress});
+
+  final int marks;
+  final TextStyle style;
+  final Animation<double> progress;
+
+  /// The figure shown at [t] (0 to 1) of the count.
+  static int at(int marks, double t) => (marks * Motion.emphasized.transform(t.clamp(0.0, 1.0))).round();
+
+  @override
+  Widget build(BuildContext context) {
+    final finalText = marks < 0 ? '$minusSign${-marks}' : '$marks';
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        // The final figure holds the room; it is seen once the count is over.
+        AnimatedBuilder(
+          animation: progress,
+          builder: (context, _) => Opacity(opacity: progress.value >= 1 ? 1 : 0, child: Text(finalText, style: style)),
+        ),
+        AnimatedBuilder(
+          animation: progress,
+          builder: (context, _) {
+            if (progress.value >= 1) return const SizedBox.shrink();
+            final v = at(marks, progress.value);
+            return Text(v < 0 ? '$minusSign${-v}' : '$v', style: style);
+          },
+        ),
       ],
     );
   }

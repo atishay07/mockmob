@@ -35,9 +35,9 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
 }
 
 /// Where the marks went: the same flow as recap card 2, at rest.
-Widget whereSection(BuildContext context, RecapModel m) => MmSection(
+Widget whereSection(BuildContext context, RecapModel m, {ValueChanged<int>? onOpenQuestion}) => MmSection(
   title: ResultCopy.sectionWhere,
-  child: BreakdownSection(breakdown: m.breakdown, flow: true),
+  child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
 );
 
 /// The first thing to fix, from the observed chapter breakdown, with the repair key. Null when
@@ -86,6 +86,7 @@ Widget answersSection(
   required RecapModel model,
   bool blankOpen = false,
   VoidCallback? onToggleBlank,
+  ValueChanged<AnswerItem>? onOpened,
 }) {
   final colors = context.mmColors;
   List<Widget> group(String title, List<AnswerItem> items, {bool titled = true}) {
@@ -105,6 +106,7 @@ Widget answersSection(
             expanded: isOpen(items[i].qid),
             onToggle: () => onToggle(items[i].qid),
             keysOff: keysOff,
+            onOpened: onOpened == null ? null : () => onOpened(items[i]),
             onRepair: items[i].repairable
                 ? () => context.go(
                     Uri(path: AppRoutes.reviewRepair(model.attemptId, items[i].qid), queryParameters: const {'count': '1'}).toString(),

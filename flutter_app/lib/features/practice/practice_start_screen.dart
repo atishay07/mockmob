@@ -31,6 +31,19 @@ import 'widgets/failure_copy.dart';
 /// blocked quote, a failure) ends in a designed state with a way out, never a blank screen; an
 /// offline stop starts again by itself when the network returns. Mobi reads the sheet while the
 /// questions are drawn and points the student in once they are ready.
+/// The three real stages of a start, in order. Each is set by the code that is actually doing it,
+/// never by a timer: the cost is being checked, the questions are being drawn (the start request
+/// is out), the paper is opening (the server said yes). [done] is the instant before the runner.
+enum StartStage {
+  checking,
+  drawing,
+  opening,
+  done;
+
+  /// The words for the three stages that show as rows.
+  static const List<String> labels = [PracticeCopy.stageChecking, PracticeCopy.stageDrawing, PracticeCopy.stageOpening];
+}
+
 class PracticeStartScreen extends ConsumerStatefulWidget {
   const PracticeStartScreen({super.key, this.mode, this.link = const PracticeLink()});
 
@@ -39,6 +52,13 @@ class PracticeStartScreen extends ConsumerStatefulWidget {
 
   /// After this long still working, the note says so (MOTION.md P1-7: words on every wait).
   static const Duration slowAfter = Duration(seconds: 12);
+
+  /// After this long in one stage Mobi goes from reading to waiting (the loading act).
+  static const Duration waitingAfter = Duration(seconds: 3);
+
+  /// The most the screen holds before the runner opens, so Mobi's nod is seen (none under
+  /// reduced motion).
+  static const Duration nodHold = Duration(milliseconds: 350);
 
   @override
   ConsumerState<PracticeStartScreen> createState() => _PracticeStartScreenState();
@@ -50,6 +70,10 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
   bool _working = true;
   PracticeSelection? _selection;
   final MobiController _mobi = MobiController();
+
+  /// Which of the three stages the work is in; tells the rows and Mobi.
+  StartStage _stage = StartStage.checking;
+  Timer? _waiting;
 
   /// The session is being created on the server (the start request is out). Back is held until
   /// it answers: leaving now would create a session the student never sees (ROBUSTNESS
@@ -75,8 +99,21 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     });
   }
 
+  /// Moves to [next]: the rows tick, and Mobi goes back to reading (he waits again if this stage
+  /// runs long).
+  void _setStage(StartStage next, {bool read = true}) {
+    if (!mounted || _stage == next) return;
+    setState(() => _stage = next);
+    _waiting?.cancel();
+    if (read && next != StartStage.done) _mobi.play(MobiAct.read);
+    _waiting = Timer(PracticeStartScreen.waitingAfter, () {
+      if (mounted && _working && _stage != StartStage.done) _mobi.play(MobiAct.loading);
+    });
+  }
+
   @override
   void dispose() {
+    _waiting?.cancel();
     _slowTimer?.cancel();
     _mobi.dispose();
     super.dispose();
@@ -144,13 +181,22 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       return;
     }
     // Known now: the paper's ticket rises in under Mobi.
-    setState(() => _selection = selection);
+    setState(() {
+      _selection = selection;
+      _stage = StartStage.checking;
+    });
+    _waiting?.cancel();
+    _waiting = Timer(PracticeStartScreen.waitingAfter, () {
+      if (mounted && _working && _stage == StartStage.checking) _mobi.play(MobiAct.loading);
+    });
     if (ref.read(networkStatusProvider) == NetworkStatus.offline) {
       _stop(PracticeCopy.offlineAutoStart, StateViewKind.offline);
       return;
     }
     final LaunchResult result;
     if (selection.isFreshCheck) {
+      // A fresh check has no cost to check: it goes straight to drawing the questions.
+      _setStage(StartStage.drawing);
       result = await _commit(() => launchFreshCheck(ref, selection));
     } else {
       final PracticeQuote quote;
@@ -172,14 +218,16 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
         context.pushReplacement(_setupLocation);
         return;
       }
-      // The questions are on their way: Mobi looks up from the sheet and points the way in.
+      // The cost is known: the questions are drawn next. Mobi looks up from the sheet and
+      // points the way in (the point is held; the stage's own wait timer may turn it to loading).
+      _setStage(StartStage.drawing);
       if (quote.launchable) _mobi.play(MobiAct.point);
       result = await _commit(() => launchPractice(ref, selection, quote));
     }
     if (!mounted) return;
     switch (result) {
       case LaunchStarted(:final sessionId):
-        context.go(AppRoutes.run(sessionId));
+        await _open(sessionId);
       case LaunchNeedsLook(:final quote):
         _stop(costLineFor(quote).text ?? PracticeCopy.unavailableFallback, StateViewKind.error);
       case LaunchFailed(:final failure, :final message):
@@ -191,7 +239,28 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     }
   }
 
+  /// The server said yes: the paper opens. Mobi nods, the last row ticks, and the runner opens
+  /// after at most [PracticeStartScreen.nodHold] (straight away under reduced motion).
+  Future<void> _open(String sessionId) async {
+    final reduced = Motion.reduced(context);
+    _setStage(StartStage.opening, read: false);
+    _waiting?.cancel();
+    _mobi.play(MobiAct.correct);
+    if (!reduced) {
+      await Future<void>.delayed(const Duration(milliseconds: 190));
+      if (!mounted) return;
+    }
+    _setStage(StartStage.done, read: false);
+    if (!reduced) {
+      await Future<void>.delayed(PracticeStartScreen.nodHold - const Duration(milliseconds: 190));
+      if (!mounted) return;
+    }
+    context.go(AppRoutes.run(sessionId));
+  }
+
   void _stop(String message, StateViewKind kind) {
+    _waiting?.cancel();
+    _mobi.play(MobiAct.oops);
     _slowTimer?.cancel();
     setState(() {
       _working = false;
@@ -271,7 +340,10 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            const SizedBox(height: MmSpace.s32),
+                            const SizedBox(height: MmSpace.s20),
+                            // The three stages the work really goes through, each ticked as it is done.
+                            _StageRows(stage: _stage),
+                            const SizedBox(height: MmSpace.s24),
                             // The paper being drawn, so the subject and length chosen are seen
                             // while the questions come: its ticket rises in once it is known.
                             _PaperTicket(selection: _selection),
@@ -287,6 +359,135 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       ),
     );
   }
+}
+
+/// The three stages as rows: an inked bubble with a check once done, a ring on the one in
+/// progress, an empty ring for what is still to come. The words carry the state; the bubble is
+/// the second signal. Announced to TalkBack as the stage changes.
+class _StageRows extends StatelessWidget {
+  const _StageRows({required this.stage});
+
+  final StartStage stage;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 280),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < StartStage.labels.length; i++)
+            _StageRow(
+              key: ValueKey('stage-$i'),
+              label: StartStage.labels[i],
+              state: stage.index > i ? _RowState.done : (stage.index == i ? _RowState.current : _RowState.waiting),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+enum _RowState { waiting, current, done }
+
+class _StageRow extends StatelessWidget {
+  const _StageRow({super.key, required this.label, required this.state});
+
+  final String label;
+  final _RowState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final done = state == _RowState.done;
+    final current = state == _RowState.current;
+    final ink = Motion.of(context, Motion.ink);
+    return Semantics(
+      label: done ? '$label, done' : label,
+      excludeSemantics: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
+        child: Row(
+          children: [
+            // The bubble inks from the middle (260 ms) and its check arrives with it.
+            TweenAnimationBuilder<double>(
+              tween: Tween(end: done ? 1 : 0),
+              duration: ink,
+              curve: Motion.emphasized,
+              builder: (context, t, _) => SizedBox.square(
+                dimension: 20,
+                child: CustomPaint(
+                  painter: _StageBubblePainter(
+                    t: t,
+                    current: current,
+                    ring: current ? colors.ink : colors.lineStrong,
+                    fill: colors.volt,
+                    check: colors.voltInk,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: AnimatedDefaultTextStyle(
+                duration: Motion.of(context, Motion.ui),
+                style: type.small.copyWith(color: state == _RowState.waiting ? colors.ink3 : colors.ink, fontWeight: current ? FontWeight.w600 : FontWeight.w500),
+                child: Text(label),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StageBubblePainter extends CustomPainter {
+  const _StageBubblePainter({required this.t, required this.current, required this.ring, required this.fill, required this.check});
+
+  final double t;
+  final bool current;
+  final Color ring;
+  final Color fill;
+  final Color check;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    final r = size.shortestSide / 2 - 1;
+    canvas.drawCircle(
+      c,
+      r,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = current ? 2 : 1.4
+        ..color = ring,
+    );
+    if (t <= 0) return;
+    canvas.drawCircle(c, r * t.clamp(0.0, 1.0), Paint()..color = fill);
+    if (t < 0.5) return;
+    final k = ((t - 0.5) * 2).clamp(0.0, 1.0);
+    final p = Path()
+      ..moveTo(c.dx - r * 0.42, c.dy + r * 0.02)
+      ..lineTo(c.dx - r * 0.1, c.dy + r * 0.36)
+      ..lineTo(c.dx + r * 0.46, c.dy - r * 0.32);
+    for (final m in p.computeMetrics()) {
+      canvas.drawPath(
+        m.extractPath(0, m.length * k),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2
+          ..strokeCap = StrokeCap.round
+          ..strokeJoin = StrokeJoin.round
+          ..color = check,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StageBubblePainter old) => old.t != t || old.current != current || old.ring != ring || old.fill != fill;
 }
 
 /// The paper on its way: the same ticket the confirm step shows (the subject's object, the mode,

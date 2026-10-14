@@ -33,6 +33,46 @@ Future<void> markBeforeYouStartOffered(PrefsStore prefs) async {
   }
 }
 
+const String _signInPendingKey = 'auth_sign_in_pending_at';
+
+/// How long a sign-in that was started and never finished in this process (the app was killed
+/// while the mail app or the Google browser was open) still owes the student the sheet.
+const Duration signInPendingMaxAge = Duration(minutes: 30);
+
+/// Records that a sign-in has started, so a process that dies before it ends can still offer
+/// the sheet when the restarted app finds the account signed in. Never throws.
+Future<void> markSignInPending(PrefsStore prefs, DateTime now) async {
+  try {
+    await prefs.setInt(_signInPendingKey, now.millisecondsSinceEpoch);
+  } on Object {
+    // Convenience only.
+  }
+}
+
+/// True when a sign-in started within [signInPendingMaxAge] was never settled. A stale or
+/// unreadable record is forgotten and answers false. Never throws.
+Future<bool> signInPendingFresh(PrefsStore prefs, DateTime now) async {
+  try {
+    final at = await prefs.getInt(_signInPendingKey);
+    if (at == null) return false;
+    final age = now.difference(DateTime.fromMillisecondsSinceEpoch(at));
+    if (age <= signInPendingMaxAge && !age.isNegative) return true;
+    await prefs.remove(_signInPendingKey);
+  } on Object {
+    // Treated as nothing pending.
+  }
+  return false;
+}
+
+/// Forgets the pending sign-in: the sheet was decided (shown, or not owed). Never throws.
+Future<void> clearSignInPending(PrefsStore prefs) async {
+  try {
+    await prefs.remove(_signInPendingKey);
+  } on Object {
+    // Expires by itself.
+  }
+}
+
 /// Opens the sheet that follows a first sign-in on this phone (`/before-you-start`: the saved
 /// state of the student's sheet and the usage-data choice) over Today, once the router has
 /// landed there. Sheets need something under them; opening it as the only page would leave it

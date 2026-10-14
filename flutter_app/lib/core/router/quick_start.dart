@@ -156,6 +156,26 @@ abstract final class StartLocations {
   }
 }
 
+/// How long Mobi answers a choice before the sheet goes.
+const Duration startReactionHold = Duration(milliseconds: 160);
+
+/// What Mobi does for the row of [kind] (`resume`, `quick`, `mock`, `repair`; `practice` and
+/// anything else is the small cheer). NTA mode has none: it stays exam-faithful.
+MobiAct startActFor(String kind) => switch (kind) {
+  'resume' => MobiAct.nudge,
+  'mock' => MobiAct.read,
+  'repair' => MobiAct.encourage,
+  _ => MobiAct.cheer,
+};
+
+/// "Ends at 9:40 PM." only from the session's real end, and only inside its last 30 minutes (a
+/// far-off end is not news); null otherwise.
+String? startEndsLine(int endsAtWallMs, DateTime now) {
+  final left = DateTime.fromMillisecondsSinceEpoch(endsAtWallMs).difference(now);
+  if (left.isNegative || left > const Duration(minutes: 30)) return null;
+  return 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(endsAtWallMs))}.';
+}
+
 /// The Start sheet that the bar's Start key morphs into (DOCK.md section 6). Start means "go
 /// now": one tap on a row starts work with good defaults (the only step left is the cost confirm
 /// when credits apply). Practice means "choose": the sheet never offers a choice Practice cannot
@@ -257,19 +277,33 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
     final now = ref.watch(nowProvider)();
     final reduced = Motion.reduced(context);
 
-    void go(String location) {
+    void go(String location, {MobiAct? act}) {
       if (_leaving) return;
       setState(() => _leaving = true);
       final router = GoRouter.of(context);
-      Navigator.of(context).pop();
-      // Screens that sit outside the tab shell are pushed over it, so system Back returns to the
-      // tab the student started from instead of closing the app. Screens that belong to a tab
-      // (Practice setup, a repair under Review) keep `go`, which puts that tab under them.
-      if (QuickStartSheet.opensOutsideShell(location)) {
-        unawaited(router.push<void>(location));
-      } else {
-        router.go(location);
+      final navigator = Navigator.of(context);
+      void leave() {
+        navigator.pop();
+        // Screens that sit outside the tab shell are pushed over it, so system Back returns to the
+        // tab the student started from instead of closing the app. Screens that belong to a tab
+        // (Practice setup, a repair under Review) keep `go`, which puts that tab under them.
+        if (QuickStartSheet.opensOutsideShell(location)) {
+          unawaited(router.push<void>(location));
+        } else {
+          router.go(location);
+        }
       }
+
+      // Mobi answers the choice for about 160 ms before the sheet goes. No act (NTA mode, which
+      // stays exam-faithful) and reduced motion leave at once.
+      if (act == null || reduced) {
+        leave();
+        return;
+      }
+      _mobi.react(act);
+      Timer(startReactionHold, () {
+        if (mounted) leave();
+      });
     }
 
     // The sheet never grows past the screen: the header stays put and the rows scroll, so no row
@@ -357,6 +391,7 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                           index: 0,
                           child: _StartRows(
                             heroKey: _hero,
+                            mobi: _mobi,
                             draft: draft,
                             answered: answered,
                             go: go,
@@ -384,12 +419,13 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
 
 /// The sheet's rows under the title band (the row contract above).
 class _StartRows extends ConsumerWidget {
-  const _StartRows({required this.heroKey, required this.draft, required this.answered, required this.go, required this.onPractice});
+  const _StartRows({required this.heroKey, required this.mobi, required this.draft, required this.answered, required this.go, required this.onPractice});
 
   final GlobalKey heroKey;
+  final MobiController mobi;
   final SessionDraft? draft;
   final int? answered;
-  final void Function(String location) go;
+  final void Function(String location, {MobiAct? act}) go;
   final VoidCallback onPractice;
 
   @override
@@ -412,13 +448,16 @@ class _StartRows extends ConsumerWidget {
       glyph: QuickStartDeck.glyphFor('quick'),
       title: 'Quick 10',
       note: subjectName == null ? '10 questions, about 10 minutes.' : '10 $subjectName questions, about 10 minutes.',
-      onTap: () => go(StartLocations.quick10(subject)),
+      onTap: () => go(StartLocations.quick10(subject), act: startActFor('quick')),
     );
 
     final ChoiceOption hero;
     var heroIsRepair = false;
     var quickIsHero = false;
     if (draft != null) {
+      final ends = draft.isMock ? startEndsLine(draft.endsAtWallMs, now) : null;
+      final count = answered == null ? null : '$answered of ${draft.view.questions.length} answered.';
+      final mockNote = [ends, count].whereType<String>().join(' ');
       hero = ChoiceOption(
         id: 'resume',
         glyph: QuickStartDeck.glyphFor('resume'),
@@ -426,14 +465,13 @@ class _StartRows extends ConsumerWidget {
         // note line, which already holds a sentence.
         title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
         note: draft.isMock
-            ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
-                  '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
+            ? (mockNote.isEmpty ? 'Pick up where you left off.' : mockNote)
             : answered == null
             ? 'Pick up where you left off.'
             : 'Pick up at $answered of ${draft.view.questions.length}.',
         // The note keeps room for its longest form, so nothing moves when the count lands.
         noteLines: draft.isMock ? 3 : 2,
-        onTap: () => go(AppRoutes.run(draft.sessionId)),
+        onTap: () => go(AppRoutes.run(draft.sessionId), act: startActFor('resume')),
       );
     } else if (move != null) {
       heroIsRepair = move.isRepair;
@@ -448,7 +486,7 @@ class _StartRows extends ConsumerWidget {
         }),
         title: move.title,
         note: "${when[0].toUpperCase()}${when.substring(1)}'s move.",
-        onTap: () => go(move.location),
+        onTap: () => go(move.location, act: startActFor(move.kind ?? 'quick')),
       );
     } else {
       hero = quick;
@@ -460,7 +498,7 @@ class _StartRows extends ConsumerWidget {
       glyph: QuickStartDeck.glyphFor('mock'),
       title: 'Full mock',
       note: '50 questions, 60 minutes, timed like the exam.',
-      onTap: () => go(StartLocations.fullMock(subject)),
+      onTap: () => go(StartLocations.fullMock(subject), act: startActFor('mock')),
     );
     final ntaOption = nta == null
         ? null
@@ -471,6 +509,7 @@ class _StartRows extends ConsumerWidget {
             // The quote is for the default subject; the tag shows only where it is known.
             tag: nta.proOnly && (subject == null || subject == nta.subject) ? 'Pro' : null,
             note: 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
+            // No act: NTA mode is the exam as it is, with no Mobi in it.
             onTap: () => go(StartLocations.nta(nta, subject)),
           );
     final repairOption = repair == null || heroIsRepair
@@ -480,7 +519,7 @@ class _StartRows extends ConsumerWidget {
             glyph: QuickStartDeck.glyphFor('repair'),
             title: 'Repair the next mistake',
             note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-            onTap: () => go(repair.shortcutLocation),
+            onTap: () => go(repair.shortcutLocation, act: startActFor('repair')),
           );
 
     final modes = <ChoiceRow>[
@@ -496,7 +535,7 @@ class _StartRows extends ConsumerWidget {
         ChoiceDeck(rows: [ChoiceRow.lead(hero)], onSheet: true, leadKey: heroKey, animateIn: false),
         if (subjects.length > 1) ...[
           const SizedBox(height: MmSpace.s12),
-          _SubjectChips(subjects: subjects, selected: subject),
+          _SubjectChips(subjects: subjects, selected: subject, mobi: mobi),
         ],
         const SizedBox(height: MmSpace.s12),
         ChoiceDeck(rows: modes, onSheet: true, animateIn: false),
@@ -522,10 +561,13 @@ class _StartRows extends ConsumerWidget {
 /// scrolls the selected chip fully into view when the sheet opens and whenever the pick changes,
 /// so a chip is never left cut off at the edge (device walk-through, 14 Oct).
 class _SubjectChips extends ConsumerStatefulWidget {
-  const _SubjectChips({required this.subjects, required this.selected});
+  const _SubjectChips({required this.subjects, required this.selected, required this.mobi});
 
   final List<String> subjects;
   final String? selected;
+
+  /// Glances at a chip when it is picked.
+  final MobiController mobi;
 
   @override
   ConsumerState<_SubjectChips> createState() => _SubjectChipsState();
@@ -574,7 +616,10 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
               child: MmChip(
                 label: subjectDisplayName(id),
                 selected: id == widget.selected,
-                onTap: () => ref.read(startSubjectProvider.notifier).select(id),
+                onTap: () {
+                  if (id != widget.selected && !Motion.reduced(context)) widget.mobi.glanceAtWidget(_chipKeys[id]!, hold: const Duration(milliseconds: 900));
+                  ref.read(startSubjectProvider.notifier).select(id);
+                },
               ),
             ),
           ],
@@ -697,7 +742,17 @@ class QuickStartRow extends StatelessWidget {
       constraints: BoxConstraints(
         minHeight: noteLines <= 1 ? 0 : MediaQuery.textScalerOf(context).scale(type.caption.height! * type.caption.fontSize!) * noteLines,
       ),
-      child: Text(note, style: type.caption.copyWith(color: colors.ink2), maxLines: maxLines, overflow: maxLines == null ? null : TextOverflow.ellipsis),
+      // The note changes with the subject (and when the count lands): it cross-fades in place.
+      child: AnimatedSwitcher(
+        duration: Motion.reduced(context) ? Duration.zero : Motion.crossFade,
+        switchInCurve: Motion.glide,
+        switchOutCurve: Motion.exit,
+        layoutBuilder: (current, previous) => Stack(
+          alignment: AlignmentDirectional.topStart,
+          children: [...previous.map((w) => Positioned(left: 0, right: 0, top: 0, child: w)), ?current],
+        ),
+        child: Text(note, key: ValueKey(note), style: type.caption.copyWith(color: colors.ink2), maxLines: maxLines, overflow: maxLines == null ? null : TextOverflow.ellipsis),
+      ),
     );
   }
 

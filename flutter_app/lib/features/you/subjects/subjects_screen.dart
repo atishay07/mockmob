@@ -1,3 +1,4 @@
+import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,8 @@ import '../data/profile_editor.dart';
 import '../data/student_target.dart';
 import '../data/subject_catalog.dart';
 import '../edit_copy.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
+import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
 import 'subject_rows.dart';
@@ -39,6 +42,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   bool _saving = false;
   String? _error;
   String? _cap;
+
+  /// Counts the refused sixth picks; the cap sentence shakes each time it changes.
+  int _capHits = 0;
   DateTime? _savedAt;
   final MobiController _mobi = MobiController();
 
@@ -87,6 +93,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
       if (_chosen.length >= kMaxProfileSubjects) {
         // Said once, in the banner; Mobi only shrugs (no second copy of the words).
         _cap = EditCopy.subjectsCap;
+        _capHits++;
         _mobi
           ..hush()
           ..play(MobiAct.oops);
@@ -114,10 +121,18 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         _touched = false;
         _savedAt = ref.read(nowProvider)();
       });
-      // Only after the server stored them: Mobi cheers and says what changes.
-      _mobi
-        ..play(MobiAct.cheer)
-        ..say(EditCopy.subjectsMobiSaved);
+      ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.account);
+      // Only after the server stored them: Mobi is proud (a nod under Quiet, nothing under Off)
+      // and says what changes.
+      switch (ref.read(rhythmPrefsProvider).mode) {
+        case CelebrationMode.full:
+          _mobi.play(MobiAct.proud);
+        case CelebrationMode.quiet:
+          _mobi.play(MobiAct.correct);
+        case CelebrationMode.off:
+          break;
+      }
+      _mobi.say(EditCopy.subjectsMobiSaved);
     } on ApiError catch (e) {
       if (!mounted) return;
       setState(() {
@@ -146,7 +161,11 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         children: [
           if (_cap != null) ...[
             // Plain words, not a boxed alert: refusing a sixth subject is information.
-            Semantics(liveRegion: true, container: true, child: Text(_cap!, style: context.mmType.small.copyWith(color: context.mmColors.ink))),
+            Semantics(
+              liveRegion: true,
+              container: true,
+              child: YouShake(trigger: _capHits, child: Text(_cap!, style: context.mmType.small.copyWith(color: context.mmColors.ink))),
+            ),
             const SizedBox(height: MmSpace.s12),
           ],
           if (_error != null) ...[

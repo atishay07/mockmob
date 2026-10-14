@@ -56,7 +56,12 @@ class DueCard extends StatefulWidget {
     this.starting = false,
     this.message,
     this.showMobi = true,
+    this.cleared = false,
   });
+
+  /// A fresh catalog, read after the student worked through their cards, says nothing is due:
+  /// Mobi is proud, once. Never true from a cached catalog or on a plain visit.
+  final bool cleared;
 
   /// False when Mobi is already on the screen (the first-visit explainer): one Mobi at a time.
   final bool showMobi;
@@ -81,6 +86,10 @@ class _DueCardState extends State<DueCard> {
   final _key = GlobalKey();
   bool _pointed = false;
   Timer? _nudge;
+  bool _proud = false;
+
+  /// More cards than this waiting and Mobi says so gently.
+  static const int busyAbove = 20;
 
   /// Mobi points at the key only after the screen has been quiet this long (MOTION.md 1.3: a
   /// nudge is not a greeting), and once per visit.
@@ -106,6 +115,12 @@ class _DueCardState extends State<DueCard> {
     final newReady = queue.newReady;
     final canStart = widget.recallEnabled && (due > 0 || newReady > 0);
     final pointAtKey = widget.showMobi && due == 0 && canStart;
+    // Proud only once a fresh catalog has confirmed there is nothing due and nothing new to start.
+    final proud = widget.showMobi && widget.cleared && due == 0 && !canStart;
+    if (proud && !_proud) {
+      _proud = true;
+      _mobi.play(MobiAct.proud);
+    }
     if (pointAtKey && !_pointed) {
       _pointed = true;
       _nudge = Timer(nudgeAfter, () {
@@ -165,7 +180,7 @@ class _DueCardState extends State<DueCard> {
                       ),
                       if (showStack) ...[
                         const SizedBox(width: MmSpace.s8),
-                        CardStackMark(count: due),
+                        CardStackMark(count: due, leaving: starting),
                       ],
                     ],
                   );
@@ -178,7 +193,9 @@ class _DueCardState extends State<DueCard> {
               children: [
                 if (widget.showMobi) ...[
                   Mobi(
-                    pose: pointAtKey ? MobiPose.point : MobiPose.read,
+                    pose: pointAtKey
+                        ? MobiPose.point
+                        : (proud ? MobiPose.proud : MobiPose.read),
                     size: 64,
                     controller: _mobi,
                   ),
@@ -191,6 +208,18 @@ class _DueCardState extends State<DueCard> {
                   ),
                 ),
               ],
+            ),
+          if (due > busyAbove && widget.showMobi)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Mobi(pose: MobiPose.encourage, size: 56, controller: _mobi),
+                  const SizedBox(width: MmSpace.s8),
+                  const Flexible(child: MobiLine(LearnCopy.aLotWaiting)),
+                ],
+              ),
             ),
           if (due == 0 && newReady > 0)
             Padding(

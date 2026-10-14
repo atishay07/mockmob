@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../auth/auth_state.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
@@ -342,7 +340,9 @@ abstract final class OpeningGlass {
 /// "mockmob", and hands off to the first screen. It covers the app until it is done, then
 /// removes itself ([onDone]); tap to skip. Under reduced motion the "mo" fades to the word.
 ///
-/// [ready] says the first screen is known (auth resolved). [progress] (0 to 1 of the first
+/// [ready] says the first screen is built and has had a frame (never that auth or the first
+/// screen's data has loaded: the opening plays on its own clock, and the first screen shows its
+/// own skeleton or launch screen for that). [progress] (0 to 1 of the first
 /// 1000 ms) freezes the timeline, for goldens and the lab.
 class BrandOpening extends ConsumerStatefulWidget {
   const BrandOpening({
@@ -450,30 +450,6 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     _seenAt = _clock.value;
   }
 
-  /// Builds the unfold's poses once and paints them into a recording that is thrown away, while
-  /// the splash still covers the "mo". That warms the Dart side only (the pose maths and the
-  /// logo's cached paths), so the unfold's own frames do not pay for them. It rasterizes
-  /// nothing: the GPU's first draw of the letters still happens in the unfold.
-  void _warmUp() {
-    if (_reduced || !mounted) return;
-    final size = MediaQuery.sizeOf(context);
-    final dpr = MediaQuery.devicePixelRatioOf(context);
-    if (size.isEmpty) return;
-    final recorder = ui.PictureRecorder();
-    final canvas = ui.Canvas(recorder);
-    for (var t = OpeningTimeline.expandAt; t <= OpeningTimeline.settledAt; t += 100) {
-      BrandLogoPainter.paintPose(
-        canvas,
-        size,
-        OpeningTimeline.poseAt(t, size, devicePixelRatio: dpr),
-        form: BrandLogoForm.wordmark,
-        letterColor: LogoGeometry.warmWhite,
-        devicePixelRatio: dpr,
-      );
-    }
-    recorder.endRecording().dispose();
-  }
-
   double get _t => widget.progress != null ? widget.progress!.clamp(0.0, 1.0) * OpeningTimeline.settledAt : _now;
 
   @override
@@ -491,8 +467,6 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     final shown = widget.shown;
     final Future<bool> answered = shown != null ? shown.then((_) => true) : OpeningGlass.wait();
     unawaited(answered.then((ok) => _markSeen(answered: ok), onError: (Object _) => _markSeen(answered: false)));
-    // After the first frame, still under the splash.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _warmUp());
     unawaited(_clock.animateWith(_Stopwatch()));
   }
 
@@ -739,9 +713,15 @@ class _OpeningPainter extends CustomPainter {
 /// Lays the brand opening over the app on every cold start and removes it when it is done. The
 /// app underneath builds and routes as usual; it is hidden from screen readers until then.
 class BrandOpeningHost extends ConsumerStatefulWidget {
-  const BrandOpeningHost({super.key, required this.child, this.shown});
+  const BrandOpeningHost({super.key, required this.child, this.shown, this.afterOpening});
 
   final Widget child;
+
+  /// Built once the opening has handed off (and not before): app-lifetime services that read the
+  /// database and the network (reminders, the home-screen widget, the milestone watcher) start
+  /// here, so none of their first-frame work sits in the frames the opening plays in or in the
+  /// frame the system splash waits for.
+  final Widget? afterOpening;
 
   /// Passed to [BrandOpening.shown] (tests).
   final Future<void>? shown;
@@ -783,9 +763,11 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
 
   @override
   Widget build(BuildContext context) {
-    // A load that failed is settled too: the router shows its retry screen, so hand off to it.
-    final authReady = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
-    final ready = authReady && _appFramed;
+    // Ready is only "the first screen is built and has had a frame". Auth and Today's data are
+    // not waited for: the opening plays on its own clock, and the router shows the launch screen
+    // (the opening's own last frame) while the stored session is read, then the retry screen if
+    // it failed, so the hand-off never waits on a network call.
+    final ready = _appFramed;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -811,6 +793,7 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
             onReveal: () => setState(() => _live = true),
             onDone: () => setState(() => _showing = false),
           ),
+        if (!_showing && widget.afterOpening != null) widget.afterOpening!,
       ],
     );
   }

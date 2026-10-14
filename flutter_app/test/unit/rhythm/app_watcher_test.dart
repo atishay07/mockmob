@@ -12,6 +12,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/widgets/brand/brand_opening.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
@@ -72,6 +73,14 @@ class _QuietDriver implements HapticDriver {
   Future<void> selectionClick() async {}
 }
 
+/// The welcome room breathes (its lamp and dust loop), so it never "settles": give the opening and
+/// the hand-off a few seconds of frames instead.
+Future<void> pumpAlive(WidgetTester tester) async {
+  for (var i = 0; i < 20; i++) {
+    await tester.pump(const Duration(milliseconds: 250));
+  }
+}
+
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -93,7 +102,7 @@ void main() {
         child: const MockMobApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    await pumpAlive(tester);
 
     expect(find.text('I already have an account'), findsOneWidget, reason: 'the welcome screen, not Today');
     expect(find.byType(WeekStripSection), findsNothing);
@@ -102,5 +111,32 @@ void main() {
     final shown = container.read(celebrationControllerProvider).byScope[CelebrationScope.today];
     expect(shown?.id, 'first_repair');
     expect(seen.celebrated, contains('first_repair'));
+  });
+
+  testWidgets('the app-lifetime services are not built in the first frame, and start once the opening has handed off', (tester) async {
+    var built = 0;
+    // A widget test rasterizes no frame; without this the opening would wait for one for good.
+    OpeningGlass.debugFirstFrameDrawn = true;
+    addTearDown(() => OpeningGlass.debugFirstFrameDrawn = false);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authSnapshotProvider.overrideWith(_SignedOut.new),
+          rhythmRepositoryProvider.overrideWith(() {
+            built++;
+            return _FreshRhythm();
+          }),
+          rhythmSeenRepositoryProvider.overrideWithValue(_MemorySeen()),
+          rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+          hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: _QuietDriver())),
+          nowProvider.overrideWithValue(() => _at),
+        ],
+        child: const MockMobApp(),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(built, 0, reason: 'the milestone watcher (and Today data) is not part of the first frames');
+    await pumpAlive(tester);
+    expect(built, greaterThan(0));
   });
 }

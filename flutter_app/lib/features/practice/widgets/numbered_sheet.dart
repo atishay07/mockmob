@@ -10,11 +10,14 @@ import 'sheet_columns.dart';
 /// under it (like the real sheet), more in the sheet's columns. [reveal] inks them in order. A tap
 /// on a bubble reports its index when [onCellTap] is set.
 class NumberedSheet extends StatelessWidget {
-  const NumberedSheet({super.key, required this.cells, this.reveal, this.onCellTap, this.stripKey});
+  const NumberedSheet({super.key, required this.cells, this.reveal, this.onCellTap, this.onCellLongPress, this.stripKey});
 
   final List<QuestionCell> cells;
   final Animation<double>? reveal;
   final ValueChanged<int>? onCellTap;
+
+  /// A long press on a bubble reports its index (Mobi points at it and says its verdict).
+  final ValueChanged<int>? onCellLongPress;
 
   /// Keys the strip alone (its width is the geometry's width), for pointing at one bubble.
   final Key? stripKey;
@@ -73,16 +76,31 @@ class NumberedSheet extends StatelessWidget {
           );
         }
         final onTap = onCellTap;
-        if (onTap == null) return strip;
+        final onLong = onCellLongPress;
+        if (onTap == null && onLong == null) return strip;
+        // The bubble under [local], or null in the gaps and past the last one.
+        int? indexAt(Offset local) {
+          final x = local.dx - g.left;
+          final col = x < 0 ? -1 : x ~/ (g.cell + g.gap);
+          final row = local.dy ~/ (g.cell + g.gap);
+          final index = row * g.columns + col;
+          return col >= 0 && col < g.columns && index >= 0 && index < cells.length ? index : null;
+        }
+
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapUp: (details) {
-            final x = details.localPosition.dx - g.left;
-            final col = x < 0 ? -1 : x ~/ (g.cell + g.gap);
-            final row = details.localPosition.dy ~/ (g.cell + g.gap);
-            final index = row * g.columns + col;
-            if (col >= 0 && col < g.columns && index >= 0 && index < cells.length) onTap(index);
-          },
+          onTapUp: onTap == null
+              ? null
+              : (details) {
+                  final index = indexAt(details.localPosition);
+                  if (index != null) onTap(index);
+                },
+          onLongPressStart: onLong == null
+              ? null
+              : (details) {
+                  final index = indexAt(details.localPosition);
+                  if (index != null) onLong(index);
+                },
           child: strip,
         );
       },

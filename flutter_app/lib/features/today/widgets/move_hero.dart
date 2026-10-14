@@ -3,6 +3,8 @@
 // task can change size, and the screen's one volt pill. The number sits beside the object, so
 // the card reads top to bottom without a hole; changing the duration rolls the number and
 // reshapes the task in place without moving the pill.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -20,7 +22,7 @@ import 'show_me_tag.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
 
-class MoveHeroCard extends StatelessWidget {
+class MoveHeroCard extends StatefulWidget {
   const MoveHeroCard({
     super.key,
     required this.move,
@@ -31,6 +33,7 @@ class MoveHeroCard extends StatelessWidget {
     this.retrying = false,
     this.mobiController,
     this.primaryKey,
+    this.keyPulse,
   });
 
   final MoveHero move;
@@ -49,6 +52,10 @@ class MoveHeroCard extends StatelessWidget {
   /// capsule carries tonight's move).
   final GlobalKey? primaryKey;
 
+  /// A short pulse (0 to 1 to 0 over 160 ms) the screen plays on the primary key when it comes
+  /// back into view after the bar's capsule stood in for it.
+  final Animation<double>? keyPulse;
+
   /// Mobi's line for a mood when the move did not set one.
   static String? moodLine(MoveHero m) =>
       m.mobiLine ??
@@ -59,7 +66,43 @@ class MoveHeroCard extends StatelessWidget {
       };
 
   @override
+  State<MoveHeroCard> createState() => _MoveHeroCardState();
+}
+
+class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderStateMixin {
+  /// The hero object's answer to touch and to the duration chip, and the stage light that swells
+  /// with it (full on a tap, 60% on a chip change, timed with the number's roll).
+  late final HeroReact _react = HeroReact(vsync: this);
+
+  @override
+  void didUpdateWidget(MoveHeroCard old) {
+    super.didUpdateWidget(old);
+    final was = old.move.selectedMinutes;
+    final now = widget.move.selectedMinutes;
+    if (was != null && now != null && was != now && !Motion.reduced(context)) _react.fire(HeroReact.chipAmplitude);
+  }
+
+  @override
+  void dispose() {
+    _react.dispose();
+    super.dispose();
+  }
+
+  void _touchObject() {
+    // The object's own reaction gives the light tick; reduced motion keeps the tick, not the motion.
+    _react.fire(1, animate: !Motion.reduced(context));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final move = widget.move;
+    final onAction = widget.onAction;
+    final onMinutes = widget.onMinutes;
+    final onShowMe = widget.onShowMe;
+    final offline = widget.offline;
+    final retrying = widget.retrying;
+    final mobiController = widget.mobiController;
+    final primaryKey = widget.primaryKey;
     final colors = context.mmColors;
     final type = context.mmType;
     final m = move;
@@ -92,7 +135,7 @@ class MoveHeroCard extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(right: besideArt),
-          child: mobi ? MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: moodLine(m), controller: mobiController, lines: top) : top,
+          child: mobi ? MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: MoveHeroCard.moodLine(m), controller: mobiController, lines: top) : top,
         ),
         if (m.headline != null && !headlineBelow) ...[
           const SizedBox(height: MmSpace.s8),
@@ -141,7 +184,7 @@ class MoveHeroCard extends StatelessWidget {
                   const SizedBox(height: MmSpace.s8),
                   Row(
                     children: [
-                      if (evidence) ...[ShowMeTag(onTap: onShowMe!, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
+                      if (evidence) ...[ShowMeTag(onTap: onShowMe, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
                       if (m.basisLine != null) Expanded(child: Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3))),
                     ],
                   ),
@@ -170,18 +213,21 @@ class MoveHeroCard extends StatelessWidget {
           if (blocked) ...[const _NeedsConnection(), const SizedBox(height: MmSpace.s8)],
           LayoutBuilder(
             key: primaryKey,
-            builder: (context, box) => KeyButton(
-              label: fitKeyLabel(context, m.primary, box.maxWidth),
-              semanticsLabel: m.primary.label,
-              onPressed: blocked
-                  ? null
-                  : () {
-                      // The card grows into the page it opens (MOTION.md C4): the router's
-                      // container pages take this rect; any other page ignores it.
-                      if (m.primary.target is GoTo) MmLaunchRect.capture(context);
-                      onAction(m.primary);
-                    },
-              loading: retrying && m.primary.target is RetryLoad,
+            builder: (context, box) => _Pulse(
+              pulse: widget.keyPulse,
+              child: KeyButton(
+                label: fitKeyLabel(context, m.primary, box.maxWidth),
+                semanticsLabel: m.primary.label,
+                onPressed: blocked
+                    ? null
+                    : () {
+                        // The card grows into the page it opens (MOTION.md C4): the router's
+                        // container pages take this rect; any other page ignores it.
+                        if (m.primary.target is GoTo) MmLaunchRect.capture(context);
+                        onAction(m.primary);
+                      },
+                loading: retrying && m.primary.target is RetryLoad,
+              ),
             ),
           ),
           Column(
@@ -213,7 +259,8 @@ class MoveHeroCard extends StatelessWidget {
 
     return HeroStage(
       subjectId: m.subjectId,
-      art: mobi ? null : HeroArtView(art: m.art),
+      react: _react,
+      art: mobi ? null : HeroArtView(art: m.art, react: _react, onTap: _touchObject),
       child: content,
     );
   }
@@ -250,4 +297,23 @@ class _OneLine extends StatelessWidget {
     alignment: Alignment.centerLeft,
     child: Text(text, style: style, maxLines: 1, softWrap: false),
   );
+}
+
+/// A short swell on its child (1 to 1.04 to 1), driven by [pulse]; the child when there is none.
+class _Pulse extends StatelessWidget {
+  const _Pulse({required this.pulse, required this.child});
+
+  final Animation<double>? pulse;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = pulse;
+    if (p == null) return child;
+    return AnimatedBuilder(
+      animation: p,
+      child: child,
+      builder: (context, child) => Transform.scale(scale: 1 + 0.04 * math.sin(math.pi * p.value), child: child),
+    );
+  }
 }

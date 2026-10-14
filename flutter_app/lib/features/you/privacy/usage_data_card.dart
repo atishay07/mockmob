@@ -1,3 +1,4 @@
+import '../../../core/settings/changed_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -40,7 +41,12 @@ class UsageDataSwitchCard extends ConsumerWidget {
               flat: true,
               title: usageDataConsentLabel,
               value: consent.analyticsActive,
-              onChanged: ui.busy ? null : controller.setAllowed,
+              onChanged: ui.busy
+                  ? null
+                  : (value) {
+                      ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.privacy);
+                      controller.setAllowed(value);
+                    },
             ),
           ],
         ),

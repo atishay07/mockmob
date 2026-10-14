@@ -13,6 +13,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/edge_fade.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
+import 'practice_motion.dart';
 import 'subject_accent.dart';
 
 /// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
@@ -29,8 +30,12 @@ class SubjectTiles extends ConsumerStatefulWidget {
     required this.onSelected,
     this.onMore,
     this.countFor,
+    this.onPickedAt,
     this.gutter = MmSpace.gutter,
   });
+
+  /// Called with the centre of the tile just tapped (screen coordinates), so Mobi can look at it.
+  final ValueChanged<Offset>? onPickedAt;
 
   final List<SubjectChoice> choices;
 
@@ -168,6 +173,7 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
                     ref.read(hapticsProvider).selection();
                     widget.onSelected(c.id);
                   },
+                  onPickedAt: widget.onPickedAt,
                 );
               },
               ),
@@ -179,8 +185,8 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
   }
 }
 
-class SubjectTile extends StatelessWidget {
-  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions});
+class SubjectTile extends StatefulWidget {
+  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions, this.onPickedAt});
 
   final String id;
   final String name;
@@ -188,15 +194,45 @@ class SubjectTile extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
+  /// Called with this tile's centre (screen coordinates) when it is tapped to be picked.
+  final ValueChanged<Offset>? onPickedAt;
+
+  @override
+  State<SubjectTile> createState() => _SubjectTileState();
+}
+
+class _SubjectTileState extends State<SubjectTile> {
+  /// Counts the times this tile became the chosen one: the object's squash and sparkle play on it.
+  int _picks = 0;
+
+  @override
+  void didUpdateWidget(SubjectTile old) {
+    super.didUpdateWidget(old);
+    if (!old.selected && widget.selected) _picks++;
+  }
+
+  void _tapped() {
+    if (!widget.selected) {
+      final box = context.findRenderObject();
+      if (box is RenderBox && box.hasSize && box.attached) widget.onPickedAt?.call(box.localToGlobal(box.size.center(Offset.zero)));
+    }
+    widget.onTap();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final id = widget.id;
+    final name = widget.name;
+    final questions = widget.questions;
+    final selected = widget.selected;
+    final onTap = _tapped;
     final colors = context.mmColors;
     final type = context.mmType;
     final light = SubjectLight.forSubject(id);
     final accent = context.subjectAccentOf(id);
     final reduced = Motion.reduced(context);
     return MmPressable(
-      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions!)}',
+      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions)}',
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.keyAll,
@@ -244,11 +280,18 @@ class SubjectTile extends StatelessWidget {
                             duration: reduced ? Duration.zero : Motion.ui,
                             curve: Motion.out,
                             alignment: Alignment.topLeft,
-                            child: SubjectEmblem(
-                              subject: id,
-                              size: SubjectTiles.emblemSize(questions != null),
-                              framed: false,
-                              marked: selected,
+                            // The pick lands on the object itself: a squash into its light and a few
+                            // glints, once per pick (nothing under reduced motion; the ring says it).
+                            child: PracticeSquash(
+                              trigger: _picks,
+                              glint: light?.of(Theme.of(context).brightness) ?? colors.volt,
+                              alignment: Alignment.bottomLeft,
+                              child: SubjectEmblem(
+                                subject: id,
+                                size: SubjectTiles.emblemSize(questions != null),
+                                framed: false,
+                                marked: selected,
+                              ),
                             ),
                           ),
                         ),
@@ -286,9 +329,11 @@ class SubjectTile extends StatelessWidget {
                               ),
                             ),
                             if (questions != null)
-                              Text(
-                                PracticeCopy.questionsAvailable(questions!),
-                                maxLines: 1,
+                              // Rolls from what it showed when a pull brings a new count.
+                              MmCountUp(
+                                value: questions,
+                                from: questions,
+                                format: (v) => PracticeCopy.questionsAvailable(v.round()),
                                 style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
                               ),
                           ],

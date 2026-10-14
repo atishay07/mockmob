@@ -61,6 +61,22 @@ abstract final class ToolsCopy {
 
   static const unlocksHeading = 'Add one subject to open more';
   static String unlockValue(int n) => '+$n';
+  static String unlockAdd(String name) => 'Add $name';
+  static const unlockNotNow = 'Not now';
+  static const couldClearDot = 'Your score could clear a round';
+  static const couldClearWord = 'could clear';
+  static String ofOpenToYou(int n) => 'of the $n open to you';
+  static String couldClearLine(int n, int open) => '$n of $open open programmes could clear at this score';
+  static String showProgrammes(int n) => n == 1 ? 'Show 1 programme' : 'Show $n programmes';
+
+  /// What adding a subject opens: the first two programme names, then how many more.
+  static String unlockPreview(List<String> names, int total) {
+    if (names.isEmpty) return '';
+    if (total <= 1 || names.length == 1) return 'Opens ${names.first}.';
+    if (total == 2) return 'Opens ${names[0]} and ${names[1]}.';
+    return 'Opens ${names[0]}, ${names[1]} and ${total - 2} more.';
+  }
+
   static String unlockSemantics(String name, int n) => 'Add $name. Opens $n more ${n == 1 ? 'programme' : 'programmes'}';
 
   static const all = 'All';
@@ -217,4 +233,48 @@ abstract final class ToolsCopy {
 
   // Sources.
   static const sourcesLead = 'Every eligibility rule and cutoff in Compass comes from these University of Delhi documents.';
+}
+
+/// The Combo planner's words about one result, from real counts only.
+abstract final class ComboWords {
+  /// What Mobi's one line says once a plan lands, from the best combination: all targets met,
+  /// some met (naming the first missed target), or none (what the nearest still needs).
+  static String reaction({required int met, required int targets, String? missedName, String? needs}) {
+    if (targets <= 0) return '';
+    if (met >= targets) return targets == 1 ? 'These subjects open your target.' : 'These subjects open all $targets of your targets.';
+    if (met > 0) return 'The best fit opens $met of $targets targets.${missedName == null ? '' : ' $missedName is the one still missing.'}';
+    return 'None of your $targets targets opens yet.${needs == null || needs.isEmpty ? '' : ' The nearest combination still needs $needs.'}';
+  }
+
+  static String _count(int n, String one, String many) => '$n ${n == 1 ? one : many}';
+
+  /// "Compared with best: 1 fewer target, 5 more programmes, 1 more paper." Each part is the
+  /// real difference between the two combinations; nothing is predicted.
+  static String comparedWithBest({
+    required int targetsMet,
+    required int bestTargetsMet,
+    required int programmes,
+    required int bestProgrammes,
+    required int papers,
+    required int bestPapers,
+    required bool hasTargets,
+  }) {
+    final parts = <String>[];
+    void part(int diff, String one, String many) {
+      if (diff == 0) return;
+      parts.add('${diff.abs()} ${diff < 0 ? 'fewer' : 'more'} ${diff.abs() == 1 ? one : many}');
+    }
+
+    if (hasTargets) part(targetsMet - bestTargetsMet, 'target', 'targets');
+    part(programmes - bestProgrammes, 'programme', 'programmes');
+    part(papers - bestPapers, 'paper', 'papers');
+    if (parts.isEmpty) return 'Compared with best: the same ${hasTargets ? 'targets, ' : ''}programmes and papers.';
+    return 'Compared with best: ${parts.join(', ')}.';
+  }
+
+  static const rankRule = 'Ranked by targets opened, then all programmes opened, then fewest papers.';
+  static const expand = 'Show how it compares';
+  static const collapse = 'Hide the comparison';
+
+  static String papersUsed(int used, int limit) => '${_count(used, 'paper', 'papers')} in the best combination, of $limit allowed';
 }

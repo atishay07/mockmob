@@ -155,6 +155,12 @@ class LearnStore {
       if (_parts(r.cacheKey)?.$1 == subject) r.cacheKey,
   ]);
 
+  /// The ids of the lessons kept on this phone, for the rows that say "On this phone".
+  Future<Set<String>> keptLessonIds() async => {
+    for (final row in await _lessonRows())
+      if (_parts(row.cacheKey)?.$2 case final id? when id.isNotEmpty) id,
+  };
+
   /// Bytes kept per subject.
   Future<Map<String, int>> sizeBySubject() async {
     final sizes = <String, int>{};

@@ -21,6 +21,7 @@ class RunnerMetaRow extends StatelessWidget {
     this.showSave = true,
     this.warning,
     this.notice,
+    this.stall,
     this.onRetrySave,
   });
 
@@ -36,6 +37,10 @@ class RunnerMetaRow extends StatelessWidget {
   /// "Away for 2 minutes 10 seconds. Timer kept running. Answers saved." until it is dismissed.
   /// A warning, while it shows, goes first.
   final String? notice;
+
+  /// Practice only: "On this question for 1:30" after 90 s untouched on one question. A quiet
+  /// fact in the subject's place; a warning or a notice goes first, and any tap takes it away.
+  final String? stall;
 
   /// A tap on "Not saved yet. Tap to retry".
   final VoidCallback? onRetrySave;
@@ -64,7 +69,7 @@ class RunnerMetaRow extends StatelessWidget {
           valueListenable: save,
           builder: (context, snapshot, _) {
             final waiting = snapshot.state == SaveState.waitingForNetwork || snapshot.state == SaveState.notSaved;
-            final covered = warning != null || notice != null;
+            final covered = warning != null || notice != null || stall != null;
             final glyph = showSave || snapshot.state != SaveState.saved;
             // The subject keeps its space while a message covers it, so the row never changes
             // height under the question.
@@ -108,6 +113,23 @@ class RunnerMetaRow extends StatelessWidget {
                             notice!,
                             style: type.caption.copyWith(color: colors.ink),
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else if (stall != null)
+                  Positioned.fill(
+                    child: Row(
+                      children: [
+                        Icon(LucideIcons.hourglass, size: 15, color: colors.ink3),
+                        const SizedBox(width: MmSpace.s8),
+                        Expanded(
+                          child: Text(
+                            stall!,
+                            style: type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

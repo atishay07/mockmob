@@ -144,7 +144,14 @@ class _FirstFixCardState extends ConsumerState<FirstFixCard> {
               ),
               if (!largeText) ...[
                 const SizedBox(width: MmSpace.s12),
-                RecapMobi(pose: MobiPose.think, size: ResultSpace.mobi, lookAt: _strip),
+                RecapMobi(
+                  pose: MobiPose.think,
+                  size: ResultSpace.mobi,
+                  lookAt: _strip,
+                  // The point lands as the last stem does: the ruler starts RulerTimeline.start after
+                  // the card, and Mobi has thought for as long as the ruler takes to stand.
+                  thinkFor: RulerTimeline.pointAt(tiles.length),
+                ),
               ],
             ],
           )
@@ -257,7 +264,7 @@ List<double>? chipCenters(List<double> desired, {required double minX, required 
 /// per answer, number over bubble, each under its own stem on a thin leader and each opening that
 /// exact answer. Observed positions only. When there are too many to stand in one line the chips
 /// wrap into rows instead (and the leaders go).
-class _AnswerRuler extends StatelessWidget {
+class _AnswerRuler extends StatefulWidget {
   const _AnswerRuler({super.key, required this.label, required this.questions, required this.tiles, required this.onOpen});
 
   final String label;
@@ -265,10 +272,52 @@ class _AnswerRuler extends StatelessWidget {
   final List<(int, BubbleState)> tiles;
   final ValueChanged<int> onOpen;
 
+  @override
+  State<_AnswerRuler> createState() => _AnswerRulerState();
+
   static const double _inset = 6;
   static const double _chip = 48;
   static const double _rulerHeight = _mapHeight + 26;
   static const double _chipHeight = 72;
+
+}
+
+class _AnswerRulerState extends State<_AnswerRuler> with SingleTickerProviderStateMixin {
+  late final AnimationController _draw = AnimationController(vsync: this, duration: Duration(milliseconds: RulerTimeline.total(widget.tiles.length)));
+  Timer? _wait;
+  bool _started = false;
+
+  String get label => widget.label;
+  int get questions => widget.questions;
+  List<(int, BubbleState)> get tiles => widget.tiles;
+  ValueChanged<int> get onOpen => widget.onOpen;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _draw.value = 1;
+    } else {
+      // After the card's own blocks have arrived.
+      _wait = Timer(const Duration(milliseconds: RulerTimeline.start), () {
+        if (mounted) _draw.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _wait?.cancel();
+    _draw.dispose();
+    super.dispose();
+  }
+
+  static const double _inset = _AnswerRuler._inset;
+  static const double _chip = _AnswerRuler._chip;
+  static const double _rulerHeight = _AnswerRuler._rulerHeight;
+  static const double _chipHeight = _AnswerRuler._chipHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +347,7 @@ class _AnswerRuler extends StatelessWidget {
               maxX: width - _chip / 2,
               gap: _chip + 2,
             );
-            if (centers == null) return _Wrapped(width: width, questions: questions, tiles: tiles, onOpen: onOpen);
+            if (centers == null) return _Wrapped(width: width, questions: questions, tiles: tiles, onOpen: onOpen, draw: _draw);
             return SizedBox(
               height: _rulerHeight + _chipHeight,
               child: Stack(
@@ -312,7 +361,7 @@ class _AnswerRuler extends StatelessWidget {
                     child: ExcludeSemantics(
                       child: RepaintBoundary(
                         child: CustomPaint(
-                          painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: centers, colors: colors, inset: _inset),
+                          painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: centers, colors: colors, inset: _inset, draw: _draw),
                         ),
                       ),
                     ),
@@ -323,7 +372,12 @@ class _AnswerRuler extends StatelessWidget {
                       top: _rulerHeight,
                       width: _chip,
                       height: _chipHeight,
-                      child: _QuestionTile(number: tiles[i].$1, state: tiles[i].$2, width: _chip, onTap: () => onOpen(tiles[i].$1)),
+                      child: _ChipDrop(
+                        draw: _draw,
+                        index: i,
+                        count: tiles.length,
+                        child: _QuestionTile(number: tiles[i].$1, state: tiles[i].$2, width: _chip, onTap: () => onOpen(tiles[i].$1)),
+                      ),
                     ),
                 ],
               ),
@@ -338,12 +392,13 @@ class _AnswerRuler extends StatelessWidget {
 /// The fallback: the ruler alone, then the chips wrapped six to a row (fewer where six would leave
 /// a chip under 48 dp wide).
 class _Wrapped extends StatelessWidget {
-  const _Wrapped({required this.width, required this.questions, required this.tiles, required this.onOpen});
+  const _Wrapped({required this.width, required this.questions, required this.tiles, required this.onOpen, required this.draw});
 
   final double width;
   final int questions;
   final List<(int, BubbleState)> tiles;
   final ValueChanged<int> onOpen;
+  final Animation<double> draw;
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +412,7 @@ class _Wrapped extends StatelessWidget {
           child: ExcludeSemantics(
             child: RepaintBoundary(
               child: CustomPaint(
-                painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: null, colors: context.mmColors, inset: _AnswerRuler._inset),
+                painter: _RulerPainter(questions: questions, marks: tiles, chipCenters: null, colors: context.mmColors, inset: _AnswerRuler._inset, draw: draw),
               ),
             ),
           ),
@@ -367,7 +422,13 @@ class _Wrapped extends StatelessWidget {
           spacing: _tileGap,
           runSpacing: MmSpace.s4,
           children: [
-            for (final (n, s) in tiles) _QuestionTile(number: n, state: s, width: tile, onTap: () => onOpen(n)),
+            for (var i = 0; i < tiles.length; i++)
+              _ChipDrop(
+                draw: draw,
+                index: i,
+                count: tiles.length,
+                child: _QuestionTile(number: tiles[i].$1, state: tiles[i].$2, width: tile, onTap: () => onOpen(tiles[i].$1)),
+              ),
           ],
         ),
       ],
@@ -378,7 +439,11 @@ class _Wrapped extends StatelessWidget {
 const double _mapHeight = 44;
 
 class _RulerPainter extends CustomPainter {
-  _RulerPainter({required this.questions, required this.marks, required this.chipCenters, required this.colors, required this.inset});
+  _RulerPainter({required this.questions, required this.marks, required this.chipCenters, required this.colors, required this.inset, required this.draw})
+    : super(repaint: draw);
+
+  /// 0 to 1 over RulerTimeline.total: the baseline draws, then each stem rises in paper order.
+  final Animation<double> draw;
 
   final int questions;
   final List<(int, BubbleState)> marks;
@@ -395,11 +460,17 @@ class _RulerPainter extends CustomPainter {
     final span = size.width - 2 * inset;
     final step = questions == 1 ? 0.0 : span / (questions - 1);
     double x(int n) => questions == 1 ? size.width / 2 : inset + (n - 1) * step;
+    final ms = draw.value * RulerTimeline.total(marks.length);
+    // The ruler draws left to right: the baseline and its ticks are clipped to how far it has run.
+    final reach = inset + span * RulerTimeline.baseline(ms);
+    canvas.save();
+    canvas.clipRect(Rect.fromLTRB(0, 0, reach, size.height));
     canvas.drawRect(Rect.fromLTWH(inset, base - 0.5, span, 1), Paint()..color = colors.line);
     final tick = Paint()..color = colors.ink4;
     for (var n = 1; n <= questions; n++) {
       canvas.drawRect(Rect.fromLTWH(x(n) - 0.5, base - 7, 1, 7), tick);
     }
+    canvas.restore();
     const head = 5.0;
     final leaders = chipCenters;
     for (var i = 0; i < marks.length; i++) {
@@ -408,20 +479,27 @@ class _RulerPainter extends CustomPainter {
       final cx = x(n);
       final wrong = s == BubbleState.wrong;
       final ink = wrong ? colors.wrongMark : colors.ink2;
+      // The stem rises from the baseline in its turn (paper order): its head is where the top
+      // of the stem has got to.
+      final rise = RulerTimeline.stem(ms, i, marks.length);
+      if (rise <= 0) continue;
+      final top = base - (base - head - 1) * rise;
+      canvas.save();
+      canvas.clipRect(Rect.fromLTRB(cx - 8, top - head - 2, cx + 8, base + 1));
       if (wrong) {
         canvas.drawRRect(
-          RRect.fromRectAndRadius(Rect.fromLTWH(cx - 1.5, head, 3, base - head), const Radius.circular(1.5)),
+          RRect.fromRectAndRadius(Rect.fromLTWH(cx - 1.5, top, 3, base - top), const Radius.circular(1.5)),
           Paint()..color = colors.wrongMark,
         );
-        canvas.drawCircle(Offset(cx, head + 1), head, Paint()..color = colors.wrongMark);
+        canvas.drawCircle(Offset(cx, top), head, Paint()..color = colors.wrongMark);
       } else {
         // A blank is a stem with a gap in it, ending in an open bubble.
         final dash = Paint()..color = colors.ink2;
-        for (var y = head + 6; y < base - 1; y += 5) {
+        for (var y = top + 5; y < base - 1; y += 5) {
           canvas.drawRect(Rect.fromLTWH(cx - 0.75, y, 1.5, 3), dash);
         }
         canvas.drawCircle(
-          Offset(cx, head + 1),
+          Offset(cx, top),
           head - 0.6,
           Paint()
             ..style = PaintingStyle.stroke
@@ -429,7 +507,9 @@ class _RulerPainter extends CustomPainter {
             ..color = colors.ink2,
         );
       }
-      if (leaders != null) {
+      canvas.restore();
+      final fade = RulerTimeline.chip(ms, i, marks.length);
+      if (leaders != null && fade > 0) {
         // From the foot of the stem to the chip's number: one thin line that eases sideways.
         const end = _AnswerRuler._rulerHeight + 4;
         const mid = (_mapHeight + end) / 2;
@@ -440,7 +520,7 @@ class _RulerPainter extends CustomPainter {
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1
-            ..color = ink.withValues(alpha: 0.55),
+            ..color = ink.withValues(alpha: 0.55 * fade),
         );
       }
     }
@@ -448,7 +528,12 @@ class _RulerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RulerPainter old) =>
-      old.questions != questions || old.colors != colors || old.marks != marks || old.chipCenters != chipCenters || old.inset != inset;
+      old.questions != questions ||
+      old.colors != colors ||
+      old.marks != marks ||
+      old.chipCenters != chipCenters ||
+      old.inset != inset ||
+      old.draw != draw;
 }
 
 /// One question on the chapter's ruler: its number over its bubble, 72 dp tall and at least 48 dp
@@ -469,7 +554,8 @@ class _QuestionTile extends StatelessWidget {
     return MmPressable(
       onTap: onTap,
       focusRadius: MmRadius.smallAll,
-      haptic: MmPressHaptic.selection,
+      pressedScale: 0.9,
+      haptic: MmPressHaptic.light,
       semanticsLabel: ResultCopy.questionTile(number, word),
       builder: (context, pressed, _) => AnimatedContainer(
         duration: Motion.of(context, Motion.press),
@@ -627,4 +713,73 @@ class _SharePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SharePainter old) => old.share != share || old.fill != fill || old.colors != colors || old.blanks != blanks;
+}
+
+/// When each part of the ruler happens, in milliseconds from the moment it starts drawing: the
+/// baseline runs left to right (baselineMs), then the stems rise in paper order, each starting
+/// a little after the one before, and under each stem its chip drops in as the stem lands. Mobi's
+/// point is timed to the last stem (pointAt). Pure, so the order can be tested.
+abstract final class RulerTimeline {
+  /// How long after the card arrives the ruler starts (the card's blocks have landed).
+  static const int start = 420;
+  static const int baselineMs = 480;
+  static const int stemMs = 260;
+  static const int chipMs = 260;
+  static const int stemsFrom = 160;
+
+  /// The gap between one stem's start and the next, so a few stems take about half a second and
+  /// a dozen do not drag.
+  static int step(int count) => count <= 1 ? 0 : (480 ~/ (count - 1)).clamp(28, 90);
+
+  static int stemStart(int i, int count) => stemsFrom + i * step(count);
+  static int stemEnd(int i, int count) => stemStart(i, count) + stemMs;
+
+  /// The whole thing, in milliseconds.
+  static int total(int count) {
+    final last = count <= 0 ? 0 : stemEnd(count - 1, count) + chipMs ~/ 2 + chipMs;
+    return last < baselineMs ? baselineMs : last;
+  }
+
+  /// Mobi has thought for this long when the last stem lands (from the card's arrival).
+  static Duration pointAt(int count) => Duration(milliseconds: start + (count <= 0 ? baselineMs : stemEnd(count - 1, count)));
+
+  /// How far the baseline has run, 0 to 1.
+  static double baseline(double ms) => Motion.emphasized.transform((ms / baselineMs).clamp(0.0, 1.0));
+
+  /// How far stem [i] has risen, 0 to 1.
+  static double stem(double ms, int i, int count) => Motion.emphasized.transform(((ms - stemStart(i, count)) / stemMs).clamp(0.0, 1.0));
+
+  /// How far chip [i] has dropped in, 0 to 1: it starts when its stem is halfway.
+  static double chip(double ms, int i, int count) =>
+      Motion.emphasized.transform(((ms - stemStart(i, count) - stemMs ~/ 2) / chipMs).clamp(0.0, 1.0));
+}
+
+/// A chip dropping in under its stem: fades in and falls 10 dp into place as the stem lands.
+class _ChipDrop extends StatelessWidget {
+  const _ChipDrop({required this.draw, required this.index, required this.count, required this.child});
+
+  final Animation<double> draw;
+  final int index;
+  final int count;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: draw,
+      child: child,
+      builder: (context, child) {
+        if (draw.value >= 1) return child!;
+        final t = RulerTimeline.chip(draw.value * RulerTimeline.total(count), index, count);
+        // Not yet in: it cannot be tapped before it is there.
+        return IgnorePointer(
+          ignoring: t < 0.6,
+          child: Opacity(
+            opacity: t,
+            child: Transform.translate(offset: Offset(0, -10 * (1 - t)), child: child),
+          ),
+        );
+      },
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/controls/mm_switch.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/notification_prefs.dart';
@@ -350,7 +351,7 @@ void main() {
     testWidgets('blocked: no toggle reads as working, and Open Android settings is the volt key', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.denied);
       // The on choices say Blocked and the off ones say Off, in words, in place of a switch.
-      expect(find.byType(Switch), findsNothing);
+      expect(find.byType(MmSwitch), findsNothing);
       expect(_text('Blocked'), findsWidgets);
       expect(_text('Off'), findsWidgets);
       final open = tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Open Android settings'));

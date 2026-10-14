@@ -348,7 +348,15 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         backgroundColor: colors.ground,
         body: Stack(
           children: [
-            if (step.kind != StepKind.check) Positioned.fill(child: LampScene(strength: 0.85, vignette: false)),
+            // The lamp swells from 0.85 to 1.0 and back with the seal's strike (420 ms): the
+            // afterglow. It only moves for a strike that is animated (Full and Quiet).
+            if (step.kind != StepKind.check)
+              Positioned.fill(
+                child: ListenableBuilder(
+                  listenable: _sealMoment,
+                  builder: (context, _) => LampScene(strength: 0.85 + 0.15 * _sealMoment.surge, vignette: false),
+                ),
+              ),
             // The seal moment's room, full bleed behind the deck: dark until the hold starts, and
             // fading out with the plan step when the deck moves on.
             Positioned.fill(
@@ -454,12 +462,13 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       StepKind.ladder => CourseStep(answers: a, onNext: next),
       StepKind.confidence => SubjectsStep(answers: a, onNext: next),
       StepKind.choice => WorryStep(answers: a, onNext: next),
-      StepKind.check => QuestionStep(answers: a, onNext: next),
+      StepKind.check => QuestionStep(answers: a, onNext: next, mobi: _mobi),
       StepKind.rhythm => RhythmStep(answers: a, onNext: next),
       StepKind.reveal => PlanStep(
           answers: a,
           onNext: next,
           moment: _sealMoment,
+          mobi: _mobi,
           onChange: (id) {
             setState(() => _forward = false);
             _c.edit((x) => x.copyWith(sealedAt: null, step: id, done: {...x.done}..remove(Steps.plan)));

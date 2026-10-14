@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../domain/du_eligibility.dart';
 import '../widgets/tools_page.dart' show IconWell;
+import '../widgets/tools_parts.dart' show ToolsRing;
 import '../widgets/tools_sheet.dart';
 import 'compass_controller.dart';
 
@@ -72,11 +74,19 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
     final s = widget.state;
     final controller = ref.read(compassControllerProvider.notifier);
     final other = duOtherCategories.contains(s.category);
+    final open = s.eligible.length;
+    final clearing = s.score == null ? 0 : s.eligible.where((v) => s.couldClear(v.group)).length;
     return Padding(
       padding: widget.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // The live strip: with a score typed and subjects open, how many programmes the score
+          // could clear, rolling as the student types. Real counts, from the same rule as the
+          // rows on Compass.
+          if (widget.onDone != null) ...[
+            _ClearStrip(clearing: clearing, open: open, show: s.score != null && open > 0),
+          ],
           Text(ToolsCopy.category, style: type.caption.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s4),
           Semantics(
@@ -122,7 +132,10 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
           Text(ToolsCopy.scoreHelp, style: type.caption.copyWith(color: colors.ink2)),
           if (widget.onDone != null) ...[
             const SizedBox(height: MmSpace.s20),
-            KeyButton(label: ToolsCopy.done, onPressed: s.scoreInvalid ? null : widget.onDone),
+            KeyButton(
+              label: s.scoreInvalid || open == 0 ? ToolsCopy.done : ToolsCopy.showProgrammes(open),
+              onPressed: s.scoreInvalid ? null : widget.onDone,
+            ),
           ],
         ],
       ),
@@ -188,6 +201,76 @@ class CategoryScoreBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// "38 could clear" with a 48 dp ring for the share of the open programmes: it appears when a
+/// valid score is typed (and goes when it is cleared), the figure rolls as the score changes and
+/// the ring travels from where it was. A strip of its own height, so the sheet moves smoothly
+/// (it grows open in 200 ms; instantly under reduced motion).
+class _ClearStrip extends StatelessWidget {
+  const _ClearStrip({required this.clearing, required this.open, required this.show});
+
+  final int clearing;
+  final int open;
+  final bool show;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final reduced = Motion.reduced(context);
+    return AnimatedSize(
+      duration: reduced ? Duration.zero : Motion.ui,
+      curve: Motion.glide,
+      alignment: Alignment.topCenter,
+      child: !show
+          ? const SizedBox(width: double.infinity)
+          : Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s16),
+              child: Semantics(
+                container: true,
+                liveRegion: true,
+                label: ToolsCopy.couldClearLine(clearing, open),
+                excludeSemantics: true,
+                child: Row(
+                  children: [
+                    ToolsRing(
+                      key: const ValueKey('clear-ring'),
+                      fraction: open == 0 ? 0 : clearing / open,
+                      size: 48,
+                      stroke: 5,
+                      child: const SizedBox.shrink(),
+                    ),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              MmCountUp(
+                                value: clearing,
+                                fromZeroOnFirstBuild: false,
+                                duration: const Duration(milliseconds: 360),
+                                style: type.figureCompact.copyWith(fontSize: 28, height: 1.1),
+                                semanticsLabel: '$clearing',
+                              ),
+                              const SizedBox(width: MmSpace.s8),
+                              Text(ToolsCopy.couldClearWord, style: type.labelLarge),
+                            ],
+                          ),
+                          Text(ToolsCopy.ofOpenToYou(open), style: type.caption.copyWith(color: colors.ink2)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

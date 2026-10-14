@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart' show VoidCallback, immutable;
+import 'dart:ui' show Rect;
+
+import 'package:flutter/foundation.dart' show ValueGetter, VoidCallback, immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../copy/formatters.dart' show formatTime12;
@@ -194,7 +196,15 @@ class BarSynced extends BarLive {
 /// repair, 15 min  Start"). Today publishes it through `MmBarInsets.tonightMove`; the shell
 /// shows it only on Today and only when nothing above it applies.
 class BarMove extends BarLive {
-  const BarMove({required this.title, this.detail, required this.onStart, this.label});
+  const BarMove({
+    required this.title,
+    this.detail,
+    required this.onStart,
+    this.label,
+    this.originRect,
+    this.originNow,
+    this.originRadius,
+  });
 
   @override
   final String title;
@@ -206,6 +216,22 @@ class BarMove extends BarLive {
 
   /// The hero key's full words ("Start repair, 15 min"), for TalkBack.
   final String? label;
+
+  /// Where the hero's own key was (global coordinates) when this move was published. The
+  /// capsule grows from this rect to its slot over 280 ms (rect and radius tween, content
+  /// cross-fades) and shrinks back toward it when the move clears. Null: it rises as before.
+  /// Not part of the move's identity.
+  final Rect? originRect;
+
+  /// Where the key is right now, asked when the capsule arrives and again when it leaves (the
+  /// page may have scrolled since [originRect] was read). Null, or null result: [originRect].
+  final ValueGetter<Rect?>? originNow;
+
+  /// The key's corner radius; defaults to a full pill (half its height).
+  final double? originRadius;
+
+  /// The rect the capsule should travel from or to now, or null when it has none.
+  Rect? resolveOrigin() => originNow?.call() ?? originRect;
 
   @override
   BarLiveKind get kind => BarLiveKind.move;

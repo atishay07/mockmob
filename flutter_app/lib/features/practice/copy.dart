@@ -1,5 +1,6 @@
 import '../../core/copy/copy.dart';
 import '../runner/nta/nta_copy.dart' show NtaRules;
+import '../../core/widgets/question_strip.dart' show QuestionCell;
 import 'model/finish_reaction.dart';
 
 /// Every user-facing string of the practice feature. Voice: a sharp senior who has been through
@@ -103,6 +104,9 @@ abstract final class PracticeCopy {
   static const String noChapterMatch = 'No chapter matches that.';
   static String useChapters(int n) => n == 0 ? 'Choose at least one' : (n == 1 ? 'Use 1 chapter' : 'Use $n chapters');
   static const String clearChapters = 'Clear';
+  static const String fromYourRecord = 'From your record';
+  static String recordChipMarks(int marks) => '${plural(marks, 'mark')} lost in your last paper';
+  static String recordChipSemantics(String chapter, int marks) => '$chapter, ${plural(marks, 'mark')} lost in your last paper';
   static const String chapterLimit = 'Up to 12 chapters in one session.';
   static const String oneChapterOnly = 'This subject takes one chapter at a time for now.';
 
@@ -153,9 +157,13 @@ abstract final class PracticeCopy {
   static const String startPractice = 'Start practice';
   static const String startChapter = 'Start chapter practice';
   static const String startMock = 'Start mock';
+
+  /// The Start key once the server has said yes, while the paper opens.
+  static const String startingNow = 'Starting';
   static const String checkingCost = 'Checking what this takes.';
   static const String feedbackAfter = 'You see what was right once you finish.';
   static const String retry = 'Try again';
+  static const String refreshFailed = 'We could not refresh Practice. What you see is from a moment ago.';
   static const String notNow = 'Not now';
 
   /// A link asked for a length this mode does not offer; said before Start, never silently.
@@ -222,6 +230,11 @@ abstract final class PracticeCopy {
 
   // Auto start.
   static const String gettingReady = 'Getting your questions ready.';
+
+  /// The three stages a start goes through, as the code reaches them.
+  static const String stageChecking = 'Checking the cost';
+  static const String stageDrawing = 'Drawing your questions';
+  static const String stageOpening = 'Opening your paper';
   static const String gettingReadyNote = 'This can take a few seconds.';
 
   /// The start is still waiting after [PracticeStartScreen.slowAfter] (MOTION.md P1-7).
@@ -279,14 +292,30 @@ abstract final class PracticeCopy {
   static const String saveOffline = 'Connect to save questions.';
 
   static String chapterResultLine(String name) => 'Chapter: ${name.endsWith('.') ? name.substring(0, name.length - 1) : name}.';
-  static String recorded(DateTime at) => 'Practice finished. Recorded at ${formatTime12(at)}.';
+  /// With a [chapter] (a By-chapter run) the receipt names it, the same way the result does.
+  static String recorded(DateTime at, {String? chapter}) => chapter == null || chapter.trim().isEmpty
+      ? 'Practice finished. Recorded at ${formatTime12(at)}.'
+      : 'Chapter practice finished, ${_noStop(chapter)}. Recorded at ${formatTime12(at)}.';
+  static String _noStop(String s) {
+    final t = s.trim();
+    return t.endsWith('.') ? t.substring(0, t.length - 1) : t;
+  }
+
+  /// What Mobi says for a long press on bubble [number] of the sheet.
+  static String cellSays(int number, QuestionCell cell) => '${questionNumber(number)}: ${switch (cell) {
+    QuestionCell.right => 'correct',
+    QuestionCell.wrong => 'wrong',
+    QuestionCell.blank => 'not attempted',
+    QuestionCell.changed => 'answer changed',
+    QuestionCell.repaired => 'repaired',
+  }}';
   static String reviewWrong(int n) => n == 1 ? 'Review 1 wrong answer' : 'Review $n wrong answers';
   static const String practiceAnotherChapter = 'Practice another chapter';
   static const String tryTheBlanks = 'Try the blanks';
   static const String finishForNow = 'Finish for now';
 
   /// The ending says it the way the result page does: one wording for the same fact.
-  static String finished(DateTime at) => recorded(at);
+  static String finished(DateTime at, {String? chapter}) => recorded(at, chapter: chapter);
   static String sectionWrong(int n) => 'Wrong answers ($n)';
   static String sectionBlank(int n) => 'Not attempted ($n)';
   static String sectionCorrect(int n) => 'Correct ($n)';

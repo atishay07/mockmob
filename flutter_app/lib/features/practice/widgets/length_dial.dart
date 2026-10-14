@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart' show SpringSimulation;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
@@ -39,26 +40,90 @@ class LengthDial extends ConsumerStatefulWidget {
   ConsumerState<LengthDial> createState() => _LengthDialState();
 }
 
-class _LengthDialState extends ConsumerState<LengthDial> {
-  /// The stop under the finger while dragging, so each stop crossed ticks once.
+class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProviderStateMixin {
+  /// The thumb's place in stop units (0 is the first stop's centre, n - 1 the last). Unbounded so
+  /// a spring may overshoot a hair. It follows the finger while dragging, and springs to a stop.
+  late final AnimationController _pos = AnimationController.unbounded(vsync: this, value: _index.toDouble());
+
+  /// The stop under the thumb while dragging, so each stop crossed ticks once.
   int? _dragIndex;
+  bool _dragging = false;
 
   int get _index => widget.counts.indexOf(widget.count).clamp(0, widget.counts.length - 1);
+
+  @override
+  void didUpdateWidget(LengthDial old) {
+    super.didUpdateWidget(old);
+    // A length chosen elsewhere (a tap on a stop, a link) glides there; while the finger is down
+    // the thumb is the finger's.
+    if (_dragging) return;
+    final target = _index.toDouble();
+    if ((_pos.value - target).abs() < 0.001) return;
+    if (Motion.reduced(context)) {
+      _pos.value = target;
+    } else {
+      _pos.animateTo(target, duration: Motion.emphasizedDuration, curve: Motion.emphasized);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pos.dispose();
+    super.dispose();
+  }
 
   void _choose(int index) {
     final onChanged = widget.onChanged;
     if (onChanged == null || index < 0 || index >= widget.counts.length) return;
     if (widget.counts[index] == widget.count) return;
-    unawaited(ref.read(hapticsProvider).selection());
+    final end = index == 0 || index == widget.counts.length - 1;
+    // The first and last stop are detents you feel more: a firmer tick than the ones between.
+    unawaited(end ? ref.read(hapticsProvider).light() : ref.read(hapticsProvider).selection());
     onChanged(widget.counts[index]);
   }
 
-  void _dragTo(Offset local, double width) {
+  /// Moves the length one stop (TalkBack's increase and decrease).
+  void _step(int by) => _choose((_index + by).clamp(0, widget.counts.length - 1));
+
+  /// The thumb under the finger at [x] (local to the track), clamped to the track.
+  double _posAt(double x, double width) {
     final n = widget.counts.length;
-    final index = (local.dx / (width / n)).floor().clamp(0, n - 1);
+    return (x / (width / n) - 0.5).clamp(0.0, (n - 1).toDouble());
+  }
+
+  void _dragStart(DragStartDetails d, double width) {
+    _dragging = true;
+    _pos.stop();
+    _pos.value = _posAt(d.localPosition.dx - 4, width);
+    // The thumb jumps to the finger when the drag is recognised, which may already be past a
+    // stop: that stop is chosen at once (and ticks), not on the next move.
+    final index = _pos.value.round().clamp(0, widget.counts.length - 1);
+    _dragIndex = index;
+    _choose(index);
+  }
+
+  void _dragUpdate(DragUpdateDetails d, double width) {
+    _pos.value = _posAt(d.localPosition.dx - 4, width);
+    // The sheet and the stub follow live: the length is the nearest stop to the thumb.
+    final index = _pos.value.round().clamp(0, widget.counts.length - 1);
     if (index == _dragIndex) return;
     _dragIndex = index;
     _choose(index);
+  }
+
+  void _dragEnd(DragEndDetails d, double width) {
+    final n = widget.counts.length;
+    _dragging = false;
+    _dragIndex = null;
+    // Release velocity in stop units per second; a flick carries a little past the nearest stop.
+    final velocity = (d.primaryVelocity ?? 0) / (width / n);
+    final target = (_pos.value + velocity * 0.06).round().clamp(0, n - 1);
+    _choose(target);
+    if (Motion.reduced(context)) {
+      _pos.value = target.toDouble();
+    } else {
+      _pos.animateWith(SpringSimulation(Springs.smooth, _pos.value, target.toDouble(), velocity));
+    }
   }
 
   @override
@@ -68,13 +133,19 @@ class _LengthDialState extends ConsumerState<LengthDial> {
     final n = widget.counts.length;
     final index = _index;
     final enabled = widget.onChanged != null;
-    final reduced = Motion.reduced(context);
     // The well is a selectable-row radius (18); the thumb inside it, 4 dp in, a control's (12).
     const radius = MmRadius.keyAll;
+    final canUp = enabled && index < n - 1;
+    final canDown = enabled && index > 0;
 
     return Semantics(
       container: true,
       label: widget.semanticsLabel,
+      value: '${widget.counts[index]} questions',
+      increasedValue: canUp ? '${widget.counts[index + 1]} questions' : null,
+      decreasedValue: canDown ? '${widget.counts[index - 1]} questions' : null,
+      onIncrease: canUp ? () => _step(1) : null,
+      onDecrease: canDown ? () => _step(-1) : null,
       child: Opacity(
         opacity: enabled ? 1 : 0.5,
         child: DecoratedBox(
@@ -92,36 +163,52 @@ class _LengthDialState extends ConsumerState<LengthDial> {
                 final width = constraints.maxWidth - 8;
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onHorizontalDragStart: enabled ? (d) => _dragIndex = index : null,
-                  onHorizontalDragUpdate: enabled ? (d) => _dragTo(d.localPosition - const Offset(4, 0), width) : null,
-                  onHorizontalDragEnd: enabled ? (_) => _dragIndex = null : null,
+                  onHorizontalDragStart: enabled ? (d) => _dragStart(d, width) : null,
+                  onHorizontalDragUpdate: enabled ? (d) => _dragUpdate(d, width) : null,
+                  onHorizontalDragEnd: enabled ? (d) => _dragEnd(d, width) : null,
+                  onHorizontalDragCancel: enabled
+                      ? () {
+                          _dragging = false;
+                          _dragIndex = null;
+                          _pos.animateTo(_index.toDouble(), duration: Motion.of(context, Motion.card), curve: Motion.out);
+                        }
+                      : null,
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Stack(
                       children: [
                         // The thumb: the selected surface with a 2 dp ink ring (SPACING.md 8.1, the
-                        // same weight in both themes), gliding to the stop.
-                        AnimatedAlign(
-                          alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 0),
-                          duration: reduced ? Duration.zero : Motion.emphasizedDuration,
-                          curve: Motion.emphasized,
-                          child: FractionallySizedBox(
-                            widthFactor: 1 / n,
-                            heightFactor: 1,
-                            child: DecoratedBox(
-                              decoration: ShapeDecoration(
-                                color: selectedSurface(colors),
-                                shape: RoundedSuperellipseBorder(
-                                  borderRadius: MmRadius.smallAll,
-                                  side: BorderSide(color: colors.ink, width: 2),
-                                ),
-                                shadows: colors.isNight ? null : colors.cardShadow,
-                              ),
-                              child: CustomPaint(
-                                foregroundPainter: EdgeLightPainter(
-                                  borderRadius: MmRadius.smallAll,
-                                  top: colors.edgeTop,
-                                  bottom: colors.edgeBottom,
+                        // same weight in both themes). It rides the finger, then springs to a stop.
+                        Positioned.fill(
+                          child: RepaintBoundary(
+                            child: AnimatedBuilder(
+                              animation: _pos,
+                              builder: (context, child) => Transform.translate(offset: Offset(_pos.value * (width / n), 0), child: child),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: FractionalTranslation(
+                                  translation: Offset.zero,
+                                  child: SizedBox(
+                                    width: width / n,
+                                    height: double.infinity,
+                                    child: DecoratedBox(
+                                      decoration: ShapeDecoration(
+                                        color: selectedSurface(colors),
+                                        shape: RoundedSuperellipseBorder(
+                                          borderRadius: MmRadius.smallAll,
+                                          side: BorderSide(color: colors.ink, width: 2),
+                                        ),
+                                        shadows: colors.isNight ? null : colors.cardShadow,
+                                      ),
+                                      child: CustomPaint(
+                                        foregroundPainter: EdgeLightPainter(
+                                          borderRadius: MmRadius.smallAll,
+                                          top: colors.edgeTop,
+                                          bottom: colors.edgeBottom,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

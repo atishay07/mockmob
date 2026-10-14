@@ -7,16 +7,23 @@ import '../../../core/models/subject.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../data/practice_catalog.dart';
+import '../data/suggestion.dart' show RecordChapter, practiceRecordChaptersProvider;
 import '../model/practice_selection.dart';
+import 'practice_motion.dart';
 
 /// The chapters field of chapter practice: a labelled row that opens the chapter list and says
 /// what is chosen ("Goodwill and Issue of shares"). The names are never truncated.
 class ChapterField extends StatelessWidget {
-  const ChapterField({super.key, required this.chapters, required this.onTap});
+  const ChapterField({super.key, required this.chapters, required this.onTap, this.onRemove});
 
   final List<String> chapters;
   final VoidCallback onTap;
+
+  /// Removes one chosen chapter (the chip's own key). Null shows the names without chips.
+  final ValueChanged<String>? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,8 @@ class ChapterField extends StatelessWidget {
                     ),
                     if (chapters.length > 1) ...[
                       const SizedBox(width: MmSpace.s8),
-                      Text('${chapters.length}', style: type.label.copyWith(color: colors.ink2)),
+                      // The count pops when it changes (a short scale, no travel).
+                      _CountBadge(count: chapters.length, style: type.label.copyWith(color: colors.ink2)),
                     ],
                     const SizedBox(width: MmSpace.s8),
                     Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
@@ -67,7 +75,182 @@ class ChapterField extends StatelessWidget {
             ),
           ),
         ),
+        if (onRemove != null && chapters.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s8),
+          ChosenChapterChips(chapters: chapters, onRemove: onRemove!),
+        ],
       ],
+    );
+  }
+}
+
+/// The chosen count in the field: it pops (scales from 1.3 to 1 on a soft ease) each time it
+/// changes, never on first show. Nothing under reduced motion.
+class _CountBadge extends StatelessWidget {
+  const _CountBadge({required this.count, required this.style});
+
+  final int count;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final duration = Motion.of(context, Motion.card);
+    return AnimatedSwitcher(
+      duration: duration,
+      layoutBuilder: (current, previous) => Stack(alignment: Alignment.center, children: [...previous, ?current]),
+      transitionBuilder: (child, a) => ScaleTransition(
+        scale: Tween<double>(begin: 1.3, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(a),
+        child: FadeTransition(opacity: a, child: child),
+      ),
+      child: Text('$count', key: ValueKey(count), style: style),
+    );
+  }
+}
+
+/// The chosen chapters as chips under the field, each with its own remove key. A chip scales in
+/// (0.85 to 1, fading up) when a chapter is chosen and fades out when it is removed or the
+/// session leaves it: removal waits for the fade before the chip leaves the row.
+class ChosenChapterChips extends StatefulWidget {
+  const ChosenChapterChips({super.key, required this.chapters, required this.onRemove});
+
+  final List<String> chapters;
+  final ValueChanged<String> onRemove;
+
+  @override
+  State<ChosenChapterChips> createState() => _ChosenChapterChipsState();
+}
+
+class _ChosenChapterChipsState extends State<ChosenChapterChips> {
+  /// Names shown, in the order chosen, including those fading out.
+  late List<String> _shown = [...widget.chapters];
+
+  @override
+  void didUpdateWidget(ChosenChapterChips old) {
+    super.didUpdateWidget(old);
+    // A chosen chapter not shown yet is appended in the order the selection gives; the ones that
+    // left stay as they are until their fade ends.
+    for (final c in widget.chapters) {
+      if (!_shown.contains(c)) _shown.add(c);
+    }
+  }
+
+  void _gone(String name) {
+    if (!mounted || widget.chapters.contains(name)) return;
+    setState(() => _shown = [..._shown]..remove(name));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: MmSpace.s8,
+      runSpacing: MmSpace.s8,
+      children: [
+        for (final name in _shown)
+          _ChapterChip(
+            key: ValueKey(name),
+            name: name,
+            leaving: !widget.chapters.contains(name),
+            onRemove: () => widget.onRemove(name),
+            onGone: () => _gone(name),
+          ),
+      ],
+    );
+  }
+}
+
+class _ChapterChip extends StatefulWidget {
+  const _ChapterChip({super.key, required this.name, required this.leaving, required this.onRemove, required this.onGone});
+
+  final String name;
+  final bool leaving;
+  final VoidCallback onRemove;
+  final VoidCallback onGone;
+
+  @override
+  State<_ChapterChip> createState() => _ChapterChipState();
+}
+
+class _ChapterChipState extends State<_ChapterChip> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 220));
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _c.forward();
+    }
+  }
+
+  @override
+  void didUpdateWidget(_ChapterChip old) {
+    super.didUpdateWidget(old);
+    if (!old.leaving && widget.leaving) {
+      if (Motion.reduced(context)) {
+        // Gone at once, but after this build: the row is rebuilding right now.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) widget.onGone();
+        });
+        WidgetsBinding.instance.ensureVisualUpdate();
+      } else {
+        _c.reverse().whenComplete(() {
+          if (mounted) widget.onGone();
+        });
+      }
+    } else if (old.leaving && !widget.leaving) {
+      _c.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return FadeTransition(
+      opacity: _c,
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 0.85, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(_c),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 300),
+          child: MmPressable(
+            onTap: widget.leaving ? null : widget.onRemove,
+            semanticsLabel: 'Remove ${widget.name}',
+            focusRadius: MmRadius.smallAll,
+            pressedScale: 0.97,
+            haptic: MmPressHaptic.selection,
+            builder: (context, pressed, _) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 44),
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  color: pressed ? colors.raised2 : colors.sunken,
+                  shape: RoundedSuperellipseBorder(borderRadius: MmRadius.smallAll, side: BorderSide(color: colors.line)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(child: Text(widget.name, style: type.label.copyWith(color: colors.ink), maxLines: 2, overflow: TextOverflow.ellipsis)),
+                      const SizedBox(width: MmSpace.s8),
+                      Icon(LucideIcons.x, size: 16, color: colors.ink2),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -128,6 +311,9 @@ class ChapterList extends ConsumerStatefulWidget {
 class _ChapterListState extends ConsumerState<ChapterList> {
   String _query = '';
 
+  /// Counts the taps on a chapter past the cap: the limit line shakes once for each.
+  int _capTaps = 0;
+
   void _toggle(String name, bool multi) {
     if (!multi) {
       widget.onSingle(name);
@@ -138,6 +324,11 @@ class _ChapterListState extends ConsumerState<ChapterList> {
       list.remove(name);
     } else if (list.length < maxChapters) {
       list.add(name);
+    } else {
+      // At the cap: nothing is added. The line that says why shakes (and says it, as always).
+      ref.read(hapticsProvider).light();
+      setState(() => _capTaps++);
+      return;
     }
     widget.chosen.value = list;
   }
@@ -184,7 +375,14 @@ class _ChapterListState extends ConsumerState<ChapterList> {
               children: [
                 _SearchField(onChanged: (q) => setState(() => _query = q.trim().toLowerCase())),
                 const SizedBox(height: MmSpace.s8),
-                Text(multi ? PracticeCopy.chapterLimit : PracticeCopy.oneChapterOnly, style: type.small.copyWith(color: colors.ink3)),
+                PracticeShake(
+                  trigger: _capTaps,
+                  child: Text(
+                    multi ? PracticeCopy.chapterLimit : PracticeCopy.oneChapterOnly,
+                    style: type.small.copyWith(color: _capTaps > 0 && widget.chosen.value.length >= maxChapters ? colors.ink : colors.ink3),
+                  ),
+                ),
+                if (multi) _RecordRow(subjectId: widget.subjectId, chosen: widget.chosen.value, onToggle: (name) => _toggle(name, multi)),
                 _Units(
                   units: catalog.units,
                   query: _query,
@@ -196,6 +394,85 @@ class _ChapterListState extends ConsumerState<ChapterList> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+/// "From your record": up to three chapters that cost marks in the latest paper in this subject,
+/// as chips that choose the chapter. Real chapters from the student's own paper, never a guess;
+/// with no paper or no loss the row is not there at all.
+class _RecordRow extends ConsumerWidget {
+  const _RecordRow({required this.subjectId, required this.chosen, required this.onToggle});
+
+  final String subjectId;
+  final List<String> chosen;
+  final ValueChanged<String> onToggle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chapters = ref.watch(practiceRecordChaptersProvider(subjectId));
+    if (chapters.isEmpty) return const SizedBox.shrink();
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(header: true, child: Text(PracticeCopy.fromYourRecord, style: type.label.copyWith(color: colors.ink3))),
+          const SizedBox(height: MmSpace.s8),
+          Wrap(
+            spacing: MmSpace.s8,
+            runSpacing: MmSpace.s8,
+            children: [for (final c in chapters) _RecordChip(chapter: c, picked: chosen.contains(c.chapter), onTap: () => onToggle(c.chapter))],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _RecordChip extends StatelessWidget {
+  const _RecordChip({required this.chapter, required this.picked, required this.onTap});
+
+  final RecordChapter chapter;
+  final bool picked;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 320),
+      child: MmPressable(
+        onTap: onTap,
+        selected: picked,
+        semanticsLabel: PracticeCopy.recordChipSemantics(chapter.chapter, chapter.marksLost),
+        focusRadius: MmRadius.smallAll,
+        pressedScale: 0.97,
+        haptic: MmPressHaptic.selection,
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 44),
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              color: MmSelection.fill(colors, selected: picked, pressed: pressed),
+              shape: RoundedSuperellipseBorder(borderRadius: MmRadius.smallAll, side: MmSelection.side(colors, selected: picked)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(chapter.chapter, style: type.label.copyWith(color: colors.ink), maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(PracticeCopy.recordChipMarks(chapter.marksLost), style: type.caption.copyWith(color: colors.ink2)),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -333,7 +610,8 @@ class _ChapterRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return MmPressable(
-      onTap: enabled ? onTap : null,
+      // Past the cap a row still answers (the limit line shakes); it only does not add.
+      onTap: onTap,
       semanticsLabel: name,
       selected: selected,
       focusRadius: MmRadius.keyAll,

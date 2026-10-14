@@ -8,12 +8,15 @@ import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/storage/storage_providers.dart';
+import '../../../core/sync/session/session_journal.dart';
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 import '../data/suggestion.dart';
 import '../model/practice_selection.dart';
 import 'confirm_sheet.dart';
+import 'resume_sheet.dart';
 import 'suggestion_card.dart';
 
 /// Answer counts of one stored session, read from its journal.
@@ -21,6 +24,17 @@ final draftSummaryProvider = FutureProvider.autoDispose.family<DraftSummary?, St
   final drafts = ref.watch(sessionDraftRepositoryProvider);
   final draft = await drafts.bySessionId(sessionId);
   return draft == null ? null : drafts.summaryOf(draft);
+});
+
+/// Which questions of one stored session have an answer now, in the paper's order, read from its
+/// journal (the painted sheet on the resume card inks exactly these). Null when it cannot be read.
+final draftAnsweredProvider = FutureProvider.autoDispose.family<List<bool>?, String>((ref, sessionId) async {
+  final drafts = ref.watch(sessionDraftRepositoryProvider);
+  final draft = await drafts.bySessionId(sessionId);
+  if (draft == null) return null;
+  final journal = await SessionJournal.open(ref.watch(appDatabaseProvider), userId: draft.userId, sessionId: draft.sessionId);
+  final answers = journal.answers;
+  return [for (final q in draft.view.questions) answers.containsKey(q.id)];
 });
 
 /// True when [draft] can still be continued right now.
@@ -33,7 +47,10 @@ String evidenceLocation(Attempt attempt) => attempt.isMock ? AppRoutes.result(at
 /// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card. It follows
 /// the subject picked on the tiles, and its Start opens the confirm sheet in that same subject.
 class SuggestionHero extends ConsumerWidget {
-  const SuggestionHero({super.key});
+  const SuggestionHero({super.key, this.actionKey});
+
+  /// Marks the card's Start key (Mobi points at it).
+  final GlobalKey? actionKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,6 +82,8 @@ class SuggestionHero extends ConsumerWidget {
               : PracticeCopy.resumePracticeReason,
           actionLabel: PracticeCopy.resumeKey,
           onAction: () => context.go(AppRoutes.run(draft.sessionId)),
+          actionKey: actionKey,
+          sheet: ResumeSheet(total: total, answered: ref.watch(draftAnsweredProvider(draft.sessionId)).value),
         );
       case ChapterSuggestion():
         final s = suggestion;
@@ -82,6 +101,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
       case SubjectSuggestion():
         final s = suggestion;
@@ -97,6 +117,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
       case StartingSuggestion():
         final s = suggestion;
@@ -113,6 +134,7 @@ class SuggestionHero extends ConsumerWidget {
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
           offline: offline,
+          actionKey: actionKey,
         );
     }
   }

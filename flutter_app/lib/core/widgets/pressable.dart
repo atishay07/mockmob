@@ -1,5 +1,8 @@
-import 'package:flutter/gestures.dart' show kTouchSlop;
+import 'dart:async';
+
+import 'package:flutter/gestures.dart' show kLongPressTimeout, kTouchSlop;
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -30,7 +33,51 @@ class MmPressSpring {
     scale.animateWith(Motion.spring(spring, scale.value, target, velocity: scale.velocity));
   }
 
+  /// The scale a release rises to before settling, for a surface that sank to [pressedScale]: three
+  /// quarters of the sink, at most 1.03 (a 0.96 key rises to 1.03; a 340 dp hero, which sinks only
+  /// 8 dp, rises about 6 dp).
+  static double overshootFor(double pressedScale) => 1 + ((1 - pressedScale) * 0.75).clamp(0.0, 0.03);
+
+  /// Back to rest after a press that committed: up past 1 to [overshootFor] on [Springs.snappy],
+  /// then down to 1 on [Springs.release], keeping its velocity through the turn, so the surface
+  /// answers the tap with a small lift. Under reduced motion it jumps to 1.
+  void releaseWithLift({required bool reduced, double pressedScale = Springs.pressedScale}) {
+    if (reduced) {
+      scale.value = 1;
+      return;
+    }
+    scale.animateWith(MmLiftSimulation(from: scale.value, peak: overshootFor(pressedScale), velocity: scale.velocity));
+  }
+
   void dispose() => scale.dispose();
+}
+
+/// A rise to [peak] on [Springs.snappy] that turns, once it reaches the peak (or after 180 ms),
+/// into a settle to 1 on [Springs.release], keeping the velocity at the turn.
+class MmLiftSimulation extends Simulation {
+  MmLiftSimulation({required double from, required this.peak, double velocity = 0})
+      : _rise = SpringSimulation(Springs.snappy, from, peak + (peak - 1) * 0.5, velocity) {
+    var t = 0.0;
+    while (t < 0.18 && _rise.x(t) < peak) {
+      t += 0.004;
+    }
+    _turn = t;
+    _settle = SpringSimulation(Springs.release, _rise.x(_turn), 1, _rise.dx(_turn));
+  }
+
+  final double peak;
+  final SpringSimulation _rise;
+  late final double _turn;
+  late final SpringSimulation _settle;
+
+  @override
+  double x(double time) => time < _turn ? _rise.x(time) : _settle.x(time - _turn);
+
+  @override
+  double dx(double time) => time < _turn ? _rise.dx(time) : _settle.dx(time - _turn);
+
+  @override
+  bool isDone(double time) => time >= _turn && _settle.isDone(time - _turn);
 }
 
 /// Builds a surface for its pressed and focused state.
@@ -52,6 +99,8 @@ class MmPressable extends StatefulWidget {
     required this.builder,
     required this.onTap,
     this.onLongPress,
+    this.onLongPressThreshold,
+    this.lift = true,
     this.pressedScale,
     this.focusRadius = MmRadius.pillAll,
     this.semanticsLabel,
@@ -72,6 +121,15 @@ class MmPressable extends StatefulWidget {
   /// Null disables the surface.
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+
+  /// Fired once while the finger is still down, when the hold passes the long-press threshold
+  /// ([kLongPressTimeout]), with a selection haptic and a little more sink, so the finger feels
+  /// the hold register before it lifts (a peek, a reorder grab).
+  final VoidCallback? onLongPressThreshold;
+
+  /// A committed tap releases with a small lift past rest ([MmPressSpring.releaseWithLift]); a
+  /// finger that slides off, or a cancel, settles without it.
+  final bool lift;
 
   /// How far the surface sinks. Null derives it from the surface's width ([Motion.pressedScaleFor]):
   /// 0.96 for a key, about 0.976 for a 340 dp hero, so a large surface never sinks more than 8 dp.
@@ -114,7 +172,10 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
   bool _focused = false;
   Offset _downAt = Offset.zero;
 
-  bool get _enabled => widget.onTap != null || widget.onLongPress != null;
+  bool get _enabled => widget.onTap != null || widget.onLongPress != null || widget.onLongPressThreshold != null;
+  Timer? _hold;
+  Duration _downStamp = Duration.zero;
+  double _sunkTo = Springs.pressedScale;
 
   @override
   void didUpdateWidget(MmPressable oldWidget) {
@@ -124,6 +185,7 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
 
   @override
   void dispose() {
+    _hold?.cancel();
     _spring.dispose();
     _pressed.dispose();
     super.dispose();
@@ -134,19 +196,37 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
   void _down(PointerDownEvent event) {
     if (!_enabled) return;
     _downAt = event.position;
+    _downStamp = event.timeStamp;
     _pressed.value = true;
     final width = context.size?.width;
-    _springTo(widget.pressedScale ?? (width == null ? Springs.pressedScale : Motion.pressedScaleFor(width)));
+    _sunkTo = widget.pressedScale ?? (width == null ? Springs.pressedScale : Motion.pressedScaleFor(width));
+    _springTo(_sunkTo);
+    _hold?.cancel();
+    if (widget.onLongPressThreshold != null) _hold = Timer(kLongPressTimeout, _held);
+  }
+
+  void _held() {
+    if (!mounted || !_pressed.value) return;
+    mmFireHaptic(context, MmPressHaptic.selection);
+    // Half as deep again: the hold registers in the hand.
+    _springTo(1 - (1 - _sunkTo) * 1.5);
+    widget.onLongPressThreshold?.call();
   }
 
   void _move(PointerMoveEvent event) {
     if (_pressed.value && (event.position - _downAt).distance > kTouchSlop) _release();
   }
 
-  void _release() {
+  void _release({bool committed = false}) {
+    _hold?.cancel();
+    _hold = null;
     if (!_pressed.value) return;
     _pressed.value = false;
-    _springTo(1);
+    if (committed && widget.lift && widget.onTap != null) {
+      _spring.releaseWithLift(reduced: Motion.reduced(context), pressedScale: _sunkTo);
+    } else {
+      _springTo(1);
+    }
   }
 
   void _activate() {
@@ -231,7 +311,8 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
       child: Listener(
         onPointerDown: _down,
         onPointerMove: _move,
-        onPointerUp: (_) => _release(),
+        // A tap lifts; a hold that became a long press settles without the lift.
+        onPointerUp: (e) => _release(committed: e.timeStamp - _downStamp < kLongPressTimeout),
         onPointerCancel: (_) => _release(),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

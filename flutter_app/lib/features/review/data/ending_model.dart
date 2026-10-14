@@ -16,6 +16,7 @@ class EndingModel {
     this.repairedNowIds = const {},
     this.repairedEarlierIds = const {},
     this.touchedKeys = const {},
+    this.resolvedKeys = const {},
     this.repairedBefore = true,
   });
 
@@ -45,6 +46,10 @@ class EndingModel {
             if (i.stage == MistakeStage.repaired && !now.contains(i.questionId)) i.questionId,
         },
         touchedKeys: run.touchedKeys,
+        resolvedKeys: {
+          for (final s in run.steps)
+            if (s.outcome is OutcomeExplained || s.outcome is OutcomeSetAside) s.item.key,
+        },
         repairedBefore: run.repairedBefore,
       );
     }
@@ -84,6 +89,11 @@ class EndingModel {
   final Set<String> repairedNowIds;
   final Set<String> repairedEarlierIds;
   final Set<String> touchedKeys;
+
+  /// Keys of the run's steps that are no longer open: repaired (now or as a reopen) or set aside.
+  /// The ending's "left" count never includes them, even while Review's index still lists the
+  /// just-repaired question as open (its local record is written a beat after the answer).
+  final Set<String> resolvedKeys;
   final bool repairedBefore;
 }
 
@@ -98,14 +108,22 @@ class ChapterOpen {
   final int elsewhere;
 }
 
-/// What is still open in [chapter] of [subjectId], or null when the index is not known.
-ChapterOpen? chapterOpenSplit(ReviewIndex? index, {required String attemptId, required String chapter, required String subjectId}) {
+/// What is still open in [chapter] of [subjectId], or null when the index is not known. [resolved]
+/// (the run's own resolved step keys, [EndingModel.resolvedKeys]) is never counted as open.
+ChapterOpen? chapterOpenSplit(
+  ReviewIndex? index, {
+  required String attemptId,
+  required String chapter,
+  required String subjectId,
+  Set<String> resolved = const {},
+}) {
   if (index == null || chapter.isEmpty) return null;
   var here = 0;
   var elsewhere = 0;
   for (final g in index.openGroups) {
     if (g.chapter != chapter || g.subjectId != subjectId) continue;
     for (final i in g.open) {
+      if (resolved.contains(i.key)) continue;
       if (i.attemptId == attemptId) {
         here++;
       } else {

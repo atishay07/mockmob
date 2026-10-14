@@ -43,6 +43,9 @@ class _TrendSectionState extends ConsumerState<TrendSection> with TickerProvider
   int? _picked;
   String? _drawnKey;
 
+  /// A finger is down on the chart, dragging along the sessions.
+  bool _scrubbing = false;
+
   /// Whether the chart has been 72 dp inside the viewport yet; the line waits for it.
   bool _seen = false;
   late final AnimationController _draw = AnimationController(vsync: this, duration: _drawIn, value: 1);
@@ -105,6 +108,20 @@ class _TrendSectionState extends ConsumerState<TrendSection> with TickerProvider
   void _pickPoint(int? i) {
     setState(() => _picked = i);
     if (i != null && !Motion.reduced(context)) _ring.forward(from: 0);
+  }
+
+  /// A drag along the chart snaps to the nearest real session: each new one ticks and pulses its
+  /// ring, and the readout above follows it. Letting go leaves the last one picked.
+  void _scrubTo(_TrendGeometry geo, Offset at) {
+    final i = geo.nearest(at);
+    if (!_scrubbing) setState(() => _scrubbing = true);
+    if (i == _picked) return;
+    ref.read(hapticsProvider).selection();
+    _pickPoint(i);
+  }
+
+  void _endScrub() {
+    if (_scrubbing) setState(() => _scrubbing = false);
   }
 
   @override
@@ -233,32 +250,60 @@ class _TrendSectionState extends ConsumerState<TrendSection> with TickerProvider
               return SizedBox(
                 height: _chartHeight,
                 width: double.infinity,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTapUp: (d) {
-                    final i = geo.nearest(d.localPosition);
-                    ref.read(hapticsProvider).selection();
-                    _pickPoint(i == _picked ? null : i);
-                  },
-                  child: WhenInView(
-                    onVisible: _onSeen,
-                    child: AnimatedBuilder(
-                      animation: Listenable.merge([_draw, _ring]),
-                      builder: (context, _) => CustomPaint(
-                        painter: _TrendPainter(
-                          geo: geo,
-                          colors: colors,
-                          labelStyle: type.caption.copyWith(color: colors.ink3),
-                          progress: Motion.emphasized.transform(_draw.value),
-                          bloom: ((_draw.value - 0.7) / 0.3).clamp(0.0, 1.0),
-                          ring: Motion.out.transform(_ring.value),
-                          picked: picked,
-                          describe: (i) => _describe(shown[i]),
-                          onPoint: _pickPoint,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapUp: (d) {
+                          final i = geo.nearest(d.localPosition);
+                          ref.read(hapticsProvider).selection();
+                          _pickPoint(i == _picked ? null : i);
+                        },
+                        // Horizontal only: a vertical drag is the page scrolling.
+                        onHorizontalDragStart: (d) => _scrubTo(geo, d.localPosition),
+                        onHorizontalDragUpdate: (d) => _scrubTo(geo, d.localPosition),
+                        onHorizontalDragEnd: (_) => _endScrub(),
+                        onHorizontalDragCancel: _endScrub,
+                        child: WhenInView(
+                          onVisible: _onSeen,
+                          child: AnimatedBuilder(
+                            animation: Listenable.merge([_draw, _ring]),
+                            builder: (context, _) => CustomPaint(
+                              painter: _TrendPainter(
+                                geo: geo,
+                                colors: colors,
+                                labelStyle: type.caption.copyWith(color: colors.ink3),
+                                progress: Motion.emphasized.transform(_draw.value),
+                                bloom: ((_draw.value - 0.7) / 0.3).clamp(0.0, 1.0),
+                                ring: Motion.out.transform(_ring.value),
+                                picked: picked,
+                                describe: (i) => _describe(shown[i]),
+                                onPoint: _pickPoint,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    // While a finger drags, the point under it says what it is, on the chart.
+                    if (_scrubbing && picked != null)
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: geo.point(picked).dy > 52 ? 0 : _chartHeight - 30,
+                        child: IgnorePointer(
+                          child: Align(
+                            alignment: Alignment((geo.point(picked).dx / size.width * 2 - 1).clamp(-1.0, 1.0), -1),
+                            child: _ScrubChip(
+                              key: const ValueKey('trend-scrub'),
+                              text: InsightsCopy.trendScrub(point.marks, point.maxMarks, formatDayMonthShort(point.at.toLocal()), delta),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               );
             },
@@ -449,15 +494,16 @@ class _TrendPainter extends CustomPainter {
       }
       canvas.drawCircle(c, r + 1, Paint()..color = colors.ground);
       bubbles.paint(canvas, c, r, lastPoint || isPicked ? BubbleState.filled : BubbleState.hollow);
-      if (isPicked && !lastPoint) {
-        // The ring grows from the dot to its full size over 150 ms.
+      if (isPicked) {
+        // The ring grows from the dot to its full size over 150 ms and eases back a little: one
+        // pulse for each session the finger snaps to.
         canvas.drawCircle(
           c,
           (r + 4) * (1 + 0.3 * ring),
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.5
-            ..color = colors.ink,
+            ..color = colors.ink.withValues(alpha: 1 - 0.45 * ring),
         );
       }
     }
@@ -518,6 +564,30 @@ class _DeltaChip extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The floating line over the chart while a finger drags along it: the session's marks and day,
+/// and how it stands against the session before.
+class _ScrubChip extends StatelessWidget {
+  const _ScrubChip({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: colors.raised2,
+        shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+        shadows: const [BoxShadow(color: Color(0x33000000), blurRadius: 14, offset: Offset(0, 4))],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4 + 2),
+        child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.mmType.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
       ),
     );
   }

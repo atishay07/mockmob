@@ -4,6 +4,7 @@ import '../../../core/models/notification_prefs.dart';
 import '../../../core/notifications/notifications.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
+import '../logic/next_reminder.dart';
 import '../logic/reminder_outcomes.dart';
 import '../logic/reminder_plan.dart';
 
@@ -31,6 +32,7 @@ class ReminderScheduler {
     required this._ensureReady,
     DateTime Function()? now,
     this._onStateChanged,
+    this._onNext,
   }) : _now = now ?? DateTime.now;
 
   final NotificationService _service;
@@ -40,6 +42,9 @@ class ReminderScheduler {
   final Future<void> Function() _ensureReady;
   final DateTime Function() _now;
   final void Function()? _onStateChanged;
+
+  /// Told the next reminder (or why there is none) after every planning pass.
+  final void Function(NextReminder next)? _onNext;
 
   Future<void>? _running;
   bool _again = false;
@@ -102,6 +107,7 @@ class ReminderScheduler {
     );
 
     if (!await _service.areNotificationsEnabled()) {
+      _onNext?.call(const NextReminder.nothing(NothingReason.blocked));
       _onStateChanged?.call();
       return;
     }
@@ -117,13 +123,36 @@ class ReminderScheduler {
     // rest of the plan from being scheduled. The first failure is reported once all were tried.
     Object? failure;
     StackTrace? failureStack;
+    final accepted = <(DateTime, NextKind, int?)>[];
+    final skips = <NextSkip>[];
+    final repair = _repair();
     for (final request in plan) {
       if (cleared()) return;
       try {
         final outcome = await _service.schedule(request);
         if (outcome.skipped == NotificationSkip.cleared || cleared()) return;
         final at = outcome.deliverAt;
+        switch (outcome.skipped) {
+          case NotificationSkip.weeklyCap || NotificationSkip.dailyCap:
+            skips.add(NextSkip.cap);
+          case NotificationSkip.stale:
+            skips.add(NextSkip.stale);
+          case NotificationSkip.channelOff:
+            skips.add(NextSkip.off);
+          case _:
+            break;
+        }
         if (outcome.scheduled && at != null) {
+          final id = request.taskId;
+          accepted.add((
+            at,
+            id.startsWith(repairTaskPrefix)
+                ? NextKind.repair
+                : id.startsWith(weeklyTaskPrefix)
+                    ? NextKind.weekly
+                    : NextKind.study,
+            id.startsWith(repairTaskPrefix) ? repair?.mistakes : null,
+          ));
           state = await _store.update(
             (s) => recordScheduled(
               s,
@@ -138,6 +167,7 @@ class ReminderScheduler {
         failureStack ??= stack;
       }
     }
+    _onNext?.call(nextReminderFrom(accepted: accepted, skips: skips, planned: plan.length));
     _onStateChanged?.call();
     if (failure != null) Error.throwWithStackTrace(failure, failureStack!);
   }

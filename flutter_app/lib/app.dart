@@ -22,21 +22,37 @@ class MockMobApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Reading the snapshot starts auth (Supabase, the stored session, /me) after the first frame.
+    // Reading the snapshot starts auth (Supabase, the stored session, /me); it runs async and the
+    // opening never waits for it (the router shows the launch screen until it is known).
     ref.watch(authSnapshotProvider);
     ref.watch(savedSettingsProvider);
-    // Keeps the guest carry-over alive and starts reminder planning and tap handling.
-    ref.watch(sampleImportProvider);
-    ref.watch(notificationsRuntimeProvider);
-    // Milestones that arrive in any fresh rhythm read get their moment, whichever screen is open.
-    ref.watch(rhythmWatcherProvider);
-    // Launcher shortcuts, the quiet Play update and the first-run mark for the review prompt.
-    ref.watch(nativeTouchesProvider);
-    ref.watch(homeWidgetSyncProvider); // The home-screen widget follows Today (core/home_widget).
+    // The services that read the database and the network (guest carry-over, reminders, milestones,
+    // launcher shortcuts and the Play update, the home-screen widget) are not watched here: that
+    // would build Today's data in the first frame, the one the system splash waits for. They start
+    // when the opening has handed off ([_AppServices]).
     // Steps glass down to Lite once if the raster thread keeps missing its budget.
     ref.watch(glassPerformanceWatchProvider);
 
     return const ReducedMotionScope(child: _AppView());
+  }
+}
+
+/// Starts what must run for the whole life of the app, once the brand opening has handed off:
+/// keeps the guest carry-over alive and starts reminder planning and tap handling; milestones that
+/// arrive in any fresh rhythm read get their moment, whichever screen is open; launcher shortcuts,
+/// the quiet Play update and the first-run mark for the review prompt; the home-screen widget
+/// follows Today (core/home_widget). None of it is needed to draw the first screen.
+class _AppServices extends ConsumerWidget {
+  const _AppServices();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(sampleImportProvider);
+    ref.watch(notificationsRuntimeProvider);
+    ref.watch(rhythmWatcherProvider);
+    ref.watch(nativeTouchesProvider);
+    ref.watch(homeWidgetSyncProvider);
+    return const SizedBox.shrink();
   }
 }
 
@@ -81,7 +97,7 @@ class _AppView extends ConsumerWidget {
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
               // The brand opening covers the app on every cold start, then removes itself.
-              child: BrandOpeningHost(child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink()))),
+              child: BrandOpeningHost(afterOpening: const _AppServices(), child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink()))),
             ),
           ),
         );

@@ -90,6 +90,25 @@ abstract final class RhythmCopy {
   static String statWeeks(int weeks) => weeks == 1 ? 'week in rhythm' : 'weeks in rhythm';
   static const String statBest = 'best run, weeks';
 
+  // Mobi beside the week (one line per kind per run, plain and short).
+  static const String mobiPaused = 'Paused. Your run is kept.';
+  static const String mobiResumed = 'Back on. Your run is kept.';
+  static const String mobiSleep = 'Sleep well. Tomorrow counts.';
+  static const String mobiOneShort = 'One more day, and today is on your plan.';
+  static const String mobiOutOfReach = 'Every study day still counts.';
+  static const String mobiReturning = 'Welcome back. Nothing was lost.';
+
+  // Study days editor, live.
+  static const String presetThree = '3 days';
+  static const String presetFour = '4 days';
+  static const String presetFive = '5 days';
+  static const String presetWeekdays = 'Weekdays';
+  static const String presetsLabel = 'Quick choices';
+
+  // Pause options and the day the run comes back.
+  static String backOn(String date) => 'Back on $date.';
+  static const String pauseKey = 'Pause now';
+
   // Goal editor.
   static const String goalTitle = 'Weekly goal';
   static const String goalPrompt = 'Study days a week';
@@ -103,6 +122,8 @@ abstract final class RhythmCopy {
   static const String pauseTwoWeeks = '2 weeks';
   /// The longest pause the server accepts is 100 days, so the row says so plainly.
   static const String pauseUntilOn = 'About 3 months';
+  /// The chip label; the date it ends on is said under it, so "about" is not needed.
+  static const String pauseThreeMonths = '3 months';
   static const String resume = 'Resume rhythm';
   static const String pauseFailed = 'We could not change the pause. Try again.';
 
@@ -320,6 +341,14 @@ abstract final class RhythmCopy {
 
   /// The small volt line under the achievement headline of a path that just landed a step.
   static const String justLanded = 'Just landed';
+
+  // A step opened in its sheet.
+  static String stepLandedOn(String date) => 'Landed on $date.';
+  static String stepAfter(String previous) => 'Comes after $previous.';
+  static const String stepActionFullMock = 'Start a full mock';
+  static const String stepActionRepair = 'Open your mistakes';
+  static const String stepActionRhythm = 'See your week';
+  static const String close = 'Close';
   static String trackLanded(String track, int earned, int total) => '$track, $earned of $total landed';
 
   // The receipt for milestones that landed while the app was away (more than 48 hours ago).

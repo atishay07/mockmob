@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../edit_copy.dart';
@@ -45,7 +46,13 @@ class SubjectChoiceRow extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Bubble(state: chosen ? BubbleState.filled : BubbleState.hollow, size: 24),
-                  if (chosen) Icon(LucideIcons.check, size: 15, color: colors.voltInk),
+                  // The tick pops in with the ink (and leaves with it).
+                  AnimatedScale(
+                    scale: chosen ? 1 : 0,
+                    duration: Motion.of(context, Motion.ui),
+                    curve: Motion.glide,
+                    child: Icon(LucideIcons.check, size: 15, color: colors.voltInk),
+                  ),
                 ],
               ),
             ),
@@ -131,7 +138,14 @@ class SlotCount extends StatelessWidget {
     return Semantics(
       container: true,
       liveRegion: true,
-      child: Text(EditCopy.subjectsCount(count), style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2)),
+      // The figure rolls to each new count; the first build shows it at once.
+      child: MmCountUp(
+        value: count,
+        from: count,
+        duration: Motion.card,
+        format: (v) => EditCopy.subjectsCount(v.round()),
+        style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2),
+      ),
     );
   }
 }
