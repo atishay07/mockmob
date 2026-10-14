@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -7,18 +8,32 @@ import '../copy.dart';
 /// The bottom bar, 72 dp above the gesture inset (spec 5.5): Previous as a glass pill and the
 /// one volt key, Next, which becomes Review and submit on the last question. No haptic
 /// on these: inside a timed paper only the option tick speaks.
+///
+/// When every question has an answer the volt key carries the soft lit glow beneath it (14% volt,
+/// never behind text): the one resting emphasis on the screen, saying the paper is ready to hand in.
 class RunnerBottomBar extends StatelessWidget {
-  const RunnerBottomBar({super.key, required this.isFirst, required this.isLast, required this.onPrevious, required this.onNext});
+  const RunnerBottomBar({
+    super.key,
+    required this.isFirst,
+    required this.isLast,
+    required this.onPrevious,
+    required this.onNext,
+    this.allAnswered = false,
+  });
 
   final bool isFirst;
   final bool isLast;
   final VoidCallback onPrevious;
   final VoidCallback onNext;
 
+  /// Every question has an answer: the key glows.
+  final bool allAnswered;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final inset = MediaQuery.viewPaddingOf(context).bottom;
+    final glow = allAnswered && !Motion.reduced(context);
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.5,
       child: DecoratedBox(
@@ -35,7 +50,15 @@ class RunnerBottomBar extends StatelessWidget {
                 KeyButton.secondary(label: RunnerCopy.previous, onPressed: isFirst ? null : onPrevious, expanded: false, hapticOnCommit: false),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
-                  child: KeyButton(label: isLast ? RunnerCopy.reviewAndSubmit : RunnerCopy.next, onPressed: onNext, hapticOnCommit: false),
+                  child: AnimatedContainer(
+                    duration: Motion.glideDuration,
+                    curve: Motion.glide,
+                    decoration: BoxDecoration(
+                      borderRadius: MmRadius.pillAll,
+                      boxShadow: glow ? [BoxShadow(color: colors.voltGlow, blurRadius: 22, offset: const Offset(0, 6), spreadRadius: -2)] : const [],
+                    ),
+                    child: KeyButton(label: isLast ? RunnerCopy.reviewAndSubmit : RunnerCopy.next, onPressed: onNext, hapticOnCommit: false),
+                  ),
                 ),
               ],
             ),

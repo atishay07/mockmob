@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -72,6 +73,43 @@ class _SolidKeyState extends State<_SolidKey> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The flag of the mark toggle. When the question becomes marked it pops from 0.7 to full size
+/// (240 ms, emphasized); unmarking, and every rebuild, is still.
+class _FlagGlyph extends StatefulWidget {
+  const _FlagGlyph({required this.marked, required this.color});
+
+  final bool marked;
+  final Color color;
+
+  @override
+  State<_FlagGlyph> createState() => _FlagGlyphState();
+}
+
+class _FlagGlyphState extends State<_FlagGlyph> with SingleTickerProviderStateMixin {
+  late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 240), value: 1);
+
+  @override
+  void didUpdateWidget(_FlagGlyph old) {
+    super.didUpdateWidget(old);
+    if (widget.marked && !old.marked && !Motion.reduced(context)) _pop.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    _pop.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _pop,
+      child: Icon(LucideIcons.flag, size: 15, color: widget.color),
+      builder: (context, child) => Transform.scale(scale: 0.7 + 0.3 * Motion.emphasized.transform(_pop.value), child: child),
     );
   }
 }
@@ -208,7 +246,7 @@ class MarkToggle extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.flag, size: 15, color: marked ? colors.ink : colors.ink3),
+                    _FlagGlyph(marked: marked, color: marked ? colors.ink : colors.ink3),
                     const SizedBox(width: MmSpace.s6),
                     Text(
                       marked ? RunnerCopy.marked : RunnerCopy.mark,

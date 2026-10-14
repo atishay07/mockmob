@@ -62,8 +62,8 @@ abstract final class RunnerCopy {
   static const String mark = 'Mark for review';
   static const String marked = 'Marked for review';
 
-  /// A practice has no visible timer: the one line at the start says when feedback comes.
-  static const String practiceNote = 'Feedback comes after you finish.';
+  /// A practice has no visible timer: the one line at the start says when marks come.
+  static const String practiceNote = 'Marks come after you submit.';
   static String openUntil(DateTime at) => 'Open until ${formatTime12(at)}';
 
   // Bottom bar.
@@ -85,6 +85,12 @@ abstract final class RunnerCopy {
 
   // Palette.
   static const String paletteTitle = 'Your answer sheet';
+
+  /// The palette's key that jumps to the first question without an answer.
+  static String goToFirstOpen(int number) => 'Go to question $number, first not answered';
+
+  /// Beside the counts on the submit page: the question the count takes the student back to.
+  static String goToQuestion(int number) => 'Go to question $number';
   static const String answered = 'Answered';
   static const String notAnswered = 'Not answered';
   static const String notVisited = 'Not visited';
@@ -120,8 +126,10 @@ abstract final class RunnerCopy {
   static const String submitTitle = 'Submit now?';
   static const String timeUpTitle = 'Time is up.';
   static String answeredOf(int total) => 'of $total answered';
-  static String markedCount(int n) => '$n marked for review';
-  static String notAnsweredCount(int n) => '$n not answered';
+  static String markedCount(int n) => '$n $markedWord';
+  static String notAnsweredCount(int n) => '$n $notAnsweredWord';
+  static const String markedWord = 'marked for review';
+  static const String notAnsweredWord = 'not answered';
   static const String cannotChange = 'You cannot change answers after you submit.';
   static String submitKey(bool isMock) => isMock ? 'Submit mock' : 'Submit practice';
   static const String keepWorking = 'Keep working';

@@ -6,11 +6,13 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/sheet_cells.dart';
+import 'answered_mark.dart';
 
-/// Paints one palette bubble with its question number (spec 5.5): answered is inked, not
-/// answered an empty ring, not visited a faint dashed ring on the sunken well, the current
-/// question carries an ink ring, a mark is a small flag at the top right, and an answer still on
-/// this phone a hollow dot at the bottom right. Each fact is a shape, never colour alone.
+/// Paints one palette bubble with its question number (spec 5.5): answered is the runner's one
+/// answered disc (solid paper ink, see [AnsweredMark]), not answered an empty ring, not visited a
+/// faint dashed ring on the sunken well, the current question carries an ink ring, a mark is a
+/// small flag at the top right, and an answer still on this phone a hollow ink dot at the bottom
+/// right. Each fact is a shape, never colour alone, and nothing here is volt.
 class SheetCellPainter extends CustomPainter {
   SheetCellPainter({required this.cell, required this.colors, required this.numberStyle});
 
@@ -25,7 +27,7 @@ class SheetCellPainter extends CustomPainter {
     final bubbles = BubblePaint(colors);
 
     if (cell.answered) {
-      bubbles.paint(canvas, c, r, BubbleState.filled, emphasis: cell.current);
+      AnsweredMark.paint(canvas, c, r, colors, emphasis: cell.current);
     } else if (cell.visited) {
       bubbles.paint(canvas, c, r, BubbleState.hollow, emphasis: cell.current);
     } else {
@@ -36,7 +38,7 @@ class SheetCellPainter extends CustomPainter {
     final number = TextPainter(
       text: TextSpan(
         text: '${cell.number}',
-        style: numberStyle.copyWith(color: cell.answered ? colors.voltInk : (cell.visited ? colors.ink : colors.ink2)),
+        style: numberStyle.copyWith(color: cell.answered ? AnsweredMark.numberColor(colors) : (cell.visited ? colors.ink : colors.ink2)),
       ),
       textDirection: TextDirection.ltr,
       textScaler: TextScaler.noScaling,
@@ -44,7 +46,7 @@ class SheetCellPainter extends CustomPainter {
     number.paint(canvas, c - Offset(number.width / 2, number.height / 2));
 
     if (cell.marked) _flag(canvas, c + Offset(r * 0.78, -r * 0.82));
-    if (cell.unsynced) _dot(canvas, c + Offset(r * 0.8, r * 0.8));
+    if (cell.unsynced) paintUnsyncedDot(canvas, c + Offset(r * 0.8, r * 0.8), colors);
   }
 
   /// A small flag on a ground-coloured disc so it reads over any bubble.
@@ -71,16 +73,17 @@ class SheetCellPainter extends CustomPainter {
     canvas.drawPath(cloth, Paint()..color = colors.ink);
   }
 
-  /// The unsynced mark: a hollow dot.
-  void _dot(Canvas canvas, Offset at) {
-    canvas.drawCircle(at, 5, Paint()..color = colors.raised);
+  /// The unsynced mark: a hollow ink dot on a ground-coloured disc, so it reads over the ink
+  /// bubble it sits on. (The legend draws the same dot.)
+  static void paintUnsyncedDot(Canvas canvas, Offset at, MmColors colors) {
+    canvas.drawCircle(at, 5.5, Paint()..color = colors.ground);
     canvas.drawCircle(
       at,
       3,
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
-        ..color = colors.warnText,
+        ..color = colors.ink,
     );
   }
 
