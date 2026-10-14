@@ -107,6 +107,8 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
     Widget emblem = CustomPaint(
       size: Size.square(widget.size),
       isComplex: true,
+      // A drifting emblem changes every frame: do not ask the raster cache to keep it.
+      willChange: _idle != null,
       painter: EmblemPainter(
         subject: identity,
         art: art,

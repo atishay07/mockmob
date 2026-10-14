@@ -59,9 +59,26 @@ SubjectIdentity.of('business_studies') // name, short name, formInk(brightness),
 
 ## Where to wire it (for the merge)
 
-- Today, Tonight's move card: 72 to 96 dp emblem, `animate: true`, beside the subject name, replacing the empty space next to Mobi.
-- Practice, Choose your own: the subject tiles become 112 dp emblems (framed false on the tile's field, or framed true on ground); `marked` follows selection with `selectionClick`.
-- Review chapters and mistake threads: 32 to 40 dp glyph level as the row avatar (replaces `SubjectGlyphTile`).
-- Onboarding subjects step: 56 dp, `marked` follows the pick.
-- Result header: 120 to 160 dp plate over the light field.
-- You, subjects list and edit subjects: 40 dp.
+Import `package:mockmob/core/art/art.dart`. The emblem replaces both the raster `MmArt.subjectObject` renders and the Lucide `SubjectGlyphTile`; one helper per call site is enough.
+
+| Screen | Call site today | Emblem |
+| --- | --- | --- |
+| Today, Tonight's move | `features/today/logic/move_builder.dart:163` (`HeroArt.object(MmArt.subjectObject(...))`), `features/today/widgets/resume_hero.dart:23` | 88 to 96 dp, `animate: true`, `framed: false` on the hero's light field |
+| Practice, Choose your own | `features/practice/widgets/subject_tiles.dart:183`, `suggestion_card.dart:50` | 112 dp, `marked` follows selection, caller fires `HapticFeedback.selectionClick` |
+| Practice, other subjects sheet | `features/practice/widgets/other_subjects_sheet.dart:52` | 40 dp (gives the six identical rows a subject each) |
+| Review chapters, mistake threads | `features/review/widgets/chapter_group_card.dart:77`, `review_rows.dart:283`, `review_bits.dart:57` | 32 to 40 dp glyph |
+| Onboarding subjects step | `features/onboarding/widgets/subject_row.dart:150` | 56 dp, `marked` follows the pick |
+| Result header | result header widget (owned by the result track) | 120 to 160 dp plate, `animate: true` |
+| You, subjects and sheets | `features/you/widgets/subject_art.dart` (make `SubjectArt` delegate to `SubjectEmblem`), `subject_rows.dart:35/95`, `hub/sheet_fields.dart:125`, `sheet/choice_sheets.dart:252` | 26 to 40 dp |
+| Insights, Learn | `features/insights/widgets/insights_bits.dart:358-361`, `features/learn/widgets/subject_mark.dart` | 32 to 56 dp |
+
+Notes:
+- `SubjectIdentity.of(id)` accepts every spelling the app uses (`business`, `bst`, `gat`, `maths`, language papers) so no `canonicalSubject` is needed first; it keeps each subject's existing `SubjectLight`.
+- `formInk(brightness)` is the subject's identity tint: line work only (a 3 dp edge, a chip ring, a progress hairline), never a button, a fill behind text or a text colour. Volt stays the only accent.
+- Once wired, `assets/art/obj-*.webp` and `core/widgets/art/subject_glyph.dart` can be retired (saves the raster weight); leave them until every call site moves.
+- Only one or two emblems per screen should `animate` (the hero and the result header). Rows stay still.
+
+## Verification (14 Oct)
+
+- Goldens in `flutter_app/test/golden/art/goldens/`: `emblem_gallery_{night,day}` (all 15 at 112, 56 and 24 dp), `emblem_states_{night,day}` (160 dp, unmarked and marked, unframed, language and unknown subject), `emblem_idle_frames_{night,day}` (five moments of the idle cycle for the six live subjects).
+- Unit: `test/unit/art` (identity mapping, ink contrast on field, every subject at every detail level in both themes, picture cache bounded, idle only when asked, reduced motion system and in-app, marking timing, semantics, size).
