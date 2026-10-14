@@ -225,6 +225,10 @@ class Sketch {
     fill(face, faceColor);
   }
 
+  /// Overlays [c] on the part of [face] inside [half]: a plane folded along a crease, drawn on a
+  /// face that has already been filled in its lit colour.
+  void fold(Path face, Path half, Color c) => fill(Path.combine(PathOperation.intersect, face, half), c);
+
   /// Plate only: a hairline of lamp light along the lit (upper left) edge of [path].
   void sheen(Path path, {double width = 0.9}) {
     if (!plate) return;

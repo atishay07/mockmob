@@ -78,7 +78,7 @@ Widget _gallery() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SubjectEmblem(subject: s.id, size: 112),
+                      SubjectEmblem(subject: s.id, size: 112, marked: true),
                       const SizedBox(height: 6),
                       Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.caption.copyWith(color: c.ink2)),
                     ],
@@ -96,7 +96,7 @@ Widget _gallery() {
                 SizedBox(
                   width: 56,
                   child: Column(children: [
-                    SubjectEmblem(subject: s.id, size: 56),
+                    SubjectEmblem(subject: s.id, size: 56, marked: true),
                     const SizedBox(height: 4),
                     Text(s.short, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.caption.copyWith(color: c.ink3, fontSize: 11)),
                   ]),
@@ -113,7 +113,7 @@ Widget _gallery() {
                 SizedBox(
                   width: 168,
                   child: Row(children: [
-                    SubjectEmblem(subject: s.id, size: 24),
+                    SubjectEmblem(subject: s.id, size: 24, marked: true),
                     const SizedBox(width: 10),
                     Expanded(child: Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.labelLarge.copyWith(fontSize: 14))),
                   ]),
@@ -137,9 +137,9 @@ Widget _states() {
         children: [
           const _Heading('160 dp, the largest use (result header)'),
           const Row(children: [
-            SubjectEmblem(subject: 'accountancy', size: 160),
+            SubjectEmblem(subject: 'accountancy', size: 160, marked: true),
             SizedBox(width: 24),
-            SubjectEmblem(subject: 'economics', size: 160),
+            SubjectEmblem(subject: 'economics', size: 160, marked: true),
           ]),
           const SizedBox(height: 24),
           const _Heading('Picker: unmarked, marked'),
@@ -150,24 +150,18 @@ Widget _states() {
             ],
           ]),
           const SizedBox(height: 24),
-          const _Heading('Unframed, on its own field'),
+          const _Heading('Unframed on the screen: it stands on its own pool'),
           Row(children: [
             for (final id in const ['physics', 'geography', 'sociology'])
               Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: SubjectIdentity.of(id)!.field(Theme.of(context).brightness),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Padding(padding: const EdgeInsets.all(8), child: SubjectEmblem(subject: id, size: 88, framed: false)),
-                ),
+                child: SubjectEmblem(subject: id, size: 88, framed: false, marked: true),
               ),
           ]),
           const SizedBox(height: 24),
           const _Heading('Language papers and a subject without an object'),
           Row(children: [
-            const SubjectEmblem(subject: 'hindi', size: 72),
+            const SubjectEmblem(subject: 'hindi', size: 72, marked: true),
             const SizedBox(width: 12),
             const SubjectEmblem(subject: 'fine_arts', size: 72),
             const SizedBox(width: 12),
@@ -232,6 +226,57 @@ Widget _idleFrames() {
             ]),
             const SizedBox(height: 10),
           ],
+          // At 24 dp the drift is larger in the design space so it still reads.
+          const _Heading('24 dp: Geography, Sociology, Psychology'),
+          for (final id in const ['geography', 'sociology', 'psychology'])
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(children: [
+                for (final p in phases) ...[_Frame(id, p, size: 24), const SizedBox(width: 26)],
+              ]),
+            ),
+        ],
+      ),
+    );
+  });
+}
+
+/// The default in a list: unframed, unmarked, no tile. Stand-in rows on the screen ground.
+Widget _rows() {
+  return Builder(builder: (context) {
+    final t = context.mmType;
+    final c = context.mmColors;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _Heading('Rows: unframed, unmarked, 40 dp'),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final s in SubjectIdentity.subjects)
+                SizedBox(
+                  width: 176,
+                  child: Row(children: [
+                    SubjectEmblem(subject: s.id, size: 40, framed: false),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: t.labelLarge.copyWith(fontSize: 14))),
+                  ]),
+                ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const _Heading('Hero size, unframed and still (96 dp)'),
+          Row(children: [
+            for (final id in const ['accountancy', 'chemistry', 'psychology']) ...[
+              SubjectEmblem(subject: id, size: 96, framed: false),
+              const SizedBox(width: 12),
+            ],
+          ]),
+          const SizedBox(height: 20),
+          Text('The pool replaces the tile: no box inside the card.', style: t.caption.copyWith(color: c.ink3)),
         ],
       ),
     );
@@ -241,6 +286,7 @@ Widget _idleFrames() {
 void main() {
   setUpAll(loadAppFonts);
   _artGolden('emblem_gallery', _gallery, size: const Size(400, 1480));
-  _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 620));
+  _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 780));
+  _artGolden('emblem_rows', _rows, size: const Size(400, 700));
   _artGolden('emblem_states', _states, size: const Size(384, 640));
 }

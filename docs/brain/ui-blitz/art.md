@@ -82,3 +82,16 @@ Notes:
 
 - Goldens in `flutter_app/test/golden/art/goldens/`: `emblem_gallery_{night,day}` (all 15 at 112, 56 and 24 dp), `emblem_states_{night,day}` (160 dp, unmarked and marked, unframed, language and unknown subject), `emblem_idle_frames_{night,day}` (five moments of the idle cycle for the six live subjects).
 - Unit: `test/unit/art` (identity mapping, ink contrast on field, every subject at every detail level in both themes, picture cache bounded, idle only when asked, reduced motion system and in-app, marking timing, semantics, size).
+
+## Review round (14 Oct, after the design review)
+
+Changes to the emblem set, all inside `lib/core/art`:
+
+- `marked` now defaults to false. A picker passes `marked` with the selection and `selectable: true` with a `semanticLabel`, so the semantics node reports selected. Pair the pick with a visible check or ring on the card: the ink alone is colour.
+- Rows and cards use `framed: false`. An unframed emblem stands on a soft pool of the subject's field (cached, no blur), so there is no box inside the card. Use the tile only where the emblem is the object of the screen (a picker tile, a result header).
+- The tile is now a piece of an answer sheet with one folded corner, not a squircle app icon.
+- The volt mark has eight forms: bubble (Physics, Chemistry, General Test, History, Political Science, Psychology, Sociology, Geography with its pin), key (Accountancy), pill (Business Studies clasp, Computer Science run button), ink drop at the nib (English), reticle (Economics), swept angle (Mathematics), ring with open middle (Biology cell), and a reply row of three dots (language papers). General Test is a filled bubble in its grid cell. Still exactly one mark per emblem.
+- Folds: Accountancy, Business Studies and Economics sheets are folded and shaded on one side. Biology has a honeycomb of cells on the lit half and stronger leaf inks.
+- At 24 dp the idle drift and the live details (Geography pin, Sociology nods) move about twice as far in design space, so they read.
+- Cache keys use the subject id, not its kind.
+- Daylight: stronger tile at 24 dp, stronger pool, darker Physics orbit.

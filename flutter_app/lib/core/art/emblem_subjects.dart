@@ -7,16 +7,45 @@ import 'emblem_palette.dart';
 import 'subject_identity.dart';
 
 /// What is printed on a mark once it is inked.
-enum MarkGlyph { none, equals, question, slot, dot }
+enum MarkGlyph { none, equals, slot }
 
-/// Where the one volt bubble sits, in the 100 by 100 design space.
+/// The form the one volt mark takes. A bubble is the answer sheet's own mark; the others are the
+/// same idea made from the subject's object, so twelve emblems do not wear the same dot.
+enum MarkStyle {
+  /// A round OMR bubble.
+  bubble,
+
+  /// A rounded key (the calculator's equals key).
+  key,
+
+  /// A horizontal pill (a clasp, a run button).
+  pill,
+
+  /// An ink drop hanging from a nib.
+  drop,
+
+  /// A printed ring that fills with a ring of volt, centre left open (a cell).
+  halo,
+
+  /// A bubble with cross hair ticks (a point on a graph).
+  reticle,
+
+  /// A sector that sweeps open (the angle being measured).
+  wedge,
+
+  /// A row of three printed dots, the last one inked (a reply on its way).
+  row,
+}
+
+/// Where the one volt mark sits, in the 100 by 100 design space.
 @immutable
 class EmblemMark {
-  const EmblemMark(this.center, this.radius, {this.glyph = MarkGlyph.none});
+  const EmblemMark(this.center, this.radius, {this.glyph = MarkGlyph.none, this.style = MarkStyle.bubble});
 
   final Offset center;
   final double radius;
   final MarkGlyph glyph;
+  final MarkStyle style;
 }
 
 /// One subject's drawing. [object] is recorded once into a cached picture; [live] and the mark
@@ -32,6 +61,10 @@ abstract class EmblemArt {
 
   /// The mark at idle phase [t].
   EmblemMark mark(double t);
+
+  /// The mark for a given detail level. Motion that would be too small to see at 24 dp is
+  /// larger there; most subjects need no difference.
+  EmblemMark markAt(double t, EmblemDetail detail) => mark(t);
 
   /// The line the object rests on (its float pivots here and its contact shadow sits here).
   double get groundY => 80;
@@ -80,6 +113,8 @@ class _Accountancy extends EmblemArt {
     c.translate(-42, -50);
     final sheet = Path()..addPolygon(const [Offset(18, 18), Offset(56, 18), Offset(64, 26), Offset(64, 76), Offset(18, 76)], true);
     s.slab(sheet, const Offset(1.4, 1.8), p.lit, p.shade);
+    // Folded down the T account: the right half turns from the lamp.
+    s.fold(sheet, Path()..addRect(const Rect.fromLTRB(41, 0, 100, 100)), Color.lerp(p.lit, p.shade, 0.5)!);
     s.poly(const [Offset(56, 18), Offset(64, 26), Offset(56, 26)], p.shade);
     if (s.fine) {
       s.rect(const Rect.fromLTRB(22, 23, 46, 27), p.deep.withValues(alpha: 0.85));
@@ -121,7 +156,7 @@ class _Accountancy extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => EmblemMark(rotateAround(const Offset(72, 74), _calcPivot, _calcTilt), 4.6, glyph: MarkGlyph.equals);
+  EmblemMark mark(double t) => EmblemMark(rotateAround(const Offset(72, 74), _calcPivot, _calcTilt), 4.0, glyph: MarkGlyph.equals, style: MarkStyle.key);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -140,6 +175,7 @@ class _Business extends EmblemArt {
     c.translate(-52, -34);
     final chart = Path()..addRRect(RRect.fromLTRBR(32, 13, 72, 50, const Radius.circular(2)));
     s.slab(chart, const Offset(1.2, 1.4), p.lit, p.shade);
+    s.fold(chart, Path()..addRect(const Rect.fromLTRB(52, 0, 100, 100)), Color.lerp(p.lit, p.shade, 0.5)!);
     s.rrect(const Rect.fromLTRB(46, 18, 58, 24.5), 1.5, p.mid);
     if (s.fine) {
       s.line(const Offset(52, 24.5), const Offset(52, 29), p.deep, 1.3);
@@ -181,7 +217,7 @@ class _Business extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(Offset(50, 56), 5.2, glyph: MarkGlyph.slot);
+  EmblemMark mark(double t) => const EmblemMark(Offset(50, 56), 4.6, glyph: MarkGlyph.slot, style: MarkStyle.pill);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -234,6 +270,8 @@ class _Economics extends EmblemArt {
     c.translate(-_pivot.dx, -_pivot.dy);
     final sheet = Path()..addPolygon(const [Offset(18, 19), Offset(74, 19), Offset(82, 27), Offset(82, 80), Offset(18, 80)], true);
     s.slab(sheet, const Offset(1.4, 2), p.lit, p.shade);
+    // Folded in half down the middle of the graph.
+    s.fold(sheet, Path()..addRect(const Rect.fromLTRB(52, 0, 100, 100)), Color.lerp(p.lit, p.shade, 0.5)!);
     s.poly(const [Offset(74, 19), Offset(82, 27), Offset(74, 27)], p.shade);
     if (s.fine) {
       final g = p.mid.withValues(alpha: p.isNight ? 0.45 : 0.35);
@@ -261,7 +299,7 @@ class _Economics extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => EmblemMark(rotateAround(equilibrium, _pivot, _tilt), 5.2);
+  EmblemMark mark(double t) => EmblemMark(rotateAround(equilibrium, _pivot, _tilt), 4.8, style: MarkStyle.reticle);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -344,7 +382,7 @@ class _English extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => EmblemMark(_tip + const Offset(-1.2, 3.2), 4.6);
+  EmblemMark mark(double t) => EmblemMark(_tip + const Offset(-0.6, 5.6), 4.4, style: MarkStyle.drop);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -390,7 +428,7 @@ class _GeneralTest extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(Offset(69, 67), 5.6, glyph: MarkGlyph.question);
+  EmblemMark mark(double t) => const EmblemMark(Offset(69, 67), 5.2);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -455,7 +493,7 @@ class _Mathematics extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(_c, 4.8);
+  EmblemMark mark(double t) => const EmblemMark(_c, 4.9, style: MarkStyle.wedge);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -490,7 +528,7 @@ class _Physics extends EmblemArt {
       s.stroke(o.shift(const Offset(0.6, 1.6)), p.isNight ? p.deep : p.shade, w);
     }
     for (var i = 0; i < orbits.length; i++) {
-      s.stroke(orbits[i], i == 0 ? p.lit : Color.lerp(p.lit, p.mid, p.isNight ? 0.35 : 0.55)!, w);
+      s.stroke(orbits[i], i == 0 ? (p.isNight ? p.lit : Color.lerp(p.lit, p.mid, 0.3)!) : Color.lerp(p.lit, p.mid, p.isNight ? 0.35 : 0.6)!, w);
     }
     if (s.fine) {
       for (final (i, f) in const [(1, 0.18), (2, 0.62)]) {
@@ -615,9 +653,25 @@ class _Biology extends EmblemArt {
       3.4,
     );
     s.fill(whole.shift(const Offset(1.2, 2.2)), p.deep.withValues(alpha: p.isNight ? 1 : 0.4));
-    s.fill(upper, Color.lerp(p.lit, p.mid, p.isNight ? 0.30 : 0.42)!);
-    s.fill(lower, Color.lerp(p.mid, p.midShade, 0.35)!);
+    s.fill(upper, Color.lerp(p.lit, p.mid, p.isNight ? 0.5 : 0.52)!);
+    s.fill(lower, Color.lerp(p.mid, p.midShade, p.isNight ? 0.62 : 0.5)!);
     if (s.fine) {
+      // The leaf's cells, a honeycomb under the nucleus, cut to the lit half.
+      s.canvas.save();
+      s.canvas.clipPath(upper);
+      const cell = Offset(41, 47);
+      final wall = p.deep.withValues(alpha: p.isNight ? 0.55 : 0.4);
+      for (final o in const [Offset(0, 0), Offset(11.2, 0), Offset(-11.2, 0), Offset(5.6, 9.7), Offset(-5.6, 9.7), Offset(5.6, -9.7), Offset(-5.6, -9.7), Offset(16.8, 9.7), Offset(11.2, -19.4), Offset(0, -19.4), Offset(0, 19.4)]) {
+        final hex = Path();
+        for (var i = 0; i < 6; i++) {
+          final a = (i * 60 + 30) * math.pi / 180;
+          final pt = cell + o + Offset(math.cos(a), math.sin(a)) * 6.1;
+          i == 0 ? hex.moveTo(pt.dx, pt.dy) : hex.lineTo(pt.dx, pt.dy);
+        }
+        hex.close();
+        s.stroke(hex, wall, 1.0);
+      }
+      s.canvas.restore();
       final rib = (Path()
             ..moveTo(_base.dx, _base.dy)
             ..quadraticBezierTo(53, 46, _tipPoint.dx, _tipPoint.dy))
@@ -644,7 +698,7 @@ class _Biology extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(Offset(41, 47), 5.4, glyph: MarkGlyph.dot);
+  EmblemMark mark(double t) => const EmblemMark(Offset(41, 47), 4.4, style: MarkStyle.halo);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -786,7 +840,7 @@ class _Geography extends EmblemArt {
 
   @override
   void live(Sketch s, double t) {
-    final m = mark(t);
+    final m = markAt(t, s.detail);
     final p = s.p;
     final lift = (_summit.dy - 2) - (m.center.dy + m.radius * 0.6);
     s.softEllipse(_summit, 5 - lift * 0.15, 1.8, p.deep.withValues(alpha: p.isNight ? 0.6 : 0.35));
@@ -795,9 +849,12 @@ class _Geography extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) {
+  EmblemMark mark(double t) => markAt(t, EmblemDetail.tile);
+
+  @override
+  EmblemMark markAt(double t, EmblemDetail detail) {
     final bob = (1 - math.cos(t * 4 * math.pi)) / 2;
-    return EmblemMark(Offset(_summit.dx, _summit.dy - 12.5 - bob * 2.2), 5.4);
+    return EmblemMark(Offset(_summit.dx, _summit.dy - 12.5 - bob * (detail == EmblemDetail.glyph ? 4.6 : 2.2)), 5.4);
   }
 }
 
@@ -904,9 +961,10 @@ class _Sociology extends EmblemArt {
   @override
   void live(Sketch s, double t) {
     final p = s.p;
+    final amp = s.fine ? 1.4 : 3.4;
     for (final (cx, offset) in const [(29.0, 0.0), (71.0, 0.33)]) {
       final nod = (1 - math.cos((t * 2 + offset) * 2 * math.pi)) / 2;
-      final center = Offset(cx, 41 - nod * 1.4);
+      final center = Offset(cx, 41 - nod * amp);
       s.circle(center + const Offset(0.6, 1.2), 7, p.deep.withValues(alpha: p.isNight ? 0.9 : 0.3));
       s.circle(center, 7, p.lit);
       s.ring(center, 7 - 0.7, p.ring, s.fine ? 1.4 : 1.8);
@@ -914,9 +972,12 @@ class _Sociology extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) {
+  EmblemMark mark(double t) => markAt(t, EmblemDetail.tile);
+
+  @override
+  EmblemMark markAt(double t, EmblemDetail detail) {
     final nod = (1 - math.cos((t * 2 + 0.66) * 2 * math.pi)) / 2;
-    return EmblemMark(Offset(50, 37 - nod * 1.4), 8.6);
+    return EmblemMark(Offset(50, 37 - nod * (detail == EmblemDetail.glyph ? 3.4 : 1.4)), 8.6);
   }
 }
 
@@ -957,7 +1018,7 @@ class _Code extends EmblemArt {
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(Offset(25, 29.5), 4.0);
+  EmblemMark mark(double t) => const EmblemMark(Offset(70, 29.5), 4.2, style: MarkStyle.pill);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -982,12 +1043,9 @@ class _Language extends EmblemArt {
     s.folded(front, Path()..addRect(const Rect.fromLTRB(0, 56, 100, 100)), p.lit, Color.lerp(p.lit, p.shade, 0.55)!);
     s.line(const Offset(25, 50), const Offset(53, 50), p.deep, s.fine ? 2.2 : 3);
     s.line(const Offset(25, 59), const Offset(44, 59), p.mid, s.fine ? 2.2 : 3);
-    if (s.fine) {
-      s.line(const Offset(47, 30), const Offset(73, 30), p.lit.withValues(alpha: 0.8), 2);
-    }
     s.sheen(front);
   }
 
   @override
-  EmblemMark mark(double t) => const EmblemMark(Offset(61, 40), 4.8);
+  EmblemMark mark(double t) => const EmblemMark(Offset(60, 29.5), 3.1, style: MarkStyle.row);
 }

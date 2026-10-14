@@ -14,8 +14,13 @@ import 'subject_identity.dart';
 /// - [size] is the side in dp, legible from 24 to 160. Detail follows size (see [EmblemDetail]).
 /// - [animate] turns on the idle drift (7.2 s, phase-shifted per subject) and the subject's live
 ///   detail. Off under reduced motion (system or in-app) and off by default.
-/// - [marked] inks the volt bubble; changing it inks or clears it in 260 ms (snaps under reduced
-///   motion). The caller owns the haptic (`HapticFeedback.selectionClick`).
+/// - [marked] inks the volt mark and is off by default, so a row that is not a choice never shows
+///   a pick. Changing it inks or clears it in 260 ms (snaps under reduced motion). The caller owns
+///   the haptic (`HapticFeedback.selectionClick`). Pair a picked state with a visible check or ring
+///   on the card: the ink alone is colour.
+/// - [selectable] adds the selected state to the semantics node (needs [semanticLabel]).
+/// - The volt mark takes a different form per subject: a key, a clasp, a ring, an ink drop, a swept
+///   angle. All of them are the one mark.
 /// - [framed] false drops the tile, for an emblem standing on its own light field.
 /// - [brightness] overrides the theme's (for a Night card inside a Daylight screen).
 ///
@@ -26,7 +31,8 @@ class SubjectEmblem extends StatefulWidget {
     required this.subject,
     this.size = 56,
     this.animate = false,
-    this.marked = true,
+    this.marked = false,
+    this.selectable = false,
     this.framed = true,
     this.brightness,
     this.semanticLabel,
@@ -37,6 +43,11 @@ class SubjectEmblem extends StatefulWidget {
   final double size;
   final bool animate;
   final bool marked;
+
+  /// True where the emblem stands for a choice (a picker tile): the semantics node then reports
+  /// selected or not. The caller should pair it with a visible cue other than colour, such as a
+  /// check or a ring on the card.
+  final bool selectable;
   final bool framed;
   final Brightness? brightness;
   final String? semanticLabel;
@@ -144,6 +155,12 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
     final boxed = RepaintBoundary(child: SizedBox.square(dimension: widget.size, child: emblem));
     final label = widget.semanticLabel;
     if (label == null) return ExcludeSemantics(child: boxed);
-    return Semantics(label: label, image: true, excludeSemantics: true, child: boxed);
+    return Semantics(
+      label: label,
+      image: true,
+      selected: widget.selectable ? widget.marked : null,
+      excludeSemantics: true,
+      child: boxed,
+    );
   }
 }
