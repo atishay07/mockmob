@@ -68,7 +68,7 @@ void main() {
         run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
       ),
     );
-    final list = find.byType(CustomScrollView);
+    final list = find.byType(SingleChildScrollView).first;
     await tester.drag(list, const Offset(0, -2000));
     await tester.pumpAndSettle();
     final share = tester.getRect(find.widgetWithText(KeyButton, 'Share a card').first);

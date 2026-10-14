@@ -110,6 +110,13 @@ class StampPainter extends CustomPainter {
 
   static const int pieces = 24;
 
+  /// How far past the figure's own box the ring and the burst may reach: a hair into the page
+  /// gutter on the left (the figure starts at the gutter, so the screen edge is 16 dp beyond), and
+  /// into the gaps above and below it (16 and 20 dp), never as far as the lines around it.
+  static const double _leftRoom = 8;
+  static const double _vertRoom = 14;
+  static const double _shard = 15;
+
   @override
   void paint(Canvas canvas, Size size) {
     final a = FinishCeremony.afterLanding(stamp.value);
@@ -118,13 +125,23 @@ class StampPainter extends CustomPainter {
     final volt = colors.isNight ? colors.volt : colors.accentText;
     final base = size.height * 0.42;
 
-    // The ink ring: spreads and thins as it fades.
+    // The burst lives in this room and nowhere else, so it is never cut by the screen edge and
+    // never lands on the caption above or the counts line below.
+    final room = Rect.fromLTRB(-_leftRoom, -_vertRoom, size.width, size.height + _vertRoom);
+    final rxLeft = c.dx - room.left;
+    final ry = math.min(c.dy - room.top, room.bottom - c.dy);
+    canvas
+      ..save()
+      ..clipRect(room);
+
+    // The ink ring: spreads and thins as it fades, as an ellipse that fits the room.
     final ringT = Curves.easeOutCubic.transform(a);
     final ringColor = burst ? volt : colors.ink3;
+    Rect ringRect(double r) => Rect.fromCenter(center: c, width: 2 * math.min(r, rxLeft), height: 2 * math.min(r, ry));
     if (burst) {
       // A flash of volt light behind the figure as it lands, gone by the time the shards slow.
       final flash = math.pow(1 - a, 1.6).toDouble();
-      final radius = base * (1.6 + 1.4 * ringT);
+      final radius = math.min(base * (1.6 + 1.4 * ringT), rxLeft + 12);
       canvas.drawCircle(
         c,
         radius,
@@ -135,21 +152,22 @@ class StampPainter extends CustomPainter {
           ]),
       );
     }
-    canvas.drawCircle(
-      c,
-      base * (0.9 + 0.9 * ringT),
+    canvas.drawOval(
+      ringRect(base * (0.9 + 0.9 * ringT)),
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = (burst ? 5 : 3.2) * (1 - ringT) + 0.8
         ..color = ringColor.withValues(alpha: ringColor.a * (burst ? 0.85 : 0.55) * (1 - ringT)),
     );
-    if (!burst) return;
+    if (!burst) {
+      canvas.restore();
+      return;
+    }
     // A second, later ring for a good set.
     final ring2 = Curves.easeOutCubic.transform(((a - 0.12) / 0.88).clamp(0.0, 1.0));
     if (ring2 > 0) {
-      canvas.drawCircle(
-        c,
-        base * (0.9 + 1.5 * ring2),
+      canvas.drawOval(
+        ringRect(base * (0.9 + 1.5 * ring2)),
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.4 * (1 - ring2) + 0.6
@@ -157,14 +175,18 @@ class StampPainter extends CustomPainter {
       );
     }
 
-    // The burst: shards and bubbles thrown out from the figure, slowing, fading.
+    // The burst: shards and bubbles thrown out from the figure, slowing, fading, each held to the
+    // room (a piece aimed at the screen edge stops short of it).
     final travel = Curves.easeOutQuart.transform(a);
     final fade = 1 - Curves.easeInQuad.transform(a);
     for (var i = 0; i < pieces; i++) {
       // Fixed, uneven angles and reaches, so the burst never looks like a clock face.
       final angle = -math.pi / 2 + i * (2 * math.pi / pieces) + (i.isEven ? 0.11 : -0.08);
-      final reach = base * (1.05 + 1.3 * travel * (0.7 + 0.3 * ((i * 7) % 5) / 4));
       final dir = Offset(math.cos(angle), math.sin(angle));
+      final wanted = base * (1.05 + 1.3 * travel * (0.7 + 0.3 * ((i * 7) % 5) / 4));
+      final alongY = dir.dy.abs() < 1e-3 ? double.infinity : ry / dir.dy.abs();
+      final alongX = dir.dx.abs() < 1e-3 ? double.infinity : (dir.dx < 0 ? rxLeft : room.right - c.dx) / dir.dx.abs();
+      final reach = math.max(0.0, math.min(wanted, math.min(alongX, alongY) - _shard - 2));
       final p = c + dir * reach;
       if (i % 3 == 0) {
         // An answer bubble, with a dark core so it reads as a bubble and not a dot.
@@ -180,7 +202,7 @@ class StampPainter extends CustomPainter {
               ..color = colors.voltInk.withValues(alpha: 0.5 * fade),
           );
       } else {
-        final len = 15 * (1 - 0.55 * a);
+        final len = _shard * (1 - 0.55 * a);
         final shardVolt = i % 3 == 1;
         canvas.drawLine(
           p,
@@ -192,6 +214,7 @@ class StampPainter extends CustomPainter {
         );
       }
     }
+    canvas.restore();
   }
 
   @override

@@ -69,8 +69,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     await ref.read(learnCatalogProvider.notifier).refresh(force: true);
     if (!mounted) return;
     final state = ref.read(learnCatalogProvider);
-    if (state.error == null && state.value != null)
+    if (state.error == null && state.value != null) {
       setState(() => _dueFresh = true);
+    }
   }
 
   void _backToLearn() => context.go(AppRoutes.learn);

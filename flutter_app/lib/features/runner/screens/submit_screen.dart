@@ -257,16 +257,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                 ],
               ),
             );
-            return Stack(
-              children: [
-                // The desk lamp comes up once the server has the sheet: the first warm light
-                // after the work layer, leading into the result.
-                Positioned.fill(
-                  child: IgnorePointer(child: _ReceivedLamp(on: state.stage == SubmitStage.received)),
-                ),
-                page,
-              ],
-            );
+            return page;
           },
         ),
       ),
@@ -283,8 +274,8 @@ class _HandInMobi extends StatefulWidget {
   const _HandInMobi();
 
   /// Mobi's own height and the air above and below it.
-  static const double size = 104;
-  static const double air = 28;
+  static const double size = 128;
+  static const double air = 20;
 
   @override
   State<_HandInMobi> createState() => _HandInMobiState();
@@ -318,30 +309,36 @@ class _HandInMobiState extends State<_HandInMobi> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.mmColors;
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s8),
       child: SizedBox(
         height: _HandInMobi.size + 2 * _HandInMobi.air,
         child: Center(
-          child: _landed ? const Mobi(pose: MobiPose.cheer, size: _HandInMobi.size) : const SizedBox.shrink(),
+          child: _landed
+              // A pool of volt light under Mobi (the one warm light of the page), so its dark
+              // feet and antenna read against the near-black ground.
+              ? Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    ExcludeSemantics(
+                      child: SizedBox.square(
+                        dimension: _HandInMobi.size * 1.9,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(colors: [colors.volt.withValues(alpha: colors.isNight ? 0.16 : 0.28), colors.volt.withValues(alpha: 0)]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Mobi(pose: MobiPose.cheer, size: _HandInMobi.size),
+                  ],
+                )
+              : const SizedBox.shrink(),
         ),
       ),
-    );
-  }
-}
-
-class _ReceivedLamp extends StatelessWidget {
-  const _ReceivedLamp({required this.on});
-
-  final bool on;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: on ? 1 : 0,
-      duration: Motion.of(context, Motion.sweep),
-      curve: Motion.glide,
-      child: const LampScene(vignette: false),
     );
   }
 }

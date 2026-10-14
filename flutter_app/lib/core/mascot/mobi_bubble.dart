@@ -100,7 +100,9 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
       animation: _c,
       builder: (context, _) {
         final seconds = _c.value * _total;
-        final n = _visible(seconds);
+        // Once the line has finished typing, show all of it: float error in the
+        // schedule must never drop the last character (often the full stop).
+        final n = _c.value >= 1.0 ? text.length : _visible(seconds).clamp(0, text.length);
         final land = _reduced ? 1.0 : Motion.emphasized.transform((seconds / 0.26).clamp(0.0, 1.0));
         final line = Text.rich(
           TextSpan(

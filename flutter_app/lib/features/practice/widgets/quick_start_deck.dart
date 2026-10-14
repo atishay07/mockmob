@@ -10,7 +10,7 @@ export 'choice_glyphs.dart' show ChoiceGlyphKind;
 /// five identical rows: the first choice leads as a hero (Resume when a session is open, else
 /// Quick 10), full width with the lit edge, a large lit object and a go disc; the next ones pair up
 /// as borderless tiles; an odd one runs as a ruled list row; and "Ask your record" (id [askId])
-/// closes the deck as a quiet outlined row.
+/// closes the deck as a plain list row, with no outline of its own.
 ///
 /// The sheet itself lives in `lib/core/router/quick_start.dart`, which decides which choices
 /// exist and where each goes; it hands them here in its own order. The deck is drawn
@@ -43,5 +43,10 @@ class QuickStartDeck extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) => ChoiceDeck(rows: arrangeChoices(options, quiet: const {askId}), onSheet: true, leadKey: leadKey, animateIn: animateIn);
+  Widget build(BuildContext context) => ChoiceDeck(
+    rows: arrangeChoices(options, quiet: const {askId}),
+    onSheet: true,
+    leadKey: leadKey,
+    animateIn: animateIn,
+  );
 }

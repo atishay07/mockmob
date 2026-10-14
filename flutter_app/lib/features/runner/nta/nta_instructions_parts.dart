@@ -14,6 +14,9 @@ abstract final class NtaStartCopy {
   static const String minutesUnit = 'minutes';
   static const String marking = 'marking';
   static const List<(String, String)> markingLines = [('+5', 'right'), ('−1', 'wrong'), ('0', 'blank')];
+
+  /// The three marks on one line, in the order of [markingLines].
+  static const String markingFigure = '+5  −1  0';
   static const String clockTitle = 'The clock';
   static const String clockBody =
       'The timer starts when you tap Start. The server sets it, and it keeps running if you leave. At zero your answers are submitted for you. You will see a 5 minute and a 1 minute warning.';
@@ -36,62 +39,34 @@ abstract final class NtaStartCopy {
     ('Previous', 'Goes back one question. The palette jumps anywhere.'),
   ];
   static const String screenTitle = 'Stay on the exam screen';
-  static const String declare = 'I have read the instructions and I am ready to begin.';
+  static const String declare = 'I have read the instructions and I am ready.';
   static const String start = 'Start NTA mode';
   static const String startHint = 'Tick the declaration to start.';
-  static String preparingTitle(String subject) => 'Building your $subject paper.';
+  static const String preparingTitle = 'Building your paper.';
   static const String preparingBody = 'The clock starts once your questions are ready. This can take up to 30 seconds.';
-  static const List<String> steps = ['Checking your access', 'Selecting 50 questions and creating your session', 'Opening the exam'];
+  static const List<String> steps = ['Checking your access', 'Picking your 50 questions', 'Opening the exam'];
 }
 
-/// One of the three facts at the top: "50 questions", "60 minutes", "+5 −1 0 marking".
+/// One of the three facts at the top: "50 questions", "60 minutes", "+5 -1 0 marking". All three
+/// have the same shape, a figure over its unit, so the row reads as one row.
 class NtaFactTile extends StatelessWidget {
-  const NtaFactTile({super.key, required this.value, required this.unit});
+  const NtaFactTile({super.key, required this.value, required this.unit, this.semanticsLabel});
 
   final String value;
   final String unit;
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12),
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: NtaSkin.radiusAll,
-        border: Border.all(color: colors.line),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(value, maxLines: 1, style: type.figureCompact.copyWith(fontSize: 30, height: 1)),
-          ),
-          const SizedBox(height: MmSpace.s4),
-          Text(unit, style: type.caption.copyWith(color: colors.ink2)),
-        ],
-      ),
-    );
-  }
-}
-
-/// The marking as three short lines: "+5 right", "−1 wrong", "0 blank". Each line stays whole:
-/// with large text it scales down to the tile's width rather than losing its words.
-class NtaMarkingTile extends StatelessWidget {
-  const NtaMarkingTile({super.key});
+  /// What a screen reader says when the figure alone would not make sense ("+5 -1 0").
+  final String? semanticsLabel;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final figure = type.label.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: colors.ink, height: 1.3);
     return Semantics(
-      label: 'Marking: plus 5 for right, minus 1 for wrong, 0 for blank',
-      excludeSemantics: true,
+      label: semanticsLabel,
+      excludeSemantics: semanticsLabel != null,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, MmSpace.s8),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12),
         decoration: BoxDecoration(
           color: colors.raised,
           borderRadius: NtaSkin.radiusAll,
@@ -100,27 +75,32 @@ class NtaMarkingTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (final (v, w) in NtaStartCopy.markingLines)
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: AlignmentDirectional.centerStart,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(text: v, style: figure),
-                      TextSpan(
-                        text: ' $w',
-                        style: figure.copyWith(fontWeight: FontWeight.w400, color: colors.ink2),
-                      ),
-                    ],
-                  ),
-                  maxLines: 1,
-                  softWrap: false,
-                ),
-              ),
+            // The figure scales down to the tile's width rather than wrapping or losing a digit.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(value, maxLines: 1, softWrap: false, style: type.figureCompact.copyWith(fontSize: 30, height: 1)),
+            ),
+            const SizedBox(height: MmSpace.s4),
+            Text(unit, style: type.caption.copyWith(color: colors.ink2)),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The marking as a fact tile: "+5 -1 0" over "marking" (right, wrong, blank; the Marking block
+/// below spells it out). Same shape as the questions and minutes tiles beside it.
+class NtaMarkingTile extends StatelessWidget {
+  const NtaMarkingTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const NtaFactTile(
+      value: NtaStartCopy.markingFigure,
+      unit: NtaStartCopy.marking,
+      semanticsLabel: 'Marking: plus 5 for right, minus 1 for wrong, 0 for blank',
     );
   }
 }
@@ -248,7 +228,6 @@ class NtaDeclaration extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final skin = NtaSkin.of(context);
     return Semantics(
       checked: value,
       label: NtaStartCopy.declare,
@@ -265,12 +244,14 @@ class NtaDeclaration extends StatelessWidget {
                 duration: const Duration(milliseconds: 120),
                 width: 22,
                 height: 22,
+                // The app's own volt box with a dark tick, like the Start key it unlocks (not the
+                // exam's blue radio): ticked is volt, unticked an ink outline.
                 decoration: BoxDecoration(
-                  color: value ? skin.radio : colors.raised,
+                  color: value ? colors.volt : colors.raised,
                   borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: value ? skin.radio : colors.ink3, width: 1.5),
+                  border: Border.all(color: value ? colors.ink : colors.ink3, width: 1.5),
                 ),
-                child: value ? Icon(LucideIcons.check, size: 15, color: colors.raised) : null,
+                child: value ? Icon(LucideIcons.check, size: 15, color: colors.voltInk) : null,
               ),
               const SizedBox(width: MmSpace.s12),
               Expanded(child: Text(NtaStartCopy.declare, style: type.labelLarge)),
@@ -283,6 +264,33 @@ class NtaDeclaration extends StatelessWidget {
 }
 
 enum NtaPrepPhase { checking, starting, opening }
+
+/// The page body while the paper is prepared: [NtaPreparing] in the middle of the room, not at the
+/// top of an empty page. It scrolls only when the room is smaller than the block (large text).
+class NtaPreparingStage extends StatelessWidget {
+  const NtaPreparingStage({super.key, required this.subject, required this.phase});
+
+  final String subject;
+  final NtaPrepPhase phase;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) => SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s20, MmSpace.gutter, MmSpace.s24),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: (box.maxHeight - MmSpace.s20 - MmSpace.s24).clamp(0.0, double.infinity)),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+              child: NtaPreparing(subject: subject, phase: phase),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /// The preparing stage: three steps, each lit only by a real call (the quote, the start
 /// request, opening the runner on the draft it wrote).
@@ -318,7 +326,7 @@ class NtaPreparing extends StatelessWidget {
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          Semantics(header: true, child: Text(NtaStartCopy.preparingTitle(subject), style: NtaSkin.of(context).type.headline)),
+          Semantics(header: true, child: Text(NtaStartCopy.preparingTitle, style: NtaSkin.of(context).type.headline)),
           const SizedBox(height: MmSpace.s12),
           Text(NtaStartCopy.preparingBody, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s24),

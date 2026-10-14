@@ -23,6 +23,7 @@ class SuggestionCard extends StatelessWidget {
     this.kicker,
     this.onShowMe,
     this.numberSemantics,
+    this.offline = false,
   });
 
   final String subjectId;
@@ -36,6 +37,10 @@ class SuggestionCard extends StatelessWidget {
   final String actionLabel;
   final VoidCallback? onAction;
   final String? numberSemantics;
+
+  /// The phone is offline and this start needs the server: the reason line says so and the key is
+  /// quiet, in the card itself, instead of a banner above it that contradicts a live key.
+  final bool offline;
 
   static const double _object = 64;
 
@@ -121,14 +126,14 @@ class SuggestionCard extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: MmSpace.s4),
-                                child: Text(reason, style: type.small.copyWith(color: colors.ink)),
+                                child: Text(offline ? PracticeCopy.offlineStart : reason, style: type.small.copyWith(color: colors.ink)),
                               ),
                               if (onShowMe != null) ShowMePill(onTap: onShowMe!, semanticsLabel: PracticeCopy.showMeSemantics),
                             ],
                           ),
                         ),
                         const SizedBox(width: MmSpace.s12),
-                        KeyButton(label: actionLabel, onPressed: onAction, expanded: false, minHeight: MmTarget.min),
+                        KeyButton(label: actionLabel, onPressed: offline ? null : onAction, expanded: false, minHeight: MmTarget.min),
                       ],
                     ),
                   ],

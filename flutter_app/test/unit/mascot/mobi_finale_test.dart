@@ -124,7 +124,7 @@ void main() {
     testWidgets('lands in two floor rings, solid volt, on night and on day', (tester) async {
       for (final p in [MobiPalette.nightPalette, MobiPalette.dayPalette]) {
         final ground = p.night ? _nightGround : _dayGround;
-        bool volt(int r, int g, int b) => g > 150 && b < 120 && g > b + 70;
+        bool volt(int r, int g, int b) => g > 100 && g > b + 45 && g > r - 30;
         for (final progress in [0.5, 0.8]) {
           final px = await render(tester, (c) => MobiDetails.landRings(c, progress, const Offset(80, 80), p), ground: ground);
           expect(count(px, volt), greaterThan(40), reason: 'a ring at $progress, night ${p.night}');

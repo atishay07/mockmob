@@ -194,7 +194,7 @@ abstract final class YouCopy {
   static const deleteConsequences =
       'We delete your account and study records within 30 days. Payment records required by law '
       'are kept.';
-  static const deleteNotInstant = 'Nothing is deleted when you tap. We record your request first, then you sign out.';
+  static const deleteNotInstant = 'Tapping only sends us your request. We record it first, then you sign out.';
   static String deleteUnsent(int count) =>
       '${plural(count, 'answer')} on this phone ${count == 1 ? 'has' : 'have'} not been sent. '
       '${count == 1 ? 'It' : 'They'} will be removed when you are signed out.';

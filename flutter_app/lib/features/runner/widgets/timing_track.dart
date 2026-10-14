@@ -17,8 +17,9 @@ import 'runner_motion.dart';
 /// pitch tightens, and below [marksBelow] the strip switches to the timing marks of an OMR sheet.
 class TrackGeometry {
   TrackGeometry({required this.count, required this.width}) {
-    diameter = count <= 1 ? maxBubble : (width / count * 0.78).clamp(bubble, maxBubble);
-    pitch = count <= 1 ? maxPitch : (maxPitch < (width - diameter) / (count - 1) ? maxPitch : (width - diameter) / (count - 1));
+    final room = width - 2 * inset;
+    diameter = count <= 1 ? maxBubble : (room / count * 0.78).clamp(bubble, maxBubble);
+    pitch = count <= 1 ? maxPitch : (maxPitch < (room - diameter) / (count - 1) ? maxPitch : (room - diameter) / (count - 1));
   }
 
   final int count;
@@ -36,6 +37,10 @@ class TrackGeometry {
   /// Below this slot width, bubbles crowd; marks take over.
   static const double marksBelow = 12;
 
+  /// Room kept at each end for the current cell's ring, which grows past its bubble: the first
+  /// and the last ring never touch the edge of the strip.
+  static const double inset = 2.5;
+
   /// This strip's bubble diameter.
   late final double diameter;
 
@@ -52,7 +57,7 @@ class TrackGeometry {
   double centerX(int i) => centerAt(i.toDouble());
 
   /// The centre of a point [position] cells along the strip (fractional while the ring glides).
-  double centerAt(double position) => marks ? position * markStep + markWidth / 2 : diameter / 2 + position * pitch;
+  double centerAt(double position) => marks ? position * markStep + markWidth / 2 : inset + diameter / 2 + position * pitch;
 
   /// Distance between neighbouring centres.
   double get step => marks ? markStep : pitch;
@@ -403,7 +408,7 @@ class _TrackPainter extends CustomPainter {
           final reach = Curves.easeOut.transform((t / 0.34).clamp(0.0, 1.0));
           canvas.drawCircle(center, d / 2 * (0.25 + 0.75 * reach), Paint()..color = _cooled(_inkFill, t));
         } else {
-          canvas.drawCircle(center, d / 2, Paint()..color = _inkFill);
+          canvas.drawCircle(center, d / 2 - 0.4, Paint()..color = _inkFill);
         }
       }
       if (c.marked) _notch(canvas, center, lift + grow);
@@ -413,7 +418,8 @@ class _TrackPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1
         ..color = _answered(i) ? colors.ink.withValues(alpha: 0) : colors.lineStrong;
-      canvas.drawCircle(center, d / 2 - stroke.strokeWidth / 2, stroke);
+      // The same outer edge as an answered dot (d / 2 - 0.4), so a filled and an empty dot are one size.
+      canvas.drawCircle(center, d / 2 - 0.4 - stroke.strokeWidth / 2, stroke);
     }
     _glidingRing(canvas, mid, d, grow);
   }

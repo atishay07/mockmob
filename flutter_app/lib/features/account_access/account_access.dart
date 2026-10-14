@@ -9,13 +9,19 @@
 /// - [AccountAccessRoutes] and the route builders in access_routes.dart.
 library;
 
-export 'access_gateway.dart' show AccessMethods, AccountAccessGateway, accessMethodsProvider, accountAccessGatewayProvider;
+export 'access_gateway.dart'
+    show
+        AccessMethods,
+        AccountAccessGateway,
+        accessMethodsProvider,
+        accountAccessGatewayProvider;
 export 'access_routes.dart';
 export 'screens/forgot_password_screen.dart';
 export 'screens/password_sign_in_screen.dart';
 export 'screens/phone_screens.dart';
 export 'screens/set_password_screen.dart';
-export 'state/password_hints.dart' show passwordHintsProvider, passwordNudgeProvider;
+export 'state/password_hints.dart'
+    show passwordHintsProvider, passwordNudgeProvider;
 export 'widgets/google_button.dart';
 export 'widgets/password_sign_in_form.dart';
 export 'widgets/phone_code_form.dart';

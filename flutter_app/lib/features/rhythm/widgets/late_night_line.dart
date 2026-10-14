@@ -64,7 +64,7 @@ class _LateNightLineState extends ConsumerState<LateNightLine> {
         child: Row(
           children: [
             Expanded(
-              child: Text(RhythmCopy.lateNightStop, style: type.small.copyWith(color: colors.ink3)),
+              child: Text(RhythmCopy.lateNightStop, style: type.small.copyWith(color: colors.ink2)),
             ),
             KeyButton.quiet(label: RhythmCopy.lateNightDismiss, onPressed: () => setState(() => _show = false)),
           ],

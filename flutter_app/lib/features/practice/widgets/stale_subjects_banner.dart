@@ -4,6 +4,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../you/you_routes.dart' show YouPaths, openYouPage;
 import '../copy.dart';
 import '../data/practice_catalog.dart';
+import 'plain_notice.dart';
 
 /// "Edit subjects": the subjects editor under You (`/you/subjects`, the website's
 /// `/onboarding?edit=true`). Saving there changes the tiles here.
@@ -19,7 +20,7 @@ class StaleSubjectsBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lines = [for (final e in entries) PracticeCopy.staleSubject(fallbackSubjectNames[e.subject.id] ?? e.subject.name, e.reason)];
-    return InlineBanner(
+    return PlainNotice(
       message: lines.join('\n'),
       tone: BannerTone.warning,
       actionLabel: PracticeCopy.editSubjects,

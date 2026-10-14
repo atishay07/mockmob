@@ -243,7 +243,11 @@ class NtaTypeSet {
   TextStyle get barTitle => _exam ? _arial(18, 1.15, FontWeight.w700) : _base.cardTitle.copyWith(height: 1.15);
 
   /// The question: 18 px at the default text size.
-  TextStyle question(double scale) => _exam ? _arial(18 * scale, 1.55, FontWeight.w400) : _base.question.copyWith(fontSize: 18 * scale, height: 1.55);
+  TextStyle question(double scale) {
+    // From 1.15x the stem's lines sit a little closer, so a large stem leaves room for options.
+    final height = scale >= 1.15 ? 1.4 : 1.55;
+    return _exam ? _arial(18 * scale, height, FontWeight.w400) : _base.question.copyWith(fontSize: 18 * scale, height: height);
+  }
 
   /// An option's text: 16 px.
   TextStyle option(double scale) => _exam ? _arial(16 * scale, 1.45, FontWeight.w400) : _base.body.copyWith(fontSize: 16 * scale, height: 1.45);

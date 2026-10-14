@@ -97,8 +97,11 @@ class ResultQuestionRow extends StatelessWidget {
                       if (item.chapter != null) Text(item.chapter!, style: type.small.copyWith(color: colors.ink2)),
                       if (time != null || changed)
                         Text(
-                          [if (time != null) ResultCopy.timeOn(time!), if (changed) ResultCopy.answerChanged].join(', '),
-                          style: type.caption.copyWith(color: colors.ink3),
+                          [
+                            if (time != null) ResultCopy.timeOn(time!),
+                            if (changed) (time == null ? ResultCopy.answerChanged : ResultCopy.answerChanged.toLowerCase()),
+                          ].join(', '),
+                          style: type.caption.copyWith(color: colors.ink2),
                         ),
                     ],
                   ),

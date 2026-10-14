@@ -160,11 +160,12 @@ class LearnCatalog {
         if (u.subject == subject && u.chapter != null) u.chapter!.trim(),
     };
     for (final s in subjects) {
-      if (s.id == subject)
+      if (s.id == subject) {
         return [
           for (final c in s.chapters)
             if (!taught.contains(c)) c,
         ];
+      }
     }
     return const [];
   }

@@ -187,8 +187,9 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       case RunLoad.ready:
         final run = ui.run;
         final item = run?.currentItem;
-        if (run == null || !run.isActive || item == null)
+        if (run == null || !run.isActive || item == null) {
           return const _RunSkeleton();
+        }
         final actions = RunStepActions(
           reveal: () => unawaited(controller.reveal()),
           answer: (value, {bool assisted = false}) =>

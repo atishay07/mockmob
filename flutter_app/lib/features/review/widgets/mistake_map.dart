@@ -193,7 +193,9 @@ class _ChapterRow extends StatelessWidget {
     void go() => onOpen(papers[i].items.first);
     if (i == 0 && leadKeyPrimary) return KeyButton(label: label, onPressed: go);
     if (i == 0) return KeyButton.secondary(label: label, onPressed: go);
-    return Align(child: KeyButton.quiet(label: label, onPressed: go));
+    return Align(
+      child: KeyButton.quiet(label: label, onPressed: go),
+    );
   }
 
   List<MistakeItem> get _ordered {
@@ -225,89 +227,100 @@ class _ChapterRow extends StatelessWidget {
 
     // No surface under the row, open or shut: the thread and its keys sit on the ground.
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          MmPressable(
-            onTap: onToggle,
-            pressedScale: 0.985,
-            focusRadius: MmRadius.panelAll,
-            semanticsLabel: '${g.chapter}. $summary. ${ReviewCopy.groupExpandHint(open)}',
-            builder: (context, pressed, _) => Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s12, 14, MmSpace.s12, 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (showSubject) ...[SubjectEmblem(subject: g.subjectId, size: _stripGlyph, framed: false), const SizedBox(width: MmSpace.s12)],
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(g.chapter, style: type.cardTitle, maxLines: 2, overflow: TextOverflow.ellipsis),
-                            const SizedBox(height: 2),
-                            Text(caption, style: type.caption.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: MmSpace.s8),
-                      _Count(group: g),
-                    ],
-                  ),
-                  const SizedBox(height: MmSpace.s12),
-                  Padding(
-                    padding: EdgeInsets.only(left: indent),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: MistakeBar(open: g.openCount, repaired: g.repairedCount, setAside: g.setAsideCount, scale: scale, grow: grow),
-                        ),
-                        const SizedBox(width: MmSpace.s8),
-                        AnimatedRotation(
-                          turns: open ? 0.5 : 0,
-                          duration: Motion.of(context, Motion.card),
-                          curve: Motion.emphasized,
-                          child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          MmCollapsible(
-            expanded: open,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        MmPressable(
+          onTap: onToggle,
+          pressedScale: 0.985,
+          focusRadius: MmRadius.panelAll,
+          semanticsLabel: '${g.chapter}. $summary. ${ReviewCopy.groupExpandHint(open)}',
+          builder: (context, pressed, _) => Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s12, 14, MmSpace.s12, 14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                  child: _Thread(items: _ordered, clock: clock, onOpen: onOpen),
-                ),
-                // One key per paper: a run covers one chapter of one paper, so the number on the
-                // key is the number of mistakes the run holds. The first is the one filled key
-                // (when the screen has no volt key of its own); the others are plain links.
-                if (papers.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s12, MmSpace.s12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (var i = 0; i < papers.length; i++) ...[
-                          if (i > 0) const SizedBox(height: MmSpace.s4),
-                          _paperKey(papers, i),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (showSubject) ...[
+                      SubjectEmblem(subject: g.subjectId, size: _stripGlyph, framed: false),
+                      const SizedBox(width: MmSpace.s12),
+                    ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(g.chapter, style: type.cardTitle, maxLines: 4, overflow: TextOverflow.ellipsis),
+                          const SizedBox(height: 2),
+                          Text(
+                            caption,
+                            style: type.caption.copyWith(color: colors.ink2),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
-                      ],
+                      ),
                     ),
-                  )
-                else
-                  const SizedBox(height: MmSpace.s12),
+                    const SizedBox(width: MmSpace.s8),
+                    _Count(group: g),
+                  ],
+                ),
+                const SizedBox(height: MmSpace.s12),
+                Padding(
+                  padding: EdgeInsets.only(left: indent),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: MistakeBar(
+                          open: g.openCount,
+                          repaired: g.repairedCount,
+                          setAside: g.setAsideCount,
+                          scale: scale,
+                          grow: grow,
+                        ),
+                      ),
+                      const SizedBox(width: MmSpace.s8),
+                      AnimatedRotation(
+                        turns: open ? 0.5 : 0,
+                        duration: Motion.of(context, Motion.card),
+                        curve: Motion.emphasized,
+                        child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
+        ),
+        MmCollapsible(
+          expanded: open,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                child: _Thread(items: _ordered, clock: clock, onOpen: onOpen),
+              ),
+              // One key per paper: a run covers one chapter of one paper, so the number on the
+              // key is the number of mistakes the run holds. The first is the one filled key
+              // (when the screen has no volt key of its own); the others are plain links.
+              if (papers.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s12, MmSpace.s12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var i = 0; i < papers.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s4), _paperKey(papers, i)],
+                    ],
+                  ),
+                )
+              else
+                const SizedBox(height: MmSpace.s12),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -544,7 +557,10 @@ class MistakeRow extends StatelessWidget {
                     alignment: Alignment.center,
                     child: DecoratedBox(
                       decoration: BoxDecoration(color: colors.ground, shape: BoxShape.circle),
-                      child: Padding(padding: const EdgeInsets.all(4), child: Bubble(state: bubble, size: 14, animate: false)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Bubble(state: bubble, size: 14, animate: false),
+                      ),
                     ),
                   ),
                 ),

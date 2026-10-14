@@ -60,7 +60,7 @@ class EntryPlan {
   bool get hasWords => headline != null || line != null;
 }
 
-//// The threshold of a repair, on the moment layer: the subject's light and object in the upper
+/// The threshold of a repair, on the moment layer: the subject's light and object in the upper
 /// right, the chapter as the headline, the number of mistakes as the monumental figure (rolling
 /// in), the mistakes themselves as bubbles that ink in one after another, the thread they will
 /// walk drawn flat on the ground, what it costs, and Begin pinned at the bottom.
@@ -129,7 +129,9 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
             right: 0,
             top: 0,
             height: 340,
-            child: IgnorePointer(child: LightField.subject(context, light, center: const Alignment(0.95, -0.9), strength: colors.isNight ? 1.1 : 0.9)),
+            child: IgnorePointer(
+              child: LightField.subject(context, light, center: const Alignment(0.95, -0.9), strength: colors.isNight ? 1.1 : 0.9),
+            ),
           ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -166,7 +168,10 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('${run.source}, ${subjectName(run.subjectId)}', style: type.caption.copyWith(color: colors.ink2)),
+                                      Text(
+                                        '${run.source}, ${subjectName(run.subjectId)}',
+                                        style: type.caption.copyWith(color: colors.ink2),
+                                      ),
                                       const SizedBox(height: MmSpace.s4),
                                       Semantics(
                                         header: true,

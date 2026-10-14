@@ -137,7 +137,7 @@ void main() {
         item: null,
         updatedAt: '2026-10-12T12:42:00.000Z',
         reviewed: [
-          for (var i = 1; i <= 7; i++) {'title': 'Card $i of the ratio rules', 'rating': i <= 5 ? 1 : 2, 'unitId': 'acc-sacrifice'},
+          for (var i = 1; i <= 7; i++) {'title': 'Card $i of the ratio rules', 'rating': i == 2 ? 2 : 1, 'unitId': 'acc-sacrifice'},
           {'title': 'Gain formula', 'rating': 3},
         ],
       );

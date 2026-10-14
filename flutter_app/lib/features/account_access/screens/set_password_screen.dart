@@ -28,7 +28,9 @@ class SetPasswordScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final email = ref.watch(authSnapshotProvider.select((s) => s.email));
     return AccessPage(
-      title: reset ? AccessCopy.resetPasswordTitle : AccessCopy.setPasswordTitle,
+      title: reset
+          ? AccessCopy.resetPasswordTitle
+          : AccessCopy.setPasswordTitle,
       lead: reset ? AccessCopy.resetPasswordLead : AccessCopy.setPasswordLead,
       // maybePop, like the system back: the form holds Back while the password is saving.
       onBack: context.canPop() ? () => Navigator.of(context).maybePop() : null,

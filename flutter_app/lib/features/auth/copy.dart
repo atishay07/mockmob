@@ -38,6 +38,7 @@ abstract final class AuthCopy {
   static const String resend = 'Resend code';
   static const String resending = 'Sending a code';
   static const String codeResent = 'A new code is on its way.';
+
   /// What a screen reader hears for the code screen's back arrow.
   static const String differentEmail = 'Use a different email';
   static const String back = 'Back';
@@ -52,7 +53,8 @@ abstract final class AuthCopy {
   }
 
   /// The sign-in screen's wait while a code is already out: "Send a new code in 0:48".
-  static String sendNewIn(int seconds) => 'Send a new code in ${clock(seconds)}';
+  static String sendNewIn(int seconds) =>
+      'Send a new code in ${clock(seconds)}';
 
   static String sendNewInSpoken(int seconds) {
     final rounded = ((seconds + 9) ~/ 10) * 10;

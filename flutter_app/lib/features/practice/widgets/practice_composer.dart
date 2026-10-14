@@ -22,6 +22,7 @@ import 'composer_ticket.dart';
 import 'failure_copy.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
+import 'plain_notice.dart';
 
 /// Where the composer sends the student. The host decides how (a sheet pops first).
 class ComposerExits {
@@ -121,6 +122,7 @@ class _StartState {
     required this.canStart,
     required this.disabledReason,
     required this.offline,
+    required this.creditsLow,
   });
 
   final AsyncValue<PracticeQuote> quote;
@@ -132,6 +134,9 @@ class _StartState {
   final bool canStart;
   final String? disabledReason;
   final bool offline;
+
+  /// The quote for this selection says the balance is short.
+  final bool creditsLow;
 }
 
 _StartState _startState(WidgetRef ref, ComposerController c) {
@@ -152,6 +157,9 @@ _StartState _startState(WidgetRef ref, ComposerController c) {
     disabledReason = PracticeCopy.checkingCost;
   } else if (loaded != null) {
     canStart = loaded.launchable && (!selection.mode.isMock || mockMinutes != null);
+    // A dead Start always says why, right above it: the body's longer message is below the fold.
+    final low = creditsLowFor(loaded);
+    if (low != null) disabledReason = PracticeCopy.creditsNeeded(low.cost, low.balance);
   }
   return _StartState(
     quote: quote,
@@ -161,6 +169,7 @@ _StartState _startState(WidgetRef ref, ComposerController c) {
     canStart: canStart,
     disabledReason: disabledReason,
     offline: offline,
+    creditsLow: loaded != null && creditsLowFor(loaded) != null,
   );
 }
 
@@ -284,14 +293,14 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         count: mode.usesCount ? _selection.count : mockQuestionCount,
         semanticsLabel: PracticeCopy.confirmTitle(eyebrow, subject),
       ),
-      const SizedBox(height: MmSpace.s20),
+      const SizedBox(height: MmSpace.s16),
       if (widget.showSubjects) ...[
         _SubjectPicker(selected: _selection.subjectId, onPick: _pickSubject, onOther: _pickOtherSubject),
         const SizedBox(height: MmSpace.s24),
       ],
       if (mode == PracticeMode.chapter) ...[
         ChapterField(chapters: _selection.chapters, onTap: _pickChapter),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
       ],
       if (mode.usesCount) ...[
         LengthPicker(
@@ -306,11 +315,8 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
             child: Text(lengthNote, style: type.small.copyWith(color: colors.ink)),
           ),
         ],
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
       ],
-      // On a mock the level is an aside to what you get and what it costs, so it follows them
-      // instead of sitting between the ticket and the numbers.
-      if (mode.allowsDifficulty && !start.gated && !mode.isMock) ...[difficulty, const SizedBox(height: MmSpace.s20)],
       GetPanel(
         selection: _selection,
         subjectName: subject,
@@ -323,7 +329,10 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         onOpenConcepts: widget.exits.concepts,
         onOpenReview: widget.exits.review,
       ),
-      if (mode.allowsDifficulty && !start.gated && mode.isMock) ...[const SizedBox(height: MmSpace.s20), difficulty],
+      // The level is an aside to what you get and what it costs, so it follows them: Cost and
+      // Marking are never pushed below the fold by a control. With credits short it is not a
+      // choice that matters, so it steps aside.
+      if (mode.allowsDifficulty && !start.gated && !start.creditsLow) ...[const SizedBox(height: MmSpace.s20), difficulty],
       if (mode.isMock && !start.gated) ...[
         const SizedBox(height: MmSpace.s16),
         MockLines(noLength: loaded != null && loaded.launchable && start.mockMinutes == null),
@@ -450,7 +459,7 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
           Semantics(liveRegion: true, child: Text(_c.costNote!, style: type.body)),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (_c.failure != null) ...[InlineBanner(message: _c.failure!.text, tone: BannerTone.error), const SizedBox(height: MmSpace.s12)],
+        if (_c.failure != null) ...[PlainNotice(message: _c.failure!.text, tone: BannerTone.error), const SizedBox(height: MmSpace.s12)],
         KeyButton(
           // A Pro-gated mode has nothing to start: the one action is the open alternative.
           label: start.gated ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead) : _startLabel,

@@ -236,7 +236,9 @@ class SignInController extends Notifier<SignInState> {
   ///
   /// A preferences failure is never allowed to hold sign-in: it answers "no sheet".
   Future<_SheetOffer> _sheetOffer(IntendedRoute remembered) async {
-    final offered = await beforeYouStartOffered(ref.read(signInPrefsStoreProvider));
+    final offered = await beforeYouStartOffered(
+      ref.read(signInPrefsStoreProvider),
+    );
     return _SheetOffer(owed: !offered, remembered: remembered);
   }
 

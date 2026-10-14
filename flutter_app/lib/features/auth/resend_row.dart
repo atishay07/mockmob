@@ -138,7 +138,10 @@ class _ResendRowState extends State<ResendRow> {
         ),
       );
     } else {
-      content = QuietAction(label: widget.readyLabel, onPressed: widget.onResend);
+      content = QuietAction(
+        label: widget.readyLabel,
+        onPressed: widget.onResend,
+      );
     }
 
     return ConstrainedBox(

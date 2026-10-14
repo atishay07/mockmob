@@ -6,15 +6,16 @@ import '../../../core/motion/motion.dart';
 /// is a transform or an opacity inside a RepaintBoundary; nothing reflows under the student's
 /// eyes, and every piece is skipped under reduced motion.
 abstract final class RunnerMotion {
-  /// A question arriving: its text, then each option 35 ms behind the one above.
+  /// A question arriving: its text, then each option 20 ms behind the one above (close enough that
+  /// several options are already in view halfway through).
   static const Duration enter = Duration(milliseconds: 260);
-  static const Duration stagger = Duration(milliseconds: 35);
+  static const Duration stagger = Duration(milliseconds: 20);
 
   /// The count "19 of 20" changing.
-  static const Duration countFlip = Duration(milliseconds: 180);
+  static const Duration countFlip = Duration(milliseconds: 220);
 
-  /// The lock-in dot flying from the option to the track.
-  static const Duration flight = Duration(milliseconds: 300);
+  /// The lock-in dot flying from the option's badge, up the gutter and along the track.
+  static const Duration flight = Duration(milliseconds: 380);
 
   /// The spark on the track cell: it floods volt, then cools to paper ink.
   static const Duration spark = Duration(milliseconds: 640);
@@ -33,7 +34,7 @@ abstract final class RunnerMotion {
   static const Duration scan = Duration(milliseconds: 1400);
 
   /// How far a question travels in from the side it came from, and how far it rises.
-  static const double enterShift = 14;
+  static const double enterShift = 6;
   static const double enterRise = 10;
 
   /// True when motion is off (the phone's setting or the in-app switch).

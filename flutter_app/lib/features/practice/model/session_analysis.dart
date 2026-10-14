@@ -240,9 +240,9 @@ List<Observation> _observations(
       Observation(
         kind: ObservationKind.blank,
         tone: ObservationTone.neutral,
-        label: 'Blanks',
-        headline: '${blank.length == 1 ? 'One question' : '${blank.length} questions'} left blank',
-        detail: 'A blank costs nothing but earns nothing. The record cannot tell whether time ran out.',
+        label: 'Not attempted',
+        headline: '${blank.length == 1 ? 'One question' : '${blank.length} questions'} not attempted',
+        detail: 'A question left out costs nothing but earns nothing. The record cannot tell whether time ran out.',
         tip: 'Under +5/−1, once you can rule out one option, a guess is worth +1 on average.',
         questions: nums(blank.map((d) => d.qid)),
       ),

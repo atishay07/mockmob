@@ -36,7 +36,7 @@ class PasswordNudgeRow extends ConsumerWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: MmSpace.s2),
+            padding: const EdgeInsets.only(left: 30),
             child: KeyButton.quiet(label: AccessCopy.notNow, onPressed: () => ref.read(passwordHintsProvider).dismissNudge()),
           ),
         ),

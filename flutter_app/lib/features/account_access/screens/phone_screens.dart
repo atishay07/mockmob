@@ -33,7 +33,8 @@ class AddPhoneScreen extends StatelessWidget {
       onBack: context.canPop() ? () => context.pop() : null,
       child: PhoneCodeForm(
         purpose: PhoneCodePurpose.addToAccount,
-        onDone: () => context.canPop() ? context.pop() : context.go(AppRoutes.you),
+        onDone: () =>
+            context.canPop() ? context.pop() : context.go(AppRoutes.you),
       ),
     );
   }

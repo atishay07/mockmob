@@ -53,7 +53,9 @@ class AccessField extends StatefulWidget {
 class _AccessFieldState extends State<AccessField> {
   bool _visible = false;
 
-  bool get _secret => widget.kind == AccessFieldKind.password || widget.kind == AccessFieldKind.newPassword;
+  bool get _secret =>
+      widget.kind == AccessFieldKind.password ||
+      widget.kind == AccessFieldKind.newPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -61,28 +63,42 @@ class _AccessFieldState extends State<AccessField> {
     final type = context.mmType;
 
     OutlineInputBorder border(Color color, double width) => OutlineInputBorder(
-          borderRadius: MmRadius.keyAll,
-          borderSide: BorderSide(color: color, width: width),
-        );
+      borderRadius: MmRadius.keyAll,
+      borderSide: BorderSide(color: color, width: width),
+    );
 
     final (keyboard, hints, formatters) = switch (widget.kind) {
       AccessFieldKind.email => (
-          TextInputType.emailAddress,
-          const [AutofillHints.email, AutofillHints.username],
-          <TextInputFormatter>[FilteringTextInputFormatter.deny(RegExp(r'\s'))],
-        ),
-      AccessFieldKind.password => (TextInputType.visiblePassword, const [AutofillHints.password], <TextInputFormatter>[]),
-      AccessFieldKind.newPassword => (TextInputType.visiblePassword, const [AutofillHints.newPassword], <TextInputFormatter>[]),
+        TextInputType.emailAddress,
+        const [AutofillHints.email, AutofillHints.username],
+        <TextInputFormatter>[FilteringTextInputFormatter.deny(RegExp(r'\s'))],
+      ),
+      AccessFieldKind.password => (
+        TextInputType.visiblePassword,
+        const [AutofillHints.password],
+        <TextInputFormatter>[],
+      ),
+      AccessFieldKind.newPassword => (
+        TextInputType.visiblePassword,
+        const [AutofillHints.newPassword],
+        <TextInputFormatter>[],
+      ),
       AccessFieldKind.phone => (
-          TextInputType.phone,
-          const [AutofillHints.telephoneNumberNational],
-          <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9 ]')), LengthLimitingTextInputFormatter(12)],
-        ),
+        TextInputType.phone,
+        const [AutofillHints.telephoneNumberNational],
+        <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9 ]')),
+          LengthLimitingTextInputFormatter(12),
+        ],
+      ),
       AccessFieldKind.code => (
-          TextInputType.number,
-          const [AutofillHints.oneTimeCode],
-          <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(widget.codeLength)],
-        ),
+        TextInputType.number,
+        const [AutofillHints.oneTimeCode],
+        <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(widget.codeLength),
+        ],
+      ),
     };
 
     final toggle = _secret
@@ -91,7 +107,9 @@ class _AccessFieldState extends State<AccessField> {
             label: _visible ? AccessCopy.hidePassword : AccessCopy.showPassword,
             excludeSemantics: true,
             child: InkWell(
-              onTap: widget.enabled ? () => setState(() => _visible = !_visible) : null,
+              onTap: widget.enabled
+                  ? () => setState(() => _visible = !_visible)
+                  : null,
               borderRadius: MmRadius.keyAll,
               child: SizedBox(
                 width: 64,
@@ -99,9 +117,16 @@ class _AccessFieldState extends State<AccessField> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(_visible ? LucideIcons.eyeOff : LucideIcons.eye, size: 16, color: colors.ink2),
+                    Icon(
+                      _visible ? LucideIcons.eyeOff : LucideIcons.eye,
+                      size: 16,
+                      color: colors.ink2,
+                    ),
                     const SizedBox(width: MmSpace.s4),
-                    Text(_visible ? AccessCopy.hide : AccessCopy.show, style: type.small.copyWith(color: colors.ink2)),
+                    Text(
+                      _visible ? AccessCopy.hide : AccessCopy.show,
+                      style: type.small.copyWith(color: colors.ink2),
+                    ),
                   ],
                 ),
               ),
@@ -120,7 +145,9 @@ class _AccessFieldState extends State<AccessField> {
           enabled: widget.enabled,
           autofocus: widget.autofocus,
           onChanged: widget.onChanged,
-          onSubmitted: widget.onSubmitted == null ? null : (_) => widget.onSubmitted!(),
+          onSubmitted: widget.onSubmitted == null
+              ? null
+              : (_) => widget.onSubmitted!(),
           keyboardType: keyboard,
           textInputAction: widget.textInputAction ?? TextInputAction.done,
           autofillHints: widget.enabled ? hints : null,
@@ -130,7 +157,11 @@ class _AccessFieldState extends State<AccessField> {
           textCapitalization: TextCapitalization.none,
           inputFormatters: formatters,
           cursorColor: colors.ink,
-          style: (widget.kind == AccessFieldKind.code ? type.figureCompact : type.body).copyWith(color: colors.ink),
+          style:
+              (widget.kind == AccessFieldKind.code
+                      ? type.figureCompact
+                      : type.body)
+                  .copyWith(color: colors.ink),
           decoration: InputDecoration(
             hintText: widget.hint,
             hintStyle: type.body.copyWith(color: colors.ink3),
@@ -141,10 +172,19 @@ class _AccessFieldState extends State<AccessField> {
             fillColor: colors.raised,
             isDense: true,
             constraints: const BoxConstraints(minHeight: 56),
-            contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 16),
-            enabledBorder: border(widget.hasError ? colors.badText : colors.line, widget.hasError ? 1.5 : 1),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: MmSpace.s16,
+              vertical: 16,
+            ),
+            enabledBorder: border(
+              widget.hasError ? colors.badText : colors.line,
+              widget.hasError ? 1.5 : 1,
+            ),
             disabledBorder: border(colors.line, 1),
-            focusedBorder: border(widget.hasError ? colors.badText : colors.focusRing, 1.5),
+            focusedBorder: border(
+              widget.hasError ? colors.badText : colors.focusRing,
+              1.5,
+            ),
           ),
         ),
       ],
@@ -170,10 +210,21 @@ class AccessProblemLine extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 3),
-            child: ExcludeSemantics(child: Icon(LucideIcons.circleAlert, size: 16, color: colors.badText)),
+            child: ExcludeSemantics(
+              child: Icon(
+                LucideIcons.circleAlert,
+                size: 16,
+                color: colors.badText,
+              ),
+            ),
           ),
           const SizedBox(width: MmSpace.s8),
-          Expanded(child: Text(message, style: context.mmType.small.copyWith(color: colors.ink))),
+          Expanded(
+            child: Text(
+              message,
+              style: context.mmType.small.copyWith(color: colors.ink),
+            ),
+          ),
         ],
       ),
     );
@@ -199,7 +250,13 @@ class AccessDoneLine extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 2),
-            child: ExcludeSemantics(child: Icon(LucideIcons.circleCheck, size: 20, color: colors.goodText)),
+            child: ExcludeSemantics(
+              child: Icon(
+                LucideIcons.circleCheck,
+                size: 20,
+                color: colors.goodText,
+              ),
+            ),
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(

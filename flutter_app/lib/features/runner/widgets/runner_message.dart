@@ -8,6 +8,9 @@ import '../../../core/widgets/widgets.dart';
 /// A message where the runner cannot open a session: the fact and the way out. No question is
 /// open here, so Mobi may stand with the message ([mobi]); the paper itself never has him.
 ///
+/// With Mobi the message is one composition centred in the space: Mobi large, the title and the
+/// line under it, and the one key at the foot. Without, it reads from the top like a page. Both
+/// sit on the page gutter, like every screen of the runner.
 class RunnerMessage extends StatelessWidget {
   const RunnerMessage({
     super.key,
@@ -30,29 +33,64 @@ class RunnerMessage extends StatelessWidget {
   final String? secondaryLabel;
   final VoidCallback? onSecondary;
 
+  /// Mobi's height when he stands with the message.
+  static const double mobiSize = 176;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final padding = MediaQuery.viewPaddingOf(context);
+    final centred = mobi != null;
+    final text = <Widget>[
+      Semantics(
+        header: true,
+        child: Text(title, style: type.headline, textAlign: centred ? TextAlign.center : TextAlign.start),
+      ),
+      const SizedBox(height: MmSpace.s12),
+      Text(
+        body,
+        style: type.body.copyWith(color: colors.ink2),
+        textAlign: centred ? TextAlign.center : TextAlign.start,
+      ),
+    ];
     return ColoredBox(
       color: colors.ground,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.s24, padding.top + MmSpace.s64, MmSpace.s24, padding.bottom + MmSpace.s24),
+        padding: EdgeInsets.fromLTRB(
+          MmSpace.gutter,
+          padding.top + (centred ? MmSpace.s24 : MmSpace.s64),
+          MmSpace.gutter,
+          padding.bottom + MmSpace.s24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (mobi != null) ...[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: ExcludeSemantics(child: MobiCharacter(size: 112, entrance: mobi!, seed: 29)),
-              ),
-              const SizedBox(height: MmSpace.s16),
+            if (centred)
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: ExcludeSemantics(
+                            child: MobiCharacter(size: mobiSize, entrance: mobi!, seed: 29),
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s24),
+                        ...text,
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            else ...[
+              ...text,
+              const Spacer(),
             ],
-            Semantics(header: true, child: Text(title, style: type.headline)),
-            const SizedBox(height: MmSpace.s12),
-            Text(body, style: type.body.copyWith(color: colors.ink2)),
-            const Spacer(),
+            const SizedBox(height: MmSpace.s16),
             KeyButton(label: actionLabel, onPressed: onAction),
             if (secondaryLabel != null && onSecondary != null) ...[
               const SizedBox(height: MmSpace.s8),

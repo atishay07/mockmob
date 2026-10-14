@@ -36,7 +36,7 @@ void main() {
       final seven = weeklyEndingFor(rhythmFixture(goal: 7, lastClosed: _closed(days: 7, goal: 7)), dismissed: {})!;
       expect([for (final k in seven.keys) k.label], ['Keep 7 days a week', 'Aim for 6 days']);
       final one = weeklyEndingFor(rhythmFixture(goal: 1, lastClosed: _closed(days: 1, goal: 1)), dismissed: {})!;
-      expect([for (final k in one.keys) k.label], ['Keep 1', 'Try 2']);
+      expect([for (final k in one.keys) k.label], ['Keep 1 day a week', 'Aim for 2 days']);
     });
 
     test('shows once: a dismissed week stays away', () {

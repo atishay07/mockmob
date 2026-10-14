@@ -14,6 +14,7 @@ import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
 import 'data/practice_catalog.dart';
 import 'data/practice_quote.dart';
+import 'data/suggestion.dart' show ResumeSuggestion, practiceSuggestionProvider;
 import 'model/cost_line.dart';
 import 'model/practice_selection.dart';
 import 'widgets/chapter_picker.dart';
@@ -24,6 +25,7 @@ import 'widgets/choice_glyphs.dart';
 import 'widgets/mode_list.dart';
 import 'widgets/more_rows.dart';
 import 'widgets/other_subjects_sheet.dart';
+import 'widgets/plain_notice.dart';
 import 'widgets/stale_subjects_banner.dart';
 import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
@@ -91,7 +93,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final choices = subjectChoices(chosen: auth.subjects, selected: subject, catalog: catalog);
     final others = otherSubjects(shown: choices, catalog: catalog);
-    final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
+    // Offline shows in the lit card itself (its Start goes quiet and says why); a session that is
+    // already on this phone resumes without the server, so only then does a banner say it.
+    final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline && ref.watch(practiceSuggestionProvider) is ResumeSuggestion;
 
     // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
     final full = _lastFull =
@@ -142,7 +146,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                       if (offline) ...[
                         const Padding(
                           padding: gutter,
-                          child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
+                          child: PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
                         ),
                         const SizedBox(height: MmSpace.s16),
                       ],

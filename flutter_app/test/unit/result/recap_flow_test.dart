@@ -10,6 +10,7 @@ import 'package:mockmob/features/notifications/copy.dart' show NotificationsCopy
 import 'package:mockmob/features/result/copy.dart' show ResultCopy;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/result/recap/card_page.dart' show RecapCardPage;
 import 'package:mockmob/features/result/recap/record_card.dart';
 import 'package:mockmob/features/result/widgets/evidence_link.dart';
 import 'package:mockmob/features/result/model/recap_variant.dart';
@@ -78,7 +79,8 @@ void main() {
     testWidgets('a tap on the tab lifts it open, with the open haptic, and marks the result opened', (tester) async {
       await pump(tester, '/result/a7/sealed');
       expect(find.text('Your sheet is back.'), findsOneWidget);
-      expect(find.text('Marked on the server.'), findsOneWidget);
+      // The effort sentence rides on the same receipt line.
+      expect(find.textContaining('Marked on the server.'), findsOneWidget);
       // The effort line is said once, by Mobi on card 4, never on the sealed sheet.
       expect(find.textContaining('full paper this month'), findsNothing);
       await tester.tap(find.text('Open your result'));
@@ -197,8 +199,12 @@ void main() {
       await _run(tester, 1000);
       expect(find.text('Where the other 135 marks went'), findsOneWidget);
       expect(find.bySemanticsLabel('Card 2 of 4'), findsOneWidget);
-      await tester.fling(find.text('Where the other 135 marks went'), const Offset(0, -300), 1200);
-      await tester.pumpAndSettle();
+      // The card scrolls to its end first (its body is taller than the screen here); the swipe that
+      // carries on past the end turns to the next card.
+      for (var i = 0; i < 3 && find.text('Start with Admission of a partner').evaluate().isEmpty; i++) {
+        await tester.fling(find.byType(RecapCardPage), const Offset(0, -300), 1200);
+        await tester.pumpAndSettle();
+      }
       expect(find.text('Start with Admission of a partner'), findsOneWidget);
       await tester.tap(find.text('Skip to full result'));
       await tester.pumpAndSettle();
@@ -363,7 +369,8 @@ void main() {
       final m = buildRecapModel(attempt: d.attempt, detail: d, attempts: [...history(), d.attempt], creditBalance: 12);
       await pump(tester, '/result/a7/recap/4', model: m);
       await _run(tester, 1000);
-      expect(find.text('Marked on the server.'), findsOneWidget);
+      // The effort sentence rides on the same receipt line.
+      expect(find.textContaining('Marked on the server.'), findsOneWidget);
       expect(find.textContaining('Saved to your record at'), findsNothing);
     });
 

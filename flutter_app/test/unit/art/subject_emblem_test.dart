@@ -274,7 +274,7 @@ void main() {
         final inks = art.glyphInks(p);
         expect(inks, isNotEmpty, reason: id);
         for (final ink in inks) {
-          expect(contrastRatio(ink, p.glyphField), greaterThanOrEqualTo(3.0), reason: '$id');
+          expect(contrastRatio(ink, p.glyphField), greaterThanOrEqualTo(3.0), reason: id);
         }
       }
     });

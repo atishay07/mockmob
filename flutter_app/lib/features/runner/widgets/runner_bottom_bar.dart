@@ -29,6 +29,9 @@ class RunnerBottomBar extends StatelessWidget {
   /// Every question has an answer: the key glows.
   final bool allAnswered;
 
+  /// The room the primary key needs to say "Review and submit" on one line.
+  static const double reviewLabelMinWidth = 170;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -57,7 +60,20 @@ class RunnerBottomBar extends StatelessWidget {
                       borderRadius: MmRadius.pillAll,
                       boxShadow: glow ? [BoxShadow(color: colors.voltGlow, blurRadius: 22, offset: const Offset(0, 6), spreadRadius: -2)] : const [],
                     ),
-                    child: KeyButton(label: isLast ? RunnerCopy.reviewAndSubmit : RunnerCopy.next, onPressed: onNext, hapticOnCommit: false),
+                    // "Review and submit" would wrap in the room a narrow phone leaves, so the last
+                    // key says "Review" there (it opens the same page).
+                    child: LayoutBuilder(
+                      builder: (context, box) => KeyButton(
+                        label: !isLast
+                            ? RunnerCopy.next
+                            : box.maxWidth < reviewLabelMinWidth
+                            ? RunnerCopy.review
+                            : RunnerCopy.reviewAndSubmit,
+                        semanticsLabel: isLast ? RunnerCopy.reviewAndSubmit : null,
+                        onPressed: onNext,
+                        hapticOnCommit: false,
+                      ),
+                    ),
                   ),
                 ),
               ],

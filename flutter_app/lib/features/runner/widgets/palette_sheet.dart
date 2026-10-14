@@ -65,11 +65,16 @@ class PaletteSheet extends StatelessWidget {
           ),
         ),
         if (firstOpen >= 0) ...[
-          const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(
-            label: RunnerCopy.goToFirstOpen(firstOpen + 1),
-            onPressed: () => onJump(firstOpen),
-            hapticOnCommit: false,
+          const SizedBox(height: MmSpace.s8),
+          // A quiet text key, left on the gutter: the grid and the pinned submit key are the loud
+          // things here, this is a shortcut.
+          Align(
+            alignment: Alignment.centerLeft,
+            // The key's own padding is pulled back, so its words start on the gutter with the rest.
+            child: Transform.translate(
+              offset: const Offset(-MmSpace.s16, 0),
+              child: KeyButton.quiet(label: RunnerCopy.goToFirstOpen(firstOpen + 1), onPressed: () => onJump(firstOpen), hapticOnCommit: false),
+            ),
           ),
         ],
         const SizedBox(height: MmSpace.s16),
@@ -177,20 +182,41 @@ class _Legend extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget item(SheetCell sample, String label, int count) => _LegendItem(sample: sample, label: label, count: count);
     const base = SheetCell(number: 0, answered: false, visited: true, marked: false, unsynced: false, current: false);
-    return Wrap(
-      spacing: MmSpace.s16,
-      runSpacing: MmSpace.s8,
-      children: [
-        item(base, RunnerCopy.notAnswered, counts.notAnswered - counts.notVisited),
+    final seenBlank = counts.notAnswered - counts.notVisited;
+    // Only the states that exist: a legend item with a count of zero is noise.
+    final items = <Widget>[
+      if (seenBlank > 0) item(base, RunnerCopy.notAnswered, seenBlank),
+      if (counts.notVisited > 0)
         item(
           const SheetCell(number: 0, answered: false, visited: false, marked: false, unsynced: false, current: false),
           RunnerCopy.notVisited,
           counts.notVisited,
         ),
-        _FlagLegend(count: counts.marked),
-        if (unsynced > 0) _PhoneLegend(count: unsynced),
-      ],
-    );
+      if (counts.marked > 0) _FlagLegend(count: counts.marked),
+      if (unsynced > 0) _PhoneLegend(count: unsynced),
+    ];
+    // Four states do not fit one line: two columns, so no item is left alone on a second line.
+    if (items.length >= 4) {
+      return Column(
+        children: [
+          for (var i = 0; i < items.length; i += 2)
+            Padding(
+              padding: EdgeInsets.only(top: i == 0 ? 0 : MmSpace.s8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Align(alignment: Alignment.centerLeft, child: items[i]),
+                  ),
+                  Expanded(
+                    child: i + 1 < items.length ? Align(alignment: Alignment.centerLeft, child: items[i + 1]) : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      );
+    }
+    return Wrap(spacing: MmSpace.s16, runSpacing: MmSpace.s8, children: items);
   }
 }
 

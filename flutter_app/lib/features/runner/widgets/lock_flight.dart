@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'dart:ui' show lerpDouble;
+import 'dart:ui' show PathMetric, lerpDouble;
 
 import 'package:flutter/material.dart';
 
@@ -22,8 +22,7 @@ class LockFlightLayer extends StatefulWidget {
 
 class LockFlightLayerState extends State<LockFlightLayer> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(vsync: this, duration: RunnerMotion.flight);
-  Offset _from = Offset.zero;
-  Offset _to = Offset.zero;
+  _FlightRoute? _route;
   VoidCallback? _onLanded;
 
   /// Sends a dot from [from] to [to] (both in global coordinates). [onLanded] runs when it
@@ -38,8 +37,7 @@ class LockFlightLayerState extends State<LockFlightLayer> with SingleTickerProvi
     final pending = _onLanded;
     _onLanded = null;
     pending?.call();
-    _from = box.globalToLocal(from);
-    _to = box.globalToLocal(to);
+    _route = _FlightRoute(box.globalToLocal(from), box.globalToLocal(to), lane: MmSpace.gutter / 2);
     _onLanded = onLanded;
     _controller.forward(from: 0).whenComplete(() {
       if (!mounted || _controller.status != AnimationStatus.completed) return;
@@ -61,12 +59,7 @@ class LockFlightLayerState extends State<LockFlightLayer> with SingleTickerProvi
     return IgnorePointer(
       child: RepaintBoundary(
         child: CustomPaint(
-          painter: _FlightPainter(
-            animation: _controller,
-            volt: colors.volt,
-            from: () => _from,
-            to: () => _to,
-          ),
+          painter: _FlightPainter(animation: _controller, volt: colors.volt, route: () => _route),
           child: const SizedBox.expand(),
         ),
       ),
@@ -74,39 +67,64 @@ class LockFlightLayerState extends State<LockFlightLayer> with SingleTickerProvi
   }
 }
 
+/// The dot's way from the chosen option's badge to its cell. It never crosses the question: it
+/// leaves the badge sideways into the empty gutter, rises along it past the text, then runs along
+/// the track to the cell. A cell close to the option (or to the gutter) gets one bowed curve.
+class _FlightRoute {
+  _FlightRoute(Offset a, Offset b, {required double lane}) {
+    final path = Path()..moveTo(a.dx, a.dy);
+    const turn = 18.0;
+    final rises = a.dy - b.dy > 4 * turn;
+    final clear = b.dx > lane + 2 * turn && a.dx > lane + turn;
+    if (rises && clear) {
+      path
+        ..quadraticBezierTo(lane, a.dy, lane, a.dy - turn)
+        ..lineTo(lane, b.dy + turn)
+        ..quadraticBezierTo(lane, b.dy, lane + turn, b.dy)
+        ..lineTo(b.dx, b.dy);
+    } else {
+      final mid = Offset.lerp(a, b, 0.5)!;
+      final bow = (b - a).distance * 0.12;
+      final control = mid + Offset(a.dx < b.dx ? -bow : bow, 0);
+      path.quadraticBezierTo(control.dx, control.dy, b.dx, b.dy);
+    }
+    _metric = path.computeMetrics().first;
+    length = _metric.length;
+  }
+
+  late final PathMetric _metric;
+  late final double length;
+
+  /// The point [distance] dp along the route (clamped to its ends).
+  Offset at(double distance) => _metric.getTangentForOffset(distance.clamp(0.0, length))!.position;
+}
+
 class _FlightPainter extends CustomPainter {
-  _FlightPainter({required this.animation, required this.volt, required this.from, required this.to}) : super(repaint: animation);
+  _FlightPainter({required this.animation, required this.volt, required this.route}) : super(repaint: animation);
 
   final Animation<double> animation;
   final Color volt;
-  final Offset Function() from;
-  final Offset Function() to;
+  final _FlightRoute? Function() route;
 
-  /// How many soft circles trail the dot.
+  /// How many soft circles trail the dot, and the distance between them along the route.
   static const int _tail = 5;
+  static const double _spacing = 9;
 
   @override
   void paint(Canvas canvas, Size size) {
     final t = animation.value;
-    if (t <= 0 || t >= 1) return;
-    final a = from();
-    final b = to();
-    // The path bows out to the side the dot leaves from, so it reads as a lift, not a laser.
-    final mid = Offset.lerp(a, b, 0.5)!;
-    final bow = (b - a).distance * 0.12;
-    final control = mid + Offset(a.dx < b.dx ? -bow : bow, 0);
-    Offset at(double u) {
-      final v = 1 - u;
-      return a * (v * v) + control * (2 * v * u) + b * (u * u);
-    }
-
+    final r = route();
+    if (r == null || t <= 0 || t >= 1) return;
+    // The head is ahead by distance, and each tail circle sits a fixed way behind it along the
+    // same route, so the trail is one unbroken line that starts at the badge (at the first
+    // frames every circle is still on it) and ends on the head.
+    final head = Motion.glide.transform(t) * r.length;
     for (var i = _tail; i >= 0; i--) {
-      final u = Motion.glide.transform(math.max(0, t - i * 0.035));
       final fade = i == 0 ? 1.0 : (1 - i / (_tail + 1)) * 0.42;
       // The dot shrinks into the cell as it lands.
       final landing = t > 0.82 ? lerpDouble(1, 0.55, (t - 0.82) / 0.18)! : 1.0;
       final radius = (i == 0 ? 4.5 : 4.0 - i * 0.45) * landing;
-      canvas.drawCircle(at(u), math.max(0.8, radius), Paint()..color = volt.withValues(alpha: fade));
+      canvas.drawCircle(r.at(head - i * _spacing), math.max(0.8, radius), Paint()..color = volt.withValues(alpha: fade));
     }
   }
 

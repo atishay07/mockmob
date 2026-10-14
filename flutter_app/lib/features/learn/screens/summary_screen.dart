@@ -110,8 +110,9 @@ class LearnSummaryScreen extends ConsumerWidget {
 
   Widget _error(BuildContext context, WidgetRef ref, Object error) {
     final api = error is ApiError ? error : null;
-    if (api != null && api.kind == ApiErrorKind.notFound)
+    if (api != null && api.kind == ApiErrorKind.notFound) {
       return _empty(context);
+    }
     final offline = api?.isOffline ?? false;
     return StateView(
       kind: offline ? StateViewKind.offline : StateViewKind.error,

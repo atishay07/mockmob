@@ -36,19 +36,33 @@ class AccessPage extends ConsumerWidget {
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          const Positioned.fill(child: LampScene(strength: 0.9, vignette: false)),
+          const Positioned.fill(
+            child: LampScene(strength: 0.9, vignette: false),
+          ),
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           SafeArea(
             child: Column(
               children: [
-                if (offline) const InlineBanner(message: AccessCopy.offline, tone: BannerTone.offline),
+                if (offline)
+                  const InlineBanner(
+                    message: AccessCopy.offline,
+                    tone: BannerTone.offline,
+                  ),
                 Expanded(
                   child: SingleChildScrollView(
-                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                    padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: const EdgeInsets.fromLTRB(
+                      MmSpace.gutter,
+                      MmSpace.s8,
+                      MmSpace.gutter,
+                      MmSpace.s24,
+                    ),
                     child: Center(
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                        constraints: const BoxConstraints(
+                          maxWidth: MmSpace.contentMaxWidth,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -56,13 +70,27 @@ class AccessPage extends ConsumerWidget {
                               height: MmTarget.min,
                               child: onBack == null
                                   ? null
-                                  : Align(alignment: Alignment.centerLeft, child: _BackKey(onPressed: onBack!)),
+                                  : Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: _BackKey(onPressed: onBack!),
+                                    ),
                             ),
                             const SizedBox(height: MmSpace.s16),
-                            Semantics(header: true, child: Text(title, style: type.headline.copyWith(color: colors.ink))),
+                            Semantics(
+                              header: true,
+                              child: Text(
+                                title,
+                                style: type.headline.copyWith(
+                                  color: colors.ink,
+                                ),
+                              ),
+                            ),
                             if (lead != null) ...[
                               const SizedBox(height: MmSpace.s8),
-                              Text(lead!, style: type.lead.copyWith(color: colors.ink2)),
+                              Text(
+                                lead!,
+                                style: type.lead.copyWith(color: colors.ink2),
+                              ),
                             ],
                             const SizedBox(height: MmSpace.group),
                             child,
@@ -98,7 +126,11 @@ class _BackKey extends StatelessWidget {
         child: SizedBox(
           width: MmTarget.min,
           height: MmTarget.min,
-          child: Icon(LucideIcons.arrowLeft, size: 22, color: context.mmColors.ink),
+          child: Icon(
+            LucideIcons.arrowLeft,
+            size: 22,
+            color: context.mmColors.ink,
+          ),
         ),
       ),
     );

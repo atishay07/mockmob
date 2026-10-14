@@ -18,7 +18,8 @@ class AuthLoadFailedScreen extends ConsumerStatefulWidget {
   const AuthLoadFailedScreen({super.key});
 
   @override
-  ConsumerState<AuthLoadFailedScreen> createState() => _AuthLoadFailedScreenState();
+  ConsumerState<AuthLoadFailedScreen> createState() =>
+      _AuthLoadFailedScreenState();
 }
 
 class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
@@ -30,7 +31,11 @@ class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
     try {
       final pending = await pendingWork(ref);
       if (!mounted) return;
-      final confirmed = await confirmSignOut(context, pending: pending.count, unknown: pending.unknown);
+      final confirmed = await confirmSignOut(
+        context,
+        pending: pending.count,
+        unknown: pending.unknown,
+      );
       if (!mounted || !confirmed) return;
       // Queued study writes stay for this account; with no profile loaded nothing else of it is
       // cleared either.
@@ -60,7 +65,9 @@ class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
             _signingOut ? () {} : () => auth.retryStart(),
             loading: retrying,
           ),
-          secondary: auth.canSignOut ? StateAction(AuthCopy.signOut, _signingOut ? () {} : _signOut) : null,
+          secondary: auth.canSignOut
+              ? StateAction(AuthCopy.signOut, _signingOut ? () {} : _signOut)
+              : null,
         ),
       ),
     );

@@ -133,7 +133,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('Practice another chapter'), findsWidgets);
     expect(find.textContaining('Review'), findsNothing);
-    expect(find.text('10 right. Nothing wrong, nothing left blank.'), findsOneWidget);
+    expect(find.text('10 right. Nothing wrong, nothing left out.'), findsOneWidget);
   });
 
   testWidgets('Finish for now ends with one plain line, then returns to Today', (tester) async {
@@ -141,7 +141,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     await tester.tap(find.text('Finish for now'));
     await tester.pump();
-    expect(find.text('Practice recorded at 11:51 PM.'), findsOneWidget);
+    expect(find.text('Practice finished. Recorded at 11:51 PM.'), findsOneWidget);
     expect(find.text('Review 1 wrong answer'), findsNothing);
     await tester.pump(const Duration(milliseconds: 1700));
     await tester.pump(const Duration(milliseconds: 300));
@@ -254,18 +254,18 @@ void main() {
   testWidgets('no fresh set ready, or an unsupported subject: no Prove step and no promise', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), replay: const ReplayInventory(supported: false)));
     await tester.pump(const Duration(milliseconds: 500));
-    await tester.scrollUntilVisible(find.text('One question left blank'), 200, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: find.byType(Scrollable).first);
     expect(find.text('Prove the repair'), findsNothing);
   });
 
   testWidgets('blanks are named with the questions behind them, and Show me opens the first', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
     await tester.pump(const Duration(milliseconds: 500));
-    await tester.scrollUntilVisible(find.text('One question left blank'), 200, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: find.byType(Scrollable).first);
     expect(find.text('What this set shows'), findsOneWidget);
     expect(find.text('Question 10'), findsOneWidget);
     // Sentence case, like the rest of the page: no tracked capitals (walk-through P3-5).
-    expect(find.text('Blanks'), findsOneWidget);
+    expect(find.text('Not attempted'), findsOneWidget);
     expect(find.text('BLANKS'), findsNothing);
   });
 

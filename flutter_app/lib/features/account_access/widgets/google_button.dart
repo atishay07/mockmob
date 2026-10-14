@@ -33,7 +33,12 @@ enum GooglePhase {
 /// [onSignedIn] runs once Google signed the student in on the spot; the router normally takes
 /// over by itself. [busy] disables it while another method on the screen is working.
 class GoogleSignInButton extends ConsumerStatefulWidget {
-  const GoogleSignInButton({super.key, this.onSignedIn, this.busy = false, this.onBusyChanged});
+  const GoogleSignInButton({
+    super.key,
+    this.onSignedIn,
+    this.busy = false,
+    this.onBusyChanged,
+  });
 
   final VoidCallback? onSignedIn;
   final bool busy;
@@ -45,7 +50,8 @@ class GoogleSignInButton extends ConsumerStatefulWidget {
   ConsumerState<GoogleSignInButton> createState() => _GoogleSignInButtonState();
 }
 
-class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with WidgetsBindingObserver {
+class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton>
+    with WidgetsBindingObserver {
   GooglePhase _phase = GooglePhase.idle;
   String? _problem;
   String? _note;
@@ -70,7 +76,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _returns = _gateway.oauthReturns().listen(_onReturn, onError: (Object _) {});
+    _returns = _gateway.oauthReturns().listen(
+      _onReturn,
+      onError: (Object _) {},
+    );
   }
 
   @override
@@ -81,7 +90,12 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
     super.dispose();
   }
 
-  void _set(GooglePhase phase, {String? problem, String? note, bool? offerBrowser}) {
+  void _set(
+    GooglePhase phase, {
+    String? problem,
+    String? note,
+    bool? offerBrowser,
+  }) {
     if (!mounted) return;
     final wasBusy = _phase != GooglePhase.idle;
     setState(() {
@@ -96,10 +110,14 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed || _phase != GooglePhase.inBrowser) return;
+    if (state != AppLifecycleState.resumed || _phase != GooglePhase.inBrowser) {
+      return;
+    }
     _noReturn?.cancel();
     _noReturn = Timer(_returnGrace, () {
-      if (_phase == GooglePhase.inBrowser) _set(GooglePhase.idle, note: AccessCopy.browserNotFinished);
+      if (_phase == GooglePhase.inBrowser) {
+        _set(GooglePhase.idle, note: AccessCopy.browserNotFinished);
+      }
     });
   }
 
@@ -110,7 +128,9 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
         // The link is here: no "did not finish" while the session is being set up.
         _set(GooglePhase.signingIn);
         _noReturn = Timer(_exchangeWait, () {
-          if (_phase == GooglePhase.signingIn) _set(GooglePhase.idle, note: AccessCopy.browserNotFinished);
+          if (_phase == GooglePhase.signingIn) {
+            _set(GooglePhase.idle, note: AccessCopy.browserNotFinished);
+          }
         });
       case OAuthReturnKind.signedIn:
         _set(GooglePhase.signingIn);
@@ -118,7 +138,12 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
       case OAuthReturnKind.cancelled:
         _set(GooglePhase.idle, note: AccessCopy.googleClosed);
       case OAuthReturnKind.failed:
-        _set(GooglePhase.idle, problem: AccessCopy.problem(result.failure ?? AccessFailure.googleUnavailable));
+        _set(
+          GooglePhase.idle,
+          problem: AccessCopy.problem(
+            result.failure ?? AccessFailure.googleUnavailable,
+          ),
+        );
     }
   }
 
@@ -133,14 +158,27 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
           widget.onSignedIn?.call();
         case GoogleOutcome.cancelled:
           // A misconfigured sheet also reports a cancel, so the browser is offered as a second way.
-          _set(GooglePhase.idle, note: AccessCopy.googleClosed, offerBrowser: browserAvailable);
+          _set(
+            GooglePhase.idle,
+            note: AccessCopy.googleClosed,
+            offerBrowser: browserAvailable,
+          );
         case GoogleOutcome.browserOpened:
           _set(GooglePhase.inBrowser);
       }
     } on AccessException catch (e) {
-      _set(GooglePhase.idle, problem: AccessCopy.problem(e.failure), offerBrowser: browserAvailable && e.failure != AccessFailure.browserUnavailable);
+      _set(
+        GooglePhase.idle,
+        problem: AccessCopy.problem(e.failure),
+        offerBrowser:
+            browserAvailable && e.failure != AccessFailure.browserUnavailable,
+      );
     } on Object {
-      _set(GooglePhase.idle, problem: AccessCopy.problem(AccessFailure.unknown), offerBrowser: browserAvailable);
+      _set(
+        GooglePhase.idle,
+        problem: AccessCopy.problem(AccessFailure.unknown),
+        offerBrowser: browserAvailable,
+      );
     }
   }
 
@@ -152,7 +190,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
     } on AccessException catch (e) {
       _set(GooglePhase.idle, problem: AccessCopy.problem(e.failure));
     } on Object {
-      _set(GooglePhase.idle, problem: AccessCopy.problem(AccessFailure.unknown));
+      _set(
+        GooglePhase.idle,
+        problem: AccessCopy.problem(AccessFailure.unknown),
+      );
     }
   }
 
@@ -160,7 +201,8 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final working = _phase == GooglePhase.opening || _phase == GooglePhase.signingIn;
+    final working =
+        _phase == GooglePhase.opening || _phase == GooglePhase.signingIn;
     final label = switch (_phase) {
       GooglePhase.opening => AccessCopy.openingGoogle,
       GooglePhase.signingIn => AccessCopy.signingIn,
@@ -184,7 +226,9 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
             KeyButton.secondary(
               label: label,
               loading: working,
-              onPressed: widget.busy || _phase != GooglePhase.idle ? null : _continue,
+              onPressed: widget.busy || _phase != GooglePhase.idle
+                  ? null
+                  : _continue,
             ),
             // Google's "G" sits just before the label, so the two read as one centred group
             // (the working spinner takes its place while Google opens).
@@ -194,9 +238,14 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
                   child: IgnorePointer(
                     child: Center(
                       child: Transform.translate(
-                        offset: Offset(-(labelWidth / 2 + _glyphGap + _glyphSize / 2), 0),
+                        offset: Offset(
+                          -(labelWidth / 2 + _glyphGap + _glyphSize / 2),
+                          0,
+                        ),
                         child: Opacity(
-                          opacity: widget.busy || _phase != GooglePhase.idle ? 0.5 : 1,
+                          opacity: widget.busy || _phase != GooglePhase.idle
+                              ? 0.5
+                              : 1,
                           child: const GoogleMark(size: _glyphSize),
                         ),
                       ),
@@ -210,7 +259,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
           const SizedBox(height: MmSpace.s12),
           Semantics(
             liveRegion: true,
-            child: Text(AccessCopy.finishInBrowser, style: type.small.copyWith(color: colors.ink2)),
+            child: Text(
+              AccessCopy.finishInBrowser,
+              style: type.small.copyWith(color: colors.ink2),
+            ),
           ),
           const SizedBox(height: MmSpace.s4),
           Align(
@@ -218,7 +270,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
             // The quiet key carries 16 dp of inner padding; pull it back so its label lines up.
             child: Transform.translate(
               offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(label: AccessCopy.cancel, onPressed: () => _set(GooglePhase.idle)),
+              child: KeyButton.quiet(
+                label: AccessCopy.cancel,
+                onPressed: () => _set(GooglePhase.idle),
+              ),
             ),
           ),
         ],
@@ -227,7 +282,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
           AccessProblemLine(message: _problem!),
         ] else if (_note != null && _phase == GooglePhase.idle) ...[
           const SizedBox(height: MmSpace.s12),
-          Semantics(liveRegion: true, child: Text(_note!, style: type.small.copyWith(color: colors.ink2))),
+          Semantics(
+            liveRegion: true,
+            child: Text(_note!, style: type.small.copyWith(color: colors.ink2)),
+          ),
         ],
         if (_offerBrowser && _phase == GooglePhase.idle) ...[
           const SizedBox(height: MmSpace.s4),
@@ -235,7 +293,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
             alignment: Alignment.centerLeft,
             child: Transform.translate(
               offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(label: AccessCopy.useBrowserInstead, onPressed: widget.busy ? null : _browser),
+              child: KeyButton.quiet(
+                label: AccessCopy.useBrowserInstead,
+                onPressed: widget.busy ? null : _browser,
+              ),
             ),
           ),
         ],
@@ -252,7 +313,10 @@ class GoogleMark extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => SizedBox.square(dimension: size, child: CustomPaint(painter: _GoogleMarkPainter()));
+  Widget build(BuildContext context) => SizedBox.square(
+    dimension: size,
+    child: CustomPaint(painter: _GoogleMarkPainter()),
+  );
 }
 
 class _GoogleMarkPainter extends CustomPainter {
@@ -290,7 +354,12 @@ class _GoogleMarkPainter extends CustomPainter {
     arc(_green, 45, 85);
     arc(_blue, 0, 45);
     canvas.drawRect(
-      Rect.fromLTRB(centre.dx, centre.dy - 2 * unit, size.width, centre.dy + 2 * unit),
+      Rect.fromLTRB(
+        centre.dx,
+        centre.dy - 2 * unit,
+        size.width,
+        centre.dy + 2 * unit,
+      ),
       Paint()
         ..color = _blue
         ..isAntiAlias = true,

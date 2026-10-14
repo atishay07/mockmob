@@ -129,17 +129,27 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AccessDoneLine(title: AccessCopy.passwordSaved, body: AccessCopy.passwordSavedFor(widget.email)),
+          AccessDoneLine(
+            title: AccessCopy.passwordSaved,
+            body: AccessCopy.passwordSavedFor(widget.email),
+          ),
           if (_othersSignedOut == true) ...[
             const SizedBox(height: MmSpace.s12),
-            Text(AccessCopy.otherDevicesSignedOut, style: type.body.copyWith(color: colors.ink2)),
+            Text(
+              AccessCopy.otherDevicesSignedOut,
+              style: type.body.copyWith(color: colors.ink2),
+            ),
           ],
           if (_othersSignedOut == false) ...[
             const SizedBox(height: MmSpace.s12),
             const AccessProblemLine(message: AccessCopy.otherDevicesStillIn),
           ],
           const SizedBox(height: MmSpace.s24),
-          KeyButton(label: AccessCopy.done, onPressed: widget.onDone, autofocus: true),
+          KeyButton(
+            label: AccessCopy.done,
+            onPressed: widget.onDone,
+            autofocus: true,
+          ),
         ],
       );
     }
@@ -171,24 +181,37 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
                   child: Icon(
                     ruleMet ? LucideIcons.circleCheck : LucideIcons.circle,
                     size: 14,
-                    color: ruleMet ? colors.goodText : (_tried ? colors.badText : colors.ink3),
+                    color: ruleMet
+                        ? colors.goodText
+                        : (_tried ? colors.badText : colors.ink3),
                   ),
                 ),
                 const SizedBox(width: MmSpace.s8),
-                Text(AccessCopy.passwordRule, style: type.small.copyWith(color: colors.ink2)),
+                Text(
+                  AccessCopy.passwordRule,
+                  style: type.small.copyWith(color: colors.ink2),
+                ),
               ],
             ),
-            if (_problem != null) ...[const SizedBox(height: MmSpace.s12), AccessProblemLine(message: _problem!)],
+            if (_problem != null) ...[
+              const SizedBox(height: MmSpace.s12),
+              AccessProblemLine(message: _problem!),
+            ],
             const SizedBox(height: MmSpace.s20),
             KeyButton(
-              label: _working ? AccessCopy.savingPassword : AccessCopy.savePassword,
+              label: _working
+                  ? AccessCopy.savingPassword
+                  : AccessCopy.savePassword,
               loading: _working,
               onPressed: _working ? null : _save,
             ),
             if (widget.onSkip != null) ...[
               const SizedBox(height: MmSpace.s8),
               Align(
-                child: KeyButton.quiet(label: AccessCopy.notNow, onPressed: _working ? null : widget.onSkip),
+                child: KeyButton.quiet(
+                  label: AccessCopy.notNow,
+                  onPressed: _working ? null : widget.onSkip,
+                ),
               ),
             ],
           ],

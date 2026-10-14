@@ -322,7 +322,7 @@ abstract final class MobiDetails {
   static void answerBubble(Canvas c, double progress, MobiPalette p) {
     if (progress < 0 || progress > 1) return;
     const r = bubbleRadius;
-    final inT = _smooth(0, 0.07, progress);
+    final inT = _smooth(0, 0.045, progress);
     final popT = _smooth(0, 0.18, progress);
     final outT = _smooth(0.8, 1, progress);
     final alpha = (inT * (1 - _smooth(0.94, 1, progress))).clamp(0.0, 1.0);
@@ -420,7 +420,7 @@ abstract final class MobiDetails {
       } else {
         // The pop: a solid ring that widens and thins as it fades. No loose dots.
         final pop = (q - 0.74) / 0.26;
-        final fade = 1 - pop;
+        final fade = math.pow(1 - pop, 0.7).toDouble();
         final ringR = radius * (1 + pop * 1.4);
         if (!p.night) c.drawCircle(pos, ringR, _stroke(MobiPalette.limeShade.withValues(alpha: 0.6 * fade), 2.6 * fade + 0.9));
         c.drawCircle(pos, ringR, _stroke((p.night ? MobiPalette.limeHi : MobiPalette.lime).withValues(alpha: fade), 1.9 * fade + 0.4));

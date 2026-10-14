@@ -141,11 +141,9 @@ Widget _states() {
           ]),
           const SizedBox(height: 24),
           const _Heading('Picker: unmarked, marked'),
-          Row(children: [
-            for (final (id, on) in const [('business_studies', false), ('business_studies', true), ('general_test', false), ('general_test', true), ('sociology', false), ('sociology', true)]) ...[
+          Wrap(spacing: 10, runSpacing: 10, children: [
+            for (final (id, on) in const [('business_studies', false), ('business_studies', true), ('general_test', false), ('general_test', true), ('sociology', false), ('sociology', true)])
               SubjectEmblem(subject: id, size: 56, marked: on, selectable: true),
-              const SizedBox(width: 10),
-            ],
           ]),
           const SizedBox(height: 24),
           const _Heading('Unframed on the screen: it stands on its own pool'),
@@ -283,5 +281,5 @@ void main() {
   _artGolden('emblem_gallery', _gallery, size: const Size(400, 1480));
   _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 800));
   _artGolden('emblem_rows', _rows, size: const Size(400, 700));
-  _artGolden('emblem_states', _states, size: const Size(384, 640));
+  _artGolden('emblem_states', _states, size: const Size(384, 700));
 }

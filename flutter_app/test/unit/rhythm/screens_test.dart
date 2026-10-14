@@ -9,7 +9,6 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
-import 'package:mockmob/core/widgets/key_button.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';

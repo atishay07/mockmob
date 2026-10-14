@@ -29,7 +29,10 @@ void main() {
 
   test('the sign-in wait reads as one plain line', () {
     expect(AuthCopy.sendNewIn(48), 'Send a new code in 0:48');
-    expect(AuthCopy.sendNewInSpoken(48), 'A new code can be sent in about 50 seconds');
+    expect(
+      AuthCopy.sendNewInSpoken(48),
+      'A new code can be sent in about 50 seconds',
+    );
     expect(AuthCopy.enterSentCode, 'Enter the code we sent');
   });
 

@@ -159,6 +159,8 @@ void main() {
             ],
           ),
           extraLine: 'Your last mock was Mock 7 on 2 October. Your 3 mistakes from it are still here.',
+          actionLabel: 'Review your 3 mistakes',
+          onAction: () {},
         ),
       ),
       Sample('After 4 days, no history yet', ReturningCard(rhythm: rhythmFixture(returning: true, daysSince: 4))),

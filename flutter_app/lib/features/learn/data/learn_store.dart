@@ -174,8 +174,9 @@ class LearnStore {
       final current = currentVersions[id];
       if (currentVersions.containsKey(id) &&
           current != null &&
-          current != row.version)
+          current != row.version) {
         await _delete(row.cacheKey);
+      }
     }
   }
 

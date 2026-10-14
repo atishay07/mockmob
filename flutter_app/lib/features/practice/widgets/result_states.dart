@@ -15,6 +15,7 @@ import '../copy.dart';
 import '../model/finish_reaction.dart';
 import 'numbered_sheet.dart';
 import 'practice_app_bar.dart';
+import 'plain_notice.dart';
 
 class ResultLoadFailed extends StatelessWidget {
   const ResultLoadFailed({super.key, required this.onRetry});
@@ -23,7 +24,7 @@ class ResultLoadFailed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      InlineBanner(message: PracticeCopy.resultLoadFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
+      PlainNotice(message: PracticeCopy.resultLoadFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
 }
 
 /// The ending after "Finish for now": the sheet is filed. Mobi waves above the student's own
@@ -311,7 +312,11 @@ class _SealPainter extends CustomPainter {
 /// plain line. It keeps the moment's height, so nothing jumps when the sheet takes its place.
 /// Under reduced motion Mobi holds the reading pose. No skeleton and no blank band.
 class ResultReading extends StatelessWidget {
-  const ResultReading({super.key});
+  const ResultReading({super.key, this.centered = false});
+
+  /// On the page of its own (the result is still loading): centred, so the screen is not a
+  /// corner and a void. Inside the finish moment's slot it stays at the top.
+  final bool centered;
 
   /// About the height of the finish moment's figure, sheet and Mobi.
   static const double height = 320;
@@ -326,17 +331,21 @@ class ResultReading extends StatelessWidget {
       label: PracticeCopy.readingSheet,
       excludeSemantics: true,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: height),
+        constraints: BoxConstraints(minHeight: centered ? 0 : height),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: centered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: MmSpace.s24),
+            if (!centered) const SizedBox(height: MmSpace.s24),
             const MobiCharacter(size: 112, entrance: MobiAct.read, seed: 41),
             const SizedBox(height: MmSpace.s16),
-            Text(PracticeCopy.readingSheet, style: type.title),
+            Text(PracticeCopy.readingSheet, style: type.title, textAlign: centered ? TextAlign.center : null),
             const SizedBox(height: MmSpace.s4),
-            Text(PracticeCopy.readingSheetNote, style: type.small.copyWith(color: colors.ink2)),
+            Text(
+              PracticeCopy.readingSheetNote,
+              style: type.small.copyWith(color: colors.ink2),
+              textAlign: centered ? TextAlign.center : null,
+            ),
           ],
         ),
       ),
@@ -357,9 +366,8 @@ class ResultNoAttempt extends StatelessWidget {
     final error = state.error;
     final Widget body;
     if (error == null) {
-      body = const Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.gutter),
-        child: ResultReading(),
+      body = const Center(
+        child: Padding(padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s48), child: ResultReading(centered: true)),
       );
     } else if (error.kind == ApiErrorKind.notFound) {
       body = StateView(
@@ -385,13 +393,19 @@ class ResultNoAttempt extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const PracticeAppBar(),
-            Expanded(child: body),
-          ],
-        ),
+      body: Stack(
+        children: [
+          // The same lamp the result opens into, so the wait and the result are one room.
+          Positioned(top: 0, left: 0, right: 0, height: 440, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
+          SafeArea(
+            child: Column(
+              children: [
+                const PracticeAppBar(),
+                Expanded(child: body),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

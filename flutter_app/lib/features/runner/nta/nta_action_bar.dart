@@ -9,7 +9,8 @@ enum NtaKeyTone { purple, green, plain }
 
 /// A flat exam key, 48 dp, 10 dp corners: purple for Mark for Review & Next, green for Save &
 /// Next and Submit, plain for the rest. A press darkens the fill; nothing moves. The label stays
-/// on one line.
+/// on one line, with 12 dp of air either side of it: a long exam label shrinks to fit that room
+/// rather than running to the key's edge.
 class NtaKey extends StatelessWidget {
   const NtaKey({super.key, required this.label, required this.onPressed, this.tone = NtaKeyTone.plain, this.icon, this.iconAfter = false});
 
@@ -47,7 +48,7 @@ class NtaKey extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 48),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -110,8 +111,11 @@ class NtaActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final inset = MediaQuery.viewPaddingOf(context).bottom;
+    // The footer is chrome and holds still: from 1.15x text its labels stop growing, because two
+    // rows of taller keys would take the paper's screen (the question and its options grow, and
+    // they are what the room is for). Each label still fits its key with 12 dp either side.
     return MediaQuery.withClampedTextScaling(
-      maxScaleFactor: 1.3,
+      maxScaleFactor: 1.15,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.raised,

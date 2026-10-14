@@ -41,7 +41,7 @@ void nightGolden(String name, Widget Function() build, {Size size = kNightSize, 
 /// A screen-like backdrop for glass: the desk art at the top fading into the ground, then rows
 /// of ordinary content, so blur and tint are judged over something real.
 class GoldenRoom extends StatelessWidget {
-  const GoldenRoom({super.key, required this.child, this.artHeight = 420});
+  const GoldenRoom({super.key, required this.child, this.artHeight = 450});
 
   final Widget child;
   final double artHeight;
@@ -91,7 +91,7 @@ class GoldenRoom extends StatelessWidget {
                 // 48 dp rows with a chevron, divided by hairlines: a tappable list, not loose text.
                 // The bubble strip is kept for the one row where it carries a result; the others
                 // say it in numbers.
-                for (final (i, (label, score)) in const [('Mock 7', '183 of 250'), ('Mock 6', '171 of 250'), ('Quick 10', '7 of 10'), ('Mock 5', '164 of 250')].indexed) ...[
+                for (final (i, (label, score)) in const [('Mock 7', '183 of 250'), ('Mock 6', '171 of 250'), ('Quick 10', '7 of 10'), ('Mock 5', '164 of 250'), ('Quick 10', '8 of 10')].indexed) ...[
                   if (i > 0) SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.7))),
                   SizedBox(
                     height: 48,

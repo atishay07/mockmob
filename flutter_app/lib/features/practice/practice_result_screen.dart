@@ -30,6 +30,7 @@ import 'widgets/result_foot.dart';
 import 'widgets/result_list.dart';
 import 'widgets/report_key.dart';
 import 'widgets/result_states.dart';
+import 'widgets/top_edge_fade.dart';
 import 'widgets/save_key.dart';
 
 /// When the server acknowledged the attempt on this phone ("Recorded at 11:51 PM").
@@ -67,6 +68,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   final ScrollController _scroll = ScrollController();
   bool _seeded = false;
   bool _finished = false;
+
+  /// The finish moment has ended: the answers below it come in (a result opened again, or reduced
+  /// motion, shows them at once).
+  bool _settled = false;
 
   /// Whether the moment plays, read once from the pending-result row on the first build that has
   /// it and then held, so marking the result opened can never flip it mid-moment.
@@ -266,6 +271,18 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     // either way (a reopened result would otherwise mount with no bubbles and jump when they arrive).
     final rowsSettled = model.hasRows || detail != null || failedKeys;
     final isFresh = _fresh;
+    final staged = isFresh == true && !_settled && !Motion.reduced(context);
+    // What is below the moment waits for it, then rises in: the list never gives the result away
+    // while the score still counts up.
+    Widget gate(Widget child) => IgnorePointer(
+      ignoring: staged || isFresh == null,
+      child: AnimatedOpacity(
+        opacity: staged || isFresh == null ? 0 : 1,
+        duration: isFresh == true ? Motion.of(context, Motion.card) : Duration.zero,
+        curve: Motion.out,
+        child: child,
+      ),
+    );
 
     return PopScope(
       // Opened by link or straight after a session there is nothing to go back to: back
@@ -287,59 +304,69 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                     children: [
                       const PracticeAppBar(),
                       Expanded(
-                        child: ListView(
+                        child: TopEdgeFade(
                           controller: _scroll,
-                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
-                          children: [
-                            // The moment waits the few milliseconds it takes to know whether
-                            // this is the first open (so it never plays twice or not at all), and
-                            // for the sheet's rows; meanwhile Mobi reads the sheet. Keyed by the
-                            // number of bubbles, so rows that arrive late ink in from the start.
-                            if (isFresh != null && rowsSettled)
-                              FinishStage(
-                                key: ValueKey('finish-${model.cells.length}'),
-                                marks: marks,
-                                cells: model.cells,
-                                tone: finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt)),
-                                recordedAt: recordedAt,
-                                fresh: isFresh,
-                                subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
-                                chapter: chapter,
-                                onCellTap: model.hasRows ? _tapCell : null,
-                              )
-                            else
-                              const ResultReading(),
-                            if (detailState.isStale && detailState.fetchedAt != null) ...[
-                              const SizedBox(height: MmSpace.s12),
-                              Text(
-                                PracticeCopy.lastLoaded(detailState.fetchedAt!.toLocal()),
-                                style: context.mmType.small.copyWith(color: colors.ink3),
-                              ),
+                          child: ListView(
+                            controller: _scroll,
+                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                            children: [
+                              // The moment waits the few milliseconds it takes to know whether
+                              // this is the first open (so it never plays twice or not at all), and
+                              // for the sheet's rows; meanwhile Mobi reads the sheet. Keyed by the
+                              // number of bubbles, so rows that arrive late ink in from the start.
+                              // The failure is said first, where the page opens: below the moment it
+                              // would sit past the fold, half behind the keys.
+                              if (failedKeys) ...[
+                                ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                                const SizedBox(height: MmSpace.s16),
+                              ],
+                              if (isFresh != null && rowsSettled)
+                                FinishStage(
+                                  key: ValueKey('finish-${model.cells.length}'),
+                                  marks: marks,
+                                  cells: model.cells,
+                                  tone: finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt)),
+                                  recordedAt: recordedAt,
+                                  fresh: isFresh,
+                                  subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
+                                  chapter: chapter,
+                                  onCellTap: model.hasRows ? _tapCell : null,
+                                  onSettled: () {
+                                    if (mounted && !_settled) setState(() => _settled = true);
+                                  },
+                                )
+                              else
+                                const ResultReading(),
+                              if (detailState.isStale && detailState.fetchedAt != null) ...[
+                                const SizedBox(height: MmSpace.s12),
+                                Text(
+                                  PracticeCopy.lastLoaded(detailState.fetchedAt!.toLocal()),
+                                  style: context.mmType.small.copyWith(color: colors.ink3),
+                                ),
+                              ],
+                              if (model.hasRows && !failedKeys) ...[
+                                const SizedBox(height: MmSpace.group),
+                                gate(
+                                  ResultList(
+                                    model: model,
+                                    controller: _list,
+                                    keyFor: (qid) => KeyView.of(detail, qid),
+                                    saveFor: _saveFor,
+                                    reportFor: (q) => _reportFor(attempt, detail, q),
+                                    analysis: analysis,
+                                  ),
+                                ),
+                              ],
+                              // After the answers: what the set shows as a whole, then the way to prove
+                              // a repair held. Each claim opens the questions behind it.
+                              if (model.hasRows) gate(ObservationsPanel(analysis: analysis, onShow: _showQuestions)),
+                              if (model.wrong.isNotEmpty) gate(ProveCard(attemptId: attempt.id, subjectId: _publicSubject(attempt))),
+                              if (large) ...[
+                                const SizedBox(height: MmSpace.s24),
+                                KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
+                              ],
                             ],
-                            if (failedKeys) ...[
-                              const SizedBox(height: MmSpace.s20),
-                              ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
-                            ],
-                            if (model.hasRows && !failedKeys) ...[
-                              const SizedBox(height: MmSpace.group),
-                              ResultList(
-                                model: model,
-                                controller: _list,
-                                keyFor: (qid) => KeyView.of(detail, qid),
-                                saveFor: _saveFor,
-                                reportFor: (q) => _reportFor(attempt, detail, q),
-                                analysis: analysis,
-                              ),
-                            ],
-                            // After the answers: what the set shows as a whole, then the way to prove
-                            // a repair held. Each claim opens the questions behind it.
-                            if (model.hasRows) ObservationsPanel(analysis: analysis, onShow: _showQuestions),
-                            if (model.wrong.isNotEmpty) ProveCard(attemptId: attempt.id, subjectId: _publicSubject(attempt)),
-                            if (large) ...[
-                              const SizedBox(height: MmSpace.s24),
-                              KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
-                            ],
-                          ],
+                          ),
                         ),
                       ),
                       ResultFoot(primary: _primary(attempt, model), showFinish: !large, onFinish: _finish),

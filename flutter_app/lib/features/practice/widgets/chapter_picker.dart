@@ -40,7 +40,8 @@ class ChapterField extends StatelessWidget {
               color: pressed ? colors.raised2 : colors.raised,
               shape: RoundedSuperellipseBorder(
                 borderRadius: MmRadius.keyAll,
-                side: BorderSide(color: chosen ? colors.ink : colors.lineStrong, width: chosen ? 1.5 : 1),
+                // A quiet edge in both states: the volt Start key is the loudest thing on the page.
+                side: BorderSide(color: colors.lineStrong),
               ),
             ),
             child: ConstrainedBox(
@@ -146,54 +147,92 @@ class _ChapterListState extends ConsumerState<ChapterList> {
     final colors = context.mmColors;
     final type = context.mmType;
     final chapters = ref.watch(practiceChaptersProvider(widget.subjectId));
-    return chapters.when(
-      loading: () => SkeletonGroup(
-        label: 'Loading chapters',
-        child: Column(
-          children: [
-            for (var i = 0; i < 6; i++)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: MmSpace.s12),
-                child: Skeleton.line(height: 16),
-              ),
-          ],
-        ),
-      ),
-      error: (error, _) {
-        final offline = error is ApiError && error.isOffline;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(offline ? PracticeCopy.chaptersOffline : PracticeCopy.chaptersLoadFailed, style: type.body.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s16),
-            KeyButton.secondary(label: PracticeCopy.retry, onPressed: () => ref.invalidate(practiceChaptersProvider(widget.subjectId))),
-          ],
-        );
-      },
-      data: (catalog) {
-        final multi = canMultiSelect(catalog.allChapters.map((c) => c.name));
-        if (widget.multi.value != multi) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => widget.multi.value = multi);
-        }
-        return ListenableBuilder(
-          listenable: widget.chosen,
-          builder: (context, _) => Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    return _SolidGround(
+      child: chapters.when(
+        loading: () => SkeletonGroup(
+          label: 'Loading chapters',
+          child: Column(
             children: [
-              _SearchField(onChanged: (q) => setState(() => _query = q.trim().toLowerCase())),
-              const SizedBox(height: MmSpace.s8),
-              Text(multi ? PracticeCopy.chapterLimit : PracticeCopy.oneChapterOnly, style: type.small.copyWith(color: colors.ink3)),
-              _Units(
-                units: catalog.units,
-                query: _query,
-                chosen: widget.chosen.value,
-                full: multi && widget.chosen.value.length >= maxChapters,
-                onToggle: (name) => _toggle(name, multi),
-              ),
+              for (var i = 0; i < 6; i++)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: MmSpace.s12),
+                  child: Skeleton.line(height: 16),
+                ),
             ],
           ),
-        );
-      },
+        ),
+        error: (error, _) {
+          final offline = error is ApiError && error.isOffline;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(offline ? PracticeCopy.chaptersOffline : PracticeCopy.chaptersLoadFailed, style: type.body.copyWith(color: colors.ink2)),
+              const SizedBox(height: MmSpace.s16),
+              KeyButton.secondary(label: PracticeCopy.retry, onPressed: () => ref.invalidate(practiceChaptersProvider(widget.subjectId))),
+            ],
+          );
+        },
+        data: (catalog) {
+          final multi = canMultiSelect(catalog.allChapters.map((c) => c.name));
+          if (widget.multi.value != multi) {
+            WidgetsBinding.instance.addPostFrameCallback((_) => widget.multi.value = multi);
+          }
+          return ListenableBuilder(
+            listenable: widget.chosen,
+            builder: (context, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _SearchField(onChanged: (q) => setState(() => _query = q.trim().toLowerCase())),
+                const SizedBox(height: MmSpace.s8),
+                Text(multi ? PracticeCopy.chapterLimit : PracticeCopy.oneChapterOnly, style: type.small.copyWith(color: colors.ink3)),
+                _Units(
+                  units: catalog.units,
+                  query: _query,
+                  chosen: widget.chosen.value,
+                  full: multi && widget.chosen.value.length >= maxChapters,
+                  onToggle: (name) => _toggle(name, multi),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// The chapter list on an opaque ground, edge to edge and down to the footer. The sheet's glass
+/// lets the page behind it show through on Daylight, and a long list of rows over ghost shapes
+/// reads as rendering noise; Night's glass is dark enough to hide them, so only Daylight needs it.
+class _SolidGround extends StatelessWidget {
+  const _SolidGround({required this.child});
+
+  final Widget child;
+
+  /// The sheet's side padding, which the ground runs past to the sheet's edge.
+  static const double _bleed = MmSpace.s20;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    if (colors.isNight) return child;
+    // About the sheet's body (86% of the screen less its handle, title and footer).
+    final minHeight = MediaQuery.sizeOf(context).height * 0.86 - 230;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: -_bleed,
+          right: -_bleed,
+          top: 0,
+          bottom: -_bleed,
+          child: ColoredBox(color: colors.raised),
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(minHeight: minHeight),
+          child: child,
+        ),
+      ],
     );
   }
 }

@@ -33,6 +33,11 @@ class RecapCardPage extends StatefulWidget {
 class _RecapCardPageState extends State<RecapCardPage> {
   double _overscroll = 0;
 
+  /// Keeps the scroll view's state (its offset, its drag) when the fade comes and goes around it:
+  /// the fade wraps it in a mask only while more waits below, and without a key that wrap would
+  /// rebuild the view from the top the moment the end was reached.
+  final GlobalKey _scrollKey = GlobalKey();
+
   /// True while some of the body is still below the fold.
   bool _more = false;
 
@@ -85,27 +90,32 @@ class _RecapCardPageState extends State<RecapCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final scroll = NotificationListener<ScrollMetricsNotification>(
-      onNotification: _onMetrics,
-      child: NotificationListener<ScrollNotification>(
-        onNotification: _onScroll,
-        child: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24),
-              // Built in full, never lazily: every block is in the tree for TalkBack and for tests.
-              sliver: SliverToBoxAdapter(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children)),
+    final scroll = KeyedSubtree(
+      key: _scrollKey,
+      child: NotificationListener<ScrollMetricsNotification>(
+        onNotification: _onMetrics,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _onScroll,
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+            slivers: [
+              SliverPadding(
+                padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24),
+                // Built in full, never lazily: every block is in the tree for TalkBack and for tests.
+                sliver: SliverToBoxAdapter(
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children)),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
     return Column(
       children: [
-        Expanded(child: _BottomFade(active: _more, child: scroll)),
+        Expanded(
+          child: _BottomFade(active: _more, child: scroll),
+        ),
         Padding(padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s12), child: widget.footer),
       ],
     );

@@ -234,8 +234,8 @@ class _Row extends StatelessWidget {
 String reminderRowLine(int asks) => prePromptVariantIndex(asks) == 0 ? ResultCopy.reminderAsk : prePromptVariantFor(asks).line;
 
 /// Inline (never a system dialog first): the reminder offer, when the notifications policy says
-/// it is due. One line of words and two 48 dp text actions on the card itself, no box: the answer
-/// is a tap, not a decision to weigh.
+/// it is due. One line of words, an outlined 48 dp yes and a plain 48 dp no on the card itself, no
+/// box: the answer is a tap, not a decision to weigh.
 class ReminderRow extends StatelessWidget {
   const ReminderRow({super.key, required this.text, required this.onSet, required this.onNotNow});
 
@@ -252,10 +252,14 @@ class ReminderRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(text, style: type.body),
+        const SizedBox(height: MmSpace.s8),
+        // The yes is a real (quiet) key, outlined so it reads as a button and not as a line of text,
+        // and never lit: the card's one volt key is the repair. The no is a plain text action.
         Wrap(
-          spacing: MmSpace.s24,
+          spacing: MmSpace.s16,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            _InlineAction(label: ResultCopy.setReminder, onTap: onSet, color: colors.ink, strong: true),
+            _OutlineAction(label: ResultCopy.setReminder, onTap: onSet),
             _InlineAction(label: ResultCopy.notNow, onTap: onNotNow, color: colors.ink2),
           ],
         ),
@@ -264,14 +268,47 @@ class ReminderRow extends StatelessWidget {
   }
 }
 
+/// An outlined pill key, 48 dp tall: the reminder's yes.
+class _OutlineAction extends StatelessWidget {
+  const _OutlineAction({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return MmPressable(
+      onTap: onTap,
+      semanticsLabel: label,
+      focusRadius: MmRadius.pillAll,
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: pressed ? colors.raised : const Color(0x00000000),
+          shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20),
+            child: Center(
+              widthFactor: 1,
+              child: Text(label, style: context.mmType.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// A plain text action, flush with the text above it and 48 dp tall.
 class _InlineAction extends StatelessWidget {
-  const _InlineAction({required this.label, required this.onTap, required this.color, this.strong = false});
+  const _InlineAction({required this.label, required this.onTap, required this.color});
 
   final String label;
   final VoidCallback onTap;
   final Color color;
-  final bool strong;
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +323,7 @@ class _InlineAction extends StatelessWidget {
           widthFactor: 1,
           child: Text(
             label,
-            style: context.mmType.labelLarge.copyWith(color: pressed ? color.withValues(alpha: 0.7) : color, fontWeight: strong ? FontWeight.w700 : FontWeight.w500),
+            style: context.mmType.labelLarge.copyWith(color: pressed ? color.withValues(alpha: 0.7) : color, fontWeight: FontWeight.w500),
           ),
         ),
       ),

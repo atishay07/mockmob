@@ -121,7 +121,9 @@ class _LengthDialState extends ConsumerState<LengthDial> {
                             ),
                           ),
                         ),
+                        // Top-aligned: every number sits on one baseline, whatever the sheet under it.
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (var i = 0; i < n; i++)
                               Expanded(

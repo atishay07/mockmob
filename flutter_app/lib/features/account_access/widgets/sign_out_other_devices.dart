@@ -15,10 +15,12 @@ class SignOutOtherDevicesCard extends ConsumerStatefulWidget {
   const SignOutOtherDevicesCard({super.key});
 
   @override
-  ConsumerState<SignOutOtherDevicesCard> createState() => _SignOutOtherDevicesCardState();
+  ConsumerState<SignOutOtherDevicesCard> createState() =>
+      _SignOutOtherDevicesCardState();
 }
 
-class _SignOutOtherDevicesCardState extends ConsumerState<SignOutOtherDevicesCard> {
+class _SignOutOtherDevicesCardState
+    extends ConsumerState<SignOutOtherDevicesCard> {
   bool _working = false;
   bool _done = false;
   String? _problem;
@@ -72,15 +74,27 @@ class _SignOutOtherDevicesCardState extends ConsumerState<SignOutOtherDevicesCar
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ExcludeSemantics(child: Icon(LucideIcons.monitorSmartphone, size: 20, color: colors.ink2)),
+                  ExcludeSemantics(
+                    child: Icon(
+                      LucideIcons.monitorSmartphone,
+                      size: 20,
+                      color: colors.ink2,
+                    ),
+                  ),
                   const SizedBox(width: MmSpace.s12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AccessCopy.signOutOthersTitle, style: type.title.copyWith(color: colors.ink)),
+                        Text(
+                          AccessCopy.signOutOthersTitle,
+                          style: type.title.copyWith(color: colors.ink),
+                        ),
                         const SizedBox(height: MmSpace.s4),
-                        Text(AccessCopy.signOutOthersBody, style: type.small.copyWith(color: colors.ink2)),
+                        Text(
+                          AccessCopy.signOutOthersBody,
+                          style: type.small.copyWith(color: colors.ink2),
+                        ),
                       ],
                     ),
                   ),
@@ -88,10 +102,15 @@ class _SignOutOtherDevicesCardState extends ConsumerState<SignOutOtherDevicesCar
               ),
               const SizedBox(height: MmSpace.s16),
               if (_done) ...[
-                const AccessDoneLine(title: AccessCopy.signOutOthersTitle, body: AccessCopy.signOutOthersDone),
+                const AccessDoneLine(
+                  title: AccessCopy.signOutOthersTitle,
+                  body: AccessCopy.signOutOthersDone,
+                ),
               ] else ...[
                 KeyButton.secondary(
-                  label: _working ? AccessCopy.signingOutOthers : AccessCopy.signOutOthersAction,
+                  label: _working
+                      ? AccessCopy.signingOutOthers
+                      : AccessCopy.signOutOthersAction,
                   loading: _working,
                   onPressed: _working ? null : _run,
                 ),

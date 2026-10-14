@@ -68,25 +68,26 @@ class _ObservationRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sentence case, plainly: no tracked capitals.
-          Text(o.label, style: type.caption.copyWith(color: labelColor, fontWeight: FontWeight.w600)),
+          Text(
+            o.label,
+            style: type.caption.copyWith(color: labelColor, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: MmSpace.s4),
           Text(o.headline, style: type.cardTitle.copyWith(fontSize: 17)),
           const SizedBox(height: MmSpace.s4),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(text: '${o.detail} '),
-                TextSpan(text: o.tip, style: TextStyle(color: colors.ink)),
-              ],
-            ),
-            style: type.small.copyWith(color: colors.ink2),
-          ),
+          // One style for the whole paragraph: the fact and the advice read as one voice.
+          Text('${o.detail} ${o.tip}', style: type.small.copyWith(color: colors.ink)),
           if (o.questions.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s4),
             Row(
               children: [
-                Expanded(child: Text(ResultCopy.questionsLine(o.questions), style: type.caption.copyWith(color: colors.ink3))),
-                ShowMePill(onTap: () => onShow(o.questions), semanticsLabel: '${ResultCopy.showMe}: ${ResultCopy.questionsLine(o.questions)}'),
+                Expanded(
+                  child: Text(ResultCopy.questionsLine(o.questions), style: type.caption.copyWith(color: colors.ink3)),
+                ),
+                ShowMePill(
+                  onTap: () => onShow(o.questions),
+                  semanticsLabel: '${ResultCopy.showMe}: ${ResultCopy.questionsLine(o.questions)}',
+                ),
               ],
             ),
           ],

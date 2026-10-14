@@ -73,10 +73,34 @@ List<Override> _weekOverrides(FakeGoal goal, {StudentTarget? target}) => [
 const _phoneWeek = StudentWeek(days: {0, 1, 3, 5}, window: StudyTime.evening, minutes: 20);
 const _phoneTarget = StudentTarget(week: _phoneWeek);
 
+/// The week editor with the pinned Save key the sheet editor draws under it, fed by one controller.
+class _WeekHarness extends StatefulWidget {
+  @override
+  State<_WeekHarness> createState() => _WeekHarnessState();
+}
+
+class _WeekHarnessState extends State<_WeekHarness> {
+  final WeekSaveController _controller = WeekSaveController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          Expanded(child: SingleChildScrollView(child: WeekEditor(controller: _controller))),
+          WeekSaveFooter(controller: _controller),
+        ],
+      );
+}
+
 Future<void> _pumpWeek(WidgetTester tester, FakeGoal goal, {StudentTarget target = _phoneTarget, double textScale = 1}) async {
   await pumpMockmob(
     tester,
-    const SingleChildScrollView(child: WeekEditor()),
+    _WeekHarness(),
     size: const Size(360, 900),
     textScale: textScale,
     disableAnimations: true,
@@ -186,10 +210,10 @@ void main() {
       final goal = FakeGoal(goalState(6));
       await _pumpWeek(tester, goal);
       await tester.tap(find.text('Late, 10:00 PM'));
-      await tester.pump();
+      // The pinned Save key hears about a change a frame after the editor does.
+      await tester.pumpAndSettle();
       await tester.tap(find.text(EditCopy.weekSave));
-      await tester.pump();
-      await tester.pump();
+      await tester.pumpAndSettle();
       expect(goal.saves, isEmpty);
       expect(find.textContaining('Goal: 6 days a week'), findsOneWidget);
     });

@@ -139,7 +139,7 @@ abstract final class MobiMoves {
         MobiStance.rest => (0.7, Curves.easeOutBack),
         MobiStance.think || MobiStance.loading => (0.5, Curves.easeOutCubic),
         MobiStance.sleep => (1.2, Curves.easeInOutCubic),
-        MobiStance.listen => (0.5, Curves.easeOutBack),
+        MobiStance.listen => (0.5, Curves.easeOutCubic),
         _ => (0.45, Curves.easeInOutCubic),
       };
 
@@ -149,7 +149,7 @@ abstract final class MobiMoves {
 
   /// The pointing arm's reach, and the free arm's hip, kept tight so the finger stays inside the
   /// paint box (140 design units wide) even in the nudge's jab.
-  static const double pointReach = 0.9;
+  static const double pointReach = 0.86;
   static const MobiArm pointHip = MobiArm(angle: 0.3, bend: -0.6, reach: 0.88);
 
   /// Fists up at the chest ("you've got this").
@@ -169,7 +169,7 @@ abstract final class MobiMoves {
           armR: pointSide > 0 ? pointing : pointHip,
           armL: pointSide > 0 ? pointHip : pointing,
           // Weight shifted away from the finger, so the reach stays inside the paint box.
-          x: pointSide > 0 ? -11 : 8.5,
+          x: pointSide > 0 ? -11 : 7.5,
           tilt: 0.035 * pointSide,
           lookX: 0.75 * pointSide,
           lookY: (math.cos(pointAngle) * 0.9).clamp(-1.0, 1.0),
@@ -246,11 +246,11 @@ abstract final class MobiMoves {
         // unmistakably someone listening, not someone standing.
         return const MobiRig(
           tilt: -0.12,
-          x: 2.5,
+          x: 5,
           y: 0.5,
           eyeL: MobiEye(open: 1.1, smile: 0.2),
           eyeR: MobiEye(open: 1.1, smile: 0.2),
-          armL: MobiArm(angle: 2.3, bend: 0.2, reach: 1.02, front: 1, twist: -0.75),
+          armL: MobiArm(angle: 2.3, bend: 0.2, reach: 0.94, front: 1, twist: -0.75),
           armR: MobiArm(angle: 0.2, bend: 0.3, reach: 0.98),
           lookX: -0.35,
           lookY: 0.15,
@@ -259,6 +259,10 @@ abstract final class MobiMoves {
   }
 
   // ---- Envelopes ---------------------------------------------------------------------------
+
+  /// How much shorter an arm reaches while it sweeps through the sideways swing (progress [w] 0 to
+  /// 1, deepest halfway): a bent elbow, so a mitten raised from the hip never goes out wide.
+  static double swingDip(double w, double depth) => depth * math.sin(math.pi * w.clamp(0.0, 1.0));
 
   /// Eased progress of [t] through [a] to [b].
   static double ease(double t, double a, double b, [Curve curve = Curves.easeInOutCubic]) {
@@ -346,19 +350,23 @@ abstract final class MobiMoves {
   static MobiRig _hello(double t, MobiRig b) {
     // Anticipation: a small dip and a lean away before the arm comes up.
     final antic = bump(t, 0, 0.2);
-    // The arm rises with overshoot and, on the way down, swings past rest and settles.
-    final up = ease(t, 0.08, 0.38, Curves.easeOutBack);
-    final down = ease(t, 1.38, 1.85, Curves.easeOutBack);
+    // The arm lifts and lowers in one smooth swing (no step in speed from frame to frame).
+    final up = ease(t, 0.08, 0.56, Curves.easeInOutSine);
+    final down = ease(t, 1.3, 1.85, Curves.easeInOutSine);
     final w = up * (1 - down);
-    final waveEnv = ease(t, 0.3, 0.44) * (1 - ease(t, 1.24, 1.42));
-    final osc = math.sin((t - 0.3) * math.pi * 2 * 2.4) * waveEnv;
-    final arm = MobiArm.lerp(b.armL, const MobiArm(angle: 2.7, bend: -1.2, reach: 1.38), w);
+    final waveEnv = ease(t, 0.34, 0.52) * (1 - ease(t, 1.12, 1.32));
+    final osc = math.sin((t - 0.34) * math.pi * 2 * 2.4) * waveEnv;
+    const wave = MobiArm(angle: 2.7, bend: -1.2, reach: 1.38);
+    // The arm sweeps up short and only stretches to its full reach once it is overhead: swung
+    // out sideways at full length the mitten would leave the paint box on the way up.
+    final stretch = w.sign * math.pow(w.abs(), 2.6).toDouble();
+    final arm = MobiArm.lerp(b.armL, wave, w).copyWith(reach: b.armL.reach + (wave.reach - b.armL.reach) * stretch - swingDip(w, 0.3));
     final happy = ease(t, 0.16, 0.36) * (1 - ease(t, 1.34, 1.7));
     final rise = math.max(0.0, w);
     return b.copyWith(
       armL: arm.copyWith(angle: arm.angle + 0.13 * osc, twist: arm.twist + 0.6 * osc),
       // The weight eases to the right as the left arm goes up and out, so the wave stays in the box.
-      x: b.x + 5.5 * rise,
+      x: b.x + 6 * math.min(1.0, rise * 1.4),
       tilt: b.tilt + 0.06 * rise - 0.03 * antic + 0.018 * osc,
       y: b.y + 1.4 * antic - 1.6 * bump(t, 0.16, 0.56),
       squash: b.squash - 0.035 * antic + 0.02 * bump(t, 0.18, 0.5),
@@ -432,7 +440,7 @@ abstract final class MobiMoves {
   static MobiRig _oops(double t, MobiRig b) {
     final s = ease(t, 0, 0.26, Curves.easeOutBack) * (1 - ease(t, 0.95, 1.3));
     final droop = ease(t, 0.15, 0.35) * (1 - ease(t, 0.8, 1.15));
-    const shrug = MobiArm(angle: 0.85, bend: -0.55, reach: 1.0, twist: -1.3);
+    const shrug = MobiArm(angle: 0.72, bend: -0.55, reach: 0.96, twist: -1.3);
     return b.copyWith(
       armL: MobiArm.lerp(b.armL, shrug, s),
       armR: MobiArm.lerp(b.armR, shrug, s),
@@ -475,13 +483,18 @@ abstract final class MobiMoves {
     final air = hop(t, 0.12, 0.44, 12);
     final land = bump(t, 0.42, 0.6);
     final nod = bump(t, 0.6, 0.84);
-    final pump = ease(t, 0.08, 0.26, Curves.easeOutBack) * (1 - ease(t, 0.72, 1.05));
+    final pump = ease(t, 0.08, 0.34, Curves.easeOutBack) * (1 - ease(t, 0.72, 1.05));
+    // The mitten goes up and over the shoulder (a bent elbow on the way, so it never swings out
+    // wide past the paint box), then stretches overhead.
+    const pumpTo = MobiArm(angle: 2.85, bend: -0.9, reach: 1.08, twist: 0.15);
+    final lifted = MobiArm.lerp(b.armR, pumpTo, pump);
+    final pumpArm = lifted.copyWith(reach: lifted.reach - swingDip(pump, 0.65));
     final happy = ease(t, 0.06, 0.18) * (1 - ease(t, 0.88, 1.12));
     final r = b.copyWith(
       y: b.y + 2.4 * crouch + air + 1.8 * land + 1.5 * nod,
       squash: b.squash - 0.07 * crouch + 0.06 * bump(t, 0.12, 0.3) - 0.06 * land - 0.02 * nod,
       tilt: b.tilt + 0.04 * pump,
-      armR: MobiArm.lerp(b.armR, const MobiArm(angle: 2.3, bend: -0.9, reach: 1.15, twist: 0.15), pump),
+      armR: pumpArm,
       eyeL: _eye(b.eyeL, happy: happy),
       eyeR: _eye(b.eyeR, happy: happy),
       lookX: b.lookX * (1 - happy),
@@ -546,7 +559,7 @@ abstract final class MobiMoves {
       armL: push(b.armL),
       armR: push(b.armR),
       tilt: b.tilt + side * (0.045 * jab - 0.02 * pullBack),
-      x: b.x - side * 1.2 * jab,
+      x: b.x - side * 0.6 * jab,
       eyeL: _eye(b.eyeL, smile: 0.75 * smile),
       eyeR: _eye(b.eyeR, smile: 0.75 * smile),
     );

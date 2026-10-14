@@ -43,8 +43,10 @@ class FlapOutside extends StatelessWidget {
               opacity: fade,
               child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              // The header stays at the top; the address block stands on the paper's lower edge and,
+              // when the flap is short (marks held: it is only as tall as that message), shrinks to
+              // the room it has instead of overflowing.
+              child: Stack(
                 children: [
                   Row(
                     children: [
@@ -53,16 +55,31 @@ class FlapOutside extends StatelessWidget {
                       const MmMark(size: 18, tile: false),
                     ],
                   ),
-                  const Spacer(),
-                  Text(model.mockLabel, style: type.figure.copyWith(fontSize: 44, height: 1)),
-                  const SizedBox(height: 2),
-                  Text(model.subjectName, style: type.title.copyWith(color: colors.ink2, fontSize: 20)),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: geometry.width * 0.58,
-                    child: Text(
-                      '${ResultCopy.paperShape(model.questionCount, model.durationMinutes)} ${ResultCopy.submittedAt(model.submittedAt)}',
-                      style: type.caption.copyWith(color: colors.ink2),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.bottomLeft,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(model.mockLabel, style: type.figure.copyWith(fontSize: 44, height: 1)),
+                            const SizedBox(height: 2),
+                            Text(model.subjectName, style: type.title.copyWith(color: colors.ink2, fontSize: 20)),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: geometry.width * 0.58,
+                              child: Text(
+                                '${ResultCopy.paperShape(model.questionCount, model.durationMinutes)} ${ResultCopy.submittedAt(model.submittedAt)}',
+                                style: type.caption.copyWith(color: colors.ink2),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],

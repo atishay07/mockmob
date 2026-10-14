@@ -93,17 +93,22 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                           child: SizedBox(
                             height: art * 1.45,
                             child: Stack(
+                              clipBehavior: Clip.none,
                               alignment: Alignment.bottomCenter,
                               children: [
-                                Positioned.fill(
+                                Positioned(
+                                  left: -MmSpace.cardGutter,
+                                  right: -MmSpace.cardGutter,
+                                  top: -MmSpace.s32,
+                                  bottom: -MmSpace.s16,
                                   child: IgnorePointer(
                                     child: LightField(
                                       pools: [
                                         LightPool(
                                           color: colors.lamp.withValues(alpha: colors.isNight ? 0.3 : 0.24),
                                           center: const Alignment(0, 0.2),
-                                          radius: 0.42,
-                                          aspect: 1.7,
+                                          radius: 0.3,
+                                          aspect: 1.4,
                                         ),
                                       ],
                                     ),
@@ -126,7 +131,11 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                           const SizedBox(height: MmSpace.s8),
                           MmStaggerItem(
                             index: 2,
-                            child: Text(widget.message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                            child: Text(
+                              widget.message!,
+                              style: type.body.copyWith(color: colors.ink2),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                         if (widget.primary != null) ...[
@@ -135,7 +144,11 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                             index: 3,
                             child: KeyedSubtree(
                               key: _action,
-                              child: KeyButton(label: widget.primary!.label, onPressed: widget.primary!.onPressed, loading: widget.primary!.loading),
+                              child: KeyButton(
+                                label: widget.primary!.label,
+                                onPressed: widget.primary!.onPressed,
+                                loading: widget.primary!.loading,
+                              ),
                             ),
                           ),
                         ],
@@ -143,7 +156,9 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                           const SizedBox(height: MmSpace.s4),
                           MmStaggerItem(
                             index: 4,
-                            child: Align(child: KeyButton.quiet(label: widget.secondary!.label, onPressed: widget.secondary!.onPressed)),
+                            child: Align(
+                              child: KeyButton.quiet(label: widget.secondary!.label, onPressed: widget.secondary!.onPressed),
+                            ),
                           ),
                         ],
                       ],

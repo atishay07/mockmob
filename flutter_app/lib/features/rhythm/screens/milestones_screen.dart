@@ -167,7 +167,7 @@ class MilestoneTimeline extends StatelessWidget {
           // Before the first step the one thing to do is a scored set, so it is the one volt key.
           if (none)
             Padding(
-              padding: const EdgeInsets.only(top: MmSpace.s20),
+              padding: const EdgeInsets.fromLTRB(4, MmSpace.s20, 4, 0),
               child: KeyButton(
                 label: RhythmCopy.startSet,
                 onPressed: onStart ?? () => GoRouter.maybeOf(context)?.push(AppRoutes.practiceStart),

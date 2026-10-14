@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api.dart';
+import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/session_draft_repository.dart';
@@ -27,8 +28,7 @@ bool canContinue(SessionDraft? draft, DateTime now) =>
     draft != null && resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch);
 
 /// The location of the paper behind a claim: the mock recap, or the practice result.
-String evidenceLocation(Attempt attempt) =>
-    attempt.isMock ? AppRoutes.result(attempt.id) : AppRoutes.practiceResult(attempt.id);
+String evidenceLocation(Attempt attempt) => attempt.isMock ? AppRoutes.result(attempt.id) : AppRoutes.practiceResult(attempt.id);
 
 /// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card. It follows
 /// the subject picked on the tiles, and its Start opens the confirm sheet in that same subject.
@@ -40,6 +40,7 @@ class SuggestionHero extends ConsumerWidget {
     final suggestion = ref.watch(practiceSuggestionProvider);
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final now = ref.watch(nowProvider)();
+    final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
     // The "Late-night lines" setting turns this one off too.
     final late = isLateNight(now) && ref.watch(lateNightLinesProvider);
     final subject = subjectNameFor(suggestion.subjectId, catalog);
@@ -80,6 +81,7 @@ class SuggestionHero extends ConsumerWidget {
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
+          offline: offline,
         );
       case SubjectSuggestion():
         final s = suggestion;
@@ -94,6 +96,7 @@ class SuggestionHero extends ConsumerWidget {
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
+          offline: offline,
         );
       case StartingSuggestion():
         final s = suggestion;
@@ -109,6 +112,7 @@ class SuggestionHero extends ConsumerWidget {
               : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),
+          offline: offline,
         );
     }
   }

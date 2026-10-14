@@ -109,7 +109,7 @@ void main() {
       final sheet = await frameSheet(
         tester,
         root: find.byType(Scaffold).first,
-        atMs: const [0, 300, 700, 1000, 7500],
+        atMs: const [0, 350, 700, 1050, 7500],
         crop: const Rect.fromLTWH(0, 0, 384, 540),
         scale: 0.5,
         columns: 5,

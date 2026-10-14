@@ -323,12 +323,12 @@ void main() {
   test('Mobi names wrong answers and blanks apart, so the line matches "Repair these 3"', () {
     const m = FinishMarks(correct: 1, wrong: 3, blank: 1, total: 5);
     final line = PracticeCopy.finishLine(FinishTone.mixed, m);
-    expect(line, 'Let’s look at the 3 wrong answers and 1 blank. The reasons are below.');
+    expect(line, 'Let’s look at the 3 wrong answers and 1 not attempted. The reasons are below.');
     expect(line.contains('4'), isFalse);
     expect(PracticeCopy.repairThese(m.wrong), 'Repair these 3');
     expect(
       PracticeCopy.finishLine(FinishTone.good, const FinishMarks(correct: 7, wrong: 0, blank: 3, total: 10)),
-      'Most of this set is right. 3 blanks to look at below.',
+      'Most of this set is right. 3 not attempted to look at below.',
     );
   });
 

@@ -38,7 +38,7 @@ class AnswerSheetView extends StatefulWidget {
 
   static const int columns = 10;
   static const double minGap = 6;
-  static const double maxGap = 16;
+  static const double maxGap = 20;
   static const double rowGap = 10;
 
   @override

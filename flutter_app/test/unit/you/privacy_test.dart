@@ -141,15 +141,15 @@ void main() {
         expect(find.text('Off for your account.'), findsOneWidget);
         expect(_switch, findsNothing);
         expect(find.text(usageDataConsentLabel), findsNothing);
-        expect(find.text('Change my answer'), findsOneWidget);
+        expect(find.text('Change my age answer'), findsOneWidget);
       });
     });
   }
 
-  testWidgets('Change my answer re-asks the age question and saves the choice', (tester) async {
+  testWidgets('Change my age answer re-asks the age question and saves the choice', (tester) async {
     final consent = FakeConsent(consentState(AgeBand.adult, on: true));
     await _pump(tester, consent);
-    await tester.tap(find.text('Change my answer'));
+    await tester.tap(find.text('Change my age answer'));
     await tester.pumpAndSettle();
     expect(find.text('Are you 18 or older?'), findsOneWidget);
     expect(find.text('This only decides your data settings.'), findsNothing, reason: 'the defensive caption is gone');
@@ -167,7 +167,7 @@ void main() {
   testWidgets('a minor who says Yes gets the switch, still off', (tester) async {
     final consent = FakeConsent(consentState(AgeBand.minor));
     await _pump(tester, consent);
-    await tester.tap(find.text('Change my answer'));
+    await tester.tap(find.text('Change my age answer'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Yes'));
     await tester.pumpAndSettle();
@@ -179,7 +179,7 @@ void main() {
   testWidgets('a failed age change is reported', (tester) async {
     final consent = FakeConsent(consentState(AgeBand.minor))..failWith = offlineError();
     await _pump(tester, consent);
-    await tester.tap(find.text('Change my answer'));
+    await tester.tap(find.text('Change my age answer'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Yes'));
     await tester.pumpAndSettle();

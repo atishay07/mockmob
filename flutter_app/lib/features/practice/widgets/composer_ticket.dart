@@ -100,7 +100,8 @@ class ComposerTicket extends StatelessWidget {
                             const SizedBox(width: MmSpace.s8),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(right: MmSpace.s4),
+                                // Clear of the perforation: a long subject wraps or steps down before it can touch it.
+                                padding: const EdgeInsets.only(right: MmSpace.s16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
@@ -378,7 +379,7 @@ class _SubjectChipsState extends ConsumerState<SubjectChips> {
   /// The strip, faded to nothing over its last [fade] dp on each side that has more chips. Always
   /// wrapped, so the list keeps its scroll position when a fade comes or goes.
   Widget _faded(Widget strip) {
-    const fade = 28.0;
+    const fade = 36.0;
     return ShaderMask(
       blendMode: BlendMode.dstIn,
       shaderCallback: (rect) {

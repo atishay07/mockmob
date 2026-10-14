@@ -56,7 +56,11 @@ final afterSignInSheetLauncherProvider = Provider<VoidCallback>((ref) {
   };
 });
 
-void _openOverToday(Ref ref, {required VoidCallback onOpened, required VoidCallback onGaveUp}) {
+void _openOverToday(
+  Ref ref, {
+  required VoidCallback onOpened,
+  required VoidCallback onGaveUp,
+}) {
   final router = ref.read(routerProvider);
   final delegate = router.routerDelegate;
   bool atToday() => delegate.currentConfiguration.uri.path == AppRoutes.today;

@@ -88,8 +88,9 @@ class ChapterSummary {
         final rows = b['rows'];
         if (rows is List) {
           for (final r in rows) {
-            if (r is List)
+            if (r is List) {
               out.writeln([for (final c in r) asStringOr(c, '')].join(' | '));
+            }
           }
         }
       }

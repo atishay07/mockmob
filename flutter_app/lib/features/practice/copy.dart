@@ -128,7 +128,7 @@ abstract final class PracticeCopy {
   static const String summaryTime = 'Time';
   static const String summaryMarking = 'Marking';
   static const String summaryCost = 'Cost';
-  static const String markingValue = '+5 right, ${minusSign}1 wrong, 0 blank';
+  static const String markingValue = '+5 right, ${minusSign}1 wrong, 0 not attempted';
   static const String allChapters = 'All chapters';
   static const String costIncluded = 'Included with Pro';
   static const String costFree = 'Free';
@@ -181,6 +181,9 @@ abstract final class PracticeCopy {
       'You have ${plural(balance, 'credit')}, and this takes $cost. One chapter takes the same.';
   static String creditsLowMock(int balance, int cost, String modeLabel) =>
       'You have ${plural(balance, 'credit')}, and a $modeLabel takes $cost.';
+
+  /// The one line above a dead Start key when credits are short.
+  static String creditsNeeded(int cost, int balance) => 'Needs ${plural(cost, 'credit')}. You have $balance.';
   static const String freeRightNow = 'Free right now';
   static const String freeDaily = 'Today’s free 10-question practice';
   static const String freeLearn = 'Concepts';
@@ -228,7 +231,7 @@ abstract final class PracticeCopy {
   static String figureUnit(int total) => 'of $total';
   static String figureSemantics(int correct, int total) => '$correct of $total correct';
   static String countsLine(int right, int wrong, int blank) {
-    if (wrong == 0 && blank == 0) return '$right right. Nothing wrong, nothing left blank.';
+    if (wrong == 0 && blank == 0) return '$right right. Nothing wrong, nothing left out.';
     return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
   }
 
@@ -241,14 +244,14 @@ abstract final class PracticeCopy {
       FinishTone.great => 'Most of this set is right. $toLook to look at below.',
       FinishTone.good => 'Most of this set is right. $toLook to look at below.',
       FinishTone.mixed => 'Let’s look at the $toLook. The reasons are below.',
-      FinishTone.blank => 'A lot left blank. Try them below, no clock running.',
+      FinishTone.blank => 'A lot was not attempted. Try those below, no clock running.',
       FinishTone.low => 'Start with the first one below. The reason is right there.',
     };
   }
 
   /// "3 wrong answers and 1 blank", "1 wrong answer", "2 blanks"; null when there is nothing.
   static String? _toLook(int wrong, int blank) {
-    final parts = [if (wrong > 0) plural(wrong, 'wrong answer'), if (blank > 0) plural(blank, 'blank')];
+    final parts = [if (wrong > 0) plural(wrong, 'wrong answer'), if (blank > 0) '$blank not attempted'];
     return parts.isEmpty ? null : parts.join(' and ');
   }
 
@@ -256,7 +259,7 @@ abstract final class PracticeCopy {
   static String marksLine(FinishMarks m) {
     final head = '${formatSignedNumber(m.scored)} of ${m.max} marks.';
     if (m.wrong > 0) return '$head ${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
-    if (m.blank > 0) return '$head ${plural(m.blank, 'blank')} left ${m.leftOnBlanks} marks on the table.';
+    if (m.blank > 0) return '$head ${plural(m.blank, 'question')} not attempted left ${m.leftOnBlanks} marks on the table.';
     return head;
   }
 
@@ -276,7 +279,9 @@ abstract final class PracticeCopy {
   static const String practiceAnotherChapter = 'Practice another chapter';
   static const String tryTheBlanks = 'Try the blanks';
   static const String finishForNow = 'Finish for now';
-  static String finished(DateTime at) => 'Practice recorded at ${formatTime12(at)}.';
+
+  /// The ending says it the way the result page does: one wording for the same fact.
+  static String finished(DateTime at) => recorded(at);
   static String sectionWrong(int n) => 'Wrong answers ($n)';
   static String sectionBlank(int n) => 'Not attempted ($n)';
   static String sectionCorrect(int n) => 'Correct ($n)';

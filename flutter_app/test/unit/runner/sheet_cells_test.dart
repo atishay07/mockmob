@@ -77,7 +77,7 @@ void main() {
     });
 
     test('received names the acknowledgement time', () {
-      expect(RunnerCopy.received(DateTime(2026, 10, 13, 22, 42)), 'Answers received. Saved on the server at 10:42 PM.');
+      expect(RunnerCopy.received(DateTime(2026, 10, 13, 22, 42)), 'Saved on the server at 10:42 PM.');
     });
 
     test('labels', () {

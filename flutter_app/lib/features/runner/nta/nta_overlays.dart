@@ -162,31 +162,18 @@ class NtaWarningOverlay extends StatelessWidget {
                                   style: type.body.copyWith(color: colors.ink),
                                 ),
                                 if (!ended) ...[
-                                  const SizedBox(height: MmSpace.s16),
-                                  for (final rule in NtaCopy.rules)
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: MmSpace.s6),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 3),
-                                            child: Icon(LucideIcons.dot, size: 14, color: colors.ink3),
-                                          ),
-                                          const SizedBox(width: MmSpace.s6),
-                                          Expanded(
-                                            child: Text(rule, style: type.small.copyWith(color: colors.ink2)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  // The rules are on the instructions page and the body above already says
+                                  // what this warning costs: only the first warning offers them, folded.
+                                  if (n == 1) ...[const SizedBox(height: MmSpace.s8), const _RulesDisclosure()],
                                   const SizedBox(height: MmSpace.s16),
                                   KeyButton(label: NtaCopy.returnKey, onPressed: integrity.acknowledge, hapticOnCommit: false, autofocus: true),
                                 ] else ...[
                                   const SizedBox(height: MmSpace.s16),
                                   _EndedStatus(submitState: submitState),
                                   const SizedBox(height: MmSpace.s16),
-                                  KeyButton(label: NtaCopy.endedContinue, onPressed: onContinue, hapticOnCommit: false, autofocus: true),
+                                  // Not live while the answers are still on their way: Continue opens the
+                                  // submit page, and the card is where the student reads that they went.
+                                  _ContinueKey(submitState: submitState, onContinue: onContinue),
                                 ],
                               ],
                             ),
@@ -201,6 +188,86 @@ class NtaWarningOverlay extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// "What counts as a warning", folded: one quiet key that opens the four rules in place.
+class _RulesDisclosure extends StatefulWidget {
+  const _RulesDisclosure();
+
+  @override
+  State<_RulesDisclosure> createState() => _RulesDisclosureState();
+}
+
+class _RulesDisclosureState extends State<_RulesDisclosure> {
+  bool _open = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.small.copyWith(color: colors.ink2);
+    final dot = (style.fontSize ?? 14) * (style.height ?? 1.4) / 2 - 2;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          // The key's own padding is pulled back, so its words start on the card's edge.
+          child: Transform.translate(
+            offset: const Offset(-MmSpace.s16, 0),
+            child: KeyButton.quiet(
+              label: _open ? NtaCopy.rulesHide : NtaCopy.rulesShow,
+              onPressed: () => setState(() => _open = !_open),
+              hapticOnCommit: false,
+            ),
+          ),
+        ),
+        if (_open)
+          for (final rule in NtaCopy.rules)
+            Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // A 4 dp bullet on the middle of the first line of its rule.
+                  Padding(
+                    padding: EdgeInsets.only(top: dot),
+                    child: SizedBox.square(
+                      dimension: 4,
+                      child: DecoratedBox(decoration: BoxDecoration(color: colors.ink3, shape: BoxShape.circle)),
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(child: Text(rule, style: style)),
+                ],
+              ),
+            ),
+      ],
+    );
+  }
+}
+
+/// "Continue" on the ended card: off while the call is in flight (the line above says the answers
+/// are being submitted, and a live key beside it would say the opposite), live once there is a
+/// result to read (received, kept on this phone, not recorded). Idle means the submit did not
+/// start: the page still opens with its own Submit key, so Continue stays live then.
+class _ContinueKey extends StatelessWidget {
+  const _ContinueKey({required this.submitState, required this.onContinue});
+
+  final ValueListenable<SubmitUiState>? submitState;
+  final VoidCallback? onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    final listenable = submitState;
+    if (listenable == null) return KeyButton(label: NtaCopy.endedContinue, onPressed: onContinue, hapticOnCommit: false, autofocus: true);
+    return ValueListenableBuilder<SubmitUiState>(
+      valueListenable: listenable,
+      builder: (context, state, _) {
+        final inFlight = state.stage == SubmitStage.sending;
+        return KeyButton(label: NtaCopy.endedContinue, onPressed: inFlight ? null : onContinue, hapticOnCommit: false, autofocus: true);
+      },
     );
   }
 }

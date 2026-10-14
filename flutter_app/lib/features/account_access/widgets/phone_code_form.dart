@@ -48,7 +48,11 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
 
   AccountAccessGateway get _gateway => ref.read(accountAccessGatewayProvider);
 
-  Future<void> _run(Future<void> Function() call, {VoidCallback? onOk, bool stayWorking = false}) async {
+  Future<void> _run(
+    Future<void> Function() call, {
+    VoidCallback? onOk,
+    bool stayWorking = false,
+  }) async {
     setState(() {
       _working = true;
       _problem = null;
@@ -84,7 +88,9 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
     }
     FocusScope.of(context).unfocus();
     await _run(
-      () => widget.purpose == PhoneCodePurpose.signIn ? _gateway.sendPhoneCode(phone) : _gateway.addPhone(phone),
+      () => widget.purpose == PhoneCodePurpose.signIn
+          ? _gateway.sendPhoneCode(phone)
+          : _gateway.addPhone(phone),
       onOk: () => _sentTo = phone,
     );
   }
@@ -99,9 +105,15 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
     FocusScope.of(context).unfocus();
     if (widget.purpose == PhoneCodePurpose.signIn) {
       // Signed in: the router replaces this screen, so the key keeps its working state.
-      await _run(() => _gateway.verifyPhoneCode(phone, _code.text), stayWorking: true);
+      await _run(
+        () => _gateway.verifyPhoneCode(phone, _code.text),
+        stayWorking: true,
+      );
     } else {
-      await _run(() => _gateway.verifyPhoneChange(phone, _code.text), onOk: () => _added = true);
+      await _run(
+        () => _gateway.verifyPhoneChange(phone, _code.text),
+        onOk: () => _added = true,
+      );
     }
   }
 
@@ -114,7 +126,10 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const AccessDoneLine(title: AccessCopy.numberAdded, body: AccessCopy.numberAddedBody),
+          const AccessDoneLine(
+            title: AccessCopy.numberAdded,
+            body: AccessCopy.numberAddedBody,
+          ),
           const SizedBox(height: MmSpace.s24),
           KeyButton(label: AccessCopy.done, onPressed: widget.onDone),
         ],
@@ -138,7 +153,10 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
             onSubmitted: _send,
           )
         else ...[
-          Text(AccessCopy.smsSentTo(sentTo), style: type.body.copyWith(color: colors.ink2)),
+          Text(
+            AccessCopy.smsSentTo(sentTo),
+            style: type.body.copyWith(color: colors.ink2),
+          ),
           const SizedBox(height: MmSpace.s16),
           AccessField(
             kind: AccessFieldKind.code,
@@ -165,8 +183,12 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
         else ...[
           KeyButton(
             label: _working
-                ? (widget.purpose == PhoneCodePurpose.signIn ? AccessCopy.signingIn : AccessCopy.checking)
-                : (widget.purpose == PhoneCodePurpose.signIn ? AccessCopy.signIn : AccessCopy.addNumber),
+                ? (widget.purpose == PhoneCodePurpose.signIn
+                      ? AccessCopy.signingIn
+                      : AccessCopy.checking)
+                : (widget.purpose == PhoneCodePurpose.signIn
+                      ? AccessCopy.signIn
+                      : AccessCopy.addNumber),
             loading: _working,
             onPressed: _working ? null : _verify,
           ),
@@ -178,10 +200,10 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
               onPressed: _working
                   ? null
                   : () => setState(() {
-                        _sentTo = null;
-                        _code.clear();
-                        _problem = null;
-                      }),
+                      _sentTo = null;
+                      _code.clear();
+                      _problem = null;
+                    }),
             ),
           ),
         ],

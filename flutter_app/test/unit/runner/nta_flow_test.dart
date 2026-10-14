@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
+import 'package:mockmob/core/sync/session/session_submitter.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/core/widgets/status_tint.dart' show statusTintColor;
 import 'package:mockmob/features/runner/nta/nta_copy.dart';
 import 'package:mockmob/features/runner/nta/nta_header.dart' show NtaBar;
@@ -226,6 +229,16 @@ void main() {
     expect(find.textContaining('You reached three warnings'), findsOneWidget);
     expect(find.text('Submitting your answers'), findsOneWidget);
     expect(find.text('Exam summary'), findsNothing, reason: 'the submit page waits for Continue');
+    // Continue is off while the answers are on their way: the line above says they are being
+    // submitted, and a live key beside it would say the opposite.
+    expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Continue')).onPressed, isNull);
+    await tester.tap(find.text('Continue'), warnIfMissed: false);
+    await settle(tester);
+    expect(find.text('Exam summary'), findsNothing, reason: 'a disabled Continue opens nothing');
+    // The call ended without the server (the phone has them): Continue is live and opens the page.
+    s.submitState.value = const SubmitUiState(SubmitStage.pending, outcome: SubmitPending(ApiError(kind: ApiErrorKind.network, code: 'network')));
+    await settle(tester);
+    expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, 'Continue')).onPressed, isNotNull);
     await tester.tap(find.text('Continue'));
     await settle(tester);
     expect(find.text('Exam summary'), findsOneWidget, reason: 'the submit page opens after Continue');

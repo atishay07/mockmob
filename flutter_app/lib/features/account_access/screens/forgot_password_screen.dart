@@ -23,11 +23,14 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
   final String? email;
 
   @override
-  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
-  late final TextEditingController _email = TextEditingController(text: widget.email ?? '');
+  late final TextEditingController _email = TextEditingController(
+    text: widget.email ?? '',
+  );
   final TextEditingController _code = TextEditingController();
   String? _sentTo;
   bool _sending = false;
@@ -131,7 +134,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       if (!mounted) return;
       setState(() {
         _checking = false;
-        _problem = AccessCopy.problem(e is AccessException ? e.failure : AccessFailure.unknown);
+        _problem = AccessCopy.problem(
+          e is AccessException ? e.failure : AccessFailure.unknown,
+        );
       });
     }
   }
@@ -162,7 +167,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               onSubmitted: _send,
             ),
           ] else ...[
-            Text(AccessCopy.codeSentTo(sentTo), style: type.body.copyWith(color: colors.ink2)),
+            Text(
+              AccessCopy.codeSentTo(sentTo),
+              style: type.body.copyWith(color: colors.ink2),
+            ),
             const SizedBox(height: MmSpace.s16),
             AccessField(
               kind: AccessFieldKind.code,
@@ -184,7 +192,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               label: _sending ? AccessCopy.sendingCode : AccessCopy.emailMeCode,
               loading: _sending,
               onPressed: _sending || left > 0 ? null : _send,
-              disabledReason: left > 0 && !_sending ? AccessCopy.resendIn(left) : null,
+              disabledReason: left > 0 && !_sending
+                  ? AccessCopy.resendIn(left)
+                  : null,
             )
           else ...[
             KeyButton(
@@ -197,7 +207,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               spacing: MmSpace.s8,
               children: [
                 KeyButton.quiet(
-                  label: left > 0 ? AccessCopy.resendIn(left) : (_sending ? AccessCopy.sendingCode : AccessCopy.resendCode),
+                  label: left > 0
+                      ? AccessCopy.resendIn(left)
+                      : (_sending
+                            ? AccessCopy.sendingCode
+                            : AccessCopy.resendCode),
                   onPressed: left > 0 || _sending || _checking ? null : _send,
                 ),
                 KeyButton.quiet(
@@ -205,10 +219,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   onPressed: _checking
                       ? null
                       : () => setState(() {
-                            _sentTo = null;
-                            _code.clear();
-                            _problem = null;
-                          }),
+                          _sentTo = null;
+                          _code.clear();
+                          _problem = null;
+                        }),
                 ),
               ],
             ),

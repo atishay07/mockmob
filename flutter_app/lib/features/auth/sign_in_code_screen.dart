@@ -230,7 +230,8 @@ class _Notice extends StatelessWidget {
                   // The tick settles from 0.6 with a small overshoot; a ring of volt widens from
                   // it and fades, once.
                   final settle = Motion.emphasized.transform(t);
-                  final scale = 0.6 + 0.4 * settle + 0.12 * (1 - (2 * t - 1).abs());
+                  final scale =
+                      0.6 + 0.4 * settle + 0.12 * (1 - (2 * t - 1).abs());
                   return Stack(
                     alignment: Alignment.center,
                     clipBehavior: Clip.none,
@@ -242,7 +243,9 @@ class _Notice extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: colors.volt.withValues(alpha: 0.7 * (1 - t)),
+                              color: colors.volt.withValues(
+                                alpha: 0.7 * (1 - t),
+                              ),
                               width: 2,
                             ),
                           ),

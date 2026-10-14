@@ -95,6 +95,8 @@ abstract final class NtaCopy {
   static const String endedContinue = 'Continue';
   static const String endedNotRecorded = 'Your answers could not be recorded.';
   static const String endedBody = 'You reached three warnings. Answering is locked. We will submit the answers you already gave.';
+  static const String rulesShow = 'What counts as a warning';
+  static const String rulesHide = 'Hide the rules';
   static const List<String> rules = [
     'Leaving the app, switching apps or locking the screen counts as a warning.',
     'A quick look at notifications does not count.',

@@ -45,7 +45,7 @@ class ChoiceOption {
 
 /// How a row of the deck is laid out. Hierarchy comes from shape and size, not colour: the lead is
 /// a hero with its own light, pairs are borderless tonal tiles, a wide row is a ruled list row, a
-/// quiet row is an outline.
+/// quiet row is a plain list row.
 sealed class ChoiceRow {
   const ChoiceRow();
 
@@ -668,7 +668,9 @@ class WideChoice extends StatelessWidget {
   }
 }
 
-/// A tertiary choice: hairline only, the object small, one line.
+/// A tertiary choice: the same plain list row as [WideChoice] (no card, no outline), the object
+/// a little smaller, one line of note, a chevron. It closes the deck without a last rule, so it
+/// never reads as a box inside the sheet.
 class QuietChoice extends StatelessWidget {
   const QuietChoice({super.key, required this.option});
 
@@ -681,23 +683,17 @@ class QuietChoice extends StatelessWidget {
     final o = option;
     return _ChoicePress(
       option: o,
-      radius: MmRadius.keyAll,
-      pressedScale: 0.98,
+      radius: MmRadius.smallAll,
+      pressedScale: 0.985,
       builder: (context, pressed, motion) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: pressed ? colors.ink.withValues(alpha: 0.05) : null,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: MmRadius.keyAll,
-            side: BorderSide(color: colors.line),
-          ),
-        ),
+        decoration: BoxDecoration(color: pressed ? colors.ink.withValues(alpha: 0.06) : null),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 60),
+          constraints: const BoxConstraints(minHeight: 64),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
             child: Row(
               children: [
-                ChoiceGlyph(kind: o.glyph, size: 40, motion: motion),
+                ChoiceGlyph(kind: o.glyph, size: 44, motion: motion),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
@@ -709,6 +705,8 @@ class QuietChoice extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(width: MmSpace.s8),
+                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
               ],
             ),
           ),

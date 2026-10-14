@@ -51,25 +51,32 @@ class _RunnerCountState extends State<RunnerCount> {
     );
     if (reduced) return number;
     final direction = _direction;
-    return AnimatedSwitcher(
-      duration: RunnerMotion.countFlip,
-      switchInCurve: Motion.glide,
-      switchOutCurve: Motion.exit,
-      layoutBuilder: (current, previous) => Stack(
-        alignment: Alignment.centerLeft,
-        children: [...previous, ?current],
+    // Clipped to the number's own box: whatever slides out of it is cut, not smeared over the bar.
+    return ClipRect(
+      child: AnimatedSwitcher(
+        duration: RunnerMotion.countFlip,
+        switchInCurve: Motion.glide,
+        switchOutCurve: Motion.exit,
+        layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+        transitionBuilder: (child, animation) {
+          final entering = child.key == incoming;
+          // Forward: the new number rises from below and the old one leaves upward; back is the
+          // mirror. The outgoing child's animation runs in reverse, so one tween serves both.
+          // A full line of travel and a fade split in two halves: the old number is gone before the
+          // new one appears, so there is never a frame with two counters printed over each other.
+          final shift = (entering ? direction : -direction) * 0.9;
+          final slide = Tween<Offset>(begin: Offset(0, shift), end: Offset.zero).animate(animation);
+          final fade = CurvedAnimation(parent: animation, curve: const Interval(0.5, 1));
+          final faded = FadeTransition(
+            opacity: fade,
+            alwaysIncludeSemantics: true,
+            child: SlideTransition(position: slide, child: child),
+          );
+          // The leaving number is a picture only: one question never has two labels for a reader.
+          return entering ? faded : ExcludeSemantics(child: faded);
+        },
+        child: number,
       ),
-      transitionBuilder: (child, animation) {
-        final entering = child.key == incoming;
-        // Forward: the new number rises from below and the old one leaves upward; back is the
-        // mirror. The outgoing child's animation runs in reverse, so one tween serves both.
-        final shift = (entering ? direction : -direction) * 0.45;
-        final slide = Tween<Offset>(begin: Offset(0, shift), end: Offset.zero).animate(animation);
-        final faded = FadeTransition(opacity: animation, alwaysIncludeSemantics: true, child: SlideTransition(position: slide, child: child));
-        // The leaving number is a picture only: one question never has two labels for a reader.
-        return entering ? faded : ExcludeSemantics(child: faded);
-      },
-      child: number,
     );
   }
 }

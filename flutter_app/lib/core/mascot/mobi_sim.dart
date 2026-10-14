@@ -247,7 +247,18 @@ class MobiSim {
     final from = _stanceFrom;
     if (from == null) return _stanceRig;
     final (dur, curve) = MobiMoves.stanceBlend(_stance);
-    return MobiRig.lerp(from, _stanceRig, curve.transform((_stanceT / dur).clamp(0.0, 1.0)));
+    final f = (_stanceT / dur).clamp(0.0, 1.0);
+    final r = MobiRig.lerp(from, _stanceRig, curve.transform(f));
+    // An arm that swings a long way (hanging to beside the head, say) bends at the elbow on the
+    // way: its reach dips halfway, so the mitten never flies out wide past the paint box.
+    MobiArm bent(MobiArm a, MobiArm start, MobiArm end) {
+      final sweep = (end.angle - start.angle).abs();
+      if (sweep < 1.2) return a;
+      final depth = 0.4 * math.min(1.0, (sweep - 1.2) / 0.8);
+      return a.copyWith(reach: a.reach - depth * math.sin(math.pi * f));
+    }
+
+    return r.copyWith(armL: bent(r.armL, from.armL, _stanceRig.armL), armR: bent(r.armR, from.armR, _stanceRig.armR));
   }
 
   /// Runs [seconds] in frames of 1/[fps] s, as a screen would, and returns the last frame.

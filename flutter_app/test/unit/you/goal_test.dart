@@ -19,8 +19,8 @@ void main() {
     await _pump(tester, FakeGoal(goalState(4)));
     expect(find.bySemanticsLabel(RegExp('^Goal: 4 days a week')), findsOneWidget);
     expect(find.text('A study day is a day you finish a practice, a mock or a repair.'), findsOneWidget);
-    expect(find.text('study'), findsOneWidget);
-    expect(find.text('rest'), findsOneWidget);
+    expect(find.text('Study'), findsOneWidget);
+    expect(find.text('Rest'), findsOneWidget);
     expect(tester.widget<KeyButton>(find.byType(KeyButton)).onPressed, isNull);
   });
 
@@ -35,7 +35,7 @@ void main() {
     await tester.tap(_day(7));
     await tester.pump();
     expect(find.text('Every day of the week. There are no rest days at this goal.'), findsOneWidget);
-    expect(find.text('rest'), findsNothing);
+    expect(find.text('Rest'), findsNothing);
   });
 
   testWidgets('every day bubble is a labelled radio with a full-size target', (tester) async {

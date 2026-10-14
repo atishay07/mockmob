@@ -5,7 +5,9 @@ import '../../../core/storage/prefs_store.dart';
 
 /// Where this phone remembers, per account, that a password was set here or that the "Set a
 /// password" nudge was dismissed. Not secret: no password or token is ever stored.
-final accessPrefsStoreProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
+final accessPrefsStoreProvider = Provider<PrefsStore>(
+  (ref) => SharedPrefsStore(),
+);
 
 /// Small per-account memory for the password nudge. Supabase does not say whether an account
 /// has a password, so the nudge relies on what happened on this phone.
@@ -18,7 +20,8 @@ class PasswordHints {
   String? get _user => _ref.read(authSnapshotProvider).userId;
 
   static String _setKey(String user) => 'access.password_set.$user';
-  static String _dismissedKey(String user) => 'access.password_nudge_dismissed.$user';
+  static String _dismissedKey(String user) =>
+      'access.password_nudge_dismissed.$user';
 
   Future<bool> shouldNudge() async {
     final user = _user;
@@ -44,7 +47,9 @@ final passwordHintsProvider = Provider<PasswordHints>(PasswordHints.new);
 
 /// True when a signed-in student should see "Set a password for faster sign-in".
 final passwordNudgeProvider = FutureProvider<bool>((ref) async {
-  final signedIn = ref.watch(authSnapshotProvider.select((s) => s.isSignedIn ? s.userId : null));
+  final signedIn = ref.watch(
+    authSnapshotProvider.select((s) => s.isSignedIn ? s.userId : null),
+  );
   if (signedIn == null) return false;
   return ref.read(passwordHintsProvider).shouldNudge();
 });

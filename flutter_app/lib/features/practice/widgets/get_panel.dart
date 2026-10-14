@@ -12,6 +12,10 @@ import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
 import 'composer_parts.dart';
 import 'delayed_skeleton.dart';
+import 'plain_notice.dart';
+
+/// The height the checking skeleton holds: about the three rows of the finished summary.
+const double _skeletonHeight = 176;
 
 /// "What you get" on the confirm sheet: the size of the session, how long it takes and what it
 /// costs, all from the quote. The only place in the app that states a cost. Every state of the
@@ -48,24 +52,35 @@ class GetPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (offline) return const InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
+    if (offline) return const PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
     final value = quote;
     // A failed quote may be retrying in the background; say it failed rather than spin.
     if (!pending && value != null && value.hasError && !value.hasValue) {
       final error = value.error;
       if (error is ApiError && error.isOffline) {
-        return const InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
+        return const PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
       }
-      return InlineBanner(message: PracticeCopy.quoteFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
+      return PlainNotice(message: PracticeCopy.quoteFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
     }
     if (pending || value == null || !value.hasValue) {
+      // The rows of "What you get" as lines of the same shape, so nothing jumps when they land.
       return const DelayedSkeleton(
-        height: 96,
+        height: _skeletonHeight,
         child: SkeletonGroup(
           label: PracticeCopy.checkingCost,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Skeleton(height: 96, radius: MmRadius.key)],
+            children: [
+              Skeleton.line(width: 96, height: 12),
+              SizedBox(height: MmSpace.s8),
+              Skeleton.line(width: 220, height: 20),
+              SizedBox(height: MmSpace.s20),
+              Skeleton.line(height: 14),
+              SizedBox(height: MmSpace.s20),
+              Skeleton.line(height: 14),
+              SizedBox(height: MmSpace.s20),
+              Skeleton.line(width: 180, height: 14),
+            ],
           ),
         ),
       );
@@ -80,10 +95,8 @@ class GetPanel extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _Ticket(selection: selection, quote: q, costText: null, subjectName: subjectName, muted: true),
-          const SizedBox(height: MmSpace.s16),
-          Text(low.message(selection.mode), style: context.mmType.body),
-          const SizedBox(height: MmSpace.s16),
+          Semantics(liveRegion: true, child: Text(low.message(selection.mode), style: context.mmType.lead)),
+          const SizedBox(height: MmSpace.s20),
           _FreeRightNow(
             subjectId: selection.subjectId,
             showDaily: !selection.mode.isMock && selection.count != 10,
@@ -95,23 +108,22 @@ class GetPanel extends StatelessWidget {
         ],
       );
     }
-    if (line.kind == CostKind.blocked) return InlineBanner(message: line.text!);
+    if (line.kind == CostKind.blocked) return PlainNotice(message: line.text!);
     return _Ticket(selection: selection, quote: q, costText: line.kind == CostKind.none ? null : line.text, subjectName: subjectName);
   }
 }
 
-/// What starts, as a solid card on the sheet (device finding 1: nothing nested in a sheet is
-/// translucent): the blank sheet of the session's length, then the summary rows the website
-/// shows (subject, mode, chapters, difficulty, time, marking, cost), every figure from the
-/// selection or the quote.
+/// What starts, as plain rows on the sheet (no card, no border: the ticket above already is the
+/// one object): the session's size and time as the line, then the rows the website shows that
+/// the ticket does not (marking, cost), each figure from the selection or the quote.
+/// The difficulty is not repeated: its control sits right above.
 class _Ticket extends StatelessWidget {
-  const _Ticket({required this.selection, required this.quote, required this.costText, required this.subjectName, this.muted = false});
+  const _Ticket({required this.selection, required this.quote, required this.costText, required this.subjectName});
 
   final PracticeSelection selection;
   final PracticeQuote quote;
   final String? costText;
   final String subjectName;
-  final bool muted;
 
   @override
   Widget build(BuildContext context) {
@@ -124,42 +136,26 @@ class _Ticket extends StatelessWidget {
         : PracticeCopy.getLine(count, time);
     final chapters = selection.effectiveChapters;
     final difficulty = selection.effectiveDifficulty == null ? null : DifficultyPicker.label(selection.difficulty);
-    // The title already names the mode and subject, and the line above says how many questions
-    // and how long; the rows add only what is not said yet.
     final rows = <(String, String)>[
-      if (!selection.mode.isMock)
-        (PracticeCopy.summaryChapters, chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters)),
-      if (difficulty != null) (PracticeCopy.difficultyLabel, difficulty),
+      // No chapters row: the chapter field above names the chosen ones, and "all chapters" is what a
+      // quick practice already is.
       (PracticeCopy.summaryMarking, PracticeCopy.markingValue),
       (PracticeCopy.summaryCost, costText ?? (quote.entitlementKind == 'access' ? PracticeCopy.costIncluded : PracticeCopy.costFree)),
     ];
     return Semantics(
       container: true,
       label:
-          '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
+          '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[if (difficulty != null) '${PracticeCopy.difficultyLabel}: $difficulty', if (!selection.mode.isMock) chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters), for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
       excludeSemantics: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: MmRadius.keyAll,
-            side: BorderSide(color: colors.line),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(PracticeCopy.whatYouGet, style: type.caption.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s4),
-              Text(get, style: type.cardTitle.copyWith(color: muted ? colors.ink2 : colors.ink)),
-              const SizedBox(height: MmSpace.s12),
-              Divider(height: 1, thickness: 1, color: colors.line),
-              for (final (label, value) in rows) _SummaryRow(label: label, value: value),
-            ],
-          ),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(PracticeCopy.whatYouGet, style: type.label.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s4),
+          Text(get, style: type.cardTitle),
+          const SizedBox(height: MmSpace.s8),
+          for (final (label, value) in rows) _SummaryRow(label: label, value: value),
+        ],
       ),
     );
   }
@@ -175,22 +171,27 @@ class _SummaryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 96,
-            child: Text(label, style: type.small.copyWith(color: colors.ink2)),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 96,
+              child: Text(label, style: type.small.copyWith(color: colors.ink2)),
             ),
-          ),
-        ],
+            Expanded(
+              child: Text(
+                value,
+                style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

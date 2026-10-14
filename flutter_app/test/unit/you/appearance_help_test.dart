@@ -105,7 +105,8 @@ void main() {
         celebrations: MemoryPrefsStore(),
         systemReduces: true,
       );
-      expect(find.text('Your phone is set to remove animations, so motion is already reduced.'), findsOneWidget);
+      expect(find.text('On, from your phone'), findsOneWidget);
+      expect(find.text('Change it in your phone settings, under accessibility.'), findsOneWidget);
       await tester.tap(find.text('Reduce motion'));
       await tester.pump();
       expect(container.read(reducedMotionOverrideProvider), isFalse);

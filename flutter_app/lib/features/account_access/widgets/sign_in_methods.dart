@@ -86,16 +86,22 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
     final reduced = Motion.reduced(context);
 
     final body = switch (_method) {
-      SignInMethod.emailCode => KeyedSubtree(key: const ValueKey(SignInMethod.emailCode), child: widget.emailCode),
+      SignInMethod.emailCode => KeyedSubtree(
+        key: const ValueKey(SignInMethod.emailCode),
+        child: widget.emailCode,
+      ),
       SignInMethod.password => PasswordSignInForm(
-          key: const ValueKey(SignInMethod.password),
-          initialEmail: widget.initialEmail,
-          busy: _googleBusy || widget.busy,
-          onBusyChanged: (v) => _setBusy(password: v),
-          onSignedIn: widget.onSignedIn,
-          onForgotPassword: widget.onForgotPassword ??
-              () => context.push(AccountAccessRoutes.forgotPasswordFor(email: widget.initialEmail)),
-        ),
+        key: const ValueKey(SignInMethod.password),
+        initialEmail: widget.initialEmail,
+        busy: _googleBusy || widget.busy,
+        onBusyChanged: (v) => _setBusy(password: v),
+        onSignedIn: widget.onSignedIn,
+        onForgotPassword:
+            widget.onForgotPassword ??
+            () => context.push(
+              AccountAccessRoutes.forgotPasswordFor(email: widget.initialEmail),
+            ),
+      ),
     };
 
     return Column(
@@ -113,7 +119,10 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
               Expanded(child: Divider(color: colors.line, height: 1)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
-                child: Text(AccessCopy.or, style: type.small.copyWith(color: colors.ink3)),
+                child: Text(
+                  AccessCopy.or,
+                  style: type.small.copyWith(color: colors.ink3),
+                ),
               ),
               Expanded(child: Divider(color: colors.line, height: 1)),
             ],
@@ -127,7 +136,9 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
             SignInMethod.password: AccessCopy.methodPassword,
           },
           value: _method,
-          onChanged: _otherBusy || widget.busy ? null : (m) => setState(() => _method = m),
+          onChanged: _otherBusy || widget.busy
+              ? null
+              : (m) => setState(() => _method = m),
         ),
         const SizedBox(height: MmSpace.s24),
         AnimatedSwitcher(
@@ -147,7 +158,8 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
                 label: AccessCopy.usePhone,
                 onPressed: _otherBusy || widget.busy
                     ? null
-                    : widget.onPhone ?? () => context.push(AccountAccessRoutes.phoneSignIn),
+                    : widget.onPhone ??
+                          () => context.push(AccountAccessRoutes.phoneSignIn),
               ),
             ),
           ),
@@ -162,7 +174,12 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
 /// alone). Unlike a pill inside a track there is one surface, not two. Changing the tab gives a
 /// selection tick; the bar jumps under reduced motion. Each tab is a full-width 48 dp target.
 class _MethodTabs extends ConsumerWidget {
-  const _MethodTabs({required this.labels, required this.value, required this.onChanged, this.semanticsLabel});
+  const _MethodTabs({
+    required this.labels,
+    required this.value,
+    required this.onChanged,
+    this.semanticsLabel,
+  });
 
   final Map<SignInMethod, String> labels;
   final SignInMethod value;
@@ -189,7 +206,12 @@ class _MethodTabs extends ConsumerWidget {
           height: MmTarget.min,
           child: Stack(
             children: [
-              Positioned(left: 0, right: 0, bottom: 0, child: Divider(height: 1, thickness: 1, color: colors.line)),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Divider(height: 1, thickness: 1, color: colors.line),
+              ),
               AnimatedAlign(
                 alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 1),
                 duration: Motion.of(context, Motion.glideDuration),
@@ -197,9 +219,14 @@ class _MethodTabs extends ConsumerWidget {
                 child: FractionallySizedBox(
                   widthFactor: 1 / n,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: MmSpace.s24,
+                    ),
                     child: DecoratedBox(
-                      decoration: BoxDecoration(color: colors.accentText, borderRadius: MmRadius.pillAll),
+                      decoration: BoxDecoration(
+                        color: colors.accentText,
+                        borderRadius: MmRadius.pillAll,
+                      ),
                       child: const SizedBox(height: 3),
                     ),
                   ),
@@ -226,10 +253,16 @@ class _MethodTabs extends ConsumerWidget {
                               duration: Motion.of(context, Motion.ui),
                               style: type.labelLarge.copyWith(
                                 fontSize: 15,
-                                fontWeight: i == index ? FontWeight.w700 : FontWeight.w500,
+                                fontWeight: i == index
+                                    ? FontWeight.w700
+                                    : FontWeight.w500,
                                 color: i == index ? colors.ink : colors.ink2,
                               ),
-                              child: Text(entries[i].value, maxLines: 1, overflow: TextOverflow.ellipsis),
+                              child: Text(
+                                entries[i].value,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ),
                         ),

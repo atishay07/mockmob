@@ -9,9 +9,14 @@ import 'nta_option.dart';
 import 'nta_skin.dart';
 import 'nta_text_size.dart';
 
-/// The exam paper card (section 4): a head with "Question 12" (or "Passage set"), the chapter
-/// and difficulty tags and the A- / A+ text size, then the passage, the state of this question
-/// with Mark / Unmark, the question and its options.
+/// The exam paper (section 4): a head with "Question 12" (or "Passage set"), the chapter and
+/// difficulty and the A- / A+ text size, then the passage, the state of this question with Mark /
+/// Unmark, the question and its options.
+///
+/// The exam look is the paper the student will meet on exam day: a white card with a head and
+/// boxed options. In the MockMob look the same content lies open on the page, like the practice
+/// and mock runner: no panel, no head card, hairline option rows, the app's accent for the chosen
+/// one.
 class NtaPaper extends StatelessWidget {
   const NtaPaper({
     super.key,
@@ -50,12 +55,71 @@ class NtaPaper extends StatelessWidget {
   Widget build(BuildContext context) {
     final skin = NtaSkin.of(context);
     final colors = skin.colors;
-    final type = context.mmType;
     final passage = question.passageText;
     final hasPassage = passage != null && passage.isNotEmpty;
     final qStyle = skin.type.question(textScale);
     final oStyle = skin.type.option(textScale);
+    final open = !NtaExamLook.of(context);
 
+    final head = _Head(
+      title: hasPassage ? NtaCopy.passageSet : NtaCopy.questionTitle(number),
+      tags: [
+        if (question.chapter case final c? when c.isNotEmpty) c,
+        if (question.difficulty case final d? when d.isNotEmpty) NtaCopy.difficulty(d),
+      ],
+      onTextStep: onTextStep,
+      canShrink: textScale > NtaTextStep.scales.first,
+      canGrow: textScale < NtaTextStep.scales.last,
+      open: open,
+    );
+    final body = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ...leading,
+        if (hasPassage) ...[
+          _Passage(text: passage, range: passageRange, style: skin.type.passage(textScale)),
+          const SizedBox(height: MmSpace.s16),
+        ],
+        MediaQuery.withClampedTextScaling(
+          maxScaleFactor: 1.3,
+          child: _StateRow(number: number, state: state, marked: marked, onMark: canAnswer ? () => onMark(!marked) : null),
+        ),
+        const SizedBox(height: MmSpace.s12),
+        Semantics(
+          header: true,
+          child: Text(question.question, style: qStyle.copyWith(color: colors.ink)),
+        ),
+        if (question.body case final b? when b.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(b, style: oStyle.copyWith(color: colors.ink)),
+        ],
+        SizedBox(height: open ? MmSpace.s24 : MmSpace.s20),
+        if (open) Divider(height: 1, thickness: 1, color: colors.line),
+        for (var i = 0; i < question.options.length; i++) ...[
+          if (i > 0 && !open) const SizedBox(height: MmSpace.s8),
+          NtaOption(
+            letter: question.options[i].key,
+            text: question.options[i].text,
+            selected: selected == i,
+            onSelect: canAnswer ? () => onSelect(i) : null,
+            textStyle: oStyle,
+          ),
+        ],
+      ],
+    );
+
+    if (open) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          head,
+          Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s16),
+            child: body,
+          ),
+        ],
+      );
+    }
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: colors.raised,
@@ -68,74 +132,67 @@ class NtaPaper extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _Head(
-            title: hasPassage ? NtaCopy.passageSet : NtaCopy.questionTitle(number),
-            tags: [
-              if (question.chapter case final c? when c.isNotEmpty) c,
-              if (question.difficulty case final d? when d.isNotEmpty) NtaCopy.difficulty(d),
-            ],
-            onTextStep: onTextStep,
-            canShrink: textScale > NtaTextStep.scales.first,
-            canGrow: textScale < NtaTextStep.scales.last,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ...leading,
-                if (hasPassage) ...[
-                  _Passage(text: passage, range: passageRange, style: skin.type.passage(textScale)),
-                  const SizedBox(height: MmSpace.s16),
-                ],
-                MediaQuery.withClampedTextScaling(
-                  maxScaleFactor: 1.3,
-                  child: Row(
-                    children: [
-                      NtaChip(state: state, label: '$number', size: const Size(30, 26), fontSize: 11.5),
-                      const SizedBox(width: MmSpace.s8),
-                      Expanded(
-                        child: Semantics(
-                          label: '${NtaCopy.questionTitle(number)}, ${state.label.toLowerCase()}',
-                          excludeSemantics: true,
-                          child: Text(state.label, style: type.caption.copyWith(color: colors.ink2)),
-                        ),
-                      ),
-                      _MarkKey(marked: marked, onTap: canAnswer ? () => onMark(!marked) : null),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: MmSpace.s12),
-                Semantics(
-                  header: true,
-                  child: Text(question.question, style: qStyle.copyWith(color: colors.ink)),
-                ),
-                if (question.body case final b? when b.isNotEmpty) ...[
-                  const SizedBox(height: MmSpace.s8),
-                  Text(b, style: oStyle.copyWith(color: colors.ink)),
-                ],
-                const SizedBox(height: MmSpace.s20),
-                for (var i = 0; i < question.options.length; i++) ...[
-                  if (i > 0) const SizedBox(height: MmSpace.s8),
-                  NtaOption(
-                    letter: question.options[i].key,
-                    text: question.options[i].text,
-                    selected: selected == i,
-                    onSelect: canAnswer ? () => onSelect(i) : null,
-                    textStyle: oStyle,
-                  ),
-                ],
-              ],
-            ),
-          ),
+          head,
+          Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s20), child: body),
         ],
       ),
     );
   }
 }
 
+/// The state of this question with Mark / Unmark: the palette chip, its words and the key. The key
+/// keeps its 48 dp. When the words wrap to a second line at large text the key stays level with
+/// the first line, not floating at the middle of the two.
+class _StateRow extends StatelessWidget {
+  const _StateRow({required this.number, required this.state, required this.marked, required this.onMark});
+
+  final int number;
+  final NtaChipState state;
+  final bool marked;
+  final VoidCallback? onMark;
+
+  /// The height of the Mark key: the line the chip and the words centre on.
+  static const double _key = 48;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink2);
+    final lineHeight = (style.fontSize ?? 12) * (style.height ?? 1.3);
+    final firstLine = MediaQuery.textScalerOf(context).scale(lineHeight);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: (_key - 26) / 2),
+          child: NtaChip(state: state, label: '$number', size: const Size(30, 26), fontSize: 11.5),
+        ),
+        const SizedBox(width: MmSpace.s8),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(top: ((_key - firstLine) / 2).clamp(0.0, _key)),
+            child: Semantics(
+              label: '${NtaCopy.questionTitle(number)}, ${state.label.toLowerCase()}',
+              excludeSemantics: true,
+              child: Text(state.label, style: style),
+            ),
+          ),
+        ),
+        _MarkKey(marked: marked, onTap: onMark),
+      ],
+    );
+  }
+}
+
 class _Head extends StatelessWidget {
-  const _Head({required this.title, required this.tags, required this.onTextStep, required this.canShrink, required this.canGrow});
+  const _Head({
+    required this.title,
+    required this.tags,
+    required this.onTextStep,
+    required this.canShrink,
+    required this.canGrow,
+    required this.open,
+  });
 
   final String title;
   final List<String> tags;
@@ -143,59 +200,74 @@ class _Head extends StatelessWidget {
   final bool canShrink;
   final bool canGrow;
 
+  /// The MockMob look: the head is plain text on the page, with no card behind it.
+  final bool open;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final titleRow = Row(
+      children: [
+        Expanded(
+          child: Semantics(header: true, child: Text(title, style: type.cardTitle)),
+        ),
+        if (onTextStep != null) ...[
+          _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: canShrink ? () => onTextStep!(-1) : null),
+          _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: canGrow ? () => onTextStep!(1) : null),
+        ],
+      ],
+    );
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.3,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.raised2.withValues(alpha: 0.55),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
-          border: Border(bottom: BorderSide(color: colors.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s4, MmSpace.s12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Semantics(header: true, child: Text(title, style: type.cardTitle)),
-                  ),
-                  if (onTextStep != null) ...[
-                    _SizeKey(label: 'A−', semantics: NtaCopy.smaller, onTap: canShrink ? () => onTextStep!(-1) : null),
-                    _SizeKey(label: 'A+', semantics: NtaCopy.larger, onTap: canGrow ? () => onTextStep!(1) : null),
-                  ],
-                ],
+      child: open
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleRow,
+                // The chapter and the difficulty as one quiet line: they are facts, not controls.
+                if (tags.isNotEmpty) Text(tags.join(', '), style: type.caption.copyWith(color: colors.ink3)),
+              ],
+            )
+          : DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.raised2.withValues(alpha: 0.55),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(NtaSkin.radius)),
+                border: Border(bottom: BorderSide(color: colors.line)),
               ),
-              if (tags.isNotEmpty)
-                Wrap(
-                  spacing: MmSpace.s6,
-                  runSpacing: MmSpace.s6,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s4, MmSpace.s12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final t in tags)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: colors.raised,
-                          borderRadius: const BorderRadius.all(Radius.circular(6)),
-                          border: Border.all(color: colors.line),
-                        ),
-                        child: Text(t, style: type.caption.copyWith(color: colors.ink2, fontSize: 12)),
+                    titleRow,
+                    if (tags.isNotEmpty)
+                      Wrap(
+                        spacing: MmSpace.s6,
+                        runSpacing: MmSpace.s6,
+                        children: [
+                          for (final t in tags)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: colors.raised,
+                                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                                border: Border.all(color: colors.line),
+                              ),
+                              child: Text(t, style: type.caption.copyWith(color: colors.ink2, fontSize: 12)),
+                            ),
+                        ],
                       ),
                   ],
                 ),
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }
 
+/// A- / A+: 48 dp touch targets (the hit area is the whole square, wider than the letters drawn
+/// in it).
 class _SizeKey extends StatelessWidget {
   const _SizeKey({required this.label, required this.semantics, required this.onTap});
 

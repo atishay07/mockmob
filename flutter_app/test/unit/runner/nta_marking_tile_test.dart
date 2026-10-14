@@ -14,8 +14,8 @@ import 'package:mockmob/features/runner/nta/nta_runner_screen.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show FileAssetBundle;
 
-/// The marking tile on the NTA instructions page (bug hunt runner-nta-07): with large system
-/// text each line keeps its words ("+5 right", not just "+5").
+/// The marking tile on the NTA instructions page: the same shape as the questions and minutes
+/// tiles (a figure over its unit), and whole at every text size (bug hunt runner-nta-07).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -50,21 +50,40 @@ void main() {
   }
 
   for (final scale in [1.0, 1.3, 1.6, 2.0]) {
-    testWidgets('every marking line keeps its words at ${scale}x text on a 360 dp phone', (tester) async {
+    testWidgets('the marking tile has the shape of its neighbours and holds at ${scale}x text on a 360 dp phone', (tester) async {
       await pump(tester, scale);
       expect(tester.takeException(), isNull, reason: 'no overflow');
       final tile = find.byType(NtaMarkingTile);
       final tileRect = tester.getRect(tile);
-      final lines = tester.renderObjectList<RenderParagraph>(find.descendant(of: tile, matching: find.byType(RichText))).toList();
-      expect(lines, hasLength(NtaStartCopy.markingLines.length));
-      for (final (i, line) in lines.indexed) {
-        final (figure, word) = NtaStartCopy.markingLines[i];
-        expect(line.text.toPlainText(), '$figure $word');
-        expect(line.didExceedMaxLines, isFalse, reason: '"$figure $word" lost its word');
+      // A figure over its unit, like "50 questions" and "60 minutes" beside it.
+      expect(find.descendant(of: tile, matching: find.text(NtaStartCopy.markingFigure)), findsOneWidget);
+      final unit = find.descendant(of: tile, matching: find.text(NtaStartCopy.marking));
+      expect(unit, findsOneWidget);
+      for (final finder in [find.descendant(of: tile, matching: find.text(NtaStartCopy.markingFigure)), unit]) {
+        final line = tester.renderObject<RenderParagraph>(find.descendant(of: finder, matching: find.byType(RichText)).first);
+        expect(line.didExceedMaxLines, isFalse);
         final rect = MatrixUtils.transformRect(line.getTransformTo(null), Offset.zero & line.size);
-        expect(rect.right, lessThanOrEqualTo(tileRect.right + 0.5), reason: 'the line stays inside the tile');
+        expect(rect.right, lessThanOrEqualTo(tileRect.right + 0.5), reason: 'inside the tile');
+      }
+      // Side by side the three tiles are one height (a row); from 1.3x text they stack, each as wide
+      // as the page, so no figure is shrunk to a third of it.
+      final tiles = [for (final t in find.byType(NtaFactTile).evaluate()) tester.getRect(find.byWidget(t.widget))];
+      expect(tiles, hasLength(3));
+      if (scale >= 1.3) {
+        expect({for (final r in tiles) r.width.round()}.length, 1, reason: 'stacked tiles are the same width');
+        expect(tiles.first.width, greaterThan(300));
+      } else {
+        expect({for (final r in tiles) r.height.round()}.length, 1, reason: 'the three tiles read as one row');
       }
       await tester.pump(const Duration(seconds: 2));
     });
   }
+
+  testWidgets('the marking tile still says the whole marking to a screen reader', (tester) async {
+    await pump(tester, 1.0);
+    final handle = tester.ensureSemantics();
+    expect(find.bySemanticsLabel('Marking: plus 5 for right, minus 1 for wrong, 0 for blank'), findsOneWidget);
+    handle.dispose();
+    await tester.pump(const Duration(seconds: 2));
+  });
 }

@@ -118,26 +118,26 @@ class _CodeSlotsState extends State<CodeSlots> with TickerProviderStateMixin {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: _ringRoom),
                   child: _Sweep(
-                  active: !widget.enabled,
-                  reduced: Motion.reduced(context),
-                  animation: _sweep,
-                  child: Row(
-                    children: [
-                      for (var i = 0; i < kCodeLength; i++) ...[
-                        if (i > 0) const SizedBox(width: _gap),
-                        Expanded(
-                          child: _Slot(
-                            digit: i < text.length ? text[i] : null,
-                            current:
-                                focused &&
-                                i == math.min(text.length, kCodeLength - 1),
-                            hasError: widget.hasError && i < text.length,
-                            dimmed: !widget.enabled,
+                    active: !widget.enabled,
+                    reduced: Motion.reduced(context),
+                    animation: _sweep,
+                    child: Row(
+                      children: [
+                        for (var i = 0; i < kCodeLength; i++) ...[
+                          if (i > 0) const SizedBox(width: _gap),
+                          Expanded(
+                            child: _Slot(
+                              digit: i < text.length ? text[i] : null,
+                              current:
+                                  focused &&
+                                  i == math.min(text.length, kCodeLength - 1),
+                              hasError: widget.hasError && i < text.length,
+                              dimmed: !widget.enabled,
+                            ),
                           ),
-                        ),
+                        ],
                       ],
-                    ],
-                  ),
+                    ),
                   ),
                 ),
               ),

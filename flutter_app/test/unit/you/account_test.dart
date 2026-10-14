@@ -52,7 +52,7 @@ void main() {
       await _pumpAccount(tester);
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
-      expect(find.text('We could not load your credit balance.'), findsOneWidget);
+      expect(find.text('Credits did not load.'), findsOneWidget);
       expect(find.text('Credit balance not loaded'), findsNothing);
       expect(find.text('Your plan and credits as of the last check.'), findsNothing);
     });
@@ -101,7 +101,7 @@ void main() {
       final auth = await _pumpAccount(tester, unsent: 3);
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
-      expect(find.text('3 answers are on this phone and not sent. Sign out anyway?'), findsOneWidget);
+      expect(find.text('3 answers are on this phone and not sent.'), findsOneWidget);
       expect(find.text('Stay signed in'), findsOneWidget);
       await tester.tap(find.text('Stay signed in'));
       await tester.pumpAndSettle();
@@ -118,7 +118,7 @@ void main() {
       await _pumpAccount(tester, unsent: 1);
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
-      expect(find.text('1 answer is on this phone and not sent. Sign out anyway?'), findsOneWidget);
+      expect(find.text('1 answer is on this phone and not sent.'), findsOneWidget);
     });
 
     testWidgets('a failed sign-out is reported and can be repeated', (tester) async {
@@ -149,11 +149,11 @@ void main() {
 
     testWidgets('states the consequences exactly', (tester) async {
       await pump(tester);
-      expect(find.text('Delete your MockMob account'), findsOneWidget);
+      expect(find.text('Delete your account'), findsOneWidget);
       expect(
         find.text(
           'We delete your account and study records within 30 days. Payment records required by law '
-          'are kept. You will be signed out.',
+          'are kept.',
         ),
         findsOneWidget,
       );

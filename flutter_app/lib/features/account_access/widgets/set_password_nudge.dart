@@ -38,15 +38,27 @@ class SetPasswordNudge extends ConsumerWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ExcludeSemantics(child: Icon(LucideIcons.keyRound, size: 20, color: colors.ink2)),
+                  ExcludeSemantics(
+                    child: Icon(
+                      LucideIcons.keyRound,
+                      size: 20,
+                      color: colors.ink2,
+                    ),
+                  ),
                   const SizedBox(width: MmSpace.s12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AccessCopy.nudgeTitle, style: type.title.copyWith(color: colors.ink)),
+                        Text(
+                          AccessCopy.nudgeTitle,
+                          style: type.title.copyWith(color: colors.ink),
+                        ),
                         const SizedBox(height: MmSpace.s4),
-                        Text(AccessCopy.nudgeBody, style: type.small.copyWith(color: colors.ink2)),
+                        Text(
+                          AccessCopy.nudgeBody,
+                          style: type.small.copyWith(color: colors.ink2),
+                        ),
                       ],
                     ),
                   ),
@@ -55,11 +67,17 @@ class SetPasswordNudge extends ConsumerWidget {
               const SizedBox(height: MmSpace.s16),
               Row(
                 children: [
-                  Expanded(child: KeyButton.secondary(label: AccessCopy.nudgeAction, onPressed: onSetPassword)),
+                  Expanded(
+                    child: KeyButton.secondary(
+                      label: AccessCopy.nudgeAction,
+                      onPressed: onSetPassword,
+                    ),
+                  ),
                   const SizedBox(width: MmSpace.s8),
                   KeyButton.quiet(
                     label: AccessCopy.notNow,
-                    onPressed: () => ref.read(passwordHintsProvider).dismissNudge(),
+                    onPressed: () =>
+                        ref.read(passwordHintsProvider).dismissNudge(),
                   ),
                 ],
               ),

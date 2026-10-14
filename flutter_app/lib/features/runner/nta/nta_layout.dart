@@ -13,6 +13,7 @@ import 'nta_copy.dart';
 import 'nta_header.dart';
 import 'nta_palette.dart';
 import 'nta_paper.dart';
+import 'nta_skin.dart' show NtaExamLook;
 import 'nta_status_strip.dart';
 
 /// What the NTA layout calls back into the screen.
@@ -116,7 +117,11 @@ class NtaLayout extends StatelessWidget {
             color: colors.ground,
             child: SingleChildScrollView(
               key: ValueKey('nta-question-$index'),
-              padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s16),
+              // The exam look is a card on its own page margin (12); the MockMob look lies open on
+              // the page, on the same 16 dp gutter as the practice and mock runner.
+              padding: NtaExamLook.of(context)
+                  ? const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s16)
+                  : const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 930),

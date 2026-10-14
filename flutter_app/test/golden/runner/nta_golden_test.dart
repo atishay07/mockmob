@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/core/sync/session/save_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
+import 'package:mockmob/core/sync/session/session_submitter.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/data/practice_quote.dart';
+import 'package:mockmob/features/runner/nta/nta_header.dart' show NtaBar;
 import 'package:mockmob/features/runner/nta/nta_instructions_parts.dart';
 import 'package:mockmob/features/runner/nta/nta_instructions_screen.dart';
 import 'package:mockmob/features/runner/nta/nta_paper_theme.dart';
@@ -201,12 +204,22 @@ void main() {
       });
 
       testWidgets('preparing', (tester) async {
+        // The same body the instructions page shows while the paper is built: on the exam paper,
+        // under the exam bar, the block in the middle of the room.
         await _pumpPlain(
           tester,
-          const Scaffold(
-            body: Padding(
-              padding: EdgeInsets.fromLTRB(16, 80, 16, 16),
-              child: NtaPreparing(subject: 'Business Studies', phase: NtaPrepPhase.starting),
+          NtaPaperTheme(
+            child: Builder(
+              builder: (context) => Material(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    NtaBar(subject: 'Business Studies'),
+                    Expanded(child: NtaPreparingStage(subject: 'Business Studies', phase: NtaPrepPhase.starting)),
+                  ],
+                ),
+              ),
             ),
           ),
           b,
@@ -256,6 +269,10 @@ void main() {
         await settle(tester);
         await _shot(tester, 'nta_ended', b);
         expect(find.text('Exam summary'), findsNothing);
+        // Continue is off while the answers are on their way; once the call has ended it opens the page.
+        s.submitState.value = const SubmitUiState(SubmitStage.pending, outcome: SubmitPending(ApiError(kind: ApiErrorKind.network, code: 'network')));
+        await settle(tester);
+        await _shot(tester, 'nta_ended_held', b);
         await tester.tap(find.text('Continue'));
         await settle(tester);
         expect(find.text('Exam summary'), findsOneWidget);

@@ -363,7 +363,10 @@ class _MobiHero extends StatelessWidget {
           child: IgnorePointer(
             child: TweenAnimationBuilder<double>(
               tween: Tween<double>(begin: 0, end: 1),
-              duration: Motion.of(context, Motion.emphasizedDuration + Motion.glideDuration),
+              duration: Motion.of(
+                context,
+                Motion.emphasizedDuration + Motion.glideDuration,
+              ),
               curve: Motion.emphasized,
               builder: (context, t, child) => Opacity(
                 opacity: t,

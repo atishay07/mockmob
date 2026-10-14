@@ -10,7 +10,9 @@ import '../logic/sheet_cells.dart';
 import 'answer_sheet_view.dart';
 
 /// The whole answer sheet on the submit page: the answered count, every bubble as it will be
-/// handed in, and the two counts that matter before letting go. The one lit edge on the page.
+/// handed in, and the two counts that matter before letting go. It sits on the page itself, no
+/// box around it: one full-width volt rule above it is the page's one lit edge (grey once the
+/// sheet could not be handed in), and the sheet, the counts and their hairlines carry the rest.
 ///
 /// While the student can still change their mind ([onGoTo] given) each count is also a way back:
 /// "5 not answered" takes them to question 9, the first without an answer. The counts are a
@@ -39,60 +41,127 @@ class SubmitSheetCard extends StatelessWidget {
     final firstMarked = cells.indexWhere((c) => c.marked);
     final title = RunnerCopy.sessionLabel(isMock: session.isMock, mode: session.mode, mockNumber: session.mockNumber);
 
-    // The one focal surface of the page (MmSurface hero tier): lamp light, grain, edge light, and
-    // the volt lit edge while the sheet can still be handed in.
-    return MmSurface.hero(
-      lit: lit,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('$title, ${RunnerCopy.subjectLine(session.subject, null)}', style: type.caption.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: MonumentalNumber(
-                // The roll lands after the card has arrived (the page's entrance).
-                delay: Motion.staggerStep * 2,
-                value: '${counts.answered}',
-                unit: RunnerCopy.answeredOf(counts.total),
-                style: type.figure,
-                unitColor: colors.ink2,
-                semanticsLabel: '${counts.answered} ${RunnerCopy.answeredOf(counts.total)}',
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // A whole rule, edge to edge (never a gradient that fades out at its ends).
+        SizedBox(height: 2, child: ColoredBox(color: lit ? colors.volt : colors.line)),
+        const SizedBox(height: MmSpace.s16),
+        Text('$title, ${RunnerCopy.subjectLine(session.subject, null)}', style: type.caption.copyWith(color: colors.ink3)),
+        const SizedBox(height: MmSpace.s8),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: MonumentalNumber(
+              // The roll lands after the page has arrived (its entrance).
+              delay: Motion.staggerStep * 2,
+              value: '${counts.answered}',
+              unit: RunnerCopy.answeredOf(counts.total),
+              style: type.figure,
+              unitColor: colors.ink2,
+              semanticsLabel: '${counts.answered} ${RunnerCopy.answeredOf(counts.total)}',
             ),
           ),
-          const SizedBox(height: MmSpace.s20),
-          AnswerSheetView(
+        ),
+        const SizedBox(height: MmSpace.s20),
+        // A marked answer has a ring outside its disc: 3 dp each side keeps it inside the gutter.
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: AnswerSheetView(
             cells: cells,
             phase: phase,
             bubbleSize: 17,
             semanticsLabel: RunnerCopy.sheetSummary(answered: counts.answered, notAnswered: counts.notAnswered, marked: counts.marked),
           ),
-          const SizedBox(height: MmSpace.s16),
-          Divider(height: 1, thickness: 1, color: colors.line),
-          if (counts.marked > 0)
-            _CountRow(
-              glyph: Icon(LucideIcons.flag, size: 16, color: colors.ink),
-              count: counts.marked,
-              word: RunnerCopy.markedWord,
-              goTo: onGoTo == null || firstMarked < 0 ? null : () => onGoTo!(firstMarked),
-              goToLabel: firstMarked < 0 ? null : RunnerCopy.goToQuestion(firstMarked + 1),
-            ),
-          if (counts.marked > 0 && counts.notAnswered > 0) Divider(height: 1, thickness: 1, color: colors.line),
-          if (counts.notAnswered > 0)
-            _CountRow(
-              glyph: const Bubble(state: BubbleState.blank, size: 16, animate: false),
-              count: counts.notAnswered,
-              word: RunnerCopy.notAnsweredWord,
-              goTo: onGoTo == null || firstOpen < 0 ? null : () => onGoTo!(firstOpen),
-              goToLabel: firstOpen < 0 ? null : RunnerCopy.goToQuestion(firstOpen + 1),
-            ),
-        ],
+        ),
+        _SheetLegend(cells: cells),
+        const SizedBox(height: MmSpace.s16),
+        Divider(height: 1, thickness: 1, color: colors.line),
+        if (counts.marked > 0)
+          _CountRow(
+            glyph: Icon(LucideIcons.flag, size: 16, color: colors.ink),
+            count: counts.marked,
+            word: RunnerCopy.markedWord,
+            goTo: onGoTo == null || firstMarked < 0 ? null : () => onGoTo!(firstMarked),
+            goToLabel: firstMarked < 0 ? null : RunnerCopy.goToQuestion(firstMarked + 1),
+          ),
+        if (counts.marked > 0 && counts.notAnswered > 0) Divider(height: 1, thickness: 1, color: colors.line),
+        if (counts.notAnswered > 0)
+          _CountRow(
+            glyph: const Bubble(state: BubbleState.blank, size: 16, animate: false),
+            count: counts.notAnswered,
+            word: RunnerCopy.notAnsweredWord,
+            goTo: onGoTo == null || firstOpen < 0 ? null : () => onGoTo!(firstOpen),
+            goToLabel: firstOpen < 0 ? null : RunnerCopy.goToQuestion(firstOpen + 1),
+          ),
+      ],
+    );
+  }
+}
+
+/// What the two marked shapes on the sheet mean, in words, only for the shapes that are on it:
+/// a ringed disc is an answer that is marked for review, a ringed dot a marked question without
+/// an answer. Unanswered (dashed) needs no key: it is the "not answered" count's own glyph.
+class _SheetLegend extends StatelessWidget {
+  const _SheetLegend({required this.cells});
+
+  final List<SheetCell> cells;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final markedAnswered = cells.any((c) => c.answered && c.marked);
+    final markedBlank = cells.any((c) => !c.answered && c.marked);
+    if (!markedAnswered && !markedBlank) return const SizedBox.shrink();
+    Widget item(Widget glyph, String label) => Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox.square(dimension: 22, child: Center(child: glyph)),
+        const SizedBox(width: MmSpace.s6),
+        Text(label, style: type.caption.copyWith(color: colors.ink2)),
+      ],
+    );
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s16),
+      child: ExcludeSemantics(
+        child: Wrap(
+          spacing: MmSpace.s16,
+          runSpacing: MmSpace.s6,
+          children: [
+            if (markedAnswered)
+              item(CustomPaint(size: const Size.square(22), painter: _MarkedAnsweredGlyph(colors)), RunnerCopy.legendMarkedAnswered),
+            if (markedBlank) item(const Bubble(state: BubbleState.marked, size: 16, animate: false), RunnerCopy.legendMarkedBlank),
+          ],
+        ),
       ),
     );
   }
+}
+
+/// The disc of an answered, marked question as the sheet draws it: solid ink with a ring round it.
+class _MarkedAnsweredGlyph extends CustomPainter {
+  const _MarkedAnsweredGlyph(this.colors);
+
+  final MmColors colors;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    canvas.drawCircle(c, 6.5, Paint()..color = colors.ink);
+    canvas.drawCircle(
+      c,
+      9,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..color = colors.ink2,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_MarkedAnsweredGlyph old) => old.colors != colors;
 }
 
 /// One count of the ledger under the sheet: the number as a numeral, what it counts, and, while

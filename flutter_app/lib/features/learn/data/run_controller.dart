@@ -171,8 +171,9 @@ class RunController extends Notifier<RunUiState> {
     final stored = await _store.pending(runId);
     if (!ref.mounted) return;
     final cached = cachedJson == null ? null : StudyRun.fromJson(cachedJson);
-    if (cached != null)
+    if (cached != null) {
       state = RunUiState(load: RunLoad.ready, run: cached, pending: stored);
+    }
     try {
       final fresh = await _api.run(runId);
       if (!ref.mounted) return;
@@ -226,8 +227,9 @@ class RunController extends Notifier<RunUiState> {
   Future<void> _settleChanged(List<StudyUnitView> units) async {
     await _store.clearPending(runId);
     await _store.dropRun(runId);
-    if (ref.mounted)
+    if (ref.mounted) {
       state = RunUiState(load: RunLoad.changed, replacements: units);
+    }
   }
 
   // What the student does.
@@ -260,8 +262,9 @@ class RunController extends Notifier<RunUiState> {
         item == null ||
         !run.isActive ||
         state.pending != null ||
-        _busy)
+        _busy) {
       return;
+    }
     final event = PendingEvent.create(
       expectedRevision: run.revision,
       itemId: item.id,

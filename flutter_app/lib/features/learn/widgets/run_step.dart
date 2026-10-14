@@ -429,8 +429,9 @@ class _RunStepState extends ConsumerState<RunStep> {
 
   String get _closing {
     final run = _ui.run!;
-    if (!widget.isLast)
+    if (!widget.isLast) {
       return run.isLearn ? LearnCopy.continueKey : LearnCopy.nextCard;
+    }
     return run.isLearn ? LearnCopy.finishLesson : LearnCopy.finishRun;
   }
 }

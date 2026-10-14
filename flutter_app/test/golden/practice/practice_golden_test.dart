@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart' show ByteData, FontLoader;
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -104,8 +105,23 @@ Future<void> _open(WidgetTester tester, String label) async {
   await _settle(tester);
 }
 
+/// The NTA exam skin asks for Arial (Roboto on a phone, which has no Arial). The test machine has
+/// neither, so the golden would draw the exam headline as solid blocks; give it Hanken, the
+/// nearest bundled face, so the screen is judged on layout and words.
+Future<void> _loadExamFace() async {
+  final loader = FontLoader('Arial');
+  for (final f in ['Regular', 'Bold']) {
+    final bytes = await File('assets/fonts/HankenGrotesk-$f.ttf').readAsBytes();
+    loader.addFont(Future.value(ByteData.sublistView(bytes)));
+  }
+  await loader.load();
+}
+
 void main() {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    await _loadExamFace();
+  });
 
   for (final b in [Brightness.dark, Brightness.light]) {
     group('practice, ${b.name}', () {
@@ -155,6 +171,19 @@ void main() {
         await _settle(tester);
         await _open(tester, 'Quick practice');
         await _shot(tester, 'confirm_quick_small_large_text', b);
+      });
+
+      testWidgets('confirm, a long subject name on the ticket at 1.3x on a 360 by 640 phone', (tester) async {
+        await _pump(
+          tester,
+          '/practice/setup/quick?subject=political_science&count=20',
+          b,
+          practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening),
+          size: const Size(360, 640),
+          textScale: 1.3,
+        );
+        await _settle(tester);
+        await _shot(tester, 'setup_long_subject_large_text', b);
       });
 
       testWidgets('confirm, a link asked for a length the mode does not offer', (tester) async {

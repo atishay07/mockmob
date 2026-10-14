@@ -319,9 +319,12 @@ class _RecordSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Taller than a small phone: a scroll view that does not scroll, so the rest simply runs off
+    // the fold and nothing overflows at any text size.
     return const SkeletonGroup(
       shimmer: true,
-      child: Padding(
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

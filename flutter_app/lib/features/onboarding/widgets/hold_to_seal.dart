@@ -96,14 +96,27 @@ class _HoldPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rrect = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(size.height / 2));
+    final accent = colors.isNight ? colors.volt : colors.accentText;
+    // A soft volt glow under the pill at rest (the owner's glass-and-light direction), so the
+    // one key on the screen is the one the eye lands on; it gives way to the fill as it is held.
+    if (progress < 1) {
+      canvas.drawRRect(
+        rrect.shift(const Offset(0, 4)),
+        Paint()
+          ..color = accent.withValues(alpha: (colors.isNight ? 0.22 : 0.16) * (1 - progress))
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14),
+      );
+    }
     canvas.drawRRect(rrect, Paint()..color = colors.isNight ? colors.raised2 : colors.raised);
+    // A wash of volt over the pill at rest, so it reads as the key; the fill grows over it.
+    canvas.drawRRect(rrect, Paint()..color = accent.withValues(alpha: colors.isNight ? 0.14 : 0.10));
     // The volt rim says this is the action; the fill grows inside it.
     canvas.drawRRect(
-      rrect.deflate(0.75),
+      rrect.deflate(1),
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5
-        ..color = colors.isNight ? colors.volt.withValues(alpha: 0.7) : colors.accentText.withValues(alpha: 0.7),
+        ..strokeWidth = 2
+        ..color = accent.withValues(alpha: 0.9),
     );
     if (progress <= 0) return;
     canvas.save();

@@ -210,7 +210,7 @@ void main() {
     },
   );
 
-  sheetGolden('appearance', () => const AppearanceScreen(), size: const Size(384, 1240), overrides: () => youOverrides());
+  sheetGolden('appearance', () => const AppearanceScreen(), size: const Size(384, 1090), overrides: () => youOverrides());
 
   sheetGolden('help', () => const HelpScreen(), size: const Size(384, 1240), overrides: () => youOverrides());
 }

@@ -10,6 +10,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
 import 'length_dial.dart';
+import 'plain_notice.dart';
 
 /// The name of a mode as the student reads it.
 String modeTitle(PracticeMode mode) => switch (mode) {
@@ -36,7 +37,10 @@ class LengthPicker extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(header: true, child: Text(PracticeCopy.questionsLabel, style: type.label.copyWith(color: colors.ink2))),
+        Semantics(
+          header: true,
+          child: Text(PracticeCopy.questionsLabel, style: type.label.copyWith(color: colors.ink2)),
+        ),
         const SizedBox(height: MmSpace.s8),
         LengthDial(semanticsLabel: PracticeCopy.questionsLabel, counts: counts, count: count, onChanged: onChanged),
       ],
@@ -95,9 +99,10 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with Single
     final type = context.mmType;
     final isPro = widget.isPro;
     // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
-    // same choice reads as a short list of rows there, with nothing cut.
+    // same choice reads as a wrapped row of chips there, with nothing cut and the Start key not
+    // pushed out of sight.
     final control = MediaQuery.textScalerOf(context).scale(1) >= _listTextScale
-        ? _DifficultyRows(value: isPro ? widget.value : PracticeDifficulty.balanced, onChanged: isPro ? widget.onChanged : null)
+        ? _DifficultyChips(value: isPro ? widget.value : PracticeDifficulty.balanced, onChanged: isPro ? widget.onChanged : null)
         : MmSegmented<PracticeDifficulty>(
             semanticsLabel: PracticeCopy.difficultyLabel,
             segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d))],
@@ -109,7 +114,10 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with Single
       children: [
         Row(
           children: [
-            Semantics(header: true, child: Text(PracticeCopy.difficultyLabel, style: type.label.copyWith(color: colors.ink2))),
+            Semantics(
+              header: true,
+              child: Text(PracticeCopy.difficultyLabel, style: type.label.copyWith(color: colors.ink2)),
+            ),
             if (!isPro) ...[const SizedBox(width: MmSpace.s8), const ProTag()],
           ],
         ),
@@ -138,8 +146,8 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with Single
 /// From this text scale the difficulty choice is a list of rows, not four narrow segments.
 const double _listTextScale = 1.25;
 
-class _DifficultyRows extends ConsumerWidget {
-  const _DifficultyRows({required this.value, required this.onChanged});
+class _DifficultyChips extends ConsumerWidget {
+  const _DifficultyChips({required this.value, required this.onChanged});
 
   final PracticeDifficulty value;
   final ValueChanged<PracticeDifficulty>? onChanged;
@@ -148,36 +156,46 @@ class _DifficultyRows extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
+    const radius = BorderRadius.all(Radius.circular(16));
     return Semantics(
       container: true,
       label: PracticeCopy.difficultyLabel,
-      child: Column(
+      child: Wrap(
+        spacing: MmSpace.s8,
+        runSpacing: MmSpace.s8,
         children: [
           for (final d in PracticeDifficulty.values)
-            Semantics(
-              button: true,
+            MmPressable(
+              semanticsLabel: DifficultyPicker.label(d),
               selected: d == value,
               inMutuallyExclusiveGroup: true,
-              child: InkWell(
-                onTap: onChanged == null || d == value
-                    ? null
-                    : () {
-                        ref.read(hapticsProvider).selection();
-                        onChanged!(d);
-                      },
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 48),
-                  child: Row(
-                    children: [
-                      SelectBubble(selected: d == value),
-                      const SizedBox(width: MmSpace.s12),
-                      Expanded(
-                        child: Text(
-                          DifficultyPicker.label(d),
-                          style: type.labelLarge.copyWith(color: d == value ? colors.ink : colors.ink2),
-                        ),
-                      ),
-                    ],
+              focusRadius: radius,
+              onTap: onChanged == null || d == value
+                  ? null
+                  : () {
+                      ref.read(hapticsProvider).selection();
+                      onChanged!(d);
+                    },
+              builder: (context, pressed, _) => ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: MmTarget.min),
+                child: DecoratedBox(
+                  decoration: ShapeDecoration(
+                    color: MmSelection.fill(colors, selected: d == value, pressed: pressed),
+                    shape: RoundedSuperellipseBorder(
+                      borderRadius: radius,
+                      side: MmSelection.side(colors, selected: d == value),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SelectBubble(selected: d == value),
+                        const SizedBox(width: MmSpace.s8),
+                        Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: d == value ? colors.ink : colors.ink2)),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -196,7 +214,9 @@ class ProTag extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return DecoratedBox(
-      decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
+      decoration: ShapeDecoration(
+        shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 1),
         child: Text(PracticeCopy.proTag, style: context.mmType.caption.copyWith(fontSize: 11, color: colors.ink2)),
@@ -222,9 +242,9 @@ class MockLines extends StatelessWidget {
     final type = context.mmType;
     // Plain lines: a bubble here would encode nothing (dots audit, WEB-PARITY section 6).
     Widget line(String text) => Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s8),
-          child: Text(text, style: type.small.copyWith(color: colors.ink)),
-        );
+      padding: const EdgeInsets.only(bottom: MmSpace.s8),
+      child: Text(text, style: type.small.copyWith(color: colors.ink)),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -234,10 +254,7 @@ class MockLines extends StatelessWidget {
         Text(PracticeCopy.sheetAside, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s4),
         Text(PracticeCopy.sheetDnd, style: type.caption.copyWith(color: colors.ink3)),
-        if (noLength) ...[
-          const SizedBox(height: MmSpace.s12),
-          InlineBanner(message: PracticeCopy.sheetNoLength, tone: BannerTone.error),
-        ],
+        if (noLength) ...[const SizedBox(height: MmSpace.s12), PlainNotice(message: PracticeCopy.sheetNoLength, tone: BannerTone.error)],
       ],
     );
   }

@@ -108,7 +108,7 @@ class MmSheetScaffold extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...header,
-        fixed ? Expanded(child: SingleChildScrollView(child: body)) : Flexible(child: SingleChildScrollView(child: body)),
+        fixed ? Expanded(child: _EdgeFadeScroll(child: body)) : Flexible(child: _EdgeFadeScroll(child: body)),
         if (footer != null)
           DecoratedBox(
             decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
@@ -122,6 +122,65 @@ class MmSheetScaffold extends StatelessWidget {
       return SafeArea(top: false, child: SizedBox(height: MediaQuery.sizeOf(context).height * heightFactor!, child: column));
     }
     return SafeArea(top: false, child: column);
+  }
+}
+
+/// The sheet body's scroll view. When content runs past an edge, that edge dissolves over 24 dp
+/// so a cut-off row reads as "more here" instead of being sliced by the title or the pinned
+/// footer. At rest with everything visible nothing is faded.
+class _EdgeFadeScroll extends StatefulWidget {
+  const _EdgeFadeScroll({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_EdgeFadeScroll> createState() => _EdgeFadeScrollState();
+}
+
+class _EdgeFadeScrollState extends State<_EdgeFadeScroll> {
+  static const double _extent = 24;
+  bool _above = false;
+  bool _below = false;
+
+  bool _onMetrics(ScrollMetrics m) {
+    final above = m.extentBefore > 0.5;
+    final below = m.extentAfter > 0.5;
+    if (above != _above || below != _below) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _above = above;
+          _below = below;
+        });
+      });
+    }
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scroll = NotificationListener<ScrollMetricsNotification>(
+      onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
+        child: SingleChildScrollView(child: widget.child),
+      ),
+    );
+    return ShaderMask(
+      blendMode: BlendMode.dstIn,
+      shaderCallback: (rect) {
+        final stop = (_extent / rect.height).clamp(0.0, 0.5);
+        const clear = Color(0x00FFFFFF);
+        const solid = Color(0xFFFFFFFF);
+        return LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [_above ? clear : solid, solid, solid, _below ? clear : solid],
+          stops: [0, stop, 1 - stop, 1],
+        ).createShader(rect);
+      },
+      child: scroll,
+    );
   }
 }
 

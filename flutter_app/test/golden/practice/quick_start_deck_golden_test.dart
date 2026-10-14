@@ -52,7 +52,7 @@ class _SheetFrame extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(child: LightField.lamp(context, strength: 0.8)),
-          Positioned.fill(child: ColoredBox(color: colors.scrim)),
+          Positioned.fill(child: ColoredBox(color: colors.sheetScrim)),
           Positioned(
             left: 10,
             right: 10,

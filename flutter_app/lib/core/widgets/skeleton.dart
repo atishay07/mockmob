@@ -226,7 +226,9 @@ class _RenderShimmerBlock extends RenderBox {
     // Where this sweep is: the controller runs every sweep in one pass.
     final raw = ((whole * Motion.shimmerSweeps) % 1.0) / cycle;
     if (raw <= 0 || raw >= 1) return;
-    final t = Curves.easeInOut.transform(raw);
+    // Near-even speed (a soft sine ease, not the long dwell of easeInOut at both ends), so the
+    // light is crossing the screen for the whole sweep and the rest between sweeps is short.
+    final t = Curves.easeInOutSine.transform(raw);
 
     final groupBox = group();
     final origin = groupBox == null || !groupBox.attached ? Offset.zero : localToGlobal(Offset.zero, ancestor: groupBox);

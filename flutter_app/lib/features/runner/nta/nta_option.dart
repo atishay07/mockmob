@@ -7,6 +7,9 @@ import 'nta_skin.dart';
 /// One option as the exam draws it: a radio on the left, the text, a flat row that turns pale
 /// blue when chosen. The letter stays small and quiet, so the result page's "A" still matches.
 /// No correctness, ever. Picking the chosen option again does nothing (Clear response does).
+///
+/// In the MockMob look the row is open, like the practice and mock rows: no box, a hairline under
+/// it, a wash of the app's accent when chosen.
 class NtaOption extends StatelessWidget {
   const NtaOption({
     super.key,
@@ -30,6 +33,37 @@ class NtaOption extends StatelessWidget {
     final skin = NtaSkin.of(context);
     final colors = skin.colors;
     final enabled = onSelect != null;
+    final open = !NtaExamLook.of(context);
+    final row = ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 54),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(open ? MmSpace.s8 : MmSpace.s12, MmSpace.s12, open ? MmSpace.s8 : MmSpace.s16, MmSpace.s12),
+        child: Row(
+          children: [
+            _Radio(selected: selected, skin: skin, enabled: enabled),
+            const SizedBox(width: MmSpace.s12),
+            SizedBox(
+              width: 16,
+              child: Text(
+                letter,
+                textScaler: TextScaler.noScaling,
+                style: context.mmType.caption.copyWith(color: colors.ink3, fontWeight: FontWeight.w700),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s6),
+            Expanded(
+              child: Text(
+                text,
+                style: textStyle.copyWith(
+                  color: enabled ? colors.ink : colors.ink3,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return Semantics(
       container: true,
       inMutuallyExclusiveGroup: true,
@@ -38,49 +72,36 @@ class NtaOption extends StatelessWidget {
       label: RunnerCopy.optionSemantics(letter, text),
       onTap: onSelect,
       excludeSemantics: true,
-      child: Material(
-        color: selected ? skin.selectedRow : colors.raised,
-        shape: RoundedRectangleBorder(
-          borderRadius: NtaSkin.keyRadius,
-          side: BorderSide(color: selected ? skin.selectedEdge : colors.line, width: selected ? 1.5 : 1),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: selected ? () {} : onSelect,
-          splashFactory: NoSplash.splashFactory,
-          highlightColor: skin.selectedRow,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 54),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s16, MmSpace.s12),
-              child: Row(
-                children: [
-                  _Radio(selected: selected, skin: skin, enabled: enabled),
-                  const SizedBox(width: MmSpace.s12),
-                  SizedBox(
-                    width: 16,
-                    child: Text(
-                      letter,
-                      textScaler: TextScaler.noScaling,
-                      style: context.mmType.caption.copyWith(color: colors.ink3, fontWeight: FontWeight.w700),
-                    ),
+      child: open
+          ? Material(
+              color: selected ? skin.selectedRow : Colors.transparent,
+              child: InkWell(
+                onTap: selected ? () {} : onSelect,
+                splashFactory: NoSplash.splashFactory,
+                highlightColor: skin.selectedRow,
+                child: DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: colors.line)),
                   ),
-                  const SizedBox(width: MmSpace.s6),
-                  Expanded(
-                    child: Text(
-                      text,
-                      style: textStyle.copyWith(
-                        color: enabled ? colors.ink : colors.ink3,
-                        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ],
+                  child: row,
+                ),
+              ),
+            )
+          : Material(
+              color: selected ? skin.selectedRow : colors.raised,
+              shape: RoundedRectangleBorder(
+                borderRadius: NtaSkin.keyRadius,
+                side: BorderSide(color: selected ? skin.selectedEdge : colors.line, width: selected ? 1.5 : 1),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: selected ? () {} : onSelect,
+                splashFactory: NoSplash.splashFactory,
+                highlightColor: skin.selectedRow,
+                child: row,
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -106,7 +127,9 @@ class _Radio extends StatelessWidget {
         child: selected
             ? Padding(
                 padding: const EdgeInsets.all(4),
-                child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: skin.radio)),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: skin.radio),
+                ),
               )
             : null,
       ),

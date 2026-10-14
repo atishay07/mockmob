@@ -147,7 +147,8 @@ void main() {
     testWidgets('one session is a figure and a plain "not enough yet" line, with no empty chart', (tester) async {
       await pump(tester, seriesAt([0]));
       expect(find.textContaining('Not enough yet'), findsOneWidget);
-      expect(find.byType(CustomPaint), findsNothing);
+      // The press veil of Show me is a CustomPaint too, so look for the chart's own painter.
+      expect(find.byWidgetPredicate((w) => w is CustomPaint && '${w.painter.runtimeType}' == '_TrendPainter'), findsNothing);
     });
   });
 

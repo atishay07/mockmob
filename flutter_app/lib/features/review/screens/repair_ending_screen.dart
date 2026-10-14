@@ -182,7 +182,9 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final receipt = ackedAt == null
         ? const ReceiptLine.pending()
         : ReceiptLine(
-            text: ReviewCopy.bindTime(firstNote ? 'Recorded at ${formatTime12(clock.local(ackedAt))}.' : Receipts.repairFinished(clock.local(ackedAt))),
+            text: ReviewCopy.bindTime(
+              firstNote ? 'Recorded at ${formatTime12(clock.local(ackedAt))}.' : Receipts.repairFinished(clock.local(ackedAt)),
+            ),
           );
 
     final showMobi = full && !(momentShown && moment.mobiHop);
@@ -205,96 +207,110 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s12, MmSpace.cardGutter, MmSpace.s16),
-                          // The hero and the sheet sit at the top; the close (what was recorded, and
-                          // sharing) sits at the bottom, just above the key. Short content leaves its
-                          // air between the two, on purpose.
-                          sliver: SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                if (attempt != null)
-                                  _Arrive(
-                                    child: EndingSheet(
-                                      title: '${model.source}, ${subjectName(model.subjectId)}',
-                                      cells: sheetCells(attempt, repairedNow: model.repairedNowIds, repairedBefore: model.repairedEarlierIds),
-                                      progress: _ink,
-                                      firstRepair: !model.repairedBefore && !nothing,
-                                    ),
-                                  ),
-                                if (nothing) ...[
-                                  // The hero sits in the air under the sheet, not stuck to it.
-                                  const Spacer(flex: 2),
-                                  _NothingHero(
-                                    title: ReviewCopy.nothingRepairedTitle,
-                                    line: ReviewCopy.nothingRepaired(model.setAside, model.reviewed),
-                                    showMobi: full,
-                                  ),
-                                ] else ...[
-                                  const SizedBox(height: MmSpace.s24),
-                                  _NumberHero(
-                                    value: model.repaired,
-                                    roll: full,
-                                    pop: _pop,
-                                    burstPlay: _celebrating && _beat,
-                                    celebrating: _celebrating,
-                                    mobi: showMobi
-                                        ? MobiCharacter(
-                                            size: 96,
-                                            controller: _mobi,
-                                            // Standing at rest until the beat, then proud; with the
-                                            // celebration off or motion reduced, proud at once.
-                                            entrance: _celebrating ? MobiAct.rest : MobiAct.proud,
-                                            seed: 19,
-                                          )
-                                        : null,
-                                  ),
-                                  const SizedBox(height: MmSpace.s12),
-                                  Text(
-                                    ReviewCopy.endingFact(model.chapter, left, setAside: model.setAside, reviewed: model.reviewed),
-                                    style: type.lead,
-                                  ),
-                                  const SizedBox(height: MmSpace.s20),
-                                  LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
-                                  const SizedBox(height: MmSpace.s12),
-                                  Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
-                                ],
-                                Spacer(flex: nothing ? 3 : 1),
-                                if (!nothing) ...[
-                                  const SizedBox(height: MmSpace.s24),
-                                  if (mobiLine != null) ...[
-                                    Text(mobiLine, style: type.body),
-                                    const SizedBox(height: MmSpace.s12),
-                                  ],
-                                  if (momentShown)
-                                    CelebrationSlot(scope: scope)
-                                  else if (firstNote)
-                                    _FirstRepairNote(receipt: receipt)
-                                  else
-                                    receipt,
-                                  const SizedBox(height: MmSpace.s4),
-                                  FlushKey(
-                                    label: 'Share a card',
-                                    onPressed: () => unawaited(
-                                      showShareCardSheet(
-                                        context,
-                                        data: ShareCardData.repair(repaired: model.repaired, day: clock.now(), subject: subjectName(model.subjectId)),
+                    // The hero and the sheet sit at the top; the close (what was recorded, and
+                    // sharing) sits at the bottom, just above the key. Short content leaves its air
+                    // between the two, on purpose: spaceBetween inside a minimum height, so no
+                    // intrinsic-height pass runs through the celebration slot.
+                    child: LayoutBuilder(
+                      builder: (context, box) => SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s12, MmSpace.cardGutter, MmSpace.s16),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: math.max(0, box.maxHeight - MmSpace.s12 - MmSpace.s16)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  if (attempt != null)
+                                    _Arrive(
+                                      child: EndingSheet(
+                                        title: '${model.source}, ${subjectName(model.subjectId)}',
+                                        cells: sheetCells(
+                                          attempt,
+                                          repairedNow: model.repairedNowIds,
+                                          repairedBefore: model.repairedEarlierIds,
+                                        ),
+                                        progress: _ink,
+                                        firstRepair: !model.repairedBefore && !nothing,
                                       ),
                                     ),
-                                  ),
+                                  if (nothing) ...[
+                                    // The hero sits in the air under the sheet, not stuck to it.
+                                    const SizedBox(height: MmSpace.s48),
+                                    _NothingHero(
+                                      title: ReviewCopy.nothingRepairedTitle,
+                                      line: ReviewCopy.nothingRepaired(model.setAside, model.reviewed),
+                                      showMobi: full,
+                                    ),
+                                  ] else ...[
+                                    const SizedBox(height: MmSpace.s24),
+                                    _NumberHero(
+                                      value: model.repaired,
+                                      roll: full,
+                                      pop: _pop,
+                                      burstPlay: _celebrating && _beat,
+                                      celebrating: _celebrating,
+                                      mobi: showMobi
+                                          ? MobiCharacter(
+                                              size: 96,
+                                              controller: _mobi,
+                                              // Standing at rest until the beat, then proud; with the
+                                              // celebration off or motion reduced, proud at once.
+                                              entrance: _celebrating ? MobiAct.rest : MobiAct.proud,
+                                              seed: 19,
+                                            )
+                                          : null,
+                                    ),
+                                    const SizedBox(height: MmSpace.s12),
+                                    Text(
+                                      ReviewCopy.endingFact(model.chapter, left, setAside: model.setAside, reviewed: model.reviewed),
+                                      style: type.lead,
+                                    ),
+                                    const SizedBox(height: MmSpace.s20),
+                                    LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
+                                    const SizedBox(height: MmSpace.s12),
+                                    Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
+                                  ],
                                 ],
-                                // The pinned keys below carry their own top padding: a taller spacer here
-                                // left Share a card floating above a dead gap.
-                                const SizedBox(height: MmSpace.s4),
-                              ],
-                            ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  if (!nothing) ...[
+                                    const SizedBox(height: MmSpace.s24),
+                                    if (mobiLine != null) ...[Text(mobiLine, style: type.body), const SizedBox(height: MmSpace.s12)],
+                                    if (momentShown)
+                                      CelebrationSlot(scope: scope)
+                                    else if (firstNote)
+                                      _FirstRepairNote(receipt: receipt)
+                                    else
+                                      receipt,
+                                    const SizedBox(height: MmSpace.s4),
+                                    FlushKey(
+                                      label: 'Share a card',
+                                      onPressed: () => unawaited(
+                                        showShareCardSheet(
+                                          context,
+                                          data: ShareCardData.repair(
+                                            repaired: model.repaired,
+                                            day: clock.now(),
+                                            subject: subjectName(model.subjectId),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  // The pinned keys below carry their own top padding: a taller gap here
+                                  // left Share a card floating above a dead gap.
+                                  const SizedBox(height: MmSpace.s4),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -305,7 +321,8 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                         if (retry.isNotEmpty) ...[
                           KeyButton(
                             label: ReviewCopy.tryAgainKey,
-                            semanticsLabel: '${ReviewCopy.tryAgainKey}. ${ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length))}',
+                            semanticsLabel:
+                                '${ReviewCopy.tryAgainKey}. ${ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length))}',
                             onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(widget.attemptId, retry.first.questionId)),
                           ),
                           const SizedBox(height: MmSpace.s4),
@@ -356,7 +373,14 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
 /// number swells a little and settles ([pop]) while the foil burst opens behind it, centred on the
 /// digits and drawn under the type.
 class _NumberHero extends StatelessWidget {
-  const _NumberHero({required this.value, required this.roll, required this.pop, required this.burstPlay, required this.celebrating, this.mobi});
+  const _NumberHero({
+    required this.value,
+    required this.roll,
+    required this.pop,
+    required this.burstPlay,
+    required this.celebrating,
+    this.mobi,
+  });
 
   final int value;
   final bool roll;
@@ -376,7 +400,10 @@ class _NumberHero extends StatelessWidget {
     final base = type.hero;
     final size = MediaQuery.textScalerOf(context).scale(base.fontSize ?? 112);
     final probe = TextPainter(
-      text: TextSpan(text: '0', style: base.copyWith(fontSize: size)),
+      text: TextSpan(
+        text: '0',
+        style: base.copyWith(fontSize: size),
+      ),
       textDirection: TextDirection.ltr,
       textScaler: TextScaler.noScaling,
     )..layout();
@@ -455,7 +482,10 @@ class _NothingHero extends StatelessWidget {
                 child: Text(title, style: type.display.copyWith(fontSize: 44, height: 46 / 44)),
               ),
             ),
-            if (showMobi) ...[const SizedBox(width: MmSpace.s8), const Mobi(pose: MobiPose.encourage, size: 132, motion: MobiMotion.settle)],
+            if (showMobi) ...[
+              const SizedBox(width: MmSpace.s8),
+              const Mobi(pose: MobiPose.encourage, size: 132, motion: MobiMotion.settle),
+            ],
           ],
         ),
         const SizedBox(height: MmSpace.s12),
@@ -478,7 +508,11 @@ class _FirstRepairNote extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Semantics(container: true, header: true, child: Text(ReviewCopy.firstRepair, style: type.headline.copyWith(fontSize: 22, height: 26 / 22))),
+        Semantics(
+          container: true,
+          header: true,
+          child: Text(ReviewCopy.firstRepair, style: type.headline.copyWith(fontSize: 22, height: 26 / 22)),
+        ),
         const SizedBox(height: MmSpace.s8),
         receipt,
       ],

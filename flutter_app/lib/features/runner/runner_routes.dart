@@ -63,6 +63,8 @@ class RunnerRoute extends ConsumerWidget {
         body: RunnerCopy.endedBody,
         actionLabel: RunnerCopy.goToToday,
         onAction: () => context.go(AppRoutes.today),
+        // Time is simply over: Mobi sits down beside it. Calm, never a shrug at the student.
+        mobi: MobiAct.rest,
       ),
       AsyncData(value: RunnerMissing()) => RunnerMessage(
         title: RunnerCopy.missingTitle,

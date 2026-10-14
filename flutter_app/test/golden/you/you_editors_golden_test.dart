@@ -61,7 +61,7 @@ void main() {
   sheetGolden(
     'sheet_editor',
     () => const SheetEditorScreen(),
-    size: const Size(384, 1640),
+    size: const Size(384, 1420),
     overrides: () => youOverrides(target: fullTarget),
   );
 

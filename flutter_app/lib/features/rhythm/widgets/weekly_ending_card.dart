@@ -96,14 +96,18 @@ class WeeklyEndingCard extends StatelessWidget {
                 KeyButton(label: keep.label, onPressed: busy ? null : () => onKey(keep), loading: busy),
                 if (others.isNotEmpty) ...[
                   const SizedBox(height: MmSpace.s12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      for (var i = 0; i < others.length; i++) ...[
-                        if (i > 0) const SizedBox(width: MmSpace.s8),
-                        Expanded(child: QuietPill(label: others[i].label, onPressed: busy ? null : () => onKey(others[i]))),
+                  // IntrinsicHeight: the pills share the tallest one's height even when a label
+                  // wraps at a large text size, inside a column with no height limit.
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (var i = 0; i < others.length; i++) ...[
+                          if (i > 0) const SizedBox(width: MmSpace.s8),
+                          Expanded(child: QuietPill(label: others[i].label, onPressed: busy ? null : () => onKey(others[i]))),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ],
                 if (onShare != null && data.met) ...[

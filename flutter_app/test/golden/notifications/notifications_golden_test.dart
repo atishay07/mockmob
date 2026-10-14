@@ -277,7 +277,7 @@ void main() {
           tester,
           b,
           prefs: prefsWith(weeklyOn: false, window: const StudyWindow(start: ClockTime(23, 30), end: ClockTime(23, 59))),
-          scrollTo: 330,
+          scrollTo: 200,
         );
         await _shoot(tester, 'settings_conflict', b);
       });
@@ -311,7 +311,7 @@ void main() {
           b,
           permission: NotificationPermission.denied,
           prefs: prefsWith(weeklyOn: false, studyOn: false, window: null),
-          scrollTo: 330,
+          scrollTo: 200,
         );
         await _shoot(tester, 'settings_blocked', b);
       });

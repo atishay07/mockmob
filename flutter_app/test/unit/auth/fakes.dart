@@ -18,7 +18,8 @@ class FakeGateway implements SignInGateway {
   GoogleOutcome googleOutcome = GoogleOutcome.signedIn;
 
   /// Browser sign-in results, as the callback link would deliver them.
-  final StreamController<OAuthReturn> returns = StreamController<OAuthReturn>.broadcast();
+  final StreamController<OAuthReturn> returns =
+      StreamController<OAuthReturn>.broadcast();
   bool signedInAfterVerify = true;
   bool _signedIn = false;
 

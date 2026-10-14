@@ -71,6 +71,9 @@ abstract final class RunnerCopy {
   static const String next = 'Next';
   static const String reviewAndSubmit = 'Review and submit';
 
+  /// The last question's key on a narrow phone or at large text, where the long label would wrap.
+  static const String review = 'Review';
+
   // Return after an interruption.
   static String awayFor(Duration d) => 'You were away for ${durationWords(d)}. The timer kept running.';
   static const String awaySaved = 'All answers are saved on the server.';
@@ -79,7 +82,7 @@ abstract final class RunnerCopy {
 
   /// The glass strip over the meta line: short enough for two lines at 1.3x text.
   static String awayStrip(Duration d, {required bool allSaved}) =>
-      'Away for ${durationWords(d)}. The timer kept running. ${allSaved ? awaySavedShort : awayOnPhoneShort}';
+      'Away for ${durationWords(d)}. Timer kept running. ${allSaved ? awaySavedShort : awayOnPhoneShort}';
   static const String awaySavedShort = 'Answers saved.';
   static const String awayOnPhoneShort = 'Answers on this phone.';
 
@@ -129,20 +132,23 @@ abstract final class RunnerCopy {
   static String markedCount(int n) => '$n $markedWord';
   static String notAnsweredCount(int n) => '$n $notAnsweredWord';
   static const String markedWord = 'marked for review';
+  static const String legendMarkedAnswered = 'Marked, answered';
+  static const String legendMarkedBlank = 'Marked, not answered';
   static const String notAnsweredWord = 'not answered';
   static const String cannotChange = 'You cannot change answers after you submit.';
   static String submitKey(bool isMock) => isMock ? 'Submit mock' : 'Submit practice';
   static const String keepWorking = 'Keep working';
   static const String sending = 'Sending your answers';
-  static String received(DateTime at) => 'Answers received. Saved on the server at ${formatTime12(at)}.';
+  static String received(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
   static String openResult(bool isMock) => isMock ? 'Open your sheet' : 'See your answers';
-  static const String pendingBody = 'Your answers are on this phone. We will send them when you are online.';
-  static const String timeUpPending = 'Your answers are on this phone. We will try to send them.';
+  /// One honest line for answers the server does not have yet: where they are, and that they go
+  /// by themselves (the engine retries when the phone is back online; "Try again" asks at once).
+  static const String pendingBody = 'Saved on this phone, not on the server yet. We send it when you are online.';
+  static const String timeUpPending = pendingBody;
   static const String sendingTitle = 'Handing in your sheet';
   static const String receivedTitle = 'Your sheet is in.';
   static const String pendingTitle = 'Not sent yet';
   static const String notRecordedTitle = 'Not recorded';
-  static const String notOnServer = 'Not on the server yet';
   static const String tryAgain = 'Try again';
   static String windowClosed(bool isMock) => 'The submission window has ended, so this ${noun(isMock)} could not be recorded.';
   static String rejected(bool isMock) => 'The server did not accept this ${noun(isMock)}, so it was not recorded.';

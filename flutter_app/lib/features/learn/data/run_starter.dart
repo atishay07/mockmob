@@ -65,14 +65,18 @@ class RunStarter {
       if (e.isOffline) return const StartResult(StartOutcome.offline);
       // The server answered, so this intent is finished either way.
       _keys.remove(intent);
-      if (e.hasCode(ApiCodes.dailyNewLimitReached))
+      if (e.hasCode(ApiCodes.dailyNewLimitReached)) {
         return const StartResult(StartOutcome.dailyLimit);
-      if (e.hasCode(ApiCodes.nothingDue))
+      }
+      if (e.hasCode(ApiCodes.nothingDue)) {
         return const StartResult(StartOutcome.nothingDue);
-      if (e.hasCode('LESSON_NOT_READ'))
+      }
+      if (e.hasCode('LESSON_NOT_READ')) {
         return const StartResult(StartOutcome.lessonNotRead);
-      if (e.hasCode(ApiCodes.studyContentChanged))
+      }
+      if (e.hasCode(ApiCodes.studyContentChanged)) {
         return const StartResult(StartOutcome.contentChanged);
+      }
       if (e.hasCode('STUDY_RECALL_UNAVAILABLE') ||
           e.hasCode('STUDY_STORAGE_UNAVAILABLE')) {
         return const StartResult(StartOutcome.unavailable);

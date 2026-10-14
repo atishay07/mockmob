@@ -31,7 +31,7 @@ void main() {
     expect(chapter.headline, '3 of your 4 mistakes were in Goodwill');
     expect(chapter.questions, [3, 4, 5]);
     final blank = obs.singleWhere((o) => o.kind == ObservationKind.blank);
-    expect(blank.headline, 'One question left blank');
+    expect(blank.headline, 'One question not attempted');
     expect(blank.questions, [10]);
   });
 

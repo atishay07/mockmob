@@ -312,7 +312,7 @@ class _DragToCloseState extends State<_DragToClose> with SingleTickerProviderSta
 }
 
 /// The sheet's content riding the growing glass: it fades in over 12% to 62% of the morph and
-/// scales up from 0.9 out of the origin (the button), so the shape is never an empty slab and
+/// scales up from 0.5 with the glass, out of the origin (the button), so the shape is never an empty slab and
 /// the text seems to come out of the button with it. Closing, it leaves over the first half.
 class _ContentReveal extends StatelessWidget {
   const _ContentReveal({required this.animation, required this.reduced, required this.anchor, required this.child});
@@ -329,10 +329,12 @@ class _ContentReveal extends StatelessWidget {
     return FadeTransition(
       opacity: fade,
       child: AnimatedBuilder(
-        animation: fade,
+        animation: animation,
         builder: (context, child) => Transform.translate(
           offset: Offset(0, 14 * (1 - fade.value)),
-          child: Transform.scale(scale: 0.9 + 0.1 * fade.value, alignment: anchor, child: child),
+          // The content grows with the glass (half size at the first frame), so it sits inside
+          // the rising shape and is not cropped by its left edge: it comes out of the button.
+          child: Transform.scale(scale: 0.5 + 0.5 * _growCurve.transform(animation.value.clamp(0.0, 1.0)), alignment: anchor, child: child),
         ),
         child: child,
       ),

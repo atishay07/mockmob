@@ -43,7 +43,9 @@ class PasswordSignInForm extends ConsumerStatefulWidget {
 enum _Bad { email, password, both }
 
 class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
-  late final TextEditingController _email = TextEditingController(text: widget.initialEmail);
+  late final TextEditingController _email = TextEditingController(
+    text: widget.initialEmail,
+  );
   final TextEditingController _password = TextEditingController();
   final FocusNode _passwordFocus = FocusNode();
   bool _working = false;
@@ -90,7 +92,9 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
     // Read before the await: the router may replace this screen as soon as the session lands.
     final hints = ref.read(passwordHintsProvider);
     try {
-      await ref.read(accountAccessGatewayProvider).signInWithPassword(email, _password.text);
+      await ref
+          .read(accountAccessGatewayProvider)
+          .signInWithPassword(email, _password.text);
       TextInput.finishAutofillContext();
       // This account has a password, so the "Set a password" nudge is not shown to it here.
       unawaited(hints.markPasswordSet().catchError((Object _) {}));
@@ -164,11 +168,17 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
             const SizedBox(height: MmSpace.s8),
             Align(
               alignment: Alignment.centerLeft,
-              child: KeyButton.quiet(label: AccessCopy.forgotPassword, onPressed: enabled ? widget.onForgotPassword : null),
+              child: KeyButton.quiet(
+                label: AccessCopy.forgotPassword,
+                onPressed: enabled ? widget.onForgotPassword : null,
+              ),
             ),
           ],
           const SizedBox(height: MmSpace.s12),
-          Text(AccessCopy.noPasswordYet, style: type.small.copyWith(color: colors.ink3)),
+          Text(
+            AccessCopy.noPasswordYet,
+            style: type.small.copyWith(color: colors.ink3),
+          ),
         ],
       ),
     );

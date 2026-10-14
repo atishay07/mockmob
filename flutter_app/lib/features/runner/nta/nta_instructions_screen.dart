@@ -134,23 +134,23 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
               leading: working ? null : NtaBarKey(icon: LucideIcons.arrowLeft, semanticsLabel: PracticeCopy.backToPractice, onTap: _back),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s20, MmSpace.gutter, MmSpace.s24),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                    child: working
-                        ? NtaPreparing(subject: subject, phase: _phase!)
-                        : _Instructions(
+              child: working
+                  ? NtaPreparingStage(subject: subject, phase: _phase!)
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s20, MmSpace.gutter, MmSpace.s24),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                          child: _Instructions(
                             subject: subject,
                             candidate: ref.watch(ntaCandidateNameProvider),
                             quote: quote,
                             declared: _declared,
                             onDeclared: (v) => setState(() => _declared = v),
                           ),
-                  ),
-                ),
-              ),
+                        ),
+                      ),
+                    ),
             ),
             if (!working)
               DecoratedBox(
@@ -235,19 +235,31 @@ class _Instructions extends StatelessWidget {
           ],
         ),
         const SizedBox(height: MmSpace.s16),
-        Row(
-          children: [
-            Expanded(
-              child: NtaFactTile(value: '$count', unit: NtaStartCopy.questionsUnit),
+        // Three facts of one shape. Side by side they are equal tiles; from 1.3x text a figure
+        // would shrink to fit a third of the width, so they stack, each as wide as the page.
+        if (MediaQuery.textScalerOf(context).scale(1) >= 1.3) ...[
+          NtaFactTile(value: '$count', unit: NtaStartCopy.questionsUnit),
+          const SizedBox(height: MmSpace.s8),
+          NtaFactTile(value: '$minutes', unit: NtaStartCopy.minutesUnit),
+          const SizedBox(height: MmSpace.s8),
+          const NtaMarkingTile(),
+        ] else
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: NtaFactTile(value: '$count', unit: NtaStartCopy.questionsUnit),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                Expanded(
+                  child: NtaFactTile(value: '$minutes', unit: NtaStartCopy.minutesUnit),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                const Expanded(child: NtaMarkingTile()),
+              ],
             ),
-            const SizedBox(width: MmSpace.s8),
-            Expanded(
-              child: NtaFactTile(value: '$minutes', unit: NtaStartCopy.minutesUnit),
-            ),
-            const SizedBox(width: MmSpace.s8),
-            const Expanded(child: NtaMarkingTile()),
-          ],
-        ),
+          ),
         const SizedBox(height: MmSpace.s20),
         const NtaStyleSwitch(),
         NtaInstructionBlock(

@@ -50,10 +50,26 @@ class QuestionView extends StatelessWidget {
   /// The global centre of the bubble an answer is about to be chosen on (the lock-in flight).
   final ValueChanged<Offset>? onLock;
 
-  /// The question itself is the hero of the screen: 19/28 at weight 600.
-  static TextStyle questionStyle(BuildContext context) {
+  /// The question itself is the hero of the screen: 19/28 at weight 600 for a long stem, and
+  /// larger when the stem is short, so a one-line question fills the space it has instead of
+  /// leaving a gap above the options.
+  static TextStyle questionStyle(BuildContext context, {int length = 200}) {
     final style = context.mmType.question;
-    return style.copyWith(fontSize: 19, height: 28 / 19, fontWeight: FontWeight.w600, color: context.mmColors.ink);
+    // At large system text the question already grows with it, and the options need the room:
+    // the short-stem boost is for the normal size only.
+    final large = MediaQuery.textScalerOf(context).scale(1) >= 1.15;
+    final size = large
+        ? 19.0
+        : length <= 60
+        ? 30.0
+        : length <= 100
+        ? 27.0
+        : length <= 140
+        ? 24.0
+        : length <= 200
+        ? 21.0
+        : 19.0;
+    return style.copyWith(fontSize: size, height: size <= 19 ? 28 / 19 : 1.28, fontWeight: FontWeight.w600, color: context.mmColors.ink);
   }
 
   @override
@@ -64,6 +80,10 @@ class QuestionView extends StatelessWidget {
     final body = question.body;
 
     final rule = ColoredBox(color: colors.line, child: const SizedBox(height: 1));
+    // On a tall screen the options grow (60 dp up to 78 dp), so the gap between a short question
+    // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 60.
+    final screen = MediaQuery.sizeOf(context).height;
+    final optionHeight = (60 + (screen - 700) * 0.12).clamp(60.0, 78.0);
 
     // The question sits at the top and the options at the foot, next to the thumb and the bottom
     // bar: on a short question the space between them is air, not a dead lower third. The layout
@@ -79,13 +99,25 @@ class QuestionView extends StatelessWidget {
             ...?leading,
             EnterItem(
               order: 0,
-              child: Row(
-                children: [
-                  Expanded(child: note ?? const SizedBox.shrink()),
-                  const SizedBox(width: MmSpace.s8),
-                  MarkToggle(marked: marked, onChanged: onMark),
-                ],
-              ),
+              // From 1.15x text the note would wrap beside the toggle: it takes a line above it.
+              child: note != null && MediaQuery.textScalerOf(context).scale(1) >= 1.15
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        note!,
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: MarkToggle(marked: marked, onChanged: onMark),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(child: note ?? const SizedBox.shrink()),
+                        const SizedBox(width: MmSpace.s8),
+                        MarkToggle(marked: marked, onChanged: onMark),
+                      ],
+                    ),
             ),
             if (passage != null && passage.isNotEmpty) ...[
               EnterItem(order: 1, child: _PassageWell(text: passage, range: passageRange)),
@@ -96,7 +128,11 @@ class QuestionView extends StatelessWidget {
               order: 1,
               child: Semantics(
                 header: true,
-                child: Text(question.question, style: questionStyle(context)),
+                child: Text(
+                  question.question,
+                  // A passage question keeps the standard size: the passage is the long read.
+                  style: questionStyle(context, length: passage != null && passage.isNotEmpty ? 200 : question.question.length),
+                ),
               ),
             ),
             if (body != null && body.isNotEmpty) ...[
@@ -123,6 +159,7 @@ class QuestionView extends StatelessWidget {
                       selected: selected == i,
                       onSelect: canAnswer ? () => onSelect(i) : null,
                       onLock: onLock,
+                      minHeight: optionHeight,
                     ),
                     rule,
                   ],

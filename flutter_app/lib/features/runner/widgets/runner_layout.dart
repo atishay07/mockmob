@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/sync/session/save_state.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
@@ -119,6 +118,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         total: s.questions.length,
                         isMock: s.isMock,
                         remaining: s.isMock ? s.remaining : null,
+                        openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
                         onLeave: widget.onLeave,
                         onQuestions: widget.onQuestions,
                       ),
@@ -132,20 +132,18 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                               : 0,
                           child: line,
                         ),
-                        // The away strip lies over the meta line as glass: nothing below it reflows.
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            RunnerMetaRow(
-                              subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
-                              openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
-                              save: s.saveState,
-                              showSave: s.answeredCount > 0,
-                              warning: widget.warning,
-                              onRetrySave: onRetrySave,
-                            ),
-                            Positioned.fill(child: _AwayStrip(session: s)),
-                          ],
+                        // The return notice takes the subject's place on this line (no layer over
+                        // it, so nothing is covered and nothing below it moves).
+                        child: _AwayLine(
+                          session: s,
+                          builder: (context, notice) => RunnerMetaRow(
+                            subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
+                            save: s.saveState,
+                            showSave: s.answeredCount > 0,
+                            warning: widget.warning,
+                            notice: notice,
+                            onRetrySave: onRetrySave,
+                          ),
                         ),
                       ),
                       TimingTrack(key: _trackKey, cells: cells, onJump: s.canAnswer ? onJump : null),
@@ -157,30 +155,32 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                     builder: (context, box) {
                       final padTop = trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12;
                       const padBottom = MmSpace.s16;
-                      return SingleChildScrollView(
-                        key: ValueKey('question-$index'),
-                        padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          // At least the height of the region, so the options rest at the foot.
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: MmSpace.contentMaxWidth,
-                              minHeight: (box.maxHeight - padTop - padBottom).clamp(0.0, double.infinity),
-                            ),
-                            child: QuestionEnter(
-                              direction: _direction,
-                              animate: arriving,
-                              child: QuestionView(
-                                question: q,
-                                selected: s.answerFor(q.id),
-                                marked: s.marked.contains(q.id),
-                                canAnswer: s.canAnswer,
-                                onSelect: (option) => widget.onSelect(q.id, option),
-                                onMark: (value) => s.setMarked(q.id, value),
-                                onLock: _lockFrom,
-                                passageRange: passageRangeOf(s, index),
-                                note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                      return _ScrollFade(
+                        child: SingleChildScrollView(
+                          key: ValueKey('question-$index'),
+                          padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            // At least the height of the region, so the options rest at the foot.
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: MmSpace.contentMaxWidth,
+                                minHeight: (box.maxHeight - padTop - padBottom).clamp(0.0, double.infinity),
+                              ),
+                              child: QuestionEnter(
+                                direction: _direction,
+                                animate: arriving,
+                                child: QuestionView(
+                                  question: q,
+                                  selected: s.answerFor(q.id),
+                                  marked: s.marked.contains(q.id),
+                                  canAnswer: s.canAnswer,
+                                  onSelect: (option) => widget.onSelect(q.id, option),
+                                  onMark: (value) => s.setMarked(q.id, value),
+                                  onLock: _lockFrom,
+                                  passageRange: passageRangeOf(s, index),
+                                  note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                                ),
                               ),
                             ),
                           ),
@@ -207,67 +207,34 @@ class _RunnerLayoutState extends State<RunnerLayout> {
   }
 }
 
-/// "You were away for 2 minutes 10 seconds. The timer kept running." with the save fact that
-/// is true right now, as a glass strip over the meta line. It takes no room from the question:
-/// it leaves on the first tap, answer or jump, and the strip itself is a tap target too.
-class _AwayStrip extends StatelessWidget {
-  const _AwayStrip({required this.session});
+/// The return after an interruption: "Away for 2 minutes 10 seconds. Timer kept running. Answers
+/// saved." with the save fact that is true right now. It is handed to the meta line to show in
+/// place of the subject, as a polite live region; it leaves on the first tap, answer or jump.
+class _AwayLine extends StatelessWidget {
+  const _AwayLine({required this.session, required this.builder});
 
   final RunnerSession session;
+  final Widget Function(BuildContext context, String? notice) builder;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     return ValueListenableBuilder<AwayInfo?>(
       valueListenable: session.away,
       builder: (context, info, _) {
-        if (info == null) return const SizedBox.shrink();
-        final text = RunnerCopy.awayStrip(info.duration, allSaved: info.allSaved);
-        return MediaQuery.withClampedTextScaling(
-          maxScaleFactor: 1.3,
-          child: Semantics(
-            container: true,
-            liveRegion: true,
-            label: text,
-            onTap: session.dismissAway,
-            excludeSemantics: true,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: session.dismissAway,
-              child: OverflowBox(
-                minHeight: 0,
-                maxHeight: double.infinity,
-                child: GlassSurface(
-                  borderRadius: MmRadius.keyAll,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
-                    child: Row(
-                      children: [
-                        Icon(LucideIcons.clock, size: 14, color: colors.ink2),
-                        const SizedBox(width: MmSpace.s8),
-                        Expanded(
-                          child: Text(
-                            text,
-                            style: type.caption.copyWith(color: colors.ink),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        final notice = info == null ? null : RunnerCopy.awayStrip(info.duration, allSaved: info.allSaved);
+        return Semantics(
+          container: notice != null,
+          liveRegion: notice != null,
+          onTap: notice == null ? null : session.dismissAway,
+          child: builder(context, notice),
         );
       },
     );
   }
 }
 
-/// The practice skin's one line at the start: no feedback while answering.
+/// The practice skin's one line at the start: no feedback while answering. Plain words on the
+/// gutter, no icon to indent them.
 class _PracticeNote extends StatelessWidget {
   const _PracticeNote();
 
@@ -275,12 +242,61 @@ class _PracticeNote extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Row(
+    return Text(RunnerCopy.practiceNote, style: type.caption.copyWith(color: colors.ink2));
+  }
+}
+
+/// A short soft fade at the foot of the question region while there is more below it, so an
+/// option that runs under the bottom bar reads as scrollable and not as cut off. It is a scrim
+/// in the ground colour (nothing decorative), takes no touches, and is gone at the end.
+class _ScrollFade extends StatefulWidget {
+  const _ScrollFade({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_ScrollFade> createState() => _ScrollFadeState();
+}
+
+class _ScrollFadeState extends State<_ScrollFade> {
+  static const double _height = 28;
+  bool _more = false;
+
+  bool _update(ScrollMetrics metrics) {
+    final more = metrics.extentAfter > 1;
+    if (more != _more) setState(() => _more = more);
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ground = context.mmColors.ground;
+    return Stack(
       children: [
-        Icon(LucideIcons.messageCircle, size: 15, color: colors.ink3),
-        const SizedBox(width: MmSpace.s8),
-        Expanded(
-          child: Text(RunnerCopy.practiceNote, style: type.small.copyWith(color: colors.ink2)),
+        NotificationListener<ScrollMetricsNotification>(
+          onNotification: (n) => _update(n.metrics),
+          child: NotificationListener<ScrollNotification>(onNotification: (n) => _update(n.metrics), child: widget.child),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: _height,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              opacity: _more ? 1 : 0,
+              duration: Motion.of(context, Motion.glideDuration),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [ground.withValues(alpha: 0), ground],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

@@ -78,9 +78,8 @@ class SubmitStageView extends StatelessWidget {
           KeyButton(label: RunnerCopy.openResult(isMock), onPressed: onOpenResult, hapticOnCommit: false),
         ],
         SubmitStage.pending => [
+          // One message, one icon: where the answers are, and what happens next.
           InlineBanner(message: timedOut ? RunnerCopy.timeUpPending : RunnerCopy.pendingBody, tone: BannerTone.warning),
-          const SizedBox(height: MmSpace.s12),
-          const _NotOnServer(),
           const SizedBox(height: MmSpace.s16),
           KeyButton(label: RunnerCopy.tryAgain, onPressed: onSubmit),
           const SizedBox(height: MmSpace.s8),
@@ -191,23 +190,6 @@ class _Receipt extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _NotOnServer extends StatelessWidget {
-  const _NotOnServer();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Row(
-      children: [
-        Icon(LucideIcons.smartphone, size: 15, color: colors.ink2),
-        const SizedBox(width: MmSpace.s8),
-        Text(RunnerCopy.notOnServer, style: type.caption.copyWith(color: colors.ink2)),
-      ],
     );
   }
 }

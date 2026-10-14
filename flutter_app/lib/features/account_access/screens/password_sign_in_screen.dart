@@ -21,7 +21,8 @@ class PasswordSignInScreen extends StatelessWidget {
       child: PasswordSignInForm(
         initialEmail: email ?? '',
         autofocus: true,
-        onForgotPassword: () => context.push(AccountAccessRoutes.forgotPasswordFor(email: email)),
+        onForgotPassword: () =>
+            context.push(AccountAccessRoutes.forgotPasswordFor(email: email)),
       ),
     );
   }

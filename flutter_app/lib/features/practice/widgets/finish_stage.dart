@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class FinishStage extends ConsumerStatefulWidget {
     this.subject,
     this.chapter,
     this.onCellTap,
+    this.onSettled,
   });
 
   final FinishMarks marks;
@@ -52,6 +54,11 @@ class FinishStage extends ConsumerStatefulWidget {
   final String? subject;
   final String? chapter;
   final ValueChanged<int>? onCellTap;
+
+  /// Called once, when the moment has ended (Mobi has reacted, or a skip, a result opened again or
+  /// reduced motion landed it). The screen stages what is below the moment on this, so the list of
+  /// answers does not sit there giving the result away while the score still counts up.
+  final VoidCallback? onSettled;
 
   /// Bubble-to-bubble stagger, the cap on the whole ink, and the beats around it.
   static const Duration stagger = Duration(milliseconds: 40);
@@ -82,6 +89,11 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   final MobiController _mobi = MobiController();
   final GlobalKey _sheetKey = GlobalKey();
   bool _reacted = false;
+
+  /// The marks bar fills a beat after Mobi's line starts, so it never shows washed out under an
+  /// empty bubble.
+  bool _marksOn = false;
+  Timer? _marksTimer;
   bool _started = false;
 
   @override
@@ -161,6 +173,15 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     _reacted = true;
     _mobi.play(widget.tone.act);
     _mobi.say(PracticeCopy.finishLine(widget.tone, widget.marks));
+    if (!widget.fresh || Motion.reduced(context)) {
+      _marksOn = true;
+    } else {
+      _marksTimer = Timer(const Duration(milliseconds: 260), () {
+        if (mounted) setState(() => _marksOn = true);
+      });
+    }
+    final settled = widget.onSettled;
+    if (settled != null) WidgetsBinding.instance.addPostFrameCallback((_) => settled());
     if (widget.tone.pointsAtMistake) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _pointAtFirstWrong());
     }
@@ -181,6 +202,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
 
   @override
   void dispose() {
+    _marksTimer?.cancel();
     _c.dispose();
     _stamp.dispose();
     _sweep.dispose();
@@ -239,7 +261,13 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
           ),
           // And room under it, clear of the ring spreading out from behind the figure.
           const SizedBox(height: MmSpace.s20),
-          Text(PracticeCopy.countsLine(m.correct, m.wrong, m.blank), style: type.lead.copyWith(color: colors.ink)),
+          // The summary line comes in with the count-up's last third, so the result is not given
+          // away at 0.
+          AnimatedBuilder(
+            animation: _c,
+            builder: (context, child) => Opacity(opacity: Curves.easeOut.transform(((_c.value - 0.6) / 0.4).clamp(0.0, 1.0)), child: child),
+            child: Text(PracticeCopy.countsLine(m.correct, m.wrong, m.blank), style: type.lead.copyWith(color: colors.ink)),
+          ),
           if (widget.cells.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s20),
             _InkSheet(cells: widget.cells, reveal: _ink, sweep: _sweep, onCellTap: widget.onCellTap, stripKey: _sheetKey),
@@ -259,15 +287,20 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          AnimatedOpacity(
-            opacity: _reacted ? 1 : 0,
-            duration: Motion.of(context, Motion.card),
-            child: MarksBar(marks: m),
+          // The bar's track is there from the first frame (no dead band); the marks fill it once
+          // Mobi has spoken.
+          TweenAnimationBuilder<double>(
+            tween: Tween(end: _marksOn ? 1 : 0),
+            duration: Motion.of(context, Motion.emphasizedDuration),
+            curve: Motion.out,
+            builder: (context, reveal, _) => MarksBar(marks: m, reveal: reveal),
           ),
           const SizedBox(height: MmSpace.s16),
           // The line keeps its height while the acknowledgement time is read, so nothing jumps.
           SizedBox(height: 22, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!))),
-          const LateNightLine(),
+          // After a calm or good set only: after a mixed one the next step is Repair, not a nudge
+          // to stop.
+          if (_celebrates) const LateNightLine(),
         ],
       ),
     );
@@ -287,7 +320,7 @@ class _MobiSays extends StatelessWidget {
         ? const SizedBox.shrink()
         : Align(
             alignment: Alignment.centerLeft,
-            child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 280),
+            child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 280, delay: 0.04),
           ),
   );
 }

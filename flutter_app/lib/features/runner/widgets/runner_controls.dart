@@ -143,11 +143,14 @@ class RoundIconKey extends StatelessWidget {
 }
 
 /// The Questions key: a pill with a small 2 by 2 answer-sheet glyph, the brand mark's own
-/// geometry, so it reads as "your sheet".
+/// geometry, so it reads as "your sheet". At large text ([compact]) it keeps the glyph alone in
+/// a 44 dp round key (the label stays as its screen-reader name), so the top bar's count and
+/// clock keep their size.
 class SheetKey extends StatelessWidget {
-  const SheetKey({super.key, required this.onTap});
+  const SheetKey({super.key, required this.onTap, this.compact = false});
 
   final VoidCallback onTap;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -159,22 +162,24 @@ class SheetKey extends StatelessWidget {
       builder: (context, pressed) => DecoratedBox(
         decoration: ShapeDecoration(
           color: pressed ? colors.raised2 : colors.raised,
-          shape: StadiumBorder(side: BorderSide(color: colors.line)),
+          shape: compact ? CircleBorder(side: BorderSide(color: colors.line)) : StadiumBorder(side: BorderSide(color: colors.line)),
         ),
-        child: SizedBox(
-          height: 44,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const _SheetGlyph(),
-                const SizedBox(width: MmSpace.s8),
-                Text(RunnerCopy.questionsKey, style: type.labelLarge.copyWith(color: colors.ink)),
-              ],
-            ),
-          ),
-        ),
+        child: compact
+            ? const SizedBox.square(dimension: 44, child: Center(child: _SheetGlyph()))
+            : SizedBox(
+                height: 44,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s16, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const _SheetGlyph(),
+                      const SizedBox(width: MmSpace.s8),
+                      Text(RunnerCopy.questionsKey, style: type.labelLarge.copyWith(color: colors.ink)),
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }

@@ -110,7 +110,7 @@ void main() {
     expect(quotes.calls.last.count, 15);
   });
 
-  testWidgets('at 1.3x text the difficulty choice is a list with every name whole, not cut segments', (tester) async {
+  testWidgets('at 1.3x text the difficulty choice is a wrapped row of chips with every name whole, not cut segments', (tester) async {
     await pumpRouted(
       tester,
       location: '/practice/setup/quick?subject=economics&count=10',
@@ -122,7 +122,7 @@ void main() {
     await _settle(tester);
     expect(find.byType(MmSegmented<PracticeDifficulty>), findsNothing);
     for (final name in ['Balanced', 'Easy', 'Medium', 'Hard']) {
-      expect(find.text(name), findsOneWidget, reason: name);
+      expect(find.text(name, skipOffstage: false), findsOneWidget, reason: name);
     }
   });
 

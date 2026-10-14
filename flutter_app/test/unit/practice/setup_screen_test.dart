@@ -261,7 +261,7 @@ void main() {
     // One confirm step, not a wizard: the before-mock lines are already here.
     expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsOneWidget);
     expect(text('50 questions, 60 minutes.'), findsOneWidget);
-    expect(text('+5 right, −1 wrong, 0 blank'), findsOneWidget);
+    expect(text('+5 right, −1 wrong, 0 not attempted'), findsOneWidget);
     await tester.scrollUntilVisible(text('The timer keeps running if you leave the app. Submit ends the mock.'), 120, scrollable: find.byType(Scrollable).first);
     expect(text('The timer keeps running if you leave the app. Submit ends the mock.'), findsOneWidget);
     expect(text('For fewer interruptions, turn on Do Not Disturb from Quick Settings.'), findsOneWidget);

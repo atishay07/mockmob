@@ -160,7 +160,7 @@ void main() {
 
       // The stamp (UI blitz, 14 Oct): the figure lands with an ink ring; a great set adds the
       // burst of volt shards and the band of light over the sheet.
-      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1150), ('finish_stamp_great', _great, 1250)]) {
+      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1250), ('finish_stamp_great', _great, 1350)]) {
         testWidgets('the stamp, $name at $ms ms', (tester) async {
           final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
           await _pump(

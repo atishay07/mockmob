@@ -24,6 +24,7 @@ class AnswerOption extends StatefulWidget {
     required this.selected,
     required this.onSelect,
     this.onLock,
+    this.minHeight = 60,
   });
 
   final String letter;
@@ -36,6 +37,10 @@ class AnswerOption extends StatefulWidget {
   /// Called with the global centre of the bubble just before a not-yet-chosen option is chosen,
   /// so the layout can fly the lock-in dot from it.
   final ValueChanged<Offset>? onLock;
+
+  /// The row's least height: 60 dp, taller on a tall screen (see `QuestionView`), where the
+  /// room is better spent on larger keys than on a gap above them.
+  final double minHeight;
 
   @override
   State<AnswerOption> createState() => _AnswerOptionState();
@@ -98,7 +103,9 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
     if (box == null || !box.hasSize) return;
     final local = box.globalToLocal(e.position);
     final half = box.size.width / 2;
-    _inkOrigin = Offset(((local.dx - half) / half).clamp(-1.0, 1.0), ((local.dy - half) / half).clamp(-1.0, 1.0));
+    // Kept near the middle: from a rim the ink would leave a grey crescent of the bare ring on
+    // the far side for the first frames.
+    _inkOrigin = Offset(((local.dx - half) / half).clamp(-0.5, 0.5), ((local.dy - half) / half).clamp(-0.5, 0.5));
   }
 
   void _up() {
@@ -168,7 +175,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
               bubbleCenter: Offset(_leading + bubbleSize / 2, 0),
             ),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 60),
+              constraints: BoxConstraints(minHeight: widget.minHeight),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(_leading, MmSpace.s12, MmSpace.s12, MmSpace.s12),
                 child: Row(
@@ -228,8 +235,10 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
   }
 }
 
-/// The ink bleeding out of the chosen option's bubble: one flat circle growing from the bubble's
-/// centre until it covers the row. No gradient; it is the same ink as the bubble at low strength.
+/// The ink bleeding out of the chosen option's bubble: one circle growing from the bubble's
+/// centre until it covers the row, the same ink as the bubble at low strength. Its rim is
+/// feathered (a short fade, not a hard cut), and it grows past the row's far corner so that once
+/// it has arrived the whole row is one flat fill.
 class _WashPainter extends CustomPainter {
   _WashPainter({required this.progress, required this.color, required this.bubbleCenter}) : super(repaint: progress);
 
@@ -246,7 +255,14 @@ class _WashPainter extends CustomPainter {
     final centre = Offset(bubbleCenter.dx, size.height / 2);
     // Far corner of the row from the bubble.
     final reach = math.sqrt(math.pow(size.width - centre.dx, 2) + math.pow(math.max(centre.dy, size.height - centre.dy), 2));
-    canvas.drawCircle(centre, reach * t, Paint()..color = color);
+    final radius = reach * 1.25 * t;
+    final rect = Rect.fromCircle(center: centre, radius: radius);
+    canvas.drawCircle(
+      centre,
+      radius,
+      Paint()
+        ..shader = RadialGradient(colors: [color, color, color.withValues(alpha: 0)], stops: const [0, 0.8, 1]).createShader(rect),
+    );
   }
 
   @override

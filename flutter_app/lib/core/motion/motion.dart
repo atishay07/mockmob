@@ -111,7 +111,7 @@ abstract final class Motion {
 
   /// One skeleton light sweep, then a rest; at most [shimmerSweeps] of them.
   static const Duration shimmerSweep = Duration(milliseconds: 1400);
-  static const Duration shimmerRest = Duration(milliseconds: 600);
+  static const Duration shimmerRest = Duration(milliseconds: 250);
   static const int shimmerSweeps = 4;
 
   /// Anything leaving for good: cubic-bezier(0.5, 0, 0.75, 0), 180 ms.

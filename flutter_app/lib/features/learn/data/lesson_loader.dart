@@ -51,8 +51,9 @@ class OfflineLearn extends AsyncNotifier<OfflineLearnState> {
     final current = state.value;
     if (current == null || !ref.mounted) return;
     final sizes = await ref.read(learnStoreProvider).sizeBySubject();
-    if (ref.mounted)
+    if (ref.mounted) {
       state = AsyncData(OfflineLearnState(kept: current.kept, sizes: sizes));
+    }
   }
 }
 

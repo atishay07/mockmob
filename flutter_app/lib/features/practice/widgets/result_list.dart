@@ -145,7 +145,7 @@ class ResultList extends StatelessWidget {
   }
 }
 
-/// A solid panel of result rows divided by hairlines (the work layer: calm, no art).
+/// Result rows ruled by hairlines, directly on the page (the work layer: calm, no art, no box).
 class ResultPanel extends StatelessWidget {
   const ResultPanel({super.key, required this.children});
 
@@ -154,14 +154,13 @@ class ResultPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return MmSurface.plain(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < children.length; i++) ...[if (i > 0) Divider(height: 1, thickness: 1, color: colors.line), children[i]],
-        ],
-      ),
+    // No card and no outline: rows on the page, ruled by hairlines. The rows that open carry
+    // their own content, so a box around them would be a box in a box.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final child in children) ...[Divider(height: 1, thickness: 1, color: colors.line), child],
+      ],
     );
   }
 }

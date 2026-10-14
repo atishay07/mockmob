@@ -46,13 +46,15 @@ class CoreAccountAccessGateway implements AccountAccessGateway {
   Future<GoogleOutcome> continueWithGoogle() => _auth.continueWithGoogle();
 
   @override
-  Future<void> continueWithGoogleInBrowser() => _auth.continueWithGoogleInBrowser();
+  Future<void> continueWithGoogleInBrowser() =>
+      _auth.continueWithGoogleInBrowser();
 
   @override
   Stream<OAuthReturn> oauthReturns() => _auth.oauthReturns();
 
   @override
-  Future<void> signInWithPassword(String email, String password) => _auth.signInWithPassword(email, password);
+  Future<void> signInWithPassword(String email, String password) =>
+      _auth.signInWithPassword(email, password);
 
   @override
   Future<void> setPassword(String password) => _auth.setPassword(password);
@@ -61,22 +63,27 @@ class CoreAccountAccessGateway implements AccountAccessGateway {
   Future<void> signOutOtherDevices() => _auth.signOutOtherDevices();
 
   @override
-  Future<void> sendEmailCode(String email) => _codeCall(() => _auth.sendEmailCode(email));
+  Future<void> sendEmailCode(String email) =>
+      _codeCall(() => _auth.sendEmailCode(email));
 
   @override
-  Future<void> verifyEmailCode(String email, String code) => _codeCall(() => _auth.verifyEmailCode(email, code));
+  Future<void> verifyEmailCode(String email, String code) =>
+      _codeCall(() => _auth.verifyEmailCode(email, code));
 
   @override
-  Future<void> sendPhoneCode(String phoneE164) => _auth.sendPhoneCode(phoneE164);
+  Future<void> sendPhoneCode(String phoneE164) =>
+      _auth.sendPhoneCode(phoneE164);
 
   @override
-  Future<void> verifyPhoneCode(String phoneE164, String code) => _auth.verifyPhoneCode(phoneE164, code);
+  Future<void> verifyPhoneCode(String phoneE164, String code) =>
+      _auth.verifyPhoneCode(phoneE164, code);
 
   @override
   Future<void> addPhone(String phoneE164) => _auth.addPhone(phoneE164);
 
   @override
-  Future<void> verifyPhoneChange(String phoneE164, String code) => _auth.verifyPhoneChange(phoneE164, code);
+  Future<void> verifyPhoneChange(String phoneE164, String code) =>
+      _auth.verifyPhoneChange(phoneE164, code);
 
   /// The email-code calls report [SignInException]; these screens speak [AccessFailure].
   static Future<void> _codeCall(Future<void> Function() call) async {
@@ -96,17 +103,23 @@ class CoreAccountAccessGateway implements AccountAccessGateway {
   }
 }
 
-final accountAccessGatewayProvider = Provider<AccountAccessGateway>(CoreAccountAccessGateway.new);
+final accountAccessGatewayProvider = Provider<AccountAccessGateway>(
+  CoreAccountAccessGateway.new,
+);
 
 /// Which methods this build offers (from [AppConfig]).
 class AccessMethods {
-  const AccessMethods({required this.google, required this.googleBrowser, required this.phone});
+  const AccessMethods({
+    required this.google,
+    required this.googleBrowser,
+    required this.phone,
+  });
 
   factory AccessMethods.of(AppConfig config) => AccessMethods(
-        google: config.googleSignInEnabled,
-        googleBrowser: config.googleBrowserEnabled,
-        phone: config.phoneSignInEnabled,
-      );
+    google: config.googleSignInEnabled,
+    googleBrowser: config.googleBrowserEnabled,
+    phone: config.phoneSignInEnabled,
+  );
 
   final bool google;
 
@@ -115,13 +128,19 @@ class AccessMethods {
   final bool phone;
 }
 
-final accessMethodsProvider = Provider<AccessMethods>((ref) => AccessMethods.of(ref.watch(appConfigProvider)));
+final accessMethodsProvider = Provider<AccessMethods>(
+  (ref) => AccessMethods.of(ref.watch(appConfigProvider)),
+);
 
 /// Normalises what the student typed into an E.164 Indian mobile number, or null.
 String? indianMobileE164(String typed) {
   var digits = typed.replaceAll(RegExp(r'[^0-9]'), '');
-  if (digits.length == 12 && digits.startsWith('91')) digits = digits.substring(2);
-  if (digits.length == 11 && digits.startsWith('0')) digits = digits.substring(1);
+  if (digits.length == 12 && digits.startsWith('91')) {
+    digits = digits.substring(2);
+  }
+  if (digits.length == 11 && digits.startsWith('0')) {
+    digits = digits.substring(1);
+  }
   if (!RegExp(r'^[6-9][0-9]{9}$').hasMatch(digits)) return null;
   return '+91$digits';
 }
