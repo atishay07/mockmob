@@ -1,6 +1,7 @@
 // Every line Today says (Night Sheet brief sections 1.1, 8 and 12; design spec 5.3, 6.7, 6.8).
 // Voice: a sharp senior who has been through CUET. Short, specific, warm, never defensive.
 // Sentence case, no exclamation marks, no arrows, 12-hour times, real dates.
+import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
 import '../../core/domain/cuet_dates.dart';
 import '../../core/domain/next_move.dart' show isLateNightHour;
@@ -220,22 +221,8 @@ abstract final class TodayCopy {
   /// it stays on one line instead of leaving "1000" alone on a second.
   static String ladderCaption(String? category) => 'Last year\'s DU closing scores, ${categoryWords(category)}';
 
-  /// A college-portal category in words a student says: "UR" is "unreserved", never the portal code.
-  /// A name in common use (SC, ST, EWS, PwBD) stays; an unknown value is shown as it came, so
-  /// the caption never hides the category it was built for.
-  static String categoryWords(String? category) {
-    final code = category?.trim() ?? '';
-    return switch (code.toUpperCase()) {
-      '' || 'UR' => 'unreserved',
-      'OBC-NCL' => 'OBC',
-      'SIKH' => 'Sikh minority',
-      'KM' => 'Kashmiri migrant',
-      'SGC' => 'single girl child',
-      'ORPHAN-FEMALE' => 'orphan (female)',
-      'ORPHAN-MALE' => 'orphan (male)',
-      _ => code,
-    };
-  }
+  /// A college-portal category in words a student says (the shared mapping in core).
+  static String categoryWords(String? category) => fmt.categoryWords(category);
   static const String ladderTitle = 'Your colleges';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';

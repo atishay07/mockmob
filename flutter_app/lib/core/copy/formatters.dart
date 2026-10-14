@@ -113,3 +113,20 @@ String joinWithAnd(List<String> items) {
   if (items.length == 1) return items.first;
   return '${items.sublist(0, items.length - 1).join(', ')} and ${items.last}';
 }
+
+/// A reservation category in the words a student says: "UR" is "unreserved", never the portal
+/// code. A name in common use (SC, ST, EWS, PwBD) stays; an unknown value is shown as it came,
+/// so a caption never hides the category it was built for. The one mapping for the whole app.
+String categoryWords(String? category) {
+  final code = category?.trim() ?? '';
+  return switch (code.toUpperCase()) {
+    '' || 'UR' => 'unreserved',
+    'OBC-NCL' => 'OBC',
+    'SIKH' => 'Sikh minority',
+    'KM' => 'Kashmiri migrant',
+    'SGC' => 'single girl child',
+    'ORPHAN-FEMALE' => 'orphan (female)',
+    'ORPHAN-MALE' => 'orphan (male)',
+    _ => code,
+  };
+}
