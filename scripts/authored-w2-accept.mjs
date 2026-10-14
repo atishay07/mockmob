@@ -3,7 +3,20 @@
 // OFFLINE: reads files, writes files under docs/brain/reports/authored-w2. No database, no network, no model, no engine edit.
 //
 //   node scripts/authored-w2-accept.mjs --mode=accept [--raw=tmp/authored-w2] [--out=docs/brain/reports/authored-w2] [--date=2026-10-14]
-//   node scripts/authored-w2-accept.mjs --mode=check  [--out=docs/brain/reports/authored-w2] [--root=<checkout>] [--label=<name>]
+//   node scripts/authored-w2-accept.mjs --mode=check  [--out=docs/brain/reports/authored-w2] [--root=<checkout>] [--label=<name>] [--final]
+//   node scripts/authored-w2-accept.mjs --mode=final  [--raw=tmp/authored-w2] [--out=docs/brain/reports/authored-w2] [--date=2026-10-14]
+//
+// final   (14 Oct, after the expert pass, the rewords and the spot-check) the same acceptance, now also reading
+//           --expert=<dir>        expert verdicts (docs/brain/reports/authored-w2/expert/*.json, { verdicts: [{ id, verdict, why, repair }] })
+//           --asjudged=<file>     the candidates as the first acceptance judged them (wave2-candidates-asjudged-...json), so a repair after judging is recorded
+//           --fresh=<dir> ...     fresh judge passes on a later wording (default tmp/authored-w2/reword: batch rw-w2 and its five solvers, two quality and three fit judges)
+//           --resolve=<dir>       blind re-solves of expert-repaired text (rv-w2-blind.json and rv-w2__s1..s3.json; default tmp/authored-w2/resolve)
+//           --decisions=<file>    drops decided by hand (wave2-drop-decisions-...json: id, category, reason, who)
+//           --spotcheck=<file>    the independent spot-check table (wave2-spotcheck-...md)
+//         and writes wave2-candidates-final-, wave2-score-entries-final- and wave2-dropped- (every drop with its reason) besides the acceptance files.
+//         The wave-1 rules carry over: a fresh pass counts only when its batch text is the final text and all ten of its records are there; a repaired
+//         question whose text blind solvers see changed after they solved needs its own blind re-solve (2 of 3 on the key), and is held back without one
+//         (nothing is invented); a repair that touched only what solvers do not see (explanation, label, NCERT reference) keeps the solvers' result.
 //
 // accept  validates every file of tmp/authored-w2/<subject>/ (batch text, blind text, five solver files s1-s5, two quality-judge
 //         files j1-j2, three CUET-fit judge files h1-h3 per batch) and applies the wave-1 acceptance rule per question
@@ -28,6 +41,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+const SKIP_DIRS = new Set(['reword', 'expert', 'resolve']);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const W2_SOURCE = 'claude-authored-2026-10-14-w2';
 const SOLVERS = ['s1', 's2', 's3', 's4', 's5'];
@@ -46,6 +60,9 @@ const FILES = (date) => ({
   acceptance: `wave2-acceptance-${date}.json`,
   candidates: `wave2-candidates-${date}.json`,
   entries: `wave2-score-entries-${date}.json`,
+  candidatesFinal: `wave2-candidates-final-${date}.json`,
+  entriesFinal: `wave2-score-entries-final-${date}.json`,
+  dropped: `wave2-dropped-${date}.json`,
   engine: (label) => `wave2-engine-check-${label}-${date}.json`,
 });
 
@@ -55,6 +72,9 @@ export function parseArgs(argv) {
     wave1Final: 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json',
     wave1Original: 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json',
     fixtures: 'tmp/nta-fixtures', now: null,
+    expert: 'docs/brain/reports/authored-w2/expert', asjudged: 'docs/brain/reports/authored-w2/wave2-candidates-asjudged-2026-10-14.json',
+    fresh: [], resolve: 'tmp/authored-w2/resolve', decisions: 'docs/brain/reports/authored-w2/wave2-drop-decisions-2026-10-14.json',
+    spotcheck: 'docs/brain/reports/authored-w2/wave2-spotcheck-2026-10-14.md', engineReasons: 'docs/brain/reports/authored-w2/wave2-engine-check-working-r5.2-2026-10-14.json', final: false,
   };
   for (const arg of argv) {
     const m = arg.match(/^--([\w-]+)=(.*)$/);
@@ -70,7 +90,16 @@ export function parseArgs(argv) {
     else if (name === 'wave1-original') out.wave1Original = value;
     else if (name === 'fixtures') out.fixtures = value;
     else if (name === 'now') out.now = value;
+    else if (name === 'expert') out.expert = value;
+    else if (name === 'asjudged') out.asjudged = value;
+    else if (name === 'fresh') out.fresh.push(value);
+    else if (name === 'resolve') out.resolve = value;
+    else if (name === 'decisions') out.decisions = value;
+    else if (name === 'spotcheck') out.spotcheck = value;
+    else if (name === 'engine-reasons') out.engineReasons = value;
   }
+  if (argv.includes('--final')) out.final = true;
+  if (!out.fresh.length) out.fresh = ['tmp/authored-w2/reword'];
   return out;
 }
 
@@ -150,7 +179,8 @@ function structuralCheck(q, subject, facts, lib) {
 function discover(rawDir) {
   const batches = [];
   const unexpected = [];
-  const subjects = fs.readdirSync(rawDir, { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+  // reword (a fresh pass on later wording), expert and resolve (re-solves) are not subjects: they are read by the final mode.
+  const subjects = fs.readdirSync(rawDir, { withFileTypes: true }).filter((entry) => entry.isDirectory() && !SKIP_DIRS.has(entry.name)).map((entry) => entry.name).sort();
   for (const subject of subjects) {
     const dir = path.join(rawDir, subject);
     const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -266,9 +296,10 @@ const REASON_CATEGORY = [
   [/^incomplete_/, 'verification_incomplete'], [/^structural_/, 'structural'], [/^blind_text_/, 'blind_text'], [/^duplicate_/, 'duplicate'],
   [/^solvers_/, 'solvers'], [/^j\d_quality_/, 'quality_score'], [/^j\d_flags_/, 'quality_flag'], [/^j\d_blind_answer_/, 'judge_blind_answer'],
   [/^fit_median_/, 'fit_median'], [/^fit_flagged_by_two/, 'fit_flags'],
+  [/^(no_blind_solver_evidence_on_final_text|repaired_text_without_blind_resolve)/, 'repaired_without_resolve'], [/^resolve_/, 'resolve'], [/^expert_verdict_/, 'expert_verdict'],
 ];
 export const categoryOf = (reason) => (REASON_CATEGORY.find(([re]) => re.test(reason)) || [null, 'other'])[1];
-const CATEGORIES = ['solvers', 'quality_score', 'quality_flag', 'judge_blind_answer', 'fit_median', 'fit_flags', 'verification_incomplete', 'structural', 'blind_text', 'duplicate', 'other'];
+const CATEGORIES = ['solvers', 'quality_score', 'quality_flag', 'judge_blind_answer', 'fit_median', 'fit_flags', 'verification_incomplete', 'structural', 'blind_text', 'duplicate', 'repaired_without_resolve', 'resolve', 'expert_verdict', 'other'];
 
 function sameBlind(blind, q) {
   if (!blind) return ['no_blind_text'];
@@ -277,18 +308,55 @@ function sameBlind(blind, q) {
   return diff;
 }
 
+/**
+ * The fresh pass that speaks for q: all ten records (five solvers, two quality judges, three fit judges) from one batch whose text is q's
+ * hashed text (wave 1's rule: a pass on an older wording never speaks for a later one, and the judges of a question are fresh together).
+ * { batch, roleResults, blind } or null.
+ */
+function freshEvidence(q, ctx) {
+  for (const scan of ctx.fresh || []) {
+    const found = {};
+    for (const role of ROLES) {
+      const hit = (scan.byRole[role]?.get(q.id) || []).find((entry) => ctx.lib.scores.sameHashedText(scan.texts.get(entry.batch)?.get(q.id), q));
+      if (hit) found[role] = hit;
+    }
+    const have = Object.keys(found);
+    if (!have.length) continue;
+    const batches = new Set(Object.values(found).map((hit) => hit.batch));
+    if (have.length === ROLES.length && batches.size === 1) {
+      const batch = [...batches][0];
+      const blind = new Map();
+      const blindText = scan.texts.get(`${batch}-blind`)?.get(q.id);
+      if (blindText) blind.set(q.id, blindText);
+      return { batch, roleResults: new Map(ROLES.map((role) => [role, { state: 'ok', results: new Map([[q.id, found[role].result]]) }])), blind };
+    }
+    ctx.freshPartial.push({ id: q.id, have, batches: [...batches] });
+  }
+  return null;
+}
+
 function evaluateQuestion(q, loaded, lib, ctx) {
-  const roles = Object.fromEntries(ROLES.map((role) => [role, roleRecord(loaded, role, q, lib, ctx.card, ctx.otherFlags)]));
+  const fresh = freshEvidence(q, ctx);
+  // A fresh pass replaces the original records of every role (and the blind text they were solved on) for this question.
+  const view = fresh ? { ...loaded, blind: fresh.blind, roleResults: fresh.roleResults } : loaded;
+  const roles = Object.fromEntries(ROLES.map((role) => [role, roleRecord(view, role, q, lib, ctx.card, ctx.otherFlags)]));
   const reasons = [];
   const warnings = [];
   // 1. Structure of the question itself.
   const structure = structuralCheck(q, loaded.subject, ctx.facts, lib);
   for (const problem of structure.problems) reasons.push(`structural_${problem}`);
   warnings.push(...structure.warnings);
-  // 2. The text the blind solvers saw.
-  const blindDiff = sameBlind(loaded.blind.get(q.id), q);
-  if (blindDiff.length) reasons.push(`blind_text_differs_${blindDiff.join('+')}`);
-  // 3. Missing or malformed records: never invented, never accepted.
+  // 2. The expert verdict, where there is one: practice and reject are not published.
+  const expert = ctx.expert.get(q.id) || null;
+  if (expert && !['ready', 'repaired'].includes(expert.verdict)) reasons.push(`expert_verdict_${expert.verdict}`);
+  // 3. The text the blind solvers saw. After an expert repair it differs by design: the five solvers solved the text before the repair.
+  const blindDiff = sameBlind(view.blind.get(q.id), q);
+  let drift = null;
+  if (blindDiff.length) {
+    if (!fresh && expert?.verdict === 'repaired') drift = blindDiff;
+    else reasons.push(`blind_text_differs_${blindDiff.join('+')}`);
+  }
+  // 4. Missing or malformed records: never invented, never accepted.
   const incomplete = [];
   for (const role of ROLES) {
     const r = roles[role];
@@ -304,18 +372,36 @@ function evaluateQuestion(q, loaded, lib, ctx) {
   for (const judge of quality) for (const flag of judge.flags || []) if (!ctx.blockingFlags.has(flag)) warnings.push(`${judge.judge}_flag_outside_rubric_list:${flag}`);
   for (const judge of fitJudges) if (judge.other_flags?.length) warnings.push(`${judge.judge}_fit_flags_outside_rubric_list:${judge.other_flags.join('+')}`);
 
+  // 5. A repair that changed what the blind solvers see needs a blind re-solve of the repaired text (2 of 3 on the key); without one it is held back.
+  const asjudged = ctx.asjudged.get(q.id) || null;
+  const resolve = drift ? ctx.resolveFor(q) : null;
+  if (drift && !resolve) reasons.push(`repaired_text_without_blind_resolve:${drift.join('+')}`);
+
   let record = null;
   if (!incomplete.length) {
+    const preRepair = !fresh && asjudged ? lib.scores.preRepairDiff(asjudged, q) : {};
+    const reworded = fresh && asjudged ? Object.keys(lib.scores.preRepairDiff(asjudged, q)) : [];
+    const spot = ctx.spot.get(q.id) || null;
     record = {
       subject: loaded.subject, batch: loaded.batch, chapter: q.chapter, set_id: q.set_id || null,
-      text: { expert_verdict: null, expert_issue: null, expert_reviewed_text: 'not_reviewed', judged: 'as_authored', pre_repair: null },
-      blind_solvers: { n: solvers.n, matched_key: matched, answers, on: 'final' },
-      blind_resolve_on_final_text: null,
+      text: {
+        expert_verdict: expert?.verdict ?? null, expert_issue: expert?.why || null,
+        // earlier_text: the expert reviewed the wording before it was reworded for the engine; only the fresh judges and solvers saw the final text.
+        expert_reviewed_text: !expert ? 'not_reviewed' : (fresh ? 'earlier_text' : 'final'),
+        judged: fresh ? 'final' : 'as_authored',
+        pre_repair: Object.keys(preRepair).length ? preRepair : null,
+        ...(reworded.length ? { reworded_after_acceptance: reworded, reworded_engine_reasons: ctx.engineReasons.get(q.id) || null } : {}),
+        ...(spot ? { spot_check: spot } : {}),
+        ...(expert?.file === ctx.supplementFile ? { supplementary_review: { reviewer: ctx.supplementReviewer, note: 'reviewed after the 24-batch expert pass, from the re-run judge files; one reviewer, key solved independently' } } : {}),
+      },
+      // on: final = the blind solvers saw the final blind text (a repair of the explanation, label or NCERT reference changes nothing they see).
+      blind_solvers: { n: solvers.n, matched_key: matched, answers, on: drift ? 'as_authored' : 'final' },
+      blind_resolve_on_final_text: resolve,
       quality: QUALITY.map((role) => {
         const r = roles[role].value;
-        return { judge: role, quality_score: r.quality_score, blind_answer: up(r.blind_answer), key_matches: r.key_matches, difficulty_check: r.difficulty_check, objective_tag: r.objective_tag.trim(), flags: r.flags.map(String), note: text(r.note).slice(0, 240), on_final_text: null, batch: loaded.batch };
+        return { judge: role, quality_score: r.quality_score, blind_answer: up(r.blind_answer), key_matches: r.key_matches, difficulty_check: r.difficulty_check, objective_tag: r.objective_tag.trim(), flags: r.flags.map(String), note: text(r.note).slice(0, 240), on_final_text: fresh ? true : null, batch: fresh ? fresh.batch : loaded.batch };
       }),
-      fit: FIT.map((role) => ({ judge: role, ...roles[role].value, on_final_text: null, batch: loaded.batch })),
+      fit: FIT.map((role) => ({ judge: role, ...roles[role].value, on_final_text: fresh ? true : null, batch: fresh ? fresh.batch : loaded.batch })),
     };
     // The wave-1 rule itself (scripts/lib/authored-scores.mjs acceptanceReasons), so wave 2 cannot drift from it.
     reasons.push(...lib.scores.acceptanceReasons(record, q));
@@ -338,6 +424,9 @@ function evaluateQuestion(q, loaded, lib, ctx) {
   const row = {
     id: q.id, subject: loaded.subject, batch: loaded.batch, chapter: q.chapter, type: q.type, difficulty_label: q.difficulty_label, set_id: q.set_id || null,
     accepted, reasons: [...new Set(reasons)],
+    ...(expert ? { expert: { verdict: expert.verdict, file: expert.file } } : {}),
+    ...(fresh ? { fresh_pass: { batch: fresh.batch } } : {}),
+    ...(drift ? { repaired_after_solve: { blind_text_changed: drift, blind_resolve: resolve } } : {}),
     solvers, quality, fit,
     ...(warnings.length ? { warnings } : {}),
   };
@@ -347,9 +436,109 @@ function evaluateQuestion(q, loaded, lib, ctx) {
     const presentFit = FIT.map((role) => (roles[role].state === 'ok' ? { score: roles[role].value.fit_score, flags: roles[role].value.fit_flags } : roles[role].state === 'invalid' && roles[role].rawScore !== null ? { score: roles[role].rawScore, flags: roles[role].rawFlags } : null)).filter(Boolean);
     const presentScores = presentFit.map((judge) => judge.score);
     const fitOk = presentScores.length > 0 && Math.min(...presentScores) >= RULE.fitMedianAtLeast && presentFit.filter((judge) => judge.flags.length).length < RULE.fitFlaggedByFewerThan;
-    row.provisional = { would_pass_on_available_records: fitOk, note: fitOk ? 'every record that exists (a format-invalid fit record counted by its own score) meets the rule; the missing or invalid record is the only thing holding the question back' : 'a present fit score is below the bar or flagged: it would likely still fail', missing: incomplete };
+    row.provisional = { would_pass_on_available_records: fitOk, note: fitOk ? 'every record that exists (a format-invalid fit record counted by its own score) meets the rule; the missing or invalid record is the only thing that separates the question from acceptance' : 'a present fit score is below the bar or flagged: it would likely still fail', missing: incomplete };
   }
-  return { row, record };
+  return { row, record, fresh: Boolean(fresh), drift };
+}
+
+// ---------------------------------------------------------------------------------------------
+// The extra inputs of the final pass
+// ---------------------------------------------------------------------------------------------
+
+/** Expert verdicts of every *.json under dir ({ verdicts: [{ id, verdict, why, repair }] }), by id. A later file name wins; disagreements are listed. */
+function loadExpert(dir) {
+  const verdicts = new Map();
+  const conflicts = [];
+  const files = [];
+  if (fs.existsSync(dir)) {
+    for (const name of fs.readdirSync(dir).filter((n) => n.endsWith('.json')).sort(naturalCompare)) {
+      const res = tryJson(path.join(dir, name));
+      if (res.state !== 'ok' || !Array.isArray(res.value?.verdicts)) { files.push({ file: name, problem: res.state === 'ok' ? 'no verdicts array' : res.state }); continue; }
+      files.push({ file: name, verdicts: res.value.verdicts.length });
+      for (const v of res.value.verdicts) {
+        if (!v?.id || !v?.verdict) continue;
+        if (verdicts.has(v.id) && verdicts.get(v.id).verdict !== v.verdict) conflicts.push({ id: v.id, files: [verdicts.get(v.id).file, name], verdicts: [verdicts.get(v.id).verdict, v.verdict] });
+        verdicts.set(v.id, { verdict: v.verdict, why: text(v.why), repair: v.repair ?? null, file: name });
+      }
+    }
+  }
+  return { verdicts, conflicts, files };
+}
+
+/** Blind re-solves of repaired text: rv-w2-blind.json (the blind questions the solvers saw) and rv-w2__s1..s3.json ([{ id, answer }]). */
+function loadResolve(dir) {
+  const out = { blind: new Map(), solvers: [] };
+  if (!fs.existsSync(dir)) return out;
+  const blind = tryJson(path.join(dir, 'rv-w2-blind.json'));
+  if (blind.state === 'ok') for (const question of (Array.isArray(blind.value) ? blind.value : blind.value?.questions) || []) out.blind.set(question.id, question);
+  for (const role of ['s1', 's2', 's3']) {
+    const res = tryJson(path.join(dir, `rv-w2__${role}.json`));
+    if (res.state === 'ok' && Array.isArray(res.value)) out.solvers.push(new Map(res.value.filter((r) => r?.id).map((r) => [r.id, up(r.answer)])));
+  }
+  return out;
+}
+
+/** The spot-check table of the markdown report: { id -> { verdict, expert, answer_matched_key } }. */
+function loadSpotCheck(file) {
+  const map = new Map();
+  if (!fs.existsSync(file)) return map;
+  for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
+    const cells = line.split('|').map((cell) => cell.trim());
+    const id = cells.find((cell) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(cell));
+    if (!id) continue;
+    const at = cells.indexOf(id);
+    const answerKey = (cells[at + 2] || '').split('/').map((part) => part.trim());
+    map.set(id, { reviewer: 'independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)', verdict: (cells[at + 4] || '').replace(/\*/g, ''), expert_verdict_then: cells[at + 3] || null, answer_matched_key: answerKey.length === 2 && answerKey[0] === answerKey[1] });
+  }
+  return map;
+}
+
+function loadDecisions(file) {
+  const res = tryJson(file);
+  const map = new Map();
+  if (res.state !== 'ok') return { map, state: res.state };
+  for (const d of res.value?.decisions || []) map.set(d.id, d);
+  return { map, state: 'ok' };
+}
+
+function loadEngineReasons(file) {
+  const res = tryJson(file);
+  return new Map((res.state === 'ok' ? res.value?.refused || [] : []).map((entry) => [entry.id, entry.reasons]));
+}
+
+/** Everything the final pass reads besides the raw batch files, with the rule for the final text of a reworded question. */
+async function loadExtras(args, lib) {
+  const expert = loadExpert(path.resolve(args.expert));
+  const asjudgedList = tryJson(path.resolve(args.asjudged)).value || [];
+  const fresh = lib.scores.scanFresh(args.fresh.map((dir) => path.resolve(dir)).filter((dir) => fs.existsSync(dir)));
+  const resolve = loadResolve(path.resolve(args.resolve));
+  const rewordText = new Map();
+  for (const scan of fresh) for (const [batch, questions] of scan.texts) if (!batch.endsWith('-blind')) for (const [id, question] of questions) rewordText.set(id, question);
+  const decisions = loadDecisions(path.resolve(args.decisions));
+  const supplementFile = 'supplement-2026-10-14.json';
+  const ctx = {
+    lib, expert: expert.verdicts, fresh, freshPartial: [], asjudged: new Map(asjudgedList.map((c) => [c.id, c])),
+    // The ids the first acceptance took (the as-judged file also holds the pre-repair text of questions reviewed later, flagged _added_after_first_pass).
+    firstPass: new Set(asjudgedList.filter((c) => !c._added_after_first_pass).map((c) => c.id)), engineReasons: loadEngineReasons(path.resolve(args.engineReasons)),
+    spot: loadSpotCheck(path.resolve(args.spotcheck)), supplementFile, supplementReviewer: 'Claude Sonnet 5.5 (this session)',
+    resolveFor: (q) => {
+      const blind = resolve.blind.get(q.id);
+      if (!blind || sameBlind(blind, q).length) return null;
+      const given = resolve.solvers.map((solver) => solver.get(q.id)).filter(Boolean);
+      return given.length === 3 ? { n: 3, matched_key: given.filter((a) => a === q.correct_key).length, answers: given } : null;
+    },
+  };
+  // The final text of a reworded question is the text its fresh pass judged (a later pass of the expert had set one of the ten back: see the report).
+  const finalText = (raw) => {
+    const fresh_ = rewordText.get(raw.id);
+    if (!fresh_) return { q: raw, overridden: [] };
+    const fields = ['unit', 'stem', 'options', 'correct_key', 'explanation', 'difficulty_label', 'ncert_ref'];
+    const next = { ...raw };
+    const overridden = [];
+    for (const field of fields) if (field in fresh_ && JSON.stringify(fresh_[field] ?? null) !== JSON.stringify(raw[field] ?? null)) { next[field] = fresh_[field]; overridden.push(field); }
+    return { q: next, overridden };
+  };
+  return { ctx, expert, decisions, finalText, rewordIds: new Set(rewordText.keys()), resolve, asjudgedList };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -395,13 +584,24 @@ function liveRows(fixturesDir, subjects) {
   return out;
 }
 
-export async function runAccept(args) {
+export async function runAccept(args, { write = true } = {}) {
   const lib = await loadLib(args.root);
+  const extras = await loadExtras(args, lib);
+  const overriddenText = [];
   const rawDir = path.resolve(args.raw);
   const { batches, unexpected } = discover(rawDir);
   const wave1 = [args.wave1Final, args.wave1Original].filter((file) => fs.existsSync(file)).flatMap((file) => tryJson(file).value || []);
   const wave1Ids = new Set(wave1.map((c) => c.id));
   const wave1Stems = new Map(wave1.map((c) => [stemKey(c), c.id]));
+  // A wave-2 question whose set is a wave-1 set completes that set (the group is already in the bank).
+  const wave1Sets = new Map();
+  for (const c of tryJson(path.resolve(args.wave1Final)).value || []) {
+    if (!c.set_id) continue;
+    const known = wave1Sets.get(c.set_id) || { n: 0, passage: c.passage_text, chapter: c.chapter };
+    known.n += 1;
+    wave1Sets.set(c.set_id, known);
+  }
+
   const subjects = [...new Set(batches.map((b) => b.subject))];
   const live = liveStemIndex(args.fixtures, subjects);
   const otherFlags = {};
@@ -418,9 +618,14 @@ export async function runAccept(args) {
     const loaded = loadBatch(spec, lib);
     files.push(loaded.fileReport);
     if (!facts.has(spec.subject)) { facts.set(spec.subject, blueprintFacts(lib, spec.subject)); cards.set(spec.subject, facts.get(spec.subject) ? lib.scores.allowedCard(spec.subject) : null); }
-    const ctx = { card: cards.get(spec.subject), facts: facts.get(spec.subject), otherFlags, blockingFlags };
-    for (const q of loaded.questions) {
+    const ctx = { card: cards.get(spec.subject), facts: facts.get(spec.subject), otherFlags, blockingFlags, ...extras.ctx };
+    for (const raw of loaded.questions) {
+      const { q, overridden } = extras.finalText(raw);
+      if (overridden.length) overriddenText.push({ id: q.id, batch: loaded.batch, fields_set_to_the_fresh_pass_text: overridden });
       const { row, record } = evaluateQuestion(q, loaded, lib, ctx);
+      if (overridden.length) (row.warnings ||= []).push(`batch_file_text_differs_from_the_fresh_pass_text:${overridden.join('+')}`);
+      const setOfWave1 = q.set_id ? wave1Sets.get(q.set_id) : null;
+      if (setOfWave1 && (setOfWave1.passage !== q.passage_text || setOfWave1.chapter !== q.chapter)) row.reasons.push('structural_set_of_wave1_but_passage_or_chapter_differs');
       const liveId = live.get(`${q.subject}|${normStem(q.stem)}`);
       if (liveId) (row.warnings ||= []).push(`stem_equals_live_question_in_13_oct_export:${liveId}`);
       pool.push({ q, row, record });
@@ -468,9 +673,12 @@ export async function runAccept(args) {
     rows.push(row);
     if (row.accepted) {
       records.set(q.id, record);
+      const completes = q.set_id ? wave1Sets.get(q.set_id) : null;
       candidates.push({
         id: q.id, subject: q.subject, unit: q.unit ?? null, chapter: q.chapter, type: q.type, stem: q.stem, options: q.options, correct_key: q.correct_key, explanation: q.explanation,
-        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: null,
+        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: extras.ctx.expert.get(q.id)?.verdict ?? null,
+        ...(row.fresh_pass ? { _reworded: true } : {}),
+        ...(completes ? { _extends_set: { source: 'claude-authored-2026-10-14', existing_children: completes.n } } : {}),
       });
     }
   }
@@ -521,22 +729,139 @@ export async function runAccept(args) {
     total, bySubject, files: filesSummary, sets: setChildren,
     questions: rows,
   };
+  acceptance.final_pass_inputs = {
+    expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, asjudged: rel(path.resolve(args.asjudged)), fresh: args.fresh,
+    fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial, text_set_to_the_fresh_pass: overriddenText,
+    blind_resolve_files_present: extras.resolve.solvers.length, spot_check_rows: extras.ctx.spot.size, decisions: extras.decisions.state,
+  };
   const outDir = path.resolve(args.out);
-  fs.mkdirSync(outDir, { recursive: true });
   const names = FILES(args.date);
-  fs.writeFileSync(path.join(outDir, names.acceptance), stableJson(acceptance, 1));
-  fs.writeFileSync(path.join(outDir, names.candidates), stableJson(candidates, 2));
   const candidatesFile = path.join(outDir, names.candidates);
+  const built = { acceptance, candidates, records, rows, extras, lib, wave1, names, outDir, files, now };
+  if (!write) return built;
+  writeAcceptanceFiles(built, args);
+  return { acceptance, out: { dir: rel(outDir), ...names } };
+}
+
+/** The acceptance file, the candidates the rule accepted and their entries (the pair is consistent: the entries name the candidates by sha256). */
+function writeAcceptanceFiles(built, args) {
+  const { acceptance, candidates, records, lib, names, outDir, now } = built;
+  fs.mkdirSync(outDir, { recursive: true });
+  const candidatesFile = path.join(outDir, names.candidates);
+  fs.writeFileSync(path.join(outDir, names.acceptance), stableJson(acceptance, 1));
+  fs.writeFileSync(candidatesFile, stableJson(candidates, 2));
   const entries = {
     kind: 'authored_score_entries', version: lib.scores.SCORES_VERSION, source: W2_SOURCE, wave: 2, built_at: now, date: args.date, models: MODELS,
     models_note: 'The raw judge files do not record the model; claude-haiku-5-5 for every solver and judge was stated by the orchestrator (14 Oct 2026).',
-    note: 'One record per accepted wave-2 question, in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs. No expert pass and no repair: judged text is the authored text. scripts/lib/authored-scores.mjs provenanceOf still describes the wave-1 pipeline and the wave-1 source key; it needs a wave-2 variant before these entries are merged into data/nta_agent_scores and data/nta_fit_scores.',
+    note: 'One record per question the rule accepted (the acceptance rule and the duplicate screen, before the hand decisions and the expert gate), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs; --mode=final narrows it to the publication set (wave2-score-entries-final-). The first-pass pair, before the expert repairs and the rewords, is kept as wave2-candidates-asjudged- and wave2-score-entries-asjudged-.',
     candidates_file: rel(candidatesFile), candidates_sha256: sha256Text(candidatesFile),
     counts: { candidates: candidates.length, entries: records.size },
     entries: Object.fromEntries([...records.entries()]),
   };
   fs.writeFileSync(path.join(outDir, names.entries), stableJson(entries, 1));
-  return { acceptance, out: { dir: rel(outDir), ...names } };
+}
+
+// ---------------------------------------------------------------------------------------------
+// final
+// ---------------------------------------------------------------------------------------------
+
+const PUBLISHABLE = ['ready', 'repaired'];
+const DROP_CATEGORY_OF = [
+  [/^repaired_without_resolve$/, 'held_repaired_text_needs_blind_resolve'], [/^resolve$/, 'blind_resolve_failed'], [/^expert_verdict$/, 'expert_verdict_not_publishable'], [/^duplicate$/, 'duplicate'],
+];
+
+/**
+ * final: acceptance with the expert verdicts, the fresh pass and the hand decisions applied. Writes the acceptance files, the final candidates,
+ * the final entries and the ledger of every drop. A question is published only if it passes the rule, has an expert verdict of ready or repaired,
+ * is not a hand decision, and (if a repair changed what solvers see) has its blind re-solve.
+ */
+export async function runFinal(args) {
+  const built = await runAccept(args, { write: false });
+  const { acceptance, candidates, records, rows, extras, lib, names, outDir, now } = built;
+  const decisions = extras.decisions.map;
+  const asjudged = extras.ctx.asjudged;
+  const firstPass = extras.ctx.firstPass;
+  const candidateById = new Map(candidates.map((c) => [c.id, c]));
+  const final = [];
+  const dropped = [];
+  const rowOf = new Map(rows.map((row) => [row.id, row]));
+  const record = (id, category, reason, extra = {}) => {
+    const row = rowOf.get(id);
+    dropped.push({ id, subject: row?.subject ?? null, batch: row?.batch ?? null, chapter: row?.chapter ?? null, type: row?.type ?? null, set_id: row?.set_id ?? null, first_acceptance: firstPass.has(id) ? 'accepted_in_the_first_pass' : 'not_in_the_first_pass', category, reason, ...extra });
+  };
+  const unknownDecisions = [...decisions.keys()].filter((id) => !rowOf.has(id));
+  for (const row of rows) {
+    const candidate = candidateById.get(row.id);
+    const decision = decisions.get(row.id);
+    if (decision) { record(row.id, decision.category, decision.reason, { decided_by: decision.who || null }); continue; }
+    if (!candidate) {
+      // Not accepted in this run. It is a drop (and is listed) when it was accepted the first time or has an expert verdict; otherwise it is simply not accepted (see the acceptance file).
+      const categories = [...new Set(row.reasons.map(categoryOf))];
+      if (firstPass.has(row.id) || row.expert) {
+        const category = DROP_CATEGORY_OF.find(([re]) => categories.some((c) => re.test(c)))?.[1] || 'no_longer_accepted';
+        const verdict = extras.ctx.expert.get(row.id);
+        const reason = row.expert && !PUBLISHABLE.includes(row.expert.verdict) ? `expert verdict ${row.expert.verdict}: ${verdict?.why || ''}` : row.reasons.join('; ');
+        record(row.id, category, reason, row.repaired_after_solve ? { repaired_after_solve: row.repaired_after_solve } : {});
+      }
+      continue;
+    }
+    if (!PUBLISHABLE.includes(candidate._verdict)) { record(row.id, 'no_expert_verdict', 'accepted by the rule but no expert verdict of ready or repaired exists for it'); continue; }
+    final.push(candidate);
+  }
+  // A set that lost children: fewer than two left is not a set (the wave-1 validator refuses it), so the rest are dropped with it.
+  for (let changed = true; changed;) {
+    changed = false;
+    const bySet = new Map();
+    for (const c of final) if (c.set_id && !c._extends_set) bySet.set(c.set_id, [...(bySet.get(c.set_id) || []), c]);
+    for (const [setId, children] of bySet) {
+      if (children.length >= 2) continue;
+      for (const child of children) { final.splice(final.indexOf(child), 1); record(child.id, 'set_left_with_fewer_than_2_children', `the passage set ${setId} has ${children.length} question left after the drops`); }
+      changed = true;
+    }
+  }
+  const plan = lib.wave.planPublication(final);
+  const problems = [...plan.problems, ...unknownDecisions.map((id) => ({ id, problem: 'decision_for_an_id_that_is_not_in_the_raw_files' }))];
+  const finalIds = new Set(final.map((c) => c.id));
+  const finalRecords = Object.fromEntries(final.map((c) => [c.id, records.get(c.id)]));
+  const count = (list, key) => list.reduce((by, item) => { const k = key(item); by[k] = (by[k] || 0) + 1; return by; }, {});
+  const bySubject = Object.fromEntries(Object.keys(count(rows, (row) => row.subject)).sort().map((subject) => [subject, {
+    written: rows.filter((r) => r.subject === subject).length,
+    accepted_by_the_rule: candidates.filter((c) => c.subject === subject).length,
+    first_pass_accepted: [...asjudged.values()].filter((c) => c.subject === subject && !c._added_after_first_pass).length,
+    final: final.filter((c) => c.subject === subject).length,
+    dropped: dropped.filter((d) => d.subject === subject).length,
+  }]));
+  acceptance.final = {
+    note: 'The final publication set: accepted by the rule, expert verdict ready or repaired, no hand decision, repair evidence in place.',
+    final: final.length, dropped: dropped.length, droppedByCategory: count(dropped, (d) => d.category), bySubject,
+    byVerdict: count(final, (c) => c._verdict), reworded: final.filter((c) => c._reworded).length,
+    spotChecked: final.filter((c) => records.get(c.id)?.text.spot_check).length, supplementaryReview: final.filter((c) => records.get(c.id)?.text.supplementary_review).length,
+    problems,
+  };
+  for (const row of acceptance.questions) row.final = finalIds.has(row.id) ? 'published' : (dropped.find((d) => d.id === row.id)?.category || 'not_accepted');
+  const finalFile = path.join(outDir, names.candidatesFinal);
+  writeAcceptanceFiles(built, args);
+  fs.writeFileSync(finalFile, stableJson(final, 2));
+  fs.writeFileSync(path.join(outDir, names.dropped), stableJson(dropped, 2));
+  const entries = {
+    kind: 'authored_score_entries', version: lib.scores.SCORES_VERSION, source: W2_SOURCE, wave: 2, built_at: now, date: args.date, models: MODELS,
+    models_note: 'The raw judge files do not record the model; claude-haiku-5-5 for every solver and judge was stated by the orchestrator (14 Oct 2026).',
+    note: 'One record per final wave-2 question, in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --mode=final from the raw files (untracked scratch under tmp/authored-w2), the expert verdicts, the fresh pass on the reworded questions and the first-pass candidates. Tables are built from it by scripts/authored-scores-merge.mjs.',
+    candidates_file: rel(finalFile), candidates_sha256: sha256Text(finalFile),
+    fresh_passes: args.fresh,
+    counts: {
+      candidates: final.length, entries: Object.keys(finalRecords).length, problems: problems.length,
+      repaired: final.filter((c) => c._verdict === 'repaired').length,
+      judgedTextDiffers: Object.values(finalRecords).filter((r) => r.text.pre_repair).length,
+      judgedOnFinalTextByFreshPass: Object.values(finalRecords).filter((r) => r.text.judged === 'final').length,
+      rewordedAfterAcceptance: Object.values(finalRecords).filter((r) => r.text.reworded_after_acceptance).length,
+      blindResolveOnFinalText: Object.values(finalRecords).filter((r) => r.blind_resolve_on_final_text).length,
+      supplementaryReview: acceptance.final.supplementaryReview, spotChecked: acceptance.final.spotChecked,
+    },
+    entries: finalRecords,
+  };
+  fs.writeFileSync(path.join(outDir, names.entriesFinal), stableJson(entries, 1));
+  return { acceptance, final, dropped, problems, plan, names, out: { dir: rel(outDir), ...names } };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -590,10 +915,11 @@ export async function runCheck(args) {
   const gateOf = (reason) => gateOfReason(engine, reason);
   const outDir = path.resolve(args.out);
   const names = FILES(args.date);
-  const candidates = tryJson(path.join(outDir, names.candidates)).value;
-  const entriesFile = tryJson(path.join(outDir, names.entries)).value;
-  if (!Array.isArray(candidates) || !entriesFile?.entries) throw new Error(`run --mode=accept first: ${names.candidates} and ${names.entries} are needed in ${rel(outDir)}`);
-  if (sha256Text(path.join(outDir, names.candidates)) !== entriesFile.candidates_sha256) throw new Error('the candidates file is not the one the entries were built from (sha256 differs); rebuild with --mode=accept');
+  const candidatesName = args.final ? names.candidatesFinal : names.candidates;
+  const candidates = tryJson(path.join(outDir, candidatesName)).value;
+  const entriesFile = tryJson(path.join(outDir, args.final ? names.entriesFinal : names.entries)).value;
+  if (!Array.isArray(candidates) || !entriesFile?.entries) throw new Error(`run --mode=${args.final ? 'final' : 'accept'} first: ${candidatesName} and its entries file are needed in ${rel(outDir)}`);
+  if (sha256Text(path.join(outDir, candidatesName)) !== entriesFile.candidates_sha256) throw new Error('the candidates file is not the one the entries were built from (sha256 differs); rebuild with --mode=accept or --mode=final');
   const wave1 = tryJson(path.resolve(args.wave1Final)).value || [];
   const now = args.now || new Date().toISOString();
   const header = { models: entriesFile.models, date: entriesFile.date };
@@ -604,7 +930,16 @@ export async function runCheck(args) {
   const wave1SetSizes = new Map();
   for (const c of wave1) if (c.set_id) wave1SetSizes.set(c.set_id, (wave1SetSizes.get(c.set_id) || 0) + 1);
   const nextOrder = new Map();
+  // The final candidates are mapped by the wave tooling itself (case sets as passage children, a question that completes a wave-1 set in that set's
+  // group); the first-pass candidates (no verdicts, so the validator would refuse them) keep this script's own mapping.
+  const finalPlan = args.final ? wave.planPublication(candidates) : null;
+  if (finalPlan?.problems.length) throw new Error(`final candidates do not validate: ${JSON.stringify(finalPlan.problems.slice(0, 5))}`);
+  const finalRows = finalPlan ? new Map(finalPlan.rows.map((row) => [row.id, row])) : null;
   const planned = candidates.map((c) => {
+    if (finalRows) {
+      const row = finalRows.get(c.id);
+      return { candidate: c, original: c, position: { groupId: row.passage_group_id, orderIndex: row.order_index }, row };
+    }
     const isSet = Boolean(text(c.set_id).trim() && text(c.passage_text).trim());
     const mapped = isSet ? { ...c, type: 'passage_set_item' } : c;
     let position = {};
@@ -633,8 +968,8 @@ export async function runCheck(args) {
     if (!agentBase) baseMissing.push(`agent:${subject}`);
     if (!fitBase) baseMissing.push(`fit:${subject}`);
     if (!agentBase || !fitBase) continue;
-    agentTables[subject] = scores.mergeAgentTable(agentBase, bySubjectEntries.agent[subject], { subject, now, header, policy });
-    fitTables[subject] = scores.mergeFitTable(fitBase, bySubjectEntries.fit[subject], { subject, now, header, policy });
+    agentTables[subject] = scores.mergeAgentTable(agentBase, bySubjectEntries.agent[subject], { subject, now, header, policy, source: W2_SOURCE });
+    fitTables[subject] = scores.mergeFitTable(fitBase, bySubjectEntries.fit[subject], { subject, now, header, policy, source: W2_SOURCE });
   }
   if (baseMissing.length) throw new Error(`committed score tables missing: ${baseMissing.join(', ')}`);
 
@@ -672,7 +1007,7 @@ export async function runCheck(args) {
 
   // Sets: wave-2 sets, plus the wave-1 set that wave 2 tops up. The engine serves a set only with an in-range passage and
   // at least the blueprint's minimum of eligible, distinct children (data/nta_engine.js prepareCandidates).
-  const setIds = [...new Set(planned.filter((item) => item.candidate.type === 'passage_set_item').map((item) => item.candidate.set_id))];
+  const setIds = [...new Set(planned.filter((item) => item.row.passage_group_id).map((item) => item.candidate.set_id))];
   const w1Plan = wave1.length ? wave.planPublication(wave1) : { rows: [] };
   const passageSets = setIds.map((setId) => {
     const subject = planned.find((item) => item.candidate.set_id === setId).candidate.subject;
@@ -721,6 +1056,10 @@ async function main() {
   if (args.mode === 'accept') {
     const { acceptance, out } = await runAccept(args);
     console.log(JSON.stringify({ out, total: acceptance.total, bySubject: Object.fromEntries(Object.entries(acceptance.bySubject).map(([s, v]) => [s, { written: v.written, accepted: v.accepted, rejected: v.rejected, byReason: Object.fromEntries(Object.entries(v.rejectedByReason).filter(([, n]) => n)) }])), files: { ...acceptance.files, recordIssues: `${acceptance.files.recordIssues.length} (see the report)` } }, null, 1));
+  } else if (args.mode === 'final') {
+    const { acceptance, dropped, problems, out } = await runFinal(args);
+    console.log(JSON.stringify({ out, final: acceptance.final, problems, dropped: dropped.length }, null, 1));
+    if (problems.length) process.exit(1);
   } else if (args.mode === 'check') {
     const { report, out } = await runCheck(args);
     console.log(JSON.stringify({ out, engine: report.engine, planned: report.planned, engineEligible: report.engineEligible, engineIneligible: report.engineIneligible, reasons: report.engineIneligibleReasons, bySubject: Object.fromEntries(Object.entries(report.bySubject).map(([s, v]) => [s, { planned: v.planned, eligible: v.eligible, ineligible: v.ineligible }])), passageSets: report.passageSets, placementProblems: report.placementProblems.length }, null, 1));

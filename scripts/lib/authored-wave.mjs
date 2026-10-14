@@ -1,4 +1,7 @@
-// Pure helpers for the agent-authored question waves (wave 1: 14 Oct 2026, claude-authored-2026-10-14).
+// Pure helpers for the agent-authored question waves (wave 1: 14 Oct 2026, claude-authored-2026-10-14; wave 2: the same
+// day, claude-authored-2026-10-14-w2, docs/brain/reports/authored-w2). The wave a candidate belongs to is its `source`, and one
+// publication list holds one wave. Wave 2 adds five subjects, the English verbal item types, Geography case sets (a stem with a
+// case passage, stored like a passage child) and one question that completes a wave-1 passage set (`_extends_set`).
 // A candidate in docs/brain/reports/authored/wave1-candidates-2026-10-14.json goes in, the exact rows the
 // live bank would hold come out: a `questions` row per candidate and a `passage_groups` row per English set.
 // No database, no network, no model. scripts/question-publish-authored.mjs writes these rows;
@@ -25,9 +28,22 @@ import { getNtaBlueprint } from '../../data/nta_engine.js';
 import { isNtaQuestionId } from '../../data/nta_item_checks.js';
 
 export const AUTHORED_SOURCE = 'claude-authored-2026-10-14';
+export const AUTHORED_SOURCE_W2 = 'claude-authored-2026-10-14-w2';
 export const AUTHORED_WAVE = 1;
 export const PUBLISH_VERSION = 'authored-publish-1';
-export const AUTHORED_SUBJECTS = Object.freeze(['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']);
+// What a wave is: its source key and the subjects it may hold. Wave 1 behaves exactly as it always did (an unknown source falls back to it).
+export const WAVES = Object.freeze({
+  1: Object.freeze({ wave: 1, source: AUTHORED_SOURCE, subjects: Object.freeze(['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]) }),
+  2: Object.freeze({ wave: 2, source: AUTHORED_SOURCE_W2, subjects: Object.freeze(['biology', 'computer_science', 'english', 'general_test', 'geography', 'mathematics', 'political_science']), caseSetSubjects: Object.freeze(['geography']) }),
+});
+export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
+/** Every subject any wave publishes (wave 1's six, then wave 2's additions). */
+export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics']);
+/** The wave definition of a source key, or of a candidate (its `source`); wave 1 when unknown. */
+export const waveOf = (sourceOrCandidate) => {
+  const source = typeof sourceOrCandidate === 'string' ? sourceOrCandidate : sourceOrCandidate?.source;
+  return Object.values(WAVES).find((entry) => entry.source === source) || WAVES[1];
+};
 
 const DIFFICULTY_WEIGHT = Object.freeze({ easy: 1, medium: 2, hard: 3 });
 // The authored type names to the question_type vocabulary already in the live bank (data/nta_blueprints/_types.json dbTypes).
@@ -39,25 +55,51 @@ export const QUESTION_TYPE = Object.freeze({
   assertion_reason: 'assertion_reason',
   passage_set_item: 'reading_comprehension',
 });
+// English verbal item types (wave 2), as the live English rows name them where they exist (correct_word_usage, para_jumble) and
+// otherwise as data/nta_blueprints/_types.json dbTypes lists them. QUESTION_TYPE stays the wave-1 vocabulary; every wave reads AUTHORED_QUESTION_TYPE.
+export const VERBAL_QUESTION_TYPE = Object.freeze({
+  synonym: 'synonym',
+  antonym: 'antonym',
+  idiom_phrase: 'idiom',
+  one_word_substitution: 'one_word_substitution',
+  error_detection: 'error_detection',
+  fill_in_blank: 'correct_word_usage',
+  sentence_rearrangement: 'para_jumble',
+});
+export const AUTHORED_QUESTION_TYPE = Object.freeze({ ...QUESTION_TYPE, ...VERBAL_QUESTION_TYPE });
+// A case-set child of a non-English subject (Geography) is stored like a passage child; its question_type says so (_types.json dbTypes of passage_set_item).
+const CASE_SET_QUESTION_TYPE = 'case_based';
 export const PASSAGE_KIND = Object.freeze({ 'Factual Passage': 'factual', 'Narrative Passage': 'narrative', 'Literary Passage': 'literary' });
 const OPTION_KEYS = ['A', 'B', 'C', 'D'];
 const MIN_SET_CHILDREN = 2;
 
 const text = (value) => (value === null || value === undefined ? '' : String(value));
 
-/** The deterministic id of a passage group: the same set id always gives the same group id. */
-export function passageGroupIdOf(setId) {
-  return `pg_${createHash('sha256').update(`${AUTHORED_SOURCE}|${text(setId)}`).digest('hex').slice(0, 32)}`;
+/** The deterministic id of a passage group: the same set id always gives the same group id. A wave-2 child that completes a wave-1 set names the wave-1 source. */
+export function passageGroupIdOf(setId, source = AUTHORED_SOURCE) {
+  return `pg_${createHash('sha256').update(`${source}|${text(setId)}`).digest('hex').slice(0, 32)}`;
+}
+
+/** A candidate stored as a child of a passage group: an English passage item, or a case-set item of a subject that has case sets (wave 2: Geography). */
+export function isPassageChild(candidate) {
+  if (candidate?.type === 'passage_set_item') return true;
+  return Boolean(text(candidate?.set_id).trim() && text(candidate?.passage_text).trim() && waveOf(candidate).caseSetSubjects.includes(candidate?.subject));
+}
+
+/** The group a set child belongs to: its own set's, or the existing wave-1 group that it completes (`_extends_set: { source, existing_children }`). */
+export function groupIdOfCandidate(candidate) {
+  return passageGroupIdOf(candidate.set_id, candidate._extends_set?.source || waveOf(candidate).source);
 }
 
 function tagsOf(candidate) {
   const ncert = text(candidate.ncert_ref).trim();
+  const wave = waveOf(candidate);
   return [
     'cuet',
     'source_kind:claude_authored',
-    `authored_run:${AUTHORED_SOURCE}`,
-    `authored_wave:${AUTHORED_WAVE}`,
-    `question_type:${QUESTION_TYPE[candidate.type] || candidate.type}`,
+    `authored_run:${wave.source}`,
+    `authored_wave:${wave.wave}`,
+    `question_type:${AUTHORED_QUESTION_TYPE[candidate.type] || candidate.type}`,
     ...(text(candidate.unit) ? [`unit:${text(candidate.unit)}`] : []),
     ...(candidate._verdict ? [`expert_review:${candidate._verdict}`] : []),
     ...(candidate._reworded ? ['authored_revision:reworded'] : []),
@@ -70,7 +112,7 @@ function tagsOf(candidate) {
  * (planPublication supplies them); liveAt is stamped at apply time and stays null in a plan.
  */
 export function toQuestionRow(candidate, { groupId = null, orderIndex = null, liveAt = null } = {}) {
-  const passage = candidate.type === 'passage_set_item';
+  const passage = isPassageChild(candidate);
   return {
     id: candidate.id,
     subject: candidate.subject,
@@ -83,7 +125,7 @@ export function toQuestionRow(candidate, { groupId = null, orderIndex = null, li
     explanation: candidate.explanation,
     difficulty: candidate.difficulty_label,
     difficulty_weight: DIFFICULTY_WEIGHT[candidate.difficulty_label] ?? 2,
-    source: AUTHORED_SOURCE,
+    source: waveOf(candidate).source,
     status: 'live',
     verification_state: 'verified',
     exploration_state: 'active',
@@ -94,7 +136,7 @@ export function toQuestionRow(candidate, { groupId = null, orderIndex = null, li
     author_id: null,
     tags: tagsOf(candidate),
     topic: text(candidate.unit) || null,
-    question_type: QUESTION_TYPE[candidate.type] || null,
+    question_type: passage && candidate.type !== 'passage_set_item' ? CASE_SET_QUESTION_TYPE : (AUTHORED_QUESTION_TYPE[candidate.type] || null),
     passage_group_id: passage ? groupId : null,
     passage_id: passage ? groupId : null,
     passage_type: passage ? (PASSAGE_KIND[candidate.chapter] || null) : null,
@@ -109,13 +151,13 @@ export function toQuestionRow(candidate, { groupId = null, orderIndex = null, li
 export function toPassageGroupRow(setId, children) {
   const first = children[0];
   return {
-    id: passageGroupIdOf(setId),
+    id: passageGroupIdOf(setId, first._extends_set?.source || waveOf(first).source),
     subject: first.subject,
     chapter: first.chapter,
     passage_type: PASSAGE_KIND[first.chapter] || null,
     title: first.chapter,
     passage_text: first.passage_text,
-    source: AUTHORED_SOURCE,
+    source: waveOf(first).source,
     difficulty: null,
     status: 'live',
     discoverable: true,
@@ -163,19 +205,27 @@ export function validateCandidates(candidates) {
   const sets = new Map();
   const stems = new Map();
   const chapterCache = new Map();
+  const listSource = candidates[0]?.source;
   for (const c of candidates) {
     const id = c?.id ?? null;
+    const wave = waveOf(c);
     if (!isNtaQuestionId(id)) add(id, 'id_not_uuid');
     if (seen.has(id)) add(id, 'duplicate_id');
     seen.add(id);
-    if (c.source !== AUTHORED_SOURCE) add(id, 'source_not_authored_run');
-    if (!AUTHORED_SUBJECTS.includes(c.subject)) add(id, 'subject_not_in_wave');
+    if (!AUTHORED_SOURCES.includes(c.source)) add(id, 'source_not_authored_run');
+    else if (c.source !== listSource) add(id, 'source_differs_from_the_rest_of_the_list');
+    if (!wave.subjects.includes(c.subject)) add(id, 'subject_not_in_wave');
+    if (c._extends_set !== undefined) {
+      const extended = c._extends_set;
+      if (!AUTHORED_SOURCES.includes(extended?.source) || !Number.isInteger(extended?.existing_children) || extended.existing_children < 1) add(id, 'extends_set_malformed');
+      else if (!isPassageChild(c)) add(id, 'extends_set_on_a_standalone_item');
+    }
     if (!chapterCache.has(c.subject)) chapterCache.set(c.subject, chaptersOf(c.subject));
     const chapters = chapterCache.get(c.subject);
     if (!chapters) add(id, 'no_blueprint_for_subject');
     else if (chapters.excluded.has(c.chapter)) add(id, 'chapter_excluded_by_blueprint');
     else if (!chapters.names.has(c.chapter)) add(id, 'chapter_not_in_blueprint');
-    if (!QUESTION_TYPE[c.type]) add(id, 'unknown_type');
+    if (!AUTHORED_QUESTION_TYPE[c.type]) add(id, 'unknown_type');
     if (text(c.stem).trim().length < 10) add(id, 'stem_missing_or_too_short');
     if (!text(c.explanation).trim()) add(id, 'explanation_missing');
     if (!DIFFICULTY_WEIGHT[c.difficulty_label]) add(id, 'difficulty_label_invalid');
@@ -189,22 +239,29 @@ export function validateCandidates(candidates) {
     if (c.type === 'passage_set_item') {
       if (!text(c.passage_text).trim()) add(id, 'passage_text_missing');
       if (!text(c.set_id).trim()) add(id, 'set_id_missing');
-      if (c.subject !== 'english') add(id, 'passage_set_outside_english');
-      if (!PASSAGE_KIND[c.chapter]) add(id, 'passage_chapter_unknown');
+      if (c.subject !== 'english' && !wave.caseSetSubjects.includes(c.subject)) add(id, 'passage_set_outside_english');
+      if (c.subject === 'english' && !PASSAGE_KIND[c.chapter]) add(id, 'passage_chapter_unknown');
+      if (text(c.set_id)) sets.set(c.set_id, [...(sets.get(c.set_id) || []), c]);
+    } else if (isPassageChild(c)) {
+      // A case-set item (Geography, wave 2): a stem of its own type with the case passage and a set id, stored as a passage child.
       if (text(c.set_id)) sets.set(c.set_id, [...(sets.get(c.set_id) || []), c]);
     } else {
       if (text(c.passage_text).trim()) add(id, 'passage_text_on_standalone_item');
       if (text(c.set_id).trim()) add(id, 'set_id_on_standalone_item');
     }
   }
-  const { setMax } = chapterCache.get('english') || { setMax: 5 };
   for (const [setId, children] of sets) {
+    const setMax = (chapterCache.get(children[0].subject) || chapterCache.get('english') || { setMax: 5 }).setMax;
+    // A wave-2 child that completes a wave-1 set counts the children that set already has in the bank.
+    const existing = children[0]._extends_set?.existing_children || 0;
+    const total = children.length + existing;
     if (new Set(children.map((child) => child.passage_text)).size !== 1) add(setId, 'set_children_disagree_on_passage');
     if (new Set(children.map((child) => child.chapter)).size !== 1) add(setId, 'set_children_disagree_on_chapter');
+    if (new Set(children.map((child) => JSON.stringify(child._extends_set ?? null))).size !== 1) add(setId, 'set_children_disagree_on_extends_set');
     // A set of fewer than two questions is not a set. Fewer than the blueprint's minimum (4) is allowed but reported: the NTA
     // engine does not serve it (passage_set_too_small); practice and full mock still show it.
-    if (children.length < MIN_SET_CHILDREN) add(setId, `set_has_${children.length}_children_below_minimum_${MIN_SET_CHILDREN}`);
-    if (children.length > setMax) add(setId, `set_has_${children.length}_children_above_blueprint_maximum_${setMax}`);
+    if (total < MIN_SET_CHILDREN) add(setId, `set_has_${total}_children_below_minimum_${MIN_SET_CHILDREN}`);
+    if (total > setMax) add(setId, `set_has_${total}_children_above_blueprint_maximum_${setMax}`);
   }
   return problems;
 }
@@ -219,10 +276,11 @@ export const sha256OfFile = (buffer) => createHash('sha256').update(Buffer.from(
 
 /** Sets with fewer children than the English blueprint's minimum: [{ setId, groupId, children, ntaMinimum }]. Warnings, not errors. */
 export function smallSets(candidates) {
-  const minimum = getNtaBlueprint('english')?.sets?.size?.min ?? 4;
   const bySet = new Map();
-  for (const c of candidates) if (c.type === 'passage_set_item' && c.set_id) bySet.set(c.set_id, (bySet.get(c.set_id) || 0) + 1);
-  return [...bySet.entries()].filter(([, n]) => n < minimum).map(([setId, children]) => ({ setId, groupId: passageGroupIdOf(setId), children, ntaMinimum: minimum }));
+  for (const c of candidates) if (isPassageChild(c) && c.set_id) bySet.set(c.set_id, { first: bySet.get(c.set_id)?.first || c, n: (bySet.get(c.set_id)?.n || 0) + 1 });
+  return [...bySet.entries()]
+    .map(([setId, { first, n }]) => ({ setId, groupId: groupIdOfCandidate(first), children: n + (first._extends_set?.existing_children || 0), ntaMinimum: getNtaBlueprint(first.subject)?.sets?.size?.min ?? 4 }))
+    .filter((set) => set.children < set.ntaMinimum);
 }
 
 /**
@@ -233,14 +291,18 @@ export function planPublication(candidates) {
   const problems = validateCandidates(candidates);
   if (problems.length) return { rows: [], groups: [], problems, summary: null, planHash: null };
   const bySet = new Map();
-  for (const c of candidates) if (c.type === 'passage_set_item') bySet.set(c.set_id, [...(bySet.get(c.set_id) || []), c]);
-  const groups = [...bySet.entries()].map(([setId, children]) => toPassageGroupRow(setId, children));
+  for (const c of candidates) if (isPassageChild(c)) bySet.set(c.set_id, [...(bySet.get(c.set_id) || []), c]);
+  // A set that completes a wave-1 set has no group row to write: the group is already in the bank (the dry run checks it is).
+  const topUpSets = [...bySet.entries()].filter(([, children]) => children[0]._extends_set).map(([setId, children]) => ({
+    setId, groupId: groupIdOfCandidate(children[0]), existingChildren: children[0]._extends_set.existing_children, added: children.length, source: children[0]._extends_set.source,
+  }));
+  const groups = [...bySet.entries()].filter(([, children]) => !children[0]._extends_set).map(([setId, children]) => toPassageGroupRow(setId, children));
   const position = new Map();
   const rows = candidates.map((c) => {
-    if (c.type !== 'passage_set_item') return toQuestionRow(c);
-    const order = (position.get(c.set_id) || 0) + 1;
+    if (!isPassageChild(c)) return toQuestionRow(c);
+    const order = (position.get(c.set_id) ?? (c._extends_set?.existing_children || 0)) + 1;
     position.set(c.set_id, order);
-    return toQuestionRow(c, { groupId: passageGroupIdOf(c.set_id), orderIndex: order });
+    return toQuestionRow(c, { groupId: groupIdOfCandidate(c), orderIndex: order });
   });
   const count = (items, key) => items.reduce((by, item) => { const k = key(item); by[k] = (by[k] || 0) + 1; return by; }, {});
   const summary = {
@@ -251,6 +313,7 @@ export function planPublication(candidates) {
     byDifficulty: count(rows, (row) => row.difficulty),
     byExpertReview: count(candidates, (c) => c._verdict),
     passageChildrenBySet: Object.fromEntries(groups.map((group) => [group.id, rows.filter((row) => row.passage_group_id === group.id).length])),
+    ...(topUpSets.length ? { topUpSets } : {}),
     passageSetsBelowNtaMinimum: smallSets(candidates),
     chapters: Object.keys(count(rows, (row) => `${row.subject}/${row.chapter}`)).length,
   };

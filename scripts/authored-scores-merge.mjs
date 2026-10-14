@@ -2,6 +2,11 @@
 // Authored wave: turns the raw judge files into the NTA engine's agent-score and CUET-fit tables.
 // OFFLINE: reads files, writes files. No database, no network, no model.
 //
+// Wave 1 (claude-authored-2026-10-14) is the default. Wave 2 (claude-authored-2026-10-14-w2, docs/brain/reports/authored-w2) uses the same
+// check and merge modes: name its files (--candidates=...wave2-candidates-final..., --entries=...wave2-score-entries-final...). The wave of a
+// run is the source of its candidates, so the tables of only the subjects that the candidates name are read and written. The wave-2 entries are
+// built by scripts/authored-w2-accept.mjs --mode=final (the raw wave-2 files have another layout), not by mode=entries below.
+//
 //   node scripts/authored-scores-merge.mjs --mode=entries --quality-model=<id> --fit-model=<id> --solver-model=<id> [--date=2026-10-14]
 //        [--candidates=docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json] [--raw=tmp/authored]
 //        [--fresh=<dir> ...] [--out=docs/brain/reports/authored/wave1-score-entries-final-2026-10-14.json]
@@ -41,7 +46,7 @@ import { pathToFileURL } from 'node:url';
 import { assembleNtaPaper, getNtaBlueprint, ntaEligibility } from '../data/nta_engine.js';
 import { conflictReason, itemFeatures, passageWordCount } from '../data/nta_item_checks.js';
 import { contentHash } from '../data/content_evidence.js';
-import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, buildFinalCandidates, planPublication } from './lib/authored-wave.mjs';
+import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, buildFinalCandidates, planPublication, waveOf } from './lib/authored-wave.mjs';
 import {
   FIT_JUDGES, NTA_MIN_FIT_SCORE, SCORES_VERSION, agentEntryFor, buildEntries, engineTypeOf, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf,
 } from './lib/authored-scores.mjs';
@@ -57,7 +62,11 @@ const DEFAULTS = {
   entries: 'docs/brain/reports/authored/wave1-score-entries-final-2026-10-14.json',
   agentDir: 'data/nta_agent_scores',
   fitBase: 'data/nta_fit_scores',
+  // The wave-1 final candidates: wave 2's passage-set top-up needs the children of the set it completes.
+  wave1Candidates: 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json',
 };
+// The local export names its General Test file gat.json.
+const EXPORT_FILE = { general_test: 'gat' };
 const AGENT_RUBRIC = 'docs/brain/NTA-AGENT-RUBRIC.md';
 const FIT_RUBRIC = 'docs/brain/NTA-CUET-FIT-RUBRIC.md';
 
@@ -73,6 +82,7 @@ export function parseArgs(argv) {
     else if (name === 'original-candidates') out.originalCandidates = value;
     else if (name === 'drop') out.drop = value;
     else if (name === 'reword') out.reword = value;
+    else if (name === 'wave1-candidates') out.wave1Candidates = value;
     else if (name === 'raw') out.raw = value;
     else if (name === 'out') out.out = value;
     else if (name === 'entries') out.entries = value;
@@ -160,6 +170,9 @@ export function runCheck(args) {
   if (sha(args.candidates, { normalizeEol: true }) !== file.candidates_sha256) throw new Error('the candidates file is not the one the entries were built from (sha256 differs); rebuild the entries');
   const plan = planPublication(candidates);
   if (plan.problems.length) throw new Error(`candidates do not validate: ${JSON.stringify(plan.problems.slice(0, 5))}`);
+  const wave = waveOf(candidates[0]);
+  if (file.source !== wave.source) throw new Error(`the entries file is of source ${file.source} but the candidates are of ${wave.source}`);
+  const subjects = AUTHORED_SUBJECTS.filter((subject) => candidates.some((candidate) => candidate.subject === subject));
   const positions = positionsOf(plan.rows);
   const rowById = new Map(plan.rows.map((row) => [row.id, row]));
   const header = { models: file.models, date: file.date };
@@ -181,11 +194,11 @@ export function runCheck(args) {
   const agentTables = {};
   const fitTables = {};
   const fitBaseMissing = [];
-  for (const subject of AUTHORED_SUBJECTS) {
-    agentTables[subject] = mergeAgentTable(loadTable(args.agentDir, subject), agentBySubject[subject] || {}, { subject, now, header, policy: args.repairedText, rubricSha256: agentRubricSha });
+  for (const subject of subjects) {
+    agentTables[subject] = mergeAgentTable(loadTable(args.agentDir, subject), agentBySubject[subject] || {}, { subject, now, header, policy: args.repairedText, rubricSha256: agentRubricSha, source: wave.source });
     const base = loadTable(args.fitBase, subject);
     if (!base) fitBaseMissing.push(subject);
-    fitTables[subject] = mergeFitTable(base, fitBySubject[subject] || {}, { subject, now, header, policy: args.repairedText, rubricSha256: fitRubricSha });
+    fitTables[subject] = mergeFitTable(base, fitBySubject[subject] || {}, { subject, now, header, policy: args.repairedText, rubricSha256: fitRubricSha, source: wave.source });
   }
 
   // The engine's own gates, offline, on the exact rows the publish script would write.
@@ -212,24 +225,32 @@ export function runCheck(args) {
     for (const reason of fitReasons) fitReasonCounts[reason] = (fitReasonCounts[reason] || 0) + 1;
     if (verdict.eligible && !fitReasons.length) { both += 1; subjectCounts.both += 1; }
   }
-  // English passage sets: the engine serves a set only with its passage length inside the blueprint's range and at least the
-  // blueprint's minimum number of eligible children (data/nta_engine.js prepareCandidates).
-  const sets = getNtaBlueprint('english').sets;
+  // Passage and case sets: the engine serves a set only with its passage length inside the blueprint's range (where the subject has one) and
+  // at least the blueprint's minimum number of eligible children (data/nta_engine.js prepareCandidates). A wave-2 question that completes a
+  // wave-1 set is counted with the children that set already has (the wave-1 final candidates, with the committed tables).
+  const topUpGroups = new Set((plan.summary?.topUpSets || []).map((entry) => entry.groupId));
+  const wave1Rows = topUpGroups.size && fs.existsSync(args.wave1Candidates) ? planPublication(readJson(args.wave1Candidates)).rows.filter((row) => topUpGroups.has(row.passage_group_id)) : [];
   const passageSets = [...new Set(plan.rows.map((row) => row.passage_group_id).filter(Boolean))].map((groupId) => {
-    const children = plan.rows.filter((row) => row.passage_group_id === groupId);
+    const added = plan.rows.filter((row) => row.passage_group_id === groupId);
+    const earlier = wave1Rows.filter((row) => row.passage_group_id === groupId);
+    const children = [...earlier, ...added];
+    const subject = children[0].subject;
+    const sets = getNtaBlueprint(subject).sets;
     const words = passageWordCount(children[0]);
+    const eligibleEarlier = earlier.filter((row) => ntaEligibility({ ...row, evidence: null }, { subject: row.subject, agentScores: agentTables, fitScores: fitTables }).eligible);
     // The engine serves one child of two that ask the same thing (distinctChildren); the stem-wording weights need the whole pool, so this is the check without them.
     const kept = [];
-    for (const row of children.filter((child) => eligibleIds.has(child.id))) {
-      const features = itemFeatures(row, { english: true, agentScores: agentTables });
+    for (const row of [...eligibleEarlier, ...added.filter((child) => eligibleIds.has(child.id))]) {
+      const features = itemFeatures(row, { english: subject === 'english', agentScores: agentTables });
       if (!kept.some((other) => conflictReason(features, other.features, { sameSet: true }))) kept.push({ row, features });
     }
     const eligibleChildren = kept.length;
-    return { groupId, chapter: children[0].chapter, words, children: children.length, eligibleChildren, servable: words >= sets.passageWords.min && words <= sets.passageWords.max && eligibleChildren >= sets.size.min };
+    const wordsInRange = !sets.passageWords || (words >= sets.passageWords.min && words <= sets.passageWords.max);
+    return { groupId, subject, chapter: children[0].chapter, words, children: children.length, ...(earlier.length ? { earlierChildren: earlier.length, earlierChildrenEligible: eligibleEarlier.length } : {}), eligibleChildren, servable: sets.count.target > 0 && wordsInRange && eligibleChildren >= sets.size.min };
   });
   const authoredEntries = Object.values(agentBySubject).flatMap((entries) => Object.values(entries));
   const report = {
-    kind: 'authored_scores_check', version: SCORES_VERSION, source: AUTHORED_SOURCE, repairedTextPolicy: args.repairedText, at: now,
+    kind: 'authored_scores_check', version: SCORES_VERSION, source: wave.source, repairedTextPolicy: args.repairedText, at: now,
     planned: plan.rows.length,
     agentEntries: authoredEntries.length,
     hashChangedByRepair: authoredEntries.filter((entry) => entry.provenance.hash_changed_by_repair).length,
@@ -240,7 +261,7 @@ export function runCheck(args) {
     // engineEligible already includes the real fit gate; this is the mirror's count (the tests compare the two).
     fitGate: { mirror: 'scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)', minFit: NTA_MIN_FIT_SCORE, pass: fitPass, reasons: fitReasonCounts, baseTablesMissing: fitBaseMissing },
     qualityAndFitBoth: both,
-    passageSets: { servable: passageSets.filter((set) => set.servable).length, of: passageSets.length, blueprint: { passageWords: sets.passageWords, minChildren: sets.size.min }, sets: passageSets },
+    passageSets: { servable: passageSets.filter((set) => set.servable).length, of: passageSets.length, blueprint: { passageWords: getNtaBlueprint('english').sets.passageWords, minChildren: getNtaBlueprint('english').sets.size.min }, sets: passageSets },
     ...(args.impact ? { impact: { export: args.impact, subjects: impactOf(args.impact, { plan, tables: agentTables, fitTables, args }) } } : {}),
     bySubject,
     ineligible,
@@ -256,8 +277,8 @@ export function runCheck(args) {
  */
 function impactOf(dir, { plan, tables, fitTables, args }) {
   const out = {};
-  for (const subject of AUTHORED_SUBJECTS.filter((name) => name !== 'english')) {
-    const file = path.join(dir, `${subject}.json`);
+  for (const subject of AUTHORED_SUBJECTS.filter((name) => name !== 'english' && plan.rows.some((row) => row.subject === name))) {
+    const file = path.join(dir, `${EXPORT_FILE[subject] || subject}.json`);
     if (!fs.existsSync(file)) { out[subject] = { skipped: 'no export file' }; continue; }
     const existing = readJson(file).filter((row) => row.status === 'live' && !row.is_deleted);
     const withEvidence = existing.filter((row) => row.evidence).length;
@@ -312,10 +333,11 @@ export function runMerge(args) {
   // files would clash with the full tables on merge, so they are written only when the base exists or --fit-out is given.
   const writeFit = fs.existsSync(args.fitBase) || Boolean(args.fitOut);
   fs.mkdirSync(agentOut, { recursive: true });
-  for (const subject of AUTHORED_SUBJECTS) fs.writeFileSync(path.join(agentOut, `${subject}.json`), stable(tables[subject], 2));
+  // Only the subjects the candidates name (every other table is left as it is on disk).
+  for (const subject of Object.keys(tables)) fs.writeFileSync(path.join(agentOut, `${subject}.json`), stable(tables[subject], 2));
   if (writeFit) {
     fs.mkdirSync(fitOut, { recursive: true });
-    for (const subject of AUTHORED_SUBJECTS) fs.writeFileSync(path.join(fitOut, `${subject}.json`), stable(fitTables[subject], 1));
+    for (const subject of Object.keys(fitTables)) fs.writeFileSync(path.join(fitOut, `${subject}.json`), stable(fitTables[subject], 1));
   }
   return { report, agentOut, fitOut: writeFit ? fitOut : null, fitTablesWritten: writeFit, ...(writeFit ? {} : { fitNote: `no fit tables at ${args.fitBase} in this checkout: the fit entries were not written. Merge the branch that has data/nta_fit_scores first, or pass --fit-base and --fit-out.` }) };
 }

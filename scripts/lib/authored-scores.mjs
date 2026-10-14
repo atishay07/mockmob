@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { getNtaBlueprint, heuristicNtaType } from '../../data/nta_engine.js';
 import { NTA_AGENT_BLOCKING_FLAGS, NTA_AGENT_RUBRIC_VERSION, ntaAgentAdmissibleIds } from '../../data/nta_agent_scores.js';
-import { AUTHORED_SOURCE, AUTHORED_WAVE, contentHashOf } from './authored-wave.mjs';
+import { AUTHORED_SOURCE, contentHashOf, waveOf } from './authored-wave.mjs';
 
 export const SCORES_VERSION = 'authored-scores-1';
 export const QUALITY_JUDGES = Object.freeze(['j1', 'j2']);
@@ -412,20 +412,32 @@ const majority = (values) => {
 };
 const votes = (values) => Object.fromEntries([...values.reduce((map, value) => map.set(String(value), (map.get(String(value)) || 0) + 1), new Map())]);
 
-function provenanceOf(record, hashes, policy, header) {
+// What the pipeline of each wave was, as the provenance of an entry states it.
+export const PIPELINE_TEXT = Object.freeze({
+  1: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
+  2: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards',
+});
+
+function provenanceOf(record, hashes, policy, header, candidate = null) {
+  const wave = waveOf(candidate);
   const acceptance = !hashes.hashChanged ? 'judged_text_is_final_text'
     : policy === 'hold' ? 'held_until_fresh_judge_pass_on_final_text'
-      : 'admitted_on_expert_verdict_and_blind_resolve';
+      // Wave 2: a repair that left the blind text alone (explanation, label, NCERT reference) is admitted on the expert verdict; the blind solvers saw the final blind text.
+      : wave.wave === 2 && !record.blind_resolve_on_final_text ? 'admitted_on_expert_verdict_blind_text_unchanged'
+        : 'admitted_on_expert_verdict_and_blind_resolve';
   return {
-    kind: AUTHORED_SOURCE,
-    wave: AUTHORED_WAVE,
-    pipeline: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
+    kind: wave.source,
+    wave: wave.wave,
+    pipeline: PIPELINE_TEXT[wave.wave],
     expert_verdict: record.text.expert_verdict,
     expert_issue: record.text.expert_issue,
     // final: the expert reviewed the final text; earlier_text: the question was reworded after the expert pass (engine content gate) and
     // only the fresh judges and solvers below have seen the reworded text.
     expert_reviewed_text: record.text.expert_reviewed_text,
     ...(record.text.reworded_after_wave1 ? { reworded_after_wave1: record.text.reworded_after_wave1, reworded_engine_reasons: record.text.reworded_engine_reasons } : {}),
+    ...(record.text.reworded_after_acceptance ? { reworded_after_acceptance: record.text.reworded_after_acceptance, reworded_engine_reasons: record.text.reworded_engine_reasons } : {}),
+    ...(record.text.spot_check ? { spot_check: record.text.spot_check } : {}),
+    ...(record.text.supplementary_review ? { supplementary_review: record.text.supplementary_review } : {}),
     // final: the judges scored the hashed content as it stands now (a repair that touched only the difficulty label or the NCERT
     // reference leaves the hashed content alone); pre_repair: they scored the text before the expert's repair;
     // final_after_fresh_pass: a later judge pass re-scored the repaired text.
@@ -482,7 +494,7 @@ export function agentEntryFor(id, candidate, record, { policy, header, position 
     difficulty: { label: candidate.difficulty_label, judges: levels, agreed: agreedLevel, corrected: null },
     objective_tags: tags,
     key_dispute: matches < 2,
-    provenance: provenanceOf(record, hashes, policy, header),
+    provenance: provenanceOf(record, hashes, policy, header, candidate),
   };
 }
 
@@ -528,7 +540,7 @@ export function fitEntryFor(id, candidate, record, { policy, header, position = 
     fit_flags: flagCounts,
     flagged_by: flaggedBy,
     blocking: flaggedBy >= 2,
-    provenance: provenanceOf(record, hashes, policy, header),
+    provenance: provenanceOf(record, hashes, policy, header, candidate),
   };
 }
 
@@ -536,13 +548,13 @@ export function fitEntryFor(id, candidate, record, { policy, header, position = 
 // Step 3: merging into the committed tables (incremental: every other question's entry is left exactly as it is)
 // ---------------------------------------------------------------------------------------------
 
-const isAuthored = (entry) => entry?.provenance?.kind === AUTHORED_SOURCE;
+const isAuthored = (entry, source = AUTHORED_SOURCE) => entry?.provenance?.kind === source;
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
-function addEntries(table, entries, label) {
+function addEntries(table, entries, label, source = AUTHORED_SOURCE) {
   const questions = table.questions || {};
   for (const id of Object.keys(entries)) {
-    if (questions[id] && !isAuthored(questions[id])) throw new Error(`${label}: ${id} already has an entry that is not from ${AUTHORED_SOURCE}; refusing to replace it`);
+    if (questions[id] && !isAuthored(questions[id], source)) throw new Error(`${label}: ${id} already has an entry that is not from ${source}; refusing to replace it`);
   }
   // Existing keys keep their position; new ones are appended in id order, so a re-run produces the same file.
   const result = { ...questions };
@@ -554,17 +566,19 @@ function addEntries(table, entries, label) {
  * The agent table of a subject with the authored entries added. base is the committed table (it must be calibrated
  * and written under the rubric version this code accepts: an entry in any other table could never admit a question).
  */
-export function mergeAgentTable(base, entries, { subject, now, header, policy, rubricSha256 = null }) {
+export function mergeAgentTable(base, entries, { subject, now, header, policy, rubricSha256 = null, source = AUTHORED_SOURCE }) {
   if (!base) throw new Error(`agent table for ${subject} is missing`);
   if (base.rubric_version !== NTA_AGENT_RUBRIC_VERSION) throw new Error(`agent table for ${subject} is written under ${base.rubric_version}, not ${NTA_AGENT_RUBRIC_VERSION}`);
   const table = clone(base);
-  table.questions = addEntries(table, entries, `agent table ${subject}`);
+  table.questions = addEntries(table, entries, `agent table ${subject}`, source);
   table.models = [...new Set([...(table.models || []), header.models.quality])].sort();
   table.merged_at = now;
   table.authored = {
     ...(table.authored || {}),
-    [AUTHORED_SOURCE]: {
-      note: 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.',
+    [source]: {
+      note: waveOf(source).wave === 2
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.'
+        : 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.',
       merged_at: now,
       questions: Object.keys(entries).length,
       judge_model: header.models.quality,
@@ -584,7 +598,7 @@ export function mergeAgentTable(base, entries, { subject, now, header, policy, r
  * The fit table of a subject with the authored entries added. base may be null (this checkout has no fit tables
  * yet): the table then holds only the authored entries and says so (status partial).
  */
-export function mergeFitTable(base, entries, { subject, now, header, policy, rubricSha256 = null }) {
+export function mergeFitTable(base, entries, { subject, now, header, policy, rubricSha256 = null, source = AUTHORED_SOURCE }) {
   const table = base ? clone(base) : {
     note: 'CUET-fit judgements for NTA mode (data/nta_fit_scores.js). Written by scripts/nta-fit-merge.mjs from three independent judges per question under docs/brain/NTA-CUET-FIT-RUBRIC.md. Majority (2 of 3) type, unit and chapter override the engine\'s heuristic; NTA mode admits a question only when all three judged the current content, fewer than two raised a fit flag and the median fit score is at or above NTA_MIN_FIT_SCORE. A judge-dependent label, not evidence.',
     subject,
@@ -598,13 +612,15 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
     questions: {},
   };
   if (table.rubric_version !== FIT_RUBRIC_VERSION) throw new Error(`fit table for ${subject} is written under ${table.rubric_version}, not ${FIT_RUBRIC_VERSION}`);
-  table.questions = addEntries(table, entries, `fit table ${subject}`);
+  table.questions = addEntries(table, entries, `fit table ${subject}`, source);
   table.models = [...new Set([...(table.models || []), header.models.fit])].sort();
   table.merged_at = now;
   table.authored = {
     ...(table.authored || {}),
-    [AUTHORED_SOURCE]: {
-      note: 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.',
+    [source]: {
+      note: waveOf(source).wave === 2
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (built by scripts/authored-w2-accept.mjs --mode=final). The measures block above describes the base merge only.'
+        : 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.',
       merged_at: now,
       questions: Object.keys(entries).length,
       judge_model: header.models.fit,

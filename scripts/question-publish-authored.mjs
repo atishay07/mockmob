@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Publishes the agent-authored CUET questions (wave 1, 14 Oct 2026, source claude-authored-2026-10-14) into the live
+// Publishes the agent-authored CUET questions (wave 1, 14 Oct 2026, source claude-authored-2026-10-14; wave 2, source
+// claude-authored-2026-10-14-w2: pass its final candidates with --candidates, the source is the candidates' own) into the live
 // question bank, as live and visible rows shaped like the verified live rows (scripts/lib/authored-wave.mjs says exactly
 // how), with one passage_groups row per English passage set. Insert only: an id that already exists is never touched.
 // Every applied change is saved first to a restore file, and --mode=restore hides or deletes exactly those rows.
@@ -26,7 +27,7 @@ import { pathToFileURL } from 'node:url';
 import { contentHash } from '../data/content_evidence.js';
 import { ntaAgentScoreEntry } from '../data/nta_agent_scores.js';
 import { NEAR_DUPLICATE_STEM_JACCARD, contentTokens, jaccard } from '../data/nta_item_checks.js';
-import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, GROUP_COLUMNS, PUBLISH_VERSION, QUESTION_COLUMNS, planPublication, sha256OfFile } from './lib/authored-wave.mjs';
+import { AUTHORED_SOURCES, AUTHORED_SUBJECTS, GROUP_COLUMNS, PUBLISH_VERSION, QUESTION_COLUMNS, planPublication, sha256OfFile, waveOf } from './lib/authored-wave.mjs';
 
 // The final candidates: the wave-1 candidates minus the four that failed the fresh judge pass, with the 19 engine-refused ones reworded.
 const DEFAULT_CANDIDATES = 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json';
@@ -236,12 +237,19 @@ export async function dryRun(args, { sb = null, target = null } = {}) {
   if (plan.problems.length) throw new Error(`candidates do not validate (${plan.problems.length}): ${JSON.stringify(plan.problems.slice(0, 5))}`);
   const rowIds = plan.rows.map((row) => row.id);
   const groupIds = plan.groups.map((group) => group.id);
+  // A question that completes a set of an earlier wave writes no group: that group must already be in the target.
+  const topUpGroupIds = (plan.summary.topUpSets || []).map((set) => set.groupId);
+  const source = waveOf(candidates[0]).source;
   const checks = { target: target ? target.host : 'not read (--offline)' };
   if (sb && !args.offline) {
     checks.questionColumnsMissing = await missingColumns(sb, 'questions', QUESTION_COLUMNS);
     checks.passageGroupColumnsMissing = await missingColumns(sb, 'passage_groups', GROUP_COLUMNS);
     checks.existingQuestionIds = await existingIds(sb, 'questions', rowIds);
     checks.existingGroupIds = await existingIds(sb, 'passage_groups', groupIds);
+    if (topUpGroupIds.length) {
+      const present = await existingIds(sb, 'passage_groups', topUpGroupIds);
+      checks.topUpGroupsMissing = topUpGroupIds.filter((id) => !present.includes(id));
+    }
     checks.liveBefore = await liveCounts(sb, Object.keys(plan.summary.bySubject));
   } else {
     checks.note = 'offline: the target was not read, so column presence, existing ids and live counts are NOT checked';
@@ -253,9 +261,10 @@ export async function dryRun(args, { sb = null, target = null } = {}) {
   if (checks.passageGroupColumnsMissing?.length) blockers.push('passage_groups table lacks columns the insert writes');
   if (checks.existingQuestionIds?.length) blockers.push(`${checks.existingQuestionIds.length} planned question ids already exist`);
   if (checks.existingGroupIds?.length) blockers.push(`${checks.existingGroupIds.length} planned passage group ids already exist`);
+  if (checks.topUpGroupsMissing?.length) blockers.push(`${checks.topUpGroupsMissing.length} passage group(s) that a planned question completes are not in the target (the earlier wave is not published there)`);
   if (unscoredIds(checks.scores).length) blockers.push('rows without an agent score entry (and a fit entry, where the fit tables exist) bound to their content hash: merge the scores first (scripts/authored-scores-merge.mjs)');
   const report = {
-    kind: 'authored_publish_plan', version: PUBLISH_VERSION, mode: 'dry-run', source: AUTHORED_SOURCE, at: args.now || new Date().toISOString(),
+    kind: 'authored_publish_plan', version: PUBLISH_VERSION, mode: 'dry-run', source, at: args.now || new Date().toISOString(),
     candidatesFile: args.candidates, candidatesSha256: sha256, planHash: plan.planHash,
     summary: plan.summary, blockers,
     // Not blockers: a passage set below the engine's minimum is published (practice and full mock show it) but NTA mode will not serve it.
@@ -272,7 +281,7 @@ function summariseChecks(checks) {
   return {
     target: checks.target,
     ...(checks.note ? { note: checks.note } : {}),
-    ...(checks.questionColumnsMissing ? { questionColumnsMissing: checks.questionColumnsMissing.length, passageGroupColumnsMissing: checks.passageGroupColumnsMissing.length, existingQuestionIds: checks.existingQuestionIds.length, existingGroupIds: checks.existingGroupIds.length, liveBefore: checks.liveBefore } : {}),
+    ...(checks.questionColumnsMissing ? { questionColumnsMissing: checks.questionColumnsMissing.length, passageGroupColumnsMissing: checks.passageGroupColumnsMissing.length, existingQuestionIds: checks.existingQuestionIds.length, existingGroupIds: checks.existingGroupIds.length, ...(checks.topUpGroupsMissing ? { topUpGroupsMissing: checks.topUpGroupsMissing.length } : {}), liveBefore: checks.liveBefore } : {}),
     agentScores: { bound: checks.scores.agent.bound, missing: checks.scores.agent.missing.length, hashMismatch: checks.scores.agent.hashMismatch.length },
     fitScores: checks.scores.fit.checked ? { bound: checks.scores.fit.bound, missing: checks.scores.fit.missing.length, hashMismatch: checks.scores.fit.hashMismatch.length } : 'not checked: no data/nta_fit_scores in this checkout',
     bankLookalikes: checks.bankLookalikes.checked ? { exact: checks.bankLookalikes.exact.length, nearStem: checks.bankLookalikes.near.length } : 'not checked: no local export',
@@ -300,6 +309,13 @@ export async function apply(args, { sb, target = null }) {
   const missingQuestionColumns = await missingColumns(sb, 'questions', QUESTION_COLUMNS);
   const missingGroupColumns = plan.groups.length ? await missingColumns(sb, 'passage_groups', GROUP_COLUMNS) : [];
   if (missingQuestionColumns.length || missingGroupColumns.length) throw new Error(`the target lacks columns: ${JSON.stringify([...missingQuestionColumns, ...missingGroupColumns].map((c) => c.column))}`);
+  const source = waveOf(candidates[0]).source;
+  const topUpGroupIds = (plan.summary.topUpSets || []).map((set) => set.groupId);
+  if (topUpGroupIds.length) {
+    const present = await existingIds(sb, 'passage_groups', topUpGroupIds);
+    const absent = topUpGroupIds.filter((id) => !present.includes(id));
+    if (absent.length) throw new Error(`refusing: ${absent.length} passage group(s) that a planned question completes are not in the target (${absent.join(', ')}). Nothing was written.`);
+  }
   const alreadyQuestions = await existingIds(sb, 'questions', rowIds);
   const alreadyGroups = await existingIds(sb, 'passage_groups', groupIds);
   if (alreadyQuestions.length || alreadyGroups.length) {
@@ -314,9 +330,9 @@ export async function apply(args, { sb, target = null }) {
   fs.mkdirSync(args.outDir, { recursive: true });
   const restoreFile = path.join(args.outDir, `authored-publish-restore-${stamp()}.json`);
   const report = {
-    kind: 'authored_publish_restore', version: PUBLISH_VERSION, source: AUTHORED_SOURCE, reason: args.reason, at,
+    kind: 'authored_publish_restore', version: PUBLISH_VERSION, source, reason: args.reason, at,
     target: target ? target.host : null, planHash: plan.planHash, planFile: args.plan,
-    questionIds: rowIds, groupIds,
+    questionIds: rowIds, groupIds, topUpGroupIds,
     rows: plan.rows.map((row) => ({ id: row.id, subject: row.subject, contentHash: contentHash(row) })),
   };
   // The restore file is written before any row is touched.
@@ -350,7 +366,7 @@ export async function apply(args, { sb, target = null }) {
   const hashMismatch = readBack.filter((row) => contentHash(row) !== expected.get(row.id)).map((row) => row.id);
   const groupsRead = await existingIds(sb, 'passage_groups', groupIds);
   return {
-    kind: 'authored_publish', mode: 'apply', source: AUTHORED_SOURCE, at, planned: rows.length, groupsPlanned: plan.groups.length,
+    kind: 'authored_publish', mode: 'apply', source, at, planned: rows.length, groupsPlanned: plan.groups.length,
     inserted: questionsInserted, groupsInserted, missing, notVisible, hashMismatch, groupsMissing: groupIds.filter((id) => !groupsRead.includes(id)),
     liveBefore, liveAfter: await liveCounts(sb, Object.keys(plan.summary.bySubject)), restoreFile,
   };
@@ -368,9 +384,11 @@ export async function apply(args, { sb, target = null }) {
 export async function restore(args, { sb }) {
   if (!args.restore) throw new Error('need --restore');
   const saved = JSON.parse(fs.readFileSync(args.restore, 'utf8'));
-  if (saved.kind !== 'authored_publish_restore' || saved.source !== AUTHORED_SOURCE) throw new Error('--restore is not an authored_publish_restore file of this source');
+  if (saved.kind !== 'authored_publish_restore' || !AUTHORED_SOURCES.includes(saved.source)) throw new Error('--restore is not an authored_publish_restore file of an authored wave');
+  // Only rows still from the source the restore file names are touched (wave 1 and wave 2 have their own source keys).
+  const source = saved.source;
   const rows = await fetchRows(sb, saved.questionIds);
-  const mine = new Map(rows.filter((row) => row.source === AUTHORED_SOURCE).map((row) => [row.id, row]));
+  const mine = new Map(rows.filter((row) => row.source === source).map((row) => [row.id, row]));
   const skipped = [];
   for (const id of saved.questionIds) if (!mine.has(id)) skipped.push({ id, why: 'not_found_or_not_from_this_source' });
   const savedHash = new Map(saved.rows.map((row) => [row.id, row.contentHash]));
@@ -382,7 +400,7 @@ export async function restore(args, { sb }) {
       if (contentHash(row) !== savedHash.get(id)) skipped.push({ id, why: 'edited_since_apply' }); else deletable.push(id);
     }
     for (const part of chunks(deletable, CHUNK)) {
-      const { data, error } = await sb.from('questions').delete().in('id', part).eq('source', AUTHORED_SOURCE).select('id');
+      const { data, error } = await sb.from('questions').delete().in('id', part).eq('source', source).select('id');
       if (error) throw error;
       affected += (data || []).length;
     }
@@ -392,20 +410,20 @@ export async function restore(args, { sb }) {
       const { data, error } = await sb.from('questions').select('id').eq('passage_group_id', groupId).limit(1);
       if (error) throw error;
       if ((data || []).length) { skipped.push({ id: groupId, why: 'group_still_has_questions' }); continue; }
-      const removed = await sb.from('passage_groups').delete().eq('id', groupId).eq('source', AUTHORED_SOURCE).select('id');
+      const removed = await sb.from('passage_groups').delete().eq('id', groupId).eq('source', source).select('id');
       if (removed.error) throw removed.error;
       groupsDeleted += (removed.data || []).length;
     }
     return { mode: 'restore', action: 'hard-delete', of: saved.questionIds.length, deleted: affected, groupsDeleted, skipped };
   }
   for (const part of chunks([...mine.keys()], CHUNK)) {
-    const { data, error } = await sb.from('questions').update({ ...HOLD, is_deleted: true, updated_at: at }).in('id', part).eq('source', AUTHORED_SOURCE).select('id');
+    const { data, error } = await sb.from('questions').update({ ...HOLD, is_deleted: true, updated_at: at }).in('id', part).eq('source', source).select('id');
     if (error) throw error;
     affected += (data || []).length;
   }
   let groupsHidden = 0;
   for (const part of chunks(saved.groupIds, CHUNK)) {
-    const { data, error } = await sb.from('passage_groups').update({ status: 'hidden', discoverable: false }).in('id', part).eq('source', AUTHORED_SOURCE).select('id');
+    const { data, error } = await sb.from('passage_groups').update({ status: 'hidden', discoverable: false }).in('id', part).eq('source', source).select('id');
     if (error) throw error;
     groupsHidden += (data || []).length;
   }

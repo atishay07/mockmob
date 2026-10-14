@@ -3,7 +3,7 @@
   "subject": "political_science",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-14T07:09:44.767Z",
+  "merged_at": "2026-10-14T12:10:00.000Z",
   "models": [
     "claude-haiku-5-5"
   ],
@@ -70,7 +70,7 @@
       "hedge_wording": 1
     },
     "mean_of_means": 6.03,
-    "admissible_before_row_checks": 140
+    "admissible_before_row_checks": 147
   },
   "questions": {
     "093c87f4-dc35-4f40-aebb-d867a931b5a3": {
@@ -19382,6 +19382,670 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "2785926b-24a5-40f2-8c49-f9cf4ecf6a67": {
+      "question_id": "2785926b-24a5-40f2-8c49-f9cf4ecf6a67",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "B",
+      "content_hash": "36433884e06bfba764eff203149f4af033a910d8ed695b1449c3cfda07f33cbb",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.dimensions-of-globalisation",
+          "flags": [],
+          "note": "Key B correct. The answer is the only negatively phrased option ('confined entirely'), so it is over-signposted; a trivial item.",
+          "scored_content_hash": "36433884e06bfba764eff203149f4af033a910d8ed695b1449c3cfda07f33cbb"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.dimensions-of-globalisation",
+          "flags": [],
+          "note": "Key correct for a NOT-stem. Options A, C and D are plainly recognised dimensions, so B is obvious. Weak distractor set.",
+          "scored_content_hash": "36433884e06bfba764eff203149f4af033a910d8ed695b1449c3cfda07f33cbb"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "political_science.globalisation.dimensions-of-globalisation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.dimensions-of-globalisation",
+        "political_science.globalisation.dimensions-of-globalisation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "Economic, cultural and technological dimensions (A, C, D) are standard dimensions of globalisation. Option B, which describes political decision-making confined to one nation-state, is the negation of the political dimension, so key B is unique for a NOT question.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "ready",
+          "answer_matched_key": true
+        },
+        "judged_text": "final",
+        "judged_content_hash": "36433884e06bfba764eff203149f4af033a910d8ed695b1449c3cfda07f33cbb",
+        "final_content_hash": "36433884e06bfba764eff203149f4af033a910d8ed695b1449c3cfda07f33cbb",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "2958a4d3-f8b8-4ba1-b139-6e7618490a28": {
+      "question_id": "2958a4d3-f8b8-4ba1-b139-6e7618490a28",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "C",
+      "content_hash": "8a3fe350da871941fd2a7a8d873cbf1d380f68a61700e62144f06026e7907aca",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.chronology-of-globalisation-milestones",
+          "flags": [],
+          "note": "Order 1944 (Bretton Woods), 1991 (NEP), 1995 (WTO), 1999 (Seattle) gives key C; stem does not narrate the order.",
+          "scored_content_hash": "8a3fe350da871941fd2a7a8d873cbf1d380f68a61700e62144f06026e7907aca"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.globalisation-milestones-chronology",
+          "flags": [],
+          "note": "Key correct: 1944, 1991, 1995, 1999 gives C, D, A, B. Stem does not narrate the order. Distractors are plausible mis-orderings.",
+          "scored_content_hash": "8a3fe350da871941fd2a7a8d873cbf1d380f68a61700e62144f06026e7907aca"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.chronology-of-globalisation-milestones",
+        "political_science.globalisation.globalisation-milestones-chronology"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "Chronology is Bretton Woods 1944, India NEP 1991, WTO 1995, Seattle protests 1999, giving (C),(D),(A),(B). Key C is unique and the distractor orderings are each wrong at a distinct point.",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "8a3fe350da871941fd2a7a8d873cbf1d380f68a61700e62144f06026e7907aca",
+        "final_content_hash": "8a3fe350da871941fd2a7a8d873cbf1d380f68a61700e62144f06026e7907aca",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "673cda86-7ab4-40a6-8d5c-f38075d00c6c": {
+      "question_id": "673cda86-7ab4-40a6-8d5c-f38075d00c6c",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "D",
+      "content_hash": "2d80e7c62651967d029f8a46875413ab8e16f5cd41cc555be40014c008cb8d19",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.evaluating-globalisation-statements",
+          "flags": [],
+          "note": "Statements B and D are true, A and C false; key D verified. Option A is an easy false statement, so the item is slightly guessable.",
+          "scored_content_hash": "2d80e7c62651967d029f8a46875413ab8e16f5cd41cc555be40014c008cb8d19"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.globalisation-statements-evaluation",
+          "flags": [],
+          "note": "Key correct: (A) and (C) are false, (B) and (D) true. Blind solve agrees. Statement wording is clean.",
+          "scored_content_hash": "2d80e7c62651967d029f8a46875413ab8e16f5cd41cc555be40014c008cb8d19"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.evaluating-globalisation-statements",
+        "political_science.globalisation.globalisation-statements-evaluation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "Statements B (MNCs operate across borders) and D (IMF and World Bank set up at Bretton Woods 1944) are correct; A and C are false. Key D is the only pair of correct statements.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "ready",
+          "answer_matched_key": true
+        },
+        "judged_text": "final",
+        "judged_content_hash": "2d80e7c62651967d029f8a46875413ab8e16f5cd41cc555be40014c008cb8d19",
+        "final_content_hash": "2d80e7c62651967d029f8a46875413ab8e16f5cd41cc555be40014c008cb8d19",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "8eedfa08-6c44-41d8-9c93-794135a8aa52": {
+      "question_id": "8eedfa08-6c44-41d8-9c93-794135a8aa52",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "D",
+      "content_hash": "60f25d9ba8901b1ca1d632c09f3d5d848b783935ec4ceed001ffa92245743fa0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.year-of-wto-establishment",
+          "flags": [],
+          "note": "Correct key (WTO 1995). Dates 1944, 1948 and 2001 are plausible distractors; the explanation's facts check out.",
+          "scored_content_hash": "60f25d9ba8901b1ca1d632c09f3d5d848b783935ec4ceed001ffa92245743fa0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "political_science.globalisation.wto-establishment-year",
+          "flags": [],
+          "note": "Key correct: WTO began 1995. 1944 and 1948 are plausible Bretton Woods and GATT distractors. Fit for a mock.",
+          "scored_content_hash": "60f25d9ba8901b1ca1d632c09f3d5d848b783935ec4ceed001ffa92245743fa0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.year-of-wto-establishment",
+        "political_science.globalisation.wto-establishment-year"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "The WTO came into existence on 1 January 1995 under the Marrakesh Agreement and succeeded GATT. Distractors 1944 (Bretton Woods), 1948 (GATT) and 2001 (China's accession) are each a real event; key D is unique.",
+        "expert_reviewed_text": "final",
+        "spot_check": {
+          "reviewer": "independent spot-check, 14 Oct 2026 (60 of the 390 first-accepted items)",
+          "verdict": "NTA-ready",
+          "expert_verdict_then": "ready",
+          "answer_matched_key": true
+        },
+        "judged_text": "final",
+        "judged_content_hash": "60f25d9ba8901b1ca1d632c09f3d5d848b783935ec4ceed001ffa92245743fa0",
+        "final_content_hash": "60f25d9ba8901b1ca1d632c09f3d5d848b783935ec4ceed001ffa92245743fa0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "93e3c2b8-1429-472e-9642-10c6bad8b7dc": {
+      "question_id": "93e3c2b8-1429-472e-9642-10c6bad8b7dc",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "C",
+      "content_hash": "e73f3bc0b3073ae121e3fe6e14539441653ec01b43d0ebd2af483cf9d3703bd5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.capital-controls-and-financial-integration",
+          "flags": [],
+          "note": "Both statements true and R explains A (relaxed capital controls drive financial integration); key C verified. Standard assertion-reason form.",
+          "scored_content_hash": "e73f3bc0b3073ae121e3fe6e14539441653ec01b43d0ebd2af483cf9d3703bd5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.financial-integration-and-capital-controls",
+          "flags": [],
+          "note": "Key correct: both statements true and R gives the cause of A. Option A is a fair trap. Causal link is standard textbook reasoning.",
+          "scored_content_hash": "e73f3bc0b3073ae121e3fe6e14539441653ec01b43d0ebd2af483cf9d3703bd5"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.capital-controls-and-financial-integration",
+        "political_science.globalisation.financial-integration-and-capital-controls"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "Both statements are true and the relaxation of capital controls is the cause of greater financial integration, so R explains A. Key C is correct; the standard A/R distractors are each wrong on a different point.",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "e73f3bc0b3073ae121e3fe6e14539441653ec01b43d0ebd2af483cf9d3703bd5",
+        "final_content_hash": "e73f3bc0b3073ae121e3fe6e14539441653ec01b43d0ebd2af483cf9d3703bd5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "d679ea00-84ea-4739-b735-edcadb4726fc": {
+      "question_id": "d679ea00-84ea-4739-b735-edcadb4726fc",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "A",
+      "content_hash": "4fb66e522354d69432978c30c950270f8466eb45f6275fdbc20416175e6bc85c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.imf-and-world-bank-roles",
+          "flags": [],
+          "note": "Short-term forex shortage maps to IMF, long-term dam finance to World Bank; key A verified. Difficulty is medium, not hard, a one-level gap.",
+          "scored_content_hash": "4fb66e522354d69432978c30c950270f8466eb45f6275fdbc20416175e6bc85c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.imf-versus-world-bank-roles",
+          "flags": [],
+          "note": "Key correct: IMF for short-term forex shortage, World Bank for long-term projects. Labelled hard; it is a one-step recall, so medium.",
+          "scored_content_hash": "4fb66e522354d69432978c30c950270f8466eb45f6275fdbc20416175e6bc85c"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.imf-and-world-bank-roles",
+        "political_science.globalisation.imf-versus-world-bank-roles"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "repaired",
+        "expert_issue": "Key A (IMF for short-term foreign exchange shortage, then World Bank for long-term dam finance) is correct and the WTO distractors are clearly wrong. The difficulty label was 'hard' for a single-step institution-matching item, so it was changed to 'medium'. Key unchanged.",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "4fb66e522354d69432978c30c950270f8466eb45f6275fdbc20416175e6bc85c",
+        "final_content_hash": "4fb66e522354d69432978c30c950270f8466eb45f6275fdbc20416175e6bc85c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 4,
+          "answers": [
+            "A",
+            "B",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
+    },
+    "ecbe90d6-f958-4d48-b8b7-bf594cb87170": {
+      "question_id": "ecbe90d6-f958-4d48-b8b7-bf594cb87170",
+      "batch": "authored-2026-10-14__political_science__glob",
+      "chapter": "Globalisation",
+      "key": "B",
+      "content_hash": "1a2dbcb93da7424fbcea322c0d7511c41f922c01219c6125bcb1521ed6a28879",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.matching-economic-globalisation-terms",
+          "flags": [],
+          "note": "Well-built four-pair match; key B (A-II, B-I, C-III, D-IV) verified. Options are permutations that test each pairing.",
+          "scored_content_hash": "1a2dbcb93da7424fbcea322c0d7511c41f922c01219c6125bcb1521ed6a28879"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-14",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "political_science.globalisation.economic-globalisation-terminology",
+          "flags": [],
+          "note": "Key correct: A-II, B-I, C-III, D-IV. Clean one-step match list; the other options are permutations that slip one pair.",
+          "scored_content_hash": "1a2dbcb93da7424fbcea322c0d7511c41f922c01219c6125bcb1521ed6a28879"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "political_science.globalisation.matching-economic-globalisation-terms",
+        "political_science.globalisation.economic-globalisation-terminology"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-14-w2",
+        "wave": 2,
+        "pipeline": "author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards",
+        "expert_verdict": "ready",
+        "expert_issue": "Liberalisation = (II), privatisation = (I), FDI = (III), outsourcing = (IV). Key B is the only option matching all four pairs; the other three options each contain at least two wrong pairs.",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "1a2dbcb93da7424fbcea322c0d7511c41f922c01219c6125bcb1521ed6a28879",
+        "final_content_hash": "1a2dbcb93da7424fbcea322c0d7511c41f922c01219c6125bcb1521ed6a28879",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-haiku-5-5",
+          "fit": "claude-haiku-5-5",
+          "solver": "claude-haiku-5-5"
+        }
+      }
     }
   },
   "authored": {
@@ -19389,6 +20053,18 @@
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-14T07:09:44.767Z",
       "questions": 81,
+      "judge_model": "claude-haiku-5-5",
+      "judge_date": "2026-10-14",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-10-14-w2": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-10-14T12:10:00.000Z",
+      "questions": 7,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
       "repaired_text_policy": "admit",
