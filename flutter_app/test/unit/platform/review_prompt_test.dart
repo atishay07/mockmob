@@ -44,7 +44,8 @@ void main() {
     late _Requester requester;
     late DateTime now;
 
-    ReviewPrompt make() => ReviewPrompt(prefs: prefs, requester: requester, now: () => now);
+    ReviewPrompt make({bool Function()? foreground}) =>
+        ReviewPrompt(prefs: prefs, requester: requester, now: () => now, foreground: foreground ?? () => true);
 
     setUp(() async {
       prefs = NativePrefs(MemoryPrefsStore());
@@ -78,6 +79,22 @@ void main() {
       expect(requester.requests, 0);
       expect(await prefs.reviewAskedAt(), isNull);
       expect(await make().maybeAsk(ReviewMoment.resultHeld), isTrue);
+    });
+
+    test('a timer that fires while the app is in the background asks for nothing and spends nothing', () async {
+      now = day0.add(const Duration(days: 10));
+      expect(await make(foreground: () => false).maybeAsk(ReviewMoment.repairFinished), isFalse);
+      expect(requester.requests, 0);
+      expect(await prefs.reviewAskedAt(), isNull);
+      expect(await make().maybeAsk(ReviewMoment.repairFinished), isTrue, reason: 'the next good moment can still ask');
+    });
+
+    test('leaving the app while the policy is read also stops the ask', () async {
+      now = day0.add(const Duration(days: 10));
+      var calls = 0;
+      expect(await make(foreground: () => ++calls == 1).maybeAsk(ReviewMoment.repairFinished), isFalse);
+      expect(requester.requests, 0);
+      expect(await prefs.reviewAskedAt(), isNull);
     });
 
     test('where Play cannot show it (a sideloaded build) nothing is asked or counted', () async {

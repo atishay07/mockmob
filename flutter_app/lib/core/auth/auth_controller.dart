@@ -35,7 +35,8 @@ class AuthController extends Notifier<AuthSnapshot> {
   bool _explicitSignOut = false;
 
   /// Bumped by every sign-out, so a profile load that started before it cannot sign the
-  /// student back in when it finishes.
+  /// student back in when it finishes, and by every forced reload, so an older read that
+  /// lands after it cannot put back what the student just changed.
   int _epoch = 0;
   Timer? _startRetry;
   int _startFailures = 0;
@@ -44,6 +45,15 @@ class AuthController extends Notifier<AuthSnapshot> {
   /// storage or the session lock was not ready). After the last one the student retries by hand.
   @visibleForTesting
   static List<Duration> startRetryDelays = const [Duration(seconds: 2), Duration(seconds: 6), Duration(seconds: 15)];
+
+  /// How long a retry may run before the load-failed screen offers Try again once more. The
+  /// profile read itself can take minutes on a stalled connection; it keeps going, and a late
+  /// answer still opens the app.
+  @visibleForTesting
+  static Duration retryWait = const Duration(seconds: 20);
+
+  static const _failed = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+  static const _retrying = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true, retrying: true);
 
   @override
   AuthSnapshot build() {
@@ -64,32 +74,37 @@ class AuthController extends Notifier<AuthSnapshot> {
   Future<void> _start() async {
     if (_starting) return;
     _starting = true;
+    AuthService? started;
     try {
-      await _startOnce();
+      started = await _startOnce();
     } finally {
       _starting = false;
     }
+    // The profile load is not part of the start: a retry can begin a new one while it runs.
+    if (started != null) await _handleSession(started.session);
   }
 
-  Future<void> _startOnce() async {
+  /// Starts the auth service. The running service, or null when it did not start or this build
+  /// has nothing to sign in to.
+  Future<AuthService?> _startOnce() async {
     AuthService? service;
     try {
       service = await _service();
     } on Object {
-      if (!ref.mounted) return;
+      if (!ref.mounted) return null;
       // The service failed to start, which is not the same as "no session": the stored session
       // is untouched and may be fine. Say so (the profile-load-failed state, with a retry)
       // instead of sending the student to sign in.
-      state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+      state = _failed;
       _watchForRecovery();
       _scheduleStartRetry();
-      return;
+      return null;
     }
-    if (!ref.mounted) return;
+    if (!ref.mounted) return null;
     if (service == null) {
       // Not configured in this build: there is nothing to sign in to.
       state = AuthSnapshot.signedOut;
-      return;
+      return null;
     }
     _startFailures = 0;
     _running = service;
@@ -98,7 +113,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       if (!_explicitSignOut) state = const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true);
     });
     _watchForRecovery();
-    await _handleSession(service.session);
+    return service;
   }
 
   /// Retries a failed start or profile load when the app comes back to the front and when the
@@ -134,21 +149,32 @@ class AuthController extends Notifier<AuthSnapshot> {
 
   /// Tries again after a load failure ([AuthSnapshot.loadFailed]): starts the auth service again
   /// when it failed to start, or reads the profile again when the service is running but the
-  /// profile did not load. Safe to call at any time; it does nothing while a start is already in
-  /// progress, or when nothing has failed.
+  /// profile did not load. Safe to call at any time; it does nothing while a start or a retry is
+  /// already in progress, or when nothing has failed.
+  ///
+  /// While it runs the state stays load-failed with [AuthSnapshot.retrying], so the student keeps
+  /// the load-failed screen (saying it is trying) rather than a bare splash. After [retryWait]
+  /// the screen offers Try again again; the read itself carries on and still opens the app if it
+  /// succeeds.
   Future<void> retryStart() async {
-    if (!ref.mounted || _starting) return;
+    if (!ref.mounted || _starting || state.retrying) return;
     _startRetry?.cancel();
     final running = _running;
+    if (running != null && !state.loadFailed) return;
+    state = _retrying;
+    final Future<void> attempt;
     if (running != null) {
-      if (!state.loadFailed) return;
-      state = AuthSnapshot.unknown;
-      await _handleSession(running.session);
-      return;
+      attempt = _handleSession(running.session, fresh: true);
+    } else {
+      ref.invalidate(authServiceProvider);
+      attempt = _start();
     }
-    state = AuthSnapshot.unknown;
-    ref.invalidate(authServiceProvider);
-    await _start();
+    try {
+      await attempt.timeout(retryWait);
+    } on TimeoutException {
+      // Still waiting on the network: say so honestly and offer the key again.
+    }
+    if (ref.mounted && state.retrying) state = _failed;
   }
 
   void _onAuthEvent(AuthService service, AuthChangeEvent event, Session? session) {
@@ -161,7 +187,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       case AuthChangeEvent.signedOut:
         if (!_explicitSignOut && state.status == AuthStatus.signedIn) {
           state = AuthSnapshot.signedOut;
-        } else if (state.status == AuthStatus.unknown && !state.loadFailed) {
+        } else if (state.status == AuthStatus.unknown && (!state.loadFailed || state.retrying)) {
           state = AuthSnapshot.signedOut;
         }
       default:
@@ -169,17 +195,23 @@ class AuthController extends Notifier<AuthSnapshot> {
     }
   }
 
-  Future<void> _handleSession(Session? session) {
+  /// Loads the profile for [session]. Sign-in fires an auth event and the caller also loads, so
+  /// by default a load already running is shared. A [fresh] load (a reload after the student
+  /// changed something, or a retry) never joins one: that one may have asked the server before
+  /// the change, so it is dropped and a new read starts.
+  Future<void> _handleSession(Session? session, {bool fresh = false}) {
     if (session == null) {
       if (state.status != AuthStatus.signedOut) {
         state = state.sessionExpired ? state : AuthSnapshot.signedOut;
       }
       return Future.value();
     }
-    // One profile load at a time: sign-in fires an auth event and the caller also loads. A
-    // sign-out drops the shared load, so the next sign-in never waits on a stale one.
+    // A sign-out drops the shared load, so the next sign-in never waits on a stale one.
     final running = _profileLoad;
-    if (running != null) return running;
+    if (running != null) {
+      if (!fresh) return running;
+      _epoch++;
+    }
     late final Future<void> load;
     load = _loadProfile(session).whenComplete(() {
       if (identical(_profileLoad, load)) _profileLoad = null;
@@ -206,7 +238,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       await _loadProfileOnce(session, epoch);
     } on Object {
       if (_stale(epoch, session)) return;
-      if (state.status != AuthStatus.signedIn) state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+      if (state.status != AuthStatus.signedIn) state = _failed;
     }
   }
 
@@ -236,7 +268,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       if (cached != null) {
         await _applyProfile(cached, session: session, epoch: epoch, fromCache: true);
       } else if (state.status != AuthStatus.signedIn) {
-        state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+        state = _failed;
       }
     }
     unawaited(prefs.setLastOpenedAt(ref.read(nowProvider)()).catchError((Object _) {}));
@@ -310,7 +342,7 @@ class AuthController extends Notifier<AuthSnapshot> {
     }
     final session = (await _service())?.session;
     if (session == null) return;
-    await _handleSession(session);
+    await _handleSession(session, fresh: true);
   }
 
   /// Emails a sign-in code. Throws [SignInException] with a failure the screen has copy for.
@@ -406,6 +438,10 @@ class AuthController extends Notifier<AuthSnapshot> {
   /// Throws [AccessException].
   Future<void> verifyPhoneChange(String phoneE164, String code) async =>
       (await _requireService()).verifyPhoneChange(phoneE164, code);
+
+  /// The auth service is running, so [signOut] can clear the stored session. False while it has
+  /// not started (secure storage or the session lock was not ready).
+  bool get canSignOut => _running != null;
 
   Future<AuthService> _requireService() async {
     final service = await _service();

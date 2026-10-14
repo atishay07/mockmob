@@ -17,6 +17,7 @@ import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
+import 'package:mockmob/features/onboarding/state/student_sheet.dart';
 
 import '../core_data/support/fakes.dart';
 import '../core_data/support/test_db.dart';
@@ -70,8 +71,17 @@ void main() {
   late AppDatabase db;
   late FakeHttpAdapter http;
   late MemoryPrefsStore sheetPrefs;
+  late StreamController<void> wakeups;
+  var today = DateTime(2026, 10, 13, 21, 45);
 
-  ProviderContainer start({AuthSnapshot auth = _newAccount, OnboardingAnswers? answers, bool goalThrows = false}) {
+  ProviderContainer start({
+    AuthSnapshot auth = _newAccount,
+    OnboardingAnswers? answers,
+    bool goalThrows = false,
+    List<Duration> retryDelays = const [],
+  }) {
+    wakeups = StreamController<void>.broadcast();
+    today = DateTime(2026, 10, 13, 21, 45);
     db = newTestDb();
     // The server keeps what it was last told, as the real one does.
     var band = 'unknown';
@@ -94,11 +104,14 @@ void main() {
       appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
       apiClientProvider.overrideWithValue(newApiClient(http)),
       answersStoreProvider.overrideWithValue(AnswersStore(sheetPrefs)),
-      nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 45)),
+      nowProvider.overrideWithValue(() => today),
+      sheetSyncWakeupsProvider.overrideWith((ref) => wakeups.stream),
+      sheetSyncRetryDelaysProvider.overrideWithValue(retryDelays),
       if (goalThrows) goalRepositoryProvider.overrideWith(_SignedOutGoal.new),
     ]);
     addTearDown(() async {
       c.dispose();
+      await wakeups.close();
       await db.close();
     });
     return c;
@@ -204,6 +217,63 @@ void main() {
     }
   });
 
+  group('after a failure', () {
+    test('it tries again on its own once the save sheet is closed', () async {
+      final c = start(retryDelays: const [Duration(milliseconds: 5)]);
+      final ok = http.handler!;
+      http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+
+      http.handler = ok;
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      expect(writes().map((r) => r.path), contains('/api/users/u1'));
+    });
+
+    test('it tries again when the app comes back or the network returns', () async {
+      final c = start();
+      final ok = http.handler!;
+      http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+
+      http.handler = ok;
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed, reason: 'no timed retry in this test');
+      wakeups.add(null);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      await c.read(onboardingAnswersProvider.notifier).flushed();
+      expect((await AnswersStore(sheetPrefs).load()).syncedFor, 'u1');
+    });
+
+    test('a retry never runs for an account that has signed out', () async {
+      final c = start(auth: AuthSnapshot.signedOut, retryDelays: const [Duration(milliseconds: 5)]);
+      final ok = http.handler!;
+      http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      final auth = c.read(authSnapshotProvider.notifier) as _FakeAuth;
+      auth.become(_newAccount);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+      auth.become(AuthSnapshot.signedOut);
+      await settle();
+      http.handler = ok;
+      http.requests.clear();
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      wakeups.add(null);
+      await settle();
+      expect(writes(), isEmpty);
+    });
+  });
+
   group('another account on the same phone', () {
     const other = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2', email: 'ravi@example.com');
     _FakeAuth auth(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
@@ -242,7 +312,7 @@ void main() {
       expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse, reason: 'B starts a sheet of their own');
     });
 
-    test("one account's failure neither shows to the next nor stops its sync", () async {
+    test("one account's failure neither shows to the next nor stops its own sync", () async {
       final c = start(auth: AuthSnapshot.signedOut);
       final ok = http.handler!;
       http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
@@ -256,10 +326,112 @@ void main() {
       auth(c).become(AuthSnapshot.signedOut);
       await settle();
       expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
+      http.requests.clear();
       auth(c).become(other);
       await settle();
+      expect(writes(), isEmpty, reason: "A's unsent sheet is never written to B");
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse, reason: 'B starts a sheet of their own');
+
+      // A comes back: their unsent sheet is there, and is written to A.
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      auth(c).become(other.copyWithId('u1'));
+      await settle();
       expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
-      expect(c.read(onboardingAnswersProvider).value!.syncedFor, 'u2');
+      expect(c.read(onboardingAnswersProvider).value!.syncedFor, 'u1');
+      expect(writes().map((r) => r.path), contains('/api/users/u1'));
+      expect(writes().map((r) => r.path), isNot(contains('/api/users/u2')));
+    });
+
+    test("a kept sheet stays A's: the next new account gets none of it", () async {
+      final c = start(auth: AuthSnapshot.signedOut);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      // A signs in to an account that already has a plan: nothing is written, the sheet stays.
+      auth(c).become(_existing);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.kept);
+      expect(c.read(onboardingAnswersProvider).value!.owner, 'u1');
+
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      expect(c.read(studentSheetProvider), isNull, reason: "nobody signed in sees A's plan");
+      auth(c).become(other);
+      await settle();
+      expect(writes(), isEmpty, reason: 'no age band, days, study time or subjects of A go to B');
+      expect(c.read(studentSheetProvider), isNull, reason: "B's Today never shows A's plan");
+      expect(c.read(onboardingAnswersProvider).value!.owner, 'u2');
+
+      // A's answers wait for A on this phone.
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      auth(c).become(_existing);
+      await settle();
+      final back = c.read(onboardingAnswersProvider).value!;
+      expect(back.owner, 'u1');
+      expect(back.sealed, isTrue);
+      expect(back.subjects, _sealed.subjects);
+      expect(c.read(studentSheetProvider), isNotNull);
+    });
+
+    test('an expired session keeps the sheet for A, and B signing in next gets none of it', () async {
+      final c = start(auth: AuthSnapshot.signedOut, goalThrows: true);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      auth(c).become(_newAccount);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+      auth(c).become(const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true));
+      await settle();
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isTrue, reason: 'still on the phone for A');
+
+      http.requests.clear();
+      auth(c).become(other);
+      await settle();
+      expect(writes(), isEmpty);
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse);
+      expect((await AnswersStore(sheetPrefs).parked('u1', today))?.sealed, isTrue);
+    });
+
+    test('a sheet not swapped out yet is still never shown to another account', () async {
+      final c = start(auth: other, answers: _sealed.copyWith(owner: 'u1'));
+      await c.read(onboardingAnswersProvider.future);
+      // Read before the sync has swapped sheets.
+      expect(c.read(studentSheetProvider), isNull);
+    });
+
+    test("A's put-away sheet expires after a month", () async {
+      final store = AnswersStore(MemoryPrefsStore());
+      final now = DateTime(2026, 10, 13, 21, 45);
+      await store.park(_sealed.copyWith(owner: 'u1'), now);
+      expect(await store.parked('u1', now.add(const Duration(days: 29))), isNotNull);
+      expect(await store.parked('u1', now.add(const Duration(days: 31))), isNull);
+    });
+
+    test('a switch of account while the writes are out stops them, and nothing is marked saved', () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      final gate = http.hold = Completer<void>();
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saving);
+      // A signs out and B signs in while the first request is out.
+      auth(c).become(AuthSnapshot.signedOut);
+      await settle();
+      auth(c).become(other);
+      await settle();
+      final before = writes().length;
+      http.hold = null;
+      gate.complete();
+      await settle();
+      final after = [for (final r in writes().skip(before)) '${r.method} ${r.path}'];
+      expect(after.where((w) => w.contains('/api/me/goal') || w.contains('notification-prefs') || w.contains('/api/users/')), isEmpty,
+          reason: "nothing of A's sheet goes out once B is signed in: $after");
+      final parked = await AnswersStore(sheetPrefs).parked('u1', today);
+      expect(parked?.sealed, isTrue, reason: "A's answers wait for A");
+      expect(parked?.syncedFor, isNull, reason: 'not recorded as saved to A');
+      expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse);
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
     });
   });
 }

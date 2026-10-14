@@ -91,18 +91,29 @@ String _dayKey(tz.TZDateTime t) =>
 ///   no study window planned, the next 7:00 PM. It is planned whether or not the study window
 ///   is on.
 /// - Weekly plan: Sunday at 6:00 PM, only after the student turned it on.
-/// - Nothing is planned for a moment inside a mute.
+/// - Nothing is planned for a moment inside a mute. The days ahead are counted from the end of
+///   the mute when it is still running, so a 7-day mute does not leave the week after it empty
+///   for a student who stays away.
+/// - A slot less than a minute away is not newly planned, but one that is already scheduled
+///   ([scheduledIds], the task ids that were ahead before this re-plan) is kept, so a re-plan
+///   a few seconds before it fires does not cancel it and lose it.
 /// Quiet hours and the weekly and daily caps are applied later by the notification engine.
 List<NotificationRequest> buildReminderPlan({
   required DateTime now,
   required NotificationPrefs prefs,
   required ReminderState state,
   RepairReady? repair,
+  Set<String> scheduledIds = const {},
 }) {
   final location = locationFor(prefs.timezone);
   final local = tz.TZDateTime.from(now, location);
   final muteEnd = state.mutedUntil;
   bool muted(tz.TZDateTime at) => muteEnd != null && at.isBefore(muteEnd);
+  // The day the horizon starts on: today, or the day the mute ends when that is later.
+  final base = muteEnd != null && muteEnd.isAfter(now)
+      ? tz.TZDateTime.from(muteEnd, location)
+      : local;
+  final soonest = local.add(const Duration(minutes: 1));
 
   final out = <NotificationRequest>[];
   final repairOn = repair != null && state.repairReadyOn && !state.category(repairReadyKey).paused;
@@ -130,14 +141,22 @@ List<NotificationRequest> buildReminderPlan({
     for (var i = 0; i < studyWindowHorizonDays; i++) {
       final start = tz.TZDateTime(
         location,
-        local.year,
-        local.month,
-        local.day + i,
+        base.year,
+        base.month,
+        base.day + i,
         window.start.hour,
         window.start.minute,
       );
-      // A reminder less than a minute away is not worth scheduling.
-      if (start.isBefore(local.add(const Duration(minutes: 1)))) continue;
+      // A reminder less than a minute away is not worth newly scheduling; one already
+      // scheduled stays, or the re-plan would cancel it and never put it back.
+      if (start.isBefore(soonest)) {
+        final alreadyScheduled =
+            scheduledIds.contains('$studyTaskPrefix${_dayKey(start)}') ||
+            (repairOn &&
+                !repairUsed &&
+                scheduledIds.contains('$repairTaskPrefix${repair.attemptId}'));
+        if (start.isBefore(local) || !alreadyScheduled) continue;
+      }
       if (muted(start)) continue;
       var end = tz.TZDateTime(
         location,
@@ -181,8 +200,13 @@ List<NotificationRequest> buildReminderPlan({
   // No study-window slot took the repair: the next 7:00 PM that is ahead and outside a mute.
   if (repairOn && !repairUsed) {
     for (var i = 0; i < studyWindowHorizonDays; i++) {
-      final at = tz.TZDateTime(location, local.year, local.month, local.day + i, repairEveningTime.hour, repairEveningTime.minute);
-      if (at.isBefore(local.add(const Duration(minutes: 1))) || muted(at)) continue;
+      final at = tz.TZDateTime(location, base.year, base.month, base.day + i, repairEveningTime.hour, repairEveningTime.minute);
+      if (muted(at)) continue;
+      if (at.isBefore(soonest) &&
+          (at.isBefore(local) ||
+              !scheduledIds.contains('$repairTaskPrefix${repair.attemptId}'))) {
+        continue;
+      }
       out.add(repairRequest(at, at.add(repairEveningValidity)));
       break;
     }
@@ -194,13 +218,16 @@ List<NotificationRequest> buildReminderPlan({
       !state.category(weeklyKey).paused) {
     var sunday = tz.TZDateTime(
       location,
-      local.year,
-      local.month,
-      local.day + (DateTime.sunday - local.weekday),
+      base.year,
+      base.month,
+      base.day + (DateTime.sunday - base.weekday),
       weeklyPlanTime.hour,
       weeklyPlanTime.minute,
     );
-    if (sunday.isBefore(local.add(const Duration(minutes: 1)))) {
+    final sundayScheduled =
+        !sunday.isBefore(local) &&
+        scheduledIds.contains('$weeklyTaskPrefix${weekKey(sunday)}');
+    if ((sunday.isBefore(soonest) && !sundayScheduled) || muted(sunday)) {
       sunday = tz.TZDateTime(
         location,
         sunday.year,

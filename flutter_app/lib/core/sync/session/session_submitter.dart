@@ -51,8 +51,14 @@ class SubmitRejected extends SubmitOutcome {
 /// session length, the pending-submission bookkeeping, and the `SESSION_EXPIRED` check against
 /// `GET /api/attempts/{id}`. Used by the foreground engine and by the WorkManager job.
 class SessionSubmitter {
-  SessionSubmitter({required this.api, required this.drafts, required this.pendingResults, required this.cacheAttempt, DateTime Function()? now})
-    : _now = now ?? DateTime.now;
+  SessionSubmitter({
+    required this.api,
+    required this.drafts,
+    required this.pendingResults,
+    required this.cacheAttempt,
+    this.signedInUserId,
+    DateTime Function()? now,
+  }) : _now = now ?? DateTime.now;
 
   final SessionApi api;
   final SessionDraftRepository drafts;
@@ -60,7 +66,24 @@ class SessionSubmitter {
 
   /// Stores the scored attempt in the local attempts cache (and updates any live list).
   final Future<void> Function(Map<String, dynamic> attempt) cacheAttempt;
+
+  /// Who is signed in now, for a submitter whose stores follow the current account. A submit
+  /// can take 45 s, and the student can sign out and another can sign in meanwhile: then the
+  /// attempts cache and the result note would land in the other account. Null when the stores
+  /// are already pinned to one user (the background job).
+  final String? Function()? signedInUserId;
   final DateTime Function() _now;
+
+  /// True while the account that owns [draft] is still the one the stores write for.
+  bool _ownerSignedIn(SessionDraft draft) {
+    final current = signedInUserId;
+    if (current == null) return true;
+    try {
+      return current() == draft.userId;
+    } on Object {
+      return false;
+    }
+  }
 
   /// [durationMs] is the session length on the session clock. Events later than it are not sent.
   Future<SubmitOutcome> submit({required SessionDraft draft, required SessionJournal journal, required int durationMs}) async {
@@ -79,7 +102,7 @@ class SessionSubmitter {
         answers: journal.answers,
         events: journal.eventsWithin(durationMs),
       );
-      return await _received(draft.sessionId, attempt, finalised: false);
+      return await _received(draft, attempt, finalised: false);
     } on ApiError catch (e) {
       if (e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionAlreadySubmitted)) {
         return _afterExpiry(current);
@@ -112,7 +135,7 @@ class SessionSubmitter {
   Future<SubmitOutcome> _afterExpiry(SessionDraft draft) async {
     try {
       final attempt = await api.fetchAttempt(draft.sessionId);
-      if (attempt != null) return _received(draft.sessionId, attempt, finalised: true);
+      if (attempt != null) return _received(draft, attempt, finalised: true);
     } on ApiError catch (e) {
       // Could not ask (offline): keep the draft and say it is still being sent.
       return SubmitPending(e);
@@ -123,25 +146,40 @@ class SessionSubmitter {
     return const SubmitWindowClosed();
   }
 
-  Future<SubmitOutcome> _received(String sessionId, Map<String, dynamic> attempt, {required bool finalised}) async {
-    final id = (attempt['id'] as String?) ?? sessionId;
+  Future<SubmitOutcome> _received(SessionDraft draft, Map<String, dynamic> attempt, {required bool finalised}) async {
+    final sessionId = draft.sessionId;
+    final raw = attempt['id'];
+    // No attempt id means no proof the server recorded the paper. Keep the draft and its
+    // journal, and keep the submit owed: deleting them here would lose the answers.
+    if (raw is! String || raw.trim().isEmpty) {
+      return const SubmitPending(ApiError(kind: ApiErrorKind.server, code: unusableAttemptCode));
+    }
+    final id = raw;
     // The server has accepted and scored the attempt. From here a local failure (the attempts
     // cache, the pending-result note, clearing the draft) must not turn a recorded submit into
     // an error: each step is best effort, and a draft that could not be cleared is settled by
     // the next start or the backup job, since the submit is idempotent.
-    try {
-      await cacheAttempt(attempt);
-    } on Object {
-      // The result opens from the server copy.
+    // The attempts cache and the result note follow whoever is signed in now. After an
+    // account switch they belong to someone else, so they are skipped: the attempt is on the
+    // server and the owner sees it in their list.
+    if (_ownerSignedIn(draft)) {
+      try {
+        await cacheAttempt(attempt);
+      } on Object {
+        // The result opens from the server copy.
+      }
     }
-    try {
-      await pendingResults.recordReceived(id);
-    } on Object {
-      // Only a note for Today; losing it is harmless.
+    if (_ownerSignedIn(draft)) {
+      try {
+        await pendingResults.recordReceived(id);
+      } on Object {
+        // Only a note for Today; losing it is harmless.
+      }
     }
     try {
       // "Clear drafts": the attempt exists, so the draft and its journal are no longer needed.
-      await drafts.deleteSession(sessionId);
+      // Pinned to the draft's owner, whoever is signed in now.
+      await drafts.deleteSession(sessionId, userId: draft.userId);
     } on Object {
       // Left behind, not lost: it is submitted again, and answered by the server as already done.
     }

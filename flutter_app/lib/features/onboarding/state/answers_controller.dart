@@ -76,7 +76,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     state = AsyncData(next);
     // Saved on the phone in order, in the background; a failed write is retried by the next one.
     final store = ref.read(answersStoreProvider);
-    _writes = _writes.then((_) => store.save(next)).catchError((Object _) {});
+    _queue(() => store.save(next));
   }
 
   /// Completes when every change so far is on the phone (tests, and before leaving the flow).
@@ -181,14 +181,72 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   /// Called by the sync once every write for [userId] was acknowledged.
   void markSynced(String userId) => _set(_current.copyWith(syncedFor: userId));
 
-  /// Takes the sheet off the phone when it was written to [userId], so the next account on this
-  /// phone starts its own. Only a sheet the server already has goes; an unsent one, or one that
-  /// cannot be read, stays.
-  Future<void> forgetSyncedFor(String userId) async {
-    if (!_readOk || state.value?.syncedFor != userId) return;
-    state = const AsyncData(OnboardingAnswers.empty);
+  /// Makes the sheet on screen [userId]'s, run when that account is signed in.
+  ///
+  /// - A sheet nobody has signed in to yet is claimed by this account. When it is blank and this
+  ///   account has a sheet put away on this phone, that one comes back instead.
+  /// - Another account's sheet is never this account's: it is put away for its owner (or, when it
+  ///   is already on that account, leaves the phone), and this account gets its own put-away sheet
+  ///   back, or starts a new one.
+  ///
+  /// Nothing happens while the stored sheet cannot be read.
+  Future<void> takeFor(String userId) async {
+    final a = state.value;
+    if (!_readOk || a == null || a.owner == userId) return;
     final store = ref.read(answersStoreProvider);
-    _writes = _writes.then((_) => store.clear()).catchError((Object _) {});
+    final now = ref.read(nowProvider)();
+    if (a.owner == null && !a.blank) {
+      _set(a.copyWith(owner: userId));
+      // A finished sheet made since replaces the one this account had put away.
+      if (a.sealed) _queue(() => store.dropParked(userId, now));
+      return;
+    }
+    await _writes;
+    final OnboardingAnswers? own;
+    try {
+      own = await store.parked(userId, now);
+      // The leaving sheet is safely put away before anything replaces it. If that write fails,
+      // nothing changes and the next change tries again.
+      if (identical(state.value, a)) await _putAway(a, store, now);
+    } on Object {
+      return;
+    }
+    // Something changed the sheet meanwhile: the next change decides again.
+    if (!ref.mounted || !identical(state.value, a) || !_readOk) return;
+    // A blank sheet nobody owned keeps its place in the deck; another account's starts over.
+    final next = own ?? (a.owner == null ? a : OnboardingAnswers.empty).copyWith(owner: userId);
+    state = AsyncData(next);
+    _queue(() => store.save(next));
+    if (own != null) _queue(() => store.dropParked(userId, now));
     await _writes;
   }
+
+  /// Takes the sheet off the screen when [userId] signs out on purpose, so the next student on
+  /// this phone starts their own. Unsent answers are put away for [userId] until it signs in
+  /// again (or [AnswersStore.parkedFor] passes); a sheet already on that account leaves the phone.
+  /// When putting it away fails, the sheet stays as it is: it is still [userId]'s, so no other
+  /// account is given it (see [takeFor]).
+  Future<void> leave(String userId) async {
+    final a = state.value;
+    if (!_readOk || a == null || a.owner != userId) return;
+    final store = ref.read(answersStoreProvider);
+    try {
+      await _writes;
+      await _putAway(a, store, ref.read(nowProvider)());
+    } on Object {
+      return;
+    }
+    if (!ref.mounted || !identical(state.value, a) || !_readOk) return;
+    state = const AsyncData(OnboardingAnswers.empty);
+    _queue(store.clear);
+    await _writes;
+  }
+
+  /// Puts [a] away for its owner, unless it is blank, has no owner, or is already on its account.
+  Future<void> _putAway(OnboardingAnswers a, AnswersStore store, DateTime now) async {
+    if (a.owner == null || a.blank || a.syncedFor == a.owner) return;
+    await store.park(a, now);
+  }
+
+  void _queue(Future<void> Function() write) => _writes = _writes.then((_) => write()).catchError((Object _) {});
 }

@@ -63,7 +63,15 @@ class LedgerEntry {
   final DateTime at;
 }
 
-enum NotificationSkip { channelOff, stale, weeklyCap, dailyCap }
+enum NotificationSkip {
+  channelOff,
+  stale,
+  weeklyCap,
+  dailyCap,
+
+  /// Everything was cancelled (sign-out, account switch) while this one was being scheduled.
+  cleared,
+}
 
 class NotificationPlan {
   const NotificationPlan.deliver(this.at, {this.silent = false}) : skipped = null;

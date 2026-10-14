@@ -6,6 +6,7 @@ import 'package:mockmob/core/models/notification_prefs.dart';
 import 'package:mockmob/core/permissions/permission_requester.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/notifications/data/reminder_state.dart';
+import 'package:mockmob/features/notifications/logic/reminder_plan.dart' show RepairReady;
 import 'package:mockmob/features/notifications/screens/notification_settings_screen.dart';
 import 'package:mockmob/features/notifications/screens/reminders_prompt_sheet.dart';
 import 'package:mockmob/features/notifications/widgets/time_sheet.dart';
@@ -114,6 +115,48 @@ void main() {
             // ignore: avoid_print
             print('sheet body, ${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
             if (height > room) tooTall.add('${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
+          }
+        }
+      }
+      expect(tooTall, isEmpty, reason: 'taller than the $room dp that keeps both keys in view');
+    });
+  });
+
+  // The sheet stays a bottom sheet below 1.5x text, so at 1.3x and 1.45x the main key must still
+  // be in view without scrolling (the first group only measures ordinary text).
+  group('pre-prompt sheet fit at larger text', () {
+    testWidgets('both keys stay in view below the full-page scale', (tester) async {
+      const room = 680.0 - 24;
+      final tooTall = <String>[];
+      for (final scale in [1.3, 1.45]) {
+        for (final repair in [null, const RepairReady(attemptId: 'a', mistakes: 12, minutes: 25)]) {
+          for (var asks = 0; asks < 6; asks++) {
+            await tester.pumpWidget(const SizedBox());
+            final rig = Rig();
+            await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
+            await pumpMockmob(
+              tester,
+              Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: 320,
+                  child: SingleChildScrollView(child: RemindersPromptSheet(key: ValueKey('$scale${repair == null}$asks'))),
+                ),
+              ),
+              size: const Size(360, 1800),
+              textScale: scale,
+              overrides: featureOverrides(
+                rig: rig,
+                repo: FakePrefsRepo(prefsWith(window: _window)),
+                permission: FakePermissionRequester(NotificationPermission.notAsked),
+                repair: repair,
+              ),
+            );
+            await tester.pumpAndSettle();
+            final height = tester.getSize(find.byType(RemindersPromptSheet)).height;
+            // ignore: avoid_print
+            print('sheet body at $scale, ${repair == null ? 'no repair' : 'repair'}, ask $asks: $height dp');
+            if (height > room) tooTall.add('$scale, ${repair == null ? 'no repair' : 'repair'}, ask $asks: $height dp');
           }
         }
       }

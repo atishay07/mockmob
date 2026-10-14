@@ -105,6 +105,63 @@ void main() {
     expect(router.went, ['/run/sess-1']);
   });
 
+  group('a mock whose time ran out', () {
+    Future<(ProviderContainer, _Surface, _Router, void Function(Duration))> open({required int msLeft, bool pending = false}) async {
+      var clock = now;
+      final surface = _Surface();
+      final router = _Router();
+      final container = ProviderContainer(
+        overrides: [
+          authSnapshotProvider.overrideWith(() => _Auth(_signedIn)),
+          routerProvider.overrideWithValue(router),
+          shortcutSurfaceProvider.overrideWithValue(surface),
+          nativePrefsProvider.overrideWithValue(NativePrefs(MemoryPrefsStore())),
+          playUpdateGatewayProvider.overrideWithValue(_NoPlay()),
+          nowProvider.overrideWithValue(() => clock),
+          latestSessionDraftProvider.overrideWith(
+            (ref) => Stream.value(draftOf(endsAtWallMs: now.millisecondsSinceEpoch + msLeft, sessionId: 'sess-1', pending: pending)),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.listen(nativeTouchesProvider, (_, _) {});
+      await _settle();
+      return (container, surface, router, (Duration by) => clock = clock.add(by));
+    }
+
+    test('the Resume shortcut is dropped when the deadline passes, with no draft write', () async {
+      final (_, surface, _, advance) = await open(msLeft: 100);
+      expect(surface.sets.last, ['resume', 'repair', 'practice10']);
+      advance(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+      expect(surface.sets.last, ['repair', 'practice10']);
+    });
+
+    test('a tap on a stale Resume does not open the dead session', () async {
+      final (container, _, router, advance) = await open(msLeft: 600000);
+      advance(const Duration(hours: 2));
+      // The 2-hour jump comes before the expiry timer could run, so the cached id is stale.
+      await container.read(nativeTouchesProvider).shortcuts.handle('resume');
+      expect(router.went, isNot(contains('/run/sess-1')));
+    });
+
+    test('a pending submit keeps it resumable through the grace window', () async {
+      final (container, _, _, advance) = await open(msLeft: 600000, pending: true);
+      advance(const Duration(minutes: 11));
+      expect(container.read(nativeTouchesProvider).updates.sessionOpen(), isTrue);
+      advance(const Duration(minutes: 2));
+      expect(container.read(nativeTouchesProvider).updates.sessionOpen(), isFalse);
+    });
+
+    test('an expired mock no longer blocks the quiet update', () async {
+      final (container, _, _, advance) = await open(msLeft: 600000);
+      final updates = container.read(nativeTouchesProvider).updates;
+      expect(updates.sessionOpen(), isTrue);
+      advance(const Duration(hours: 2));
+      expect(updates.sessionOpen(), isFalse);
+    });
+  });
+
   test('without an open session Resume is not listed', () async {
     final surface = _Surface();
     final container = make(auth: _signedIn, surface: surface, router: _Router());

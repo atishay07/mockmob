@@ -2,16 +2,18 @@
 // week. Pure, so tests can feed fixtures. `home_widget_sync.dart` writes the result to the
 // widget's storage as one JSON string; TodayWidgetProvider.kt draws it.
 //
-// The widget shows the last state the server confirmed, stamped with its time. It never makes
+// The widget shows the last state the server confirmed, stamped with the time of its oldest read. It never makes
 // up urgency: the countdown and the week are worked out on the phone when the widget draws, so
 // they stay true on a day the app was not opened, and a week that has ended is not shown.
 import 'dart:convert';
 
 import '../../features/rhythm/logic/week_view.dart';
 import '../../features/today/copy.dart';
+import '../../features/today/logic/today_clock.dart' show endedNoticeWindow;
 import '../../features/today/logic/today_inputs.dart';
 import '../../features/today/logic/today_model.dart';
 import '../domain/cuet_dates.dart';
+import '../domain/next_move.dart' show NextMoveState;
 import '../router/action_router.dart';
 import '../router/routes.dart';
 import 'home_widget_copy.dart';
@@ -147,9 +149,14 @@ HomeWidgetData? homeWidgetFromToday({
 }) {
   final hero = view.hero;
   if (hero == null) return null;
+  // A failed read is not a move: Today shows it as a card with "Try again", and the widget
+  // keeps the last move the server confirmed instead of replacing it with an error sentence.
+  if (_isErrorCard(hero)) return null;
   final confirmed = [?inputs.attemptsFetchedAt, ?inputs.planFetchedAt];
   if (confirmed.isEmpty) return null;
-  final at = confirmed.reduce((a, b) => a.isAfter(b) ? a : b);
+  // The older of the two reads: the attempts are served from the phone's cache on open while
+  // the plan is read again, so the newer time would call a days-old list fresh.
+  final at = confirmed.reduce((a, b) => a.isBefore(b) ? a : b);
   return HomeWidgetData(
     signedIn: true,
     timezone: inputs.timezone,
@@ -158,6 +165,14 @@ HomeWidgetData? homeWidgetFromToday({
     updated: _stamp(inputs, at),
   );
 }
+
+/// Today's "could not load" card, or a notice whose only tap is to retry a read. Neither is a
+/// move the widget can offer: its tap only opens Today.
+bool _isErrorCard(TodayHero hero) => switch (hero) {
+      MoveHero() => hero.state == NextMoveState.historyUnavailable || hero.primary.target is RetryLoad,
+      EndedHero() => hero.action.target is RetryLoad,
+      ResumeHero() || SealedHero() => false,
+    };
 
 WidgetStamp _stamp(TodayInputs i, DateTime at) {
   final clock = i.clock(at);
@@ -192,6 +207,9 @@ WidgetMove widgetMoveFor(TodayHero hero, TodayInputs inputs) => switch (hero) {
           title: hero.title,
           action: hero.action.label,
           href: widgetHref(hero.action.target),
+          // Today drops the notice a day after the session closed, and so does the widget (it
+          // falls back to "Open MockMob"), even if the app is not opened again until then.
+          until: inputs.draft?.endsAt.add(endedNoticeWindow),
         ),
       SealedHero() => WidgetMove(
           overline: TodayCopy.sealedOverline,

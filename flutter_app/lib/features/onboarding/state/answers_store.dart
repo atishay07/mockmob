@@ -89,6 +89,72 @@ class AnswersStore {
   Future<void> save(OnboardingAnswers answers) => _prefs.setString(key, jsonEncode(answers.toJson()));
 
   Future<void> clear() => _prefs.remove(key);
+
+  /// Unsent sheets of accounts that are not signed in, by account id, so another account on this
+  /// phone starts its own sheet without losing them.
+  static const String parkedKey = 'onboarding_sheet.parked';
+
+  /// How long a put-away sheet waits for its account to sign in again on this phone.
+  static const Duration parkedFor = Duration(days: 30);
+
+  /// Puts [answers] away for [answers.owner] until that account signs in again. A finished
+  /// (sealed) sheet already put away is not replaced by an unfinished one.
+  Future<void> park(OnboardingAnswers answers, DateTime now) async {
+    final owner = answers.owner;
+    if (owner == null) return;
+    final parked = await _readParked(now);
+    if (_sheetIn(parked[owner], owner)?.sealed == true && !answers.sealed) return;
+    parked[owner] = {'at': now.toIso8601String(), 'sheet': answers.toJson()};
+    await _writeParked(parked);
+  }
+
+  /// The sheet put away for [userId], or null when there is none or it has expired. It stays
+  /// put away until [dropParked].
+  Future<OnboardingAnswers?> parked(String userId, DateTime now) async => _sheetIn((await _readParked(now))[userId], userId);
+
+  Future<void> dropParked(String userId, DateTime now) async {
+    final parked = await _readParked(now);
+    if (parked.remove(userId) == null) return;
+    await _writeParked(parked);
+  }
+
+  /// A put-away entry's sheet, or null when this build cannot read it as [owner]'s.
+  static OnboardingAnswers? _sheetIn(Map<String, Object?>? entry, String owner) {
+    final sheet = entry?['sheet'];
+    if (sheet is! Map<String, Object?> || sheet['v'] is! int || (sheet['v']! as int) > OnboardingAnswers.version) return null;
+    try {
+      final answers = OnboardingAnswers.fromJson(sheet);
+      return answers.owner == owner ? answers : null;
+    } on Object {
+      return null;
+    }
+  }
+
+  /// The put-away entries that have not expired, as stored. An entry this build cannot read
+  /// (a newer one) is carried along untouched until it expires.
+  Future<Map<String, Map<String, Object?>>> _readParked(DateTime now) async {
+    final out = <String, Map<String, Object?>>{};
+    final raw = await _prefs.getString(parkedKey);
+    if (raw == null) return out;
+    final Object? decoded;
+    try {
+      decoded = jsonDecode(raw);
+    } on FormatException {
+      return out;
+    }
+    if (decoded is! Map) return out;
+    for (final e in decoded.entries) {
+      final key = e.key, v = e.value;
+      if (key is! String || v is! Map<String, Object?>) continue;
+      final at = v['at'] is String ? DateTime.tryParse(v['at']! as String) : null;
+      if (at == null || now.difference(at) > parkedFor) continue;
+      out[key] = v;
+    }
+    return out;
+  }
+
+  Future<void> _writeParked(Map<String, Map<String, Object?>> parked) =>
+      parked.isEmpty ? _prefs.remove(parkedKey) : _prefs.setString(parkedKey, jsonEncode(parked));
 }
 
 /// Replaced in tests with an in-memory store.

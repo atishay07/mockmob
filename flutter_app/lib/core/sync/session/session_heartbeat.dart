@@ -41,6 +41,16 @@ class SessionHeartbeat {
     }
   }
 
+  /// True when a foreground engine owns a session other than [sessionId]. The status
+  /// notification is shared by every session, so it then belongs to that one.
+  Future<bool> anotherIsLive(String sessionId) async {
+    final since = _now().millisecondsSinceEpoch - freshFor.inMilliseconds;
+    final rows = await (_db.select(_db.cacheEntries)
+          ..where((t) => t.userId.equals(userId) & t.cacheKey.like('session-heartbeat:%') & t.cacheKey.equals(_key(sessionId)).not() & t.fetchedAtMs.isBiggerThanValue(since)))
+        .get();
+    return rows.isNotEmpty;
+  }
+
   /// True when a foreground engine beat within [freshFor].
   Future<bool> isLive(String sessionId) async {
     final row = await (_db.select(_db.cacheEntries)..where((t) => t.userId.equals(userId) & t.cacheKey.equals(_key(sessionId)))).getSingleOrNull();

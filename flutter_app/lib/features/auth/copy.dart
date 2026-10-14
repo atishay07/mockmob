@@ -26,6 +26,8 @@ abstract final class AuthCopy {
   static const String loadFailedTitle = 'We could not open your account';
   static const String loadFailedBody = 'Your work is still on this phone.';
   static const String tryAgain = 'Try again';
+  static const String tryingAgain = 'Trying again';
+  static const String signOut = 'Sign out';
 
   // Code screen.
   static const String codeTitle = 'Check your email';

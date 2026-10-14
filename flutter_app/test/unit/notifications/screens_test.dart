@@ -17,6 +17,7 @@ import 'package:mockmob/features/notifications/logic/reminder_plan.dart' show Re
 import 'package:mockmob/features/notifications/screens/notification_settings_screen.dart';
 import 'package:mockmob/features/notifications/screens/reminders_prompt_sheet.dart';
 import 'package:mockmob/features/notifications/services/system_settings.dart';
+import 'package:mockmob/features/notifications/widgets/notification_preview.dart';
 import 'package:mockmob/features/notifications/widgets/day_shape.dart';
 import 'package:mockmob/features/notifications/widgets/settings_rows.dart';
 import 'package:mockmob/features/notifications/widgets/time_sheet.dart';
@@ -211,7 +212,9 @@ void main() {
       expect(find.textContaining('Muted on this phone until Monday, 19 October, 6:00 PM.'), findsOneWidget);
       // And once near the top, with its own way back, so it is not missed below the fold.
       expect(_text('Reminders are muted until Monday, 19 October.'), findsOneWidget);
-      expect(rig.gateway.scheduled, isEmpty);
+      // Nothing is armed inside the mute; the week after it is already planned.
+      final muteEnd = rig.now.add(const Duration(days: 7));
+      expect(rig.gateway.scheduled.where((s) => s.at.isBefore(muteEnd)), isEmpty);
       // The mute is kept on this phone, and the receipt says exactly that.
       expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
       expect(find.textContaining('on the server'), findsNothing);
@@ -382,6 +385,7 @@ void main() {
 
     testWidgets('with no data yet the previews describe each kind with no number', (tester) async {
       await pumpSheet(tester);
+      expect(find.byType(NotificationPreview), findsNWidgets(3));
       expect(_text('Remind me when it matters'), findsOneWidget);
       expect(_text('Your mock was received. Your result is ready.'), findsOneWidget);
       expect(_text('When a mock leaves mistakes, a short repair is waiting for you.'), findsOneWidget);
@@ -548,6 +552,63 @@ void main() {
       await comeBackToTheApp(tester);
       expect(_text('Open settings'), findsOneWidget);
       expect(_text('Reminders are on'), findsNothing);
+    });
+
+    testWidgets('after a refusal, back from Android settings with notifications on ends on the granted state', (tester) async {
+      await pumpSheet(tester, after: NotificationPermission.denied);
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      expect(_text('Reminders stay off'), findsOneWidget);
+      // The student turns notifications on in Android settings and comes back.
+      permission.current = NotificationPermission.granted;
+      await comeBackToTheApp(tester);
+      expect(_text('Reminders stay off'), findsNothing);
+      expect(_text('Reminders are on'), findsOneWidget);
+      expect(_text('Choose a study time'), findsOneWidget);
+    });
+
+    testWidgets('after a refusal, back from Android settings with notifications still off keeps the denied state', (tester) async {
+      await pumpSheet(tester, after: NotificationPermission.denied);
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      await comeBackToTheApp(tester);
+      expect(_text('Reminders stay off'), findsOneWidget);
+      expect(_text('Reminders are on'), findsNothing);
+    });
+
+    testWidgets('a re-plan that fails after Allow does not become an unhandled error', (tester) async {
+      await pumpSheet(tester, prefs: prefsWith(weeklyOn: false));
+      rig.gateway.failOnce = true;
+      await tester.tap(find.text('Allow reminders'));
+      await tester.pumpAndSettle();
+      // The test fails on any unhandled async error; the sheet still ends on the granted state.
+      expect(_text('Reminders are on'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('at larger text the ask shows one example', (tester) async {
+      for (final scale in [1.3, 1.45]) {
+        rig = Rig();
+        permission = FakePermissionRequester(NotificationPermission.notAsked);
+        await tester.pumpWidget(const SizedBox());
+        await pumpMockmob(
+          tester,
+          const Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(width: 320, child: SingleChildScrollView(child: RemindersPromptSheet())),
+          ),
+          size: const Size(360, 1600),
+          textScale: scale,
+          overrides: featureOverrides(
+            rig: rig,
+            repo: FakePrefsRepo(NotificationPrefs.defaults),
+            permission: permission,
+            appPrefs: AppPrefs(MemoryPrefsStore()),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(NotificationPreview), findsOneWidget, reason: 'text scale $scale');
+      }
     });
 
     testWidgets('a refusal in the system dialog still ends on a designed state with Android settings one tap away', (tester) async {

@@ -33,7 +33,10 @@ class SessionDraftRepository {
   AppDatabase get _db => _scope.db;
 
   Future<void> save(SessionDraft draft) async {
-    final updated = _scope.now().millisecondsSinceEpoch;
+    // An archived draft keeps the time it was last worked on. Its submit and retries re-save it
+    // (often while the student is on a newer paper), and stamping now would make the old paper
+    // the "latest" draft that Today, Start and Practice resume from.
+    final updated = isArchiveKey(draft.draftKey) && draft.updatedAtMs > 0 ? draft.updatedAtMs : _scope.now().millisecondsSinceEpoch;
     await _db
         .into(_db.sessionDrafts)
         .insertOnConflictUpdate(
@@ -51,7 +54,12 @@ class SessionDraftRepository {
   }
 
   /// The key an archived draft lives under: one per session id, so it never meets a selection.
-  static String archiveKeyOf(String sessionId) => 'archive:$sessionId';
+  static String archiveKeyOf(String sessionId) => '$_archivePrefix$sessionId';
+
+  static const _archivePrefix = 'archive:';
+
+  /// True for a row written by [archive].
+  static bool isArchiveKey(String draftKey) => draftKey.startsWith(_archivePrefix);
 
   /// Moves a rejected or still-owed draft out of its selection's row, so the next session with
   /// the same selection cannot overwrite it. Its answer journal is untouched (it is keyed by
@@ -161,9 +169,10 @@ class SessionDraftRepository {
       (_db.delete(_db.sessionDrafts)..where((t) => t.userId.equals(_scope.userId) & t.draftKey.equals(draftKey))).go();
 
   /// Removes the draft and its journal once the attempt is recorded or the student dismissed
-  /// an ended-session notice.
-  Future<void> deleteSession(String sessionId) async {
-    final id = _scope.userId;
+  /// an ended-session notice. [userId] pins the owner when it may no longer be the signed-in
+  /// student (a submit that finished after an account switch).
+  Future<void> deleteSession(String sessionId, {String? userId}) async {
+    final id = userId ?? _scope.userId;
     await _db.transaction(() async {
       await (_db.delete(_db.sessionDrafts)..where((t) => t.userId.equals(id) & t.sessionId.equals(sessionId))).go();
       await (_db.delete(_db.answerJournal)..where((t) => t.userId.equals(id) & t.sessionId.equals(sessionId))).go();

@@ -88,6 +88,11 @@ class NotificationService {
   final DateTime Function() _now;
 
   bool _initialized = false;
+  int _clearEpoch = 0;
+
+  /// Counts the times everything was cancelled. A planning pass that read it before awaiting
+  /// and finds it changed knows its student is gone and must stop scheduling.
+  int get clearEpoch => _clearEpoch;
 
   /// Prepares the plugin and the timezone database. Does not create channels or ask for
   /// permission.
@@ -108,6 +113,7 @@ class NotificationService {
   /// Schedules a reminder, or posts a response to the student's own action. Returns what
   /// happened: scheduled (with the delivery time), or skipped with the reason.
   Future<ScheduleOutcome> schedule(NotificationRequest request) async {
+    final epoch = _clearEpoch;
     await initialize();
     final now = _now();
     var ledger = await _ledger.load();
@@ -124,6 +130,7 @@ class NotificationService {
     if (!plan.shouldDeliver) return ScheduleOutcome(skipped: plan.skipped);
 
     await _ensureChannel(request.channel);
+    if (_clearEpoch != epoch) return const ScheduleOutcome(skipped: NotificationSkip.cleared);
     final id = notificationIdFor(request.taskId);
     final at = plan.at!;
     final immediate = !at.isAfter(now);
@@ -149,6 +156,12 @@ class NotificationService {
         actions: request.actions,
       );
     }
+    if (_clearEpoch != epoch) {
+      // Cleared while the plugin call was running: take back what it just armed and leave the
+      // emptied ledger alone.
+      await _gateway.cancel(id);
+      return const ScheduleOutcome(skipped: NotificationSkip.cleared);
+    }
     if (!request.respondsToStudentAction) {
       ledger = [for (final e in ledger) if (e.taskId != request.taskId) e, LedgerEntry(taskId: request.taskId, at: at)];
     }
@@ -171,6 +184,14 @@ class NotificationService {
     await _gateway.show(id: notificationIdFor(taskId), channel: channel, title: title, body: body, payload: payload, silent: true, ongoing: true);
   }
 
+  /// Replaces an ongoing status in place with a plain one the student can swipe away. Used when
+  /// the backup job ends a submit without it being recorded, so "Sending" does not stay pinned.
+  Future<void> settleOngoing({required String taskId, required NotificationChannelSpec channel, required String title, required String body, String? payload}) async {
+    await initialize();
+    await _ensureChannel(channel);
+    await _gateway.show(id: notificationIdFor(taskId), channel: channel, title: title, body: body, payload: payload, silent: true);
+  }
+
   /// Cancels a scheduled or shown notification by task id and frees its place in the caps.
   Future<void> cancel(String taskId) async {
     await initialize();
@@ -183,6 +204,7 @@ class NotificationService {
 
   /// Cancels everything (sign-out, account switch).
   Future<void> cancelAll() async {
+    _clearEpoch++;
     await initialize();
     await _gateway.cancelAll();
     await _ledger.save(const []);

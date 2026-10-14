@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/auth/auth.dart';
@@ -20,6 +22,10 @@ abstract interface class SignInGateway {
 
   /// True once the profile loaded and the session is usable.
   bool get isSignedIn;
+
+  /// Waits for the account to load after a sign-in (a browser return arrives before it does).
+  /// True once signed in; false when the load failed or took too long.
+  Future<bool> whenSignedIn();
 
   /// The signed-in account, or null.
   String? get userId;
@@ -51,6 +57,28 @@ class CoreSignInGateway implements SignInGateway {
 
   @override
   String? get userId => _ref.read(authSnapshotProvider).userId;
+
+  /// About as long as the profile read can take on a stalled connection.
+  static const _accountWait = Duration(minutes: 3);
+
+  @override
+  Future<bool> whenSignedIn() async {
+    if (isSignedIn) return true;
+    final done = Completer<bool>();
+    final watch = _ref.listen<AuthSnapshot>(authSnapshotProvider, (_, next) {
+      if (done.isCompleted) return;
+      if (next.isSignedIn) {
+        done.complete(true);
+      } else if (next.loadFailed && !next.retrying) {
+        done.complete(false);
+      }
+    });
+    try {
+      return await done.future.timeout(_accountWait, onTimeout: () => false);
+    } finally {
+      watch.close();
+    }
+  }
 }
 
 final signInGatewayProvider = Provider<SignInGateway>(CoreSignInGateway.new);

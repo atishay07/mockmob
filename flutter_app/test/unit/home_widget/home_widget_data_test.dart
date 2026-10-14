@@ -13,6 +13,7 @@ import 'package:mockmob/core/widgets/art/mm_art.dart';
 import 'package:mockmob/features/rhythm/logic/week_view.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
+import 'package:mockmob/features/today/logic/today_clock.dart' show endedNoticeWindow;
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 
@@ -163,6 +164,52 @@ void main() {
       expect(m.action, TodayCopy.openResult);
       expect(_native(m.href), AppRoutes.result('s1'));
     });
+
+    test('the ended notice leaves the widget when it leaves Today, a day after the session closed', () {
+      final ends = DateTime.utc(2026, 10, 13, 15, 30);
+      final draft = TodayDraft(
+        sessionId: 's1',
+        subject: 'accountancy',
+        isMock: true,
+        mockNumber: 8,
+        total: 50,
+        answered: 12,
+        acknowledgedAnswered: 12,
+        endsAt: ends,
+        resumable: false,
+      );
+      final hero = EndedHero(
+        title: 'Mock 8, Accountancy',
+        line: 'Mock 8 ended at 9:00 PM.',
+        action: TodayAction(TodayCopy.openResult, GoTo(AppRoutes.result('s1'))),
+      );
+      final m = widgetMoveFor(hero, _inputs(draft: draft));
+      expect(m.until, ends.add(endedNoticeWindow));
+      expect(m.toJson()['until'], ends.add(const Duration(hours: 24)).millisecondsSinceEpoch);
+    });
+  });
+
+  group('a failed read is not a move', () {
+    test('the could-not-load card keeps the last move on the widget', () {
+      final inputs = TodayInputs(now: DateTime.utc(2026, 10, 13, 16, 30), attemptsFailed: true, planFetchedAt: _fetched);
+      final view = buildToday(inputs);
+      final hero = view.hero! as MoveHero;
+      expect(hero.state, NextMoveState.historyUnavailable);
+      expect(homeWidgetFromToday(view: view, inputs: inputs), isNull);
+    });
+
+    test('a move whose only tap is to try the read again is not written', () {
+      expect(homeWidgetFromToday(view: _view(_move(target: const RetryLoad())), inputs: _inputs(planAt: _fetched)), isNull);
+    });
+
+    test('an ended notice that only offers to check again is not written', () {
+      const hero = EndedHero(title: 'Mock 8, Accountancy', line: 'Mock 8 ended at 9:00 PM.', action: TodayAction('Try again', RetryLoad()));
+      expect(homeWidgetFromToday(view: _view(hero), inputs: _inputs(planAt: _fetched)), isNull);
+    });
+
+    test('a real move is still written', () {
+      expect(homeWidgetFromToday(view: _view(_move()), inputs: _inputs(planAt: _fetched)), isNotNull);
+    });
   });
 
   group('the week ring', () {
@@ -196,10 +243,10 @@ void main() {
       expect(homeWidgetFromToday(view: _view(_move()), inputs: _inputs()), isNull);
     });
 
-    test('stamped with the newest confirmation, in 12-hour time, for each age it may be read at', () {
+    test('stamped with the older read, in 12-hour time, for each age it may be read at', () {
       final data = homeWidgetFromToday(
         view: _view(_move()),
-        inputs: _inputs(attemptsAt: _fetched.subtract(const Duration(hours: 2)), planAt: _fetched),
+        inputs: _inputs(attemptsAt: _fetched, planAt: _fetched.add(const Duration(hours: 2))),
         week: _week(),
       )!;
       final stamp = data.updated!;
@@ -208,6 +255,18 @@ void main() {
       expect(stamp.today, 'Updated 9:40 PM');
       expect(stamp.yesterday, 'Updated yesterday, 9:40 PM');
       expect(stamp.older, 'Updated 13 Oct');
+    });
+
+    test('attempts served from the phone days after they were read are not stamped as fresh', () {
+      final cached = _fetched.subtract(const Duration(days: 3));
+      final data = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: cached, planAt: _fetched))!;
+      expect(data.updated!.at, cached);
+      expect(data.updated!.older, 'Updated 10 Oct');
+    });
+
+    test('with one read confirmed, that read is the stamp', () {
+      expect(homeWidgetFromToday(view: _view(_move()), inputs: _inputs(planAt: _fetched))!.updated!.at, _fetched);
+      expect(homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!.updated!.at, _fetched);
     });
 
     test('the JSON the Android widget reads', () {
@@ -240,6 +299,17 @@ void main() {
           RegExp('const val $name = "' r'(\d{4}-\d{2}-\d{2})' '"').firstMatch(kotlin)!.group(1)!;
       expect(constant('CUET_START'), isoDate(CuetDates.windowStart));
       expect(constant('CUET_END'), isoDate(CuetDates.windowEnd));
+    });
+
+    test('the 2x2 stamp is measured by how it really wraps, and the 4x2 never cuts it', () {
+      final kotlin = File('android/app/src/main/kotlin/in/mockmob/app/platform/TodayWidgetProvider.kt').readAsStringSync();
+      expect(kotlin, contains('linesNeeded(context, updated, 11f, inner, medium = false)'));
+      expect(kotlin, contains('lines <= 2 && middleDp - needed >= titleLine'));
+      expect(kotlin, isNot(contains('textWidthDp(context, updated, 11f) <= inner')), reason: 'a one-line test lets a three-line stamp through');
+      // The wide stamp is measured against its row, and the overline gives way before it.
+      expect(kotlin, contains('showUpdated = updated != null && stampWidth <= innerWidth - leading'));
+      expect(kotlin, contains('visibleIf(showUpdated)'));
+      expect(kotlin, contains('visibleIf(showOverline)'));
     });
 
     test('the countdown says the exam date is expected, as Today does', () {
@@ -295,6 +365,7 @@ void main() {
       container = ProviderContainer(overrides: [
         homeWidgetWriterProvider.overrideWithValue(writer),
         homeWidgetSettleProvider.overrideWithValue(Duration.zero),
+        homeWidgetRetryProvider.overrideWithValue(const Duration(milliseconds: 4)),
         homeWidgetDataProvider.overrideWith((ref) => ref.watch(_data)),
       ]);
       addTearDown(container.dispose);
@@ -344,6 +415,41 @@ void main() {
       expect(writer.writes, [signedOut.encode()], reason: 'the pending signed-in write was dropped');
     });
 
+    test('a failed write is tried again, and the sign-out write is not dropped as a duplicate', () async {
+      writer.failures = 2;
+      const signedOut = HomeWidgetData.signedOut(timezone: 'Asia/Kolkata');
+      container.read(_data.notifier).set(signedOut);
+      // The retry waits 4 ms, then 8 ms.
+      await Future<void>.delayed(const Duration(milliseconds: 80));
+      expect(writer.attempts, [signedOut.encode(), signedOut.encode(), signedOut.encode()]);
+      expect(writer.writes, [signedOut.encode()], reason: 'only the third write reached the widget');
+
+      // Once it landed, the same data is a duplicate again.
+      container.read(_data.notifier).set(const HomeWidgetData.signedOut(timezone: 'Asia/Kolkata'));
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      expect(writer.attempts, hasLength(3));
+    });
+
+    test('a signed-in write that failed is tried again too', () async {
+      final signedIn = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!;
+      writer.failures = 1;
+      container.read(_data.notifier).set(signedIn);
+      await Future<void>.delayed(const Duration(milliseconds: 60));
+      expect(writer.writes, [signedIn.encode()]);
+      expect(writer.attempts, hasLength(2));
+    });
+
+    test('newer data replaces a failed write instead of retrying the old one', () async {
+      final first = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!;
+      final second = homeWidgetFromToday(view: _view(_move(label: 'Start practice')), inputs: _inputs(attemptsAt: _fetched))!;
+      writer.failures = 1;
+      container.read(_data.notifier).set(first);
+      await pumpEventQueue();
+      container.read(_data.notifier).set(second);
+      await Future<void>.delayed(const Duration(milliseconds: 60));
+      expect(writer.writes, [second.encode()]);
+    });
+
     test('a burst of changes is one write of the last one', () async {
       final first = homeWidgetFromToday(view: _view(_move()), inputs: _inputs(attemptsAt: _fetched))!;
       final last = homeWidgetFromToday(view: _view(_move(label: 'Start practice')), inputs: _inputs(attemptsAt: _fetched))!;
@@ -356,13 +462,28 @@ void main() {
 }
 
 class _FakeWriter implements HomeWidgetWriter {
+  /// What reached the widget.
   final writes = <String>[];
+
+  /// Every attempt, failed ones too.
+  final attempts = <String>[];
+
+  /// How many of the next writes fail.
+  int failures = 0;
 
   @override
   bool get available => true;
 
   @override
-  Future<void> write(String json) async => writes.add(json);
+  Future<bool> write(String json) async {
+    attempts.add(json);
+    if (failures > 0) {
+      failures--;
+      return false;
+    }
+    writes.add(json);
+    return true;
+  }
 }
 
 class _DataNotifier extends Notifier<HomeWidgetData?> {

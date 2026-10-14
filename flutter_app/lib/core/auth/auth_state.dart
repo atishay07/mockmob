@@ -25,6 +25,7 @@ class AuthSnapshot {
     this.creditBalance,
     this.sessionExpired = false,
     this.loadFailed = false,
+    this.retrying = false,
   });
 
   final AuthStatus status;
@@ -53,6 +54,10 @@ class AuthSnapshot {
   /// [AuthStatus.unknown]; offer a retry through `AuthController.reload`.
   final bool loadFailed;
 
+  /// With [loadFailed]: a retry is running. The load-failed screen stays up and says so,
+  /// instead of dropping back to the splash with nothing to press.
+  final bool retrying;
+
   bool get isSignedIn => status == AuthStatus.signedIn;
 
   static const unknown = AuthSnapshot(status: AuthStatus.unknown);
@@ -71,10 +76,11 @@ class AuthSnapshot {
       other.needsOnboarding == needsOnboarding &&
       other.creditBalance == creditBalance &&
       other.sessionExpired == sessionExpired &&
-      other.loadFailed == loadFailed;
+      other.loadFailed == loadFailed &&
+      other.retrying == retrying;
 
   @override
-  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed);
+  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying);
 }
 
 /// The live session. Starts as [AuthSnapshot.unknown], then settles to signed in (with the

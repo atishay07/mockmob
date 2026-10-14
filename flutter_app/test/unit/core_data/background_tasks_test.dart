@@ -149,7 +149,8 @@ void main() {
     expect(await runBackgroundTask(BackgroundTaskNames.submitSession, input(), env), isTrue);
     final draft = (await drafts.latest())!;
     expect(draft.windowClosed, isTrue);
-    expect(gateway.shown, isEmpty);
+    // No result-ready notice; the "Sending" status is replaced with the honest outcome.
+    expect(gateway.shown.single, startsWith('The time to send it ended before it reached MockMob.'));
   });
 
   test('SESSION_EXPIRED then a 200 read means the server finalised it', () async {

@@ -65,17 +65,34 @@ class ApiSessionApi implements SessionApi {
       // only 120 s and the syncer already runs its own back-off.
       options: const ApiOptions(retries: 0, bypassRateGate: true, receiveTimeout: Duration(seconds: 45)),
     );
-    return response.map;
+    return scoredAttempt(response);
   }
 
   @override
   Future<Map<String, dynamic>?> fetchAttempt(String attemptId) async {
     try {
       final response = await _api.get('/api/attempts/$attemptId', options: const ApiOptions(retries: 1, bypassRateGate: true));
-      return response.map;
+      return scoredAttempt(response);
     } on ApiError catch (e) {
       if (e.kind == ApiErrorKind.notFound) return null;
       rethrow;
     }
   }
 }
+
+/// The attempt in a 2xx reply, or a non-definitive error when the body is not one.
+///
+/// A proxy or maintenance page served with 200, a 204 or an empty body is not proof that the
+/// server recorded anything. Treating it as an attempt would delete the student's answers, so
+/// it counts as an unusable reply and the submit stays pending.
+Map<String, dynamic> scoredAttempt(ApiResponse response) {
+  final data = response.data;
+  if (data is Map) {
+    final id = data['id'];
+    if (id is String && id.trim().isNotEmpty) return Map<String, dynamic>.from(data);
+  }
+  throw const ApiError(kind: ApiErrorKind.server, code: unusableAttemptCode);
+}
+
+/// The code for a 2xx reply that did not carry an attempt.
+const unusableAttemptCode = 'unusable_response';

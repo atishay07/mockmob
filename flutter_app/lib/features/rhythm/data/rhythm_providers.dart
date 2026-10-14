@@ -1,5 +1,7 @@
 // Providers that compose the core `rhythmRepositoryProvider` (GET /api/me/rhythm) and
 // `goalRepositoryProvider` (GET/PUT /api/me/goal) into what the screens read.
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_error.dart';
@@ -71,7 +73,32 @@ RhythmSnapshot composeSnapshot({
   );
 }
 
+/// Makes the week sample the student's date again. The snapshot reads "now" once, when the
+/// rhythm or the goal last changed, so a phone left open overnight would keep marking
+/// yesterday as today. Today's clock calls [resample] on each tick and on resume.
+///
+/// When the cached week no longer holds the student's date (a new week began, or the date
+/// moved past what was fetched) the week is read from the server again, since the server owns
+/// where a week starts. A read that fails leaves the cache showing, and the next tick asks again.
+class RhythmClock extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void resample() {
+    state++;
+    final rhythm = ref.read(rhythmRepositoryProvider).value;
+    final start = parseIsoDate(rhythm?.weekStart);
+    if (start == null) return;
+    final today = studentDate(ref.read(nowProvider)(), ref.read(studentTimezoneProvider));
+    final inWeek = !today.isBefore(start) && today.isBefore(start.add(const Duration(days: 7)));
+    if (!inWeek) unawaited(ref.read(rhythmRepositoryProvider.notifier).refresh(force: true));
+  }
+}
+
+final rhythmClockProvider = NotifierProvider<RhythmClock, int>(RhythmClock.new);
+
 final rhythmSnapshotProvider = Provider<RhythmSnapshot>((ref) {
+  ref.watch(rhythmClockProvider);
   return composeSnapshot(
     rhythmState: ref.watch(rhythmRepositoryProvider),
     goalState: ref.watch(goalRepositoryProvider),

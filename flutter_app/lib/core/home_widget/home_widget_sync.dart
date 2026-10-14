@@ -19,7 +19,9 @@ abstract interface class HomeWidgetWriter {
   /// False where there is no Android widget to write to (tests, other platforms).
   bool get available;
 
-  Future<void> write(String json);
+  /// True only when the widget now holds [json] and was asked to draw it. False means it may
+  /// still hold what it held before, so the caller tries again.
+  Future<bool> write(String json);
 }
 
 /// Writes through the home_widget plugin, then asks the provider to draw again.
@@ -30,13 +32,20 @@ class PlatformHomeWidgetWriter implements HomeWidgetWriter {
   bool get available => !kIsWeb && Platform.isAndroid && !Platform.environment.containsKey('FLUTTER_TEST');
 
   @override
-  Future<void> write(String json) async {
+  Future<bool> write(String json) async {
     try {
-      await HomeWidget.saveWidgetData<String>(homeWidgetDataKey, json);
+      final saved = await HomeWidget.saveWidgetData<String>(homeWidgetDataKey, json);
+      if (saved != true) {
+        debugPrint('Home widget write was not saved');
+        return false;
+      }
       await HomeWidget.updateWidget(qualifiedAndroidName: homeWidgetProviderName);
+      return true;
     } on Object catch (error) {
-      // A widget that cannot be written keeps its last state; the app is unaffected.
+      // A widget that cannot be written keeps its last state; the app is unaffected, and the
+      // sync tries again.
       debugPrint('Home widget write failed: $error');
+      return false;
     }
   }
 }
@@ -46,6 +55,10 @@ final homeWidgetWriterProvider = Provider<HomeWidgetWriter>((ref) => const Platf
 /// How long Today must hold still before the widget is written, so a burst of provider
 /// updates while the screen loads is one write.
 final homeWidgetSettleProvider = Provider<Duration>((ref) => const Duration(seconds: 2));
+
+/// How long to wait before writing again after a write failed. It doubles on each further
+/// failure, up to twenty times this.
+final homeWidgetRetryProvider = Provider<Duration>((ref) => const Duration(seconds: 30));
 
 /// What the widget should show now, or null to keep what it shows (auth still deciding, or
 /// Today not settled). Today's providers are only read while signed in.
@@ -71,28 +84,63 @@ final homeWidgetSyncProvider = Provider<void>((ref) {
   final writer = ref.watch(homeWidgetWriterProvider);
   if (!writer.available) return;
   final settle = ref.watch(homeWidgetSettleProvider);
+  final retryBase = ref.watch(homeWidgetRetryProvider);
+  // What the widget is known to hold, and what is being written to it now. A write that failed
+  // is neither, so the same data is written again instead of being dropped as a duplicate: a
+  // signed-out phone must not keep the last student's move.
   String? written;
+  String? inFlight;
+  HomeWidgetData? latest;
+  var failures = 0;
+  var disposed = false;
   Timer? pending;
+  Timer? retry;
+  // Declared first: a write that finishes hands newer data back to it.
+  late final void Function(HomeWidgetData?) schedule;
 
-  void write(String json) {
-    written = json;
-    unawaited(writer.write(json));
+  Future<void> write(String json) async {
+    inFlight = json;
+    final ok = await writer.write(json);
+    if (disposed || inFlight != json) return;
+    inFlight = null;
+    if (ok) {
+      written = json;
+      failures = 0;
+      // Newer data arrived while this was being written and matched the older state: write it.
+      final data = latest;
+      if (data != null && data.encode() != json) schedule(data);
+      return;
+    }
+    failures++;
+    final factor = failures > 5 ? 20 : 1 << (failures - 1);
+    final wait = retryBase * factor;
+    retry?.cancel();
+    retry = Timer(wait, () {
+      final data = latest;
+      if (data != null) schedule(data);
+    });
   }
 
-  void schedule(HomeWidgetData? data) {
+  schedule = (HomeWidgetData? data) {
     if (data == null) return;
+    latest = data;
     final json = data.encode();
     pending?.cancel();
-    if (json == written) return;
+    retry?.cancel();
+    if (json == written || json == inFlight) return;
     // Signing out is written at once: if the app is closed inside the settle window, the last
     // student's next move must not stay on the home screen (a shared phone).
     if (!data.signedIn) {
-      write(json);
+      unawaited(write(json));
       return;
     }
-    pending = Timer(settle, () => write(json));
-  }
+    pending = Timer(settle, () => unawaited(write(json)));
+  };
 
   ref.listen<HomeWidgetData?>(homeWidgetDataProvider, (_, next) => schedule(next), fireImmediately: true);
-  ref.onDispose(() => pending?.cancel());
+  ref.onDispose(() {
+    disposed = true;
+    pending?.cancel();
+    retry?.cancel();
+  });
 });

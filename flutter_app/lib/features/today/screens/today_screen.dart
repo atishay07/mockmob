@@ -93,7 +93,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
 
   void _action(TodayAction action) {
     if (action.startsSession || action.actionType == 'resume') {
-      ref.read(todayActionsProvider).started(action, minutes: ref.read(todayMinutesProvider));
+      // The length the card shows, not the raw chip: a stale or unoffered pick is never logged.
+      final hero = ref.read(todayViewProvider).hero;
+      ref.read(todayActionsProvider).started(action, minutes: hero is MoveHero ? hero.selectedMinutes : null);
     }
     _target(action.target);
   }

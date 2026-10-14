@@ -288,8 +288,10 @@ class _TodayBodyState extends State<TodayBody> {
 }
 
 /// Ground behind the pinned bar: a short fade in above it, then solid down to the dock. The
-/// card's own key (still moving under it) and text scrolling by never read around the bar. It
-/// covers only the bar's own strip, so the page stays touchable everywhere else.
+/// card's own key (still moving under it) and text scrolling by never read around the bar.
+///
+/// The ground only paints: it ignores touches, so a drag that starts on the fade or in the air
+/// under the keys still scrolls the page. Only the keys themselves take hits.
 class _StickyScrim extends StatelessWidget {
   const _StickyScrim({required this.child});
 
@@ -298,19 +300,33 @@ class _StickyScrim extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ground = context.mmColors.ground;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
       children: [
-        SizedBox(
-          height: MmSpace.s16,
-          width: double.infinity,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [ground.withValues(alpha: 0), ground]),
+        Positioned.fill(
+          child: IgnorePointer(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MmSpace.s16,
+                  width: double.infinity,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [ground.withValues(alpha: 0), ground]),
+                    ),
+                  ),
+                ),
+                Expanded(child: ColoredBox(color: ground, child: const SizedBox(width: double.infinity))),
+              ],
             ),
           ),
         ),
-        ColoredBox(color: ground, child: SizedBox(width: double.infinity, child: child)),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: MmSpace.s16, width: double.infinity),
+            SizedBox(width: double.infinity, child: child),
+          ],
+        ),
       ],
     );
   }

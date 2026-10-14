@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 import '../data/du_catalog.dart';
@@ -53,6 +55,7 @@ class OnboardingAnswers {
     this.notNow = false,
     this.tonight = false,
     this.syncedFor,
+    this.owner,
     this.seed,
   });
 
@@ -110,6 +113,10 @@ class OnboardingAnswers {
   /// The account the sheet was written to, once every write was acknowledged.
   final String? syncedFor;
 
+  /// The account this sheet belongs to. Null while nobody has signed in since it was started;
+  /// the first account that signs in claims it, and it is never written to any other account.
+  final String? owner;
+
   /// A number picked once for this phone's sheet, so per-student choices (which warm-up
   /// question shows) stay the same on every return. Null until the first answer is saved.
   final int? seed;
@@ -117,6 +124,15 @@ class OnboardingAnswers {
   DuCourse? get course => DuCatalog.course(courseId);
   bool get sealed => sealedAt != null;
   bool get started => done.isNotEmpty || skipped.isNotEmpty;
+
+  /// Nothing the student said is on this sheet (where they are in the deck and the seed are
+  /// not answers).
+  bool get blank {
+    final mine = toJson()..remove('step')..remove('seed')..remove('owner')..remove('syncedFor');
+    final none = empty.toJson()..remove('step')..remove('seed')..remove('owner')..remove('syncedFor');
+    return jsonEncode(mine) == jsonEncode(none);
+  }
+
   bool isDone(String step) => done.contains(step);
   bool isSkipped(String step) => skipped.contains(step);
 
@@ -146,6 +162,7 @@ class OnboardingAnswers {
     bool? notNow,
     bool? tonight,
     Object? syncedFor = _keep,
+    Object? owner = _keep,
     int? seed,
   }) {
     return OnboardingAnswers(
@@ -171,6 +188,7 @@ class OnboardingAnswers {
       notNow: notNow ?? this.notNow,
       tonight: tonight ?? this.tonight,
       syncedFor: identical(syncedFor, _keep) ? this.syncedFor : syncedFor as String?,
+      owner: identical(owner, _keep) ? this.owner : owner as String?,
       seed: seed ?? this.seed,
     );
   }
@@ -205,6 +223,7 @@ class OnboardingAnswers {
         'notNow': notNow,
         'tonight': tonight,
         'syncedFor': syncedFor,
+        'owner': owner,
         'seed': seed,
       };
 
@@ -226,6 +245,7 @@ class OnboardingAnswers {
       }
     }
     final days = j['days'] is List ? {for (final d in j['days']! as List) if (d is int && d >= 0 && d < 7) d} : null;
+    final syncedFor = j['syncedFor'] is String ? j['syncedFor']! as String : null;
     final category = j['category'] is String && DuCatalog.categories.contains(j['category']) ? j['category']! as String : null;
     return OnboardingAnswers(
       stage: Stage.byName(j['stage'] as String?),
@@ -249,7 +269,9 @@ class OnboardingAnswers {
       age: AgeAnswer.byName(j['age'] as String?),
       notNow: j['notNow'] == true,
       tonight: j['tonight'] == true,
-      syncedFor: j['syncedFor'] as String?,
+      syncedFor: syncedFor,
+      // A sheet stored before owners were kept belongs to the account it was written to.
+      owner: j['owner'] is String ? j['owner']! as String : syncedFor,
       seed: j['seed'] is int ? j['seed']! as int : null,
     );
   }

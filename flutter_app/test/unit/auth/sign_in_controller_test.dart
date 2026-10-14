@@ -99,6 +99,7 @@ void main() {
       expect(s.problem, SignInProblem.rateLimited);
       expect(s.email, 'asha@example.com');
       expect(s.resendAvailableAt, clock.value.add(const Duration(seconds: 60)));
+      expect(s.hasCodeFor('asha@example.com'), isTrue, reason: 'the server limits codes per address, so one is already out');
     });
 
     test(
@@ -374,6 +375,89 @@ void main() {
       await notifier.googleSignedIn();
       await notifier.googleSignedIn();
       expect(gateway.sheetLaunches, 1);
+    });
+  });
+
+  group('the sheet after a sign-in on the sign-in screen', () {
+    test('a deep link remembered before the Google key was pressed wins, though the router took it first', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway();
+      final c = _container(gateway, prefs: prefs);
+      final intended = c.read(intendedRouteProvider)..remember('/result/abc');
+      final notifier = c.read(signInControllerProvider.notifier)..signInStarting();
+      // The account loads and the redirect takes the link before the button's callback runs.
+      expect(intended.take(userId: 'u1'), '/result/abc');
+      await notifier.googleSignedIn();
+      expect(gateway.sheetLaunches, 0, reason: 'the student went to their result, not to Today');
+      expect(await prefs.getBool('auth_before_you_start_offered'), isNull, reason: 'the one sheet is still owed');
+    });
+
+    test('a browser return waits for the account before offering the sheet', () async {
+      final gateway = FakeGateway();
+      final hold = gateway.accountHold = Completer<bool>();
+      final c = _container(gateway);
+      final offering = c.read(signInControllerProvider.notifier).googleSignedIn();
+      await Future<void>.delayed(Duration.zero);
+      expect(gateway.sheetLaunches, 0, reason: 'the profile is still loading');
+      hold.complete(true);
+      await offering;
+      expect(gateway.sheetLaunches, 1);
+    });
+
+    test('an account that never loads opens nothing and keeps the sheet owed', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway()..accountLoads = false;
+      final c = _container(gateway, prefs: prefs);
+      await c.read(signInControllerProvider.notifier).googleSignedIn();
+      expect(gateway.sheetLaunches, 0);
+      expect(await prefs.getBool('auth_before_you_start_offered'), isNull);
+    });
+
+    test('a sheet that never got to open is offered again next time', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway()..sheetOpens = false;
+      final c = _container(gateway, prefs: prefs);
+      final notifier = c.read(signInControllerProvider.notifier);
+      await notifier.googleSignedIn();
+      expect(await prefs.getBool('auth_before_you_start_offered'), isNull, reason: 'Today never came');
+      await notifier.googleSignedIn();
+      expect(gateway.sheetLaunches, 2);
+    });
+  });
+
+  group('a browser sign-in from onboarding', () {
+    test('stops listening once it has an answer, so a later browser sign-in does not reopen the sheet', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway, prefs: prefs);
+      c.listen(signInControllerProvider, (_, _) {});
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.signedIn));
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 1);
+
+      // Later: signed out, the phone forgets the offer (a new student), and a browser sign-in
+      // starts from the sign-in screen, which handles its own return.
+      await prefs.remove('auth_before_you_start_offered');
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.signedIn));
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 1, reason: 'the old listener is gone');
+
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.failed));
+      await pumpEventQueue();
+      expect(c.read(signInControllerProvider).problem, isNull, reason: 'a later failure belongs to another screen');
+    });
+
+    test('a cancel ends the wait too', () async {
+      final gateway = FakeGateway()..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway);
+      c.listen(signInControllerProvider, (_, _) {});
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.cancelled));
+      await pumpEventQueue();
+      gateway.returns.add(const OAuthReturn(OAuthReturnKind.signedIn));
+      await pumpEventQueue();
+      expect(gateway.sheetLaunches, 0);
     });
   });
 

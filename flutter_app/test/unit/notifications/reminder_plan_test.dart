@@ -35,11 +35,49 @@ void main() {
       expect(buildReminderPlan(now: now, prefs: prefsWith(weeklyOn: false), state: paused), isEmpty);
     });
 
-    test('a mute removes the reminders inside it and keeps the ones after it', () {
+    test('a mute removes the reminders inside it and plans a full week from where it ends', () {
       final muted = ReminderState(mutedUntil: kolkata(2026, 10, 15, 12).toUtc());
       final plan = buildReminderPlan(now: now, prefs: prefsWith(weeklyOn: false), state: muted);
       expect(plan.first.at, kolkata(2026, 10, 15, 20));
-      expect(plan.length, 4);
+      expect(plan.length, 7);
+      expect(plan.last.at, kolkata(2026, 10, 21, 20));
+    });
+
+    test('a mute that has just started plans the week after it, not nothing', () {
+      final muted = ReminderState(mutedUntil: now.add(const Duration(days: 7)));
+      final plan = buildReminderPlan(now: now, prefs: prefsWith(weeklyOn: false), state: muted);
+      expect(plan.length, 7);
+      expect(plan.first.at, kolkata(2026, 10, 19, 20));
+      expect(plan.last.at, kolkata(2026, 10, 25, 20));
+    });
+
+    test('a mute that has already ended plans from today', () {
+      final over = ReminderState(mutedUntil: now.subtract(const Duration(hours: 1)));
+      final plan = buildReminderPlan(now: now, prefs: prefsWith(weeklyOn: false), state: over);
+      expect(plan.first.at, kolkata(2026, 10, 12, 20));
+      expect(plan.length, 7);
+    });
+
+    test('a reminder under a minute away is not newly planned, but one already scheduled is kept', () {
+      final close = kolkata(2026, 10, 12, 19, 59, 30).toUtc();
+      final fresh = buildReminderPlan(now: close, prefs: prefsWith(weeklyOn: false), state: const ReminderState());
+      expect(fresh.first.at, kolkata(2026, 10, 13, 20));
+      final kept = buildReminderPlan(
+        now: close,
+        prefs: prefsWith(weeklyOn: false),
+        state: const ReminderState(),
+        scheduledIds: {'study_window:2026-10-12'},
+      );
+      expect(kept.first.at, kolkata(2026, 10, 12, 20));
+      expect(kept.length, 7);
+      // A slot that is already past is never kept.
+      final past = buildReminderPlan(
+        now: kolkata(2026, 10, 12, 20, 1).toUtc(),
+        prefs: prefsWith(weeklyOn: false),
+        state: const ReminderState(),
+        scheduledIds: {'study_window:2026-10-12'},
+      );
+      expect(past.first.at, kolkata(2026, 10, 13, 20));
     });
 
     test('a waiting repair replaces the first reminder, not adds a second on the same day', () {

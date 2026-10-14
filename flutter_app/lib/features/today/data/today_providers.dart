@@ -12,6 +12,8 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/repositories/repositories.dart';
+import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
+import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
 import '../../rhythm/rhythm.dart';
 import '../logic/move_builder.dart';
 import '../logic/today_builder.dart';
@@ -24,10 +26,23 @@ import 'today_profile.dart';
 /// `recordState` and the server's own repair action; one minutes key keeps it to one request.
 const int todayPlanMinutes = 10;
 
-/// The duration chip the student chose on this visit (null: the default for the mood).
+/// The student's calendar date (`YYYY-MM-DD`) as of Today's last clock tick. A provider only
+/// tells its listeners when its value changes, so this moves once a day, not once an hour.
+final todayStudentDayProvider = Provider<String>((ref) {
+  ref.watch(todayClockProvider);
+  return formatIsoDate(studentDate(ref.read(nowProvider)(), ref.read(studentTimezoneProvider)));
+});
+
+/// The duration chip the student chose on this visit (null: the default for the mood). It
+/// belongs to one student on one day: signing in as someone else, or the date moving on, starts
+/// it empty again.
 class TodayMinutes extends Notifier<int?> {
   @override
-  int? build() => null;
+  int? build() {
+    ref.watch(userIdProvider);
+    ref.watch(todayStudentDayProvider);
+    return null;
+  }
 
   void choose(int minutes) => state = minutes;
 }
@@ -104,6 +119,9 @@ class TodayClock extends Notifier<int> {
   void refresh() {
     state = ++_ticks;
     _arm();
+    // The week strip reads the student's date too: it samples it again, and reads the week from
+    // the server when a new one has begun.
+    ref.read(rhythmClockProvider.notifier).resample();
   }
 }
 

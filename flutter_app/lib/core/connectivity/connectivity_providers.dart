@@ -65,7 +65,16 @@ class NetworkStatusNotifier extends Notifier<NetworkStatus> {
 }
 
 /// Emits each time the network returns after being offline.
-final networkRestoredProvider = StreamProvider<void>((ref) => ref.watch(connectivityMonitorProvider).restored);
+///
+/// Every event carries a fresh token. A provider only notifies when its value changes, and
+/// `AsyncData(null)` equals `AsyncData(null)`, so plain `null` events would reach listeners on
+/// the first reconnect only and a second reconnect would never retry a pending submit.
+final networkRestoredProvider = StreamProvider<void>(
+  (ref) => ref.watch(connectivityMonitorProvider).restored.map<void>((_) => _RestoreEvent()),
+);
+
+/// One reconnect. Identity equality keeps each event distinct from the last.
+final class _RestoreEvent {}
 
 @visibleForTesting
 Future<bool> pingForTest(String url, {HttpClientAdapter? adapter}) => _ping(url, adapter: adapter);

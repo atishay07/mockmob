@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' show AppLifecycleState, WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -48,21 +49,32 @@ abstract final class ReviewPromptPolicy {
   }
 }
 
+/// True unless the app is known to be out of the foreground. Play shows no review dialog for an
+/// app that is not in front, so a request made then is wasted.
+bool appInForeground() {
+  final state = WidgetsBinding.instance.lifecycleState;
+  return state == null || state == AppLifecycleState.resumed;
+}
+
 /// Asks for a store review at a good moment, within [ReviewPromptPolicy]. Whether Google then
 /// shows the dialog is up to Play (it has its own quota), so the ask is counted once it is made,
 /// not once it is seen. Never throws.
 class ReviewPrompt {
-  ReviewPrompt({required this.prefs, required this.requester, required this.now});
+  ReviewPrompt({required this.prefs, required this.requester, required this.now, this.foreground = appInForeground});
 
   final NativePrefs prefs;
   final ReviewRequester requester;
   final DateTime Function() now;
+
+  /// Whether the app is in front right now. Swapped in tests.
+  final bool Function() foreground;
   bool _busy = false;
 
   /// Returns true when the request was made. [ntaMode] is true on NTA-mode screens, where this
   /// never asks.
   Future<bool> maybeAsk(ReviewMoment moment, {bool ntaMode = false}) async {
-    if (_busy || ntaMode) return false;
+    // A timer can fire after the student left the app: not asked, and the 60 days are not spent.
+    if (_busy || ntaMode || !foreground()) return false;
     _busy = true;
     try {
       final at = now();
@@ -73,6 +85,8 @@ class ReviewPrompt {
         ntaMode: ntaMode,
       );
       if (!allowed || !await requester.isAvailable()) return false;
+      // The awaits above can outlast the student's stay in the app.
+      if (!foreground()) return false;
       // Counted before the dialog so a crash or a repeat call can never ask twice.
       await prefs.setReviewAskedAt(at);
       await requester.request();

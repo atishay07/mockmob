@@ -452,10 +452,10 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_started || widget.progress != null) return;
+    if (widget.progress != null) return;
+    _readReduced();
+    if (_started) return;
     _started = true;
-    _reduced = Motion.reduced(context);
-    if (_reduced) _fade.duration = Duration(milliseconds: OpeningTimeline.reducedFadeMs.round());
     if (widget.ready) _readyAt = 0;
     _clock.addListener(_tick);
     _fade.addStatusListener((s) {
@@ -465,6 +465,25 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     // After the first frame, still under the splash.
     WidgetsBinding.instance.addPostFrameCallback((_) => _warmUp());
     unawaited(_clock.animateWith(_Stopwatch()));
+  }
+
+  /// Reads reduced motion, again whenever it changes until the "mo" starts to move: the saved
+  /// in-app setting is read from storage after the first frame, so it lands after the opening
+  /// has started. Before the "mo" is on the glass it simply takes effect. Turning it on during
+  /// the hold restarts the timeline from the "mo" it shows; after that the unfold is left to
+  /// finish (and turning it off again after the start keeps the short version), so nothing jumps.
+  void _readReduced() {
+    final reduced = Motion.reduced(context);
+    if (reduced == _reduced || _fading) return;
+    if (_seenAt != null) {
+      if (!reduced || _now >= OpeningTimeline.expandAt) return;
+      _seenAt = _clock.value;
+      if (_readyAt != null) _readyAt = 0;
+    }
+    _reduced = reduced;
+    _fade.duration = Duration(
+      milliseconds: (reduced ? OpeningTimeline.reducedFadeMs : OpeningTimeline.fadeMs).round(),
+    );
   }
 
   @override
@@ -495,13 +514,16 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     if (t >= goAt) _handOff();
   }
 
-  /// A tap: hand off now if the app is ready, else jump to the composed word and wait there.
+  /// A tap: hand off now if the app is ready or the word is already composed, else jump to the
+  /// composed word (a second tap then hands off).
   void _skip() {
     if (_done || widget.progress != null) return;
     _buzzed = true;
-    if (_readyAt != null) {
+    if (_readyAt != null || _now >= _settledAt) {
+      // Not ready yet past the word: the app is on its launch screen, which is this opening's
+      // last frame, so the hand-off moves nothing and the tap is never dead.
       _handOff();
-    } else if (_now < _settledAt) {
+    } else {
       _seenAt = _clock.value - _settledAt;
     }
   }
@@ -712,7 +734,8 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
 
   @override
   Widget build(BuildContext context) {
-    final ready = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown));
+    // A load that failed is settled too: the router shows its retry screen, so hand off to it.
+    final ready = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
     return Stack(
       fit: StackFit.expand,
       children: [

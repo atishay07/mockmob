@@ -54,3 +54,27 @@ Future<void> postResultReady(NotificationService service, {required SessionDraft
     respondsToStudentAction: true,
   ));
 }
+
+/// How a background submit ended without the server recording it.
+enum UnrecordedEnd {
+  /// The server's time to accept it ended first.
+  windowClosed,
+
+  /// The server refused it for a reason a retry cannot fix.
+  rejected,
+
+  /// It never reached the server and the time to send it has ended.
+  notSent,
+}
+
+/// Replaces the pinned "Sending" status once the backup job stops trying, so it never claims
+/// answers are being sent when they are not. The replacement can be swiped away.
+Future<void> postSendEnded(NotificationService service, {required SessionDraft draft, required UnrecordedEnd end}) {
+  final label = _label(draft);
+  final (title, body) = switch (end) {
+    UnrecordedEnd.windowClosed => ('$label not recorded', 'The time to send it ended before it reached MockMob.'),
+    UnrecordedEnd.rejected => ('$label not recorded', 'MockMob could not accept these answers.'),
+    UnrecordedEnd.notSent => ('$label not sent', 'Your answers are still on this phone. The time to send them has ended.'),
+  };
+  return service.settleOngoing(taskId: mockInProgressTaskId, channel: NotificationChannels.mockInProgress, title: title, body: body);
+}

@@ -13,6 +13,7 @@ import 'package:mockmob/features/account_access/access_gateway.dart' show accoun
 import 'package:mockmob/features/auth/auth_routes.dart';
 import 'package:mockmob/features/auth/code_slots.dart';
 import 'package:mockmob/features/auth/copy.dart';
+import 'package:mockmob/features/auth/sign_in_state.dart';
 
 import '../../helpers/fonts.dart';
 import '../account_access/support.dart' show FakeAccessGateway;
@@ -136,6 +137,21 @@ void main() {
       );
       // A code is already out for this address, so the way back to it is offered.
       expect(find.text(AuthCopy.alreadyHaveCode), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'after the app was closed while the student fetched the code, a rate limit still opens the way to it',
+    (tester) async {
+      // A fresh run: nothing remembers the code that is already in the inbox.
+      final gateway = FakeGateway()..sendError = failure(AuthFailure.rateLimited);
+      await _pump(tester, gateway: gateway);
+      await _sendCodeFor(tester, 'asha@example.com');
+
+      expect(find.text(AuthCopy.problem(SignInProblem.rateLimited, SignInStep.email)!), findsOneWidget);
+      await tester.tap(find.text(AuthCopy.alreadyHaveCode));
+      await tester.pumpAndSettle();
+      expect(find.text(AuthCopy.codeTitle), findsOneWidget, reason: 'the code in the inbox can still be entered');
     },
   );
 

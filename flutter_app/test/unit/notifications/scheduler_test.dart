@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/notification_prefs.dart';
 import 'package:mockmob/core/notifications/notification_ids.dart';
@@ -76,16 +78,94 @@ void main() {
       expect(rig.gateway.scheduled.length, 3);
     });
 
-    test('Mute for 7 days cancels what is ahead and schedules nothing until it ends', () async {
+    test('Mute for 7 days cancels what is ahead and schedules nothing inside it, only what comes after', () async {
       final rig = Rig(prefs: prefsWith(weeklyOn: false));
       await rig.scheduler.sync();
       await rig.scheduler.mute();
-      expect(rig.gateway.scheduled, isEmpty);
+      final until = rig.now.add(const Duration(days: 7));
       final state = await rig.store.load();
-      expect(state.mutedUntil!.isAtSameMomentAs(rig.now.add(const Duration(days: 7))), isTrue);
+      expect(state.mutedUntil!.isAtSameMomentAs(until), isTrue);
+      // Nothing from the three days that were scheduled, nothing inside the mute.
+      expect(rig.gateway.scheduled.where((s) => s.at.isBefore(until)), isEmpty);
 
       await rig.scheduler.unmute();
       expect(rig.gateway.scheduled, isNotEmpty);
+      expect(rig.gateway.scheduled.any((s) => s.at.isBefore(until)), isTrue);
+    });
+
+    test('after a 7-day mute the reminders that follow it are already scheduled, with no app open', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      await rig.scheduler.mute();
+      // Monday 19 October 8:00 PM is the first study window after the mute ends at 6:00 PM.
+      expect(rig.gateway.scheduled, isNotEmpty);
+      expect(rig.gateway.scheduled.map((s) => s.at).toList(), [kolkata(2026, 10, 19, 20), kolkata(2026, 10, 20, 20), kolkata(2026, 10, 21, 20)]);
+    });
+
+    test('after a 7-day mute the weekly plan and a waiting repair follow it too', () async {
+      final rig = Rig(
+        prefs: prefsWith(studyOn: false),
+        repair: const RepairReady(attemptId: 'att-9', mistakes: 3, minutes: 10),
+      );
+      await rig.scheduler.setWeeklyPlan(true);
+      await rig.scheduler.mute();
+      final until = rig.now.add(const Duration(days: 7));
+      expect(rig.gateway.scheduled.length, 2);
+      expect(rig.gateway.scheduled.every((s) => !s.at.isBefore(until)), isTrue);
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 25, 18)), isTrue);
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 19, 19)), isTrue);
+    });
+
+    test('a re-plan seconds before a reminder is due keeps it', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      await rig.scheduler.sync();
+      expect(rig.gateway.scheduled.first.at, kolkata(2026, 10, 12, 20));
+      // The app resumes 30 seconds before 8:00 PM.
+      rig.now = kolkata(2026, 10, 12, 19, 59, 30).toUtc();
+      await rig.scheduler.sync();
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 12, 20)), isTrue);
+      // Still one per day, not doubled.
+      expect(rig.gateway.scheduled.length, 3);
+      final state = await rig.store.load();
+      expect(state.delivered.any((d) => d.taskId == 'study_window:2026-10-12'), isTrue);
+    });
+
+    test('a re-plan seconds before a due reminder still drops it when the student muted', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      await rig.scheduler.sync();
+      rig.now = kolkata(2026, 10, 12, 19, 59, 30).toUtc();
+      await rig.scheduler.mute();
+      expect(rig.gateway.scheduled.any((s) => s.at == kolkata(2026, 10, 12, 20)), isFalse);
+    });
+
+    test('a failed pass still runs the pass an edit queued meanwhile', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      await rig.scheduler.sync();
+      rig.gateway.cancelled.clear();
+      rig.gateway.failOnce = true;
+      // The second call arrives while the first pass is running and queues one more pass.
+      final first = rig.scheduler.sync();
+      final second = rig.scheduler.sync();
+      await expectLater(first, throwsA(isA<StateError>()));
+      await expectLater(second, throwsA(isA<StateError>()));
+      // The queued pass cancelled what the failed pass had scheduled and planned again.
+      expect(rig.gateway.cancelled.length, greaterThan(3));
+      expect(rig.gateway.scheduled.length, 3);
+    });
+
+    test('a pass still running when everything is cancelled schedules nothing afterwards', () async {
+      final rig = Rig(prefs: prefsWith(weeklyOn: false));
+      rig.gateway.gate = Completer<void>();
+      final pass = rig.scheduler.sync();
+      while (rig.gateway.entered < 1) {
+        await Future<void>.delayed(Duration.zero);
+      }
+      // Sign-out: everything is cancelled while the first reminder is being armed.
+      await rig.service.cancelAll();
+      rig.gateway.gate!.complete();
+      await pass;
+      expect(rig.gateway.scheduled, isEmpty);
+      expect(rig.gateway.entered, 1, reason: 'the rest of the plan was not tried');
+      expect((await rig.store.load()).delivered, isEmpty);
     });
 
     test('the weekly plan is off until turned on, then goes through the engine', () async {

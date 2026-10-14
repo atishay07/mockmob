@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mockmob/core/models/notification_prefs.dart';
 import 'package:mockmob/core/notifications/notification_channels.dart';
 import 'package:mockmob/core/notifications/notification_gateway.dart';
@@ -10,7 +12,7 @@ import 'package:mockmob/features/notifications/logic/reminder_plan.dart';
 import 'package:mockmob/features/notifications/services/reminder_scheduler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-tz.TZDateTime kolkata(int y, int m, int d, int h, [int min = 0]) => tz.TZDateTime(locationFor('Asia/Kolkata'), y, m, d, h, min);
+tz.TZDateTime kolkata(int y, int m, int d, int h, [int min = 0, int sec = 0]) => tz.TZDateTime(locationFor('Asia/Kolkata'), y, m, d, h, min, sec);
 
 NotificationPrefs prefsWith({
   bool studyOn = true,
@@ -49,6 +51,11 @@ class FakeGateway implements LocalNotificationsGateway {
 
   /// The next schedule call throws once, like a plugin PlatformException.
   bool failOnce = false;
+
+  /// While set, every schedule call waits for it before arming, and [entered] counts the calls
+  /// that reached the plugin: a test uses it to cancel everything while a pass is mid-flight.
+  Completer<void>? gate;
+  int entered = 0;
   final scheduled = <ScheduledRecord>[];
   final cancelled = <int>[];
   final shown = <int>[];
@@ -70,6 +77,8 @@ class FakeGateway implements LocalNotificationsGateway {
     bool silent = false,
     List<NotificationActionSpec> actions = const [],
   }) async {
+    entered++;
+    await gate?.future;
     if (failOnce) {
       failOnce = false;
       throw StateError('plugin');

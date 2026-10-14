@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/motion/reduced_motion.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/brand/brand_logo.dart';
 import 'package:mockmob/core/widgets/brand/brand_opening.dart';
@@ -370,6 +371,71 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
       expect(done, 1);
       expect(haptics.light, 0);
+    });
+
+    testWidgets('the saved in-app Reduce motion, read after the first frame, still gives the short opening', (tester) async {
+      final haptics = _CountingHaptics();
+      final glass = Completer<void>();
+      var done = 0;
+      await _pump(
+        tester,
+        ReducedMotionScope(child: BrandOpening(onDone: () => done++, shown: glass.future)),
+        haptics: haptics,
+      );
+      // The setting arrives from storage after the opening has built, still under the splash.
+      ProviderScope.containerOf(tester.element(find.byType(BrandOpening)))
+          .read(reducedMotionOverrideProvider.notifier)
+          .set(true);
+      await tester.pump();
+      glass.complete();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 210));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(done, 1, reason: 'the short version hands off after about 0.4 s');
+      expect(haptics.light, 0, reason: 'no haptic under reduced motion');
+    });
+
+    testWidgets('Reduce motion landing during the hold restarts the short version from the "mo"', (tester) async {
+      final haptics = _CountingHaptics();
+      var done = 0;
+      await _pump(
+        tester,
+        ReducedMotionScope(child: BrandOpening(onDone: () => done++, shown: _onGlass())),
+        haptics: haptics,
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      ProviderScope.containerOf(tester.element(find.byType(BrandOpening)))
+          .read(reducedMotionOverrideProvider.notifier)
+          .set(true);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 210));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(done, 1);
+      expect(haptics.light, 0);
+    });
+
+    testWidgets('a tap once the word is composed hands off even while the app is loading', (tester) async {
+      var done = 0;
+      await _pump(tester, BrandOpening(ready: false, onDone: () => done++, shown: _onGlass()));
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(done, 0);
+      await tester.tap(find.byType(BrandOpening));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(done, 1, reason: 'a tap is never dead');
+    });
+
+    testWidgets('a failed load hands off to the retry screen as soon as the word is composed', (tester) async {
+      final auth = _Auth(const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true));
+      await _pump(
+        tester,
+        BrandOpeningHost(shown: _onGlass(), child: const Scaffold(body: Center(child: Text('Retry')))),
+        overrides: [authSnapshotProvider.overrideWith(() => auth)],
+      );
+      await tester.pump(const Duration(milliseconds: 1000));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(BrandOpening), findsNothing, reason: 'not held over the retry screen until the 8 s cap');
+      expect(find.text('Retry'), findsOneWidget);
     });
 
     testWidgets('the host removes the opening and hides the app from screen readers until then', (tester) async {

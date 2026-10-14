@@ -12,6 +12,7 @@ import '../domain/session_rules.dart';
 import '../models/json_helpers.dart';
 import '../models/notification_prefs.dart';
 import '../notifications/notification_gateway.dart';
+import '../notifications/notification_ids.dart';
 import '../notifications/notification_service.dart';
 import '../repositories/local_scope.dart';
 import '../repositories/pending_result_repository.dart';
@@ -104,8 +105,14 @@ Future<bool> runSubmitSessionTask(BackgroundEnvironment env, Map<String, dynamic
   final scope = LocalScope(env.db, () => userId, env.now);
   final drafts = SessionDraftRepository(scope);
   final draft = await drafts.bySessionId(sessionId);
-  // No draft means it was submitted already (or the student signed out): nothing to do.
-  if (draft == null || draft.windowClosed || draft.rejected) return true;
+  // No draft means it was submitted already (or the student signed out): nothing to do, and
+  // whoever removed it cleared the status.
+  if (draft == null) return true;
+  // Already settled: nothing is being sent, so a "Sending" status left up would be false.
+  if (draft.windowClosed || draft.rejected) {
+    await _settleStatus(env, userId: userId, sessionId: sessionId, (n) => n.cancel(mockInProgressTaskId));
+    return true;
+  }
 
   // A foreground engine that is still running owns the session: submitting now would send the
   // journal as it stands and delete the draft while the student is answering. Try again later.
@@ -139,11 +146,30 @@ Future<bool> runSubmitSessionTask(BackgroundEnvironment env, Map<String, dynamic
         }
       }
       return true;
-    case SubmitWindowClosed() || SubmitRejected():
+    case SubmitWindowClosed():
+      await _settleStatus(env, userId: userId, sessionId: sessionId, (n) => postSendEnded(n, draft: draft, end: UnrecordedEnd.windowClosed));
+      return true;
+    case SubmitRejected():
+      await _settleStatus(env, userId: userId, sessionId: sessionId, (n) => postSendEnded(n, draft: draft, end: UnrecordedEnd.rejected));
       return true;
     case SubmitPending():
       // Ask WorkManager for another run only while the server would still accept the submit.
-      return !submissionWindowOpen(endsAtMs: draft.endsAtWallMs, nowMs: env.now().millisecondsSinceEpoch);
+      if (submissionWindowOpen(endsAtMs: draft.endsAtWallMs, nowMs: env.now().millisecondsSinceEpoch)) return false;
+      await _settleStatus(env, userId: userId, sessionId: sessionId, (n) => postSendEnded(n, draft: draft, end: UnrecordedEnd.notSent));
+      return true;
+  }
+}
+
+/// Changes the shared mock status notification once this job stops sending. It is left alone
+/// while another paper is open on screen, since the status then describes that paper.
+Future<void> _settleStatus(BackgroundEnvironment env, Future<void> Function(NotificationService n) change, {required String userId, required String sessionId}) async {
+  final notifications = env.notifications;
+  if (notifications == null) return;
+  try {
+    if (await SessionHeartbeat(env.db, userId: userId, now: env.now).anotherIsLive(sessionId)) return;
+    await change(notifications);
+  } on Object {
+    // A notification problem never changes the job's outcome.
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/auth/auth.dart' show authSnapshotProvider;
 import '../data/calendar.dart';
 import '../data/du_catalog.dart';
 import '../data/subjects.dart';
@@ -61,9 +62,12 @@ class StudentSheet {
   PlanSummary get plan => PlanSummary.of(answers, now);
 }
 
-/// The sealed sheet, or null before the student seals one (or while it loads).
+/// The sealed sheet, or null before the student seals one (or while it loads). Another account's
+/// sheet is never shown: only one nobody has signed in to yet, or the signed-in account's own.
 final studentSheetProvider = Provider<StudentSheet?>((ref) {
   final answers = ref.watch(onboardingAnswersProvider).value;
   if (answers == null || !answers.sealed) return null;
+  final owner = answers.owner;
+  if (owner != null && owner != ref.watch(authSnapshotProvider.select((a) => a.userId))) return null;
   return StudentSheet(answers: answers, now: ref.watch(nowProvider)());
 });

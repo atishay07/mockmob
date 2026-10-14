@@ -185,11 +185,20 @@ class TodayWidgetProvider : AppWidgetProvider() {
         var ringDp = if (wide) 52f else 44f
         var showRing = week != null
         var showWeekLabel = wide
+        var showUpdated = false
+        var showOverline = false
         if (wide) {
             val innerWidth = widthDp - 2 * WIDE_PADDING_DP
+            // The top row: the stamp is one line that is never cut. The overline beside it
+            // shrinks first and goes before the stamp does; the stamp goes only when it cannot
+            // fit the row at all.
+            val leading = if (move == null) WIDE_MARK_DP + WIDE_MARK_GAP_DP else 0f
+            val stampWidth = if (updated == null) 0f else textWidthDp(context, updated, 11f) + WIDE_STAMP_GAP_DP + 4f
+            showUpdated = updated != null && stampWidth <= innerWidth - leading
+            showOverline = move != null && innerWidth - (if (showUpdated) stampWidth else 0f) >= MIN_OVERLINE_DP
             val top = maxOf(
-                if (move == null) 24f else lineDp(context, 12f),
-                if (updated != null) lineDp(context, 11f) else 0f,
+                if (move == null) 24f else if (showOverline) lineDp(context, 12f) else 0f,
+                if (showUpdated) lineDp(context, 11f) else 0f,
             )
             // The bottom row: the key and the countdown share one line while they fit side by
             // side; otherwise the countdown's words wrap to a second line rather than squeeze.
@@ -222,10 +231,10 @@ class TodayWidgetProvider : AppWidgetProvider() {
             titleSizes = listOf(22f, 20f, 18f, 16f)
             titleSpacing = 1.1f
             v.setViewVisibility(R.id.widget_mark, visibleIf(move == null))
-            v.setViewVisibility(R.id.widget_overline, visibleIf(move != null))
+            v.setViewVisibility(R.id.widget_overline, visibleIf(showOverline))
             v.setTextViewText(R.id.widget_overline, move?.overline ?: "")
             v.setViewVisibility(R.id.widget_action, visibleIf(move != null))
-            v.setViewVisibility(R.id.widget_updated, visibleIf(updated != null))
+            v.setViewVisibility(R.id.widget_updated, visibleIf(showUpdated))
         } else {
             val inner = widthDp - 2 * SMALL_PADDING_DP
             // The countdown's words sit beside the ring (or the brand mark): two lines at most.
@@ -268,11 +277,12 @@ class TodayWidgetProvider : AppWidgetProvider() {
                 }
             }
             v.setViewVisibility(R.id.widget_action, visibleIf(showPill))
-            var showUpdated = false
             if (updated != null) {
-                val lines = if (textWidthDp(context, updated, 11f) <= inner) 1 else 2
+                // How the stamp really wraps in this width at this font size. It is shown whole
+                // in one or two lines, or not at all: three lines would cut the time.
+                val lines = linesNeeded(context, updated, 11f, inner, medium = false)
                 val needed = 2f + lines * lineDp(context, 11f)
-                if (middleDp - needed >= titleLine) {
+                if (lines <= 2 && middleDp - needed >= titleLine) {
                     showUpdated = true
                     middleDp -= needed
                     v.setInt(R.id.widget_updated, "setMaxLines", lines)
@@ -343,6 +353,13 @@ class TodayWidgetProvider : AppWidgetProvider() {
         /** The layouts' padding: widget_today_small.xml and widget_padding. */
         const val SMALL_PADDING_DP = 12f
         const val WIDE_PADDING_DP = 14f
+
+        /** The wide layout's top row: the brand mark and its gap, the stamp's left margin, and the
+         *  least width the overline keeps beside the stamp before it gives way. */
+        const val WIDE_MARK_DP = 24f
+        const val WIDE_MARK_GAP_DP = 8f
+        const val WIDE_STAMP_GAP_DP = 8f
+        const val MIN_OVERLINE_DP = 56f
 
         /** One line of [sizeSp] text, in dp, at the phone's font size. */
         fun lineDp(context: Context, sizeSp: Float, spacing: Float = 1f): Float {

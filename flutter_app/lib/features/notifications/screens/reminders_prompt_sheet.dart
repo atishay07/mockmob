@@ -25,6 +25,13 @@ import '../widgets/time_sheet.dart';
 
 enum _Phase { ask, granted, denied }
 
+/// Above this text scale the ask shows one example, not three: the sheet stays a bottom sheet
+/// until 1.5x, and three examples push the main key below the fold well before that.
+const double _compactTextScale = 1.15;
+
+/// Above this the ask also drops Mobi and the examples label, so the main key stays in view just below full page.
+const double _tightTextScale = 1.35;
+
 /// What the sheet was opened on: the wording it uses (set by how many times it has been put to
 /// the student) and whether Android still shows its own question. Read once, so the wording
 /// does not change under the student while the sheet is up.
@@ -121,12 +128,20 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
     final granted = result == NotificationPermission.granted;
     if (granted) {
       unawaited(ref.read(hapticsProvider).settle());
-      unawaited(ref.read(reminderSchedulerProvider).sync());
+      _replan();
     }
     setState(() {
       _asking = false;
       _phase = granted ? _Phase.granted : _Phase.denied;
     });
+  }
+
+  /// Plans the reminders now that Android allows them. Nothing awaits it, so a failure (the
+  /// plugin or storage) is caught here: the runtime plans again on the next resume or change.
+  void _replan() {
+    unawaited(
+      ref.read(reminderSchedulerProvider).sync().catchError((Object _) {}),
+    );
   }
 
   Future<void> _openSettings() async {
@@ -139,21 +154,24 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
 
   /// The app came back to the front: the student may have allowed notifications in Android
   /// settings. Android's own dialog also brings the app back, so a running request is left alone.
+  ///
+  /// After a refusal the student may do the same, so the denied state is checked too: it must not
+  /// keep saying reminders stay off once they are on.
   Future<void> _recheck() async {
-    if (_phase != _Phase.ask || _asking || _opened == null) return;
+    if (_phase == _Phase.granted || _asking || _opened == null) return;
     NotificationPermission permission;
     try {
       permission = await ref.read(permissionRequesterProvider).notificationPermission();
     } on Object {
       return;
     }
-    if (!mounted || _phase != _Phase.ask || _asking) return;
+    if (!mounted || _phase == _Phase.granted || _asking) return;
     ref.invalidate(notificationPermissionProvider);
     if (permission == NotificationPermission.granted) {
       unawaited(ref.read(hapticsProvider).settle());
-      unawaited(ref.read(reminderSchedulerProvider).sync());
+      _replan();
       setState(() => _phase = _Phase.granted);
-    } else if (permission != _opened!.permission) {
+    } else if (_phase == _Phase.ask && permission != _opened!.permission) {
       setState(() => _opened = _opened!.withPermission(permission));
     }
   }
@@ -258,6 +276,9 @@ class _Ask extends StatelessWidget {
     final type = context.mmType;
     final waiting = repair;
     final window = prefs.studyWindow;
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final compact = textScale > _compactTextScale;
+    final tight = textScale > _tightTextScale;
     // Each preview is the student's own reminder where the app knows it, and a plain line
     // with no number where it does not.
     final repairBody = waiting == null
@@ -280,8 +301,11 @@ class _Ask extends StatelessWidget {
                 child: Text(variant.title, style: type.title),
               ),
             ),
-            const SizedBox(width: MmSpace.s12),
-            const Mobi(pose: MobiPose.greet, size: 64),
+            // Mobi is decoration: at the largest sizes below full page the room goes to the words.
+            if (!tight) ...[
+              const SizedBox(width: MmSpace.s12),
+              const Mobi(pose: MobiPose.greet, size: 64),
+            ],
           ],
         ),
         const SizedBox(height: MmSpace.s8),
@@ -290,11 +314,13 @@ class _Ask extends StatelessWidget {
           style: type.body.copyWith(color: colors.ink2),
         ),
         const SizedBox(height: MmSpace.s16),
-        Text(
-          NotificationsCopy.promptExamplesLabel,
-          style: type.label.copyWith(color: colors.ink3),
-        ),
-        const SizedBox(height: MmSpace.s8),
+        if (!tight) ...[
+          Text(
+            NotificationsCopy.promptExamplesLabel,
+            style: type.label.copyWith(color: colors.ink3),
+          ),
+          const SizedBox(height: MmSpace.s8),
+        ],
         DecoratedBox(
           decoration: BoxDecoration(
             color: colors.sunken,
@@ -305,32 +331,48 @@ class _Ask extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
             child: Column(
               children: [
-                StaggerIn(
-                  index: 0,
-                  child: const NotificationPreview(
-                    icon: LucideIcons.clipboardCheck,
-                    channel: NotificationsCopy.exampleResultChannel,
-                    body: NotificationsCopy.exampleResultBody,
+                if (compact)
+                  // Larger text: one example, so the main key stays in view without scrolling.
+                  // The student's own waiting repair is the one that matters most to them.
+                  waiting != null
+                      ? NotificationPreview(
+                          icon: LucideIcons.wrench,
+                          channel: NotificationsCopy.exampleRepairChannel,
+                          body: repairBody,
+                        )
+                      : const NotificationPreview(
+                          icon: LucideIcons.clipboardCheck,
+                          channel: NotificationsCopy.exampleResultChannel,
+                          body: NotificationsCopy.exampleResultBody,
+                        )
+                else ...[
+                  StaggerIn(
+                    index: 0,
+                    child: const NotificationPreview(
+                      icon: LucideIcons.clipboardCheck,
+                      channel: NotificationsCopy.exampleResultChannel,
+                      body: NotificationsCopy.exampleResultBody,
+                    ),
                   ),
-                ),
-                const _PreviewRule(),
-                StaggerIn(
-                  index: 1,
-                  child: NotificationPreview(
-                    icon: LucideIcons.wrench,
-                    channel: NotificationsCopy.exampleRepairChannel,
-                    body: repairBody,
+                  const _PreviewRule(),
+                  StaggerIn(
+                    index: 1,
+                    child: NotificationPreview(
+                      icon: LucideIcons.wrench,
+                      channel: NotificationsCopy.exampleRepairChannel,
+                      body: repairBody,
+                    ),
                   ),
-                ),
-                const _PreviewRule(),
-                StaggerIn(
-                  index: 2,
-                  child: NotificationPreview(
-                    icon: LucideIcons.clock,
-                    channel: NotificationsCopy.exampleStudyChannel,
-                    body: studyBody,
+                  const _PreviewRule(),
+                  StaggerIn(
+                    index: 2,
+                    child: NotificationPreview(
+                      icon: LucideIcons.clock,
+                      channel: NotificationsCopy.exampleStudyChannel,
+                      body: studyBody,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

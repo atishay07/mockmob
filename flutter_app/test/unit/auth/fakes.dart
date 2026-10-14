@@ -8,7 +8,6 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart'
     show NetworkStatusNotifier;
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/auth/after_sign_in.dart';
-import 'package:mockmob/features/auth/sign_in_controller.dart';
 import 'package:mockmob/features/auth/sign_in_gateway.dart';
 
 /// A gateway whose answers the test decides.
@@ -32,6 +31,9 @@ class FakeGateway implements SignInGateway {
 
   /// Times the after-sign-in sheet was opened over Today.
   int sheetLaunches = 0;
+
+  /// False when the launcher never gets to open the sheet (Today never came).
+  bool sheetOpens = true;
 
   @override
   Future<void> sendCode(String email) async {
@@ -63,6 +65,22 @@ class FakeGateway implements SignInGateway {
 
   @override
   bool get isSignedIn => _signedIn;
+
+  /// When set, waiting for the account holds until it completes (a slow profile load after a
+  /// browser return). Its value says whether the account loaded.
+  Completer<bool>? accountHold;
+
+  /// A browser return or a sign-in that did not go through [verifyCode] or [signInWithGoogle]
+  /// still lands the account, unless this is false.
+  bool accountLoads = true;
+
+  @override
+  Future<bool> whenSignedIn() async {
+    if (_signedIn) return true;
+    final loaded = await (accountHold?.future ?? Future.value(accountLoads));
+    if (loaded) _signedIn = true;
+    return loaded;
+  }
 
   /// The account a sign-in lands on.
   String signsInAs = 'u1';
@@ -133,10 +151,15 @@ List<Override> authOverrides({
   NetworkStatus network = NetworkStatus.online,
 }) {
   final c = clock ?? TestClock();
+  final store = prefs ?? MemoryPrefsStore();
   return [
     signInGatewayProvider.overrideWithValue(gateway),
-    afterSignInSheetLauncherProvider.overrideWithValue(() => gateway.sheetLaunches++),
-    signInPrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
+    // Like the real launcher with Today on screen: the sheet opens and the phone records it.
+    afterSignInSheetLauncherProvider.overrideWithValue(() {
+      gateway.sheetLaunches++;
+      if (gateway.sheetOpens) unawaited(markBeforeYouStartOffered(store));
+    }),
+    signInPrefsStoreProvider.overrideWithValue(store),
     nowProvider.overrideWithValue(c.call),
     networkStatusProvider.overrideWith(() => FakeNetwork(network)),
   ];

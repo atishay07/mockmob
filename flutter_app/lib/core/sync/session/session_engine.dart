@@ -234,14 +234,40 @@ class SessionEngine extends ChangeNotifier {
       return;
     }
     if (earlier == null || earlier.sessionId == newSessionId) return;
-    final owed = earlier.pendingSubmission && !earlier.windowClosed && !earlier.rejected;
-    if (!owed && !earlier.rejected) return;
+    var owed = earlier.pendingSubmission && !earlier.windowClosed && !earlier.rejected;
+    // A paper that was never submitted (the app was killed, or the student left it) still owes
+    // its answers when some exist only on this phone, flag or not: the backup job may not have
+    // run yet. Past its deadline it is sent now; before it, it is kept and the job sends it.
+    var keepForJob = false;
+    if (!owed && !earlier.rejected && !earlier.windowClosed && await _hasUnsentAnswers(services, earlier)) {
+      if (services.now().millisecondsSinceEpoch >= earlier.endsAtWallMs) {
+        owed = true;
+      } else {
+        keepForJob = true;
+      }
+    }
+    if (!owed && !keepForJob && !earlier.rejected) return;
     final archiveKey = SessionDraftRepository.archiveKeyOf(earlier.sessionId);
     try {
       await services.drafts.archive(earlier);
     } on Object {
       // Best effort; the journal rows are kept either way, and the submit below writes the
       // draft under its archive key.
+    }
+    if (keepForJob) {
+      // The job finds the draft by session id and submits it near its deadline, as it does for
+      // a paper left in the background.
+      try {
+        await services.scheduler.scheduleSubmit(
+          userId: services.userId,
+          sessionId: earlier.sessionId,
+          draftKey: archiveKey,
+          runAt: DateTime.fromMillisecondsSinceEpoch(earlier.endsAtWallMs - 90 * 1000),
+        );
+      } on Object {
+        // The answers stay archived on the phone, journal intact.
+      }
+      return;
     }
     if (!owed) return;
     final archived = SessionDraft.fromJson(asJson(jsonDecode(jsonEncode({...earlier.toJson(), 'draftKey': archiveKey}))));
@@ -261,6 +287,19 @@ class SessionEngine extends ChangeNotifier {
       await services.scheduler.scheduleSubmit(userId: services.userId, sessionId: archived.sessionId, draftKey: archiveKey, runAt: services.now());
     } on Object {
       // The answers stay archived on the phone, flag and journal intact.
+    }
+  }
+
+  /// True when [draft] has answers the server does not hold: every answer in ticket mode, the
+  /// unacknowledged ones otherwise (a cleared answer counts). A journal that cannot be read
+  /// counts as unsent, so the draft is kept rather than overwritten.
+  static Future<bool> _hasUnsentAnswers(SessionEngineServices services, SessionDraft draft) async {
+    try {
+      final journal = await SessionJournal.open(services.db, userId: draft.userId, sessionId: draft.sessionId, now: services.now);
+      if (draft.isTicketMode) return journal.answers.isNotEmpty;
+      return journal.unsyncedQuestionIds(draft.acknowledgedSequence).isNotEmpty;
+    } on Object {
+      return true;
     }
   }
 

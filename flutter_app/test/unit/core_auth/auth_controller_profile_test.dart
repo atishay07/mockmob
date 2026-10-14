@@ -206,6 +206,75 @@ void main() {
     });
   });
 
+  group('a reload after the student changed something', () {
+    ApiResponse withSubjects(List<String> subjects) => ApiResponse(200, {
+          'user': {'id': 'a', 'email': 'a@x.com', 'name': 'Student', 'subjects': subjects},
+          'needsOnboarding': false,
+        });
+
+    test('starts its own read; an older read that lands later is dropped', () async {
+      final auth = await start();
+      service.session = _session('a@x.com');
+      auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com', subjects: ['accountancy']));
+      final before = Completer<ApiResponse>();
+      final after = Completer<ApiResponse>();
+      var calls = 0;
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) {
+        calls++;
+        return calls == 1 ? before.future : after.future;
+      });
+      // A read that asked the server before the edit, still waiting on a slow connection.
+      final older = auth.reload();
+      await pumpEventQueue();
+
+      // The subjects were saved; the editor reloads.
+      final newer = auth.reload();
+      await pumpEventQueue();
+      expect(calls, 2, reason: 'the reload after the edit asks the server again');
+
+      after.complete(withSubjects(['accountancy', 'economics']));
+      await newer;
+      before.complete(withSubjects(['accountancy']));
+      await older;
+      await pumpEventQueue();
+
+      expect(now().subjects, ['accountancy', 'economics']);
+      expect(await store.getString('cached_auth_me'), contains('economics'), reason: 'the next launch opens with the edit');
+    });
+  });
+
+  group('Try again on the load-failed screen', () {
+    test('keeps the load-failed screen while it tries, and offers the key again on a stall', () async {
+      final saved = AuthController.retryWait;
+      AuthController.retryWait = const Duration(milliseconds: 50);
+      addTearDown(() => AuthController.retryWait = saved);
+      final auth = await start();
+      service.session = _session('a@x.com');
+      when(() => api.get('/api/auth/me', options: any(named: 'options')))
+          .thenThrow(const ApiError(kind: ApiErrorKind.network, code: 'network'));
+      await auth.reload();
+      await pumpEventQueue();
+      expect(now().loadFailed, isTrue);
+
+      // The connection now stalls.
+      final stalled = Completer<ApiResponse>();
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) => stalled.future);
+      final retry = auth.retryStart();
+      await pumpEventQueue();
+      expect(now().loadFailed, isTrue, reason: 'the router keeps /load-failed, never the bare splash');
+      expect(now().retrying, isTrue, reason: 'the screen says it is trying');
+
+      await retry;
+      expect(now().loadFailed, isTrue);
+      expect(now().retrying, isFalse, reason: 'past the wait the key works again');
+
+      // A late answer still opens the app.
+      stalled.complete(_me('a', 'a@x.com'));
+      await pumpEventQueue();
+      expect(now().status, AuthStatus.signedIn);
+    });
+  });
+
   group('the flush that follows sign-in', () {
     test('a flush that fails is left for the next one, never an unhandled error', () async {
       final sync = _FailingSync();

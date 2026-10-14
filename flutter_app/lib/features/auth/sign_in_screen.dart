@@ -106,7 +106,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           SignInMethods(
             initialEmail: state.email,
             busy: state.isBusy,
-            onBusyChanged: (busy) => setState(() => _otherBusy = busy),
+            onBusyChanged: (busy) {
+              // Google or the password form is starting: read the remembered route before the
+              // router takes it, so the after-sign-in sheet never covers a deep link.
+              if (busy) notifier.signInStarting();
+              setState(() => _otherBusy = busy);
+            },
             onSignedIn: notifier.googleSignedIn,
             emailCode: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

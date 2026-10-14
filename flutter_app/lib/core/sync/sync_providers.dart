@@ -124,6 +124,7 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
   final api = ApiSessionApi(ref.watch(apiClientProvider));
   final drafts = ref.watch(sessionDraftRepositoryProvider);
   final registry = ref.read(pendingWorkRegistryProvider.notifier);
+  final scope = ref.watch(localScopeProvider);
   return SessionEngineServices(
     db: ref.watch(appDatabaseProvider),
     userId: userId,
@@ -138,6 +139,8 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
         // New evidence: "Not today" no longer applies.
         await ref.read(dismissalRepositoryProvider).clearForNewAttempt();
       },
+      // Read at the moment the reply lands, from the same live scope the stores use.
+      signedInUserId: () => scope.userIdOrNull,
       now: ref.watch(nowProvider),
     ),
     scheduler: ref.watch(workmanagerSchedulerProvider),
