@@ -127,3 +127,19 @@ Goldens in `test/golden/core` (both themes, 384 x 853): dock (three tabs, presse
    - `SkeletonGroup(shimmer: true)` with `MmSkeletonCard` / `MmSkeletonRows` for loading.
 5. **Router transitions** (this track): You, results and repair endings can switch to `MmTransition.rise`, and a card that opens a detail page to `MmTransition.container`; left as `push` here so no feature golden or flow changes underneath another track.
 6. The Start morph now leaves Start's volt disc at the origin, dissolving as the glass grows (`MorphSheetRoute.volt`, default the Night volt).
+7. A screen whose first content should arrive with the page uses `MmStagger(driver: MmStaggerDriver.route)`; content that arrives after a load uses the default `self` driver with `replayKey` set to the loaded data's identity. Never both on one block.
+8. Test harnesses: build `ThemeData` once per test file. A fresh `buildTheme()` on every `pumpWidget` makes `MaterialApp`'s `AnimatedTheme` run its 200 ms tween, which reads as a running animation (`hasRunningAnimations`) and breaks "settles" assertions.
+
+## 8. Status after the second builder (14 October, afternoon)
+
+Everything in sections 2 to 4 is built on `ui/motion`. Fixes made while finishing the WIP commit:
+
+- **Route-driven stagger on pushed pages.** A `PageRoute` is first built offstage (the hero controller measures it) with its animation standing at 1, and `_ModalScopeStatus` does not notify on `offstage`, so the page is never rebuilt when it comes onstage. `MmStagger(driver: route)` now looks again after that frame (a post-frame check, at most three frames) and rides the real animation from there. Without this, every route-driven entrance on a go_router page would have been silently static. The sheet handle and the body reveal ignore an offstage build the same way.
+- **Start's breath** scales the disc directly; only the two-state press goes through `AnimatedScale` (a per-frame target restarted the ease every frame and never let it settle).
+- **Shimmer** runs all four sweeps in one controller pass, so it stops by itself at a known time.
+- **Dock icons under reduced motion** swap in place (an `AnimatedSwitcher` kept playing the fade it had started before the setting changed).
+- **Start sheet hero**: the note runs under the title line at full width, so a resume count landing on it never wraps the card taller at 360 dp; the lamp light is clipped to the hero's corners; a mode alone on its line renders as a row, not a tall empty tile; rows and the grouped list carry the top edge light instead of an outline.
+- **Start morph**: the volt disc left at the origin is gone by a quarter of the morph, its alpha falling fastest first, so it never sits olive over the glass.
+- `YouAvatarButton` gives a selection tick.
+
+Verification: `flutter analyze lib/core test/golden/core test/unit/core_widgets test/unit/core_ui` reports no issues; `test/unit/core_widgets` and `test/unit/core_ui` pass; `test/golden/core` passes after the intended re-render (new: `surfaces_*`, `skeleton_shimmer_*`, `dock_liquid_mid_*`; re-rendered: `quick_start_*`, `quick_start_morph_*`, `dock_*`, `sheet_*`, `state_empty_*`, `state_offline_*`).
