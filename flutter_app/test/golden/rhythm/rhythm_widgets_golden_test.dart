@@ -52,6 +52,8 @@ Celebration _moment(CelebrationEvent e, {bool quiet = false}) => Celebration(
       sentence: e.sentence,
       receipt: e.receipt,
       ring: e.ring && !quiet,
+      studyDays: e.studyDays,
+      goal: e.goal,
       mobiHop: e.level == CelebrationLevel.l2 && !quiet,
       textOnly: quiet,
       linkLabel: e.linkLabel,

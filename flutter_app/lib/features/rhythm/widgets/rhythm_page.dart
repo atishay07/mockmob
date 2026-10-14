@@ -8,8 +8,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button.dart';
-import '../../../core/widgets/materials/light_field.dart';
-import '../../you/widgets/you_page.dart' show BackKey;
+import '../../you/widgets/you_page.dart' show YouHeader, YouHeaderLamp;
 
 class RhythmPage extends StatelessWidget {
   const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true});
@@ -37,42 +36,15 @@ class RhythmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
-    final header = [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-        child: Align(alignment: Alignment.centerLeft, child: BackKey(onTap: () => _back(context))),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
-        child: Semantics(header: true, child: Text(title, style: type.headline)),
-      ),
-    ];
+    final header = [YouHeader(title: title, onBack: () => _back(context))];
     final body = padded ? Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: child) : child;
 
     return Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 320,
-            child: IgnorePointer(
-              child: LightField(
-                pools: [
-                  LightPool(
-                    color: colors.lamp.withValues(alpha: colors.isNight ? 0.13 : 0.10),
-                    center: const Alignment(-1.15, -1.25),
-                    radius: 0.95,
-                    aspect: 1.4,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const Positioned(left: 0, right: 0, top: 0, height: 300, child: YouHeaderLamp()),
           SafeArea(
             bottom: false,
             child: Center(

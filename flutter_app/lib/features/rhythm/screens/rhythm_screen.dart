@@ -124,19 +124,20 @@ class _LoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The shape of the screen: the ring, a line under it, then the run.
     return const SkeletonGroup(
       label: RhythmCopy.loadingRhythm,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Skeleton(height: 56),
-          SizedBox(height: 12),
-          Skeleton.line(width: 180),
+          Center(child: Skeleton.circle(size: 188)),
+          SizedBox(height: 16),
+          Center(child: Skeleton.line(width: 220)),
           SizedBox(height: 32),
-          Skeleton.line(width: 220),
-          SizedBox(height: 20),
+          Skeleton(height: 112),
+          SizedBox(height: 32),
           Skeleton.line(width: 140),
-          SizedBox(height: 20),
+          SizedBox(height: 16),
           Skeleton.line(width: 200),
         ],
       ),

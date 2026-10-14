@@ -25,7 +25,6 @@ abstract final class YouCopy {
   static const rhythmOffLine = 'Rhythm is off. Your record stays.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
 
-  static const showMeWeek = 'Show me, the study days behind this week';
   static const showMeMilestones = 'Show me, the milestones you earned';
   static String hubGreeting(String firstName) => 'Hi, $firstName.';
 

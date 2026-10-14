@@ -20,6 +20,7 @@ import '../logic/dates.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/milestone_progress.dart';
 import '../widgets/rhythm_page.dart';
+import '../widgets/medal.dart';
 import '../widgets/milestone_track_card.dart';
 
 class MilestoneRowData {
@@ -94,8 +95,9 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
   }
 }
 
-/// The three paths as cards, each with its token, its steps, what lands next and how far along
-/// it is where the app can count exactly, and the record behind it.
+/// The three paths as sections of one scroll: a summary of how many steps have landed, then each
+/// path with its token, its trail of coins, what lands next and how far along it is where the app
+/// can count exactly, and the record behind it.
 class MilestoneTimeline extends StatelessWidget {
   const MilestoneTimeline({
     super.key,
@@ -129,40 +131,100 @@ class MilestoneTimeline extends StatelessWidget {
     final none = tracks.every((t) => t.earned.isEmpty);
     final all = tracks.every((t) => t.complete);
     final mobiLine = none ? RhythmCopy.milestonesMobiEmpty : (all ? RhythmCopy.milestonesMobiComplete : null);
+    final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
+    final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s16),
-          child: Text(
-            asOf == null ? RhythmCopy.milestonesIntro : '${RhythmCopy.asOf(asOf!)}. ${RhythmCopy.milestonesIntro}',
-            style: type.caption.copyWith(color: colors.ink3),
+        _Summary(tracks: tracks, landed: landed, total: total),
+        if (asOf != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
+            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
           ),
-        ),
         if (mobiLine != null)
           Padding(
-            padding: const EdgeInsets.only(bottom: MmSpace.s16),
+            padding: const EdgeInsets.only(top: MmSpace.s16),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Mobi(
                 pose: all ? MobiPose.celebrating : MobiPose.pointing,
-                size: 64,
+                size: 72,
                 motion: all ? MobiMotion.hop : MobiMotion.settle,
                 say: mobiLine,
               ),
             ),
           ),
         for (var k = 0; k < tracks.length; k++) ...[
-          if (k > 0) const SizedBox(height: MmSpace.s16),
-          MilestoneTrackCard(
-            track: tracks[k],
-            dateOf: (d) => formatAchievedDate(d, zone, now),
-            progress: progress,
-            freshIds: freshIds,
-            onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+          const SizedBox(height: MmSpace.s32),
+          Divider(height: 1, thickness: 1, color: colors.line),
+          const SizedBox(height: MmSpace.s32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: MilestoneTrackCard(
+              track: tracks[k],
+              dateOf: (d) => formatAchievedDate(d, zone, now),
+              progress: progress,
+              freshIds: freshIds,
+              onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+            ),
           ),
         ],
       ],
+    );
+  }
+}
+
+/// "3 of 9 landed" as a monumental figure over nine small coins grouped by path, so the shape of
+/// the whole shows at a glance. The coins are brass when the server dated the step and rings when
+/// it did not.
+class _Summary extends StatelessWidget {
+  const _Summary({required this.tracks, required this.landed, required this.total});
+
+  final List<TrackView> tracks;
+  final int landed;
+  final int total;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MonumentalNumber(
+            value: '$landed',
+            unit: RhythmCopy.ofLanded(total),
+            style: type.figure.copyWith(fontSize: 72, height: 66 / 72),
+            semanticsLabel: RhythmCopy.landedSummary(landed, total),
+          ),
+          const SizedBox(height: MmSpace.s16),
+          // Nine coins, as large as the width allows (up to 30 dp), grouped 3 | 4 | 2 with a plain gap.
+          ExcludeSemantics(
+            child: LayoutBuilder(
+              builder: (context, box) {
+                const gap = 6.0;
+                const groupGap = 20.0;
+                final steps = tracks.fold<int>(0, (n, t) => n + t.steps.length);
+                final fixed = gap * (steps - tracks.length) + groupGap * (tracks.length - 1);
+                final coin = ((box.maxWidth - 4 - fixed) / steps).clamp(16.0, 30.0);
+                return Row(
+                  children: [
+                    for (var k = 0; k < tracks.length; k++) ...[
+                      if (k > 0) const SizedBox(width: groupGap),
+                      for (var i = 0; i < tracks[k].steps.length; i++) ...[
+                        if (i > 0) const SizedBox(width: gap),
+                        Medal.plain(status: tracks[k].steps[i].status == StepStatus.earned ? MedalStatus.landed : MedalStatus.later, size: coin),
+                      ],
+                    ],
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
 import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,6 +12,7 @@ import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/week_view.dart';
+import 'run_ribbon.dart';
 
 /// A student is "returning" after 3 or more days away (the server's `returning`).
 bool showReturning(Rhythm rhythm) => rhythm.returning;
@@ -39,6 +41,7 @@ class ReturningCard extends StatelessWidget {
     final type = context.mmType;
     final weeks = [for (final w in closedWeeks(rhythm)) if (w.studyDays > 0) w].take(returningWeeksShown).toList();
     final greet = returningGreetsWithMobi(rhythm);
+    final ribbon = closedRibbonWeeks(weeks);
 
     return FakeGlass(
       child: Padding(
@@ -49,7 +52,7 @@ class ReturningCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (greet) ...[const Mobi(pose: MobiPose.greet, size: 72, motion: MobiMotion.settle), const SizedBox(width: MmSpace.s16)],
+              if (greet) ...[const Mobi(pose: MobiPose.greet, size: 88, motion: MobiMotion.settle), const SizedBox(width: MmSpace.s16)],
               Expanded(child: Semantics(header: true, child: Text(RhythmCopy.welcomeBack, style: type.title))),
             ],
           ),
@@ -58,17 +61,12 @@ class ReturningCard extends StatelessWidget {
             Text(extraLine!, style: type.body),
           ],
           const SizedBox(height: MmSpace.s12),
-          if (weeks.isEmpty)
-            Text(RhythmCopy.nothingLost, style: type.body.copyWith(color: colors.ink2))
-          else ...[
-            for (var i = 0; i < weeks.length; i++)
-              Padding(
-                padding: const EdgeInsets.only(top: MmSpace.s4),
-                child: Text(closedWeekText(weeks[i]), style: type.small.copyWith(color: colors.ink2)),
-              ),
+          if (weeks.isNotEmpty) ...[
+            // The weeks that had study in them, as the same capsules the rhythm screen draws.
+            RunRibbon(weeks: ribbon),
             const SizedBox(height: MmSpace.s8),
-            Text(RhythmCopy.nothingLost, style: type.small.copyWith(color: colors.ink2)),
           ],
+          Text(RhythmCopy.nothingLost, style: type.body.copyWith(color: colors.ink2)),
         ],
       ),
       ),

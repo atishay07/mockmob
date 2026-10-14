@@ -42,7 +42,7 @@ class YouPage extends StatelessWidget {
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          if (lamp) const Positioned(left: 0, right: 0, top: 0, height: 300, child: _HeaderLamp()),
+          if (lamp) const Positioned(left: 0, right: 0, top: 0, height: 300, child: YouHeaderLamp()),
           SafeArea(
             bottom: false,
             child: Align(
@@ -66,18 +66,7 @@ class YouPage extends StatelessWidget {
   Widget _scroll(BuildContext context, MmType type) {
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-            child: Row(children: [if (showBack) const BackKey() else const SizedBox(height: MmTarget.min)]),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
-            child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
-          ),
-        ),
+        SliverToBoxAdapter(child: YouHeader(title: title, showBack: showBack, large: large)),
         SliverList.list(children: children),
         SliverToBoxAdapter(
           child: SizedBox(height: footer != null ? MmSpace.s24 : padBottom + MediaQuery.viewPaddingOf(context).bottom),
@@ -106,8 +95,46 @@ class _Footer extends StatelessWidget {
   }
 }
 
-class _HeaderLamp extends StatelessWidget {
-  const _HeaderLamp();
+/// The header every You and Rhythm screen shares: the lit back key, then the title in Bricolage.
+/// One widget so the two feature areas, and both themes, never drift apart.
+class YouHeader extends StatelessWidget {
+  const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack});
+
+  final String title;
+  final bool showBack;
+
+  /// The 28 sp moment headline (default) or the 22 sp title for a long, quiet page.
+  final bool large;
+
+  /// Replaces the pop (a screen that may be the first page goes to You instead).
+  final VoidCallback? onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: showBack ? BackKey(onTap: onBack) : const SizedBox(height: MmTarget.min),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
+          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
+        ),
+      ],
+    );
+  }
+}
+
+/// The desk lamp pool in the upper left of a You or Rhythm screen. It sits behind the header and
+/// never behind rows.
+class YouHeaderLamp extends StatelessWidget {
+  const YouHeaderLamp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -208,6 +235,28 @@ class GroupHeading extends StatelessWidget {
           ?trailing,
         ],
       ),
+    );
+  }
+}
+
+/// A section title in Bricolage 22: the step of hierarchy between a screen title and a row. Sentence
+/// case, ink, with an optional action at the end of the line. [padding] defaults to the 4 dp inset
+/// the rhythm screens use under their gutter; the hub passes its own.
+class SectionTitle extends StatelessWidget {
+  const SectionTitle(this.text, {super.key, this.trailing, this.padding, this.bottom = MmSpace.s12});
+
+  final String text;
+  final Widget? trailing;
+  final EdgeInsetsGeometry? padding;
+  final double bottom;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final title = Semantics(header: true, child: Text(text, style: type.title.copyWith(fontSize: 24, height: 28 / 24)));
+    return Padding(
+      padding: padding ?? EdgeInsets.fromLTRB(4, 0, 0, bottom),
+      child: trailing == null ? title : Row(children: [Expanded(child: title), trailing!]),
     );
   }
 }

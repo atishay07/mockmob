@@ -12,11 +12,14 @@ import '../../core/router/routes.dart';
 import '../../core/sync/pending_work.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../rhythm/copy.dart' show RhythmCopy;
+import '../rhythm/logic/milestone_tracks.dart';
 import '../rhythm/logic/tokens.dart';
 import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/token_shelf.dart';
 import 'copy.dart';
+import 'edit_copy.dart';
 import 'data/student_target.dart';
 import 'hub/hub_sections.dart';
 import 'hub/sheet_card.dart';
@@ -122,10 +125,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
       ),
       days: days,
       count: count,
+      done: week.studyDays,
+      goal: week.goal,
+      paused: paused,
       note: note,
       description: [count, study.isEmpty ? 'No study days yet this week' : 'Studied ${joinWithAnd(study)}'].join('. '),
-      // "Show me" only when there is a study day behind the count.
-      onShowMe: week.studyDays > 0 ? () => context.push(AppRoutes.youRhythm) : null,
     );
   }
 
@@ -165,7 +169,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                       child: Row(
                         children: [
                           const BackKey(),
-                          Expanded(child: Align(alignment: Alignment.centerRight, child: _greeting(auth.name))),
+                          const Spacer(),
+                          KeyButton.quiet(label: EditCopy.editSheet, semanticsLabel: EditCopy.editSheetLabel, onPressed: () => openYouPage(context, YouPaths.sheet)),
                         ],
                       ),
                     ),
@@ -192,9 +197,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                       ),
                     ),
                     _rise(1, _shelf(snapshot, now)),
-                    _rise(2, const Column(children: [GroupHeading(YouCopy.hubProgress), ProgressPanel()])),
-                    _rise(3, const Column(children: [GroupHeading(YouCopy.hubSettings), SettingsPanel()])),
-                    _rise(4, Column(children: [const GroupHeading(YouCopy.hubTools), widget.tools ?? ToolsPanel(onOpen: _openTool)])),
+                    _rise(2, const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubProgress), ProgressPanel()])),
+                    _rise(3, const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [_HubTitle(YouCopy.hubSettings), SettingsPanel()])),
+                    _rise(4, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [const _HubTitle(YouCopy.hubTools), widget.tools ?? ToolsPanel(onOpen: _openTool)])),
                     const HubFooter(),
                   ],
                 ),
@@ -206,29 +211,26 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
     );
   }
 
-  /// Mobi greets the student by first name. A line only when the profile has a name; Mobi holds
-  /// still under reduced motion.
-  Widget _greeting(String? name) {
-    final first = name?.trim().split(RegExp(r'\s+')).first ?? '';
-    return Mobi(
-      pose: MobiPose.greet,
-      size: 56,
-      say: first.isEmpty ? null : YouCopy.hubGreeting(first),
-      interactive: true,
-    );
-  }
-
   Widget _shelf(RhythmSnapshot snapshot, DateTime now) {
     final colors = context.mmColors;
     final type = context.mmType;
     final failed = !snapshot.hasData && !snapshot.isInitialLoading;
+    final tracks = milestoneTracks(snapshot.rhythm?.milestones ?? const []);
+    final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
+    final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        GroupHeading(
+        _HubTitle(
           YouCopy.shelfTitle,
           trailing: KeyButton.quiet(label: YouCopy.shelfSeeAll, onPressed: () => context.push(AppRoutes.youMilestones)),
         ),
+        // How many of the nine steps the server has dated, only once the rhythm has loaded.
+        if (snapshot.hasData && landed > 0)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter, MmSpace.s8),
+            child: Text(RhythmCopy.trackCountOf(landed, total), style: type.small.copyWith(color: colors.ink2)),
+          ),
         Padding(
           padding: youGutter,
           child: failed
@@ -264,6 +266,24 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// A section title of the hub: Bricolage 22 with 40 dp of air above it, the same inset as the
+/// sheet's words.
+class _HubTitle extends StatelessWidget {
+  const _HubTitle(this.text, {this.trailing});
+
+  final String text;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return SectionTitle(
+      text,
+      trailing: trailing,
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s40, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
     );
   }
 }

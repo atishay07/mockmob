@@ -74,6 +74,7 @@ void main() {
 
     testWidgets('the account row shows the credit balance', (tester) async {
       await _pump(tester, const YouHubScreen());
+      await tester.dragUntilVisible(find.text('40 credits'), find.byType(ListView), const Offset(0, -300));
       expect(find.text('40 credits'), findsOneWidget);
     });
 

@@ -7,12 +7,16 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/materials/fake_glass.dart';
+import '../../../core/widgets/materials/lit_edge.dart';
 import '../../../core/widgets/mobi.dart';
 import '../../../core/widgets/receipt_line.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../widgets/rhythm_page.dart' show FlushQuietKey;
 import 'celebration_controller.dart';
+import 'celebration_event.dart' show CelebrationLevel;
+import '../widgets/week_dial.dart';
 import 'ring_sweep.dart';
 
 /// Shows the celebration of [scope], if one fired. Place it on the ground, not inside a card.
@@ -31,8 +35,11 @@ class CelebrationSlot extends ConsumerWidget {
   }
 }
 
-/// The moment itself: ring or Mobi, one sentence, the receipt line. Fades in over 240 ms; the
-/// ring sweeps once over 500 ms and Mobi hops once. Quiet mode is the same words with no motion.
+/// The moment itself. A first (L2) stands on the ground with no box: Mobi at 104 dp in his own
+/// pool of lamp light, the sentence in Bricolage 22, and for a met week the week dial with the
+/// real counts. A plain L1 is one compact glass line. Everything fades in over 240 ms; the lamp
+/// pool blooms once over 700 ms, the dial closes its own ring, Mobi hops once. Quiet mode is the
+/// same words with no motion.
 class CelebrationMoment extends StatefulWidget {
   const CelebrationMoment({super.key, required this.celebration});
 
@@ -42,8 +49,11 @@ class CelebrationMoment extends StatefulWidget {
   State<CelebrationMoment> createState() => _CelebrationMomentState();
 }
 
-class _CelebrationMomentState extends State<CelebrationMoment> with SingleTickerProviderStateMixin {
+class _CelebrationMomentState extends State<CelebrationMoment> with TickerProviderStateMixin {
   late final AnimationController _fade = AnimationController(vsync: this, duration: Motion.card);
+
+  /// The lamp pool behind Mobi blooms once (700 ms) when a first lands.
+  late final AnimationController _bloom = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
   bool _started = false;
 
   @override
@@ -53,14 +63,17 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
     _started = true;
     if (Motion.reduced(context) || widget.celebration.textOnly) {
       _fade.value = 1;
+      _bloom.value = 1;
     } else {
       _fade.forward();
+      _bloom.forward();
     }
   }
 
   @override
   void dispose() {
     _fade.dispose();
+    _bloom.dispose();
     super.dispose();
   }
 
@@ -70,6 +83,8 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
     final colors = context.mmColors;
     final type = context.mmType;
     final label = [if (c.sentence != null) c.sentence!, if (c.receipt != null) c.receipt!].join(' ');
+    final first = c.level == CelebrationLevel.l2;
+    final counted = c.ring && c.studyDays != null && c.goal != null;
 
     final link = c.link;
     final text = Column(
@@ -85,8 +100,8 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (c.sentence != null) Text(c.sentence!, style: type.subhead),
-              if (c.sentence != null && c.receipt != null) const SizedBox(height: MmSpace.s4),
+              if (c.sentence != null) Text(c.sentence!, style: first ? type.headline.copyWith(fontSize: 22, height: 26 / 22) : type.subhead),
+              if (c.sentence != null && c.receipt != null) SizedBox(height: first ? MmSpace.s8 : MmSpace.s4),
               if (c.receipt != null) ReceiptLine(text: c.receipt!),
             ],
           ),
@@ -100,26 +115,82 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
       ],
     );
 
-    final body = Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(MmSpace.s16),
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+    final Widget body;
+    if (first) {
+      final mobiSize = c.mobiHop ? 104.0 : 0.0;
+      final lead = counted
+          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 88, showWords: false, animate: !c.textOnly)
+          : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 64) : null);
+      body = Stack(
+        clipBehavior: Clip.none,
         children: [
-          if (c.ring) ...[const RingSweep(label: RhythmCopy.weekDoneLabel), const SizedBox(width: MmSpace.s12)],
-          Expanded(child: text),
-          if (c.mobiHop) ...[
-            const SizedBox(width: MmSpace.s12),
-            const Mobi(pose: MobiPose.celebrating, size: 56, motion: MobiMotion.hop),
-          ],
+          if (c.mobiHop)
+            Positioned(
+              right: -28,
+              top: -30,
+              width: 220,
+              height: 220,
+              child: IgnorePointer(
+                child: FadeTransition(
+                  opacity: CurvedAnimation(parent: _bloom, curve: Motion.out),
+                  child: ScaleTransition(
+                    scale: Tween<double>(begin: 0.7, end: 1).animate(CurvedAnimation(parent: _bloom, curve: Motion.out)),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(colors: [colors.lamp.withValues(alpha: colors.isNight ? 0.24 : 0.20), colors.lamp.withValues(alpha: 0)]),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (lead != null) ...[lead, const SizedBox(height: MmSpace.s12)],
+                      text,
+                    ],
+                  ),
+                ),
+                if (c.mobiHop) ...[
+                  const SizedBox(width: MmSpace.s8),
+                  Mobi(pose: MobiPose.celebrating, size: mobiSize, motion: MobiMotion.hop),
+                ],
+              ],
+            ),
+          ),
         ],
-      ),
-    );
+      );
+    } else {
+      // A plain L1: one compact glass line, the week dial small when a week was met.
+      final row = Padding(
+        padding: const EdgeInsets.all(MmSpace.s16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (c.ring) ...[
+              if (counted)
+                WeekDial(done: c.studyDays!, goal: c.goal!, size: 64, showWords: false, animate: !c.textOnly)
+              else
+                const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52),
+              const SizedBox(width: MmSpace.s16),
+            ],
+            Expanded(child: text),
+          ],
+        ),
+      );
+      body = SizedBox(
+        width: double.infinity,
+        child: LitEdge(child: FakeGlass(lamp: true, child: row)),
+      );
+    }
 
     return FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body);
   }

@@ -73,7 +73,10 @@ void main() {
   group('You rhythm screen', () {
     testWidgets('Edit goal picks study days and saves the goal only after the server acknowledges', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
-      await tester.tap(find.text('Edit goal'));
+      // The hero is taller than the first screen now, so the Plan rows are scrolled to.
+      await tester.ensureVisible(find.text('Weekly goal'));
+      await tester.pump();
+      await tester.tap(find.text('Weekly goal'));
       await settle(tester);
       expect(find.text('Your study days'), findsOneWidget);
       await tester.tap(find.bySemanticsLabel('Wednesday, rest day'));
@@ -100,7 +103,10 @@ void main() {
           rhythmSeenRepositoryProvider.overrideWithValue(RhythmSeenRepository(LocalScope(db, () => 'u1', () => kNow))),
         ],
       );
-      await tester.tap(find.text('Edit goal'));
+      // The hero is taller than the first screen now, so the Plan rows are scrolled to.
+      await tester.ensureVisible(find.text('Weekly goal'));
+      await tester.pump();
+      await tester.tap(find.text('Weekly goal'));
       await settle(tester);
       await tester.tap(find.text('Save study days'));
       await settle(tester);
@@ -109,10 +115,12 @@ void main() {
       expect(store.values['rhythm_days_u1'], isNull);
     });
 
-    testWidgets('without a plan the strip offers Set your study days and names its marks', (tester) async {
+    testWidgets('without a plan the study days row says Not set and the strip names its marks on one line', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await settle(tester);
-      expect(find.text('Set your study days'), findsOneWidget);
+      expect(find.text('Study days'), findsOneWidget);
+      expect(find.text('Not set'), findsOneWidget);
+      expect(find.text('Set your study days'), findsNothing);
       expect(find.text('Counted'), findsOneWidget);
       expect(find.text('Not counted'), findsOneWidget);
       expect(find.text('Planned'), findsNothing);

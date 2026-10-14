@@ -9,7 +9,6 @@ abstract final class RhythmCopy {
   static const String weekLoadFailed = 'We could not load this week.';
   static const String tryAgain = 'Try again';
   static const String seeRhythm = 'See rhythm and goal';
-  static const String restDays = 'The other days are rest days.';
   static const String rhythmOffTitle = 'Rhythm is off';
   static const String rhythmOffBody = 'Your records stay. You can turn it back on any time.';
   static const String turnOnRhythm = 'Turn on rhythm';
@@ -47,14 +46,12 @@ abstract final class RhythmCopy {
 
   static const String pausedKeepsRun = 'Paused weeks do not break your run.';
 
-  /// "Your goal is 4 study days. The other days are rest days." The rest-day line is said only
-  /// when the student has chosen their study days ([hasPlan]); without a plan nothing says which
-  /// days are rest.
-  static String goalSentence(int goal, {bool hasPlan = false}) {
-    if (goal >= 7) return 'Your goal is 7 study days.';
-    final base = 'Your goal is ${plural(goal, 'study day')}.';
-    return hasPlan ? '$base $restDays' : base;
-  }
+  /// "Your goal is 4 study days." One plain line; the week strip already shows which days rest.
+  /// [hasPlan] is kept for callers that pass it.
+  static String goalSentence(int goal, {bool hasPlan = false}) => 'Your goal is ${plural(goal, 'study day')}.';
+
+  /// Under the count while the week is open: what is left, from the server's own count.
+  static String toGo(int left) => left == 1 ? '1 more study day to reach your goal.' : '$left more study days to reach your goal.';
 
   /// "2 mocks, 7 mistakes repaired", from `mocksThisWeek` and `repairsThisWeek`. Null when both
   /// are unknown or zero.
@@ -82,6 +79,13 @@ abstract final class RhythmCopy {
 
   static String goalRow(int days) => 'Goal: $days ${days == 1 ? 'day' : 'days'} a week';
   static const String editGoal = 'Edit goal';
+  static const String goalLabel = 'Weekly goal';
+  static String goalValue(int days) => days == 1 ? '1 day a week' : '$days days a week';
+  static const String studyDaysLabel = 'Study days';
+  static const String studyDaysNotSet = 'Not set';
+  static const String everyDay = 'Every day';
+  static String statWeeks(int weeks) => weeks == 1 ? 'week in rhythm' : 'weeks in rhythm';
+  static const String statBest = 'best run, weeks';
 
   // Goal editor.
   static const String goalTitle = 'Weekly goal';
@@ -108,6 +112,12 @@ abstract final class RhythmCopy {
 
   // Closed weeks.
   static const String closedWeeks = 'Closed weeks';
+
+  // The run ribbon.
+  static const String runTitle = 'Your run';
+  static const String ribbonNow = 'Now';
+  static String ribbonSummary(int met, int total) => 'Goal met in $met of the last $total weeks.';
+  static const String planTitle = 'Plan';
 
   static String closedWeekRow(String weekOf, int days, int goal) => 'Week of $weekOf, $days of $goal days.';
 
@@ -172,6 +182,8 @@ abstract final class RhythmCopy {
 
   static String latestLine(String marks) => 'Latest: $marks.';
 
+  static const String barBest = 'Best';
+  static const String barLatest = 'Latest';
   static String bestMarks(String marks, int outOf) => '$marks of $outOf marks';
 
   static String bestDates(String bestDate, String latestDate) => 'Best on $bestDate. Latest on $latestDate.';
@@ -281,14 +293,15 @@ abstract final class RhythmCopy {
   static const String condRepairs25 = 'Lands with your 25th finished repair.';
   static const String condFirstWeek = 'Lands when a week reaches your goal.';
   static const String condFourWeeks = 'Lands when a fourth week reaches its goal. They need not be in a row.';
-  static const String nextLabel = 'Next';
   static const String trackComplete = 'Every step on this path has landed.';
   static String trackCount(int earned, int total) => earned == 0 ? 'Nothing landed yet' : '$earned of $total landed';
   static String soFar(int count, int target) => '$count of $target so far';
   static String stepEarned(String name, String date) => '$name, landed on $date';
   static String stepNext(String name, String condition) => 'Next: $name. $condition';
   static String stepLater(String name) => '$name, after that';
-  static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
+  static String trackCountOf(int landed, int total) => '$landed of $total landed';
+  static String ofLanded(int total) => 'of $total landed';
+  static String landedSummary(int landed, int total) => '$landed of $total milestones landed';
 
   // Mobi on the milestones screen.
   static const String milestonesMobiEmpty = 'Your first lands with a scored set.';

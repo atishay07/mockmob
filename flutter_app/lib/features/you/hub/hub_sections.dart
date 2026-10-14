@@ -18,6 +18,9 @@ import '../you_providers.dart';
 /// Hairlines in the hub's panels start where the row text starts, beside the icon well.
 const double _rowInset = MmSpace.gutter + 36 + MmSpace.s12;
 
+/// The same for a flat list on the ground: 4 dp, a 28 dp bare icon, 16 dp.
+const double _flatInset = 4 + 28 + MmSpace.s16;
+
 /// Weekly goal and rhythm, the repair record and personal bests.
 class ProgressPanel extends ConsumerWidget {
   const ProgressPanel({super.key});
@@ -26,16 +29,18 @@ class ProgressPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goal = ref.watch(goalRepositoryProvider).value;
     return YouPanel(
-      inset: _rowInset,
+      flat: true,
+      inset: _flatInset,
       children: [
         YouRow(
+          flat: true,
           icon: LucideIcons.target,
           title: YouCopy.rowRhythm,
           note: rhythmNote(goal?.daysPerWeek, goal?.pausedUntil),
           onTap: () => context.push(AppRoutes.youRhythm),
         ),
-        YouRow(icon: LucideIcons.clipboardCheck, title: YouCopy.rowRecord, onTap: () => context.push(AppRoutes.reviewRecord)),
-        YouRow(icon: LucideIcons.medal, title: YouCopy.rowBests, onTap: () => context.push(AppRoutes.youBests)),
+        YouRow(flat: true, icon: LucideIcons.clipboardCheck, title: YouCopy.rowRecord, onTap: () => context.push(AppRoutes.reviewRecord)),
+        YouRow(flat: true, icon: LucideIcons.medal, title: YouCopy.rowBests, onTap: () => context.push(AppRoutes.youBests)),
       ],
     );
   }
@@ -118,10 +123,11 @@ class ToolsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YouPanel(
-      inset: _rowInset,
+      flat: true,
+      inset: _flatInset,
       children: [
-        YouRow(icon: LucideIcons.compass, title: YouCopy.toolCompass, external: true, onTap: () => onOpen('/admission-compass')),
-        YouRow(icon: LucideIcons.layoutGrid, title: YouCopy.toolCombo, external: true, onTap: () => onOpen('/cuet-subject-combination')),
+        YouRow(flat: true, icon: LucideIcons.compass, title: YouCopy.toolCompass, external: true, onTap: () => onOpen('/admission-compass')),
+        YouRow(flat: true, icon: LucideIcons.layoutGrid, title: YouCopy.toolCombo, external: true, onTap: () => onOpen('/cuet-subject-combination')),
       ],
     );
   }
