@@ -59,7 +59,8 @@ class GoldenRoom extends StatelessWidget {
             right: 0,
             top: 0,
             height: artHeight,
-            child: const ArtImage(MmArt.heroDesk, fit: BoxFit.cover, alignment: Alignment(0, 0.25)),
+            // The code-drawn desk (no pasted photograph): lamp pool, glass answer sheet.
+            child: LampBackdrop(height: artHeight, parallax: false),
           ),
           Positioned(
             left: 0,
@@ -86,10 +87,15 @@ class GoldenRoom extends StatelessWidget {
               children: [
                 Text('Your sheet', style: type.title),
                 const SizedBox(height: 12),
-                for (final (label, n) in const [('Mock 7', 4), ('Mock 6', 9), ('Quick 10', 2), ('Mock 5', 6)]) ...[
+                // The bubble strip is kept for the one row where it carries a result; the others
+                // say it in numbers.
+                for (final (i, (label, score)) in const [('Mock 7', '183 of 250'), ('Mock 6', '171 of 250'), ('Quick 10', '7 of 10'), ('Mock 5', '164 of 250')].indexed) ...[
                   Row(children: [
                     SizedBox(width: MediaQuery.textScalerOf(context).scale(72), child: Text(label, style: type.labelLarge, maxLines: 1)),
-                    BubbleRow(states: [for (var i = 0; i < 16; i++) i % n == 1 ? BubbleState.wrong : BubbleState.filled]),
+                    if (i == 0)
+                      BubbleRow(states: [for (var j = 0; j < 16; j++) j % 4 == 1 ? BubbleState.wrong : BubbleState.filled])
+                    else
+                      Text(score, style: type.caption.copyWith(color: colors.ink2)),
                   ]),
                   const SizedBox(height: 14),
                 ],

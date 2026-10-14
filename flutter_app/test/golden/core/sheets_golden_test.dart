@@ -7,6 +7,7 @@ import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import 'frame_sequence.dart';
 import 'night_support.dart';
 
 const _openerKey = ValueKey('golden-opener');
@@ -90,6 +91,9 @@ void main() {
           resumeOfferProvider.overrideWith((ref) async => null),
           nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+          // The full house: Quick 10 as the hero, Full mock and NTA mode as the two tiles, Repair
+          // and Ask in the grouped list (five choices, never more).
+          quickStartNtaProvider.overrideWithValue(const QuickNta(location: '/exam/nta', subject: 'accountancy', proOnly: false)),
         ],
       );
       await tester.tap(find.byKey(_openerKey));
@@ -98,6 +102,7 @@ void main() {
       }
       expect(find.text('Quick 10'), findsWidgets);
       expect(find.text('Full mock'), findsOneWidget);
+      expect(find.text('NTA mode'), findsOneWidget);
       expect(find.text('Repair the next mistake'), findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/quick_start_$tag.png'));
     });
@@ -113,6 +118,9 @@ void main() {
           resumeOfferProvider.overrideWith((ref) async => null),
           nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+          // The full house: Quick 10 as the hero, Full mock and NTA mode as the two tiles, Repair
+          // and Ask in the grouped list (five choices, never more).
+          quickStartNtaProvider.overrideWithValue(const QuickNta(location: '/exam/nta', subject: 'accountancy', proOnly: false)),
         ],
       );
       await tester.tap(find.byKey(_openerKey));
@@ -120,6 +128,70 @@ void main() {
       await tester.pump(const Duration(milliseconds: 110));
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/quick_start_morph_$tag.png'));
       await tester.pump(const Duration(seconds: 1));
+    });
+
+    // The whole opening, frame by frame (0, 50, 100, 150, 210, 290, 420 and 700 ms; two rows of
+    // four): the glass is glass from the first frame, the disc is gone by a quarter of the way,
+    // the rows arrive in order after the shape has opened, and Mobi points at the first row
+    // once it has landed.
+    testWidgets('quick start opening (frames), $tag', (tester) async {
+      await pumpMockmob(
+        tester,
+        _opener(_quickStart),
+        brightness: brightness,
+        size: kNightSize,
+        overrides: [
+          resumeDraftProvider.overrideWith((ref) => null),
+          resumeOfferProvider.overrideWith((ref) async => null),
+          nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
+          quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+          quickStartNtaProvider.overrideWithValue(const QuickNta(location: '/exam/nta', subject: 'accountancy', proOnly: false)),
+        ],
+      );
+      await tester.tap(find.byKey(_openerKey));
+      await tester.pump();
+      final sheet = await frameSheet(
+        tester,
+        root: find.byType(MaterialApp),
+        atMs: const [0, 50, 100, 150, 210, 290, 420, 700],
+        scale: 0.5,
+        columns: 4,
+      );
+      await expectLater(sheet, matchesGoldenFile('goldens/quick_start_frames_$tag.png'));
+      await tester.pump(const Duration(seconds: 1));
+    });
+
+    // Mobi once the sheet has landed: weighing the choice (thinking, hand at chin), then
+    // pointing at the first row (frames at 400, 520, 640, 800, 1000 and 1400 ms after the tap, 2x).
+    testWidgets('quick start mobi points (frames), $tag', (tester) async {
+      await pumpMockmob(
+        tester,
+        _opener(_quickStart),
+        brightness: brightness,
+        size: kNightSize,
+        overrides: [
+          resumeDraftProvider.overrideWith((ref) => null),
+          resumeOfferProvider.overrideWith((ref) async => null),
+          nowProvider.overrideWithValue(() => DateTime(2026, 10, 13, 21, 10)),
+          quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
+          quickStartNtaProvider.overrideWithValue(const QuickNta(location: '/exam/nta', subject: 'accountancy', proOnly: false)),
+        ],
+      );
+      await tester.tap(find.byKey(_openerKey));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      final mobi = tester.getRect(find.byType(Mobi));
+      final sheet = await frameSheet(
+        tester,
+        root: find.byType(MaterialApp),
+        atMs: const [0, 120, 240, 400, 600, 1000],
+        crop: Rect.fromLTRB(mobi.left - 70, mobi.top - 10, mobi.right + 20, mobi.bottom + 40),
+        pixelRatio: 2,
+        layerScale: 2,
+        columns: 6,
+      );
+      await expectLater(sheet, matchesGoldenFile('goldens/quick_start_mobi_$tag.png'));
+      await tester.pump(const Duration(seconds: 2));
     });
   }
 }

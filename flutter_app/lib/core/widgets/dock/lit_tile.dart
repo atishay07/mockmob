@@ -24,7 +24,7 @@ class LitTile extends StatelessWidget {
         child: CustomPaint(
           foregroundPainter: LitEdgePainter(
             color: colors.isNight ? colors.volt : colors.accentText,
-            radius: 24,
+            radius: 1000, // clamped to the tile's own corner (half its height)
             width: 1.5,
             wrap: 0.4,
           ),

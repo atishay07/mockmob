@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
+import 'feedback.dart';
+
+export 'feedback.dart' show MmPressHaptic;
 
 /// The one press physics of the Night Sheet, shared by [MmPressable] and `KeyButton`: the
 /// surface's scale on the near-critical [Springs.snappy] spring, down to [Springs.pressedScale]
-/// the moment a finger lands and back to 1 on release, keeping its velocity between the two.
-/// Under reduced motion it jumps to the target.
+/// the moment a finger lands, and back to 1 on release on [Springs.release] (a short physical
+/// give), keeping its velocity between the two. Under reduced motion it jumps to the target.
 class MmPressSpring {
   MmPressSpring(TickerProvider vsync) : scale = AnimationController.unbounded(vsync: vsync, value: 1);
 
@@ -23,7 +26,8 @@ class MmPressSpring {
       scale.value = target;
       return;
     }
-    scale.animateWith(Motion.spring(Springs.snappy, scale.value, target, velocity: scale.velocity));
+    final spring = target >= 1 ? Springs.release : Springs.snappy;
+    scale.animateWith(Motion.spring(spring, scale.value, target, velocity: scale.velocity));
   }
 
   void dispose() => scale.dispose();
@@ -38,6 +42,10 @@ typedef PressableBuilder = Widget Function(BuildContext context, bool pressed, b
 ///
 /// The surface itself is drawn by [builder], which receives the pressed state so glass can
 /// brighten its edge light.
+///
+/// Opt-in extras (docs/brain/ui-blitz/motion.md 3.1): [haptic] on activation, a press veil
+/// ([highlight]) in the [focusRadius] shape, and [captureLaunch] so the page it opens can grow
+/// out of it (`MmTransition.container`).
 class MmPressable extends StatefulWidget {
   const MmPressable({
     super.key,
@@ -54,6 +62,9 @@ class MmPressable extends StatefulWidget {
     this.autofocus = false,
     this.excludeSemantics = true,
     this.isolate = false,
+    this.haptic = MmPressHaptic.none,
+    this.highlight = false,
+    this.captureLaunch = false,
   });
 
   final PressableBuilder builder;
@@ -78,6 +89,16 @@ class MmPressable extends StatefulWidget {
   /// Paints the surface on its own layer: only for a large surface whose press would otherwise
   /// repaint costly neighbours. Off by default, so a palette of 50 keys is not 50 layers.
   final bool isolate;
+
+  /// The haptic on activation (tap, Enter or Space), through the Touch feedback switch.
+  final MmPressHaptic haptic;
+
+  /// Paints a press veil (ink 6% on Night, 5% on Daylight) in the [focusRadius] shape while
+  /// the finger is down. No layer and no ripple.
+  final bool highlight;
+
+  /// Records this surface's rect on tap, for the container transform of the page it opens.
+  final bool captureLaunch;
 
   @override
   State<MmPressable> createState() => _MmPressableState();
@@ -124,14 +145,41 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
     _springTo(1);
   }
 
-  void _activate() => widget.onTap?.call();
+  void _activate() {
+    if (widget.onTap == null) return;
+    _commit();
+    widget.onTap!.call();
+  }
+
+  void _commit() {
+    if (widget.captureLaunch) MmLaunchRect.capture(context);
+    mmFireHaptic(context, widget.haptic);
+  }
+
+  VoidCallback? get _tap {
+    final onTap = widget.onTap;
+    if (onTap == null) return null;
+    if (widget.haptic == MmPressHaptic.none && !widget.captureLaunch) return onTap;
+    return () {
+      _commit();
+      onTap();
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final veil = colors.ink.withValues(alpha: colors.isNight ? 0.06 : 0.05);
     final surface = ValueListenableBuilder<bool>(
       valueListenable: _pressed,
-      builder: (context, pressed, _) => widget.builder(context, pressed, _focused),
+      builder: (context, pressed, _) {
+        final built = widget.builder(context, pressed, _focused);
+        if (!widget.highlight) return built;
+        return CustomPaint(
+          foregroundPainter: _VeilPainter(color: pressed ? veil : null, radius: widget.focusRadius),
+          child: built,
+        );
+      },
     );
 
     Widget body = AnimatedBuilder(
@@ -183,7 +231,7 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
         onPointerCancel: (_) => _release(),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: widget.onTap,
+          onTap: _tap,
           onLongPress: widget.onLongPress,
           child: widget.isolate ? RepaintBoundary(child: body) : body,
         ),
@@ -199,8 +247,28 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
       inMutuallyExclusiveGroup: widget.inMutuallyExclusiveGroup,
       label: widget.semanticsLabel,
       excludeSemantics: widget.excludeSemantics && widget.semanticsLabel != null,
-      onTap: widget.onTap,
+      onTap: _tap,
       child: interactive,
     );
   }
+}
+
+/// The press veil: a flat ink wash in the surface's shape, drawn over it while held.
+class _VeilPainter extends CustomPainter {
+  const _VeilPainter({required this.color, required this.radius});
+
+  final Color? color;
+  final BorderRadius radius;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = color;
+    if (c == null) return;
+    final rect = Offset.zero & size;
+    final r = radius == MmRadius.pillAll ? BorderRadius.circular(size.shortestSide / 2) : radius;
+    canvas.drawRRect(r.toRRect(rect), Paint()..color = c);
+  }
+
+  @override
+  bool shouldRepaint(_VeilPainter old) => old.color != color || old.radius != radius;
 }

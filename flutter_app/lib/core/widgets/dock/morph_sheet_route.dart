@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 
@@ -18,6 +20,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
     required this.scrim,
     required this.reduced,
     this.semanticsLabel,
+    this.volt = const Color(0xFFD2F000),
     super.settings,
   });
 
@@ -27,6 +30,9 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   final Color scrim;
   final bool reduced;
   final String? semanticsLabel;
+
+  /// The colour of the disc the sheet grows out of (Start's volt).
+  final Color volt;
 
   static const double margin = 10;
 
@@ -55,6 +61,8 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final media = MediaQuery.of(context);
     final bottom = media.viewPadding.bottom + margin;
+    final colors = context.mmColors;
+    final blur = GlassScope.of(context) == GlassQuality.full;
     void close() => Navigator.of(context).maybePop();
     final content = Semantics(
       scopesRoute: true,
@@ -67,7 +75,7 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
       child: Material(type: MaterialType.transparency, child: builder(context)),
     );
 
-    return Align(
+    final sheet = Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding: EdgeInsets.fromLTRB(margin, 0, margin, bottom),
@@ -80,20 +88,55 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
               animation: animation,
               builder: (context, child) {
                 if (reduced) return FadeTransition(opacity: animation, child: child);
+                final clipper = _MorphClipper(
+                  origin: origin,
+                  progress: Motion.emphasized.transform(animation.value),
+                  screen: media.size,
+                  bottom: bottom,
+                  margin: margin,
+                );
                 return ClipRRect(
-                  clipper: _MorphClipper(
-                    origin: origin,
-                    progress: Motion.emphasized.transform(animation.value),
-                    screen: media.size,
-                    bottom: bottom,
-                    margin: margin,
+                  clipper: clipper,
+                  child: Stack(
+                    children: [
+                      // The glass reads as glass from the first frame: while it grows, the page
+                      // behind it is blurred (one filter, clipped to the growing shape, gone
+                      // once the sheet has arrived), then the tint thickens under the text.
+                      if (blur && animation.value < 0.9)
+                        Positioned.fill(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 14 * (1 - animation.value / 0.9), sigmaY: 14 * (1 - animation.value / 0.9)),
+                            child: const SizedBox.expand(),
+                          ),
+                        ),
+                      child ?? const SizedBox.shrink(),
+                      // A lamp pool in the upper left and the rim of the growing shape.
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: CustomPaint(
+                            painter: _MorphRim(
+                              animation: animation,
+                              clipper: clipper,
+                              lamp: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.2),
+                              edge: colors.edgeTop,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: child,
                 );
               },
-              child: GlassSurface(
-                role: GlassRole.sheet,
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
+              child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, content) => GlassSurface(
+                  role: GlassRole.sheet,
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  // Thin at the start (the page shows through), resting density by the time the
+                  // first line of text arrives (the reveal begins at 0.35).
+                  sheetTintAlpha: reduced ? null : _tintAlpha(animation.value),
+                  child: content!,
+                ),
                 child: _ContentReveal(animation: animation, reduced: reduced, child: content),
               ),
             ),
@@ -101,7 +144,94 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
         ),
       ),
     );
+    if (reduced) return sheet;
+    // Start's volt disc stays where it was and dissolves as the glass grows out of it (and
+    // gathers again as the sheet closes into it), so the eye never loses the object it touched.
+    return Stack(
+      children: [
+        sheet,
+        Positioned.fromRect(
+          rect: origin,
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: CustomPaint(painter: _OriginDisc(animation: animation, color: volt)),
+            ),
+          ),
+        ),
+      ],
+    );
   }
+}
+
+/// The sheet's tint strength through the morph: 55% at the first frame, the resting 98.5% from
+/// half way (before any text has arrived).
+double _tintAlpha(double t) => 0.55 + (0.985 - 0.55) * Motion.glide.transform((t / 0.5).clamp(0.0, 1.0));
+
+/// The growing shape's rim and lamp: a warm pool in its upper left and a 1 dp top edge light
+/// along its (moving) outline, fading out as the sheet's own edge light takes over.
+class _MorphRim extends CustomPainter {
+  _MorphRim({required this.animation, required this.clipper, required this.lamp, required this.edge}) : super(repaint: animation);
+
+  final Animation<double> animation;
+  final _MorphClipper clipper;
+  final Color lamp;
+  final Color edge;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final fade = 1 - Motion.glide.transform(((animation.value - 0.55) / 0.45).clamp(0.0, 1.0));
+    if (fade <= 0) return;
+    final rrect = clipper.getClip(size);
+    final bounds = rrect.outerRect;
+    canvas.save();
+    canvas.clipRRect(rrect);
+    canvas.drawRect(
+      bounds,
+      Paint()
+        ..shader = RadialGradient(
+          center: Alignment.topLeft,
+          radius: 1.1,
+          colors: [lamp.withValues(alpha: lamp.a * fade), lamp.withValues(alpha: 0)],
+        ).createShader(Rect.fromLTWH(bounds.left, bounds.top, bounds.width * 1.4, bounds.height * 0.9)),
+    );
+    canvas.restore();
+    canvas.drawRRect(
+      rrect.deflate(0.5),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [edge.withValues(alpha: (edge.a * 1.6).clamp(0.0, 1.0) * fade), edge.withValues(alpha: 0)],
+        ).createShader(bounds),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_MorphRim old) => old.animation != animation || old.clipper != clipper || old.lamp != lamp || old.edge != edge;
+}
+
+/// The volt disc left at the origin: full at 0, swelling a little and gone by 25% of the morph.
+class _OriginDisc extends CustomPainter {
+  _OriginDisc({required this.animation, required this.color}) : super(repaint: animation);
+
+  final Animation<double> animation;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Gone by a quarter of the morph, its alpha falling fastest at first, so the volt never
+    // sits half-faded (olive) over the glass.
+    final t = (animation.value / 0.25).clamp(0.0, 1.0);
+    if (t >= 1) return;
+    final e = Motion.glide.transform(t);
+    final alpha = (1 - e) * (1 - e);
+    canvas.drawCircle(size.center(Offset.zero), 23 * (1 + 0.2 * e), Paint()..color = color.withValues(alpha: alpha));
+  }
+
+  @override
+  bool shouldRepaint(_OriginDisc old) => old.animation != animation || old.color != color;
 }
 
 /// Lets the sheet follow a downward drag, then closes it or springs it back.

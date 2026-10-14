@@ -34,6 +34,7 @@ class GlassSurface extends StatelessWidget {
     this.pressed = false,
     this.shadow = true,
     this.quality,
+    this.sheetTintAlpha,
   });
 
   /// A sheet's tint, with or without the blur: dense enough that text behind it never reads.
@@ -49,6 +50,11 @@ class GlassSurface extends StatelessWidget {
 
   /// Overrides the inherited [GlassScope] quality (the lab shows all three side by side).
   final GlassQuality? quality;
+
+  /// A sheet's tint strength, when it is not the resting one. The morph into a sheet starts
+  /// thin (the page shows through, blurred, so the shape reads as glass from its first frame)
+  /// and thickens to the resting density before any text arrives. Null is the resting tint.
+  final double? sheetTintAlpha;
 
   double get _sigma => switch (role) {
     GlassRole.dock => MmElevation.sigmaDock,
@@ -68,7 +74,7 @@ class GlassSurface extends StatelessWidget {
       // the words of the screen behind were legible through a sheet. At 0.985 the backdrop is a
       // faint wash of colour, never glyphs.
       GlassQuality.full || GlassQuality.lite when role == GlassRole.sheet =>
-        colors.glassTint.withValues(alpha: _sheetAlpha),
+        colors.glassTint.withValues(alpha: sheetTintAlpha ?? _sheetAlpha),
       GlassQuality.full => colors.glassTint,
       GlassQuality.lite => colors.glassTintLite,
       GlassQuality.off => colors.raised,

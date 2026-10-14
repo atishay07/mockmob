@@ -200,7 +200,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
   GoRoute tabRoot(String path, GoRouterWidgetBuilder builder, {List<RouteBase> routes = const []}) {
     return GoRoute(
       path: path,
-      pageBuilder: (context, state) => NoTransitionPage<void>(key: state.pageKey, child: builder(context, state)),
+      pageBuilder: (context, state) => mmTabRootPage<void>(context: context, state: state, child: builder(context, state)),
       routes: routes,
     );
   }
@@ -224,7 +224,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
 
     // The three tabs. Each branch keeps its own navigation stack and fades in on a switch.
     StatefulShellRoute(
-      builder: (context, state, shell) => AppShell(shell: shell),
+      pageBuilder: (context, state, shell) => mmShellPage<void>(context: context, state: state, child: AppShell(shell: shell)),
       navigatorContainerBuilder: (context, shell, children) =>
           FadingBranchContainer(currentIndex: shell.currentIndex, children: children),
       branches: [

@@ -2,6 +2,7 @@
 /// the individual files.
 library;
 
+export 'art/lamp_backdrop.dart';
 export 'art/mm_art.dart';
 export 'art/subject_glyph.dart';
 export 'brand/brand_logo.dart';
@@ -18,12 +19,14 @@ export 'controls/glass_quality_picker.dart';
 export 'controls/segmented.dart';
 export 'controls/select_row.dart';
 export 'controls/selection_style.dart';
+export 'count_up.dart';
 export 'dock/dock_pill.dart';
 export 'dock/dock_tabs.dart';
 export 'dock/lit_tile.dart';
 export 'dock/morph_sheet_route.dart';
 export 'dock/split_dock.dart';
 export 'dock/start_button.dart';
+export 'feedback.dart';
 export 'inline_banner.dart';
 export 'key_button.dart';
 export 'key_button_face.dart';
@@ -46,6 +49,7 @@ export 'save_pill.dart';
 export 'skeleton.dart';
 export 'state_view.dart';
 export 'status_tint.dart';
+export 'surfaces/mm_surface.dart';
 export 'tab_root_header.dart';
 export 'week_strip.dart';
 export 'show_me_pill.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
+import 'feedback.dart';
 import 'key_button.dart';
 import 'materials/glass_surface.dart';
 
@@ -71,16 +72,10 @@ class MmSheetScaffold extends StatelessWidget {
 
     final header = <Widget>[
       if (!large)
-        Center(
+        const Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
-            child: SizedBox(
-              width: 40,
-              height: 4,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: colors.ink4, borderRadius: MmRadius.pillAll),
-              ),
-            ),
+            padding: EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
+            child: MmSheetHandle(),
           ),
         ),
       if (large || title != null)
@@ -100,9 +95,11 @@ class MmSheetScaffold extends StatelessWidget {
         ),
     ];
 
-    final body = Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s20, 0, MmSpace.s20, MmSpace.s20),
-      child: child,
+    final body = MmSheetBodyReveal(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.s20, 0, MmSpace.s20, MmSpace.s20),
+        child: child,
+      ),
     );
 
     final fixed = large || heightFactor != null;
@@ -191,4 +188,140 @@ class MmSheetPage<T> extends Page<T> {
       builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, footer: footer, child: child)),
     );
   }
+}
+
+/// The sheet's grab handle, answering the finger: while the sheet is dragged down it widens
+/// from 36 to 52 dp and brightens, and crossing the close threshold (half the sheet, Flutter's
+/// own) gives one `selectionClick`, and one back if the student changes their mind. Still under
+/// reduced motion (the tick stays: it is information, not decoration).
+class MmSheetHandle extends StatefulWidget {
+  const MmSheetHandle({super.key, this.closeThreshold = 0.5});
+
+  /// The route's animation value below which a release closes the sheet.
+  final double closeThreshold;
+
+  @override
+  State<MmSheetHandle> createState() => _MmSheetHandleState();
+}
+
+class _MmSheetHandleState extends State<MmSheetHandle> {
+  Animation<double>? _route;
+  bool _landed = false;
+  bool _below = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final modal = ModalRoute.of(context);
+    // A route built offstage (for heroes) shows its animation standing at 1: wait for onstage.
+    if (modal != null && modal.offstage) return;
+    final route = modal?.animation;
+    if (route == _route) return;
+    _route?.removeListener(_changed);
+    _route = route;
+    _landed = route == null || route.status == AnimationStatus.completed;
+    route?.addListener(_changed);
+  }
+
+  @override
+  void dispose() {
+    _route?.removeListener(_changed);
+    super.dispose();
+  }
+
+  void _changed() {
+    final route = _route;
+    if (route == null) return;
+    if (!_landed) {
+      if (route.status == AnimationStatus.completed || route.value >= 1) _landed = true;
+      return;
+    }
+    if (route.status == AnimationStatus.reverse) return;
+    final below = route.value < widget.closeThreshold;
+    if (below != _below) {
+      _below = below;
+      mmFireHaptic(context, MmPressHaptic.selection);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final route = _route;
+    Widget handle(double pull) => SizedBox(
+      width: 36 + 16 * pull,
+      height: 4,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: Color.lerp(colors.ink4, colors.ink2, pull), borderRadius: MmRadius.pillAll),
+      ),
+    );
+    if (route == null) return handle(0);
+    return SizedBox(
+      width: 52,
+      height: 4,
+      child: Center(
+        child: AnimatedBuilder(
+          animation: route,
+          builder: (context, _) {
+            // Pull: 0 at rest, 1 a fifth of the way down.
+            final dragging = _landed && route.status != AnimationStatus.reverse;
+            final pull = dragging ? ((1 - route.value) * 5).clamp(0.0, 1.0) : 0.0;
+            return handle(pull);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+/// A sheet's body riding in on the sheet: it fades and rises 12 dp over the last two thirds of
+/// the sheet's own rise, so the glass arrives first and the content settles into it. After the
+/// sheet has landed it never moves again (a drag moves the whole sheet, not the body). Nothing
+/// under reduced motion.
+class MmSheetBodyReveal extends StatefulWidget {
+  const MmSheetBodyReveal({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<MmSheetBodyReveal> createState() => _MmSheetBodyRevealState();
+}
+
+class _MmSheetBodyRevealState extends State<MmSheetBodyReveal> {
+  Animation<double>? _route;
+  bool _landed = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final modal = ModalRoute.of(context);
+    if (modal != null && modal.offstage) return;
+    final route = modal?.animation;
+    if (route == _route) return;
+    _route = route;
+    _landed = route == null || Motion.reduced(context) || route.status != AnimationStatus.forward;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final route = _route;
+    if (route == null) return _shell(1, widget.child);
+    // Always the same shape: a body that has landed keeps its builder, so a rebuild never
+    // remounts it.
+    return AnimatedBuilder(
+      animation: route,
+      child: widget.child,
+      builder: (context, child) {
+        if (route.status == AnimationStatus.completed || route.status == AnimationStatus.reverse) _landed = true;
+        final t = _landed ? 1.0 : Motion.emphasized.transform(((route.value - 0.33) / 0.67).clamp(0.0, 1.0));
+        return _shell(t, child!);
+      },
+    );
+  }
+
+  /// One widget shape in motion and at rest, so the body is never remounted.
+  Widget _shell(double t, Widget child) => Opacity(
+    opacity: t,
+    child: Transform.translate(offset: Offset(0, 12 * (1 - t)), child: child),
+  );
 }

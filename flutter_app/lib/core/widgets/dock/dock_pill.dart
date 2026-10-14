@@ -1,19 +1,24 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
+import '../materials/edge_light.dart';
 import '../materials/glass_surface.dart';
+import '../materials/lit_edge.dart';
 import '../pressable.dart';
 import 'dock_tabs.dart';
-import 'lit_tile.dart';
 
-/// The tab half of the split glass dock: a glass pill with three labelled tabs and a lit tile
-/// that slides to the active one on a spring (360 ms, bounce 0.18), stretching up to 1.15x with
-/// its velocity. As the tile lands the tab's answer bubble inks in the direction it travelled.
-/// Drag across the pill to scrub tabs: a `selectionClick` on each crossing, and the tab under the
-/// finger opens on release.
+/// The tab half of the split glass dock: a glass pill with three labelled tabs and a liquid lit
+/// tile. On a switch the tile's two edges travel on two springs: the leading edge on a quick one
+/// ([Springs.edgeLead]), the trailing edge on a slower one ([Springs.edgeTrail]), so the tile
+/// stretches toward the new tab (and thins a little as it stretches), then gathers itself. As it
+/// lands the tab's icon pops in with its own small gesture and its answer bubble inks in the
+/// direction the tile travelled. Drag across the pill to scrub tabs: a `selectionClick` on each
+/// crossing, and the tab under the finger opens on release.
 class DockPill extends ConsumerStatefulWidget {
   const DockPill({
     super.key,
@@ -40,11 +45,16 @@ class DockPill extends ConsumerStatefulWidget {
   ConsumerState<DockPill> createState() => _DockPillState();
 }
 
-class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderStateMixin {
-  late final AnimationController _x = AnimationController.unbounded(vsync: this, value: widget.currentIndex.toDouble());
+class _DockPillState extends ConsumerState<DockPill> with TickerProviderStateMixin {
+  // The tile's left and right edges, in slots: the tile spans [left, right + 1].
+  late final AnimationController _left = AnimationController.unbounded(vsync: this, value: widget.currentIndex.toDouble());
+  late final AnimationController _right = AnimationController.unbounded(vsync: this, value: widget.currentIndex.toDouble());
+  late final Listenable _edges = Listenable.merge([_left, _right]);
   bool _dragging = false;
   int _shown = 0;
   Offset _inkFrom = Offset.zero;
+
+  double get _x => (_left.value + _right.value) / 2;
 
   @override
   void initState() {
@@ -60,18 +70,26 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    _x.dispose();
+    _left.dispose();
+    _right.dispose();
     super.dispose();
   }
 
   void _glideTo(int index, {double velocity = 0}) {
-    _inkFrom = Offset(index > _x.value ? -1 : 1, 0);
+    final target = index.toDouble();
+    final rightward = target > _x;
+    _inkFrom = Offset(rightward ? -1 : 1, 0);
     setState(() => _shown = index);
     if (Motion.reduced(context)) {
-      _x.value = index.toDouble();
+      _left.value = target;
+      _right.value = target;
       return;
     }
-    _x.animateWith(Motion.spring(Springs.dock, _x.value, index.toDouble(), velocity: velocity == 0 ? _x.velocity : velocity));
+    // The edge on the side of travel leads; the other follows on a slower spring.
+    final lead = rightward ? _right : _left;
+    final trail = rightward ? _left : _right;
+    lead.animateWith(Motion.spring(Springs.edgeLead, lead.value, target, velocity: velocity == 0 ? lead.velocity : velocity));
+    trail.animateWith(Motion.spring(Springs.edgeTrail, trail.value, target, velocity: velocity == 0 ? trail.velocity : velocity * 0.6));
   }
 
   void _tap(int index) {
@@ -81,13 +99,19 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
 
   void _dragStart(DragStartDetails d) {
     _dragging = true;
-    _x.stop();
+    _left.stop();
+    _right.stop();
+    final x = _x;
+    _left.value = x;
+    _right.value = x;
   }
 
   void _dragUpdate(DragUpdateDetails d) {
-    final before = _x.value.round();
-    _x.value = (_x.value + d.delta.dx / widget.slotWidth).clamp(0.0, kMmTabs.length - 1.0);
-    final after = _x.value.round();
+    final before = _x.round();
+    final next = (_x + d.delta.dx / widget.slotWidth).clamp(0.0, kMmTabs.length - 1.0);
+    _left.value = next;
+    _right.value = next;
+    final after = next.round();
     if (after != before) {
       ref.read(hapticsProvider).selection();
       setState(() => _shown = after);
@@ -97,7 +121,7 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
   void _dragEnd(DragEndDetails d) {
     _dragging = false;
     final velocity = d.velocity.pixelsPerSecond.dx / widget.slotWidth;
-    final target = (_x.value + velocity * 0.08).round().clamp(0, kMmTabs.length - 1);
+    final target = (_x + velocity * 0.08).round().clamp(0, kMmTabs.length - 1);
     _glideTo(target, velocity: velocity);
     if (target != widget.currentIndex) widget.onTap(target);
   }
@@ -105,18 +129,24 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final slot = widget.slotWidth;
-    final tile = AnimatedBuilder(
-      animation: _x,
-      builder: (context, child) {
-        // Squash and stretch: wider while moving fast, never more than 1.15x.
-        final stretch = 1 + (_x.velocity.abs() * 0.03).clamp(0.0, 0.15);
-        return Transform(
-          transform: Matrix4.translationValues(_x.value * slot, 0, 0)..multiply(Matrix4.diagonal3Values(stretch, 2 - stretch * 0.6 - 0.4, 1)),
-          alignment: Alignment.center,
-          child: child,
-        );
-      },
-      child: SizedBox(width: slot, height: MmDock.height - DockPill.pad * 2, child: const RepaintBoundary(child: LitTile())),
+    final colors = context.mmColors;
+    final tile = Positioned.fill(
+      child: IgnorePointer(
+        child: RepaintBoundary(
+          child: CustomPaint(
+            painter: _LiquidTilePainter(
+              left: _left,
+              right: _right,
+              slot: slot,
+              repaint: _edges,
+              fill: colors.litTile,
+              edgeTop: colors.edgeTop,
+              edgeBottom: colors.edgeBottom,
+              volt: colors.isNight ? colors.volt : colors.accentText,
+            ),
+          ),
+        ),
+      ),
     );
 
     return GestureDetector(
@@ -137,13 +167,14 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
             padding: const EdgeInsets.all(DockPill.pad),
             child: Stack(
               children: [
-                Positioned(left: 0, top: 0, bottom: 0, child: tile),
+                tile,
                 Row(
                   children: [
                     for (var i = 0; i < kMmTabs.length; i++)
                       SizedBox(
                         width: slot,
                         child: _DockTab(
+                          index: i,
                           tab: kMmTabs[i],
                           active: i == _shown,
                           inkFrom: _inkFrom,
@@ -163,8 +194,64 @@ class _DockPillState extends ConsumerState<DockPill> with SingleTickerProviderSt
   }
 }
 
+/// The lit tile, painted straight onto the pill between its two edges: a soft white pane with
+/// its own edge light and the volt top edge. As it stretches past one slot it thins a little
+/// (up to 8%), so it reads as a drop of light, not a sliding block. No layout per frame.
+class _LiquidTilePainter extends CustomPainter {
+  _LiquidTilePainter({
+    required this.left,
+    required this.right,
+    required this.slot,
+    required this.fill,
+    required this.edgeTop,
+    required this.edgeBottom,
+    required this.volt,
+    required Listenable repaint,
+  }) : super(repaint: repaint);
+
+  final Animation<double> left;
+  final Animation<double> right;
+  final double slot;
+  final Color fill;
+  final Color edgeTop;
+  final Color edgeBottom;
+  final Color volt;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final l = math.min(left.value, right.value);
+    final r = math.max(left.value, right.value);
+    final width = (r - l + 1) * slot;
+    final stretch = ((width / slot) - 1).clamp(0.0, 1.0);
+    final height = size.height * (1 - 0.08 * stretch);
+    final rect = Rect.fromLTWH(l * slot, (size.height - height) / 2, width, height);
+    canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(height / 2)), Paint()..color = fill);
+
+    canvas.save();
+    canvas.translate(rect.left, rect.top);
+    final local = rect.size;
+    EdgeLightPainter(borderRadius: MmRadius.pillAll, top: edgeTop, bottom: edgeBottom.withValues(alpha: 0), sheen: false)
+        .paint(canvas, local);
+    // The edge follows the tile's own corner (half its height), so the light wraps the shoulder
+    // instead of cutting across it, at every stretch of the travel.
+    LitEdgePainter(color: volt, radius: local.height / 2, width: 1.5, wrap: 0.4).paint(canvas, local);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_LiquidTilePainter old) =>
+      old.left != left ||
+      old.right != right ||
+      old.slot != slot ||
+      old.fill != fill ||
+      old.edgeTop != edgeTop ||
+      old.edgeBottom != edgeBottom ||
+      old.volt != volt;
+}
+
 class _DockTab extends StatefulWidget {
   const _DockTab({
+    required this.index,
     required this.tab,
     required this.active,
     required this.inkFrom,
@@ -173,6 +260,8 @@ class _DockTab extends StatefulWidget {
     required this.onTap,
   });
 
+  /// Which tab (0 Today, 1 Practice, 2 Review): each icon has its own arrival gesture.
+  final int index;
   final MmTab tab;
   final bool active;
   final Offset inkFrom;
@@ -190,8 +279,11 @@ class _DockTab extends StatefulWidget {
 /// As the lit tile lands, the tab's answer bubble inks: a 24 dp volt circle that grows in from
 /// the side the tile came from ([_DockTab.inkFrom]) and fades as it fills, leaving the filled
 /// icon. Under reduced motion there is no ink, only the icon swap.
-class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin {
+class _DockTabState extends State<_DockTab> with TickerProviderStateMixin {
   late final AnimationController _ink = AnimationController(vsync: this, duration: Motion.ui, value: 1);
+
+  /// The icon's arrival: 0 just switched, 1 at rest (the dock spring overshoots a little).
+  late final AnimationController _pop = AnimationController.unbounded(vsync: this, value: 1);
 
   @override
   void didUpdateWidget(_DockTab oldWidget) {
@@ -199,8 +291,11 @@ class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin 
     if (widget.active && !oldWidget.active) {
       if (Motion.reduced(context)) {
         _ink.value = 1;
+        _pop.value = 1;
       } else {
         _ink.forward(from: 0);
+        _pop.value = 0;
+        _pop.animateWith(Motion.spring(Springs.iconPop, 0, 1));
       }
     }
   }
@@ -208,7 +303,23 @@ class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin 
   @override
   void dispose() {
     _ink.dispose();
+    _pop.dispose();
     super.dispose();
+  }
+
+  /// Each tab's own arrival: Today's sun-moon turns in, Practice's pen writes a short stroke,
+  /// Review's checks drop in. [v] runs 0 to 1 (and a touch past it on the spring).
+  Matrix4 _gesture(double v) {
+    final rest = 1 - v;
+    final scale = 0.82 + 0.18 * v;
+    final (dx, dy, turn) = switch (widget.index) {
+      0 => (0.0, 0.0, -0.5 * rest),
+      1 => (-3 * rest, 2 * rest, 0.32 * rest),
+      _ => (0.0, -5 * rest, 0.0),
+    };
+    return Matrix4.translationValues(dx, dy, 0)
+      ..multiply(Matrix4.rotationZ(turn))
+      ..multiply(Matrix4.diagonal3Values(scale, scale, 1));
   }
 
   @override
@@ -219,6 +330,7 @@ class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin 
     final tab = widget.tab;
     final active = widget.active;
     final ink = colors.isNight ? colors.volt : colors.accentText;
+    final icon = Icon(active ? tab.activeIcon : tab.icon, key: ValueKey(active), size: 24, color: active ? colors.ink : colors.ink2);
 
     return MmPressable(
       semanticsLabel: widget.semanticsLabel,
@@ -267,20 +379,24 @@ class _DockTabState extends State<_DockTab> with SingleTickerProviderStateMixin 
                       ),
                     ),
                   ),
-                  AnimatedSwitcher(
-                    duration: reduced ? Duration.zero : Motion.ui,
-                    switchInCurve: Motion.glide,
-                    switchOutCurve: Motion.exit,
-                    transitionBuilder: (child, animation) => FadeTransition(
-                      opacity: animation,
-                      child: ScaleTransition(scale: Tween(begin: 0.92, end: 1.0).animate(animation), child: child),
+                  AnimatedBuilder(
+                    animation: _pop,
+                    builder: (context, child) => Transform(
+                      transform: _gesture(_pop.value),
+                      alignment: Alignment.center,
+                      child: child,
                     ),
-                    child: Icon(
-                      active ? tab.activeIcon : tab.icon,
-                      key: ValueKey(active),
-                      size: 24,
-                      color: active ? colors.ink : colors.ink2,
-                    ),
+                    // Reduced motion swaps the outline for the filled icon in place (a switcher
+                    // would still play out the fade it started before the setting changed).
+                    child: reduced
+                        ? icon
+                        : AnimatedSwitcher(
+                            duration: Motion.ui,
+                            switchInCurve: Motion.glide,
+                            switchOutCurve: Motion.exit,
+                            transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                            child: icon,
+                          ),
                   ),
                   if (widget.showDot)
                     Positioned(

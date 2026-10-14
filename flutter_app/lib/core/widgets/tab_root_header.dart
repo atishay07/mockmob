@@ -67,6 +67,7 @@ class YouAvatarButton extends ConsumerWidget {
 
     return MmPressable(
       semanticsLabel: 'You, profile and settings',
+      haptic: MmPressHaptic.selection,
       onTap: onTap ?? () => context.push(AppRoutes.you),
       builder: (context, pressed, _) => SizedBox.square(
         dimension: 48,

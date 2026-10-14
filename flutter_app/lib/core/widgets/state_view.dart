@@ -25,7 +25,7 @@ class StateAction {
 /// up to two actions (the volt pill and a quiet one). Empty shows the living Mobi reading,
 /// offline shows Mobi resting, error shows Mobi thinking, in both themes. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass the recovery
 /// action here.
-class StateView extends StatelessWidget {
+class StateView extends StatefulWidget {
   const StateView({
     super.key,
     required this.kind,
@@ -45,8 +45,41 @@ class StateView extends StatelessWidget {
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
 
+  @override
+  State<StateView> createState() => _StateViewState();
+}
+
+class _StateViewState extends State<StateView> {
+  final MobiController _mobi = MobiController();
+  final GlobalKey _action = GlobalKey(debugLabel: 'state-view-action');
+
+  StateViewKind get kind => widget.kind;
+  String get title => widget.title;
+  String? get message => widget.message;
+  StateAction? get primary => widget.primary;
+  StateAction? get secondary => widget.secondary;
+  MobiPose get pose => widget.pose;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mobi's eyes lead the reader to the way out: once the screen is laid out it looks at the
+    // main action (a held glance, not an idle loop). Still under reduced motion.
+    if (widget.primary != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mobi.lookAtWidget(_action);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
   Widget _art(BuildContext context, double size) {
-    if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle);
+    if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle, controller: _mobi);
     // The living Mobi in both themes: reading over an empty sheet, resting while offline,
     // thinking over an error. The lamp-lit raster vignettes stay only behind the MOBI_RASTER
     // fallback, and only on Night, where they melt into the ground.
@@ -61,9 +94,9 @@ class StateView extends StatelessWidget {
       }
     }
     return switch (kind) {
-      StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle),
-      StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle),
-      StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle),
+      StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle, controller: _mobi),
+      StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle, controller: _mobi),
+      StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle, controller: _mobi),
     };
   }
 
@@ -95,49 +128,69 @@ class StateView extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 420),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: artSize * 1.5,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Positioned.fill(
-                      child: LightField(
-                        pools: [
-                          LightPool(
-                            color: colors.lamp.withValues(alpha: colors.isNight ? 0.18 : 0.16),
-                            center: const Alignment(-0.15, 0.15),
-                            radius: 0.24,
-                            aspect: 1.8,
+          // One entrance, in reading order: Mobi settles, then the title, the message and the
+          // way out. Still under reduced motion.
+          child: MmStagger(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MmStaggerItem(
+                  index: 0,
+                  rise: 8,
+                  child: SizedBox(
+                    height: artSize * 1.5,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Positioned.fill(
+                          child: LightField(
+                            pools: [
+                              LightPool(
+                                color: colors.lamp.withValues(alpha: colors.isNight ? 0.18 : 0.16),
+                                center: const Alignment(-0.15, 0.15),
+                                radius: 0.24,
+                                aspect: 1.8,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        _art(context, artSize),
+                      ],
                     ),
-                    _art(context, artSize),
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: MmSpace.s20),
-              Semantics(
-                header: true,
-                child: Text(title, style: type.title, textAlign: TextAlign.center),
-              ),
-              if (message != null) ...[
-                const SizedBox(height: MmSpace.s8),
-                Text(message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                const SizedBox(height: MmSpace.s20),
+                MmStaggerItem(
+                  index: 1,
+                  child: Semantics(
+                    header: true,
+                    child: Text(title, style: type.title, textAlign: TextAlign.center),
+                  ),
+                ),
+                if (message != null) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  MmStaggerItem(
+                    index: 2,
+                    child: Text(message!, style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                  ),
+                ],
+                if (primary != null) ...[
+                  const SizedBox(height: MmSpace.s24),
+                  MmStaggerItem(
+                    index: 3,
+                    child: KeyedSubtree(key: _action, child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading)),
+                  ),
+                ],
+                if (secondary != null) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  MmStaggerItem(
+                    index: 4,
+                    child: Align(child: KeyButton.quiet(label: secondary!.label, onPressed: secondary!.onPressed)),
+                  ),
+                ],
               ],
-              if (primary != null) ...[
-                const SizedBox(height: MmSpace.s24),
-                KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading),
-              ],
-              if (secondary != null) ...[
-                const SizedBox(height: MmSpace.s4),
-                Align(child: KeyButton.quiet(label: secondary!.label, onPressed: secondary!.onPressed)),
-              ],
-            ],
+            ),
           ),
         ),
       ),
