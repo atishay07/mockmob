@@ -157,13 +157,18 @@ class MistakeView extends StatelessWidget {
         return [NoticePanel(message: heldByServer ? ReviewCopy.heldForRecheck : ReviewCopy.setAsideCheck, icon: LucideIcons.scale)];
       case OutcomeNotExplained():
         return [NoticePanel(message: ReviewCopy.notExplained, primary: readKey)];
-      case OutcomeFailed(:final failure):
-        final message = switch (failure) {
+      case OutcomeFailed(:final failure, message: final serverMessage):
+        // The server's own sentence wins when it sent one; a timeout always says the same words.
+        final message = serverMessage ?? switch (failure) {
           RepairFailure.offline => ReviewCopy.offline,
           RepairFailure.rateLimited => ReviewCopy.waitAMinute,
           RepairFailure.inProgress => ReviewCopy.stillWorking,
           RepairFailure.cannotRepair => ReviewCopy.cannotRepair,
           RepairFailure.notFound => ReviewCopy.notFound,
+          RepairFailure.tookTooLong => ReviewCopy.tookTooLong,
+          RepairFailure.providerUnavailable => ReviewCopy.providerUnavailable,
+          RepairFailure.walletUnavailable => ReviewCopy.walletUnavailable,
+          RepairFailure.budgetReached => ReviewCopy.repairsPaused,
           RepairFailure.unavailable || RepairFailure.unknown => ReviewCopy.couldNotMake,
         };
         return [

@@ -37,6 +37,14 @@ abstract final class ApiCodes {
   static const operationReleased = 'operation_released';
   static const inProgress = 'in_progress';
   static const paused = 'paused';
+  // Mistake Repair failures. Each is sent with `charged: 0` and a sentence written for the student.
+  static const providerTimeout = 'provider_timeout';
+  static const providerUnavailable = 'provider_unavailable';
+  static const budgetReached = 'budget_reached';
+  static const walletUnavailable = 'wallet_unavailable';
+  static const unusableOutput = 'unusable_output';
+  static const couldNotStart = 'could_not_start';
+  static const providerError = 'provider_error';
   static const questionWithdrawn = 'question_withdrawn';
   static const questionUnderReview = 'question_under_review';
   static const keyChanged = 'key_changed';
@@ -74,7 +82,8 @@ class ApiError implements Exception {
   /// How long to wait before calling again, set for 429 and by a Retry-After header.
   final Duration? retryAfter;
 
-  /// Whitelisted structured fields only: `balance`, `review`, `reasonCode`, `state`.
+  /// Whitelisted structured fields only: `balance`, `review`, `reasonCode`, `state`, `charged`, and
+  /// `message` for the Mistake Repair failure codes in [studentMessageCodes] (see [serverMessage]).
   final Map<String, Object?> details;
 
   bool hasCode(String other) => code.toLowerCase() == other.toLowerCase();
@@ -86,6 +95,29 @@ class ApiError implements Exception {
   bool get isInsecureConnection => code == 'tls';
   bool get isUnauthorized => kind == ApiErrorKind.unauthorized;
   bool get isRateLimited => kind == ApiErrorKind.rateLimited;
+
+  /// The server says no credit was taken for this failure (`charged: 0`). A repair that failed this
+  /// way was released on the server, so the next attempt must use a fresh request id.
+  bool get chargedNothing => details['charged'] == 0;
+
+  /// The sentence the server wrote for the student, kept only for the Mistake Repair failure codes
+  /// in [studentMessageCodes]. Null for every other error: nothing else from a response body
+  /// reaches the UI.
+  String? get serverMessage {
+    final m = details['message'];
+    return m is String && m.isNotEmpty ? m : null;
+  }
+
+  /// Codes whose `message` is plain student copy (the repair route, `data/repair_failures.js`).
+  static const studentMessageCodes = {
+    ApiCodes.providerTimeout,
+    ApiCodes.providerUnavailable,
+    ApiCodes.budgetReached,
+    ApiCodes.walletUnavailable,
+    ApiCodes.unusableOutput,
+    ApiCodes.couldNotStart,
+    ApiCodes.providerError,
+  };
 
   /// True when repeating the same call may succeed without the student changing anything.
   bool get isRetryable => switch (kind) {
@@ -152,6 +184,12 @@ class ApiError implements Exception {
     if (state is String) details['state'] = state;
     final balance = map['balance'];
     if (balance is num) details['balance'] = balance;
+    final charged = map['charged'];
+    if (charged is num) details['charged'] = charged;
+    final message = map['message'];
+    if (message is String && message.trim().isNotEmpty && message.length <= 400 && studentMessageCodes.contains(code?.toLowerCase())) {
+      details['message'] = message.trim();
+    }
 
     Duration? retryAfter;
     final seconds = int.tryParse(retryAfterHeader ?? '');

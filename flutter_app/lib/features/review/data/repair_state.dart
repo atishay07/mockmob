@@ -13,10 +13,24 @@ enum RepairFailure {
   /// 422 other than `not_a_mistake`, or a snapshot the server cannot use.
   cannotRepair,
   notFound,
-  unknown;
+  unknown,
+
+  /// `provider_timeout`, or no answer within the client's wait: "This took too long. You were not
+  /// charged." Not offline: the server was reached or the connection was up.
+  tookTooLong,
+
+  /// `provider_unavailable`: the model service is out of quota, rate limited, down or refusing.
+  providerUnavailable,
+
+  /// `wallet_unavailable`: the credits could not be reached, so nothing was reserved.
+  walletUnavailable,
+
+  /// `budget_reached`: this month's student-AI budget is used up. Calling again cannot help until
+  /// the month turns, so the screen offers the key explanation and the next mistake instead.
+  budgetReached;
 
   /// Calling again may work without the student changing anything.
-  bool get canRetry => this != cannotRepair && this != notFound;
+  bool get canRetry => this != cannotRepair && this != notFound && this != budgetReached;
 }
 
 /// What happened to one mistake in this run.
@@ -57,9 +71,13 @@ class OutcomeNotExplained extends MistakeOutcome {
 }
 
 class OutcomeFailed extends MistakeOutcome {
-  const OutcomeFailed(this.failure);
+  const OutcomeFailed(this.failure, {this.message});
 
   final RepairFailure failure;
+
+  /// The server's own sentence for this failure (`provider_unavailable`, `wallet_unavailable`,
+  /// `budget_reached`, ...), shown in place of the app's general line when there is one.
+  final String? message;
 }
 
 /// The no-AI answer review built from the attempt detail. [reason] says why it is showing.
@@ -76,7 +94,8 @@ enum KeyReviewReason {
   /// 402 `insufficient_ai_credits`.
   outOfCredits,
 
-  /// 503 `paused`.
+  /// 503 `paused`. With an empty wallet this is what turns the rest of the run into key reviews;
+  /// a timeout, an unavailable model service or wallet and a used-up budget leave the run going.
   paused,
 
   /// The explanation could not be made and the student asked for the key instead.

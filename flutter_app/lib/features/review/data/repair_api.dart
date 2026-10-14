@@ -15,6 +15,11 @@ abstract interface class RepairApi {
 class HttpRepairApi implements RepairApi {
   HttpRepairApi(this._api);
 
+  /// How long the app waits for the repair answer. The server works to a 90 s route budget (all model
+  /// work done by about 78 s) and then answers with a failure that says nothing was charged, so
+  /// the app waits a little longer than that before it gives up.
+  static const receiveTimeout = Duration(seconds: 95);
+
   final ApiClient _api;
 
   @override
@@ -23,7 +28,7 @@ class HttpRepairApi implements RepairApi {
       '/api/recovery/repair',
       body: {'attemptId': attemptId, 'questionId': questionId, 'requestId': requestId},
       // The explanation can take a while to write.
-      options: const ApiOptions(receiveTimeout: Duration(seconds: 45)),
+      options: const ApiOptions(receiveTimeout: receiveTimeout),
     );
     return RepairResponse.fromJson(response.map);
   }

@@ -189,6 +189,14 @@ abstract final class ReviewCopy {
   static String creditsUsedLine(String? renewDate) => renewDate == null ? 'Credits used up for this month.' : 'Credits used up. They renew on $renewDate.';
   static const paused = 'Explanations are paused right now.';
   static const couldNotMake = 'The explanation could not be made. Try again.';
+  // The server sends its own sentence for these (each says nothing was charged). These are the same
+  // words for an answer that arrives without one; `tookTooLong` is also the app's own line when it
+  // stops waiting.
+  static const tookTooLong = 'This took too long. You were not charged.';
+  static const providerUnavailable = "Repairs aren't available right now. Try again in a little while. You were not charged.";
+  static const walletUnavailable = "We couldn't reach your credits. Nothing was charged. Try again.";
+  static String repairsPausedUntil(String date) => 'Repairs are paused until $date. You were not charged.';
+  static const repairsPaused = 'Repairs are paused for now. You were not charged.';
   static const waitAMinute = 'Please wait a minute.';
   static const stillWorking = 'Still working on this one. Try again in a moment.';
   static const offline = 'You are offline. Your place is kept.';
