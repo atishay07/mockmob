@@ -8,6 +8,7 @@ import 'package:mockmob/core/permissions/permission_requester.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/notifications/screens/notification_settings_screen.dart';
 import 'package:mockmob/features/notifications/screens/reminders_prompt_sheet.dart';
+import 'package:mockmob/features/notifications/widgets/select_chip.dart';
 import 'package:mockmob/features/notifications/widgets/settings_rows.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 
@@ -80,6 +81,15 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// Lets a save answer while another is still waiting behind it: the Sending pill loops, so the
+  /// screen never settles, and a fixed run of frames is used instead.
+  Future<void> releaseWhileBusy(WidgetTester tester, int index) async {
+    repo.gates[index].complete();
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+  }
+
   group('every control answers on the next frame', () {
     testWidgets('a channel switch moves at once and stays moved while the server saves', (tester) async {
       await pumpScreen(tester);
@@ -131,7 +141,7 @@ void main() {
       // The second save has not started: it waits for the first.
       expect(repo.gates, hasLength(1));
 
-      await release(tester, 0);
+      await releaseWhileBusy(tester, 0);
       expect(repo.gates, hasLength(2));
       await release(tester, 1);
       expect([for (final s in repo.saved) (s['channels'] as Map)['weekly_plan']], [true, false]);
@@ -185,12 +195,16 @@ void main() {
   group('one left edge', () {
     testWidgets('the title, headings, notes and cards all start on the 16 dp gutter', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 0), end: ClockTime(21, 0))));
-      for (final text in ['Notifications', 'Your day', 'What I want to hear about', 'Study window', 'Quiet hours', 'Reminders a week', 'Take a break']) {
-        final finder = find.text(text);
-        expect(tester.getTopLeft(finder.first).dx, 16, reason: '$text sits on the gutter');
+      for (final text in ['Notifications', 'Your day', 'What I want to hear about', 'Quiet hours', 'Reminders a week', 'Take a break']) {
+        expect(tester.getTopLeft(find.text(text).first).dx, 16, reason: '$text sits on the gutter');
+      }
+      // Text inside a card sits on the card's own text edge: the gutter plus its 16 dp padding.
+      for (final text in ['Study window']) {
+        expect(tester.getTopLeft(find.text(text).first).dx, 32, reason: '$text sits on the card text edge');
       }
       expect(tester.getTopLeft(find.byType(MmRowGroup).first).dx, 16);
-      expect(tester.getTopLeft(find.text('1')).dx, 16, reason: 'the cap chips start on the gutter');
+      final chip = find.ancestor(of: find.text('1'), matching: find.byType(SelectChip)).first;
+      expect(tester.getTopLeft(chip).dx, 16, reason: 'the cap chips start on the gutter');
     });
   });
 

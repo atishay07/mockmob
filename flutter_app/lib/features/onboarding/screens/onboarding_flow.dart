@@ -31,6 +31,7 @@ import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/guide_bar.dart';
+import '../widgets/plan_seal_moment.dart';
 import 'welcome_view.dart';
 
 /// The onboarding ("Your sheet"): the cold open on first launch, Welcome, then the step deck
@@ -54,6 +55,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   /// Past Welcome in this visit.
   late bool _inDeck = widget.startInDeck;
+
+  /// The plan's seal moment: the plan step drives it, the room behind the deck draws it.
+  final PlanSealMoment _sealMoment = PlanSealMoment();
 
   /// The direction of the last move, for the slide.
   bool _forward = true;
@@ -108,6 +112,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     _reveal?.cancel();
     _life.dispose();
     _mobi.dispose();
+    _sealMoment.dispose();
     super.dispose();
   }
 
@@ -344,6 +349,16 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         body: Stack(
           children: [
             if (step.kind != StepKind.check) Positioned.fill(child: LampScene(strength: 0.85, vignette: false)),
+            // The seal moment's room, full bleed behind the deck: dark until the hold starts, and
+            // fading out with the plan step when the deck moves on.
+            Positioned.fill(
+              child: AnimatedSwitcher(
+                duration: Motion.of(context, Motion.card),
+                child: step.kind == StepKind.reveal
+                    ? PlanSealBackdrop(key: const ValueKey('seal-room'), moment: _sealMoment)
+                    : const SizedBox.shrink(key: ValueKey('no-seal-room')),
+              ),
+            ),
             const Positioned.fill(child: IgnorePointer(child: Grain())),
             SafeArea(
               bottom: false,
@@ -444,6 +459,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       StepKind.reveal => PlanStep(
           answers: a,
           onNext: next,
+          moment: _sealMoment,
           onChange: (id) {
             setState(() => _forward = false);
             _c.edit((x) => x.copyWith(sealedAt: null, step: id, done: {...x.done}..remove(Steps.plan)));

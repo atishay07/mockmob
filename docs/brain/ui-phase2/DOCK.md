@@ -168,6 +168,8 @@ The baseline is 360 x 780. The Galaxy M06 is 384 x 853. Every measurement below 
 - **Auto-downgrade:** the existing `GlassActivity` rule stays (Full to Lite when raster p90 stays above 12 ms for 2 s while scrolling).
 
 **Icons**
+> **Superseded 14 Oct 2026, 22:00 IST (owner: the custom icons "look extremely weird").** The bar now uses Material Symbols pairs, Rounded filled when active and Outlined at rest: Today `home`, Practice `quiz`, Review `fact_check`, You the initial as an avatar (a 22 dp ring at rest, a filled disc when active; `person` with no name). The active icon is volt on Night and ink on Day; at rest, icon and label are ink 2. Arrival: the fill starts after the lens passes 70%, fills over 200 ms and settles 0.9 to 1.0. Departure: empties over 160 ms on `Motion.out`. The filled glyph replaces the inked bubble everywhere below (reduced motion, colour-alone). The original paragraph is kept for history:
+
 Custom 24 dp icons, 1.75 dp stroke, round caps, on a 2 dp grid. Each has an answer bubble of 8 dp diameter that inks when the tab is active. This is the "green dot" the owner liked, now built into the icon instead of floating behind it.
 - **Today:** a ruled baseline with a bubble resting on it like a low sun, plus two short rays above. The bubble inks.
 - **Practice:** a pencil at 45 degrees whose tip touches a bubble. The bubble inks.

@@ -166,6 +166,7 @@ abstract final class OnboardingCopy {
   static const String sealing = 'Keep holding';
   static const String sealIt = 'Tap to seal instead';
   static const String sealed = 'Sealed';
+  static const String planSet = 'Your plan is set.';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
   static const String changeTitle = 'What do you want to change?';

@@ -363,14 +363,15 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     _watchEdges();
   }
 
-  /// The filled icon empties back to its outline (160 ms).
+  /// The filled icon empties back to its outline (160 ms). Ease-out, not the exit curve: the
+  /// tab stays on screen, so it lets go at once instead of lingering half filled.
   void _depart(int branch) {
     if (_arriving == branch) _arriving = null;
     if (_reduced) {
       _on[branch].value = 0;
       return;
     }
-    _on[branch].animateBack(0, curve: Motion.exit);
+    _on[branch].animateBack(0, curve: Motion.out);
   }
 
   /// The outlined icon fills (200 ms) and settles from 0.9 to 1. Called once the lens's leading

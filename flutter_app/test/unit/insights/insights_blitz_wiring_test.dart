@@ -37,12 +37,12 @@ void main() {
     testWidgets('a known subject is its drawn emblem, unframed, at every size', (tester) async {
       await pumpMockmob(
         tester,
-        const Row(children: [SubjectThumb(subject: 'accountancy'), SubjectThumb(subject: 'business', size: 60), SubjectThumb(subject: 'hindi')]),
+        const Row(children: [SubjectThumb(subject: 'accountancy'), SubjectThumb(subject: 'business', size: 56), SubjectThumb(subject: 'hindi')]),
         brightness: Brightness.dark,
         disableAnimations: true,
       );
       final emblems = tester.widgetList<SubjectEmblem>(find.byType(SubjectEmblem)).toList();
-      expect(emblems.map((e) => e.size), [44, 60, 44]);
+      expect(emblems.map((e) => e.size), [40, 56, 40]);
       expect(emblems.every((e) => !e.framed), isTrue);
     });
 

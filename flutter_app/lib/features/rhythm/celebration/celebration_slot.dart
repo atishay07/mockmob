@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/art/scene_art.dart';
 import '../../../core/widgets/materials/fake_glass.dart';
 import '../../../core/widgets/materials/lit_edge.dart';
 import '../../../core/widgets/receipt_line.dart';
@@ -107,7 +108,35 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
         );
 
     final Widget body;
-    if (first) {
+    if (first && !c.textOnly) {
+      // A first (first repair, first week met) stands under the painted check: the bubble-grid
+      // check of the milestone art, cropped to its top and feathered into the ground, with Mobi
+      // standing under its long arm, looking up. The art arriving is the moment's one light
+      // event when there is no ring (it replaces the pool bloom); with a ring the dial's sweep is,
+      // and the art simply fades in with the moment.
+      final ring = counted
+          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 88, showWords: false, animate: true, sweep: true)
+          : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 64) : null);
+      final mobiAfter = counted
+          ? WeekDial.settleAfter(done: c.studyDays!, goal: c.goal!, sweep: true)
+          : (c.ring ? Motion.milestone : const Duration(milliseconds: 520));
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MilestoneArtBand(
+            arrive: c.ring ? null : _bloom,
+            mobi: c.mobiHop ? ProudMobi(size: MilestoneArtBand.mobiSize, delay: mobiAfter) : null,
+          ),
+          said([
+            if (ring != null) ...[ring, const SizedBox(height: MmSpace.s12)],
+            ?headline,
+            if (receipt != null) ...[const SizedBox(height: MmSpace.s8), receipt],
+          ]),
+          ?linkKey,
+        ],
+      );
+    } else if (first) {
       final mobi = c.mobiHop;
       final lead = counted
           ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 104, showWords: false, animate: !c.textOnly, sweep: !c.textOnly)
@@ -210,5 +239,101 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     }
 
     return FadeTransition(opacity: CurvedAnimation(parent: _fade, curve: Motion.out), child: body);
+  }
+}
+
+/// The top of the milestone art (`scene-milestone-check-*`, Night and Day): the check made of
+/// filled bubbles over the bubble grid, cropped from 10% to 40% of the painting's height, as wide
+/// as the slot plus the gutter on each side, and feathered to transparent at every edge so it
+/// sits on the ground with no box. [mobi] stands under the check's long arm. With [arrive], the
+/// art rises 6 dp and comes up from 96% over that animation (the moment's light event).
+class MilestoneArtBand extends StatelessWidget {
+  const MilestoneArtBand({super.key, this.arrive, this.mobi});
+
+  final Animation<double>? arrive;
+  final Widget? mobi;
+
+  /// Where the crop starts and ends, as shares of the painting's height.
+  static const double cropTop = 0.10;
+  static const double cropBottom = 0.40;
+
+  /// Mobi's height and where he stands, as a share of the band's width.
+  static const double mobiSize = 92;
+  static const double mobiX = 0.74;
+
+  /// How far the art runs past the slot on each side (the moment gutter).
+  static const double bleed = MmSpace.s24;
+
+  @override
+  Widget build(BuildContext context) {
+    final art = SceneArt.milestone(context.mmColors);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final slot = box.hasBoundedWidth ? box.maxWidth : 336.0;
+        final w = slot + bleed * 2;
+        final imageH = w * art.aspect;
+        final h = imageH * (cropBottom - cropTop);
+        Widget picture = ClipRect(
+          child: OverflowBox(
+            alignment: Alignment.topCenter,
+            minWidth: w,
+            maxWidth: w,
+            minHeight: imageH,
+            maxHeight: imageH,
+            child: Transform.translate(offset: Offset(0, -imageH * cropTop), child: SceneImage(art, width: w, height: imageH)),
+          ),
+        );
+        // Feathered at every edge: the sides and top quickly, the foot over its last third.
+        picture = ShaderMask(
+          blendMode: BlendMode.dstIn,
+          shaderCallback: (r) => const LinearGradient(
+            colors: [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
+            stops: [0, 0.12, 0.88, 1],
+          ).createShader(r),
+          child: ShaderMask(
+            blendMode: BlendMode.dstIn,
+            shaderCallback: (r) => const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
+              stops: [0, 0.1, 0.62, 1],
+            ).createShader(r),
+            child: picture,
+          ),
+        );
+        picture = RepaintBoundary(child: picture);
+        final a = arrive;
+        if (a != null) {
+          picture = AnimatedBuilder(
+            animation: a,
+            child: picture,
+            builder: (context, child) {
+              final t = Motion.out.transform(a.value);
+              return Opacity(
+                opacity: t,
+                child: Transform.translate(offset: Offset(0, 6 * (1 - t)), child: Transform.scale(scale: 0.96 + 0.04 * t, child: child)),
+              );
+            },
+          );
+        }
+        return SizedBox(
+          height: h,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(left: -bleed, top: 0, width: w, height: h, child: IgnorePointer(child: ExcludeSemantics(child: picture))),
+              if (mobi != null)
+                Positioned(
+                  left: -bleed + w * mobiX - mobiSize,
+                  width: mobiSize * 2,
+                  bottom: 0,
+                  height: mobiSize,
+                  child: Align(alignment: Alignment.bottomCenter, child: mobi),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
