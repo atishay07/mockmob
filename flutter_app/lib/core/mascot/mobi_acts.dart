@@ -159,10 +159,12 @@ abstract final class MobiMoves {
       case MobiStance.stand:
         return const MobiRig();
       case MobiStance.point:
-        final pointing = MobiArm(angle: pointAngle, bend: 0.06, point: 1, reach: 1.3);
+        final pointing = MobiArm(angle: pointAngle, bend: 0.06, point: 1, reach: 1.12);
         return MobiRig(
           armR: pointSide > 0 ? pointing : hip,
           armL: pointSide > 0 ? hip : pointing,
+          // Weight shifted away from the finger, so the reach stays inside the paint box.
+          x: -6.5 * pointSide,
           tilt: 0.05 * pointSide,
           lookX: 0.75 * pointSide,
           lookY: (math.cos(pointAngle) * 0.9).clamp(-1.0, 1.0),
@@ -208,8 +210,8 @@ abstract final class MobiMoves {
           eyeR: MobiEye(open: 0.04),
           armL: MobiArm(angle: 0.32, bend: 0.05, reach: 0.95),
           armR: MobiArm(angle: 0.4, bend: 0.05, reach: 0.95),
-          bootL: MobiBoot(dx: -11, dy: -1, rot: 0.34),
-          bootR: MobiBoot(dx: 10, dy: -1, rot: 0.24),
+          bootL: MobiBoot(dx: -7.5, dy: 1.5, rot: 0.26),
+          bootR: MobiBoot(dx: 7, dy: 1.5, rot: 0.2),
           lookY: 0.5,
           antenna: 0.5,
         );
@@ -235,15 +237,18 @@ abstract final class MobiMoves {
           tilt: 0.02,
         );
       case MobiStance.listen:
+        // A clear lean (0.12 rad) toward the cupped mitten at the side of the head, eyes wide:
+        // unmistakably someone listening, not someone standing.
         return const MobiRig(
-          tilt: -0.065,
+          tilt: -0.12,
+          x: -2,
           y: 0.5,
-          eyeL: MobiEye(open: 1.08, smile: 0.18),
-          eyeR: MobiEye(open: 1.08, smile: 0.18),
-          armL: MobiArm(angle: 0.24, bend: 0.34, reach: 0.98),
+          eyeL: MobiEye(open: 1.1, smile: 0.2),
+          eyeR: MobiEye(open: 1.1, smile: 0.2),
+          armL: MobiArm(angle: 2.3, bend: 0.2, reach: 1.02, front: 1, twist: -0.75),
           armR: MobiArm(angle: 0.2, bend: 0.3, reach: 0.98),
-          lookX: -0.15,
-          lookY: 0.3,
+          lookX: -0.35,
+          lookY: 0.15,
         );
     }
   }
@@ -314,7 +319,7 @@ abstract final class MobiMoves {
         MobiAct.sleep => _nodOff(t, base),
         MobiAct.nudge => _nudge(t, base),
         MobiAct.proud => _proud(t, base),
-        MobiAct.listen => base.copyWith(y: base.y + 1.6 * bump(t, 0.1, 0.5), lookY: base.lookY + 0.25 * bump(t, 0.1, 0.5)),
+        MobiAct.listen => base.copyWith(y: base.y + 1.6 * bump(t, 0.1, 0.5), lookY: base.lookY + 0.25 * bump(t, 0.1, 0.5), tilt: base.tilt - 0.03 * bump(t, 0.05, 0.5)),
         MobiAct.wake => _wake(t, base),
       };
 
@@ -523,7 +528,7 @@ abstract final class MobiMoves {
     final pullBack = bump(t, 0.28, 0.4);
     final jab = bump(t, 0.38, 0.56) + 0.8 * bump(t, 0.6, 0.78);
     final smile = ease(t, 0.3, 0.45) * (1 - ease(t, 0.85, 1.05));
-    MobiArm push(MobiArm a) => a.point < 0.5 ? a : a.copyWith(reach: a.reach - 0.12 * pullBack + 0.22 * jab, bend: a.bend - 0.1 * jab);
+    MobiArm push(MobiArm a) => a.point < 0.5 ? a : a.copyWith(reach: a.reach - 0.1 * pullBack + 0.14 * jab, bend: a.bend - 0.1 * jab);
     return b.copyWith(
       armL: push(b.armL),
       armR: push(b.armR),
@@ -615,34 +620,41 @@ abstract final class MobiMoves {
   static MobiRig fidget(int kind, double t, MobiRig b) {
     switch (kind) {
       case 0:
+        // A visible nod at the student: eyes come round, warm, and the whole body dips twice.
         final w = ease(t, 0, 0.22, Curves.easeOut) * (1 - ease(t, 1.0, 1.3));
+        final nod = bump(t, 0.2, 0.6) + 0.55 * bump(t, 0.6, 0.95);
         return b.copyWith(
           lookX: b.lookX * (1 - w),
-          lookY: b.lookY * (1 - w),
-          eyeL: _eye(b.eyeL, smile: 0.62 * w),
-          eyeR: _eye(b.eyeR, smile: 0.62 * w),
-          y: b.y + 1.1 * bump(t, 0.2, 0.62),
-          tilt: b.tilt + 0.02 * bump(t, 0.1, 1.2),
+          lookY: b.lookY * (1 - w) + 0.3 * nod,
+          eyeL: _eye(b.eyeL, smile: 0.8 * w),
+          eyeR: _eye(b.eyeR, smile: 0.8 * w),
+          y: b.y + 2.8 * nod,
+          squash: b.squash - 0.03 * nod,
+          tilt: b.tilt + 0.04 * bump(t, 0.1, 1.2),
         );
       case 1:
+        // A weight shift: the body leans over one leg, the other boot lifts clear and taps.
         final shift = ease(t, 0, 0.4) * (1 - ease(t, 0.85, 1.3));
         final tap = bump(t, 0.38, 0.62) + 0.8 * bump(t, 0.62, 0.84);
         return b.copyWith(
-          x: b.x + 1.4 * shift,
-          tilt: b.tilt + 0.028 * shift,
-          squash: b.squash - 0.012 * shift,
-          bootL: b.bootL.copyWith(rot: b.bootL.rot + 0.2 * tap, dy: b.bootL.dy - 0.6 * tap),
-          lookX: b.lookX - 0.3 * shift,
+          x: b.x + 3 * shift,
+          tilt: b.tilt + 0.06 * shift,
+          squash: b.squash - 0.02 * shift,
+          bootL: b.bootL.copyWith(rot: b.bootL.rot + 0.5 * tap, dy: b.bootL.dy - 4.2 * tap, dx: b.bootL.dx + 1.5 * tap),
+          lookX: b.lookX - 0.4 * shift,
           lookY: b.lookY + 0.25 * shift,
         );
       default:
+        // An antenna flick: a quick dip, then the antenna whips right, snaps back past rest and
+        // settles, the bulb flashing.
         final dip = bump(t, 0, 0.16);
         return b.copyWith(
-          y: b.y + 1.6 * dip - 0.9 * bump(t, 0.16, 0.4),
+          y: b.y + 1.8 * dip - 1.0 * bump(t, 0.16, 0.4),
           squash: b.squash - 0.03 * dip + 0.015 * bump(t, 0.16, 0.4),
-          glow: b.glow + 0.55 * bump(t, 0.1, 0.9),
-          lookX: b.lookX + 0.35 * bump(t, 0.12, 1.1),
-          lookY: b.lookY - 0.8 * bump(t, 0.12, 1.1),
+          antenna: b.antenna + 0.6 * bump(t, 0.06, 0.38) - 0.42 * bump(t, 0.38, 0.72) + 0.2 * bump(t, 0.72, 1.0),
+          glow: b.glow + 0.7 * bump(t, 0.1, 0.9),
+          lookX: b.lookX + 0.45 * bump(t, 0.12, 1.1),
+          lookY: b.lookY - 0.85 * bump(t, 0.12, 1.1),
         );
     }
   }
@@ -678,9 +690,9 @@ abstract final class MobiMoves {
       MobiAct.celebrate => _celebrate(0.55, base).copyWith(glint: -1),
       MobiAct.oops => _oops(0.5, base),
       MobiAct.talk => talk(0.3, base, 1),
-      MobiAct.correct => _correct(0.3, base).copyWith(y: -6, bubble: 0.6),
+      MobiAct.correct => _correct(0.3, base).copyWith(y: -6, bubble: 0.5),
       MobiAct.encourage => _encourage(0.62, base),
-      MobiAct.loading => loadingLoop(0.42, base, 1),
+      MobiAct.loading => loadingLoop(0.2125, base, 1),
       MobiAct.sleep => base.copyWith(zzz: 0.45),
       MobiAct.nudge => _nudge(0.47, base),
       MobiAct.proud => _proud(1.0, base).copyWith(glint: -1),

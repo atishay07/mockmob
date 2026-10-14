@@ -60,24 +60,24 @@ abstract final class MobiDetails {
     // never sit on top of each other half-faded.
     final arc = _smooth(0.4, 0.72, e.happy);
     final closing = 1 - 0.85 * math.max(_smooth(0.0, 0.5, e.happy), _smooth(0.15, 0.45, e.smile));
-    // Warm eyes: the oval gives way to a soft, full crescent (a smile that is not a squeeze).
+    // Warm eyes: the oval gives way to a filled dome (flat-ish base, a soft rise in the lower
+    // lid, blunt rounded ends), so it reads as a content, solid shape and not as the thin
+    // smiling arc of a happy eye.
     final cres = (1 - arc) * _smooth(0.3, 0.5, e.smile);
     if (cres > 0) {
-      // The top of the eye stays a round dome; a lower lid curves up into it. The horns meet at a
-      // blunt angle, so it reads as a smile with volume, not a sly arch.
       final k = e.open.clamp(0.0, 1.2);
-      final rx = w * 0.8;
-      final ry = fullH * 0.5 * k;
-      final foot = center.dy + 2.6;
+      final rx = w * 0.74;
+      final ry = fullH * 0.5 * k + 0.6;
+      final foot = center.dy + 3.4;
       final path = Path()
         ..moveTo(center.dx - rx, foot)
         ..arcToPoint(Offset(center.dx + rx, foot), radius: Radius.elliptical(rx, math.max(ry, 0.1)))
-        ..quadraticBezierTo(center.dx, foot - ry * 1.04, center.dx - rx, foot)
+        ..quadraticBezierTo(center.dx, foot - ry * 0.46, center.dx - rx, foot)
         ..close();
       final ink = MobiPalette.eye.withValues(alpha: cres);
       c.drawPath(path, Paint()..color = ink);
-      // Round the horns, so the crescent reads warm rather than sly.
-      c.drawPath(path, _stroke(ink, 1.5));
+      // Round the corners: thick, blunt ends.
+      c.drawPath(path, _stroke(ink, 2.2));
     }
     // A shut eye is a soft lid line curving down, not a slit: asleep, the peak of a blink, the
     // eyes before they blink on.
@@ -149,7 +149,7 @@ abstract final class MobiDetails {
     final ry = 8.8 - 2 * point;
     final palm = Rect.fromCenter(center: Offset(0, 8.6 - 1.4 * point), width: rx * 2, height: ry * 2);
     if (point > 0.02) {
-      final len = 13.5 * point;
+      final len = 11.5 * point;
       final finger = RRect.fromLTRBR(-2.5, 9, 2.5, 9 + len, const Radius.circular(2.5));
       c.drawRRect(finger, fill);
       c.drawRRect(finger.deflate(0.4), _stroke(p.rim.withValues(alpha: p.rimAlpha * 0.6), 0.8));
@@ -194,8 +194,8 @@ abstract final class MobiDetails {
       final g = glow.clamp(0.0, 1.0);
       c.save();
       c.translate(tip.dx, tip.dy);
-      c.scale(r * (2.4 + 1.6 * g));
-      c.drawCircle(Offset.zero, 1, Paint()..shader = _haloShader(g * (p.night ? 0.55 : 0.4)));
+      c.scale(r * (2.2 + 3.4 * g));
+      c.drawCircle(Offset.zero, 1, Paint()..shader = _haloShader(g * (p.night ? 0.7 : 0.55)));
       c.restore();
     }
     c.drawCircle(
@@ -286,37 +286,59 @@ abstract final class MobiDetails {
 
   // ---- The answer bubble (a right answer) --------------------------------------------------
 
-  /// Where the answer bubble inks, in design units (beside the head, right of the antenna).
-  static const Offset bubbleAt = Offset(130, 36);
+  /// Where the answer bubble sits, in design units: its centre, beside the head, right of the
+  /// antenna (it reaches the right edge of the design box, a little above the shoulder).
+  static const Offset bubbleAt = Offset(122, 33);
 
-  /// An answer-sheet bubble beside the head: the ring draws, the volt fill inks from the centre,
-  /// it holds, then lifts and pops. [progress] 0 to 1.
+  /// Radius of the bubble body in design units (about 40 dp across at the usual 160 dp Mobi).
+  static const double bubbleRadius = 13;
+
+  /// A real answer bubble beside the head: a volt disc with a tail toward Mobi, inked in, and an
+  /// ink tick that draws itself. It pops in (scale 0.9 to 1 with a fade), holds, then lifts and
+  /// fades. [progress] 0 to 1.
   static void answerBubble(Canvas c, double progress, MobiPalette p) {
     if (progress < 0 || progress > 1) return;
-    const r = 8.5;
-    final lift = 10 * _smooth(0.72, 1, progress);
-    final o = bubbleAt + Offset(0, -lift);
-    final ring = _smooth(0, 0.22, progress);
-    final ink = _smooth(0.18, 0.46, progress);
-    final pop = _smooth(0.84, 1, progress);
-    final fade = 1 - pop;
-    final scale = 0.7 + 0.3 * Curves.easeOutBack.transform(ring) + 0.5 * pop;
-    final edge = p.night ? const Color(0xFFF4F0E6) : const Color(0xFF17150F);
+    const r = bubbleRadius;
+    final inT = _smooth(0, 0.16, progress);
+    final outT = _smooth(0.8, 1, progress);
+    final alpha = (inT * (1 - outT)).clamp(0.0, 1.0);
+    if (alpha <= 0.01) return;
+    final lift = 9 * outT;
+    final scale = 0.9 + 0.1 * Curves.easeOutCubic.transform(inT);
+    final tick = _smooth(0.14, 0.38, progress);
+    const ink = Color(0xFF17150F);
+
     c.save();
-    c.translate(o.dx, o.dy);
+    c.translate(bubbleAt.dx, bubbleAt.dy - lift);
     c.scale(scale);
-    if (ink > 0) {
-      c.drawCircle(Offset.zero, r * ink, Paint()..color = MobiPalette.lime.withValues(alpha: fade));
-      c.drawCircle(Offset(-r * 0.32, -r * 0.34), r * 0.24 * ink, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.7 * fade));
-    }
-    if (ring > 0) {
-      c.drawArc(
-        Rect.fromCircle(center: Offset.zero, radius: r),
-        -math.pi / 2,
-        2 * math.pi * ring,
-        false,
-        _stroke((ink > 0.5 ? MobiPalette.limeDeep : edge).withValues(alpha: (0.85 * fade).clamp(0.0, 1.0)), 1.6),
-      );
+
+    // The disc and its tail (pointing down and left, toward the head), one shape.
+    final tail = Path()
+      ..moveTo(-r * 0.62, r * 0.62)
+      ..quadraticBezierTo(-r * 0.92, r * 1.2, -r * 1.55, r * 1.42)
+      ..quadraticBezierTo(-r * 0.78, r * 1.46, -r * 0.18, r * 0.98)
+      ..close();
+    final shape = Path.combine(PathOperation.union, Path()..addOval(Rect.fromCircle(center: Offset.zero, radius: r)), tail);
+    c.drawPath(shape, Paint()..color = MobiPalette.lime.withValues(alpha: alpha));
+    c.drawPath(shape, _stroke((p.night ? MobiPalette.limeDeep : ink).withValues(alpha: alpha), 1.6));
+    c.drawCircle(Offset(-r * 0.4, -r * 0.42), r * 0.18, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.7 * alpha));
+
+    // The tick, drawn from its short stroke to its long one.
+    if (tick > 0) {
+      final pts = [Offset(-r * 0.42, r * 0.04), Offset(-r * 0.1, r * 0.38), Offset(r * 0.46, -r * 0.34)];
+      final first = (pts[1] - pts[0]).distance;
+      final second = (pts[2] - pts[1]).distance;
+      final len = tick * (first + second);
+      final path = Path()..moveTo(pts[0].dx, pts[0].dy);
+      if (len <= first) {
+        final q = Offset.lerp(pts[0], pts[1], len / first)!;
+        path.lineTo(q.dx, q.dy);
+      } else {
+        final q = Offset.lerp(pts[1], pts[2], (len - first) / second)!;
+        path.lineTo(pts[1].dx, pts[1].dy);
+        path.lineTo(q.dx, q.dy);
+      }
+      c.drawPath(path, _stroke(ink.withValues(alpha: alpha), 2.8));
     }
     c.restore();
   }
@@ -374,15 +396,15 @@ abstract final class MobiDetails {
     if (progress < 0) return;
     for (var i = 0; i < 2; i++) {
       final q = (progress + i * 0.5) % 1;
-      final alpha = math.sin(math.pi * q) * 0.85;
-      final s = 4.6 + 3 * q + i;
-      final o = from + Offset(8 * q + i * 3, -24 * q);
+      final alpha = math.min(1.0, math.sin(math.pi * q) * 1.5);
+      final s = 7 + 4.5 * q + 1.5 * i;
+      final o = from + Offset(9 * q + i * 4, -26 * q);
       final path = Path()
         ..moveTo(o.dx - s / 2, o.dy - s / 2)
         ..lineTo(o.dx + s / 2, o.dy - s / 2)
         ..lineTo(o.dx - s / 2, o.dy + s / 2)
         ..lineTo(o.dx + s / 2, o.dy + s / 2);
-      c.drawPath(path, _stroke(p.zzz.withValues(alpha: alpha), 1.7));
+      c.drawPath(path, _stroke(p.zzz.withValues(alpha: alpha), 2.4));
     }
   }
 }
