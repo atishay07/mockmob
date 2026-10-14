@@ -14,7 +14,12 @@ import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
+import { Notices } from '@/components/notices/NoticeSlot';
+import { resultReportNotice } from '@/../data/notice_rules.mjs';
 import '@/components/recovery/result.css';
+
+// Offered once to the notice slot: the pointer to the per-question report button.
+const RESULT_NOTICES = [resultReportNotice()];
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -203,7 +208,7 @@ export default function ResultPageClient({ previewId = null }) {
           </div>
         </div>
         {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
-        <p className="rp-note">Spotted a mistake? Open the question and choose “Report a problem with this question”.</p>
+        <Notices surface="result" candidates={RESULT_NOTICES} />
 
         <ol className="rp-list">
           {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : null}
