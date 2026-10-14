@@ -11,7 +11,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { useResumableTest } from '@/components/VisitorSync';
 import { AccountMenu } from '@/components/shell/AccountMenu';
 import { useDismiss } from '@/components/shell/useDismiss';
-import { HEADER_ACTIONS, PUBLIC_NAV, audienceClass } from '@/lib/navigation';
+import { PUBLIC_NAV, audienceClass, renderedHeaderActions } from '@/lib/navigation';
 import './nav/public-nav.css';
 
 // The public header (plan section 5.2). Items, labels and who sees them come from
@@ -124,15 +124,12 @@ export function NavBar() {
 
         <div className="mm-nav__end">
           <ThemeToggle hint />
-          {HEADER_ACTIONS.map((action) => {
-            const resuming = action.id === 'continue' && resume;
+          {renderedHeaderActions(resume).map((action) => {
             const className = action.variant === 'primary'
               ? `mm-btn mm-btn--primary mm-nav__cta ${audienceClass(action.show)}`
               : `mm-nav__link mm-nav__login ${audienceClass(action.show)}`;
             return (
-              <Link key={action.id} href={resuming ? resume.href : action.href} className={className}>
-                {resuming ? 'Resume your test' : action.label}
-              </Link>
+              <Link key={action.id} href={action.href} className={className}>{action.label}</Link>
             );
           })}
           <AccountMenu user={user} confirmed={confirmed} onSignOut={handleSignOut} className="vs-member-only mm-nav__acct" />

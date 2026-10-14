@@ -66,7 +66,7 @@ export function AppSidebar({ nav, activePath, previewLinks }) {
   return (
     <aside className="arena-sidebar shell-sidebar" aria-label="Main menu">
       <Logo />
-      <nav className="arena-nav-group shell-primary" aria-label="Main">
+      <nav className="arena-nav-group shell-primary" aria-label="Primary">
         {nav.primary.map((item, i) => (
           <NavLink key={item.id} item={item} activePath={activePath} previewLinks={previewLinks} index={i} primary />
         ))}
@@ -173,7 +173,7 @@ export function AppBottomBar({ nav, activePath, previewLinks, resume, isPremium 
           ))}
         </div>
       ) : null}
-      <nav className="arena-bottomnav shell-dock" aria-label="Main" style={{ '--cols': cols }}>
+      <nav className="arena-bottomnav shell-dock" aria-label="Bottom bar" style={{ '--cols': cols }}>
         {nav.primary.map((item) => (
           <Link
             key={item.id}

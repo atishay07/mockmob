@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PipActor } from '@/components/brand/PipActor';
 import './shell.css';
 
@@ -17,7 +17,8 @@ export const TOUR_STEPS = [
 // Mobi guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 
-const seenKey = (userId) => (userId ? `mockmob_app_tour_seen_${userId}` : 'mockmob_app_tour_seen');
+// Scoped to the account. Without a signed-in user there is nothing to remember (and no tour).
+const seenKey = (userId) => `mockmob_app_tour_seen_${userId}`;
 
 function visibleTarget(targets) {
   for (const target of [].concat(targets)) {
@@ -56,6 +57,7 @@ export function useGuideTour({ userId, ready }) {
   const close = useCallback(() => {
     setOpen(false);
     setStep(0);
+    if (!userId) return;
     try { window.localStorage.setItem(seenKey(userId), 'true'); } catch { /* storage is optional */ }
   }, [userId]);
   return useMemo(() => ({ open, step, setStep, start, close }), [open, step, start, close]);
@@ -64,6 +66,24 @@ export function useGuideTour({ userId, ready }) {
 export function GuideTour({ tour }) {
   const { open, step, setStep, close } = tour;
   const [rect, setRect] = useState(null);
+  const headingRef = useRef(null);
+  const returnRef = useRef(null);
+
+  // Focus: the dialog takes focus when it opens (the step heading, so a screen reader reads the
+  // step) and gives it back to whatever opened it when it closes. The page stays reachable behind
+  // the veils (they are click-through), so the dialog is non-modal and does not trap Tab.
+  useEffect(() => {
+    if (!open) return undefined;
+    returnRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    return () => {
+      const back = returnRef.current;
+      returnRef.current = null;
+      if (back && back.isConnected) back.focus({ preventScroll: true });
+    };
+  }, [open]);
+  useEffect(() => {
+    if (open) headingRef.current?.focus({ preventScroll: true });
+  }, [open, step]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -128,7 +148,7 @@ export function GuideTour({ tour }) {
           <span className="arena-tour-pip"><PipActor pose={TOUR_POSES[step] || 'greeting'} blink={step + 1} motion={step ? `nod-${step % 2}` : 'land-0'} /></span>
           <div className="shell-tour__heading">
             <p className="shell-tour__count">Step {step + 1} of {TOUR_STEPS.length}</p>
-            <h2 id="shell-tour-title">{current.title}</h2>
+            <h2 id="shell-tour-title" ref={headingRef} tabIndex={-1}>{current.title}</h2>
           </div>
           <button type="button" className="shell-tour__close" onClick={close} aria-label="Close guide">
             <span aria-hidden="true">&times;</span>

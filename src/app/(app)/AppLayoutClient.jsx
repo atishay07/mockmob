@@ -24,7 +24,8 @@ import '@/components/study/study.css';
 // session is confirmed, so nothing private is ever drawn from the hint. Anyone the hint does not know
 // as a member sees the session screen instead; CSS picks between the two, so the server HTML is
 // the same for everyone. Only a confirmed signed-out check sends the visitor to log in, and a check
-// that could not reach MockMob keeps the shell with a "Can't reach MockMob" state.
+// that could not reach MockMob keeps the shell with a "Can't reach MockMob" state (members only;
+// anyone else gets the same state without the claim that they are signed in).
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -65,13 +66,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const nav = appNavigation({ studyEnabled: showStudy, moderator: isModerator, testRoute: isTestRoute });
   const title = titleForPath(activePath, nav);
   const page = gate === 'ready' ? children
-    : gate === 'unavailable' ? <ShellUnavailable onRetry={retry} />
+    : gate === 'unavailable' ? <ShellUnavailable onRetry={retry} signedIn />
     : <ShellPageSkeleton label={gate === 'checking' ? 'Checking your access' : 'Loading your page'} />;
 
   return (
     <>
       {/* While the first check runs only a hinted member sees the shell (vs-member-only). */}
-      <div className={gate === 'pending' ? 'vs-member-only' : undefined}>
+      <div className={gate === 'pending' || gate === 'unavailable' ? 'vs-member-only' : undefined}>
         <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} data-shell-gate={gate} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <AppSidebar nav={nav} activePath={activePath} previewLinks={previewLinks} />
 
@@ -113,6 +114,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {gate === 'pending' ? (
         <div className="vs-guest-only">
           <AuthSessionScreen message="Loading your session..." />
+        </div>
+      ) : null}
+      {/* The check could not reach MockMob and nothing says this browser held a member: no claim
+          about their sign-in, just the way to try again. */}
+      {gate === 'unavailable' ? (
+        <div className="vs-guest-only shell-unavail-host">
+          <ShellUnavailable onRetry={retry} signedIn={false} />
         </div>
       ) : null}
     </>

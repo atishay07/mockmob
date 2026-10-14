@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   APP_GROUPS, APP_PRIMARY, AUDIENCE_CLASS, DU_PLANNING_LINKS, FIRST_CHECK_HREF, FOOTER_COLUMNS, FOOTER_MEMBER_LINKS, HEADER_ACTIONS,
-  PRACTICE_HREF, PUBLIC_NAV, RESOURCE_LINKS, accountMenu, allDestinations, appNavigation, audienceIncludes, fullLabel,
-  headerActionsFor, isActivePath, memberPrimaryAction, planLine, publicNavFor, shellGate, startActions, titleForPath, visitorStateId,
+  PRACTICE_HREF, PUBLIC_NAV, RESOURCE_LINKS, accountMenu, allDestinations, appNavigation, audienceClass, audienceIncludes, fullLabel,
+  headerActionsFor, isActivePath, memberDockActions, memberPrimaryAction, planLine, publicNavFor, renderedHeaderActions, shellGate,
+  startActions, titleForPath, visitorStateId,
 } from '../../src/lib/navigation.js';
 
 const S1 = { kind: 'new' };
@@ -87,12 +88,20 @@ test('header actions: one primary per state, and the right one', () => {
   assert.deepEqual(headerActionsFor(S4).map((a) => a.label), ['Continue practice']);
   assert.deepEqual(headerActionsFor(S5).map((a) => a.label), ['Continue practice']);
   assert.deepEqual(headerActionsFor(S4, resume).map((a) => [a.label, a.href]), [['Resume your test', resume.href]]);
+  // A saved test wins over Start your first check too (S3 plus resume), the same as the dock.
+  assert.deepEqual(headerActionsFor(S3, resume).map((a) => [a.label, a.href]), [['Resume your test', resume.href]]);
+  assert.deepEqual(headerActionsFor(S5, resume).map((a) => a.label), ['Resume your test']);
+  // A saved test does not change what a guest sees.
+  assert.deepEqual(headerActionsFor(S1, resume).map((a) => a.label), ['Log in', 'Start free']);
   // A member never sees a Start free pitch.
   for (const visitor of [S3, S4, S5]) assert.ok(!headerActionsFor(visitor).some((a) => a.label === 'Start free'));
 });
 
 test('the dock action for a member', () => {
-  assert.deepEqual(memberPrimaryAction({}), { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF });
+  assert.deepEqual(
+    { ...memberPrimaryAction({}) },
+    { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF, show: 'memberStarted' },
+  );
   assert.equal(memberPrimaryAction({ stage: 'first' }).href, FIRST_CHECK_HREF);
   assert.equal(memberPrimaryAction({ stage: 'first', resume }).label, 'Resume your test');
 });
@@ -221,4 +230,88 @@ test('auth gate: the shell never waits for the check, and only a confirmed sign-
   assert.equal(shellGate({ status: 'authenticated', path: '/moderation/queue', moderator: true }), 'ready');
   // The moderation check waits for a confirmed session; it never decides from a hint.
   assert.equal(shellGate({ status: 'loading', path: '/moderation', moderator: false }), 'pending');
+});
+
+// ---- What ships: the pages render every variant and visitor.css hides the ones a state should
+// not see, so evaluate the real CSS for each state and compare it with the data helpers above.
+
+const visitorCss = readFileSync(new URL('../../src/app/visitor.css', import.meta.url), 'utf8');
+
+// The attributes <html> carries for each state (see VisitorSync and the inline script).
+const HTML_ATTRS = {
+  S1: { 'data-visitor': 'new' },
+  S2: { 'data-visitor': 'returning' },
+  S3: { 'data-visitor': 'member', 'data-visitor-plan': 'free', 'data-visitor-stage': 'first' },
+  S4: { 'data-visitor': 'member', 'data-visitor-plan': 'free' },
+  S5: { 'data-visitor': 'member', 'data-visitor-plan': 'pro' },
+};
+
+// Rules of the form `html[a='x']:not([b='y']) .cls, ... { display: none !important; }`.
+function hidingRules() {
+  const rules = [];
+  const block = /([^{}]+)\{\s*display:\s*none\s*!important;?\s*\}/g;
+  for (const [, selectors] of visitorCss.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(block)) {
+    for (const selector of selectors.split(',').map((part) => part.trim()).filter(Boolean)) {
+      const match = selector.match(/^html((?:\[[^\]]+\]|:not\(\[[^\]]+\]\))*)\s+\.([\w-]+)$/);
+      if (!match) continue;
+      const conditions = [...match[1].matchAll(/(:not\()?\[([\w-]+)='([^']*)'\]\)?/g)]
+        .map(([, negated, attr, value]) => ({ negated: Boolean(negated), attr, value }));
+      rules.push({ cls: match[2], conditions });
+    }
+  }
+  return rules;
+}
+
+function hiddenBy(cssClasses, attrs, rules) {
+  return cssClasses.some((cls) => rules.some((rule) => rule.cls === cls
+    && rule.conditions.every(({ negated, attr, value }) => (attrs[attr] === value) !== negated)));
+}
+
+function visibleUnder(show, stateId, rules) {
+  return !hiddenBy(audienceClass(show).split(/\s+/).filter(Boolean), HTML_ATTRS[stateId], rules);
+}
+
+test('visitor.css hides exactly what audienceIncludes says, for every audience and state', () => {
+  const rules = hidingRules();
+  assert.ok(rules.length >= 10, `parsed ${rules.length} rules`);
+  for (const show of Object.keys(AUDIENCE_CLASS)) {
+    for (const [id, visitor] of Object.entries(STATES)) {
+      assert.equal(visibleUnder(show, id, rules), audienceIncludes(show, visitor), `${show} in ${id}`);
+    }
+  }
+  // Every class the source hands out has a rule, except the one that is never hidden.
+  const used = new Set(Object.values(AUDIENCE_CLASS).flatMap((tokens) => tokens.split(/\s+/).filter(Boolean)));
+  for (const cls of used) assert.ok(rules.some((rule) => rule.cls === cls), `no rule for ${cls}`);
+});
+
+test('shipped header: the items CSS leaves visible are the ones publicNavFor lists, at most five', () => {
+  const rules = hidingRules();
+  for (const [id, visitor] of Object.entries(STATES)) {
+    const shown = PUBLIC_NAV.filter((item) => visibleUnder(item.show, id, rules)).map((item) => item.id);
+    assert.deepEqual(shown, publicNavFor(visitor).map((item) => item.id), id);
+    assert.ok(shown.length <= 5, `${id} sees ${shown.length}`);
+  }
+});
+
+test('shipped header actions and dock: exactly one primary action is visible per state, with or without a saved test', () => {
+  const rules = hidingRules();
+  for (const savedTest of [null, resume]) {
+    for (const [id, visitor] of Object.entries(STATES)) {
+      const shown = renderedHeaderActions(savedTest).filter((action) => visibleUnder(action.show, id, rules));
+      assert.deepEqual(shown.map((a) => a.id), headerActionsFor(visitor, savedTest).map((a) => a.id), `${id} header`);
+      assert.equal(shown.filter((a) => a.variant === 'primary').length, 1, `${id} header primary`);
+      if (visitor.kind !== 'member') continue;
+      const dock = memberDockActions(savedTest).filter((action) => visibleUnder(action.show, id, rules));
+      assert.equal(dock.length, 1, `${id} dock`);
+      assert.deepEqual(dock[0], memberPrimaryAction({ stage: visitor.stage, resume: savedTest }), `${id} dock action`);
+      // Header and dock agree on the member's one action.
+      assert.equal(shown[0].label, dock[0].label, `${id} header and dock`);
+      assert.equal(shown[0].href, dock[0].href, `${id} header and dock href`);
+    }
+  }
+});
+
+test('the navigation test runs in test:visitor', () => {
+  const scripts = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')).scripts;
+  assert.match(scripts['test:visitor'], /data\/tests\/navigation\.test\.mjs/);
 });

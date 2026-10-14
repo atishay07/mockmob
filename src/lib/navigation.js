@@ -117,20 +117,43 @@ export const HEADER_ACTIONS = Object.freeze([
 ]);
 
 /**
- * The header actions for a state, with the one primary action last. `resume` is a saved test
- * (findResumableTest), which replaces Continue practice while it exists (state S6).
+ * Every header action the page renders, with a saved test applied. `resume` is a saved test
+ * (findResumableTest): it replaces Continue practice for every member and takes the place of Start
+ * your first check too, so a member with a saved test and no scored session sees Resume (S3 plus
+ * resume), the same as the mobile dock. The header renders this list and <html data-visitor>
+ * (visitor.css) picks the visible ones.
  */
-export function headerActionsFor(visitor = {}, resume = null) {
+export function renderedHeaderActions(resume = null) {
+  if (!resume) return HEADER_ACTIONS;
   return HEADER_ACTIONS
-    .filter((action) => audienceIncludes(action.show, visitor))
-    .map((action) => (action.id === 'continue' && resume ? { ...action, id: 'resume', label: 'Resume your test', href: resume.href } : action));
+    .filter((action) => action.id !== 'first-check')
+    .map((action) => (action.id === 'continue'
+      ? { ...action, id: 'resume', label: 'Resume your test', href: resume.href, show: 'member' }
+      : action));
 }
 
-/** The one action the mobile dock carries for a member. */
+/** The header actions one visitor state sees, with the one primary action last. */
+export function headerActionsFor(visitor = {}, resume = null) {
+  return renderedHeaderActions(resume).filter((action) => audienceIncludes(action.show, visitor));
+}
+
+/**
+ * The dock actions for a member, all variants (the dock renders them and CSS picks one): Resume
+ * your test while a saved test exists, else Start your first check before the first scored session,
+ * else Continue practice.
+ */
+export function memberDockActions(resume = null) {
+  if (resume) return [{ id: 'resume', label: 'Resume your test', href: resume.href, show: 'member' }];
+  return [
+    { id: 'first-check', label: 'Start your first check', href: FIRST_CHECK_HREF, show: 'memberFirst' },
+    { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF, show: 'memberStarted' },
+  ];
+}
+
+/** The one action the mobile dock carries for a member in a given stage. */
 export function memberPrimaryAction({ stage, resume } = {}) {
-  if (resume) return { id: 'resume', label: 'Resume your test', href: resume.href };
-  if (stage === 'first') return { id: 'first-check', label: 'Start your first check', href: FIRST_CHECK_HREF };
-  return { id: 'continue', label: 'Continue practice', href: PRACTICE_HREF };
+  const visitor = { kind: 'member', stage };
+  return memberDockActions(resume).find((action) => audienceIncludes(action.show, visitor));
 }
 
 // ---------------------------------------------------------------------------------------------
