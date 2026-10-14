@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  FIRST_CHECK, accessSummary, arrivedWithSetup, confirmCost, confirmLine, costValue, isFirstCheck, planSetup, planStepIsSetup, practiceLead, sessionTally,
+  FIRST_CHECK, accessSummary, arrivedWithSetup, confirmCost, confirmLine, costValue, isFirstCheck, planSetup, planStepIsSetup, practiceLead, sessionTally, stripReason,
 } from '../practice_landing.mjs';
 import { TEST_MODES } from '../test_modes.js';
 
@@ -83,7 +83,7 @@ test('cost is never guessed: loading, failed and unavailable quotes say so', () 
   assert.equal(confirmCost({ quoteState: 'idle', quote: null }), 'Checking the cost.');
   assert.equal(confirmCost({ quoteState: 'error', quote: null }), 'Cost not checked yet.');
   assert.equal(confirmCost({ quoteState: 'ready', quote: { launchable: false, creditCost: 10 } }), 'Not available right now.');
-  assert.equal(confirmCost({ quoteState: 'ready', quote: { launchable: true, creditCost: 0 } }), 'No credits: today’s included set.');
+  assert.equal(confirmCost({ quoteState: 'ready', quote: { launchable: true, creditCost: 0 } }), 'Free today. No credits needed.');
   assert.equal(confirmCost({ quoteState: 'ready', quote: { launchable: true } }), 'Checking the cost.', 'a missing cost is not zero');
   assert.equal(costValue({ quoteState: 'ready', quote: { launchable: true, creditCost: 50 } }), '50 credits');
   assert.equal(costValue({ quoteState: 'ready', quote: { launchable: true, creditCost: 0 }, isPremium: true }), 'Included');
@@ -100,7 +100,7 @@ test('copy follows the site rules: no exclamation marks, no em dashes, no middle
     ...Object.values(accessSummary({ isPremium: false, creditBalance: 0 })).flatMap((v) => (v && typeof v === 'object' ? Object.values(v) : [v])),
     ...Object.values(accessSummary({ isPremium: true, premiumUntil: '2027-01-12T18:29:59.000Z', now: Date.parse('2026-10-14') })),
   ].filter((value) => typeof value === 'string');
-  for (const text of strings) assert.doesNotMatch(text, /[!—·]/, text);
+  for (const text of strings) assert.doesNotMatch(text, /[!—–−·]/, text);
 });
 
 test('free access: balance and what Pro adds, said once; zero offers the free way to earn', () => {
@@ -139,3 +139,22 @@ test('recent sessions show denominators, and leave unknown counts out', () => {
   assert.equal(sessionTally({ correct: 0, total: 0 }), '');
   assert.equal(sessionTally(null), '');
 });
+
+test('the strip never shows build talk from the plan', () => {
+  const ordinary = { kind: 'ordinary_practice', title: 'Start 20 practice questions', href: '/dashboard?mode=quick&count=20',
+    reason: '20 questions, about 20 minutes. Recovery content is awaiting source and calibration checks, so this is ordinary practice.' };
+  assert.equal(stripReason(ordinary), 'Practise the next set of questions.');
+  const other = { kind: 'ordinary_practice', href: '/dashboard', reason: 'No supported concept has been missed twice yet, so this is ordinary practice.' };
+  assert.equal(stripReason(other), 'Practise the next set of questions.');
+  assert.equal(stripReason({ href: '/recovery', reason: 'Recovery content is awaiting source and calibration checks.' }), '', 'build talk on a step elsewhere is dropped');
+  assert.equal(stripReason(repairPlan.primary), 'Pick up the activity you started.');
+  assert.equal(stripReason(null), '');
+  for (const text of [stripReason(ordinary), stripReason(other)]) assert.doesNotMatch(text, /awaiting|calibration|source|pathway/i);
+});
+
+test('an expired Pro end date reads as active, not as a past date', () => {
+  const status = accessSummary({ isPremium: true, premiumUntil: '2026-01-01T00:00:00.000Z', now: Date.parse('2026-10-14') }).status;
+  assert.equal(status, 'Pro is active.');
+});
+
+// Notes: the Pro date assertions rely on Node's ICU data for en-IN (full-icu, the default since Node 13).

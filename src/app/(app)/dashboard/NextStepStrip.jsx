@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import { AppIcon } from '@/components/ui/Glyph';
+import { stripReason } from '@/../data/practice_landing.mjs';
 
 /** Reads /api/learning/plan once while `enabled`. state: idle | loading | ready | error. */
 export function usePracticePlan(enabled) {
@@ -51,6 +52,7 @@ export default function NextStepStrip({ strip, plan, dominant, setupMatches, onA
 
   const step = plan?.primary;
   if (!step) return null;
+  const reason = stripReason(step);
 
   if (strip === 'setup') {
     return (
@@ -58,11 +60,12 @@ export default function NextStepStrip({ strip, plan, dominant, setupMatches, onA
         <span className="pl-strip__icon" aria-hidden="true"><AppIcon name="today" size={18} /></span>
         <div className="pl-strip__body">
           <b className="pl-strip__title">{step.title}</b>
-          {step.reason ? <p className="pl-strip__reason">{step.reason}</p> : null}
+          {reason ? <p className="pl-strip__reason">{reason}</p> : null}
         </div>
-        {setupMatches
-          ? <span className="pl-strip__set">Set up below</span>
-          : <button type="button" className="btn-outline md pl-strip__cta" onClick={onApplySetup}>Use this setup</button>}
+        {/* Stays mounted once applied so keyboard focus is not dropped. */}
+        <button type="button" className="btn-outline md pl-strip__cta" aria-disabled={setupMatches ? 'true' : undefined} onClick={setupMatches ? undefined : onApplySetup}>
+          {setupMatches ? 'Set up below' : 'Use this setup'}
+        </button>
       </section>
     );
   }
@@ -71,7 +74,7 @@ export default function NextStepStrip({ strip, plan, dominant, setupMatches, onA
     <section className="pl-strip" data-kind="step" aria-label="Your next step">
       <span className="pl-strip__icon" aria-hidden="true"><AppIcon name="today" size={18} /></span>
       <div className="pl-strip__body">
-        <p className="pl-strip__reason"><b>Next step:</b> {step.reason || step.title}</p>
+        <p className="pl-strip__reason"><b>Next step:</b> {reason || step.title}</p>
       </div>
       <Link className={`${dominant ? 'btn-volt' : 'btn-outline'} md pl-strip__cta`} href={step.href}>{step.title}</Link>
     </section>

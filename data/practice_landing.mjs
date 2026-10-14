@@ -55,6 +55,20 @@ export function practiceLead({ attempts, resume, plan, planState = 'loading', ar
   return { kind: 'step', strip: 'step', setupDominant: Boolean(touched) };
 }
 
+// Words that mean the plan is talking about the build, not the student's next step.
+const BUILD_TALK = /awaiting|calibration|release check|source and|pathway|supported concept/i;
+
+/**
+ * The one line the next-step strip shows under a plan step. Ordinary practice gets a fixed student
+ * line (the plan's own reason explains why recovery is not ready, which is not the student's
+ * business). Any other reason is shown only when it carries no build talk.
+ */
+export function stripReason(step) {
+  if (planStepIsSetup(step)) return 'Practise the next set of questions.';
+  const reason = typeof step?.reason === 'string' ? step.reason.trim() : '';
+  return reason && !BUILD_TALK.test(reason) ? reason : '';
+}
+
 /** The first-session check: a fixed Quick Practice of ten questions. */
 export const FIRST_CHECK = { mode: 'quick', count: 10 };
 
@@ -81,7 +95,7 @@ export function confirmCost({ quoteState, quote, isPremium = false }) {
   if (isPremium) return 'Included with Pro.';
   const cost = Number(quote.creditCost);
   if (!Number.isFinite(cost)) return 'Checking the cost.';
-  if (cost === 0) return 'No credits: today’s included set.';
+  if (cost === 0) return 'Free today. No credits needed.';
   return `${plural(cost, 'credit')}.`;
 }
 
@@ -114,7 +128,7 @@ export function accessSummary({ isPremium, premiumUntil, creditBalance, now = Da
     const ends = Date.parse(premiumUntil);
     const daysLeft = Number.isFinite(ends) ? Math.ceil((ends - now) / DAY_MS) : null;
     let status;
-    if (!until) status = 'Pro is active.';
+    if (!until || (ends < now)) status = 'Pro is active.';
     else if (daysLeft !== null && daysLeft >= 0 && daysLeft <= 7) status = daysLeft <= 1 ? `Pro ends on ${until}.` : `Pro ends in ${daysLeft} days, on ${until}.`;
     else status = `Pro until ${until}.`;
     return {

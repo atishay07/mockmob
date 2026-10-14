@@ -270,8 +270,8 @@ export default function DashboardPageClient() {
 
   return (
     <div className="pr view">
-      {!isPremium && (
-        <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
+      {!isPremium && access.balance !== null && (
+        <CreditsRemainingModal open={showCreditsModal} credits={access.balance} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
 
       <header className="pr-head pl-head" data-kind={headKind}>
