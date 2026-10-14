@@ -20,29 +20,27 @@ const CHANNELS = [
     title: 'Student support',
     body: 'Account access, mock issues, credits, or anything broken. Include the email you signed up with.',
     action: 'Email support',
-    subject: 'Support%20request',
+    subject: 'Support request',
     note: 'Include the email on your account so we can find the right record.',
   },
   {
     title: 'Payments and refunds',
     body: 'Charged but access not active, duplicate payment, or a refund request. Include your Razorpay payment ID if you have it.',
     action: 'Email about a payment',
-    subject: 'Payment%20issue',
+    subject: 'Payment issue',
     note: 'Include your Razorpay payment ID if you have it. Do not send card or bank credentials.',
   },
   {
     title: 'Report a wrong question',
     body: 'Spotted a possible answer-key or question issue? Send the question text or a screenshot so we can investigate it.',
     action: 'Report a question',
-    subject: 'Question%20report',
-    note: 'Uncertain content is held until its evidence checks are complete.',
+    subject: 'Question report',
   },
   {
     title: 'Partnership enquiries',
     body: 'For school, institute, or creator enquiries, describe the idea and the audience you have in mind.',
     action: 'Email about a partnership',
     subject: 'Partnership',
-    note: 'We will review the request and reply if there is a fit.',
   },
 ];
 
@@ -73,11 +71,11 @@ export default function ContactPage() {
                   <div className="pp-lane__copy">
                     <h2 className="pp-h3">{channel.title}</h2>
                     <p className="pp-lane__body">{channel.body}</p>
-                    <p className="pp-lane__note">{channel.note}</p>
+                    {channel.note ? <p className="pp-lane__note">{channel.note}</p> : null}
                   </div>
                   <a
                     className={buttonClass({ variant: 'secondary', size: 'lg' })}
-                    href={`mailto:${siteConfig.email}?subject=${channel.subject}`}
+                    href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(channel.subject)}`}
                   >
                     {channel.action}
                   </a>

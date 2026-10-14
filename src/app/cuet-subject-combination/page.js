@@ -9,7 +9,7 @@ import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { PageClose } from '@/components/PublicPage';
 import '@/app/landing.css';
 import '@/components/du/du.css';
-import '@/app/cuet-cutoff-calculator/du-page.css';
+import '@/components/du/du-page.css';
 import './combo-planner.css';
 
 export const metadata = seoMetadata({

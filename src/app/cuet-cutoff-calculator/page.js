@@ -9,7 +9,7 @@ import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import '@/app/landing.css';
-import './du-page.css';
+import '@/components/du/du-page.css';
 
 export const metadata = seoMetadata({
   title: 'DU Eligibility & Cutoff Calculator for CUET | MockMob',

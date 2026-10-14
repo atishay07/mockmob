@@ -19,6 +19,17 @@ export function slugify(text) {
     .slice(0, 64) || 'section';
 }
 
+/** One anchor id per heading, in order; a repeated heading gets "-2", "-3" so ids never collide. */
+export function uniqueSlugs(headings) {
+  const seen = new Map();
+  return headings.map((heading) => {
+    const base = slugify(heading);
+    const count = (seen.get(base) || 0) + 1;
+    seen.set(base, count);
+    return count === 1 ? base : `${base}-${count}`;
+  });
+}
+
 /**
  * The head of a public page: a title, one line of lead, optional actions (children).
  * No eyebrow, kicker or numbered badge. `tone` is 'moment' (large, for the pages a visitor lands

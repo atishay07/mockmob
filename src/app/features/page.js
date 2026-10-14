@@ -23,7 +23,7 @@ const FEATURES = [
   { name: 'Exam tracks', icon: 'route', body: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.' },
   { name: 'Study plan', by: 'PrepOS', icon: 'spark', body: 'See a shared next step based on available practice history. Core planning does not depend on a paid model reply.' },
   { name: 'DU Compass', by: 'Admission Compass', icon: 'target', body: 'Check programme eligibility and compare sourced DU historical cutoffs by year, round, and category. Free for everyone.' },
-  { name: 'Pro access', icon: 'zap', body: 'Unlock available practice modes, the difficulty selector, and deeper weak-chapter details. Access follows the current offer and inventory.' },
+  { name: 'Pro access', icon: 'zap', body: 'Unlock available practice modes, the difficulty selector, and deeper weak-chapter details. Access depends on the current offer.' },
 ];
 
 const LOOP = [
@@ -108,12 +108,8 @@ export default function FeaturesPage() {
               <Surface level="raised" className="pp-demo" aria-labelledby="features-compass">
                 <div className="pp-demo__top">
                   <h3 id="features-compass" className="pp-demo__title">DU<span>historical reference</span></h3>
-                  <span className="ui-tag">Illustrative example, not a prediction</span>
+                  <span className="ui-tag">What it covers</span>
                 </div>
-                <dl className="pp-demo__facts">
-                  <div><dt>Eligibility</dt><dd>5 of 5 subjects fit</dd></div>
-                  <div><dt>Next move</dt><dd>Attack Economics</dd></div>
-                </dl>
                 <ul className="pp-demo__rows">
                   {COMPASS_ROWS.map(([name, detail, status]) => (
                     <li key={name}>

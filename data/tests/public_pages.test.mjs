@@ -110,7 +110,7 @@ test('sticky works on these pages: body is not a scroll container (the legacy ov
 test('the article keeps its structured data and gives every section an anchor', () => {
   const seo = read('src/components/SeoContentPage.jsx');
   for (const fn of ['breadcrumbJsonLd', 'faqJsonLd', 'courseJsonLd']) assert.match(seo, new RegExp(fn));
-  assert.match(seo, /slugify\(section\.heading\)/);
+  assert.match(seo, /uniqueSlugs\(page\.sections\.map/);
   assert.match(seo, /<PageToc items=\{toc\}/);
   assert.match(seo, /summary>\{faq\.question\}/);
 });
@@ -163,4 +163,15 @@ test('the contact page names each action and shows the address once, and the Abo
   assert.doesNotMatch(contact, /Support replies within 24h/);
   const about = read('src/app/about/page.js').replace(/\s+/g, ' ');
   assert.match(about, /not affiliated with NTA, Delhi University, or any exam body/);
+});
+
+test('repeated headings get distinct anchors, and the removed claims stay removed', () => {
+  const src = read('src/components/PublicPage.jsx');
+  assert.match(src, /export function uniqueSlugs/);
+  assert.match(read('src/components/LegalPage.jsx'), /uniqueSlugs\(sections\.map/);
+  const features = read('src/app/features/page.js');
+  assert.doesNotMatch(features, /Attack Economics|5 of 5 subjects/);
+  const contact = read('src/app/contact/page.js');
+  assert.doesNotMatch(contact, /evidence checks are complete|reply if there is a fit/);
+  assert.doesNotMatch(read('src/app/about/page.js'), /Obsessively/);
 });

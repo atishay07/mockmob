@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { PublicHero, PageToc, slugify } from '@/components/PublicPage';
+import { PublicHero, PageToc, uniqueSlugs } from '@/components/PublicPage';
 
 // One layout for the policies (web redesign W2.2): privacy, terms and refunds used to repeat the
 // same markup and the same inline style block. The wording of each policy stays in its own page;
@@ -19,7 +19,8 @@ const POLICIES = [
 ];
 
 export function LegalPage({ current, title, updated, updatedIso, sections }) {
-  const items = sections.map((section) => ({ id: slugify(section.heading), label: section.heading, section }));
+  const ids = uniqueSlugs(sections.map((section) => section.heading));
+  const items = sections.map((section, index) => ({ id: ids[index], label: section.heading, section }));
   return (
     <div className="mm pp-legal-page">
       <NavBar />

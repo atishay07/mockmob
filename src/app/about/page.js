@@ -47,7 +47,7 @@ export default function AboutPage() {
       <main id="main-content">
         <PublicHero
           enter
-          title="Built for one exam. Obsessively."
+          title="Built for one exam."
           lead="CUET preparation brings subject practice, review, and university requirements into one demanding season. We are a small independent team, founded by Atishay Jain, building the platform we wished existed."
         />
 

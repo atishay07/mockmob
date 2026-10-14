@@ -3,7 +3,7 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { PublicHero, PageToc, PageClose, slugify } from '@/components/PublicPage';
+import { PublicHero, PageToc, PageClose, uniqueSlugs } from '@/components/PublicPage';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 
 // The read-mode page for the CUET guides and subject hubs (web redesign W2.2). Comprehension and
@@ -13,8 +13,9 @@ import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 // the guest HTML is unchanged for crawlers. `page.eyebrow` is deliberately not rendered.
 export function SeoContentPage({ page }) {
   const faqId = 'frequently-asked-questions';
+  const sectionIds = uniqueSlugs(page.sections.map((section) => section.heading));
   const toc = [
-    ...page.sections.map((section) => ({ id: slugify(section.heading), label: section.heading })),
+    ...page.sections.map((section, index) => ({ id: sectionIds[index], label: section.heading })),
     { id: faqId, label: 'Frequently asked questions' },
   ];
 
@@ -58,19 +59,19 @@ export function SeoContentPage({ page }) {
               <PageToc items={toc} />
 
               <div className="pp-prose">
-                {page.sections.map((section) => {
-                  const id = slugify(section.heading);
+                {page.sections.map((section, sectionIndex) => {
+                  const id = sectionIds[sectionIndex];
                   return (
-                    <section key={section.heading} id={id} className="pp-prose__section" aria-labelledby={`${id}-heading`}>
+                    <section key={`${section.heading}-${sectionIndex}`} id={id} className="pp-prose__section" aria-labelledby={`${id}-heading`}>
                       <h2 id={`${id}-heading`}>{section.heading}</h2>
-                      {section.body.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
+                      {section.body.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
                       ))}
 
                       {section.chips ? (
                         <ul className="pp-tags">
-                          {section.chips.map((chip) => (
-                            <li key={chip} className="ui-tag">{chip}</li>
+                          {section.chips.map((chip, index) => (
+                            <li key={`${chip}-${index}`} className="ui-tag">{chip}</li>
                           ))}
                         </ul>
                       ) : null}
