@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/platform/review_prompt.dart' show ReviewMoment;
-import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/notifications/copy.dart' show NotificationsCopy;
 import 'package:mockmob/features/result/copy.dart' show ResultCopy;
@@ -13,6 +12,7 @@ import 'package:mockmob/features/result/model/recap_model.dart';
 import 'package:mockmob/features/result/recap/card_page.dart' show RecapCardPage;
 import 'package:mockmob/features/result/recap/record_card.dart';
 import 'package:mockmob/features/result/widgets/evidence_link.dart';
+import 'package:mockmob/features/result/widgets/result_space.dart';
 import 'package:mockmob/features/result/model/recap_variant.dart';
 
 import '../../helpers/fonts.dart';
@@ -320,14 +320,14 @@ void main() {
       expect(_at(router3), startsWith('/result/a7?q='));
     });
 
-    testWidgets('the arithmetic toggle is a plain text action on the gutter, 48 dp tall (result-09)', (tester) async {
+    testWidgets('the arithmetic toggle is a plain text action on the moment gutter, 48 dp tall (result-09)', (tester) async {
       await pump(tester, '/result/a7/recap/2');
       await _run(tester, 1000);
       final label = find.text('Show the arithmetic');
-      expect(tester.getTopLeft(label).dx, MmSpace.cardGutter);
+      expect(tester.getTopLeft(label).dx, ResultSpace.moment);
       final target = find.ancestor(of: label, matching: find.byType(ConstrainedBox)).first;
       expect(tester.getSize(target).height, greaterThanOrEqualTo(48));
-      expect(tester.getTopLeft(find.text('Where the other 135 marks went')).dx, MmSpace.cardGutter);
+      expect(tester.getTopLeft(find.text('Where the other 135 marks went')).dx, ResultSpace.moment);
     });
 
     testWidgets('at most one Mobi on a card: reads on card 1, thinks on card 3, lives on card 4 (result-10)', (tester) async {

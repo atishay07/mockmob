@@ -166,8 +166,9 @@ class _FirstFixCardState extends ConsumerState<FirstFixCard> {
     );
   }
 
-  void _why(BuildContext context, ChapterStat stat) {
-    showMmSheet<void>(
+  /// The sheet's future completes when it closes, so the row it rose from stays lit until then.
+  Future<void> _why(BuildContext context, ChapterStat stat) {
+    return showMmSheet<void>(
       context: context,
       title: ResultCopy.whyTitle,
       builder: (context) => Padding(

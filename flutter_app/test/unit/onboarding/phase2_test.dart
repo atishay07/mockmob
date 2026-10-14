@@ -269,6 +269,24 @@ void main() {
     });
   });
 
+  testWidgets('the Celebrations setting reaches every Mobi on the onboarding screens', (tester) async {
+    for (final (mode, level) in [
+      (CelebrationMode.full, MobiCelebrationLevel.full),
+      (CelebrationMode.quiet, MobiCelebrationLevel.quiet),
+      (CelebrationMode.off, MobiCelebrationLevel.off),
+    ]) {
+      await pumpMockmob(
+        tester,
+        const OnboardingFlow(skipColdOpen: true),
+        size: kPhone,
+        disableAnimations: true,
+        overrides: [...onboardingOverrides(), celebrationModeProvider.overrideWithValue(mode)],
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(MobiCelebrations.of(tester.element(find.byType(MobiStage))), level, reason: '$mode');
+    }
+  });
+
   testWidgets('an answer inks with a selection tick, not a light impact (P1-9)', (tester) async {
     final haptics = _CountingHaptics();
     await pumpMockmob(

@@ -273,7 +273,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
               page('phone', addPhoneScreen, root: true),
             ]),
             page('delete', youDeleteScreen, root: true),
-            page('milestones', youMilestonesScreen, root: true),
+            page('milestones', youMilestonesScreen, transition: MmTransition.container, root: true),
             page('bests', youBestsScreen, root: true),
             page('appearance', youAppearanceScreen, root: true),
             page('help', youHelpScreen, root: true),

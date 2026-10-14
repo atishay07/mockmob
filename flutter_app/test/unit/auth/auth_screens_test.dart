@@ -263,6 +263,8 @@ void main() {
 
       clock.advance(const Duration(seconds: 59));
       await tester.pump(const Duration(seconds: 1));
+      // The message leaves with a 200 ms cross-fade.
+      await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Resend code in 0:00'), findsNothing);
       expect(find.widgetWithText(KeyButton, AuthCopy.resend), findsOneWidget);
     },
@@ -408,6 +410,8 @@ void main() {
       // back to the old code.
       clock.advance(const Duration(seconds: 59));
       await tester.pump(const Duration(seconds: 1));
+      // The message leaves with a 200 ms cross-fade.
+      await tester.pump(const Duration(milliseconds: 300));
       expect(
         find.text(
           AuthCopy.problem(SignInProblem.rateLimited, SignInStep.email)!,
@@ -575,6 +579,8 @@ void main() {
     testWidgets('going offline moves nothing on a roomy phone', (tester) async {
       await _pump(tester, gateway: FakeGateway(), size: tall);
       final online = tester.getTopLeft(find.text(AuthCopy.signInTitle));
+      // A fresh tree, so the second pump builds its providers again with the phone offline.
+      await tester.pumpWidget(const SizedBox.shrink());
       await _pump(
         tester,
         gateway: FakeGateway(),
@@ -593,12 +599,13 @@ void main() {
       await tester.enterText(find.byType(TextField), 'asha@example.com');
       await tester.pump();
       await tester.tap(find.text(AuthCopy.sendCode));
+      // The first frame of the wait starts the 12 second clock; a pump with a duration builds its
+      // frame only after that time has passed.
+      await tester.pump();
       await tester.pump(const Duration(seconds: 11));
       expect(find.text(AuthCopy.stillSending), findsNothing);
       await tester.pump(const Duration(seconds: 2));
       await tester.pump(const Duration(milliseconds: 300));
-      // ignore: avoid_print
-      print('TEXTS: ' + tester.widgetList<Text>(find.byType(Text)).map((t) => (t.data ?? '').replaceAll(String.fromCharCode(10), '~')).join(' | '));
       expect(find.text(AuthCopy.stillSending), findsOneWidget);
 
       gateway.sendHold!.complete();
@@ -613,6 +620,7 @@ void main() {
       await _pump(tester, gateway: gateway, size: tall);
       await _sendCodeFor(tester, 'asha@example.com');
       await tester.enterText(find.byType(TextField), '12345678');
+      await tester.pump();
       await tester.pump(const Duration(seconds: 11));
       expect(find.text(AuthCopy.stillChecking), findsNothing);
       await tester.pump(const Duration(seconds: 2));

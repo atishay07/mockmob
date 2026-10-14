@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/art/art.dart' show SubjectEmblem;
+import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/models/ai_credits.dart';
@@ -122,7 +122,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
     final light = SubjectLight.forSubject(run.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
     final numbers = [for (final s in run.steps) s.item.number];
-    final artSize = large ? 80.0 : ReviewSpace.artSize;
+    final artSize = large ? EmblemSizes.tile : ReviewSpace.artSize;
     final artBox = artSize + 20;
     // The overline and the title keep clear of the emblem: its box, less the bleed, plus 12 dp of
     // air. The emblem box bleeds 10 dp past the moment gutter, so it reaches artBox - 10 + 10 into

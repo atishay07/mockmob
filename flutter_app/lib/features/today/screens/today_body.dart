@@ -255,7 +255,9 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
       // Header to the first block (SPACING.md 3.1, audit T3): the hero starts high enough that its
       // key is above the bar on a 640 dp phone.
       const SizedBox(height: MmSpace.s16),
-      TodayEnter(delay: const Duration(milliseconds: 120), rise: 20, child: _hero()),
+      // The hero rises 16 dp and fades over 420 ms from 120 ms (MOTION.md 4.3); its object then
+      // scales in place and the number lands at about 660 ms.
+      TodayEnter(delay: const Duration(milliseconds: 120), child: _hero()),
       if (view.also.isNotEmpty)
         TodayEnter(
           delay: const Duration(milliseconds: 200),

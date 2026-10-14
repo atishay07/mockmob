@@ -51,7 +51,7 @@ class SuggestionCard extends StatelessWidget {
   /// The object's box and the object drawn in it (SPACING.md 4.1): 8 dp from the top, bled 10 dp
   /// past the right edge, never cropped by the top.
   static const double artBox = 156;
-  static const double emblemSize = 136;
+  static const double emblemSize = EmblemSizes.hero;
   static const double artTop = 8;
   static const double artBleedRight = 10;
 

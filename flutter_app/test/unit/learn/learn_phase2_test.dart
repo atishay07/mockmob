@@ -97,6 +97,7 @@ void main() {
       expect(disc.size, const Size(44, 44));
       expect(tester.getSize(find.byType(MmPressable).first), const Size(48, 48));
       final press = await tester.startGesture(tester.getCenter(find.byType(FakeGlass).first));
+      await tester.pump(); // the spring's first frame
       await tester.pump(const Duration(milliseconds: 80));
       final scale = tester.widget<Transform>(find.descendant(of: find.byType(MmPressable), matching: find.byType(Transform)).first).transform.getMaxScaleOnAxis();
       expect(scale, lessThan(1), reason: 'the disc sinks on the next frames of the touch');
@@ -280,6 +281,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
       expect(find.byType(Mobi), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 300)); // the success tick's own timer
     });
 
     testWidgets('the content is weighted to the optical centre, not stacked at the top', (tester) async {

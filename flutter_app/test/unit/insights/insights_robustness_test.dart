@@ -492,7 +492,7 @@ void main() {
         size: const Size(384, 300),
       );
       await tester.pump(const Duration(seconds: 1));
-      expect(find.text('0'), findsOneWidget);
+      expect(find.text('0', skipOffstage: false), findsOneWidget);
 
       await tester.drag(find.byType(ListView), const Offset(0, -300));
       await tester.pump();

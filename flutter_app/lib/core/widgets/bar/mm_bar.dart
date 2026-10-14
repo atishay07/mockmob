@@ -237,9 +237,17 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     if (!_placed) {
       _placed = true;
       if (widget.entrance && !_reduced) {
-        _enter.forward(from: 0).whenComplete(() {
+        // Start's pop begins at 300 ms, as its own fade lands, so it never lands on top of
+        // Today's hero number (MOTION.md 5.3).
+        void popAt300() {
+          if (_enter.value * MmBottomBar.entranceDuration.inMilliseconds < 300) return;
+          _enter.removeListener(popAt300);
           if (mounted) _pop.forward(from: 0);
-        });
+        }
+
+        _pop.value = 0;
+        _enter.addListener(popAt300);
+        _enter.forward(from: 0);
       }
     }
   }

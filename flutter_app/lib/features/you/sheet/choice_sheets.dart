@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/copy/copy.dart' show joinWithAnd;
 
+import '../../../core/art/art.dart' show EmblemSizes;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/data/du_catalog.dart';
@@ -249,7 +250,7 @@ class _ConfidenceBody extends ConsumerWidget {
           const SizedBox(height: MmSpace.s12),
           Row(
             children: [
-              SubjectArt(id, size: 32),
+              SubjectArt(id, size: EmblemSizes.chip),
               const SizedBox(width: MmSpace.s12),
               Expanded(child: Text(subjectDisplayName(id), style: type.labelLarge.copyWith(fontSize: 16))),
             ],

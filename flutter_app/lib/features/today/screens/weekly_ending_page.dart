@@ -25,7 +25,7 @@ class WeeklyEndingPage extends ConsumerWidget {
           const Positioned.fill(child: IgnorePointer(child: LampScene())),
           SafeArea(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
+              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, MmSpace.s32),
               children: [
                 const Center(child: Mobi(pose: MobiPose.read, size: 112, motion: MobiMotion.settle)),
                 const SizedBox(height: MmSpace.s16),

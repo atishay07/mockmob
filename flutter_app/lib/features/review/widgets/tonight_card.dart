@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/art/art.dart' show SubjectEmblem;
+import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/motion/motion.dart';
@@ -89,7 +89,7 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
 
     // At large text the emblem gives way: a smaller prop and less clear, so the title keeps room.
-    final artSize = large ? 80.0 : ReviewSpace.artSize;
+    final artSize = large ? EmblemSizes.tile : ReviewSpace.artSize;
     final artBox = artSize + 20;
     // The header band keeps clear of the emblem: its box, less the bleed, plus 12 dp of air, less
     // the card's own padding.

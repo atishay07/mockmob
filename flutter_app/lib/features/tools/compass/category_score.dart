@@ -7,6 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../domain/du_eligibility.dart';
+import '../widgets/tools_page.dart' show IconWell;
 import '../widgets/tools_sheet.dart';
 import 'compass_controller.dart';
 
@@ -151,8 +152,8 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
   }
 }
 
-/// The way into category and score: the one tinted bar of Compass, so the two things that turn
-/// a list of programmes into the student's own cutoffs are easy to find. Opens the sheet.
+/// The way into category and score. An ordinary plain card: the hero of Compass holds the screen's
+/// one lit edge, so this row carries a hairline and no tint (SPACING.md 5). Opens the sheet.
 class CategoryScoreBar extends StatelessWidget {
   const CategoryScoreBar({super.key, required this.summary, required this.onTap});
 
@@ -163,48 +164,28 @@ class CategoryScoreBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final edge = colors.isNight ? colors.volt : colors.accentText;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-      child: MmPressable(
+      child: MmSurface.plain(
         semanticsLabel: '${ToolsCopy.categoryHeading}. $summary',
         onTap: onTap,
-        haptic: MmPressHaptic.selection,
-        focusRadius: BorderRadius.circular(20),
-        builder: (context, pressed, _) => DecoratedBox(
-          decoration: ShapeDecoration(
-            color: Color.alphaBlend(edge.withValues(alpha: pressed ? 0.16 : 0.09), colors.raised),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: edge.withValues(alpha: 0.4))),
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 72),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-              child: Row(
+        child: Row(
+          children: [
+            ExcludeSemantics(child: IconWell(LucideIcons.slidersHorizontal, color: colors.ink)),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ExcludeSemantics(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: edge.withValues(alpha: 0.18)),
-                      child: SizedBox.square(dimension: 40, child: Icon(LucideIcons.slidersHorizontal, size: 20, color: colors.isNight ? colors.volt : colors.accentText)),
-                    ),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(ToolsCopy.categoryHeading, style: type.labelLarge.copyWith(fontSize: 16)),
-                        const SizedBox(height: 2),
-                        Text(summary, style: type.caption.copyWith(color: colors.ink2)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: MmSpace.s8),
-                  Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
+                  Text(ToolsCopy.categoryHeading, style: type.labelLarge.copyWith(fontSize: 16)),
+                  const SizedBox(height: MmSpace.s2),
+                  Text(summary, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ),
             ),
-          ),
+            const SizedBox(width: MmSpace.s8),
+            Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
+          ],
         ),
       ),
     );

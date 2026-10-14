@@ -214,7 +214,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                     haptic: MmPressHaptic.selection,
                     pressedScale: 0.99,
                     focusRadius: MmRadius.smallAll,
-                    semanticsLabel: YouCopy.showMeMilestones,
+                    // No label of its own: every token keeps its own words for TalkBack, and "See all"
+                    // above is the named way in.
                     builder: (context, pressed, focused) => TokenShelf(
                       slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
                       zone: snapshot.timezone,

@@ -373,7 +373,10 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     Widget leaving(Widget child) => AnimatedBuilder(
       animation: Listenable.merge([secondary, _keyboard]),
       builder: (context, child) {
-        final away = reduced ? 0.0 : Motion.glide.transform(secondary.value.clamp(0.0, 1.0));
+        // MOTION.md C6: the bar is gone over the first half of the push (before the page has
+        // arrived) and comes back over the last half of the pop. Reduced motion: instant.
+        final s = secondary.value.clamp(0.0, 1.0);
+        final away = reduced ? (s > 0 ? 1.0 : 0.0) : Motion.glide.transform((s / 0.5).clamp(0.0, 1.0));
         final hide = _keyboard.value;
         final out = (away + hide).clamp(0.0, 1.0);
         return IgnorePointer(

@@ -288,7 +288,7 @@ class PastResultRow extends StatelessWidget {
                 child: Row(
                   children: [
                     // The paper's subject, not a wrong-answer bubble: the row is a result.
-                    SubjectEmblem(subject: attempt.subject, size: 40, framed: false),
+                    SubjectEmblem(subject: attempt.subject, size: EmblemSizes.chip, framed: false),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(

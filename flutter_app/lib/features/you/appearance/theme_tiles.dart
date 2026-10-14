@@ -89,7 +89,8 @@ class _ThemeTile extends ConsumerWidget {
                 shape: mmShapeBorder(
                   radius,
                   side: BorderSide(
-                    color: selected ? (colors.isNight ? colors.volt : colors.accentText) : colors.line,
+                    // Selected is the strongest edge on the page in both themes: a 2 dp ink border.
+                    color: selected ? colors.ink : colors.line,
                     width: selected ? 2 : 1,
                   ),
                 ),
@@ -101,7 +102,7 @@ class _ThemeTile extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          // The volt rim on the picture is the one selected indicator (with the heavier title);
+          // The ink rim on the picture is the one selected indicator (with the heavier title);
           // a second dot beside the name said the same thing twice.
           Text(
             title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/art/art.dart' show EmblemSizes;
 import '../../../core/theme/theme.dart';
 
 /// The spacing of Review in one place (docs/brain/ui-phase2/SPACING.md): a 4 dp grid, one screen
@@ -30,8 +31,8 @@ abstract final class ReviewSpace {
 
   /// The subject emblem on a hero: a 156 dp box holding a 136 dp drawing, 8 dp from the top and
   /// bled 10 dp past the right edge, so its ink ends on the card edge and is never cropped.
-  static const double artBox = 156;
-  static const double artSize = 136;
+  static const double artBox = EmblemSizes.hero + 20;
+  static const double artSize = EmblemSizes.hero;
   static const double artTop = 8;
   static const double artBleedRight = 10;
 

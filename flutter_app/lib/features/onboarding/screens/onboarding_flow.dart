@@ -247,6 +247,17 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   @override
   Widget build(BuildContext context) {
+    // The Celebrations setting reaches every Mobi on these screens (the welcome Mobi, the guide,
+    // the first move's), so Quiet calms his big acts and Off keeps him still, as it does the seal.
+    final level = switch (ref.watch(celebrationModeProvider)) {
+      CelebrationMode.full => MobiCelebrationLevel.full,
+      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
+      CelebrationMode.off => MobiCelebrationLevel.off,
+    };
+    return MobiCelebrations(level: level, child: _screen(context));
+  }
+
+  Widget _screen(BuildContext context) {
     final colors = context.mmColors;
     final cold = ref.watch(shouldPlayColdOpenProvider).value ?? false;
     final sheet = ref.watch(onboardingAnswersProvider);

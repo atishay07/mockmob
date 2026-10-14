@@ -26,6 +26,7 @@ import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/milestone_progress.dart';
+import '../widgets/milestone_backdrop.dart';
 import '../widgets/rhythm_layout.dart';
 import '../widgets/rhythm_page.dart';
 import '../widgets/medal.dart';
@@ -95,8 +96,14 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         ),
       );
     }
+    final tracks = milestoneTracks(snapshot.rhythm!.milestones);
     return RhythmPage(
       title: RhythmCopy.milestonesTitle,
+      // The seam the art pass fills (see milestone_backdrop.dart); empty until then.
+      backdrop: MilestoneBackdrop(
+        landed: tracks.fold<int>(0, (n, t) => n + t.earned.length),
+        total: tracks.fold<int>(0, (n, t) => n + t.steps.length),
+      ),
       child: MilestoneTimeline(
         milestones: snapshot.rhythm!.milestones,
         zone: snapshot.timezone,

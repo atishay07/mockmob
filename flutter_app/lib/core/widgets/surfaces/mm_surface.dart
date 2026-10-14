@@ -298,7 +298,8 @@ class MmRowGroup extends StatelessWidget {
 }
 
 /// One row of an [MmRowGroup]: a 40 dp leading glyph, a title, an optional note and trailing.
-/// 64 dp tall with a leading glyph (40 plus 12 and 12), 48 without; the whole row is the target.
+/// 64 dp tall with a leading glyph (40 plus 12 and 12); without one, 48 for a line and 56 for two
+/// (SPACING.md 4.3). The whole row is the target.
 class MmRow extends StatelessWidget {
   const MmRow({
     super.key,
@@ -326,7 +327,7 @@ class MmRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     Widget content(bool pressed) => ConstrainedBox(
-      constraints: BoxConstraints(minHeight: leading != null ? 64 : 48),
+      constraints: BoxConstraints(minHeight: leading != null ? 64 : (subtitle != null ? 56 : 48)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
         child: Row(

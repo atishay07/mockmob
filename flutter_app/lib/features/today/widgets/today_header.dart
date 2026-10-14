@@ -28,8 +28,11 @@ class TodayHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // The greeting and date fade in over 200 ms with no rise (MOTION.md 4.3).
         TodayEnter(
           delay: Duration.zero,
+          rise: 0,
+          length: const Duration(milliseconds: 200),
           child: _GreetingRow(
             dateLine: header.dateLine,
             updatedLine: header.updatedLine,

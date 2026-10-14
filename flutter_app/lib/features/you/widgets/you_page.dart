@@ -238,7 +238,7 @@ class GlassDisc extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: colors.isNight ? [Color.lerp(colors.raised2, colors.lamp, 0.08)!, colors.raised] : [colors.raised, colors.raised2],
+          colors: colors.isNight ? [Color.lerp(colors.raised2, colors.lamp, 0.08)!, colors.raised] : [colors.raised, Color.lerp(colors.raised, colors.sunken, 0.5)!],
         ),
         boxShadow: colors.cardShadow,
       ),

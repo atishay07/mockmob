@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,9 +8,11 @@ import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/result/widgets/evidence_link.dart';
 import 'package:mockmob/features/result/model/recap_variant.dart';
 import 'package:mockmob/features/result/recap/recap_flow.dart';
 import 'package:mockmob/features/result/recap/record_card.dart';
@@ -127,8 +131,8 @@ void main() {
       expect(find.text(ResultCopy.slowTitle), findsOneWidget);
       expect(find.text(ResultCopy.tryAgain), findsOneWidget);
       await tester.tap(find.text(ResultCopy.backToReview));
+      await tester.pump();
       await tester.pump(const Duration(seconds: 1));
-      debugPrint('TEXTS ${tester.widgetList<Text>(find.byType(Text)).map((t) => t.data).toList()}');
       expect(find.text('AT /review'), findsOneWidget);
     });
 
@@ -336,6 +340,43 @@ void main() {
       final below = key.top - last.bottom;
       expect(above, greaterThan(ResultSpace.moment));
       expect(below / above, lessThan(3.2));
+    });
+  });
+
+  group('an evidence row stays lit while its sheet is up (MOTION C4 item 6)', () {
+    testWidgets('the arrow turns toward the sheet and comes back when it closes', (tester) async {
+      final closed = Completer<void>();
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            theme: buildTheme(Brightness.dark),
+            home: Scaffold(body: EvidenceLink(label: 'Why this?', onTap: () => closed.future)),
+          ),
+        ),
+      );
+      double turns() => tester.widget<AnimatedRotation>(find.byType(AnimatedRotation)).turns;
+      expect(turns(), 0);
+      await tester.tap(find.text('Why this?'));
+      await tester.pump();
+      expect(turns(), 0.25);
+      closed.complete();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(turns(), 0);
+    });
+
+    testWidgets('a row that opens a page, not a sheet, never lights', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            theme: buildTheme(Brightness.dark),
+            home: Scaffold(body: EvidenceLink(label: 'See the questions', onTap: () {})),
+          ),
+        ),
+      );
+      await tester.tap(find.text('See the questions'));
+      await tester.pump();
+      expect(tester.widget<AnimatedRotation>(find.byType(AnimatedRotation)).turns, 0);
     });
   });
 }

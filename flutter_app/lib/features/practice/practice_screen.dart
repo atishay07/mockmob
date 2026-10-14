@@ -317,7 +317,7 @@ class _SubjectLine extends StatelessWidget {
         excludeSemantics: true,
         child: Row(
           children: [
-            SubjectEmblem(subject: subjectId, size: 32, framed: false),
+            SubjectEmblem(subject: subjectId, size: EmblemSizes.glyph, framed: false),
             const SizedBox(width: MmSpace.s8),
             // A group label (15 w600, second ink): the one level under the 22 sp section titles.
             Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge.copyWith(color: colors.ink2))),

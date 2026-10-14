@@ -23,7 +23,9 @@ import 'package:mockmob/features/review/widgets/life_row.dart';
 import 'package:mockmob/features/review/widgets/mistake_map.dart';
 import 'package:mockmob/features/review/widgets/mistake_view.dart' show StageMoment;
 import 'package:mockmob/features/review/widgets/question_panel.dart';
+import 'package:mockmob/features/review/widgets/page_header.dart' show ReviewTabHeader;
 import 'package:mockmob/features/review/widgets/review_layout.dart';
+import 'package:mockmob/features/review/widgets/review_status.dart' show RepairsProgress;
 import 'package:mockmob/features/review/widgets/tonight_card.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 import 'package:mockmob/features/today/data/today_providers.dart' show todayDismissalsProvider;
@@ -140,7 +142,7 @@ void main() {
       expect(emblem.top, greaterThanOrEqualTo(card.top), reason: 'not cropped by the top edge');
       expect(emblem.right, lessThanOrEqualTo(card.right), reason: 'its ink ends on the card edge');
       final tonight = buildReviewIndex(allAttempts, const []).tonight!;
-      final title = tester.getRect(find.text(tonight.chapter));
+      final title = tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.text(tonight.chapter)));
       expect(title.right, lessThanOrEqualTo(emblem.left - 12), reason: '12 dp of air between the title and the object');
       final number = tester.getRect(find.byType(MonumentalNumber));
       expect(number.right, lessThanOrEqualTo(emblem.left), reason: 'the number and its unit stay beside the object, not under it');
@@ -402,6 +404,69 @@ void main() {
       final shape = box.decoration as ShapeDecoration;
       expect(shape.color, MmColors.light.raised);
       expect((shape.shape as OutlinedBorder).side.width, 2);
+    });
+  });
+
+  group('the tab: Ask in the header, the app pull, a count that rolls on', () {
+    Future<void> pumpTab(WidgetTester tester) => pumpMockmob(
+      tester,
+      const ReviewScreen(),
+      size: const Size(384, 853),
+      disableAnimations: true,
+      wrapInScaffold: false,
+      overrides: reviewOverrides(records: [repairedRecord]),
+    );
+
+    testWidgets('Ask Mobi sits in the header row, on the right, with a 48 dp target (DOCK 6)', (tester) async {
+      await pumpTab(tester);
+      final ask = find.text('Ask Mobi');
+      expect(ask, findsOneWidget);
+      final title = tester.getRect(find.text('Review'));
+      final pill = tester.getRect(find.ancestor(of: ask, matching: find.byType(DecoratedBox)).first);
+      expect(pill.center.dy, closeTo(title.center.dy, 12), reason: 'on the title row');
+      expect(pill.right, closeTo(384 - 16, 0.5), reason: 'on the right gutter');
+      expect(pill.height, 40);
+      expect(tester.getSemantics(find.bySemanticsLabel(RegExp('^Ask Mobi'))).rect.height, greaterThanOrEqualTo(48));
+    });
+
+    testWidgets('the header calls onAsk when the pill is tapped', (tester) async {
+      var asked = 0;
+      await pumpMockmob(
+        tester,
+        Padding(padding: const EdgeInsets.all(16), child: ReviewTabHeader(title: 'Review', onAsk: () => asked++)),
+        disableAnimations: true,
+        overrides: reviewOverrides(),
+      );
+      await tester.tap(find.text('Ask Mobi'));
+      await tester.pump();
+      expect(asked, 1);
+    });
+
+    testWidgets('no stock refresh spinner: the page pulls with MmPullRefresh', (tester) async {
+      await pumpTab(tester);
+      expect(find.byType(RefreshIndicator), findsNothing);
+      expect(find.byType(MmPullRefresh), findsOneWidget);
+    });
+
+    testWidgets('the repaired count rolls on from the number it showed, never from zero', (tester) async {
+      Widget at(int repaired) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: RepairsProgress(repaired: repaired, found: 8),
+      );
+      await pumpMockmob(tester, at(1), overrides: reviewOverrides());
+      expect(find.text('1 of 8 repaired'), findsOneWidget, reason: 'first show: no count from zero');
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: reviewOverrides(),
+          child: MaterialApp(theme: buildTheme(Brightness.light), home: Scaffold(body: at(3))),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 200));
+      final mid = tester.widget<Text>(find.textContaining(' of 8 repaired')).data!;
+      expect(mid, isNot(startsWith('0 ')), reason: 'rolls from 1, not from 0');
+      await tester.pump(const Duration(seconds: 2));
+      expect(find.text('3 of 8 repaired'), findsOneWidget);
     });
   });
 }

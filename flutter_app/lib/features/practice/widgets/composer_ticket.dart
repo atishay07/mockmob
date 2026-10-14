@@ -489,7 +489,7 @@ class _SubjectChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SubjectEmblem(subject: id, size: 32, framed: false, marked: selected),
+            SubjectEmblem(subject: id, size: EmblemSizes.glyph, framed: false, marked: selected),
             const SizedBox(width: MmSpace.s8),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

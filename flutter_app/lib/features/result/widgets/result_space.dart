@@ -1,3 +1,4 @@
+import '../../../core/art/art.dart' show EmblemSizes;
 import '../../../core/theme/theme.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode;
 import '../model/recap_variant.dart';
@@ -14,7 +15,7 @@ abstract final class ResultSpace {
 
   /// The subject emblem beside the full result's figure: the tile size of the emblem scale
   /// (24, 40, 56, 136; audit X5). The figure is the hero there, not the object.
-  static const double emblem = 56;
+  static const double emblem = EmblemSizes.tile;
 
   /// Moment scaffold (SPACING 7): free height splits 2 above the content to 3 below it, so the
   /// content sits at about 40% of the free band instead of stacking at the top.

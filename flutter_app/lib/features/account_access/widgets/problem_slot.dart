@@ -131,7 +131,6 @@ class _StillWorkingState extends State<StillWorking> {
   }
 
   void _sync() {
-    print('DBG sync active=${widget.active}');
     _timer?.cancel();
     _timer = null;
     if (!widget.active) {
@@ -140,7 +139,6 @@ class _StillWorkingState extends State<StillWorking> {
     }
     _long = false;
     _timer = Timer(widget.after, () {
-      print('DBG fired mounted=$mounted');
       if (mounted) setState(() => _long = true);
     });
   }

@@ -70,7 +70,7 @@ class SaveGlyph extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           glyph,
-          const SizedBox(width: MmSpace.s6),
+          const SizedBox(width: MmSpace.s8),
           Flexible(
             child: Text(
               wordsFor(snapshot, short: !full),

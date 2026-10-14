@@ -83,15 +83,17 @@ void main() {
       );
       // Part way: the scored row's words have arrived but its number is still counting, while
       // TalkBack already hears the final value.
-      grow.value = 0.38;
+      // Ribbon 0 runs 200 to 620 ms of the 900; its words start 160 ms in and the number lands with it.
+      const part = 460 / 900;
+      grow.value = part;
       await tester.pump();
-      expect(MarksFlow.countAt(0.38, 0), inExclusiveRange(0, 1));
+      expect(MarksFlow.countAt(part, 0), inExclusiveRange(0, 1));
       expect(find.text('115 marks'), findsNothing);
       expect(find.text('115'), findsOneWidget, reason: 'the final number holds the space while the count runs');
       expect(find.bySemanticsLabel(RegExp('115 marks')), findsOneWidget);
       // The count lands exactly when the ribbon does.
       for (var i = 0; i < 4; i++) {
-        final end = 0.60 + i * 0.09;
+        final end = (200 + 420 + i * 70) / 900;
         expect(MarksFlow.countAt(end, i), closeTo(1, 1e-6));
         expect(MarksFlow.ribbonAt(end, i), closeTo(1, 1e-6));
       }

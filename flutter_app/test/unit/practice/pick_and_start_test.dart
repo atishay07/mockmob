@@ -304,7 +304,9 @@ void main() {
         overrides: practiceOverrides(quotes: _quotes()),
       );
       await _settle(tester);
-      await tester.ensureVisible(find.text('Quick practice'));
+      // The modes sit below the suggestion and the subject tiles on a short phone: scroll to them
+      // (the list builds its rows lazily).
+      await tester.scrollUntilVisible(find.text('Quick practice'), 200, scrollable: find.byType(Scrollable).first);
       await tester.pump();
       await tester.tap(find.text('Quick practice'));
       await _rise(tester);

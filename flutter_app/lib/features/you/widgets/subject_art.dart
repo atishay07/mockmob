@@ -8,17 +8,20 @@ import '../copy.dart';
 /// with the subject's initials on a paper disc for a subject the art set does not know (never a
 /// wrong object).
 class SubjectArt extends StatelessWidget {
-  const SubjectArt(this.subjectId, {super.key, this.size = 36});
+  const SubjectArt(this.subjectId, {super.key, this.size = EmblemSizes.chip});
 
   final String subjectId;
+  /// One of [EmblemSizes] (an off-scale size snaps to the nearest, so a subject is the same
+  /// object on every screen).
   final double size;
 
   @override
   Widget build(BuildContext context) {
+    final side = EmblemSizes.snap(size);
     if (SubjectIdentity.of(subjectId)?.hasEmblem ?? false) {
-      return SubjectEmblem(subject: subjectId, size: size, framed: false);
+      return SubjectEmblem(subject: subjectId, size: side, framed: false);
     }
-    return SizedBox.square(dimension: size, child: _Monogram(subjectDisplayName(subjectId), size: size));
+    return SizedBox.square(dimension: side, child: _Monogram(subjectDisplayName(subjectId), size: side));
   }
 }
 

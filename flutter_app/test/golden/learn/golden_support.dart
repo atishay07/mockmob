@@ -12,6 +12,7 @@ import 'package:mockmob/features/learn/data/lesson_loader.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
 import 'package:mockmob/features/learn/models/learn_catalog.dart';
 import 'package:mockmob/features/learn/screens/learn_screen.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 import '../../helpers/golden_harness.dart';
 
@@ -61,6 +62,8 @@ List<Override> learnOverrides({
   bool firstVisit = false,
 }) =>
     [
+      // The Celebrations setting reads the rhythm prefs store; with no platform it would throw.
+      rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
       learnPrefsStoreProvider.overrideWithValue(MemoryPrefs({if (!firstVisit) 'learn_how_concepts_seen': true})),
       studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
       networkStatusProvider.overrideWith(() => FakeNetwork(network)),

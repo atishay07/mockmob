@@ -137,11 +137,11 @@ class ToolTag extends StatelessWidget {
         borderRadius: MmRadius.pillAll,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) ...[Icon(icon, size: 13, color: color), const SizedBox(width: 5)],
+            if (icon != null) ...[Icon(icon, size: 13, color: color), const SizedBox(width: MmSpace.s4)],
             Flexible(child: Text(text, style: context.mmType.caption.copyWith(color: color, fontWeight: FontWeight.w600))),
           ],
         ),
@@ -264,7 +264,7 @@ class ToolsLinkRow extends StatelessWidget {
   final bool external;
   final VoidCallback onTap;
 
-  /// A row of a [ToolsFlatList]: on the ground, with a 44 dp icon tile.
+  /// A row of a [ToolsFlatList]: on the ground, with a 40 dp icon tile.
   final bool flat;
 
   /// Where a [ToolsPanel]'s hairlines start for these rows.
@@ -282,14 +282,14 @@ class ToolsLinkRow extends StatelessWidget {
         child: Row(
           children: [
             ToolsIconTile(icon),
-            const SizedBox(width: MmSpace.s16),
+            const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
                   if (note != null) ...[
-                    const SizedBox(height: 2),
+                    const SizedBox(height: MmSpace.s2),
                     Text(note!, style: type.caption.copyWith(color: colors.ink2)),
                   ],
                 ],
@@ -341,7 +341,7 @@ class ToolsRowFrame extends StatelessWidget {
     this.onTap,
     this.semanticsLabel,
     this.toggled,
-    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
   });
 
   final Widget child;

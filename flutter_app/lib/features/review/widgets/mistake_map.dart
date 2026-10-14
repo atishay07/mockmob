@@ -193,7 +193,7 @@ class _ChapterRow extends StatelessWidget {
   final VoidCallback onToggle;
   final ValueChanged<MistakeItem> onOpen;
 
-  static const _stripGlyph = 40.0;
+  static const _stripGlyph = EmblemSizes.chip;
 
   Widget _paperKey(List<PaperOpen> papers, int i) {
     final label = papers.length == 1

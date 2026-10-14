@@ -219,6 +219,23 @@ void main() {
     }
   });
 
+  _test('the keyboard hides the bar and it comes back when the keyboard closes', (tester) async {
+    await _pump(tester);
+    double opacity() => tester.widget<Opacity>(find.ancestor(of: find.byType(MmBottomBar), matching: find.byType(Opacity)).first).opacity;
+    expect(opacity(), 1);
+    tester.view.viewInsets = const FakeViewPadding(bottom: 600);
+    await _settle(tester);
+    expect(opacity(), 0);
+    expect(
+      tester.widget<IgnorePointer>(find.ancestor(of: find.byType(MmBottomBar), matching: find.byType(IgnorePointer)).first).ignoring,
+      isTrue,
+      reason: 'a hidden bar takes no taps',
+    );
+    tester.view.resetViewInsets();
+    await _settle(tester);
+    expect(opacity(), 1);
+  });
+
   _test('/dashboard is Today', (tester) async {
     final container = await _pump(tester);
     _router(container).go('/dashboard');

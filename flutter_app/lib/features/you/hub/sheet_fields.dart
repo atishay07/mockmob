@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart' show EmblemSizes;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/copy.dart' show RhythmCopy;
@@ -157,11 +158,11 @@ class SubjectTile extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.raised,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(MmRadius.panel),
           border: Border.all(color: colors.line),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(19),
+          borderRadius: BorderRadius.circular(MmRadius.panel - 1),
           child: Stack(
             children: [
               if (light != null)
@@ -175,7 +176,7 @@ class SubjectTile extends StatelessWidget {
               Column(
                 children: [
                   const SizedBox(height: MmSpace.s12),
-                  SubjectArt(id, size: 64),
+                  SubjectArt(id, size: EmblemSizes.tile),
                   Expanded(
                     child: Center(
                       child: Padding(
