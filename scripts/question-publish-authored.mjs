@@ -28,7 +28,8 @@ import { ntaAgentScoreEntry } from '../data/nta_agent_scores.js';
 import { NEAR_DUPLICATE_STEM_JACCARD, contentTokens, jaccard } from '../data/nta_item_checks.js';
 import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, GROUP_COLUMNS, PUBLISH_VERSION, QUESTION_COLUMNS, planPublication, sha256OfFile } from './lib/authored-wave.mjs';
 
-const DEFAULT_CANDIDATES = 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json';
+// The final candidates: the wave-1 candidates minus the four that failed the fresh judge pass, with the 19 engine-refused ones reworded.
+const DEFAULT_CANDIDATES = 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json';
 const REPORT_DIR = path.resolve('docs/brain/reports/authored-publish');
 // The same withheld state as scripts/question-hold.mjs and Mistake Repair.
 const HOLD = Object.freeze({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review' });
@@ -256,7 +257,10 @@ export async function dryRun(args, { sb = null, target = null } = {}) {
   const report = {
     kind: 'authored_publish_plan', version: PUBLISH_VERSION, mode: 'dry-run', source: AUTHORED_SOURCE, at: args.now || new Date().toISOString(),
     candidatesFile: args.candidates, candidatesSha256: sha256, planHash: plan.planHash,
-    summary: plan.summary, blockers, checks: summariseChecks(checks),
+    summary: plan.summary, blockers,
+    // Not blockers: a passage set below the engine's minimum is published (practice and full mock show it) but NTA mode will not serve it.
+    warnings: plan.summary.passageSetsBelowNtaMinimum.map((set) => `passage set ${set.setId} has ${set.children} questions, below the NTA minimum of ${set.ntaMinimum}: not served in NTA mode`),
+    checks: summariseChecks(checks),
   };
   fs.mkdirSync(args.outDir, { recursive: true });
   const planFile = path.join(args.outDir, `authored-publish-plan-${stamp()}.json`);

@@ -3,12 +3,13 @@
 // OFFLINE: reads files, writes files. No database, no network, no model.
 //
 //   node scripts/authored-scores-merge.mjs --mode=entries --quality-model=<id> --fit-model=<id> --solver-model=<id> [--date=2026-10-14]
-//        [--candidates=docs/brain/reports/authored/wave1-candidates-2026-10-14.json] [--raw=tmp/authored]
-//        [--fresh=<dir> ...] [--out=docs/brain/reports/authored/wave1-score-entries-2026-10-14.json]
+//        [--candidates=docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json] [--raw=tmp/authored]
+//        [--fresh=<dir> ...] [--out=docs/brain/reports/authored/wave1-score-entries-final-2026-10-14.json]
 //   node scripts/authored-scores-merge.mjs --mode=check --repaired-text=admit|hold [--entries=<file>] [--candidates=<file>]
 //        [--agent-dir=data/nta_agent_scores] [--fit-base=data/nta_fit_scores] [--report=<file>] [--impact=tmp/nta-fixtures]
 //   node scripts/authored-scores-merge.mjs --mode=merge --repaired-text=admit|hold ... [--agent-out=<dir>] [--fit-out=<dir>]
 //   node scripts/authored-scores-merge.mjs --mode=rejudge-list [--entries=<file>] [--candidates=<file>] [--out=<file>]
+//   node scripts/authored-scores-merge.mjs --mode=candidates-final --reword=<rw-01-final.json> [--drop=<dropped.json>] [--out=<final candidates>]
 //
 // entries  raw judge files (tmp/authored/<subject>/verify/<batch>__j1|j2|h1|h2|h3|s1-s5.json, the batch texts, the
 //          expert verdicts and the blind re-solves of the repaired text) -> one durable record per question. The
@@ -23,6 +24,8 @@
 // merge    check, then writes data/nta_agent_scores/<subject>.json and data/nta_fit_scores/<subject>.json with the
 //          authored entries added. Every other question's entry is left exactly as it is.
 //
+// candidates-final  the wave-1 candidates (--original-candidates, kept as they were) minus the questions in --drop, with the questions of
+//          --reword replaced by their reworded text (same ids). Writes the final candidates file the other modes default to.
 // rejudge-list  the questions whose judged text differs from the final text in a way the content hash covers (the ones that
 //          would need a fresh judge pass), with the fields that were repaired. Writes a JSON array.
 //
@@ -37,15 +40,20 @@ import { pathToFileURL } from 'node:url';
 import { assembleNtaPaper, getNtaBlueprint, ntaEligibility } from '../data/nta_engine.js';
 import { conflictReason, itemFeatures, passageWordCount } from '../data/nta_item_checks.js';
 import { contentHash } from '../data/content_evidence.js';
-import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, planPublication } from './lib/authored-wave.mjs';
+import { AUTHORED_SOURCE, AUTHORED_SUBJECTS, buildFinalCandidates, planPublication } from './lib/authored-wave.mjs';
 import {
   FIT_JUDGES, NTA_MIN_FIT_SCORE, SCORES_VERSION, agentEntryFor, buildEntries, engineTypeOf, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf,
 } from './lib/authored-scores.mjs';
 
 const DEFAULTS = {
-  candidates: 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json',
+  // The final candidates: the wave-1 candidates (kept as they were, for history) minus the questions that failed the fresh pass,
+  // with the engine-refused ones reworded (mode=candidates-final).
+  candidates: 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json',
+  originalCandidates: 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json',
+  drop: 'docs/brain/reports/authored/wave1-dropped-2026-10-14.json',
+  reword: null,
   raw: 'tmp/authored',
-  entries: 'docs/brain/reports/authored/wave1-score-entries-2026-10-14.json',
+  entries: 'docs/brain/reports/authored/wave1-score-entries-final-2026-10-14.json',
   agentDir: 'data/nta_agent_scores',
   fitBase: 'data/nta_fit_scores',
 };
@@ -61,6 +69,9 @@ export function parseArgs(argv) {
     if (name === 'mode') out.mode = value;
     else if (name === 'fresh') out.fresh.push(path.resolve(value));
     else if (name === 'candidates') out.candidates = value;
+    else if (name === 'original-candidates') out.originalCandidates = value;
+    else if (name === 'drop') out.drop = value;
+    else if (name === 'reword') out.reword = value;
     else if (name === 'raw') out.raw = value;
     else if (name === 'out') out.out = value;
     else if (name === 'entries') out.entries = value;
@@ -88,11 +99,34 @@ const sha = (file, { normalizeEol = false } = {}) => {
 };
 const stable = (value, indent) => `${JSON.stringify(value, null, indent)}\n`;
 
+/**
+ * mode=candidates-final: the wave-1 candidates with the dropped questions removed and the reworded ones replaced (same ids).
+ * --drop is a JSON array of { id, reason }; --reword is a batch file ({ questions }) or an array of candidates.
+ */
+export function runFinalCandidates(args, { write = true } = {}) {
+  const base = readJson(args.originalCandidates);
+  const drops = args.drop && fs.existsSync(args.drop) ? readJson(args.drop) : [];
+  const rewordFile = args.reword ? readJson(args.reword) : [];
+  const reworded = Array.isArray(rewordFile) ? rewordFile : rewordFile.questions;
+  const { candidates, dropped, problems } = buildFinalCandidates(base, reworded, drops);
+  if (problems.length) return { ok: false, problems };
+  const plan = planPublication(candidates);
+  if (plan.problems.length) return { ok: false, problems: plan.problems };
+  const target = args.out || args.candidates;
+  if (write) { fs.mkdirSync(path.dirname(path.resolve(target)), { recursive: true }); fs.writeFileSync(target, stable(candidates, 2)); }
+  return {
+    ok: true, out: target, from: args.originalCandidates, count: candidates.length, dropped: dropped.map(({ id, subject, set_id: setId, reason }) => ({ id, subject, setId, reason })),
+    reworded: reworded.length, bySubject: plan.summary.bySubject, passageChildrenBySet: plan.summary.passageChildrenBySet, passageSetsBelowNtaMinimum: plan.summary.passageSetsBelowNtaMinimum,
+  };
+}
+
 /** mode=entries: raw judge files to the durable per-question records. Writes the entries file unless dryRun. */
 export function runEntries(args, { write = true } = {}) {
   for (const role of ['quality', 'fit', 'solver']) if (!args.models[role]) throw new Error(`--${role}-model is required: the raw judge files do not record which model judged`);
   const candidates = readJson(args.candidates);
-  const { entries, problems, counts } = buildEntries(candidates, { rawDir: path.resolve(args.raw), freshDirs: args.fresh, models: args.models, date: args.date });
+  // The wave-1 text of each question, so a reworded one records what was reworded.
+  const originals = fs.existsSync(args.originalCandidates) ? new Map(readJson(args.originalCandidates).map((c) => [c.id, c])) : null;
+  const { entries, problems, counts } = buildEntries(candidates, { rawDir: path.resolve(args.raw), freshDirs: args.fresh, originals, models: args.models, date: args.date });
   if (problems.length) return { ok: false, problems: problems.slice(0, 40), problemCount: problems.length, counts };
   const header = {
     kind: 'authored_score_entries', version: SCORES_VERSION, source: AUTHORED_SOURCE,
@@ -289,6 +323,7 @@ async function main() {
   if (args.mode === 'entries') result = runEntries(args);
   else if (args.mode === 'check') result = { report: runCheck(args).report };
   else if (args.mode === 'merge') result = runMerge(args);
+  else if (args.mode === 'candidates-final') result = runFinalCandidates(args);
   else if (args.mode === 'rejudge-list') { const listed = runRejudgeList(args); result = { count: listed.count, out: listed.out, bySubject: listed.list.reduce((by, item) => ({ ...by, [item.subject]: (by[item.subject] || 0) + 1 }), {}) }; }
   else throw new Error(`unknown --mode=${args.mode}`);
   const printable = result.report ? { ...result, report: { ...result.report, ineligible: `${result.report.ineligible.length} rows (see --report)` } } : result;

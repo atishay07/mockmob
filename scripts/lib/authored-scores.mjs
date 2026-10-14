@@ -65,7 +65,7 @@ function walk(dir) {
 }
 
 /** { role -> Map(id -> { batch, file, result }) } for every `<batch>__<role>.json` result file below the directories. */
-export function scanResults(dirs) {
+export function scanResults(dirs, { all = false } = {}) {
   const byRole = {};
   const files = [];
   for (const file of [].concat(dirs).flatMap((dir) => walk(dir))) {
@@ -75,7 +75,12 @@ export function scanResults(dirs) {
     if (!Array.isArray(results)) { files.push({ file, problem: 'not a JSON array' }); continue; }
     const [, batch, role] = match;
     byRole[role] = byRole[role] || new Map();
-    for (const result of results) if (result?.id) byRole[role].set(result.id, { batch, file, result });
+    // all: keep every result of an id (a fresh pass can hold several batches that judged different wordings of it); otherwise the last one wins.
+    for (const result of results) {
+      if (!result?.id) continue;
+      if (all) byRole[role].set(result.id, [...(byRole[role].get(result.id) || []), { batch, file, result }]);
+      else byRole[role].set(result.id, { batch, file, result });
+    }
   }
   return { byRole, invalidFiles: files };
 }
@@ -102,7 +107,7 @@ export function loadExpertFiles(rawDir) {
   if (!fs.existsSync(dir)) return { verdicts, resolves };
   for (const file of fs.readdirSync(dir)) {
     if (file.endsWith('__verdict.json')) {
-      for (const entry of readJson(path.join(dir, file), [])) verdicts.set(entry.id, { verdict: entry.verdict, issue: text(entry.issue), file });
+      for (const entry of readJson(path.join(dir, file), [])) verdicts.set(entry.id, { verdict: entry.verdict, issue: text(entry.issue), question: entry.question || null, file });
     }
     const solve = file.match(/^(rv-\d+)__(s\d)\.json$/);
     if (solve) {
@@ -199,28 +204,88 @@ export function preRepairDiff(judged, final) {
   return diff;
 }
 
+// Fresh judge passes: a directory of result files `<batch>__j1|j2|h1|h2|h3|s1-s5.json` next to the batch text files `<batch>.json`
+// the judges were given. A fresh result is used only where its batch text is the candidate's text (the hashed fields), so a pass
+// that judged an older wording never speaks for a later one. Results on other text are counted as stale and ignored.
+export function scanFresh(dirs) {
+  return [].concat(dirs).map((dir) => {
+    const scan = scanResults(dir, { all: true });
+    const texts = new Map();
+    for (const file of walk(dir)) {
+      if (!file.endsWith('.json') || /__(j1|j2|h1|h2|h3|s[1-5])\.json$/.test(file)) continue;
+      const batch = readJson(file);
+      if (!Array.isArray(batch?.questions)) continue;
+      texts.set(path.basename(file).replace(/\.json$/, ''), new Map(batch.questions.map((question) => [question.id, question])));
+    }
+    return { ...scan, texts };
+  });
+}
+
+/** Whether two candidates (or a candidate and a batch question) have the same hashed text: stem, options, key, explanation, passage, chapter, subject. */
+export function sameHashedText(a, b) {
+  return HASHED_FIELDS.every((field) => same(a?.[field] ?? null, b?.[field] ?? null));
+}
+
+const median3 = (values) => values.slice().sort((x, y) => x - y)[1];
+
 /**
- * Builds the per-question records. Options: { rawDir, freshDirs, models: { quality, fit, solver }, date }.
- * Returns { entries, problems, counts }. A question missing a judge, or whose result fails validation, is a
- * problem and gets no entry: the caller refuses to write anything while problems remain.
+ * Why a question's records fail the wave's acceptance rule (AUTHORED-QUESTIONS-WAVE1: at least 4 of 5 blind solvers on the key,
+ * both quality judges at 7 or more with no flag and the key as their blind answer, fit median 8 or more, fewer than two fit flags).
+ * Solver evidence is, in order: fresh solvers on the final text (4 of 5), the blind re-solve of the repaired final text (2 of 3),
+ * the original solvers where the text is the one they solved (4 of 5). Empty when the question passes.
  */
-export function buildEntries(candidates, { rawDir, freshDirs = [], models, date }) {
+export function acceptanceReasons(record, candidate) {
+  const reasons = [];
+  for (const judge of record.quality) {
+    if (judge.quality_score < 7) reasons.push(`${judge.judge}_quality_${judge.quality_score}`);
+    if (judge.flags.length) reasons.push(`${judge.judge}_flags_${judge.flags.join('+')}`);
+    if (judge.blind_answer !== candidate.correct_key) reasons.push(`${judge.judge}_blind_answer_${judge.blind_answer}`);
+  }
+  const fit = median3(record.fit.map((judge) => judge.fit_score));
+  if (fit < NTA_MIN_FIT_SCORE) reasons.push(`fit_median_${fit}`);
+  if (record.fit.filter((judge) => judge.fit_flags.length).length >= 2) reasons.push('fit_flagged_by_two');
+  const solvers = record.blind_solvers;
+  const resolve = record.blind_resolve_on_final_text;
+  if (solvers.on === 'final') { if (solvers.matched_key < 4) reasons.push(`solvers_${solvers.matched_key}_of_${solvers.n}`); }
+  else if (resolve) { if (resolve.matched_key < 2) reasons.push(`resolve_${resolve.matched_key}_of_${resolve.n}`); }
+  else if (record.text.pre_repair) reasons.push('no_blind_solver_evidence_on_final_text');
+  else if (solvers.matched_key < 4) reasons.push(`solvers_${solvers.matched_key}_of_${solvers.n}`);
+  return reasons;
+}
+
+/**
+ * Builds the per-question records. Options: { rawDir, freshDirs, originals, models: { quality, fit, solver }, date }.
+ * originals is an optional Map(id -> the wave-1 candidate) so a reworded question records what was reworded.
+ * Returns { entries, problems, counts }. A question missing a judge, whose result fails validation, or that fails the
+ * acceptance rule is a problem and gets no entry: the caller refuses to write anything while problems remain.
+ */
+export function buildEntries(candidates, { rawDir, freshDirs = [], originals = null, models, date }) {
   // The original results live in <rawDir>/<subject>/verify; <rawDir>/expert holds the repaired-text re-solves (not the original solvers).
   const verifyDirs = (fs.existsSync(rawDir) ? fs.readdirSync(rawDir) : []).filter((name) => name !== 'expert').map((name) => path.join(rawDir, name, 'verify'));
   const base = scanResults(verifyDirs);
-  const fresh = freshDirs.map((dir) => scanResults(dir));
+  const fresh = scanFresh(freshDirs);
   const texts = loadBatchTexts(rawDir);
   const { verdicts, resolves } = loadExpertFiles(rawDir);
   const problems = base.invalidFiles.concat(...fresh.map((scan) => scan.invalidFiles)).map((entry) => ({ id: null, ...entry }));
   const otherFlagCounts = {};
   const entries = {};
   const cards = new Map();
+  const stale = new Set();
   for (const candidate of candidates) {
     const id = candidate.id;
     const add = (problem) => problems.push({ id, problem });
-    // A fresh pass (judged on the final text) replaces the original results of a role for the ids it covers.
+    // A fresh result (judged on the final text) replaces the original result of its role; one on other text is ignored (and counted).
+    for (const scan of fresh) {
+      for (const results of Object.values(scan.byRole)) {
+        for (const found of results.get(id) || []) if (!sameHashedText(scan.texts.get(found.batch)?.get(id), candidate)) stale.add(`${found.file}|${id}`);
+      }
+    }
     const pick = (role) => {
-      for (const scan of fresh.slice().reverse()) if (scan.byRole[role]?.has(id)) return { ...scan.byRole[role].get(id), fresh: true };
+      for (const scan of fresh.slice().reverse()) {
+        for (const found of scan.byRole[role]?.get(id) || []) {
+          if (sameHashedText(scan.texts.get(found.batch)?.get(id), candidate)) return { ...found, fresh: true };
+        }
+      }
       return base.byRole[role]?.has(id) ? { ...base.byRole[role].get(id), fresh: false } : null;
     };
     const judged = texts.get(id);
@@ -263,10 +328,18 @@ export function buildEntries(candidates, { rawDir, freshDirs = [], models, date 
     const diff = judged && !allFresh ? preRepairDiff(originalText, finalText) : {};
     if (candidate._verdict === 'ready' && Object.keys(diff).length && !allFresh) add(`ready_but_text_differs_from_judged_text:${Object.keys(diff).join(',')}`);
 
-    const solverResults = SOLVERS.map((role) => base.byRole[role]?.get(id)).filter(Boolean);
-    const matches = solverResults.filter((entry) => text(entry.result.answer).toUpperCase() === candidate.correct_key).length;
+    // Solvers: fresh ones judged the final text; the original ones solved the text as authored.
+    const freshSolvers = SOLVERS.map((role) => pick(role)).filter((found) => found?.fresh);
+    const solverFound = freshSolvers.length ? freshSolvers : SOLVERS.map((role) => pick(role)).filter(Boolean);
+    const matches = solverFound.filter((found) => text(found.result.answer).toUpperCase() === candidate.correct_key).length;
+    // The expert's blind re-solve covered the text the expert returned; it speaks for the final text only if that is still the final text.
     const resolve = resolves.get(id) || [];
-    entries[id] = {
+    const resolveSummary = resolve.length ? { n: resolve.length, matched_key: resolve.filter((entry) => entry.answer === candidate.correct_key).length, answers: resolve.map((entry) => entry.answer) } : null;
+    const expertReviewedFinal = expert?.question ? sameHashedText(expert.question, candidate) : null;
+    const original = originals?.get(id);
+    const rewordedFields = original ? Object.keys(preRepairDiff(textOf(original), finalText)) : [];
+    const engineReasons = fresh.map((scan) => [...scan.texts.values()].map((batch) => batch.get(id)?._engine_reasons).find(Boolean)).find(Boolean) || null;
+    const record = {
       subject: candidate.subject,
       batch: judged?.batch || quality[0].found.batch,
       chapter: candidate.chapter,
@@ -274,15 +347,21 @@ export function buildEntries(candidates, { rawDir, freshDirs = [], models, date 
       text: {
         expert_verdict: expert?.verdict ?? null,
         expert_issue: expert?.issue || null,
+        expert_reviewed_text: expertReviewedFinal === false ? 'earlier_text' : 'final',
         judged: allFresh ? 'final' : 'as_authored',
         // Present only when the judged text is not the final text: the pre-repair values of the fields that were repaired.
         pre_repair: Object.keys(diff).length ? diff : null,
+        ...(rewordedFields.length ? { reworded_after_wave1: rewordedFields, reworded_engine_reasons: engineReasons } : {}),
       },
-      blind_solvers: { n: solverResults.length, matched_key: matches, answers: solverResults.map((entry) => text(entry.result.answer).toUpperCase()) },
-      blind_resolve_on_final_text: resolve.length ? { n: resolve.length, matched_key: resolve.filter((entry) => entry.answer === candidate.correct_key).length, answers: resolve.map((entry) => entry.answer) } : null,
+      blind_solvers: { n: solverFound.length, matched_key: matches, answers: solverFound.map((found) => text(found.result.answer).toUpperCase()), on: freshSolvers.length ? 'final' : 'as_authored' },
+      blind_resolve_on_final_text: expertReviewedFinal === false ? null : resolveSummary,
+      ...(expertReviewedFinal === false && resolveSummary ? { blind_resolve_on_earlier_text: resolveSummary } : {}),
       quality: qualityRecords,
       fit: fitRecords,
     };
+    const rejected = acceptanceReasons(record, candidate);
+    if (rejected.length) { add(`fails_acceptance:${rejected.join(',')}`); continue; }
+    entries[id] = record;
   }
   const counts = {
     candidates: candidates.length,
@@ -290,8 +369,10 @@ export function buildEntries(candidates, { rawDir, freshDirs = [], models, date 
     problems: problems.length,
     repaired: Object.values(entries).filter((entry) => entry.text.expert_verdict === 'repaired').length,
     judgedTextDiffers: Object.values(entries).filter((entry) => entry.text.pre_repair).length,
+    judgedOnFinalTextByFreshPass: Object.values(entries).filter((entry) => entry.text.judged === 'final').length,
+    rewordedAfterWave1: Object.values(entries).filter((entry) => entry.text.reworded_after_wave1).length,
+    staleFreshResultsIgnored: stale.size,
     otherFitFlags: otherFlagCounts,
-    modelsAndDate: { models, date },
   };
   return { entries, problems, counts };
 }
@@ -338,9 +419,13 @@ function provenanceOf(record, hashes, policy, header) {
   return {
     kind: AUTHORED_SOURCE,
     wave: AUTHORED_WAVE,
-    pipeline: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item',
+    pipeline: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
     expert_verdict: record.text.expert_verdict,
     expert_issue: record.text.expert_issue,
+    // final: the expert reviewed the final text; earlier_text: the question was reworded after the expert pass (engine content gate) and
+    // only the fresh judges and solvers below have seen the reworded text.
+    expert_reviewed_text: record.text.expert_reviewed_text,
+    ...(record.text.reworded_after_wave1 ? { reworded_after_wave1: record.text.reworded_after_wave1, reworded_engine_reasons: record.text.reworded_engine_reasons } : {}),
     // final: the judges scored the hashed content as it stands now (a repair that touched only the difficulty label or the NCERT
     // reference leaves the hashed content alone); pre_repair: they scored the text before the expert's repair;
     // final_after_fresh_pass: a later judge pass re-scored the repaired text.
@@ -351,6 +436,7 @@ function provenanceOf(record, hashes, policy, header) {
     repaired_fields: record.text.pre_repair ? Object.keys(record.text.pre_repair) : [],
     blind_solvers: record.blind_solvers,
     blind_resolve_on_final_text: record.blind_resolve_on_final_text,
+    ...(record.blind_resolve_on_earlier_text ? { blind_resolve_on_earlier_text: record.blind_resolve_on_earlier_text } : {}),
     engine_acceptance: acceptance,
     repaired_text_policy: policy,
     models: header.models,

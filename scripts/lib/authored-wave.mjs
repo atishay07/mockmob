@@ -41,6 +41,7 @@ export const QUESTION_TYPE = Object.freeze({
 });
 export const PASSAGE_KIND = Object.freeze({ 'Factual Passage': 'factual', 'Narrative Passage': 'narrative', 'Literary Passage': 'literary' });
 const OPTION_KEYS = ['A', 'B', 'C', 'D'];
+const MIN_SET_CHILDREN = 2;
 
 const text = (value) => (value === null || value === undefined ? '' : String(value));
 
@@ -59,6 +60,7 @@ function tagsOf(candidate) {
     `question_type:${QUESTION_TYPE[candidate.type] || candidate.type}`,
     ...(text(candidate.unit) ? [`unit:${text(candidate.unit)}`] : []),
     ...(candidate._verdict ? [`expert_review:${candidate._verdict}`] : []),
+    ...(candidate._reworded ? ['authored_revision:reworded'] : []),
     ...(ncert ? [`ncert:${ncert.slice(0, 240)}`] : []),
   ];
 }
@@ -195,11 +197,13 @@ export function validateCandidates(candidates) {
       if (text(c.set_id).trim()) add(id, 'set_id_on_standalone_item');
     }
   }
-  const { setMin, setMax } = chapterCache.get('english') || { setMin: 4, setMax: 5 };
+  const { setMax } = chapterCache.get('english') || { setMax: 5 };
   for (const [setId, children] of sets) {
     if (new Set(children.map((child) => child.passage_text)).size !== 1) add(setId, 'set_children_disagree_on_passage');
     if (new Set(children.map((child) => child.chapter)).size !== 1) add(setId, 'set_children_disagree_on_chapter');
-    if (children.length < setMin) add(setId, `set_has_${children.length}_children_below_blueprint_minimum_${setMin}`);
+    // A set of fewer than two questions is not a set. Fewer than the blueprint's minimum (4) is allowed but reported: the NTA
+    // engine does not serve it (passage_set_too_small); practice and full mock still show it.
+    if (children.length < MIN_SET_CHILDREN) add(setId, `set_has_${children.length}_children_below_minimum_${MIN_SET_CHILDREN}`);
     if (children.length > setMax) add(setId, `set_has_${children.length}_children_above_blueprint_maximum_${setMax}`);
   }
   return problems;
@@ -211,6 +215,14 @@ export function validateCandidates(candidates) {
 
 const sha256 = (value) => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 export const sha256OfFile = (buffer) => createHash('sha256').update(buffer).digest('hex');
+
+/** Sets with fewer children than the English blueprint's minimum: [{ setId, groupId, children, ntaMinimum }]. Warnings, not errors. */
+export function smallSets(candidates) {
+  const minimum = getNtaBlueprint('english')?.sets?.size?.min ?? 4;
+  const bySet = new Map();
+  for (const c of candidates) if (c.type === 'passage_set_item' && c.set_id) bySet.set(c.set_id, (bySet.get(c.set_id) || 0) + 1);
+  return [...bySet.entries()].filter(([, n]) => n < minimum).map(([setId, children]) => ({ setId, groupId: passageGroupIdOf(setId), children, ntaMinimum: minimum }));
+}
 
 /**
  * { rows, groups, problems, summary } for a candidate list. Rows keep the candidate order; passage children
@@ -238,7 +250,48 @@ export function planPublication(candidates) {
     byDifficulty: count(rows, (row) => row.difficulty),
     byExpertReview: count(candidates, (c) => c._verdict),
     passageChildrenBySet: Object.fromEntries(groups.map((group) => [group.id, rows.filter((row) => row.passage_group_id === group.id).length])),
+    passageSetsBelowNtaMinimum: smallSets(candidates),
     chapters: Object.keys(count(rows, (row) => `${row.subject}/${row.chapter}`)).length,
   };
   return { rows, groups, problems: [], summary, planHash: sha256({ rows, groups }) };
+}
+
+// ---------------------------------------------------------------------------------------------
+// The final candidate list: the wave-1 candidates with the questions that failed the fresh pass dropped and the engine-refused
+// ones reworded (same ids). Pure: nothing is read from or written to disk here.
+// ---------------------------------------------------------------------------------------------
+
+/** The fields a rewording may change. Identity (id, subject, chapter, type, set, passage) must stay as it was. */
+export const REWORD_FIELDS = Object.freeze(['unit', 'stem', 'options', 'correct_key', 'explanation', 'difficulty_label', 'ncert_ref']);
+const IDENTITY_FIELDS = Object.freeze(['subject', 'chapter', 'type', 'set_id', 'passage_text']);
+
+/**
+ * { candidates, dropped, problems }. drops: [{ id, reason }]; reworded: candidates with the same ids as the ones they replace.
+ * A reworded question keeps its expert verdict and gets _reworded: true; a dropped one is listed with its reason.
+ */
+export function buildFinalCandidates(base, reworded, drops) {
+  const problems = [];
+  const baseById = new Map(base.map((c) => [c.id, c]));
+  const dropIds = new Set(drops.map((d) => d.id));
+  const rewordById = new Map(reworded.map((c) => [c.id, c]));
+  for (const id of dropIds) if (!baseById.has(id)) problems.push({ id, problem: 'dropped_id_not_in_base' });
+  for (const drop of drops) if (!text(drop.reason).trim()) problems.push({ id: drop.id, problem: 'dropped_without_reason' });
+  for (const [id, c] of rewordById) {
+    const original = baseById.get(id);
+    if (!original) { problems.push({ id, problem: 'reworded_id_not_in_base' }); continue; }
+    if (dropIds.has(id)) problems.push({ id, problem: 'reworded_and_dropped' });
+    for (const field of IDENTITY_FIELDS) if (JSON.stringify(c[field] ?? null) !== JSON.stringify(original[field] ?? null)) problems.push({ id, problem: `reworded_${field}_differs` });
+  }
+  const candidates = [];
+  for (const c of base) {
+    if (dropIds.has(c.id)) continue;
+    const r = rewordById.get(c.id);
+    if (!r) { candidates.push(c); continue; }
+    const changed = { ...c };
+    for (const field of REWORD_FIELDS) if (field in r) changed[field] = r[field];
+    changed._reworded = true;
+    candidates.push(changed);
+  }
+  const dropped = drops.map((d) => ({ ...d, subject: baseById.get(d.id)?.subject ?? null, set_id: baseById.get(d.id)?.set_id ?? null }));
+  return { candidates, dropped, problems };
 }

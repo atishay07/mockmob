@@ -9,23 +9,29 @@ import { ntaAgentScoreEntry, ntaAgentScoreIntegrity } from '../nta_agent_scores.
 import { ntaEligibility } from '../nta_engine.js';
 import { attachPassages, loadNtaAgentRows } from '../nta_pool.js';
 import {
-  AUTHORED_SOURCE, GROUP_COLUMNS, QUESTION_COLUMNS, QUESTION_TYPE, contentHashOf, passageGroupIdOf, planPublication, toPassageGroupRow, toQuestionRow, validateCandidates,
+  AUTHORED_SOURCE, GROUP_COLUMNS, QUESTION_COLUMNS, QUESTION_TYPE, buildFinalCandidates, contentHashOf, passageGroupIdOf, planPublication, smallSets, toPassageGroupRow, toQuestionRow, validateCandidates,
 } from '../../scripts/lib/authored-wave.mjs';
 import {
-  agentEntryFor, buildEntries, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf, preRepairDiff, qualityProblems,
+  acceptanceReasons, agentEntryFor, buildEntries, fitEntryFor, fitGateReasons, hashesOf, mergeAgentTable, mergeFitTable, positionsOf, preRepairDiff, qualityProblems, sameHashedText,
 } from '../../scripts/lib/authored-scores.mjs';
-import { parseArgs as parseMergeArgs, runCheck, runEntries, runMerge, runRejudgeList } from '../../scripts/authored-scores-merge.mjs';
+import { parseArgs as parseMergeArgs, runCheck, runEntries, runFinalCandidates, runMerge, runRejudgeList } from '../../scripts/authored-scores-merge.mjs';
 import {
   agentTablesFrom, apply, bankLookalikes, dryRun, loadCandidates, missingColumns, parseArgs, restore, scoreCoverage, targetOf,
 } from '../../scripts/question-publish-authored.mjs';
 
 // No network anywhere in this file: the database is an in-memory fake, the judge files are written to a temp directory.
 
-const CANDIDATES_FILE = 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json';
-const ENTRIES_FILE = 'docs/brain/reports/authored/wave1-score-entries-2026-10-14.json';
+// The final candidates (what is published) and the wave-1 candidates as first built (kept for history; 4 questions failed the fresh pass, 19 were reworded).
+const CANDIDATES_FILE = 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json';
+const ENTRIES_FILE = 'docs/brain/reports/authored/wave1-score-entries-final-2026-10-14.json';
+const DROPPED_FILE = 'docs/brain/reports/authored/wave1-dropped-2026-10-14.json';
+const FIRST_CANDIDATES_FILE = 'docs/brain/reports/authored/wave1-candidates-2026-10-14.json';
+const FIRST_ENTRIES_FILE = 'docs/brain/reports/authored/wave1-score-entries-2026-10-14.json';
+const FIRST_BUILD_ARGS = [`--candidates=${FIRST_CANDIDATES_FILE}`, `--original-candidates=${FIRST_CANDIDATES_FILE}`, `--entries=${FIRST_ENTRIES_FILE}`];
 const SUBJECTS = ['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology'];
 const tmpDir = (name = 'authored-') => fs.mkdtempSync(path.join(os.tmpdir(), name));
 const wave1 = () => JSON.parse(fs.readFileSync(CANDIDATES_FILE, 'utf8'));
+const firstBuild = () => JSON.parse(fs.readFileSync(FIRST_CANDIDATES_FILE, 'utf8'));
 
 // ---------------------------------------------------------------------------------------------
 // The mapping
@@ -63,10 +69,10 @@ test('passage children carry the group id, the passage, a 1-based order and the 
   const plan = planPublication(candidates);
   assert.equal(plan.groups.length, 12);
   const english = plan.rows.filter((r) => r.subject === 'english');
-  assert.equal(english.length, 59);
+  assert.equal(english.length, 58);
   for (const group of plan.groups) {
     const children = plan.rows.filter((r) => r.passage_group_id === group.id);
-    assert.ok(children.length >= 4 && children.length <= 5, `${group.id} has ${children.length}`);
+    assert.ok(children.length >= 3 && children.length <= 5, `${group.id} has ${children.length}`);
     assert.deepEqual(children.map((r) => r.order_index), children.map((_, i) => i + 1));
     for (const child of children) {
       assert.equal(child.passage_text, group.passage_text);
@@ -90,14 +96,16 @@ test('the group id depends only on the set id, so a re-run writes the same group
   assert.equal(toPassageGroupRow(first.set_id, children).id, passageGroupIdOf(first.set_id));
 });
 
-test('the wave-1 plan: 479 rows, 12 groups, the documented subject counts, and it is stable', () => {
+test('the final plan: 475 rows, 12 groups, the subject counts, one short set reported, and it is stable', () => {
   const candidates = wave1();
   const plan = planPublication(candidates);
   assert.deepEqual(plan.problems, []);
-  assert.equal(plan.rows.length, 479);
-  assert.deepEqual(plan.summary.bySubject, { chemistry: 95, english: 59, history: 82, political_science: 83, psychology: 79, sociology: 81 });
-  assert.deepEqual(plan.summary.byExpertReview, { ready: 341, repaired: 138 });
-  assert.equal(new Set(plan.rows.map((r) => r.id)).size, 479);
+  assert.equal(plan.rows.length, 475);
+  assert.deepEqual(plan.summary.bySubject, { chemistry: 95, english: 58, history: 81, political_science: 81, psychology: 79, sociology: 81 });
+  assert.deepEqual(plan.summary.byExpertReview, { ready: 341, repaired: 134 });
+  assert.equal(new Set(plan.rows.map((r) => r.id)).size, 475);
+  assert.deepEqual(plan.summary.passageSetsBelowNtaMinimum.map((set) => [set.setId, set.children, set.ntaMinimum]), [['english__p1__set3', 3, 4]]);
+  assert.equal(plan.rows.filter((r) => r.tags.includes('authored_revision:reworded')).length, 19);
   assert.equal(planPublication(structuredClone(candidates)).planHash, plan.planHash, 'same candidates, same plan hash');
   const changed = structuredClone(candidates);
   changed[0].explanation += ' ';
@@ -391,37 +399,63 @@ function mergedWave1(policy, extra = []) {
   return { ...runMerge(args), agentDir, fitDir, args };
 }
 
-test('wave 1, admit: all 479 are bound to their hash, the engine admits 460 and names the 19 it refuses', () => {
+test('wave 1 final: all 475 are bound to their hash and the engine admits every one; 11 of 12 English sets are servable', () => {
   const { report, agentDir, fitDir } = mergedWave1('admit');
+  assert.equal(report.planned, 475);
+  assert.equal(report.agentEntries, 475);
+  assert.equal(report.hashChangedByRepair, 0, 'every repaired text was re-judged, so no entry binds scores to other text');
+  assert.equal(report.heldForFreshPass, 0);
+  assert.equal(report.fitGate.pass, 475, 'every question passes the fit gate (mirror of data/nta_fit_scores.js)');
+  assert.equal(report.engineEligible, 475);
+  assert.equal(report.engineIneligible, 0);
+  assert.deepEqual(report.engineIneligibleReasons, {});
+  assert.deepEqual(report.bySubject.english, { planned: 58, eligible: 58, fitPass: 58, both: 58 });
+  assert.equal(report.passageSets.servable, 11);
+  assert.equal(report.passageSets.of, 12);
+  assert.deepEqual(report.passageSets.sets.filter((set) => !set.servable).map((set) => [set.children, set.eligibleChildren]), [[3, 3]], 'the set that lost a child to the fresh pass has 3 questions, below the 4 the engine needs');
+  // The publish script's own coverage check sees every row bound in both tables.
+  const rows = planPublication(wave1()).rows;
+  const coverage = scoreCoverage(rows, { fitDir, agentScores: agentTablesFrom(agentDir) });
+  assert.deepEqual([coverage.agent.bound, coverage.agent.missing.length, coverage.agent.hashMismatch.length], [475, 0, 0]);
+  assert.deepEqual([coverage.fit.checked, coverage.fit.bound, coverage.fit.missing.length, coverage.fit.hashMismatch.length], [true, 475, 0, 0]);
+});
+
+test('wave 1 as first built (479 candidates, original judges): admit gives 460 and names the 19 content refusals', () => {
+  const { report, agentDir, fitDir } = mergedWave1('admit', FIRST_BUILD_ARGS);
   assert.equal(report.planned, 479);
-  assert.equal(report.agentEntries, 479);
   assert.equal(report.hashChangedByRepair, 60);
   assert.equal(report.heldForFreshPass, 0);
-  assert.equal(report.fitGate.pass, 479, 'every question passes the fit gate (mirror of data/nta_fit_scores.js)');
+  assert.equal(report.fitGate.pass, 479);
   assert.equal(report.engineEligible, 460);
   assert.equal(report.engineIneligible, 19);
   assert.deepEqual(report.engineIneligibleReasons, {
     answer_guard_options_invalid: 3, answer_guard_near_duplicate_options: 3, options_invalid: 3, wording_corrupted_connective: 1, orphan_passage_question: 15,
   });
   assert.equal(report.passageSets.servable, 12);
-  assert.equal(report.passageSets.of, 12);
-  // The publish script's own coverage check sees every row bound in both tables.
-  const rows = planPublication(wave1()).rows;
+  const rows = planPublication(firstBuild()).rows;
   const coverage = scoreCoverage(rows, { fitDir, agentScores: agentTablesFrom(agentDir) });
-  assert.deepEqual([coverage.agent.bound, coverage.agent.missing.length, coverage.agent.hashMismatch.length], [479, 0, 0]);
-  assert.deepEqual([coverage.fit.checked, coverage.fit.bound, coverage.fit.missing.length, coverage.fit.hashMismatch.length], [true, 479, 0, 0]);
+  assert.deepEqual([coverage.agent.bound, coverage.fit.bound], [479, 479]);
+  assert.equal(planPublication(firstBuild()).planHash, '9b81a3af7302f4190752e4cef910825fe8a07428690c6e8f64e0cb3e34e3f223');
 });
 
-test('wave 1, hold: the 60 repaired-text questions stay out of the engine until a fresh pass', () => {
-  const { report, agentDir } = mergedWave1('hold');
+test('wave 1 as first built, hold: the 60 repaired-text questions stay out of the engine until a fresh pass', () => {
+  const { report, agentDir } = mergedWave1('hold', FIRST_BUILD_ARGS);
   assert.equal(report.heldForFreshPass, 60);
   assert.equal(report.engineIneligibleReasons.question_changed_since_scored, 60);
   assert.equal(report.fitGate.reasons.fit_question_changed, 60);
   assert.equal(report.engineEligible, 402);
   assert.equal(report.passageSets.servable < 12, true, 'English sets lose children');
-  const rows = planPublication(wave1()).rows;
+  const rows = planPublication(firstBuild()).rows;
   const coverage = scoreCoverage(rows, { fitDir: path.join(agentDir, '..', 'no-fit'), agentScores: agentTablesFrom(agentDir) });
   assert.equal(coverage.agent.hashMismatch.length, 60);
+});
+
+test('wave 1 final, hold: nothing is held, because every question judged on a different text was re-judged on the final one', () => {
+  const admit = mergedWave1('admit').report;
+  const hold = mergedWave1('hold').report;
+  assert.equal(hold.heldForFreshPass, 0);
+  assert.equal(hold.engineEligible, admit.engineEligible);
+  assert.deepEqual(hold.bySubject, admit.bySubject);
 });
 
 test('the merge only touches the six wave subjects and leaves their existing entries byte for byte', () => {
@@ -437,23 +471,64 @@ test('the merge only touches the six wave subjects and leaves their existing ent
   }
 });
 
-test('entries file: committed, covers all 479 ids, and its candidates hash is the committed candidates file', () => {
+test('entries file: committed, covers all 475 final ids, and its candidates hash is the committed final candidates file', () => {
   const file = JSON.parse(fs.readFileSync(ENTRIES_FILE, 'utf8'));
   const { candidates, sha256 } = loadCandidates(CANDIDATES_FILE);
   assert.equal(file.candidates_sha256, sha256);
-  assert.equal(Object.keys(file.entries).length, 479);
+  assert.equal(Object.keys(file.entries).length, 475);
   for (const c of candidates) {
     const record = file.entries[c.id];
     assert.equal(record.text.expert_verdict, c._verdict);
     assert.equal(record.quality.length, 2);
     assert.equal(record.fit.length, 3);
     assert.ok(record.quality.every((j) => j.blind_answer === c.correct_key && j.quality_score >= 7 && j.flags.length === 0), c.id);
+    assert.ok(record.fit.every((j) => j.fit_flags.length === 0) || record.fit.filter((j) => j.fit_flags.length).length < 2, c.id);
   }
-  const repaired = Object.values(file.entries).filter((r) => r.text.expert_verdict === 'repaired');
-  assert.equal(repaired.length, 138);
-  assert.ok(repaired.every((r) => r.blind_resolve_on_final_text.n === 3 && r.blind_resolve_on_final_text.matched_key >= 2));
-  assert.equal(repaired.filter((r) => r.blind_resolve_on_final_text.matched_key === 3).length, 138);
+  const all = Object.values(file.entries);
+  const repaired = all.filter((r) => r.text.expert_verdict === 'repaired');
+  assert.equal(repaired.length, 134);
+  // Where the expert's blind re-solve covers the final text it was 3 of 3; the 6 repaired questions reworded afterwards have fresh solvers instead.
+  assert.equal(repaired.filter((r) => r.blind_resolve_on_final_text?.matched_key === 3).length, 128);
+  assert.equal(repaired.filter((r) => r.blind_resolve_on_earlier_text).length, 6);
+  // Fresh judges on the final text: the 56 repaired-text questions that passed plus the 19 reworded ones, 2 of them in both groups.
+  assert.equal(all.filter((r) => r.text.judged === 'final').length, 73);
+  assert.equal(all.filter((r) => r.text.reworded_after_wave1).length, 19);
+  assert.ok(all.filter((r) => r.text.reworded_after_wave1).every((r) => r.text.judged === 'final' && r.blind_solvers.on === 'final' && r.blind_solvers.matched_key >= 4 && r.text.expert_reviewed_text === 'earlier_text'));
+  // No entry is bound to text its judges did not see, except where only the label or the NCERT reference changed (outside the hash).
+  const hashed = ['stem', 'options', 'correct_key', 'explanation', 'passage_text', 'chapter', 'subject'];
+  assert.ok(all.every((r) => !r.text.pre_repair || Object.keys(r.text.pre_repair).every((field) => !hashed.includes(field))));
   assert.deepEqual(file.models, { quality: 'claude-haiku-5-5', fit: 'claude-haiku-5-5', solver: 'claude-haiku-5-5' });
+  assert.deepEqual(file.fresh_passes.map((dir) => path.basename(dir)), ['fresh']);
+});
+
+test('the first-build entries file still matches the first-build candidates (kept for history)', () => {
+  const file = JSON.parse(fs.readFileSync(FIRST_ENTRIES_FILE, 'utf8'));
+  const { sha256 } = loadCandidates(FIRST_CANDIDATES_FILE);
+  assert.equal(file.candidates_sha256, sha256);
+  assert.equal(Object.keys(file.entries).length, 479);
+  assert.equal(Object.values(file.entries).filter((r) => r.text.pre_repair && Object.keys(r.text.pre_repair).some((f) => ['stem', 'options', 'explanation'].includes(f))).length, 60);
+});
+
+test('the final candidates are exactly the first-build candidates, minus the dropped ones, with the reworded ones replaced', () => {
+  const first = firstBuild();
+  const finalList = wave1();
+  const dropped = JSON.parse(fs.readFileSync(DROPPED_FILE, 'utf8'));
+  assert.deepEqual(dropped.map((d) => d.id).sort(), [
+    '2aeac152-79f9-4bc3-b24d-a4fe11c51c3b', '5417fab7-c777-435a-851d-c06d92c7480a', '7620ca67-81e1-4155-8b15-c0f56c847aff', 'bfe02c5b-46a2-478e-a826-fc0392cdff7f',
+  ]);
+  assert.ok(dropped.every((d) => d.reason.length > 20));
+  const reworded = finalList.filter((c) => c._reworded);
+  assert.equal(reworded.length, 19);
+  const rebuilt = buildFinalCandidates(first, reworded, dropped);
+  assert.deepEqual(rebuilt.problems, []);
+  assert.deepEqual(rebuilt.candidates, finalList);
+  assert.equal(finalList.length, first.length - 4);
+  const firstById = new Map(first.map((c) => [c.id, c]));
+  for (const c of finalList) {
+    const before = firstById.get(c.id);
+    for (const field of ['id', 'subject', 'chapter', 'type', 'set_id', 'passage_text', 'source', '_verdict']) assert.deepEqual(c[field], before[field], `${c.id} ${field}`);
+    if (!c._reworded) assert.deepEqual(c, before);
+  }
 });
 
 test('runEntries asks who judged and refuses a candidates file with missing judge results', () => {
@@ -556,18 +631,20 @@ test('parseArgs and targetOf', () => {
   assert.deepEqual(targetOf('https://isrxrxzjocewrdureyhp.supabase.co'), { host: 'isrxrxzjocewrdureyhp.supabase.co', ref: 'isrxrxzjocewrdureyhp' });
 });
 
-test('dry-run offline writes a plan file and reads nothing: 479 rows, 12 groups, every row score-bound', async () => {
+test('dry-run offline writes a plan file and reads nothing: 475 rows, 12 groups, every row score-bound, one short set warned about', async () => {
   const { out, args } = publishArgs(['--offline']);
   const result = await dryRun(args, { sb: null });
   assert.deepEqual(result.blockers, []);
-  assert.equal(result.summary.questions, 479);
+  assert.equal(result.summary.questions, 475);
+  assert.equal(result.warnings.length, 1);
+  assert.match(result.warnings[0], /english__p1__set3 has 3 questions, below the NTA minimum of 4/);
   assert.equal(result.summary.passageGroups, 12);
   assert.match(result.checks.note, /NOT checked/);
-  assert.deepEqual(result.checks.agentScores, { bound: 479, missing: 0, hashMismatch: 0 });
-  assert.deepEqual(result.checks.fitScores, { bound: 479, missing: 0, hashMismatch: 0 });
+  assert.deepEqual(result.checks.agentScores, { bound: 475, missing: 0, hashMismatch: 0 });
+  assert.deepEqual(result.checks.fitScores, { bound: 475, missing: 0, hashMismatch: 0 });
   const plan = JSON.parse(fs.readFileSync(result.planFile, 'utf8'));
   assert.equal(plan.kind, 'authored_publish_plan');
-  assert.equal(plan.rows.length, 479);
+  assert.equal(plan.rows.length, 475);
   assert.equal(plan.groups.length, 12);
   assert.equal(plan.planHash, planPublication(wave1()).planHash);
   assert.equal(plan.rows.every((r) => r.live_at === null), true, 'live_at is stamped at apply time, not planned');
@@ -601,7 +678,7 @@ test('dry-run blocks when the score tables are not merged yet', async () => {
   const { args } = publishArgs(['--offline', `--agent-dir=${tmpDir()}`]);
   const result = await dryRun(args, { sb: null });
   assert.ok(result.blockers.some((b) => /agent score entry/.test(b)));
-  assert.equal(result.checks.agentScores.missing, 479);
+  assert.equal(result.checks.agentScores.missing, 475);
 });
 
 async function approvedPlan(extra = []) {
@@ -616,20 +693,20 @@ test('apply inserts the groups first, then the questions as live and visible row
   const { out, args, plan } = await approvedPlan(['--mode=apply', '--reason=test run']);
   args.plan = plan.planFile;
   const result = await apply(args, { sb: db, target: { host: 'x.supabase.co', ref: 'x' } });
-  assert.equal(result.inserted, 479);
+  assert.equal(result.inserted, 475);
   assert.equal(result.groupsInserted, 12);
   assert.deepEqual([result.missing, result.notVisible, result.hashMismatch, result.groupsMissing], [[], [], [], []]);
   assert.equal(db.log[0].table, 'passage_groups', 'groups first');
   assert.ok(db.log.slice(1).every((entry) => entry.table === 'questions' && entry.op === 'insert'));
-  assert.equal(db.tables.questions.length, 479);
+  assert.equal(db.tables.questions.length, 475);
   assert.ok(db.tables.questions.every((r) => r.status === 'live' && r.verification_state === 'verified' && r.exploration_state === 'active' && r.is_deleted === false && r.live_at === '2026-10-14T07:00:00.000Z'));
   assert.ok(db.tables.questions.every((r) => r.source === AUTHORED_SOURCE && r.provenance === undefined && r.evidence === undefined));
-  assert.deepEqual(result.liveAfter, { chemistry: 95, english: 59, history: 82, political_science: 83, psychology: 79, sociology: 81 });
+  assert.deepEqual(result.liveAfter, { chemistry: 95, english: 58, history: 81, political_science: 81, psychology: 79, sociology: 81 });
   const saved = JSON.parse(fs.readFileSync(result.restoreFile, 'utf8'));
   assert.equal(saved.kind, 'authored_publish_restore');
-  assert.equal(saved.questionIds.length, 479);
+  assert.equal(saved.questionIds.length, 475);
   assert.equal(saved.groupIds.length, 12);
-  assert.equal(saved.rows.length, 479);
+  assert.equal(saved.rows.length, 475);
   assert.equal(path.dirname(result.restoreFile), out);
 });
 
@@ -676,10 +753,10 @@ test('apply refuses rows the NTA engine could not admit unless told to', async (
   db.columns.passage_groups = GROUP_ALL;
   const { args, plan } = await approvedPlan(['--mode=apply']);
   const unscored = { ...args, plan: plan.planFile, reason: 'r', agentDir: tmpDir() };
-  await assert.rejects(() => apply(unscored, { sb: db }), /479 rows have no agent score entry/);
+  await assert.rejects(() => apply(unscored, { sb: db }), /475 rows have no agent score entry/);
   assert.equal(db.log.length, 0);
   const forced = await apply({ ...unscored, allowUnscored: true }, { sb: db });
-  assert.equal(forced.inserted, 479);
+  assert.equal(forced.inserted, 475);
 });
 
 test('a failed insert leaves a restore file that names every intended id, and restore withdraws what was written', async () => {
@@ -692,7 +769,7 @@ test('a failed insert leaves a restore file that names every intended id, and re
   assert.equal(db.tables.questions.length, 100);
   const result = await restore({ restore: restoreFile, hardDelete: false }, { sb: db });
   assert.equal(result.hidden, 100);
-  assert.equal(result.skipped.length, 379, 'ids that were never written are skipped, not invented');
+  assert.equal(result.skipped.length, 375, 'ids that were never written are skipped, not invented');
   assert.ok(db.tables.questions.every((r) => r.is_deleted === true && r.status === 'pending' && r.verification_state === 'disputed' && r.exploration_state === 'pending_review'));
 });
 
@@ -706,7 +783,7 @@ test('restore hides the rows and their groups, touching only rows from this sour
   const widened = path.join(args.outDir, 'widened.json');
   fs.writeFileSync(widened, JSON.stringify(saved));
   const result = await restore({ restore: widened, hardDelete: false }, { sb: db });
-  assert.equal(result.hidden, 479);
+  assert.equal(result.hidden, 475);
   assert.equal(result.groupsHidden, 12);
   assert.deepEqual(result.skipped, [{ id: 'other-1', why: 'not_found_or_not_from_this_source' }]);
   assert.equal(db.tables.questions.find((r) => r.id === 'other-1').status, 'live', 'a row of another source is untouched');
@@ -722,7 +799,7 @@ test('restore --hard-delete removes unedited rows and their groups, and skips a 
   const edited = db.tables.questions.find((r) => r.subject === 'chemistry');
   edited.explanation += ' Edited later by someone.';
   const result = await restore({ restore: applied.restoreFile, hardDelete: true }, { sb: db });
-  assert.equal(result.deleted, 478);
+  assert.equal(result.deleted, 474);
   assert.equal(result.groupsDeleted, 12);
   assert.deepEqual(result.skipped, [{ id: edited.id, why: 'edited_since_apply' }]);
   assert.deepEqual(db.tables.questions.map((r) => r.id), [edited.id]);
@@ -752,7 +829,7 @@ test('bankLookalikes finds the same question in a local export and a near copy o
 const FIT_CHECKOUT = process.env.NTA_FIT_CHECKOUT || path.resolve('..', 'mockmob-fit');
 const fitModule = path.join(FIT_CHECKOUT, 'data', 'nta_fit_scores.js');
 
-test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for every wave-1 entry', { skip: !fs.existsSync(fitModule) && 'no checkout with data/nta_fit_scores.js (set NTA_FIT_CHECKOUT)' }, async () => {
+test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for every wave-1 entry, final and first build', { skip: !fs.existsSync(fitModule) && 'no checkout with data/nta_fit_scores.js (set NTA_FIT_CHECKOUT)' }, async () => {
   const real = await import(pathToFileURL(fitModule).href);
   const mirror = await import('../../scripts/lib/authored-scores.mjs');
   assert.equal(mirror.FIT_RUBRIC_VERSION, real.NTA_FIT_RUBRIC_VERSION);
@@ -760,11 +837,12 @@ test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for
   assert.deepEqual([...mirror.FIT_FLAGS], [...real.NTA_FIT_FLAGS]);
   assert.deepEqual([...mirror.FIT_JUDGES], [...real.NTA_FIT_JUDGES]);
   const rows = planPublication(wave1()).rows;
-  for (const policy of ['admit', 'hold']) {
-    const { fitDir } = mergedWave1(policy);
+  const scenarios = [['admit', [], rows], ['hold', [], rows], ['hold', FIRST_BUILD_ARGS, planPublication(firstBuild()).rows]];
+  for (const [policy, extra, scenarioRows] of scenarios) {
+    const { fitDir } = mergedWave1(policy, extra);
     const fitTables = {};
     for (const subject of SUBJECTS) fitTables[subject] = JSON.parse(fs.readFileSync(path.join(fitDir, `${subject}.json`), 'utf8'));
-    for (const row of rows) {
+    for (const row of scenarioRows) {
       const verdict = real.ntaFitVerdict(row, { fitScores: fitTables });
       const entry = fitTables[row.subject].questions[row.id];
       assert.deepEqual(mirror.fitGateReasons(entry, contentHash(row), { table: fitTables[row.subject] }).sort(), verdict.reasons.slice().sort(), `${policy} ${row.id}`);
@@ -772,8 +850,9 @@ test('the fit gate mirror agrees with data/nta_fit_scores.js on wip/cuet-fit for
   }
 });
 
-test('the engine refuses nothing about the wave-1 rows that the scores can fix: every refusal is a content check', () => {
-  const { report } = mergedWave1('admit');
+test('the engine refuses nothing about the first-build rows that the scores can fix: every refusal is a content check', () => {
+  const { report } = mergedWave1('admit', FIRST_BUILD_ARGS);
+  assert.ok(Object.keys(report.engineIneligibleReasons).length > 0, 'the first build has the 19 content refusals');
   const scoreReasons = ['no_score', 'score_below_threshold', 'question_changed_since_scored', 'agent_blocking_flag', 'agent_blind_key_mismatch', 'score_needs_both_judges', 'agent_score_uncalibrated', 'agent_score_rubric_outdated', 'seed_or_demo_row', 'id_not_uuid', 'not_published', 'key_disputed', 'nta_quarantined', 'agent_key_dispute'];
   for (const reason of Object.keys(report.engineIneligibleReasons)) assert.ok(!scoreReasons.includes(reason), reason);
   // And one row end to end, through the engine's own gate.
@@ -791,7 +870,7 @@ test('the NTA pool reads the published rows through the agent-score path: every 
     const rows = await loadNtaAgentRows(db, subject, new Set(), { agentScores });
     counts[subject] = rows.filter((row) => row.source === AUTHORED_SOURCE).length;
   }
-  assert.deepEqual(counts, { chemistry: 95, english: 59, history: 82, political_science: 83, psychology: 79, sociology: 81 }, 'the agent score entries of all 479 pass every row-free check');
+  assert.deepEqual(counts, { chemistry: 95, english: 58, history: 81, political_science: 81, psychology: 79, sociology: 81 }, 'the agent score entries of all 475 pass every row-free check');
   const english = await loadNtaAgentRows(db, 'english', new Set(), { agentScores });
   const withPassages = await attachPassages(db, english.filter((row) => row.source === AUTHORED_SOURCE));
   assert.ok(withPassages.every((row) => row.passage_text && row.passage_group_id));
@@ -810,7 +889,7 @@ test('--impact builds papers from a local export without and with the authored r
   const { report } = runCheck(args);
   const chemistry = report.impact.subjects.chemistry;
   assert.deepEqual([chemistry.exportRows, chemistry.faithful, chemistry.eligibleWithout], [0, true, 0]);
-  assert.equal(chemistry.eligibleWith, 91, 'the engine admits 91 of the 95 authored chemistry questions');
+  assert.equal(chemistry.eligibleWith, 95, 'the engine admits all 95 authored chemistry questions');
   assert.equal(chemistry.papersWithout.length, 3);
   assert.equal(chemistry.papersWithout[0].status, 'refused');
   assert.ok(chemistry.papersWith.every((paper) => typeof paper.status === 'string'));
@@ -823,6 +902,7 @@ test('a fresh judge pass on the final text replaces the original results and cle
   const repaired = finalTexts[1];
   const fresh = tmpDir('fresh-');
   const q = (judge, score) => [{ id: repaired.id, blind_answer: repaired.correct_key, key_matches: true, quality_score: score, difficulty_check: 'medium', objective_tag: 'chemistry.solutions.fresh-pass-tag', flags: [], note: 'fresh' }];
+  writeJson(path.join(fresh, 'chemistry__fresh1.json'), { batch: 'chemistry__fresh1', questions: [repaired] });
   writeJson(path.join(fresh, `chemistry__fresh1__j1.json`), q('j1', 9));
   writeJson(path.join(fresh, `chemistry__fresh1__j2.json`), q('j2', 9));
   for (const judge of ['h1', 'h2', 'h3']) writeJson(path.join(fresh, `chemistry__fresh1__${judge}.json`), [{ id: repaired.id, cuet_type: 'single_mcq', passage_skill: null, unit: repaired.unit, chapter: repaired.chapter, pyq_closeness: 0, ten_route: null, est_seconds: 40, fit_score: 9, fit_flags: [], note: 'fresh' }]);
@@ -839,7 +919,7 @@ test('a fresh judge pass on the final text replaces the original results and cle
   assert.equal(entry.provenance.engine_acceptance, 'judged_text_is_final_text');
   // A fresh pass that lacks one role is refused: the judges of one entry must have seen the same text.
   fs.rmSync(path.join(fresh, 'chemistry__fresh1__h3.json'));
-  assert.ok(buildEntries(finalTexts, { rawDir: raw, freshDirs: [fresh], models: MODELS, date: '2026-10-15' }).problems.some((p) => /missing_judge_results:h3|fresh_pass_covers_only_some_judges/.test(p.problem)));
+  assert.ok(buildEntries(finalTexts, { rawDir: raw, freshDirs: [fresh], models: MODELS, date: '2026-10-15' }).problems.some((p) => /fresh_pass_covers_only_some_judges/.test(p.problem)));
 });
 
 test('rejudge-list names exactly the questions whose hashed text the judges did not see', () => {
@@ -854,9 +934,10 @@ test('rejudge-list names exactly the questions whose hashed text the judges did 
   assert.equal(result.list[0].id, finalTexts[1].id);
   assert.deepEqual(result.list[0].repaired_fields.sort(), ['explanation', 'options']);
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, 'list.json'), 'utf8')).map((x) => x.id), [finalTexts[1].id]);
-  // On the committed wave-1 entries: the 60.
-  const wave = runRejudgeList(parseMergeArgs([`--out=${path.join(dir, 'wave.json')}`]), { write: false });
-  assert.equal(wave.count, 60);
+  // On the first-build entries: the 60. On the final entries: none, every one was re-judged on its final text.
+  const first = runRejudgeList(parseMergeArgs([...FIRST_BUILD_ARGS, `--out=${path.join(dir, 'first.json')}`]), { write: false });
+  assert.equal(first.count, 60);
+  assert.equal(runRejudgeList(parseMergeArgs([`--out=${path.join(dir, 'final.json')}`]), { write: false }).count, 0);
 });
 
 test('merge writes the agent tables only when the checkout has no fit tables, and the fit tables too once there is a base or --fit-out', () => {
@@ -872,4 +953,153 @@ test('merge writes the agent tables only when the checkout has no fit tables, an
   const both = runMerge(parseMergeArgs(['--repaired-text=admit', `--agent-dir=${agentDir}`, `--fit-base=${fitBase}`, `--fit-out=${fitBase}`]));
   assert.equal(both.fitTablesWritten, true);
   assert.deepEqual(fs.readdirSync(fitBase).sort(), SUBJECTS.map((s) => `${s}.json`));
+});
+
+/** A fresh pass directory for one chemistry question: its batch text file and five judges, with the given quality scores and fit scores. */
+function freshPass(question, { dir = tmpDir('fresh-'), batch = 'fr-01', quality = [9, 9], fit = [9, 9, 9], flags = [], solvers = null } = {}) {
+  writeJson(path.join(dir, `${batch}.json`), { batch, questions: [question] });
+  quality.forEach((score, i) => writeJson(path.join(dir, `${batch}__j${i + 1}.json`), [{ id: question.id, blind_answer: question.correct_key, key_matches: true, quality_score: score, difficulty_check: 'medium', objective_tag: 'chemistry.solutions.fresh-tag', flags: i === 1 ? flags : [], note: 'fresh' }]));
+  fit.forEach((score, i) => writeJson(path.join(dir, `${batch}__h${i + 1}.json`), [{ id: question.id, cuet_type: 'single_mcq', passage_skill: null, unit: question.unit, chapter: question.chapter, pyq_closeness: 0, ten_route: null, est_seconds: 40, fit_score: score, fit_flags: [], note: 'fresh' }]));
+  (solvers || []).forEach((answer, i) => writeJson(path.join(dir, `${batch}__s${i + 1}.json`), [{ id: question.id, answer, confidence: 'high' }]));
+  return dir;
+}
+
+test('a question that fails the acceptance rule gets no entry, so it cannot be published without being dropped first', () => {
+  const { raw, finalTexts } = syntheticWave();
+  const target = finalTexts[0];
+  const build = (options) => buildEntries(finalTexts, { rawDir: raw, freshDirs: [freshPass(target, options)], models: MODELS, date: '2026-10-14' });
+  assert.deepEqual(build({}).problems, [], 'a passing fresh pass is accepted');
+  for (const [options, expected] of [
+    [{ quality: [9, 6] }, /fails_acceptance:j2_quality_6/],
+    [{ flags: ['duplicate_options'] }, /fails_acceptance:j2_flags_duplicate_options/],
+    [{ fit: [8, 6, 4] }, /fails_acceptance:fit_median_6/],
+  ]) {
+    const result = build(options);
+    assert.ok(result.problems.some((p) => p.id === target.id && expected.test(p.problem)), JSON.stringify(result.problems));
+    assert.equal(result.entries[target.id], undefined);
+  }
+  // Fresh solvers on the final text must reach the key 4 times in 5; the original 5 of 5 on the old text do not stand in for them.
+  const wrong = ['A', 'B', 'C', 'D'].find((letter) => letter !== target.correct_key);
+  const shortOfKey = build({ solvers: [target.correct_key, target.correct_key, target.correct_key, wrong, wrong] });
+  assert.ok(shortOfKey.problems.some((p) => /fails_acceptance:solvers_3_of_5/.test(p.problem)));
+  assert.deepEqual(build({ solvers: [target.correct_key, target.correct_key, target.correct_key, target.correct_key, wrong] }).problems, []);
+  // A repaired question whose text changed and that has no blind solver evidence on the final text is refused too.
+  const noResolve = syntheticWave();
+  for (const solver of ['s1', 's2', 's3']) fs.rmSync(path.join(noResolve.raw, 'expert', `rv-01__${solver}.json`));
+  const refused = buildEntries(noResolve.finalTexts, { rawDir: noResolve.raw, models: MODELS, date: '2026-10-14' });
+  assert.ok(refused.problems.some((p) => /fails_acceptance:no_blind_solver_evidence_on_final_text/.test(p.problem)));
+});
+
+test('a fresh result is used only where its batch text is the candidate text; results on an older wording are ignored', () => {
+  const { raw, finalTexts } = syntheticWave();
+  const target = finalTexts[1];
+  const older = { ...target, stem: `${target.stem} (older wording)` };
+  const dir = freshPass(older, { quality: [9, 9], fit: [9, 9, 9] });
+  const result = buildEntries(finalTexts, { rawDir: raw, freshDirs: [dir], models: MODELS, date: '2026-10-14' });
+  assert.deepEqual(result.problems, []);
+  assert.equal(result.counts.staleFreshResultsIgnored, 5, 'five judges judged another wording');
+  assert.equal(result.entries[target.id].text.judged, 'as_authored', 'the question falls back to its original judges');
+  assert.ok(result.entries[target.id].text.pre_repair, 'and says what it was scored on');
+  assert.equal(sameHashedText(target, { ...target, difficulty_label: 'hard', ncert_ref: 'x' }), true, 'the label and the NCERT reference are not part of the hashed text');
+  assert.equal(sameHashedText(target, older), false);
+});
+
+test('a reworded question is judged on its new text, and the expert pass and re-solve are marked as being about the earlier text', () => {
+  const { raw, finalTexts } = syntheticWave();
+  const repaired = finalTexts[1];
+  const reworded = { ...repaired, stem: `${repaired.stem} Choose one.`, _reworded: true };
+  const originals = new Map([[repaired.id, repaired]]);
+  const dir = tmpDir('fresh-rw-');
+  writeJson(path.join(dir, 'rw-01.json'), { batch: 'rw-01', questions: [{ ...reworded, _engine_reasons: ['orphan_passage_question'] }] });
+  freshPass(reworded, { dir, batch: 'rw-01-final', solvers: Array(5).fill(repaired.correct_key) });
+  const candidates = [finalTexts[0], reworded, finalTexts[2]];
+  const { entries, problems, counts } = buildEntries(candidates, { rawDir: raw, freshDirs: [dir], originals, models: MODELS, date: '2026-10-14' });
+  assert.deepEqual(problems, []);
+  const record = entries[repaired.id];
+  assert.equal(record.text.expert_reviewed_text, 'earlier_text');
+  assert.deepEqual(record.text.reworded_after_wave1, ['stem']);
+  assert.deepEqual(record.text.reworded_engine_reasons, ['orphan_passage_question']);
+  assert.equal(record.blind_resolve_on_final_text, null);
+  assert.equal(record.blind_resolve_on_earlier_text.matched_key, 3);
+  assert.deepEqual([record.blind_solvers.on, record.blind_solvers.matched_key], ['final', 5]);
+  assert.equal(counts.rewordedAfterWave1, 1);
+  const header = { models: MODELS, date: '2026-10-14' };
+  const entry = agentEntryFor(repaired.id, reworded, record, { policy: 'hold', header });
+  assert.equal(entry.content_hash, contentHash(toQuestionRow(reworded)));
+  assert.equal(entry.provenance.judged_text, 'final_after_fresh_pass');
+  assert.equal(entry.provenance.expert_reviewed_text, 'earlier_text');
+  assert.deepEqual(entry.provenance.reworded_after_wave1, ['stem']);
+  assert.equal(entry.provenance.blind_resolve_on_earlier_text.matched_key, 3);
+  assert.ok(toQuestionRow(reworded).tags.includes('authored_revision:reworded'));
+});
+
+test('buildFinalCandidates drops, rewords, keeps the identity of a question, and refuses inconsistent inputs', () => {
+  const base = firstBuild().slice(0, 12);
+  const target = base[3];
+  const drop = [{ id: base[0].id, reason: 'fresh quality judge scored 6' }];
+  const reword = [{ ...target, stem: `${target.stem} (reworded)`, _verdict: 'something-else' }];
+  const { candidates, dropped, problems } = buildFinalCandidates(base, reword, drop);
+  assert.deepEqual(problems, []);
+  assert.equal(candidates.length, 11);
+  assert.equal(candidates.find((c) => c.id === base[0].id), undefined);
+  const changed = candidates.find((c) => c.id === target.id);
+  assert.equal(changed.stem, `${target.stem} (reworded)`);
+  assert.equal(changed._verdict, target._verdict, 'the expert verdict is the original one');
+  assert.equal(changed._reworded, true);
+  assert.deepEqual(candidates.filter((c) => !c._reworded), base.filter((c) => c.id !== base[0].id && c.id !== target.id));
+  assert.equal(dropped[0].subject, base[0].subject);
+  const codes = (list) => list.map((p) => p.problem);
+  assert.deepEqual(codes(buildFinalCandidates(base, [], [{ id: 'missing', reason: 'x' }]).problems), ['dropped_id_not_in_base']);
+  assert.deepEqual(codes(buildFinalCandidates(base, [], [{ id: base[0].id, reason: ' ' }]).problems), ['dropped_without_reason']);
+  assert.deepEqual(codes(buildFinalCandidates(base, [{ ...target, id: 'missing' }], []).problems), ['reworded_id_not_in_base']);
+  assert.deepEqual(codes(buildFinalCandidates(base, [{ ...target, chapter: 'Another Chapter' }], []).problems), ['reworded_chapter_differs']);
+  assert.ok(codes(buildFinalCandidates(base, [target], [{ id: target.id, reason: 'r' }]).problems).includes('reworded_and_dropped'));
+});
+
+test('runFinalCandidates writes the final candidates file and reports a set that fell below the NTA minimum', () => {
+  const dir = tmpDir('final-');
+  const out = path.join(dir, 'final.json');
+  const english = firstBuild().filter((c) => c.set_id === 'english__p1__set3');
+  assert.equal(english.length, 4);
+  const rest = firstBuild().filter((c) => c.set_id !== 'english__p1__set3').slice(0, 10);
+  const base = path.join(dir, 'base.json');
+  writeJson(base, [...rest, ...english]);
+  const dropFile = path.join(dir, 'drop.json');
+  writeJson(dropFile, [{ id: english[0].id, reason: 'fresh fit judges 8/6/4' }]);
+  const result = runFinalCandidates(parseMergeArgs([`--original-candidates=${base}`, `--drop=${dropFile}`, `--out=${out}`]));
+  assert.equal(result.ok, true);
+  assert.equal(result.count, 13);
+  assert.deepEqual(result.passageSetsBelowNtaMinimum.map((set) => [set.setId, set.children]), [['english__p1__set3', 3]]);
+  assert.equal(JSON.parse(fs.readFileSync(out, 'utf8')).length, 13);
+  // Down to one question a set is not a set: refused, nothing written.
+  writeJson(dropFile, english.slice(0, 3).map((c) => ({ id: c.id, reason: 'x' })));
+  const refused = runFinalCandidates(parseMergeArgs([`--original-candidates=${base}`, `--drop=${dropFile}`, `--out=${path.join(dir, 'never.json')}`]));
+  assert.equal(refused.ok, false);
+  assert.ok(refused.problems.some((p) => /^set_has_1_children_below_minimum_2/.test(p.problem)));
+  assert.equal(fs.existsSync(path.join(dir, 'never.json')), false);
+});
+
+test('a passage set of three is published with a warning; a set of one is refused', () => {
+  const list = wave1();
+  assert.deepEqual(validateCandidates(list), []);
+  assert.deepEqual(smallSets(list).map((set) => [set.setId, set.children]), [['english__p1__set3', 3]]);
+  const keep = list.find((c) => c.set_id === 'english__p1__set1').id;
+  const trimmed = list.filter((c) => c.set_id !== 'english__p1__set1' || c.id === keep);
+  assert.ok(validateCandidates(trimmed).some((p) => p.problem.startsWith('set_has_1_children')));
+});
+
+test('a fresh pass holding two wordings of one question uses the one that is the final text, whatever the file order', () => {
+  const { raw, finalTexts } = syntheticWave();
+  const target = finalTexts[1];
+  const older = { ...target, stem: `${target.stem} (older wording)` };
+  for (const [olderBatch, finalBatch] of [['aa-older', 'zz-final'], ['zz-older', 'aa-final']]) {
+    const dir = tmpDir('fresh-two-');
+    freshPass(older, { dir, batch: olderBatch, quality: [9, 9], fit: [3, 3, 3] });
+    freshPass(target, { dir, batch: finalBatch, quality: [8, 8], fit: [9, 9, 9] });
+    const { entries, problems, counts } = buildEntries(finalTexts, { rawDir: raw, freshDirs: [dir], models: MODELS, date: '2026-10-14' });
+    assert.deepEqual(problems, [], `${olderBatch} / ${finalBatch}`);
+    assert.deepEqual(entries[target.id].quality.map((j) => [j.quality_score, j.batch]), [[8, finalBatch], [8, finalBatch]]);
+    assert.deepEqual(entries[target.id].fit.map((j) => j.batch), [finalBatch, finalBatch, finalBatch]);
+    assert.equal(counts.staleFreshResultsIgnored, 5, 'the five results on the older wording are ignored, and counted once');
+  }
 });
