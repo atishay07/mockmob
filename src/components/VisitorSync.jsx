@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { apiGet } from '@/lib/fetcher';
 import {
-  VISITOR_KEY, findResumableTest, nextHint, serializeHint, shouldCheckStarted, startedFromSummary, visitorState,
+  VISITOR_KEY, findResumableTest, nextHint, serializeHint, readStarted, shouldCheckStarted, visitorState,
 } from '@/../data/visitor_state.mjs';
 import './visitor-stage.css';
 
@@ -92,9 +92,10 @@ export default function VisitorSync() {
     if (!shouldCheckStarted({ status, hint: readHint(), pathname, previousPath, lastCheckAt: state.lastAt, inFlight: state.inFlight })) return;
     state.inFlight = true;
     state.lastAt = Date.now();
-    apiGet('/api/attempts/summary?limit=1&finalise=0')
-      .then((body) => {
-        const started = startedFromSummary(body);
+    // The peek skips finalisation, so an expired session that was never scored would look like day
+    // one. An empty peek is therefore confirmed by one ordinary read before it is believed.
+    readStarted(() => apiGet('/api/attempts/summary?limit=1&finalise=0'), () => apiGet('/api/attempts/summary?limit=1'))
+      .then((started) => {
         // Signed out while the read was in flight: the answer belongs to nobody now.
         if (started === undefined || statusRef.current !== 'authenticated') return;
         const current = readHint();

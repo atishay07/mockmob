@@ -26,7 +26,7 @@ export default function MemberDockAction() {
             <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
           </Link>
           <Link href={FIRST_CHECK_HREF} className="mm-btn mm-btn--primary vs-member-only vs-first-only vs-solo">
-            Start your first check
+            Start your 10-question check
             <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
           </Link>
         </>

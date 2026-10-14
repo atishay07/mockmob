@@ -73,3 +73,12 @@ While the session check runs, the likely destination is prefetched. The cost is 
 - That the redirect never fires for the PWA `start_url`, if that is `/`. It probably should fire there.
 
 **Recommendation.** Keep the client redirect for Phase 1. Build the edge version in Phase 2 only if the W0.2 or W4.4 measurement shows the flash on a budget phone, with tests that drive `refreshSupabaseSession` and the new branch through the existing `sessionProxy` test harness. The proxy's comment ("It never redirects") would change to "never redirects on an unverified session".
+
+## Review follow-up (2026-10-14)
+
+- **Day-one flag and unfinalised sessions (fixed).** The read-only peek (`finalise=0`) does not finalise expired sessions, so a student whose only session had expired could look like day one. `readStarted` in `data/visitor_state.mjs` now confirms an empty peek with one ordinary read (which finalises) before `started:false` is written. A found attempt still costs one read. A failed confirm leaves the stage unknown, which is treated as an active member. Not confirmed against live data.
+- **Copy (fixed).** The dock now says "Start your 10-question check", the same as the hero and closing line.
+- **"Practise" in the Practice section title (kept).** It is the verb, in the Indian English spelling used elsewhere on the page ("Practise it."). "Practice" is the noun and is used for the label and kicker. Not a mismatch.
+- **Primary member button lost its arrow (decision recorded).** The owner's UI standards forbid arrows appended to button text, so the day-one and active hero buttons stay without one. The guest hero and the dock still carry arrows; removing them belongs to the W1.1 pass, so the visual language is changed in one place.
+- **Test gaps.** The new `readStarted` test covers the peek and confirm paths. A component-level test of the VisitorSync races (answer after sign-out, in-flight guard, `/test` exit) needs a React test harness this repo does not have; those rules are covered as pure functions (`shouldCheckStarted`, `nextHint`) and stay on the browser walk at merge. The route's `finalise=0` branch is a one-line condition, now exercised by the confirm read rather than relied on.
+- **Duplicate h1.** The hidden hero version is `display: none` through `vs-hide-first` / `vs-first-only`; check at 360 px during the browser walk.
