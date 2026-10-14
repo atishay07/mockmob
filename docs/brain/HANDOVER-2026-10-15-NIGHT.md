@@ -86,3 +86,11 @@ This is the handover from session cc0bf1af (Opus 5.5, account support@mockmob.in
   3. Free RAM (stop the Gradle daemon), boot the emulator, then install the profile demo (`build apk --profile --target-platform android-x64 -t test/device_demo/demo_main.dart`). Record with tool/emu_rec.sh and send the clips.
   4. Web: review the web/alive-1015 commits and test lines. The owner has allowed deploys tonight, so push to main when green, and check Vercel.
 - **Owner rule (01:05):** keep working until usage is at about 97%. Write a handover if a reset is more than 30 minutes away.
+
+## Update 02:15 IST: final state of this session (usage at 85%, nothing new started)
+- **Subject art:** Accountancy (calculator on a Debit/Credit ledger) and Computer Science (brushed-brass laptop) were regenerated at the old set's quality and are in wt-phase2 assets. object_art.dart has updated bounds; test/unit/art passes. **test/golden/art needs `--update-goldens`.** Business Studies and Languages keep the old renders (owner's choice). Old-file backups are in tmp/subject-art-v2/work2/old-backup.
+- **Web (worktree wt-web-refine, branch web/alive-1015, 11 commits on origin/main e1773d6a, NOT pushed):** Mistake Repair v2 (trap name, explained another way, rule card, folded question, marks line, Mobi reacting), the MobiReact kit and motion kit, runner and result upgrades, review changes since the last look, Saved and Radar, Progress rhythm, Learn, nav and dock motion, Compass. The check:web agent runs the suites. **Push to main only after its suites pass** (the owner has allowed deploys tonight). Then check the Vercel deploy and the site.
+- **App:** run wf_ede58103-677, 8 app build packets (today, practice, result, you-notifications, rhythm-onboarding, bar-tools, motion-kit, runner), then check:app (analyze plus 3 unit batches). Round 3 (wf_1fb2ccb3-a45): cold-start and goldens fixers, then check-3. Both write to wt-phase2 (ui/phase2), which is uncommitted since 5a5e7852.
+- **The v2 recording found:**
+  - finding 28: the demo resume card says "0 of 10 answered" while the capsule says 10;
+  - finding 29: test scripts must tap "^Submit practice", not "^Submit".
