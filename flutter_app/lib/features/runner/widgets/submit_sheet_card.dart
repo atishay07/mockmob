@@ -110,19 +110,30 @@ class _CountRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final label = Row(
+      children: [
+        SizedBox.square(dimension: 20, child: Center(child: glyph)),
+        const SizedBox(width: MmSpace.s8),
+        Expanded(
+          child: Text(text, style: context.mmType.labelLarge.copyWith(color: colors.ink)),
+        ),
+      ],
+    );
+    final key = goTo != null && goToLabel != null ? KeyButton.quiet(label: goToLabel!, onPressed: goTo, hapticOnCommit: false) : null;
+    // With large text the way back no longer fits beside the count: it goes on a line of its own.
+    final stacked = MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    if (stacked) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ConstrainedBox(constraints: const BoxConstraints(minHeight: MmTarget.min), child: label),
+          if (key != null) Padding(padding: const EdgeInsets.only(left: 28), child: key),
+        ],
+      );
+    }
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: MmTarget.min),
-      child: Row(
-        children: [
-          SizedBox.square(dimension: 20, child: Center(child: glyph)),
-          const SizedBox(width: MmSpace.s8),
-          Expanded(
-            child: Text(text, style: context.mmType.labelLarge.copyWith(color: colors.ink)),
-          ),
-          if (goTo != null && goToLabel != null)
-            KeyButton.quiet(label: goToLabel!, onPressed: goTo, hapticOnCommit: false),
-        ],
-      ),
+      child: Row(children: [Expanded(child: label), ?key]),
     );
   }
 }

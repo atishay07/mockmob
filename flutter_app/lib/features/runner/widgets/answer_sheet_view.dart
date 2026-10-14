@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../logic/sheet_cells.dart';
@@ -178,7 +177,11 @@ class _SheetPainter extends CustomPainter {
     final inking = phase == SheetPhase.inked;
     // The eased 0..1 position of the ink front, in cells: the wave runs across the whole sheet.
     final exact = inking ? Curves.easeInOut.transform(ink.value) * (cells.length + 1) : -1.0;
-    final pencil = Paint()..color = colors.ink.withValues(alpha: colors.isNight ? 0.62 : 0.72);
+    final pencilColor = colors.ink.withValues(alpha: colors.isNight ? 0.62 : 0.72);
+    final pencil = Paint()..color = pencilColor;
+    // While sending, a band of warm light travels the sheet and each answered bubble warms as it
+    // passes (no hard-edged panel over the paper: the light lives in the marks themselves).
+    final bandX = phase == SheetPhase.sending ? _bandCentre(size) : double.nan;
 
     for (var i = 0; i < cells.length; i++) {
       final c = cells[i];
@@ -191,7 +194,13 @@ class _SheetPainter extends CustomPainter {
         label.paint(canvas, Offset(center.dx - label.width / 2, top));
       }
       if (c.answered) {
-        canvas.drawCircle(center, r - 0.5, pencil);
+        final lit = bandX.isNaN ? 0.0 : _lit(center.dx, bandX);
+        if (lit > 0) {
+          canvas.drawCircle(center, r + 4 * lit, Paint()..color = colors.lamp.withValues(alpha: 0.14 * lit));
+          canvas.drawCircle(center, r - 0.5 + 0.8 * lit, Paint()..color = Color.lerp(pencilColor, colors.lamp, lit * 0.75)!);
+        } else {
+          canvas.drawCircle(center, r - 0.5, pencil);
+        }
         if (inking) {
           final fill = (exact - i).clamp(0.0, 1.0);
           if (fill > 0) bubbles.paint(canvas, center, r, BubbleState.filled, fill: fill);
@@ -210,30 +219,18 @@ class _SheetPainter extends CustomPainter {
         bubbles.paint(canvas, center, r, c.marked ? BubbleState.marked : BubbleState.blank);
       }
     }
-
-    if (phase == SheetPhase.sending) _lamp(canvas, size);
   }
 
-  /// One soft band of warm light passing over the sheet, left to right, on a loop while sending.
-  void _lamp(Canvas canvas, Size size) {
-    final t = Curves.easeInOut.transform(scan.value);
-    const band = 90.0;
-    final x = -band + (size.width + 2 * band) * t;
-    final rect = Rect.fromLTWH(x - band, -4, band * 2, size.height + 8);
-    canvas.save();
-    canvas.clipRect(Rect.fromLTWH(-4, -4, size.width + 8, size.height + 8));
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = LinearGradient(
-          colors: [
-            colors.lamp.withValues(alpha: 0),
-            colors.lamp.withValues(alpha: colors.isNight ? 0.30 : 0.22),
-            colors.lamp.withValues(alpha: 0),
-          ],
-        ).createShader(rect),
-    );
-    canvas.restore();
+  /// How far the lamp band's centre has travelled: in from the left edge, out past the right.
+  double _bandCentre(Size size) => -_band + (size.width + 2 * _band) * Curves.easeInOut.transform(scan.value);
+
+  static const double _band = 70;
+
+  /// 0 to 1: how strongly the band lights something at [x] (a smooth bell, so no hard edge).
+  double _lit(double x, double centre) {
+    final d = ((x - centre).abs() / _band).clamp(0.0, 1.0);
+    final t = 1 - d;
+    return t * t * (3 - 2 * t);
   }
 
   @override

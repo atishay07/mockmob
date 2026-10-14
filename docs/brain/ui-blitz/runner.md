@@ -38,7 +38,7 @@ Branch `ui/runner`. Owns `flutter_app/lib/features/runner/**` except `nta/**`. N
 
 ### 3.1 Count and timer (top bar)
 - The count "19 of 20" stays Bricolage condensed 30 sp. On a change the old number slides up 10 dp and fades while the new one rises in from below (180 ms, glide curve; direction follows travel: forward rises, back drops). Never a roll from zero. Reduced motion: instant.
-- Timer (mock): same digits, never moves. Under 5:00 the digits take the warning colour (as now) and a 20 dp ring appears to their left, draining over exactly those five minutes (the only span whose length is known). Under 1:00 the ring and digits turn the strong warning ink. No pulsing.
+- Timer (mock): same digits, never moves. Under 5:00 the digits take the warning colour (as now) and a 3 dp bar appears under them, full at 5:00 and draining over exactly those five minutes (the only span whose length is known; built as an underline, not a ring, so nothing is added beside the digits and nothing shifts). Under 1:00 the bar and digits turn the strong warning ink. No pulsing.
 
 ### 3.2 Progress track (`TimingTrack`)
 - Bubbles (short papers) and timing marks (long papers) keep their geometry, hit boxes and TalkBack cells exactly.
@@ -75,7 +75,7 @@ Branch `ui/runner`. Owns `flutter_app/lib/features/runner/**` except `nta/**`. N
 ## 5. Screen: submit (`SubmitPage`, practice and Full mock only)
 - Title "Submit now?" (or "Time is up." as now). Under it the sheet card: monumental "45 of 50 answered", then **the sheet**: the answered bubbles drawn as paper-ink pencil marks (calm), not-answered as dashed rings, marked as ringed dots, numbered. Marked and not-answered counts below, now buttons that take the student back to the first such question and close the page ("5 not answered, go to question 9").
 - Primary key "Submit mock" or "Submit practice". The line "You cannot change answers after you submit." sits above the key, quiet, so the confirm reads as one decision.
-- **Sending** (the real call): a soft lamp band sweeps the sheet continuously (1.4 s per pass, indeterminate by design, never a percentage). Button shows loading. Mobi is not shown.
+- **Sending** (the real call): a band of lamp light travels the sheet continuously (1.4 s per pass, indeterminate by design, never a percentage). The light lives in the marks, not in a panel over them: each answered bubble warms and swells 0.8 dp as the band passes it (smooth bell, 70 dp wide), with a soft halo; no hard-edged rectangle. Button shows loading. Mobi is not shown.
 - **Received** (only on the server's 200, as now): the bubbles ink volt in question order across 900 ms with the lit edge on the card (the truth is the metaphor: the sheet is paper ink until the server holds it, volt once it does); the existing `success` haptic fires at the start of the ink; the warm lamp comes up behind (existing); Mobi cheers under the sheet (a hop, the living vector Mobi, 112 dp); the receipt line slides in 120 ms after the ink finishes. The hand-off to the result is unchanged (2.8 s, or the tap).
 - Pending, window closed, rejected: no light, no Mobi, sheet card unlit (existing logic), unchanged copy.
 
@@ -104,3 +104,9 @@ Unchanged geometry and copy; the sheet enters on the shared emphasized curve (ex
 
 ## 9. Verification plan
 Goldens (360x780 and 384x853, night and day) for: first question, answered with a marked cell, the selected-option lock-in at rest, practice 19 of 20, large text, passage, offline, warning, palette, submit idle, submit sending, submit received (after the ink), leave guard. Unit tests cover: the track painter (settled state), count flip and enter widgets under reduced motion, the lock-in flight overlay lifecycle (appears and is removed), palette jump row, submit jump-to-first-unanswered, and that nothing new appears in NTA.
+
+
+## 10. Findings kept for the merge (checked, not assumed)
+- The session payload carries no answer key (`SessionQuestion`: "Answer keys are never in this view"), so a per-question correct or incorrect moment cannot be real. The owner's request for practice feedback moments is met where the truth exists: the lock-in, the track, the palette, the hand-in and the receipt. Correct and incorrect reveals belong to the practice result screens (not this track).
+- BUILD-BRIEF section 2: Mobi is never in the runner. He appears on the submit page only once the server holds the sheet (moment layer).
+- Motion frames are goldens (`goldens/motion_*.png`, fake clock) so the choreography is reviewable, not only the rest states.

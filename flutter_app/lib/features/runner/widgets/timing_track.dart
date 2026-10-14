@@ -355,6 +355,17 @@ class _TrackPainter extends CustomPainter {
     _sweepBand(canvas, size);
   }
 
+  /// Where the ring is, in cells: the spring's value while it travels, the exact cell once it
+  /// has landed (a spring settles within a hair of its target, never exactly on it).
+  double _ringPosition() {
+    final last = cells.length - 1.0;
+    if (!ring.isAnimating) {
+      final at = cells.indexWhere((c) => c.current);
+      return (at < 0 ? 0 : at).toDouble().clamp(0.0, last);
+    }
+    return ring.value.clamp(0.0, last);
+  }
+
   /// 0 at rest; up to 7 dp while the ring is moving fast.
   double _stretch() {
     final v = ring.velocity.abs() * geometry.step;
@@ -399,7 +410,7 @@ class _TrackPainter extends CustomPainter {
 
   /// The ring that travels: a circle at rest, a stretched capsule while moving.
   void _glidingRing(Canvas canvas, double mid, double d, double grow) {
-    final pos = ring.value.clamp(0.0, cells.length - 1.0);
+    final pos = _ringPosition();
     final x = geometry.centerAt(pos);
     final paint = Paint()
       ..style = PaintingStyle.stroke
@@ -439,7 +450,7 @@ class _TrackPainter extends CustomPainter {
       );
     }
     // The current mark is a taller paper-white bar that glides.
-    final x = geometry.centerAt(ring.value.clamp(0.0, n - 1.0));
+    final x = geometry.centerAt(_ringPosition());
     const w = 3.0;
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(x, mid), width: w + _stretch(), height: 12), const Radius.circular(w / 2)),
