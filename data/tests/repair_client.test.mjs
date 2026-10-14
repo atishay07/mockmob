@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { repairRetryPolicy } from '../repair_presentation.mjs';
+import { repairRetryPolicy, repairBlocks, trapLabel, TRAP_LABELS, marksAtStake, foldedQuestionLine, repairMood } from '../repair_presentation.mjs';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../repair_failures.js';
 import {
   REPAIR_CLIENT_TIMEOUT_MS, REPAIR_TIMEOUT_MESSAGE, REPAIR_UNCONFIRMED_MESSAGE, REPAIR_NETWORK_MESSAGE,
@@ -156,4 +156,41 @@ test('the Mistake Repair component sends through requestRepair, resets the id af
   assert.match(src, /if \(failure\.resetRequest\) requestId\.current = null;/);
   assert.match(src, /setState\(\{ status: failure\.status, message: failure\.message, canRetry: failure\.canRetry \}\)/);
   assert.doesNotMatch(src, /body\?\.message \|\|/, 'a server message is never replaced by a generic line');
+});
+
+test('repair v2 blocks: trap name from a fixed label map, unknown types read as other, v1 keeps its three blocks', () => {
+  assert.equal(trapLabel('partly_true'), 'A partly true option');
+  assert.equal(trapLabel('made_up_type'), TRAP_LABELS.other);
+  assert.equal(trapLabel(undefined), TRAP_LABELS.other);
+  assert.equal(trapLabel('__proto__'), TRAP_LABELS.other);
+  for (const label of Object.values(TRAP_LABELS)) assert.doesNotMatch(label, /\byou\b|!/i, 'labels describe the option, never the student');
+  const v2 = repairBlocks({ trap_type: 'look_alike_term', trap: 'B names a related term.', why_wrong: 'It describes a different process.', another_way: 'Think of the order of steps.', contrast: 'If it asked about X, B would fit.', rule: 'Match the term to its definition.', next_step: '' });
+  assert.equal(v2.version, 2); assert.equal(v2.heading, 'A look-alike term'); assert.equal(v2.contrast, 'If it asked about X, B would fit.'); assert.equal(v2.nextStep, null);
+  const v1 = repairBlocks({ why_tempting: 'It sounds familiar.', why_wrong: 'It applies to firms.', key_idea: 'Planning comes first.', next_step: 'Re-read the chapter summary.' });
+  assert.deepEqual([v1.version, v1.heading, v1.anotherWay, v1.rule], [1, null, null, 'Planning comes first.']);
+  assert.equal(repairBlocks({ rule: 'A rule', why_wrong: 'w' }), null, 'a v2 payload without the trap is incomplete');
+  assert.equal(repairBlocks({ why_tempting: 't', why_wrong: 'w' }), null, 'a v1 payload without the idea is incomplete');
+  assert.equal(repairBlocks(null), null);
+});
+
+test('the marks line is past tense, exact for CUET and hidden for an unknown scheme; the folded line leaves out unknowns', () => {
+  assert.equal(marksAtStake('cuet').line, 'This answer cost 6 marks in this session: 5 not earned and 1 penalty.');
+  assert.equal(marksAtStake('unknown'), null);
+  assert.equal(marksAtStake(undefined), null);
+  assert.equal(foldedQuestionLine({ number: 7, chosen: 'B', answer: 'C' }), 'Q7. Your pick B. Key C.');
+  assert.equal(foldedQuestionLine({ chosen: 'B', answer: null }), 'Your pick B.');
+});
+
+test('Mobi reacts to the real outcome: success only for a server-acknowledged repair', () => {
+  assert.equal(repairMood('loading'), 'think');
+  assert.equal(repairMood('loading', { slow: true }), 'loading');
+  assert.equal(repairMood('explained'), 'correct');
+  assert.equal(repairMood('stored'), 'hello');
+  assert.equal(repairMood('error'), 'oops');
+  assert.equal(repairMood('error', { settledFor: 1400 }), 'encourage');
+  assert.equal(repairMood('not_explained'), 'rest');
+  assert.equal(repairMood('held_for_recheck'), 'rest');
+  assert.equal(repairMood('idle'), null);
+  const src = read('src/components/recovery/MistakeRepair.jsx');
+  assert.match(src, /const mobi = nta \? null : <RepairMobi/, 'no Mobi in NTA');
 });
