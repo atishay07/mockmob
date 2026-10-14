@@ -1,0 +1,332 @@
+/* ==========================================================================
+   MOTION KIT (web). Imported once by globals.css.
+   Same feel as the app: springs on press, lines that ink, rows that fold, Mobi that moves.
+   Rules: transform and opacity only; nothing animates layout per frame; every motion answers an
+   action or shows a state; :root[data-motion='reduced'] (in globals.css) calms all of it, and the
+   Mobi marks that carry information stay, drawn finished.
+   ========================================================================== */
+
+:root {
+  --mk-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --mk-settle: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ---------- Press spring: down fast, back with a small overshoot ---------- */
+.mk-press {
+  transition: transform 420ms var(--mk-spring), box-shadow 200ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+.mk-press:active:not(:disabled):not([aria-disabled='true']) {
+  transform: scale(0.965);
+  transition-duration: 90ms, 200ms, 150ms, 150ms, 150ms, 150ms;
+  transition-timing-function: var(--mk-settle);
+}
+
+/* ---------- Shake: "not that". Add the class, remove it on animationend ---------- */
+.mk-shake { animation: mk-shake 440ms var(--mk-settle) both; }
+@keyframes mk-shake {
+  0%, 100% { transform: translateX(0); }
+  16% { transform: translateX(-7px); }
+  34% { transform: translateX(6px); }
+  52% { transform: translateX(-4px); }
+  70% { transform: translateX(3px); }
+  86% { transform: translateX(-1px); }
+}
+
+/* ---------- Stroke draw-on (the path needs pathLength="1") ---------- */
+.mk-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: mk-draw var(--mk-draw-ms, 460ms) var(--mk-settle) var(--mk-draw-delay, 0ms) forwards;
+}
+@keyframes mk-draw { to { stroke-dashoffset: 0; } }
+
+/* ---------- Pop, rise and stagger ---------- */
+.mk-pop { animation: mk-pop 380ms var(--mk-spring) var(--mk-delay, 0ms) backwards; }
+@keyframes mk-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.mk-rise { animation: mk-rise 420ms var(--mk-settle) var(--mk-delay, 0ms) backwards; }
+@keyframes mk-rise { from { transform: translate3d(0, 10px, 0); opacity: 0; } to { transform: none; opacity: 1; } }
+/* backwards, not both: once it has arrived, the element is free to press and transition again. */
+.mk-stagger > * { animation: mk-rise 420ms var(--mk-settle) calc(var(--i, 0) * 45ms) backwards; }
+
+/* ---------- Swipe to commit (useSwipeCommit) ---------- */
+.mk-swipe { transform: translate3d(var(--mk-swipe-x, 0px), 0, 0); }
+.mk-swipe[data-swipe='drag'] { transition: none; cursor: grabbing; user-select: none; }
+.mk-swipe[data-swipe='settle'] { transition: transform 320ms var(--mk-spring); }
+.mk-swipe[data-swipe='commit'] { transition: transform 180ms ease-in, opacity 180ms ease-in; opacity: 0; }
+
+/* ---------- Fold exit helper rows get this while the script folds them ---------- */
+.mk-fold { overflow: hidden; }
+
+/* ---------- Spring switch (also used by ui/Switch) ---------- */
+.mk-switch {
+  position: relative; flex: none; width: 52px; height: 32px; padding: 0; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--a-line-strong, rgba(255, 255, 255, 0.2));
+  background: var(--a-sunken, rgba(255, 255, 255, 0.06));
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+.mk-switch::before { content: ''; position: absolute; inset: -6px -2px; } /* 44 px tall touch area */
+.mk-switch:focus-visible { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 3px; }
+.mk-switch__thumb {
+  position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--a-ink-3, #cfd6c4); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 420ms var(--mk-spring), background-color 200ms ease, width 160ms ease;
+}
+.mk-switch:active:not(:disabled) .mk-switch__thumb { width: 29px; }
+.mk-switch[aria-checked='true'] { background: var(--volt, #d2f000); border-color: var(--volt-edge, #9db400); }
+.mk-switch[aria-checked='true'] .mk-switch__thumb { transform: translateX(20px); background: #0b1000; }
+.mk-switch[aria-checked='true']:active:not(:disabled) .mk-switch__thumb { transform: translateX(15px); }
+.mk-switch__tick { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #0b1000; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; pointer-events: none; }
+.mk-switch[aria-checked='true'] .mk-switch__tick { opacity: 1; }
+.mk-switch[aria-checked='true'] .mk-switch__tick path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: mk-draw 320ms var(--mk-settle) 140ms forwards; }
+.mk-switch:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ==========================================================================
+   MOBI REACT (components/brand/MobiReact.jsx + MobiMarks.jsx)
+   Three nested layers so motions compose: breath (always), body (squash and hop), lean (sway).
+   data-live='false' is the held pose: no animation, informative marks drawn finished.
+   ========================================================================== */
+.mobi-react {
+  --mm-fill: #d2f000; --mm-edge: rgba(8, 12, 6, 0.42); --mm-accent: #d2f000; --mm-dots: #cfd6c4;
+  --mm-pill: #18211b; --mm-paper: #fffef6; --mm-confetti: #ffcb3a; --mm-shadow: rgba(8, 12, 6, 0.34);
+  position: relative; display: inline-block; flex: none; vertical-align: bottom;
+  width: calc(var(--mobi-size) * var(--mobi-ar)); height: var(--mobi-size);
+  pointer-events: none; user-select: none;
+}
+html[data-theme='light'] .mobi-react {
+  --mm-edge: rgba(16, 20, 14, 0.55); --mm-accent: #6f8700; --mm-dots: #56624f;
+  --mm-pill: #ffffff; --mm-shadow: rgba(40, 48, 20, 0.2);
+}
+.mobi-react__breath, .mobi-react__body, .mobi-react__lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.mobi-react .pip-image { width: 100%; height: 100%; }
+.mobi-react__shadow {
+  position: absolute; left: 14%; right: 14%; bottom: -3%; height: 7%; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--mm-shadow), transparent);
+  transform-origin: 50% 50%;
+}
+.mobi-react__marks { position: absolute; left: 50%; top: 0; width: var(--mobi-size); height: var(--mobi-size); translate: -50% 0; overflow: visible; }
+.mobi-react[data-facing='left'] .mobi-react__marks { scale: -1 1; }
+
+/* Marks: look */
+.mm-mark { transform-box: fill-box; transform-origin: center; }
+.mm-spark path { fill: var(--mm-fill); stroke: var(--mm-edge); stroke-width: 0.6; stroke-linejoin: round; }
+.mm-bit rect, .mm-bit path, .mm-bit circle { stroke: var(--mm-edge); stroke-width: 0.35; }
+.mm-bit[data-kind='r'] > * { fill: var(--mm-fill); }
+.mm-bit[data-kind='s'] > * { fill: var(--mm-paper); }
+.mm-bit[data-kind='c'] > * { fill: var(--mm-confetti); }
+.mm-tick__disc { fill: var(--mm-fill); stroke: var(--mm-edge); stroke-width: 0.9; }
+.mm-tick__path { fill: none; stroke: #0b1000; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.mm-think circle, .mm-wait circle { fill: var(--mm-dots); }
+.mm-wait__pill { fill: var(--mm-pill); stroke: var(--mm-edge); stroke-width: 0.8; }
+.mm-wait circle { fill: var(--mm-accent); }
+.mm-sheet__paper { fill: var(--mm-paper); stroke: var(--mm-edge); stroke-width: 0.8; }
+.mm-sheet__line { fill: none; stroke: #56624f; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.mm-query path { fill: none; stroke: var(--mm-dots); stroke-width: 2; stroke-linecap: round; }
+.mm-query__dot { fill: var(--mm-dots); }
+.mm-chev path, .mm-arcs path, .mm-pump path { fill: none; stroke: var(--mm-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mm-zed path { fill: none; stroke: var(--mm-dots); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The held pose: marks that carry no information are hidden; the rest stay, finished. */
+.mobi-react[data-live='false'] :is(.mm-spark, .mm-bit, .mm-arcs, .mm-pump) { display: none; }
+.mobi-react[data-live='false'] .mm-zed:nth-child(n + 2) { display: none; }
+
+/* ---------- Live: breath, always under everything ---------- */
+.mobi-react[data-live='true'] .mobi-react__breath { animation: mr-breath 4.4s ease-in-out infinite; }
+.mobi-react[data-live='true']:is([data-act='sleepy'], [data-act='rest']) .mobi-react__breath { animation: mr-breath-deep 5.8s ease-in-out infinite; }
+@keyframes mr-breath { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(0.996, 1.014); } }
+@keyframes mr-breath-deep { 0%, 100% { transform: scale(1.004, 0.99); } 50% { transform: scale(0.99, 1.02); } }
+
+/* ---------- Live: the acts. Body = squash and hop. Lean = sway. ---------- */
+.mobi-react[data-live='true'] .mobi-react__body, .mobi-react[data-live='true'] .mobi-react__lean { animation-fill-mode: both; animation-timing-function: var(--ease-out); }
+
+/* hello and wave: a rock toward the waving arm, three swings */
+.mobi-react[data-live='true'][data-act='hello'] .mobi-react__body { animation: mr-hello-body 1850ms; }
+.mobi-react[data-live='true'][data-act='hello'] .mobi-react__lean { animation: mr-hello-lean 1850ms; }
+.mobi-react[data-live='true'][data-act='wave'] .mobi-react__body { animation: mr-hello-body 1250ms; }
+.mobi-react[data-live='true'][data-act='wave'] .mobi-react__lean { animation: mr-wave-lean 1250ms; }
+@keyframes mr-hello-body {
+  0% { transform: translate3d(0, 5%, 0) scale(0.97, 1.03); }
+  14% { transform: translate3d(0, -3%, 0) scale(1.02, 0.98); }
+  26% { transform: none; }
+  48%, 72% { transform: translate3d(0, -1.5%, 0); }
+  58%, 82% { transform: none; }
+}
+@keyframes mr-hello-lean {
+  0%, 8% { transform: rotate(0); }
+  22% { transform: rotate(-6deg); } 34% { transform: rotate(-1.5deg); }
+  46% { transform: rotate(-6deg); } 58% { transform: rotate(-1.5deg); }
+  70% { transform: rotate(-5deg); } 86%, 100% { transform: rotate(0); }
+}
+@keyframes mr-wave-lean {
+  0%, 10% { transform: rotate(0); }
+  28% { transform: rotate(-6deg); } 46% { transform: rotate(-1.5deg); }
+  64% { transform: rotate(-5.5deg); } 90%, 100% { transform: rotate(0); }
+}
+
+/* cheer: crouch, hop, land with a small rebound */
+.mobi-react[data-live='true'][data-act='cheer'] .mobi-react__body { animation: mr-cheer-body 1200ms; }
+.mobi-react[data-live='true'][data-act='cheer'] .mobi-react__lean { animation: mr-cheer-lean 1200ms; }
+.mobi-react[data-live='true'][data-act='cheer'] .mobi-react__shadow { animation: mr-shadow-hop 1200ms both; }
+@keyframes mr-cheer-body {
+  0% { transform: none; } 14% { transform: translate3d(0, 2%, 0) scale(1.05, 0.93); }
+  38% { transform: translate3d(0, -16%, 0) scale(0.96, 1.05); } 62% { transform: translate3d(0, 0, 0) scale(1.05, 0.94); }
+  76% { transform: translate3d(0, -3%, 0) scale(0.99, 1.01); } 90%, 100% { transform: none; }
+}
+@keyframes mr-cheer-lean { 0%, 20% { transform: none; } 38% { transform: rotate(-5deg); } 62% { transform: rotate(2deg); } 86%, 100% { transform: none; } }
+@keyframes mr-shadow-hop { 0%, 14%, 62%, 100% { transform: scale(1); opacity: 1; } 38% { transform: scale(0.6); opacity: 0.55; } 76% { transform: scale(0.92); } }
+
+/* celebrate: a big jump, a second small one, a settle. Confetti leaves at the peak. */
+.mobi-react[data-live='true'][data-act='celebrate'] .mobi-react__body { animation: mr-celebrate-body 2000ms; }
+.mobi-react[data-live='true'][data-act='celebrate'] .mobi-react__lean { animation: mr-celebrate-lean 2000ms; }
+.mobi-react[data-live='true'][data-act='celebrate'] .mobi-react__shadow { animation: mr-shadow-big 2000ms both; }
+@keyframes mr-celebrate-body {
+  0% { transform: none; } 12% { transform: translate3d(0, 3%, 0) scale(1.06, 0.9); }
+  34% { transform: translate3d(0, -28%, 0) scale(0.95, 1.07); } 52% { transform: translate3d(0, 0, 0) scale(1.07, 0.9); }
+  62% { transform: translate3d(0, -9%, 0) scale(0.98, 1.03); } 74%, 100% { transform: none; }
+}
+@keyframes mr-celebrate-lean { 0%, 20% { transform: none; } 34% { transform: rotate(-8deg); } 52% { transform: rotate(3deg); } 62% { transform: rotate(5deg); } 78%, 100% { transform: none; } }
+@keyframes mr-shadow-big { 0%, 12%, 52%, 100% { transform: scale(1); opacity: 1; } 34% { transform: scale(0.5); opacity: 0.45; } 62% { transform: scale(0.8); opacity: 0.8; } 74% { transform: scale(1); opacity: 1; } }
+
+/* proud: dip, stretch tall, hold, release */
+.mobi-react[data-live='true'][data-act='proud'] .mobi-react__body { animation: mr-proud-body 2200ms; }
+.mobi-react[data-live='true'][data-act='proud'] .mobi-react__lean { animation: mr-proud-lean 2200ms; }
+@keyframes mr-proud-body {
+  0% { transform: none; } 14% { transform: translate3d(0, 2%, 0) scale(1.03, 0.95); }
+  38%, 76% { transform: scale(0.975, 1.065); } 100% { transform: none; }
+}
+@keyframes mr-proud-lean { 0%, 20% { transform: none; } 40%, 76% { transform: rotate(-2.5deg); } 100% { transform: none; } }
+
+/* correct: a small crouch, a short hop, a nod */
+.mobi-react[data-live='true'][data-act='correct'] .mobi-react__body { animation: mr-correct-body 1150ms; }
+.mobi-react[data-live='true'][data-act='correct'] .mobi-react__lean { animation: mr-correct-lean 1150ms; }
+.mobi-react[data-live='true'][data-act='correct'] .mobi-react__shadow { animation: mr-shadow-small 1150ms both; }
+@keyframes mr-correct-body {
+  0% { transform: none; } 16% { transform: translate3d(0, 2%, 0) scale(1.04, 0.94); }
+  40% { transform: translate3d(0, -9%, 0) scale(0.98, 1.03); } 62% { transform: none; }
+  72% { transform: translate3d(0, 2.5%, 0) scale(1.02, 0.97); } 100% { transform: none; }
+}
+@keyframes mr-correct-lean { 0%, 20% { transform: none; } 40% { transform: rotate(-3deg); } 56% { transform: none; } 72% { transform: rotate(3deg); } 100% { transform: none; } }
+@keyframes mr-shadow-small { 0%, 16%, 62%, 100% { transform: scale(1); opacity: 1; } 40% { transform: scale(0.78); opacity: 0.7; } }
+
+/* encourage: leans toward the student, one "come on" pump, never a frown */
+.mobi-react[data-live='true'][data-act='encourage'] .mobi-react__body { animation: mr-encourage-body 1450ms; }
+.mobi-react[data-live='true'][data-act='encourage'] .mobi-react__lean { animation: mr-encourage-lean 1450ms; }
+@keyframes mr-encourage-body { 0% { transform: none; } 22% { transform: translate3d(0, 1%, 0) scale(1.02, 0.98); } 50% { transform: translate3d(0, -3%, 0); } 62% { transform: translate3d(0, 0.5%, 0); } 82%, 100% { transform: none; } }
+@keyframes mr-encourage-lean { 0%, 8% { transform: none; } 22% { transform: rotate(-6deg); } 36% { transform: rotate(-3deg); } 50% { transform: rotate(-7.5deg); } 62% { transform: rotate(-3.5deg); } 84%, 100% { transform: none; } }
+
+/* oops: a shrug. Shoulders up, a wobble, back. Never at the student. */
+.mobi-react[data-live='true'][data-act='oops'] .mobi-react__body { animation: mr-oops-body 1300ms; }
+.mobi-react[data-live='true'][data-act='oops'] .mobi-react__lean { animation: mr-oops-lean 1300ms; }
+@keyframes mr-oops-body { 0% { transform: none; } 16% { transform: translate3d(0, -4%, 0) scale(0.98, 1.03); } 34% { transform: translate3d(0, 2%, 0) scale(1.03, 0.97); } 55%, 100% { transform: none; } }
+@keyframes mr-oops-lean { 0%, 6% { transform: none; } 16% { transform: rotate(4deg); } 30% { transform: rotate(-3deg); } 46% { transform: rotate(2deg); } 64%, 100% { transform: none; } }
+
+/* nod: two small dips. tilt: a curious lean and back. */
+.mobi-react[data-live='true'][data-act='nod'] .mobi-react__body { animation: mr-nod-body 640ms; }
+.mobi-react[data-live='true'][data-act='nod'] .mobi-react__lean { animation: mr-nod-lean 640ms; }
+@keyframes mr-nod-body { 0% { transform: none; } 25% { transform: translate3d(0, 3%, 0) scale(1.02, 0.96); } 50% { transform: none; } 72% { transform: translate3d(0, 2%, 0) scale(1.015, 0.97); } 100% { transform: none; } }
+@keyframes mr-nod-lean { 0% { transform: none; } 25% { transform: rotate(3deg); } 50% { transform: none; } 72% { transform: rotate(2deg); } 100% { transform: none; } }
+.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__body { animation: mr-tilt-body 900ms; }
+.mobi-react[data-live='true'][data-act='tilt'] .mobi-react__lean { animation: mr-tilt-lean 900ms; }
+@keyframes mr-tilt-body { 0%, 100% { transform: none; } 30%, 70% { transform: translate3d(0, -1%, 0); } }
+@keyframes mr-tilt-lean { 0% { transform: none; } 30%, 70% { transform: rotate(calc(-8deg * var(--mr-dir, 1))); } 100% { transform: none; } }
+
+/* held: think, loading, read (slow, small, never busy) */
+.mobi-react[data-live='true'][data-act='think'] .mobi-react__lean { animation: mr-think-lean 3600ms ease-in-out infinite both; }
+.mobi-react[data-live='true'][data-act='loading'] .mobi-react__lean { animation: mr-loading-lean 1400ms ease-in-out infinite both; }
+.mobi-react[data-live='true'][data-act='read'] .mobi-react__lean { animation: mr-read-lean 4200ms ease-in-out infinite both; }
+@keyframes mr-think-lean { 0%, 100% { transform: none; } 35%, 70% { transform: rotate(-3deg); } }
+@keyframes mr-loading-lean { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes mr-read-lean { 0%, 100% { transform: none; } 30% { transform: rotate(-1.5deg); } 62% { transform: rotate(1deg); } 80% { transform: rotate(2deg) translateY(0.6%); } }
+
+/* point: settles into the point once. nudge: two jabs toward the action, then holds the point. */
+.mobi-react[data-live='true'][data-act='point'] .mobi-react__lean { animation: mr-point-lean 620ms var(--mk-spring) both; }
+.mobi-react[data-live='true'][data-act='nudge'] .mobi-react__lean { animation: mr-nudge-lean 1050ms both; }
+@keyframes mr-point-lean { 0% { transform: rotate(calc(4deg * var(--mr-dir, 1))); } 100% { transform: none; } }
+@keyframes mr-nudge-lean {
+  0% { transform: none; } 14% { transform: translate3d(calc(3% * var(--mr-dir, 1)), 0, 0) rotate(calc(4deg * var(--mr-dir, 1))); }
+  30% { transform: none; } 50% { transform: translate3d(calc(4% * var(--mr-dir, 1)), 0, 0) rotate(calc(5deg * var(--mr-dir, 1))); }
+  70%, 100% { transform: none; }
+}
+
+/* sleepy: a yawn and a stretch, then slow breathing (the breath layer above) */
+.mobi-react[data-live='true'][data-act='sleepy'] .mobi-react__body { animation: mr-sleepy-body 2200ms ease-in-out both; }
+@keyframes mr-sleepy-body { 0% { transform: none; } 30% { transform: translate3d(0, 1%, 0) scale(1.02, 0.96); } 55% { transform: scale(0.98, 1.05); } 80% { transform: translate3d(0, 2%, 0) scale(1.02, 0.97); } 100% { transform: translate3d(0, 1.5%, 0) scale(1.01, 0.98); } }
+.mobi-react[data-live='true'][data-act='rest'] .mobi-react__body { animation: mr-rest-body 900ms var(--mk-spring) both; }
+@keyframes mr-rest-body { 0% { transform: translate3d(0, -6%, 0); } 100% { transform: none; } }
+
+/* ---------- Live: the marks ---------- */
+.mobi-react[data-live='true'] .mm-mark { opacity: 0; animation-fill-mode: both; }
+
+.mobi-react[data-live='true'] .mm-spark { animation: mm-spark 900ms var(--mk-settle) var(--d, 0ms) both; }
+.mobi-react[data-live='true'] .mm-spark[data-slow] { animation-duration: 1500ms; }
+@keyframes mm-spark { 0% { opacity: 0; transform: scale(0) rotate(-40deg); } 35% { opacity: 1; transform: scale(var(--s, 1)) rotate(0); } 70% { opacity: 1; transform: scale(calc(var(--s, 1) * 0.8)) rotate(20deg); } 100% { opacity: 0; transform: scale(0) rotate(50deg); } }
+
+.mobi-react[data-live='true'] .mm-bit { animation: mm-bit 1400ms cubic-bezier(0.2, 0.7, 0.3, 1) calc(520ms + var(--d, 0ms)) both; }
+@keyframes mm-bit {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.3) rotate(0); }
+  12% { opacity: 1; }
+  45% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1) rotate(calc(var(--spin) * 0.5)); }
+  100% { opacity: 0; transform: translate(calc(var(--dx) * 1.15), calc(var(--dy) + 32px)) scale(0.9) rotate(var(--spin)); }
+}
+
+/* the tick: the bubble pops, the tick inks, the pair rest, then fade */
+.mobi-react[data-live='true'] .mm-tick { animation: mm-tick-bubble 1700ms var(--mk-spring) 160ms both; }
+.mobi-react[data-live='true'] .mm-tick__path { stroke-dashoffset: 1; animation: mk-draw 380ms var(--mk-settle) 420ms forwards; }
+@keyframes mm-tick-bubble { 0% { opacity: 0; transform: scale(0.2); } 18% { opacity: 1; transform: scale(1.12); } 26% { transform: scale(1); } 84% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.9); } }
+
+.mobi-react[data-live='true'] .mm-think { opacity: 1; animation: none; }
+.mobi-react[data-live='true'] .mm-think circle { transform-box: fill-box; transform-origin: center; opacity: 0; animation: mm-think 3600ms ease-in-out infinite both; }
+.mobi-react[data-live='true'] .mm-think circle:nth-child(2) { animation-delay: 220ms; }
+.mobi-react[data-live='true'] .mm-think circle:nth-child(3) { animation-delay: 440ms; }
+@keyframes mm-think { 0% { opacity: 0; transform: scale(0.2); } 14%, 80% { opacity: 0.9; transform: scale(1); } 94%, 100% { opacity: 0; transform: scale(0.6); } }
+
+.mobi-react[data-live='true'] .mm-wait { animation: mm-fade-in 260ms ease-out both; }
+.mobi-react[data-live='true'] .mm-wait circle { transform-box: fill-box; transform-origin: center; animation: mm-wait-dot 1100ms ease-in-out infinite both; }
+.mobi-react[data-live='true'] .mm-wait circle:nth-of-type(2) { animation-delay: 140ms; }
+.mobi-react[data-live='true'] .mm-wait circle:nth-of-type(3) { animation-delay: 280ms; }
+@keyframes mm-wait-dot { 0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.55; } 30% { transform: translateY(-2.4px) scale(1.2); opacity: 1; } }
+@keyframes mm-fade-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+
+.mobi-react[data-live='true'] .mm-sheet { animation: mm-fade-in 360ms var(--mk-spring) both; }
+.mobi-react[data-live='true'] .mm-sheet__line { stroke-dashoffset: 1; animation: mm-sheet-line 4200ms ease-in-out infinite both; }
+.mobi-react[data-live='true'] .mm-sheet__line:nth-of-type(2) { animation-delay: 300ms; }
+.mobi-react[data-live='true'] .mm-sheet__line:nth-of-type(3) { animation-delay: 600ms; }
+@keyframes mm-sheet-line { 0% { stroke-dashoffset: 1; } 18%, 88% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; opacity: 0.2; } }
+
+.mobi-react[data-live='true'] .mm-query { animation: mm-query 1300ms var(--mk-spring) 120ms both; }
+@keyframes mm-query { 0% { opacity: 0; transform: scale(0.3) rotate(-20deg); } 24% { opacity: 1; transform: scale(1.1) rotate(8deg); } 40% { transform: scale(1) rotate(-4deg); } 62% { transform: rotate(3deg); } 80% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+
+.mobi-react[data-live='true'] .mm-chev { opacity: 1; animation: none; }
+.mobi-react[data-live='true'] .mm-chev path { animation: mm-chev 1500ms ease-in-out infinite both; }
+.mobi-react[data-live='true'] .mm-chev path:nth-child(2) { animation-delay: 180ms; }
+.mobi-react[data-live='true'][data-act='nudge'] .mm-chev path { animation-duration: 700ms; animation-iteration-count: 3; }
+@keyframes mm-chev { 0%, 100% { opacity: 0.25; transform: translateX(-2px); } 40% { opacity: 1; transform: translateX(1px); } }
+
+.mobi-react[data-live='true'] .mm-zed { animation: mm-zed 3000ms ease-in-out var(--d, 0ms) infinite both; }
+@keyframes mm-zed { 0% { opacity: 0; transform: translate(0, 4px) scale(calc(var(--s, 1) * 0.5)); } 25% { opacity: 0.95; } 100% { opacity: 0; transform: translate(9px, -16px) scale(var(--s, 1)); } }
+
+.mobi-react[data-live='true'] .mm-arcs { animation: mm-arcs 1850ms ease-in-out both; }
+.mobi-react[data-live='true'][data-act='wave'] .mm-arcs { animation-duration: 1250ms; }
+@keyframes mm-arcs { 0%, 12% { opacity: 0; } 24%, 36% { opacity: 0.95; } 48% { opacity: 0.3; } 60%, 72% { opacity: 0.95; } 84%, 100% { opacity: 0; } }
+.mobi-react[data-live='true'] .mm-pump { animation: mm-pump 1450ms ease-out both; }
+@keyframes mm-pump { 0%, 38% { opacity: 0; transform: scale(0.6); } 50%, 62% { opacity: 1; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(1.15); } }
+
+/* ---------- Theme tiles: an animated rim that inks round the chosen tile once ---------- */
+@property --mk-rim { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.mk-rim { position: relative; }
+.mk-rim::after {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 2px; pointer-events: none;
+  background: conic-gradient(from -90deg, var(--volt, #d2f000) var(--mk-rim), transparent 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); mask-composite: exclude;
+  opacity: 0;
+}
+html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg, #6f8700 var(--mk-rim), transparent 0); }
+.mk-rim[aria-checked='true']::after, .mk-rim[aria-pressed='true']::after, .mk-rim[data-selected='true']::after { opacity: 1; --mk-rim: 360deg; animation: mk-rim-draw 780ms var(--mk-settle) both; }
+@keyframes mk-rim-draw { from { --mk-rim: 0deg; } to { --mk-rim: 360deg; } }
+
+/* ---------- Small shared rules ---------- */
+.drawn-check { flex: none; }
+.credit-amount__value { font-variant-numeric: tabular-nums; }
+/* Buttons: the spring press beats the old 150 ms transform transition. */
+.mk-press:is(.btn-volt, .btn-outline, .btn-ghost) { transition: transform 420ms var(--mk-spring), background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease; }
+.mk-press:is(.btn-volt, .btn-outline, .btn-ghost):active:not(:disabled):not([aria-disabled='true']) { transition-duration: 90ms, 150ms, 150ms, 150ms, 150ms; }

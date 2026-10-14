@@ -6,6 +6,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
+import { DrawnCheck } from '@/components/ui/DrawnCheck';
+import { useCountUp } from '@/lib/motion';
 
 const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -16,6 +18,8 @@ export function PlanCard() {
   const pro = Boolean(user?.isPremium);
   const recurring = pro && Boolean(user?.razorpaySubscriptionId);
   const until = user?.premiumUntil || null;
+  const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
+  const rolled = useCountUp(balance, { from: 0, duration: 900 });
 
   async function cancelRenewal() {
     setPhase('working');
@@ -57,14 +61,14 @@ export function PlanCard() {
               </div>
             </div>
           )}
-          {phase === 'working' && <p className="plan-card__msg" role="status">Cancelling…</p>}
-          {phase === 'done' && <p className="plan-card__msg" role="status"><StatusIcon kind="success" size={15} />{message}</p>}
+          {phase === 'working' && <p className="plan-card__msg" role="status">Cancelling</p>}
+          {phase === 'done' && <p className="plan-card__msg" role="status"><DrawnCheck size={15} />{message}</p>}
           {phase === 'error' && <p className="plan-card__msg" data-tone="bad" role="alert"><StatusIcon kind="warning" size={15} />{message}</p>}
         </>
       ) : (
         <>
           <p className="plan-card__lead">Free uses credits: Quick Practice costs 10 and Full Mock costs 50.</p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount={user?.creditBalance || 0} /></div>
+          <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} /></div>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
         </>
       )}

@@ -18,7 +18,7 @@
 .pip-drill-reaction { display: flex; gap: 12px; align-items: center; }
 .pip-drill-reaction .pip-image { flex: 0 0 44px; width: 44px; height: 52px; }
 .pip-drill-result { width: 78px; height: 90px; margin: 0 auto 12px; }
-.pip-state { width: 64px; height: 74px; margin-bottom: 12px; }
+.pip-state { width: 64px; min-height: 74px; margin-bottom: 12px; }
 .mm .mm-link { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .mm .mm-crumbs a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; }
 .mm a[href='/refunds'] { display: inline-flex; align-items: center; min-height: 44px; }
@@ -91,7 +91,7 @@
 [data-pip-perch='hero'][data-pip-perch-visible='true'] .mm-drill .pip-drill-result { display: none; }
 /* Arena states: Pip settles in once, then stays still (study pages are calm). */
 @media (prefers-reduced-motion: no-preference) {
-  .pip-state .pip-image, .ui-state .pip-image { animation: pip-land 420ms var(--ease-out) 120ms both; }
+  .pip-state > .pip-image, .ui-state > .pip-image { animation: pip-land 420ms var(--ease-out) 120ms both; }
 }
 /* First-run tour and onboarding: Pip appears once per moment, then holds still. */
 .arena-tour-pip { position: relative; flex: 0 0 52px; width: 52px; height: 60px; }

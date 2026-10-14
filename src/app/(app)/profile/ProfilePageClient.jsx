@@ -4,7 +4,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
-import { Icon } from '@/components/ui/Icons';
+import { DrawnCheck } from '@/components/ui/DrawnCheck';
+import MobiReact from '@/components/brand/MobiReact';
+import LookAndFeelCard from './LookAndFeelCard';
+import { useCountUp } from '@/lib/motion';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
@@ -137,6 +140,15 @@ function DeleteAccountSection() {
   );
 }
 
+const HELLO_KEY = 'mm:mobi-hello:profile';
+const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
+
+// A count that rolls to its real value. The caption carries the truth when there is nothing to count.
+function Roll({ value, suffix = '' }) {
+  const shown = useCountUp(value, { from: 0, duration: 800 });
+  return <>{shown}{suffix}</>;
+}
+
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
   const toast = useToast();
@@ -146,6 +158,8 @@ export default function ProfilePageClient() {
   const [draftName, setDraftName] = useState(null);
   const [saveState, setSaveState] = useState({ type: null, message: '' });
   const [isSaving, setIsSaving] = useState(false);
+  const [mobi, setMobi] = useState({ act: 'idle', n: 0 });
+  const greeted = useRef(false);
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -170,12 +184,52 @@ export default function ProfilePageClient() {
     return () => { alive = false; };
   }, [status, user]);
 
+  // Mobi says hello the first time you open Profile each day, and is simply there after that.
+  useEffect(() => {
+    if (pageStatus !== 'ready' || !user?.id) return undefined;
+    const id = window.setTimeout(() => {
+      if (greeted.current) return;
+      greeted.current = true;
+      const today = new Date().toLocaleDateString('en-CA');
+      try {
+        if (window.localStorage.getItem(HELLO_KEY) === today) return;
+        window.localStorage.setItem(HELLO_KEY, today);
+      } catch { /* Without storage he greets on every visit; that is harmless. */ }
+      setMobi((m) => ({ act: 'hello', n: m.n + 1 }));
+    }, 450);
+    return () => window.clearTimeout(id);
+  }, [pageStatus, user?.id]);
+
   const averageScore = useMemo(() => {
-    if (attempts.length === 0) return '—';
+    if (attempts.length === 0) return null;
     const total = attempts.reduce((sum, attempt) => sum + attempt.score, 0);
-    return `${Math.round(total / attempts.length)}%`;
+    return Math.round(total / attempts.length);
   }, [attempts]);
   const currentName = draftName ?? (user?.name || '');
+  const trimmed = currentName.trim();
+  const dirty = trimmed.length > 0 && trimmed !== (user?.name || '');
+  const hi = firstName(user?.name);
+
+  async function saveName() {
+    setIsSaving(true);
+    setSaveState({ type: null, message: '' });
+    setMobi((m) => ({ act: 'loading', n: m.n + 1 }));
+    try {
+      await apiPatch(`/api/users/${user.id}`, { name: trimmed });
+      await refreshSession({ silent: true });
+      setDraftName(null);
+      setSaveState({ type: 'success', message: 'Saved. Your name is updated.' });
+      toast.success('Saved. Your name is updated.');
+      setMobi((m) => ({ act: 'hello', n: m.n + 1 }));
+    } catch (e) {
+      const message = e.message || 'Your name did not save. Try again.';
+      setSaveState({ type: 'error', message });
+      toast.error(message);
+      setMobi((m) => ({ act: 'oops', n: m.n + 1 }));
+    } finally {
+      setIsSaving(false);
+    }
+  }
 
   if (pageStatus === 'loading') {
     return (
@@ -201,74 +255,43 @@ export default function ProfilePageClient() {
     <div className="student-page student-page--profile flex flex-col gap-6 view">
       <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Update your name, subjects and plan. Your practice history stays with your account." />
 
-      {saveState.message && (
-        <div
-          className={`glass p-4 text-sm ${saveState.type === 'error' ? '' : 'volt-soft'}`}
-          role={saveState.type === 'error' ? 'alert' : 'status'}
-          style={saveState.type === 'error' ? { borderColor: 'rgba(248,113,113,0.25)', color: '#fca5a5' } : { color: '#d2f000' }}
-        >
-          <div className="flex items-center gap-2">
-            <Icon name={saveState.type === 'error' ? 'alert' : 'check'} style={{ width: '16px', height: '16px' }} />
-            {saveState.message}
-          </div>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-        <section className="glass p-6">
-          <div className="flex items-start gap-4 flex-col sm:flex-row">
-            <Avatar name={user?.name || user?.email} size="xl" />
-            <div className="flex-1">
-              <div className="mono-label mb-2">Account overview</div>
-              <div className="grid gap-4">
-                <label className="block">
-                  <span className="text-sm text-zinc-400 mb-2 block">Display name</span>
-                  <input
-                    className="input"
-                    value={currentName}
-                    onChange={(e) => setDraftName(e.target.value)}
-                    placeholder="Enter your display name"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm text-zinc-400 mb-2 block">Email</span>
-                  <input className="input" value={user?.email || ''} disabled />
-                </label>
-
-                <div className="glass p-4 volt-soft">
-                  <div className="mono-label mb-2">Avatar</div>
-                  <p className="text-sm text-zinc-400">Your initials are your avatar. Change your display name to update them.</p>
-                </div>
-              </div>
+        <section className="glass p-6" aria-labelledby="profile-identity">
+          <div className="profile-identity">
+            <MobiReact key={mobi.n} act={mobi.act} size={72} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} />
+            <div className="profile-identity__text">
+              <h2 id="profile-identity">{hi ? `Hi, ${hi}.` : 'Hi.'}</h2>
+              <p>{user?.email}</p>
             </div>
+            <Avatar name={user?.name || user?.email} size="lg" className="profile-identity__avatar" />
+          </div>
+
+          <div className="grid gap-4 mt-5">
+            <label className="block">
+              <span className="text-sm text-zinc-400 mb-2 block">Display name</span>
+              <input
+                className="input"
+                value={currentName}
+                onChange={(e) => setDraftName(e.target.value)}
+                placeholder="Enter your display name"
+                autoComplete="name"
+                aria-describedby="profile-name-help"
+              />
+              <span id="profile-name-help" className="text-xs text-zinc-500 mt-2 block">Your initials are your avatar. They update when you save your name.</span>
+            </label>
+
+            <label className="block">
+              <span className="text-sm text-zinc-400 mb-2 block">Email</span>
+              <input className="input" value={user?.email || ''} disabled />
+            </label>
           </div>
 
           <div className="mt-6 flex items-center justify-between gap-3 flex-wrap border-t border-white/5 pt-4">
-            <div className="text-sm text-zinc-500">Save your name to update it across the Arena.</div>
-            <Button
-              variant="volt"
-              size="md"
-              disabled={isSaving || !currentName.trim() || currentName.trim() === (user?.name || '')}
-              onClick={async () => {
-                setIsSaving(true);
-                setSaveState({ type: null, message: '' });
-                try {
-                  await apiPatch(`/api/users/${user.id}`, { name: currentName.trim() });
-                  await refreshSession({ silent: true });
-                  setDraftName(null);
-                  setSaveState({ type: 'success', message: 'Profile updated successfully.' });
-                  toast.success('Profile updated successfully.');
-                } catch (e) {
-                  const message = e.message || 'Failed to update profile.';
-                  setSaveState({ type: 'error', message });
-                  toast.error(message);
-                } finally {
-                  setIsSaving(false);
-                }
-              }}
-            >
-              {isSaving ? 'Saving…' : 'Save name'}
+            <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
+              {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across the Arena.'}
+            </div>
+            <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
+              {isSaving ? 'Saving' : 'Save name'}
             </Button>
           </div>
         </section>
@@ -279,26 +302,30 @@ export default function ProfilePageClient() {
           <div className="grid grid-cols-2 gap-3">
             <div className="glass p-5">
               <div className="mono-label mb-2">Mocks taken</div>
-              <div className="display-md">{attempts.length}</div>
+              <div className="display-md"><Roll value={attempts.length} /></div>
+              {attempts.length === 0 ? <div className="profile-stat-note">No mocks yet</div> : null}
             </div>
             <div className="glass p-5">
               <div className="mono-label mb-2">Avg score</div>
-              <div className="display-md">{averageScore}</div>
+              <div className="display-md">{averageScore === null ? '—' : <Roll value={averageScore} suffix="%" />}</div>
+              {averageScore === null ? <div className="profile-stat-note">No mocks yet</div> : null}
             </div>
             <div className="glass p-5">
               <div className="flex items-center justify-between mb-2">
                 <div className="mono-label">Subjects</div>
                 <Link href="/onboarding?edit=true" className="account-edit text-volt text-xs font-semibold hover:underline">Edit subjects</Link>
               </div>
-              <div className="display-md">{user?.subjects?.length || 0}</div>
+              <div className="display-md"><Roll value={user?.subjects?.length || 0} /></div>
             </div>
             <div className="glass p-5">
               <div className="mono-label mb-2">Next session</div>
-              <Link href="/today" className="account-edit">Open Today ↗</Link>
+              <Link href="/today" className="account-edit profile-open">Open Today<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></Link>
             </div>
           </div>
         </section>
       </div>
+
+      <LookAndFeelCard />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UsageDataSection />

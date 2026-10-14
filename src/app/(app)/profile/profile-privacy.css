@@ -19,3 +19,18 @@
 .privacy-danger { border-color: rgba(248, 113, 113, 0.4) !important; color: #fca5a5 !important; }
 .privacy-block .btn-volt, .privacy-block .btn-outline, .privacy-block .btn-ghost { min-height: 44px; }
 @media (prefers-reduced-motion: reduce) { .privacy-block * { transition: none !important; animation: none !important; } }
+
+/* Identity header: Mobi greets, the initials avatar sits at the end. */
+.profile-identity { display: flex; align-items: center; gap: 14px; }
+.profile-identity__text { min-width: 0; flex: 1; }
+.profile-identity__text h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.profile-identity__text p { margin: 2px 0 0; font-size: 13px; color: var(--a-ink-3, #93a08f); overflow-wrap: anywhere; }
+.profile-identity__avatar { flex: none; }
+.profile-save-note { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--a-ink-3, #71717a); }
+.profile-save-note[data-tone='success'] { color: var(--a-accent-text, #d2f000); }
+.profile-save-note[data-tone='success'] .drawn-check { flex: none; }
+.profile-save-note[data-tone='error'] { color: var(--a-bad-text, #fca5a5); }
+.profile-stat-note { margin-top: 4px; font-size: 12px; color: var(--a-ink-3, #71717a); }
+.profile-open { gap: 4px; }
+.profile-open svg { transition: transform 200ms var(--ease-out); }
+.profile-open:hover svg { transform: translateX(3px); }

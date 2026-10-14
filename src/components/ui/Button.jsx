@@ -10,7 +10,8 @@ export function Button({
   className = '',
   ...props 
 }) {
-  const baseClass = `btn-${variant} ${size} ${className}`;
+  // mk-press: the same spring press as the app (motion-kit.css); reduced motion drops it.
+  const baseClass = `btn-${variant} ${size} mk-press ${className}`;
 
   if (asChild) {
     const child = React.Children.toArray(children).find(React.isValidElement);

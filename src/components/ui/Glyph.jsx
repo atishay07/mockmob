@@ -109,7 +109,8 @@ export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
  * Balance display used everywhere a credit amount appears (top bar, practice, wallet).
  *   amount: number | 'unlimited' | null (unknown)
  */
-export function CreditAmount({ kind = 'practice', amount, unit = true, size = 16, className = '' }) {
+// `display` is what is drawn while a number rolls; the title and the screen-reader text always carry the real amount.
+export function CreditAmount({ kind = 'practice', amount, display, unit = true, size = 16, className = '' }) {
   const unlimited = amount === 'unlimited';
   const unknown = amount === null || amount === undefined;
   const label = unlimited ? 'Unlimited' : unknown ? '—' : Number(amount).toLocaleString('en-IN');
@@ -118,7 +119,7 @@ export function CreditAmount({ kind = 'practice', amount, unit = true, size = 16
     <span className={`credit-amount credit-amount--${kind} ${className}`} data-state={unlimited ? 'unlimited' : unknown ? 'unknown' : 'known'}
       title={unknown ? `${noun}: unavailable` : unlimited ? `${noun}: included` : `${label} ${noun}`}>
       <CreditMark kind={kind} size={size} />
-      <b className="credit-amount__value">{label}</b>
+      <b className="credit-amount__value">{display !== undefined && !unlimited && !unknown ? Number(display).toLocaleString('en-IN') : label}</b>
       {unit && !unlimited ? <span className="credit-amount__unit">{kind === 'prepos' ? 'PrepOS' : 'credits'}</span> : null}
       <span className="sr-only">{unknown ? `${noun} unavailable` : unlimited ? `${noun} included` : `${label} ${noun}`}</span>
     </span>

@@ -1,9 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "motion/react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useCountUp } from "@/lib/motion/useCountUp";
+import { useInView } from "@/lib/motion/useInView";
+import { useMobiPrefs } from "@/lib/mobiPrefs";
 
+/**
+ * A number that rolls. It starts rolling when it scrolls into view, rolls from whatever it was
+ * showing when `value` changes, and shows the real value at once under Reduce motion. Screen
+ * readers always get the real value, never the numbers in between.
+ *   direction="down" counts from `value` to `startValue` instead.
+ */
 export function NumberTicker({
   value,
   startValue = 0,
@@ -13,53 +21,31 @@ export function NumberTicker({
   decimalPlaces = 0,
   ...props
 }) {
-  const ref = useRef(null);
-  const motionValue = useMotionValue(direction === "down" ? value : startValue);
-  const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 100,
-  });
-  const isInView = useInView(ref, { once: true, margin: "0px" });
-
+  const { reduced } = useMobiPrefs();
+  const [ref, inView] = useInView({ once: true });
+  const [go, setGo] = useState(delay <= 0);
   useEffect(() => {
-    let timer = null;
+    if (delay <= 0 || !inView) return undefined;
+    const timer = setTimeout(() => setGo(true), delay * 1000);
+    return () => clearTimeout(timer);
+  }, [delay, inView]);
 
-    if (isInView) {
-      timer = setTimeout(() => {
-        motionValue.set(direction === "down" ? startValue : value);
-      }, delay * 1000);
-    }
-
-    return () => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-    };
-  }, [motionValue, isInView, delay, value, direction, startValue]);
-
-  useEffect(
-    () =>
-      springValue.on("change", (latest) => {
-        if (ref.current) {
-          ref.current.textContent = Intl.NumberFormat("en-US", {
-            minimumFractionDigits: decimalPlaces,
-            maximumFractionDigits: decimalPlaces,
-          }).format(Number(latest.toFixed(decimalPlaces)));
-        }
-      }),
-    [springValue, decimalPlaces]
-  );
+  const down = direction === "down";
+  const target = (inView && go) || reduced ? (down ? startValue : value) : (down ? value : startValue);
+  const rolled = useCountUp(target, { decimals: decimalPlaces, duration: 1400 });
+  const text = Intl.NumberFormat("en-US", {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  }).format(Number(rolled));
+  const real = Intl.NumberFormat("en-US", {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  }).format(Number(down ? startValue : value));
 
   return (
-    <span
-      ref={ref}
-      className={cn(
-        "inline-block tracking-wider tabular-nums text-inherit",
-        className
-      )}
-      {...props}
-    >
-      {startValue}
+    <span ref={ref} className={cn("inline-block tracking-wider tabular-nums text-inherit", className)} {...props}>
+      <span aria-hidden="true">{text}</span>
+      <span className="sr-only">{real}</span>
     </span>
   );
 }

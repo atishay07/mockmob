@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { StatusIcon } from './Glyph';
-import { Mascot } from '@/components/brand/Mascot';
+import MobiReact from '@/components/brand/MobiReact';
 
 /**
  * Minimal skeleton primitives. All use a single shimmer animation defined in globals.css.
@@ -36,8 +36,8 @@ export function PageSpinner({ label = 'Loading…' }) {
   return (
     <div className="flex items-center justify-center py-24 text-zinc-500">
       <div className="flex items-center gap-3">
-        <div className="pip-state"><Mascot pose="attentive" /></div>
-        <span className="mono-label">{label}</span>
+        <div className="pip-state"><MobiReact act="loading" size={74} /></div>
+        <span className="mono-label" role="status">{label}</span>
       </div>
     </div>
   );
@@ -47,7 +47,7 @@ export function PageSpinner({ label = 'Loading…' }) {
 export function ErrorState({ message = 'Check your connection and try again.', onRetry, title = 'This did not load', mascot = false }) {
   return (
     <div className="ui-state ui-state--error" role="alert">
-      {mascot ? <div className="pip-state"><Mascot pose="encouraging" /></div> : <StatusIcon kind="error" size={20} />}
+      {mascot ? <div className="pip-state"><MobiReact act="oops" size={74} /></div> : <StatusIcon kind="error" size={20} />}
       <div>
         <b>{title}</b>
         <p>{message}</p>
@@ -67,7 +67,7 @@ export function NoticeState({ title, message, actions = null, mascot = true, hea
   const titleId = useId();
   return (
     <section className="ui-state ui-state--notice" role="status" aria-labelledby={titleId}>
-      {mascot ? <div className="pip-state"><Mascot pose="attentive" /></div> : null}
+      {mascot ? <div className="pip-state"><MobiReact act="nod" size={74} /></div> : null}
       <div>
         <Heading id={titleId} className="ui-state__title">{title}</Heading>
         <p>{message}</p>
@@ -87,7 +87,7 @@ export function EmptyState({
 }) {
   return (
     <div className="ui-state ui-state--empty">
-      {mascot && <div className="pip-state"><Mascot pose="attentive" /></div>}
+      {mascot && <div className="pip-state"><MobiReact act="tilt" size={74} /></div>}
       {eyebrow && !eyebrow.startsWith('//') ? <span className="ui-state__eyebrow">{eyebrow}</span> : null}
       <b>{title}</b>
       <p>{message}</p>

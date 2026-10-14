@@ -4,12 +4,19 @@ import { createPortal } from 'react-dom';
 import { PipActor } from './PipActor';
 import { stationIndex, clamp } from './pipJourney';
 import { guideFacing, guidePose } from './pipIntent';
+import { getMobiPrefs, initMobiPrefs } from '@/lib/mobiPrefs';
 const REACTIONS = {
   celebrate: { pose: 'celebrating', motion: 'hop', ms: 1700 },
   encourage: { pose: 'attentive', motion: 'nod', ms: 650 },
   eureka: { pose: 'celebrating', motion: 'jump', ms: 1900 },
   nod: { pose: null, motion: 'nod', ms: 420 },
 };
+// Celebrations setting: Quiet turns a celebration into a nod, Off plays nothing.
+function calmMood(kind) {
+  if (kind !== 'celebrate' && kind !== 'eureka') return kind;
+  const { celebrations } = getMobiPrefs();
+  return celebrations === 'full' ? kind : celebrations === 'quiet' ? 'nod' : null;
+}
 /** One actor and one scheduled frame. The reserved desktop lane never covers the
  * reading canvas. Mobile arrivals stay within their own art box. */
 export default function PipGuide() {
@@ -19,11 +26,12 @@ export default function PipGuide() {
   const [blink, setBlink] = useState(0);
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const root0 = document.documentElement;
     const desktop = matchMedia('(min-width: 1100px)');
     let dispose = () => {};
     function start() {
       dispose(); setActor(null);
-      if (media.matches) return;
+      if (media.matches || root0.dataset.motion === 'reduced') return;
       const root = document.documentElement;
       // Static fallback opt-out also permits a layout-identical production cost baseline.
       if (root.hasAttribute('data-pip-static')) return;
@@ -38,7 +46,8 @@ export default function PipGuide() {
           activeSeat = null; setActor(null);
         };
         const react = (event) => {
-          const { station, mood } = event.detail || {};
+          const { station } = event.detail || {};
+          const mood = calmMood(event.detail?.mood);
           if (!REACTIONS[mood] || document.hidden || (mood === 'eureka' && peakPlayed.current)) return;
           const id = station === 'lab' ? 'lab-inline' : station;
           const seat = document.querySelector(`[data-pip-station="${id}"]`);
@@ -139,14 +148,14 @@ export default function PipGuide() {
       }
       let reactionTimer=0;
       const blinkTimer=setInterval(()=>{if(!document.hidden && visible)setBlink(b=>b+1);},5400);
-      const react=e=>{const {station,mood:kind}=e.detail||{};if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
+      const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
       root.dataset.pipGuide='on';
       window.addEventListener('scroll',wake,{passive:true});window.addEventListener('resize',resize);window.addEventListener('pip:react',react);document.addEventListener('visibilitychange',wake);
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
       dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearInterval(blinkTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>s.seat.style.removeProperty('transform'));delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
-    start();media.addEventListener('change',start);desktop.addEventListener('change',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);};
+    initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
   },[]);
   return actor?createPortal(<span ref={flyer} className={actor.host ? 'pip-guide-local' : 'pip-guide-flyer'} aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} blink={blink}/></span>,actor.host || document.body):null;
 }

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./motion-kit.css";
 
 @theme inline {
   --color-volt: #d2f000;
@@ -573,16 +574,24 @@ canvas { max-width: 100%; }
 
 /* ============== SKELETON SHIMMER ============== */
 .skeleton {
+  position: relative;
   display: block;
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,0.04) 0%,
-      rgba(255,255,255,0.09) 40%,
-      rgba(255,255,255,0.04) 80%);
-  background-size: 200% 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--a-sunken, rgba(255, 255, 255, 0.05));
   border-radius: 6px;
-  animation: shimmer 1.3s linear infinite;
 }
+/* The sweep is a transform, so it runs on the compositor and never repaints the block. */
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 45%, rgba(255, 255, 255, 0.09) 55%, transparent);
+  transform: translate3d(-100%, 0, 0);
+  animation: skeleton-sweep 1.4s var(--ease-in-out) infinite;
+}
+html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75) 45%, rgba(255, 255, 255, 0.75) 55%, transparent); }
+@keyframes skeleton-sweep { to { transform: translate3d(100%, 0, 0); } }
 @keyframes shimmer {
   from { background-position: 200% 0; }
   to   { background-position: -200% 0; }
@@ -599,6 +608,7 @@ canvas { max-width: 100%; }
 /* Respect users who want less motion */
 @media (prefers-reduced-motion: reduce) {
   .skeleton,
+  .skeleton::after,
   .animate-pulse-slow,
   .marquee-track,
   .logo .bolt,
@@ -4123,3 +4133,27 @@ body:has(.mm) {
 .runner-submit-error { padding:16px;background:#fbe9e7;color:#7b231d; }
 .runner-submit-error button { margin-left:16px;text-decoration:underline; }
 @media(max-width:520px){.recovery-record{flex-direction:column;gap:8px}}
+
+/* ==========================================================================
+   REDUCE MOTION, the student's own switch (Profile > Look and feel).
+   lib/mobiPrefs.js sets data-motion='reduced' on <html> when the switch is on, or when the device
+   asks for reduced motion and the student has not said otherwise. This is the one block that
+   calms the whole site: one-shot motion finishes at once, loops stop, Mobi holds his pose, and
+   the information stays (every state is also text).
+   ========================================================================== */
+:root[data-motion='reduced'] { scroll-behavior: auto; }
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+:root[data-motion='reduced'] .skeleton::after { animation: none !important; }
+:root[data-motion='reduced'] :is(.skeleton, .animate-pulse-slow, .marquee-track, .logo .bolt, .logo .dot, .pip-actor, .pip-lids i, .pip-pose-in, .mk-shake) { animation: none !important; }
+:root[data-motion='reduced'] :is(.pip-flyer, .pip-guide-flyer) { display: none; }
+:root[data-motion='reduced'] .mk-press { will-change: auto; }
+:root[data-motion='reduced'] .mk-press:active:not(:disabled) { transform: none; }
