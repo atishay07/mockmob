@@ -4,7 +4,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Wrench, Check, ArrowRight } from 'lucide-react';
-import { REPAIR_OUTCOMES, hasExplanation, repairRetryPolicy, isKeyReview } from '@/../data/repair_presentation.mjs';
+import { REPAIR_OUTCOMES, hasExplanation, isKeyReview } from '@/../data/repair_presentation.mjs';
+import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import './mistake-repair.css';
@@ -17,6 +18,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
   const [state, setState] = useState({ status: 'idle' });
   const [stage, setStage] = useState(0);
   // One request ID per repair attempt: a retry after a lost response reuses it, so it is never charged twice.
+  // After a failure the server reports as `charged: 0` the request is released, so the next try gets a fresh one.
   const requestId = useRef(null);
   const started = useRef(false);
   const inFlight = useRef(false);
@@ -28,14 +30,14 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
       requestId.current ??= newRequestId();
       setStage(0);
       setState({ status: 'loading' });
-      let res; let body = null;
-      try {
-        res = await fetch('/api/recovery/repair', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ attemptId, questionId, requestId: requestId.current }) });
-        body = await res.json().catch(() => null);
-      } catch {
-        setState({ status: 'error', message: 'The connection dropped. Try again: the same request is reused, so you are never charged twice.', canRetry: true });
+      // Stops waiting after 95 s (the route's own budget is 90 s), then says so calmly.
+      const outcome = await requestRepair(fetch, '/api/recovery/repair', { attemptId, questionId, requestId: requestId.current });
+      if (outcome.kind !== 'response') {
+        const failure = planRepairFailure(outcome);
+        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry });
         return;
       }
+      const { res, body } = outcome;
       if (!res.ok || !body?.ok) {
         if (body?.review) {
           onReview?.(questionId, body.review);
@@ -48,10 +50,11 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
           onSettled?.(questionId, 'held_for_recheck');
           return;
         }
-        // A released attempt cannot be reused; the next try starts a fresh request.
-        const retry = repairRetryPolicy(res.status, body?.error);
-        if (retry.resetRequest) requestId.current = null;
-        setState({ status: body?.error === 'in_progress' ? 'waiting' : 'error', message: body?.message || 'We could not confirm the repair result. Try again with the same request.', canRetry: retry.canRetry });
+        // A released attempt (`charged: 0`) cannot be reused; the next try starts a fresh request.
+        // The server's own message is shown whenever it sent one.
+        const failure = planRepairFailure(outcome);
+        if (failure.resetRequest) requestId.current = null;
+        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry });
         return;
       }
       if (!REPAIR_OUTCOMES.includes(body.status) || (hasExplanation(body.status) && typeof body.repair?.key_idea !== 'string')) {
